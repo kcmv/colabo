@@ -1,0 +1,83 @@
+/* @import "normalize"; */
+@import "compass";
+@import "susy";
+@import "breakpoint";
+	
+html, body {
+  height: 100%;
+  margin: 5px;
+  padding: 0;
+}
+
+#map-canvas, #map_canvas {
+  height: 100%;
+  z-index: 5;
+  position:relative;
+}
+
+@media print {
+  html, body {
+    height: auto;
+  }
+
+  #map-canvas, #map_canvas {
+    height: 650px;
+  }
+}
+
+#panel {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  margin-left: -180px;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+}
+
+#search\.view\.input{
+	background-color: #EEEEFF;
+	width: 300px;
+}
+
+/* https://github.com/twitter/typeahead.js#look-and-feel */
+.tt-dropdown-menu {
+	padding: 10px 0 0;
+	width: 100%;
+	text-align: left;
+	border: 1px solid #ccc;
+	border-radius: 0 4px 4px;
+	background-color: #EEEEFF;
+}
+
+.parameters{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-top: 1px solid #000080;
+	border-bottom: 1px solid #000080;
+}
+
+.experiment-show{
+	width: 100%;
+}
+
+.experiment-detail{
+	width: 100%;
+}
+
+
+.clickable{
+	cursor: pointer;
+	color: blue;
+}
+
+.clickable:hover{
+	text-decoration: underline;
+}
+
+/* necessary for BOOTSTRAP-ANGULAR intregation
+ * http://angular-ui.github.io/bootstrap/
+ */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+

@@ -2,6 +2,11 @@
 logs
 *.log
 
+.project
+.settings
+.sass-cache
+node_modules
+
 # Runtime data
 pids
 *.pid
