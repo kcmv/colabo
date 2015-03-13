@@ -39,7 +39,7 @@ var transitions = {
 		// otherwise it elements will enter from the parent node
 		referToToggling: true,
 		animate: {
-			position: false,
+			position: true,
 			opacity: true
 		}
 	},
@@ -47,7 +47,7 @@ var transitions = {
 		duration: 500,
 		referToToggling: true,
 		animate: {
-			position: false,
+			position: true,
 			opacity: true
 		}
 	},
@@ -58,7 +58,7 @@ var transitions = {
 		// otherwise it elements will exit to the parent node
 		referToToggling: true,
 		animate: {
-			position: false,
+			position: true,
 			opacity: true
 		}
 	}
@@ -214,7 +214,7 @@ function updateHtml(source) {
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", "node_html")
 		.style("background-color", function(d) {
-			return d._children ? "#aaaaff" : "#ffffff";
+			return d._children ? "#8888ff" : "#ffffff";
 		})
 		// position node on enter at the source position
 		// (it is either parent or another precessor)
@@ -259,7 +259,7 @@ function updateHtml(source) {
 
 	// Transition nodes to their new (final) position
 	// it seems it happens also for entering nodes ?!
-	if(transitions.exit.animate.position || transitions.exit.animate.opacity){
+	if(transitions.update.animate.position || transitions.update.animate.opacity){
 		var nodeHtmlUpdate = nodeHtml.transition()
 			.duration(transitions.update.duration);
 
@@ -374,14 +374,23 @@ function updateSvgNodes(source) {
 		.attr("r", 10)
 		.style("fill", "#fff");
 
+	var nodeEnterTransition;
+	if(transitions.enter.animate.position || transitions.enter.animate.opacity){
+		nodeEnterTransition = nodeEnter.transition()
+			.duration(transitions.enter.duration)
 
-	var nodeUpdate;
+		if(transitions.enter.animate.opacity){
+			nodeEnterTransition
+				.style("opacity", 0.0);
+		}
+	}
+
+	var nodeUpdate = node;
 	var nodeUpdateTransition;
 	if(transitions.update.animate.position || transitions.update.animate.opacity){
-		nodeUpdateTransition = node.transition()
+		nodeUpdateTransition = nodeUpdate.transition()
 			.duration(transitions.update.duration);
 	}
-	nodeUpdate = node;
 	// Transition nodes to their new position
 	(transitions.update.animate.position ? nodeUpdateTransition : nodeUpdate)
 		.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
@@ -392,17 +401,19 @@ function updateSvgNodes(source) {
 		.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
 	// Transition exiting nodes
+	var nodeExit = node.exit();
+	var nodeExitTransition;
 	if(transitions.exit.animate.position || transitions.exit.animate.opacity){
-		var nodeExit = node.exit().transition()
+		nodeExitTransition = nodeExit.transition()
 			.duration(transitions.exit.duration)
 
 		if(transitions.exit.animate.opacity){
-			nodeExit
+			nodeExitTransition
 				.style("opacity", 0.0);
 		}
 
 		if(transitions.exit.animate.position){
-			nodeExit
+			nodeExitTransition
 				.attr("transform", function(d) {
 					if(transitions.exit.referToToggling){
 						return "translate(" + source.y + "," + source.x + ")";
@@ -411,10 +422,9 @@ function updateSvgNodes(source) {
 					}
 				})
 		}
-		nodeExit
+		nodeExitTransition
 			.remove();
 	}else{
-		var nodeExit = node.exit();
 		nodeExit
 			.remove();
 	}
@@ -431,7 +441,7 @@ function updateSvgLinks(source) {
 	});
 
 	// Enter the links
-	link.enter().insert("path", "g")
+	var linkEnter = link.enter().insert("path", "g")
 		.attr("class", "link")
 		// https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
 		// http://www.w3schools.com/svg/svg_path.asp
@@ -450,36 +460,65 @@ function updateSvgLinks(source) {
 				return diagonal(d);
 			}
 		});
-		// .attr("d", diagonal);
 
-	// Transition links to their new position.
+	var linkEnterTransition = linkEnter;
+	if(transitions.enter.animate.opacity){
+		linkEnterTransition = linkEnter.transition()
+			.duration(transitions.update.duration);
+
+		linkEnter
+			.style("opacity", 0.0);
+	}
+	linkEnterTransition
+		.style("opacity", 1.0);
+
+	var linkUpdate = link;
+	var linkUpdateTransition = linkUpdate;
+	if(transitions.update.animate.position || transitions.update.animate.opacity){
+		linkUpdateTransition = linkUpdate.transition()
+			.duration(transitions.update.duration);
+	}
 	if(transitions.update.animate.position){
-		link.transition()
-			.duration(transitions.update.duration)
+		linkUpdateTransition
 			.attr("d", diagonal);
 	}else{
-		link
+		linkUpdate
 			.attr("d", diagonal);
 	}
 
-	// Transition exiting nodes to the parent's new position.
-	if(transitions.exit.animate.position){
-		link.exit().transition()
-			.duration(transitions.exit.duration)
-			.attr("d", function(d) {
-				if(transitions.exit.referToToggling){
-					var o = {x: source.x, y: source.y};
-				}else{
-					var o = {x: d.parent.x, y: d.parent.y};
-				}
-				return diagonal({source: o, target: o});
-			})
-			.style("opacity", 0.0)
-			.remove();
-	}else{
-		link.exit()
-			.remove();
+	// still need to understand why this is necessary and 
+	// 	linkEnterTransition.style("opacity", 1.0);
+	// is not enough
+	linkUpdateTransition
+		.style("opacity", 1.0);
+
+	var linkExit = link.exit();
+	var linkExitTransition = linkExit;
+	if(transitions.exit.animate.position || transitions.exit.animate.opacity){
+		linkExitTransition = linkExit.transition()
+			.duration(transitions.exit.duration);
+
+		if(transitions.exit.animate.position){
+			linkExitTransition
+				.attr("d", function(d) {
+					if(transitions.exit.referToToggling){
+						var o = {x: source.x, y: source.y};
+					}else{
+						var o = {x: d.parent.x, y: d.parent.y};
+					}
+					return diagonal({source: o, target: o});
+				});
+		}else{
+			linkExit
+				.attr("d", diagonal);
+		}
+		if(transitions.exit.animate.opacity){
+			linkExitTransition
+				.style("opacity", 0.0);
+		}
 	}
+	linkExitTransition
+		.remove();
 }
 
 
