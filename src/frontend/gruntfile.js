@@ -101,6 +101,17 @@ module.exports = function(grunt) {
 					require: ["susy", "breakpoint"],
 					trace: true
 				}
+			},
+			poc_tree_manipulation: { // Another target
+				options: {
+					sassDir: ['../PoC/TreeHtmlManipulation/sass'],
+					cssDir: ['../PoC/TreeHtmlManipulation'],
+					outputStyle: "nested", // expanded, nested, compact, compressed
+					environment: 'development',
+					noLineComments: false,
+					require: ["susy", "breakpoint"],
+					trace: true
+				}
 			}
 		},
 		concat: {
@@ -141,19 +152,23 @@ module.exports = function(grunt) {
 			map_css: {
 				files: ['components/knalledgeMap/sass/**/*.{scss,sass}'],
 				tasks: ['compass:map_dev', 'notify:watch_css'],
+			},
+			poc_css: {
+				files: ['../PoC/*/sass/*.{scss,sass}'],
+				tasks: ['compass:poc_tree_manipulation', 'notify:watch_css'],
 			}
 		},
 		concurrent: {
 			watch: {
-				tasks: ['watch:js', 'watch:app_css', 'watch:map_css'],
+				tasks: ['watch:js', 'watch:app_css', 'watch:map_css', 'watch:poc_css'],
 				options: { logConcurrentOutput: true }
 			},
 			dev: {
-				tasks: ['jshint', 'compass:app_dev', 'compass:map_dev'],
+				tasks: ['jshint', 'compass:app_dev', 'compass:map_dev', 'compass:poc_tree_manipulation'],
 				options: { logConcurrentOutput: true }
 			},
 			dist: {
-				tasks: ['jshint', 'compass:app_dist', 'compass:map_dist'],
+				tasks: ['jshint', 'compass:app_dist', 'compass:map_dist', 'compass:poc_tree_manipulation'],
 				options: { logConcurrentOutput: true }
 			}
 		},

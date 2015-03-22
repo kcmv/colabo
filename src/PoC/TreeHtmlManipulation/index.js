@@ -5,7 +5,7 @@
 Collapsible Tree - http://bl.ocks.org/mbostock/4339083
 
 cd TreeHTML
-../../frontend/scripts/web-server.js 8080 ../../Poc/TreeHtmlCollapsible/
+../../frontend/scripts/web-server.js 8080 ../../Poc/TreeHtmlManipulation/
 ************** Generate the tree diagram	 *****************
 */
 
@@ -21,14 +21,17 @@ var config = {
 	nodes: {
 		punctual: false,
 		svg: {
-			show: true
+			show: false
 		},
 		html: {
 			show: true
 		}
 	},
 	edges: {
-		show: true
+		show: true,
+		labels: {
+			show: true
+		}
 	}
 };
 
@@ -38,7 +41,7 @@ var transitions = {
 		// if set to true, entering elements will enter from the node that is expanding
 		// (no matter if it is parent or grandparent, ...)
 		// otherwise it elements will enter from the parent node
-		referToToggling: false,
+		referToToggling: true,
 		animate: {
 			position: true,
 			opacity: true
@@ -46,7 +49,7 @@ var transitions = {
 	},
 	update: {
 		duration: 500,
-		referToToggling: false,
+		referToToggling: true,
 		animate: {
 			position: true,
 			opacity: true
@@ -57,7 +60,7 @@ var transitions = {
 		// if set to true, exiting elements will exit to the node that is collapsing
 		// (no matter if it is parent or grandparent, ...)
 		// otherwise it elements will exit to the parent node
-		referToToggling: false,
+		referToToggling: true,
 		animate: {
 			position: true,
 			opacity: true
@@ -150,10 +153,22 @@ function toggle(d) {
 	}
 }
 
-// Toggle children on click.
-function click(d) {
+// Toggle children on node click.
+function clickNode(d) {
 	toggle(d);
 	update(d);
+}
+
+// react on label click.
+function clickLinkLabel(d) {
+	// console.log("Label clicked: " + JSON.stringify(d.target.name));
+
+	// just as a click indicator
+	if(d3.select(this).style("opacity") < 0.75){
+		d3.select(this).style("opacity", 1.0);
+	}else{
+		d3.select(this).style("opacity", 0.5);
+	}
 }
 
 // load the external data
@@ -162,18 +177,22 @@ d3.json("treeData.json", function(error, treeData) {
 	root.x0 = height / 2;
 	root.y0 = 0;
 
-	root.children.forEach(collapse);
+	if(root.children){
+		root.children.forEach(collapse);
+	}
 	update(root);
 });
 
 function update(source) {
 	generateTree(root);
-	updateHtml(source);
+	var nodeHtmlDatasets = updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
 	window.setTimeout(function() {
 		updateNodeDimensions();
+		updateHtmlTransitions(source, nodeHtmlDatasets); // all transitions are put here to be in the same time-slot as links, labels, etc
 		updateSvgNodes(source);
-		updateSvgLinks(source);		
-	}, 10);
+		updateLinks(source);
+		updateLinkLabels(source);		
+	}, 25);
 }
 
 function generateTree(source){
@@ -196,15 +215,26 @@ function generateTree(source){
 		if(d.parent && d.parent == "null"){
 			d.parent = null;
 		}
+		// make it sure that x0 and y0 exist for newly entered nodes
+		if(!("x0" in d) || !("y0" in d)){
+			d.x0 = d.x;
+			d.y0 = d.y;
+		}
 	});
 }
 
 function getHtmlNodePosition(d) {
+	var x = null;
 	if(config.nodes.html.show){
-		return (d.x - d.height/2);
+		x = d.x - d.height/2;
 	}else{
-		return d.x;
+		x = d.x;
 	}
+
+	if (isNaN(x) || x == null){
+		x = d.x;
+	}
+	return x;
 }
 
 function updateHtml(source) {
@@ -217,114 +247,139 @@ function updateHtml(source) {
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", "node_html")
-		.style("background-color", function(d) {
-			return d._children ? "#8888ff" : "#ffffff";
-		})
-		// position node on enter at the source position
-		// (it is either parent or another precessor)
+		.on("click", clickNode)
+
+	// position node on enter at the source position
+	// (it is either parent or another precessor)
+	nodeHtmlEnter
 		.style("left", function(d) {
+			var y = null;
 			if(transitions.enter.animate.position){
 				if(transitions.enter.referToToggling){
-					return "" + source.y0 + "px";
+					y = source.y0;
 				}else{
-					return (d.parent ? d.parent.y : d.y) + "px";
+					y = d.parent ? d.parent.y0 : d.y0;
 				}
 			}else{
-				return "" + d.y + "px";				
+				y = d.y;
 			}
+			return y + "px";
 		})
 		.style("top", function(d) {
+			var x = null;
 			if(transitions.enter.animate.position){
 				if(transitions.enter.referToToggling){
-					return "" + source.x0 + "px";
+					x = source.x0;
 				}else{
-					return (d.parent ? d.parent.x : d.x) + "px";
+					x = d.parent ? d.parent.x0 : d.x0;
 				}
 			}else{
-				return "" + d.x + "px";
+				x = d.x;
 			}
+			// console.log("[nodeHtmlEnter] d: %s, x: %s", d.name, x);
+			return x + "px";
+		})
+		.style("background-color", function(d) {
+			return d._children ? "#aaaaff" : "#ffffff";
 		});
 
-	if(transitions.enter.animate.opacity){
-		nodeHtmlEnter
-			.style("opacity", 0.0);
-	}
-		
 	nodeHtmlEnter
-		.on("click", click)
 		.append("div")
 			.attr("class", "node_inner_html")
 			.append("span")
-				//.text("<span>Hello</span>");
-				//.html("<span>Hello</span>");
 				.html(function(d) {
 					return d.name;
 				});
 
-	// Transition nodes to their new (final) position
-	// it seems it happens also for entering nodes ?!
-	if(transitions.update.animate.position || transitions.update.animate.opacity){
-		var nodeHtmlUpdate = nodeHtml.transition()
-			.duration(transitions.update.duration);
-
-		if(transitions.update.animate.position){
-			nodeHtmlUpdate
-				.style("left", function(d){
-					return "" + d.y + "px";
-				})
-				.style("top", function(d){
-					return "" + getHtmlNodePosition(d) + "px";
-					// return "" + d.x + "px";
-				});
-		}
-		if(transitions.update.animate.opacity){
-			nodeHtmlUpdate
-				.style("opacity", 1.0)
-				.style("background-color", function(d) {
-					return d._children ? "#aaaaff" : "#ffffff";
-				});
-		}
-	}else{
-		nodeHtml
-			.style("background-color", function(d) {
-				return d._children ? "#aaaaff" : "#ffffff";
-			});
+	if(transitions.enter.animate.opacity){
+		nodeHtmlEnter
+			.style("opacity", 1e-6);
 	}
+
+	var nodeHtmlDatasets = {
+		elements: nodeHtml,
+		enter: nodeHtmlEnter,
+		exit: null
+	};
+	return nodeHtmlDatasets;
+}
+
+function updateHtmlTransitions(source, nodeHtmlDatasets){
+	if(!config.nodes.html.show) return;
+
+	var nodeHtml = nodeHtmlDatasets.elements;
+	var nodeHtmlEnter = nodeHtmlDatasets.enter;
+
+	// var nodeHtml = divMapHtml.selectAll("div.node_html")
+	// 	.data(nodes, function(d) { return d.id || (d.id = ++id); });
+
+	// Transition nodes to their new (final) position
+	// it happens also for entering nodes (http://bl.ocks.org/mbostock/3900925)
+	var nodeHtmlUpdate = nodeHtml;
+	var nodeHtmlUpdateTransition = nodeHtmlUpdate;
+	if(transitions.update.animate.position || transitions.update.animate.opacity){
+		nodeHtmlUpdateTransition = nodeHtmlUpdate.transition()
+			.duration(transitions.update.duration);
+	}
+
+	(transitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
+		.style("left", function(d){
+			return d.y + "px";
+		})
+		// .each("start", function(d){
+		// 	console.log("[nodeHtmlUpdateTransition] STARTED: d: %s, xCurrent: %s", d.name, d3.select(this).style("top"));
+		// })
+		.style("top", function(d){
+			var x = getHtmlNodePosition(d);
+			this;
+			// x = d.x;
+			// console.log("[nodeHtmlUpdateTransition] d: %s, xCurrent: %s, xNew: %s", d.name, d3.select(this).style("top"), x);
+			return x + "px";
+		});
+
+	if(transitions.update.animate.opacity){
+		nodeHtmlUpdateTransition
+			.style("opacity", 1.0);
+	}
+
+	nodeHtmlUpdateTransition
+		.style("background-color", function(d) {
+			return d._children ? "#aaaaff" : "#ffffff";
+		});
 
 	// Transition exiting nodes
+	var nodeHtmlExit = nodeHtml.exit();
+	var nodeHtmlExitTransition = nodeHtmlExit;
+	nodeHtmlExit.on("click", null);
 	if(transitions.exit.animate.position || transitions.exit.animate.opacity){
-		var nodeHtmlExit = nodeHtml.exit().transition()
+		nodeHtmlExitTransition = nodeHtmlExit.transition()
 			.duration(transitions.exit.duration);
-
-		if(transitions.exit.animate.opacity){
-			nodeHtmlExit
-				.style("opacity", 0.0);
-		}
-
-		if(transitions.exit.animate.position){
-			nodeHtmlExit
-				.style("left", function(d){
-					// Transition nodes to the toggling node's new position
-					if(transitions.exit.referToToggling){
-						return source.y + "px";					
-					}else{ // Transition nodes to the parent node's new position
-						return (d.parent ? d.parent.y : d.y) + "px";
-					}
-				})
-				.style("top", function(d){
-					if(transitions.exit.referToToggling){
-						return source.x + "px";
-					}else{
-						return (d.parent ? d.parent.x : d.x) + "px";
-					}
-				})
-		}
-		nodeHtmlExit
-			.remove();
-	}else{
-		var nodeHtmlExit = nodeHtml.exit()
-			.remove();
 	}
+
+	if(transitions.exit.animate.opacity){
+		nodeHtmlExitTransition
+			.style("opacity", 1e-6);
+	}
+
+	if(transitions.exit.animate.position){
+		nodeHtmlExitTransition
+			.style("left", function(d){
+				// Transition nodes to the toggling node's new position
+				if(transitions.exit.referToToggling){
+					return source.y + "px";					
+				}else{ // Transition nodes to the parent node's new position
+					return (d.parent ? d.parent.y : d.y) + "px";
+				}
+			})
+			.style("top", function(d){
+				if(transitions.exit.referToToggling){
+					return source.x + "px";
+				}else{
+					return (d.parent ? d.parent.x : d.x) + "px";
+				}
+			})
+	}
+	nodeHtmlExitTransition.remove();
 }
 
 function updateNodeDimensions(){
@@ -333,9 +388,9 @@ function updateNodeDimensions(){
 		// Get centroid(this.d)
 		d.width = parseInt(d3.select(this).style("width"));
 		d.height = parseInt(d3.select(this).style("height"));
-		d3.select(this).style("top", function(d) { 
-			return "" + getHtmlNodePosition(d) + "px";
-		})
+		// d3.select(this).style("top", function(d) { 
+		// 	return "" + getHtmlNodePosition(d) + "px";
+		// })
 	});
 };
 
@@ -354,7 +409,7 @@ function updateSvgNodes(source) {
 		.style("opacity", function(d){
 			return transitions.enter.animate.opacity ? 1e-6 : 0.8
 		})
-		.on("click", click)
+		.on("click", clickNode)
 		// Enter any new nodes at the parent's previous position.
 		.attr("transform", function(d) {
 			if(transitions.enter.animate.position){
@@ -362,9 +417,9 @@ function updateSvgNodes(source) {
 					return "translate(" + source.y0 + "," + source.x0 + ")";
 				}else{
 					if(d.parent){
-						return "translate(" + d.parent.y + "," + d.parent.x + ")";						
+						return "translate(" + d.parent.y0 + "," + d.parent.x0 + ")";						
 					}else{
-						return "translate(" + d.y + "," + d.x + ")";						
+						return "translate(" + d.y0 + "," + d.x0 + ")";						
 					}
 				}
 			}else{
@@ -389,7 +444,7 @@ function updateSvgNodes(source) {
 
 		if(transitions.enter.animate.opacity){
 			nodeEnterTransition
-				.style("opacity", 0.0);
+				.style("opacity", 1e-6);
 		}
 	}
 
@@ -411,13 +466,15 @@ function updateSvgNodes(source) {
 	// Transition exiting nodes
 	var nodeExit = node.exit();
 	var nodeExitTransition;
+
+	nodeExit.on("click", null);
 	if(transitions.exit.animate.position || transitions.exit.animate.opacity){
 		nodeExitTransition = nodeExit.transition()
 			.duration(transitions.exit.duration)
 
 		if(transitions.exit.animate.opacity){
 			nodeExitTransition
-				.style("opacity", 0.0);
+				.style("opacity", 1e-6);
 		}
 
 		if(transitions.exit.animate.position){
@@ -441,8 +498,130 @@ function updateSvgNodes(source) {
 			.remove();
 	}
 }
+function updateLinkLabels(source) {
+	if(!config.edges.labels.show) return;
 
-function updateSvgLinks(source) {
+	var linkLabelHtml = divMapHtml.selectAll("div.label_html")
+	.data(links, function(d) {
+		// there is only one incoming edge
+		return d.target.id;
+	});
+
+	// Enter the nodes
+	// we create a div that will contain both visual representation of a node (circle) and text
+	var linkLabelHtmlEnter = linkLabelHtml.enter().append("div")
+		.attr("class", "label_html")
+		// position node on enter at the source position
+		// (it is either parent or another precessor)
+		.on("click", clickLinkLabel)
+		.style("left", function(d) {
+			if(transitions.enter.animate.position){
+				if(transitions.enter.referToToggling){
+					var y = source.y0;
+				}else{
+					var y = d.source.y0;
+				}
+			}else{
+				var y = (d.source.y + d.target.y) / 2;
+			}
+			return y + "px";
+		})
+		.style("top", function(d) {
+			if(transitions.enter.animate.position){
+				if(transitions.enter.referToToggling){
+					var x = source.x0;
+				}else{
+					var x = d.source.x0;
+				}
+			}else{
+				var x = (d.source.x + d.target.x) / 2;
+			}
+			return x + "px";
+		});
+
+	linkLabelHtmlEnter
+		.append("span")
+			//.text("<span>Hello</span>");
+			//.html("<span>Hello</span>");
+			.html(function(d) {
+				return d.target.linkLabel// d.target.name; // "лабела"; // d.name;
+			});
+
+	if(transitions.enter.animate.opacity){
+		linkLabelHtmlEnter
+			.style("opacity", 1e-6);
+	}
+
+	var linkLabelHtmlUpdate = linkLabelHtml;
+	var linkLabelHtmlUpdateTransition = linkLabelHtmlUpdate;
+	if(transitions.update.animate.position || transitions.update.animate.opacity){
+		linkLabelHtmlUpdateTransition = linkLabelHtmlUpdate.transition()
+			.duration(transitions.update.duration);
+	}
+	if(transitions.update.animate.position){
+		linkLabelHtmlUpdateTransition
+			.style("left", function(d){
+				return ((d.source.y + d.target.y) / 2) + "px";
+			})
+			.style("top", function(d){
+				return ((d.source.x + d.target.x) / 2) + "px";
+			});
+	}else{
+		linkLabelHtmlUpdate
+			.style("left", function(d){
+				return ((d.source.y + d.target.y) / 2) + "px";
+			})
+			.style("top", function(d){
+				return ((d.source.x + d.target.x) / 2) + "px";
+			});
+	}
+	if(transitions.update.animate.opacity){
+		linkLabelHtmlUpdateTransition
+			.style("opacity", 1.0);
+	}
+
+	var linkLabelHtmlExit = linkLabelHtml.exit();
+	var linkLabelHtmlExitTransition = linkLabelHtmlExit;
+	linkLabelHtmlExit.on("click", null);
+	if(transitions.exit.animate.position || transitions.exit.animate.opacity){
+		linkLabelHtmlExitTransition = linkLabelHtmlExit.transition()
+			.duration(transitions.exit.duration);
+
+		if(transitions.exit.animate.position){
+			linkLabelHtmlExitTransition
+				.style("left", function(d) {
+					var y = null;
+					// Transition nodes to the toggling node's new position
+					if(transitions.exit.referToToggling){
+						y = source.y;					
+					}else{ // Transition nodes to the parent node's new position
+						y = d.source.y;
+					}
+
+					return y + "px";
+				})
+				.style("top", function(d) {
+					var x = null;
+					// Transition nodes to the toggling node's new position
+					if(transitions.exit.referToToggling){
+						x = source.x;					
+					}else{ // Transition nodes to the parent node's new position
+						x = d.source.x;
+					}
+
+					return x + "px";
+				});
+		}
+		if(transitions.exit.animate.opacity){
+			linkLabelHtmlExitTransition
+				.style("opacity", 1e-6);
+		}
+	}
+	linkLabelHtmlExitTransition
+		.remove();
+}
+
+function updateLinks(source) {
 	if(!config.edges.show) return;
 
 	// Declare the links
@@ -465,7 +644,7 @@ function updateSvgLinks(source) {
 				if(transitions.enter.referToToggling){
 					var o = {x: source.x0, y: source.y0};
 				}else{
-					var o = {x: d.source.x, y: d.source.y};
+					var o = {x: d.source.x0, y: d.source.y0};
 				}
 				return diagonal({source: o, target: o});
 			}else{
@@ -479,7 +658,7 @@ function updateSvgLinks(source) {
 			.duration(transitions.update.duration);
 
 		linkEnter
-			.style("opacity", 0.0);
+			.style("opacity", 1e-6);
 	}
 	linkEnterTransition
 		.style("opacity", 1.0);
@@ -526,7 +705,7 @@ function updateSvgLinks(source) {
 		}
 		if(transitions.exit.animate.opacity){
 			linkExitTransition
-				.style("opacity", 0.0);
+				.style("opacity", 1e-6);
 		}
 	}
 	linkExitTransition

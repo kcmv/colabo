@@ -92,7 +92,7 @@ function update(source) {
 	generateTree(source);
 	updateHtml(source);
 	window.setTimeout(function() {
-		updateNodeDimensiona();
+		updateNodeDimensions();
 		updateSvgNodes(source);
 		updateSvgLinks(source);		
 	}, 10);
@@ -135,7 +135,7 @@ function updateHtml(source) {
 				});
 }
 
-function updateNodeDimensiona(){
+function updateNodeDimensions(){
 	divMapHtml.selectAll("div.node_html").each(function(d, i) {
 		// Get centroid(this.d)
 		d.width = parseInt(d3.select(this).style("width"));
