@@ -68,9 +68,28 @@ var transitions = {
 	}
 }
 
+function hasChildren(d){
+	for(var i in edgesById){
+		if(edgesById[i].sourceId == d.id){
+			return true;
+		}
+	}
+	return false;
+}
 // inverted since tree is rotated to be horizontal
 var tree = d3.layout.tree()
 	.size([height, width]);
+tree.children(function(d){
+	var children = [];
+	if(!d.isOpen) return children;
+
+	for(var i in edgesById){
+		if(edgesById[i].sourceId == d.id){
+			children.push(nodesById[edgesById[i].targetId]);
+		}
+	}
+	return children;
+})
 
 var id=0, nodes, links;
 
@@ -135,22 +154,13 @@ var svg = divMapSvg
 
 // collapses children of the provided node
 function collapse(d) {
-	if (d.children) {
-		d._children = d.children;
-		d._children.forEach(collapse);
-		d.children = null;
-	}
+	d.isOpen = false;
 }
 
 // toggle children of the provided node
 function toggle(d) {
-	if (d.children) {
-		d._children = d.children;
-		d.children = null;
-	} else {
-		d.children = d._children;
-		d._children = null;
-	}
+	d.isOpen = !d.isOpen;
+	return;
 }
 
 // Toggle children on node click.
@@ -171,15 +181,33 @@ function clickLinkLabel(d) {
 	}
 }
 
+var nodesById = {};
+var edgesById = {};
+var properties = {};
+
 // load the external data
 d3.json("treeData.json", function(error, treeData) {
-	root = treeData;
+	properties = treeData.properties;
+	var i=0;
+	var node = null;
+	var edge = null;
+	for(i=0; i<treeData.nodes.length; i++){
+		node = treeData.nodes[i];
+		if(! "isOpen" in node){
+			node.isOpen = false;
+		}
+		nodesById[node.id] = node;
+	}
+
+	for(i=0; i<treeData.edges.length; i++){
+		edge = treeData.edges[i];
+		edgesById[edge.id] = edge;
+	}
+
+	root = nodesById[properties.rootNodeId];
 	root.x0 = height / 2;
 	root.y0 = 0;
 
-	if(root.children){
-		root.children.forEach(collapse);
-	}
 	update(root);
 });
 
@@ -280,7 +308,7 @@ function updateHtml(source) {
 			return x + "px";
 		})
 		.style("background-color", function(d) {
-			return d._children ? "#aaaaff" : "#ffffff";
+			return (!d.isOpen && hasChildren(d)) ? "#aaaaff" : "#ffffff";
 		});
 
 	nodeHtmlEnter
@@ -344,7 +372,7 @@ function updateHtmlTransitions(source, nodeHtmlDatasets){
 
 	nodeHtmlUpdateTransition
 		.style("background-color", function(d) {
-			return d._children ? "#aaaaff" : "#ffffff";
+			return (!d.isOpen && hasChildren(d)) ? "#aaaaff" : "#ffffff";
 		});
 
 	// Transition exiting nodes
@@ -461,7 +489,7 @@ function updateSvgNodes(source) {
 			.style("opacity", 0.8);
 
 	node.select("circle")
-		.style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+		.style("fill", function(d) { return (!d.isOpen && hasChildren(d)) ? "lightsteelblue" : "#ffffff"; });
 
 	// Transition exiting nodes
 	var nodeExit = node.exit();

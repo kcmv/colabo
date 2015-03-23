@@ -2,13 +2,15 @@
 	"properties": {
 		"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
 		"date": "2015.03.22.",
-		"authors": "S. Rudan, D. Karabeg"
+		"authors": "S. Rudan, D. Karabeg",
+		"rootNodeId": 1
 	},
 	"nodes": [
 		{
 			"id": 1,
 			"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
-			"linkLabel": "TNC"
+			"linkLabel": "TNC",
+			"isOpen": false
 		},
 		{
 			"id": 2,
@@ -37,7 +39,8 @@
 			"id": 6,
 			"name": "Indirect Creativty",
 			"linkLabel": "inhibits",
-			"parent": "Top Level"
+			"parent": "Top Level",
+			"isOpen": true
 		}
 	],
 	"edges": [
@@ -66,7 +69,7 @@
 			"targetId": 4
 		},
 		{
-			"id": 2,
+			"id": 5,
 			"name": "inhibits",
 			"sourceId": 6,
 			"targetId": 5
