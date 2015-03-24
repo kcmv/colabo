@@ -9,37 +9,27 @@
 		{
 			"id": 1,
 			"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
-			"linkLabel": "TNC",
 			"isOpen": false
 		},
 		{
 			"id": 2,
-			"name": "Direct Creativity",
-			"parent": "Top Level"
+			"name": "Direct Creativity"
 		},
 		{
 			"id": 3,
-			"name": "Breakthrough in handling creativity possible",
-			"linkLabel": "supports",
-			"parent": "Level 2: A"
+			"name": "Breakthrough in handling creativity possible"
 		},
 		{
 			"id": 4,
-			"name": "deep creative insight",
-			"linkLabel": "insight",
-			"parent": "Level 2: A"
+			"name": "deep creative insight"
 		},
 		{
 			"id": 5,
-			"name": "Classical Physics",
-			"linkLabel": "inhibits",
-			"parent": "Level 2: A"
+			"name": "Classical Physics"
 		},
 		{
 			"id": 6,
 			"name": "Indirect Creativty",
-			"linkLabel": "inhibits",
-			"parent": "Top Level",
 			"isOpen": true
 		}
 	],
