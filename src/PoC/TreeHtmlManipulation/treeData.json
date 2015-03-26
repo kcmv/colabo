@@ -9,7 +9,7 @@
 		{
 			"id": 1,
 			"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
-			"isOpen": false
+			"isOpen": true
 		},
 		{
 			"id": 2,
@@ -30,7 +30,9 @@
 		{
 			"id": 6,
 			"name": "Indirect Creativty",
-			"isOpen": true
+			"isOpen": false,
+			"manualX": 300,
+			"manualY": 300
 		}
 	],
 	"edges": [

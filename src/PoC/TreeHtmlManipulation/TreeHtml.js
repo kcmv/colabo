@@ -8,6 +8,8 @@ var treeHtml = TreeHtml = function(parentDom, config, dimensions){
 	this.dimensions = dimensions;
 
 	this.rootNode = null;
+	this.selectedNode = null;
+	this.selectedNodeInTree = null;
 	this.nodes = null;
 	this.links = null;
 	this.nodesById = {};
@@ -109,8 +111,41 @@ treeHtml.prototype.toggle = function(d) {
 	return;
 };
 
-// Toggle children on node click.
+// Select node on node click
 treeHtml.prototype.clickNode = function(d) {
+	// select clicked
+	var isSelected = d.isSelected;
+	var nodesHtmlSelected = this.dom.divMapHtml.selectAll("div.node_html")
+		.data([d], function(d){return d.id});
+	//this.update(this.rootNode);
+
+	if(nodesHtmlSelected.size() != 1) return;
+
+	// unselect all nodes
+	var nodesHtml = this.dom.divMapHtml.selectAll("div.node_html");
+	nodesHtml.classed({
+		"node_selected": false,
+		"node_unselected": true
+	});
+	this.nodes.forEach(function(d){d.isSelected = false;});
+
+	if(isSelected){
+		d.isSelected = false;
+		this.selectedNode = null;
+	}else{
+		// var nodeHtml = nodesHtml[0];
+		nodesHtmlSelected.classed({
+			"node_selected": true,
+			"node_unselected": false
+		});
+		d.isSelected = true;
+		this.selectedNode = d;
+	}
+	//this.update(this.rootNode);
+};
+
+// Toggle children on node double-click
+treeHtml.prototype.clickDoubleNode = function(d) {
 	this.toggle(d);
 	this.update(d);
 };
@@ -138,7 +173,9 @@ treeHtml.prototype.init = function(){
 			.append("div")
 				.attr("class", "html_content")
 					.style("left", this.dimensions.margin.left+"px")
-					.style("top", this.dimensions.margin.top+"px");
+					.style("top", this.dimensions.margin.top+"px")
+					.style("width", this.dimensions.sizes.width + this.dimensions.margin.right + this.dimensions.margin.left + "px")
+					.style("height", this.dimensions.sizes.height + this.dimensions.margin.top + this.dimensions.margin.bottom + "px");
 	}
 
 	this.dom.divMapSvg = this.dom.divMap.append("div")
@@ -151,6 +188,9 @@ treeHtml.prototype.init = function(){
 			.append("g")
 				.attr("class", "svg_content")
 				.attr("transform", "translate(" + this.dimensions.margin.left + "," + this.dimensions.margin.top + ")");
+
+	this.initializeKeyboard();
+	this.initializeManipulation();
 };
 
 treeHtml.prototype.load = function(filename){
@@ -182,6 +222,8 @@ treeHtml.prototype.processData = function(error, treeData) {
 	this.rootNode = this.nodesById[this.properties.rootNodeId];
 	this.rootNode.x0 = this.dimensions.sizes.height / 2;
 	this.rootNode.y0 = 0;
+
+	this.selectedNode = this.rootNode;
 
 	this.update(this.rootNode);
 };
@@ -219,6 +261,15 @@ treeHtml.prototype.generateTree = function(source){
 		if(d.parent && d.parent == "null"){
 			d.parent = null;
 		}
+
+		// update x and y to manual coordinates if present
+		if("manualX" in d){
+			d.x = d.manualX;
+		}
+		if("manualY" in d){
+			d.y = d.manualY;
+		}
+
 		// make it sure that x0 and y0 exist for newly entered nodes
 		if(!("x0" in d) || !("y0" in d)){
 			d.x0 = d.x;
@@ -251,7 +302,8 @@ treeHtml.prototype.updateHtml = function(source) {
 	// Enter the nodes
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
-		.attr("class", "node_html")
+		.attr("class", "node_html node_unselected draggable")
+		.on("dblclick", this.clickDoubleNode.bind(this))
 		.on("click", this.clickNode.bind(this));
 
 	// position node on enter at the source position
@@ -290,11 +342,26 @@ treeHtml.prototype.updateHtml = function(source) {
 
 	nodeHtmlEnter
 		.append("div")
+			.attr("class", "node_status")
+				.html(function(d){
+					return d.id;
+				});
+
+	nodeHtmlEnter
+		.append("div")
 			.attr("class", "node_inner_html")
 			.append("span")
 				.html(function(d) {
 					return d.name;
 				});
+			// .append("span")
+			// 	.html(function(d) {
+			// 		return "report: "+d.x+","+d.y;
+			// 	})
+			// .append("p")
+			// 	.html(function(d) {
+			// 		return "moving: ";
+			// 	});
 
 	if(this.config.transitions.enter.animate.opacity){
 		nodeHtmlEnter
@@ -356,6 +423,8 @@ treeHtml.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
 	var nodeHtmlExit = nodeHtml.exit();
 	var nodeHtmlExitTransition = nodeHtmlExit;
 	nodeHtmlExit.on("click", null);
+	nodeHtmlExit.on("dblclick", null);
+
 	if(this.config.transitions.exit.animate.position || this.config.transitions.exit.animate.opacity){
 		nodeHtmlExitTransition = nodeHtmlExit.transition()
 			.duration(this.config.transitions.exit.duration);
@@ -418,6 +487,7 @@ treeHtml.prototype.updateSvgNodes = function(source) {
 			return that.config.transitions.enter.animate.opacity ? 1e-6 : 0.8
 		})
 		.on("click", this.clickNode.bind(this))
+		.on("dblclick", this.clickDoubleNode.bind(this))
 		// Enter any new nodes at the parent's previous position.
 		.attr("transform", function(d) {
 			if(that.config.transitions.enter.animate.position){
@@ -725,5 +795,150 @@ treeHtml.prototype.updateLinks = function(source) {
 		.remove();
 }
 
+// http://interactjs.io/
+// http://interactjs.io/docs/#interactables
+treeHtml.prototype.initializeManipulation = function() {
+	var that = this;
+	var movingPlaceholder = null;
+	// target elements with the "draggable" class
+	interact('.draggable')
+		.draggable({
+			// enable inertial throwing
+			inertia: true,
+			// keep the element within the area of it's parent
+			restrict: {
+				restriction: "parent",
+				endOnly: true,
+				elementRect: { top: 1, left: 1, bottom: 1, right: 1 }
+			},
+
+			// call this function on every dragmove event
+			onstart: function (event) {
+				var target = event.target;
+				var nodeHtml = d3.select(event.target);
+				var d = nodeHtml.datum();
+
+				// remember original z-index
+				nodeHtml.attr('data-z-index', nodeHtml.style("z-index"));
+				// set it to the top of the index and reduce opacity
+				nodeHtml
+					.style("opacity", 0.5)
+					.style("z-index", 10);
+
+				// clone node with jQuery
+				// https://api.jquery.com/clone/
+				// http://www.w3schools.com/jsref/met_node_clonenode.asp
+				// https://www.safaribooksonline.com/library/view/jquery-cookbook/9780596806941/ch01s14.html
+				// http://stackoverflow.com/questions/8702165/how-to-clone-and-restore-a-dom-subtree
+				// http://stackoverflow.com/questions/1848445/duplicating-an-element-and-its-style-with-javascript
+				var movingPlaceholderJQ = $(event.target).clone(true, true);
+				// create D3 selector
+				movingPlaceholder = d3.select(movingPlaceholderJQ.get(0));
+				// append cloned node to the map
+				// http://stackoverflow.com/questions/21727202/append-dom-element-to-the-d3
+				// http://jsperf.com/innertext-vs-fragment/24
+				// http://stackoverflow.com/questions/16429199/selections-in-d3-how-to-use-parentnode-appendchild
+				that.dom.divMapHtml.node().appendChild(movingPlaceholder.node());
+			},
+
+			// call this function on every dragmove event
+			onmove: function (event) {
+				var target = event.target,
+					nodeHtml = d3.select(event.target),
+					d = nodeHtml.datum(),
+
+				// keep the dragged position in the data-x/data-y attributes
+				x = (parseFloat(nodeHtml.attr('data-x')) || 0) + event.dx,
+				y = (parseFloat(nodeHtml.attr('data-y')) || 0) + event.dy;
+
+				// update the posiion attributes
+				nodeHtml.attr('data-x', x);
+				nodeHtml.attr('data-y', y);
+
+				// translate the cloned node
+				var translate = 'translate(' + x + 'px, ' + y + 'px)';
+				movingPlaceholder.style("transform", translate);
+			},
+			// call this function on every dragend event
+			onend: function (event) {
+				var target = event.target;
+				var nodeHtml = d3.select(event.target);
+				var d = nodeHtml.datum();
+
+				// update manual values for datum
+				d.manualX = d.x + event.dy;
+				d.manualY = d.y + event.dx;
+
+				// var textEl = event.target.querySelector('p');
+				// textEl && (textEl.textContent =
+				// "moving: " + d.manualX + ", " + d.manualY);
+				// 'moved a distance of '
+				// + (Math.sqrt(event.dx * event.dx +
+				//              event.dy * event.dy)|0) + 'px');
+
+				nodeHtml
+					.style("opacity", 1.0)
+					.style("z-index", target.getAttribute('data-z-index'));
+				nodeHtml.attr('data-z-index', null);
+
+				// resetting element translation
+				nodeHtml.style("transform", null);
+				// update the posiion attributes
+				nodeHtml.attr('data-x', null);
+				nodeHtml.attr('data-y', null);
+
+				if(movingPlaceholder){
+					movingPlaceholder.remove();
+					movingPlaceholder = null;
+				}
+
+				that.update(that.rootNode);
+	    }
+	  });
+}
+
+// http://robertwhurst.github.io/KeyboardJS/
+treeHtml.prototype.initializeKeyboard = function() {
+	KeyboardJS.on("right", function(){
+		if(this.selectedNode.children){
+			this.clickNode(this.selectedNode.children[0]);
+		}
+	}.bind(this), function(){}.bind(this));
+	KeyboardJS.on("left", function(){
+		if(this.selectedNode.parent){
+			this.clickNode(this.selectedNode.parent);
+		}
+	}.bind(this), function(){}.bind(this));
+	KeyboardJS.on("down", function(){
+		if(this.selectedNode.parent && this.selectedNode.parent.children){
+			for(var i=0; i<this.selectedNode.parent.children.length; i++){
+				if(this.selectedNode.parent.children[i] == this.selectedNode){
+					if(i+1<this.selectedNode.parent.children.length){
+						this.clickNode(this.selectedNode.parent.children[i+1]);
+					}
+				}
+			}
+		}
+	}.bind(this), function(){}.bind(this));
+	KeyboardJS.on("up", function(){
+		if(this.selectedNode.parent && this.selectedNode.parent.children){
+			for(var i=0; i<this.selectedNode.parent.children.length; i++){
+				if(this.selectedNode.parent.children[i] == this.selectedNode){
+					if(i-1>=0){
+						this.clickNode(this.selectedNode.parent.children[i-1]);
+					}
+				}
+			}
+		}
+	}.bind(this), function(){}.bind(this));
+	KeyboardJS.on("enter", function(){
+		this.selectedNode.isOpen = !this.selectedNode.isOpen;
+		this.update(this.selectedNode);
+	}.bind(this), function(){}.bind(this));
+	// PUSH DOWN
+	KeyboardJS.on("space", function(){
+	}.bind(this), function(){}.bind(this));
+	
+};
 
 }()); // end of 'use strict';
