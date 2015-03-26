@@ -66,15 +66,9 @@
   margin-left: -75px;
   /*height: 3em;
   line-height: 3em;*/
-  border: 1px dashed #0000ff;
-  -moz-border-radius: 5px / 5px;
-  -webkit-border-radius: 5px 5px;
-  border-radius: 5px / 5px;
-  /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
-  /* color h-shadow v-shadow blur spread color inset*/
-  -moz-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
-  -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
-  box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+  -moz-border-radius: 10px / 10px;
+  -webkit-border-radius: 10px 10px;
+  border-radius: 10px / 10px;
   /*	background-color: #ffffff;
   */
   opacity: 0.7;
@@ -86,14 +80,42 @@
   */
   /*margin-top: -1.5em;
   margin-left: -5em;*/ }
+  /* line 87, sass/default.scss */
+  .node_html .node_inner_html {
+    position: relative;
+    padding: 3px;
+    /*background-color: yellow;*/ }
+  /* line 93, sass/default.scss */
+  .node_html .node_status {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    background-color: yellow;
+    border: 1px solid red;
+    width: 20px;
+    text-align: center;
+    font-weight: bold;
+    -moz-border-radius: 10px / 10px;
+    -webkit-border-radius: 10px 10px;
+    border-radius: 10px / 10px; }
 
-/* line 91, sass/default.scss */
-.node_html .node_inner_html {
-  position: relative;
-  padding: 3px;
-  /*background-color: yellow;*/ }
+/* line 107, sass/default.scss */
+.node_unselected {
+  border: 1px dashed #0000ff;
+  /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+  /* color h-shadow v-shadow blur spread color inset*/
+  -moz-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+  -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+  box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75); }
 
-/* line 97, sass/default.scss */
+/* line 113, sass/default.scss */
+.node_selected {
+  border: 2px solid #0000aa;
+  -moz-box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75);
+  -webkit-box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75);
+  box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75); }
+
+/* line 118, sass/default.scss */
 .node_html span {
   display: inline-block;
   vertical-align: middle;
@@ -101,9 +123,16 @@
   text-align: center;
   font-weight: bold;
   font-style: italic;
-  color: #ff3333; }
+  color: #ff3333;
+  /* just for testing purposs */ }
+  /* line 128, sass/default.scss */
+  .node_html span p {
+    color: #880000;
+    font-weight: 100;
+    font-size: 12px;
+    font-style: normal; }
 
-/* line 107, sass/default.scss */
+/* line 136, sass/default.scss */
 .label_html {
   position: absolute;
   /*width: 10em;*/
