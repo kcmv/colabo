@@ -33,8 +33,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 /* CRUD */
 function create(knodeJSON){ //!!! but do we get object of type KNodeModel
-	var knode = new SLaWS(knodeJSON); //testirati
-	knode.save();
+	var knode = new KNodeModel(knodeJSON); //testirati
 	
 	knode.save(function(err) {
 		if (err) throw err;
@@ -45,6 +44,7 @@ function update(knode){
 	
 }
 
+/*
 userSchema.pre('save', function(next) {
 	  // get the current date
 	  var currentDate = new Date();
@@ -58,6 +58,7 @@ userSchema.pre('save', function(next) {
 
 	  next();
 	});
+*/
 
 function read(id){
 	
@@ -70,8 +71,10 @@ function read(id){
 }
 
 exports.index = function(req, res){
-	
+	//to repack data? 
+	return read(req.params.searchParam);
 }
+
 function delete(id){
 	
 }
