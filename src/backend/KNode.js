@@ -40,8 +40,14 @@ function create(knodeJSON){ //!!! but do we get object of type KNodeModel
 	});
 }
 
-function update(knode){
-	
+function update(knodeJSON){
+	var knode = new KNodeModel(knodeJSON);
+	//check this: multi (boolean) whether multiple documents should be updated (false)
+	KNodeModel.update({ _id: knode._id }, knode, { multi: true }, function (err, numberAffected, raw) {
+		  if (err) throw err;
+		  console.log('The number of updated documents was %d', numberAffected);
+		  console.log('The raw response from Mongo was ', raw);
+		});
 }
 
 /*
