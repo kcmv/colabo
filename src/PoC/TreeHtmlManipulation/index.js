@@ -35,6 +35,9 @@ var config = {
 			show: true
 		}
 	},
+	tree: {
+		viewspec: "viewspec_manual"
+	},
 	transitions: {
 		enter: {
 			duration: 1000,
