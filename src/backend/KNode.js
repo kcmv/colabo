@@ -111,8 +111,8 @@ exports.update = function(req, res){
 	var data = req.body;
 	
 	var knode = new KNodeModel(knodeJSON);
-	//check this: multi (boolean) whether multiple documents should be updated (false)
-	KNodeModel.update({ _id: knode._id }, knode, { multi: true }, function (err, numberAffected, raw) {
+	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
+	KNodeModel.findByIdAndUpdate(knode._id , knode, { multi: true }, function (err, numberAffected, raw) {
 		  if (err) throw err;
 		  console.log('The number of updated documents was %d', numberAffected);
 		  console.log('The raw response from Mongo was ', raw);
@@ -125,8 +125,7 @@ exports.destroy = function(req, res){
 	var dataId = req.params.searchParam;
 	console.log("[modules/KNode.js:destroy] dataId:%s, type:%s, req.body: %s", dataId, type, JSON.stringify(req.body));
 	
-	FBFriendModel.findById(dataId).remove(
-		function (err) {
+	KNodeModel.findByIdAndRemove(dataId, function (err) {
 			if (err) throw err;
 			var data = {id:dataId};
 			resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
