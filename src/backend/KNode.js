@@ -1,7 +1,29 @@
+'use strict';
+
 /**
  * New node file
  */
 var mongoose = require('mongoose');
+
+
+var mockup = {fb: {authenticate: false}, db: {data:false}};
+var accessId = 0;
+var LIMIT_NO = 25;
+
+function resSendJsonProtected(res, data){
+	// http://tobyho.com/2011/01/28/checking-types-in-javascript/	
+	if(data !== null && typeof data === 'object'){ // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
+		res.set('Content-Type', 'application/json');
+		// JSON Vulnerability Protection
+		// http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/
+		// https://docs.angularjs.org/api/ng/service/$http#description_security-considerations_cross-site-request-forgery-protection
+		res.send(")]}',\n" + JSON.stringify(data));
+	}else if(typeof data === 'string'){ // http://stackoverflow.com/questions/4059147/check-if-a-variable-is-a-string
+		res.send(data);
+	}else{
+		res.send(data);
+	}
+};
 
 /* SCHEMA */
 var KNodeSchema = mongoose.Schema({
@@ -34,10 +56,16 @@ db.on('error', console.error.bind(console, 'connection error:'));
 /* CRUD */
 function create(knodeJSON){ //!!! but do we get object of type KNodeModel
 	var knode = new KNodeModel(knodeJSON); //testirati
-	
+
 	knode.save(function(err) {
 		if (err) throw err;
 	});
+}
+
+function read(id){
+	
+	//return KNodeModel.findById(id).exec().onResolve
+	// moved into exports.create
 }
 
 function update(knode){
@@ -60,21 +88,56 @@ userSchema.pre('save', function(next) {
 	});
 */
 
-function read(id){
-	
-	//return KNodeModel.findById(id).exec().onResolve
-	
-	return KNodeModel.findById(id, function (err, knode) {
-		if (err) throw err;
-		else return knode;
-	});
-}
-
-exports.index = function(req, res){
-	//to repack data? 
-	return read(req.params.searchParam);
-}
-
 function delete(id){
 	
 }
+
+exports.index = function(req, res){
+	if(mockup && mockup.db && mockup.db.data)){
+		var datas_json = [];
+  		datas_json.push({id: 1, name: "Sun"});
+  		datas_json.push({id: 2, name: "Earth"});
+  		datas_json.push({id: 3, name: "Pluto"});
+  		datas_json.push({id: 4, name: "Venera"});
+		resSendJsonProtected(res, {data: datas_json, accessId : accessId});
+	}
+
+	KNodeModel.findById(req.params.searchParam, function (err, knode) {
+		if (err){
+			throw err;
+			var msg = JSON.stringify(err);
+			resSendJsonProtected(res, {data: knode, accessId : accessId, message: msg, success: false});
+		}else{
+			resSendJsonProtected(res, {data: knode, accessId : accessId, success: true});
+		};
+	});
+}
+
+exports.create = function(req, res){
+	console.log("[modules/KNode.js:create] req.body: %s", JSON.stringify(req.body));
+	
+	var data = req.body;
+	create(data);
+
+	console.log("[modules/KNode.js:create] data (id:%d) created: %s",
+		dataCreated.id, JSON.stringify(dataCreated));
+
+	resSendJsonProtected(res, {success: true, data: data, accessId : accessId});				
+}
+
+exports.update = function(req, res){
+	console.log("[modules/KNode.js:update] req.body: %s", JSON.stringify(req.body));
+
+	var data = req.body;
+	update(data);
+	resSendJsonProtected(res, {success: true, data: data, accessId : accessId});				
+}
+
+exports.destroy = function(req, res){
+	var type = req.params.type;
+	var dataId = req.params.searchParam;
+	console.log("[modules/KNode.js:destroy] dataId:%s, type:%s, req.body: %s", dataId, type, JSON.stringify(req.body));
+	delete(dataId);
+	var data = {id:dataId};
+	resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+};
