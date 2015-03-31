@@ -10,6 +10,7 @@ var treeHtml = TreeHtml = function(parentDom, config, dimensions){
 	this.rootNode = null;
 	this.selectedNode = null;
 	this.selectedNodeInTree = null;
+	this.editingNodeHtml = null;
 	this.nodes = null;
 	this.links = null;
 	this.nodesById = {};
@@ -24,6 +25,9 @@ var treeHtml = TreeHtml = function(parentDom, config, dimensions){
 	};
 
 	// inverted since tree is rotated to be horizontal
+	// related posts
+	//	http://stackoverflow.com/questions/17847131/generate-multilevel-flare-json-data-format-from-flat-json
+	//	http://stackoverflow.com/questions/20940854/how-to-load-data-from-an-internal-json-array-rather-than-from-an-external-resour
 	this.tree = d3.layout.tree()
 		.size([this.dimensions.sizes.height, this.dimensions.sizes.width]);
 
@@ -111,15 +115,20 @@ treeHtml.prototype.toggle = function(d) {
 	return;
 };
 
+// Returns view representation (dom) from datum d
+treeHtml.prototype.getDomFromDatum = function(d) {
+	var dom = this.dom.divMapHtml.selectAll("div.node_html")
+		.data([d], function(d){return d.id});
+	if(dom.size() != 1) return null;
+	else return dom;
+}
+
 // Select node on node click
 treeHtml.prototype.clickNode = function(d) {
 	// select clicked
 	var isSelected = d.isSelected;
-	var nodesHtmlSelected = this.dom.divMapHtml.selectAll("div.node_html")
-		.data([d], function(d){return d.id});
-	//this.update(this.rootNode);
-
-	if(nodesHtmlSelected.size() != 1) return;
+	var nodesHtmlSelected = this.getDomFromDatum(d);
+	if(!nodesHtmlSelected) return;
 
 	// unselect all nodes
 	var nodesHtml = this.dom.divMapHtml.selectAll("div.node_html");
@@ -163,6 +172,7 @@ treeHtml.prototype.clickLinkLabel = function(d) {
 };
 
 treeHtml.prototype.init = function(){
+	var that = this;
 
 	this.dom.divMap = this.dom.parentDom.append("div")
 		.attr("class", "div_map");
@@ -191,6 +201,16 @@ treeHtml.prototype.init = function(){
 
 	this.initializeKeyboard();
 	this.initializeManipulation();
+	// listen on change of input radio buttons (tree, manual, ... viewspecs)
+	d3.selectAll("input").on("change", function(){
+		that.viewspecChanged(this);
+	});
+};
+
+treeHtml.prototype.viewspecChanged = function(target){
+	if (target.value === "viewspec_tree") this.config.tree.viewspec = "viewspec_tree";
+	else if (target.value === "viewspec_manual") this.config.tree.viewspec = "viewspec_manual";
+	this.update(this.rootNode);
 };
 
 treeHtml.prototype.load = function(filename){
@@ -200,6 +220,43 @@ treeHtml.prototype.load = function(filename){
 		that.processData(error, treeData);
 	});
 };
+
+treeHtml.prototype.createNewNode = function() {
+	var maxId = -1;
+	for(var i in this.nodesById){
+		if(maxId < this.nodesById[i].id){
+			maxId = this.nodesById[i].id;
+		}
+	}
+	var newNode = {
+		"id": maxId+1,
+		"name": "Hello world",
+		"isOpen": false
+	};
+
+	this.nodesById[newNode.id] = newNode;
+
+	return newNode;
+}
+
+treeHtml.prototype.createNewEdge = function(startNodeId, endNodeId) {
+	var maxId = -1;
+	for(var i in this.edgesById){
+		if(maxId < this.edgesById[i].id){
+			maxId = this.edgesById[i].id;
+		}
+	}
+	var newEdge = {
+		"id": maxId+1,
+		"name": "Hello Links",
+		"sourceId": startNodeId,
+		"targetId": endNodeId
+	};
+
+	this.edgesById[newEdge.id] = newEdge;
+
+	return newEdge;
+}
 
 treeHtml.prototype.processData = function(error, treeData) {
 	this.properties = treeData.properties;
@@ -224,11 +281,12 @@ treeHtml.prototype.processData = function(error, treeData) {
 	this.rootNode.y0 = 0;
 
 	this.selectedNode = this.rootNode;
+	this.clickNode(this.rootNode);
 
 	this.update(this.rootNode);
 };
 
-treeHtml.prototype.update = function(source) {
+treeHtml.prototype.update = function(source, callback) {
 	this.generateTree(this.rootNode);
 	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
 	var that = this;
@@ -237,7 +295,10 @@ treeHtml.prototype.update = function(source) {
 		that.updateHtmlTransitions(source, nodeHtmlDatasets); // all transitions are put here to be in the same time-slot as links, labels, etc
 		that.updateSvgNodes(source);
 		that.updateLinks(source);
-		that.updateLinkLabels(source);		
+		that.updateLinkLabels(source);
+		if(callback){
+			callback();
+		}
 	}, 25);
 }
 
@@ -256,24 +317,27 @@ treeHtml.prototype.generateTree = function(source){
 	this.links = this.tree.links(this.nodes);
 
 	// Normalize for fixed-depth.
+	var viewspec = this.config.tree.viewspec;
 	this.nodes.forEach(function(d) {
 		d.y = d.depth * 300;
 		if(d.parent && d.parent == "null"){
 			d.parent = null;
 		}
 
-		// update x and y to manual coordinates if present
-		if("manualX" in d){
-			d.x = d.manualX;
-		}
-		if("manualY" in d){
-			d.y = d.manualY;
-		}
+		if(viewspec == "viewspec_manual"){
+			// update x and y to manual coordinates if present
+			if("manualX" in d){
+				d.x = d.manualX;
+			}
+			if("manualY" in d){
+				d.y = d.manualY;
+			}
 
-		// make it sure that x0 and y0 exist for newly entered nodes
-		if(!("x0" in d) || !("y0" in d)){
-			d.x0 = d.x;
-			d.y0 = d.y;
+			// make it sure that x0 and y0 exist for newly entered nodes
+			if(!("x0" in d) || !("y0" in d)){
+				d.x0 = d.x;
+				d.y0 = d.y;
+			}
 		}
 	});
 }
@@ -896,20 +960,118 @@ treeHtml.prototype.initializeManipulation = function() {
 	    }
 	  });
 }
+treeHtml.prototype.createCaretPlacer = function(el, atStart){
+	// http://www.w3schools.com/jsref/met_html_focus.asp
+	// http://stackoverflow.com/questions/2388164/set-focus-on-div-contenteditable-element
+	// http://stackoverflow.com/questions/12203086/how-to-set-focus-back-to-contenteditable-div
+	// http://stackoverflow.com/questions/2871081/jquery-setting-cursor-position-in-contenteditable-div
+	// http://stackoverflow.com/questions/7699825/how-do-i-set-focus-on-a-div-with-contenteditable
+	// https://gist.github.com/shimondoodkin/1081133
+	el.focus();
+
+	// http://stackoverflow.com/questions/4233265/contenteditable-set-caret-at-the-end-of-the-text-cross-browser
+	// http://stackoverflow.com/questions/1181700/set-cursor-position-on-contenteditable-div
+	// http://stackoverflow.com/questions/2871081/jquery-setting-cursor-position-in-contenteditable-div
+	// http://stackoverflow.com/questions/6249095/how-to-set-caretcursor-position-in-contenteditable-element-div
+	if(typeof window.getSelection != "undefined"
+	&& typeof document.createRange != "undefined"){
+		// https://developer.mozilla.org/en-US/docs/Web/API/range
+		// https://developer.mozilla.org/en-US/docs/Web/API/Document/createRange
+		var range = document.createRange();
+		// https://developer.mozilla.org/en-US/docs/Web/API/range/selectNodeContents
+		// https://developer.mozilla.org/en-US/docs/Web/API/Node
+		range.selectNodeContents(el);
+		// https://developer.mozilla.org/en-US/docs/Web/API/range/collapse
+		range.collapse(atStart);
+		// https://developer.mozilla.org/en-US/docs/Web/API/Selection
+		// https://developer.mozilla.org/en-US/docs/Web/API/window/getSelection
+		var sel = window.getSelection();
+		// https://developer.mozilla.org/en-US/docs/Web/API/Selection/removeAllRanges
+		// https://developer.mozilla.org/en-US/docs/Web/API/Selection/removeRange
+		// https://msdn.microsoft.com/en-us/library/ie/ff975178(v=vs.85).aspx
+		sel.removeAllRanges();
+		// https://developer.mozilla.org/en-US/docs/Web/API/Selection/addRange
+		sel.addRange(range);
+	}else if(typeof document.body.createTextRange != "undefined"){
+		// https://msdn.microsoft.com/en-us/library/ie/ms536401%28v=vs.85%29.aspx
+		// https://msdn.microsoft.com/en-us/library/ie/ms535872(v=vs.85).aspx
+		var textRange = document.body.createTextRange();
+		// https://msdn.microsoft.com/en-us/library/ie/ms536630(v=vs.85).aspx
+		textRange.moveToElementText(el);
+		// http://help.dottoro.com/ljuobwme.php
+		// http://www.ssicom.org/js/x415055.htm
+		if(typeof textRange.collapse != "undefined"){
+			textRange.collapse(atStart);
+		}
+		if(typeof textRange.collapse != "undefined"){
+			// https://msdn.microsoft.com/en-us/library/ie/ms536616(v=vs.85).aspx
+			textRange.move("textedit", (atStart ? -1 : 1));
+		}
+		// https://msdn.microsoft.com/en-us/library/ie/ms536735(v=vs.85).aspx
+		textRange.select();
+	}
+}
+
+treeHtml.prototype.setEditing = function(node){
+	if(!node) return;
+	var that = this;
+
+	console.log("editing starting");
+	this.editingNodeHtml = this.getDomFromDatum(this.selectedNode);
+	var nodeSpan = this.editingNodeHtml.select("span");
+
+	// http://www.w3.org/TR/html5/editing.html#editing-0
+	// http://www.w3.org/TR/html5/editing.html#contenteditable
+	// http://www.w3.org/TR/html5/editing.html#making-entire-documents-editable:-the-designmode-idl-attribute
+	nodeSpan.attr("contenteditable", true);
+
+	this.createCaretPlacer(nodeSpan.node(), false);
+
+	// http://www.w3schools.com/js/js_htmldom_eventlistener.asp
+	nodeSpan.node().addEventListener("blur", function onblur(){
+		console.log("editing bluring");
+		// http://www.w3schools.com/jsref/met_element_removeeventlistener.asp
+		if(nodeSpan.node().removeEventListener){// For all major browsers, except IE 8 and earlier
+			nodeSpan.node().removeEventListener("blur", onblur);
+		}else if(nodeSpan.node().detachEvent){ // For IE 8 and earlier versions
+			nodeSpan.node().detachEvent("blur", onblur);
+		}
+		that.exitEditingNode();
+	});
+}
+
+treeHtml.prototype.exitEditingNode = function(){
+	console.log("exitEditingNode");
+	if(this.editingNodeHtml){
+		var nodeSpan = this.editingNodeHtml.select("span");
+		nodeSpan.attr("contenteditable", false);
+		nodeSpan.node().blur();
+		this.editingNodeHtml = null;
+	}
+};
 
 // http://robertwhurst.github.io/KeyboardJS/
 treeHtml.prototype.initializeKeyboard = function() {
+	var that = this;
+	this.editingNodeHtml = null;
+
 	KeyboardJS.on("right", function(){
+		if(this.editingNodeHtml) return;
+
 		if(this.selectedNode.children){
 			this.clickNode(this.selectedNode.children[0]);
 		}
 	}.bind(this), function(){}.bind(this));
 	KeyboardJS.on("left", function(){
+		if(this.editingNodeHtml) return;
+
 		if(this.selectedNode.parent){
 			this.clickNode(this.selectedNode.parent);
 		}
 	}.bind(this), function(){}.bind(this));
 	KeyboardJS.on("down", function(){
+		if(this.editingNodeHtml) return;
+
 		if(this.selectedNode.parent && this.selectedNode.parent.children){
 			for(var i=0; i<this.selectedNode.parent.children.length; i++){
 				if(this.selectedNode.parent.children[i] == this.selectedNode){
@@ -921,6 +1083,8 @@ treeHtml.prototype.initializeKeyboard = function() {
 		}
 	}.bind(this), function(){}.bind(this));
 	KeyboardJS.on("up", function(){
+		if(this.editingNodeHtml) return;
+
 		if(this.selectedNode.parent && this.selectedNode.parent.children){
 			for(var i=0; i<this.selectedNode.parent.children.length; i++){
 				if(this.selectedNode.parent.children[i] == this.selectedNode){
@@ -932,13 +1096,49 @@ treeHtml.prototype.initializeKeyboard = function() {
 		}
 	}.bind(this), function(){}.bind(this));
 	KeyboardJS.on("enter", function(){
+		if(this.editingNodeHtml) return;
+
 		this.selectedNode.isOpen = !this.selectedNode.isOpen;
 		this.update(this.selectedNode);
 	}.bind(this), function(){}.bind(this));
-	// PUSH DOWN
-	KeyboardJS.on("space", function(){
+
+	// EDIT
+	KeyboardJS.on("space",
+	function(){
+		if(this.editingNodeHtml){
+			return;
+		}
+		return false;
+	},
+	function(){
+		if(this.editingNodeHtml) return;
+		this.setEditing(this.selectedNode);
 	}.bind(this), function(){}.bind(this));
-	
+
+	// STOP-EDITING
+	KeyboardJS.on("escape", function(){
+		console.log("editing escaping");
+		if(this.editingNodeHtml){
+			this.exitEditingNode();
+		}
+	}.bind(this), function(){}.bind(this));	
+
+	// Add new node
+	KeyboardJS.on("tab", function(){
+		if(this.editingNodeHtml) return; // in typing mode
+		if(!this.selectedNode) return; // no parent node selected
+
+		var newNode = this.createNewNode();
+		var newEdge = this.createNewEdge(this.selectedNode.id, newNode.id);
+		if(!this.selectedNode.isOpen){
+			this.selectedNode.isOpen = true;
+		}
+
+		this.update(this.selectedNode, function(){
+			that.selectedNode = newNode;
+			that.setEditing(that.selectedNode);			
+		});
+	}.bind(this), function(){}.bind(this));	
 };
 
 }()); // end of 'use strict';
