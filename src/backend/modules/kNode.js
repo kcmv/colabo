@@ -48,7 +48,7 @@ var KNodeModel = mongoose.model('KNode', KNodeSchema);
 // module.exports = KNodeModel; //then we can use it by: var User = require('./app/models/KNodeModel');
 
 /* connecting */
-mongoose.connect('mongodb://localhost/KnAllEdge');
+mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
@@ -69,7 +69,7 @@ userSchema.pre('save', function(next) {
 */
 
 
-
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/knodes/one/551bdcda1763e3f0eb749bd4
 exports.index = function(req, res){
 	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
@@ -98,6 +98,7 @@ exports.index = function(req, res){
 	
 }
 
+// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello World", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8080/knodes
 exports.create = function(req, res){
 	console.log("[modules/kNode.js:create] req.body: %s", JSON.stringify(req.body));
 	
@@ -113,6 +114,9 @@ exports.create = function(req, res){
 	});				
 }
 
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/knodes/one/551bdc841763e3f0eb749bd1
+// curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World 2", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8080/knodes/one/551bdc841763e3f0eb749bd1
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/knodes/one/551bdc841763e3f0eb749bd1
 exports.update = function(req, res){
 	console.log("[modules/KNode.js:update] req.body: %s", JSON.stringify(req.body));
 
@@ -131,6 +135,7 @@ exports.update = function(req, res){
 	});			
 }
 
+// curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8080/knodes/one/551bdcda1763e3f0eb749bd4
 exports.destroy = function(req, res){
 	var type = req.params.type;
 	var dataId = req.params.searchParam;
