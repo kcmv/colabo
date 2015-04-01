@@ -79,7 +79,13 @@ exports.index = function(req, res){
   		datas_json.push({id: 4, name: "Venera"});
 		resSendJsonProtected(res, {data: datas_json, accessId : accessId});
 	}
-
+	//TODO: remove (testing)
+	KNodeModel.find(function (err, knodes) {
+		console.log(knodes);
+		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
+	});
+	
+	
 	KNodeModel.findById(req.params.searchParam, function (err, knode) {
 		if (err){
 			throw err;
@@ -89,13 +95,15 @@ exports.index = function(req, res){
 			resSendJsonProtected(res, {data: knode, accessId : accessId, success: true});
 		};
 	});
+	
 }
 
 exports.create = function(req, res){
-	console.log("[modules/KNode.js:create] req.body: %s", JSON.stringify(req.body));
+	console.log("[modules/kNode.js:create] req.body: %s", JSON.stringify(req.body));
 	
 	var data = req.body;
 	
+	console.log(data);
 	var knode = new KNodeModel(data);
 
 	knode.save(function(err) {
@@ -110,9 +118,12 @@ exports.update = function(req, res){
 
 	var data = req.body;
 	
-	var knode = new KNodeModel(knodeJSON);
+	var knode = new KNodeModel(req.body);
+	var id = knode._id;
+	console.log("[modules/KNode.js:update] id : %s", id );
+	delete knode._id;
 	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
-	KNodeModel.findByIdAndUpdate(knode._id , knode, { multi: true }, function (err, numberAffected, raw) {
+	KNodeModel.findByIdAndUpdate(knode._id , knode.toObject(), { multi: true }, function (err, numberAffected, raw) {
 		  if (err) throw err;
 		  console.log('The number of updated documents was %d', numberAffected);
 		  console.log('The raw response from Mongo was ', raw);
