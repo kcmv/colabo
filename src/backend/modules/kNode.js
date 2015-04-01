@@ -71,6 +71,7 @@ userSchema.pre('save', function(next) {
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/knodes/one/551bdcda1763e3f0eb749bd4
 exports.index = function(req, res){
+	var id = req.params.searchParam;
 	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
   		datas_json.push({id: 1, name: "Sun"});
@@ -86,7 +87,7 @@ exports.index = function(req, res){
 	});
 	
 	
-	KNodeModel.findById(req.params.searchParam, function (err, knode) {
+	KNodeModel.findById(id, function (err, knode) {
 		if (err){
 			throw err;
 			var msg = JSON.stringify(err);
@@ -109,7 +110,7 @@ exports.create = function(req, res){
 
 	knode.save(function(err) {
 		if (err) throw err;
-		console.log("[modules/KNode.js:create] data (id:%d) created: %s", knode._id, JSON.stringify(knode));
+		console.log("[modules/KNode.js:create] id:%d, knode data: %s", knode._id, JSON.stringify(knode));
 		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 	});				
 }
@@ -118,16 +119,22 @@ exports.create = function(req, res){
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World 2", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8080/knodes/one/551bdc841763e3f0eb749bd1
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/knodes/one/551bdc841763e3f0eb749bd1
 exports.update = function(req, res){
-	console.log("[modules/KNode.js:update] req.body: %s", JSON.stringify(req.body));
+	//console.log("[modules/KNode.js:update] req.body: %s", JSON.stringify(req.body));
 
 	var data = req.body;
+	var id = req.params.searchParam;
 	
-	var knode = new KNodeModel(req.body);
-	var id = knode._id;
+	/* this is wrong because it creates default-values populated object (including id) first and then populate it with paremeter object:
+	 * var knode = new KNodeModel(req.body);
+	 */
+	
 	console.log("[modules/KNode.js:update] id : %s", id );
-	delete knode._id;
+	console.log("[modules/KNode.js:update] data, : %s", JSON.stringify(data));
+	// console.log("[modules/KNode.js:update] knode.toObject(), : %s", JSON.stringify(knode.toObject());
+	delete data._id;
 	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
-	KNodeModel.findByIdAndUpdate(knode._id , knode.toObject(), { multi: true }, function (err, numberAffected, raw) {
+	//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
+	KNodeModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
 		  if (err) throw err;
 		  console.log('The number of updated documents was %d', numberAffected);
 		  console.log('The raw response from Mongo was ', raw);
