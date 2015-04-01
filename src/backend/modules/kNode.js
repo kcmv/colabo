@@ -100,7 +100,7 @@ exports.create = function(req, res){
 
 	knode.save(function(err) {
 		if (err) throw err;
-		console.log("[modules/KNode.js:create] data (id:%d) created: %s", dataCreated.id, JSON.stringify(dataCreated));
+		console.log("[modules/KNode.js:create] data (id:%d) created: %s", data.id, JSON.stringify(data));
 		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 	});				
 }
