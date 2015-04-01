@@ -45,7 +45,7 @@ var KNodeSchema = mongoose.Schema({
 
 var KNodeModel = mongoose.model('KNode', KNodeSchema);
 
-module.exports = KNodeModel; //then we can use it by: var User = require('./app/models/KNodeModel');
+// module.exports = KNodeModel; //then we can use it by: var User = require('./app/models/KNodeModel');
 
 /* connecting */
 mongoose.connect('mongodb://localhost/KnAllEdge');
