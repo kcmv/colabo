@@ -34,8 +34,8 @@ var KNodeSchema = mongoose.Schema({
 	version: { type: Number, default: 1 }, //{type: DataTypes.INTEGER, allowNull: false, primaryKey: true},
 	isPublic: { type: Boolean, default: true },
 	createdAt: { type: Date, default: Date.now }, //CHECK AUTOMATIC OPTIONS
-	updatedAt: { type: Date, default: Date.now }
-	dataContentSerialized: String,
+	updatedAt: { type: Date, default: Date.now },
+	dataContentSerialized: {type: String},
 	visual: {
 		isOpen: { type: Boolean, default: false },
 		manualX: Number,
@@ -71,7 +71,7 @@ userSchema.pre('save', function(next) {
 
 
 exports.index = function(req, res){
-	if(mockup && mockup.db && mockup.db.data)){
+	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
   		datas_json.push({id: 1, name: "Sun"});
   		datas_json.push({id: 2, name: "Earth"});

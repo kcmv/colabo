@@ -52,7 +52,7 @@ app.configure(function(){
     app.use(app.router);
 });
 
-var forms = app.resource('forms', require('./modules/form'), {id: 'type?/:searchParam?'});
+var knodes = app.resource('knodes', require('./modules/kNode'), {id: 'type?/:searchParam?'});
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Listening on " + app.get('port'));
