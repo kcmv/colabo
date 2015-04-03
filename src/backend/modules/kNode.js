@@ -5,7 +5,6 @@
  */
 var mongoose = require('mongoose');
 
-
 var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
 var LIMIT_NO = 25;
@@ -25,23 +24,6 @@ function resSendJsonProtected(res, data){
 	}
 };
 
-/* SCHEMA */
-var KNodeSchema = mongoose.Schema({
-	name: String,
-	iAmId: Number,
-	activeVersion: { type: Number, default: 1 },
-	ideaId: Number,
-	version: { type: Number, default: 1 }, //{type: DataTypes.INTEGER, allowNull: false, primaryKey: true},
-	isPublic: { type: Boolean, default: true },
-	createdAt: { type: Date, default: Date.now }, //CHECK AUTOMATIC OPTIONS
-	updatedAt: { type: Date, default: Date.now },
-	dataContentSerialized: {type: String},
-	visual: {
-		isOpen: { type: Boolean, default: false },
-		manualX: Number,
-		manualY: Number
-	}
-});
 
 var KNodeModel = mongoose.model('KNode', KNodeSchema);
 
@@ -144,6 +126,7 @@ exports.update = function(req, res){
 
 // curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8080/knodes/one/551bdcda1763e3f0eb749bd4
 exports.destroy = function(req, res){
+	//TODO: should we destroy edges connected to this node? or is it done automatically? or error is risen?
 	var type = req.params.type;
 	var dataId = req.params.searchParam;
 	console.log("[modules/KNode.js:destroy] dataId:%s, type:%s, req.body: %s", dataId, type, JSON.stringify(req.body));

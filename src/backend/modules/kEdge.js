@@ -25,24 +25,6 @@ function resSendJsonProtected(res, data){
 	}
 };
 
-/* SCHEMA */
-var kEdgeSchema = mongoose.Schema({
-	name: String,
-	iAmId: Number,
-	activeVersion: { type: Number, default: 1 },
-	ideaId: Number,
-	version: { type: Number, default: 1 }, //{type: DataTypes.INTEGER, allowNull: false, primaryKey: true},
-	isPublic: { type: Boolean, default: true },
-	createdAt: { type: Date, default: Date.now }, //CHECK AUTOMATIC OPTIONS
-	updatedAt: { type: Date, default: Date.now },
-	dataContentSerialized: {type: String},
-	visual: {
-		isOpen: { type: Boolean, default: false },
-		manualX: Number,
-		manualY: Number
-	}
-});
-
 var kEdgeModel = mongoose.model('kEdge', kEdgeSchema);
 
 // module.exports = kEdgeModel; //then we can use it by: var User = require('./app/models/kEdgeModel');
@@ -73,13 +55,29 @@ userSchema.pre('save', function(next) {
 exports.index = function(req, res){
 	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
+		//TODO: change data here:
   		datas_json.push({id: 1, name: "Sun"});
   		datas_json.push({id: 2, name: "Earth"});
   		datas_json.push({id: 3, name: "Pluto"});
   		datas_json.push({id: 4, name: "Venera"});
 		resSendJsonProtected(res, {data: datas_json, accessId : accessId});
 	}
+	
+	//TODO: add selector for 2 options:
+	
+	//by connected nodes:
+	kEdgeModel.find( { $and:[ {'sourceId':sourceId}, {'targetId':targetId}]}, function(err,kEdges){
+		if (err){
+			throw err;
+			var msg = JSON.stringify(err);
+			resSendJsonProtected(res, {data: kEdges, accessId : accessId, message: msg, success: false});
+		}else{
+			resSendJsonProtected(res, {data: kEdges, accessId : accessId, success: true});
+		};
 
+	});
+
+	//by id:
 	kEdgeModel.findById(req.params.searchParam, function (err, kEdge) {
 		if (err){
 			throw err;
