@@ -5,7 +5,6 @@
  */
 var mongoose = require('mongoose');
 
-
 var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
 var LIMIT_NO = 25;
@@ -63,30 +62,24 @@ exports.index = function(req, res){
 		resSendJsonProtected(res, {data: datas_json, accessId : accessId});
 	}
 	
-	//TODO: add selector for 2 options:
-	
-	//by connected nodes:
-	kEdgeModel.find( { $and:[ {'sourceId':sourceId}, {'targetId':targetId}]}, function(err,kEdges){
-		if (err){
-			throw err;
-			var msg = JSON.stringify(err);
-			resSendJsonProtected(res, {data: kEdges, accessId : accessId, message: msg, success: false});
-		}else{
-			resSendJsonProtected(res, {data: kEdges, accessId : accessId, success: true});
-		};
+	switch (req.params.by){ //TODO: is parameter name correct?
+	case 'id': //by edge id:
+		kEdgeModel.findById(req.params.searchParam, found);
+	case 'between':  //all edges between specific nodes:
+		kEdgeModel.find( { $and:[ {'sourceId':sourceId}, {'targetId':targetId}]}, found);
+	case 'connected': //all edges connected to knode.id
+		kEdgeModel.find( { $or:[ {'sourceId':id}, {'targetId':id}]},found);
+	}
+}
 
-	});
-
-	//by id:
-	kEdgeModel.findById(req.params.searchParam, function (err, kEdge) {
-		if (err){
-			throw err;
-			var msg = JSON.stringify(err);
-			resSendJsonProtected(res, {data: kEdge, accessId : accessId, message: msg, success: false});
-		}else{
-			resSendJsonProtected(res, {data: kEdge, accessId : accessId, success: true});
-		};
-	});
+function found(err,kEdges){
+	if (err){
+		throw err;
+		var msg = JSON.stringify(err);
+		resSendJsonProtected(res, {data: kEdges, accessId : accessId, message: msg, success: false});
+	}else{
+		resSendJsonProtected(res, {data: kEdges, accessId : accessId, success: true});
+	}
 }
 
 exports.create = function(req, res){
