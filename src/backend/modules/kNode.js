@@ -25,7 +25,7 @@ function resSendJsonProtected(res, data){
 };
 
 
-var KNodeModel = mongoose.model('KNode', KNodeSchema);
+var KNodeModel = mongoose.model('KNode', global.db.kNode.Schema);
 
 // module.exports = KNodeModel; //then we can use it by: var User = require('./app/models/KNodeModel');
 
@@ -34,20 +34,20 @@ mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-//TODO - test this:
-userSchema.pre('save', function(next) {
-	 // var currentDate = new Date(); // get the current date
+// //TODO - test this:
+// KNodeModel.pre('save', function(next) {
+// 	 // var currentDate = new Date(); // get the current date
 	  
-	  // change the updated_at field to current date
-	  this.updatedAt = new Date(); //currentDate;
+// 	  // change the updated_at field to current date
+// 	  this.updatedAt = new Date(); //currentDate;
 	  
-	  /* TODO: according to our 'deafult settings, this is no needed:
-	  // if created_at doesn't exist, add to that field
-	  if (!this.created_at)
-	    this.created_at = currentDate;
-	   */
-	  next();
-	});
+// 	  /* TODO: according to our 'deafult settings, this is no needed:
+// 	  // if created_at doesn't exist, add to that field
+// 	  if (!this.created_at)
+// 	    this.created_at = currentDate;
+// 	   */
+// 	  next();
+// 	});
 
 
 

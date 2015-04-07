@@ -1,10 +1,12 @@
+var mongoose = require('mongoose');
+
 /* SCHEMA */
 var kEdgeSchema = mongoose.Schema({
 	name: String,
 	iAmId: Number,
 	type: String, //TODO: Check 'type' type
-	sourceId: {type: Schema.Types.ObjectId, ref: 'kNode'},
-	targetId: {type: Schema.Types.ObjectId, ref: 'kNode'},
+	sourceId: {type: mongoose.Schema.Types.ObjectId, ref: 'kNode'},
+	targetId: {type: mongoose.Schema.Types.ObjectId, ref: 'kNode'},
 	ideaId: Number,
 	isPublic: { type: Boolean, default: true },
 	createdAt: { type: Date, default: Date.now }, 
@@ -13,3 +15,5 @@ var kEdgeSchema = mongoose.Schema({
 	visual: {
 	}
 });
+
+exports.Schema = kEdgeSchema;

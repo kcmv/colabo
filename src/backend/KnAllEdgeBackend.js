@@ -7,7 +7,8 @@ var config = require('./config/global')
   , fs      = require('fs')
   , http    = require('http')
   , https   = require('https')
-  , flash 	 = require('connect-flash');
+  , flash 	 = require('connect-flash')
+  , db      = require('./models');
  
 console.log("[KnAllEdgeBackend.js:index] config.paths: %s", JSON.stringify(config.paths));
 console.log("[KnAllEdgeBackend.js:index] config.mockups: %s", JSON.stringify(config.mockups));

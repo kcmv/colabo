@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+
 /* SCHEMA */
 var KNodeSchema = mongoose.Schema({
 	name: String,
@@ -15,3 +17,5 @@ var KNodeSchema = mongoose.Schema({
 		manualY: Number
 	}
 });
+
+exports.Schema = KNodeSchema;
