@@ -34,21 +34,21 @@ mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-/*
+//TODO - test this:
 userSchema.pre('save', function(next) {
-	  // get the current date
-	  var currentDate = new Date();
+	 // var currentDate = new Date(); // get the current date
 	  
 	  // change the updated_at field to current date
-	  this.updated_at = currentDate;
-
+	  this.updatedAt = new Date(); //currentDate;
+	  
+	  /* TODO: according to our 'deafult settings, this is no needed:
 	  // if created_at doesn't exist, add to that field
 	  if (!this.created_at)
 	    this.created_at = currentDate;
-
+	   */
 	  next();
 	});
-*/
+
 
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/knodes/one/551bdcda1763e3f0eb749bd4
