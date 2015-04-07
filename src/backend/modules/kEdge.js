@@ -90,7 +90,7 @@ function found(err,kEdges){
 }
 
 // curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Edge", "iAmId":5, "type":"contains", "sourceId":ObjectId("551b4366fd64e5552ed19364"), "targetId": ObjectId("551bb2c68f6e4cfc35654f37"), "ideaId":0}' http://127.0.0.1:8080/kedges
-// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Edge", "iAmId":5, "ideaId":0}' http://127.0.0.1:8080/kedges
+// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Edge 3", "iAmId":6, "type":"contains", "ideaId":0}' http://127.0.0.1:8080/kedges
 exports.create = function(req, res){
 	console.log("[modules/kEdge.js:create] req.body: %s", JSON.stringify(req.body));
 	
