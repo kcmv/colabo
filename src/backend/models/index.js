@@ -9,5 +9,5 @@ if (!global.hasOwnProperty('db')) {
         kEdge: mkEdge,
 		LIMIT_NO: 100,
 	};
+	module.exports = global.db;
 }
-module.exports = global.db;

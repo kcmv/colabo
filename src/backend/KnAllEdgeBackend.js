@@ -54,7 +54,7 @@ app.configure(function(){
 });
 
 var knodes = app.resource('knodes', require('./modules/kNode'), {id: 'type?/:searchParam?'});
-
+var kedges = app.resource('kedges', require('./modules/kEdge'), {id: 'type?/:searchParam?'});
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Listening on " + app.get('port'));
 });

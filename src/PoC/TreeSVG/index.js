@@ -1,5 +1,9 @@
 // http://bl.ocks.org/d3noob/8329447
 // https://gist.github.com/d3noob/8329447
+
+// cd TreeSVG
+// ../../frontend/scripts/web-server.js 8080 ../../Poc/TreeSVG
+
 // ************** Generate the tree diagram	 *****************
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
 	width = 960 - margin.right - margin.left,
@@ -29,6 +33,7 @@ var svg = d3.select("body").append("svg")
 // load the external data
 d3.json("treeData.json", function(error, treeData) {
 	root = treeData;
+	console.log(root);
 	update(root);
 });
 

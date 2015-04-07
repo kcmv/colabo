@@ -7,7 +7,6 @@ var mongoose = require('mongoose');
 
 var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
-var LIMIT_NO = 25;
 
 function resSendJsonProtected(res, data){
 	// http://tobyho.com/2011/01/28/checking-types-in-javascript/	
@@ -24,7 +23,7 @@ function resSendJsonProtected(res, data){
 	}
 };
 
-var kEdgeModel = mongoose.model('kEdge', kEdgeSchema);
+var kEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
 
 // module.exports = kEdgeModel; //then we can use it by: var User = require('./app/models/kEdgeModel');
 
@@ -50,8 +49,9 @@ userSchema.pre('save', function(next) {
 */
 
 
-
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/kedges/one/5524344b498be1070ccca4f6
 exports.index = function(req, res){
+	console.log("[modules/kEdge.js:index] req.body: %s", req.params.searchParam);
 	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
 		//TODO: change data here:
@@ -61,6 +61,12 @@ exports.index = function(req, res){
   		datas_json.push({id: 4, name: "Venera"});
 		resSendJsonProtected(res, {data: datas_json, accessId : accessId});
 	}
+	
+	//TODO: remove (testing)
+	kEdgeModel.find(function (err, kEdges) {
+		console.log(kEdges);
+		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
+	});
 	
 	switch (req.params.by){ //TODO: is parameter name correct?
 	case 'id': //by edge id:
@@ -73,6 +79,7 @@ exports.index = function(req, res){
 }
 
 function found(err,kEdges){
+	console.log("[modules/kEdge.js:index] in 'found'");
 	if (err){
 		throw err;
 		var msg = JSON.stringify(err);
@@ -82,6 +89,8 @@ function found(err,kEdges){
 	}
 }
 
+// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Edge", "iAmId":5, "type":"contains", "sourceId":ObjectId("551b4366fd64e5552ed19364"), "targetId": ObjectId("551bb2c68f6e4cfc35654f37"), "ideaId":0}' http://127.0.0.1:8080/kedges
+// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Edge", "iAmId":5, "ideaId":0}' http://127.0.0.1:8080/kedges
 exports.create = function(req, res){
 	console.log("[modules/kEdge.js:create] req.body: %s", JSON.stringify(req.body));
 	

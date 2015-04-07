@@ -7,7 +7,6 @@ var mongoose = require('mongoose');
 
 var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
-var LIMIT_NO = 25;
 
 function resSendJsonProtected(res, data){
 	// http://tobyho.com/2011/01/28/checking-types-in-javascript/	
