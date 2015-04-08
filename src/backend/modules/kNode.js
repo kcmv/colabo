@@ -33,20 +33,21 @@ mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-// //TODO - test this:
-// KNodeModel.pre('save', function(next) {
-// 	 // var currentDate = new Date(); // get the current date
+// TODO - this is NOT called for update!!!??!! Just for SAVE:
+global.db.kNode.Schema.pre('save', function(next) {
+	console.log("[modules/kNode.js:pre/save]");
+// var currentDate = new Date(); // get the current date
 	  
-// 	  // change the updated_at field to current date
-// 	  this.updatedAt = new Date(); //currentDate;
+// change the updated_at field to current date
+this.updatedAt = new Date(); //currentDate;
 	  
-// 	  /* TODO: according to our 'deafult settings, this is no needed:
-// 	  // if created_at doesn't exist, add to that field
-// 	  if (!this.created_at)
-// 	    this.created_at = currentDate;
-// 	   */
-// 	  next();
-// 	});
+/* TODO: according to our 'deafult settings, this is no needed:
+// if created_at doesn't exist, add to that field
+if (!this.created_at)
+this.created_at = currentDate;
+*/
+next();
+});
 
 
 
@@ -80,7 +81,7 @@ exports.index = function(req, res){
 	
 }
 
-// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello World", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8080/knodes
+// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello World", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/knodes
 exports.create = function(req, res){
 	console.log("[modules/kNode.js:create] req.body: %s", JSON.stringify(req.body));
 	
@@ -96,9 +97,7 @@ exports.create = function(req, res){
 	});				
 }
 
-// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/knodes/one/551bdc841763e3f0eb749bd1
-// curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World 2", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8080/knodes/one/551bdc841763e3f0eb749bd1
-// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/knodes/one/551bdc841763e3f0eb749bd1
+// curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World 2", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/knodes/one/551bdc841763e3f0eb749bd1
 exports.update = function(req, res){
 	//console.log("[modules/KNode.js:update] req.body: %s", JSON.stringify(req.body));
 

@@ -32,8 +32,9 @@ mongoose.connect('mongodb://localhost/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-/*
-userSchema.pre('save', function(next) {
+//TODO - this is NOT called for update!!!??!! Just for SAVE:
+global.db.kEdge.Schema.pre('save', function(next) {
+	console.log("[modules/kEdge.js:pre/save]");
 	  // get the current date
 	  var currentDate = new Date();
 	  
@@ -46,11 +47,25 @@ userSchema.pre('save', function(next) {
 
 	  next();
 	});
-*/
 
 
-// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/kedges/one/5524344b498be1070ccca4f6
+
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
+//curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/between/551b4366fd64e5552ed19364/551bb2c68f6e4cfc35654f37
 exports.index = function(req, res){
+	var found = function(err,kEdges){
+		console.log("[modules/kEdge.js:index] in 'found'");
+		if (err){
+			throw err;
+			var msg = JSON.stringify(err);
+			resSendJsonProtected(res, {data: kEdges, accessId : accessId, message: msg, success: false});
+		}else{
+			resSendJsonProtected(res, {data: kEdges, accessId : accessId, success: true});
+		}
+	}
+	
 	console.log("[modules/kEdge.js:index] req.body: %s", req.params.searchParam);
 	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
@@ -68,39 +83,38 @@ exports.index = function(req, res){
 		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	});
 	
-	switch (req.params.by){ //TODO: is parameter name correct?
-	case 'id': //by edge id:
-		kEdgeModel.findById(req.params.searchParam, found);
-	case 'between':  //all edges between specific nodes:
-		kEdgeModel.find( { $and:[ {'sourceId':sourceId}, {'targetId':targetId}]}, found);
-	case 'connected': //all edges connected to knode.id
-		kEdgeModel.find( { $or:[ {'sourceId':id}, {'targetId':id}]},found);
+	switch (req.params.type){ //TODO: is parameter name correct?
+		case 'one': //by edge id:
+			kEdgeModel.findById(req.params.searchParam, found);
+			break;
+		case 'between':  //all edges between specific nodes:
+			kEdgeModel.find( { $and:[ {'sourceId':req.params.searchParam}, {'targetId':req.params.searchParam2}]}, found);
+			break;
+		case 'connected': //all edges connected to knode.id
+			kEdgeModel.find( { $or:[ {'sourceId':req.params.searchParam}, {'targetId':req.params.searchParam}]},found);
+			break;
 	}
 }
 
-function found(err,kEdges){
-	console.log("[modules/kEdge.js:index] in 'found'");
-	if (err){
-		throw err;
-		var msg = JSON.stringify(err);
-		resSendJsonProtected(res, {data: kEdges, accessId : accessId, message: msg, success: false});
-	}else{
-		resSendJsonProtected(res, {data: kEdges, accessId : accessId, success: true});
-	}
-}
-
-// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Edge", "iAmId":5, "type":"contains", "sourceId":ObjectId("551b4366fd64e5552ed19364"), "targetId": ObjectId("551bb2c68f6e4cfc35654f37"), "ideaId":0}' http://127.0.0.1:8080/kedges
-// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Edge 3", "iAmId":6, "type":"contains", "ideaId":0}' http://127.0.0.1:8080/kedges
+// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Edge", "iAmId":5, "type":"contains", "sourceId":"551b4366fd64e5552ed19364", "targetId": "551bb2c68f6e4cfc35654f37", "ideaId":0}' http://127.0.0.1:8888/kedges
+// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Edge 3", "iAmId":6, "type":"contains", "ideaId":0}' http://127.0.0.1:8888/kedges
 exports.create = function(req, res){
 	console.log("[modules/kEdge.js:create] req.body: %s", JSON.stringify(req.body));
 	
 	var data = req.body;
 	
 	var kEdge = new kEdgeModel(data);
+	//TODO: Should we force existence of node ids?
+	if(data.sourceId){
+		kEdge.sourceId = mongoose.Types.ObjectId(data.sourceId);
+	}
+	if(data.targetId){
+		kEdge.targetId = mongoose.Types.ObjectId(data.targetId);
+	}
 
 	kEdge.save(function(err) {
 		if (err) throw err;
-		console.log("[modules/kEdge.js:create] data (id:%d) created: %s", data.id, JSON.stringify(data));
+		console.log("[modules/kEdge.js:create] data (id:%d) created: %s", kEdge.id, JSON.stringify(kEdge));
 		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 	});				
 }

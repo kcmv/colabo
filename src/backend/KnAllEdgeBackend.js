@@ -43,7 +43,7 @@ app.configure(function(){
     app.use(express.bodyParser());
     app.use(express.logger());
 	app.use(express.cookieParser()); // cookie parser is used before the session
-	app.set('port', process.env.PORT || 8080);
+	app.set('port', process.env.PORT || 8888);
 
 	// this is enough
 	//app.use(supportCrossOriginScript);
@@ -54,7 +54,7 @@ app.configure(function(){
 });
 
 var knodes = app.resource('knodes', require('./modules/kNode'), {id: 'type?/:searchParam?'});
-var kedges = app.resource('kedges', require('./modules/kEdge'), {id: 'type?/:searchParam?'});
+var kedges = app.resource('kedges', require('./modules/kEdge'), {id: 'type?/:searchParam?/:searchParam2?'});
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Listening on " + app.get('port'));
 });
