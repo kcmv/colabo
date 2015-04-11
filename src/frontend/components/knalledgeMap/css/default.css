@@ -1,1 +1,468 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
 /* @import "normalize"; */
+@media (min-width: 680px) {
+  /* line 24, ../sass/default.scss */
+  .knalledge_map_tools {
+    height: 100%;
+    min-height: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 16.66667%;
+    float: left;
+    padding-left: 0.83333%;
+    padding-right: 0.83333%; }
+
+  /* line 30, ../sass/default.scss */
+  .knalledge_map {
+    height: 100%;
+    min-height: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 83.33333%;
+    float: right;
+    padding-left: 0.83333%;
+    padding-right: 0.83333%; }
+
+  /* line 36, ../sass/default.scss */
+  .knalledge_map_list {
+    height: 100%;
+    min-height: 100%;
+    /*@include span(3 at 1); */ } }
+@media (min-width: 800px) {
+  /* line 44, ../sass/default.scss */
+  .knalledge_map_tools {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 8.33333%;
+    float: left;
+    padding-left: 0.83333%;
+    padding-right: 0.83333%; }
+
+  /* line 48, ../sass/default.scss */
+  .knalledge_map {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 75%;
+    float: left;
+    padding-left: 0.83333%;
+    padding-right: 0.83333%; }
+
+  /* line 52, ../sass/default.scss */
+  .knalledge_map_list {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 16.66667%;
+    float: left;
+    padding-left: 0.83333%;
+    padding-right: 0.83333%; } }
+@media (min-width: 1400px) {
+  /* line 58, ../sass/default.scss */
+  .knalledge_map_tools {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 8.33333%;
+    float: left;
+    padding-left: 0.83333%;
+    padding-right: 0.83333%; }
+
+  /* line 62, ../sass/default.scss */
+  .knalledge_map {
+    /* make #content content occupying 2 cells less on large screens */
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 75%;
+    float: left;
+    padding-left: 0.83333%;
+    padding-right: 0.83333%; }
+
+  /* line 67, ../sass/default.scss */
+  .knalledge_map_list {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 16.66667%;
+    float: left;
+    padding-left: 0.83333%;
+    padding-right: 0.83333%; } }
+/* line 72, ../sass/default.scss */
+.knalledge_map_index {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  /*background-color: #dddd00;
+  border: solid 1px #aaaa00;*/
+  overflow-x: hidden;
+  overflow-y: scroll; }
+
+/* ------------------------
+ knalledge_map_tools
+------------------------ */
+/* line 86, ../sass/default.scss */
+.knalledge_map_tools {
+  z-index: 10;
+  position: relative;
+  height: 100%;
+  /* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
+  overflow: visible;
+  /*	overflow-x: visible;
+  	overflow-y: scroll;
+  */ }
+  /* line 95, ../sass/default.scss */
+  .knalledge_map_tools ul {
+    /* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
+    overflow: visible;
+    /*	overflow-x: visible;can-drop
+    	overflow-y: scroll;
+    */
+    position: relative; }
+    /* line 103, ../sass/default.scss */
+    .knalledge_map_tools ul li {
+      position: absolute;
+      list-style-type: none;
+      display: block;
+      border: 1px solid gray;
+      padding: 10px;
+      padding-right: 25px;
+      margin: 3px;
+      -moz-border-radius: 10px / 10px;
+      -webkit-border-radius: 10px 10px;
+      border-radius: 10px / 10px;
+      /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+      /* color h-shadow v-shadow blur spread color inset*/
+      -moz-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+      -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+      box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75); }
+
+/* ------------------------
+ knalledge_map
+------------------------ */
+/* line 126, ../sass/default.scss */
+.knalledge_map {
+  z-index: 8;
+  position: relative;
+  height: 100%;
+  overflow: scroll; }
+
+@media print {
+  /*	#map-canvas {
+  		height: 650px;
+  	}
+  */ }
+/* line 140, ../sass/default.scss */
+.map-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  z-index: 5;
+  position: relative;
+  background-color: #ddddff;
+  border: solid 1px #aaaaff;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  -moz-border-radius: 10px / 10px;
+  -webkit-border-radius: 10px 10px;
+  border-radius: 10px / 10px; }
+
+/* line 153, ../sass/default.scss */
+.map_svg {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  /*background-color: #ffffaa;*/
+  z-index: 1; }
+
+/* line 161, ../sass/default.scss */
+.map_html {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  /*background-color: #ffffaa;*/
+  z-index: 2; }
+
+/* line 169, ../sass/default.scss */
+.map_entity {
+  width: 100px;
+  height: 50px;
+  position: absolute;
+  background-color: #ccf;
+  border: 3px solid gray;
+  padding: 10px;
+  margin: 3px;
+  z-index: 1;
+  -moz-border-radius: 10px / 10px;
+  -webkit-border-radius: 10px 10px;
+  border-radius: 10px / 10px;
+  /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+  /* color h-shadow v-shadow blur spread color inset*/
+  -moz-box-shadow: 2px 1px 3px 1px rgba(150, 150, 255, 0.75);
+  -webkit-box-shadow: 2px 1px 3px 1px rgba(150, 150, 255, 0.75);
+  box-shadow: 2px 1px 3px 1px rgba(150, 150, 255, 0.75);
+  /* entity stylings */ }
+  /* line 183, ../sass/default.scss */
+  .map_entity .status {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    background-color: yellow;
+    border: 2px solid red;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    text-align: center;
+    font-weight: bold;
+    -moz-border-radius: 10px / 10px;
+    -webkit-border-radius: 10px 10px;
+    border-radius: 10px / 10px; }
+  /* line 197, ../sass/default.scss */
+  .map_entity .type {
+    position: absolute;
+    right: -15px;
+    bottom: -15px;
+    background-color: rgba(200, 200, 255, 0.5);
+    border: 2px solid rgba(100, 100, 255, 0.25);
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    color: #555f;
+    font-style: italic;
+    -moz-border-radius: 5px / 5px;
+    -webkit-border-radius: 5px 5px;
+    border-radius: 5px / 5px; }
+  /* line 214, ../sass/default.scss */
+  .map_entity .name {
+    position: relative;
+    padding: 3px;
+    /*background-color: yellow;*/ }
+  /* line 226, ../sass/default.scss */
+  .map_entity.selected {
+    border-color: #ffa;
+    border-width: 3px; }
+  /* line 235, ../sass/default.scss */
+  .map_entity.map_entity_object {
+    background-color: #aaa; }
+  /* line 239, ../sass/default.scss */
+  .map_entity.map_entity_process {
+    background-color: #aaf; }
+
+/* ------------------------
+ knalledge_map_list
+------------------------ */
+/* line 256, ../sass/default.scss */
+.knalledge_map_list {
+  z-index: 9; }
+
+/* ------------------------
+ interaction
+------------------------ */
+/* line 264, ../sass/default.scss */
+.dropzone {
+  background-color: #ccc;
+  border-radius: 4px;
+  margin: 10px auto 30px;
+  padding: 10px;
+  transition: background-color 0.3s; }
+
+/* line 272, ../sass/default.scss */
+.drop-active {
+  border: 3px dotted red; }
+
+/* line 276, ../sass/default.scss */
+.drop-target {
+  background-color: #4bf;
+  border-color: #f88;
+  border-style: solid;
+  border-width: 5px; }
+
+/* line 283, ../sass/default.scss */
+.drag-drop {
+  display: inline-block;
+  min-width: 40px;
+  padding: 2em 0.5em;
+  color: #fff;
+  background-color: #29e;
+  border: solid 2px #fff;
+  -webkit-transform: translate(0px, 0px);
+  transform: translate(0px, 0px);
+  transition: background-color 0.3s; }
+
+/* line 298, ../sass/default.scss */
+.drag-drop.can-drop {
+  border: 3px solid green; }
+
+/* OLD KnAllEdge */
+/* @import "normalize"; */
+/* line 310, ../sass/default.scss */
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0px; }
+
+/* line 317, ../sass/default.scss */
+.div_map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /*background-color: #aaaaaa;*/
+  /*padding: 5px;*/ }
+
+/* line 325, ../sass/default.scss */
+.div_map_svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /*background-color: #ffffaa;*/
+  z-index: 1; }
+  /* line 333, ../sass/default.scss */
+  .div_map_svg svg {
+    width: 100%;
+    height: 100%; }
+
+/* line 339, ../sass/default.scss */
+.svg_content {
+  position: absolute;
+  width: 100%;
+  height: 100%; }
+
+/* line 345, ../sass/default.scss */
+.node {
+  cursor: pointer; }
+
+/* line 349, ../sass/default.scss */
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1px; }
+
+/* line 355, ../sass/default.scss */
+.node text {
+  font: 12px sans-serif; }
+
+/* line 357, ../sass/default.scss */
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px; }
+
+/* line 363, ../sass/default.scss */
+.div_map_html {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /*background-color: #aaaaff;*/
+  opacity: 0.5;
+  z-index: 2;
+  /*display: none;*/ }
+
+/* line 373, ../sass/default.scss */
+.html_content {
+  position: absolute;
+  width: 100%;
+  height: 100%; }
+
+/* line 379, ../sass/default.scss */
+.node_html {
+  position: absolute;
+  /*width: 10em;*/
+  width: 150px;
+  margin-left: -75px;
+  /*height: 3em;
+  line-height: 3em;*/
+  -moz-border-radius: 10px / 10px;
+  -webkit-border-radius: 10px 10px;
+  border-radius: 10px / 10px;
+  /*	background-color: #ffffff;
+  */
+  opacity: 0.7;
+  z-index: 5;
+  padding: 3px;
+  cursor: pointer;
+  /*	margin-left: 3em;
+  	margin-top: 0.3em;
+  */
+  /*margin-top: -1.5em;
+  margin-left: -5em;*/ }
+  /* line 399, ../sass/default.scss */
+  .node_html .node_inner_html {
+    position: relative;
+    padding: 3px;
+    /*background-color: yellow;*/ }
+  /* line 405, ../sass/default.scss */
+  .node_html .node_status {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    background-color: yellow;
+    border: 1px solid red;
+    width: 20px;
+    text-align: center;
+    font-weight: bold;
+    -moz-border-radius: 10px / 10px;
+    -webkit-border-radius: 10px 10px;
+    border-radius: 10px / 10px; }
+
+/* line 419, ../sass/default.scss */
+.node_unselected {
+  border: 1px dashed #0000ff;
+  /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+  /* color h-shadow v-shadow blur spread color inset*/
+  -moz-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+  -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+  box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75); }
+
+/* line 425, ../sass/default.scss */
+.node_selected {
+  border: 2px solid #0000aa;
+  -moz-box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75);
+  -webkit-box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75);
+  box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75); }
+
+/* line 430, ../sass/default.scss */
+.node_html span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  color: #883333;
+  /* just for testing purposs */ }
+  /* line 440, ../sass/default.scss */
+  .node_html span p {
+    color: #880000;
+    font-weight: 100;
+    font-size: 12px;
+    font-style: normal; }
+
+/* line 448, ../sass/default.scss */
+.label_html {
+  position: absolute;
+  /*width: 10em;*/
+  /*width: 150px;
+  margin-left: -75px;*/
+  /*height: 3em;
+  line-height: 3em;*/
+  /*border: 1px dashed #0000ff;*/
+  /*	background-color: #ffffff;
+  */
+  opacity: 0.7;
+  z-index: 4;
+  padding: 3px;
+  cursor: pointer;
+  /*	margin-left: 3em;
+  	margin-top: 0.3em;
+  */
+  /*margin-top: -1.5em;
+  margin-left: -5em;*/ }

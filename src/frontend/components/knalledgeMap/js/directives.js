@@ -1,142 +1,273 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-angular.module('knalledgeMapDirectives', [])
-	.directive('knalledgeMap', ['$timeout', '$document', function($timeout, $document){
-
+angular.module('knalledgeMapDirectives', ['Config'])
+	.directive('knalledgeMap', [/*'$timeout', '$rootScope', 'ConfigMap',*/ function(/*$timeout, $rootScope, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
 		return {
-			restrict: 'E',
+			restrict: 'EA',
 			scope: {
 				'readonly': '='
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap.tpl.html',
-			controller: function ( $scope, $element ) {
-				$scope.config = {
-					showMap: true
-				};
-
-				var mapCanvas = null;
-				var knalledgeMapList = [];
-				var edgeMapList = [];
-				var knalledgeViewList = [];
-				// var edgeViewList = [];
-				var map = null;
-				var knalledgeMapInitialize = function() {
-					var checkMapCanvas = function(){
-						mapCanvas = $document.find('#map-canvas');
-						// TODO: #map-canvas object is created if $scope.config.showMap is set to true which is happening in this current code iteration
-						// so it is still not processed and rendered in DOM, therefore we need to sleep and wait for the next iteration
-						// solution to avoid this could be to put setting $scope.config.showMap in compile/link function, but only if it is not too early to make decission then
-						
-						if(!mapCanvas || mapCanvas.length <= 0){
-							$timeout(checkMapCanvas, 10);
-						}else{
-							var mapCanvasObj = $element.find('#map-canvas').eq(0);
-							//alert(mapCanvasObj.width());
-							mapCanvasObj.height($($document).height() * 0.5);
-							//alert(mapCanvasObj.height());
-
-							map = d3.select("#map-canvas").append("svg");
-							placeKnalledges(knalledgeMapList, edgeMapList);
-						}
-					};
-					checkMapCanvas();
-				};
-
-				var position = 1;
-				var placeKnalledge = function(knalledgeView, delay){
-					console.log(knalledgeView, delay);
-					if(!map || !knalledgeView) return;
-
-					map
-						.append("circle")
-							.attr("r", 10)
-							.attr("fill", "red")
-							.attr("cx", 30 * position)
-							.attr("cy", 20 * position);
-					map
-						.append("text")
-							.attr("x", 10 + 30*position)
-							.attr("y", 20*position)
-							.text(knalledgeView.name)
-							.attr("font-family", "sans-serif")
-							.attr("font-size", "20px")
-							.attr("fill", "gray");
-					position++;
-				};
-
-				// var placeEdge = function(edgeView, delay){
-				// 	// var edges = map.append("line")
-				// 	// 	.attr("x1", 5)
-				// 	// 	.attr("y1", 5)
-				// 	// 	.attr("x2", 50)
-				// 	// 	.attr("y2", 50)
-				// 	// 	.attr("stroke-width", 2)
-				// 	// 	.attr("stroke", "black");
+			controller: function ( $scope, $element) {
+				// var knalledgeMapClientInterface = {
+				// 	getContainer: function(){
+				// 		return $element.find('.map-container');
+				// 	},
+				// 	mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
+				// 		$scope.$apply(function () {
+				// 			var eventName = "mapEntitySelectedEvent";
+				// 			$rootScope.$broadcast(eventName, mapEntity);
+				// 		});
+				// 	},
+				// 	timeout: $timeout
 				// };
 
-				var placeKnalledges = function(knalledgeMapList, edgeMapList){
-					if(!map || !knalledgeMapList || !edgeMapList) return;
+				// var entityStyles = {
+				// 	"object": {
+				// 		typeClass: "map_entity_object",
+				// 		icon: "O"
+				// 	},
+				// 	"process": {
+				// 		typeClass: "map_entity_process",
+				// 		icon: "P"
+				// 	}
+				// };
 
-					for(var i=0; i<knalledgeMapList.length; i++){
-						var node = knalledgeMapList[i];
-						var knalledgeView = {name: node.name};
-						knalledgeViewList.push(knalledgeView);
-						var delay = 3000 / knalledgeMapList.length;
-						placeKnalledge(knalledgeView, i*delay);	
-					}
+				var model = null;
+				// var knalledgeMap = new mcm.Map(ConfigMap, knalledgeMapClientInterface, entityStyles);
+				// knalledgeMap.init();
 
-					// for(var i=0; i<edgeMapList.length; i++){
-					// 	var edge = edgeMapList[i];
-					// 	var edgeView = {name: edge.name};
-					// 	edgeViewList.push(edgeView);
-					// 	var delay = 3000 / edgeMapList.length;
-					// 	placeEdge(edgeView, i*delay);	
-					// }
+				var init = function(model){
+					var dimensions = {
+						node: {
+							width: 150
+						}
+					};
+
+					var config = {
+						nodes: {
+							punctual: false,
+							svg: {
+								show: false
+							},
+							html: {
+								show: true
+							}
+						},
+						edges: {
+							show: true,
+							labels: {
+								show: true
+							}
+						},
+						tree: {
+							viewspec: "viewspec_tree" // "viewspec_manual"
+						},
+						transitions: {
+							enter: {
+								duration: 1000,
+								// if set to true, entering elements will enter from the node that is expanding
+								// (no matter if it is parent or grandparent, ...)
+								// otherwise it elements will enter from the parent node
+								referToToggling: true,
+								animate: {
+									position: true,
+									opacity: true
+								}
+							},
+							update: {
+								duration: 500,
+								referToToggling: true,
+								animate: {
+									position: true,
+									opacity: true
+								}
+							},
+							exit: {
+								duration: 750,
+								// if set to true, exiting elements will exit to the node that is collapsing
+								// (no matter if it is parent or grandparent, ...)
+								// otherwise it elements will exit to the parent node
+								referToToggling: true,
+								animate: {
+									position: true,
+									opacity: true
+								}
+							}
+						}
+					};
+
+					var treeHtml = new TreeHtml(d3.select($element.find(".map-container").get(0)), config, dimensions);
+					treeHtml.init();
+					//treeHtml.load("treeData.json");
+					treeHtml.processData(null, model);
 				};
 
-				//google.maps.event.addDomListener(window, 'load', knalledgeMapInitializeMap);
-				knalledgeMapInitialize();
+				var eventName = "modelLoadedEvent";
+				$scope.$on(eventName, function(e, eventModel) {
+					console.log("[knalledgeMap.controller::$on] ModelMap  nodes(len: %d): %s",
+						eventModel.nodes, JSON.stringify(eventModel.nodes));
+					console.log("[knalledgeMap.controller::$on] ModelMap  edges(len: %d): %s",
+						eventModel.edges.length, JSON.stringify(eventModel.edges));
 
-				var eventName = "knalledgeMapList";
-				$scope.$on(eventName, function(e, knalledge) {
+					// knalledgeMap.placeModels(eventModel);
+					model = eventModel;
 
-					knalledgeMapList = knalledge.nodes;
-					edgeMapList = knalledge.edges;
-					console.log("[knalledgeMap.controller::$on] KnalledgeMap  nodes(len: %d): %s",
-						knalledgeMapList.length, JSON.stringify(knalledgeMapList));
-					console.log("[knalledgeMap.controller::$on] KnalledgeMap  edges(len: %d): %s",
-						edgeMapList.length, JSON.stringify(edgeMapList));
-					placeKnalledges(knalledgeMapList, edgeMapList);
+					init(model);
 				});
-    		}	
+			}
     	};
 	}])
-	.directive('knalledgeMapControll', ['$rootScope', '$window', 'KnalledgeMapService', function($rootScope, $window, KnalledgeMapService){
-		// http://docs.angularjs.org/guide/directive
-		console.log("[knalledgeMapControll] loading directive");
+	.directive('knalledgeMapTools', ["$timeout", 'ConfigMapToolset', function($timeout, ConfigMapToolset){
+		console.log("[knalledgeMapTools] loading directive");
 		return {
-			restrict: 'E',
+			restrict: 'AE',
 			scope: {
 				'readonly': '='
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
-			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-controll.tpl.html',
+			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-tools.tpl.html',
+			controller: function ( $scope, $element) {
+				var toolsetClientInterface = {
+					getContainer: function(){
+						return $element.find('ul');
+					},
+					getData: function(){
+						return $scope.tools;
+					},
+					timeout: $timeout
+				};
+
+				var entityListRules = {
+					"unselected": [
+						{
+							id: "assumption",
+							name: "assumption",
+							type: "assumption",
+							icon: "A"
+						},
+						{
+							id: "object",
+							name: "object",
+							type: "object",
+							icon: "O"
+						},
+						{
+							id: "process",
+							name: "process",
+							type: "process",
+							icon: "P"
+						},
+						{
+							id: "grid",
+							name: "grid",
+							type: "grid",
+							icon: "G"
+						}
+					],
+					"object": [
+						{
+							id: "assumption",
+							name: "assumption",
+							type: "assumption",
+							icon: "A"
+						},
+						{
+							id: "object",
+							name: "object",
+							type: "object",
+							icon: "O"
+						},
+						{
+							id: "process",
+							name: "process",
+							type: "process",
+							icon: "P"
+						},
+						{
+							id: "variable",
+							name: "variable",
+							type: "variable",
+							icon: "V"
+						},
+						{
+							id: "grid",
+							name: "grid",
+							type: "grid",
+							icon: "G"
+						}
+					],
+					"process": [
+						{
+							id: "assumption",
+							name: "assumption",
+							type: "assumption",
+							icon: "A"
+						},
+						{
+							id: "object",
+							name: "object",
+							type: "object",
+							icon: "O"
+						},
+						{
+							id: "grid",
+							name: "grid",
+							type: "grid",
+							icon: "G"
+						}
+					]
+				};
+
+				$scope.tools = [];
+				$scope.tools.length = 0;
+				var entities = entityListRules.unselected;
+				for(var i in entities){
+					$scope.tools.push(entities[i]);
+				}
+
+				var toolset = new mcm.EntitiesToolset(ConfigMapToolset, toolsetClientInterface);
+				toolset.init();
+
+				var eventName = "mapEntitySelectedEvent";
+
+				$scope.$on(eventName, function(e, mapEntity) {
+					console.log("[knalledgeMapTools.controller::$on] ModelMap  mapEntity: %s", JSON.stringify(mapEntity));
+					$scope.tools.length = 0;
+					var entities = entityListRules[mapEntity ? mapEntity.type : "unselected"];
+					for(var i in entities){
+						$scope.tools.push(entities[i]);
+					}
+					toolset.update();
+				});
+    		}
+    	};
+	}])
+	.directive('knalledgeMapList', ['$rootScope', '$window', 'KnalledgeMapService', function($rootScope, $window, KnalledgeMapService){
+		// http://docs.angularjs.org/guide/directive
+		return {
+			restrict: 'AE',
+			scope: {
+			},
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angularjs.org/guide/expression
+			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
 			controller: function ( $scope ) {
 				$scope.knalledgeMapFull = KnalledgeMapService.query();
 				$scope.knalledgeMapFull.$promise.then(function(result){
-					console.log("[knalledgeMapControll] result.knalledgeMap.(nodes.length = %d, edges.length = %d)", 
-						result.knalledgeMap.nodes.length, result.knalledgeMap.edges.length);
-					console.log("[knalledgeMapControll] $scope.knalledgeMapFull.knalledgeMap.(nodes.length = %d, edges.length = %d)",
-						result.knalledgeMap.nodes.length, result.knalledgeMap.edges.length);
-					var eventName = "knalledgeMapList";
-					$rootScope.$broadcast(eventName, $scope.knalledgeMapFull.knalledgeMap);
+					console.log("[knalledgeMapList] result.map.(nodes.length = %d, edges.length = %d)", 
+						result.map.nodes.length, result.map.edges.length);
+					console.log("[knalledgeMapList] $scope.map.knalledgeMap.(nodes.length = %d, edges.length = %d)",
+						result.map.nodes.length, result.map.edges.length);
+					var eventName = "modelLoadedEvent";
+					$rootScope.$broadcast(eventName, $scope.knalledgeMapFull.map);
 				}, function(fail){
 					$window.alert("Error loading knalledgeMap: %s", fail);
 				});				

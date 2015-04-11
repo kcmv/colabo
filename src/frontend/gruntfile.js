@@ -29,7 +29,15 @@ module.exports = function(grunt) {
 					angular: true,
 					console: true,
 					module: true,
-					d3: true
+					d3: true,
+					interact: true,
+					window: true,
+					KeyboardJS: true,
+
+					// application related global objects
+					interaction: true,
+					mcm: true,
+					TreeHtml: true
 				}
 			}
 		},
@@ -70,7 +78,7 @@ module.exports = function(grunt) {
 			},
 			app_dev: { // Another target
 				options: {
-					sassDir: ['app/sass', 'components/knalledgeMap/sass'],
+					sassDir: ['app/sass'],
 					cssDir: ['app/css'],
 					outputStyle: "nested", // expanded, nested, compact, compressed
 					environment: 'development',
@@ -95,17 +103,6 @@ module.exports = function(grunt) {
 				options: {
 					sassDir: ['components/knalledgeMap/sass'],
 					cssDir: ['components/knalledgeMap/css'],
-					outputStyle: "nested", // expanded, nested, compact, compressed
-					environment: 'development',
-					noLineComments: false,
-					require: ["susy", "breakpoint"],
-					trace: true
-				}
-			},
-			poc_tree_manipulation: { // Another target
-				options: {
-					sassDir: ['../PoC/TreeHtmlManipulation/sass'],
-					cssDir: ['../PoC/TreeHtmlManipulation'],
 					outputStyle: "nested", // expanded, nested, compact, compressed
 					environment: 'development',
 					noLineComments: false,
@@ -152,23 +149,19 @@ module.exports = function(grunt) {
 			map_css: {
 				files: ['components/knalledgeMap/sass/**/*.{scss,sass}'],
 				tasks: ['compass:map_dev', 'notify:watch_css'],
-			},
-			poc_css: {
-				files: ['../PoC/*/sass/*.{scss,sass}'],
-				tasks: ['compass:poc_tree_manipulation', 'notify:watch_css'],
 			}
 		},
 		concurrent: {
 			watch: {
-				tasks: ['watch:js', 'watch:app_css', 'watch:map_css', 'watch:poc_css'],
+				tasks: ['watch:js', 'watch:app_css', 'watch:map_css'],
 				options: { logConcurrentOutput: true }
 			},
 			dev: {
-				tasks: ['jshint', 'compass:app_dev', 'compass:map_dev', 'compass:poc_tree_manipulation'],
+				tasks: ['jshint', 'compass:app_dev', 'compass:map_dev'],
 				options: { logConcurrentOutput: true }
 			},
 			dist: {
-				tasks: ['jshint', 'compass:app_dist', 'compass:map_dist', 'compass:poc_tree_manipulation'],
+				tasks: ['jshint', 'compass:app_dist', 'compass:map_dist'],
 				options: { logConcurrentOutput: true }
 			}
 		},

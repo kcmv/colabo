@@ -1,20 +1,23 @@
-<html lang="en" ng-app="knalledgeApp" id="ng-app">
+<html lang="en" ng-app="KnAllEdgeApp" id="ng-app">
 	<head>
-		<title>knalledgeMap-demp.html</title>
+		<title>KnAllEdge</title>
 		<meta name=”viewport” content=”initial-scale=1.0, width=device-width”>
 		<meta charset="utf-8">
 		<!-- Bootstrap core CSS -->
 		<link href="css/libs/bootstrap/bootstrap.css" rel="stylesheet">
-		<link href="css/default.css" rel="stylesheet">
 
+		<link href="css/default.css" rel="stylesheet">
 		<link href="../components/knalledgeMap/css/default.css" rel="stylesheet">
+		<link href="../components/halo/default.css" rel="stylesheet">
 
 	</head>
 	<body>
-		<div ng-view></div>
+		<div ng-view id="container"></div>
 
 		<script src="js/lib/jquery/jquery.js"></script>
 		<script src="js/lib/d3/d3.js"></script>
+		<script src="js/lib/interact-1.2.4.js"></script>
+		<script src="js/lib/keyboard.js"></script>
 		
 		<script src="js/lib/angular/angular.js"></script>
 		<script src="js/lib/angular/angular-route.js"></script>
@@ -25,6 +28,17 @@
 
 		<script src="js/config/config.js"></script>
 		<script src="js/app.js"></script>
+
+		<script src="js/interaction/interaction.js"></script>
+		<script src="js/interaction/moveAndDrag.js"></script>
+
+		<script src="js/knalledge/tree.js"></script>
+
+		<script src="../components/halo/index.js"></script>
+
+		<script src="js/mcm/mcm.js"></script>
+		<script src="js/mcm/map.js"></script>
+		<script src="js/mcm/entitiesToolset.js"></script>
 
 		<script src="../components/knalledgeMap/js/directives.js"></script>
 		<script src="../components/knalledgeMap/js/services.js"></script>

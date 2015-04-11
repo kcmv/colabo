@@ -27,24 +27,15 @@ module.exports = function(config) {
 			'app/lib/jquery-ui/jquery-ui.js',
 
 			'app/lib/colorpicker/spectrum/spectrum.js',
-			'app/js/lib/raphael/raphael.js',
-			'app/js/lib/raphael/g.raphael.js',
-			'app/js/lib/raphael/g.dot.js',
-			'app/js/lib/raphael/g.line.js',
-			'app/js/lib/raphael/g.bar.js',
-			'app/js/lib/raphael/g.line.js',
 			'app/lib/json.human.js/lib/crel.js',
 			'app/lib/json.human.js/src/json.human.js',
 			'app/lib/jsonpath/json-transform.js',
-			'app/js/lib/raphael/g.dot.js',
 			'app/js/lib/q/q.js',
 
-			'app/js/bukvik/bukvik.js',
-			'app/js/bukvik/dataset/dataset.js',
-			'app/js/datatalks/datatalks.js',
-			'app/js/datatalks/experiments/experiments.js',
-			'app/js/bukvik/**/*.js',
-			'app/js/datatalks/**/*.js',
+			'app/js/interaction/interaction.js',
+			'app/js/interaction/*.js',
+			'app/js/mcm/mcm.js',
+			'app/js/mcm/*.js',
 
 			'app/lib/angular/angular.js',
 			'app/lib/angular/angular-*.js',
@@ -53,12 +44,9 @@ module.exports = function(config) {
 			'app/lib/colorpicker/angular-spectrum-colorpicker.js',
 			
 			'app/js/config/config.js',
-			'app/js/services/datatalks/data.js',
-			'app/js/services/experiments.js',
-			'app/js/services/experimentAnalysis.js',
-			'app/js/services/datasets.js',
 
-			'app/js/directives/dataviews.js',
+			'components/mcmMap/js/services.js',
+			'components/mcmMap/js/directives.js',
 
 			'app/js/app.js',
 
@@ -68,7 +56,7 @@ module.exports = function(config) {
 			'test/unit/**/*.spec.js',
 			
 			// you need to make sure Karma includes the HTML files in the list of files it loads when it runs tests
-			'app/partials/**/*.html',
+			'components/mcmMap/partials/**/*.html',
 
 			// testing plugins/libs
 			'test/libs/**/*.js'

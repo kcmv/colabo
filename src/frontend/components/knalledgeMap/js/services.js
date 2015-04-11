@@ -2,12 +2,12 @@
 'use strict';
 //this function is strict...
 
-var atGsServices = angular.module('knalledgeMapServices', ['ngResource', 'Config']);
+var KnalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config']);
 
-atGsServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', function($resource, $q, ENV){
-	console.log("[atGsServices] server backend: %s", ENV.server.backend);
+KnalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', function($resource, $q, ENV){
+	console.log("[KnalledgeMapServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
-	var url = ENV.server.backend + '/knalledgeMap/one-:type/:searchParam.json';
+	var url = ENV.server.backend + '/mcmMap/one-:type/:searchParam.json';
 	var resource = $resource(url, {}, {
 		// extending the query action
 		// method has to be defined
@@ -56,8 +56,8 @@ atGsServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', function(
 		data.$promise = $q(function(resolve, reject) { /*jshint unused:false*/
 			var jsonUrl = ENV.server.backend + "/sample-small.json";
 			$.getJSON(jsonUrl, null, function(jsonContent){
-				console.log("Loaded: %s, knalledgeMap (nodes: %d, edges: %d)", jsonUrl,
-					jsonContent.knalledgeMap.nodes.length, jsonContent.knalledgeMap.edges.length);
+				console.log("Loaded: %s, mcmMap (nodes: %d, edges: %d)", jsonUrl,
+					jsonContent.map.nodes.length, jsonContent.map.edges.length);
 				for(var id in jsonContent){
 					data[id] = jsonContent[id];
 				}

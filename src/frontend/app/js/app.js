@@ -4,7 +4,7 @@
 
 /* App Module */
 
-angular.module('knalledgeApp',[
+angular.module('KnAllEdgeApp',[
 	  'ngRoute'
 	, 'ngSanitize' // necessary for outputing HTML in angular directive
 	, 'ngStorage' // local storage support for Angular
@@ -15,11 +15,11 @@ angular.module('knalledgeApp',[
 // routes
 .config(['$routeProvider', function($routeProvider) {
 	$routeProvider
-	.when('/knalledge', {
+	.when('/map', {
 		templateUrl: '../components/knalledgeMap/partials/index.tpl.html'
 	})
 	.otherwise({
-		redirectTo: '/knalledge'
+		redirectTo: '/map'
 	});
 }])
 // Disabling Debug Data

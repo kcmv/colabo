@@ -1,83 +1,66 @@
-/* @import "normalize"; */
-@import "compass";
-@import "susy";
-@import "breakpoint";
-	
-html, body {
-  height: 100%;
-  margin: 5px;
-  padding: 0;
-}
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+@import "include";
 
-#map-canvas, #map_canvas {
-  height: 100%;
-  z-index: 5;
-  position:relative;
+/*
+http://compass-style.org/examples/compass/css3/box_sizing/
+http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
+*/
+* {
+	margin: 0px;
+	padding: 0px;
+	@include box-sizing(border-box);
 }
 
 @media print {
-  html, body {
-    height: auto;
-  }
-
-  #map-canvas, #map_canvas {
-    height: 650px;
-  }
+	html, body {
+		height: auto;
+	}
 }
 
-#panel {
-  position: absolute;
-  top: 5px;
-  left: 50%;
-  margin-left: -180px;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-}
-
-#search\.view\.input{
-	background-color: #EEEEFF;
-	width: 300px;
-}
-
-/* https://github.com/twitter/typeahead.js#look-and-feel */
-.tt-dropdown-menu {
-	padding: 10px 0 0;
+html {
+	height: 100%;
 	width: 100%;
-	text-align: left;
-	border: 1px solid #ccc;
-	border-radius: 0 4px 4px;
-	background-color: #EEEEFF;
+	overflow-x: hidden;
+	/* without this we will lose map in the narrowest (vertical) layout */
+	overflow-y: scroll;
 }
 
-.parameters{
-	margin-top: 5px;
-	margin-bottom: 5px;
-	border-top: 1px solid #000080;
-	border-bottom: 1px solid #000080;
-}
-
-.experiment-show{
+body {
+	font: 18px Helvetica, Arial;
+	height: 100%;
 	width: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
-.experiment-detail{
+#container{
+	position: relative;
+	height: 100%;
 	width: 100%;
-}
+	/*background-color: #dddd00;
+	border: solid 1px #aaaa00;*/
+	overflow-x: hidden;
+	overflow-y: scroll;
 
+	/* This is the default clearfix from Compass. You can opt to use other clearfix methods */
+	@include clearfix;
+	/* The Container Mixin */
+	@include container( 100% );
+}
 
 .clickable{
 	cursor: pointer;
-	color: blue;
 }
 
 .clickable:hover{
-	text-decoration: underline;
+	/*text-decoration: underline;*/
+
+	/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+	/* color h-shadow v-shadow blur spread color inset*/
+	@include box-shadow(2px 1px 3px 1px rgba(100, 100, 255, 0.75));
 }
 
 /* necessary for BOOTSTRAP-ANGULAR intregation
  * http://angular-ui.github.io/bootstrap/
  */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
-

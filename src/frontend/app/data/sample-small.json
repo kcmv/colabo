@@ -1,60 +1,71 @@
 {
-	"timestamp":1415302729,
-	"knalledgeMap":{
-		"nodes":
-		[
+	"properties": {
+		"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+		"date": "2015.03.22.",
+		"authors": "S. Rudan, D. Karabeg",
+		"rootNodeId": 1
+	},
+	"map": {
+		"nodes": [
 			{
-				"id": 0
-				, "name": "Sun"
-				, "label": "Sun"
-				, "idea": "knalledge_node"
-				, "category": "solar system, star"
-				, "content": ""
-				, "link": "http://en.wikipedia.org/wiki/Sun"
-			},{
-				"id": 1
-				, "name": "Earth"
-				, "label": "Earth"
-				, "idea": "knalledge_node"
-				, "category": "solar system, planet"
-				, "content": ""
-				, "link": "http://en.wikipedia.org/wiki/Earth"
-			},{
-				"id": 2
-				, "name": "Venera"
-				, "label": "Venera"
-				, "idea": "knalledge_node"
-				, "category": "solar system, planet"
-				, "content": ""
-				, "link": "http://en.wikipedia.org/wiki/Venera"
-			},{
-				"id": 3
-				, "name": "Moon"
-				, "label": "Moon"
-				, "idea": "knalledge_node"
-				, "category": "solar system, natural satellite"
-				, "content": ""
-				, "link": "http://en.wikipedia.org/wiki/Moon"
+				"id": 1,
+				"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+				"isOpen": true
+			},
+			{
+				"id": 2,
+				"name": "Direct Creativity"
+			},
+			{
+				"id": 3,
+				"name": "Breakthrough in handling creativity possible"
+			},
+			{
+				"id": 4,
+				"name": "deep creative insight"
+			},
+			{
+				"id": 5,
+				"name": "Classical Physics"
+			},
+			{
+				"id": 6,
+				"name": "Indirect Creativty",
+				"isOpen": false,
+				"manualX": 300,
+				"manualY": 300
 			}
 		],
-		"edges":[
+		"edges": [
 			{
-				"id": "0",
-				"source": "1",
-				"target": "0",
-				"relate": "orbits"
+				"id": 1,
+				"name": "foster",
+				"sourceId": 1,
+				"targetId": 2
 			},
 			{
-				"id": "1",
-				"source": "2",
-				"target": "0",
-				"relate": "orbits"
+				"id": 2,
+				"name": "inhibits",
+				"sourceId": 1,
+				"targetId": 6
 			},
 			{
-				"id": "2",
-				"source": "3",
-				"target": "1",
-				"relate": "orbits"
+				"id": 3,
+				"name": "supports",
+				"sourceId": 2,
+				"targetId": 3
+			},
+			{
+				"id": 4,
+				"name": "insights",
+				"sourceId": 2,
+				"targetId": 4
+			},
+			{
+				"id": 5,
+				"name": "inhibits",
+				"sourceId": 6,
+				"targetId": 5
 			}
 		]
 	}
