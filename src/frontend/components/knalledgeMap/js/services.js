@@ -19,10 +19,10 @@ var kNode = {
 	}
 };
 
-var atGsServices = angular.module('KnalledgeNodeServices', ['ngResource', 'Config']);
+var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config']);
 
-atGsServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', function($resource, $q, ENV){
-	console.log("[atGsServices] server backend: %s", ENV.server.backend);
+knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', function($resource, $q, ENV){
+	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/knodes/:type/:searchParam.json';
 	var resource = $resource(url, {}, {
@@ -118,7 +118,29 @@ atGsServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', function
 			}
 		}
 	});
-	
+
+	resource.query = function(){
+		var data = {
+			$promise: null,
+			$resolved: false
+		};
+
+		data.$promise = $q(function(resolve, reject) { /*jshint unused:false*/
+			var jsonUrl = ENV.server.backend + "/sample-small.json";
+			$.getJSON(jsonUrl, null, function(jsonContent){
+				console.log("Loaded: %s, map (nodes: %d, edges: %d)", jsonUrl,
+				jsonContent.map.nodes.length, jsonContent.map.edges.length);
+				for(var id in jsonContent){
+					data[id] = jsonContent[id];
+				}
+				data.$resolved = true;
+				resolve(jsonContent);
+			});
+		// reject('Greeting ' + name + ' is not allowed.');
+		});
+		return data;
+	};
+
 	//TODO: Add Promises
 	resource.getById = function(id, callback)
 	{
@@ -130,21 +152,23 @@ atGsServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', function
 		this.queryPlain({ searchParam:id, type:'in_map' }, callback);
 	}
 	
-	resource.create(kNode, callback)
+	resource.create = function(kNode, callback)
 	{
 		this.createPlain({}, kNode, callback);
 	}
 	
-	resource.update(kNode, callback)
+	resource.update = function(kNode, callback)
 	{
 		//TODO: check the name of param: id or ObjectId or _id?
 		this.updatePlain({searchParam:kNode.id, type:'one'}, kNode, callback);
 	}
 	
-	resource.destroy(id, callback)
+	resource.destroy = function(id, callback)
 	{
 		this.destroyPlain({searchParam:id, type:'one'}, callback);
 	}
+
+	return resource;
 	
 }]);
 
