@@ -152,7 +152,7 @@ atGsServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', function
 knalledgeServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', function($resource, $q, ENV){
 	console.log("[atGsServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
-	var url = ENV.server.backend + '/knodes/:type/:searchParam.json';
+	var url = ENV.server.backend + '/kedges/:type/:searchParam.json';
 	var resource = $resource(url, {}, {
 		// extending the query action
 		// method has to be defined
