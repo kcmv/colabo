@@ -250,7 +250,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
     		}
     	};
 	}])
-	.directive('knalledgeMapList', ['$rootScope', '$window', 'KnalledgeMapService', function($rootScope, $window, KnalledgeMapService){
+	.directive('knalledgeMapList', ['$rootScope', '$window', 'KnalledgeNodeService', function($rootScope, $window, KnalledgeNodeService){
 		// http://docs.angularjs.org/guide/directive
 		return {
 			restrict: 'AE',
@@ -260,7 +260,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
 			controller: function ( $scope ) {
-				$scope.knalledgeMapFull = KnalledgeMapService.query();
+				$scope.knalledgeMapFull = KnalledgeNodeService.query();
 				$scope.knalledgeMapFull.$promise.then(function(result){
 					console.log("[knalledgeMapList] result.map.(nodes.length = %d, edges.length = %d)", 
 						result.map.nodes.length, result.map.edges.length);
