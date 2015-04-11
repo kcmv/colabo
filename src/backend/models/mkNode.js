@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 /* SCHEMA */
 var kNodeSchema = mongoose.Schema({
+	//think of _id:Number, instead of ObjectId
 	name: String,
 	mapId: {type: mongoose.Schema.Types.ObjectId, ref: 'kMap'},
 	iAmId: Number,
