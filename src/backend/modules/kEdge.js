@@ -32,24 +32,6 @@ mongoose.connect('mongodb://localhost/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-//TODO - this is NOT called for update!!!??!! Just for SAVE:
-global.db.kEdge.Schema.pre('save', function(next) {
-	console.log("[modules/kEdge.js:pre/save]");
-	  // get the current date
-	  var currentDate = new Date();
-	  
-	  // change the updated_at field to current date
-	  this.updated_at = currentDate;
-
-	  // if created_at doesn't exist, add to that field
-	  if (!this.created_at)
-	    this.created_at = currentDate;
-
-	  next();
-	});
-
-
-
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
@@ -66,7 +48,7 @@ exports.index = function(req, res){
 		}
 	}
 	
-	console.log("[modules/kEdge.js:index] req.body: %s", req.params.searchParam);
+	console.log("[modules/kEdge.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
 	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
 		//TODO: change data here:
@@ -83,7 +65,7 @@ exports.index = function(req, res){
 		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	});
 	
-	switch (req.params.type){ //TODO: is parameter name correct?
+	switch (req.params.type){
 		case 'one': //by edge id:
 			kEdgeModel.findById(req.params.searchParam, found);
 			break;
@@ -92,6 +74,9 @@ exports.index = function(req, res){
 			break;
 		case 'connected': //all edges connected to knode.id
 			kEdgeModel.find( { $or:[ {'sourceId':req.params.searchParam}, {'targetId':req.params.searchParam}]},found);
+			break;
+		case 'in_map': //all edges in specific map
+			kEdgeModel.find({ 'mapId': req.params.searchParam}, found);
 			break;
 	}
 }
@@ -119,6 +104,7 @@ exports.create = function(req, res){
 	});				
 }
 
+//curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World E1"}' http://127.0.0.1:8888/kedges/one/551bb2c68f6e4cfc35654f37
 exports.update = function(req, res){
 	console.log("[modules/kEdge.js:update] req.body: %s", JSON.stringify(req.body));
 

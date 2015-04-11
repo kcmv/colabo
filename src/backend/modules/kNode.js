@@ -33,26 +33,20 @@ mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-// TODO - this is NOT called for update!!!??!! Just for SAVE:
-global.db.kNode.Schema.pre('save', function(next) {
-	console.log("[modules/kNode.js:pre/save]");
-// var currentDate = new Date(); // get the current date
-	  
-// change the updated_at field to current date
-this.updatedAt = new Date(); //currentDate;
-	  
-/* TODO: according to our 'deafult settings, this is no needed:
-// if created_at doesn't exist, add to that field
-if (!this.created_at)
-this.created_at = currentDate;
-*/
-next();
-});
-
-
-
-// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8080/knodes/one/551bdcda1763e3f0eb749bd4
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/knodes/one/551bdcda1763e3f0eb749bd4
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/knodes/in_map/552678e69ad190a642ad461c
 exports.index = function(req, res){
+	var found = function(err,kNodes){
+		console.log("[modules/kNode.js:index] in 'found'");
+		if (err){
+			throw err;
+			var msg = JSON.stringify(err);
+			resSendJsonProtected(res, {data: kNodes, accessId : accessId, message: msg, success: false});
+		}else{
+			resSendJsonProtected(res, {data: kNodes, accessId : accessId, success: true});
+		}
+	}
+	
 	var id = req.params.searchParam;
 	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
@@ -68,20 +62,18 @@ exports.index = function(req, res){
 		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	});
 	
-	
-	KNodeModel.findById(id, function (err, knode) {
-		if (err){
-			throw err;
-			var msg = JSON.stringify(err);
-			resSendJsonProtected(res, {data: knode, accessId : accessId, message: msg, success: false});
-		}else{
-			resSendJsonProtected(res, {data: knode, accessId : accessId, success: true});
-		};
-	});
-	
+	console.log("[modules/kNode.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
+	switch (req.params.type){
+		case 'one': //by edge id:
+			KNodeModel.findById(id, found);
+			break;
+		case 'in_map': //all edges in specific map
+			KNodeModel.find({ 'mapId': id}, found);
+			break;
+	}
 }
 
-// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello World", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/knodes
+// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello World Pl", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/knodes
 exports.create = function(req, res){
 	console.log("[modules/kNode.js:create] req.body: %s", JSON.stringify(req.body));
 	
@@ -97,7 +89,7 @@ exports.create = function(req, res){
 	});				
 }
 
-// curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World 2", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/knodes/one/551bdc841763e3f0eb749bd1
+// curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/knodes/one/55266618cce5af993fe8675f
 exports.update = function(req, res){
 	//console.log("[modules/KNode.js:update] req.body: %s", JSON.stringify(req.body));
 
@@ -122,7 +114,7 @@ exports.update = function(req, res){
 	});			
 }
 
-// curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8080/knodes/one/551bdcda1763e3f0eb749bd4
+// curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8888/knodes/one/551bdcda1763e3f0eb749bd4
 exports.destroy = function(req, res){
 	//TODO: should we destroy edges connected to this node? or is it done automatically? or error is risen?
 	var type = req.params.type;
