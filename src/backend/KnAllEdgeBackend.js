@@ -14,28 +14,31 @@ console.log("[KnAllEdgeBackend.js:index] config.paths: %s", JSON.stringify(confi
 console.log("[KnAllEdgeBackend.js:index] config.mockups: %s", JSON.stringify(config.mockups));
 console.log("[KnAllEdgeBackend.js:index] config.services: %s", JSON.stringify(config.services));
 
-// function supportCrossOriginScript(req, res, next) {
-// 	res.header("Access-Control-Allow-Headers", "Content-Type");
-// 	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-// 	res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, HEAD");
-// 	res.header("Allow", "POST, GET, OPTIONS, DELETE, PUT, HEAD");
-// 	// res.header("Access-Control-Max-Age","1728000");
+function supportCrossOriginScript(req, res, next) {
+	res.header("Access-Control-Allow-Headers", "Content-Type");
 	
-// 	// res.header("Access-Control-Allow-Origin", "*");
-// 	// http://stackoverflow.com/questions/15026016/set-cookie-in-http-header-is-ignored-with-angularjs
-// 	var origin = req.headers.origin; // "api.transpoetika.org";
-// 	console.log("Access-Control-Allow-Origin: %s", origin);
-// 	//var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-// 	// console.log("Access-Control-Allow-Origin: %s", ip);
-// 	console.log("Access-Control-Allow-Origin: %s", origin);
-// 	res.header('Access-Control-Allow-Origin', origin);
-// 	res.header('Access-Control-Allow-Credentials', true);
+	// res.header("Access-Control-Allow-Headers", "Origin");
+	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	// res.header("Access-Control-Allow-Methods","POST, OPTIONS");
+	res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, HEAD");
+	res.header("Allow", "POST, GET, OPTIONS, DELETE, PUT, HEAD");
+	// res.header("Access-Control-Max-Age","1728000");
 	
-// 	console.log("[supportCrossOriginScript] setting up headers");
+	// res.header("Access-Control-Allow-Origin", "*");
+	// http://stackoverflow.com/questions/15026016/set-cookie-in-http-header-is-ignored-with-angularjs
+	var origin = req.headers.origin; // "litterra.info"; // "litterra.info:8088"; //req.headers.origin;
+	console.log("Access-Control-Allow-Origin: %s", origin);
+	//var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	// console.log("Access-Control-Allow-Origin: %s", ip);
+	console.log("Access-Control-Allow-Origin: %s", origin);
+	res.header('Access-Control-Allow-Origin', origin);
+	res.header('Access-Control-Allow-Credentials', true);
+	
+	console.log("[supportCrossOriginScript] setting up headers");
 
-//     res.status(200);
-//     next();
-// }
+    res.status(200);
+    next();
+}
 
 var app = express();
 
@@ -46,7 +49,7 @@ app.configure(function(){
 	app.set('port', process.env.PORT || 8888);
 
 	// this is enough
-	//app.use(supportCrossOriginScript);
+	app.use(supportCrossOriginScript);
 	// so no need for this
 	// app.options('/iam/users', supportCrossOriginScript);
 

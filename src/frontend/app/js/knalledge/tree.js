@@ -41,7 +41,7 @@ treeHtml = TreeHtml = function(parentDom, config, dimensions){
 		if(!d.isOpen) return children;
 
 		for(var i in this.edgesById){
-			if(this.edgesById[i].sourceId == d.id){
+			if(this.edgesById[i].sourceId == d._id){
 				children.push(this.nodesById[this.edgesById[i].targetId]);
 			}
 		}
@@ -51,7 +51,7 @@ treeHtml = TreeHtml = function(parentDom, config, dimensions){
 
 treeHtml.prototype.hasChildren = function(d){
 	for(var i in this.edgesById){
-		if(this.edgesById[i].sourceId == d.id){
+		if(this.edgesById[i].sourceId == d._id){
 			return true;
 		}
 	}
@@ -122,7 +122,7 @@ treeHtml.prototype.toggle = function(d) {
 // Returns view representation (dom) from datum d
 treeHtml.prototype.getDomFromDatum = function(d) {
 	var dom = this.dom.divMapHtml.selectAll("div.node_html")
-		.data([d], function(d){return d.id;});
+		.data([d], function(d){return d._id;});
 	if(dom.size() != 1) return null;
 	else return dom;
 };
@@ -221,8 +221,8 @@ treeHtml.prototype.load = function(filename){
 treeHtml.prototype.createNewNode = function() {
 	var maxId = -1;
 	for(var i in this.nodesById){
-		if(maxId < this.nodesById[i].id){
-			maxId = this.nodesById[i].id;
+		if(maxId < this.nodesById[i]._id){
+			maxId = this.nodesById[i]._id;
 		}
 	}
 	var newNode = {
@@ -231,7 +231,7 @@ treeHtml.prototype.createNewNode = function() {
 		"isOpen": false
 	};
 
-	this.nodesById[newNode.id] = newNode;
+	this.nodesById[newNode._id] = newNode;
 
 	return newNode;
 };
@@ -239,8 +239,8 @@ treeHtml.prototype.createNewNode = function() {
 treeHtml.prototype.createNewEdge = function(startNodeId, endNodeId) {
 	var maxId = -1;
 	for(var i in this.edgesById){
-		if(maxId < this.edgesById[i].id){
-			maxId = this.edgesById[i].id;
+		if(maxId < this.edgesById[i]._id){
+			maxId = this.edgesById[i]._id;
 		}
 	}
 	var newEdge = {
@@ -250,13 +250,14 @@ treeHtml.prototype.createNewEdge = function(startNodeId, endNodeId) {
 		"targetId": endNodeId
 	};
 
-	this.edgesById[newEdge.id] = newEdge;
+	this.edgesById[newEdge._id] = newEdge;
 
 	return newEdge;
 };
 
 treeHtml.prototype.processData = function(error, treeData) {
 	//this.properties = treeData.properties;
+	var rootId = "55268521fb9a901e442172f9";
 	var i=0;
 	var node = null;
 	var edge = null;
@@ -265,16 +266,16 @@ treeHtml.prototype.processData = function(error, treeData) {
 		if(!("isOpen" in node)){
 			node.isOpen = false;
 		}
-		this.nodesById[node.id] = node;
+		this.nodesById[node._id] = node;
 	}
 
 	for(i=0; i<treeData.edges.length; i++){
 		edge = treeData.edges[i];
-		this.edgesById[edge.id] = edge;
+		this.edgesById[edge._id] = edge;
 	}
 
 	// this.rootNode = this.nodesById[this.properties.rootNodeId];
-	this.rootNode = this.nodesById["1"];
+	this.rootNode = this.nodesById[rootId];
 	this.rootNode.x0 = this.parentDom.attr("height") / 2;
 	this.rootNode.y0 = 0;
 
@@ -359,7 +360,7 @@ treeHtml.prototype.updateHtml = function(source) {
 	if(!this.config.nodes.html.show) return;
 
 	var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
-		.data(this.nodes, function(d) { return d.id; });
+		.data(this.nodes, function(d) { return d._id; });
 
 	// Enter the nodes
 	// we create a div that will contain both visual representation of a node (circle) and text
@@ -406,7 +407,7 @@ treeHtml.prototype.updateHtml = function(source) {
 		.append("div")
 			.attr("class", "node_status")
 				.html(function(d){
-					return d.id;
+					return d._id;
 				});
 
 	nodeHtmlEnter
@@ -446,7 +447,7 @@ treeHtml.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
 	// var nodeHtmlEnter = nodeHtmlDatasets.enter;
 
 	// var nodeHtml = divMapHtml.selectAll("div.node_html")
-	// 	.data(nodes, function(d) { return d.id; });
+	// 	.data(nodes, function(d) { return d._id; });
 
 	// Transition nodes to their new (final) position
 	// it happens also for entering nodes (http://bl.ocks.org/mbostock/3900925)
@@ -539,7 +540,7 @@ treeHtml.prototype.updateSvgNodes = function(source) {
 	// Declare the nodes, since there is no unique id we are creating one on the fly
 	// not very smart with real data marshaling in/out :)
 	var node = this.dom.svg.selectAll("g.node")
-		.data(this.nodes, function(d) { return d.id; });
+		.data(this.nodes, function(d) { return d._id; });
 
 	// Enter the nodes
 	// we create a group "g" that will contain both visual representation of a node (circle) and text
@@ -647,7 +648,7 @@ treeHtml.prototype.updateLinkLabels = function(source) {
 	var linkLabelHtml = this.dom.divMapHtml.selectAll("div.label_html")
 	.data(this.links, function(d) {
 		// there is only one incoming edge
-		return d.target.id;
+		return d.target._id;
 	});
 
 	// Enter the nodes
@@ -689,7 +690,7 @@ treeHtml.prototype.updateLinkLabels = function(source) {
 			//.text("<span>Hello</span>");
 			//.html("<span>Hello</span>");
 			.html(function(d) {
-				var edge = that.getEdge(d.source.id, d.target.id);
+				var edge = that.getEdge(d.source._id, d.target._id);
 				return edge.name;
 			});
 
@@ -776,7 +777,7 @@ treeHtml.prototype.updateLinks = function(source) {
 	var link = this.dom.svg.selectAll("path.link")
 	.data(this.links, function(d) {
 		// there is only one incoming edge
-		return d.target.id;
+		return d.target._id;
 	});
 
 	// Enter the links
@@ -1132,7 +1133,7 @@ treeHtml.prototype.initializeKeyboard = function() {
 		if(!this.selectedNode) return; // no parent node selected
 
 		var newNode = this.createNewNode();
-		// var newEdge = this.createNewEdge(this.selectedNode.id, newNode.id);
+		// var newEdge = this.createNewEdge(this.selectedNode._id, newNode._id);
 		if(!this.selectedNode.isOpen){
 			this.selectedNode.isOpen = true;
 		}

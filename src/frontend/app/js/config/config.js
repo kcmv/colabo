@@ -14,7 +14,7 @@ var envs = {
 	"localhost": {
 		"server": {
 			"frontend": "http://localhost:8410/app",
-			"backend": "http://localhost:8042",
+			"backend": "http://localhost:8888",
 			"parseResponse": true,
 			"jsonPrefixed": ")]}',\n"
 		},
@@ -84,7 +84,8 @@ var mapToolset = {
 };
 
 //var env = envs['json'];
-var env = envs.json;
+//var env = envs.json;
+var env = envs.localhost;
 // var env = envs.server;
 
 angular.module('Config', [])

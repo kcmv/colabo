@@ -20,6 +20,13 @@ var kNode = {
 	}
 };
 
+function removeJsonProtected(ENV, jsonStr){
+	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
+		jsonStr = jsonStr.substring(ENV.server.jsonPrefixed.length);
+	}
+	return jsonStr;
+}
+
 var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config']);
 
 knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', function($resource, $q, ENV){
@@ -35,30 +42,32 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				// console.log("[DatasetsService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[DatasetsService] accessId: %s", serverResponse.accessId);
-				var datasets = serverResponse.dataset;
-				return datasets[0];
+				// console.log("[knalledgeMapServices] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
+				var data = serverResponse.data;
+				return data[0];
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
 			}
 		}},
 		
-		queryPlain: {method:'GET', params:{type:'', searchParam:'', extension:".json"}, isArray:true, 
+		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true, 
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				console.log("[DatasetsService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[DatasetsService] accessId: %s", serverResponse.accessId);
-				var datasets = serverResponse.dataset;
-//				for(var datasetId in datasets){
-//					var dataset = datasets[datasetId];
+				console.log("[knalledgeMapServices] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
+				var data = serverResponse.data;
+//				for(var datumId in data){
+//					var data = data[datumId];
 //				}
-				//console.log("[DatasetsService] data: %s", JSON.stringify(data));
-				return datasets;
+				//console.log("[knalledgeMapServices] data: %s", JSON.stringify(data));
+				return data;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -83,7 +92,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			}
 		}},
 		
-		updatePlain: {method:'PUT', params:{type:'one', searchParam:'', extension:".json"},
+		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
 				if(ENV.server.parseResponse){
@@ -101,7 +110,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			}
 		},
 		
-		destroyPlain: {method:'DELETE', params:{type:'one', extension:".json"},
+		destroyPlain: {method:'DELETE', params:{type:'one'},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
 				if(ENV.server.parseResponse){
@@ -142,38 +151,37 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		return data;
 	};
 
-	//TODO: Add Promises
 	resource.getById = function(id, callback)
 	{
-		this.getPlain({ searchParam:id, type:'one' }, callback);
+		return this.getPlain({ searchParam:id, type:'one' }, callback);
 	}
 	
 	resource.queryInMap = function(id, callback)
 	{
-		this.queryPlain({ searchParam:id, type:'in_map' }, callback);
+		return this.queryPlain({ searchParam:id, type:'in_map' }, callback);
 	}
 	
 	resource.create = function(kNode, callback)
 	{
-		this.createPlain({}, kNode, callback);
+		return this.createPlain({}, kNode, callback);
 	}
 	
 	resource.update = function(kNode, callback)
 	{
 		//TODO: check the name of param: id or ObjectId or _id?
-		this.updatePlain({searchParam:kNode.id, type:'one'}, kNode, callback);
+		return this.updatePlain({searchParam:kNode.id, type:'one'}, kNode, callback);
 	}
 	
 	resource.destroy = function(id, callback)
 	{
-		this.destroyPlain({searchParam:id, type:'one'}, callback);
+		return this.destroyPlain({searchParam:id, type:'one'}, callback);
 	}
 
 	return resource;
 	
 }]);
 
-knalledgeServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', function($resource, $q, ENV){
+knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', function($resource, $q, ENV){
 	console.log("[atGsServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/kedges/:type/:searchParam.json';
@@ -186,30 +194,32 @@ knalledgeServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', fun
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				// console.log("[DatasetsService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[DatasetsService] accessId: %s", serverResponse.accessId);
-				var datasets = serverResponse.dataset;
-				return datasets[0];
+				// console.log("[knalledgeMapServices] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
+				var data = serverResponse.data;
+				return data[0];
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
 			}
 		}},
 		
-		queryPlain: {method:'GET', params:{type:'', searchParam:'', extension:".json"}, isArray:true, 
+		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true, 
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				console.log("[DatasetsService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[DatasetsService] accessId: %s", serverResponse.accessId);
-				var datasets = serverResponse.dataset;
-//				for(var datasetId in datasets){
-//					var dataset = datasets[datasetId];
+				console.log("[knalledgeMapServices] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
+				var data = serverResponse.data;
+//				for(var datumId in data){
+//					var data = data[datumId];
 //				}
-				//console.log("[DatasetsService] data: %s", JSON.stringify(data));
-				return datasets;
+				//console.log("[knalledgeMapServices] data: %s", JSON.stringify(data));
+				return data;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -234,7 +244,7 @@ knalledgeServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', fun
 			}
 		}},
 		
-		updatePlain: {method:'PUT', params:{type:'one', searchParam:'', extension:".json"},
+		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
 				if(ENV.server.parseResponse){
@@ -252,7 +262,7 @@ knalledgeServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', fun
 			}
 		},
 		
-		destroyPlain: {method:'DELETE', params:{type:'one', extension:".json"},
+		destroyPlain: {method:'DELETE', params:{type:'one'},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
 				if(ENV.server.parseResponse){
@@ -274,29 +284,41 @@ knalledgeServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', fun
 	//TODO: Add Promises
 	resource.getById = function(id, callback)
 	{
-		this.getPlain({ searchParam:id, type:'one' }, callback);
+		return this.getPlain({ searchParam:id, type:'one' }, callback);
 	}
 	
 	resource.queryInMap = function(id, callback)
 	{
-		this.queryPlain({ searchParam:id, type:'in_map' }, callback);
+		return this.queryPlain({ searchParam:id, type:'in_map' }, callback);
 	}
 	
-	resource.create(kEdge, callback)
+	resource.queryBetween = function(id, callback)
 	{
-		this.createPlain({}, kEdge, callback);
+		return this.queryPlain({ searchParam:id, type:'between' }, callback);
 	}
 	
-	resource.update(kEdge, callback)
+	resource.queryConnected = function(id, callback)
+	{
+		return this.queryPlain({ searchParam:id, type:'connected' }, callback);
+	}
+	
+	resource.create = function(kEdge, callback)
+	{
+		return this.createPlain({}, kEdge, callback);
+	}
+	
+	resource.update = function(kEdge, callback)
 	{
 		//TODO: check the name of param: id or ObjectId or _id?
-		this.updatePlain({searchParam:kEdge.id, type:'one'}, kEdge, callback);
+		return this.updatePlain({searchParam:kEdge.id, type:'one'}, kEdge, callback);
 	}
 	
-	resource.destroy(id, callback)
+	resource.destroy = function(id, callback)
 	{
-		this.destroyPlain({searchParam:id, type:'one'}, callback);
+		return this.destroyPlain({searchParam:id, type:'one'}, callback);
 	}
+	
+	return resource;
 	
 }]);
 

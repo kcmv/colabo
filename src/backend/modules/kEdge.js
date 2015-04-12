@@ -1,8 +1,5 @@
 'use strict';
 
-/**
- * New node file
- */
 var mongoose = require('mongoose');
 
 var mockup = {fb: {authenticate: false}, db: {data:false}};
@@ -38,7 +35,8 @@ db.on('error', console.error.bind(console, 'connection error:'));
 //curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/between/551b4366fd64e5552ed19364/551bb2c68f6e4cfc35654f37
 exports.index = function(req, res){
 	var found = function(err,kEdges){
-		console.log("[modules/kEdge.js:index] in 'found'");
+		console.log("[modules/kEdge.js:index] in found; req.params.type: %s: ", req.params.type);
+		console.log("kEdges:"+kEdges);
 		if (err){
 			throw err;
 			var msg = JSON.stringify(err);
@@ -105,14 +103,20 @@ exports.create = function(req, res){
 }
 
 //curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World E1"}' http://127.0.0.1:8888/kedges/one/551bb2c68f6e4cfc35654f37
+//curl -v -H "Content-Type: application/json" -X PUT -d '{"mapId": "552678e69ad190a642ad461c", "sourceId": "55268521fb9a901e442172f9", "targetId": "5526855ac4f4db29446bd183"}' http://127.0.0.1:8888/kedges/one/552475525034f70c166bf89c
 exports.update = function(req, res){
-	console.log("[modules/kEdge.js:update] req.body: %s", JSON.stringify(req.body));
+	//console.log("[modules/KNode.js:update] req.body: %s", JSON.stringify(req.body));
 
 	var data = req.body;
+	var id = req.params.searchParam;
 	
-	var kEdge = new kEdgeModel(kEdgeJSON);
+	console.log("[modules/KNode.js:update] id : %s", id );
+	console.log("[modules/KNode.js:update] data, : %s", JSON.stringify(data));
+	
+	delete data._id;
 	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
-	kEdgeModel.findByIdAndUpdate(kEdge._id , kEdge, { multi: true }, function (err, numberAffected, raw) {
+	//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
+	kEdgeModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
 		  if (err) throw err;
 		  console.log('The number of updated documents was %d', numberAffected);
 		  console.log('The raw response from Mongo was ', raw);

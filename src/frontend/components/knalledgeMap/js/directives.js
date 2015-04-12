@@ -250,7 +250,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
     		}
     	};
 	}])
-	.directive('knalledgeMapList', ['$rootScope', '$window', 'KnalledgeNodeService', function($rootScope, $window, KnalledgeNodeService){
+	.directive('knalledgeMapList', ['$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', function($rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService, $q){
 		// http://docs.angularjs.org/guide/directive
 		return {
 			restrict: 'AE',
@@ -260,6 +260,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
 			controller: function ( $scope ) {
+				/*
 				$scope.knalledgeMapFull = KnalledgeNodeService.query();
 				$scope.knalledgeMapFull.$promise.then(function(result){
 					console.log("[knalledgeMapList] result.map.(nodes.length = %d, edges.length = %d)", 
@@ -270,8 +271,50 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					$rootScope.$broadcast(eventName, $scope.knalledgeMapFull.map);
 				}, function(fail){
 					$window.alert("Error loading knalledgeMap: %s", fail);
-				});				
-    		}	
+				});
+				*/
+				
+				var result = {
+					"properties": {
+						"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+						"date": "2015.03.22.",
+						"authors": "S. Rudan, D. Karabeg",
+						"rootNodeId": 1
+					},
+					"map": {
+						"nodes": new Array(),
+						"edges": new Array()
+					}
+					
+				};
+				
+				function handleReject(){
+					$window.alert("Error loading knalledgeMap: %s", fail);
+				}
+				
+				function nodesEdgesReceived(){
+					console.log("nodesEdgesReceived");
+					for(var i=0; i<nodes.length; i++){
+						result.map.nodes.push(nodes[i]);
+					}
+					for(var i=0; i<edges.length; i++){
+						result.map.edges.push(edges[i]);
+					}
+					
+					var eventName = "modelLoadedEvent";
+					$scope.knalledgeMapFull = result;
+					console.log("$scope.knalledgeMapFull:" + JSON.stringify($scope.knalledgeMapFull));
+					$rootScope.$broadcast(eventName, $scope.knalledgeMapFull.map);
+				}
+				
+				var nodes = KnalledgeNodeService.queryInMap('552678e69ad190a642ad461c');
+				var edges = KnalledgeEdgeService.queryInMap('552678e69ad190a642ad461c');
+				
+				$q.all([nodes.$promise, edges.$promise])
+				.then(nodesEdgesReceived)
+				.catch(handleReject); //TODO: test this. 2nd function fail or like this 'catch' 
+				
+    		} //controller-function
     	};
 	}])
 	.directive('knalledgeMapNode', [function(){
