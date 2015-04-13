@@ -236,12 +236,12 @@ treeHtml.prototype.createNewNode = function() {
 	};
 
 	this.nodesById[newNode._id] = newNode;
-
+	this.clientApi.createNode(); //saving on server service
 	return newNode;
 };
 
-treeHtml.prototype.saveNode = function(node) {
-	this.clientApi.saveNode();
+treeHtml.prototype.updateNode = function() {
+	this.clientApi.updateNode(); //updating on server service
 };
 
 treeHtml.prototype.createNewEdge = function(startNodeId, endNodeId) {
@@ -1057,6 +1057,8 @@ treeHtml.prototype.exitEditingNode = function(){
 	if(this.editingNodeHtml){
 		var nodeSpan = this.editingNodeHtml.select("span");
 		nodeSpan.attr("contenteditable", false);
+		
+		this.updateNode(this.editingNodeHtml.datum);
 		nodeSpan.node().blur();
 		this.editingNodeHtml = null;
 	}
@@ -1141,7 +1143,6 @@ treeHtml.prototype.initializeKeyboard = function() {
 		if(!this.selectedNode) return; // no parent node selected
 
 		var newNode = this.createNewNode();
-		this.saveNode(newNode);
 		var newEdge = this.createNewEdge(this.selectedNode._id, newNode._id);
 		if(!this.selectedNode.isOpen){
 			this.selectedNode.isOpen = true;

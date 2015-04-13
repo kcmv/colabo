@@ -104,14 +104,23 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					};
 					
 					var kMapClientInterface = {
-						saveNode: function(node, callback){
-							function saved(){
-								console.log("[knalledgeMap.controller'] saved: " + JSON.stringify(node));
+						createNode: function(node, callback){
+							function created(){
+								console.log("[knalledgeMap.controller'] created: " + JSON.stringify(node));
 								callback(node);
 							}
 							KnalledgeNodeService.create(node).$promise
-							.then(saved);
-						}/*,
+							.then(created);
+						},
+						updateNode: function(node, callback){
+							function updated(){
+								console.log("[knalledgeMap.controller'] updated: " + JSON.stringify(node));
+								callback(node);
+							}
+							KnalledgeNodeService.create(node).$promise
+							.then(updated);
+						}
+						/*,
 						mapEntityClicked: function(mapEntity ){
 							$scope.$apply(function () {
 								var eventName = "mapEntitySelectedEvent";
