@@ -1,14 +1,16 @@
 var TreeHtml = null;
+var mapId = "552678e69ad190a642ad461c";
 
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
 var treeHtml;
 
-treeHtml = TreeHtml = function(parentDom, config, dimensions){
+treeHtml = TreeHtml = function(parentDom, config, dimensions, clientApi){
 	this.parentDom = parentDom;
 	this.config = config;
 	this.dimensions = dimensions;
+	this.clientApi = clientApi;
 
 	this.rootNode = null;
 	this.selectedNode = null;
@@ -225,15 +227,21 @@ treeHtml.prototype.createNewNode = function() {
 			maxId = this.nodesById[i]._id;
 		}
 	}
+	
 	var newNode = {
-		"id": maxId+1,
-		"name": "Hello world",
-		"isOpen": false
+		"_id": maxId+1,
+		"name": "name ...",
+		"isOpen": false,
+		"mapId": mapId
 	};
 
 	this.nodesById[newNode._id] = newNode;
 
 	return newNode;
+};
+
+treeHtml.prototype.saveNode = function(node) {
+	this.clientApi.saveNode();
 };
 
 treeHtml.prototype.createNewEdge = function(startNodeId, endNodeId) {
@@ -1133,7 +1141,8 @@ treeHtml.prototype.initializeKeyboard = function() {
 		if(!this.selectedNode) return; // no parent node selected
 
 		var newNode = this.createNewNode();
-		// var newEdge = this.createNewEdge(this.selectedNode._id, newNode._id);
+		this.saveNode(newNode);
+		var newEdge = this.createNewEdge(this.selectedNode._id, newNode._id);
 		if(!this.selectedNode.isOpen){
 			this.selectedNode.isOpen = true;
 		}

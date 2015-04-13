@@ -1,0 +1,78 @@
+{
+	"properties": {
+		"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+		"date": "2015.03.22.",
+		"authors": "S. Rudan, D. Karabeg",
+		"rootNodeId": 1
+	},
+	"map": {
+		"nodes": [
+			{
+				"_id": "55268521fb9a901e442172f9",
+				"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+				"mapId":"552678e69ad190a642ad461c"
+				"visual": {
+					"isOpen": true
+				}
+			},
+			{
+				"_id": "5526855ac4f4db29446bd183",
+				"name": "Direct Creativity",
+				"mapId":"552678e69ad190a642ad461c"
+			},
+			{
+				"_id": "551b4366fd64e5552ed19364",
+				"name": "Breakthrough in handling creativity possible"
+			},
+			{
+				"_id": "551bb2c68f6e4cfc35654f37",
+				"name": "deep creative insight"
+			},
+			{
+				"_id": "551bb5073dda1559368883b2",
+				"name": "Classical Physics"
+			},
+			{
+				"_id": "551bb5d8317e908736b6b21c",
+				"name": "Indirect Creativty",
+				"visual": {
+					"isOpen": true,
+					"manualX": 300,
+					"manualY": 300
+				}
+			}
+		],
+		"edges": [
+			{
+				"_id": "552678e69ad190a642ad461c",
+				"name": "foster",
+				"sourceId": "55268521fb9a901e442172f9",
+				"targetId": "2"
+			},
+			{
+				"_id": 2,
+				"name": "inhibits",
+				"sourceId": 1,
+				"targetId": 6
+			},
+			{
+				"_id": 3,
+				"name": "supports",
+				"sourceId": 2,
+				"targetId": 3
+			},
+			{
+				"_id": 4,
+				"name": "insights",
+				"sourceId": 2,
+				"targetId": 4
+			},
+			{
+				"_id": 5,
+				"name": "inhibits",
+				"sourceId": 6,
+				"targetId": 5
+			}
+		]
+	}
+}

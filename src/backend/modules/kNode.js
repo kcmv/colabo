@@ -33,6 +33,32 @@ mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
+
+exports.populateDemo = function(){
+	var fileName = '../data/demo_data.json';
+	console.log('[populateDemo] loading file %s', fileName);
+	fs.readFile(fileName, 'utf8', function (err, dataStr) {
+		if (err) {
+			return console.log(err);
+		}
+		console.log('[populateDemo] parsing file');
+		//console.log('[populateDemo] dataStr: %s', JSON.stringify(dataStr));
+		var dataObj = tsv.parse(dataStr);
+		//console.log('[populateDemo] dataObj: %s', JSON.stringify(dataObj));
+		var i = 0;
+		for (var datumId in dataObj){
+			var datum = dataObj[datumId];
+			process.stdout.write("\rDatum : " + i);
+			//console.log('[populateDemo] datum: %s', JSON.stringify(datum));
+			//var test2 = new SLaWS({form: 'руке', lemma: 'рука', ana: 'Nnpkdjf'});
+			var datumMongo = new SLaWS(datum);
+			datumMongo.save();
+			i++;
+		}
+		console.log("\n[populateDemo] data inserted");
+	});
+}
+
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/knodes/one/551bdcda1763e3f0eb749bd4
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/knodes/in_map/552678e69ad190a642ad461c
 exports.index = function(req, res){

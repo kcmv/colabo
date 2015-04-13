@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', [/*'$timeout', '$rootScope', 'ConfigMap',*/ function(/*$timeout, $rootScope, ConfigMap*/){
+	.directive('knalledgeMap', ['KnalledgeNodeService', '$q', /*'$timeout', '$rootScope', 'ConfigMap',*/ function(KnalledgeNodeService, $q /*$timeout, $rootScope, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -102,8 +102,43 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							}
 						}
 					};
+					
+					var kMapClientInterface = {
+						saveNode: function(node, callback){
+							function saved(){
+								console.log("[knalledgeMap.controller'] saved: " + JSON.stringify(node));
+								callback(node);
+							}
+							KnalledgeNodeService.create(node).$promise
+							.then(saved);
+						}/*,
+						mapEntityClicked: function(mapEntity ){
+							$scope.$apply(function () {
+								var eventName = "mapEntitySelectedEvent";
+								$rootScope.$broadcast(eventName, mapEntity);
+							});
+						},
+						mapEntityDraggedIn: function(mapEntity, decoratingEntity){
+							$scope.$apply(function () {
+								mapEntity.draggedInNo++;
+								if(decoratingEntity.type == 'variable'){
+									var variableEntity = {
+										name: "variable",
+										type: "variable"
+									};
+									var relationship = {
+										"name": "",
+										"type": mcm.Map.CONTAINS_VARIABLE_OUT
+									};
+									mcmMap.addChildNode(mapEntity, variableEntity, relationship);
+								}
+							});
+						},
+						timeout: $timeout
+						*/
+					};
 
-					var treeHtml = new TreeHtml(d3.select($element.find(".map-container").get(0)), config, dimensions);
+					var treeHtml = new TreeHtml(d3.select($element.find(".map-container").get(0)), config, dimensions, kMapClientInterface);
 					treeHtml.init();
 					//treeHtml.load("treeData.json");
 					treeHtml.processData(null, model);
