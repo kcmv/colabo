@@ -106,12 +106,16 @@ MoveAndDrag.InitializeDragging = function (config) {
 					targetD3.style("left", (isNaN(parseInt(targetD3.style("left"))) ? 0 : parseInt(targetD3.style("left"))) + event.dx + "px");
 					targetD3.style("top", (isNaN(parseInt(targetD3.style("top"))) ? 0 : parseInt(targetD3.style("top"))) + event.dy + "px");
 				}
-				if(d && d.visual){
+				if(d){
 					// update manual values for datum
-					d.visual.dimensions.sizes.x += event.dx;
-					d.visual.dimensions.sizes.y += event.dy;
-					d.x += event.dx;
-					d.y += event.dy;
+					d.x += event.dy;
+					d.y += event.dx;
+
+					if(!d.visual) d.visual = {};
+					if(!d.visual.dimensions) d.visual.dimensions = {};
+					if(!d.visual.dimensions.sizes) d.visual.dimensions.sizes = {};
+					d.visual.dimensions.sizes.x = d.x;
+					d.visual.dimensions.sizes.y = d.y;
 				}
 
 				// var textEl = event.target.querySelector('p');
@@ -140,6 +144,7 @@ MoveAndDrag.InitializeDragging = function (config) {
 					clonedD3 = movingPlaceholder;
 				}
 				clonedD3.remove();
+				clonedD3 = null;
 
 				staticPlaceholder = null;
 				movingPlaceholder = null;

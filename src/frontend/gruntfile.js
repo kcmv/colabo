@@ -37,7 +37,8 @@ module.exports = function(grunt) {
 					// application related global objects
 					interaction: true,
 					mcm: true,
-					TreeHtml: true
+					TreeHtml: true,
+					knalledge
 				}
 			}
 		},
