@@ -43,11 +43,12 @@ db.on('open', function (callback) {
 		console.log("[kNode.populate]");
 		KNodeModel.remove().exec()
 		.then(function onFulfilled(result, info) {
-			//console.log("[KNodeModel.remove()] pars: result: " + result + ". info: " + JSON.stringify(info));
+			//console.log("[kNode.remove()] params: result: " + result + ". info: " + JSON.stringify(info));
 			console.log("[kNode.remove()] Collection deleted. %d documents deleted: ", result);
+			//resolve();
 		}, function onRejected(err) {
 			console.log("[kNode.remove()] error on deleting collections. Error: " + err);
-			throw err;
+			//reject();
 		})
 		.then(populateDemo)
 		.then(function(data){
