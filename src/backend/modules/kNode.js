@@ -35,18 +35,19 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 var populate = 
-false;
-//true;
+	//false;
+	true;
 
 db.on('open', function (callback) {
 	if(populate){
+		console.log("[kNode.populate]");
 		KNodeModel.remove().exec()
-		.then(function (err) {
-			if (err){
-				console.log("[KNodeModel.remove()] error on deleting all collections. Error: " + err);
-				throw err;
-			}
-			console.log('[kNode] all collections successfully deleted');
+		.then(function onFulfilled(result, info) {
+			//console.log("[KNodeModel.remove()] pars: result: " + result + ". info: " + JSON.stringify(info));
+			console.log("[kNode.remove()] Collection deleted. %d documents deleted: ", result);
+		}, function onRejected(err) {
+			console.log("[kNode.remove()] error on deleting collections. Error: " + err);
+			throw err;
 		})
 		.then(populateDemo)
 		.then(function(data){
@@ -95,6 +96,7 @@ function populateDemo(){
 			finishedinserting = true;
 			console.log("[kNode::populateDemo] data_array:\n" + JSON.stringify(data_array));
 			
+			//resolve();
 			KNodeModel.collection.insert(data_array, onInsert); // call to underlying MongoDb driver
 
 			function onInsert(err, docs) {
