@@ -210,7 +210,27 @@ Map.prototype.viewspecChanged = function(target){
 	this.update(this.rootNode);
 };
 
+//should be migrated to some util .js file:
+Map.prototype.cloneObject = function(obj){
+	return (JSON.parse(JSON.stringify(obj)));
+}
+	
 Map.prototype.createNewNode = function() {
+	function nodeCreated(nodeFromServer) {
+		console.log("[Map] nodeCreated" + JSON.stringify(nodeFromServer));
+		var oldId = newNode._id;
+		delete this.nodesById[oldId];//		this.nodesById.splice(oldId, 1);
+		this.nodesById[nodeFromServer._id] = newNode; //TODO: we should set it to 'nodeFromServer'?! But we should synchronize also local changes from 'newNode' happen in meantime
+		newNode._id = nodeFromServer._id; //TODO: same as above
+		
+		//fixing edges:: sourceId & .targetId:
+		for(var i in this.edgesById){
+			if(this.edgesById[i].sourceId == oldId){this.edgesById[i].sourceId = nodeFromServer._id;}
+			if(this.edgesById[i].targetId == oldId){this.edgesById[i].targetId = nodeFromServer._id;}
+		}
+	};
+	
+	console.log("[Map] createNewNode");
 	var maxId = -1;
 	for(var i in this.nodesById){
 		if(maxId < this.nodesById[i]._id){
@@ -226,7 +246,9 @@ Map.prototype.createNewNode = function() {
 	};
 
 	this.nodesById[newNode._id] = newNode;
-	this.clientApi.createNode(newNode); //saving on server service
+	var nodeCloned = this.cloneObject(newNode);
+	delete nodeCloned._id;
+	this.clientApi.createNode(nodeCloned, nodeCreated.bind(this)); //saving on server service.
 	return newNode;
 };
 
@@ -235,6 +257,15 @@ Map.prototype.updateNode = function(node) {
 };
 
 Map.prototype.createNewEdge = function(startNodeId, endNodeId) {
+	function edgeCreated(edgeFromServer) {
+		console.log("[Map] edgeCreated" + JSON.stringify(edgeFromServer));
+		
+		var oldId = newEdge._id;
+		delete this.edgesById[oldId];//		this.nodesById.splice(oldId, 1);
+		this.edgesById[edgeFromServer._id] = newEdge; //TODO: we should set it to 'edgeFromServer'?! But we should synchronize also local changes from 'newEdge' happen in meantime
+		newEdge._id = edgeFromServer._id; //TODO: same as above
+	};
+	console.log("[Map] createNewEdge")
 	var maxId = -1;
 	for(var i in this.edgesById){
 		if(maxId < this.edgesById[i]._id){
@@ -242,7 +273,7 @@ Map.prototype.createNewEdge = function(startNodeId, endNodeId) {
 		}
 	}
 	var newEdge = {
-		"id": maxId+1,
+		"_id": maxId+1,
 		"name": "Hello Links",
 		"sourceId": startNodeId,
 		"targetId": endNodeId,
@@ -250,8 +281,11 @@ Map.prototype.createNewEdge = function(startNodeId, endNodeId) {
 	};
 
 	this.edgesById[newEdge._id] = newEdge;
-	this.clientApi.createEdge(newEdge); //saving on server service
-
+	
+	var edgeCloned = this.cloneObject(newEdge);
+	delete edgeCloned._id;
+	delete edgeCloned.targetId; // this is still not set to real DV ids
+	this.clientApi.createEdge(edgeCloned, edgeCreated.bind(this)); //saving on server service.
 	return newEdge;
 };
 
