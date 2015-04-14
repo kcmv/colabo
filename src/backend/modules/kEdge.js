@@ -29,8 +29,59 @@ mongoose.connect('mongodb://localhost/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-exports.populateDemo = function(){
-	
+var populate = true;
+db.on('open', function (callback) {
+	if(populate){
+		kEdgeModel.remove().exec()
+		.then(function (err) {
+			if (err){throw err;}
+			console.log('[kEdge] all collections successfully deleted');
+		})
+		.then(populateDemo)
+		.then(function(data){
+			console.log('[kEdge] all demo data successfully inserted');
+		});
+	}
+});
+
+function populateDemo(){
+	//console.log('kNode populateDemo');
+	var fs = require('fs');
+	var fileName = '../data/demo_data.json';
+	console.log('[kEdge::populateDemo]loading file %s', fileName);
+	fs.readFile(fileName, 'utf8', function (err, dataStr) {
+		if (err) {
+			return console.log(err);
+		}
+		//console.log('[kEdge::populateDemo]parsing file:\n' + dataStr);
+		var data = JSON.parse(dataStr);
+		console.log("[kEdge::populateDemo]dataStr.map.nodes:\n" + JSON.stringify(data.map.edges));
+		var data_bulk = data.map.edges;
+		//console.log("typeof data_bulk:" + typeof data_bulk);
+		var data_array = new Array();
+		for (var datumId in data_bulk){
+			var datum = data_bulk[datumId];
+			// toObject() is called to avoid error 'RangeError: Maximum call stack size exceeded', caused by sending Mongoose object to MongoDb driver (invoked by 'Model.collection.insert')
+			// http://stackoverflow.com/questions/24466366/mongoose-rangeerror-maximum-call-stack-size-exceeded
+			// and more about this: https://github.com/Automattic/mongoose/issues/1961#event-242694964
+			// "Document#toObject([options]) - Converts this document into a plain javascript object, ready for storage in MongoDB." from http://mongoosejs.com/docs/api.html#document_Document-toObject
+			var kEdge = new kEdgeModel(datum).toObject();
+			console.log("[kEdge::populateDemo]datum:\n" + JSON.stringify(datum));
+			console.log("[kEdge::populateDemo]kEdge:\n" + JSON.stringify(kEdge)+"\n");
+			data_array.push(kEdge);
+		}
+		console.log("[kEdge::populateDemo]data_array:\n" + JSON.stringify(data_array));
+		
+		kEdgeModel.collection.insert(data_array, onInsert); // call to underlying MongoDb driver
+
+		function onInsert(err, docs) {
+		    if (err) {
+		    	console.log('[kEdge::populateDemo]err %s', err);
+		    } else {
+		        console.info('[kEdge::populateDemo]%d EDGES were successfully stored.', data_bulk.length);
+		    }
+		}
+	});
 }
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
