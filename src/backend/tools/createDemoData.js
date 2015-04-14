@@ -1,6 +1,6 @@
 'use strict';
 
-globalDb = require('./models');
+require('../models'); // injects DB Schemas in global.db
 
 var mongoose = require('mongoose');
 var Promise = require("bluebird");
