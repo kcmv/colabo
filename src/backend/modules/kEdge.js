@@ -37,12 +37,13 @@ var populate =
 db.on('open', function (callback) {
 	if(populate){
 		KEdgeModel.remove().exec()
-		.then(function (err) {
-			if (err){
-				console.log("[KEdgeModel.remove()] error on deleting all collections. Error: " + err);
-				throw err;
-			}
-			console.log('[kEdge] all collections successfully deleted');
+		.then(function onFulfilled(result, info) {
+			//console.log("[kEdge.remove()] params: result: " + result + ". info: " + JSON.stringify(info));
+			console.log("[kEdge.remove()] Collection deleted. %d documents deleted: ", result);
+			//resolve();
+		}, function onRejected(err) {
+			console.log("[kEdge.remove()] error on deleting collections. Error: " + err);
+			//reject();
 		})
 		.then(populateDemo)
 		.then(function(data){
@@ -145,6 +146,7 @@ exports.index = function(req, res){
 	
 	//TODO: remove (testing)
 	KEdgeModel.find(function (err, kEdges) {
+		console.log("all data:\n length: %d.\n", kEdges.length);
 		console.log(kEdges);
 		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	});
