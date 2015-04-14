@@ -84,8 +84,8 @@ var mapToolset = {
 };
 
 //var env = envs['json'];
-var env = envs.json;
-//var env = envs.localhost;
+//var env = envs.json;
+var env = envs.localhost;
 // var env = envs.server;
 
 angular.module('Config', [])

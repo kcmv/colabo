@@ -44,7 +44,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			if(ENV.server.parseResponse){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				// console.log("[knalledgeMapServices] serverResponse: %s", JSON.stringify(serverResponse));
+				// console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
 				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
 				var data = serverResponse.data;
 				return data[0];
@@ -60,13 +60,13 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			if(ENV.server.parseResponse){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				console.log("[knalledgeMapServices] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
+				console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[KnalledgeNodeService] accessId: %s", serverResponse.accessId);
 				var data = serverResponse.data;
 //				for(var datumId in data){
 //					var data = data[datumId];
 //				}
-				//console.log("[knalledgeMapServices] data: %s", JSON.stringify(data));
+				//console.log("[KnalledgeNodeService] data: %s", JSON.stringify(data));
 				return data;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
@@ -80,12 +80,13 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			if(ENV.server.parseResponse){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				//console.log("[TagRelationsService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[DatasService:create] accessId: %s", serverResponse.accessId);
+				//console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[KnalledgeNodeService::createPlain] accessId: %s", serverResponse.accessId);
 				var data = serverResponse.data;
-				//console.log("[DatasService] data: %s", JSON.stringify(data));
+				console.log("[KnalledgeNodeService::createPlain] data: %s", JSON.stringify(data));
 				return data;
 			}else{
+				//console.log("ENV.server.parseResponse = false");
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -98,8 +99,8 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				if(ENV.server.parseResponse){
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					//console.log("[TagRelationsService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[DatasService:create] accessId: %s", serverResponse.accessId);
+					//console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
+					console.log("[KnalledgeNodeService:create] accessId: %s", serverResponse.accessId);
 					var data = serverResponse.data;
 					return data;
 				}else{
@@ -116,8 +117,8 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				if(ENV.server.parseResponse){
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					//console.log("[TagRelationsService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[DatasService:create] accessId: %s", serverResponse.accessId);
+					//console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
+					console.log("[KnalledgeNodeService:create] accessId: %s", serverResponse.accessId);
 					var data = serverResponse.data;
 					return data;
 				}else{
@@ -163,6 +164,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	
 	resource.create = function(kNode, callback)
 	{
+		console.log("resource.create");
 		return this.createPlain({}, kNode, callback);
 	}
 	
@@ -196,7 +198,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			if(ENV.server.parseResponse){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				// console.log("[knalledgeMapServices] serverResponse: %s", JSON.stringify(serverResponse));
+				// console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
 				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
 				var data = serverResponse.data;
 				return data[0];
@@ -212,13 +214,13 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			if(ENV.server.parseResponse){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				console.log("[knalledgeMapServices] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
+				console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[KnalledgeEdgeService] accessId: %s", serverResponse.accessId);
 				var data = serverResponse.data;
 //				for(var datumId in data){
 //					var data = data[datumId];
 //				}
-				//console.log("[knalledgeMapServices] data: %s", JSON.stringify(data));
+				//console.log("[KnalledgeEdgeService] data: %s", JSON.stringify(data));
 				return data;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
@@ -232,10 +234,10 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			if(ENV.server.parseResponse){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				//console.log("[TagRelationsService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[DatasService:create] accessId: %s", serverResponse.accessId);
+				//console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[KnalledgeEdgeService::create] accessId: %s", serverResponse.accessId);
 				var data = serverResponse.data;
-				//console.log("[DatasService] data: %s", JSON.stringify(data));
+				console.log("[KnalledgeEdgeService::create] data: %s", JSON.stringify(data));
 				return data;
 			}else{
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
@@ -250,8 +252,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				if(ENV.server.parseResponse){
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					//console.log("[TagRelationsService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[DatasService:create] accessId: %s", serverResponse.accessId);
+					//console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
+					console.log("[KnalledgeEdgeService:create] accessId: %s", serverResponse.accessId);
 					var data = serverResponse.data;
 					return data;
 				}else{
@@ -268,8 +270,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				if(ENV.server.parseResponse){
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					//console.log("[TagRelationsService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[DatasService:create] accessId: %s", serverResponse.accessId);
+					//console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
+					console.log("[KnalledgeEdgeService:create] accessId: %s", serverResponse.accessId);
 					var data = serverResponse.data;
 					return data;
 				}else{

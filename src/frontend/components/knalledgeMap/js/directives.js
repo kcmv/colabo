@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', ['KnalledgeNodeService', '$q', /*'$timeout', '$rootScope', 'ConfigMap',*/ function(KnalledgeNodeService, $q /*$timeout, $rootScope, ConfigMap*/){
+	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', '$q', /*'$timeout', '$rootScope', 'ConfigMap',*/ function(KnalledgeNodeService, KnalledgeEdgeService, $q /*$timeout, $rootScope, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -113,31 +113,28 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					
 					var kMapClientInterface = {
 						createNode: function(node, callback){
-							function created(){
-								console.log("[knalledgeMap.controller'] node created: " + JSON.stringify(node));
-								callback(node);
+							function created(nodeFromServer){
+								console.log("[knalledgeMap.controller'] createNode: " + nodeFromServer);
+								if(callback){callback(nodeFromServer);}
 							}
-							node._id = null;
 							KnalledgeNodeService.create(node).$promise
-							.then(created);
-						},
-						createEdge: function(edge, callback){
-							function created(){
-								console.log("[knalledgeMap.controller'] edge created: " + JSON.stringify(edge));
-								callback(edge);
-							}
-							edge._id = null;
-							KnalledgeEdgeService.create(edge).$promise
 							.then(created);
 						},
 						updateNode: function(node, callback){
-							function updated(){
-								console.log("[knalledgeMap.controller'] updated: " + JSON.stringify(node));
-								callback(node);
+							function updated(nodeFromServer){
+								console.log("[knalledgeMap.controller'] node updated: " + JSON.stringify(nodeFromServer));
+								if(callback){callback(nodeFromServer);}
 							}
-							// TODO: CREATE VANILLA OBJECTS
-							KnalledgeNodeService.create(node).$promise
+							KnalledgeNodeService.update(node).$promise
 							.then(updated);
+						},
+						createEdge: function(edge, callback){ //TODO: should we return promise?
+							function created(edgeFromServer){
+								console.log("[knalledgeMap.controller'] edge created: " + edgeFromServer);
+								if(callback){callback(edgeFromServer);}
+							}
+							KnalledgeEdgeService.create(edge).$promise
+							.then(created);
 						}
 						/*,
 						mapEntityClicked: function(mapEntity ){
@@ -332,7 +329,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
 			controller: function ( $scope ) {
-				
+				/*
 				$scope.knalledgeMapFull = KnalledgeNodeService.query();
 				$scope.knalledgeMapFull.$promise.then(function(result){
 					console.log("[knalledgeMapList] result.map.(nodes.length = %d, edges.length = %d)", 
@@ -345,7 +342,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					$window.alert("Error loading knalledgeMap: %s", fail);
 				});
 				return;
-				
+				*/
+
 				var result = {
 					"properties": {
 						"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
