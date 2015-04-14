@@ -4,7 +4,7 @@
  * New node file
  */
 var mongoose = require('mongoose');
-var Promise = require("bluebird")
+var Promise = require("bluebird");
 
 var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
@@ -35,14 +35,17 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 var populate = 
-//false;
-true;
+false;
+//true;
 
 db.on('open', function (callback) {
 	if(populate){
 		KNodeModel.remove().exec()
 		.then(function (err) {
-			if (err){throw err;}
+			if (err){
+				console.log("[KNodeModel.remove()] error on deleting all collections. Error: " + err);
+				throw err;
+			}
 			console.log('[kNode] all collections successfully deleted');
 		})
 		.then(populateDemo)
@@ -57,7 +60,6 @@ https://github.com/petkaantonov/bluebird
 https://github.com/petkaantonov/bluebird/blob/master/API.md#new-promisefunctionfunction-resolve-function-reject-resolver---promise
 http://stackoverflow.com/questions/28000060/promised-mongo-cant-finalize-promise
 */
-
 function populateDemo(){
 	var entriesNo = 0;
 	var finishedinserting = false;
@@ -88,7 +90,7 @@ function populateDemo(){
 				console.log("[kNode::populateDemo] knode:\n" + JSON.stringify(knode)+"\n");
 				data_array.push(knode);
 				entriesNo++;
-				console.log("[kNode::populateDemo] inserting new node. entriesNo:%s", entriesNo);
+				console.log("[kNode::populateDemo] adding new node to insertion array. entriesNo: %d", entriesNo);
 			}
 			finishedinserting = true;
 			console.log("[kNode::populateDemo] data_array:\n" + JSON.stringify(data_array));

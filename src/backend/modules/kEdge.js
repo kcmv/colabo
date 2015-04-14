@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var Promise = require("bluebird");
 
 var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
@@ -20,9 +21,9 @@ function resSendJsonProtected(res, data){
 	}
 };
 
-var kEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
+var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
 
-// module.exports = kEdgeModel; //then we can use it by: var User = require('./app/models/kEdgeModel');
+// module.exports = KEdgeModel; //then we can use it by: var User = require('./app/models/KEdgeModel');
 
 /* connecting */
 mongoose.connect('mongodb://localhost/KnAllEdge');
@@ -31,12 +32,16 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 var populate = 
 	//false;
-	false;
+	true;
+
 db.on('open', function (callback) {
 	if(populate){
-		kEdgeModel.remove().exec()
+		KEdgeModel.remove().exec()
 		.then(function (err) {
-			if (err){throw err;}
+			if (err){
+				console.log("[KEdgeModel.remove()] error on deleting all collections. Error: " + err);
+				throw err;
+			}
 			console.log('[kEdge] all collections successfully deleted');
 		})
 		.then(populateDemo)
@@ -46,43 +51,67 @@ db.on('open', function (callback) {
 	}
 });
 
-function populateDemo(){
-	//console.log('kNode populateDemo');
-	var fs = require('fs');
-	var fileName = '../data/demo_data.json';
-	console.log('[kEdge::populateDemo]loading file %s', fileName);
-	fs.readFile(fileName, 'utf8', function (err, dataStr) {
-		if (err) {
-			return console.log(err);
-		}
-		//console.log('[kEdge::populateDemo]parsing file:\n' + dataStr);
-		var data = JSON.parse(dataStr);
-		console.log("[kEdge::populateDemo]dataStr.map.nodes:\n" + JSON.stringify(data.map.edges));
-		var data_bulk = data.map.edges;
-		//console.log("typeof data_bulk:" + typeof data_bulk);
-		var data_array = new Array();
-		for (var datumId in data_bulk){
-			var datum = data_bulk[datumId];
-			// toObject() is called to avoid error 'RangeError: Maximum call stack size exceeded', caused by sending Mongoose object to MongoDb driver (invoked by 'Model.collection.insert')
-			// http://stackoverflow.com/questions/24466366/mongoose-rangeerror-maximum-call-stack-size-exceeded
-			// and more about this: https://github.com/Automattic/mongoose/issues/1961#event-242694964
-			// "Document#toObject([options]) - Converts this document into a plain javascript object, ready for storage in MongoDB." from http://mongoosejs.com/docs/api.html#document_Document-toObject
-			var kEdge = new kEdgeModel(datum).toObject();
-			console.log("[kEdge::populateDemo]datum:\n" + JSON.stringify(datum));
-			console.log("[kEdge::populateDemo]kEdge:\n" + JSON.stringify(kEdge)+"\n");
-			data_array.push(kEdge);
-		}
-		console.log("[kEdge::populateDemo]data_array:\n" + JSON.stringify(data_array));
-		
-		kEdgeModel.collection.insert(data_array, onInsert); // call to underlying MongoDb driver
 
-		function onInsert(err, docs) {
-		    if (err) {
-		    	console.log('[kEdge::populateDemo]err %s', err);
-		    } else {
-		        console.info('[kEdge::populateDemo]%d EDGES were successfully stored.', data_bulk.length);
-		    }
-		}
+/*
+https://github.com/petkaantonov/bluebird
+https://github.com/petkaantonov/bluebird/blob/master/API.md#new-promisefunctionfunction-resolve-function-reject-resolver---promise
+http://stackoverflow.com/questions/28000060/promised-mongo-cant-finalize-promise
+*/
+function populateDemo(){
+	var entriesNo = 0;
+	var finishedinserting = false;
+	var errorOccured = false;
+	return new Promise(function (resolve, reject) {
+		//console.log('kEdge populateDemo');
+		var fs = require('fs');
+		var fileName = '../data/demo_data.json';
+		console.log('[kEdge::populateDemo] loading file %s', fileName);
+		fs.readFile(fileName, 'utf8', function (err, dataStr) {
+			if (err) {
+				return console.log(err);
+			}
+			//console.log('[kEdge::populateDemo]parsing file:\n' + dataStr);
+			var data = JSON.parse(dataStr);
+			console.log("[kEdge::populateDemo] dataStr.map.edges:\n" + JSON.stringify(data.map.edges));
+			var data_bulk = data.map.edges;
+			//console.log("typeof data_bulk:" + typeof data_bulk);
+			var data_array = new Array();
+			for (var datumId in data_bulk){
+				var datum = data_bulk[datumId];
+				// toObject() is called to avoid error 'RangeError: Maximum call stack size exceeded', caused by sending Mongoose object to MongoDb driver (invoked by 'Model.collection.insert')
+				// http://stackoverflow.com/questions/24466366/mongoose-rangeerror-maximum-call-stack-size-exceeded
+				// and more about this: https://github.com/Automattic/mongoose/issues/1961#event-242694964
+				// "Document#toObject([options]) - Converts this document into a plain javascript object, ready for storage in MongoDB." from http://mongoosejs.com/docs/api.html#document_Document-toObject
+				var kedge = new KEdgeModel(datum).toObject();
+				console.log("[kEdge::populateDemo] datum:\n" + JSON.stringify(datum));
+				console.log("[kEdge::populateDemo] kedge:\n" + JSON.stringify(kedge)+"\n");
+				data_array.push(kedge);
+				entriesNo++;
+				console.log("[kEdge::populateDemo] adding new edge to insertion array. entriesNo: %d", entriesNo);
+			}
+			finishedinserting = true;
+			console.log("[kEdge::populateDemo] data_array:\n" + JSON.stringify(data_array));
+			
+			KEdgeModel.collection.insert(data_array, onInsert); // call to underlying MongoDb driver
+
+			function onInsert(err, docs) {
+			    if (err) {
+			    	entriesNo--;
+			    	console.log('[kEdge::populateDemo::onInsert] err %s', err);
+			    	errorOccured = true;
+			    	reject();
+			    } else {
+			        console.info('[kEdge::populateDemo::onInsert] %d NODES were successfully stored.', data_bulk.length);
+			    	entriesNo -= data_bulk.length;
+			        console.info('\t[kEdge::populateDemo::onInsert] finishedinserting:%s, errorOccured:%s, entriesNo:%s', 
+			        	finishedinserting, errorOccured, entriesNo);
+			        if(finishedinserting && !errorOccured && entriesNo == 0){
+				    	console.log('[kEdge::populateDemo::onInsert] last insertion finished. resolving');
+			        	resolve();
+			        }
+			    }
+			}
+		});
 	});
 }
 
@@ -115,23 +144,23 @@ exports.index = function(req, res){
 	}
 	
 	//TODO: remove (testing)
-	kEdgeModel.find(function (err, kEdges) {
+	KEdgeModel.find(function (err, kEdges) {
 		console.log(kEdges);
 		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	});
 	
 	switch (req.params.type){
 		case 'one': //by edge id:
-			kEdgeModel.findById(req.params.searchParam, found);
+			KEdgeModel.findById(req.params.searchParam, found);
 			break;
 		case 'between':  //all edges between specific nodes:
-			kEdgeModel.find( { $and:[ {'sourceId':req.params.searchParam}, {'targetId':req.params.searchParam2}]}, found);
+			KEdgeModel.find( { $and:[ {'sourceId':req.params.searchParam}, {'targetId':req.params.searchParam2}]}, found);
 			break;
 		case 'connected': //all edges connected to knode.id
-			kEdgeModel.find( { $or:[ {'sourceId':req.params.searchParam}, {'targetId':req.params.searchParam}]},found);
+			KEdgeModel.find( { $or:[ {'sourceId':req.params.searchParam}, {'targetId':req.params.searchParam}]},found);
 			break;
 		case 'in_map': //all edges in specific map
-			kEdgeModel.find({ 'mapId': req.params.searchParam}, found);
+			KEdgeModel.find({ 'mapId': req.params.searchParam}, found);
 			break;
 	}
 }
@@ -143,7 +172,7 @@ exports.create = function(req, res){
 	
 	var data = req.body;
 	
-	var kEdge = new kEdgeModel(data);
+	var kEdge = new KEdgeModel(data);
 	//TODO: Should we force existence of node ids?
 	if(data.sourceId){
 		kEdge.sourceId = mongoose.Types.ObjectId(data.sourceId);
@@ -162,18 +191,18 @@ exports.create = function(req, res){
 //curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World E1"}' http://127.0.0.1:8888/kedges/one/551bb2c68f6e4cfc35654f37
 //curl -v -H "Content-Type: application/json" -X PUT -d '{"mapId": "552678e69ad190a642ad461c", "sourceId": "55268521fb9a901e442172f9", "targetId": "5526855ac4f4db29446bd183"}' http://127.0.0.1:8888/kedges/one/552475525034f70c166bf89c
 exports.update = function(req, res){
-	//console.log("[modules/KNode.js:update] req.body: %s", JSON.stringify(req.body));
+	//console.log("[modules/KEdge.js:update] req.body: %s", JSON.stringify(req.body));
 
 	var data = req.body;
 	var id = req.params.searchParam;
 	
-	console.log("[modules/KNode.js:update] id : %s", id );
-	console.log("[modules/KNode.js:update] data, : %s", JSON.stringify(data));
+	console.log("[modules/KEdge.js:update] id : %s", id );
+	console.log("[modules/KEdge.js:update] data, : %s", JSON.stringify(data));
 	
 	delete data._id;
 	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
 	//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
-	kEdgeModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
+	KEdgeModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
 		  if (err) throw err;
 		  console.log('The number of updated documents was %d', numberAffected);
 		  console.log('The raw response from Mongo was ', raw);
@@ -186,7 +215,7 @@ exports.destroy = function(req, res){
 	var dataId = req.params.searchParam;
 	console.log("[modules/kEdge.js:destroy] dataId:%s, type:%s, req.body: %s", dataId, type, JSON.stringify(req.body));
 	
-	kEdgeModel.findByIdAndRemove(dataId, function (err) {
+	KEdgeModel.findByIdAndRemove(dataId, function (err) {
 			if (err) throw err;
 			var data = {id:dataId};
 			resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
