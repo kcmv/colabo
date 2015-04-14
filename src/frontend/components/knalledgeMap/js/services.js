@@ -74,7 +74,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			}
 		}},
 		
-		createPlain: {method:'POST', params:{extension:".json"}/*{type:'', searchParam: '', extension:""}*/, 
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/, 
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -226,7 +226,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			}
 		}},
 		
-		createPlain: {method:'POST', params:{extension:".json"}/*{type:'', searchParam: '', extension:""}*/, 
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/, 
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){

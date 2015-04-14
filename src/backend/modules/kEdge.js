@@ -101,8 +101,8 @@ exports.create = function(req, res){
 
 	kEdge.save(function(err) {
 		if (err) throw err;
-		console.log("[modules/kEdge.js:create] data (id:%d) created: %s", kEdge.id, JSON.stringify(kEdge));
-		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+		console.log("[modules/kEdge.js:create] data (id:%s) created data: %s", kEdge.id, JSON.stringify(kEdge));
+		resSendJsonProtected(res, {success: true, data: kEdge, accessId : accessId});
 	});				
 }
 

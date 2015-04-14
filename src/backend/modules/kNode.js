@@ -110,8 +110,8 @@ exports.create = function(req, res){
 
 	knode.save(function(err) {
 		if (err) throw err;
-		console.log("[modules/KNode.js:create] id:%d, knode data: %s", knode._id, JSON.stringify(knode));
-		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+		console.log("[modules/KNode.js:create] id:%s, knode data: %s", knode._id, JSON.stringify(knode));
+		resSendJsonProtected(res, {success: true, data: knode, accessId : accessId});
 	});				
 }
 
