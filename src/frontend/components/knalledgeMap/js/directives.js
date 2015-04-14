@@ -57,7 +57,15 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								show: false
 							},
 							html: {
-								show: true
+								show: true,
+								dimensions: {
+									sizes: {
+										y: 10,
+										x: 50,
+										width: 150,
+										height: 50
+									}
+								}
 							}
 						},
 						edges: {
@@ -67,7 +75,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							}
 						},
 						tree: {
-							viewspec: "viewspec_tree" // "viewspec_manual"
+							viewspec: "viewspec_manual" // "viewspec_tree" // "viewspec_manual"
 						},
 						transitions: {
 							enter: {
@@ -106,10 +114,20 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					var kMapClientInterface = {
 						createNode: function(node, callback){
 							function created(){
-								console.log("[knalledgeMap.controller'] created: " + JSON.stringify(node));
+								console.log("[knalledgeMap.controller'] node created: " + JSON.stringify(node));
 								callback(node);
 							}
+							node._id = null;
 							KnalledgeNodeService.create(node).$promise
+							.then(created);
+						},
+						createEdge: function(edge, callback){
+							function created(){
+								console.log("[knalledgeMap.controller'] edge created: " + JSON.stringify(edge));
+								callback(edge);
+							}
+							edge._id = null;
+							KnalledgeEdgeService.create(edge).$promise
 							.then(created);
 						},
 						updateNode: function(node, callback){
@@ -117,6 +135,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								console.log("[knalledgeMap.controller'] updated: " + JSON.stringify(node));
 								callback(node);
 							}
+							// TODO: CREATE VANILLA OBJECTS
 							KnalledgeNodeService.create(node).$promise
 							.then(updated);
 						}
@@ -147,7 +166,16 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						*/
 					};
 
-					var treeHtml = new TreeHtml(d3.select($element.find(".map-container").get(0)), config, dimensions, kMapClientInterface);
+					var isNew = true;
+					if(isNew){
+						var treeHtml = new knalledge.Map(
+						d3.select($element.find(".map-container").get(0)),
+						config, dimensions, kMapClientInterface, null);
+					}else{
+						var treeHtml = new TreeHtml(
+						d3.select($element.find(".map-container").get(0)),
+						config, dimensions, kMapClientInterface);						
+					}
 					treeHtml.init();
 					//treeHtml.load("treeData.json");
 					treeHtml.processData(null, model);
@@ -304,7 +332,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
 			controller: function ( $scope ) {
-				/*
+				
 				$scope.knalledgeMapFull = KnalledgeNodeService.query();
 				$scope.knalledgeMapFull.$promise.then(function(result){
 					console.log("[knalledgeMapList] result.map.(nodes.length = %d, edges.length = %d)", 
@@ -316,7 +344,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				}, function(fail){
 					$window.alert("Error loading knalledgeMap: %s", fail);
 				});
-				*/
+				return;
 				
 				var result = {
 					"properties": {

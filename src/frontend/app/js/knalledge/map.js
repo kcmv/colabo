@@ -1,16 +1,12 @@
-var TreeHtml = null;
-var mapId = "552678e69ad190a642ad461c";
-
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var treeHtml;
-
-treeHtml = TreeHtml = function(parentDom, config, dimensions, clientApi){
+var Map =  knalledge.Map = function(parentDom, config, dimensions, clientApi, entityStyles){
 	this.parentDom = parentDom;
 	this.config = config;
 	this.dimensions = dimensions;
 	this.clientApi = clientApi;
+	this.entityStyles = entityStyles;
 
 	this.rootNode = null;
 	this.selectedNode = null;
@@ -29,8 +25,10 @@ treeHtml = TreeHtml = function(parentDom, config, dimensions, clientApi){
 		svg: null
 	};
 
+	this.keyboardInteraction = null;
+
 	// http://stackoverflow.com/questions/21990857/d3-js-how-to-get-the-computed-width-and-height-for-an-arbitrary-element
-	var mapSize = [parentDom.node().getBoundingClientRect().height, parentDom.node().getBoundingClientRect().width];
+	var mapSize = [this.parentDom.node().getBoundingClientRect().height, this.parentDom.node().getBoundingClientRect().width];
 	// inverted since tree is rotated to be horizontal
 	// related posts
 	//	http://stackoverflow.com/questions/17847131/generate-multilevel-flare-json-data-format-from-flat-json
@@ -51,7 +49,7 @@ treeHtml = TreeHtml = function(parentDom, config, dimensions, clientApi){
 	}.bind(this));
 };
 
-treeHtml.prototype.hasChildren = function(d){
+Map.prototype.hasChildren = function(d){
 	for(var i in this.edgesById){
 		if(this.edgesById[i].sourceId == d._id){
 			return true;
@@ -60,7 +58,7 @@ treeHtml.prototype.hasChildren = function(d){
 	return false;
 };
 
-treeHtml.prototype.getEdge = function(sourceId, targetId){
+Map.prototype.getEdge = function(sourceId, targetId){
 	for(var i in this.edgesById){
 		if(this.edgesById[i].sourceId == sourceId && this.edgesById[i].targetId == targetId){
 			return this.edgesById[i];
@@ -72,18 +70,18 @@ treeHtml.prototype.getEdge = function(sourceId, targetId){
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal_projection
 // https://www.dashingd3js.com/svg-paths-and-d3js
-treeHtml.prototype.diagonal = function(that){
+Map.prototype.diagonal = function(that){
 	var diagonalSource = function(d){
 		//return d.source;
 		// here we are creating object with just necessary parameters (x, y)
 		var point = {x: d.source.x, y: d.source.y};
-		if(!this.config.nodes.punctual){
+		if(!that.config.nodes.punctual){
 			// since our node is not just a punctual entity, but it has width, we need to adjust diagonals' source and target points
 			// by shifting points from the center of node to the edges of node
 			// we deal here with y-coordinates, because our final tree is rotated to propagete across the x-axis, instead of y-axis
 			// (you can see that in .project() function
 			if(d.source.y < d.target.y){
-				point.y += this.dimensions.node.width/2 + 0;
+				point.y += that.dimensions.node.width/2 + 0;
 			}
 		}
 		return point;
@@ -92,9 +90,9 @@ treeHtml.prototype.diagonal = function(that){
 	var diagonalTarget = function(d){
 		//return d.target;
 		var point = {x: d.target.x, y: d.target.y};
-		if(!this.config.nodes.punctual){
+		if(!that.config.nodes.punctual){
 			if(d.target.y > d.source.y){
-				point.y -= this.dimensions.node.width/2 + 0;
+				point.y -= that.dimensions.node.width/2 + 0;
 			}
 		}
 		return point;
@@ -111,18 +109,18 @@ treeHtml.prototype.diagonal = function(that){
 };
 
 // collapses children of the provided node
-treeHtml.prototype.collapse = function(d) {
+Map.prototype.collapse = function(d) {
 	d.isOpen = false;
 };
 
 // toggle children of the provided node
-treeHtml.prototype.toggle = function(d) {
+Map.prototype.toggle = function(d) {
 	d.isOpen = !d.isOpen;
 	return;
 };
 
 // Returns view representation (dom) from datum d
-treeHtml.prototype.getDomFromDatum = function(d) {
+Map.prototype.getDomFromDatum = function(d) {
 	var dom = this.dom.divMapHtml.selectAll("div.node_html")
 		.data([d], function(d){return d._id;});
 	if(dom.size() != 1) return null;
@@ -130,7 +128,7 @@ treeHtml.prototype.getDomFromDatum = function(d) {
 };
 
 // Select node on node click
-treeHtml.prototype.clickNode = function(d) {
+Map.prototype.clickNode = function(d) {
 	// select clicked
 	var isSelected = d.isSelected;
 	var nodesHtmlSelected = this.getDomFromDatum(d);
@@ -160,13 +158,13 @@ treeHtml.prototype.clickNode = function(d) {
 };
 
 // Toggle children on node double-click
-treeHtml.prototype.clickDoubleNode = function(d) {
+Map.prototype.clickDoubleNode = function(d) {
 	this.toggle(d);
 	this.update(d);
 };
 
 // react on label click.
-treeHtml.prototype.clickLinkLabel = function() {
+Map.prototype.clickLinkLabel = function() {
 	// console.log("Label clicked: " + JSON.stringify(d.target.name));
 
 	// just as a click indicator
@@ -177,7 +175,7 @@ treeHtml.prototype.clickLinkLabel = function() {
 	}
 };
 
-treeHtml.prototype.init = function(){
+Map.prototype.init = function(){
 	var that = this;
 
 	this.dom.divMap = this.dom.parentDom.append("div")
@@ -206,21 +204,13 @@ treeHtml.prototype.init = function(){
 	});
 };
 
-treeHtml.prototype.viewspecChanged = function(target){
+Map.prototype.viewspecChanged = function(target){
 	if (target.value === "viewspec_tree") this.config.tree.viewspec = "viewspec_tree";
 	else if (target.value === "viewspec_manual") this.config.tree.viewspec = "viewspec_manual";
 	this.update(this.rootNode);
 };
 
-treeHtml.prototype.load = function(filename){
-	// load the external data
-	var that = this;
-	d3.json(filename, function(error, treeData) {
-		that.processData(error, treeData);
-	});
-};
-
-treeHtml.prototype.createNewNode = function() {
+Map.prototype.createNewNode = function() {
 	var maxId = -1;
 	for(var i in this.nodesById){
 		if(maxId < this.nodesById[i]._id){
@@ -240,11 +230,11 @@ treeHtml.prototype.createNewNode = function() {
 	return newNode;
 };
 
-treeHtml.prototype.updateNode = function() {
-	this.clientApi.updateNode(); //updating on server service
+Map.prototype.updateNode = function(node) {
+	this.clientApi.updateNode(node); //updating on server service
 };
 
-treeHtml.prototype.createNewEdge = function(startNodeId, endNodeId) {
+Map.prototype.createNewEdge = function(startNodeId, endNodeId) {
 	var maxId = -1;
 	for(var i in this.edgesById){
 		if(maxId < this.edgesById[i]._id){
@@ -265,7 +255,7 @@ treeHtml.prototype.createNewEdge = function(startNodeId, endNodeId) {
 	return newEdge;
 };
 
-treeHtml.prototype.processData = function(error, treeData) {
+Map.prototype.processData = function(error, treeData) {
 	//this.properties = treeData.properties;
 	var rootId = "552bf9409b8b80284c2e72c8";
 	var i=0;
@@ -295,7 +285,7 @@ treeHtml.prototype.processData = function(error, treeData) {
 	this.update(this.rootNode);
 };
 
-treeHtml.prototype.update = function(source, callback) {
+Map.prototype.update = function(source, callback) {
 	this.generateTree(this.rootNode);
 	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
 	var that = this;
@@ -311,13 +301,15 @@ treeHtml.prototype.update = function(source, callback) {
 	}, 25);
 };
 
-treeHtml.prototype.generateTree = function(source){
+Map.prototype.generateTree = function(source){
 	if(this.nodes){
 		// Normalize for fixed-depth.
 		this.nodes.forEach(function(d) {
 			// Stash the old positions for transition.
-		    d.x0 = d.x;
-		    d.y0 = d.y;
+		    if('x' in d) d.x0 = d.x;
+		    if('y' in d) d.y0 = d.y;
+		    if('width' in d) d.width0 = d.width;
+		    if('height' in d) d.height0 = d.height;
 		});
 	}
 
@@ -327,19 +319,33 @@ treeHtml.prototype.generateTree = function(source){
 
 	// Normalize for fixed-depth.
 	var viewspec = this.config.tree.viewspec;
+	var sizes = this.config.nodes.html.dimensions.sizes;
 	this.nodes.forEach(function(d) {
 		d.y = d.depth * 300;
+
 		if(d.parent && d.parent == "null"){
 			d.parent = null;
 		}
 
 		if(viewspec == "viewspec_manual"){
 			// update x and y to manual coordinates if present
-			if("manualX" in d){
-				d.x = d.manualX;
+			if(d.visual && d.visual.dimensions && d.visual.dimensions.sizes && "x" in d.visual.dimensions.sizes){
+				d.x = d.visual.dimensions.sizes.x;
 			}
-			if("manualY" in d){
-				d.y = d.manualY;
+			if(d.visual && d.visual.dimensions && d.visual.dimensions.sizes && "y" in d.visual.dimensions.sizes){
+				d.y = d.visual.dimensions.sizes.y;
+			}
+
+			// update width and height to manual values if present
+			if(d.visual && d.visual.dimensions && d.visual.dimensions.sizes && "width" in d.visual.dimensions.sizes){
+				d.width = d.visual.dimensions.sizes.width;
+			}else{
+				d.width = sizes.width;
+			}
+			if(d.visual && d.visual.dimensions && d.visual.dimensions.sizes && "height" in d.visual.dimensions.sizes){
+				d.height = d.visual.dimensions.sizes.height;
+			}else{
+				d.height = sizes.height;
 			}
 
 			// make it sure that x0 and y0 exist for newly entered nodes
@@ -347,11 +353,18 @@ treeHtml.prototype.generateTree = function(source){
 				d.x0 = d.x;
 				d.y0 = d.y;
 			}
+			// make it sure that width0 and height0 exist for newly entered nodes
+			if(!("width0" in d)){
+				d.width0 = d.width;
+			}
+			if(!("height0" in d)){
+				d.height0 = d.height;
+			}
 		}
 	});
 };
 
-treeHtml.prototype.getHtmlNodePosition = function(d) {
+Map.prototype.getHtmlNodePosition = function(d) {
 	var x = null;
 	if(this.config.nodes.html.show){
 		x = d.x - d.height/2;
@@ -365,7 +378,7 @@ treeHtml.prototype.getHtmlNodePosition = function(d) {
 	return x;
 };
 
-treeHtml.prototype.updateHtml = function(source) {
+Map.prototype.updateHtml = function(source) {
 	var that = this;
 	if(!this.config.nodes.html.show) return;
 
@@ -449,7 +462,7 @@ treeHtml.prototype.updateHtml = function(source) {
 	return nodeHtmlDatasets;
 };
 
-treeHtml.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
+Map.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
 	if(!this.config.nodes.html.show) return;
 	var that = this;
 
@@ -529,7 +542,7 @@ treeHtml.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
 	nodeHtmlExitTransition.remove();
 };
 
-treeHtml.prototype.updateNodeDimensions = function(){
+Map.prototype.updateNodeDimensions = function(){
 	if(!this.config.nodes.html.show) return;
 	// var that = this;
 
@@ -543,7 +556,7 @@ treeHtml.prototype.updateNodeDimensions = function(){
 	});
 };
 
-treeHtml.prototype.updateSvgNodes = function(source) {
+Map.prototype.updateSvgNodes = function(source) {
 	if(!this.config.nodes.svg.show) return;
 	var that = this;
 
@@ -650,7 +663,7 @@ treeHtml.prototype.updateSvgNodes = function(source) {
 	}
 };
 
-treeHtml.prototype.updateLinkLabels = function(source) {
+Map.prototype.updateLinkLabels = function(source) {
 	if(!this.config.edges.labels.show) return;
 
 	var that = this;
@@ -778,7 +791,7 @@ treeHtml.prototype.updateLinkLabels = function(source) {
 		.remove();
 };
 
-treeHtml.prototype.updateLinks = function(source) {
+Map.prototype.updateLinks = function(source) {
 	if(!this.config.edges.show) return;
 
 	var that = this;
@@ -799,6 +812,7 @@ treeHtml.prototype.updateLinks = function(source) {
 		// link contains source {x, y} and target {x, y} attributes which are used as input for diagonal,
 		// and then each passed to projection to calculate array couple [x,y] for both source and target point
 		.attr("d", function(d) {
+			var diagonal;
 			if(that.config.transitions.enter.animate.position){
 				var o;
 				if(that.config.transitions.enter.referToToggling){
@@ -806,10 +820,11 @@ treeHtml.prototype.updateLinks = function(source) {
 				}else{
 					o = {x: d.source.x0, y: d.source.y0};
 				}
-				return that.diagonal(that)({source: o, target: o});
+				diagonal = that.diagonal(that)({source: o, target: o});
 			}else{
-				return that.diagonal(that)(d);
+				diagonal = that.diagonal(that)(d);
 			}
+			return diagonal;
 		});
 
 	var linkEnterTransition = linkEnter;
@@ -831,10 +846,18 @@ treeHtml.prototype.updateLinks = function(source) {
 	}
 	if(this.config.transitions.update.animate.position){
 		linkUpdateTransition
-			.attr("d", this.diagonal(this));
+			.attr("d", function(d){
+				var diagonal;
+				diagonal = that.diagonal(that)(d);
+				return diagonal;
+			});
 	}else{
 		linkUpdate
-			.attr("d", this.diagonal(this));
+			.attr("d", function(d){
+				var diagonal;
+				diagonal = that.diagonal(that)(d);
+				return diagonal;
+			});
 	}
 
 	// still need to understand why this is necessary and 
@@ -852,17 +875,23 @@ treeHtml.prototype.updateLinks = function(source) {
 		if(this.config.transitions.exit.animate.position){
 			linkExitTransition
 				.attr("d", function(d) {
+					var diagonal;
 					var o;
 					if(that.config.transitions.exit.referToToggling){
 						o = {x: source.x, y: source.y};
 					}else{
 						o = {x: d.source.x, y: d.source.y};
 					}
-					return that.diagonal(that)({source: o, target: o});
+					diagonal = that.diagonal(that)({source: o, target: o});
+					return diagonal;
 				});
 		}else{
 			linkExit
-				.attr("d", this.diagonal(this));
+				.attr("d", function(d){
+					var diagonal;
+					diagonal = that.diagonal(that)(d);
+					return diagonal;
+				});
 		}
 		if(this.config.transitions.exit.animate.opacity){
 			linkExitTransition
@@ -873,288 +902,58 @@ treeHtml.prototype.updateLinks = function(source) {
 		.remove();
 };
 
+Map.prototype.initializeKeyboard = function() {
+	var that = this;
+
+	var keyboardClientInterface = {
+		updateNode: this.updateNode.bind(this),
+		getDomFromDatum: this.getDomFromDatum.bind(this),
+		clickNode: this.clickNode.bind(this),
+		update: this.update.bind(this),
+		createNewNode: this.createNewNode.bind(this),
+		createNewEdge: this.createNewEdge.bind(this),
+		getSelectedNode: function(){
+			return this.selectedNode
+		}.bind(this),
+		setSelectedNode: function(selectedNode){
+			this.selectedNode = selectedNode
+		}.bind(this)
+	};
+
+	this.keyboardInteraction = new interaction.Keyboard(keyboardClientInterface);
+	this.keyboardInteraction.init();
+};
+
 // http://interactjs.io/
 // http://interactjs.io/docs/#interactables
-treeHtml.prototype.initializeManipulation = function() {
-	var that = this;
-	var movingPlaceholder = null;
-	// target elements with the "draggable" class
-	interact('.draggable')
-		.draggable({
-			// enable inertial throwing
-			inertia: true,
-			// keep the element within the area of it's parent
-			restrict: {
-				restriction: "parent",
-				endOnly: true,
-				elementRect: { top: 1, left: 1, bottom: 1, right: 1 }
-			},
-
-			// call this function on every dragmove event
-			onstart: function (event) {
-				// var target = event.target;
-				var nodeHtml = d3.select(event.target);
-				// var d = nodeHtml.datum();
-
-				// remember original z-index
-				nodeHtml.attr('data-z-index', nodeHtml.style("z-index"));
-				// set it to the top of the index and reduce opacity
-				nodeHtml
-					.style("opacity", 0.5)
-					.style("z-index", 10);
-
-				// clone node with jQuery
-				// https://api.jquery.com/clone/
-				// http://www.w3schools.com/jsref/met_node_clonenode.asp
-				// https://www.safaribooksonline.com/library/view/jquery-cookbook/9780596806941/ch01s14.html
-				// http://stackoverflow.com/questions/8702165/how-to-clone-and-restore-a-dom-subtree
-				// http://stackoverflow.com/questions/1848445/duplicating-an-element-and-its-style-with-javascript
-				var movingPlaceholderJQ = $(event.target).clone(true, true);
-				// create D3 selector
-				movingPlaceholder = d3.select(movingPlaceholderJQ.get(0));
-				// append cloned node to the map
-				// http://stackoverflow.com/questions/21727202/append-dom-element-to-the-d3
-				// http://jsperf.com/innertext-vs-fragment/24
-				// http://stackoverflow.com/questions/16429199/selections-in-d3-how-to-use-parentnode-appendchild
-				that.dom.divMapHtml.node().appendChild(movingPlaceholder.node());
-			},
-
-			// call this function on every dragmove event
-			onmove: function (event) {
-				// var target = event.target;
-				var nodeHtml = d3.select(event.target),
-					// d = nodeHtml.datum(),
-
-				// keep the dragged position in the data-x/data-y attributes
-				x = (parseFloat(nodeHtml.attr('data-x')) || 0) + event.dx,
-				y = (parseFloat(nodeHtml.attr('data-y')) || 0) + event.dy;
-
-				// update the posiion attributes
-				nodeHtml.attr('data-x', x);
-				nodeHtml.attr('data-y', y);
-
-				// translate the cloned node
-				var translate = 'translate(' + x + 'px, ' + y + 'px)';
-				movingPlaceholder.style("transform", translate);
-			},
-			// call this function on every dragend event
-			onend: function (event) {
-				var target = event.target;
-				var nodeHtml = d3.select(event.target);
-				var d = nodeHtml.datum();
-
-				// update manual values for datum
-				d.manualX = d.x + event.dy;
-				d.manualY = d.y + event.dx;
-
-				// var textEl = event.target.querySelector('p');
-				// textEl && (textEl.textContent =
-				// "moving: " + d.manualX + ", " + d.manualY);
-				// 'moved a distance of '
-				// + (Math.sqrt(event.dx * event.dx +
-				//              event.dy * event.dy)|0) + 'px');
-
-				nodeHtml
-					.style("opacity", 1.0)
-					.style("z-index", target.getAttribute('data-z-index'));
-				nodeHtml.attr('data-z-index', null);
-
-				// resetting element translation
-				nodeHtml.style("transform", null);
-				// update the posiion attributes
-				nodeHtml.attr('data-x', null);
-				nodeHtml.attr('data-y', null);
-
-				if(movingPlaceholder){
-					movingPlaceholder.remove();
-					movingPlaceholder = null;
-				}
-
-				that.update(that.rootNode);
-	    }
-	  });
-};
-
-treeHtml.prototype.createCaretPlacer = function(el, atStart){
-	// http://www.w3schools.com/jsref/met_html_focus.asp
-	// http://stackoverflow.com/questions/2388164/set-focus-on-div-contenteditable-element
-	// http://stackoverflow.com/questions/12203086/how-to-set-focus-back-to-contenteditable-div
-	// http://stackoverflow.com/questions/2871081/jquery-setting-cursor-position-in-contenteditable-div
-	// http://stackoverflow.com/questions/7699825/how-do-i-set-focus-on-a-div-with-contenteditable
-	// https://gist.github.com/shimondoodkin/1081133
-	el.focus();
-
-	// http://stackoverflow.com/questions/4233265/contenteditable-set-caret-at-the-end-of-the-text-cross-browser
-	// http://stackoverflow.com/questions/1181700/set-cursor-position-on-contenteditable-div
-	// http://stackoverflow.com/questions/2871081/jquery-setting-cursor-position-in-contenteditable-div
-	// http://stackoverflow.com/questions/6249095/how-to-set-caretcursor-position-in-contenteditable-element-div
-	if(typeof window.getSelection != "undefined" && typeof window.document.createRange != "undefined"){
-		// https://developer.mozilla.org/en-US/docs/Web/API/range
-		// https://developer.mozilla.org/en-US/docs/Web/API/Document/createRange
-		var range = window.document.createRange();
-		// https://developer.mozilla.org/en-US/docs/Web/API/range/selectNodeContents
-		// https://developer.mozilla.org/en-US/docs/Web/API/Node
-		range.selectNodeContents(el);
-		// https://developer.mozilla.org/en-US/docs/Web/API/range/collapse
-		range.collapse(atStart);
-		// https://developer.mozilla.org/en-US/docs/Web/API/Selection
-		// https://developer.mozilla.org/en-US/docs/Web/API/window/getSelection
-		var sel = window.getSelection();
-		// https://developer.mozilla.org/en-US/docs/Web/API/Selection/removeAllRanges
-		// https://developer.mozilla.org/en-US/docs/Web/API/Selection/removeRange
-		// https://msdn.microsoft.com/en-us/library/ie/ff975178(v=vs.85).aspx
-		sel.removeAllRanges();
-		// https://developer.mozilla.org/en-US/docs/Web/API/Selection/addRange
-		sel.addRange(range);
-	}else if(typeof window.document.body.createTextRange != "undefined"){
-		// https://msdn.microsoft.com/en-us/library/ie/ms536401%28v=vs.85%29.aspx
-		// https://msdn.microsoft.com/en-us/library/ie/ms535872(v=vs.85).aspx
-		var textRange = window.document.body.createTextRange();
-		// https://msdn.microsoft.com/en-us/library/ie/ms536630(v=vs.85).aspx
-		textRange.moveToElementText(el);
-		// http://help.dottoro.com/ljuobwme.php
-		// http://www.ssicom.org/js/x415055.htm
-		if(typeof textRange.collapse != "undefined"){
-			textRange.collapse(atStart);
-		}
-		if(typeof textRange.collapse != "undefined"){
-			// https://msdn.microsoft.com/en-us/library/ie/ms536616(v=vs.85).aspx
-			textRange.move("textedit", (atStart ? -1 : 1));
-		}
-		// https://msdn.microsoft.com/en-us/library/ie/ms536735(v=vs.85).aspx
-		textRange.select();
-	}
-};
-
-treeHtml.prototype.setEditing = function(node){
-	if(!node) return;
+Map.prototype.initializeManipulation = function() {
 	var that = this;
 
-	console.log("editing starting");
-	this.editingNodeHtml = this.getDomFromDatum(this.selectedNode);
-	var nodeSpan = this.editingNodeHtml.select("span");
+	var manipulationEnded = function(targetD3){
+		var d = targetD3 ? targetD3.datum() : null;
+		console.log("knalledge_map:manipulationEnded [%s]", d ? d.name : null);
+		that.update(that.rootNode);
+		//that.update(that.model.nodes[0]);
+	};
 
-	// http://www.w3.org/TR/html5/editing.html#editing-0
-	// http://www.w3.org/TR/html5/editing.html#contenteditable
-	// http://www.w3.org/TR/html5/editing.html#making-entire-documents-editable:-the-designmode-idl-attribute
-	nodeSpan.attr("contenteditable", true);
-
-	this.createCaretPlacer(nodeSpan.node(), false);
-
-	// http://www.w3schools.com/js/js_htmldom_eventlistener.asp
-	nodeSpan.node().addEventListener("blur", function onblur(){
-		console.log("editing bluring");
-		// http://www.w3schools.com/jsref/met_element_removeeventlistener.asp
-		if(nodeSpan.node().removeEventListener){// For all major browsers, except IE 8 and earlier
-			nodeSpan.node().removeEventListener("blur", onblur);
-		}else if(nodeSpan.node().detachEvent){ // For IE 8 and earlier versions
-			nodeSpan.node().detachEvent("blur", onblur);
-		}
-		that.exitEditingNode();
-	});
-};
-
-treeHtml.prototype.exitEditingNode = function(){
-	console.log("exitEditingNode");
-	if(this.editingNodeHtml){
-		var nodeSpan = this.editingNodeHtml.select("span");
-		nodeSpan.attr("contenteditable", false);
-		
-		this.updateNode(this.editingNodeHtml.datum);
-		nodeSpan.node().blur();
-		this.editingNodeHtml = null;
-	}
-};
-
-// http://robertwhurst.github.io/KeyboardJS/
-treeHtml.prototype.initializeKeyboard = function() {
-	var that = this;
-	this.editingNodeHtml = null;
-
-	KeyboardJS.on("right", function(){
-		if(this.editingNodeHtml) return;
-
-		if(this.selectedNode.children){
-			this.clickNode(this.selectedNode.children[0]);
-		}
-	}.bind(this), function(){}.bind(this));
-	KeyboardJS.on("left", function(){
-		if(this.editingNodeHtml) return;
-
-		if(this.selectedNode.parent){
-			this.clickNode(this.selectedNode.parent);
-		}
-	}.bind(this), function(){}.bind(this));
-	KeyboardJS.on("down", function(){
-		if(this.editingNodeHtml) return;
-
-		if(this.selectedNode.parent && this.selectedNode.parent.children){
-			for(var i=0; i<this.selectedNode.parent.children.length; i++){
-				if(this.selectedNode.parent.children[i] == this.selectedNode){
-					if(i+1<this.selectedNode.parent.children.length){
-						this.clickNode(this.selectedNode.parent.children[i+1]);
-					}
-				}
+	this.draggingConfig = {
+		draggTargetElement: true,
+		target: {
+			refCategory: '.draggable',
+			opacity:  0.5,
+			zIndex: 10,
+			cloningContainer: that.dom.divMapHtml.node(), // getting native dom element from D3 selector
+			leaveAtDraggedPosition: false,
+			callbacks: {
+				onend: manipulationEnded
 			}
+		},
+		debug: {
+			origVsClone: false
 		}
-	}.bind(this), function(){}.bind(this));
-	KeyboardJS.on("up", function(){
-		if(this.editingNodeHtml) return;
+	};
 
-		if(this.selectedNode.parent && this.selectedNode.parent.children){
-			for(var i=0; i<this.selectedNode.parent.children.length; i++){
-				if(this.selectedNode.parent.children[i] == this.selectedNode){
-					if(i-1>=0){
-						this.clickNode(this.selectedNode.parent.children[i-1]);
-					}
-				}
-			}
-		}
-	}.bind(this), function(){}.bind(this));
-	KeyboardJS.on("enter", function(){
-		if(this.editingNodeHtml) return;
-
-		this.selectedNode.isOpen = !this.selectedNode.isOpen;
-		this.update(this.selectedNode);
-	}.bind(this), function(){}.bind(this));
-
-	// EDIT
-	KeyboardJS.on("space",
-	function(){
-		if(this.editingNodeHtml){
-			return;
-		}
-		return false;
-	},
-	function(){
-		if(this.editingNodeHtml) return;
-		this.setEditing(this.selectedNode);
-	}.bind(this), function(){}.bind(this));
-
-	// STOP-EDITING
-	KeyboardJS.on("escape", function(){
-		console.log("editing escaping");
-		if(this.editingNodeHtml){
-			this.exitEditingNode();
-		}
-	}.bind(this), function(){}.bind(this));	
-
-	// Add new node
-	KeyboardJS.on("tab", function(){
-		if(this.editingNodeHtml) return; // in typing mode
-		if(!this.selectedNode) return; // no parent node selected
-
-		var newNode = this.createNewNode();
-		var newEdge = this.createNewEdge(this.selectedNode._id, newNode._id);
-		if(!this.selectedNode.isOpen){
-			this.selectedNode.isOpen = true;
-		}
-
-		this.update(this.selectedNode, function(){
-			that.selectedNode = newNode;
-			that.setEditing(that.selectedNode);			
-		});
-	}.bind(this), function(){}.bind(this));	
+	interaction.MoveAndDrag.InitializeDragging(this.draggingConfig);
 };
 
 }()); // end of 'use strict';
