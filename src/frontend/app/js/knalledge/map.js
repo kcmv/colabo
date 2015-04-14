@@ -910,8 +910,8 @@ Map.prototype.initializeKeyboard = function() {
 		getDomFromDatum: this.getDomFromDatum.bind(this),
 		clickNode: this.clickNode.bind(this),
 		update: this.update.bind(this),
-		createNewNode: this.createNewNode.bind(this),
-		createNewEdge: this.createNewEdge.bind(this),
+		createNode: this.createNewNode.bind(this),
+		createEdge: this.createNewEdge.bind(this),
 		getSelectedNode: function(){
 			return this.selectedNode
 		}.bind(this),

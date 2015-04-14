@@ -58,6 +58,7 @@ db.on('open', function (callback) {
 /*
 https://github.com/petkaantonov/bluebird
 https://github.com/petkaantonov/bluebird/blob/master/API.md#new-promisefunctionfunction-resolve-function-reject-resolver---promise
+https://github.com/petkaantonov/bluebird/blob/master/API.md#thenfunction-fulfilledhandler--function-rejectedhandler----promise
 http://stackoverflow.com/questions/28000060/promised-mongo-cant-finalize-promise
 */
 function populateDemo(){

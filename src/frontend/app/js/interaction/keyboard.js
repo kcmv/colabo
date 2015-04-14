@@ -179,8 +179,8 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(this.editingNodeHtml) return; // in typing mode
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 
-		var newNode = this.clientApi.createNewNode();
-		var newEdge = this.clientApi.createNewEdge(this.clientApi.getSelectedNode()._id, newNode._id);
+		var newNode = this.clientApi.createNode();
+		var newEdge = this.clientApi.createEdge(this.clientApi.getSelectedNode()._id, newNode._id);
 		if(!this.clientApi.getSelectedNode().isOpen){
 			this.clientApi.getSelectedNode().isOpen = true;
 		}
