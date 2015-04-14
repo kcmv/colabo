@@ -29,7 +29,9 @@ mongoose.connect('mongodb://localhost/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-var populate = true;
+var populate = 
+	//false;
+	true;
 db.on('open', function (callback) {
 	if(populate){
 		kEdgeModel.remove().exec()

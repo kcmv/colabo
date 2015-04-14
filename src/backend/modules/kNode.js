@@ -34,8 +34,9 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 var populate = 
-false;
-//true;
+//false;
+true;
+
 db.on('open', function (callback) {
 	if(populate){
 		KNodeModel.remove().exec()
