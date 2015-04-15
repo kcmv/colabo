@@ -4,6 +4,8 @@ require('../models'); // injects DB Schemas in global.db
 
 var mongoose = require('mongoose');
 var Promise = require("bluebird");
+var fileName = '../../data/demo_data.json';
+var fs = require('fs');
 
 /* connecting */
 mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
@@ -42,6 +44,8 @@ db.on('open', function (callback) {
 	.then(function(data){
 		console.log('[kEdge] all demo data successfully inserted');
 	});
+	
+	//mongoose.connection.close();
 });
 
 /*
@@ -56,8 +60,6 @@ function populateNodeDemo(){
 	var errorOccured = false;
 	return new Promise(function (resolve, reject) {
 		//console.log('kNode populateDemo');
-		var fs = require('fs');
-		var fileName = '../data/demo_data.json';
 		console.log('[kNode::populateDemo] loading file %s', fileName);
 		fs.readFile(fileName, 'utf8', function (err, dataStr) {
 			if (err) {
@@ -120,8 +122,6 @@ function populateEdgeDemo(){
 	var errorOccured = false;
 	return new Promise(function (resolve, reject) {
 		//console.log('kEdge populateDemo');
-		var fs = require('fs');
-		var fileName = '../data/demo_data.json';
 		console.log('[kEdge::populateDemo] loading file %s', fileName);
 		fs.readFile(fileName, 'utf8', function (err, dataStr) {
 			if (err) {
@@ -158,7 +158,7 @@ function populateEdgeDemo(){
 			    	errorOccured = true;
 			    	reject();
 			    } else {
-			        console.info('[kEdge::populateDemo::onInsert] %d NODES were successfully stored.', data_bulk.length);
+			        console.info('[kEdge::populateDemo::onInsert] %d EDGES were successfully stored.', data_bulk.length);
 			    	entriesNo -= data_bulk.length;
 			        console.info('\t[kEdge::populateDemo::onInsert] finishedinserting:%s, errorOccured:%s, entriesNo:%s', 
 			        	finishedinserting, errorOccured, entriesNo);
