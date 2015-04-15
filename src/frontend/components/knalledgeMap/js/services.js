@@ -171,7 +171,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	resource.update = function(kNode, callback)
 	{
 		//TODO: check the name of param: id or ObjectId or _id?
-		return this.updatePlain({searchParam:kNode.id, type:'one'}, kNode, callback);
+		return this.updatePlain({searchParam:kNode._id, type:'one'}, kNode, callback);
 	}
 	
 	resource.destroy = function(id, callback)
@@ -283,7 +283,6 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 		}
 	});
 	
-	//TODO: Add Promises
 	resource.getById = function(id, callback)
 	{
 		return this.getPlain({ searchParam:id, type:'one' }, callback);
@@ -312,7 +311,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	resource.update = function(kEdge, callback)
 	{
 		//TODO: check the name of param: id or ObjectId or _id?
-		return this.updatePlain({searchParam:kEdge.id, type:'one'}, kEdge, callback);
+		return this.updatePlain({searchParam:kEdge._id, type:'one'}, kEdge, callback);
 	}
 	
 	resource.destroy = function(id, callback)

@@ -218,16 +218,23 @@ Map.prototype.cloneObject = function(obj){
 Map.prototype.createNewNode = function() {
 	function nodeCreated(nodeFromServer) {
 		console.log("[Map] nodeCreated" + JSON.stringify(nodeFromServer));
+		function edgeUpdatedNodeRef(edgeFromServer){
+			console.log("[Map] edgeUpdatedNodeRef" + JSON.stringify(edgeFromServer));
+		}
 		var oldId = newNode._id;
 		delete this.nodesById[oldId];//		this.nodesById.splice(oldId, 1);
 		this.nodesById[nodeFromServer._id] = newNode; //TODO: we should set it to 'nodeFromServer'?! But we should synchronize also local changes from 'newNode' happen in meantime
 		newNode._id = nodeFromServer._id; //TODO: same as above
 		
 		//fixing edges:: sourceId & .targetId:
-		//TODO: but these changes to EDGEs should be also updated on server!!!
 		for(var i in this.edgesById){
-			if(this.edgesById[i].sourceId == oldId){this.edgesById[i].sourceId = nodeFromServer._id;}
-			if(this.edgesById[i].targetId == oldId){this.edgesById[i].targetId = nodeFromServer._id;}
+			var changed = false;
+			var edge = this.edgesById[i];
+			if(edge.sourceId == oldId){edge.sourceId = nodeFromServer._id; changed = true;}
+			if(edge.targetId == oldId){edge.targetId = nodeFromServer._id; changed = true;}
+			if(changed){
+				this.clientApi.updateEdge(edge, edgeUpdatedNodeRef.bind(this)); //saving changes in edges's node refs to server
+			}
 		}
 	};
 	

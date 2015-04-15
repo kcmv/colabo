@@ -135,6 +135,14 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							}
 							KnalledgeEdgeService.create(edge).$promise
 							.then(created);
+						},
+						updateEdge: function(edge, callback){
+							function updated(edgeFromServer){
+								console.log("[knalledgeMap.controller'] edge updated: " + JSON.stringify(edgeFromServer));
+								if(callback){callback(edgeFromServer);}
+							}
+							KnalledgeEdgeService.update(edge).$promise
+							.then(updated);
 						}
 						/*,
 						mapEntityClicked: function(mapEntity ){
