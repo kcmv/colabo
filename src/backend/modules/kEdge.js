@@ -34,6 +34,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
 //curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/between/551b4366fd64e5552ed19364/551bb2c68f6e4cfc35654f37
+//curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/in_map/552678e69ad190a642ad461c
 exports.index = function(req, res){
 	var found = function(err,kEdges){
 		console.log("[modules/kEdge.js:index] in found; req.params.type: %s: ", req.params.type);

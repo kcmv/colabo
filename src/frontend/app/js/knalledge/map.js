@@ -224,6 +224,7 @@ Map.prototype.createNewNode = function() {
 		newNode._id = nodeFromServer._id; //TODO: same as above
 		
 		//fixing edges:: sourceId & .targetId:
+		//TODO: but these changes to EDGEs should be also updated on server!!!
 		for(var i in this.edgesById){
 			if(this.edgesById[i].sourceId == oldId){this.edgesById[i].sourceId = nodeFromServer._id;}
 			if(this.edgesById[i].targetId == oldId){this.edgesById[i].targetId = nodeFromServer._id;}
