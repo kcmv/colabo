@@ -184,10 +184,14 @@ Keyboard.prototype.initializeKeyboard = function() {
 		console.log("Adding image");
 		var d = this.clientApi.getSelectedNode();
 		if(d){
-			d.dataContent = {
+			if(!d.dataContent){
+				d.dataContent = {};
+			}
+			// http://localhost:8888/knodes/one/5526855ac4f4db29446bd183.json
+			d.dataContent.image = {
 				url: "http://upload.wikimedia.org/wikipedia/commons/e/e9/Meister_von_Mileseva_001.jpg",
 				width: 200,
-				height: 262
+				height: 262					
 			};
 			this.clientApi.updateNode(d);
 		}

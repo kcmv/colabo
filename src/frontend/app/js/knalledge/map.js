@@ -474,8 +474,25 @@ Map.prototype.updateHtml = function(source) {
 			return x + "px";
 		})
 		.style("background-color", function(d) {
+			var image = d.dataContent ? d.dataContent.image : null;
+			if(image) return null; // no bacground
 			return (!d.isOpen && that.hasChildren(d)) ? "#aaaaff" : "#ffffff";
 		});
+
+	nodeHtmlEnter.filter(function(d) { return d.dataContent && d.dataContent.image })
+		.append("img")
+			.attr("src", function(d){
+				return d.dataContent.image.url;
+			})
+			.attr("width", function(d){
+				return d.dataContent.image.width + "px";
+			})
+			.attr("height", function(d){
+				return d.dataContent.image.height + "px";
+			})
+			.attr("alt", function(d){
+				return d.name;
+			});
 
 	nodeHtmlEnter
 		.append("div")
@@ -553,6 +570,8 @@ Map.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
 
 	nodeHtmlUpdateTransition
 		.style("background-color", function(d) {
+			var image = d.dataContent ? d.dataContent.image : null;
+			if(image) return null; // no bacground
 			return (!d.isOpen && that.hasChildren(d)) ? "#aaaaff" : "#ffffff";
 		});
 
