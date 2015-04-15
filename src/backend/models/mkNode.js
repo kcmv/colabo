@@ -10,7 +10,7 @@ var kNodeSchema = mongoose.Schema({
 	ideaId: Number,
 	version: { type: Number, default: 1 }, //{type: DataTypes.INTEGER, allowNull: false, primaryKey: true},
 	isPublic: { type: Boolean, default: true },
-	dataContentSerialized: {type: String},
+	dataContent: {type: Object},
 	visual: {
 		isOpen: { type: Boolean, default: false },
 		manualX: Number,

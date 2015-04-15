@@ -95,7 +95,9 @@ Keyboard.prototype.exitEditingNode = function(){
 		var nodeSpan = this.editingNodeHtml.select("span");
 		nodeSpan.attr("contenteditable", false);
 		
-		this.clientApi.updateNode(this.editingNodeHtml.datum());
+		var d = this.editingNodeHtml.datum();
+		d.name = nodeSpan.text();
+		this.clientApi.updateNode(d);
 		nodeSpan.node().blur();
 		this.editingNodeHtml = null;
 	}
@@ -155,22 +157,39 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	// EDIT
 	KeyboardJS.on("space",
-	function(){
-		if(this.editingNodeHtml){
-			return;
-		}
-		return false;
-	},
-	function(){
-		if(this.editingNodeHtml) return;
-		this.setEditing(this.clientApi.getSelectedNode());
-	}.bind(this), function(){}.bind(this));
+		function(){
+			if(this.editingNodeHtml){
+				return;
+			}
+			return false;
+		},
+		function(){
+			if(this.editingNodeHtml) return;
+			this.setEditing(this.clientApi.getSelectedNode());
+		}.bind(this),
+		function(){}.bind(this)
+	);
 
 	// STOP-EDITING
 	KeyboardJS.on("escape", function(){
 		console.log("editing escaping");
 		if(this.editingNodeHtml){
 			this.exitEditingNode();
+		}
+	}.bind(this), function(){}.bind(this));	
+
+	// Add Image
+	KeyboardJS.on("i", function(){
+		if(this.editingNodeHtml) return;
+		console.log("Adding image");
+		var d = this.clientApi.getSelectedNode();
+		if(d){
+			d.dataContent = {
+				url: "http://upload.wikimedia.org/wikipedia/commons/e/e9/Meister_von_Mileseva_001.jpg",
+				width: 200,
+				height: 262
+			};
+			this.clientApi.updateNode(d);
 		}
 	}.bind(this), function(){}.bind(this));	
 

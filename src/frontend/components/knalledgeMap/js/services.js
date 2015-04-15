@@ -170,8 +170,22 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	
 	resource.update = function(kNode, callback)
 	{
+		var kNodeClone = {};
+		// kNodeClone = (JSON.parse(JSON.stringify(kNode)));
+		// delete kNodeClone.children;
+		// delete kNodeClone.parent;
+
+		for(var id in kNode){
+			if(id == 'children') continue;
+			if(id == 'parent') continue;
+			if(id[0] == '$') continue;
+			if(id == 'children') continue;
+			if (typeof kNode[id] == 'function') continue;
+			//console.log("cloning: %s", id);
+			kNodeClone[id] = (JSON.parse(JSON.stringify(kNode[id])));// kNode[id];
+		}
 		//TODO: check the name of param: id or ObjectId or _id?
-		return this.updatePlain({searchParam:kNode._id, type:'one'}, kNode, callback);
+		return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback);
 	}
 	
 	resource.destroy = function(id, callback)
