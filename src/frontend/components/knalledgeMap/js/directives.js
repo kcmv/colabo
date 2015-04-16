@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', '$compile', '$rootScope', /*'$qΩ, '$timeout', ConfigMap',*/ function(KnalledgeNodeService, KnalledgeEdgeService, $compile, $rootScope /*, $q, $timeout, ConfigMap*/){
+	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', '$compile', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ function(KnalledgeNodeService, KnalledgeEdgeService, $compile /*, $rootScope, $q, $timeout, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -132,15 +132,15 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							var created  = function(edgeFromServer){
 								console.log("[knalledgeMap.controller'] edge created: " + edgeFromServer);
 								if(callback){callback(edgeFromServer);}
-							}
+							};
 							KnalledgeEdgeService.create(edge).$promise
 							.then(created);
 						},
 						updateEdge: function(edge, callback){
-							function updated(edgeFromServer){
+							var updated = function(edgeFromServer){
 								console.log("[knalledgeMap.controller'] edge updated: " + JSON.stringify(edgeFromServer));
 								if(callback){callback(edgeFromServer);}
-							}
+							};
 							KnalledgeEdgeService.update(edge).$promise
 							.then(updated);
 						},
@@ -171,7 +171,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 											console.log("[knalledgeMap::kMapClientInterface::addImage::addedImage::created'] createNode: " + nodeFromServer);
 											if(callback){callback(nodeFromServer);}
 											knalledgeMap.update(node);
-										}
+										};
 										KnalledgeNodeService.update(node).$promise
 											.then(updated);
 									}.bind(this);

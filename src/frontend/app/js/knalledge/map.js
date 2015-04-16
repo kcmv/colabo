@@ -487,12 +487,12 @@ Map.prototype.updateHtml = function(source) {
 		})
 		.style("width", function(d){
 				var width = (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
-					d.dataContent.image.width + "px" : null
+					d.dataContent.image.width + "px" : null;
 				return width;
 		})
 		.style("margin-left", function(d){
 				var margin = (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
-					-d.dataContent.image.width/2 + "px" : null
+					-d.dataContent.image.width/2 + "px" : null;
 				return margin;
 		})
 		.style("background-color", function(d) {
@@ -519,7 +519,7 @@ Map.prototype.updateHtml = function(source) {
 	nodeHtmlEnter
 		.append("div")
 			.attr("class", "node_status")
-				.html(function(d){
+				.html(function(){
 					return "&nbsp;"; //d._id;
 				});
 
