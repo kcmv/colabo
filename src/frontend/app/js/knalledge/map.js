@@ -1026,6 +1026,12 @@ Map.prototype.initializeManipulation = function() {
 
 	var manipulationEnded = function(targetD3){
 		var d = targetD3 ? targetD3.datum() : null;
+		/*
+		Save:
+		d.visual.dimensions.sizes.x = d.x;
+		d.visual.dimensions.sizes.y = d.y;
+		*/
+
 		console.log("knalledge_map:manipulationEnded [%s]", d ? d.name : null);
 		that.update(that.rootNode);
 		//that.update(that.model.nodes[0]);
