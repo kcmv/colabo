@@ -1,11 +1,12 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var ViewStructure =  knalledge.ViewStructure = function(structure, configNodes, configTree, mapVisualizationApi){
+var ViewStructure =  knalledge.ViewStructure = function(structure, configNodes, configTree, mapVisualizationApi, knalledgeState){
 	this.structure = structure;
 	this.configNodes = configNodes;
 	this.configTree = configTree;
 	this.mapVisualizationApi = mapVisualizationApi;
+	this.knalledgeState = knalledgeState;
 	this.nodes = null;
 	this.links = null;
 	this.dom = null;
@@ -106,6 +107,10 @@ ViewStructure.prototype.clickNode = function(d) {
 	if(isSelected){
 		d.isSelected = false;
 		this.structure.unsetSelectedNode();
+		if(this.knalledgeState.addingLink != null){
+			this.structure.createEdge(this.knalledgeState.addingLinkFrom, d);
+			this.knalledgeState.addingLinkFrom = null;
+		}
 	}else{
 		// var nodeHtml = nodesHtml[0];
 		nodesHtmlSelected.classed({

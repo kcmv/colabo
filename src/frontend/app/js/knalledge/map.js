@@ -14,7 +14,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles){
 		update: this.mapVisualization.update.bind(this.mapVisualization),
 		getDom: this.mapVisualization.getDom.bind(this.mapVisualization)
 	};
-	this.viewStructure = new knalledge.ViewStructure(this.structure, this.config.nodes, this.config.tree, viewStructureApi);
+	this.viewStructure = new knalledge.ViewStructure(this.structure, this.config.nodes, this.config.tree, viewStructureApi, this.state);
 
 	this.keyboardInteraction = null;
 
@@ -49,6 +49,7 @@ Map.prototype.initializeKeyboard = function() {
 		update: this.mapVisualization.update.bind(this.mapVisualization),
 		createNode: this.clientApi.storage.createNode,
 		createEdge: this.clientApi.storage.createEdge,
+		knalledgeState: this.state,
 		getSelectedNode: function(){
 			return this.structure.getSelectedNode();
 		}.bind(this),

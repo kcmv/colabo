@@ -2,6 +2,7 @@
 'use strict';
 
 var State =  knalledge.State = function(storageApi){
+	this.addingLinkFrom = null;
 };
 
 State.prototype.init = function(){

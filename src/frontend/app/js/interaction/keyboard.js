@@ -189,8 +189,8 @@ Keyboard.prototype.initializeKeyboard = function() {
 	KeyboardJS.on("l", function(){
 		if(this.editingNodeHtml) return;
 		var node = this.clientApi.getSelectedNode();
-		if(node){
-			this.createEdge(node);
+		if(node){ // if source node is selected
+			this.clientApi.knalledgeState.addingLinkFrom = node;
 		}
 	}.bind(this), function(){}.bind(this));	
 

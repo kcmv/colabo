@@ -95,12 +95,8 @@ Structure.prototype.createNode = function() {
 		}
 	}
 	
-	var newNode = {
-		"_id": maxId+1,
-		"name": "name ...",
-		"isOpen": false,
-		"mapId": this.mapId
-	};
+	var newNode = new knalledge.KNode();
+	newNode._id = maxId+1;
 
 	this.nodesById[newNode._id] = newNode;
 	var nodeCloned = this.cloneObject(newNode);
@@ -132,13 +128,11 @@ Structure.prototype.createEdge = function(startNodeId, endNodeId) {
 			maxId = this.edgesById[i]._id;
 		}
 	}
-	var newEdge = {
-		"_id": maxId+1,
-		"name": "Hello Links",
-		"sourceId": startNodeId,
-		"targetId": endNodeId,
-		"mapId": this.mapId
-	};
+	
+	var newEdge = new knalledge.KEdge();
+	newEdge._id = maxId+1;
+	newEdge.sourceId = startNodeId;
+	newEdge.targetId = endNodeId;
 
 	this.edgesById[newEdge._id] = newEdge;
 	
