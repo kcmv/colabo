@@ -76,7 +76,8 @@ Map.prototype.initializeManipulation = function() {
 		d.visual.dimensions.sizes.y = d.y;
 		*/
 		d.visual.manualX = d.x;
-		d.visual.manualY = d.x;
+		d.visual.manualY = d.y;
+		that.structure.updateNode(d);
 
 		console.log("knalledge_map:manipulationEnded [%s]", d ? d.name : null);
 		that.mapVisualization.update(that.structure.rootNode);

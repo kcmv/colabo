@@ -184,6 +184,15 @@ Keyboard.prototype.initializeKeyboard = function() {
 		var node = this.clientApi.getSelectedNode();
 		this.clientApi.addImage(node);
 	}.bind(this), function(){}.bind(this));	
+	
+	// Add Link
+	KeyboardJS.on("l", function(){
+		if(this.editingNodeHtml) return;
+		var node = this.clientApi.getSelectedNode();
+		if(node){
+			this.createEdge(node);
+		}
+	}.bind(this), function(){}.bind(this));	
 
 	// Remove Image
 	KeyboardJS.on("shift+i", function(){
