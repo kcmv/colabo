@@ -1143,7 +1143,8 @@ treeHtml.prototype.initializeKeyboard = function() {
 		if(!this.selectedNode) return; // no parent node selected
 
 		var newNode = this.createNewNode();
-		var newEdge = this.createNewEdge(this.selectedNode._id, newNode._id);
+		// var newEdge = 
+		this.createNewEdge(this.selectedNode._id, newNode._id);
 		if(!this.selectedNode.isOpen){
 			this.selectedNode.isOpen = true;
 		}

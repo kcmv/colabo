@@ -365,7 +365,7 @@ $map: layout(12 1/4 fluid float inside);
 	width: 100%;
 	height: 100%;
 	/*background-color: #aaaaff;*/
-	opacity: 0.5;
+	/*opacity: 0.5;*/
 	z-index: 2;
 	/*display: none;*/
 }
@@ -378,15 +378,13 @@ $map: layout(12 1/4 fluid float inside);
 
 .node_html{
 	position: absolute;
+	border-width: 0px;
 	/*width: 10em;*/
-	width: 150px;
-	margin-left: -75px;
 	/*height: 3em;
 	line-height: 3em;*/
 
-	@include border-radius(10px, 10px);
 /*	background-color: #ffffff;
-*/	opacity: 0.7;
+*/	/*opacity: 0.7;*/
 	z-index: 5;
 	padding: 3px;
 	cursor: pointer;
@@ -413,17 +411,26 @@ $map: layout(12 1/4 fluid float inside);
 		font-weight: bold;
 		@include border-radius(10px, 10px);
 	}
+}
 
+.node_html_fixed{
+	width: 150px;
+	margin-left: -75px;
+	@include border-radius(10px, 10px);
+	border-width: 1px;
+	@include box-shadow(4px 3px 7px 2px rgba(150, 150, 255, 0.75));
 }
 
 .node_unselected{
-	border: 1px dashed #0000ff;
+	border-style: dashed;
+	border-color: #0000ff;
 	/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
 	/* color h-shadow v-shadow blur spread color inset*/
-	@include box-shadow(4px 3px 7px 2px rgba(150, 150, 255, 0.75));
 }
 .node_selected{
-	border: 2px solid #0000aa;
+	border-style: solid;
+	border-color: #0000aa;
+	border-width: 2px;
 	@include box-shadow(4px 3px 7px 2px rgba(80, 80, 255, 0.75));
 }
 
@@ -463,4 +470,131 @@ $map: layout(12 1/4 fluid float inside);
 */	
 	/*margin-top: -1.5em;
 	margin-left: -5em;*/
+}
+
+/*
+	knalledge-map-image-editing
+*/
+
+
+$knalledge_image_editing_color: #888888;
+$knalledge_image_editing_entity_color: #8888FF;
+$knalledge_image_editing_title_size: 1em;
+
+.knalledge-map-image-editing{
+	position: absolute;
+	width: 40%;
+	z-index: 100;
+	left: 50%;
+	margin-left: -20%;
+	top: 10%;
+	/* https://www.safaribooksonline.com/library/view/sass-and-compass/9781849694544/ch04s09.html 
+	https://robots.thoughtbot.com/controlling-color-with-sass-color-functions
+	*/
+	border: 3px solid transparentize(darken($knalledge_image_editing_color, 25%), 0.5);
+	background-color: transparentize($knalledge_image_editing_color, 0.25);
+	@include border-radius(15px);
+	/* color h-shadow v-shadow blur spread color inset*/
+	@include box-shadow(10px 10px 5px 5px transparentize(darken($knalledge_image_editing_color, 15%), 0.75));
+
+	.knalledge_title{
+		border-bottom: 3px solid darken($knalledge_image_editing_color, 25%);
+		background-color: $knalledge_image_editing_color;
+		text-align: center;
+		color: lighten($knalledge_image_editing_color, 35%);
+		font-weight: bold;
+		padding-top: 3px;
+		padding-bottom: 3px;
+		height: $knalledge_image_editing_title_size*1.5;
+		@include border-top-right-radius(15px);
+		@include border-top-left-radius(15px);
+	}
+
+	.knalledge_close{
+		position: absolute;
+		background-color: #dddddd;
+		border: solid 3px #555555;
+		font-weight: bold;
+		color: #888888;
+		font-size: $knalledge_image_editing_title_size;
+		padding: 0.1*$knalledge_image_editing_title_size;
+		padding-left: $knalledge_image_editing_title_size;
+		padding-right: $knalledge_image_editing_title_size;
+		@include border-radius(15px);
+		right: $knalledge_image_editing_title_size*0.1;
+		top: $knalledge_image_editing_title_size*0.1;
+		z-index: 101;
+
+		cursor: pointer;
+
+		&:hover{
+			background-color: #ffffff;
+		}
+	}
+
+	ul {
+		/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
+		overflow-y: scroll;
+		position: relative;
+		padding-left: 20%;
+		padding-right: 20%;
+
+		li {
+			list-style-type: none;
+			display: block;
+			background-color: lighten($knalledge_image_editing_entity_color, 5%);
+			border: 1px solid $knalledge_image_editing_entity_color;
+			margin: 25px 10px;
+			padding: 10px;
+			padding-right: 25px;
+			@include border-radius(10px, 10px);
+			cursor: pointer;
+			text-align: center;
+			color: lighten($knalledge_image_editing_entity_color, 15%);
+			/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+			/* color h-shadow v-shadow blur spread color inset*/
+			@include box-shadow(3px 2px 3px 1px rgba(150, 150, 255, 0.75));
+
+			@include transition-property(color);
+			@include transition-property(background-color);
+			@include transition-duration(0.3s);
+			@include transition-timing-function(ease-in);
+
+			&:hover{
+				background-color: lighten($knalledge_image_editing_entity_color, 10%);
+				color: darken($knalledge_image_editing_entity_color, 5%);
+			}
+		}
+	}
+	form{
+		padding: 5px;
+		padding-top: 10px;
+		.image_url{
+			font-weight: 300;
+			font-size: 1.2em;
+			background-color: darken($knalledge_image_editing_color, 5%);
+			color: lighten($knalledge_image_editing_color, 25%);
+			width: 100%;
+			padding: 3px;
+			text-align: center;
+		}
+		.dimensions{
+			text-align: center;
+			input{
+				width: 5em;
+				background-color: darken($knalledge_image_editing_color, 10%);
+				color: lighten($knalledge_image_editing_color, 20%);
+				padding: 3px;
+				text-align: center;
+			}
+		}
+		.help-block{
+			font-size: 0.9em;
+			font-style: italic;
+			text-align: right;
+		}
+		.buttons{
+			text-align: right;
+		}
+	}
 }

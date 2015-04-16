@@ -9,3 +9,13 @@ $large: 1400px;
 
 $collabo_color: #555555;
 $art_color: #aaaaaa;
+
+/*
+http://compass-style.org/examples/compass/css3/box_sizing/
+http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
+*/
+* {
+	margin: 0px;
+	padding: 0px;
+	@include box-sizing(border-box);
+}

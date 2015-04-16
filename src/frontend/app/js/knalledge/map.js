@@ -1,6 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+var mapId = "552678e69ad190a642ad461c";
+
 var Map =  knalledge.Map = function(parentDom, config, dimensions, clientApi, entityStyles){
 	this.parentDom = parentDom;
 	this.config = config;
@@ -81,7 +83,9 @@ Map.prototype.diagonal = function(that){
 			// we deal here with y-coordinates, because our final tree is rotated to propagete across the x-axis, instead of y-axis
 			// (you can see that in .project() function
 			if(d.source.y < d.target.y){
-				point.y += that.dimensions.node.width/2 + 0;
+				var width = (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
+					d.dataContent.image.width/2 : that.dimensions.node.width/2;
+				point.y += width + 0;
 			}
 		}
 		return point;
@@ -92,7 +96,9 @@ Map.prototype.diagonal = function(that){
 		var point = {x: d.target.x, y: d.target.y};
 		if(!that.config.nodes.punctual){
 			if(d.target.y > d.source.y){
-				point.y -= that.dimensions.node.width/2 + 0;
+				var width = (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
+					d.dataContent.image.width/2 : that.dimensions.node.width/2;
+				point.y -= width + 0;
 			}
 		}
 		return point;
@@ -213,19 +219,19 @@ Map.prototype.viewspecChanged = function(target){
 //should be migrated to some util .js file:
 Map.prototype.cloneObject = function(obj){
 	return (JSON.parse(JSON.stringify(obj)));
-}
+};
 	
 Map.prototype.createNode = function() {
 	
-	function nodeCreated(nodeFromServer) {
+	var nodeCreated = function(nodeFromServer) {
 		console.log("[Map] nodeCreated" + JSON.stringify(nodeFromServer));
-		function edgeUpdatedNodeRef(edgeFromServer){
+		var edgeUpdatedNodeRef = function(edgeFromServer){
 			console.log("[Map] edgeUpdatedNodeRef" + JSON.stringify(edgeFromServer));
-		}
+		};
 		
 		// updating all references to node on fronted with server-created id:
 		var oldId = newNode._id;
-		delete this.nodesById[oldId];//		this.nodesById.splice(oldId, 1);
+		delete this.nodesById.oldId;//		this.nodesById.splice(oldId, 1);
 		this.nodesById[nodeFromServer._id] = newNode; //TODO: we should set it to 'nodeFromServer'?! But we should synchronize also local changes from 'newNode' happen in meantime
 		newNode._id = nodeFromServer._id; //TODO: same as above
 		
@@ -270,7 +276,7 @@ Map.prototype.updateNode = function(node) {
 
 Map.prototype.createEdge = function(startNodeId, endNodeId) {
 	
-	function edgeCreated(edgeFromServer) {
+	var edgeCreated = function(edgeFromServer) {
 		console.log("[Map] edgeCreated" + JSON.stringify(edgeFromServer));
 		
 		// updating all references to edge on fronted with server-created id:
@@ -280,7 +286,7 @@ Map.prototype.createEdge = function(startNodeId, endNodeId) {
 		newEdge._id = edgeFromServer._id; //TODO: same as above
 	};
 	
-	console.log("[Map] createEdge")
+	console.log("[Map] createEdge");
 	var maxId = -1;
 	for(var i in this.edgesById){
 		if(maxId < this.edgesById[i]._id){
@@ -473,13 +479,29 @@ Map.prototype.updateHtml = function(source) {
 			// console.log("[nodeHtmlEnter] d: %s, x: %s", d.name, x);
 			return x + "px";
 		})
+		.classed({
+			"node_html_fixed": function(d){
+				return (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
+					false : true;
+			}
+		})
+		.style("width", function(d){
+				var width = (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
+					d.dataContent.image.width + "px" : null
+				return width;
+		})
+		.style("margin-left", function(d){
+				var margin = (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
+					-d.dataContent.image.width/2 + "px" : null
+				return margin;
+		})
 		.style("background-color", function(d) {
 			var image = d.dataContent ? d.dataContent.image : null;
 			if(image) return null; // no bacground
 			return (!d.isOpen && that.hasChildren(d)) ? "#aaaaff" : "#ffffff";
 		});
 
-	nodeHtmlEnter.filter(function(d) { return d.dataContent && d.dataContent.image })
+	nodeHtmlEnter.filter(function(d) { return d.dataContent && d.dataContent.image; })
 		.append("img")
 			.attr("src", function(d){
 				return d.dataContent.image.url;
@@ -498,7 +520,7 @@ Map.prototype.updateHtml = function(source) {
 		.append("div")
 			.attr("class", "node_status")
 				.html(function(d){
-					return d._id;
+					return "&nbsp;"; //d._id;
 				});
 
 	nodeHtmlEnter
@@ -973,7 +995,7 @@ Map.prototype.updateLinks = function(source) {
 };
 
 Map.prototype.initializeKeyboard = function() {
-	var that = this;
+	// var that = this;
 
 	var keyboardClientInterface = {
 		updateNode: this.updateNode.bind(this),
@@ -983,10 +1005,13 @@ Map.prototype.initializeKeyboard = function() {
 		createNode: this.createNode.bind(this),
 		createEdge: this.createEdge.bind(this),
 		getSelectedNode: function(){
-			return this.selectedNode
+			return this.selectedNode;
 		}.bind(this),
 		setSelectedNode: function(selectedNode){
-			this.selectedNode = selectedNode
+			this.selectedNode = selectedNode;
+		}.bind(this),
+		addImage: function(node){
+			this.clientApi.addImage(node);
 		}.bind(this)
 	};
 

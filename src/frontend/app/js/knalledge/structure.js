@@ -4,4 +4,8 @@
 var Structure =  knalledge.Structure = function(){
 };
 
+Structure.prototype.init = function(){
+
+};
+
 }()); // end of 'use strict';

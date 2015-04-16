@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 					interaction: true,
 					mcm: true,
 					TreeHtml: true,
-					knalledge
+					knalledge: true
 				}
 			}
 		},

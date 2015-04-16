@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', '$q', /*'$timeout', '$rootScope', 'ConfigMap',*/ function(KnalledgeNodeService, KnalledgeEdgeService, $q /*$timeout, $rootScope, ConfigMap*/){
+	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', '$compile', '$rootScope', /*'$qΩ, '$timeout', ConfigMap',*/ function(KnalledgeNodeService, KnalledgeEdgeService, $compile, $rootScope /*, $q, $timeout, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -126,10 +126,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								if(callback){callback(nodeFromServer);}
 							}
 							KnalledgeNodeService.update(node).$promise
-							.then(updated);
+								.then(updated);
 						},
 						createEdge: function(edge, callback){ //TODO: should we return promise?
-							function created(edgeFromServer){
+							var created  = function(edgeFromServer){
 								console.log("[knalledgeMap.controller'] edge created: " + edgeFromServer);
 								if(callback){callback(edgeFromServer);}
 							}
@@ -143,6 +143,41 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							}
 							KnalledgeEdgeService.update(edge).$promise
 							.then(updated);
+						},
+						addImage: function(node, callback){
+							$scope.$apply(function () {
+								if(node){
+									console.log("Adding image");
+									var directiveScope = $scope.$new(); // $new is not super necessary
+									// create popup directive
+									var directiveLink = $compile("<div knalledge-map-image-editing class='knalledge-map-image-editing'></div>");
+									// link HTML containing the directive
+									var directiveElement = directiveLink(directiveScope);
+
+									$element.append(directiveElement);
+
+									directiveScope.addedImage = function(image){
+										console.log("Adding image");
+										if(!node.dataContent){
+											node.dataContent = {};
+										}
+										// http://localhost:8888/knodes/one/5526855ac4f4db29446bd183.json
+										node.dataContent.image = {
+											url: image.url,
+											width: image.width,
+											height: image.height
+										};
+										var updated = function(nodeFromServer){
+											console.log("[knalledgeMap::kMapClientInterface::addImage::addedImage::created'] createNode: " + nodeFromServer);
+											if(callback){callback(nodeFromServer);}
+											knalledgeMap.update(node);
+										}
+										KnalledgeNodeService.update(node).$promise
+											.then(updated);
+									}.bind(this);
+
+								}
+							});
 						}
 						/*,
 						mapEntityClicked: function(mapEntity ){
@@ -172,18 +207,19 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					};
 
 					var isNew = true;
+					var knalledgeMap = null;
 					if(isNew){
-						var treeHtml = new knalledge.Map(
+						knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".map-container").get(0)),
 						config, dimensions, kMapClientInterface, null);
 					}else{
-						var treeHtml = new TreeHtml(
+						knalledgeMap = new TreeHtml(
 						d3.select($element.find(".map-container").get(0)),
 						config, dimensions, kMapClientInterface);						
 					}
-					treeHtml.init();
-					//treeHtml.load("treeData.json");
-					treeHtml.processData(null, model);
+					knalledgeMap.init();
+					//knalledgeMap.load("treeData.json");
+					knalledgeMap.processData(null, model);
 				};
 
 				var eventName = "modelLoadedEvent";
@@ -360,22 +396,23 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						"rootNodeId": 1
 					},
 					"map": {
-						"nodes": new Array(),
-						"edges": new Array()
+						"nodes": [],
+						"edges": []
 					}
 					
 				};
 				
-				function handleReject(){
+				function handleReject(fail){
 					$window.alert("Error loading knalledgeMap: %s", fail);
 				}
 				
 				function nodesEdgesReceived(){
 					console.log("nodesEdgesReceived");
-					for(var i=0; i<nodes.length; i++){
+					var i;
+					for(i=0; i<nodes.length; i++){
 						result.map.nodes.push(nodes[i]);
 					}
-					for(var i=0; i<edges.length; i++){
+					for(i=0; i<edges.length; i++){
 						result.map.edges.push(edges[i]);
 					}
 					
@@ -436,6 +473,42 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				console.log($scope);
     		}
 		};
+	}])
+	.directive('knalledgeMapImageEditing', [function(){
+		return {
+			restrict: 'AE',
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angularjs.org/guide/expression
+			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-imageEditing.tpl.html',
+			controller: function ( $scope, $element) {
+				$scope.title = "Create Image for node";
+				$scope.image = {
+					url: "http://upload.wikimedia.org/wikipedia/commons/e/e9/Meister_von_Mileseva_001.jpg",
+					width: 200,
+					height: 262
+				};
+
+				$scope.cancelled = function(){
+					//console.log("Canceled");
+					$element.remove();
+				};
+
+				$scope.submitted = function(){
+					console.log("Submitted: %s", JSON.stringify($scope.image));
+					$scope.addedImage($scope.image);
+					$element.remove();
+				};
+
+				var placeEntities = function(/*entities, direction*/){
+
+				};
+
+				placeEntities($element);
+				$scope.entityClicked = function(entity, event, childScope){
+					console.log("[mcmMapSelectSubEntity] entityClicked: %s, %s, %s", JSON.stringify(entity), event, childScope);
+				};
+    		}
+    	};
 	}])
 ;
 

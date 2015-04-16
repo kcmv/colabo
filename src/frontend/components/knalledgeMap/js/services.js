@@ -3,29 +3,29 @@
 //this function is strict...
 
 //TODO: how to create this Object and where to put it?
-var kNode = {
-	_id: String, //TODO: type? ObjectId or Number?
-	name: String,
-	mapId: String,
-	iAmId: Number,
-	activeVersion: Number,
-	ideaId: Number,
-	version: Number,
-	isPublic: Boolean,
-	dataContentSerialized: String,
-	visual: {
-		isOpen: Boolean,
-		manualX: Number,
-		manualY: Number
-	}
-};
+// var kNode = {
+// 	_id: String, //TODO: type? ObjectId or Number?
+// 	name: String,
+// 	mapId: String,
+// 	iAmId: Number,
+// 	activeVersion: Number,
+// 	ideaId: Number,
+// 	version: Number,
+// 	isPublic: Boolean,
+// 	dataContentSerialized: String,
+// 	visual: {
+// 		isOpen: Boolean,
+// 		manualX: Number,
+// 		manualY: Number
+// 	}
+// };
 
-function removeJsonProtected(ENV, jsonStr){
+var removeJsonProtected = function(ENV, jsonStr){
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
 		jsonStr = jsonStr.substring(ENV.server.jsonPrefixed.length);
 	}
 	return jsonStr;
-}
+};
 
 var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config']);
 
@@ -155,18 +155,18 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	resource.getById = function(id, callback)
 	{
 		return this.getPlain({ searchParam:id, type:'one' }, callback);
-	}
+	};
 	
 	resource.queryInMap = function(id, callback)
 	{
 		return this.queryPlain({ searchParam:id, type:'in_map' }, callback);
-	}
+	};
 	
 	resource.create = function(kNode, callback)
 	{
 		console.log("resource.create");
 		return this.createPlain({}, kNode, callback);
-	}
+	};
 	
 	resource.update = function(kNode, callback)
 	{
@@ -186,12 +186,12 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		}
 		//TODO: check the name of param: id or ObjectId or _id?
 		return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback);
-	}
+	};
 	
 	resource.destroy = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'one'}, callback);
-	}
+	};
 
 	return resource;
 	
@@ -300,38 +300,38 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	resource.getById = function(id, callback)
 	{
 		return this.getPlain({ searchParam:id, type:'one' }, callback);
-	}
+	};
 	
 	resource.queryInMap = function(id, callback)
 	{
 		return this.queryPlain({ searchParam:id, type:'in_map' }, callback);
-	}
+	};
 	
 	resource.queryBetween = function(id, callback)
 	{
 		return this.queryPlain({ searchParam:id, type:'between' }, callback);
-	}
+	};
 	
 	resource.queryConnected = function(id, callback)
 	{
 		return this.queryPlain({ searchParam:id, type:'connected' }, callback);
-	}
+	};
 	
 	resource.create = function(kEdge, callback)
 	{
 		return this.createPlain({}, kEdge, callback);
-	}
+	};
 	
 	resource.update = function(kEdge, callback)
 	{
 		//TODO: check the name of param: id or ObjectId or _id?
 		return this.updatePlain({searchParam:kEdge._id, type:'one'}, kEdge, callback);
-	}
+	};
 	
 	resource.destroy = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'one'}, callback);
-	}
+	};
 	
 	return resource;
 	

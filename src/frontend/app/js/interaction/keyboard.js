@@ -181,18 +181,21 @@ Keyboard.prototype.initializeKeyboard = function() {
 	// Add Image
 	KeyboardJS.on("i", function(){
 		if(this.editingNodeHtml) return;
-		console.log("Adding image");
+		var node = this.clientApi.getSelectedNode();
+		this.clientApi.addImage(node);
+	}.bind(this), function(){}.bind(this));	
+
+	// Add Image
+	KeyboardJS.on("shift+i", function(){
+		if(this.editingNodeHtml) return;
+		console.log("Removing image");
 		var d = this.clientApi.getSelectedNode();
 		if(d){
 			if(!d.dataContent){
 				d.dataContent = {};
 			}
 			// http://localhost:8888/knodes/one/5526855ac4f4db29446bd183.json
-			d.dataContent.image = {
-				url: "http://upload.wikimedia.org/wikipedia/commons/e/e9/Meister_von_Mileseva_001.jpg",
-				width: 200,
-				height: 262					
-			};
+			delete d.dataContent.image;
 			this.clientApi.updateNode(d);
 		}
 	}.bind(this), function(){}.bind(this));	
@@ -203,7 +206,8 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 
 		var newNode = this.clientApi.createNode();
-		var newEdge = this.clientApi.createEdge(this.clientApi.getSelectedNode()._id, newNode._id);
+		// var newEdge = 
+		this.clientApi.createEdge(this.clientApi.getSelectedNode()._id, newNode._id);
 		if(!this.clientApi.getSelectedNode().isOpen){
 			this.clientApi.getSelectedNode().isOpen = true;
 		}

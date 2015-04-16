@@ -9,6 +9,8 @@ angular.module('KnAllEdgeApp',[
 	, 'ngSanitize' // necessary for outputing HTML in angular directive
 	, 'ngStorage' // local storage support for Angular
 
+	, 'ui.bootstrap' // UI-bootstrap
+
 	, 'knalledgeMapDirectives' // KnAllEdge Map component
 	, 'knalledgeMapServices'
 ])
