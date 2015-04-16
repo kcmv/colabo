@@ -14,7 +14,6 @@ treeHtml = TreeHtml = function(parentDom, config, dimensions, clientApi){
 
 	this.rootNode = null;
 	this.selectedNode = null;
-	this.selectedNodeInTree = null;
 	this.editingNodeHtml = null;
 	this.nodes = null;
 	this.links = null;

@@ -185,7 +185,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 		this.clientApi.addImage(node);
 	}.bind(this), function(){}.bind(this));	
 
-	// Add Image
+	// Remove Image
 	KeyboardJS.on("shift+i", function(){
 		if(this.editingNodeHtml) return;
 		console.log("Removing image");

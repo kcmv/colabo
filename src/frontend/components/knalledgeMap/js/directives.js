@@ -44,12 +44,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				// knalledgeMap.init();
 
 				var init = function(model){
-					var dimensions = {
-						node: {
-							width: 150
-						}
-					};
-
 					var config = {
 						nodes: {
 							punctual: false,
@@ -112,37 +106,39 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					};
 					
 					var kMapClientInterface = {
-						createNode: function(node, callback){
-							function created(nodeFromServer){
-								console.log("[knalledgeMap.controller'] createNode: " + nodeFromServer);
-								if(callback){callback(nodeFromServer);}
-							}
-							KnalledgeNodeService.create(node).$promise
-							.then(created);
-						},
-						updateNode: function(node, callback){
-							function updated(nodeFromServer){
-								console.log("[knalledgeMap.controller'] node updated: " + JSON.stringify(nodeFromServer));
-								if(callback){callback(nodeFromServer);}
-							}
-							KnalledgeNodeService.update(node).$promise
+						storage: {
+							createNode: function(node, callback){
+								function created(nodeFromServer){
+									console.log("[knalledgeMap.controller'] createNode: " + nodeFromServer);
+									if(callback){callback(nodeFromServer);}
+								}
+								KnalledgeNodeService.create(node).$promise
+								.then(created);
+							},
+							updateNode: function(node, callback){
+								function updated(nodeFromServer){
+									console.log("[knalledgeMap.controller'] node updated: " + JSON.stringify(nodeFromServer));
+									if(callback){callback(nodeFromServer);}
+								}
+								KnalledgeNodeService.update(node).$promise
+									.then(updated);
+							},
+							createEdge: function(edge, callback){ //TODO: should we return promise?
+								var created  = function(edgeFromServer){
+									console.log("[knalledgeMap.controller'] edge created: " + edgeFromServer);
+									if(callback){callback(edgeFromServer);}
+								};
+								KnalledgeEdgeService.create(edge).$promise
+								.then(created);
+							},
+							updateEdge: function(edge, callback){
+								var updated = function(edgeFromServer){
+									console.log("[knalledgeMap.controller'] edge updated: " + JSON.stringify(edgeFromServer));
+									if(callback){callback(edgeFromServer);}
+								};
+								KnalledgeEdgeService.update(edge).$promise
 								.then(updated);
-						},
-						createEdge: function(edge, callback){ //TODO: should we return promise?
-							var created  = function(edgeFromServer){
-								console.log("[knalledgeMap.controller'] edge created: " + edgeFromServer);
-								if(callback){callback(edgeFromServer);}
-							};
-							KnalledgeEdgeService.create(edge).$promise
-							.then(created);
-						},
-						updateEdge: function(edge, callback){
-							var updated = function(edgeFromServer){
-								console.log("[knalledgeMap.controller'] edge updated: " + JSON.stringify(edgeFromServer));
-								if(callback){callback(edgeFromServer);}
-							};
-							KnalledgeEdgeService.update(edge).$promise
-							.then(updated);
+							}
 						},
 						addImage: function(node, callback){
 							$scope.$apply(function () {
@@ -211,15 +207,15 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					if(isNew){
 						knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".map-container").get(0)),
-						config, dimensions, kMapClientInterface, null);
+						config, kMapClientInterface, null);
 					}else{
 						knalledgeMap = new TreeHtml(
 						d3.select($element.find(".map-container").get(0)),
-						config, dimensions, kMapClientInterface);						
+						config, kMapClientInterface);						
 					}
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
-					knalledgeMap.processData(null, model);
+					knalledgeMap.processData(model);
 				};
 
 				var eventName = "modelLoadedEvent";
