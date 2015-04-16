@@ -483,6 +483,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					width: 200,
 					height: 262
 				};
+				$scope.image = {
+					url: "http://upload.wikimedia.org/wikipedia/commons/7/79/Tesla_circa_1890.jpeg",
+					width: 200,
+					height: 268
+				};
 
 				$scope.cancelled = function(){
 					//console.log("Canceled");
