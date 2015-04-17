@@ -2,9 +2,9 @@
 'use strict';
 
 var KNode =  knalledge.KNode = function(){
-	this._id = 0; //maxId logic should be migrated here
+	this._id = 0; //TODO: maxId logic should be migrated here
 	this.name = "name...";
-	this.mapId = KNode.DEFAULT_MAP_ID;	
+	this.mapId = "";	
 	this.iAmId = 0;
 	this.activeVersion = 1;
 	this.ideaId = 0;
@@ -12,7 +12,7 @@ var KNode =  knalledge.KNode = function(){
 	this.isPublic = true;
 	this.createdAt = null;
 	this.updatedAt = null;
-	this.dataContent = "";
+	this.dataContent = null;
 	this.visual = {
 			isOpen: false,
 			x: 0,
@@ -23,14 +23,11 @@ var KNode =  knalledge.KNode = function(){
 	
 	/* local-to-frontend */
 	this.state = KNode.STATE_LOCAL;
-	
-	
 };
 
 KNode.STATE_LOCAL = "STATE_LOCAL";
 KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED";
 KNode.STATE_SYNCED = "STATE_SYNCED";
-KNode.DEFAULT_MAP_ID = "552678e69ad190a642ad461c";
 
 KNode.prototype.init = function(){
 	

@@ -10,7 +10,7 @@ var kEdgeSchema = mongoose.Schema({
 	targetId: {type: mongoose.Schema.Types.ObjectId, ref: 'kNode'},
 	ideaId: Number,
 	isPublic: { type: Boolean, default: true },
-	dataContentSerialized: {type: String},
+	dataContent: {type: mongoose.Schema.Types.Mixed},
 	visual: {
 	}
 });

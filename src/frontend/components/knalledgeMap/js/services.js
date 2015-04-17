@@ -154,18 +154,24 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 
 	resource.getById = function(id, callback)
 	{
-		return this.getPlain({ searchParam:id, type:'one' }, callback);
+		var node = this.getPlain({ searchParam:id, type:'one' }, callback);
+		return node;
 	};
 	
 	resource.queryInMap = function(id, callback)
 	{
-		return this.queryPlain({ searchParam:id, type:'in_map' }, callback);
+		var nodes = this.queryPlain({ searchParam:id, type:'in_map' }, callback);
+		for(var i in nodes){
+			//TODO fix nodes.state, etc
+		}
+		return nodes;
 	};
 	
 	resource.create = function(kNode, callback)
 	{
 		console.log("resource.create");
-		return this.createPlain({}, kNode, callback);
+		var node = this.createPlain({}, kNode, callback);
+		return node;
 	};
 	
 	resource.update = function(kNode, callback)
@@ -185,7 +191,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			kNodeClone[id] = (JSON.parse(JSON.stringify(kNode[id])));// kNode[id];
 		}
 		//TODO: check the name of param: id or ObjectId or _id?
-		return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback);
+		return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback); //TODO: does it return node so we should fix it like in create?
 	};
 	
 	resource.destroy = function(id, callback)

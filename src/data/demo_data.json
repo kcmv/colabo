@@ -41,42 +41,38 @@
 				"mapId":"552678e69ad190a642ad461c",
 				"visual": {
 					"isOpen": true,
-					"manualX": 300,
-					"manualY": 300
+					"x": 300,
+					"y": 200
 				}
 			}
 		],
 		"edges": [
 			{
-				"_id": "552678e69ad190a642ad461c",
+				
 				"name": "foster",
 				"sourceId": "55268521fb9a901e442172f9",
 				"targetId": "5526855ac4f4db29446bd183",
 				"mapId":"552678e69ad190a642ad461c"
 			},
 			{
-				"_id": 2,
 				"name": "inhibits",
 				"sourceId": "55268521fb9a901e442172f9",
 				"targetId": "551bb5d8317e908736b6b21c",
 				"mapId":"552678e69ad190a642ad461c"
 			},
 			{
-				"_id": 3,
 				"name": "supports",
 				"sourceId": "5526855ac4f4db29446bd183",
 				"targetId": "551b4366fd64e5552ed19364",
 				"mapId":"552678e69ad190a642ad461c"
 			},
 			{
-				"_id": 4,
 				"name": "insights",
 				"sourceId": "5526855ac4f4db29446bd183",
 				"targetId": "551bb2c68f6e4cfc35654f37",
 				"mapId":"552678e69ad190a642ad461c"
 			},
 			{
-				"_id": 5,
 				"name": "inhibits",
 				"sourceId": "551bb5d8317e908736b6b21c",
 				"targetId": "551bb5073dda1559368883b2",

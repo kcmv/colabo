@@ -216,7 +216,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 		var newNode = this.clientApi.createNode();
 		// var newEdge = 
-		this.clientApi.createEdge(this.clientApi.getSelectedNode()._id, newNode._id);
+		this.clientApi.createEdge(this.clientApi.getSelectedNode(), newNode);
 		if(!this.clientApi.getSelectedNode().isOpen){
 			this.clientApi.getSelectedNode().isOpen = true;
 		}

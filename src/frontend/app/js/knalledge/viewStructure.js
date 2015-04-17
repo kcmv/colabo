@@ -92,7 +92,7 @@ ViewStructure.prototype.getDomFromDatum = function(d) {
 // Select node on node click
 ViewStructure.prototype.clickNode = function(d) {
 	// select clicked
-	var isSelected = d.isSelected;
+	var isSelected = d.isSelected; //nodes previous state
 	var nodesHtmlSelected = this.getDomFromDatum(d);
 	if(!nodesHtmlSelected) return;
 
@@ -104,14 +104,10 @@ ViewStructure.prototype.clickNode = function(d) {
 	});
 	this.nodes.forEach(function(d){d.isSelected = false;});
 
-	if(isSelected){
+	if(isSelected){//it was selected, and with this click it becomes unselected:
 		d.isSelected = false;
 		this.structure.unsetSelectedNode();
-		if(this.knalledgeState.addingLink != null){
-			this.structure.createEdge(this.knalledgeState.addingLinkFrom, d);
-			this.knalledgeState.addingLinkFrom = null;
-		}
-	}else{
+	}else{//it was unselected, and with this click it becomes selected:
 		// var nodeHtml = nodesHtml[0];
 		nodesHtmlSelected.classed({
 			"node_selected": true,
@@ -119,6 +115,11 @@ ViewStructure.prototype.clickNode = function(d) {
 		});
 		d.isSelected = true;
 		this.structure.setSelectedNode(d);
+		if(this.knalledgeState.addingLinkFrom != null){
+			this.structure.createEdge(this.knalledgeState.addingLinkFrom, d);
+			this.knalledgeState.addingLinkFrom = null;
+			this.mapVisualizationApi.update(this.structure.rootNode); //TODO: should we move it into this.structure.createEdge?
+		}
 	}
 	//this.mapVisualizationApi.update(this.structure.rootNode);
 };

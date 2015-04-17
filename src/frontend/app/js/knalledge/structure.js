@@ -97,6 +97,7 @@ Structure.prototype.createNode = function() {
 	
 	var newNode = new knalledge.KNode();
 	newNode._id = maxId+1;
+	newNode.mapId = this.mapId;
 
 	this.nodesById[newNode._id] = newNode;
 	var nodeCloned = this.cloneObject(newNode);
@@ -109,7 +110,7 @@ Structure.prototype.updateNode = function(node) {
 	this.storageApi.updateNode(node); //updating on server service
 };
 
-Structure.prototype.createEdge = function(startNodeId, endNodeId) {
+Structure.prototype.createEdge = function(sourceNode, targetNode) {
 	
 	var edgeCreated = function(edgeFromServer) {
 		console.log("[Map] edgeCreated" + JSON.stringify(edgeFromServer));
@@ -131,15 +132,25 @@ Structure.prototype.createEdge = function(startNodeId, endNodeId) {
 	
 	var newEdge = new knalledge.KEdge();
 	newEdge._id = maxId+1;
-	newEdge.sourceId = startNodeId;
-	newEdge.targetId = endNodeId;
+	newEdge.mapId = this.mapId;
+	newEdge.sourceId = sourceNode._id;
+	newEdge.targetId = targetNode._id;
 
 	this.edgesById[newEdge._id] = newEdge;
 	
 	//preparing and saving on server service:
 	var edgeCloned = this.cloneObject(newEdge);
-	delete edgeCloned._id;
-	delete edgeCloned.targetId; // this is still not set to real DV ids
+	if(newEdge.state == knalledge.KEdge.STATE_LOCAL){
+		delete edgeCloned._id;
+	}
+	if(sourceNode.state == knalledge.KNode.STATE_LOCAL) //TODO: not working till state is not set for resources retreived from server
+	{
+		delete edgeCloned.sourceId; // this is still not set to server Id
+	}
+	if(targetNode.state == knalledge.KNode.STATE_LOCAL)
+	{
+		delete edgeCloned.targetId; // this is still not set to server Id
+	}
 	this.storageApi.createEdge(edgeCloned, edgeCreated.bind(this));
 	
 	return newEdge;
