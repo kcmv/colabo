@@ -13,8 +13,10 @@ var kNodeSchema = mongoose.Schema({
 	dataContent: {type: mongoose.Schema.Types.Mixed},
 	visual: {
 		isOpen: { type: Boolean, default: false },
-		manualX: Number,
-		manualY: Number
+		xM: Number,
+		yM: Number,
+		widthM: 0,
+		heightM: 0
 	}
 });
 
