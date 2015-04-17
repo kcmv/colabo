@@ -50,8 +50,8 @@ Map.prototype.initializeKeyboard = function() {
 		getDomFromDatum: this.viewStructure.getDomFromDatum.bind(this.viewStructure),
 		clickNode: this.viewStructure.clickNode.bind(this.viewStructure),
 		update: this.mapVisualization.update.bind(this.mapVisualization),
-		createNode: this.clientApi.storage.createNode,
-		createEdge: this.clientApi.storage.createEdge,
+		createNode: this.structure.createNode,
+		createEdge: this.structure.createEdge,
 		knalledgeState: this.state,
 		getSelectedNode: function(){
 			return this.structure.getSelectedNode();
@@ -75,13 +75,9 @@ Map.prototype.initializeManipulation = function() {
 
 	var manipulationEnded = function(targetD3){
 		var d = targetD3 ? targetD3.datum() : null;
-		/*
-		Save:
-		d.visual.dimensions.sizes.x = d.x;
-		d.visual.dimensions.sizes.y = d.y;
-		*/
-		d.visual.manualX = d.x;
-		d.visual.manualY = d.y;
+		//TODO: finish saving after nodes dragging:
+		d.visual.xM = d.x;
+		d.visual.yM = d.y;
 		that.structure.updateNode(d);
 
 		console.log("knalledge_map:manipulationEnded [%s]", d ? d.name : null);
