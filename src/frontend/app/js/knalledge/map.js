@@ -9,6 +9,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.structure = structure;
 
 	this.state = new knalledge.State();
+	this.mapStructure = new knalledge.MapVisualization(this.parentDom, this.structure, this.config.transitions, this.config.nodes, this.config.edges);
 	this.mapVisualization = new knalledge.MapVisualization(this.parentDom, this.structure, this.config.transitions, this.config.nodes, this.config.edges);
 	var viewStructureApi = {
 		update: this.mapVisualization.update.bind(this.mapVisualization),
