@@ -22,6 +22,26 @@ var KEdge =  knalledge.KEdge = function(){
 	this.state = KEdge.STATE_LOCAL;
 };
 
+KEdge.createEdge = function(obj){
+	var kEdge = new knalledge.KEdge();
+	if("_id" in obj){kEdge._id = obj._id;}
+	if("name" in obj){kEdge.name = obj.name;}
+	if("mapId" in obj){kEdge.mapId = obj.mapId;}
+	if("iAmId" in obj){kEdge.iAmId = obj.iAmId;}
+	if("activeVersion" in obj){kEdge.activeVersion = obj.activeVersion;}
+	if("ideaId" in obj){kEdge.ideaId = obj.ideaId;}
+	if("version" in obj){kEdge.version = obj.version;}
+	if("isPublic" in obj){kEdge.isPublic = obj.isPublic;}
+	if("createdAt" in obj){kEdge.createdAt = obj.createdAt;} //TODO: converto to Date nativ type
+	if("updatedAt" in obj){kEdge.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ type
+	if("sourceId" in obj){kEdge.sourceId = obj.sourceId;}
+	if("targetId" in obj){kEdge.targetId = obj.targetId;}
+	if("dataContent" in obj){kEdge.dataContent = obj.dataContent;}
+	if("visual" in obj){kEdge.visual = obj.visual;} // Still Visual is not used so we are not filling it like for kNode
+
+	return kEdge;
+}
+
 KEdge.STATE_LOCAL = "STATE_LOCAL";
 KEdge.STATE_NON_SYNCED = "STATE_NON_SYNCED";
 KEdge.STATE_SYNCED = "STATE_SYNCED";
