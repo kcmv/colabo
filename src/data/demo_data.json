@@ -18,7 +18,14 @@
 			{
 				"_id": "5526855ac4f4db29446bd183",
 				"name": "Direct Creativity",
-				"mapId":"552678e69ad190a642ad461c"
+				"mapId":"552678e69ad190a642ad461c",
+				"visual": {
+					"isOpen": true,
+					"xM": 300,
+					"yM": 200,
+					"widthM": 100,
+					"heightM": 180
+				}
 			},
 			{
 				"_id": "551b4366fd64e5552ed19364",
@@ -41,8 +48,8 @@
 				"mapId":"552678e69ad190a642ad461c",
 				"visual": {
 					"isOpen": true,
-					"x": 300,
-					"y": 200
+					"xM": 300,
+					"yM": 200
 				}
 			}
 		],

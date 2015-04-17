@@ -15,15 +15,38 @@ var KNode =  knalledge.KNode = function(){
 	this.dataContent = null;
 	this.visual = {
 			isOpen: false,
-			x: 0,
-			y: 0,
-			width: 0,
-			height: 0
+			xM: 0,
+			yM: 0,
+			widthM: 0,
+			heightM: 0
 	};
 	
 	/* local-to-frontend */
 	this.state = KNode.STATE_LOCAL;
 };
+
+KNode.createNode = function(obj){
+	var kNode = new knalledge.KNode();
+	if("_id" in obj){kNode._id = obj._id;}
+	if("name" in obj){kNode.name = obj.name;}
+	if("mapId" in obj){kNode.mapId = obj.mapId;}
+	if("iAmId" in obj){kNode.iAmId = obj.iAmId;}
+	if("activeVersion" in obj){kNode.activeVersion = obj.activeVersion;}
+	if("ideaId" in obj){kNode.ideaId = obj.ideaId;}
+	if("version" in obj){kNode.version = obj.version;}
+	if("isPublic" in obj){kNode.isPublic = obj.isPublic;}
+	if("createdAt" in obj){kNode.createdAt = obj.createdAt;} //TODO: converto to Date nativ type
+	if("updatedAt" in obj){kNode.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ type
+	if("dataContent" in obj){kNode.dataContent = obj.dataContent;}
+	if("visual" in obj){
+		if("isOpen" in obj.visual){kNode.visual.isOpen = obj.visual.isOpen;}
+		if("xM" in obj.visual){kNode.visual.xM = obj.visual.xM;}
+		if("yM" in obj.visual){kNode.visual.yM = obj.visual.yM;}
+		if("widthM" in obj.visual){kNode.visual.widthM = obj.visual.widthM;}
+		if("heightM" in obj.visual){kNode.visual.heightM = obj.visual.heightM;}
+	}
+	return kNode;
+}
 
 KNode.STATE_LOCAL = "STATE_LOCAL";
 KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED";

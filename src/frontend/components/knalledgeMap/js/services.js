@@ -63,11 +63,14 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
 				console.log("[KnalledgeNodeService] accessId: %s", serverResponse.accessId);
 				var data = serverResponse.data;
-//				for(var datumId in data){
-//					var data = data[datumId];
-//				}
+				var VOs = new Array();
+				for(var datumId in serverResponse.data){
+					var VO = knalledge.KNode.createNode(data[datumId]);
+					VO.state = knalledge.KNode.STATE_SYNCED;
+					VOs.push(VO);
+				}
 				//console.log("[KnalledgeNodeService] data: %s", JSON.stringify(data));
-				return data;
+				return VOs;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
