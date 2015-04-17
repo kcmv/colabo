@@ -2,7 +2,8 @@
 'use strict';
 
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', '$compile', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ function(KnalledgeNodeService, KnalledgeEdgeService, $compile /*, $rootScope, $q, $timeout, ConfigMap*/){
+	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapService', '$compile', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
+		function(KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapService, $compile /*, $rootScope, $q, $timeout, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -202,17 +203,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						*/
 					};
 
-					var isNew = true;
 					var knalledgeMap = null;
-					if(isNew){
-						knalledgeMap = new knalledge.Map(
-						d3.select($element.find(".map-container").get(0)),
-						config, kMapClientInterface, null);
-					}else{
-						knalledgeMap = new TreeHtml(
-						d3.select($element.find(".map-container").get(0)),
-						config, kMapClientInterface);						
-					}
+					knalledgeMap = new knalledge.Map(
+					d3.select($element.find(".map-container").get(0)),
+					config, kMapClientInterface, null, KnalledgeMapService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model);
@@ -356,7 +350,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					}
 					toolset.update();
 				});
-    		}
+			}
     	};
 	}])
 	.directive('knalledgeMapList', ['$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', function($rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService, $q){

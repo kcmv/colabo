@@ -1,14 +1,14 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles){
+var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, structure){
 	this.config = config;
 	this.clientApi = clientApi;
 	this.entityStyles = entityStyles;
 	this.parentDom = parentDom;
+	this.structure = structure;
 
 	this.state = new knalledge.State();
-	this.structure = new knalledge.Structure(this.clientApi.storage);
 	this.mapVisualization = new knalledge.MapVisualization(this.parentDom, this.structure, this.config.transitions, this.config.nodes, this.config.edges);
 	var viewStructureApi = {
 		update: this.mapVisualization.update.bind(this.mapVisualization),
@@ -28,10 +28,13 @@ Map.prototype.init = function() {
 	//	http://stackoverflow.com/questions/17847131/generate-multilevel-flare-json-data-format-from-flat-json
 	//	http://stackoverflow.com/questions/20940854/how-to-load-data-from-an-internal-json-array-rather-than-from-an-external-resour
 	this.mapVisualization.init(this.viewStructure);
-	this.structure.init();
 	this.viewStructure.init(mapSize);
 	this.initializeKeyboard();
 	this.initializeManipulation();
+};
+
+Map.prototype.update = function(node) {
+	this.mapVisualization.update(node);
 };
 
 Map.prototype.processData = function(treeData) {
