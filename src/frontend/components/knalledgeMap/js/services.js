@@ -164,9 +164,9 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	resource.queryInMap = function(id, callback)
 	{
 		var nodes = this.queryPlain({ searchParam:id, type:'in_map' }, callback);
-		for(var i in nodes){
-			//TODO fix nodes.state, etc
-		}
+		// for(var i in nodes){
+		// 	//TODO fix nodes.state, etc
+		// }
 		return nodes;
 	};
 	
@@ -345,5 +345,191 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	return resource;
 	
 }]);
+
+knalledgeMapServices.provider('KnalledgeMapService', {
+	// privateData: "privatno",
+	$get: ['$q', 'KnalledgeNodeService', 'KnalledgeEdgeService', function($q, KnalledgeNodeService, KnalledgeEdgeService) {
+		// var that = this;
+		return {
+			mapId: "552678e69ad190a642ad461c",
+			rootNode: null,
+			selectedNode: null,
+			nodesById: {},
+			edgesById: {},
+			properties: {},
+
+			unsetSelectedNode: function(){
+				this.selectedNode = null;
+			},
+
+			setSelectedNode: function(selectedNode){
+				this.selectedNode = selectedNode;
+			},
+
+			getSelectedNode: function(){
+				return this.selectedNode;
+			},
+
+			hasChildren: function(d){
+				for(var i in this.edgesById){
+					if(this.edgesById[i].sourceId == d._id){
+						return true;
+					}
+				}
+				return false;
+			},
+
+			getEdge: function(sourceId, targetId){
+				// that.privateData;
+				for(var i in this.edgesById){
+					if(this.edgesById[i].sourceId == sourceId && this.edgesById[i].targetId == targetId){
+						return this.edgesById[i];
+					}
+				}
+				return null;
+			},
+
+			// collapses children of the provided node
+			collapse: function(d) {
+				d.isOpen = false;
+			},
+
+			// toggle children of the provided node
+			toggle: function(d) {
+				d.isOpen = !d.isOpen;
+			},
+
+			//should be migrated to some util .js file:
+			cloneObject: function(obj){
+				return (JSON.parse(JSON.stringify(obj)));
+			},
+	
+			createNode: function() {
+				
+				var nodeCreated = function(nodeFromServer) {
+					console.log("[Map] nodeCreated" + JSON.stringify(nodeFromServer));
+					var edgeUpdatedNodeRef = function(edgeFromServer){
+						console.log("[Map] edgeUpdatedNodeRef" + JSON.stringify(edgeFromServer));
+					};
+					
+					// updating all references to node on fronted with server-created id:
+					var oldId = newNode._id;
+					delete this.nodesById.oldId;//		this.nodesById.splice(oldId, 1);
+					this.nodesById[nodeFromServer._id] = newNode; //TODO: we should set it to 'nodeFromServer'?! But we should synchronize also local changes from 'newNode' happen in meantime
+					newNode._id = nodeFromServer._id; //TODO: same as above
+					
+					//fixing edges:: sourceId & targetId:
+					for(var i in this.edgesById){
+						var changed = false;
+						var edge = this.edgesById[i];
+						if(edge.sourceId == oldId){edge.sourceId = nodeFromServer._id; changed = true;}
+						if(edge.targetId == oldId){edge.targetId = nodeFromServer._id; changed = true;}
+						if(changed){
+							//TODO: should we clone it or call vanilla object creation:
+							KnalledgeEdgeService.update(edge, edgeUpdatedNodeRef.bind(this)); //saving changes in edges's node refs to server
+						}
+					}
+				};
+
+				console.log("[Map] createNode");
+				var maxId = -1;
+				for(var i in this.nodesById){
+					if(maxId < this.nodesById[i]._id){
+						maxId = this.nodesById[i]._id;
+					}
+				}
+
+				var newNode = new knalledge.KNode();
+				newNode._id = maxId+1;
+				newNode.mapId = this.mapId;
+
+				this.nodesById[newNode._id] = newNode;
+				var nodeCloned = this.cloneObject(newNode);
+				delete nodeCloned._id;
+				KnalledgeNodeService.create(nodeCloned, nodeCreated.bind(this)); //saving on server service.
+				return newNode;
+			},
+
+			updateNode: function(node) {
+				KnalledgeNodeService.update(node); //updating on server service
+			},
+
+			createEdge: function(sourceNode, targetNode) {
+				var edgeCreated = function(edgeFromServer) {
+					console.log("[Map] edgeCreated" + JSON.stringify(edgeFromServer));
+					
+					// updating all references to edge on fronted with server-created id:
+					var oldId = newEdge._id;
+					delete this.edgesById[oldId];//		this.nodesById.splice(oldId, 1);
+					this.edgesById[edgeFromServer._id] = newEdge; //TODO: we should set it to 'edgeFromServer'?! But we should synchronize also local changes from 'newEdge' happen in meantime
+					newEdge._id = edgeFromServer._id; //TODO: same as above
+				};
+				
+				console.log("[Map] createEdge");
+				var maxId = -1;
+				for(var i in this.edgesById){
+					if(maxId < this.edgesById[i]._id){
+						maxId = this.edgesById[i]._id;
+					}
+				}
+				
+				var newEdge = new knalledge.KEdge();
+				newEdge._id = maxId+1;
+				newEdge.mapId = this.mapId;
+				newEdge.sourceId = sourceNode._id;
+				newEdge.targetId = targetNode._id;
+
+				this.edgesById[newEdge._id] = newEdge;
+				
+				//preparing and saving on server service:
+				var edgeCloned = this.cloneObject(newEdge);
+				if(newEdge.state == knalledge.KEdge.STATE_LOCAL){
+					delete edgeCloned._id;
+				}
+				if(sourceNode.state == knalledge.KNode.STATE_LOCAL) //TODO: not working till state is not set for resources retreived from server
+				{
+					delete edgeCloned.sourceId; // this is still not set to server Id
+				}
+				if(targetNode.state == knalledge.KNode.STATE_LOCAL)
+				{
+					delete edgeCloned.targetId; // this is still not set to server Id
+				}
+				KnalledgeEdgeService.create(edgeCloned, edgeCreated.bind(this));
+				
+				return newEdge;
+			},
+
+			processData: function(treeData, rootNodeX, rootNodeY) {
+				//this.properties = treeData.properties;
+				var rootId = "55268521fb9a901e442172f9";
+				var i=0;
+				var node = null;
+				var edge = null;
+				for(i=0; i<treeData.nodes.length; i++){
+					node = treeData.nodes[i];
+					if(!("isOpen" in node)){
+						node.isOpen = false;
+					}
+					this.nodesById[node._id] = node;
+				}
+
+				for(i=0; i<treeData.edges.length; i++){
+					edge = treeData.edges[i];
+					this.edgesById[edge._id] = edge;
+				}
+
+				// this.rootNode = this.nodesById[this.properties.rootNodeId];
+				this.rootNode = this.nodesById[rootId];
+				this.rootNode.x0 = rootNodeY;
+				this.rootNode.y0 = rootNodeX;
+
+				this.selectedNode = this.rootNode;
+
+				// this.clickNode(this.rootNode);
+				// this.update(this.rootNode);
+			}
+		};
+	}]
+});
 
 }()); // end of 'use strict';

@@ -2,7 +2,8 @@
 'use strict';
 
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', '$compile', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ function(KnalledgeNodeService, KnalledgeEdgeService, $compile /*, $rootScope, $q, $timeout, ConfigMap*/){
+	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapService', '$compile', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
+		function(KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapService, $compile /*, $rootScope, $q, $timeout, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -106,40 +107,40 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					};
 					
 					var kMapClientInterface = {
-						storage: {
-							createNode: function(node, callback){
-								function created(nodeFromServer){
-									console.log("[knalledgeMap.controller'] createNode: " + nodeFromServer);
-									if(callback){callback(nodeFromServer);}
-								}
-								KnalledgeNodeService.create(node).$promise
-								.then(created);
-							},
-							updateNode: function(node, callback){
-								function updated(nodeFromServer){
-									console.log("[knalledgeMap.controller'] node updated: " + JSON.stringify(nodeFromServer));
-									if(callback){callback(nodeFromServer);}
-								}
-								KnalledgeNodeService.update(node).$promise
-									.then(updated);
-							},
-							createEdge: function(edge, callback){ //TODO: should we return promise?
-								var created  = function(edgeFromServer){
-									console.log("[knalledgeMap.controller'] edge created: " + edgeFromServer);
-									if(callback){callback(edgeFromServer);}
-								};
-								KnalledgeEdgeService.create(edge).$promise
-								.then(created);
-							},
-							updateEdge: function(edge, callback){
-								var updated = function(edgeFromServer){
-									console.log("[knalledgeMap.controller'] edge updated: " + JSON.stringify(edgeFromServer));
-									if(callback){callback(edgeFromServer);}
-								};
-								KnalledgeEdgeService.update(edge).$promise
-								.then(updated);
-							}
-						},
+						// storage: {
+						// 	createNode: function(node, callback){
+						// 		function created(nodeFromServer){
+						// 			console.log("[knalledgeMap.controller'] createNode: " + nodeFromServer);
+						// 			if(callback){callback(nodeFromServer);}
+						// 		}
+						// 		KnalledgeNodeService.create(node).$promise
+						// 		.then(created);
+						// 	},
+						// 	updateNode: function(node, callback){
+						// 		function updated(nodeFromServer){
+						// 			console.log("[knalledgeMap.controller'] node updated: " + JSON.stringify(nodeFromServer));
+						// 			if(callback){callback(nodeFromServer);}
+						// 		}
+						// 		KnalledgeNodeService.update(node).$promise
+						// 			.then(updated);
+						// 	},
+						// 	createEdge: function(edge, callback){ //TODO: should we return promise?
+						// 		var created  = function(edgeFromServer){
+						// 			console.log("[knalledgeMap.controller'] edge created: " + edgeFromServer);
+						// 			if(callback){callback(edgeFromServer);}
+						// 		};
+						// 		KnalledgeEdgeService.create(edge).$promise
+						// 		.then(created);
+						// 	},
+						// 	updateEdge: function(edge, callback){
+						// 		var updated = function(edgeFromServer){
+						// 			console.log("[knalledgeMap.controller'] edge updated: " + JSON.stringify(edgeFromServer));
+						// 			if(callback){callback(edgeFromServer);}
+						// 		};
+						// 		KnalledgeEdgeService.update(edge).$promise
+						// 		.then(updated);
+						// 	}
+						// },
 						addImage: function(node, callback){
 							$scope.$apply(function () {
 								if(node){
@@ -202,17 +203,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						*/
 					};
 
-					var isNew = true;
 					var knalledgeMap = null;
-					if(isNew){
-						knalledgeMap = new knalledge.Map(
-						d3.select($element.find(".map-container").get(0)),
-						config, kMapClientInterface, null);
-					}else{
-						knalledgeMap = new TreeHtml(
-						d3.select($element.find(".map-container").get(0)),
-						config, kMapClientInterface);						
-					}
+					knalledgeMap = new knalledge.Map(
+					d3.select($element.find(".map-container").get(0)),
+					config, kMapClientInterface, null, KnalledgeMapService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model);
@@ -356,7 +350,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					}
 					toolset.update();
 				});
-    		}
+			}
     	};
 	}])
 	.directive('knalledgeMapList', ['$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', function($rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService, $q){

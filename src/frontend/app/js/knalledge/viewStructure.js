@@ -115,7 +115,7 @@ ViewStructure.prototype.clickNode = function(d) {
 		});
 		d.isSelected = true;
 		this.structure.setSelectedNode(d);
-		if(this.knalledgeState.addingLinkFrom != null){
+		if(this.knalledgeState.addingLinkFrom !== null){
 			this.structure.createEdge(this.knalledgeState.addingLinkFrom, d);
 			this.knalledgeState.addingLinkFrom = null;
 			this.mapVisualizationApi.update(this.structure.rootNode); //TODO: should we move it into this.structure.createEdge?
