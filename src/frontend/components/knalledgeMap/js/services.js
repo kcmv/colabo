@@ -2,24 +2,6 @@
 'use strict';
 //this function is strict...
 
-//TODO: how to create this Object and where to put it?
-// var kNode = {
-// 	_id: String, //TODO: type? ObjectId or Number?
-// 	name: String,
-// 	mapId: String,
-// 	iAmId: Number,
-// 	activeVersion: Number,
-// 	ideaId: Number,
-// 	version: Number,
-// 	isPublic: Boolean,
-// 	dataContentSerialized: String,
-// 	visual: {
-// 		isOpen: Boolean,
-// 		manualX: Number,
-// 		manualY: Number
-// 	}
-// };
-
 var removeJsonProtected = function(ENV, jsonStr){
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
 		jsonStr = jsonStr.substring(ENV.server.jsonPrefixed.length);
@@ -183,7 +165,8 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		// kNodeClone = (JSON.parse(JSON.stringify(kNode)));
 		// delete kNodeClone.children;
 		// delete kNodeClone.parent;
-
+		
+		//TODO: do this through kNode function and move it to transformRequest
 		for(var id in kNode){
 			if(id == 'children') continue;
 			if(id == 'parent') continue;
@@ -402,7 +385,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				d.isOpen = !d.isOpen;
 			},
 
-			//should be migrated to some util .js file:
+			//TODO: replace it with VO transformation methods:
 			cloneObject: function(obj){
 				return (JSON.parse(JSON.stringify(obj)));
 			},
@@ -485,10 +468,8 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				this.edgesById[newEdge._id] = newEdge;
 				
 				//preparing and saving on server service:
-				var edgeCloned = this.cloneObject(newEdge);
-				if(newEdge.state == knalledge.KEdge.STATE_LOCAL){
-					delete edgeCloned._id;
-				}
+				var edgeCloned = newEdge.toServerCopy();
+				
 				if(sourceNode.state == knalledge.KNode.STATE_LOCAL) //TODO: not working till state is not set for resources retreived from server
 				{
 					delete edgeCloned.sourceId; // this is still not set to server Id
