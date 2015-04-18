@@ -22,23 +22,9 @@ var KEdge =  knalledge.KEdge = function(){
 	this.state = KEdge.STATE_LOCAL;
 };
 
-KEdge.createEdge = function(obj){
+KEdge.edgeFactory = function(obj){
 	var kEdge = new knalledge.KEdge();
-	if("_id" in obj){kEdge._id = obj._id;}
-	if("name" in obj){kEdge.name = obj.name;}
-	if("mapId" in obj){kEdge.mapId = obj.mapId;}
-	if("iAmId" in obj){kEdge.iAmId = obj.iAmId;}
-	if("activeVersion" in obj){kEdge.activeVersion = obj.activeVersion;}
-	if("ideaId" in obj){kEdge.ideaId = obj.ideaId;}
-	if("version" in obj){kEdge.version = obj.version;}
-	if("isPublic" in obj){kEdge.isPublic = obj.isPublic;}
-	if("createdAt" in obj){kEdge.createdAt = obj.createdAt;} //TODO: converto to Date nativ type
-	if("updatedAt" in obj){kEdge.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ type
-	if("sourceId" in obj){kEdge.sourceId = obj.sourceId;}
-	if("targetId" in obj){kEdge.targetId = obj.targetId;}
-	if("dataContent" in obj){kEdge.dataContent = obj.dataContent;}
-	if("visual" in obj){kEdge.visual = obj.visual;} // Still Visual is not used so we are not filling it like for kNode
-
+	kEdge.fill(obj);
 	return kEdge;
 };
 
@@ -48,6 +34,25 @@ KEdge.STATE_SYNCED = "STATE_SYNCED";
 
 KEdge.prototype.init = function(){
 	
+};
+
+KEdge.prototype.fill = function(obj){
+	if(obj){
+		if("_id" in obj){this._id = obj._id;}
+		if("name" in obj){this.name = obj.name;}
+		if("mapId" in obj){this.mapId = obj.mapId;}
+		if("iAmId" in obj){this.iAmId = obj.iAmId;}
+		if("activeVersion" in obj){this.activeVersion = obj.activeVersion;}
+		if("ideaId" in obj){this.ideaId = obj.ideaId;}
+		if("version" in obj){this.version = obj.version;}
+		if("isPublic" in obj){this.isPublic = obj.isPublic;}
+		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date nativ type
+		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ type
+		if("sourceId" in obj){this.sourceId = obj.sourceId;}
+		if("targetId" in obj){this.targetId = obj.targetId;}
+		if("dataContent" in obj){this.dataContent = obj.dataContent;}
+		if("visual" in obj){this.visual = obj.visual;} // Still Visual is not used so we are not filling it like for kNode
+	}
 };
 
 KEdge.prototype.toServerCopy = function(){

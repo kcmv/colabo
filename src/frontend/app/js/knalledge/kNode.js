@@ -25,28 +25,34 @@ var KNode =  knalledge.KNode = function(){
 	this.state = KNode.STATE_LOCAL;
 };
 
-KNode.createNode = function(obj){
+KNode.nodeFactory = function(obj){
 	var kNode = new knalledge.KNode();
-	if("_id" in obj){kNode._id = obj._id;}
-	if("name" in obj){kNode.name = obj.name;}
-	if("mapId" in obj){kNode.mapId = obj.mapId;}
-	if("iAmId" in obj){kNode.iAmId = obj.iAmId;}
-	if("activeVersion" in obj){kNode.activeVersion = obj.activeVersion;}
-	if("ideaId" in obj){kNode.ideaId = obj.ideaId;}
-	if("version" in obj){kNode.version = obj.version;}
-	if("isPublic" in obj){kNode.isPublic = obj.isPublic;}
-	if("createdAt" in obj){kNode.createdAt = obj.createdAt;} //TODO: converto to Date native type
-	if("updatedAt" in obj){kNode.updatedAt = obj.updatedAt;}//TODO: converto to Date native type
-	if("dataContent" in obj){kNode.dataContent = obj.dataContent;}
-	if("visual" in obj){
-		if("isOpen" in obj.visual){kNode.visual.isOpen = obj.visual.isOpen;}
-		if("xM" in obj.visual){kNode.visual.xM = obj.visual.xM;}
-		if("yM" in obj.visual){kNode.visual.yM = obj.visual.yM;}
-		if("widthM" in obj.visual){kNode.visual.widthM = obj.visual.widthM;}
-		if("heightM" in obj.visual){kNode.visual.heightM = obj.visual.heightM;}
-	}
+	kNode.fill(obj);
 	return kNode;
 };
+
+KNode.prototype.fill = function(obj){
+	if(obj){
+		if("_id" in obj){this._id = obj._id;}
+		if("name" in obj){this.name = obj.name;}
+		if("mapId" in obj){this.mapId = obj.mapId;}
+		if("iAmId" in obj){this.iAmId = obj.iAmId;}
+		if("activeVersion" in obj){this.activeVersion = obj.activeVersion;}
+		if("ideaId" in obj){this.ideaId = obj.ideaId;}
+		if("version" in obj){this.version = obj.version;}
+		if("isPublic" in obj){this.isPublic = obj.isPublic;}
+		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date native type
+		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date native type
+		if("dataContent" in obj){this.dataContent = obj.dataContent;}
+		if("visual" in obj){
+			if("isOpen" in obj.visual){this.visual.isOpen = obj.visual.isOpen;}
+			if("xM" in obj.visual){this.visual.xM = obj.visual.xM;}
+			if("yM" in obj.visual){this.visual.yM = obj.visual.yM;}
+			if("widthM" in obj.visual){this.visual.widthM = obj.visual.widthM;}
+			if("heightM" in obj.visual){this.visual.heightM = obj.visual.heightM;}
+		}
+	}
+}
 
 KNode.STATE_LOCAL = "STATE_LOCAL";
 KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED";
