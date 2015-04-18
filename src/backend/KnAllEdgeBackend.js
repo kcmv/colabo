@@ -16,14 +16,14 @@ console.log("[KnAllEdgeBackend.js:index] config.services: %s", JSON.stringify(co
 
 function supportCrossOriginScript(req, res, next) {
 	res.header("Access-Control-Allow-Headers", "Content-Type");
-	
+
 	// res.header("Access-Control-Allow-Headers", "Origin");
 	// res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	// res.header("Access-Control-Allow-Methods","POST, OPTIONS");
 	res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, HEAD");
 	res.header("Allow", "POST, GET, OPTIONS, DELETE, PUT, HEAD");
 	// res.header("Access-Control-Max-Age","1728000");
-	
+
 	// res.header("Access-Control-Allow-Origin", "*");
 	// http://stackoverflow.com/questions/15026016/set-cookie-in-http-header-is-ignored-with-angularjs
 	var origin = req.headers.origin; // "litterra.info"; // "litterra.info:8088"; //req.headers.origin;
@@ -33,11 +33,11 @@ function supportCrossOriginScript(req, res, next) {
 	console.log("Access-Control-Allow-Origin: %s", origin);
 	res.header('Access-Control-Allow-Origin', origin);
 	res.header('Access-Control-Allow-Credentials', true);
-	
+
 	console.log("[supportCrossOriginScript] setting up headers");
 
-    res.status(200);
-    next();
+	res.status(200);
+	next();
 }
 
 var app = express();
@@ -46,7 +46,8 @@ app.configure(function(){
     app.use(express.bodyParser());
     app.use(express.logger());
 	app.use(express.cookieParser()); // cookie parser is used before the session
-	app.set('port', process.env.PORT || 8888);
+	console.log("process.argv: %s", JSON.stringify(process.argv));
+	app.set('port', process.env.PORT || process.argv[2] || 8888);
 
 	// this is enough
 	app.use(supportCrossOriginScript);
@@ -58,6 +59,7 @@ app.configure(function(){
 
 var knodes = app.resource('knodes', require('./modules/kNode'), {id: 'type?/:searchParam?'});
 var kedges = app.resource('kedges', require('./modules/kEdge'), {id: 'type?/:searchParam?/:searchParam2?'});
+
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Listening on " + app.get('port'));
 });
