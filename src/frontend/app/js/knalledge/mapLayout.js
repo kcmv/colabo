@@ -13,24 +13,26 @@ var MapLayout =  knalledge.MapLayout = function(structure, configNodes, configTr
 	this.tree = null;
 };
 
+MapLayout.prototype.getChildren = function(d){
+	var children = [];
+	if(!d.isOpen) return children;
+
+	for(var i in this.structure.edgesById){
+		if(this.structure.edgesById[i].kEdge.sourceId == d.kNode._id){
+			var vkNode = this.structure.getVKNodeByKId(this.structure.edgesById[i].kEdge.targetId);
+			children.push(vkNode);
+		}
+	}
+	return children;
+};
+
 MapLayout.prototype.init = function(mapSize){
 	this.dom = this.mapVisualizationApi.getDom();
 
 	this.tree = d3.layout.tree()
 		.size(mapSize);
 
-	this.tree.children(function(d){
-		var children = [];
-		if(!d.isOpen) return children;
-
-		for(var i in this.structure.edgesById){
-			if(this.structure.edgesById[i].kEdge.sourceId == d.kNode._id){
-				var vkNode = this.structure.getVKNodeByKId(this.structure.edgesById[i].kEdge.targetId);
-				children.push(vkNode);
-			}
-		}
-		return children;
-	}.bind(this));
+	this.tree.children(this.getChildren.bind(this));
 };
 
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal

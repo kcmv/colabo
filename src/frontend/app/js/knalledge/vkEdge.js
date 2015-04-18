@@ -2,7 +2,7 @@
 'use strict';
 
 var VKEdge =  knalledge.VKEdge = function(){
-	this._id = 0; //TODO: maxId logic should be migrated here
+	this.id = 0; //TODO: maxId logic should be migrated here
 	this.kEdge = null;
 	this.iAmId = 0;
 	this.createdAt = null;
