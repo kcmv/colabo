@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapVisualization =  knalledge.MapVisualization = function(parentDom, structure, configTransitions, configNodes, configEdges){
+var MapVisualization =  knalledge.MapVisualization = function(parentDom, mapStructure, configTransitions, configNodes, configEdges){
 	this.dom = {
 		parentDom: parentDom,
 		divMap: null,
@@ -9,7 +9,7 @@ var MapVisualization =  knalledge.MapVisualization = function(parentDom, structu
 		divMapSvg: null,
 		svg: null
 	};
-	this.structure = structure;
+	this.mapStructure = mapStructure;
 
 	this.configTransitions = configTransitions;
 	this.configNodes = configNodes;
@@ -17,8 +17,8 @@ var MapVisualization =  knalledge.MapVisualization = function(parentDom, structu
 	this.editingNodeHtml = null;
 };
 
-MapVisualization.prototype.init = function(viewStructure){
-	this.viewStructure = viewStructure;
+MapVisualization.prototype.init = function(mapLayout){
+	this.mapLayout = mapLayout;
 	this.dom.divMap = this.dom.parentDom.append("div")
 		.attr("class", "div_map");
 
@@ -48,7 +48,7 @@ MapVisualization.prototype.getDom = function(){
 };
 
 MapVisualization.prototype.update = function(source, callback) {
-	this.viewStructure.generateTree(this.structure.rootNode);
+	this.mapLayout.generateTree(this.mapStructure.rootNode);
 	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
 	var that = this;
 	window.setTimeout(function() {
@@ -68,14 +68,14 @@ MapVisualization.prototype.updateHtml = function(source) {
 	if(!this.configNodes.html.show) return;
 
 	var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
-		.data(this.viewStructure.nodes, function(d) { return d._id; });
+		.data(this.mapLayout.nodes, function(d) { return d.id; });
 
 	// Enter the nodes
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", "node_html node_unselected draggable")
-		.on("dblclick", this.viewStructure.clickDoubleNode.bind(this.viewStructure))
-		.on("click", this.viewStructure.clickNode.bind(this.viewStructure));
+		.on("dblclick", this.mapLayout.clickDoubleNode.bind(this.mapLayout))
+		.on("click", this.mapLayout.clickNode.bind(this.mapLayout));
 
 	// position node on enter at the source position
 	// (it is either parent or another precessor)
@@ -104,51 +104,51 @@ MapVisualization.prototype.updateHtml = function(source) {
 			}else{
 				x = d.x;
 			}
-			// console.log("[nodeHtmlEnter] d: %s, x: %s", d.name, x);
+			// console.log("[nodeHtmlEnter] d: %s, x: %s", d.kNode.name, x);
 			return x + "px";
 		})
 		.classed({
 			"node_html_fixed": function(d){
-				return (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
+				return (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					false : true;
 			}
 		})
 		.style("width", function(d){
-				var width = (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
-					d.dataContent.image.width + "px" : null;
+				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					d.kNode.dataContent.image.width + "px" : null;
 				return width;
 		})
 		.style("margin-left", function(d){
-				var margin = (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
-					-d.dataContent.image.width/2 + "px" : null;
+				var margin = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					-d.kNode.dataContent.image.width/2 + "px" : null;
 				return margin;
 		})
 		.style("background-color", function(d) {
-			var image = d.dataContent ? d.dataContent.image : null;
+			var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
 			if(image) return null; // no bacground
-			return (!d.isOpen && that.structure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
+			return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
 		});
 
-	nodeHtmlEnter.filter(function(d) { return d.dataContent && d.dataContent.image; })
+	nodeHtmlEnter.filter(function(d) { return d.kNode.dataContent && d.kNode.dataContent.image; })
 		.append("img")
 			.attr("src", function(d){
-				return d.dataContent.image.url;
+				return d.kNode.dataContent.image.url;
 			})
 			.attr("width", function(d){
-				return d.dataContent.image.width + "px";
+				return d.kNode.dataContent.image.width + "px";
 			})
 			.attr("height", function(d){
-				return d.dataContent.image.height + "px";
+				return d.kNode.dataContent.image.height + "px";
 			})
 			.attr("alt", function(d){
-				return d.name;
+				return d.kNode.name;
 			});
 
 	nodeHtmlEnter
 		.append("div")
 			.attr("class", "node_status")
 				.html(function(){
-					return "&nbsp;"; //d._id;
+					return "&nbsp;"; //d._id; // d.kNode._id;
 				});
 
 	nodeHtmlEnter
@@ -156,7 +156,7 @@ MapVisualization.prototype.updateHtml = function(source) {
 			.attr("class", "node_inner_html")
 			.append("span")
 				.html(function(d) {
-					return d.name;
+					return d.kNode.name;
 				});
 			// .append("span")
 			// 	.html(function(d) {
@@ -188,7 +188,7 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 	// var nodeHtmlEnter = nodeHtmlDatasets.enter;
 
 	// var nodeHtml = divMapHtml.selectAll("div.node_html")
-	// 	.data(nodes, function(d) { return d._id; });
+	// 	.data(nodes, function(d) { return d.id; });
 
 	// Transition nodes to their new (final) position
 	// it happens also for entering nodes (http://bl.ocks.org/mbostock/3900925)
@@ -204,12 +204,12 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 			return d.y + "px";
 		})
 		// .each("start", function(d){
-		// 	console.log("[nodeHtmlUpdateTransition] STARTED: d: %s, xCurrent: %s", d.name, d3.select(this).style("top"));
+		// 	console.log("[nodeHtmlUpdateTransition] STARTED: d: %s, xCurrent: %s", d.kNode.name, d3.select(this).style("top"));
 		// })
 		.style("top", function(d){
-			var x = that.viewStructure.getHtmlNodePosition(d);
+			var x = that.mapLayout.getHtmlNodePosition(d);
 			// x = d.x;
-			// console.log("[nodeHtmlUpdateTransition] d: %s, xCurrent: %s, xNew: %s", d.name, d3.select(this).style("top"), x);
+			// console.log("[nodeHtmlUpdateTransition] d: %s, xCurrent: %s, xNew: %s", d.kNode.name, d3.select(this).style("top"), x);
 			return x + "px";
 		});
 
@@ -220,9 +220,9 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 
 	nodeHtmlUpdateTransition
 		.style("background-color", function(d) {
-			var image = d.dataContent ? d.dataContent.image : null;
+			var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
 			if(image) return null; // no bacground
-			return (!d.isOpen && that.structure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
+			return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
 		});
 
 	// Transition exiting nodes
@@ -262,6 +262,13 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 	nodeHtmlExitTransition.remove();
 };
 
+MapVisualization.prototype.updateName = function(nodeView){
+	var nodeSpan = nodeView.select("span");
+	var newName = nodeSpan.text();
+	var d = nodeView.datum();
+	this.mapStructure.updateName(d, newName);
+};
+
 MapVisualization.prototype.updateNodeDimensions = function(){
 	if(!this.configNodes.html.show) return;
 	// var that = this;
@@ -271,7 +278,7 @@ MapVisualization.prototype.updateNodeDimensions = function(){
 		d.width = parseInt(d3.select(this).style("width"));
 		d.height = parseInt(d3.select(this).style("height"));
 		// d3.select(this).style("top", function(d) { 
-		// 	return "" + that.viewStructure.getHtmlNodePosition(d) + "px";
+		// 	return "" + that.mapLayout.getHtmlNodePosition(d) + "px";
 		// })
 	});
 };
@@ -283,7 +290,7 @@ MapVisualization.prototype.updateSvgNodes = function(source) {
 	// Declare the nodes, since there is no unique id we are creating one on the fly
 	// not very smart with real data marshaling in/out :)
 	var node = this.dom.svg.selectAll("g.node")
-		.data(this.viewStructure.nodes, function(d) { return d._id; });
+		.data(this.mapLayout.nodes, function(d) { return d.id; });
 
 	// Enter the nodes
 	// we create a group "g" that will contain both visual representation of a node (circle) and text
@@ -292,8 +299,8 @@ MapVisualization.prototype.updateSvgNodes = function(source) {
 		.style("opacity", function(){
 			return that.configTransitions.enter.animate.opacity ? 1e-6 : 0.8;
 		})
-		.on("click", this.viewStructure.clickNode.bind(this.viewStructure))
-		.on("dblclick", this.viewStructure.clickDoubleNode.bind(this.viewStructure))
+		.on("click", this.mapLayout.clickNode.bind(this.mapLayout))
+		.on("dblclick", this.mapLayout.clickDoubleNode.bind(this.mapLayout))
 		// Enter any new nodes at the parent's previous position.
 		.attr("transform", function(d) {
 			if(that.configTransitions.enter.animate.position){
@@ -345,7 +352,7 @@ MapVisualization.prototype.updateSvgNodes = function(source) {
 			.style("opacity", 0.8);
 
 	node.select("circle")
-		.style("fill", function(d) { return (!d.isOpen && that.structure.hasChildren(d)) ? "lightsteelblue" : "#ffffff"; });
+		.style("fill", function(d) { return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "lightsteelblue" : "#ffffff"; });
 
 	// Transition exiting nodes
 	var nodeExit = node.exit();
@@ -389,9 +396,9 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 	var that = this;
 
 	var linkLabelHtml = this.dom.divMapHtml.selectAll("div.label_html")
-	.data(this.viewStructure.links, function(d) {
+	.data(this.mapLayout.links, function(d) {
 		// there is only one incoming edge
-		return d.target._id;
+		return d.target.id;
 	});
 
 	// Enter the nodes
@@ -400,7 +407,7 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 		.attr("class", "label_html")
 		// position node on enter at the source position
 		// (it is either parent or another precessor)
-		.on("click", this.viewStructure.clickLinkLabel.bind(this.viewStructure))
+		.on("click", this.mapLayout.clickLinkLabel.bind(this.mapLayout))
 		.style("left", function(d) {
 			var y;
 			if(that.configTransitions.enter.animate.position){
@@ -433,8 +440,8 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 			//.text("<span>Hello</span>");
 			//.html("<span>Hello</span>");
 			.html(function(d) {
-				var edge = that.structure.getEdge(d.source._id, d.target._id);
-				return edge.name;
+				var edge = that.mapStructure.getEdge(d.source.id, d.target.id);
+				return edge.kEdge.name;
 			});
 
 	if(this.configTransitions.enter.animate.opacity){
@@ -518,9 +525,9 @@ MapVisualization.prototype.updateLinks = function(source) {
 
 	// Declare the links
 	var link = this.dom.svg.selectAll("path.link")
-	.data(this.viewStructure.links, function(d) {
+	.data(this.mapLayout.links, function(d) {
 		// there is only one incoming edge
-		return d.target._id;
+		return d.target.id;
 	});
 
 	// Enter the links
@@ -540,9 +547,9 @@ MapVisualization.prototype.updateLinks = function(source) {
 				}else{
 					o = {x: d.source.x0, y: d.source.y0};
 				}
-				diagonal = that.viewStructure.diagonal(that.viewStructure)({source: o, target: o});
+				diagonal = that.mapLayout.diagonal(that.mapLayout)({source: o, target: o});
 			}else{
-				diagonal = that.viewStructure.diagonal(that.viewStructure)(d);
+				diagonal = that.mapLayout.diagonal(that.mapLayout)(d);
 			}
 			return diagonal;
 		});
@@ -568,14 +575,14 @@ MapVisualization.prototype.updateLinks = function(source) {
 		linkUpdateTransition
 			.attr("d", function(d){
 				var diagonal;
-				diagonal = that.viewStructure.diagonal(that.viewStructure)(d);
+				diagonal = that.mapLayout.diagonal(that.mapLayout)(d);
 				return diagonal;
 			});
 	}else{
 		linkUpdate
 			.attr("d", function(d){
 				var diagonal;
-				diagonal = that.viewStructure.diagonal(that.viewStructure)(d);
+				diagonal = that.mapLayout.diagonal(that.mapLayout)(d);
 				return diagonal;
 			});
 	}
@@ -602,14 +609,14 @@ MapVisualization.prototype.updateLinks = function(source) {
 					}else{
 						o = {x: d.source.x, y: d.source.y};
 					}
-					diagonal = that.viewStructure.diagonal(that.viewStructure)({source: o, target: o});
+					diagonal = that.mapLayout.diagonal(that.mapLayout)({source: o, target: o});
 					return diagonal;
 				});
 		}else{
 			linkExit
 				.attr("d", function(d){
 					var diagonal;
-					diagonal = that.viewStructure.diagonal(that.viewStructure)(d);
+					diagonal = that.mapLayout.diagonal(that.mapLayout)(d);
 					return diagonal;
 				});
 		}

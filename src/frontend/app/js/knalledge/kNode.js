@@ -46,7 +46,7 @@ KNode.createNode = function(obj){
 		if("heightM" in obj.visual){kNode.visual.heightM = obj.visual.heightM;}
 	}
 	return kNode;
-}
+};
 
 KNode.STATE_LOCAL = "STATE_LOCAL";
 KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED";

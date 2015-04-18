@@ -94,10 +94,7 @@ Keyboard.prototype.exitEditingNode = function(){
 	if(this.editingNodeHtml){
 		var nodeSpan = this.editingNodeHtml.select("span");
 		nodeSpan.attr("contenteditable", false);
-		
-		var d = this.editingNodeHtml.datum();
-		d.name = nodeSpan.text();
-		this.clientApi.updateNode(d);
+		this.clientApi.updateName(this.editingNodeHtml);
 		nodeSpan.node().blur();
 		this.editingNodeHtml = null;
 	}
@@ -115,6 +112,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 			this.clientApi.clickNode(this.clientApi.getSelectedNode().children[0]);
 		}
 	}.bind(this), function(){}.bind(this));
+
 	KeyboardJS.on("left", function(){
 		if(this.editingNodeHtml) return;
 
@@ -122,6 +120,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 			this.clientApi.clickNode(this.clientApi.getSelectedNode().parent);
 		}
 	}.bind(this), function(){}.bind(this));
+
 	KeyboardJS.on("down", function(){
 		if(this.editingNodeHtml) return;
 
@@ -135,6 +134,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 			}
 		}
 	}.bind(this), function(){}.bind(this));
+
 	KeyboardJS.on("up", function(){
 		if(this.editingNodeHtml) return;
 
@@ -148,6 +148,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 			}
 		}
 	}.bind(this), function(){}.bind(this));
+
 	KeyboardJS.on("enter", function(){
 		if(this.editingNodeHtml) return;
 
@@ -198,15 +199,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	KeyboardJS.on("shift+i", function(){
 		if(this.editingNodeHtml) return;
 		console.log("Removing image");
-		var d = this.clientApi.getSelectedNode();
-		if(d){
-			if(!d.dataContent){
-				d.dataContent = {};
-			}
-			// http://localhost:8888/knodes/one/5526855ac4f4db29446bd183.json
-			delete d.dataContent.image;
-			this.clientApi.updateNode(d);
-		}
+		this.clientApi.removeImage();
 	}.bind(this), function(){}.bind(this));	
 
 	// Add new node

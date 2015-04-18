@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var ViewStructure =  knalledge.ViewStructure = function(structure, configNodes, configTree, mapVisualizationApi, knalledgeState){
+var MapLayout =  knalledge.MapLayout = function(structure, configNodes, configTree, mapVisualizationApi, knalledgeState){
 	this.structure = structure;
 	this.configNodes = configNodes;
 	this.configTree = configTree;
@@ -13,7 +13,7 @@ var ViewStructure =  knalledge.ViewStructure = function(structure, configNodes, 
 	this.tree = null;
 };
 
-ViewStructure.prototype.init = function(mapSize){
+MapLayout.prototype.init = function(mapSize){
 	this.dom = this.mapVisualizationApi.getDom();
 
 	this.tree = d3.layout.tree()
@@ -24,8 +24,9 @@ ViewStructure.prototype.init = function(mapSize){
 		if(!d.isOpen) return children;
 
 		for(var i in this.structure.edgesById){
-			if(this.structure.edgesById[i].sourceId == d._id){
-				children.push(this.structure.nodesById[this.structure.edgesById[i].targetId]);
+			if(this.structure.edgesById[i].kEdge.sourceId == d.kNode._id){
+				var vkNode = this.structure.getVKNodeByKId(this.structure.edgesById[i].kEdge.targetId);
+				children.push(vkNode);
 			}
 		}
 		return children;
@@ -35,7 +36,7 @@ ViewStructure.prototype.init = function(mapSize){
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal_projection
 // https://www.dashingd3js.com/svg-paths-and-d3js
-ViewStructure.prototype.diagonal = function(that){
+MapLayout.prototype.diagonal = function(that){
 	var diagonalSource = function(d){
 		//return d.source;
 		// here we are creating object with just necessary parameters (x, y)
@@ -46,8 +47,8 @@ ViewStructure.prototype.diagonal = function(that){
 			// we deal here with y-coordinates, because our final tree is rotated to propagete across the x-axis, instead of y-axis
 			// (you can see that in .project() function
 			if(d.source.y < d.target.y){
-				var width = (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
-					d.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
+				var width = (d.source.kNode.dataContent && d.source.kNode.dataContent.image && d.source.kNode.dataContent.image.width) ?
+					d.source.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
 				point.y += width + 0;
 			}
 		}
@@ -59,8 +60,8 @@ ViewStructure.prototype.diagonal = function(that){
 		var point = {x: d.target.x, y: d.target.y};
 		if(!that.configNodes.punctual){
 			if(d.target.y > d.source.y){
-				var width = (d.dataContent && d.dataContent.image && d.dataContent.image.width) ?
-					d.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
+				var width = (d.target.kNode.dataContent && d.target.kNode.dataContent.image && d.target.kNode.dataContent.image.width) ?
+					d.target.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
 				point.y -= width + 0;
 			}
 		}
@@ -77,20 +78,20 @@ ViewStructure.prototype.diagonal = function(that){
 	return diagonal;
 };
 
-ViewStructure.prototype.getAllNodesHtml = function(){
+MapLayout.prototype.getAllNodesHtml = function(){
 	return this.dom.divMapHtml.selectAll("div.node_html");
 };
 
 // Returns view representation (dom) from datum d
-ViewStructure.prototype.getDomFromDatum = function(d) {
+MapLayout.prototype.getDomFromDatum = function(d) {
 	var dom = this.getAllNodesHtml()
-		.data([d], function(d){return d._id;});
+		.data([d], function(d){return d.id;});
 	if(dom.size() != 1) return null;
 	else return dom;
 };
 
 // Select node on node click
-ViewStructure.prototype.clickNode = function(d) {
+MapLayout.prototype.clickNode = function(d) {
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state
 	var nodesHtmlSelected = this.getDomFromDatum(d);
@@ -125,13 +126,13 @@ ViewStructure.prototype.clickNode = function(d) {
 };
 
 // Toggle children on node double-click
-ViewStructure.prototype.clickDoubleNode = function(d) {
+MapLayout.prototype.clickDoubleNode = function(d) {
 	this.structure.toggle(d);
 	this.mapVisualizationApi.update(d);
 };
 
 // react on label click.
-ViewStructure.prototype.clickLinkLabel = function() {
+MapLayout.prototype.clickLinkLabel = function() {
 	// console.log("Label clicked: " + JSON.stringify(d.target.name));
 
 	// just as a click indicator
@@ -142,18 +143,18 @@ ViewStructure.prototype.clickLinkLabel = function() {
 	}
 };
 
-ViewStructure.prototype.viewspecChanged = function(target){
+MapLayout.prototype.viewspecChanged = function(target){
 	if (target.value === "viewspec_tree") this.configTree.viewspec = "viewspec_tree";
 	else if (target.value === "viewspec_manual") this.configTree.viewspec = "viewspec_manual";
 	this.mapVisualizationApi.update(this.structure.rootNode);
 };
 
-ViewStructure.prototype.processData = function() {
+MapLayout.prototype.processData = function() {
 	this.clickNode(this.structure.rootNode);
 	this.mapVisualizationApi.update(this.structure.rootNode);
 };
 
-ViewStructure.prototype.generateTree = function(source){
+MapLayout.prototype.generateTree = function(source){
 	if(this.nodes){
 		// Normalize for fixed-depth.
 		this.nodes.forEach(function(d) {
@@ -216,7 +217,7 @@ ViewStructure.prototype.generateTree = function(source){
 	});
 };
 
-ViewStructure.prototype.getHtmlNodePosition = function(d) {
+MapLayout.prototype.getHtmlNodePosition = function(d) {
 	var x = null;
 	if(this.configNodes.html.show){
 		x = d.x - d.height/2;

@@ -40,7 +40,7 @@ KEdge.createEdge = function(obj){
 	if("visual" in obj){kEdge.visual = obj.visual;} // Still Visual is not used so we are not filling it like for kNode
 
 	return kEdge;
-}
+};
 
 KEdge.STATE_LOCAL = "STATE_LOCAL";
 KEdge.STATE_NON_SYNCED = "STATE_NON_SYNCED";

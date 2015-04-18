@@ -45,7 +45,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
 				console.log("[KnalledgeNodeService] accessId: %s", serverResponse.accessId);
 				var data = serverResponse.data;
-				var VOs = new Array();
+				var VOs = [];
 				for(var datumId in serverResponse.data){
 					var VO = knalledge.KNode.createNode(data[datumId]);
 					VO.state = knalledge.KNode.STATE_SYNCED;
@@ -223,7 +223,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
 				console.log("[KnalledgeEdgeService] accessId: %s", serverResponse.accessId);
 				var data = serverResponse.data;
-				var VOs = new Array();
+				var VOs = [];
 				for(var datumId in serverResponse.data){
 					var VO = knalledge.KEdge.createEdge(data[datumId]);
 					VO.state = knalledge.KEdge.STATE_SYNCED;
@@ -334,10 +334,11 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 
 knalledgeMapServices.provider('KnalledgeMapService', {
 	// privateData: "privatno",
-	$get: ['$q', 'KnalledgeNodeService', 'KnalledgeEdgeService', function($q, KnalledgeNodeService, KnalledgeEdgeService) {
+	$get: ['$q', '$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', function($q, $rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService) {
 		// var that = this;
 		return {
 			mapId: "552678e69ad190a642ad461c",
+			rootId: "55268521fb9a901e442172f9",
 			rootNode: null,
 			selectedNode: null,
 			nodesById: {},
@@ -483,34 +484,69 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				return newEdge;
 			},
 
-			processData: function(treeData, rootNodeX, rootNodeY) {
-				//this.properties = treeData.properties;
-				var rootId = "55268521fb9a901e442172f9";
+			loadData: function(){
+				var result = {
+					"properties": {
+						"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+						"date": "2015.03.22.",
+						"authors": "S. Rudan, D. Karabeg",
+						"rootNodeId": this.rootId
+					},
+					"map": {
+						"nodes": [],
+						"edges": []
+					}
+					
+				};
+				
+				var handleReject = function(fail){
+					$window.alert("Error loading knalledgeMap: %s", fail);
+				};
+				
+				var nodesEdgesReceived = function(){
+					console.log("[KnalledgeMapService::loadData] nodesEdgesReceived");
+					var i;
+					for(i=0; i<nodes.length; i++){
+						result.map.nodes.push(nodes[i]);
+					}
+					for(i=0; i<edges.length; i++){
+						result.map.edges.push(edges[i]);
+					}
+
+					this.processData(result);
+
+					var eventName = "modelLoadedEvent";
+					//console.log("result:" + JSON.stringify(result));
+					$rootScope.$broadcast(eventName, result);
+				};
+				
+				var nodes = KnalledgeNodeService.queryInMap(this.mapId);
+				var edges = KnalledgeEdgeService.queryInMap(this.mapId);
+				
+				$q.all([nodes.$promise, edges.$promise])
+					.then(nodesEdgesReceived.bind(this))
+					.catch(handleReject); //TODO: test this. 2nd function fail or like this 'catch' 
+			},
+
+			processData: function(mapData) {
+				this.properties = mapData.map.properties;
 				var i=0;
 				var node = null;
 				var edge = null;
-				for(i=0; i<treeData.nodes.length; i++){
-					node = treeData.nodes[i];
+				for(i=0; i<mapData.map.nodes.length; i++){
+					node = mapData.map.nodes[i];
 					if(!("isOpen" in node)){
 						node.isOpen = false;
 					}
 					this.nodesById[node._id] = node;
 				}
 
-				for(i=0; i<treeData.edges.length; i++){
-					edge = treeData.edges[i];
+				for(i=0; i<mapData.map.edges.length; i++){
+					edge = mapData.map.edges[i];
 					this.edgesById[edge._id] = edge;
 				}
 
-				// this.rootNode = this.nodesById[this.properties.rootNodeId];
-				this.rootNode = this.nodesById[rootId];
-				this.rootNode.x0 = rootNodeY;
-				this.rootNode.y0 = rootNodeX;
-
-				this.selectedNode = this.rootNode;
-
-				// this.clickNode(this.rootNode);
-				// this.update(this.rootNode);
+				this.rootNode = this.nodesById[mapData.properties.rootNodeId];
 			}
 		};
 	}]
