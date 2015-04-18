@@ -50,4 +50,15 @@ KEdge.prototype.init = function(){
 	
 };
 
+KEdge.prototype.toServerCopy = function(){
+	var kEdge = (JSON.parse(JSON.stringify(this))); //copy
+	if(kEdge.state == KEdge.STATE_LOCAL){
+		delete kEdge._id;
+	}
+	delete kEdge.state;
+	if(kEdge.createdAt === undefined || kEdge.createdAt === null) {delete kEdge.createdAt;}
+	if(kEdge.updatedAt === undefined || kEdge.updatedAt === null) {delete kEdge.updatedAt;}
+	return kEdge;
+};
+
 }()); // end of 'use strict';

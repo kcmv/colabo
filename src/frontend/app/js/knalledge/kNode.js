@@ -35,8 +35,8 @@ KNode.createNode = function(obj){
 	if("ideaId" in obj){kNode.ideaId = obj.ideaId;}
 	if("version" in obj){kNode.version = obj.version;}
 	if("isPublic" in obj){kNode.isPublic = obj.isPublic;}
-	if("createdAt" in obj){kNode.createdAt = obj.createdAt;} //TODO: converto to Date nativ type
-	if("updatedAt" in obj){kNode.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ type
+	if("createdAt" in obj){kNode.createdAt = obj.createdAt;} //TODO: converto to Date native type
+	if("updatedAt" in obj){kNode.updatedAt = obj.updatedAt;}//TODO: converto to Date native type
 	if("dataContent" in obj){kNode.dataContent = obj.dataContent;}
 	if("visual" in obj){
 		if("isOpen" in obj.visual){kNode.visual.isOpen = obj.visual.isOpen;}
@@ -54,6 +54,14 @@ KNode.STATE_SYNCED = "STATE_SYNCED";
 
 KNode.prototype.init = function(){
 	
+};
+
+KNode.prototype.toServerCopy = function(){
+	var kNode = (JSON.parse(JSON.stringify(this))); //copy
+	delete kNode.state;
+	if(kNode.createdAt === undefined || kNode.createdAt === null) {delete kNode.createdAt;}
+	if(kNode.updatedAt === undefined || kNode.updatedAt === null) {delete kNode.updatedAt;}
+	return kNode;
 };
 
 }()); // end of 'use strict';
