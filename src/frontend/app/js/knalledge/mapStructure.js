@@ -121,8 +121,18 @@ MapStructure.prototype.createNode = function() {
 	return newNode;
 };
 
-MapStructure.prototype.updateNode = function(node) {
-	this.mapService.updateNode(node); //updating on server service
+MapStructure.prototype.updateNode = function(vnode) {
+	//TODO: update vnode.knode.visual coordinates
+	this.mapService.updateNode(vnode.kNode); //updating on server service
+};
+
+MapStructure.prototype.deleteNode = function(vnode) {
+	this.mapService.deleteNode(vnode.kNode);
+	delete this.nodesById[vnode._id];
+	this.mapService.deleteEdgesConnectedTo(vnode.kNode);
+	
+	//TODO: delete connected vkedges;
+
 };
 
 MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
@@ -140,6 +150,10 @@ MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
 
 	this.edgesById[id] = newEdge;
 	return newEdge;
+};
+
+MapStructure.prototype.deleteEdgesConnectedTo = function(node) {
+	this.mapService.deleteNode(node);
 };
 
 MapStructure.prototype.getVKNodeByKId = function(kId) {

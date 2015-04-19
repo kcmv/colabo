@@ -42,6 +42,7 @@ KEdge.prototype.fill = function(obj){
 		if("name" in obj){this.name = obj.name;}
 		if("mapId" in obj){this.mapId = obj.mapId;}
 		if("iAmId" in obj){this.iAmId = obj.iAmId;}
+		if("type" in obj){this.type = obj.type;}
 		if("activeVersion" in obj){this.activeVersion = obj.activeVersion;}
 		if("ideaId" in obj){this.ideaId = obj.ideaId;}
 		if("version" in obj){this.version = obj.version;}
@@ -50,19 +51,42 @@ KEdge.prototype.fill = function(obj){
 		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ type
 		if("sourceId" in obj){this.sourceId = obj.sourceId;}
 		if("targetId" in obj){this.targetId = obj.targetId;}
-		if("dataContent" in obj){this.dataContent = obj.dataContent;}
+		if("dataContent" in obj){this.dataContent = obj.dataContent;} //TODO: deep copy?
 		if("visual" in obj){this.visual = obj.visual;} // Still Visual is not used so we are not filling it like for kNode
 	}
 };
 
+KEdge.prototype.overrideFromServer = function(obj){
+	if(obj){
+		if("_id" in obj){this._id = obj._id;}
+		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date nativ type
+		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ type
+	}
+	this.state = KEdge.STATE_SYNCED;
+};
+
 KEdge.prototype.toServerCopy = function(){
-	var kEdge = (JSON.parse(JSON.stringify(this))); //copy
+	var kEdge = {};
+	
+	/* copying all non-system and non-function properties */
+	for(var id in this){
+		if(id[0] == '$') continue;
+		if (typeof this[id] == 'function') continue;
+		//console.log("cloning: %s", id);
+		kEdge[id] = (JSON.parse(JSON.stringify(this[id])));
+	}
+	
+	/* deleting properties that should be set to default value on server */
+	if(kEdge.createdAt === undefined || kEdge.createdAt === null) {delete kEdge.createdAt;}
+	if(kEdge.updatedAt === undefined || kEdge.updatedAt === null) {delete kEdge.updatedAt;}
+	
+	/* deleting local-frontend parameters */
+	delete kEdge.state;
+	
 	if(kEdge.state == KEdge.STATE_LOCAL){
 		delete kEdge._id;
 	}
-	delete kEdge.state;
-	if(kEdge.createdAt === undefined || kEdge.createdAt === null) {delete kEdge.createdAt;}
-	if(kEdge.updatedAt === undefined || kEdge.updatedAt === null) {delete kEdge.updatedAt;}
+	
 	return kEdge;
 };
 

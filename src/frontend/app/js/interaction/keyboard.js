@@ -206,7 +206,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	KeyboardJS.on("tab", function(){
 		if(this.editingNodeHtml) return; // in typing mode
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
-
+		that = this;
 		var newNode = this.clientApi.createNode();
 		// var newEdge = 
 		this.clientApi.createEdge(this.clientApi.getSelectedNode(), newNode);
@@ -215,10 +215,24 @@ Keyboard.prototype.initializeKeyboard = function() {
 		}
 
 		this.clientApi.update(this.clientApi.getSelectedNode(), function(){
-			that.selectedNode = newNode;
-			that.setEditing(that.selectedNode);			
+			this.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
+			that.setEditing(newNode);			
 		});
 	}.bind(this), function(){}.bind(this));	
+	
+	// Delete node:
+	KeyboardJS.on("delete", function(){
+		if(this.editingNodeHtml) return; // in typing mode
+		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
+
+		this.clientApi.deleteNode(this.clientApi.getSelectedNode());		
+
+		this.clientApi.update(this.clientApi.getSelectedNode(), function(){
+			this.clientApi.setSelectedNode(null); //TODO: set to parent
+		});
+	}.bind(this), function(){}.bind(this));
+	
+	//TODO: Delete edge
 };
 
 }()); // end of 'use strict';
