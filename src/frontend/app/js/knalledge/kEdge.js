@@ -4,6 +4,7 @@
 var KEdge =  knalledge.KEdge = function(){
 	this._id = 0; //TODO: maxId logic should be migrated here
 	this.name = "name...";
+	this.type = null;
 	this.mapId = "";	
 	this.iAmId = 0;
 	this.type = ""; //TODO: a default type should be assigned
@@ -22,15 +23,15 @@ var KEdge =  knalledge.KEdge = function(){
 	this.state = KEdge.STATE_LOCAL;
 };
 
+KEdge.STATE_LOCAL = "STATE_LOCAL";
+KEdge.STATE_NON_SYNCED = "STATE_NON_SYNCED";
+KEdge.STATE_SYNCED = "STATE_SYNCED";
+
 KEdge.edgeFactory = function(obj){
 	var kEdge = new knalledge.KEdge();
 	kEdge.fill(obj);
 	return kEdge;
 };
-
-KEdge.STATE_LOCAL = "STATE_LOCAL";
-KEdge.STATE_NON_SYNCED = "STATE_NON_SYNCED";
-KEdge.STATE_SYNCED = "STATE_SYNCED";
 
 KEdge.prototype.init = function(){
 	
@@ -40,6 +41,7 @@ KEdge.prototype.fill = function(obj){
 	if(obj){
 		if("_id" in obj){this._id = obj._id;}
 		if("name" in obj){this.name = obj.name;}
+		if("type" in obj){this.type = obj.type;}
 		if("mapId" in obj){this.mapId = obj.mapId;}
 		if("iAmId" in obj){this.iAmId = obj.iAmId;}
 		if("type" in obj){this.type = obj.type;}

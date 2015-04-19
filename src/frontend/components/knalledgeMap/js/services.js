@@ -1,7 +1,11 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 //this function is strict...
-var QUEUE = false;
+
+var QUEUE = 
+	false;
+	//true;
+
 var removeJsonProtected = function(ENV, jsonStr){
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
 		jsonStr = jsonStr.substring(ENV.server.jsonPrefixed.length);
@@ -12,6 +16,7 @@ var removeJsonProtected = function(ENV, jsonStr){
 var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config']);
 
 knalledgeMapServices.provider('KnalledgeMapQueue', {
+	//KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", resolve:resolve, reject:reject});
 	// privateData: "privatno",
 	$get: ['$q', '$rootScope', '$window', function($q, $rootScope, $window) {
 		// var that = this;
@@ -25,8 +30,15 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 			SERVICE_METHOD_CHECK:"CHECK",
 
 			execute: function(req){
-				req.state = this.STATE_SENT;  //TODO: maybe PROCESSING
+				req.state = this.STATE_SENT;  //TODO:?? maybe PROCESSING
 				this.queue.push(req);
+			},
+			
+			flush: function(){
+				for(var i in queue){
+					//if(queue[i].check)
+					
+				}
 			},
 			
 			link: function(resource, methods){
@@ -59,8 +71,10 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
 				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
-				var data = serverResponse.data;
-				return data[0];
+				
+				var data = knalledge.KNode.nodeFactory(serverResponse.data[0]);
+				data.state = knalledge.KNode.STATE_SYNCED;
+				return data;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -78,7 +92,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				var data = serverResponse.data;
 				var VOs = [];
 				for(var datumId in serverResponse.data){
-					var VO = knalledge.KNode.createNode(data[datumId]);
+					var VO = knalledge.KNode.nodeFactory(data[datumId]);
 					VO.state = knalledge.KNode.STATE_SYNCED;
 					VOs.push(VO);
 				}
@@ -161,7 +175,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 					data[id] = jsonContent[id];
 				}
 				data.$resolved = true;
-				resolve(jsonContent);
+				resolve(data);
 			});
 		// reject('Greeting ' + name + ' is not allowed.');
 		});
@@ -201,9 +215,11 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 //					data.$resolved = true;
 //					resolve(jsonContent);
 //				});
+				KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", resolve:resolve, reject:reject});
 			});
 			
-			knalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", promise: promise});
+			//KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", promise: promise});
+			
 			
 			return kNode;
 		}
@@ -216,30 +232,13 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	resource.update = function(kNode, callback)
 	{
 		console.log("resource.update");
+		var kNodeClone = kNode.toServerCopy(); //TODO: move it to transformRequest ?
 		if(QUEUE){
-			var kNodeClone = {};
-			// kNodeClone = (JSON.parse(JSON.stringify(kNode)));
-			// delete kNodeClone.children;
-			// delete kNodeClone.parent;
-			
-			//TODO: do this through kNode function and move it to transformRequest
-			for(var id in kNode){
-				if(id == 'children') continue;
-				if(id == 'parent') continue;
-				if(id[0] == '$') continue;
-				if(id == 'children') continue;
-				if (typeof kNode[id] == 'function') continue;
-				//console.log("cloning: %s", id);
-				kNodeClone[id] = (JSON.parse(JSON.stringify(kNode[id])));// kNode[id];
-			}
-			//TODO: check the name of param: id or ObjectId or _id?
+			KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create"});
 			return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback); //TODO: does it return node so we should fix it like in create?
-			
-			knalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create"});
 		}
 		else{
-			var node = this.createPlain({}, kNode, callback);
-			return node;
+			return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback); //TODO: does it return node so we should fix it like in create?
 		}
 	};
 	
@@ -307,7 +306,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				var data = serverResponse.data;
 				var VOs = [];
 				for(var datumId in serverResponse.data){
-					var VO = knalledge.KEdge.overrideFromServer(data[datumId]);
+					var VO = knalledge.KEdge.edgeFactory(data[datumId]);
 					VOs.push(VO);
 				}
 				//console.log("[KnalledgeNodeService] data: %s", JSON.stringify(data));
@@ -419,7 +418,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 		// var that = this;
 		return {
 			mapId: "552678e69ad190a642ad461c",
-			rootId: "55268521fb9a901e442172f9",
+			rootNodeId: "55268521fb9a901e442172f9",
 			rootNode: null,
 			selectedNode: null,
 			nodesById: {},
@@ -576,21 +575,28 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				KnalledgeNodeService.update(node); //updating on server service
 			},
 
-			loadData: function(){
-				var result = {
-					"properties": {
+			loadData: function(mapProperties){
+				if(typeof mapProperties !== 'undefined'){
+					this.mapId = mapProperties.mapId;
+					this.rootNodeId = mapProperties.rootNodeId;
+				}else{
+					mapProperties = {
 						"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
 						"date": "2015.03.22.",
 						"authors": "S. Rudan, D. Karabeg",
-						"rootNodeId": this.rootId
-					},
+						"mapId": this.mapId,
+						"rootNodeId": this.rootNodeId
+					}
+				}
+
+				var result = {
+					"properties": mapProperties,
 					"map": {
 						"nodes": [],
 						"edges": []
 					}
-					
 				};
-				
+
 				var handleReject = function(fail){
 					$window.alert("Error loading knalledgeMap: %s", fail);
 				};
