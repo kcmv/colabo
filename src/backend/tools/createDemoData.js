@@ -23,7 +23,7 @@ db.on('open', function (callback) {
 		if(_mapData){
 			mapData = _mapData;
 			console.log("[kNode.populate]");
-			KNodeModel.remove().exec()
+			KNodeModel.remove({mapId: mapData.properties.mapId}).exec()
 			.then(function onFulfilled(result, info) {
 				//console.log("[kNode.remove()] params: result: " + result + ". info: " + JSON.stringify(info));
 				console.log("[kNode.remove()] Collection deleted. %d documents deleted: ", result);
@@ -37,7 +37,7 @@ db.on('open', function (callback) {
 				console.log('[kNode] all demo data successfully inserted');
 			});
 			
-			KEdgeModel.remove().exec()
+			KEdgeModel.remove({mapId: mapData.properties.mapId}).exec()
 			.then(function onFulfilled(result, info) {
 				//console.log("[kEdge.remove()] params: result: " + result + ". info: " + JSON.stringify(info));
 				console.log("[kEdge.remove()] Collection deleted. %d documents deleted: ", result);
@@ -62,15 +62,16 @@ function loadDataFile(fileName, callback){
 		if (err) {
 			console.log(err);
 			if(callback) callback(err, null);
+		}else{
+			// console.log('[kEdge::populateDemo]parsing file:\n' + dataStr);
+			var mapData = JSON.parse(dataStr);
+			console.log("[loadDataFile] map name: %s", JSON.stringify(mapData.properties.name));
+			console.log("[loadDataFile] map mapId: %s", JSON.stringify(mapData.properties.mapId));
+			console.log("[loadDataFile] map rootNodeId: %s", JSON.stringify(mapData.properties.rootNodeId));
+			console.log("[loadDataFile] mapData.map.nodes: %s", JSON.stringify(mapData.map.nodes.length));
+			console.log("[loadDataFile] mapData.map.edges: %s", JSON.stringify(mapData.map.edges.length));
+			if(callback) callback(null, mapData);			
 		}
-		//console.log('[kEdge::populateDemo]parsing file:\n' + dataStr);
-		var mapData = JSON.parse(dataStr);
-		console.log("[loadDataFile] map name: %s", JSON.stringify(mapData.properties.name));
-		console.log("[loadDataFile] map mapId: %s", JSON.stringify(mapData.properties.mapId));
-		console.log("[loadDataFile] map rootNodeId: %s", JSON.stringify(mapData.properties.rootNodeId));
-		console.log("[loadDataFile] mapData.map.nodes: %s", JSON.stringify(mapData.map.nodes.length));
-		console.log("[loadDataFile] mapData.map.edges: %s", JSON.stringify(mapData.map.edges.length));
-		if(callback) callback(null, mapData);
 	});
 }
 
@@ -100,7 +101,7 @@ function populateNodeDemo(){
 				isRootNode = false;
 			}
 			// if mapId is missing (default state) it is set to properties.mapId
-			if(!(mapId in datum)) datum.mapId = mapId;
+			if(!('mapId' in datum)) datum.mapId = mapId;
 			// toObject() is called to avoid error 'RangeError: Maximum call stack size exceeded', caused by sending Mongoose object to MongoDb driver (invoked by 'Model.collection.insert')
 			// http://stackoverflow.com/questions/24466366/mongoose-rangeerror-maximum-call-stack-size-exceeded
 			// and more about this: https://github.com/Automattic/mongoose/issues/1961#event-242694964
@@ -113,7 +114,7 @@ function populateNodeDemo(){
 			console.log("[kNode::populateDemo] adding new node to insertion array. entriesNo: %d", entriesNo);
 		}
 		finishedinserting = true;
-		console.log("[kNode::populateDemo] data_array:\n" + JSON.stringify(data_array));
+		// console.log("[kNode::populateDemo] data_array:\n" + JSON.stringify(data_array));
 		
 		//resolve();
 		KNodeModel.collection.insert(data_array, onInsert); // call to underlying MongoDb driver
@@ -125,8 +126,9 @@ function populateNodeDemo(){
 		    	errorOccured = true;
 		    	reject();
 		    } else {
-		        console.info('[kNode::populateDemo::onInsert] %d NODES were successfully stored.', data_bulk.length);
-		    	entriesNo -= data_bulk.length;
+		        console.info('[kNode::populateDemo::onInsert] %d NODES were successfully stored.', docs.length);
+		        console.log("kNode::populateDemo::docs: %s", JSON.stringify(docs));
+		    	entriesNo -= docs.length;
 		        console.info('\t[kNode::populateDemo::onInsert] finishedinserting:%s, errorOccured:%s, entriesNo:%s', 
 		        	finishedinserting, errorOccured, entriesNo);
 		        if(finishedinserting && !errorOccured && entriesNo == 0){
@@ -155,7 +157,7 @@ function populateEdgeDemo(){
 		for (var datumId in data_bulk){
 			var datum = data_bulk[datumId];
 			// if mapId is missing (default state) it is set to properties.mapId
-			if(!(mapId in datum)) datum.mapId = mapId;
+			if(!('mapId' in datum)) datum.mapId = mapId;
 			// toObject() is called to avoid error 'RangeError: Maximum call stack size exceeded', caused by sending Mongoose object to MongoDb driver (invoked by 'Model.collection.insert')
 			// http://stackoverflow.com/questions/24466366/mongoose-rangeerror-maximum-call-stack-size-exceeded
 			// and more about this: https://github.com/Automattic/mongoose/issues/1961#event-242694964
@@ -168,7 +170,7 @@ function populateEdgeDemo(){
 			console.log("[kEdge::populateDemo] adding new edge to insertion array. entriesNo: %d", entriesNo);
 		}
 		finishedinserting = true;
-		console.log("[kEdge::populateDemo] data_array:\n" + JSON.stringify(data_array));
+		// console.log("[kEdge::populateDemo] data_array:\n" + JSON.stringify(data_array));
 		
 		KEdgeModel.collection.insert(data_array, onInsert); // call to underlying MongoDb driver
 
@@ -179,8 +181,9 @@ function populateEdgeDemo(){
 		    	errorOccured = true;
 		    	reject();
 		    } else {
-		        console.info('[kEdge::populateDemo::onInsert] %d EDGES were successfully stored.', data_bulk.length);
-		    	entriesNo -= data_bulk.length;
+		        console.info('[kEdge::populateDemo::onInsert] %d EDGES were successfully stored.', docs.length);
+		        console.log("kEdge::populateDemo::docs: %s", JSON.stringify(docs));
+		    	entriesNo -= docs.length;
 		        console.info('\t[kEdge::populateDemo::onInsert] finishedinserting:%s, errorOccured:%s, entriesNo:%s', 
 		        	finishedinserting, errorOccured, entriesNo);
 		        if(finishedinserting && !errorOccured && entriesNo == 0){

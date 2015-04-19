@@ -47,7 +47,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				var data = serverResponse.data;
 				var VOs = [];
 				for(var datumId in serverResponse.data){
-					var VO = knalledge.KNode.createNode(data[datumId]);
+					var VO = knalledge.KNode.nodeFactory(data[datumId]);
 					VO.state = knalledge.KNode.STATE_SYNCED;
 					VOs.push(VO);
 				}
@@ -130,7 +130,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 					data[id] = jsonContent[id];
 				}
 				data.$resolved = true;
-				resolve(jsonContent);
+				resolve(data);
 			});
 		// reject('Greeting ' + name + ' is not allowed.');
 		});
@@ -225,7 +225,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				var data = serverResponse.data;
 				var VOs = [];
 				for(var datumId in serverResponse.data){
-					var VO = knalledge.KEdge.createEdge(data[datumId]);
+					var VO = knalledge.KEdge.edgeFactory(data[datumId]);
 					VO.state = knalledge.KEdge.STATE_SYNCED;
 					VOs.push(VO);
 				}
@@ -338,7 +338,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 		// var that = this;
 		return {
 			mapId: "552678e69ad190a642ad461c",
-			rootId: "55268521fb9a901e442172f9",
+			rootNodeId: "55268521fb9a901e442172f9",
 			rootNode: null,
 			selectedNode: null,
 			nodesById: {},
@@ -484,21 +484,28 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				return newEdge;
 			},
 
-			loadData: function(){
-				var result = {
-					"properties": {
+			loadData: function(mapProperties){
+				if(typeof mapProperties !== 'undefined'){
+					this.mapId = mapProperties.mapId;
+					this.rootNodeId = mapProperties.rootNodeId;
+				}else{
+					mapProperties = {
 						"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
 						"date": "2015.03.22.",
 						"authors": "S. Rudan, D. Karabeg",
-						"rootNodeId": this.rootId
-					},
+						"mapId": this.mapId,
+						"rootNodeId": this.rootNodeId
+					}
+				}
+
+				var result = {
+					"properties": mapProperties,
 					"map": {
 						"nodes": [],
 						"edges": []
 					}
-					
 				};
-				
+
 				var handleReject = function(fail){
 					$window.alert("Error loading knalledgeMap: %s", fail);
 				};

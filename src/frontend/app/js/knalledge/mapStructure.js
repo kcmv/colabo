@@ -54,6 +54,78 @@ MapStructure.prototype.hasChildren = function(d){
 	return false;
 };
 
+
+MapStructure.prototype.getChildrenEdgeTypes = function(vkNode){
+	var children = {};
+	for(var i in this.edgesById){
+		var vkEdge = this.edgesById[i];
+		if(vkEdge.kEdge.sourceId == vkNode.kNode._id){
+			if(vkEdge.kEdge.type in children){
+				children[vkEdge.kEdge.type] += 1;
+			}else{
+				children[vkEdge.kEdge.type] = 1;
+			}
+		}
+	}
+	return children;
+};
+
+MapStructure.prototype.getChildrenEdges = function(vkNode, edgeType){
+	var children = [];
+	for(var i in this.edgesById){
+		var vkEdge = this.edgesById[i];
+		if(vkEdge.kEdge.sourceId == vkNode.kNode._id && ((typeof edgeType === 'undefined') || vkEdge.kEdge.type == edgeType)){
+			children.push(vkEdge);
+		}
+	}
+	return children;
+};
+
+MapStructure.prototype.getChildrenNodes = function(vkNode, edgeType){
+	var children = [];
+	for(var i in this.edgesById){
+		var vkEdge = this.edgesById[i];
+		if(vkEdge.kEdge.sourceId == vkNode.kNode._id && ((typeof edgeType === 'undefined') || vkEdge.kEdge.type == edgeType)){
+			for(var j in this.nodesById){
+				var vkNodeChild = this.nodesById[j];
+				if(vkNodeChild.kNode._id == vkEdge.kEdge.targetId){
+					children.push(vkNodeChild);
+				}
+			}
+		}
+	}
+	return children;
+};
+
+MapStructure.prototype.getMaxNodeId = function(){
+	var maxId = -1;
+	for(var i in this.nodesById){
+		if(this.nodesById[i].id > maxId) maxId = this.nodesById[i].id;
+	}
+	return maxId;
+};
+
+MapStructure.prototype.getMaxEdgeId = function(){
+	var id = -1;
+	for(var i in this.edgesById){
+		if(this.edgesById[i].id > id) id = this.edgesById[i].id;
+	}	
+};
+
+// TODO
+Map.prototype.addChildNode = function(nodeParent, nodeChild, edge){
+	nodeChild.id = this.getMaxNodeId() + 1;
+	nodeChild.mapId = 1;
+
+	edge.id = this.getMaxEdgeId() + 1;
+	edge.sourceId = nodeParent.id;
+	edge.targetId = nodeChild.id;
+	edge.mapId = 1;
+
+	this.nodesById.push(nodeChild);
+	this.edgesById.push(edge);
+};
+
 MapStructure.prototype.getEdge = function(sourceId, targetId){
 	var sourceKId = this.nodesById[sourceId].kNode._id;
 	var targetKId = this.nodesById[targetId].kNode._id;
@@ -78,28 +150,6 @@ MapStructure.prototype.toggle = function(d) {
 //should be migrated to some util .js file:
 MapStructure.prototype.cloneObject = function(obj){
 	return (JSON.parse(JSON.stringify(obj)));
-};
-
-MapStructure.prototype.getMaxNodeId = function(){
-	var maxId = -1;
-	for(var i in this.nodesById){
-		if(maxId < this.nodesById[i].kNode._id){
-			maxId = this.nodesById[i].kNode._id;
-		}
-	}
-
-	return maxId;
-};
-
-MapStructure.prototype.getMaxEdgeId = function(){
-	var maxId = -1;
-	for(var i in this.edgesById){
-		if(maxId < this.edgesById[i].kEdge._id){
-			maxId = this.edgesById[i].kEdge._id;
-		}
-	}
-
-	return maxId;
 };
 
 MapStructure.prototype.createNode = function() {
@@ -161,33 +211,38 @@ MapStructure.prototype.getVKEdgeByKIds = function(sourceKId, targetKId) {
 MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	this.properties = kMapData.map.properties;
 	var i=0;
-	var node = null;
-	var edge = null;
+	var kNode = null;
+	var kEdge = null;
 	MapStructure.id = 0;
 	var id;
 	for(i=0; i<kMapData.map.nodes.length; i++){
-		node = kMapData.map.nodes[i];
-		if(!("isOpen" in node)){
-			node.isOpen = false;
+		kNode = kMapData.map.nodes[i];
+		if(!("isOpen" in kNode.visual)){
+			kNode.visual.isOpen = false;
 		}
 		id = MapStructure.maxVKNodeId++;
 		this.nodesById[id] = {
 			id: id,
-			kNode: node
+			kNode: kNode,
+			isOpen: kNode.visual.isOpen,
+			xM: kNode.visual.xM,
+			yM: kNode.visual.yM,
+			widthM: kNode.visual.widthM,
+			heightM: kNode.visual.heightM
 		};
 	}
 
 	for(i=0; i<kMapData.map.edges.length; i++){
-		edge = kMapData.map.edges[i];
+		kEdge = kMapData.map.edges[i];
 		id = MapStructure.maxVKEdgeId++;
 		this.edgesById[id] = {
 			id: id,
-			kEdge: edge
+			kEdge: kEdge
 		};
 	}
 
 	// this.rootNode = this.nodesById[this.properties.rootNodeId];
-	this.rootNode = this.getVKNodeByKId(this.mapService.rootId);
+	this.rootNode = this.getVKNodeByKId(this.mapService.rootNodeId);
 	this.rootNode.x0 = rootNodeY;
 	this.rootNode.y0 = rootNodeX;
 

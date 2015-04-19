@@ -4,6 +4,7 @@
 var KEdge =  knalledge.KEdge = function(){
 	this._id = 0; //TODO: maxId logic should be migrated here
 	this.name = "name...";
+	this.type = null;
 	this.mapId = "";	
 	this.iAmId = 0;
 	this.type = ""; //TODO: a default type should be assigned
@@ -40,6 +41,7 @@ KEdge.prototype.fill = function(obj){
 	if(obj){
 		if("_id" in obj){this._id = obj._id;}
 		if("name" in obj){this.name = obj.name;}
+		if("type" in obj){this.type = obj.type;}
 		if("mapId" in obj){this.mapId = obj.mapId;}
 		if("iAmId" in obj){this.iAmId = obj.iAmId;}
 		if("activeVersion" in obj){this.activeVersion = obj.activeVersion;}

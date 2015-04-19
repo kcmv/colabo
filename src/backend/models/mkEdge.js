@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 /* SCHEMA */
 var kEdgeSchema = mongoose.Schema({
 	name: String,
+	type: String,
 	mapId: {type: mongoose.Schema.Types.ObjectId, ref: 'kMap'},
 	iAmId: Number,
 	type: String, //TODO: Check 'type' type
