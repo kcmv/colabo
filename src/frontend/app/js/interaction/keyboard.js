@@ -209,17 +209,16 @@ Keyboard.prototype.initializeKeyboard = function() {
 		that = this;
 		var newNode = this.clientApi.createNode();
 		newNode.kNode.$promise.then(function(kNodeFromServer){
+			// var newEdge = 
+			this.clientApi.createEdge(this.clientApi.getSelectedNode(), newNode);
+			if(!this.clientApi.getSelectedNode().isOpen){
+				this.clientApi.getSelectedNode().isOpen = true;
+			}
 
-		});
-		// var newEdge = 
-		this.clientApi.createEdge(this.clientApi.getSelectedNode(), newNode);
-		if(!this.clientApi.getSelectedNode().isOpen){
-			this.clientApi.getSelectedNode().isOpen = true;
-		}
-
-		this.clientApi.update(this.clientApi.getSelectedNode(), function(){
-			this.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
-			that.setEditing(newNode);			
+			this.clientApi.update(this.clientApi.getSelectedNode(), function(){
+				this.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
+				that.setEditing(newNode);			
+			});
 		});
 	}.bind(this), function(){}.bind(this));	
 	
