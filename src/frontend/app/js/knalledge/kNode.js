@@ -13,7 +13,7 @@ var KNode =  knalledge.KNode = function(){
 	this.isPublic = true;
 	this.createdAt = null;
 	this.updatedAt = null;
-	this.dataContent = null;
+	// this.dataContent = null;
 	// this.visual = {
 	// 		isOpen: false,
 	// 		xM: undefined,

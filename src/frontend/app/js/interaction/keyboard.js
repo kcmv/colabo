@@ -179,6 +179,29 @@ Keyboard.prototype.initializeKeyboard = function() {
 		}
 	}.bind(this), function(){}.bind(this));	
 
+	// IBIS
+	// Vote up
+	KeyboardJS.on("ctrl+command+up", function(){
+		if(this.editingNodeHtml) return;
+		var node = this.clientApi.getSelectedNode();
+		if(!('dataContent' in node.kNode) || !node.kNode.dataContent) node.kNode.dataContent = {};
+		if(!('ibis' in node.kNode.dataContent) || !node.kNode.dataContent.ibis) node.kNode.dataContent.ibis = {};
+		if(!('voteUp' in node.kNode.dataContent.ibis)) node.kNode.dataContent.ibis.voteUp = 1;
+		else node.kNode.dataContent.ibis.voteUp += 1;
+		this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_IBIS_VOTING);
+	}.bind(this), function(){}.bind(this));
+
+	// Vote up
+	KeyboardJS.on("ctrl+command+down", function(){
+		if(this.editingNodeHtml) return;
+		var node = this.clientApi.getSelectedNode();
+		if(!('dataContent' in node.kNode) || !node.kNode.dataContent) node.kNode.dataContent = {};
+		if(!('ibis' in node.kNode.dataContent) || !node.kNode.dataContent.ibis) node.kNode.dataContent.ibis = {};
+		if(!('voteDown' in node.kNode.dataContent.ibis)) node.kNode.dataContent.ibis.voteDown = 1;
+		else node.kNode.dataContent.ibis.voteDown += 1;
+		this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_IBIS_VOTING);
+	}.bind(this), function(){}.bind(this));
+	
 	// Add Image
 	KeyboardJS.on("i", function(){
 		if(this.editingNodeHtml) return;
