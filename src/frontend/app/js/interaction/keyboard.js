@@ -233,14 +233,16 @@ Keyboard.prototype.initializeKeyboard = function() {
 		var newNode = this.clientApi.createNode();
 		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
 			// var newEdge = 
-			this.clientApi.createEdge(this.clientApi.getSelectedNode(), newNode);
-			if(!this.clientApi.getSelectedNode().isOpen){
-				this.clientApi.getSelectedNode().isOpen = true;
-			}
+			var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
+			newEdge.kEdge.$promise.then(function(kEdgeFromServer){
+				if(!that.clientApi.getSelectedNode().isOpen){
+					that.clientApi.getSelectedNode().isOpen = true;
+				}
 
-			this.clientApi.update(this.clientApi.getSelectedNode(), function(){
-				this.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
-				that.setEditing(newNode);			
+				that.clientApi.update(that.clientApi.getSelectedNode(), function(){
+					that.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
+					that.setEditing(newNode);
+				});
 			});
 		});
 	}.bind(this), function(){}.bind(this));	

@@ -205,13 +205,13 @@ MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
 	
 	var id = MapStructure.maxVKEdgeId;
 	var newKEdge = this.mapService.createEdge(sourceNode.kNode, targetNode.kNode);
-	var newEdge = {
+	var newVKEdge = {
 		id: id,
 		kEdge: newKEdge
 	};
 
-	this.edgesById[id] = newEdge;
-	return newEdge;
+	this.edgesById[id] = newVKEdge;
+	return newVKEdge;
 };
 
 MapStructure.prototype.deleteEdgesConnectedTo = function(node) {
