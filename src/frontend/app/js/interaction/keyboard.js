@@ -208,6 +208,9 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		that = this;
 		var newNode = this.clientApi.createNode();
+		newNode.kNode.$promise.then(function(kNodeFromServer){
+
+		});
 		// var newEdge = 
 		this.clientApi.createEdge(this.clientApi.getSelectedNode(), newNode);
 		if(!this.clientApi.getSelectedNode().isOpen){

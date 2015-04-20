@@ -160,13 +160,13 @@ MapStructure.prototype.createNode = function() {
 
 	var id = MapStructure.maxVKNodeId;
 	var newKNode = this.mapService.createNode();
-	var newNode = {
+	var newVKNode = {
 		id: id,
 		kNode: newKNode
 	};
 
-	this.nodesById[id] = newNode;
-	return newNode;
+	this.nodesById[id] = newVKNode;
+	return newVKNode;
 };
 
 MapStructure.prototype.updateName = function(vkNode, newName){

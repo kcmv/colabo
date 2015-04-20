@@ -44,8 +44,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				// var knalledgeMap = new mcm.Map(ConfigMap, knalledgeMapClientInterface, entityStyles);
 				// knalledgeMap.init();
 
+				var knalledgeMap = null;
+				var config = null;
 				var init = function(model){
-					var config = {
+					config = {
 						nodes: {
 							punctual: false,
 							svg: {
@@ -203,10 +205,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						*/
 					};
 
-					var knalledgeMap = null;
 					knalledgeMap = new knalledge.Map(
-					d3.select($element.find(".map-container").get(0)),
-					config, kMapClientInterface, null, KnalledgeMapService);
+						d3.select($element.find(".map-container").get(0)),
+						config, kMapClientInterface, null, KnalledgeMapService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model);
@@ -227,19 +228,18 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					init(model);
 				});
-				
+
 				var viewspecChangedEventName = "viewspecChangedEvent";
 				$scope.$on(viewspecChangedEventName, function(e, newViewspec) {
 					console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
-					console.log("[knalledgeMap.controller::$on] ModelMap  edges(len: %d): %s",
-						eventModel.map.edges.length, JSON.stringify(eventModel.map.edges));
-
-					init(model);
+					console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
+					config.tree.viewspec = newViewspec;
+					knalledgeMap.update();
 				});
 			}
     	};
 	}])
-	.directive('knalledgeMapTools', ["$timeout", 'ConfigMapToolset', function($timeout, ConfigMapToolset){
+	.directive('knalledgeMapTools', ["$timeout", '$rootScope', 'ConfigMapToolset', function($timeout, $rootScope, ConfigMapToolset){
 		console.log("[knalledgeMapTools] loading directive");
 		return {
 			restrict: 'AE',
@@ -256,6 +256,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				$scope.viewspecChanged = function(){
 					console.log("[knalledgeMapTools] viewspec: %s", $scope.bindings.viewspec);
+					var viewspecChangedEventName = "viewspecChangedEvent";
+					//console.log("result:" + JSON.stringify(result));
+					$rootScope.$broadcast(viewspecChangedEventName, $scope.bindings.viewspec);
 				}
 			}
     	};

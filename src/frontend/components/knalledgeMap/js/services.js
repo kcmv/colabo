@@ -41,7 +41,7 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 					var request = this.queue[i]; 
 					if(request.processing[this.SERVICE_METHOD_CHECK](request)){
 						request.processing[this.SERVICE_METHOD_EXECUTE](request);
-						req.state = this.STATE_SENT;
+						request.state = this.STATE_SENT;
 					}
 				}
 			},
@@ -255,14 +255,16 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	};
 	
 	resource.execute = function(request){ //example:: request = {data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}}
+		// var kNode;
 		switch(request.method){
 		case 'create':
-			var node = resource.createPlain({}, request.data, request.callback).then(function(){
+			var kNode = resource.createPlain({}, request.data, request.callback);
+			kNode.$promise.then(function(nodeFromServer){
 				console.log('create-back');
 				request.data.$resolved = true;
-				request.processing.RESOLVE();
+				request.processing.RESOLVE(nodeFromServer);
 			});
-			return node;
+			return kNode;
 			break;
 		case 'update':
 			this.update;
@@ -491,7 +493,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 					this.nodesById[nodeFromServer._id] = newNode; //TODO: we should set it to 'nodeFromServer'?! But we should synchronize also local changes from 'newNode' happen in meantime
 					newNode._id = nodeFromServer._id; //TODO: same as above
 					newNode.fill(nodeFromServer);
-					
+
 					//fixing edges:: sourceId & targetId:
 					for(var i in this.edgesById){
 						var changed = false;
@@ -516,9 +518,9 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				var newNode = new knalledge.KNode();
 				newNode._id = maxId+1;
 				newNode.mapId = this.mapId;
-				this.nodesById[newNode._id] = newNode;
 
-				KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
+				newNode = KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
+				this.nodesById[newNode._id] = newNode;
 				return newNode;
 			},
 

@@ -36,6 +36,7 @@ Map.prototype.init = function() {
 };
 
 Map.prototype.update = function(node) {
+	if(!node) node = this.mapStructure.rootNode;
 	this.mapVisualization.update(node);
 };
 
