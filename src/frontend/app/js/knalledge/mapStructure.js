@@ -13,13 +13,11 @@ var MapStructure =  knalledge.MapStructure = function(){
 MapStructure.maxVKNodeId = 0;
 MapStructure.maxVKEdgeId = 0;
 
+MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
+MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
+
 MapStructure.prototype.init = function(mapService){
 	this.mapService = mapService;
-};
-
-MapStructure.prototype.updateName = function(vkNode, newName){
-	vkNode.kNode.name = newName;
-	this.mapService.updateNode(vkNode.kNode);
 };
 
 MapStructure.prototype.removeImage = function(vkNode){
@@ -171,8 +169,20 @@ MapStructure.prototype.createNode = function() {
 	return newNode;
 };
 
-MapStructure.prototype.updateNode = function(node) {
-	this.mapService.updateNode(node); //updating on server service
+MapStructure.prototype.updateName = function(vkNode, newName){
+	vkNode.kNode.name = newName;
+	this.mapService.updateNode(vkNode.kNode, MapStructure.UPDATE_NODE_NAME);
+};
+
+MapStructure.prototype.updateNode = function(vkNode, updateType) {
+	switch(updateType){
+		case MapStructure.UPDATE_NODE_DIMENSIONS:
+			vkNode.kNode.visual.xM = vkNode.xM;
+			vkNode.kNode.visual.yM = vkNode.yM;
+			vkNode.kNode.visual.widthM = vkNode.widthM;
+			vkNode.kNode.visual.heightM = vkNode.heightM;
+	}
+	this.mapService.updateNode(vkNode.kNode, updateType); //updating on server service
 };
 
 MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
@@ -243,8 +253,8 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 
 	// this.rootNode = this.nodesById[this.properties.rootNodeId];
 	this.rootNode = this.getVKNodeByKId(this.mapService.rootNodeId);
-	this.rootNode.x0 = rootNodeY;
-	this.rootNode.y0 = rootNodeX;
+	this.rootNode.x0 = rootNodeX;
+	this.rootNode.y0 = rootNodeY;
 
 	this.selectedNode = this.rootNode;
 

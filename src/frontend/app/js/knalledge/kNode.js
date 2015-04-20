@@ -16,10 +16,10 @@ var KNode =  knalledge.KNode = function(){
 	this.dataContent = null;
 	this.visual = {
 			isOpen: false,
-			xM: 0,
-			yM: 0,
-			widthM: 0,
-			heightM: 0
+			xM: undefined,
+			yM: undefined,
+			widthM: undefined,
+			heightM: undefined
 	};
 	
 	/* local-to-frontend */

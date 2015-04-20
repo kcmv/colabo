@@ -10,17 +10,16 @@
 			{
 				"_id": "552bf9409b8b80284c2e72c8",
 				"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
-				"isOpen": true
+				"isOpen": true,
+				"visual": {
+					"xM": 150,
+					"yM": 40
+				}
 			},
 			{
 				"_id": 2,
 				"name": "Direct Creativity",
-				"visual": {
-					"dimensions": {
-						"sizes": {
-
-						}
-					}
+				"visual":
 				}
 			},
 			{
@@ -40,12 +39,8 @@
 				"name": "Indirect Creativty",
 				"isOpen": false,
 				"visual": {
-					"dimensions": {
-						"sizes": {
-							"x": 300,
-							"y": 400
-						}
-					}
+					"xM": 300,
+					"yM": 400
 				}
 			}
 		],

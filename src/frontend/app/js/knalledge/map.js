@@ -85,11 +85,11 @@ Map.prototype.initializeManipulation = function() {
 	var manipulationEnded = function(targetD3){
 		var d = targetD3 ? targetD3.datum() : null;
 		//TODO: finish saving after nodes dragging:
-		d.visual.xM = d.x;
-		d.visual.yM = d.y;
-		that.mapStructure.updateNode(d);
+		// d.xM = d.x;
+		// d.yM = d.y;
+		that.mapStructure.updateNode(d, knalledge.MapStructure.UPDATE_NODE_DIMENSIONS);
 
-		console.log("knalledge_map:manipulationEnded [%s]", d ? d.name : null);
+		console.log("knalledge_map:manipulationEnded [%s]", d ? d.kNode.name : null);
 		that.mapVisualization.update(that.mapStructure.rootNode);
 		//that.mapVisualization.update(that.model.nodes[0]);
 	};
