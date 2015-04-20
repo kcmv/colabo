@@ -208,15 +208,17 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		that = this;
 		var newNode = this.clientApi.createNode();
-		// var newEdge = 
-		this.clientApi.createEdge(this.clientApi.getSelectedNode(), newNode);
-		if(!this.clientApi.getSelectedNode().isOpen){
-			this.clientApi.getSelectedNode().isOpen = true;
-		}
+		newNode.kNode.$promise.then(function(kNodeFromServer){
+			// var newEdge = 
+			this.clientApi.createEdge(this.clientApi.getSelectedNode(), newNode);
+			if(!this.clientApi.getSelectedNode().isOpen){
+				this.clientApi.getSelectedNode().isOpen = true;
+			}
 
-		this.clientApi.update(this.clientApi.getSelectedNode(), function(){
-			this.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
-			that.setEditing(newNode);			
+			this.clientApi.update(this.clientApi.getSelectedNode(), function(){
+				this.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
+				that.setEditing(newNode);			
+			});
 		});
 	}.bind(this), function(){}.bind(this));	
 	

@@ -126,7 +126,20 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   /*	overflow-x: visible;
   	overflow-y: scroll;
   */ }
-  /* line 95, ../sass/default.scss */
+  /* line 87, ../sass/default.scss */
+  .knalledge_map_tools h1 {
+    font-size: 30px;
+    border-bottom: solid 1px #aaaaaa; }
+    /* line 91, ../sass/default.scss */
+    .knalledge_map_tools h1 .title_kn {
+      color: #555555; }
+    /* line 94, ../sass/default.scss */
+    .knalledge_map_tools h1 .title_all {
+      color: #000055; }
+    /* line 97, ../sass/default.scss */
+    .knalledge_map_tools h1 .title_edge {
+      color: #880000; }
+  /* line 109, ../sass/default.scss */
   .knalledge_map_tools ul {
     /* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
     overflow: visible;
@@ -134,7 +147,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     	overflow-y: scroll;
     */
     position: relative; }
-    /* line 103, ../sass/default.scss */
+    /* line 117, ../sass/default.scss */
     .knalledge_map_tools ul li {
       position: absolute;
       list-style-type: none;
@@ -155,7 +168,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 /* ------------------------
  knalledge_map
 ------------------------ */
-/* line 126, ../sass/default.scss */
+/* line 140, ../sass/default.scss */
 .knalledge_map {
   z-index: 8;
   position: relative;
@@ -167,7 +180,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   		height: 650px;
   	}
   */ }
-/* line 140, ../sass/default.scss */
+/* line 154, ../sass/default.scss */
 .map-container {
   position: relative;
   height: 100%;
@@ -182,7 +195,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-border-radius: 10px 10px;
   border-radius: 10px / 10px; }
 
-/* line 153, ../sass/default.scss */
+/* line 167, ../sass/default.scss */
 .map_svg {
   height: 100%;
   width: 100%;
@@ -190,7 +203,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   /*background-color: #ffffaa;*/
   z-index: 1; }
 
-/* line 161, ../sass/default.scss */
+/* line 175, ../sass/default.scss */
 .map_html {
   height: 100%;
   width: 100%;
@@ -198,7 +211,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   /*background-color: #ffffaa;*/
   z-index: 2; }
 
-/* line 169, ../sass/default.scss */
+/* line 183, ../sass/default.scss */
 .map_entity {
   width: 100px;
   height: 50px;
@@ -217,7 +230,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-shadow: 2px 1px 3px 1px rgba(150, 150, 255, 0.75);
   box-shadow: 2px 1px 3px 1px rgba(150, 150, 255, 0.75);
   /* entity stylings */ }
-  /* line 183, ../sass/default.scss */
+  /* line 197, ../sass/default.scss */
   .map_entity .status {
     position: absolute;
     left: -10px;
@@ -233,7 +246,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -moz-border-radius: 10px / 10px;
     -webkit-border-radius: 10px 10px;
     border-radius: 10px / 10px; }
-  /* line 197, ../sass/default.scss */
+  /* line 211, ../sass/default.scss */
   .map_entity .type {
     position: absolute;
     right: -15px;
@@ -252,33 +265,33 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -moz-border-radius: 5px / 5px;
     -webkit-border-radius: 5px 5px;
     border-radius: 5px / 5px; }
-  /* line 214, ../sass/default.scss */
+  /* line 228, ../sass/default.scss */
   .map_entity .name {
     position: relative;
     padding: 3px;
     /*background-color: yellow;*/ }
-  /* line 226, ../sass/default.scss */
+  /* line 240, ../sass/default.scss */
   .map_entity.selected {
     border-color: #ffa;
     border-width: 3px; }
-  /* line 235, ../sass/default.scss */
+  /* line 249, ../sass/default.scss */
   .map_entity.map_entity_object {
     background-color: #aaa; }
-  /* line 239, ../sass/default.scss */
+  /* line 253, ../sass/default.scss */
   .map_entity.map_entity_process {
     background-color: #aaf; }
 
 /* ------------------------
  knalledge_map_list
 ------------------------ */
-/* line 256, ../sass/default.scss */
+/* line 270, ../sass/default.scss */
 .knalledge_map_list {
   z-index: 9; }
 
 /* ------------------------
  interaction
 ------------------------ */
-/* line 264, ../sass/default.scss */
+/* line 278, ../sass/default.scss */
 .dropzone {
   background-color: #ccc;
   border-radius: 4px;
@@ -286,18 +299,18 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   padding: 10px;
   transition: background-color 0.3s; }
 
-/* line 272, ../sass/default.scss */
+/* line 286, ../sass/default.scss */
 .drop-active {
   border: 3px dotted red; }
 
-/* line 276, ../sass/default.scss */
+/* line 290, ../sass/default.scss */
 .drop-target {
   background-color: #4bf;
   border-color: #f88;
   border-style: solid;
   border-width: 5px; }
 
-/* line 283, ../sass/default.scss */
+/* line 297, ../sass/default.scss */
 .drag-drop {
   display: inline-block;
   min-width: 40px;
@@ -309,20 +322,20 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   transform: translate(0px, 0px);
   transition: background-color 0.3s; }
 
-/* line 298, ../sass/default.scss */
+/* line 312, ../sass/default.scss */
 .drag-drop.can-drop {
   border: 3px solid green; }
 
 /* OLD KnAllEdge */
 /* @import "normalize"; */
-/* line 310, ../sass/default.scss */
+/* line 324, ../sass/default.scss */
 *, *:before, *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0px; }
 
-/* line 317, ../sass/default.scss */
+/* line 331, ../sass/default.scss */
 .div_map {
   position: relative;
   width: 100%;
@@ -330,45 +343,45 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   /*background-color: #aaaaaa;*/
   /*padding: 5px;*/ }
 
-/* line 325, ../sass/default.scss */
+/* line 339, ../sass/default.scss */
 .div_map_svg {
   position: absolute;
   width: 100%;
   height: 100%;
   /*background-color: #ffffaa;*/
   z-index: 1; }
-  /* line 333, ../sass/default.scss */
+  /* line 347, ../sass/default.scss */
   .div_map_svg svg {
     width: 100%;
     height: 100%; }
 
-/* line 339, ../sass/default.scss */
+/* line 353, ../sass/default.scss */
 .svg_content {
   position: absolute;
   width: 100%;
   height: 100%; }
 
-/* line 345, ../sass/default.scss */
+/* line 359, ../sass/default.scss */
 .node {
   cursor: pointer; }
 
-/* line 349, ../sass/default.scss */
+/* line 363, ../sass/default.scss */
 .node circle {
   fill: #fff;
   stroke: steelblue;
   stroke-width: 1px; }
 
-/* line 355, ../sass/default.scss */
+/* line 369, ../sass/default.scss */
 .node text {
   font: 12px sans-serif; }
 
-/* line 357, ../sass/default.scss */
+/* line 371, ../sass/default.scss */
 .link {
   fill: none;
   stroke: #ccc;
   stroke-width: 2px; }
 
-/* line 363, ../sass/default.scss */
+/* line 377, ../sass/default.scss */
 .div_map_html {
   position: absolute;
   width: 100%;
@@ -378,13 +391,13 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   z-index: 2;
   /*display: none;*/ }
 
-/* line 373, ../sass/default.scss */
+/* line 387, ../sass/default.scss */
 .html_content {
   position: absolute;
   width: 100%;
   height: 100%; }
 
-/* line 379, ../sass/default.scss */
+/* line 393, ../sass/default.scss */
 .node_html {
   position: absolute;
   border-width: 0px;
@@ -402,12 +415,12 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   */
   /*margin-top: -1.5em;
   margin-left: -5em;*/ }
-  /* line 397, ../sass/default.scss */
+  /* line 411, ../sass/default.scss */
   .node_html .node_inner_html {
     position: relative;
     padding: 3px;
     /*background-color: yellow;*/ }
-  /* line 403, ../sass/default.scss */
+  /* line 417, ../sass/default.scss */
   .node_html .node_status {
     position: absolute;
     left: -10px;
@@ -421,7 +434,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -webkit-border-radius: 10px 10px;
     border-radius: 10px / 10px; }
 
-/* line 416, ../sass/default.scss */
+/* line 430, ../sass/default.scss */
 .node_html_fixed {
   width: 150px;
   margin-left: -75px;
@@ -433,14 +446,14 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
   box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75); }
 
-/* line 424, ../sass/default.scss */
+/* line 438, ../sass/default.scss */
 .node_unselected {
   border-style: dashed;
   border-color: #0000ff;
   /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
   /* color h-shadow v-shadow blur spread color inset*/ }
 
-/* line 430, ../sass/default.scss */
+/* line 444, ../sass/default.scss */
 .node_selected {
   border-style: solid;
   border-color: #0000aa;
@@ -449,7 +462,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75);
   box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75); }
 
-/* line 437, ../sass/default.scss */
+/* line 451, ../sass/default.scss */
 .node_html span {
   display: inline-block;
   vertical-align: middle;
@@ -459,14 +472,14 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   font-style: italic;
   color: #883333;
   /* just for testing purposs */ }
-  /* line 447, ../sass/default.scss */
+  /* line 461, ../sass/default.scss */
   .node_html span p {
     color: #880000;
     font-weight: 100;
     font-size: 12px;
     font-style: normal; }
 
-/* line 455, ../sass/default.scss */
+/* line 469, ../sass/default.scss */
 .label_html {
   position: absolute;
   /*width: 10em;*/
@@ -490,7 +503,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 /*
 	knalledge-map-image-editing
 */
-/* line 484, ../sass/default.scss */
+/* line 498, ../sass/default.scss */
 .knalledge-map-image-editing {
   position: absolute;
   width: 40%;
@@ -510,7 +523,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -moz-box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25);
   -webkit-box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25);
   box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25); }
-  /* line 500, ../sass/default.scss */
+  /* line 514, ../sass/default.scss */
   .knalledge-map-image-editing .knalledge_title {
     border-bottom: 3px solid #484848;
     background-color: #888888;
@@ -526,7 +539,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -moz-border-radius-topleft: 15px;
     -webkit-border-top-left-radius: 15px;
     border-top-left-radius: 15px; }
-  /* line 513, ../sass/default.scss */
+  /* line 527, ../sass/default.scss */
   .knalledge-map-image-editing .knalledge_close {
     position: absolute;
     background-color: #dddddd;
@@ -544,17 +557,17 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     top: 0.1em;
     z-index: 101;
     cursor: pointer; }
-    /* line 530, ../sass/default.scss */
+    /* line 544, ../sass/default.scss */
     .knalledge-map-image-editing .knalledge_close:hover {
       background-color: #ffffff; }
-  /* line 535, ../sass/default.scss */
+  /* line 549, ../sass/default.scss */
   .knalledge-map-image-editing ul {
     /* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
     overflow-y: scroll;
     position: relative;
     padding-left: 20%;
     padding-right: 20%; }
-    /* line 542, ../sass/default.scss */
+    /* line 556, ../sass/default.scss */
     .knalledge-map-image-editing ul li {
       list-style-type: none;
       display: block;
@@ -590,15 +603,15 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -o-transition-timing-function: ease-in;
       -webkit-transition-timing-function: ease-in;
       transition-timing-function: ease-in; }
-      /* line 563, ../sass/default.scss */
+      /* line 577, ../sass/default.scss */
       .knalledge-map-image-editing ul li:hover {
         background-color: #bbbbff;
         color: #6e6eff; }
-  /* line 569, ../sass/default.scss */
+  /* line 583, ../sass/default.scss */
   .knalledge-map-image-editing form {
     padding: 5px;
     padding-top: 10px; }
-    /* line 572, ../sass/default.scss */
+    /* line 586, ../sass/default.scss */
     .knalledge-map-image-editing form .image_url {
       font-weight: 300;
       font-size: 1.2em;
@@ -607,21 +620,21 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       width: 100%;
       padding: 3px;
       text-align: center; }
-    /* line 581, ../sass/default.scss */
+    /* line 595, ../sass/default.scss */
     .knalledge-map-image-editing form .dimensions {
       text-align: center; }
-      /* line 583, ../sass/default.scss */
+      /* line 597, ../sass/default.scss */
       .knalledge-map-image-editing form .dimensions input {
         width: 5em;
         background-color: #6f6f6f;
         color: #bbbbbb;
         padding: 3px;
         text-align: center; }
-    /* line 591, ../sass/default.scss */
+    /* line 605, ../sass/default.scss */
     .knalledge-map-image-editing form .help-block {
       font-size: 0.9em;
       font-style: italic;
       text-align: right; }
-    /* line 596, ../sass/default.scss */
+    /* line 610, ../sass/default.scss */
     .knalledge-map-image-editing form .buttons {
       text-align: right; }

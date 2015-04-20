@@ -84,6 +84,20 @@ $map: layout(12 1/4 fluid float inside);
 ------------------------ */
 
 .knalledge_map_tools{
+	h1 {
+		font-size: 30px;
+		border-bottom: solid 1px #aaaaaa;
+
+		.title_kn{
+			color: #555555;
+		}
+		.title_all{
+			color: #000055;
+		}
+		.title_edge{
+			color: #880000;
+		}
+	}
 	z-index: 10;
 	position: relative;
 	height: 100%;

@@ -5,6 +5,7 @@ var VKNode =  knalledge.VKNode = function(){
 	this.id = 0; //TODO: maxId logic should be migrated here
 	this.kNode = null;
 	this.iAmId = 0;
+	this.selectable = true;
 	this.createdAt = null;
 	this.updatedAt = null;
 };

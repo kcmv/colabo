@@ -184,21 +184,21 @@ MapLayout.prototype.generateTree = function(source){
 
 		if(viewspec == "viewspec_manual"){
 			// update x and y to manual coordinates if present
-			if(d.visual && d.visual.dimensions && d.visual.dimensions.sizes && "x" in d.visual.dimensions.sizes){
-				d.x = d.visual.dimensions.sizes.x;
+			if('xM' in d && typeof d.xM !== 'undefined' &&  !isNaN(d.xM)){
+				d.x = d.xM;
 			}
-			if(d.visual && d.visual.dimensions && d.visual.dimensions.sizes && "y" in d.visual.dimensions.sizes){
-				d.y = d.visual.dimensions.sizes.y;
+			if('yM' in d && typeof d.yM !== 'undefined' &&  !isNaN(d.yM)){
+				d.y = d.yM;
 			}
 
 			// update width and height to manual values if present
-			if(d.visual && d.visual.dimensions && d.visual.dimensions.sizes && "width" in d.visual.dimensions.sizes){
-				d.width = d.visual.dimensions.sizes.width;
+			if('widthM' in d && typeof d.widthM !== 'undefined' &&  !isNaN(d.widthM)){
+				d.width = d.widthM;
 			}else{
 				d.width = sizes.width;
 			}
-			if(d.visual && d.visual.dimensions && d.visual.dimensions.sizes && "height" in d.visual.dimensions.sizes){
-				d.height = d.visual.dimensions.sizes.height;
+			if('heightM' in d && typeof d.heightM !== 'undefined' &&  !isNaN(d.heightM)){
+				d.height = d.heightM;
 			}else{
 				d.height = sizes.height;
 			}

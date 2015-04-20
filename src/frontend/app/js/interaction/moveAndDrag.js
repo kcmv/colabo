@@ -111,11 +111,8 @@ MoveAndDrag.InitializeDragging = function (config) {
 					d.x += event.dy;
 					d.y += event.dx;
 
-					if(!d.visual) d.visual = {};
-					if(!d.visual.dimensions) d.visual.dimensions = {};
-					if(!d.visual.dimensions.sizes) d.visual.dimensions.sizes = {};
-					d.visual.dimensions.sizes.x = d.x;
-					d.visual.dimensions.sizes.y = d.y;
+					d.xM = d.x;
+					d.yM = d.y;
 				}
 
 				// var textEl = event.target.querySelector('p');

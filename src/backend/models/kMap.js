@@ -8,7 +8,7 @@ var kMapSchema = mongoose.Schema({
 	type: String, //TODO: Check 'type' type
 	ideaId: Number,
 	isPublic: { type: Boolean, default: true },
-	dataContent: Mixed,
+	dataContent: {type: mongoose.Schema.Types.Mixed},
 	visual: {
 	}
 });

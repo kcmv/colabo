@@ -13,13 +13,11 @@ var MapStructure =  knalledge.MapStructure = function(){
 MapStructure.maxVKNodeId = 0;
 MapStructure.maxVKEdgeId = 0;
 
+MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
+MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
+
 MapStructure.prototype.init = function(mapService){
 	this.mapService = mapService;
-};
-
-MapStructure.prototype.updateName = function(vkNode, newName){
-	vkNode.kNode.name = newName;
-	this.mapService.updateNode(vkNode.kNode);
 };
 
 MapStructure.prototype.removeImage = function(vkNode){
@@ -162,18 +160,29 @@ MapStructure.prototype.createNode = function() {
 
 	var id = MapStructure.maxVKNodeId;
 	var newKNode = this.mapService.createNode();
-	var newNode = {
+	var newVKNode = {
 		id: id,
 		kNode: newKNode
 	};
 
-	this.nodesById[id] = newNode;
-	return newNode;
+	this.nodesById[id] = newVKNode;
+	return newVKNode;
 };
 
-MapStructure.prototype.updateNode = function(vnode) {
-	//TODO: update vnode.knode.visual coordinates
-	this.mapService.updateNode(vnode.kNode); //updating on server service
+MapStructure.prototype.updateName = function(vkNode, newName){
+	vkNode.kNode.name = newName;
+	this.mapService.updateNode(vkNode.kNode, MapStructure.UPDATE_NODE_NAME);
+};
+
+MapStructure.prototype.updateNode = function(vkNode, updateType) {
+	switch(updateType){
+		case MapStructure.UPDATE_NODE_DIMENSIONS:
+			if('xM' in vkNode) vkNode.kNode.visual.xM = vkNode.xM;
+			if('yM' in vkNode) vkNode.kNode.visual.yM = vkNode.yM;
+			if('widthM' in vkNode) vkNode.kNode.visual.widthM = vkNode.widthM;
+			if('heightM' in vkNode) vkNode.kNode.visual.heightM = vkNode.heightM;
+	}
+	this.mapService.updateNode(vkNode.kNode, updateType); //updating on server service
 };
 
 MapStructure.prototype.deleteNode = function(vnode) {
@@ -182,7 +191,6 @@ MapStructure.prototype.deleteNode = function(vnode) {
 	this.mapService.deleteEdgesConnectedTo(vnode.kNode);
 	
 	//TODO: delete connected vkedges;
-
 };
 
 MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
@@ -257,8 +265,8 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 
 	// this.rootNode = this.nodesById[this.properties.rootNodeId];
 	this.rootNode = this.getVKNodeByKId(this.mapService.rootNodeId);
-	this.rootNode.x0 = rootNodeY;
-	this.rootNode.y0 = rootNodeX;
+	this.rootNode.x0 = rootNodeX;
+	this.rootNode.y0 = rootNodeY;
 
 	this.selectedNode = this.rootNode;
 
