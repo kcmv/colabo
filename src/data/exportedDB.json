@@ -1,1 +1,245 @@
-{"properties":{"name":"TNC (Tesla - The Nature of Creativty) (DR Model)","date":"2015.03.22.","authors":"S. Rudan, D. Karabeg","mapId":"552678e69ad190a642ad461c"},"map":{"nodes":[{"_id":"551b4366fd64e5552ed19364","name":"Breakthrough in handling creativity possible","mapId":"552678e69ad190a642ad461c","updatedAt":"2015-04-20T06:08:29.674Z","createdAt":"2015-04-20T06:08:29.674Z","visual":{"isOpen":false},"isPublic":true,"version":1,"activeVersion":1},{"_id":"551bb2c68f6e4cfc35654f37","name":"deep creative insight","mapId":"552678e69ad190a642ad461c","updatedAt":"2015-04-20T06:08:29.675Z","createdAt":"2015-04-20T06:08:29.675Z","visual":{"isOpen":false},"isPublic":true,"version":1,"activeVersion":1},{"_id":"551bb5073dda1559368883b2","name":"Classical Physics","mapId":"552678e69ad190a642ad461c","type":null,"iAmId":0,"ideaId":0,"updatedAt":"2015-04-20T06:08:29.675Z","createdAt":"2015-04-20T06:08:29.675Z","visual":{"xM":138.16666666666666,"yM":628,"isOpen":false},"isPublic":true,"version":1,"activeVersion":1},{"_id":"551bb5d8317e908736b6b21c","name":"Indirect Creativty","mapId":"552678e69ad190a642ad461c","type":null,"iAmId":0,"ideaId":0,"updatedAt":"2015-04-20T06:08:29.676Z","createdAt":"2015-04-20T06:08:29.676Z","visual":{"xM":275,"yM":477,"isOpen":true},"isPublic":true,"version":1,"activeVersion":1},{"_id":"553498a1b1de6caf62f0dd85","name":"n1","type":null,"mapId":"552678e69ad190a642ad461c","iAmId":0,"ideaId":0,"__v":0,"updatedAt":"2015-04-20T06:11:45.423Z","createdAt":"2015-04-20T06:11:45.421Z","visual":{"isOpen":false},"isPublic":true,"version":1,"activeVersion":1},{"_id":"55349a77b1de6caf62f0dd87","name":"n2","type":null,"mapId":"552678e69ad190a642ad461c","iAmId":0,"ideaId":0,"__v":0,"updatedAt":"2015-04-20T06:19:35.369Z","createdAt":"2015-04-20T06:19:35.365Z","visual":{"isOpen":false},"isPublic":true,"version":1,"activeVersion":1},{"_id":"55349eadb1de6caf62f0dd89","name":"n3","type":null,"mapId":"552678e69ad190a642ad461c","iAmId":0,"ideaId":0,"__v":0,"updatedAt":"2015-04-20T06:37:33.611Z","createdAt":"2015-04-20T06:37:33.610Z","visual":{"xM":287.3333333333333,"yM":869,"isOpen":false},"isPublic":true,"version":1,"activeVersion":1},{"_id":"5526855ac4f4db29446bd183","name":"Direct Creativity","mapId":"552678e69ad190a642ad461c","type":null,"iAmId":0,"ideaId":0,"updatedAt":"2015-04-20T06:08:29.674Z","createdAt":"2015-04-20T06:08:29.674Z","visual":{"xM":671,"yM":251,"widthM":100,"heightM":180,"isOpen":true},"isPublic":true,"version":1,"activeVersion":1},{"_id":"55268521fb9a901e442172f9","name":"TNC (Tesla - The Nature of Creativty) (DR Model)","mapId":"552678e69ad190a642ad461c","type":null,"iAmId":0,"ideaId":0,"updatedAt":"2015-04-20T06:08:29.671Z","createdAt":"2015-04-20T06:08:29.667Z","visual":{"xM":412,"yM":227,"isOpen":true},"isPublic":true,"version":1,"activeVersion":1}],"edges":[{"_id":"553497dd5321f3ac6207e1e1","name":"inhibits","sourceId":"55268521fb9a901e442172f9","targetId":"551bb5d8317e908736b6b21c","mapId":"552678e69ad190a642ad461c","updatedAt":"2015-04-20T06:08:29.681Z","createdAt":"2015-04-20T06:08:29.681Z","isPublic":true},{"_id":"553497dd5321f3ac6207e1e2","name":"supports","sourceId":"5526855ac4f4db29446bd183","targetId":"551b4366fd64e5552ed19364","mapId":"552678e69ad190a642ad461c","updatedAt":"2015-04-20T06:08:29.682Z","createdAt":"2015-04-20T06:08:29.682Z","isPublic":true},{"_id":"553497dd5321f3ac6207e1e3","name":"insights","sourceId":"5526855ac4f4db29446bd183","targetId":"551bb2c68f6e4cfc35654f37","mapId":"552678e69ad190a642ad461c","updatedAt":"2015-04-20T06:08:29.682Z","createdAt":"2015-04-20T06:08:29.682Z","isPublic":true},{"_id":"553497dd5321f3ac6207e1e4","name":"inhibits","sourceId":"551bb5d8317e908736b6b21c","targetId":"551bb5073dda1559368883b2","mapId":"552678e69ad190a642ad461c","updatedAt":"2015-04-20T06:08:29.683Z","createdAt":"2015-04-20T06:08:29.683Z","isPublic":true},{"_id":"553498a1b1de6caf62f0dd86","name":"name...","type":"","mapId":"552678e69ad190a642ad461c","iAmId":0,"ideaId":0,"sourceId":"551bb5073dda1559368883b2","targetId":"553498a1b1de6caf62f0dd85","dataContent":null,"visual":null,"__v":0,"updatedAt":"2015-04-20T06:11:45.446Z","createdAt":"2015-04-20T06:11:45.445Z","isPublic":true},{"_id":"55349a77b1de6caf62f0dd88","name":"name...","type":"","mapId":"552678e69ad190a642ad461c","iAmId":0,"ideaId":0,"sourceId":"551b4366fd64e5552ed19364","targetId":"55349a77b1de6caf62f0dd87","dataContent":null,"visual":null,"__v":0,"updatedAt":"2015-04-20T06:19:35.397Z","createdAt":"2015-04-20T06:19:35.396Z","isPublic":true},{"_id":"55349eadb1de6caf62f0dd8a","name":"name...","type":"","mapId":"552678e69ad190a642ad461c","iAmId":0,"ideaId":0,"sourceId":"551bb5d8317e908736b6b21c","targetId":"55349eadb1de6caf62f0dd89","dataContent":null,"visual":null,"__v":0,"updatedAt":"2015-04-20T06:37:33.639Z","createdAt":"2015-04-20T06:37:33.637Z","isPublic":true},{"_id":"553497dd5321f3ac6207e1e0","name":"foster","sourceId":"55268521fb9a901e442172f9","targetId":"5526855ac4f4db29446bd183","mapId":"552678e69ad190a642ad461c","updatedAt":"2015-04-20T06:08:29.681Z","createdAt":"2015-04-20T06:08:29.681Z","isPublic":true}]}}
+{
+    "properties": {
+        "name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+        "date": "2015.03.22.",
+        "authors": "S. Rudan, D. Karabeg",
+        "mapId": "552678e69ad190a642ad461c",
+        "rootNodeId": "55268521fb9a901e442172f9"
+    },
+    "map": {
+        "nodes": [
+            {
+                "_id": "55268521fb9a901e442172f9",
+                "name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+                "mapId": "552678e69ad190a642ad461c",
+                "type": null,
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-20T11:17:08.963Z",
+                "createdAt": "2015-04-20T11:17:08.962Z",
+                "visual": {
+                    "xM": 288,
+                    "yM": 358,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5526855ac4f4db29446bd183",
+                "name": "Direct Creativity",
+                "mapId": "552678e69ad190a642ad461c",
+                "type": null,
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-20T11:17:08.966Z",
+                "createdAt": "2015-04-20T11:17:08.966Z",
+                "visual": {
+                    "xM": 327,
+                    "yM": 707,
+                    "widthM": 100,
+                    "heightM": 180,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "551b4366fd64e5552ed19364",
+                "name": "Breakthrough in handling creativity possible",
+                "mapId": "552678e69ad190a642ad461c",
+                "type": null,
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-20T11:17:08.966Z",
+                "createdAt": "2015-04-20T11:17:08.966Z",
+                "visual": {
+                    "xM": 302.79999999999995,
+                    "yM": 988,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "551bb2c68f6e4cfc35654f37",
+                "name": "deep creative insight",
+                "mapId": "552678e69ad190a642ad461c",
+                "type": null,
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-20T11:17:08.967Z",
+                "createdAt": "2015-04-20T11:17:08.967Z",
+                "visual": {
+                    "xM": 473.4,
+                    "yM": 654,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "551bb5073dda1559368883b2",
+                "name": "Classical Physics",
+                "mapId": "552678e69ad190a642ad461c",
+                "type": null,
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-20T11:17:08.967Z",
+                "createdAt": "2015-04-20T11:17:08.967Z",
+                "visual": {
+                    "xM": 106.6,
+                    "yM": 961,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "551bb5d8317e908736b6b21c",
+                "name": "Indirect Creativty",
+                "mapId": "552678e69ad190a642ad461c",
+                "type": null,
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-20T11:17:08.968Z",
+                "createdAt": "2015-04-20T11:17:08.968Z",
+                "visual": {
+                    "xM": 74,
+                    "yM": 572,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5534e07083c8009509b222da",
+                "name": "n1",
+                "type": null,
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-04-20T11:18:08.290Z",
+                "createdAt": "2015-04-20T11:18:08.288Z",
+                "visual": {
+                    "xM": 94.90909090909093,
+                    "yM": 160,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5534e08283c8009509b222dc",
+                "name": "n2",
+                "type": null,
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-04-20T11:18:26.572Z",
+                "createdAt": "2015-04-20T11:18:26.571Z",
+                "visual": {
+                    "xM": 509.3636363636364,
+                    "yM": 221,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            }
+        ],
+        "edges": [
+            {
+                "_id": "5534e03472037692095f2cd2",
+                "name": "inhibits",
+                "sourceId": "55268521fb9a901e442172f9",
+                "targetId": "551bb5d8317e908736b6b21c",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-20T11:17:08.973Z",
+                "createdAt": "2015-04-20T11:17:08.973Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5534e03472037692095f2cd3",
+                "name": "supports",
+                "sourceId": "5526855ac4f4db29446bd183",
+                "targetId": "551b4366fd64e5552ed19364",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-20T11:17:08.974Z",
+                "createdAt": "2015-04-20T11:17:08.974Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5534e03472037692095f2cd4",
+                "name": "insights",
+                "sourceId": "5526855ac4f4db29446bd183",
+                "targetId": "551bb2c68f6e4cfc35654f37",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-20T11:17:08.974Z",
+                "createdAt": "2015-04-20T11:17:08.974Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5534e03472037692095f2cd5",
+                "name": "inhibits",
+                "sourceId": "551bb5d8317e908736b6b21c",
+                "targetId": "551bb5073dda1559368883b2",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-20T11:17:08.974Z",
+                "createdAt": "2015-04-20T11:17:08.974Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5534e07083c8009509b222db",
+                "name": "name...",
+                "type": "",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "sourceId": "55268521fb9a901e442172f9",
+                "targetId": "5534e07083c8009509b222da",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-04-20T11:18:08.314Z",
+                "createdAt": "2015-04-20T11:18:08.312Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5534e08283c8009509b222dd",
+                "name": "name...",
+                "type": "",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "sourceId": "55268521fb9a901e442172f9",
+                "targetId": "5534e08283c8009509b222dc",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-04-20T11:18:26.600Z",
+                "createdAt": "2015-04-20T11:18:26.599Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5534e03472037692095f2cd1",
+                "name": "foster",
+                "sourceId": "55268521fb9a901e442172f9",
+                "targetId": "5526855ac4f4db29446bd183",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-20T11:17:08.973Z",
+                "createdAt": "2015-04-20T11:17:08.973Z",
+                "isPublic": true
+            }
+        ]
+    }
+}
