@@ -237,6 +237,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	resource.create = function(kNode, callback)
 	{
 		console.log("resource.create");
+		var kNodeCopy = knalledge.KNode.nodeFactory(kNode);
 		var kNodeClone = kNode.toServerCopy();
 		if(QUEUE){
 			kNodeClone.$promise = null;
@@ -262,8 +263,14 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			return kNodeClone;
 		}
 		else{
-			var node = this.createPlain({}, kNodeClone, callback);
-			return node;
+			var node = this.createPlain({}, kNodeClone, function(nodeFromServer){
+				kNodeCopy.$resolved = node.$resolved;
+				kNodeCopy.overrideFromServer(nodeFromServer);
+				if(callback) callback(nodeFromServer);
+			});
+			kNodeCopy.$promise = node.$promise;
+			kNodeCopy.$resolved = node.$resolved;
+			return kNodeCopy;
 		}
 	};
 	
@@ -446,7 +453,20 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	
 	resource.create = function(kEdge, callback)
 	{
-		return this.createPlain({}, kEdge, callback);
+		// return this.createPlain({}, kEdge, callback);
+
+		console.log("resource.create");
+		var kEdgeCopy = knalledge.KEdge.edgeFactory(kEdge);
+		var kEdgeClone = kEdge.toServerCopy();
+
+		var edge = this.createPlain({}, kEdgeClone, function(edgeFromServer){
+			kEdgeCopy.$resolved = edge.$resolved;
+			kEdgeCopy.overrideFromServer(edgeFromServer);
+			if(callback) callback(edgeFromServer);
+		});
+		kEdgeCopy.$promise = edge.$promise;
+		kEdgeCopy.$resolved = edge.$resolved;
+		return kEdgeCopy;
 	};
 	
 	resource.update = function(kEdge, callback)
@@ -527,18 +547,18 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 					};
 					
 					// updating all references to node on fronted with server-created id:
-					var oldId = newNode._id;
-					delete this.nodesById.oldId;//		this.nodesById.splice(oldId, 1);
+					// var oldId = newNode._id;
+					delete this.nodesById[localNodeId];//		this.nodesById.splice(oldId, 1);
 					this.nodesById[nodeFromServer._id] = newNode; //TODO: we should set it to 'nodeFromServer'?! But we should synchronize also local changes from 'newNode' happen in meantime
-					newNode._id = nodeFromServer._id; //TODO: same as above
-					newNode.fill(nodeFromServer);
+					// newNode._id = nodeFromServer._id; //TODO: same as above
+					// newNode.fill(nodeFromServer);
 
 					//fixing edges:: sourceId & targetId:
 					for(var i in this.edgesById){
 						var changed = false;
 						var edge = this.edgesById[i];
-						if(edge.sourceId == oldId){edge.sourceId = nodeFromServer._id; changed = true;}
-						if(edge.targetId == oldId){edge.targetId = nodeFromServer._id; changed = true;}
+						if(edge.sourceId == localNodeId){edge.sourceId = nodeFromServer._id; changed = true;}
+						if(edge.targetId == localNodeId){edge.targetId = nodeFromServer._id; changed = true;}
 						
 						//TODO: check should we do here something, after KnalledgeMapQueue logic is used etc:
 						/* but so far we are commenting this because we won't update edge. Instead createEdge will be blocked (by promise, until this createNode is finished) in:
@@ -562,11 +582,11 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				}
 
 				var newNode = new knalledge.KNode();
-				newNode._id = maxId+1;
+				var localNodeId = newNode._id = maxId+1;
 				newNode.mapId = this.mapId;
 
 				newNode = KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
-				this.nodesById[newNode._id] = newNode;
+				this.nodesById[localNodeId] = newNode;
 				return newNode;
 			},
 
@@ -584,11 +604,11 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 					console.log("[KnalledgeMapService] edgeCreated" + JSON.stringify(edgeFromServer));
 					
 					// updating all references to edge on fronted with server-created id:
-					var oldId = newEdge._id;
-					delete this.edgesById[oldId];//		this.nodesById.splice(oldId, 1);
+					// var oldId = newEdge._id;
+					delete this.edgesById[localEdgeId];//		this.nodesById.splice(oldId, 1);
 					this.edgesById[edgeFromServer._id] = newEdge; //TODO: we should set it to 'edgeFromServer'?! But we should synchronize also local changes from 'newEdge' happen in meantime
-					newEdge._id = edgeFromServer._id; //TODO: same as above
-					newEdge.fill(edgeFromServer);
+					// newEdge._id = edgeFromServer._id; //TODO: same as above
+					// newEdge.fill(edgeFromServer);
 				};
 				
 				console.log("[KnalledgeMapService] createEdge");
@@ -600,15 +620,17 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				}
 				
 				var newEdge = new knalledge.KEdge();
-				newEdge._id = maxId+1;
+				var localEdgeId = newEdge._id = maxId+1;
 				newEdge.mapId = this.mapId;
 				newEdge.sourceId = sourceNode._id;
 				newEdge.targetId = targetNode._id;
 
-				this.edgesById[newEdge._id] = newEdge;
+				newEdge = KnalledgeEdgeService.create(newEdge, edgeCreated.bind(this));
+
+				this.edgesById[localEdgeId] = newEdge;
 				
 				//preparing and saving on server service:
-				var edgeCloned = newEdge.toServerCopy();
+				// var edgeCloned = newEdge.toServerCopy();
 				
 				//TODO: check should we do here something, after KnalledgeMapQueue logic is used etc:
 				/* this was used when createEdge request is sent to server without waiting for target node to be created.
@@ -622,9 +644,8 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				{
 					delete edgeCloned.targetId; // this is still not set to server Id
 				}
-				*/
-				KnalledgeEdgeService.create(edgeCloned, edgeCreated.bind(this));
-				
+				*/	
+
 				return newEdge;
 			},
 			

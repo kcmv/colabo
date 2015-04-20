@@ -179,6 +179,29 @@ Keyboard.prototype.initializeKeyboard = function() {
 		}
 	}.bind(this), function(){}.bind(this));	
 
+	// IBIS
+	// Vote up
+	KeyboardJS.on("ctrl+command+up", function(){
+		if(this.editingNodeHtml) return;
+		var node = this.clientApi.getSelectedNode();
+		if(!('dataContent' in node.kNode) || !node.kNode.dataContent) node.kNode.dataContent = {};
+		if(!('ibis' in node.kNode.dataContent) || !node.kNode.dataContent.ibis) node.kNode.dataContent.ibis = {};
+		if(!('voteUp' in node.kNode.dataContent.ibis)) node.kNode.dataContent.ibis.voteUp = 1;
+		else node.kNode.dataContent.ibis.voteUp += 1;
+		this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_IBIS_VOTING);
+	}.bind(this), function(){}.bind(this));
+
+	// Vote up
+	KeyboardJS.on("ctrl+command+down", function(){
+		if(this.editingNodeHtml) return;
+		var node = this.clientApi.getSelectedNode();
+		if(!('dataContent' in node.kNode) || !node.kNode.dataContent) node.kNode.dataContent = {};
+		if(!('ibis' in node.kNode.dataContent) || !node.kNode.dataContent.ibis) node.kNode.dataContent.ibis = {};
+		if(!('voteDown' in node.kNode.dataContent.ibis)) node.kNode.dataContent.ibis.voteDown = 1;
+		else node.kNode.dataContent.ibis.voteDown += 1;
+		this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_IBIS_VOTING);
+	}.bind(this), function(){}.bind(this));
+	
 	// Add Image
 	KeyboardJS.on("i", function(){
 		if(this.editingNodeHtml) return;
@@ -210,14 +233,16 @@ Keyboard.prototype.initializeKeyboard = function() {
 		var newNode = this.clientApi.createNode();
 		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
 			// var newEdge = 
-			this.clientApi.createEdge(this.clientApi.getSelectedNode(), newNode);
-			if(!this.clientApi.getSelectedNode().isOpen){
-				this.clientApi.getSelectedNode().isOpen = true;
-			}
+			var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
+			newEdge.kEdge.$promise.then(function(kEdgeFromServer){
+				if(!that.clientApi.getSelectedNode().isOpen){
+					that.clientApi.getSelectedNode().isOpen = true;
+				}
 
-			this.clientApi.update(this.clientApi.getSelectedNode(), function(){
-				this.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
-				that.setEditing(newNode);			
+				that.clientApi.update(that.clientApi.getSelectedNode(), function(){
+					that.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
+					that.setEditing(newNode);
+				});
 			});
 		});
 	}.bind(this), function(){}.bind(this));	
