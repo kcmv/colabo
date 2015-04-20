@@ -92,14 +92,16 @@ function populateNodeDemo(){
 		var mapId = mapData.properties.mapId;
 		//console.log("typeof data_bulk:" + typeof data_bulk);
 		var data_array = new Array();
-		var isRootNode = true;
+		//var isRootNode = true;
 		for (var datumId in data_bulk){
 			var datum = data_bulk[datumId];
 			// the first node in the node list will be recognized as a root node and its _id will be set to rootNodeId
-			if(isRootNode){
-				datum._id = rootNodeId;
-				isRootNode = false;
-			}
+			
+//			if(isRootNode){
+//				datum._id = rootNodeId;
+//				isRootNode = false;
+//			}
+			
 			// if mapId is missing (default state) it is set to properties.mapId
 			if(!('mapId' in datum)) datum.mapId = mapId;
 			// toObject() is called to avoid error 'RangeError: Maximum call stack size exceeded', caused by sending Mongoose object to MongoDb driver (invoked by 'Model.collection.insert')
@@ -107,8 +109,8 @@ function populateNodeDemo(){
 			// and more about this: https://github.com/Automattic/mongoose/issues/1961#event-242694964
 			// "Document#toObject([options]) - Converts this document into a plain javascript object, ready for storage in MongoDB." from http://mongoosejs.com/docs/api.html#document_Document-toObject
 			var knode = new KNodeModel(datum).toObject();
-			console.log("[kNode::populateDemo] datum:\n" + JSON.stringify(datum));
-			console.log("[kNode::populateDemo] knode:\n" + JSON.stringify(knode)+"\n");
+			//console.log("[kNode::populateDemo] datum:\n" + JSON.stringify(datum));
+			//console.log("[kNode::populateDemo] knode:\n" + JSON.stringify(knode)+"\n");
 			data_array.push(knode);
 			entriesNo++;
 			console.log("[kNode::populateDemo] adding new node to insertion array. entriesNo: %d", entriesNo);
@@ -163,8 +165,8 @@ function populateEdgeDemo(){
 			// and more about this: https://github.com/Automattic/mongoose/issues/1961#event-242694964
 			// "Document#toObject([options]) - Converts this document into a plain javascript object, ready for storage in MongoDB." from http://mongoosejs.com/docs/api.html#document_Document-toObject
 			var kedge = new KEdgeModel(datum).toObject();
-			console.log("[kEdge::populateDemo] datum:\n" + JSON.stringify(datum));
-			console.log("[kEdge::populateDemo] kedge:\n" + JSON.stringify(kedge)+"\n");
+			//console.log("[kEdge::populateDemo] datum:\n" + JSON.stringify(datum));
+			//console.log("[kEdge::populateDemo] kedge:\n" + JSON.stringify(kedge)+"\n");
 			data_array.push(kedge);
 			entriesNo++;
 			console.log("[kEdge::populateDemo] adding new edge to insertion array. entriesNo: %d", entriesNo);
