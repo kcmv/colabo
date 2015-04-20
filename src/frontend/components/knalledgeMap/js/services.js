@@ -215,7 +215,14 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	
 	resource.queryInMap = function(id, callback)
 	{
-		var nodes = this.queryPlain({ searchParam:id, type:'in_map' }, callback);
+		var nodes = this.queryPlain({ searchParam:id, type:'in_map' }, function(nodesFromServer){
+			for(var id=0; id<nodesFromServer.length; id++){
+				var kNode = knalledge.KNode.nodeFactory(nodesFromServer[id]);
+				nodesFromServer[id] = kNode;
+			}
+
+			if(callback) callback(nodesFromServer);
+		});
 		// for(var i in nodes){
 		// 	//TODO fix nodes.state, etc
 		// }
@@ -411,7 +418,14 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	
 	resource.queryInMap = function(id, callback)
 	{
-		return this.queryPlain({ searchParam:id, type:'in_map' }, callback);
+		return this.queryPlain({ searchParam:id, type:'in_map' }, function(edgesFromServer){
+			for(var id=0; id<edgesFromServer.length; id++){
+				var kEdge = knalledge.KEdge.edgeFactory(edgesFromServer[id]);
+				edgesFromServer[id] = kEdge;
+			}
+
+			if(callback) callback(edgesFromServer);
+		});
 	};
 	
 	resource.queryBetween = function(id, callback)
