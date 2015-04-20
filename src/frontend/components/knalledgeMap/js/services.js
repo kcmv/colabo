@@ -2,6 +2,10 @@
 'use strict';
 //this function is strict...
 
+var QUEUE = 
+//false;
+true;
+
 var removeJsonProtected = function(ENV, jsonStr){
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
 		jsonStr = jsonStr.substring(ENV.server.jsonPrefixed.length);
@@ -11,7 +15,50 @@ var removeJsonProtected = function(ENV, jsonStr){
 
 var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config']);
 
-knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', function($resource, $q, ENV){
+knalledgeMapServices.provider('KnalledgeMapQueue', {
+	//KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
+	// privateData: "privatno",
+	$get: ['$q', '$rootScope', '$window', function($q, $rootScope, $window) {
+		// var that = this;
+		return {
+			queue: [],
+			linkToServices: {}, //KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
+			STATE_ADDED:"STATE_ADDED",
+			STATE_BLOCKED:"STATE_BLOCKED",
+			STATE_SENT:"STATE_SENT",
+			STATE_FINISHED:"STATE_FINISHED",
+			SERVICE_METHOD_EXECUTE:"EXECUTE",
+			SERVICE_METHOD_CHECK:"CHECK",
+
+			execute: function(request){
+				request.state = this.STATE_ADDED;
+				this.queue.push(request);
+				this.flush();
+			},
+			
+			flush: function(){
+				for(var i in this.queue){
+					var request = this.queue[i]; 
+					if(request.processing[this.SERVICE_METHOD_CHECK](request)){
+						request.processing[this.SERVICE_METHOD_EXECUTE](request);
+						req.state = this.STATE_SENT;
+					}
+				}
+			},
+			
+//			link: function(resource, methods){
+//				this.linkToServices[resource] = methods 
+//				
+//			}
+
+//			updateNode: function(node) {
+//				KnalledgeNodeService.update(node); //updating on server service
+//			}
+		};
+	}]
+});
+
+knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
 	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/knodes/:type/:searchParam.json';
@@ -28,8 +75,10 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
 				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
-				var data = serverResponse.data;
-				return data[0];
+				
+				var data = knalledge.KNode.nodeFactory(serverResponse.data[0]);
+				data.state = knalledge.KNode.STATE_SYNCED;
+				return data;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -115,6 +164,8 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		}
 	});
 
+	resource.RESOURCE_TYPE = 'KNode';
+	
 	resource.query = function(){
 		var data = {
 			$promise: null,
@@ -155,41 +206,82 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	resource.create = function(kNode, callback)
 	{
 		console.log("resource.create");
-		var node = this.createPlain({}, kNode, callback);
-		return node;
+		var kNodeClone = kNode.toServerCopy();
+		if(QUEUE){
+			kNodeClone.$promise = null;
+			kNodeClone.$resolved = false;
+
+			kNodeClone.$promise = $q(function(resolve, reject) {
+//				var jsonUrl = ENV.server.backend + "/sample-small.json";
+//				$.getJSON(jsonUrl, null, function(jsonContent){
+//					console.log("Loaded: %s, map (nodes: %d, edges: %d)", jsonUrl,
+//					jsonContent.map.nodes.length, jsonContent.map.edges.length);
+//					for(var id in jsonContent){
+//						data[id] = jsonContent[id];
+//					}
+//					data.$resolved = true;
+//					resolve(jsonContent);
+//				});
+				KnalledgeMapQueue.execute({data: kNodeClone, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
+			});
+			
+			//KnalledgeMapQueue.execute({data: kNodeClone, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", promise: promise});
+			
+			
+			return kNodeClone;
+		}
+		else{
+			var node = this.createPlain({}, kNodeClone, callback);
+			return node;
+		}
 	};
 	
 	resource.update = function(kNode, callback)
 	{
-		var kNodeClone = {};
-		// kNodeClone = (JSON.parse(JSON.stringify(kNode)));
-		// delete kNodeClone.children;
-		// delete kNodeClone.parent;
-		
-		//TODO: do this through kNode function and move it to transformRequest
-		for(var id in kNode){
-			if(id == 'children') continue;
-			if(id == 'parent') continue;
-			if(id[0] == '$') continue;
-			if(id == 'children') continue;
-			if (typeof kNode[id] == 'function') continue;
-			//console.log("cloning: %s", id);
-			kNodeClone[id] = (JSON.parse(JSON.stringify(kNode[id])));// kNode[id];
+		console.log("resource.update");
+		var kNodeClone = kNode.toServerCopy(); //TODO: move it to transformRequest ?
+		if(QUEUE){
+			KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create"});
+			return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback); //TODO: does it return node so we should fix it like in create?
 		}
-		//TODO: check the name of param: id or ObjectId or _id?
-		return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback); //TODO: does it return node so we should fix it like in create?
+		else{
+			return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback); //TODO: does it return node so we should fix it like in create?
+		}
 	};
 	
 	resource.destroy = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'one'}, callback);
 	};
+	
+	resource.execute = function(request){ //example:: request = {data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}}
+		switch(request.method){
+		case 'create':
+			var node = resource.createPlain({}, request.data, request.callback).then(function(){
+				console.log('create-back');
+				request.data.$resolved = true;
+				request.processing.RESOLVE();
+			});
+			return node;
+			break;
+		case 'update':
+			this.update;
+			break;
+		}
+	}
+	
+	/* checks if request can be sent to server */
+	resource.check = function(request){
+		return true;
+	}
+	
+	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
 	return resource;
 	
 }]);
 
-knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', function($resource, $q, ENV){
+knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
 	console.log("[atGsServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/kedges/:type/:searchParam.json';
@@ -226,7 +318,6 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				var VOs = [];
 				for(var datumId in serverResponse.data){
 					var VO = knalledge.KEdge.edgeFactory(data[datumId]);
-					VO.state = knalledge.KEdge.STATE_SYNCED;
 					VOs.push(VO);
 				}
 				//console.log("[KnalledgeNodeService] data: %s", JSON.stringify(data));
@@ -385,18 +476,13 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 			toggle: function(d) {
 				d.isOpen = !d.isOpen;
 			},
-
-			//TODO: replace it with VO transformation methods:
-			cloneObject: function(obj){
-				return (JSON.parse(JSON.stringify(obj)));
-			},
 	
 			createNode: function() {
 				
 				var nodeCreated = function(nodeFromServer) {
-					console.log("[Map] nodeCreated" + JSON.stringify(nodeFromServer));
+					console.log("[KnalledgeMapService] nodeCreated" + JSON.stringify(nodeFromServer));
 					var edgeUpdatedNodeRef = function(edgeFromServer){
-						console.log("[Map] edgeUpdatedNodeRef" + JSON.stringify(edgeFromServer));
+						console.log("[KnalledgeMapService] edgeUpdatedNodeRef" + JSON.stringify(edgeFromServer));
 					};
 					
 					// updating all references to node on fronted with server-created id:
@@ -404,6 +490,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 					delete this.nodesById.oldId;//		this.nodesById.splice(oldId, 1);
 					this.nodesById[nodeFromServer._id] = newNode; //TODO: we should set it to 'nodeFromServer'?! But we should synchronize also local changes from 'newNode' happen in meantime
 					newNode._id = nodeFromServer._id; //TODO: same as above
+					newNode.fill(nodeFromServer);
 					
 					//fixing edges:: sourceId & targetId:
 					for(var i in this.edgesById){
@@ -418,7 +505,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 					}
 				};
 
-				console.log("[Map] createNode");
+				console.log("[KnalledgeMapService] createNode");
 				var maxId = -1;
 				for(var i in this.nodesById){
 					if(maxId < this.nodesById[i]._id){
@@ -429,30 +516,34 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				var newNode = new knalledge.KNode();
 				newNode._id = maxId+1;
 				newNode.mapId = this.mapId;
-
 				this.nodesById[newNode._id] = newNode;
-				var nodeCloned = this.cloneObject(newNode);
-				delete nodeCloned._id;
-				KnalledgeNodeService.create(nodeCloned, nodeCreated.bind(this)); //saving on server service.
+
+				KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
 				return newNode;
 			},
 
 			updateNode: function(node, updateType) {
 				KnalledgeNodeService.update(node, updateType); //updating on server service
 			},
+			
+			deleteNode: function(node) {
+				KnalledgeNodeService.destroy(node._id); //deleteNode on server service
+				delete this.nodesById[node._id];
+			},
 
 			createEdge: function(sourceNode, targetNode) {
 				var edgeCreated = function(edgeFromServer) {
-					console.log("[Map] edgeCreated" + JSON.stringify(edgeFromServer));
+					console.log("[KnalledgeMapService] edgeCreated" + JSON.stringify(edgeFromServer));
 					
 					// updating all references to edge on fronted with server-created id:
 					var oldId = newEdge._id;
 					delete this.edgesById[oldId];//		this.nodesById.splice(oldId, 1);
 					this.edgesById[edgeFromServer._id] = newEdge; //TODO: we should set it to 'edgeFromServer'?! But we should synchronize also local changes from 'newEdge' happen in meantime
 					newEdge._id = edgeFromServer._id; //TODO: same as above
+					newEdge.fill(edgeFromServer);
 				};
 				
-				console.log("[Map] createEdge");
+				console.log("[KnalledgeMapService] createEdge");
 				var maxId = -1;
 				for(var i in this.edgesById){
 					if(maxId < this.edgesById[i]._id){
@@ -482,6 +573,10 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				KnalledgeEdgeService.create(edgeCloned, edgeCreated.bind(this));
 				
 				return newEdge;
+			},
+			
+			deleteEdgesConnectedTo: function(node) {
+				KnalledgeNodeService.update(node); //updating on server service
 			},
 
 			loadData: function(mapProperties){

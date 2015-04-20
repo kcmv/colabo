@@ -26,6 +26,14 @@ var KNode =  knalledge.KNode = function(){
 	this.state = KNode.STATE_LOCAL;
 };
 
+KNode.STATE_LOCAL = "STATE_LOCAL";
+KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED";
+KNode.STATE_SYNCED = "STATE_SYNCED";
+
+KNode.prototype.init = function(){
+	
+};
+
 KNode.nodeFactory = function(obj){
 	var kNode = new knalledge.KNode();
 	kNode.fill(obj);
@@ -45,7 +53,7 @@ KNode.prototype.fill = function(obj){
 		if("isPublic" in obj){this.isPublic = obj.isPublic;}
 		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date native type
 		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date native type
-		if("dataContent" in obj){this.dataContent = obj.dataContent;}
+		if("dataContent" in obj){this.dataContent = obj.dataContent;} //TODO: deep copy?
 		if("visual" in obj){
 			if(!('visual' in this)) this.visual = {};
 
@@ -58,19 +66,37 @@ KNode.prototype.fill = function(obj){
 	}
 };
 
-KNode.STATE_LOCAL = "STATE_LOCAL";
-KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED";
-KNode.STATE_SYNCED = "STATE_SYNCED";
-
-KNode.prototype.init = function(){
-	
+KNode.prototype.overrideFromServer = function(obj){
+	if(obj){
+		if("_id" in obj){this._id = obj._id;}
+		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date nativ type
+		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ type
+	}
+	this.state = KNode.STATE_SYNCED;
 };
 
 KNode.prototype.toServerCopy = function(){
-	var kNode = (JSON.parse(JSON.stringify(this))); //copy
-	delete kNode.state;
+	var kNode = {};
+	
+	/* copying all non-system and non-function properties */
+	for(var id in this){
+		if(id[0] == '$') continue;
+		if (typeof this[id] == 'function') continue;
+		//console.log("cloning: %s", id);
+		kNode[id] = (JSON.parse(JSON.stringify(this[id])));
+	}
+	
+	/* deleting properties that should be set created to default value on server */
 	if(kNode.createdAt === undefined || kNode.createdAt === null) {delete kNode.createdAt;}
 	if(kNode.updatedAt === undefined || kNode.updatedAt === null) {delete kNode.updatedAt;}
+	
+	if(kNode.state == KNode.STATE_LOCAL){
+		delete kNode._id;
+	}
+	
+	/* deleting local-frontend parameters */
+	delete kNode.state;
+	
 	return kNode;
 };
 

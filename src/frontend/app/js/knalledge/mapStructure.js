@@ -185,6 +185,14 @@ MapStructure.prototype.updateNode = function(vkNode, updateType) {
 	this.mapService.updateNode(vkNode.kNode, updateType); //updating on server service
 };
 
+MapStructure.prototype.deleteNode = function(vnode) {
+	this.mapService.deleteNode(vnode.kNode);
+	delete this.nodesById[vnode._id];
+	this.mapService.deleteEdgesConnectedTo(vnode.kNode);
+	
+	//TODO: delete connected vkedges;
+};
+
 MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
 
 	// var edgeCreated = function(edgeFromServer) {
@@ -200,6 +208,10 @@ MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
 
 	this.edgesById[id] = newEdge;
 	return newEdge;
+};
+
+MapStructure.prototype.deleteEdgesConnectedTo = function(node) {
+	this.mapService.deleteNode(node);
 };
 
 MapStructure.prototype.getVKNodeByKId = function(kId) {
