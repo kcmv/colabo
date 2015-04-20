@@ -94,10 +94,12 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
 				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
-				
+				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
 				var data = knalledge.KNode.nodeFactory(serverResponse.data[0]);
 				data.state = knalledge.KNode.STATE_SYNCED;
 				return data;
+				*/
+				return serverResponse.data[0];
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -112,6 +114,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
 				console.log("[KnalledgeNodeService] accessId: %s", serverResponse.accessId);
+				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
 				var data = serverResponse.data;
 				var VOs = [];
 				for(var datumId in serverResponse.data){
@@ -121,6 +124,8 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				}
 				//console.log("[KnalledgeNodeService] data: %s", JSON.stringify(data));
 				return VOs;
+				*/
+				return serverResponse.data;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -604,6 +609,10 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				//preparing and saving on server service:
 				var edgeCloned = newEdge.toServerCopy();
 				
+				//TODO: check should we do here something, after KnalledgeMapQueue logic is used etc:
+				/* this was used when createEdge request is sent to server without waiting for target node to be created.
+				 * now must remove it, because by this nodeCreated will find edges connected to it and update their links over localID to new server-created-Id
+				 *  
 				if(sourceNode.state == knalledge.KNode.STATE_LOCAL) //TODO: not working till state is not set for resources retreived from server
 				{
 					delete edgeCloned.sourceId; // this is still not set to server Id
@@ -612,6 +621,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				{
 					delete edgeCloned.targetId; // this is still not set to server Id
 				}
+				*/
 				KnalledgeEdgeService.create(edgeCloned, edgeCreated.bind(this));
 				
 				return newEdge;
