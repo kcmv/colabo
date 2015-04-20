@@ -270,13 +270,14 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	resource.update = function(kNode, callback)
 	{
 		console.log("resource.update");
+		var id = kNode._id;
 		var kNodeClone = kNode.toServerCopy(); //TODO: move it to transformRequest ?
 		if(QUEUE){
 			KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create"});
-			return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback); //TODO: does it return node so we should fix it like in create?
+			return this.updatePlain({searchParam:id, type:'one'}, kNodeClone, callback); //TODO: does it return node so we should fix it like in create?
 		}
 		else{
-			return this.updatePlain({searchParam:kNodeClone._id, type:'one'}, kNodeClone, callback); //TODO: does it return node so we should fix it like in create?
+			return this.updatePlain({searchParam:id, type:'one'}, kNodeClone, callback); //TODO: does it return node so we should fix it like in create?
 		}
 	};
 	
