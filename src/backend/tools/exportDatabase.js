@@ -42,8 +42,10 @@ db.on('open', function (callback) {
 	var edges;
 	
 	var nodesEdgesReceived = function(nodes,edges){
-		console.log(("[nodesEdgesReceived] %d nodes: ",nodes.length) + JSON.stringify(nodes));
-		console.log(("[nodesEdgesReceived] %d edges: ",edges.length) + JSON.stringify(edges));
+		console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);
+		console.log(JSON.stringify(nodes));
+		console.log("[nodesEdgesReceived] %d edges **************** :", edges.length);
+		console.log(JSON.stringify(edges));
 		var i;
 		for(i=0; i<nodes.length; i++){
 			//console.log("nodes[i]:"+nodes[i]);
