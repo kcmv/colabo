@@ -30,7 +30,7 @@ db.on('open', function (callback) {
 			"date": "2015.03.22.",
 			"authors": "S. Rudan, D. Karabeg",
 			"mapId": mapId,
-			"rootNodeId": this.rootNodeId
+			"rootNodeId": "55268521fb9a901e442172f9"
 		},
 		"map": {
 			"nodes": [],
