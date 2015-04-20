@@ -3,8 +3,8 @@
 //this function is strict...
 
 var QUEUE = 
-//false;
-true;
+false;
+//true;
 
 var removeJsonProtected = function(ENV, jsonStr){
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
@@ -519,10 +519,17 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 						var edge = this.edgesById[i];
 						if(edge.sourceId == oldId){edge.sourceId = nodeFromServer._id; changed = true;}
 						if(edge.targetId == oldId){edge.targetId = nodeFromServer._id; changed = true;}
+						
+						//TODO: check should we do here something, after KnalledgeMapQueue logic is used etc:
+						/* but so far we are commenting this because we won't update edge. Instead createEdge will be blocked (by promise, until this createNode is finished) in:
+						 * 		// Add new node:
+						 *		KeyboardJS.on("tab", function(){
+						 *  so 
 						if(changed){
 							//TODO: should we clone it or call vanilla object creation:
 							KnalledgeEdgeService.update(edge, edgeUpdatedNodeRef.bind(this)); //saving changes in edges's node refs to server
 						}
+						*/
 					}
 				};
 
