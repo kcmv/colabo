@@ -2,10 +2,13 @@
 
 require('../models'); // injects DB Schemas in global.db
 
+
 var mongoose = require('mongoose');
 var Promise = require("bluebird");
 // set it either in path: (node createDemoData.js 'demo_data.json') or default
-var fileName = process.argv[2] || '../../data/demo_data.json';
+var fileName = process.argv[2] || '../../data/exportedDB.json';
+var mapId = process.argv[3] || '552678e69ad190a642ad461c';
+
 var fs = require('fs');
 
 /* connecting */
@@ -17,62 +20,63 @@ var KNodeModel = mongoose.model('KNode', global.db.kNode.Schema);
 var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
 
 var mapData = null;
+console.log('fileName: ' + fileName);
 
 db.on('open', function (callback) {
-	writeToFile(fileName, function(err, _mapData){
-		if(_mapData){
-			mapData = _mapData;
-			console.log("[kNode.populate]");
-			KNodeModel.remove({mapId: mapData.properties.mapId}).exec()
-			.then(function onFulfilled(result, info) {
-				//console.log("[kNode.remove()] params: result: " + result + ". info: " + JSON.stringify(info));
-				console.log("[kNode.remove()] Collection deleted. %d documents deleted: ", result);
-				//resolve();
-			}, function onRejected(err) {
-				console.log("[kNode.remove()] error on deleting collections. Error: " + err);
-				//reject();
-			})
-			.then(populateNodeDemo)
-			.then(function(data){
-				console.log('[kNode] all demo data successfully inserted');
-			});
-			
-			KEdgeModel.remove({mapId: mapData.properties.mapId}).exec()
-			.then(function onFulfilled(result, info) {
-				//console.log("[kEdge.remove()] params: result: " + result + ". info: " + JSON.stringify(info));
-				console.log("[kEdge.remove()] Collection deleted. %d documents deleted: ", result);
-				//resolve();
-			}, function onRejected(err) {
-				console.log("[kEdge.remove()] error on deleting collections. Error: " + err);
-				//reject();
-			})
-			.then(populateEdgeDemo)
-			.then(function(data){
-				console.log('[kEdge] all demo data successfully inserted');
-			});
+	var data = 
+	{
+		"properties": {
+			"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+			"date": "2015.03.22.",
+			"authors": "S. Rudan, D. Karabeg",
+			"mapId": mapId,
+			"rootNodeId": this.rootNodeId
+		},
+		"map": {
+			"nodes": [],
+			"edges": []
 		}
-	});
+	};
+	var nodes;
+	var edges;
+	
+	var nodesEdgesReceived = function(nodes,edges){
+		console.log("[nodesEdgesReceived] nodes: " + JSON.stringify(nodes));
+		console.log("[nodesEdgesReceived] edges: " + JSON.stringify(edges));
+		var i;
+		for(i=0; i<nodes.length; i++){
+			//console.log("nodes[i]:"+nodes[i]);
+			data.map.nodes.push(nodes[i]);
+		}
+		for(i=0; i<edges.length; i++){
+			data.map.edges.push(edges[i]);
+		}
+		console.log("data for export: " + JSON.stringify(data));
+		
+		var dataStr = JSON.stringify(data);
+		writeToFile(fileName, dataStr);
+	};
+	
+	nodes = KNodeModel.find({ 'mapId': mapId}).exec();
+	edges = KEdgeModel.find({ 'mapId': mapId}).exec();
+	var allArrray = [nodes, edges];
+	//Promise.all(allArrray).then(nodesEdgesReceived);
+	Promise.join(nodes,edges, nodesEdgesReceived);
 	
 	//mongoose.connection.close();
+	console.log('mapId: %s', mapId);
 });
 
 function writeToFile(fileName, data, callback){
-	console.log('[writeToFile] loading file %s', fileName);
-	fs.writeFile(filename, data, callback)
-	fs.readFile(fileName, 'utf8', function (err, dataStr) {
+	console.log('[writeToFile] file %s', fileName);
+	fs.writeFile(fileName, data, 'utf8', function (err) {
 		if (err) {
-			console.log(err);
-			if(callback) callback(err, null);
-		}else{
-			// console.log('[kEdge::populateDemo]parsing file:\n' + dataStr);
-			var mapData = JSON.parse(dataStr);
-			console.log("[writeToFile] map name: %s", JSON.stringify(mapData.properties.name));
-			console.log("[writeToFile] map mapId: %s", JSON.stringify(mapData.properties.mapId));
-			console.log("[writeToFile] map rootNodeId: %s", JSON.stringify(mapData.properties.rootNodeId));
-			console.log("[writeToFile] mapData.map.nodes: %s", JSON.stringify(mapData.map.nodes.length));
-			console.log("[writeToFile] mapData.map.edges: %s", JSON.stringify(mapData.map.edges.length));
-			if(callback) callback(null, mapData);			
+			console.log("[writeToFile] err: " + err);
+			if(callback){ callback(err, null)}
+			else{throw err;}
 		}
+		console.log("[writeToFile] saved ");
+		if(callback) callback(null);
 	});
 }
 
