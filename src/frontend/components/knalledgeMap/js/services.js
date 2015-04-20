@@ -16,19 +16,21 @@ var removeJsonProtected = function(ENV, jsonStr){
 var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config']);
 
 knalledgeMapServices.provider('KnalledgeMapQueue', {
-	//KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
+	//KnalledgeMapQueue.execute({data: kNodeClone, data_original: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
 	// privateData: "privatno",
 	$get: ['$q', '$rootScope', '$window', function($q, $rootScope, $window) {
 		// var that = this;
 		return {
 			queue: [],
-			linkToServices: {}, //KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
+			//linkToServices: {}, //KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 			STATE_ADDED:"STATE_ADDED",
 			STATE_BLOCKED:"STATE_BLOCKED",
 			STATE_SENT:"STATE_SENT",
 			STATE_FINISHED:"STATE_FINISHED",
 			SERVICE_METHOD_EXECUTE:"EXECUTE",
 			SERVICE_METHOD_CHECK:"CHECK",
+			SERVICE_METHOD_CREATE:"create",
+			SERVICE_METHOD_UPDATE:"update",
 
 			execute: function(request){
 				request.state = this.STATE_ADDED;
@@ -39,12 +41,29 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 			flush: function(){
 				for(var i in this.queue){
 					var request = this.queue[i]; 
-					if(request.processing[this.SERVICE_METHOD_CHECK](request)){
+					if(request.processing[this.SERVICE_METHOD_CHECK](request) && this.check(request,i)){
 						request.processing[this.SERVICE_METHOD_EXECUTE](request);
-						req.state = this.STATE_SENT;
+						request.state = this.STATE_SENT;
 					}
 				}
 			},
+			
+			check: function(request,index){
+				/* update cannot be sent if it is updating resource (VO) that is still not created  */
+				if(request.processing.method == this.SERVICE_METHOD_UPDATE){
+					if(request.data_original.state == knalledge.KEdge.STATE_LOCAL){ //TODO: we check for KEdge.STATE_LOCAL even though it might be KNode. but they have same values so it is fine
+						return false;
+					}
+					else{
+						request.data._id = request.data_original._id; // request.data_original._id was set in meantime by created callback, and we set its value to clonedCopy (vanilla copy) of VO
+					}
+				}
+//				for(var i = 0; i<index;i++){ //goes through all previous requests
+//					var prev_request = this.quest[i];
+//					if(prev_request.id && prev_request.)
+//				}
+				return true;
+			}
 			
 //			link: function(resource, methods){
 //				this.linkToServices[resource] = methods 
@@ -222,7 +241,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 //					data.$resolved = true;
 //					resolve(jsonContent);
 //				});
-				KnalledgeMapQueue.execute({data: kNodeClone, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
+				KnalledgeMapQueue.execute({data: kNodeClone, data_original:kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
 			});
 			
 			//KnalledgeMapQueue.execute({data: kNodeClone, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", promise: promise});
