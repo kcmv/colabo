@@ -177,10 +177,10 @@ MapStructure.prototype.updateName = function(vkNode, newName){
 MapStructure.prototype.updateNode = function(vkNode, updateType) {
 	switch(updateType){
 		case MapStructure.UPDATE_NODE_DIMENSIONS:
-			vkNode.kNode.visual.xM = vkNode.xM;
-			vkNode.kNode.visual.yM = vkNode.yM;
-			vkNode.kNode.visual.widthM = vkNode.widthM;
-			vkNode.kNode.visual.heightM = vkNode.heightM;
+			if('xM' in vkNode) vkNode.kNode.visual.xM = vkNode.xM;
+			if('yM' in vkNode) vkNode.kNode.visual.yM = vkNode.yM;
+			if('widthM' in vkNode) vkNode.kNode.visual.widthM = vkNode.widthM;
+			if('heightM' in vkNode) vkNode.kNode.visual.heightM = vkNode.heightM;
 	}
 	this.mapService.updateNode(vkNode.kNode, updateType); //updating on server service
 };

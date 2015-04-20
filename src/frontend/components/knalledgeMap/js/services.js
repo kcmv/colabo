@@ -437,8 +437,8 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				return newNode;
 			},
 
-			updateNode: function(node) {
-				KnalledgeNodeService.update(node); //updating on server service
+			updateNode: function(node, updateType) {
+				KnalledgeNodeService.update(node, updateType); //updating on server service
 			},
 
 			createEdge: function(sourceNode, targetNode) {
@@ -495,7 +495,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 						"authors": "S. Rudan, D. Karabeg",
 						"mapId": this.mapId,
 						"rootNodeId": this.rootNodeId
-					}
+					};
 				}
 
 				var result = {
@@ -554,7 +554,50 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				}
 
 				this.rootNode = this.nodesById[mapData.properties.rootNodeId];
+			},
+
+			getChildrenEdgeTypes: function(kNode){
+				var children = {};
+				for(var i in this.edgesById){
+					var kEdge = this.edgesById[i];
+					if(kEdge.sourceId == kNode._id){
+						if(kEdge.type in children){
+							children[kEdge.type] += 1;
+						}else{
+							children[kEdge.type] = 1;
+						}
+					}
+				}
+				return children;
+			},
+
+			getChildrenEdges: function(kNode, edgeType){
+				var children = [];
+				for(var i in this.edgesById){
+					var kEdge = this.edgesById[i];
+					if(kEdge.sourceId == kNode._id && ((typeof edgeType === 'undefined') || kEdge.type == edgeType)){
+						children.push(kEdge);
+					}
+				}
+				return children;
+			},
+
+			getChildrenNodes: function(kNode, edgeType){
+				var children = [];
+				for(var i in this.edgesById){
+					var kEdge = this.edgesById[i];
+					if(kEdge.sourceId == kNode._id && ((typeof edgeType === 'undefined') || kEdge.type == edgeType)){
+						for(var j in this.nodesById){
+							var kNodeChild = this.nodesById[j];
+							if(kNodeChild._id == kEdge.targetId){
+								children.push(kNodeChild);
+							}
+						}
+					}
+				}
+				return children;
 			}
+
 		};
 	}]
 });

@@ -227,6 +227,15 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					init(model);
 				});
+				
+				var viewspecChangedEventName = "viewspecChangedEvent";
+				$scope.$on(viewspecChangedEventName, function(e, newViewspec) {
+					console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
+					console.log("[knalledgeMap.controller::$on] ModelMap  edges(len: %d): %s",
+						eventModel.map.edges.length, JSON.stringify(eventModel.map.edges));
+
+					init(model);
+				});
 			}
     	};
 	}])
@@ -241,118 +250,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-tools.tpl.html',
 			controller: function ( $scope, $element) {
-				var toolsetClientInterface = {
-					getContainer: function(){
-						return $element.find('ul');
-					},
-					getData: function(){
-						return $scope.tools;
-					},
-					timeout: $timeout
+				$scope.bindings = {
+					viewspec: 'viewspec_manual'
 				};
 
-				var entityListRules = {
-					"unselected": [
-						{
-							id: "assumption",
-							name: "assumption",
-							type: "assumption",
-							icon: "A"
-						},
-						{
-							id: "object",
-							name: "object",
-							type: "object",
-							icon: "O"
-						},
-						{
-							id: "process",
-							name: "process",
-							type: "process",
-							icon: "P"
-						},
-						{
-							id: "grid",
-							name: "grid",
-							type: "grid",
-							icon: "G"
-						}
-					],
-					"object": [
-						{
-							id: "assumption",
-							name: "assumption",
-							type: "assumption",
-							icon: "A"
-						},
-						{
-							id: "object",
-							name: "object",
-							type: "object",
-							icon: "O"
-						},
-						{
-							id: "process",
-							name: "process",
-							type: "process",
-							icon: "P"
-						},
-						{
-							id: "variable",
-							name: "variable",
-							type: "variable",
-							icon: "V"
-						},
-						{
-							id: "grid",
-							name: "grid",
-							type: "grid",
-							icon: "G"
-						}
-					],
-					"process": [
-						{
-							id: "assumption",
-							name: "assumption",
-							type: "assumption",
-							icon: "A"
-						},
-						{
-							id: "object",
-							name: "object",
-							type: "object",
-							icon: "O"
-						},
-						{
-							id: "grid",
-							name: "grid",
-							type: "grid",
-							icon: "G"
-						}
-					]
-				};
-
-				$scope.tools = [];
-				$scope.tools.length = 0;
-				var entities = entityListRules.unselected;
-				for(var i in entities){
-					$scope.tools.push(entities[i]);
+				$scope.viewspecChanged = function(){
+					console.log("[knalledgeMapTools] viewspec: %s", $scope.bindings.viewspec);
 				}
-
-				var toolset = new mcm.EntitiesToolset(ConfigMapToolset, toolsetClientInterface);
-				toolset.init();
-
-				var eventName = "mapEntitySelectedEvent";
-
-				$scope.$on(eventName, function(e, mapEntity) {
-					console.log("[knalledgeMapTools.controller::$on] ModelMap  mapEntity: %s", JSON.stringify(mapEntity));
-					$scope.tools.length = 0;
-					var entities = entityListRules[mapEntity ? mapEntity.type : "unselected"];
-					for(var i in entities){
-						$scope.tools.push(entities[i]);
-					}
-					toolset.update();
-				});
 			}
     	};
 	}])

@@ -14,13 +14,13 @@ var KNode =  knalledge.KNode = function(){
 	this.createdAt = null;
 	this.updatedAt = null;
 	this.dataContent = null;
-	this.visual = {
-			isOpen: false,
-			xM: undefined,
-			yM: undefined,
-			widthM: undefined,
-			heightM: undefined
-	};
+	// this.visual = {
+	// 		isOpen: false,
+	// 		xM: undefined,
+	// 		yM: undefined,
+	// 		widthM: undefined,
+	// 		heightM: undefined
+	// };
 	
 	/* local-to-frontend */
 	this.state = KNode.STATE_LOCAL;
@@ -47,6 +47,8 @@ KNode.prototype.fill = function(obj){
 		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date native type
 		if("dataContent" in obj){this.dataContent = obj.dataContent;}
 		if("visual" in obj){
+			if(!('visual' in this)) this.visual = {};
+
 			if("isOpen" in obj.visual){this.visual.isOpen = obj.visual.isOpen;}
 			if("xM" in obj.visual){this.visual.xM = obj.visual.xM;}
 			if("yM" in obj.visual){this.visual.yM = obj.visual.yM;}
@@ -54,7 +56,7 @@ KNode.prototype.fill = function(obj){
 			if("heightM" in obj.visual){this.visual.heightM = obj.visual.heightM;}
 		}
 	}
-}
+};
 
 KNode.STATE_LOCAL = "STATE_LOCAL";
 KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED";
