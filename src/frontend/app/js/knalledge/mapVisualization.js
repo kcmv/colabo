@@ -144,12 +144,21 @@ MapVisualization.prototype.updateHtml = function(source) {
 				return d.kNode.name;
 			});
 
+	// nodeHtmlEnter
+	// 	.append("div")
+	// 		.attr("class", "node_status")
+	// 			.html(function(){
+	// 				return "&nbsp;"; //d._id; // d.kNode._id;
+	// 			});
 	nodeHtmlEnter
 		.append("div")
-			.attr("class", "node_status")
-				.html(function(){
-					return "&nbsp;"; //d._id; // d.kNode._id;
-				});
+			.attr("class", "vote_up");
+
+	nodeHtmlEnter
+		.append("div")
+			.attr("class", function(){
+				return "vote_down"
+			});
 
 	nodeHtmlEnter
 		.append("div")
@@ -198,6 +207,29 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 		nodeHtmlUpdateTransition = nodeHtmlUpdate.transition()
 			.duration(this.configTransitions.update.duration);
 	}
+
+	nodeHtmlUpdate.select(".vote_up")
+		.style("opacity", function(d){
+			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ? 
+				1.0 : 0.1;
+		})
+		.html(function(d){
+			// if(!('dataContent' in d.kNode) || !d.kNode.dataContent) d.kNode.dataContent = {};
+			// if(!('ibis' in d.kNode.dataContent) || !d.kNode.dataContent.ibis) d.kNode.dataContent.ibis = {};
+			// if(!('voteUp' in d.kNode.dataContent.ibis)) d.kNode.dataContent.ibis.voteUp = 1;
+			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ? 
+				d.kNode.dataContent.ibis.voteUp : "&nbsp";
+		});
+
+	nodeHtmlUpdate.select(".vote_down")
+		.style("opacity", function(d){
+			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ? 
+				1.0 : 0.1;
+		})
+		.html(function(d){
+			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ? 
+				d.kNode.dataContent.ibis.voteDown : "&nbsp";
+		});
 
 	(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
 		.style("left", function(d){

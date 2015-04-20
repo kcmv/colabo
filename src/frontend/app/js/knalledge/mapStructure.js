@@ -159,7 +159,7 @@ MapStructure.prototype.createNode = function() {
 	
 	console.log("[MapStructure.createNode] createNode");
 
-	var id = MapStructure.maxVKNodeId;
+	var id = MapStructure.maxVKNodeId++;
 	var newKNode = this.mapService.createNode();
 	var newVKNode = {
 		id: id,
@@ -178,6 +178,7 @@ MapStructure.prototype.updateName = function(vkNode, newName){
 MapStructure.prototype.updateNode = function(vkNode, updateType) {
 	switch(updateType){
 		case MapStructure.UPDATE_NODE_DIMENSIONS:
+			vkNode.kNode.visual = {};
 			if('xM' in vkNode) vkNode.kNode.visual.xM = vkNode.xM;
 			if('yM' in vkNode) vkNode.kNode.visual.yM = vkNode.yM;
 			if('widthM' in vkNode) vkNode.kNode.visual.widthM = vkNode.widthM;
@@ -203,7 +204,7 @@ MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
 	// 	console.log("[MapStructure.createEdge] edgeCreated" + JSON.stringify(edgeFromServer));
 	// };
 	
-	var id = MapStructure.maxVKEdgeId;
+	var id = MapStructure.maxVKEdgeId++;
 	var newKEdge = this.mapService.createEdge(sourceNode.kNode, targetNode.kNode);
 	var newVKEdge = {
 		id: id,
