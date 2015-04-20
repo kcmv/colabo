@@ -189,6 +189,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(!('voteUp' in node.kNode.dataContent.ibis)) node.kNode.dataContent.ibis.voteUp = 1;
 		else node.kNode.dataContent.ibis.voteUp += 1;
 		this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_IBIS_VOTING);
+		this.clientApi.update(this.clientApi.getSelectedNode());
 	}.bind(this), function(){}.bind(this));
 
 	// Vote up
@@ -200,6 +201,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(!('voteDown' in node.kNode.dataContent.ibis)) node.kNode.dataContent.ibis.voteDown = 1;
 		else node.kNode.dataContent.ibis.voteDown += 1;
 		this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_IBIS_VOTING);
+		this.clientApi.update(this.clientApi.getSelectedNode());
 	}.bind(this), function(){}.bind(this));
 	
 	// Add Image

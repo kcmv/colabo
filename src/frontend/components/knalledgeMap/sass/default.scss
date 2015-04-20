@@ -425,6 +425,38 @@ $map: layout(12 1/4 fluid float inside);
 		font-weight: bold;
 		@include border-radius(10px, 10px);
 	}
+	.vote_up {
+		position: absolute;
+		left: -10px;
+		top: -10px;
+		background-color: #88ff88;
+		border: 2px solid #00aa00;
+		padding-left: 4px;
+		padding-right: 4px;
+		padding-top: 0px;
+		padding-bottom: 0px;
+		text-align: center;
+		font-weight: bold;
+		min-width: 1.2em;
+		@include border-top-right-radius(15px);
+		@include border-top-left-radius(15px);
+	}
+	.vote_down {
+		position: absolute;
+		left: -10px;
+		top: +15px;
+		background-color: #ff8888;
+		border: 2px solid #aa0000;
+		padding-left: 4px;
+		padding-right: 4px;
+		padding-top: 0px;
+		padding-bottom: 0px;
+		text-align: center;
+		font-weight: bold;
+		min-width: 1.2em;
+		@include border-bottom-right-radius(15px);
+		@include border-bottom-left-radius(15px);
+	}
 }
 
 .node_html_fixed{

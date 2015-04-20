@@ -165,6 +165,10 @@ MapLayout.prototype.generateTree = function(source){
 		    if('y' in d) d.y0 = d.y;
 		    if('width' in d) d.width0 = d.width;
 		    if('height' in d) d.height0 = d.height;
+
+		    delete d.parent;
+		    delete d.children;
+		    delete d.depth;
 		});
 	}
 
