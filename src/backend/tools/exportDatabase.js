@@ -8,6 +8,7 @@ var Promise = require("bluebird");
 // set it either in path: (node createDemoData.js 'demo_data.json') or default
 var fileName = process.argv[2] || '../../data/exportedDB.json';
 var mapId = process.argv[3] || '552678e69ad190a642ad461c';
+var rootNodeId = process.argv[4] || '55268521fb9a901e442172f9';
 
 var fs = require('fs');
 
@@ -30,7 +31,7 @@ db.on('open', function (callback) {
 			"date": "2015.03.22.",
 			"authors": "S. Rudan, D. Karabeg",
 			"mapId": mapId,
-			"rootNodeId": "55268521fb9a901e442172f9"
+			"rootNodeId": rootNodeId
 		},
 		"map": {
 			"nodes": [],
