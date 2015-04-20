@@ -82,12 +82,12 @@ KEdge.prototype.toServerCopy = function(){
 	if(kEdge.createdAt === undefined || kEdge.createdAt === null) {delete kEdge.createdAt;}
 	if(kEdge.updatedAt === undefined || kEdge.updatedAt === null) {delete kEdge.updatedAt;}
 	
-	/* deleting local-frontend parameters */
-	delete kEdge.state;
-	
 	if(kEdge.state == KEdge.STATE_LOCAL){
 		delete kEdge._id;
 	}
+	
+	/* deleting local-frontend parameters */
+	delete kEdge.state;
 	
 	return kEdge;
 };

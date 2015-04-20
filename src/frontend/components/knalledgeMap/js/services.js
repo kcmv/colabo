@@ -3,8 +3,8 @@
 //this function is strict...
 
 var QUEUE = 
-	false;
-	//true;
+//false;
+true;
 
 var removeJsonProtected = function(ENV, jsonStr){
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
@@ -16,35 +16,40 @@ var removeJsonProtected = function(ENV, jsonStr){
 var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config']);
 
 knalledgeMapServices.provider('KnalledgeMapQueue', {
-	//KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", resolve:resolve, reject:reject});
+	//KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
 	// privateData: "privatno",
 	$get: ['$q', '$rootScope', '$window', function($q, $rootScope, $window) {
 		// var that = this;
 		return {
 			queue: [],
-			linkToServices: {},
+			linkToServices: {}, //KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
+			STATE_ADDED:"STATE_ADDED",
 			STATE_BLOCKED:"STATE_BLOCKED",
 			STATE_SENT:"STATE_SENT",
 			STATE_FINISHED:"STATE_FINISHED",
 			SERVICE_METHOD_EXECUTE:"EXECUTE",
 			SERVICE_METHOD_CHECK:"CHECK",
 
-			execute: function(req){
-				req.state = this.STATE_SENT;  //TODO:?? maybe PROCESSING
-				this.queue.push(req);
+			execute: function(request){
+				request.state = this.STATE_ADDED;
+				this.queue.push(request);
+				this.flush();
 			},
 			
 			flush: function(){
-				for(var i in queue){
-					//if(queue[i].check)
-					
+				for(var i in this.queue){
+					var request = this.queue[i]; 
+					if(request.processing[this.SERVICE_METHOD_CHECK](request)){
+						request.processing[this.SERVICE_METHOD_EXECUTE](request);
+						req.state = this.STATE_SENT;
+					}
 				}
 			},
 			
-			link: function(resource, methods){
-				this.linkToServices[resource] = methods 
-				
-			}
+//			link: function(resource, methods){
+//				this.linkToServices[resource] = methods 
+//				
+//			}
 
 //			updateNode: function(node) {
 //				KnalledgeNodeService.update(node); //updating on server service
@@ -57,7 +62,6 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/knodes/:type/:searchParam.json';
-	var RESOURCE_TYPE = 'KNode';
 	var resource = $resource(url, {}, {
 		// extending the query action
 		// method has to be defined
@@ -160,6 +164,8 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		}
 	});
 
+	resource.RESOURCE_TYPE = 'KNode';
+	
 	resource.query = function(){
 		var data = {
 			$promise: null,
@@ -200,11 +206,12 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	resource.create = function(kNode, callback)
 	{
 		console.log("resource.create");
+		var kNodeClone = kNode.toServerCopy();
 		if(QUEUE){
-			kNode.$promise = null;
-			kNode.$resolved = false;
+			kNodeClone.$promise = null;
+			kNodeClone.$resolved = false;
 
-			kNode.$promise = $q(function(resolve, reject) {
+			kNodeClone.$promise = $q(function(resolve, reject) {
 //				var jsonUrl = ENV.server.backend + "/sample-small.json";
 //				$.getJSON(jsonUrl, null, function(jsonContent){
 //					console.log("Loaded: %s, map (nodes: %d, edges: %d)", jsonUrl,
@@ -215,16 +222,16 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 //					data.$resolved = true;
 //					resolve(jsonContent);
 //				});
-				KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", resolve:resolve, reject:reject});
+				KnalledgeMapQueue.execute({data: kNodeClone, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
 			});
 			
-			//KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", promise: promise});
+			//KnalledgeMapQueue.execute({data: kNodeClone, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", promise: promise});
 			
 			
-			return kNode;
+			return kNodeClone;
 		}
 		else{
-			var node = this.createPlain({}, kNode, callback);
+			var node = this.createPlain({}, kNodeClone, callback);
 			return node;
 		}
 	};
@@ -247,10 +254,14 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		return this.destroyPlain({searchParam:id, type:'one'}, callback);
 	};
 	
-	resource.execute = function(request){
+	resource.execute = function(request){ //example:: request = {data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}}
 		switch(request.method){
 		case 'create':
-			var node = this.createPlain({}, request.data, request.callback);
+			var node = resource.createPlain({}, request.data, request.callback).then(function(){
+				console.log('create-back');
+				request.data.$resolved = true;
+				request.processing.RESOLVE();
+			});
 			return node;
 			break;
 		case 'update':
@@ -264,7 +275,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		return true;
 	}
 	
-	KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
+	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
 	return resource;
 	
@@ -465,11 +476,6 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 			toggle: function(d) {
 				d.isOpen = !d.isOpen;
 			},
-
-			//TODO: replace it with VO transformation methods:
-			cloneObject: function(obj){
-				return (JSON.parse(JSON.stringify(obj)));
-			},
 	
 			createNode: function() {
 				
@@ -511,10 +517,8 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				newNode._id = maxId+1;
 				newNode.mapId = this.mapId;
 				this.nodesById[newNode._id] = newNode;
-				
-				//preparing and saving on server service:
-				var nodeCloned = newNode.toServerCopy();
-				KnalledgeNodeService.create(nodeCloned, nodeCreated.bind(this)); //saving on server service.
+
+				KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
 				return newNode;
 			},
 

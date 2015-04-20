@@ -88,12 +88,12 @@ KNode.prototype.toServerCopy = function(){
 	if(kNode.createdAt === undefined || kNode.createdAt === null) {delete kNode.createdAt;}
 	if(kNode.updatedAt === undefined || kNode.updatedAt === null) {delete kNode.updatedAt;}
 	
-	/* deleting local-frontend parameters */
-	delete kNode.state;
-	
 	if(kNode.state == KNode.STATE_LOCAL){
 		delete kNode._id;
 	}
+	
+	/* deleting local-frontend parameters */
+	delete kNode.state;
 	
 	return kNode;
 };
