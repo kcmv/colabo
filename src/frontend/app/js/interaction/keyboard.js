@@ -231,7 +231,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		that = this;
 		var newNode = this.clientApi.createNode();
-		newNode.kNode.$promise.then(function(kNodeFromServer){
+		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
 			// var newEdge = 
 			this.clientApi.createEdge(this.clientApi.getSelectedNode(), newNode);
 			if(!this.clientApi.getSelectedNode().isOpen){
