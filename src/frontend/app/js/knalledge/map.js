@@ -48,6 +48,8 @@ Map.prototype.processData = function(mapData) {
 Map.prototype.initializeKeyboard = function() {
 	// var that = this;
 
+	if(!this.config.keyboardInteraction.enabled) return;
+
 	var keyboardClientInterface = {
 		updateNode: this.mapStructure.updateNode.bind(this.mapStructure),
 		getDomFromDatum: this.mapLayout.getDomFromDatum.bind(this.mapLayout),
@@ -84,6 +86,8 @@ Map.prototype.initializeKeyboard = function() {
 Map.prototype.initializeManipulation = function() {
 	var that = this;
 
+	if(!this.config.draggingConfig.enabled) return;
+
 	var manipulationEnded = function(targetD3){
 		var d = targetD3 ? targetD3.datum() : null;
 		//TODO: finish saving after nodes dragging:
@@ -96,22 +100,9 @@ Map.prototype.initializeManipulation = function() {
 		//that.mapVisualization.update(that.model.nodes[0]);
 	};
 
-	this.draggingConfig = {
-		draggTargetElement: true,
-		target: {
-			refCategory: '.draggable',
-			opacity:  0.5,
-			zIndex: 10,
-			cloningContainer: that.mapVisualization.dom.divMapHtml.node(), // getting native dom element from D3 selector
-			leaveAtDraggedPosition: false,
-			callbacks: {
-				onend: manipulationEnded
-			}
-		},
-		debug: {
-			origVsClone: false
-		}
-	};
+	this.draggingConfig = this.config.draggingConfig;
+	this.draggingConfig.target.cloningContainer = that.mapVisualization.dom.divMapHtml.node();
+	this.draggingConfig.target.callbacks.onend = manipulationEnded;
 
 	interaction.MoveAndDrag.InitializeDragging(this.draggingConfig);
 };

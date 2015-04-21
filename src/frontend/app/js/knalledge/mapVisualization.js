@@ -156,9 +156,7 @@ MapVisualization.prototype.updateHtml = function(source) {
 
 	nodeHtmlEnter
 		.append("div")
-			.attr("class", function(){
-				return "vote_down"
-			});
+			.attr("class", "vote_down");
 
 	nodeHtmlEnter
 		.append("div")

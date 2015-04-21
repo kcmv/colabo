@@ -10,7 +10,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		return {
 			restrict: 'EA',
 			scope: {
-				'readonly': '='
+				mapData: "=",
+				mapConfig: "="
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
@@ -72,7 +73,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							}
 						},
 						tree: {
-							viewspec: "viewspec_manual" // "viewspec_tree" // "viewspec_manual"
+							viewspec: "viewspec_manual", // "viewspec_tree" // "viewspec_manual",
+							fixedDepth: {
+								enabled: true,
+								levelDepth: 300
+							}
 						},
 						transitions: {
 							enter: {
@@ -105,9 +110,43 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									opacity: true
 								}
 							}
+						},
+						keyboardInteraction: {
+							enabled: true
+						},
+						draggingConfig: {
+							enabled: true,
+							draggTargetElement: true,
+							target: {
+								refCategory: '.draggable',
+								opacity:  0.5,
+								zIndex: 10,
+								cloningContainer: null, // getting native dom element from D3 selector (set in code)
+								leaveAtDraggedPosition: false,
+								callbacks: {
+									onend: null // (set in code)
+								}
+							},
+							debug: {
+								origVsClone: false
+							}
 						}
 					};
-					
+
+					function overwriteConfig(sourceObj, destinationObj){
+						for(var i in destinationObj){
+							if(i in sourceObj){
+								if(typeof destinationObj[i] === 'object'){
+									overwriteConfig(sourceObj[i], destinationObj[i]);
+								}else{
+									destinationObj[i] = sourceObj[i];
+								}
+							}
+						}
+					}
+
+					if($scope.mapConfig) overwriteConfig($scope.mapConfig, config);
+
 					var kMapClientInterface = {
 						// storage: {
 						// 	createNode: function(node, callback){
@@ -204,6 +243,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						timeout: $timeout
 						*/
 					};
+
+					// $scope.MSG = $scope.kMap;
+					// if('mapConfig' in $scope) alert($scope.mapConfig);
+					// if('mapData' in $scope) alert(JSON.stringify($scope.mapData));
 
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".map-container").get(0)),
