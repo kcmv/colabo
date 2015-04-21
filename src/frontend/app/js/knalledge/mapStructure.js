@@ -15,6 +15,7 @@ MapStructure.maxVKEdgeId = 0;
 
 MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
+MapStructure.UPDATE_NODE_APPEARENCE = "UPDATE_NODE_APPEARENCE";
 MapStructure.UPDATE_NODE_IBIS_VOTING = "UPDATE_NODE_IBIS_VOTING";
 
 MapStructure.prototype.init = function(mapService){
@@ -137,13 +138,15 @@ MapStructure.prototype.getEdge = function(sourceId, targetId){
 };
 
 // collapses children of the provided node
-MapStructure.prototype.collapse = function(d) {
-	d.isOpen = false;
+MapStructure.prototype.collapse = function(vkNode) {
+	vkNode.isOpen = false;
+	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
 };
 
 // toggle children of the provided node
-MapStructure.prototype.toggle = function(d) {
-	d.isOpen = !d.isOpen;
+MapStructure.prototype.toggle = function(vkNode) {
+	vkNode.isOpen = !vkNode.isOpen;	
+	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
 };
 
 //should be migrated to some util .js file:
@@ -178,11 +181,15 @@ MapStructure.prototype.updateName = function(vkNode, newName){
 MapStructure.prototype.updateNode = function(vkNode, updateType) {
 	switch(updateType){
 		case MapStructure.UPDATE_NODE_DIMENSIONS:
-			vkNode.kNode.visual = {};
+			if(! vkNode.kNode.visual) vkNode.kNode.visual = {};
 			if('xM' in vkNode) vkNode.kNode.visual.xM = vkNode.xM;
 			if('yM' in vkNode) vkNode.kNode.visual.yM = vkNode.yM;
 			if('widthM' in vkNode) vkNode.kNode.visual.widthM = vkNode.widthM;
 			if('heightM' in vkNode) vkNode.kNode.visual.heightM = vkNode.heightM;
+			break;
+		case MapStructure.UPDATE_NODE_APPEARENCE:
+			if(! vkNode.kNode.visual) vkNode.kNode.visual = {};
+			if('isOpen' in vkNode) vkNode.kNode.visual.isOpen = vkNode.isOpen;
 			break;
 		case MapStructure.UPDATE_NODE_IBIS_VOTING:
 			break;
@@ -221,7 +228,8 @@ MapStructure.prototype.deleteEdgesConnectedTo = function(node) {
 
 MapStructure.prototype.getVKNodeByKId = function(kId) {
 	for(var i in this.nodesById){
-		if(this.nodesById[i].kNode._id == kId) return this.nodesById[i];
+		var vkNode = this.nodesById[i];
+		if(vkNode.kNode._id == kId) return vkNode;
 	}
 
 	return null;
@@ -248,6 +256,7 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 			kNode.visual.isOpen = false;
 		}
 		id = MapStructure.maxVKNodeId++;
+		// TODO: new knalledge.VKNode
 		this.nodesById[id] = {
 			id: id,
 			kNode: kNode,
@@ -262,6 +271,7 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	for(i=0; i<kMapData.map.edges.length; i++){
 		kEdge = kMapData.map.edges[i];
 		id = MapStructure.maxVKEdgeId++;
+		// TODO: new knalledge.VKEdge
 		this.edgesById[id] = {
 			id: id,
 			kEdge: kEdge

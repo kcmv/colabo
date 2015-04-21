@@ -18,8 +18,9 @@ MapLayout.prototype.getChildren = function(d){
 	if(!d.isOpen) return children;
 
 	for(var i in this.structure.edgesById){
-		if(this.structure.edgesById[i].kEdge.sourceId == d.kNode._id){
-			var vkNode = this.structure.getVKNodeByKId(this.structure.edgesById[i].kEdge.targetId);
+		var vkEdge = this.structure.edgesById[i];
+		if(vkEdge.kEdge.sourceId == d.kNode._id){
+			var vkNode = this.structure.getVKNodeByKId(vkEdge.kEdge.targetId);
 			children.push(vkNode);
 		}
 	}
@@ -163,6 +164,7 @@ MapLayout.prototype.processData = function() {
 position and dimension
  */
 MapLayout.prototype.generateTree = function(source){
+	var that = this;
 	if(this.nodes){
 		// Normalize for fixed-depth.
 		this.nodes.forEach(function(d) {
@@ -182,11 +184,15 @@ MapLayout.prototype.generateTree = function(source){
 	this.nodes = this.tree.nodes(source).reverse();
 	this.links = this.tree.links(this.nodes);
 
-	// Normalize for fixed-depth.
 	var viewspec = this.configTree.viewspec;
 	var sizes = this.configNodes.html.dimensions.sizes;
 	this.nodes.forEach(function(d) {
-		d.y = d.depth * 300;
+		// Normalize for fixed-depth.
+		if(that.configTree.fixedDepth.enabled){
+			var levelDepth = 300;
+			if(that.configTree.fixedDepth.levelDepth) levelDepth = that.configTree.fixedDepth.levelDepth;
+			d.y = d.depth * levelDepth;
+		}
 
 		if(d.parent && d.parent == "null"){
 			d.parent = null;
