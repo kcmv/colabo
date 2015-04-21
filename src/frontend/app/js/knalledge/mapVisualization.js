@@ -123,13 +123,27 @@ MapVisualization.prototype.updateHtml = function(source) {
 			}
 		})
 		.style("width", function(d){
-				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width + "px" : null;
+				var width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+					 that.configNodes.html.dimensions.sizes.width + "px" : null;
+				if(width == null) {
+					width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					d.kNode.dataContent.image.width + "px" : width;
+				}
 				return width;
 		})
 		.style("margin-left", function(d){
-				var margin = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					-d.kNode.dataContent.image.width/2 + "px" : null;
+				// centering the node (set margin to half the width of the node)
+				var width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+					 that.configNodes.html.dimensions.sizes.width : null;
+				if(width == null) {
+					width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					d.kNode.dataContent.image.width : width;
+				}
+
+				var margin = null;
+				if(width != null) {
+					margin = -width/2 + "px";
+				}
 				return margin;
 		})
 		.style("background-color", function(d) {
