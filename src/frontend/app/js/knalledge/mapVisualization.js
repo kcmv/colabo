@@ -47,6 +47,10 @@ MapVisualization.prototype.getDom = function(){
 	return this.dom;
 };
 
+/** @function update 
+ * 	@param {vkNode} source - root node 
+ *  @callback callback 
+ * */
 MapVisualization.prototype.update = function(source, callback) {
 	this.mapLayout.generateTree(this.mapStructure.rootNode);
 	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
@@ -63,6 +67,11 @@ MapVisualization.prototype.update = function(source, callback) {
 	}, 25);
 };
 
+/** @function updateHtml 
+ * 	@param {vkNode} source - root node 
+ * joins data and view
+ * stylize nodes and set their eventlisteners
+ * */
 MapVisualization.prototype.updateHtml = function(source) {
 	var that = this;
 	if(!this.configNodes.html.show) return;

@@ -156,6 +156,12 @@ MapLayout.prototype.processData = function() {
 	this.mapVisualizationApi.update(this.structure.rootNode);
 };
 
+/**
+ * @func generateTree
+ * - destroying structure of the old tree
+- setting up VkNode
+position and dimension
+ */
 MapLayout.prototype.generateTree = function(source){
 	if(this.nodes){
 		// Normalize for fixed-depth.

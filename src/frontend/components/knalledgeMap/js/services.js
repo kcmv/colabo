@@ -700,8 +700,8 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				var edges = KnalledgeEdgeService.queryInMap(this.mapId);
 				
 				$q.all([nodes.$promise, edges.$promise])
-					.then(nodesEdgesReceived.bind(this))
-					.catch(handleReject); //TODO: test this. 2nd function fail or like this 'catch' 
+					.then(nodesEdgesReceived.bind(this));
+					//.catch(handleReject); //TODO: test this. 2nd function fail or like this 'catch' 
 			},
 
 			processData: function(mapData) {
