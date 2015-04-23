@@ -267,7 +267,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						config, kMapClientInterface, null, KnalledgeMapService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
-					knalledgeMap.processData(model);
+					knalledgeMap.processData(model, function(){
+						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
+						knalledgeMap.update();
+					});
 				};
 
 				// initiating loading map data from server
