@@ -77,6 +77,56 @@ $map: layout(12 1/4 fluid float inside);
 	border: solid 1px #aaaa00;*/
 	overflow-x: hidden;
 	overflow-y: scroll;
+
+	.logo_background{
+		top: 35%;
+		left: 25%;
+		right: 50%;
+		bottom: 25%;
+		position: absolute;
+		opacity: 0.5;
+		text-align: right;
+
+		h1 {
+			font-size: 100px;
+			border-bottom: solid 1px #aaaaaa;
+			display: inline;
+			text-align: right;
+
+			.title_kn{
+				color: #555555;
+			}
+			.title_all{
+				color: #000055;
+			}
+			.title_edge{
+				color: #880000;
+			}
+			padding-bottom: 0px;
+			margin-bottom: 0px;
+
+			padding-top: 0px;
+			margin-top: 0px;
+		}
+		h2 {
+			padding-top: 0px;
+			margin-top: 0px;
+			font-size: 50px;
+			display: inline;
+			text-align: right;
+
+			/*border-bottom: solid 1px #aaaaaa;*/
+
+			.title_collabo{
+				color: #000055;
+				font-style: italic;
+				margin-left: 50px;
+			}
+			.title_science{
+				color: #880000;
+			}
+		}
+	}
 }
 
 /* ------------------------
@@ -84,6 +134,22 @@ $map: layout(12 1/4 fluid float inside);
 ------------------------ */
 
 .knalledge_map_tools{
+	.titles{
+		z-index: 1000;
+		position: absolute;
+		background-color: #ddddff;
+		border: solid 3px #aaaaff;
+/*		overflow-x: scroll;
+		overflow-y: scroll;
+*/		@include border-radius(10px, 10px);
+		opacity: 0.5;
+		padding: 5px;
+		margin-top: 10px;
+		margin-left: 3px;
+	}
+	.controlls{
+		margin-top: 100px;
+	}
 	h1 {
 		font-size: 30px;
 		border-bottom: solid 1px #aaaaaa;
@@ -95,6 +161,25 @@ $map: layout(12 1/4 fluid float inside);
 			color: #000055;
 		}
 		.title_edge{
+			color: #880000;
+		}
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+
+		padding-top: 0px;
+		margin-top: 0px;
+	}
+	h2 {
+		padding-top: 0px;
+		margin-top: 0px;
+		font-size: 20px;
+		/*border-bottom: solid 1px #aaaaaa;*/
+
+		.title_collabo{
+			color: #000055;
+			font-style: italic;
+		}
+		.title_science{
 			color: #880000;
 		}
 	}
@@ -166,7 +251,7 @@ $map: layout(12 1/4 fluid float inside);
 	width: 100%;
 	z-index: 5;
 	position:relative;
-	background-color: #ddddff;
+	background-color: rgba(240, 240, 255, 0.75);
 	border: solid 1px #aaaaff;
 	overflow-x: scroll;
 	overflow-y: scroll;
