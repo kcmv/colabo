@@ -83,7 +83,9 @@ KNode.prototype.toServerCopy = function(){
 		if(id[0] == '$') continue;
 		if (typeof this[id] == 'function') continue;
 		//console.log("cloning: %s", id);
-		kNode[id] = (JSON.parse(JSON.stringify(this[id])));
+		if(this[id] != undefined){ //JSON.parse breaks at "undefined"
+			kNode[id] = (JSON.parse(JSON.stringify(this[id])));
+		}
 	}
 	
 	/* deleting properties that should be set created to default value on server */

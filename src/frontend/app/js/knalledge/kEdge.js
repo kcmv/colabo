@@ -18,14 +18,25 @@ var KEdge =  knalledge.KEdge = function(){
 	this.targetId = null;
 	this.dataContent = null;
 	this.visual = null;
+	//this.sid = ++KEdge.S_ID;
 	
 	/* local-to-frontend */
 	this.state = KEdge.STATE_LOCAL;
+	
+	/*for debugging all moments where this object is created: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Stack
+	try {
+		throw new Error('myError');
+	}
+	catch(e) {
+	// console.warn((new Error).lineNumber)
+		console.warn(this.sid + ':' + e.stack);
+	}*/
 };
 
 KEdge.STATE_LOCAL = "STATE_LOCAL";
 KEdge.STATE_NON_SYNCED = "STATE_NON_SYNCED";
 KEdge.STATE_SYNCED = "STATE_SYNCED";
+//KEdge.S_ID = 0;
 
 KEdge.edgeFactory = function(obj){
 	var kEdge = new knalledge.KEdge();
@@ -75,7 +86,9 @@ KEdge.prototype.toServerCopy = function(){
 		if(id[0] == '$') continue;
 		if (typeof this[id] == 'function') continue;
 		//console.log("cloning: %s", id);
-		kEdge[id] = (JSON.parse(JSON.stringify(this[id])));
+		if(this[id] != undefined){ //JSON.parse breaks at "undefined"
+			kEdge[id] = (JSON.parse(JSON.stringify(this[id])));
+		}
 	}
 	
 	/* deleting properties that should be set to default value on server */

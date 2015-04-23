@@ -233,8 +233,8 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		that = this;
 		var newNode = this.clientApi.createNode();
-		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
-			// var newEdge = 
+//		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
+//			console.log("KeyboardJS.on('tab': in promised fn after createNode");
 			var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
 			newEdge.kEdge.$promise.then(function(kEdgeFromServer){
 				if(!that.clientApi.getSelectedNode().isOpen){
@@ -246,7 +246,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 					that.setEditing(newNode);
 				});
 			});
-		});
+		//});
 	}.bind(this), function(){}.bind(this));	
 	
 	// Delete node:

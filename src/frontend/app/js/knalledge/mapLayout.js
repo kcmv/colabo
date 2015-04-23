@@ -13,7 +13,7 @@ var MapLayout =  knalledge.MapLayout = function(structure, configNodes, configTr
 	this.tree = null;
 };
 
-MapLayout.prototype.getChildren = function(d){
+MapLayout.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
 	var children = [];
 	if(!d.isOpen) return children;
 
@@ -21,7 +21,12 @@ MapLayout.prototype.getChildren = function(d){
 		var vkEdge = this.structure.edgesById[i];
 		if(vkEdge.kEdge.sourceId == d.kNode._id){
 			var vkNode = this.structure.getVKNodeByKId(vkEdge.kEdge.targetId);
-			children.push(vkNode);
+			if(vkNode){
+				children.push(vkNode);
+			}
+			else{
+				window.alert('getChildren reached null ;)');
+			}
 		}
 	}
 	return children;
@@ -183,6 +188,15 @@ MapLayout.prototype.generateTree = function(source){
 	// Compute the new tree layout.
 	this.nodes = this.tree.nodes(source).reverse();
 	this.links = this.tree.links(this.nodes);
+	
+	//links are D3.tree-generated objects of type Object: {source, target}
+	for(var i in this.links){
+		var link = this.links[i];
+		var edges = this.structure.getEdgesBetweenNodes(link.source.kNode, link.target.kNode);
+		if(edges && edges[0]){
+			link.vkEdge = edges[0]; //TODO: see what will happen when we have more links between two nodes
+		}
+	}
 
 	var viewspec = this.configTree.viewspec;
 	var sizes = this.configNodes.html.dimensions.sizes;

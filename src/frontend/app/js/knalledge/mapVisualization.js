@@ -451,7 +451,7 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 	var linkLabelHtml = this.dom.divMapHtml.selectAll("div.label_html")
 	.data(this.mapLayout.links, function(d) {
 		// there is only one incoming edge
-		return d.target.id;
+		return d.vkEdge.id; // d.target.id;
 	});
 
 	// Enter the nodes
@@ -493,7 +493,7 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 			//.text("<span>Hello</span>");
 			//.html("<span>Hello</span>");
 			.html(function(d) {
-				var edge = that.mapStructure.getEdge(d.source.id, d.target.id);
+				var edge = that.mapStructure.getEdge(d.source.id, d.target.id); //TODO: replace with added kEdge 
 				return edge.kEdge.name;
 			});
 
@@ -580,7 +580,7 @@ MapVisualization.prototype.updateLinks = function(source) {
 	var link = this.dom.svg.selectAll("path.link")
 	.data(this.mapLayout.links, function(d) {
 		// there is only one incoming edge
-		return d.target.id;
+		return d.vkEdge.id; // d.target.id;
 	});
 
 	// Enter the links

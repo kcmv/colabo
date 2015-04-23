@@ -54,6 +54,30 @@ MapStructure.prototype.hasChildren = function(d){
 	return false;
 };
 
+/*
+ * @returns Array - their may be several edges connecting 2 nodes:
+ */
+MapStructure.prototype.getEdgesBetweenNodes = function(source, target){ //TODO: improve this for Big data by 2-dimensional array
+	var edges = [];
+	for(var i in this.edgesById){
+		var vkEdge = this.edgesById[i];
+		if(source._id == vkEdge.kEdge.sourceId && target._id == vkEdge.kEdge.targetId){
+			edges.push(vkEdge);
+		}
+	}
+	return edges;
+}
+
+MapStructure.prototype.getEdge = function(sourceId, targetId){
+	var sourceKId = this.nodesById[sourceId].kNode._id;
+	var targetKId = this.nodesById[targetId].kNode._id;
+	for(var i in this.edgesById){
+		if(this.edgesById[i].kEdge.sourceId == sourceKId && this.edgesById[i].kEdge.targetId == targetKId){
+			return this.edgesById[i];
+		}
+	}
+	return null;
+};
 
 MapStructure.prototype.getChildrenEdgeTypes = function(vkNode){
 	var children = {};
@@ -126,17 +150,6 @@ Map.prototype.addChildNode = function(nodeParent, nodeChild, edge){
 	this.edgesById.push(edge);
 };
 
-MapStructure.prototype.getEdge = function(sourceId, targetId){
-	var sourceKId = this.nodesById[sourceId].kNode._id;
-	var targetKId = this.nodesById[targetId].kNode._id;
-	for(var i in this.edgesById){
-		if(this.edgesById[i].kEdge.sourceId == sourceKId && this.edgesById[i].kEdge.targetId == targetKId){
-			return this.edgesById[i];
-		}
-	}
-	return null;
-};
-
 // collapses children of the provided node
 MapStructure.prototype.collapse = function(vkNode) {
 	vkNode.isOpen = false;
@@ -164,6 +177,9 @@ MapStructure.prototype.createNode = function() {
 
 	var id = MapStructure.maxVKNodeId++;
 	var newKNode = this.mapService.createNode();
+	newKNode.$promise.then(function(nodeCreated){
+		console.log("MapStructure.prototype.createNode - promised");//TODO:remove this test
+	});
 	var newVKNode = {
 		id: id,
 		kNode: newKNode
@@ -229,9 +245,17 @@ MapStructure.prototype.deleteEdgesConnectedTo = function(node) {
 MapStructure.prototype.getVKNodeByKId = function(kId) {
 	for(var i in this.nodesById){
 		var vkNode = this.nodesById[i];
-		if(vkNode.kNode._id == kId) return vkNode;
+		if(vkNode.kNode._id == kId) {return vkNode;}
 	}
-
+	
+	try {
+		throw new Error('myError');
+	}
+	catch(e) {
+	// console.warn((new Error).lineNumber)
+		console.warn('getVKNodeByKId found kNode.'+kId+' without parent vkNode: \n' + e.stack);
+	}
+	//window.alert('getVKNodeByKId found kNode.'+kId+' without parent vkNode ;)');
 	return null;
 };
 
