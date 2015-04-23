@@ -48,9 +48,9 @@ Map.prototype.update = function(node) {
 	this.mapVisualization.update(node);
 };
 
-Map.prototype.processData = function(mapData) {
+Map.prototype.processData = function(mapData, callback) {
 	this.mapStructure.processData(mapData, 0, this.parentDom.attr("height") / 2);
-	this.mapLayout.processData();
+	this.mapLayout.processData(callback);
 };
 
 Map.prototype.initializeKeyboard = function() {

@@ -136,10 +136,15 @@ MapVisualization.prototype.positionToDatum = function(datum) {
 	this.dom.parentDom.node().getBoundingClientRect().width;
 	this.dom.parentDom.node().getBoundingClientRect().height;
 	var divMapNative = this.dom.divMap.node();
-	// https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollLeft
 	var divMapJQ = $(divMapNative);
 	divMapJQ = $('.knalledge_map_container');
 	console.log("divMapJQ.scrollLeft(): %s, divMapJQ.scrollTop(): %s", divMapJQ.scrollLeft(), divMapJQ.scrollTop());
+	// https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollLeft
+	// http://www.w3schools.com/jquery/css_scrolltop.asp
+	// https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+	// http://stackoverflow.com/questions/4897947/jquery-scrolling-inside-a-div-scrollto
+	// https://api.jquery.com/scrollTop/
+	// https://api.jquery.com/scrollleft/
 	divMapJQ.scrollLeft(x);
 	divMapJQ.scrollTop(y);
 };
@@ -150,6 +155,7 @@ MapVisualization.prototype.positionToDatum = function(datum) {
  * */
 MapVisualization.prototype.update = function(source, callback) {
 	this.mapLayout.generateTree(this.mapStructure.rootNode);
+	this.mapLayout.printTree(this.mapLayout.nodes);
 	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
 	var that = this;
 	window.setTimeout(function() {
