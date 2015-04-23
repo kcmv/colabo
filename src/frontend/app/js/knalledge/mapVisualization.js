@@ -59,6 +59,9 @@ MapVisualization.prototype.setDomSize = function(maxX, maxY){
 	if(typeof maxX == 'undefined') maxX = 5000;
 	if(typeof maxY == 'undefined') maxY = 5000;
 
+	this.dom.divMap
+		.style("width", maxX)
+		.style("height", maxY);		
 	this.dom.divMapHtml
 		.style("width", maxX)
 		.style("height", maxY);		
@@ -124,6 +127,20 @@ MapVisualization.prototype.setScales = function(){
 			.range([0, scaling]);
 	}
 	return scales;
+};
+MapVisualization.prototype.positionToDatum = function(datum) {
+	// TODO: Add support for scales
+	var y = datum.x - this.dom.parentDom.node().getBoundingClientRect().height/2;
+	var x = datum.y - this.dom.parentDom.node().getBoundingClientRect().width/2;
+	this.dom.parentDom.node().getBoundingClientRect().width;
+	this.dom.parentDom.node().getBoundingClientRect().height;
+	var divMapNative = this.dom.divMap.node();
+	// https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollLeft
+	var divMapJQ = $(divMapNative);
+	divMapJQ = $('.knalledge_map_container');
+	console.log("divMapJQ.scrollLeft(): %s, divMapJQ.scrollTop(): %s", divMapJQ.scrollLeft(), divMapJQ.scrollTop());
+	divMapJQ.scrollLeft(x);
+	divMapJQ.scrollTop(y);
 };
 
 MapVisualization.prototype.update = function(source, callback) {

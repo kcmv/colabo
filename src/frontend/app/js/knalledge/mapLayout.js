@@ -133,6 +133,7 @@ MapLayout.prototype.clickNode = function(d) {
 		});
 		d.isSelected = true;
 		this.structure.setSelectedNode(d);
+		this.mapVisualizationApi.positionToDatum(d);
 		if(this.knalledgeState.addingLinkFrom !== null){
 			this.structure.createEdge(this.knalledgeState.addingLinkFrom, d);
 			this.knalledgeState.addingLinkFrom = null;

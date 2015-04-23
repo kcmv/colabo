@@ -15,7 +15,8 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	var mapLayoutApi = {
 		update: this.mapVisualization.update.bind(this.mapVisualization),
 		getDom: this.mapVisualization.getDom.bind(this.mapVisualization),
-		setDomSize: this.mapVisualization.setDomSize.bind(this.mapVisualization)
+		setDomSize: this.mapVisualization.setDomSize.bind(this.mapVisualization),
+		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization)
 	};
 	this.mapLayout = new knalledge.MapLayout(this.mapStructure, this.config.nodes, this.config.tree, mapLayoutApi, this.state);
 
