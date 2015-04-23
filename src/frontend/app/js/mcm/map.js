@@ -24,7 +24,7 @@ Map.prototype.init = function() {
 	var mcmMapInitialize = function() {
 		var checkMapCanvas = function(){
 			this.mapContainer = this.client.getContainer();
-			// TODO: map-container object is created if $scope.config.showMap is set to true which is happening in this current code iteration
+			// TODO: knalledge_map_container object is created if $scope.config.showMap is set to true which is happening in this current code iteration
 			// so it is still not processed and rendered in DOM, therefore we need to sleep and wait for the next iteration
 			// solution to avoid this could be to put setting $scope.config.showMap in compile/link function, but only if it is not too early to make decission then
 

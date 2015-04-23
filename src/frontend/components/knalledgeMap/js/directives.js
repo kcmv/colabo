@@ -19,7 +19,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			controller: function ( $scope, $element) {
 				// var knalledgeMapClientInterface = {
 				// 	getContainer: function(){
-				// 		return $element.find('.map-container');
+				// 		return $element.find('.knalledge_map_container');
 				// 	},
 				// 	mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
 				// 		$scope.$apply(function () {
@@ -73,10 +73,24 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							}
 						},
 						tree: {
-							viewspec: "viewspec_manual", // "viewspec_tree" // "viewspec_manual",
+							viewspec: "viewspec_tree", // "viewspec_tree" // "viewspec_manual",
 							fixedDepth: {
-								enabled: true,
+								enabled: false,
 								levelDepth: 300
+							},
+							sizing: {
+								setNodeSize: true,
+								nodeSize: [400, 200]
+							},
+							margin: {
+								top: 10,
+								left: 20,
+								right: 100,
+								bottom: 10
+							},
+							scaling: {
+								x: 0.5,
+								y: 0.5
 							}
 						},
 						transitions: {
@@ -249,7 +263,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					// if('mapData' in $scope) alert(JSON.stringify($scope.mapData));
 
 					knalledgeMap = new knalledge.Map(
-						d3.select($element.find(".map-container").get(0)),
+						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null, KnalledgeMapService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");

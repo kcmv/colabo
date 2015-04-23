@@ -239,6 +239,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 			newEdge.kEdge.$promise.then(function(kEdgeFromServer){
 				if(!that.clientApi.getSelectedNode().isOpen){
 					that.clientApi.getSelectedNode().isOpen = true;
+					this.clientApi.update(that.clientApi.getSelectedNode());
 				}
 
 				that.clientApi.update(that.clientApi.getSelectedNode(), function(){

@@ -133,134 +133,12 @@ $map: layout(12 1/4 fluid float inside);
 .draggable_tool{
 
 }
-/* ------------------------
- knalledge_map
------------------------- */
-
-.knalledge_map{
-	z-index: 8;
-	position: relative;
-	height: 100%;
-	overflow: scroll;
-}
 
 @media print {
 /*	#map-canvas {
 		height: 650px;
 	}
 */
-}
-
-.map-container{
-	position: relative;
-	height: 100%;
-	width: 100%;
-	z-index: 5;
-	position:relative;
-	background-color: #ddddff;
-	border: solid 1px #aaaaff;
-	overflow-x: scroll;
-	overflow-y: scroll;
-	@include border-radius(10px, 10px);
-}
-
-.map_svg{
-	height: 100%;
-	width: 100%;
-	position: absolute;
-	/*background-color: #ffffaa;*/
-	z-index: 1;
-}
-
-.map_html{
-	height: 100%;
-	width: 100%;
-	position: absolute;
-	/*background-color: #ffffaa;*/
-	z-index: 2;
-}
-
-.map_entity{
-	width: 100px;
-	height: 50px;
-	position: absolute;
-	background-color: #ccf;
-	border: 3px solid gray;
-	padding: 10px;
-	margin: 3px;
-	z-index: 1;
-	@include border-radius(10px, 10px);
-	/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
-	/* color h-shadow v-shadow blur spread color inset*/
-	@include box-shadow(2px 1px 3px 1px rgba(150, 150, 255, 0.75));
-
-	.status {
-		position: absolute;
-		left: -10px;
-		top: -10px;
-		background-color: yellow;
-		border: 2px solid red;
-		padding-left: 4px;
-		padding-right: 4px;
-		padding-top: 0px;
-		padding-bottom: 0px;
-		text-align: center;
-		font-weight: bold;
-		@include border-radius(10px, 10px);
-	}
-	.type {
-		position: absolute;
-		right: -15px;
-		bottom: -15px;
-		background-color: rgba(200, 200, 255, 0.5);
-		border: 2px solid rgba(100, 100, 255, 0.25);
-		padding-left: 5px;
-		padding-right: 5px;
-		padding-top: 0px;
-		padding-bottom: 0px;
-		text-align: center;
-		font-weight: bold;
-		font-size: 20px;
-		color: #555f;
-		font-style: italic;
-		@include border-radius(5px, 5px);
-	}
-	.name {
-		position: relative;
-		padding: 3px;
-		/*background-color: yellow;*/
-	}
-
-	&.has_children{
-	}
-
-	&.has_no_children{
-	}
-
-	&.selected{
-		border-color: #ffa;
-		border-width: 3px;
-	}
-
-	&.unselected{
-	}
-
-	/* entity stylings */
-	&.map_entity_object{
-		background-color: #aaa;
-	}
-
-	&.map_entity_process{
-		background-color: #aaf;
-	}
-
-	&.resizable_map_entity{
-		
-	}
-}
-
-.draggable_map_entity{
-
 }
 
 /* ------------------------
@@ -272,256 +150,373 @@ $map: layout(12 1/4 fluid float inside);
 }
 
 /* ------------------------
- interaction
+ knalledge_map
 ------------------------ */
 
-.dropzone {
-	background-color: #ccc;
-	border-radius: 4px;
-	margin: 10px auto 30px;
-	padding: 10px;
-	transition: background-color 0.3s;
-}
-
-.drop-active {
-	border: 3px dotted red;
-}
-
-.drop-target {
-	background-color: #4bf;
-	border-color: #f88;
-	border-style: solid;
-	border-width: 5px;
-}
-
-.drag-drop {
-	display: inline-block;
-	min-width: 40px;
-	padding: 2em 0.5em;
-
-	color: #fff;
-	background-color: #29e;
-	border: solid 2px #fff;
-
-	-webkit-transform: translate(0px, 0px);
-	transform: translate(0px, 0px);
-
-	transition: background-color 0.3s;
-}
-
-.drag-drop.can-drop {
-	border: 3px solid green;
-}
-
-
-/* OLD KnAllEdge */
-
-/* @import "normalize"; */
-@import "compass";
-@import "susy";
-@import "breakpoint";
-
-*, *:before, *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box; 
-	margin: 0px;
-}
-
-.div_map{
+.knalledge_map{
+	z-index: 8;
 	position: relative;
-	width: 100%;
 	height: 100%;
-	/*background-color: #aaaaaa;*/
-	/*padding: 5px;*/
+	overflow: scroll;
 }
 
-.div_map_svg{
-	position: absolute;
-	width: 100%;
+.knalledge_map_container{
+	position: relative;
 	height: 100%;
-	/*background-color: #ffffaa;*/
-
-	z-index: 1;
-
-	svg{
-		width: 100%;
-		height: 100%;		
-	}
-}
-
-.svg_content{
-	position: absolute;
 	width: 100%;
-	height: 100%;
-}
-
-.node {
-	cursor: pointer;
-}
-
-.node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1px;
-}
-
-.node text { font: 12px sans-serif; }
-
-.link {
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 2px;
-}
-
-.div_map_html{
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	/*background-color: #aaaaff;*/
-	/*opacity: 0.5;*/
-	z-index: 2;
-	/*display: none;*/
-}
-
-.html_content{
-	position: absolute;
-	width: 100%;
-	height: 100%;
-}
-
-.node_html{
-	position: absolute;
-	border-width: 0px;
-	/*width: 10em;*/
-	/*height: 3em;
-	line-height: 3em;*/
-
-/*	background-color: #ffffff;
-*/	/*opacity: 0.7;*/
 	z-index: 5;
-	padding: 3px;
-	cursor: pointer;
-/*	margin-left: 3em;
-	margin-top: 0.3em;
-*/	
-	/*margin-top: -1.5em;
-	margin-left: -5em;*/
-
-	.node_inner_html {
-		position: relative;
-		padding: 3px;
-		/*background-color: yellow;*/
-	}
-
-	.node_status {
-		position: absolute;
-		left: -10px;
-		top: -10px;
-		background-color: yellow;
-		border: 1px solid red;
-		width: 20px;
-		text-align: center;
-		font-weight: bold;
-		@include border-radius(10px, 10px);
-	}
-	.vote_up {
-		position: absolute;
-		left: -10px;
-		top: -10px;
-		background-color: #88ff88;
-		border: 2px solid #00aa00;
-		padding-left: 4px;
-		padding-right: 4px;
-		padding-top: 0px;
-		padding-bottom: 0px;
-		text-align: center;
-		font-weight: bold;
-		min-width: 1.2em;
-		@include border-top-right-radius(15px);
-		@include border-top-left-radius(15px);
-	}
-	.vote_down {
-		position: absolute;
-		left: -10px;
-		top: +15px;
-		background-color: #ff8888;
-		border: 2px solid #aa0000;
-		padding-left: 4px;
-		padding-right: 4px;
-		padding-top: 0px;
-		padding-bottom: 0px;
-		text-align: center;
-		font-weight: bold;
-		min-width: 1.2em;
-		@include border-bottom-right-radius(15px);
-		@include border-bottom-left-radius(15px);
-	}
-}
-
-.node_html_fixed{
-	width: 150px;
-	margin-left: -75px;
+	position:relative;
+	background-color: #ddddff;
+	border: solid 1px #aaaaff;
+	overflow-x: scroll;
+	overflow-y: scroll;
 	@include border-radius(10px, 10px);
-	border-width: 1px;
-	@include box-shadow(4px 3px 7px 2px rgba(150, 150, 255, 0.75));
-}
 
-.node_unselected{
-	border-style: dashed;
-	border-color: #0000ff;
-	/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
-	/* color h-shadow v-shadow blur spread color inset*/
-}
-.node_selected{
-	border-style: solid;
-	border-color: #0000aa;
-	border-width: 2px;
-	@include box-shadow(4px 3px 7px 2px rgba(80, 80, 255, 0.75));
-}
+	.map_svg{
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		/*background-color: #ffffaa;*/
+		z-index: 1;
+	}
 
-.node_html span {
-	display: inline-block;
-	vertical-align: middle;
-	line-height: normal;      
-	text-align: center;
-	font-weight: bold;
-	font-style: italic;
-	color: #883333;
+	.map_html{
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		/*background-color: #ffffaa;*/
+		z-index: 2;
+	}
 
-	/* just for testing purposs */
-	p{
-		color: #880000;		
-		font-weight: 100;
-		font-size: 12px;
-		font-style: normal;
+	.map_entity{
+		width: 100px;
+		height: 50px;
+		position: absolute;
+		background-color: #ccf;
+		border: 3px solid gray;
+		padding: 10px;
+		margin: 3px;
+		z-index: 1;
+		@include border-radius(10px, 10px);
+		/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+		/* color h-shadow v-shadow blur spread color inset*/
+		@include box-shadow(2px 1px 3px 1px rgba(150, 150, 255, 0.75));
+
+		.status {
+			position: absolute;
+			left: -10px;
+			top: -10px;
+			background-color: yellow;
+			border: 2px solid red;
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			@include border-radius(10px, 10px);
+		}
+		.type {
+			position: absolute;
+			right: -15px;
+			bottom: -15px;
+			background-color: rgba(200, 200, 255, 0.5);
+			border: 2px solid rgba(100, 100, 255, 0.25);
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			font-size: 20px;
+			color: #555f;
+			font-style: italic;
+			@include border-radius(5px, 5px);
+		}
+		.name {
+			position: relative;
+			padding: 3px;
+			/*background-color: yellow;*/
+		}
+
+		&.has_children{
+		}
+
+		&.has_no_children{
+		}
+
+		&.selected{
+			border-color: #ffa;
+			border-width: 3px;
+		}
+
+		&.unselected{
+		}
+
+		/* entity stylings */
+		&.map_entity_object{
+			background-color: #aaa;
+		}
+
+		&.map_entity_process{
+			background-color: #aaf;
+		}
+
+		&.resizable_map_entity{
+			
+		}
+	}
+
+	.draggable_map_entity{
+
+	}
+
+
+	/* ------------------------
+	 interaction
+	------------------------ */
+
+	.dropzone {
+		background-color: #ccc;
+		border-radius: 4px;
+		margin: 10px auto 30px;
+		padding: 10px;
+		transition: background-color 0.3s;
+	}
+
+	.drop-active {
+		border: 3px dotted red;
+	}
+
+	.drop-target {
+		background-color: #4bf;
+		border-color: #f88;
+		border-style: solid;
+		border-width: 5px;
+	}
+
+	.drag-drop {
+		display: inline-block;
+		min-width: 40px;
+		padding: 2em 0.5em;
+
+		color: #fff;
+		background-color: #29e;
+		border: solid 2px #fff;
+
+		-webkit-transform: translate(0px, 0px);
+		transform: translate(0px, 0px);
+
+		transition: background-color 0.3s;
+	}
+
+	.drag-drop.can-drop {
+		border: 3px solid green;
+	}
+
+
+	/* -------------------------
+		KnAllEdge Map Internals
+   	-------------------------*/
+
+	.div_map{
+		position: relative;
+		width: 100%;
+		height: 100%;
+		/*background-color: #aaaaaa;*/
+		/*padding: 5px;*/
+	}
+
+	.div_map_svg{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		/*background-color: #ffffaa;*/
+
+		z-index: 1;
+
+		svg{
+			width: 100%;
+			height: 100%;		
+		}
+	}
+
+	.svg_content{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+
+	.node {
+		cursor: pointer;
+	}
+
+	.node circle {
+	  fill: #fff;
+	  stroke: steelblue;
+	  stroke-width: 1px;
+	}
+
+	.node text { font: 12px sans-serif; }
+
+	.link {
+	  fill: none;
+	  stroke: #000;
+	  stroke-width: 3px;
+	}
+
+	.div_map_html{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		/*background-color: #aaaaff;*/
+		/*opacity: 0.5;*/
+		z-index: 2;
+		/*display: none;*/
+	}
+
+	.html_content{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+
+	.node_html{
+		position: absolute;
+		border-width: 0px;
+		/*width: 10em;*/
+		/*height: 3em;
+		line-height: 3em;*/
+
+	/*	background-color: #ffffff;
+	*/	/*opacity: 0.7;*/
+		z-index: 5;
+		padding: 3px;
+		cursor: pointer;
+	/*	margin-left: 3em;
+		margin-top: 0.3em;
+	*/	
+		/*margin-top: -1.5em;
+		margin-left: -5em;*/
+
+		.node_inner_html {
+			position: relative;
+			padding: 3px;
+			/*background-color: yellow;*/
+		}
+
+		.node_status {
+			position: absolute;
+			left: -10px;
+			top: -10px;
+			background-color: yellow;
+			border: 1px solid red;
+			width: 20px;
+			text-align: center;
+			font-weight: bold;
+			@include border-radius(10px, 10px);
+		}
+		.vote_up {
+			position: absolute;
+			left: -10px;
+			top: -10px;
+			background-color: #88ff88;
+			border: 2px solid #00aa00;
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			min-width: 1.2em;
+			@include border-top-right-radius(15px);
+			@include border-top-left-radius(15px);
+		}
+		.vote_down {
+			position: absolute;
+			left: -10px;
+			top: +15px;
+			background-color: #ff8888;
+			border: 2px solid #aa0000;
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			min-width: 1.2em;
+			@include border-bottom-right-radius(15px);
+			@include border-bottom-left-radius(15px);
+		}
+	}
+
+	.node_html_fixed{
+		width: 150px;
+		margin-left: -75px;
+		@include border-radius(10px, 10px);
+		border-width: 1px;
+		@include box-shadow(4px 3px 7px 2px rgba(150, 150, 255, 0.75));
+	}
+
+	.node_unselected{
+		border-style: dashed;
+		border-color: #0000ff;
+		/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+		/* color h-shadow v-shadow blur spread color inset*/
+	}
+	.node_selected{
+		border-style: solid;
+		border-color: #0000aa;
+		border-width: 2px;
+		@include box-shadow(4px 3px 7px 2px rgba(80, 80, 255, 0.75));
+	}
+
+	.node_html span {
+		display: inline-block;
+		vertical-align: middle;
+		line-height: normal;      
+		text-align: center;
+		font-weight: bold;
+		font-style: italic;
+		color: #883333;
+
+		/* just for testing purposs */
+		p{
+			color: #880000;		
+			font-weight: 100;
+			font-size: 12px;
+			font-style: normal;
+		}
+	}
+
+	.label_html{
+		position: absolute;
+		/*width: 10em;*/
+		/*width: 150px;
+		margin-left: -75px;*/
+		/*height: 3em;
+		line-height: 3em;*/
+		border: 1px dashed #8888ff;
+		background-color: #eeeeff;
+		@include border-radius(5px);
+		opacity: 0.7;
+		z-index: 4;
+		padding: 3px;
+		cursor: pointer;
+	/*	margin-left: 3em;
+		margin-top: 0.3em;
+	*/	
+		/*margin-top: -1.5em;
+		margin-left: -5em;*/
+		span {
+
+		}
 	}
 }
 
-.label_html{
-	position: absolute;
-	/*width: 10em;*/
-	/*width: 150px;
-	margin-left: -75px;*/
-	/*height: 3em;
-	line-height: 3em;*/
-	/*border: 1px dashed #0000ff;*/
-/*	background-color: #ffffff;
-*/	opacity: 0.7;
-	z-index: 4;
-	padding: 3px;
-	cursor: pointer;
-/*	margin-left: 3em;
-	margin-top: 0.3em;
-*/	
-	/*margin-top: -1.5em;
-	margin-left: -5em;*/
-}
-
-/*
+/* ------------------------------
 	knalledge-map-image-editing
-*/
-
+------------------------------ */
 
 $knalledge_image_editing_color: #888888;
 $knalledge_image_editing_entity_color: #8888FF;

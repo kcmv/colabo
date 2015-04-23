@@ -266,7 +266,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			var node = this.createPlain({}, kNodeClone, function(nodeFromServer){
 				kNodeCopy.$resolved = node.$resolved;
 				kNodeCopy.overrideFromServer(nodeFromServer);
-				if(callback) callback(nodeFromServer);
+				if(callback) callback(kNodeCopy);
 			});
 			kNodeCopy.$promise = node.$promise;
 			kNodeCopy.$resolved = node.$resolved;

@@ -7,13 +7,15 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.entityStyles = entityStyles;
 	this.parentDom = parentDom;
 	this.mapService = mapService;
+	this.scales = null;
 
 	this.state = new knalledge.State();
 	this.mapStructure = new knalledge.MapStructure();
-	this.mapVisualization = new knalledge.MapVisualization(this.parentDom, this.mapStructure, this.config.transitions, this.config.nodes, this.config.edges);
+	this.mapVisualization = new knalledge.MapVisualization(this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges);
 	var mapLayoutApi = {
 		update: this.mapVisualization.update.bind(this.mapVisualization),
-		getDom: this.mapVisualization.getDom.bind(this.mapVisualization)
+		getDom: this.mapVisualization.getDom.bind(this.mapVisualization),
+		setDomSize: this.mapVisualization.setDomSize.bind(this.mapVisualization)
 	};
 	this.mapLayout = new knalledge.MapLayout(this.mapStructure, this.config.nodes, this.config.tree, mapLayoutApi, this.state);
 
@@ -24,13 +26,18 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 Map.prototype.init = function() {
 	this.mapStructure.init(this.mapService);
 	// http://stackoverflow.com/questions/21990857/d3-js-how-to-get-the-computed-width-and-height-for-an-arbitrary-element
-	var mapSize = [this.parentDom.node().getBoundingClientRect().height, this.parentDom.node().getBoundingClientRect().width];
+	var mapSize = [
+		this.parentDom.node().getBoundingClientRect().width - this.config.tree.margin.right - this.config.tree.margin.left,
+		this.parentDom.node().getBoundingClientRect().height - this.config.tree.margin.bottom - this.config.tree.margin.top 
+	];
+
 	// inverted since tree is rotated to be horizontal
 	// related posts
 	//	http://stackoverflow.com/questions/17847131/generate-multilevel-flare-json-data-format-from-flat-json
 	//	http://stackoverflow.com/questions/20940854/how-to-load-data-from-an-internal-json-array-rather-than-from-an-external-resour
-	this.mapVisualization.init(this.mapLayout);
-	this.mapLayout.init(mapSize);
+	this.mapVisualization.init(this.mapLayout, mapSize);
+	this.scales = this.mapVisualization.scales;
+	this.mapLayout.init(mapSize, this.scales);
 	this.initializeKeyboard();
 	this.initializeManipulation();
 };
