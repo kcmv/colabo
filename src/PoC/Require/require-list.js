@@ -1,0 +1,1 @@
+window.myDebug = require("debug");

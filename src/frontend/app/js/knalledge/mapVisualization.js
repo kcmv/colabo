@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapVisualization =  knalledge.MapVisualization = function(parentDom, mapStructure, configTransitions, configNodes, configEdges){
+var MapVisualization =  knalledge.MapVisualization = function(parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges){
 	this.dom = {
 		parentDom: parentDom,
 		divMap: null,
@@ -12,12 +12,20 @@ var MapVisualization =  knalledge.MapVisualization = function(parentDom, mapStru
 	this.mapStructure = mapStructure;
 
 	this.configTransitions = configTransitions;
+	this.configTree = configTree;
 	this.configNodes = configNodes;
 	this.configEdges = configEdges;
 	this.editingNodeHtml = null;
+	// size of visualizing DOM element
+	this.mapSize = null;
+	// scales used for transformation of knalledge from informational to visual domain
+	this.scales = null;
 };
 
-MapVisualization.prototype.init = function(mapLayout){
+MapVisualization.prototype.init = function(mapLayout, mapSize){
+	this.mapSize = mapSize;
+	this.scales = this.setScales();
+
 	this.mapLayout = mapLayout;
 	this.dom.divMap = this.dom.parentDom.append("div")
 		.attr("class", "div_map");
@@ -45,6 +53,95 @@ MapVisualization.prototype.init = function(mapLayout){
 
 MapVisualization.prototype.getDom = function(){
 	return this.dom;
+};
+
+MapVisualization.prototype.setDomSize = function(maxX, maxY){
+	if(typeof maxX == 'undefined') maxX = 5000;
+	if(typeof maxY == 'undefined') maxY = 5000;
+
+	this.dom.divMap
+		.style("width", maxX)
+		.style("height", maxY);		
+	this.dom.divMapHtml
+		.style("width", maxX)
+		.style("height", maxY);		
+	// TODO: fix to avoid use of selector
+	this.dom.divMapSvg.select("svg")
+		.style("width", maxX)
+		.style("height", maxY);
+};
+
+MapVisualization.prototype.setScales = function(){
+	var that = this;
+
+	var scales = {
+		x: null,
+		y: null,
+		width: null,
+		height: null
+	}
+
+	// var maxIntensity = d3.max(dataset, function(d) { return d.y; });
+	// var minIntensity = d3.min(dataset, function(d) { return d.y; });
+
+	if(false){
+		var scale = d3.scale.linear()
+			.domain([0, 1])
+			.range([0, 1]);
+		scales.x = scale;
+		scales.y = scale;
+		scales.width = scale;
+		scales.height = scale;
+	}else{
+		var maxX = this.mapSize[0];
+		var maxY = this.mapSize[1];
+
+		var scaling = 1;
+
+		scales.x = d3.scale.linear()
+			.domain([0, maxY])
+			.range([this.configTree.margin.top, this.configTree.margin.top+maxY]);
+		scales.y = d3.scale.linear()
+			.domain([0, maxX])
+			.range([this.configTree.margin.left, this.configTree.margin.left+maxX]);
+
+		scales.x = d3.scale.linear()
+			.domain([0, 1])
+			.range([0, scaling]);
+		scales.y = d3.scale.linear()
+			.domain([0, 1])
+			.range([0, scaling]);
+
+		scales.width = d3.scale.linear()
+			.domain([0, maxX])
+			.range([this.configTree.margin.left, this.configTree.margin.left+maxX]);
+		scales.height = d3.scale.linear()
+			.domain([0, maxY])
+			.range([this.configTree.margin.top, this.configTree.margin.top+maxY]);
+
+		scales.width = d3.scale.linear()
+			.domain([0, 1])
+			.range([0, scaling]);
+		scales.height = d3.scale.linear()
+			.domain([0, 1])
+			.range([0, scaling]);
+	}
+	return scales;
+};
+
+MapVisualization.prototype.positionToDatum = function(datum) {
+	// TODO: Add support for scales
+	var y = datum.x - this.dom.parentDom.node().getBoundingClientRect().height/2;
+	var x = datum.y - this.dom.parentDom.node().getBoundingClientRect().width/2;
+	this.dom.parentDom.node().getBoundingClientRect().width;
+	this.dom.parentDom.node().getBoundingClientRect().height;
+	var divMapNative = this.dom.divMap.node();
+	// https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollLeft
+	var divMapJQ = $(divMapNative);
+	divMapJQ = $('.knalledge_map_container');
+	console.log("divMapJQ.scrollLeft(): %s, divMapJQ.scrollTop(): %s", divMapJQ.scrollLeft(), divMapJQ.scrollTop());
+	divMapJQ.scrollLeft(x);
+	divMapJQ.scrollTop(y);
 };
 
 /** @function update 
@@ -100,7 +197,7 @@ MapVisualization.prototype.updateHtml = function(source) {
 			}else{
 				y = d.y;
 			}
-			return y + "px";
+			return that.scales.y(y) + "px";
 		})
 		.style("top", function(d) {
 			var x = null;
@@ -114,7 +211,7 @@ MapVisualization.prototype.updateHtml = function(source) {
 				x = d.x;
 			}
 			// console.log("[nodeHtmlEnter] d: %s, x: %s", d.kNode.name, x);
-			return x + "px";
+			return that.scales.x(x) + "px";
 		})
 		.classed({
 			"node_html_fixed": function(d){
@@ -123,26 +220,26 @@ MapVisualization.prototype.updateHtml = function(source) {
 			}
 		})
 		.style("width", function(d){
-				var width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
-					 that.configNodes.html.dimensions.sizes.width + "px" : null;
+				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					d.kNode.dataContent.image.width : width;
 				if(width == null) {
-					width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width + "px" : width;
+					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+					 that.configNodes.html.dimensions.sizes.width : null;
 				}
-				return width;
+				return that.scales.width(width) + "px";
 		})
 		.style("margin-left", function(d){
 				// centering the node (set margin to half the width of the node)
-				var width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
-					 that.configNodes.html.dimensions.sizes.width : null;
-				if(width == null) {
-					width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					d.kNode.dataContent.image.width : width;
+				if(width == null) {
+					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+					 that.configNodes.html.dimensions.sizes.width : null;
 				}
 
 				var margin = null;
 				if(width != null) {
-					margin = -width/2 + "px";
+					margin = that.scales.width(-width/2) + "px";
 				}
 				return margin;
 		})
@@ -158,10 +255,10 @@ MapVisualization.prototype.updateHtml = function(source) {
 				return d.kNode.dataContent.image.url;
 			})
 			.attr("width", function(d){
-				return d.kNode.dataContent.image.width + "px";
+				return that.scales.width(d.kNode.dataContent.image.width) + "px";
 			})
 			.attr("height", function(d){
-				return d.kNode.dataContent.image.height + "px";
+				return that.scales.height(d.kNode.dataContent.image.height) + "px";
 			})
 			.attr("alt", function(d){
 				return d.kNode.name;
@@ -254,7 +351,7 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 
 	(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
 		.style("left", function(d){
-			return d.y + "px";
+			return that.scales.y(d.y) + "px";
 		})
 		// .each("start", function(d){
 		// 	console.log("[nodeHtmlUpdateTransition] STARTED: d: %s, xCurrent: %s", d.kNode.name, d3.select(this).style("top"));
@@ -263,7 +360,7 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 			var x = that.mapLayout.getHtmlNodePosition(d);
 			// x = d.x;
 			// console.log("[nodeHtmlUpdateTransition] d: %s, xCurrent: %s, xNew: %s", d.kNode.name, d3.select(this).style("top"), x);
-			return x + "px";
+			return that.scales.x(x) + "px";
 		});
 
 	if(this.configTransitions.update.animate.opacity){
@@ -297,19 +394,23 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 	if(this.configTransitions.exit.animate.position){
 		nodeHtmlExitTransition
 			.style("left", function(d){
+				var y = null;
 				// Transition nodes to the toggling node's new position
 				if(that.configTransitions.exit.referToToggling){
-					return source.y + "px";					
+					y = source.y;
 				}else{ // Transition nodes to the parent node's new position
-					return (d.parent ? d.parent.y : d.y) + "px";
+					y = (d.parent ? d.parent.y : d.y);
 				}
+				return that.scales.y(d.y) + "px";
 			})
 			.style("top", function(d){
+				var x = null;
 				if(that.configTransitions.exit.referToToggling){
-					return source.x + "px";
+					x = source.x;
 				}else{
-					return (d.parent ? d.parent.x : d.x) + "px";
+					x = (d.parent ? d.parent.x : d.x);
 				}
+				return that.scales.x(d.x) + "px";
 			});
 	}
 	nodeHtmlExitTransition.remove();
@@ -356,19 +457,25 @@ MapVisualization.prototype.updateSvgNodes = function(source) {
 		.on("dblclick", this.mapLayout.clickDoubleNode.bind(this.mapLayout))
 		// Enter any new nodes at the parent's previous position.
 		.attr("transform", function(d) {
+			var x = null, y = null;
 			if(that.configTransitions.enter.animate.position){
 				if(that.configTransitions.enter.referToToggling){
-					return "translate(" + source.y0 + "," + source.x0 + ")";
+					y = source.y0;
+					x = source.x0;
 				}else{
 					if(d.parent){
-						return "translate(" + d.parent.y0 + "," + d.parent.x0 + ")";						
+						y = d.parent.y0;
+						x = d.parent.x0;
 					}else{
-						return "translate(" + d.y0 + "," + d.x0 + ")";						
+						y = d.y0;
+						x = d.x0;
 					}
 				}
 			}else{
-				return "translate(" + d.y + "," + d.x + ")";
+					y = d.y;
+					x = d.x;
 			}
+			return "translate(" + that.scales.y(source.y0) + "," + that.scales.x(source.x0) + ")";
 		});
 		// .attr("transform", function(d) { 
 		//   // return "translate(0,0)";
@@ -424,15 +531,20 @@ MapVisualization.prototype.updateSvgNodes = function(source) {
 		if(this.configTransitions.exit.animate.position){
 			nodeExitTransition
 				.attr("transform", function(d) {
+					var x=null, y=null;
 					if(that.configTransitions.exit.referToToggling){
-						return "translate(" + source.y + "," + source.x + ")";
+						x = source.x;
+						y = source.y;
 					}else{
 						if(d.parent){
-							return "translate(" + d.parent.y + "," + d.parent.x + ")";							
+							x = d.parent.x;
+							y = d.parent.y;
 						}else{
-							return "translate(" + d.y + "," + d.x + ")";							
+							x = d.x;
+							y = d.y;
 						}
 					}
+					return "translate(" + that.scales.y(y) + "," + that.scales.x(x) + ")";							
 				});
 		}
 		nodeExitTransition
@@ -472,7 +584,7 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 			}else{
 				y = (d.source.y + d.target.y) / 2;
 			}
-			return y + "px";
+			return that.scales.y(y) + "px";
 		})
 		.style("top", function(d) {
 			var x;
@@ -485,7 +597,7 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 			}else{
 				x = (d.source.x + d.target.x) / 2;
 			}
-			return x + "px";
+			return that.scales.x(x) + "px";
 		});
 
 	linkLabelHtmlEnter
@@ -548,7 +660,7 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 						y = d.source.y;
 					}
 
-					return y + "px";
+					return that.scales.y(y) + "px";
 				})
 				.style("top", function(d) {
 					var x = null;
@@ -559,7 +671,7 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 						x = d.source.x;
 					}
 
-					return x + "px";
+					return that.scales.x(x) + "px";
 				});
 		}
 		if(this.configTransitions.exit.animate.opacity){

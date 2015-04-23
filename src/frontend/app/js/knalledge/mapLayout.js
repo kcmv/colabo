@@ -32,11 +32,20 @@ MapLayout.prototype.getChildren = function(d){ //TODO: improve probably, not to 
 	return children;
 };
 
-MapLayout.prototype.init = function(mapSize){
+MapLayout.prototype.init = function(mapSize, scales){
 	this.dom = this.mapVisualizationApi.getDom();
+	this.scales = scales;
 
-	this.tree = d3.layout.tree()
-		.size(mapSize);
+	this.tree = d3.layout.tree();
+		// we invert x and y since tree grows to the right
+	if(this.configTree.sizing.setNodeSize){
+		this.tree.nodeSize([
+			this.configTree.sizing.nodeSize[1],
+			this.configTree.sizing.nodeSize[0]
+		])
+	}else{
+		this.tree.size([mapSize[1], mapSize[0]]);
+	}
 
 	this.tree.children(this.getChildren.bind(this));
 };
@@ -49,6 +58,9 @@ MapLayout.prototype.diagonal = function(that){
 		//return d.source;
 		// here we are creating object with just necessary parameters (x, y)
 		var point = {x: d.source.x, y: d.source.y};
+
+		point.x = that.scales.x(point.x);
+		point.y = that.scales.y(point.y);
 		if(!that.configNodes.punctual){
 			// since our node is not just a punctual entity, but it has width, we need to adjust diagonals' source and target points
 			// by shifting points from the center of node to the edges of node
@@ -57,7 +69,7 @@ MapLayout.prototype.diagonal = function(that){
 			if(d.source.y < d.target.y){
 				var width = (d.source.kNode.dataContent && d.source.kNode.dataContent.image && d.source.kNode.dataContent.image.width) ?
 					d.source.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
-				point.y += width + 0;
+				point.y += that.scales.width(width) + 0;
 			}
 		}
 		return point;
@@ -66,11 +78,13 @@ MapLayout.prototype.diagonal = function(that){
 	var diagonalTarget = function(d){
 		//return d.target;
 		var point = {x: d.target.x, y: d.target.y};
+		point.x = that.scales.x(point.x);
+		point.y = that.scales.y(point.y);
 		if(!that.configNodes.punctual){
 			if(d.target.y > d.source.y){
 				var width = (d.target.kNode.dataContent && d.target.kNode.dataContent.image && d.target.kNode.dataContent.image.width) ?
 					d.target.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
-				point.y -= width + 0;
+				point.y -= that.scales.width(width) + 0;
 			}
 		}
 		return point;
@@ -124,6 +138,7 @@ MapLayout.prototype.clickNode = function(d) {
 		});
 		d.isSelected = true;
 		this.structure.setSelectedNode(d);
+		this.mapVisualizationApi.positionToDatum(d);
 		if(this.knalledgeState.addingLinkFrom !== null){
 			this.structure.createEdge(this.knalledgeState.addingLinkFrom, d);
 			this.knalledgeState.addingLinkFrom = null;
@@ -198,6 +213,11 @@ MapLayout.prototype.generateTree = function(source){
 		}
 	}
 
+	// calculating node boundaries
+	if(this.configTree.sizing.setNodeSize){
+		this.MoveNodesToPositiveSpace(this.nodes);
+	}
+
 	var viewspec = this.configTree.viewspec;
 	var sizes = this.configNodes.html.dimensions.sizes;
 	this.nodes.forEach(function(d) {
@@ -247,6 +267,26 @@ MapLayout.prototype.generateTree = function(source){
 			}
 		}
 	});
+};
+
+MapLayout.prototype.MoveNodesToPositiveSpace = function(nodes) {
+	var minX = 0, maxX = 0, minY = 0, maxY = 0;
+	for(var i in nodes){
+		var node = nodes[i];
+		if(node.x - node.height/2 < minX) minX = node.x - node.height/2;
+		if(node.x + node.height/2 > maxX) maxX = node.x + node.height/2;
+		if(node.y - node.width/2 < minY) minY = node.y - node.width/2;
+		if(node.y + node.width/2 > maxY) maxY = node.y + node.width/2;
+	}
+	console.log("Dimensions: (minX: %s, maxX: %s, minY: %s, maxY: %s)", minX, maxX, minY, maxY);
+	for(var i in nodes){
+		var node = nodes[i];
+		node.x += -minX + this.configTree.margin.top;
+		node.y += -minY + this.configTree.margin.left;
+	}
+	maxX += -minX + this.configTree.margin.bottom;
+	maxY += -minY + this.configTree.margin.right;
+	this.mapVisualizationApi.setDomSize(maxY, maxX);
 };
 
 MapLayout.prototype.getHtmlNodePosition = function(d) {
