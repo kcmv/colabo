@@ -230,8 +230,11 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));	
 
 	// Add new node
-	KeyboardJS.on("tab", function(){
+	KeyboardJS.on("n", function(){
+		nsDebug.d.cnTb("KeyboardJS.on('tab'): this.editingNodeHtml: " + this.editingNodeHtml);
 		if(this.editingNodeHtml) return; // in typing mode
+		nsDebug.d.cnTb("KeyboardJS.on('tab'): this.clientApi.getSelectedNode(): " + this.clientApi.getSelectedNode());
+		
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		that = this;
 		var newNode = this.clientApi.createNode();
@@ -241,7 +244,9 @@ Keyboard.prototype.initializeKeyboard = function() {
 			newEdge.kEdge.$promise.then(function(kEdgeFromServer){
 				if(!that.clientApi.getSelectedNode().isOpen){
 					that.clientApi.getSelectedNode().isOpen = true;
-					that.clientApi.update(that.clientApi.getSelectedNode());
+					that.clientApi.update(that.clientApi.getSelectedNode(), function(){
+						
+					});
 				}
 
 				that.clientApi.update(that.clientApi.getSelectedNode(), function(){

@@ -41,6 +41,16 @@ MapStructure.prototype.unsetSelectedNode = function(){
 
 MapStructure.prototype.setSelectedNode = function(selectedNode){
 	this.selectedNode = selectedNode;
+	try {
+		throw new Error('DebugStack');
+	}
+	catch(e) {
+	// console.warn((new Error).lineNumber)
+		nsDebug.d.cnTb('selectedNode: \n' + e.stack);
+		if(selectedNode && selectedNode.kNode){
+			nsDebug.d.cnTb('selectedNode.kNode.name: ' + selectedNode.kNode.name);
+		}
+	}
 };
 
 MapStructure.prototype.getSelectedNode = function(){
