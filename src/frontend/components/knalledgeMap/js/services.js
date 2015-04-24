@@ -239,6 +239,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		var nodes = this.queryPlain({ searchParam:id, type:'in_map' }, function(nodesFromServer){
 			for(var id=0; id<nodesFromServer.length; id++){
 				var kNode = knalledge.KNode.nodeFactory(nodesFromServer[id]);
+				kNode.state = knalledge.KNode.STATE_SYNCED;
 				nodesFromServer[id] = kNode;
 			}
 
@@ -378,14 +379,16 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
 				console.log("[KnalledgeEdgeService] accessId: %s", serverResponse.accessId);
-				var data = serverResponse.data;
-				var VOs = [];
-				for(var datumId in serverResponse.data){
-					var VO = knalledge.KEdge.edgeFactory(data[datumId]);
-					VOs.push(VO);
-				}
-				//console.log("[KnalledgeNodeService] data: %s", JSON.stringify(data));
-				return VOs;
+//				var data = serverResponse.data;
+//				var VOs = [];
+//				for(var datumId in serverResponse.data){
+//					var VO = knalledge.KEdge.edgeFactory(data[datumId]);
+//					VOs.push(VO);
+//				}
+//				//console.log("[KnalledgeNodeService] data: %s", JSON.stringify(data));
+//				return VOs;
+				
+				return serverResponse.data;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -520,6 +523,11 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	resource.destroy = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'one'}, callback);
+	};
+	
+	resource.deleteConnectedTo = function(id, callback)
+	{
+		return this.destroyPlain({searchParam:id, type:'connected'}, callback);
 	};
 	
 	resource.execute = function(request){ //example:: {data: kEdge, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
@@ -690,8 +698,14 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 			},
 			
 			deleteEdgesConnectedTo: function(node) {
-				var result = KnalledgeEdgeService.deleteConnectedTo(node); //updating on server service
-				//TODO: del edgesById
+				var result = KnalledgeEdgeService.deleteConnectedTo(node._id); //deleting on server service
+				//delete edgesById (kEdge):
+				for(var i in this.edgesById){
+					var edge = this.edgesById[i];
+					if(edge.sourceId == node._id || edge.targetId == node._id){
+						delete this.edgesById[i]; 
+					}
+				}
 			},
 
 			createEdge: function(sourceNode, targetNode) {

@@ -130,12 +130,28 @@ exports.update = function(req, res){
 exports.destroy = function(req, res){
 	var type = req.params.type;
 	var dataId = req.params.searchParam;
-	console.log("[modules/kEdge.js:destroy] dataId:%s, type:%s, req.body: %s", dataId, type, JSON.stringify(req.body));
+	console.log("[modules/kEdge.js::destroy] dataId:%s, type:%s, req.body: %s", dataId, type, JSON.stringify(req.body));
 	
-	KEdgeModel.findByIdAndRemove(dataId, function (err) {
-			if (err) throw err;
-			var data = {id:dataId};
-			resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
-		}
-	);
+	switch (type){
+		case 'one': //by edge id:
+			console.log("[modules/kEdge.js:destroy] deleting 'one' edge with id = %d", dataId);
+			KEdgeModel.findByIdAndRemove(dataId, function (err) {
+				if (err) throw err;
+				var data = {id:dataId};
+				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+			});
+			break;
+		case 'connected': //all edges connected to knode.id		
+			console.log("[modules/kEdge.js:destroy] deleting 'connected' to %s", dataId);
+			KEdgeModel.remove({ $or:[ {'sourceId':dataId}, {'targetId':dataId}]}, function (err) {
+				if (err){
+					console.log("[modules/kEdge.js:destroy] error:" + err);
+					throw err;
+				}
+				var data = {id:dataId};
+				console.log("[modules/kEdge.js:destroy] data:" + JSON.stringify(data));
+				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+			});
+			break;
+	}
 };

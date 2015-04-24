@@ -25,7 +25,7 @@ MapLayout.prototype.getChildren = function(d){ //TODO: improve probably, not to 
 				children.push(vkNode);
 			}
 			else{
-				window.alert('getChildren reached null ;)');
+				console.warn('getChildren reached by edge.targetId a node that cannot be found');
 			}
 		}
 	}

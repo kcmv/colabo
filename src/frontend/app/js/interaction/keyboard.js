@@ -254,12 +254,14 @@ Keyboard.prototype.initializeKeyboard = function() {
 	KeyboardJS.on("delete", function(){
 		if(this.editingNodeHtml) return; // in typing mode
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
-
-		this.clientApi.deleteNode(this.clientApi.getSelectedNode());		
-
-		this.clientApi.update(this.clientApi.getSelectedNode(), function(){
-			this.clientApi.setSelectedNode(null); //TODO: set to parent
-		});
+		that = this;
+		if(confirm("Are you sure you want to delete this node od KnAllEdge?")){
+			this.clientApi.deleteNode(this.clientApi.getSelectedNode());		
+	
+			this.clientApi.update(this.clientApi.getSelectedNode(), function(){
+				that.clientApi.setSelectedNode(null); //TODO: set to parent
+			});
+		}
 	}.bind(this), function(){}.bind(this));
 	
 	//TODO: Delete edge

@@ -214,11 +214,21 @@ MapStructure.prototype.updateNode = function(vkNode, updateType) {
 };
 
 MapStructure.prototype.deleteNode = function(vnode) {
+	this.deleteEdgesConnectedTo(vnode); // first we delete edges, so that the D3 don't reach unexisting node over them
 	this.mapService.deleteNode(vnode.kNode);
-	delete this.nodesById[vnode._id]; //TODO: see if we should do it only upon server deleting success
+	delete this.nodesById[vnode.id]; //TODO: see if we should do it only upon server deleting success
+};
+
+MapStructure.prototype.deleteEdgesConnectedTo = function(vnode) {
+	this.mapService.deleteEdgesConnectedTo(vnode.kNode);
 	
-	//TODO: this.mapService.deleteEdgesConnectedTo(vnode.kNode);
-	
+	//deleting from edgesById:
+	for(var i in this.edgesById){
+		var edge = this.edgesById[i];
+		if(edge.kEdge.sourceId == vnode.kNode._id || edge.kEdge.targetId == vnode.kNode._id){
+			delete this.edgesById[i]; 
+		}
+	}
 };
 
 MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
@@ -238,25 +248,19 @@ MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
 	return newVKEdge;
 };
 
-MapStructure.prototype.deleteEdgesConnectedTo = function(node) {
-	this.mapService.deleteNode(node);
-};
-
 MapStructure.prototype.getVKNodeByKId = function(kId) {
 	for(var i in this.nodesById){
 		var vkNode = this.nodesById[i];
 		if(vkNode.kNode._id == kId) {return vkNode;}
 	}
-	
 	try {
 		throw new Error('myError');
 	}
 	catch(e) {
 	// console.warn((new Error).lineNumber)
 		console.warn('getVKNodeByKId found kNode.'+kId+' without parent vkNode: \n' + e.stack);
+		return null;
 	}
-	//window.alert('getVKNodeByKId found kNode.'+kId+' without parent vkNode ;)');
-	return null;
 };
 
 MapStructure.prototype.getVKEdgeByKIds = function(sourceKId, targetKId) {
