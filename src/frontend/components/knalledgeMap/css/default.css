@@ -403,9 +403,8 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   /* line 407, ../sass/default.scss */
   .knalledge_map_container .div_map {
     position: relative;
-    /*		width: 100%;
-    		height: 100%;
-    */
+    width: 100%;
+    height: 100%;
     overflow: scroll;
     /*background-color: #aaaaaa;*/
     /*padding: 5px;*/ }
