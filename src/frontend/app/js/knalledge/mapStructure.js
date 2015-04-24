@@ -23,6 +23,8 @@ MapStructure.prototype.init = function(mapService){
 };
 
 MapStructure.prototype.removeImage = function(vkNode){
+	if(!this.mapService) return;
+
 	if(vkNode){
 		if(!vkNode.kNode.dataContent){
 			vkNode.kNode.dataContent = {};
@@ -168,6 +170,7 @@ MapStructure.prototype.cloneObject = function(obj){
 };
 
 MapStructure.prototype.createNode = function() {
+	if(!this.mapService) return null;
 	
 	// var nodeCreated = function(nodeFromServer) {
 	// 	console.log("[MapStructure.createNode] nodeCreated" + JSON.stringify(nodeFromServer));
@@ -190,11 +193,15 @@ MapStructure.prototype.createNode = function() {
 };
 
 MapStructure.prototype.updateName = function(vkNode, newName){
+	if(!this.mapService) return;
+
 	vkNode.kNode.name = newName;
 	this.mapService.updateNode(vkNode.kNode, MapStructure.UPDATE_NODE_NAME);
 };
 
 MapStructure.prototype.updateNode = function(vkNode, updateType) {
+	if(!this.mapService) return;
+
 	switch(updateType){
 		case MapStructure.UPDATE_NODE_DIMENSIONS:
 			if(! vkNode.kNode.visual) vkNode.kNode.visual = {};
@@ -214,12 +221,16 @@ MapStructure.prototype.updateNode = function(vkNode, updateType) {
 };
 
 MapStructure.prototype.deleteNode = function(vnode) {
+	if(!this.mapService) return;
+
 	this.deleteEdgesConnectedTo(vnode); // first we delete edges, so that the D3 don't reach unexisting node over them
 	this.mapService.deleteNode(vnode.kNode);
 	delete this.nodesById[vnode.id]; //TODO: see if we should do it only upon server deleting success
 };
 
 MapStructure.prototype.deleteEdgesConnectedTo = function(vnode) {
+	if(!this.mapService) return;
+
 	this.mapService.deleteEdgesConnectedTo(vnode.kNode);
 	
 	//deleting from edgesById:
@@ -232,6 +243,7 @@ MapStructure.prototype.deleteEdgesConnectedTo = function(vnode) {
 };
 
 MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
+	if(!this.mapService) return null;
 
 	// var edgeCreated = function(edgeFromServer) {
 	// 	console.log("[MapStructure.createEdge] edgeCreated" + JSON.stringify(edgeFromServer));
@@ -307,7 +319,10 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	}
 
 	// this.rootNode = this.nodesById[this.properties.rootNodeId];
-	this.rootNode = this.getVKNodeByKId(this.mapService.rootNodeId);
+	this.rootNode = this.getVKNodeByKId(
+		this.mapService ? this.mapService.rootNodeId :
+			(kMapData.map.properties ? kMapData.map.properties.rootNodeId : null)
+	);
 	this.rootNode.x0 = rootNodeX;
 	this.rootNode.y0 = rootNodeY;
 

@@ -17,29 +17,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap.tpl.html',
 			controller: function ( $scope, $element) {
-				// var knalledgeMapClientInterface = {
-				// 	getContainer: function(){
-				// 		return $element.find('.knalledge_map_container');
-				// 	},
-				// 	mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
-				// 		$scope.$apply(function () {
-				// 			var eventName = "mapEntitySelectedEvent";
-				// 			$rootScope.$broadcast(eventName, mapEntity);
-				// 		});
-				// 	},
-				// 	timeout: $timeout
-				// };
-
-				// var entityStyles = {
-				// 	"object": {
-				// 		typeClass: "map_entity_object",
-				// 		icon: "O"
-				// 	},
-				// 	"process": {
-				// 		typeClass: "map_entity_process",
-				// 		icon: "P"
-				// 	}
-				// };
 
 				var model = null;
 				// var knalledgeMap = new mcm.Map(ConfigMap, knalledgeMapClientInterface, entityStyles);
@@ -91,6 +68,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							scaling: {
 								x: 0.5,
 								y: 0.5
+							},
+							mapService: {
+								enabled: true
 							}
 						},
 						transitions: {
@@ -162,40 +142,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					if($scope.mapConfig) overwriteConfig($scope.mapConfig, config);
 
 					var kMapClientInterface = {
-						// storage: {
-						// 	createNode: function(node, callback){
-						// 		function created(nodeFromServer){
-						// 			console.log("[knalledgeMap.controller'] createNode: " + nodeFromServer);
-						// 			if(callback){callback(nodeFromServer);}
-						// 		}
-						// 		KnalledgeNodeService.create(node).$promise
-						// 		.then(created);
-						// 	},
-						// 	updateNode: function(node, callback){
-						// 		function updated(nodeFromServer){
-						// 			console.log("[knalledgeMap.controller'] node updated: " + JSON.stringify(nodeFromServer));
-						// 			if(callback){callback(nodeFromServer);}
-						// 		}
-						// 		KnalledgeNodeService.update(node).$promise
-						// 			.then(updated);
-						// 	},
-						// 	createEdge: function(edge, callback){ //TODO: should we return promise?
-						// 		var created  = function(edgeFromServer){
-						// 			console.log("[knalledgeMap.controller'] edge created: " + edgeFromServer);
-						// 			if(callback){callback(edgeFromServer);}
-						// 		};
-						// 		KnalledgeEdgeService.create(edge).$promise
-						// 		.then(created);
-						// 	},
-						// 	updateEdge: function(edge, callback){
-						// 		var updated = function(edgeFromServer){
-						// 			console.log("[knalledgeMap.controller'] edge updated: " + JSON.stringify(edgeFromServer));
-						// 			if(callback){callback(edgeFromServer);}
-						// 		};
-						// 		KnalledgeEdgeService.update(edge).$promise
-						// 		.then(updated);
-						// 	}
-						// },
 						addImage: function(vkNode, callback){
 							$scope.$apply(function () {
 								if(vkNode){
@@ -231,53 +177,26 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								}
 							});
 						}
-						/*,
-						mapEntityClicked: function(mapEntity ){
-							$scope.$apply(function () {
-								var eventName = "mapEntitySelectedEvent";
-								$rootScope.$broadcast(eventName, mapEntity);
-							});
-						},
-						mapEntityDraggedIn: function(mapEntity, decoratingEntity){
-							$scope.$apply(function () {
-								mapEntity.draggedInNo++;
-								if(decoratingEntity.type == 'variable'){
-									var variableEntity = {
-										name: "variable",
-										type: "variable"
-									};
-									var relationship = {
-										"name": "",
-										"type": mcm.Map.CONTAINS_VARIABLE_OUT
-									};
-									mcmMap.addChildNode(mapEntity, variableEntity, relationship);
-								}
-							});
-						},
-						timeout: $timeout
-						*/
 					};
-
-					// $scope.MSG = $scope.kMap;
-					// if('mapConfig' in $scope) alert($scope.mapConfig);
-					// if('mapData' in $scope) alert(JSON.stringify($scope.mapData));
 
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
-						config, kMapClientInterface, null, KnalledgeMapService);
+						config, kMapClientInterface, null, 
+							config.tree.mapService.enabled ? KnalledgeMapService : null);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
-					if($scope.mapData){
-						
-					}
 					knalledgeMap.processData(model, function(){
 						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
 						knalledgeMap.update();
 					});
 				};
 
-				// initiating loading map data from server
-				KnalledgeMapService.loadData();
+				if($scope.mapData){
+					init($scope.mapData);
+				}else{
+					// initiating loading map data from server
+					KnalledgeMapService.loadData();
+				}
 
 				var eventName = "modelLoadedEvent";
 				$scope.$on(eventName, function(e, eventModel) {
