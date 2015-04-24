@@ -1,288 +1,82 @@
 {
-    "properties": {
-        "name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
-        "date": "2015.03.22.",
-        "authors": "S. Rudan, D. Karabeg",
-        "mapId": "552678e69ad190a642ad461c",
-        "rootNodeId": "55268521fb9a901e442172f9"
-    },
-    "map": {
-        "nodes": [
-            {
-                "_id": "551bb2c68f6e4cfc35654f37",
-                "name": "deep creative insight",
-                "mapId": "552678e69ad190a642ad461c",
-                "type": null,
-                "iAmId": 0,
-                "ideaId": 0,
-                "updatedAt": "2015-04-20T11:51:13.617Z",
-                "createdAt": "2015-04-20T11:51:13.617Z",
-                "visual": {
-                    "xM": 89,
-                    "yM": 863,
-                    "isOpen": false
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            },
-            {
-                "_id": "55268521fb9a901e442172f9",
-                "name": "How to overcome the prefrontal cortex filter",
-                "mapId": "552678e69ad190a642ad461c",
-                "type": null,
-                "iAmId": 0,
-                "ideaId": 0,
-                "dataContent": {
-                    "ibis": {
-                        "voteUp": 3
-                    },
-                    "image": {
-                        "url": "/app/images/body.jpg",
-                        "width": "160",
-                        "height": "330"
-                    }
-                },
-                "updatedAt": "2015-04-20T11:51:13.612Z",
-                "createdAt": "2015-04-20T11:51:13.611Z",
-                "visual": {
-                    "xM": 356,
-                    "yM": 172,
-                    "isOpen": false
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            },
-            {
-                "_id": "551bb5d8317e908736b6b21c",
-                "name": "Hear author's explanation",
-                "mapId": "552678e69ad190a642ad461c",
-                "type": null,
-                "iAmId": 0,
-                "ideaId": 0,
-                "dataContent": {
-                    "ibis": {
-                        "voteDown": 6,
-                        "voteUp": 9
-                    },
-                    "image": {
-                        "height": "120",
-                        "width": "100",
-                        "url": "/app/images/rakovic.jpg"
-                    }
-                },
-                "updatedAt": "2015-04-20T11:51:13.617Z",
-                "createdAt": "2015-04-20T11:51:13.617Z",
-                "visual": {
-                    "xM": 618,
-                    "yM": 379,
-                    "isOpen": false
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            },
-            {
-                "_id": "5526855ac4f4db29446bd183",
-                "name": "Mind Filter",
-                "mapId": "552678e69ad190a642ad461c",
-                "type": null,
-                "iAmId": 0,
-                "ideaId": 0,
-                "dataContent": {
-                    "ibis": {
-                        "voteDown": 5
-                    },
-                    "image": {
-                        "height": "180",
-                        "width": "270",
-                        "url": "/app/images/mind_filter.jpg"
-                    }
-                },
-                "updatedAt": "2015-04-20T11:51:13.616Z",
-                "createdAt": "2015-04-20T11:51:13.616Z",
-                "visual": {
-                    "xM": 141,
-                    "yM": 523,
-                    "widthM": 100,
-                    "heightM": 180,
-                    "isOpen": false
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            },
-            {
-                "_id": "5534eb2dc5a3defc296dc23b",
-                "name": "Problem",
-                "type": null,
-                "mapId": "552678e69ad190a642ad461c",
-                "iAmId": 0,
-                "ideaId": 0,
-                "__v": 0,
-                "updatedAt": "2015-04-20T12:03:57.235Z",
-                "createdAt": "2015-04-20T12:03:57.233Z",
-                "visual": {
-                    "isOpen": false
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            },
-            {
-                "_id": "551bb5073dda1559368883b2",
-                "name": "Classical Physics",
-                "mapId": "552678e69ad190a642ad461c",
-                "type": null,
-                "iAmId": 0,
-                "ideaId": 0,
-                "dataContent": {
-                    "ibis": {
-                        "voteUp": 5,
-                        "voteDown": 2
-                    }
-                },
-                "updatedAt": "2015-04-20T11:51:13.617Z",
-                "createdAt": "2015-04-20T11:51:13.617Z",
-                "visual": {
-                    "xM": 545,
-                    "yM": 745,
-                    "isOpen": false
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            },
-            {
-                "_id": "551b4366fd64e5552ed19364",
-                "name": "Breakthrough in handling creativity possible",
-                "mapId": "552678e69ad190a642ad461c",
-                "type": null,
-                "iAmId": 0,
-                "ideaId": 0,
-                "dataContent": {
-                    "image": {
-                        "height": 268,
-                        "width": 150,
-                        "url": "/app/images/mind.jpg"
-                    },
-                    "ibis": {
-                        "voteUp": 2
-                    }
-                },
-                "updatedAt": "2015-04-20T11:51:13.616Z",
-                "createdAt": "2015-04-20T11:51:13.616Z",
-                "visual": {
-                    "xM": 328,
-                    "yM": 879,
-                    "isOpen": false
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            },
-            {
-                "_id": "5534ebaac5a3defc296dc23d",
-                "name": "name..",
-                "type": null,
-                "mapId": "552678e69ad190a642ad461c",
-                "iAmId": 0,
-                "ideaId": 0,
-                "__v": 0,
-                "updatedAt": "2015-04-20T12:06:02.457Z",
-                "createdAt": "2015-04-20T12:06:02.456Z",
-                "visual": {
-                    "isOpen": false
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            }
-        ],
-        "edges": [
-            {
-                "_id": "5534e831cd06759d6e8a2f55",
-                "name": "foster",
-                "sourceId": "55268521fb9a901e442172f9",
-                "targetId": "5526855ac4f4db29446bd183",
-                "mapId": "552678e69ad190a642ad461c",
-                "updatedAt": "2015-04-20T11:51:13.623Z",
-                "createdAt": "2015-04-20T11:51:13.623Z",
-                "isPublic": true
-            },
-            {
-                "_id": "5534e831cd06759d6e8a2f56",
-                "name": "inhibits",
-                "sourceId": "55268521fb9a901e442172f9",
-                "targetId": "551bb5d8317e908736b6b21c",
-                "mapId": "552678e69ad190a642ad461c",
-                "updatedAt": "2015-04-20T11:51:13.623Z",
-                "createdAt": "2015-04-20T11:51:13.623Z",
-                "isPublic": true
-            },
-            {
-                "_id": "5534e831cd06759d6e8a2f57",
-                "name": "supports",
-                "sourceId": "5526855ac4f4db29446bd183",
-                "targetId": "551b4366fd64e5552ed19364",
-                "mapId": "552678e69ad190a642ad461c",
-                "updatedAt": "2015-04-20T11:51:13.624Z",
-                "createdAt": "2015-04-20T11:51:13.624Z",
-                "isPublic": true
-            },
-            {
-                "_id": "5534e831cd06759d6e8a2f58",
-                "name": "insights",
-                "sourceId": "5526855ac4f4db29446bd183",
-                "targetId": "551bb2c68f6e4cfc35654f37",
-                "mapId": "552678e69ad190a642ad461c",
-                "updatedAt": "2015-04-20T11:51:13.624Z",
-                "createdAt": "2015-04-20T11:51:13.624Z",
-                "isPublic": true
-            },
-            {
-                "_id": "5534e831cd06759d6e8a2f59",
-                "name": "inhibits",
-                "sourceId": "551bb5d8317e908736b6b21c",
-                "targetId": "551bb5073dda1559368883b2",
-                "mapId": "552678e69ad190a642ad461c",
-                "updatedAt": "2015-04-20T11:51:13.624Z",
-                "createdAt": "2015-04-20T11:51:13.624Z",
-                "isPublic": true
-            },
-            {
-                "_id": "5534eb2dc5a3defc296dc23c",
-                "name": "name...",
-                "type": "",
-                "mapId": "552678e69ad190a642ad461c",
-                "iAmId": 0,
-                "ideaId": 0,
-                "sourceId": "551bb5073dda1559368883b2",
-                "targetId": "5534eb2dc5a3defc296dc23b",
-                "dataContent": null,
-                "visual": null,
-                "__v": 0,
-                "updatedAt": "2015-04-20T12:03:57.257Z",
-                "createdAt": "2015-04-20T12:03:57.256Z",
-                "isPublic": true
-            },
-            {
-                "_id": "5534ebaac5a3defc296dc23e",
-                "name": "name...",
-                "type": "",
-                "mapId": "552678e69ad190a642ad461c",
-                "iAmId": 0,
-                "ideaId": 0,
-                "sourceId": "551b4366fd64e5552ed19364",
-                "targetId": "5534ebaac5a3defc296dc23d",
-                "dataContent": null,
-                "visual": null,
-                "__v": 0,
-                "updatedAt": "2015-04-20T12:06:02.514Z",
-                "createdAt": "2015-04-20T12:06:02.508Z",
-                "isPublic": true
-            }
-        ]
-    }
+	"properties": {
+		"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+		"date": "2015.03.22.",
+		"authors": "S. Rudan, D. Karabeg",
+		"mapId": "552678e69ad190a642ad461c",
+		"rootNodeId": "55268521fb9a901e442172f9"
+	},
+	"map": {
+		"nodes": [
+			{
+				"_id": "55268521fb9a901e442172f9",
+				"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+				"visual": {
+					"isOpen": true,
+					"xM": 200,
+					"yM": 50
+				}
+			},
+			{
+				"_id": "5526855ac4f4db29446bd183",
+				"name": "Direct Creativity",
+				"visual": {
+					"isOpen": true,
+					"xM": 120,
+					"yM": 150,
+					"widthM": 100,
+					"heightM": 180
+				}
+			},
+			{
+				"_id": "551b4366fd64e5552ed19364",
+				"name": "Breakthrough in handling creativity possible"
+			},
+			{
+				"_id": "551bb2c68f6e4cfc35654f37",
+				"name": "deep creative insight"
+			},
+			{
+				"_id": "551bb5073dda1559368883b2",
+				"name": "Classical Physics"
+			},
+			{
+				"_id": "551bb5d8317e908736b6b21c",
+				"name": "Indirect Creativty",
+				"visual": {
+					"isOpen": true,
+					"xM": 300,
+					"yM": 200
+				}
+			}
+		],
+		"edges": [
+			{
+				
+				"name": "foster",
+				"sourceId": "55268521fb9a901e442172f9",
+				"targetId": "5526855ac4f4db29446bd183"
+			},
+			{
+				"name": "inhibits",
+				"sourceId": "55268521fb9a901e442172f9",
+				"targetId": "551bb5d8317e908736b6b21c"
+			},
+			{
+				"name": "supports",
+				"sourceId": "5526855ac4f4db29446bd183",
+				"targetId": "551b4366fd64e5552ed19364"
+			},
+			{
+				"name": "insights",
+				"sourceId": "5526855ac4f4db29446bd183",
+				"targetId": "551bb2c68f6e4cfc35654f37"
+			},
+			{
+				"name": "inhibits",
+				"sourceId": "551bb5d8317e908736b6b21c",
+				"targetId": "551bb5073dda1559368883b2"
+			}
+		]
+	}
 }

@@ -684,8 +684,14 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 			},
 			
 			deleteNode: function(node) {
-				KnalledgeNodeService.destroy(node._id); //deleteNode on server service
-				delete this.nodesById[node._id];
+				var result = KnalledgeNodeService.destroy(node._id); //deleteNode on server service
+				delete this.nodesById[node._id]; //TODO: see if we should do it only upon server deleting success
+				return result;
+			},
+			
+			deleteEdgesConnectedTo: function(node) {
+				var result = KnalledgeEdgeService.deleteConnectedTo(node); //updating on server service
+				//TODO: del edgesById
 			},
 
 			createEdge: function(sourceNode, targetNode) {
@@ -736,10 +742,6 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				*/	
 
 				return newEdge;
-			},
-			
-			deleteEdgesConnectedTo: function(node) {
-				KnalledgeNodeService.update(node); //updating on server service
 			},
 
 			loadData: function(mapProperties){

@@ -215,10 +215,10 @@ MapStructure.prototype.updateNode = function(vkNode, updateType) {
 
 MapStructure.prototype.deleteNode = function(vnode) {
 	this.mapService.deleteNode(vnode.kNode);
-	delete this.nodesById[vnode._id];
-	this.mapService.deleteEdgesConnectedTo(vnode.kNode);
+	delete this.nodesById[vnode._id]; //TODO: see if we should do it only upon server deleting success
 	
-	//TODO: delete connected vkedges;
+	//TODO: this.mapService.deleteEdgesConnectedTo(vnode.kNode);
+	
 };
 
 MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
