@@ -2,7 +2,7 @@
 'use strict';
 
 var VKNode =  knalledge.VKNode = function(){
-	this.id = 0; //TODO: maxId logic should be migrated here
+	this.id = VKNode.MaxId++;
 	this.kNode = null;
 	this.iAmId = 0;
 	this.selectable = true;
@@ -10,6 +10,7 @@ var VKNode =  knalledge.VKNode = function(){
 	this.updatedAt = null;
 };
 
+VKNode.MaxId = 0;
 VKNode.prototype.init = function(){
 };
 

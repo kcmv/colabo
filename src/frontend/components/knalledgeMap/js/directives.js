@@ -267,6 +267,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						config, kMapClientInterface, null, KnalledgeMapService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
+					if($scope.mapData){
+						
+					}
 					knalledgeMap.processData(model, function(){
 						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
 						knalledgeMap.update();

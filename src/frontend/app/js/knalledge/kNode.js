@@ -2,7 +2,7 @@
 'use strict';
 
 var KNode =  knalledge.KNode = function(){
-	this._id = 0; //TODO: maxId logic should be migrated here
+	this._id = KNode.MaxId++; //TODO: maxId logic should be migrated here
 	this.name = "name...";
 	this.type = null;
 	this.mapId = "";	
@@ -26,6 +26,7 @@ var KNode =  knalledge.KNode = function(){
 	this.state = KNode.STATE_LOCAL;
 };
 
+KNode.MaxId = 0;
 KNode.STATE_LOCAL = "STATE_LOCAL";
 KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED";
 KNode.STATE_SYNCED = "STATE_SYNCED";

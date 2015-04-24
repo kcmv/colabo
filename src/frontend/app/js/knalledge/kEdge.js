@@ -2,7 +2,7 @@
 'use strict';
 
 var KEdge =  knalledge.KEdge = function(){
-	this._id = 0; //TODO: maxId logic should be migrated here
+	this._id = KEdge.MaxId++;
 	this.name = "name...";
 	this.type = null;
 	this.mapId = "";	
@@ -36,6 +36,7 @@ var KEdge =  knalledge.KEdge = function(){
 KEdge.STATE_LOCAL = "STATE_LOCAL";
 KEdge.STATE_NON_SYNCED = "STATE_NON_SYNCED";
 KEdge.STATE_SYNCED = "STATE_SYNCED";
+KEdge.MaxId = 0;
 //KEdge.S_ID = 0;
 
 KEdge.edgeFactory = function(obj){
