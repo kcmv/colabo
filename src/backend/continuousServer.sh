@@ -4,5 +4,5 @@
 
 for ((i=0; i<=10; i++)); do
     # echo "http://example.com/$i.jpg"
-    node KnAllEdgeBackend 8042
+    node KnAllEdgeBackend 8888
 done
