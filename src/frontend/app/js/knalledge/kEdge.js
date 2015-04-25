@@ -3,7 +3,7 @@
 
 var KEdge =  knalledge.KEdge = function(){
 	this._id = KEdge.MaxId++;
-	this.name = "name...";
+	this.name = "";//TODO: "name..."
 	this.type = null;
 	this.mapId = "";	
 	this.iAmId = 0;

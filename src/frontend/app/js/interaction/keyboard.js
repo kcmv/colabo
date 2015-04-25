@@ -1,6 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+//http://robertwhurst.github.io/KeyboardJS/
+//	https://github.com/RobertWHurst/KeyboardJS
 var Keyboard =  interaction.Keyboard = function(clientApi){
 	this.clientApi = clientApi;
 	this.editingNodeHtml = null;
@@ -190,7 +192,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	// IBIS
 	// Vote up
-	KeyboardJS.on("ctrl+command+up", function(){
+	KeyboardJS.on("ctrl + command + up", function(){
 		if(this.editingNodeHtml) return;
 		var node = this.clientApi.getSelectedNode();
 		if(!('dataContent' in node.kNode) || !node.kNode.dataContent) node.kNode.dataContent = {};
@@ -202,7 +204,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 
 	// Vote up
-	KeyboardJS.on("ctrl+command+down", function(){
+	KeyboardJS.on("ctrl + command + down", function(){
 		if(this.editingNodeHtml) return;
 		var node = this.clientApi.getSelectedNode();
 		if(!('dataContent' in node.kNode) || !node.kNode.dataContent) node.kNode.dataContent = {};
@@ -214,10 +216,17 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 	
 	// Add Image
-	KeyboardJS.on("ctrl + i", function(){
+	KeyboardJS.on("ctrl > i", function(){
 		if(this.editingNodeHtml) return;
 		var node = this.clientApi.getSelectedNode();
 		this.clientApi.addImage(node);
+	}.bind(this), function(){}.bind(this));	
+	
+	// Remove Image
+	KeyboardJS.on("shift + ctrl > i", function(){
+		if(this.editingNodeHtml) return;
+		console.log("Removing image");
+		this.clientApi.removeImage();
 	}.bind(this), function(){}.bind(this));	
 	
 	// Add Link
@@ -229,13 +238,6 @@ Keyboard.prototype.initializeKeyboard = function() {
 		}
 	}.bind(this), function(){}.bind(this));	
 
-	// Remove Image
-	KeyboardJS.on("ctrl + shift + i", function(){
-		if(this.editingNodeHtml) return;
-		console.log("Removing image");
-		this.clientApi.removeImage();
-	}.bind(this), function(){}.bind(this));	
-
 	// Add new node
 	KeyboardJS.on("ctrl + n", function(){
 		nsDebug.d.cnTb("KeyboardJS.on('tab'): this.editingNodeHtml: " + this.editingNodeHtml);
@@ -243,7 +245,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 		nsDebug.d.cnTb("KeyboardJS.on('tab'): this.clientApi.getSelectedNode(): " + this.clientApi.getSelectedNode());
 		
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
-		that = this;
+		var that = this;
 		var newNode = this.clientApi.createNode();
 //		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
 //			console.log("KeyboardJS.on('tab': in promised fn after createNode");
