@@ -37,7 +37,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									sizes: {
 										y: 10,
 										x: 50,
-										width: 150,
+										width: 200,
 										height: 50
 									}
 								}
@@ -153,6 +153,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									var directiveElement = directiveLink(directiveScope);
 
 									$element.append(directiveElement);
+									directiveScope.image = 
+										(('dataContent' in vkNode.kNode) && ('image' in vkNode.kNode.dataContent)) ?
+											vkNode.kNode.dataContent.image : null;
 
 									directiveScope.addedImage = function(image){
 										console.log("Adding image");
@@ -308,15 +311,17 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-imageEditing.tpl.html',
 			controller: function ( $scope, $element) {
 				$scope.title = "Create Image for node";
-				$scope.image = {
-					url: "http://upload.wikimedia.org/wikipedia/commons/e/e9/Meister_von_Mileseva_001.jpg",
-					width: 200,
-					height: 262
-				};
-				$scope.image = {
-					url: "http://upload.wikimedia.org/wikipedia/commons/7/79/Tesla_circa_1890.jpeg",
-					width: 200,
-					height: 268
+				if(!('image' in $scope)){
+					$scope.image = {
+						url: "http://upload.wikimedia.org/wikipedia/commons/e/e9/Meister_von_Mileseva_001.jpg",
+						width: 200,
+						height: 262
+					};
+					$scope.image = {
+						url: "http://upload.wikimedia.org/wikipedia/commons/7/79/Tesla_circa_1890.jpeg",
+						width: 200,
+						height: 268
+					};
 				};
 
 				$scope.cancelled = function(){
