@@ -8,6 +8,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.parentDom = parentDom;
 	this.mapService = mapService;
 	this.scales = null;
+	this.mapSize = null;
 
 	this.state = new knalledge.State();
 	this.mapStructure = new knalledge.MapStructure();
@@ -25,20 +26,21 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 };
 
 Map.prototype.init = function() {
-	this.mapStructure.init(this.mapService);
-	// http://stackoverflow.com/questions/21990857/d3-js-how-to-get-the-computed-width-and-height-for-an-arbitrary-element
-	var mapSize = [
+	this.mapSize = [
 		this.parentDom.node().getBoundingClientRect().width - this.config.tree.margin.right - this.config.tree.margin.left,
 		this.parentDom.node().getBoundingClientRect().height - this.config.tree.margin.bottom - this.config.tree.margin.top 
 	];
+
+	this.mapStructure.init(this.mapService);
+	// http://stackoverflow.com/questions/21990857/d3-js-how-to-get-the-computed-width-and-height-for-an-arbitrary-element
 
 	// inverted since tree is rotated to be horizontal
 	// related posts
 	//	http://stackoverflow.com/questions/17847131/generate-multilevel-flare-json-data-format-from-flat-json
 	//	http://stackoverflow.com/questions/20940854/how-to-load-data-from-an-internal-json-array-rather-than-from-an-external-resour
-	this.mapVisualization.init(this.mapLayout, mapSize);
+	this.mapVisualization.init(this.mapLayout, this.mapSize);
 	this.scales = this.mapVisualization.scales;
-	this.mapLayout.init(mapSize, this.scales);
+	this.mapLayout.init(this.mapSize, this.scales);
 	this.initializeKeyboard();
 	this.initializeManipulation();
 };

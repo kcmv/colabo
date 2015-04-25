@@ -3,7 +3,7 @@
 
 var KNode =  knalledge.KNode = function(){
 	this._id = KNode.MaxId++; //TODO: maxId logic should be migrated here
-	this.name = "name...";
+	this.name = "";
 	this.type = null;
 	this.mapId = "";	
 	this.iAmId = 0;

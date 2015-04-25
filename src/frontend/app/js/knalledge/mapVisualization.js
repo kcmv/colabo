@@ -59,6 +59,13 @@ MapVisualization.prototype.setDomSize = function(maxX, maxY){
 	if(typeof maxX == 'undefined') maxX = 5000;
 	if(typeof maxY == 'undefined') maxY = 5000;
 
+	if(maxX < this.mapSize[0]){
+		maxX = this.mapSize[0];
+	}
+	if(maxY < this.mapSize[1]){
+		maxY = this.mapSize[1];
+	}
+
 	this.dom.divMap
 		.style("width", maxX)
 		.style("height", maxY);		
@@ -425,6 +432,10 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 MapVisualization.prototype.updateName = function(nodeView){
 	var nodeSpan = nodeView.select("span");
 	var newName = nodeSpan.text();
+	if(newName == ""){
+		newName = "name...";
+		nodeSpan.text(newName);
+	}
 	var d = nodeView.datum();
 	this.mapStructure.updateName(d, newName);
 };

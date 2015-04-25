@@ -551,10 +551,10 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   .knalledge_map_container .node_selected {
     border-style: solid;
     border-color: #0000aa;
-    border-width: 2px;
-    -moz-box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75);
-    -webkit-box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75);
-    box-shadow: 4px 3px 7px 2px rgba(80, 80, 255, 0.75); }
+    border-width: 5px;
+    -moz-box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
+    -webkit-box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
+    box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75); }
   /* line 561, ../sass/default.scss */
   .knalledge_map_container .node_html span {
     display: inline-block;
