@@ -291,10 +291,11 @@ Keyboard.prototype.initializeKeyboard = function() {
 	
 	// Delete node:
 	KeyboardJS.on("ctrl + delete", function(){
+		console.log("ctrl + delete");
 		if(this.editingNodeHtml) return; // in typing mode
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		var that = this;
-		if(confirm("Are you sure you want to delete this node od KnAllEdge?")){
+		//if(confirm("Are you sure you want to delete this node od KnAllEdge?")){
 			var parentNodes = this.clientApi.getParentNodes(this.clientApi.getSelectedNode());
 			this.clientApi.deleteNode(this.clientApi.getSelectedNode());
 			if(parentNodes.length > 0 && parentNodes[0]){
@@ -304,7 +305,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 			this.clientApi.update(this.clientApi.getSelectedNode(), function(){
 				// that.clientApi.setSelectedNode(null); //TODO: set to parent
 			});
-		}
+		//}
 	}.bind(this), function(){}.bind(this));
 	
 	//TODO: Delete edge
