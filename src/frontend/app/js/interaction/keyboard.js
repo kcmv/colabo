@@ -254,7 +254,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 				var parentNode = that.clientApi.getSelectedNode();
 				if(!parentNode.isOpen){
 					parentNode.isOpen = true;
-					that.clientApi.updateNode(parentNode, function(){
+					that.clientApi.expandNode(parentNode, function(){
 					});
 				}
 

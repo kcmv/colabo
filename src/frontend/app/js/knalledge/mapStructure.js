@@ -168,6 +168,12 @@ MapStructure.prototype.collapse = function(vkNode) {
 	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
 };
 
+// collapses children of the provided node
+MapStructure.prototype.expandNode = function(vkNode) {
+	vkNode.isOpen = true;
+	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
+};
+
 // toggle children of the provided node
 MapStructure.prototype.toggle = function(vkNode) {
 	vkNode.isOpen = !vkNode.isOpen;	
