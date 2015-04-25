@@ -70,7 +70,8 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 					var requestT = this.queue[i];
 					if(requestT.no == request.no){ //TODO: should (could) be simplified to if(requestT == request)
 						request.state = this.STATE_EXECUTED;
-						request.data.state = knalledge.KEdge.STATE_SYNCED; //TODO: we check for KEdge.STATE_LOCAL even though it might be KNode. but they have same values so it is fine;
+						//TODO: FOR TESTING BLOCKING UPDATES BEFORE CREATES: request.data.state = knalledge.KEdge.STATE_LOCAL;
+						//NOT NEEDED: DONE IN CONSTRUCTOR. request.data.state = knalledge.KEdge.STATE_SYNCED; //TODO: we check for KEdge.STATE_LOCAL even though it might be KNode. but they have same values so it is fine;
 						this.queue.splice(i, 1);
 						break;
 					}
@@ -288,6 +289,10 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	resource.update = function(kNode, callback)
 	{
 		console.log("resource.update");
+		if(kNode.state == knalledge.KNode.STATE_LOCAL){//TODO: fix it by going throgh queue 
+			window.alert("Please, wait while entity is being saved, before updating it:\n"+kNode.name);
+			return null;
+		}
 		var id = kNode._id;
 		var kNodeForServer = kNode.toServerCopy(); //TODO: move it to transformRequest ?
 		if(QUEUE && false){
@@ -517,6 +522,10 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	
 	resource.update = function(kEdge, callback)
 	{
+		if(kEdge.state == knalledge.KEdge.STATE_LOCAL){//TODO: fix it by going throgh queue 
+			window.alert("Please, wait while entity is being saved, before updating it:\n"+kEdge.name);
+			return null;
+		}
 		//TODO: check the name of param: id or ObjectId or _id?
 		return this.updatePlain({searchParam:kEdge._id, type:'one'}, kEdge, callback);
 	};
@@ -568,10 +577,10 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 		console.log("[EdgeService::check]");
 		
 		var edge = request.data;
-		if(edge.sourceId <5){
+		if(typeof edge.sourceId !== 'string'){//TODO: Fix it through Node states
 			return false;
 		}
-		if(edge.targetId <5){
+		if(typeof edge.targetId !== 'string'){//workaround edge.targetId <5){
 			return false;
 		}
 		return true;

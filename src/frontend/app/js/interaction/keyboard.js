@@ -155,6 +155,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	 * opening node
 	 */
 	KeyboardJS.on("ctrl + enter", function(){
+		console.log("ctrl + enter");
 		if(this.editingNodeHtml) return;
 
 		this.clientApi.getSelectedNode().isOpen = !this.clientApi.getSelectedNode().isOpen;
@@ -216,14 +217,14 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 	
 	// Add Image
-	KeyboardJS.on("ctrl > i", function(){
+	KeyboardJS.on("ctrl + i", function(){
 		if(this.editingNodeHtml) return;
 		var node = this.clientApi.getSelectedNode();
 		this.clientApi.addImage(node);
 	}.bind(this), function(){}.bind(this));	
 	
 	// Remove Image
-	KeyboardJS.on("shift + ctrl > i", function(){
+	KeyboardJS.on("shift + ctrl + i", function(){
 		if(this.editingNodeHtml) return;
 		console.log("Removing image");
 		this.clientApi.removeImage();
