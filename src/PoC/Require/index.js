@@ -24,16 +24,20 @@ http://requirejs.org/docs/start.html
 
 console.warn("Helo");
 //window.myDebug = require("debug");
-myDebug.enable("worker:*")
+myDebug.enable("worker:b")
+myDebug.disable("worker:a")
 var a = myDebug('worker:a');
 var b = myDebug('worker:b');
+var c = myDebug('worker:b');
 
 setInterval(function(){
   a('doing some work');
+  c('c: doing some work');
 }, 1000);
  
 setInterval(function(){
-  b('doing some work');
+  b('b: doing some work');
+  c('c: doing some work');
 }, 1200);
 
 console.warn("Init Done");
