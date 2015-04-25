@@ -149,15 +149,20 @@ Keyboard.prototype.initializeKeyboard = function() {
 		}
 	}.bind(this), function(){}.bind(this));
 
-	KeyboardJS.on("enter", function(){
+	/**
+	 * opening node
+	 */
+	KeyboardJS.on("ctrl + enter", function(){
 		if(this.editingNodeHtml) return;
 
 		this.clientApi.getSelectedNode().isOpen = !this.clientApi.getSelectedNode().isOpen;
 		this.clientApi.update(this.clientApi.getSelectedNode());
 	}.bind(this), function(){}.bind(this));
 
-	// EDIT
-	KeyboardJS.on("space",
+	/**
+	 * starting node editing
+	 */
+	KeyboardJS.on("ctrl + space",
 		function(){
 			if(this.editingNodeHtml){
 				return;
@@ -173,8 +178,10 @@ Keyboard.prototype.initializeKeyboard = function() {
 		}.bind(this)
 	);
 
-	// STOP-EDITING
-	KeyboardJS.on("escape", function(){
+	/**
+	 * finishing node editing
+	 */
+	KeyboardJS.on("ctrl + escape", function(){
 		console.log("editing escaping");
 		if(this.editingNodeHtml){
 			this.exitEditingNode();
@@ -207,14 +214,14 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 	
 	// Add Image
-	KeyboardJS.on("i", function(){
+	KeyboardJS.on("ctrl + i", function(){
 		if(this.editingNodeHtml) return;
 		var node = this.clientApi.getSelectedNode();
 		this.clientApi.addImage(node);
 	}.bind(this), function(){}.bind(this));	
 	
 	// Add Link
-	KeyboardJS.on("l", function(){
+	KeyboardJS.on("ctrl + l", function(){
 		if(this.editingNodeHtml) return;
 		var node = this.clientApi.getSelectedNode();
 		if(node){ // if source node is selected
@@ -223,14 +230,14 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));	
 
 	// Remove Image
-	KeyboardJS.on("shift+i", function(){
+	KeyboardJS.on("ctrl + shift + i", function(){
 		if(this.editingNodeHtml) return;
 		console.log("Removing image");
 		this.clientApi.removeImage();
 	}.bind(this), function(){}.bind(this));	
 
 	// Add new node
-	KeyboardJS.on("n", function(){
+	KeyboardJS.on("ctrl + n", function(){
 		nsDebug.d.cnTb("KeyboardJS.on('tab'): this.editingNodeHtml: " + this.editingNodeHtml);
 		if(this.editingNodeHtml) return; // in typing mode
 		nsDebug.d.cnTb("KeyboardJS.on('tab'): this.clientApi.getSelectedNode(): " + this.clientApi.getSelectedNode());
@@ -278,7 +285,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));	
 	
 	// Delete node:
-	KeyboardJS.on("delete", function(){
+	KeyboardJS.on("ctrl + delete", function(){
 		if(this.editingNodeHtml) return; // in typing mode
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		var that = this;

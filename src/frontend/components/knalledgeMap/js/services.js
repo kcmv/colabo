@@ -462,6 +462,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 		return this.queryPlain({ searchParam:id, type:'in_map' }, function(edgesFromServer){
 			for(var id=0; id<edgesFromServer.length; id++){
 				var kEdge = knalledge.KEdge.edgeFactory(edgesFromServer[id]);
+				kEdge.state = knalledge.KEdge.STATE_SYNCED;
 				edgesFromServer[id] = kEdge;
 			}
 
