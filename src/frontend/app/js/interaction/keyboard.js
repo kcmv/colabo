@@ -106,7 +106,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	this.editingNodeHtml = null;
 
 	KeyboardJS.on("right", function(){
-		if(this.editingNodeHtml) return;
+		if(this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
 
 		if(this.clientApi.getSelectedNode().children){
 			this.clientApi.clickNode(this.clientApi.getSelectedNode().children[0]);
@@ -114,7 +114,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 
 	KeyboardJS.on("left", function(){
-		if(this.editingNodeHtml) return;
+		if(this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
 
 		if(this.clientApi.getSelectedNode().parent){
 			this.clientApi.clickNode(this.clientApi.getSelectedNode().parent);
@@ -122,7 +122,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 
 	KeyboardJS.on("down", function(){
-		if(this.editingNodeHtml) return;
+		if(this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
 
 		if(this.clientApi.getSelectedNode().parent && this.clientApi.getSelectedNode().parent.children){
 			for(var i=0; i<this.clientApi.getSelectedNode().parent.children.length; i++){
@@ -136,7 +136,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 
 	KeyboardJS.on("up", function(){
-		if(this.editingNodeHtml) return;
+		if(this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
 
 		if(this.clientApi.getSelectedNode().parent && this.clientApi.getSelectedNode().parent.children){
 			for(var i=0; i<this.clientApi.getSelectedNode().parent.children.length; i++){
@@ -242,18 +242,36 @@ Keyboard.prototype.initializeKeyboard = function() {
 //			console.log("KeyboardJS.on('tab': in promised fn after createNode");
 			var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
 			newEdge.kEdge.$promise.then(function(kEdgeFromServer){
-				if(!that.clientApi.getSelectedNode().isOpen){
-					that.clientApi.getSelectedNode().isOpen = true;
-					that.clientApi.update(that.clientApi.getSelectedNode(), function(){
-						
+				var parentNode = that.clientApi.getSelectedNode();
+				if(!parentNode.isOpen){
+					parentNode.isOpen = true;
+					that.clientApi.updateNode(parentNode, function(){
 					});
 				}
 
-				that.clientApi.update(that.clientApi.getSelectedNode(), function(){
-					that.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
+				that.clientApi.update(newNode, function(){
+					that.clientApi.setSelectedNode(newNode); // TODO: that is not defined?
+					that.clientApi.clickNode(newNode);
 					that.setEditing(newNode);
+					that.clientApi.positionToDatum(newNode);
 				});
 			});
+
+			// var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
+			// newEdge.kEdge.$promise.then(function(kEdgeFromServer){
+			// 	if(!that.clientApi.getSelectedNode().isOpen){
+			// 		that.clientApi.getSelectedNode().isOpen = true;
+			// 		that.clientApi.update(that.clientApi.getSelectedNode(), function(){
+						
+			// 		});
+			// 	}
+
+			// 	that.clientApi.update(that.clientApi.getSelectedNode(), function(){
+			// 		that.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
+			// 		that.setEditing(newNode);
+			// 	});
+			// });
+
 		//});
 	}.bind(this), function(){}.bind(this));	
 	
@@ -261,7 +279,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	KeyboardJS.on("delete", function(){
 		if(this.editingNodeHtml) return; // in typing mode
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
-		that = this;
+		var that = this;
 		if(confirm("Are you sure you want to delete this node od KnAllEdge?")){
 			this.clientApi.deleteNode(this.clientApi.getSelectedNode());		
 	
