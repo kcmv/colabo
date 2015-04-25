@@ -133,6 +133,22 @@ MapStructure.prototype.getChildrenNodes = function(vkNode, edgeType){
 	return children;
 };
 
+MapStructure.prototype.getParentNodes = function(vkNode, edgeType){
+	var parents = [];
+	for(var i in this.edgesById){
+		var vkEdge = this.edgesById[i];
+		if(vkEdge.kEdge.targetId == vkNode.kNode._id && ((typeof edgeType === 'undefined') || vkEdge.kEdge.type == edgeType)){
+			for(var j in this.nodesById){
+				var vkNodeParent = this.nodesById[j];
+				if(vkNodeParent.kNode._id == vkEdge.kEdge.sourceId){
+					parents.push(vkNodeParent);
+				}
+			}
+		}
+	}
+	return parents;
+};
+
 MapStructure.prototype.getMaxNodeId = function(){
 	var maxId = -1;
 	for(var i in this.nodesById){
@@ -165,6 +181,12 @@ Map.prototype.addChildNode = function(nodeParent, nodeChild, edge){
 // collapses children of the provided node
 MapStructure.prototype.collapse = function(vkNode) {
 	vkNode.isOpen = false;
+	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
+};
+
+// collapses children of the provided node
+MapStructure.prototype.expandNode = function(vkNode) {
+	vkNode.isOpen = true;
 	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
 };
 

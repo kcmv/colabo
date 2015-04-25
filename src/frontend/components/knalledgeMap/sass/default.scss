@@ -554,8 +554,8 @@ $map: layout(12 1/4 fluid float inside);
 	.node_selected{
 		border-style: solid;
 		border-color: #0000aa;
-		border-width: 2px;
-		@include box-shadow(4px 3px 7px 2px rgba(80, 80, 255, 0.75));
+		border-width: 5px;
+		@include box-shadow(10px 10px 9px 5px rgba(80, 80, 255, 0.75));
 	}
 
 	.node_html span {

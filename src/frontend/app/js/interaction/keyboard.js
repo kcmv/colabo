@@ -255,15 +255,19 @@ Keyboard.prototype.initializeKeyboard = function() {
 				var parentNode = that.clientApi.getSelectedNode();
 				if(!parentNode.isOpen){
 					parentNode.isOpen = true;
-					that.clientApi.updateNode(parentNode, function(){
+					that.clientApi.expandNode(parentNode, function(){
 					});
 				}
 
 				that.clientApi.update(newNode, function(){
 					that.clientApi.setSelectedNode(newNode); // TODO: that is not defined?
 					that.clientApi.clickNode(newNode);
-					that.setEditing(newNode);
-					that.clientApi.positionToDatum(newNode);
+					that.clientApi.update(newNode, function(){
+						that.setEditing(newNode);
+						// we need to position explicitly here again even though that.clientApi.clickNode(newNode) is doing it
+						// since that.setEditing(newNode); is destroying positioning
+						that.clientApi.positionToDatum(newNode);
+					});
 				});
 			});
 
@@ -291,10 +295,14 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		var that = this;
 		if(confirm("Are you sure you want to delete this node od KnAllEdge?")){
-			this.clientApi.deleteNode(this.clientApi.getSelectedNode());		
-	
+			var parentNodes = this.clientApi.getParentNodes(this.clientApi.getSelectedNode());
+			this.clientApi.deleteNode(this.clientApi.getSelectedNode());
+			if(parentNodes.length > 0 && parentNodes[0]){
+				this.clientApi.clickNode(parentNodes[0]);
+			}
+
 			this.clientApi.update(this.clientApi.getSelectedNode(), function(){
-				that.clientApi.setSelectedNode(null); //TODO: set to parent
+				// that.clientApi.setSelectedNode(null); //TODO: set to parent
 			});
 		}
 	}.bind(this), function(){}.bind(this));
