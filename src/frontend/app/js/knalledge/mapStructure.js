@@ -92,18 +92,18 @@ MapStructure.prototype.getEdge = function(sourceId, targetId){
 };
 
 MapStructure.prototype.getChildrenEdgeTypes = function(vkNode){
-	var children = {};
+	var childrenEdgeTypes = {};
 	for(var i in this.edgesById){
 		var vkEdge = this.edgesById[i];
 		if(vkEdge.kEdge.sourceId == vkNode.kNode._id){
-			if(vkEdge.kEdge.type in children){
-				children[vkEdge.kEdge.type] += 1;
+			if(vkEdge.kEdge.type in childrenEdgeTypes){
+				childrenEdgeTypes[vkEdge.kEdge.type] += 1;
 			}else{
-				children[vkEdge.kEdge.type] = 1;
+				childrenEdgeTypes[vkEdge.kEdge.type] = 1;
 			}
 		}
 	}
-	return children;
+	return childrenEdgeTypes;
 };
 
 MapStructure.prototype.getChildrenEdges = function(vkNode, edgeType){
