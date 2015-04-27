@@ -590,7 +590,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	
 }]);
 
-knalledgeMapServices.provider('KnalledgeMapService', {
+knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	// privateData: "privatno",
 	$get: ['$q', '$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', function($q, $rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService) {
 		// var that = this;
@@ -648,9 +648,9 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 			createNode: function() {
 				
 				var nodeCreated = function(nodeFromServer) {
-					console.log("[KnalledgeMapService] nodeCreated");// + JSON.stringify(nodeFromServer));
+					console.log("[KnalledgeMapVOsService] nodeCreated");// + JSON.stringify(nodeFromServer));
 					var edgeUpdatedNodeRef = function(edgeFromServer){
-						console.log("[KnalledgeMapService] edgeUpdatedNodeRef" + JSON.stringify(edgeFromServer));
+						console.log("[KnalledgeMapVOsService] edgeUpdatedNodeRef" + JSON.stringify(edgeFromServer));
 					};
 					
 					// updating all references to node on fronted with server-created id:
@@ -680,7 +680,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 					}
 				};
 
-				console.log("[KnalledgeMapService] createNode");
+				console.log("[KnalledgeMapVOsService] createNode");
 				var maxId = -1;
 				for(var i in this.nodesById){
 					if(maxId < this.nodesById[i]._id){
@@ -720,7 +720,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 
 			createEdge: function(sourceNode, targetNode) {
 				var edgeCreated = function(edgeFromServer) {
-					console.log("[KnalledgeMapService] edgeCreated" + JSON.stringify(edgeFromServer));
+					console.log("[KnalledgeMapVOsService] edgeCreated" + JSON.stringify(edgeFromServer));
 					
 					// updating all references to edge on fronted with server-created id:
 					// var oldId = newEdge._id;
@@ -730,7 +730,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 					// newEdge.fill(edgeFromServer);
 				};
 				
-				console.log("[KnalledgeMapService] createEdge");
+				console.log("[KnalledgeMapVOsService] createEdge");
 				var maxId = -1;
 				for(var i in this.edgesById){
 					if(maxId < this.edgesById[i]._id){
@@ -795,7 +795,7 @@ knalledgeMapServices.provider('KnalledgeMapService', {
 				};
 				
 				var nodesEdgesReceived = function(){
-					console.log("[KnalledgeMapService::loadData] nodesEdgesReceived");
+					console.log("[KnalledgeMapVOsService::loadData] nodesEdgesReceived");
 					var i;
 					for(i=0; i<nodes.length; i++){
 						result.map.nodes.push(nodes[i]);
