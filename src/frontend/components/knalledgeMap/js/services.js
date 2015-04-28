@@ -715,11 +715,12 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			/**
 			expects already created VOs!
 			*/
-			createEdgeAndNodes: function(sourcekNode, kEdge, targetkNode, callback) {
+			createNodeWithEdge: function(sourcekNode, kEdge, targetkNode, callback) {
 				var createEdgeAndNodesCallback = function(kEdgeFromServer){
 					console.log("createEdgeAndNodesCallback");
+					callback(kEdgeFromServer);
 				}
-				sourcekNode = this.createNode(sourcekNode);
+				//sourcekNode = this.createNode(sourcekNode);
 				targetkNode = this.createNode(targetkNode);
 				kEdge.sourceId = sourcekNode._id;
 				kEdge.targetId = targetkNode._id;
@@ -728,7 +729,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				kEdge = this.createEdge(sourcekNode, targetkNode, kEdge);
 				newEdge.kEdge.$promise.then(createEdgeAndNodesCallback);
 				return kEdge;
-			}
+			},
 			
 			deleteEdgesConnectedTo: function(node) {
 				var result = KnalledgeEdgeService.deleteConnectedTo(node._id); //deleting on server service
