@@ -14,6 +14,7 @@ MapStructure.maxVKNodeId = 0;
 MapStructure.maxVKEdgeId = 0;
 
 MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
+MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT";
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
 MapStructure.UPDATE_NODE_APPEARENCE = "UPDATE_NODE_APPEARENCE";
 MapStructure.UPDATE_NODE_IBIS_VOTING = "UPDATE_NODE_IBIS_VOTING";
@@ -247,6 +248,8 @@ MapStructure.prototype.updateNode = function(vkNode, updateType) {
 			if('isOpen' in vkNode) vkNode.kNode.visual.isOpen = vkNode.isOpen;
 			break;
 		case MapStructure.UPDATE_NODE_IBIS_VOTING:
+			break;
+		case MapStructure.UPDATE_DATA_CONTENT:
 			break;
 	}
 	this.mapService.updateNode(vkNode.kNode, updateType); //updating on server service
