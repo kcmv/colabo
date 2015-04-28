@@ -702,8 +702,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				return newNode;
 			},
 
-			updateNode: function(node, updateType) {
-				KnalledgeNodeService.update(node, updateType); //updating on server service
+			updateNode: function(node, updateType, callback) {
+				KnalledgeNodeService.update(node, callback); //TODO: ? updateType); //updating on server service
 			},
 			
 			deleteNode: function(node) {
@@ -740,6 +740,11 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 						delete this.edgesById[i]; 
 					}
 				}
+			},
+
+			relinkEdgeSource: function (kEdge, kNode, callback) {
+				kEdge.sourceId = kNode._id;
+				this.updateEdge(kEdge, "UPDATE_RELINK_EDGE", callback);
 			},
 
 			createEdge: function(sourceNode, targetNode, kEdge) {
@@ -795,6 +800,10 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 
 				return newEdge;
 			},
+
+			updateEdge: function(kEdge, updateType, callback){
+				return KnalledgeEdgeService.update(node, updateType, callback); //updating on server service
+			}
 
 			loadData: function(mapProperties){
 				if(typeof mapProperties !== 'undefined'){
