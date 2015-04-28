@@ -718,7 +718,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			createNodeWithEdge: function(sourcekNode, kEdge, targetkNode, callback) {
 				var createEdgeAndNodesCallback = function(kEdgeFromServer){
 					console.log("createEdgeAndNodesCallback");
-					callback(kEdgeFromServer);
+					if(callback){callback(kEdgeFromServer);}
 				}
 				//sourcekNode = this.createNode(sourcekNode);
 				targetkNode = this.createNode(targetkNode);
@@ -727,7 +727,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	//		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
 	//			console.log("KeyboardJS.on('tab': in promised fn after createNode");
 				kEdge = this.createEdge(sourcekNode, targetkNode, kEdge);
-				newEdge.kEdge.$promise.then(createEdgeAndNodesCallback);
+				kEdge.$promise.then(createEdgeAndNodesCallback);
 				return kEdge;
 			},
 			
