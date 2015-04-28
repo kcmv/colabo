@@ -803,7 +803,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 
 			updateEdge: function(kEdge, updateType, callback){
 				return KnalledgeEdgeService.update(node, updateType, callback); //updating on server service
-			}
+			},
 
 			loadData: function(mapProperties){
 				if(typeof mapProperties !== 'undefined'){
