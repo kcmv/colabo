@@ -1,11 +1,11 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayout =  knalledge.MapLayout = function(structure, configNodes, configTree, mapVisualizationApi, knalledgeState){
+var MapLayout =  knalledge.MapLayout = function(structure, configNodes, configTree, clientApi, knalledgeState){
 	this.structure = structure;
 	this.configNodes = configNodes;
 	this.configTree = configTree;
-	this.mapVisualizationApi = mapVisualizationApi;
+	this.clientApi = clientApi;
 	this.knalledgeState = knalledgeState;
 	this.nodes = null;
 	this.links = null;
@@ -33,7 +33,7 @@ MapLayout.prototype.getChildren = function(d){ //TODO: improve probably, not to 
 };
 
 MapLayout.prototype.init = function(mapSize, scales){
-	this.dom = this.mapVisualizationApi.getDom();
+	this.dom = this.clientApi.getDom();
 	this.scales = scales;
 
 	this.tree = d3.layout.tree();
@@ -113,9 +113,12 @@ MapLayout.prototype.getDomFromDatum = function(d) {
 };
 
 // Select node on node click
-MapLayout.prototype.clickNode = function(d) {
+MapLayout.prototype.clickNode = function(d, dom) {
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state
+	if(d.kNode.visual && !d.kNode.visual.selectable){
+		return;
+	}
 	var nodesHtmlSelected = this.getDomFromDatum(d);
 	if(!nodesHtmlSelected) return;
 
@@ -138,20 +141,21 @@ MapLayout.prototype.clickNode = function(d) {
 		});
 		d.isSelected = true;
 		this.structure.setSelectedNode(d);
-		this.mapVisualizationApi.positionToDatum(d);
+		this.clientApi.positionToDatum(d);
 		if(this.knalledgeState.addingLinkFrom !== null){
 			this.structure.createEdge(this.knalledgeState.addingLinkFrom, d);
 			this.knalledgeState.addingLinkFrom = null;
-			this.mapVisualizationApi.update(this.structure.rootNode); //TODO: should we move it into this.structure.createEdge?
+			this.clientApi.update(this.structure.rootNode); //TODO: should we move it into this.structure.createEdge?
 		}
 	}
-	//this.mapVisualizationApi.update(this.structure.rootNode);
+	this.clientApi.nodeClicked(this.structure.getSelectedNode(), dom);
+	//this.clientApi.update(this.structure.rootNode);
 };
 
 // Toggle children on node double-click
 MapLayout.prototype.clickDoubleNode = function(d) {
 	this.structure.toggle(d);
-	this.mapVisualizationApi.update(d);
+	this.clientApi.update(d);
 };
 
 // react on label click.
@@ -169,12 +173,12 @@ MapLayout.prototype.clickLinkLabel = function() {
 MapLayout.prototype.viewspecChanged = function(target){
 	if (target.value === "viewspec_tree") this.configTree.viewspec = "viewspec_tree";
 	else if (target.value === "viewspec_manual") this.configTree.viewspec = "viewspec_manual";
-	this.mapVisualizationApi.update(this.structure.rootNode);
+	this.clientApi.update(this.structure.rootNode);
 };
 
 MapLayout.prototype.processData = function(callback) {
 	this.clickNode(this.structure.rootNode);
-	this.mapVisualizationApi.update(this.structure.rootNode, callback);
+	this.clientApi.update(this.structure.rootNode, callback);
 };
 
 /**
@@ -307,7 +311,7 @@ MapLayout.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	}
 	maxX += -minX + this.configTree.margin.bottom;
 	maxY += -minY + this.configTree.margin.right;
-	this.mapVisualizationApi.setDomSize(maxY, maxX);
+	this.clientApi.setDomSize(maxY, maxX);
 };
 
 MapLayout.prototype.getHtmlNodePosition = function(d) {

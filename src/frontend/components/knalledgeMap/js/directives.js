@@ -11,7 +11,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			restrict: 'EA',
 			scope: {
 				mapData: "=",
-				mapConfig: "="
+				mapConfig: "=",
+				nodeSelected: "&"
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
@@ -142,6 +143,18 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					if($scope.mapConfig) overwriteConfig($scope.mapConfig, config);
 
 					var kMapClientInterface = {
+						nodeClicked: function(vkNode){
+							$scope.$apply(function () {
+								$scope.nodeSelected(vkNode);
+							});
+						},
+						mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
+							$scope.$apply(function () {
+								mapEntityClicked = mapEntity;
+								var eventName = "mapEntitySelectedEvent";
+								$rootScope.$broadcast(eventName, mapEntity);
+							});
+						},
 						addImage: function(vkNode, callback){
 							$scope.$apply(function () {
 								if(vkNode){
@@ -191,6 +204,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap.processData(model, function(){
 						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
 						knalledgeMap.update();
+						if($scope.mapData.selectedNode){
+							var vkNode = knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
+							knalledgeMap.mapLayout.clickNode(vkNode);
+						}
 					});
 				};
 

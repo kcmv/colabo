@@ -187,12 +187,27 @@ MapVisualization.prototype.updateHtml = function(source) {
 	var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
 		.data(this.mapLayout.nodes, function(d) { return d.id; });
 
+	nodeHtml.classed({
+		"node_unselectable": function(d){
+			return (!d.kNode.visual || !d.kNode.visual.selectable) ?
+				true : false;
+		},
+		"node_selectable": function(d){
+			return (d.kNode.visual && d.kNode.visual.selectable) ?
+				true : false;
+		}
+	})
+
 	// Enter the nodes
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", "node_html node_unselected draggable")
-		.on("dblclick", this.mapLayout.clickDoubleNode.bind(this.mapLayout))
-		.on("click", this.mapLayout.clickNode.bind(this.mapLayout));
+		.on("dblclick", function(d){
+			that.mapLayout.clickDoubleNode(d, this);
+		})
+		.on("click", function(d){
+			that.mapLayout.clickNode(d, this);
+		});
 
 	// position node on enter at the source position
 	// (it is either parent or another precessor)
@@ -377,6 +392,11 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 	if(this.configTransitions.update.animate.opacity){
 		nodeHtmlUpdateTransition
 			.style("opacity", 1.0);
+		nodeHtmlUpdateTransition.select(".node_inner_html")
+			.style("opacity", function(d){
+				return (d.kNode.visual && d.kNode.visual.selectable) ?
+					1.0 : 0.5;
+			});
 	}
 
 	nodeHtmlUpdateTransition
@@ -468,8 +488,13 @@ MapVisualization.prototype.updateSvgNodes = function(source) {
 		.style("opacity", function(){
 			return that.configTransitions.enter.animate.opacity ? 1e-6 : 0.8;
 		})
-		.on("click", this.mapLayout.clickNode.bind(this.mapLayout))
-		.on("dblclick", this.mapLayout.clickDoubleNode.bind(this.mapLayout))
+
+		.on("click", function(d){
+			that.mapLayout.clickNode(d, this);
+		})
+		.on("dblclick", function(d){
+			that.clickDoubleNode.clickNode(d, this);
+		})
 		// Enter any new nodes at the parent's previous position.
 		.attr("transform", function(d) {
 			var x = null, y = null;

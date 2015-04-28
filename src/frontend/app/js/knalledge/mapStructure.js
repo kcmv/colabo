@@ -295,7 +295,9 @@ MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
 MapStructure.prototype.getVKNodeByKId = function(kId) {
 	for(var i in this.nodesById){
 		var vkNode = this.nodesById[i];
-		if(vkNode.kNode._id == kId) {return vkNode;}
+		if(vkNode.kNode._id == kId) {
+			return vkNode;
+		}
 	}
 	try {
 		throw new Error('myError');
@@ -316,7 +318,7 @@ MapStructure.prototype.getVKEdgeByKIds = function(sourceKId, targetKId) {
 };
 
 MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
-	this.properties = kMapData.map.properties;
+	this.properties = kMapData.properties;
 	var i=0;
 	var kNode = null;
 	var kEdge = null;
