@@ -78,7 +78,7 @@ MapStructure.prototype.getEdgesBetweenNodes = function(source, target){ //TODO: 
 		}
 	}
 	return edges;
-}
+};
 
 MapStructure.prototype.getEdge = function(sourceId, targetId){
 	var sourceKId = this.nodesById[sourceId].kNode._id;

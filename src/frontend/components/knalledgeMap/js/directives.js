@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapService', '$compile', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
-		function(KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapService, $compile /*, $rootScope, $q, $timeout, ConfigMap*/){
+	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', '$compile', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
+		function(KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, $compile /*, $rootScope, $q, $timeout, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -185,7 +185,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null, 
-							config.tree.mapService.enabled ? KnalledgeMapService : null);
+							config.tree.mapService.enabled ? KnalledgeMapVOsService : null);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model, function(){

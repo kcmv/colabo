@@ -1,0 +1,90 @@
+(function () { // This prevents problems when concatenating scripts that aren't strict.
+'use strict';
+
+var KMap =  knalledge.KMap = function(){
+	this._id = KMap.MaxId++; //TODO: maxId logic should be migrated here
+	this.name = "";
+	this.type = "";
+	this.iAmId = 0;
+	//this.activeVersion = 1;
+	this.ideaId = 0;
+	//this.version = 1;
+	this.isPublic = true;
+	this.createdAt = null;
+	this.updatedAt = null;
+	this.dataContent = null;
+	this.visual = {
+	};
+	
+	/* local-to-frontend */
+	this.state = KMap.STATE_LOCAL;
+};
+
+KMap.MaxId = 0;
+KMap.STATE_LOCAL = "STATE_LOCAL";
+KMap.STATE_NON_SYNCED = "STATE_NON_SYNCED";
+KMap.STATE_SYNCED = "STATE_SYNCED";
+
+KMap.prototype.init = function(){
+	
+};
+
+KMap.mapFactory = function(obj){
+	var kMap = new knalledge.KMap();
+	kMap.fill(obj);
+	return kMap;
+};
+
+KMap.prototype.fill = function(obj){
+	if(obj){
+		if("_id" in obj){this._id = obj._id;}
+		if("name" in obj){this.name = obj.name;}
+		if("type" in obj){this.type = obj.type;}
+		if("iAmId" in obj){this.iAmId = obj.iAmId;}
+		if("ideaId" in obj){this.ideaId = obj.ideaId;}
+		if("isPublic" in obj){this.isPublic = obj.isPublic;}
+		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date native type
+		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date native type
+		if("dataContent" in obj){this.dataContent = obj.dataContent;} //TODO: deep copy?
+		if("visual" in obj){
+		}
+	}
+};
+
+KMap.prototype.overrideFromServer = function(obj){
+	if(obj){
+		if("_id" in obj){this._id = obj._id;}
+		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date nativ type
+		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ type
+	}
+	this.state = KMap.STATE_SYNCED;
+};
+
+KMap.prototype.toServerCopy = function(){
+	var kMap = {};
+	
+	/* copying all non-system and non-function properties */
+	for(var id in this){
+		if(id[0] == '$') continue;
+		if (typeof this[id] == 'function') continue;
+		//console.log("cloning: %s", id);
+		if(this[id] !== undefined){ //JSON.parse breaks at "undefined"
+			kMap[id] = (JSON.parse(JSON.stringify(this[id])));
+		}
+	}
+	
+	/* deleting properties that should be set created to default value on server */
+	if(kMap.createdAt === undefined || kMap.createdAt === null) {delete kMap.createdAt;}
+	if(kMap.updatedAt === undefined || kMap.updatedAt === null) {delete kMap.updatedAt;}
+	
+	if(kMap.state == KMap.STATE_LOCAL){
+		delete kMap._id;
+	}
+	
+	/* deleting local-frontend parameters */
+	delete kMap.state;
+	
+	return kMap;
+};
+
+}()); // end of 'use strict';

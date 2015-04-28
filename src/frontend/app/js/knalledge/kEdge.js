@@ -87,7 +87,7 @@ KEdge.prototype.toServerCopy = function(){
 		if(id[0] == '$') continue;
 		if (typeof this[id] == 'function') continue;
 		//console.log("cloning: %s", id);
-		if(this[id] != undefined){ //JSON.parse breaks at "undefined"
+		if(this[id] !== undefined){ //JSON.parse breaks at "undefined"
 			kEdge[id] = (JSON.parse(JSON.stringify(this[id])));
 		}
 	}

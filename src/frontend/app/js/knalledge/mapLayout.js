@@ -42,7 +42,7 @@ MapLayout.prototype.init = function(mapSize, scales){
 		this.tree.nodeSize([
 			this.configTree.sizing.nodeSize[1],
 			this.configTree.sizing.nodeSize[0]
-		])
+		]);
 	}else{
 		this.tree.size([mapSize[1], mapSize[0]]);
 	}
@@ -277,7 +277,7 @@ MapLayout.prototype.printTree = function(nodes) {
 		var node = nodes[i];
 		var height = ('height' in node) ? node.height : 0;
 		var width = ('width' in node) ? node.width : 0;
-		var name = node.kNode ? node.kNode.name : "(no name)"
+		var name = node.kNode ? node.kNode.name : "(no name)";
 		console.log("\tnode [%d] \"%s\": x:%s, y:%s, width:%s, height: %s)", i, name, node.x, node.y, node.width, node.height);
 		if(node.x - height/2 < minX) minX = node.x - height/2;
 		if(node.x + height/2 > maxX) maxX = node.x + height/2;
@@ -289,8 +289,9 @@ MapLayout.prototype.printTree = function(nodes) {
 
 MapLayout.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	var minX = 0, maxX = 0, minY = 0, maxY = 0;
+	var node;
 	for(var i in nodes){
-		var node = nodes[i];
+		node = nodes[i];
 		var height = ('height' in node) ? node.height : 0;
 		var width = ('width' in node) ? node.width : 0;
 		if(node.x - height/2 < minX) minX = node.x - height/2;
@@ -299,8 +300,8 @@ MapLayout.prototype.MoveNodesToPositiveSpace = function(nodes) {
 		if(node.y + width/2 > maxY) maxY = node.y + width/2;
 	}
 	console.log("Dimensions: (minX: %s, maxX: %s, minY: %s, maxY: %s)", minX, maxX, minY, maxY);
-	for(var i in nodes){
-		var node = nodes[i];
+	for(i in nodes){
+		node = nodes[i];
 		node.x += -minX + this.configTree.margin.top;
 		node.y += -minY + this.configTree.margin.left;
 	}

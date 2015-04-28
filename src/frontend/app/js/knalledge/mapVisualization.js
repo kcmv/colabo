@@ -79,14 +79,14 @@ MapVisualization.prototype.setDomSize = function(maxX, maxY){
 };
 
 MapVisualization.prototype.setScales = function(){
-	var that = this;
+	// var that = this;
 
 	var scales = {
 		x: null,
 		y: null,
 		width: null,
 		height: null
-	}
+	};
 
 	// var maxIntensity = d3.max(dataset, function(d) { return d.y; });
 	// var minIntensity = d3.min(dataset, function(d) { return d.y; });
@@ -140,8 +140,6 @@ MapVisualization.prototype.positionToDatum = function(datum) {
 	// TODO: Add support for scales
 	var y = datum.x - this.dom.parentDom.node().getBoundingClientRect().height/2;
 	var x = datum.y - this.dom.parentDom.node().getBoundingClientRect().width/2;
-	this.dom.parentDom.node().getBoundingClientRect().width;
-	this.dom.parentDom.node().getBoundingClientRect().height;
 	var divMapNative = this.dom.divMap.node();
 	var divMapJQ = $(divMapNative);
 	divMapJQ = $('.knalledge_map_container');
@@ -235,7 +233,7 @@ MapVisualization.prototype.updateHtml = function(source) {
 		.style("width", function(d){
 				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					d.kNode.dataContent.image.width : width;
-				if(width == null) {
+				if(width === null) {
 					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
 					 that.configNodes.html.dimensions.sizes.width : null;
 				}
@@ -245,13 +243,13 @@ MapVisualization.prototype.updateHtml = function(source) {
 				// centering the node (set margin to half the width of the node)
 				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					d.kNode.dataContent.image.width : width;
-				if(width == null) {
+				if(width === null) {
 					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
 					 that.configNodes.html.dimensions.sizes.width : null;
 				}
 
 				var margin = null;
-				if(width != null) {
+				if(width !== null) {
 					margin = that.scales.width(-width/2) + "px";
 				}
 				return margin;
@@ -432,7 +430,7 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 MapVisualization.prototype.updateName = function(nodeView){
 	var nodeSpan = nodeView.select("span");
 	var newName = nodeSpan.text();
-	if(newName == ""){
+	if(newName === ""){
 		newName = "name...";
 		nodeSpan.text(newName);
 	}
