@@ -645,7 +645,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				d.isOpen = !d.isOpen;
 			},
 	
-			createNode: function() {
+			createNode: function(kNode) {
 				
 				var nodeCreated = function(nodeFromServer) {
 					console.log("[KnalledgeMapVOsService] nodeCreated");// + JSON.stringify(nodeFromServer));
@@ -681,15 +681,20 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				};
 
 				console.log("[KnalledgeMapVOsService] createNode");
-				var maxId = -1;
-				for(var i in this.nodesById){
-					if(maxId < this.nodesById[i]._id){
-						maxId = this.nodesById[i]._id;
-					}
-				}
+				
+				// var maxId = -1;
+				// for(var i in this.nodesById){
+				// 	if(maxId < this.nodesById[i]._id){
+				// 		maxId = this.nodesById[i]._id;
+				// 	}
+				// }
 
-				var newNode = new knalledge.KNode();
-				var localNodeId = newNode._id = maxId+1;
+				var newNode = kNode;
+				if(typeof newNode === 'undefined'){
+					newNode = new knalledge.KNode();
+				}
+				
+				var localNodeId = newNode._id;// = maxId+1;
 				newNode.mapId = this.mapId;
 
 				newNode = KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
@@ -706,6 +711,25 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				delete this.nodesById[node._id]; //TODO: see if we should do it only upon server deleting success
 				return result;
 			},
+
+			/**
+			expects already created VOs!
+			*/
+			createNodeWithEdge: function(sourcekNode, kEdge, targetkNode, callback) {
+				var createEdgeAndNodesCallback = function(kEdgeFromServer){
+					console.log("createEdgeAndNodesCallback");
+					callback(kEdgeFromServer);
+				}
+				//sourcekNode = this.createNode(sourcekNode);
+				targetkNode = this.createNode(targetkNode);
+				kEdge.sourceId = sourcekNode._id;
+				kEdge.targetId = targetkNode._id;
+	//		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
+	//			console.log("KeyboardJS.on('tab': in promised fn after createNode");
+				kEdge = this.createEdge(sourcekNode, targetkNode, kEdge);
+				newEdge.kEdge.$promise.then(createEdgeAndNodesCallback);
+				return kEdge;
+			},
 			
 			deleteEdgesConnectedTo: function(node) {
 				var result = KnalledgeEdgeService.deleteConnectedTo(node._id); //deleting on server service
@@ -718,7 +742,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				}
 			},
 
-			createEdge: function(sourceNode, targetNode) {
+			createEdge: function(sourceNode, targetNode, kEdge) {
 				var edgeCreated = function(edgeFromServer) {
 					console.log("[KnalledgeMapVOsService] edgeCreated" + JSON.stringify(edgeFromServer));
 					
@@ -731,15 +755,19 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				};
 				
 				console.log("[KnalledgeMapVOsService] createEdge");
-				var maxId = -1;
-				for(var i in this.edgesById){
-					if(maxId < this.edgesById[i]._id){
-						maxId = this.edgesById[i]._id;
-					}
-				}
+				// var maxId = -1;
+				// for(var i in this.edgesById){
+				// 	if(maxId < this.edgesById[i]._id){
+				// 		maxId = this.edgesById[i]._id;
+				// 	}
+				// }
 				
-				var newEdge = new knalledge.KEdge();
-				var localEdgeId = newEdge._id = maxId+1;
+				var newEdge = kEdge;
+				if(typeof newEdge === 'undefined'){
+					newEdge = new knalledge.KEdge();
+				}
+
+				var localEdgeId = newEdge._id ;//= maxId+1;
 				newEdge.mapId = this.mapId;
 				newEdge.sourceId = sourceNode._id;
 				newEdge.targetId = targetNode._id;
