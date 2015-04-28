@@ -143,9 +143,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					if($scope.mapConfig) overwriteConfig($scope.mapConfig, config);
 
 					var kMapClientInterface = {
-						nodeClicked: function(vkNode){
+						nodeClicked: function(vkNode, dom){
 							$scope.$apply(function () {
-								$scope.nodeSelected(vkNode);
+								// Referencing DOM nodes in Angular expressions is disallowed!
+								dom = null;
+								$scope.nodeSelected({"vkNode": vkNode, "dom": dom});
 							});
 						},
 						mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
