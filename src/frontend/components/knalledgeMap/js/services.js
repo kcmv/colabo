@@ -805,22 +805,29 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				return KnalledgeEdgeService.update(node, updateType, callback); //updating on server service
 			},
 
-			loadData: function(mapProperties){
-				if(typeof mapProperties !== 'undefined'){
-					this.mapId = mapProperties.mapId;
-					this.rootNodeId = mapProperties.rootNodeId;
+			loadData: function(map){
+				if(typeof map !== 'undefined'){
+					this.mapId = map._id;
+					this.rootNodeId = map.rootNodeId;
 				}else{
-					mapProperties = {
-						"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
-						"date": "2015.03.22.",
-						"authors": "S. Rudan, D. Karabeg",
-						"mapId": this.mapId,
-						"rootNodeId": this.rootNodeId
+					mapObj = {
+						name: "TNC (Tesla - The Nature of Creativty) (DR Model)",
+						createdAt: "2015.03.22.",
+						dataContent: {
+                            mcm: {
+                                  authors: "S. Rudan, D. Karabeg"
+                           }
+                       	},
+						_id: this.mapId,
+						rootNodeId: this.rootNodeId
 					};
+					map = new knalledge.KMap();
+					map.fill(mapObj);
 				}
+				console.log('loadData:map'+ JSON.stringify(map));
 
 				var result = {
-					"properties": mapProperties,
+					"properties": map,
 					"map": {
 						"nodes": [],
 						"edges": []
@@ -948,7 +955,7 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 				data.state = knalledge.KMap.STATE_SYNCED;
 				return data;
 				*/
-				return serverResponse.data[0];
+				return serverResponse.data;//TODO: data[0];
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -1041,8 +1048,12 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 
 	resource.getById = function(id, callback)
 	{
-		var node = this.getPlain({ searchParam:id, type:'one' }, callback);
-		return node;
+		var map = this.getPlain({ searchParam:id, type:'one' }, function(mapFromServer){
+			mapFromServer = knalledge.KMap.mapFactory(mapFromServer);
+			mapFromServer.state = knalledge.KMap.STATE_SYNCED;
+			if(callback) callback(mapFromServer);
+		});
+		return map;
 	};
 	
 	resource.query = function(callback)
