@@ -358,7 +358,7 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	// this.rootNode = this.nodesById[this.properties.rootNodeId];
 	this.rootNode = this.getVKNodeByKId(
 		this.mapService ? this.mapService.rootNodeId :
-			(kMapData.map.properties ? kMapData.map.properties.rootNodeId : null)
+			(kMapData.properties ? kMapData.properties.rootNodeId : null)
 	);
 	this.rootNode.x0 = rootNodeX;
 	this.rootNode.y0 = rootNodeY;
