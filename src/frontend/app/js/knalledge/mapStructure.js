@@ -10,9 +10,6 @@ var MapStructure =  knalledge.MapStructure = function(){
 	this.properties = {};
 };
 
-MapStructure.maxVKNodeId = 0;
-MapStructure.maxVKEdgeId = 0;
-
 MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
 MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT";
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
@@ -211,19 +208,35 @@ MapStructure.prototype.createNode = function() {
 	
 	console.log("[MapStructure.createNode] createNode");
 
-	var id = MapStructure.maxVKNodeId++;
 	var newKNode = this.mapService.createNode();
 	newKNode.$promise.then(function(nodeCreated){
 		console.log("MapStructure.prototype.createNode - promised");//TODO:remove this test
 	});
-	var newVKNode = {
-		id: id,
-		kNode: newKNode
-	};
-
-	this.nodesById[id] = newVKNode;
+	var newVKNode = new knalledge.VKNode();
+	newVKNode.kNode = newKNode;
+	this.nodesById[newVKNode.id] = newVKNode;
 	return newVKNode;
 };
+
+
+MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
+	if(!this.mapService) return null;
+
+	// var edgeCreated = function(edgeFromServer) {
+	// 	console.log("[MapStructure.createEdge] edgeCreated" + JSON.stringify(edgeFromServer));
+	// };
+	
+	var newKEdge = this.mapService.createEdge(sourceNode.kNode, targetNode.kNode);
+	var newVKEdge = new knalledge.VKEdge();
+	newVKEdge.kEdge = newKEdge;
+
+	this.edgesById[newVKEdge.id] = newVKEdge;
+	return newVKEdge;
+};
+
+MapStructure.prototype.createNodeWithEdge = function(sourcekNode, kEdge, targetkNode, callback) {
+
+}
 
 MapStructure.prototype.updateName = function(vkNode, newName){
 	if(!this.mapService) return;
@@ -277,24 +290,6 @@ MapStructure.prototype.deleteEdgesConnectedTo = function(vnode) {
 	}
 };
 
-MapStructure.prototype.createEdge = function(sourceNode, targetNode) {
-	if(!this.mapService) return null;
-
-	// var edgeCreated = function(edgeFromServer) {
-	// 	console.log("[MapStructure.createEdge] edgeCreated" + JSON.stringify(edgeFromServer));
-	// };
-	
-	var id = MapStructure.maxVKEdgeId++;
-	var newKEdge = this.mapService.createEdge(sourceNode.kNode, targetNode.kNode);
-	var newVKEdge = {
-		id: id,
-		kEdge: newKEdge
-	};
-
-	this.edgesById[id] = newVKEdge;
-	return newVKEdge;
-};
-
 MapStructure.prototype.getVKNodeByKId = function(kId) {
 	for(var i in this.nodesById){
 		var vkNode = this.nodesById[i];
@@ -332,27 +327,23 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 		if(!("isOpen" in kNode.visual)){
 			kNode.visual.isOpen = false;
 		}
-		id = MapStructure.maxVKNodeId++;
-		// TODO: new knalledge.VKNode
-		this.nodesById[id] = {
-			id: id,
-			kNode: kNode,
-			isOpen: kNode.visual.isOpen,
-			xM: kNode.visual.xM,
-			yM: kNode.visual.yM,
-			widthM: kNode.visual.widthM,
-			heightM: kNode.visual.heightM
-		};
+
+		var vkNode = new knalledge.VKNode();
+		vkNode.kNode = kNode;
+		vkNode.isOpen: kNode.visual.isOpen;
+		vkNode.xM: kNode.visual.xM;
+		vkNode.yM: kNode.visual.yM;
+		vkNode.widthM: kNode.visual.widthM;
+		vkNode.heightM: kNode.visual.heightM;
+
+		this.nodesById[vkNode.id] = vkNode;
 	}
 
 	for(i=0; i<kMapData.map.edges.length; i++){
 		kEdge = kMapData.map.edges[i];
-		id = MapStructure.maxVKEdgeId++;
-		// TODO: new knalledge.VKEdge
-		this.edgesById[id] = {
-			id: id,
-			kEdge: kEdge
-		};
+		vkEdge = new knalledge.VKEdge();
+		vkEdge.kEdge = kEdge;
+		this.edgesById[vkEdge.id] = vkEdge;
 	}
 
 	// this.rootNode = this.nodesById[this.properties.rootNodeId];
