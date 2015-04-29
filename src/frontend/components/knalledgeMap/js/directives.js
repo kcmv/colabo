@@ -217,7 +217,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					init($scope.mapData);
 				}else{
 					// initiating loading map data from server
-					KnalledgeMapService.loadData();
+					KnalledgeMapService.loadData(); //broadcasts 'modelLoadedEvent'
 				}
 
 				var eventName = "modelLoadedEvent";

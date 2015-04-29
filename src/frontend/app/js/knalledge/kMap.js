@@ -4,6 +4,7 @@
 var KMap =  knalledge.KMap = function(){
 	this._id = KMap.MaxId++; //TODO: maxId logic should be migrated here
 	this.name = "";
+	this.rootNodeId = null;
 	this.type = "";
 	this.iAmId = 0;
 	this.ideaId = 0;
@@ -40,6 +41,7 @@ KMap.prototype.fill = function(obj){
 	if(obj){
 		if("_id" in obj){this._id = obj._id;}
 		if("name" in obj){this.name = obj.name;}
+		if("rootNodeId" in obj){this.rootNodeId = obj.rootNodeId;}
 		if("type" in obj){this.type = obj.type;}
 		if("iAmId" in obj){this.iAmId = obj.iAmId;}
 		if("ideaId" in obj){this.ideaId = obj.ideaId;}

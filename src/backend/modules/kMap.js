@@ -34,8 +34,8 @@ mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kmaps/one/551bdcda1763e3f0eb749bd4
-// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kmaps/all
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/kmaps/one/551bdcda1763e3f0eb749bd4
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/kmaps/all
 exports.index = function(req, res){
 	console.log("[modules/kMap.js:index]");
 	var found = function(err,kMaps){
@@ -79,8 +79,8 @@ exports.index = function(req, res){
 	}
 }
 
-// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Map", "iAmId":5, "visual": {}}' http://127.0.0.1:8888/kmaps
-// curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/kmaps
+// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Map", "iAmId":5, "visual": {}}' http://127.0.0.1:8042/kmaps
+// curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8042/kmaps
 exports.create = function(req, res){
 	console.log("[modules/kMap.js:create] req.body: %s", JSON.stringify(req.body));
 	
@@ -96,7 +96,7 @@ exports.create = function(req, res){
 	});				
 }
 
-// curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/kmaps/one/55266618cce5af993fe8675f
+// curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8042/kmaps/one/55266618cce5af993fe8675f
 exports.update = function(req, res){
 	//console.log("[modules/KMap.js:update] req.body: %s", JSON.stringify(req.body));
 
@@ -121,7 +121,7 @@ exports.update = function(req, res){
 	});			
 }
 
-// curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8888/kmaps/one/551bdcda1763e3f0eb749bd4
+// curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8042/kmaps/one/553fa6ed4f05fdb0311a10cb
 exports.destroy = function(req, res){
 	//TODO: should we destroy edges connected to this map? or is it done automatically? or error is risen?
 	var type = req.params.type;
