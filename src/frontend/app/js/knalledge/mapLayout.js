@@ -143,7 +143,7 @@ MapLayout.prototype.clickNode = function(d, dom) {
 		this.structure.setSelectedNode(d);
 		this.clientApi.positionToDatum(d);
 		if(this.knalledgeState.addingLinkFrom !== null){
-			this.structure.createEdge(this.knalledgeState.addingLinkFrom, d);
+			this.structure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d);
 			this.knalledgeState.addingLinkFrom = null;
 			this.clientApi.update(this.structure.rootNode); //TODO: should we move it into this.structure.createEdge?
 		}

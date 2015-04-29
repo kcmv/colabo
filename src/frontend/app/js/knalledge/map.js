@@ -68,7 +68,7 @@ Map.prototype.initializeKeyboard = function() {
 		update: this.mapVisualization.update.bind(this.mapVisualization),
 		createNode: this.mapStructure.createNode.bind(this.mapStructure),
 		deleteNode: this.mapStructure.deleteNode.bind(this.mapStructure),
-		createEdge: this.mapStructure.createEdge.bind(this.mapStructure),
+		createEdgeBetweenNodes: this.mapStructure.createEdgeBetweenNodes.bind(this.mapStructure),
 		expandNode: this.mapStructure.expandNode.bind(this.mapStructure),
 		knalledgeState: this.state,
 		getParentNodes: this.mapStructure.getParentNodes.bind(this.mapStructure),
