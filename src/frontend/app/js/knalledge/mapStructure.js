@@ -336,6 +336,12 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	var kNode = null;
 	var kEdge = null;
 	MapStructure.id = 0;
+
+	// deleting all previous data
+	// TODO: FIX: what about incremental updates
+	this.nodesById = {};
+	this.nodesById = {};
+
 	var id;
 	for(i=0; i<kMapData.map.nodes.length; i++){
 		kNode = kMapData.map.nodes[i];
@@ -366,8 +372,8 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 		this.mapService ? this.mapService.rootNodeId :
 			(kMapData.properties ? kMapData.properties.rootNodeId : null)
 	);
-	this.rootNode.x0 = rootNodeX;
-	this.rootNode.y0 = rootNodeY;
+	if(typeof rootNodeX !== 'undefined') this.rootNode.x0 = rootNodeX;
+	if(typeof rootNodeY !== 'undefined') this.rootNode.y0 = rootNodeY;
 
 	this.selectedNode = this.rootNode;
 

@@ -176,9 +176,15 @@ MapLayout.prototype.viewspecChanged = function(target){
 	this.clientApi.update(this.structure.rootNode);
 };
 
-MapLayout.prototype.processData = function(callback) {
+MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback) {
+	if(typeof rootNodeX !== 'undefined' && typeof rootNodeX !== 'function' && 
+		typeof rootNodeY !== 'undefined' && typeof rootNodeY !== 'function'){
+		this.structure.rootNode.x0 = rootNodeX;
+		this.structure.rootNode.y0 = rootNodeY;
+	}
 	this.clickNode(this.structure.rootNode);
-	this.clientApi.update(this.structure.rootNode, callback);
+	this.clientApi.update(this.structure.rootNode, 
+		(typeof callback === 'function') ? callback : undefined);
 };
 
 /**

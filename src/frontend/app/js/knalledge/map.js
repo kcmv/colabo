@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService){
+var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal){
 	this.config = config;
 	this.clientApi = clientApi;
 	this.entityStyles = entityStyles;
@@ -9,9 +9,10 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.mapService = mapService;
 	this.scales = null;
 	this.mapSize = null;
+	this.mapStructureExternal = mapStructureExternal;
 
 	this.state = new knalledge.State();
-	this.mapStructure = new knalledge.MapStructure();
+	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure();
 	this.mapVisualization = new knalledge.MapVisualization(this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges);
 	var mapLayoutApi = {
 		update: this.mapVisualization.update.bind(this.mapVisualization),
@@ -32,7 +33,8 @@ Map.prototype.init = function() {
 		this.parentDom.node().getBoundingClientRect().height - this.config.tree.margin.bottom - this.config.tree.margin.top 
 	];
 
-	this.mapStructure.init(this.mapService);
+	// we do this only if we created an mapStructure in our class
+	if(!this.mapStructureExternal) this.mapStructure.init(this.mapService);
 	// http://stackoverflow.com/questions/21990857/d3-js-how-to-get-the-computed-width-and-height-for-an-arbitrary-element
 
 	// inverted since tree is rotated to be horizontal
@@ -52,8 +54,9 @@ Map.prototype.update = function(node) {
 };
 
 Map.prototype.processData = function(mapData, callback) {
-	this.mapStructure.processData(mapData, 0, this.parentDom.attr("height") / 2);
-	this.mapLayout.processData(callback);
+	// we do this only if we created an mapStructure in our class
+	if(!this.mapStructureExternal) this.mapStructure.processData(mapData);
+	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, callback);
 };
 
 Map.prototype.initializeKeyboard = function() {

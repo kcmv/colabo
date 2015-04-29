@@ -603,6 +603,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			nodesById: {},
 			edgesById: {},
 			properties: {},
+			mapStructure: new knalledge.MapStructure(),
 
 			unsetSelectedNode: function(){
 				this.selectedNode = null;
@@ -857,6 +858,9 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					}
 
 					this.processData(result);
+
+					this.mapStructure.init(this);
+					this.mapStructure.processData(result);
 
 					var eventName = "modelLoadedEvent";
 					//console.log("result:" + JSON.stringify(result));
