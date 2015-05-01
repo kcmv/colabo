@@ -250,43 +250,44 @@ Keyboard.prototype.initializeKeyboard = function() {
 		var newNode = this.clientApi.createNode(null, nodeType);
 	//		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
 	//			console.log("KeyboardJS.on('tab': in promised fn after createNode");
-			var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
-			newEdge.kEdge.$promise.then(function(kEdgeFromServer){
-				var parentNode = that.clientApi.getSelectedNode();
-				if(!parentNode.isOpen){
-					parentNode.isOpen = true;
-					that.clientApi.expandNode(parentNode, function(){
-					});
-				}
+		var edgeType = nodeType; //TODO: they are same strings
+		var newEdge = this.clientApi.createEdgeBetweenNodes(that.clientApi.getSelectedNode(), newNode, edgeType);
+		newEdge.kEdge.$promise.then(function(kEdgeFromServer){
+			var parentNode = that.clientApi.getSelectedNode();
+			if(!parentNode.isOpen){
+				parentNode.isOpen = true;
+				that.clientApi.expandNode(parentNode, function(){
+				});
+			}
 
+			that.clientApi.update(newNode, function(){
+				that.clientApi.setSelectedNode(newNode); // TODO: that is not defined?
+				that.clientApi.clickNode(newNode);
 				that.clientApi.update(newNode, function(){
-					that.clientApi.setSelectedNode(newNode); // TODO: that is not defined?
-					that.clientApi.clickNode(newNode);
-					that.clientApi.update(newNode, function(){
-						that.setEditing(newNode);
-						// we need to position explicitly here again even though that.clientApi.clickNode(newNode) is doing it
-						// since that.setEditing(newNode); is destroying positioning
-						that.clientApi.positionToDatum(newNode);
-					});
+					that.setEditing(newNode);
+					// we need to position explicitly here again even though that.clientApi.clickNode(newNode) is doing it
+					// since that.setEditing(newNode); is destroying positioning
+					that.clientApi.positionToDatum(newNode);
 				});
 			});
+		});
 
-			// var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
-			// newEdge.kEdge.$promise.then(function(kEdgeFromServer){
-			// 	if(!that.clientApi.getSelectedNode().isOpen){
-			// 		that.clientApi.getSelectedNode().isOpen = true;
-			// 		that.clientApi.update(that.clientApi.getSelectedNode(), function(){
-						
-			// 		});
-			// 	}
+		// var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
+		// newEdge.kEdge.$promise.then(function(kEdgeFromServer){
+		// 	if(!that.clientApi.getSelectedNode().isOpen){
+		// 		that.clientApi.getSelectedNode().isOpen = true;
+		// 		that.clientApi.update(that.clientApi.getSelectedNode(), function(){
+					
+		// 		});
+		// 	}
 
-			// 	that.clientApi.update(that.clientApi.getSelectedNode(), function(){
-			// 		that.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
-			// 		that.setEditing(newNode);
-			// 	});
-			// });
+		// 	that.clientApi.update(that.clientApi.getSelectedNode(), function(){
+		// 		that.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
+		// 		that.setEditing(newNode);
+		// 	});
+		// });
 
-		//});
+	//});
 };
 
 	// Add new node
