@@ -786,7 +786,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 
 
 				var newEdge = kEdge;
-				if(typeof newEdge === 'undefined'){
+				if(typeof newEdge === 'undefined' || newEdge == null){
 					newEdge = new knalledge.KEdge();
 				}
 
