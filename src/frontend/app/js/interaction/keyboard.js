@@ -239,17 +239,17 @@ Keyboard.prototype.initializeKeyboard = function() {
 		}
 	}.bind(this), function(){}.bind(this));	
 
-	// Add new node
-	KeyboardJS.on("ctrl + n", function(){
+	Keyboard.prototype.addNode = function(nodeType){
+		console.log("exitEditingNode");
 		nsDebug.d.cnTb("KeyboardJS.on('tab'): this.editingNodeHtml: " + this.editingNodeHtml);
 		if(this.editingNodeHtml) return; // in typing mode
 		nsDebug.d.cnTb("KeyboardJS.on('tab'): this.clientApi.getSelectedNode(): " + this.clientApi.getSelectedNode());
 		
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		var that = this;
-		var newNode = this.clientApi.createNode();
-//		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
-//			console.log("KeyboardJS.on('tab': in promised fn after createNode");
+		var newNode = this.clientApi.createNode(null, nodeType);
+	//		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
+	//			console.log("KeyboardJS.on('tab': in promised fn after createNode");
 			var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
 			newEdge.kEdge.$promise.then(function(kEdgeFromServer){
 				var parentNode = that.clientApi.getSelectedNode();
@@ -287,6 +287,27 @@ Keyboard.prototype.initializeKeyboard = function() {
 			// });
 
 		//});
+};
+
+	// Add new node
+	KeyboardJS.on("ctrl + n", function(){
+		this.addNode(knalledge.KNode.TYPE_KNOWLEDGE);
+	}.bind(this), function(){}.bind(this));	
+
+	KeyboardJS.on("ctrl + alt + 1", function(){
+		this.addNode(knalledge.KNode.TYPE_IBIS_QUESTION);
+	}.bind(this), function(){}.bind(this));	
+
+	KeyboardJS.on("ctrl + alt + 2", function(){
+		this.addNode(knalledge.KNode.TYPE_IBIS_IDEA);
+	}.bind(this), function(){}.bind(this));	
+
+	KeyboardJS.on("ctrl + alt + 3", function(){
+		this.addNode(knalledge.KNode.TYPE_IBIS_ARGUMENT);
+	}.bind(this), function(){}.bind(this));	
+
+	KeyboardJS.on("ctrl + alt + 1", function(){
+		this.addNode(knalledge.KNode.TYPE_IBIS_COMMENT);
 	}.bind(this), function(){}.bind(this));	
 	
 	// Delete node:
