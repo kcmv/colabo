@@ -936,8 +936,23 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					}
 				}
 				return children;
-			}
+			},
 
+			getParentNodes: function(kNode, edgeType){
+				var parents = [];
+				for(var i in this.edgesById){
+					var kEdge = this.edgesById[i];
+					if(kEdge.targetId == kNode._id && ((typeof edgeType === 'undefined') || kEdge.type == edgeType)){
+						for(var j in this.nodesById){
+							var kNodeParent = this.nodesById[j];
+							if(kNodeParent._id == kEdge.sourceId){
+								parents.push(kNodeParent);
+							}
+						}
+					}
+				}
+				return parents;
+			}
 		};
 		window.nodesById = provider.nodesById;//TODO:remove
 		window.edgesById = provider.edgesById;//TODO:remove
