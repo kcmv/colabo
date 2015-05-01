@@ -790,7 +790,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					newEdge = new knalledge.KEdge();
 				}
 
-				if(typeof kEdgeType === 'undefined' || typeof kEdgeType === 'null'){
+				if(typeof kEdgeType === 'undefined' || kEdgeType === null){
 					kEdgeType = knalledge.KEdge.TYPE_KNOWLEDGE; //TODO: check about this
 				}
 
