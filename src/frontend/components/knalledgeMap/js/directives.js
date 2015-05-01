@@ -418,7 +418,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					var rootNode = new knalledge.KNode();
 					rootNode.name = $scope.mapToCreate.name;
-					rootNode.type = "model_component";
+					rootNode.type = $scope.mapToCreate.rootNodeType ? 
+						$scope.mapToCreate.rootNodeType : "model_component";
 					rootNode.visual = {
 					    isOpen: true,
 					    xM: 0,
