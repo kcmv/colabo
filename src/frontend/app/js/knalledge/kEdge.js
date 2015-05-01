@@ -5,7 +5,7 @@ var KEdge =  knalledge.KEdge = function(){
 	this._id = KEdge.MaxId++;
 	this.name = "";//TODO: "name..."
 	this.type = null;
-	this.mapId = "";	
+	this.mapId = null;	
 	this.iAmId = 0;
 	this.type = ""; //TODO: a default type should be assigned
 	this.activeVersion = 1;

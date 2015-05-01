@@ -126,11 +126,27 @@ exports.destroy = function(req, res){
 	var type = req.params.type;
 	var dataId = req.params.searchParam;
 	console.log("[modules/KNode.js:destroy] dataId:%s, type:%s, req.body: %s", dataId, type, JSON.stringify(req.body));
-	
-	KNodeModel.findByIdAndRemove(dataId, function (err) {
-			if (err) throw err;
-			var data = {id:dataId};
-			resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
-		}
-	);
+
+	switch (type){
+		case 'one':
+			KNodeModel.findByIdAndRemove(dataId, function (err) {
+					if (err) throw err;
+					var data = {id:dataId};
+					resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+				}
+			);
+			break;
+		case 'in-map': //all nodes connected to knode.id
+			console.log("[modules/kNode.js:destroy] deleting nodes in map %s", dataId);
+			KNodeModel.remove({'mapId': dataId}, function (err) {
+				if (err){
+					console.log("[modules/kNode.js:destroy] error:" + err);
+					throw err;
+				}
+				var data = {id:dataId};
+				console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
+				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+			});
+			break;
+	}
 };

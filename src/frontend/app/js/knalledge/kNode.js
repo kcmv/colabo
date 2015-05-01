@@ -5,7 +5,7 @@ var KNode =  knalledge.KNode = function(){
 	this._id = KNode.MaxId++; //TODO: maxId logic should be migrated here
 	this.name = "";
 	this.type = null;
-	this.mapId = "";	
+	this.mapId = null;	
 	this.iAmId = 0;
 	this.activeVersion = 1;
 	this.ideaId = 0;

@@ -52,7 +52,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						},
 						tree: {
 							viewspec: "viewspec_tree", // "viewspec_tree" // "viewspec_manual",
-							selectableEnabled: true,
+							selectableEnabled: false,
 							fixedDepth: {
 								enabled: false,
 								levelDepth: 300
@@ -425,6 +425,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					var rootNode = new knalledge.KNode();
 					rootNode.name = $scope.mapToCreate.name;
+					rootNode.mapId = null;
 					rootNode.type = $scope.mapToCreate.rootNodeType ? 
 						$scope.mapToCreate.rootNodeType : "model_component";
 					rootNode.visual = {

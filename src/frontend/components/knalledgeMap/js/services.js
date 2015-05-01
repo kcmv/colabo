@@ -696,7 +696,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				}
 				
 				var localNodeId = newNode._id;// = maxId+1;
-				if(!('mapId' in newNode)) newNode.mapId = this.mapId;
+				if(!('mapId' in newNode) || !newNode.mapId) newNode.mapId = this.mapId;
 
 				newNode = KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
 				this.nodesById[localNodeId] = newNode;
@@ -761,7 +761,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					if(callback) callback(edgeFromServer);
 				};
 				
-				if(!('mapId' in kEdge)) kEdge.mapId = this.mapId;
+				if(!('mapId' in kEdge) || !kEdge.mapId) kEdge.mapId = this.mapId;
 				window.edgeETest = kEdge;//TODO:remove this
 				var localEdgeId = kEdge._id;
 				kEdge = KnalledgeEdgeService.create(kEdge, edgeCreated.bind(this));
@@ -909,6 +909,17 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					}
 				}
 				return children;
+			},
+
+			getNodesOfType: function(kNodeType){
+				var nodes = [];
+				for(var j in this.nodesById){
+					var kNode = this.nodesById[j];
+					if(kNode.type == kNodeType){
+						nodes.push(kNode);
+					}
+				}
+				return nodes;
 			},
 
 			getChildrenEdges: function(kNode, edgeType){
