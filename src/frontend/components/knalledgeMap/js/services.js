@@ -732,7 +732,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				kEdge.targetId = targetkNode._id;
 	//		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
 	//			console.log("KeyboardJS.on('tab': in promised fn after createNode");
-				kEdge = this.createEdgeBetweenNodes(sourcekNode, targetkNode, kEdge, callback);
+				kEdge = this.createEdgeBetweenNodes(sourcekNode, targetkNode, kEdge, edgeType, callback);
 				kEdge.$promise.then(createEdgeAndNodesCallback);
 				return kEdge;
 			},
@@ -775,7 +775,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				return kEdge;
 			},
 
-			createEdgeBetweenNodes: function(sourceNode, targetNode, kEdge, callback) {
+			createEdgeBetweenNodes: function(sourceNode, targetNode, kEdge, kEdgeType, callback) {
 				console.log("[KnalledgeMapVOsService] createEdge");
 				// var maxId = -1;
 				// for(var i in this.edgesById){
@@ -789,6 +789,12 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				if(typeof newEdge === 'undefined'){
 					newEdge = new knalledge.KEdge();
 				}
+
+				if(typeof kEdgeType === 'undefined' || typeof kEdgeType === 'null'){
+					kEdgeType = knalledge.KEdge.TYPE_KNOWLEDGE; //TODO: check about this
+				}
+
+				newEdge.type = kEdgeType;
 
 				newEdge.sourceId = sourceNode._id;
 				newEdge.targetId = targetNode._id;

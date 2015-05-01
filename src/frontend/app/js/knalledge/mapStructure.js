@@ -228,10 +228,10 @@ MapStructure.prototype.createEdge = function(vkEdge) {
 	return vkEdge;
 };
 
-MapStructure.prototype.createEdgeBetweenNodes = function(sourceNode, targetNode) {
+MapStructure.prototype.createEdgeBetweenNodes = function(sourceNode, targetNode, edgeType) {
 	if(!this.mapService) return null;
 
-	var newKEdge = this.mapService.createEdgeBetweenNodes(sourceNode.kNode, targetNode.kNode);
+	var newKEdge = this.mapService.createEdgeBetweenNodes(sourceNode.kNode, targetNode.kNode, edgeType);
 	var newVKEdge = new knalledge.VKEdge();
 	newVKEdge.kEdge = newKEdge;
 
