@@ -375,7 +375,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
-			templateUrl: '../components/mcmMaps/partials/mcmMaps-list.tpl.html',
+			templateUrl: '../components/knalledgeMap/partials/knalledgeMaps-list.tpl.html',
 			controller: function ( $scope, $element) {
 				$scope.mapToCreate = null;
 				$scope.modeCreating = false;

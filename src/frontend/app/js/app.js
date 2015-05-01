@@ -24,7 +24,7 @@ angular.module('KnAllEdgeApp',[
 		templateUrl: '../components/knalledgeMap/partials/index.tpl.html'
 	})
 	.when('/maps', {
-		templateUrl: '../components/knalledgeMap/partials/knalledgeMap-index.tpl.html'
+		templateUrl: '../components/knalledgeMap/partials/knalledgeMaps-index.tpl.html'
 	})
 	.otherwise({
 		redirectTo: '/maps'
