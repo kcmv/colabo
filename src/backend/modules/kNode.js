@@ -50,6 +50,7 @@ exports.index = function(req, res){
 	}
 	
 	var id = req.params.searchParam;
+	var id2 = req.params.searchParam2;
 	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
   		datas_json.push({id: 1, name: "Sun"});
@@ -59,11 +60,11 @@ exports.index = function(req, res){
 		resSendJsonProtected(res, {data: datas_json, accessId : accessId});
 	}
 	//TODO: remove (this is for testing)
-	KNodeModel.find(function (err, knodes) {
-		console.log("all data:\n length: %d.\n", knodes.length);
-		console.log(knodes);
-		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
-	});
+	// KNodeModel.find(function (err, knodes) {
+	// 	console.log("all data:\n length: %d.\n", knodes.length);
+	// 	console.log(knodes);
+	// 	//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
+	// });
 	
 	console.log("[modules/kNode.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
 	switch (req.params.type){
@@ -72,8 +73,12 @@ exports.index = function(req, res){
 			KNodeModel.findById(id, found);
 			break;
 		case 'in_map': //all nodes in specific map
-			console.log("findById:\n mapId: %s.\n", id);
+			console.log("find:\n mapId: %s.\n", id);
 			KNodeModel.find({ 'mapId': id}, found);
+			break;
+		case 'in_map_of_type': //all nodes of particular type in specific map
+			console.log("find: mapId: %s, type: %s", id, id2);
+			KNodeModel.find({ $and: [{ mapId: id}, { type: id2}] }, found);
 			break;
 	}
 }

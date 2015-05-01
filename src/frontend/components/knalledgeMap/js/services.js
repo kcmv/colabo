@@ -97,7 +97,7 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
 	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
-	var url = ENV.server.backend + '/knodes/:type/:searchParam.json';
+	var url = ENV.server.backend + '/knodes/:type/:searchParam/:searchParam2.json';
 	var resource = $resource(url, {}, {
 		// extending the query action
 		// method has to be defined
@@ -238,6 +238,22 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	resource.queryInMap = function(id, callback)
 	{
 		var nodes = this.queryPlain({ searchParam:id, type:'in_map' }, function(nodesFromServer){
+			for(var id=0; id<nodesFromServer.length; id++){
+				var kNode = knalledge.KNode.nodeFactory(nodesFromServer[id]);
+				kNode.state = knalledge.KNode.STATE_SYNCED;
+				nodesFromServer[id] = kNode;
+			}
+
+			if(callback) callback(nodesFromServer);
+		});
+		// for(var i in nodes){
+		// 	//TODO fix nodes.state, etc
+		// }
+		return nodes;
+	};
+
+	resource.getInMapNodesOfType = function(mapId, kNodeType, callback){
+		var nodes = this.queryPlain({ searchParam:mapId, type:'in_map', searchParam2:kNodeType  }, function(nodesFromServer){
 			for(var id=0; id<nodesFromServer.length; id++){
 				var kNode = knalledge.KNode.nodeFactory(nodesFromServer[id]);
 				kNode.state = knalledge.KNode.STATE_SYNCED;

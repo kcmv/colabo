@@ -535,6 +535,18 @@ $map: layout(12 1/4 fluid float inside);
 			@include border-bottom-right-radius(15px);
 			@include border-bottom-left-radius(15px);
 		}
+		&.type_ibis_question{
+			background-color: #ffffaa;
+		}
+		&.type_ibis_idea{
+			background-color: #aaaaff;
+		}
+		&.type_ibis_argument{
+			background-color: #ffaaaa;
+		}
+		&.type_ibis_comment{
+			background-color: #aaffaa;
+		}
 	}
 
 	.node_html_fixed{

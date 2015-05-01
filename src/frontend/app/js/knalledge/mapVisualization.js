@@ -201,7 +201,10 @@ MapVisualization.prototype.updateHtml = function(source) {
 	// Enter the nodes
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
-		.attr("class", "node_html node_unselected draggable")
+		.attr("class", function(d){
+				return "node_html node_unselected draggable "
+				+ d.kNode.type;
+			})
 		.on("dblclick", function(d){
 			that.mapLayout.clickDoubleNode(d, this);
 		})
@@ -269,11 +272,11 @@ MapVisualization.prototype.updateHtml = function(source) {
 				}
 				return margin;
 		})
-		.style("background-color", function(d) {
-			var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
-			if(image) return null; // no bacground
-			return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
-		});
+		// .style("background-color", function(d) {
+		// 	var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
+		// 	if(image) return null; // no bacground
+		// 	return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
+		// });
 
 	nodeHtmlEnter.filter(function(d) { return d.kNode.dataContent && d.kNode.dataContent.image; })
 		.append("img")
@@ -399,12 +402,12 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 			});
 	}
 
-	nodeHtmlUpdateTransition
-		.style("background-color", function(d) {
-			var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
-			if(image) return null; // no bacground
-			return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
-		});
+	// nodeHtmlUpdateTransition
+	// 	.style("background-color", function(d) {
+	// 		var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
+	// 		if(image) return null; // no bacground
+	// 		return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
+	// 	});
 
 	// Transition exiting nodes
 	var nodeHtmlExit = nodeHtml.exit();
@@ -609,7 +612,10 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 	// Enter the nodes
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var linkLabelHtmlEnter = linkLabelHtml.enter().append("div")
-		.attr("class", "label_html")
+		.attr("class", function(d){
+				return "label_html "
+				+ d.vkEdge.kEdge.type;
+			})
 		// position node on enter at the source position
 		// (it is either parent or another precessor)
 		.on("click", this.mapLayout.clickLinkLabel.bind(this.mapLayout))

@@ -31,11 +31,11 @@ KNode.STATE_LOCAL = "STATE_LOCAL";
 KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED";
 KNode.STATE_SYNCED = "STATE_SYNCED";
 
-KNode.TYPE_KNOWLEDGE = "TYPE_KNOWLEDGE";
-KNode.TYPE_IBIS_QUESTION = "TYPE_IBIS_QUESTION";
-KNode.TYPE_IBIS_IDEA = "TYPE_IBIS_IDEA";
-KNode.TYPE_IBIS_ARGUMENT = "TYPE_IBIS_ARGUMENT";
-KNode.TYPE_IBIS_COMMENT = "TYPE_IBIS_COMMENT";
+KNode.TYPE_KNOWLEDGE = "type_knowledge";
+KNode.TYPE_IBIS_QUESTION = "type_ibis_question";
+KNode.TYPE_IBIS_IDEA = "type_ibis_idea";
+KNode.TYPE_IBIS_ARGUMENT = "type_ibis_argument";
+KNode.TYPE_IBIS_COMMENT = "type_ibis_comment";
 
 KNode.prototype.init = function(){
 	
