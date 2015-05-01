@@ -215,7 +215,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				};
 
 				if($scope.mapData){
-					console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
+					// console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
 					init($scope.mapData);
 				}else{
 					var gotMap = function(map){		
