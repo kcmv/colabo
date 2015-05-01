@@ -116,7 +116,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				data.state = knalledge.KNode.STATE_SYNCED;
 				return data;
 				*/
-				return serverResponse.data[0];
+				return serverResponse.data;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -696,7 +696,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				}
 				
 				var localNodeId = newNode._id;// = maxId+1;
-				newNode.mapId = this.mapId;
+				if(!('mapId' in newNode)) newNode.mapId = this.mapId;
 
 				newNode = KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
 				this.nodesById[localNodeId] = newNode;
@@ -727,7 +727,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				kEdge.targetId = targetkNode._id;
 	//		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
 	//			console.log("KeyboardJS.on('tab': in promised fn after createNode");
-				kEdge = this.createEdgeBetweenNodes(sourcekNode, targetkNode, kEdge);
+				kEdge = this.createEdgeBetweenNodes(sourcekNode, targetkNode, kEdge, callback);
 				kEdge.$promise.then(createEdgeAndNodesCallback);
 				return kEdge;
 			},
@@ -761,7 +761,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					if(callback) callback(edgeFromServer);
 				};
 				
-				kEdge.mapId = this.mapId;
+				if(!('mapId' in kEdge)) kEdge.mapId = this.mapId;
 				window.edgeETest = kEdge;//TODO:remove this
 				var localEdgeId = kEdge._id;
 				kEdge = KnalledgeEdgeService.create(kEdge, edgeCreated.bind(this));
@@ -770,7 +770,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				return kEdge;
 			},
 
-			createEdgeBetweenNodes: function(sourceNode, targetNode, kEdge) {
+			createEdgeBetweenNodes: function(sourceNode, targetNode, kEdge, callback) {
 				console.log("[KnalledgeMapVOsService] createEdge");
 				// var maxId = -1;
 				// for(var i in this.edgesById){
@@ -788,7 +788,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				newEdge.sourceId = sourceNode._id;
 				newEdge.targetId = targetNode._id;
 				
-				newEdge = this.createEdge(newEdge, edgeCreated.bind(this));
+				newEdge = this.createEdge(newEdge, callback);
 
 				//preparing and saving on server service:
 				// var edgeCloned = newEdge.toServerCopy();
@@ -1087,6 +1087,24 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 	{
 		console.log('query');
 		var maps = this.queryPlain({type:'all' }, function(mapsFromServer){
+			for(var id=0; id<mapsFromServer.length; id++){
+				var kMap = knalledge.KMap.mapFactory(mapsFromServer[id]);
+				kMap.state = knalledge.KMap.STATE_SYNCED;
+				mapsFromServer[id] = kMap;
+			}
+
+			if(callback) callback(mapsFromServer);
+		});
+		// for(var i in maps){
+		// 	//TODO fix maps.state, etc
+		// }
+		return maps;
+	};
+	
+	resource.queryByType = function(mapType, callback)
+	{
+		console.log('query');
+		var maps = this.queryPlain({type:'by-type', searchParam: mapType}, function(mapsFromServer){
 			for(var id=0; id<mapsFromServer.length; id++){
 				var kMap = knalledge.KMap.mapFactory(mapsFromServer[id]);
 				kMap.state = knalledge.KMap.STATE_SYNCED;

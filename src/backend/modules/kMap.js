@@ -51,6 +51,8 @@ exports.index = function(req, res){
 	}
 	
 	var id = req.params.searchParam;
+	var type = req.params.type;
+
 	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
   		datas_json.push({id: 1, name: "Sun"});
@@ -67,7 +69,7 @@ exports.index = function(req, res){
 	});
 	
 	console.log("[modules/kMap.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
-	switch (req.params.type){
+	switch (type){
 		case 'one': //by id:
 			console.log("findById:\n id: %s.\n", id);
 			KMapModel.findById(id, found);
@@ -75,6 +77,10 @@ exports.index = function(req, res){
 		case 'all': //all maps
 			console.log("find:\n all: \n");
 			KMapModel.find({}, found);
+			break;		
+		case 'by-type': //by map type
+			console.log("find:\n by-type: \n");
+			KMapModel.find({"type": id}, found);
 			break;
 	}
 }
