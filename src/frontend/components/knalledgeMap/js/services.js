@@ -646,7 +646,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				d.isOpen = !d.isOpen;
 			},
 	
-			createNode: function(kNode) {
+			createNode: function(kNode, kNodeType) {
 				
 				var nodeCreated = function(nodeFromServer) {
 					console.log("[KnalledgeMapVOsService] nodeCreated");// + JSON.stringify(nodeFromServer));
@@ -691,9 +691,14 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				// }
 
 				var newNode = kNode;
-				if(typeof newNode === 'undefined'){
+				if(typeof newNode === 'undefined' || typeof newNode === 'null'){
 					newNode = new knalledge.KNode();
 				}
+				if(typeof kNodeType === 'undefined' || typeof kNodeType === 'null'){
+					kNodeType = knalledge.KNode.TYPE_KNOWLEDGE; //TODO: check about this
+				}
+
+				newNode.type = kNodeType;
 				
 				var localNodeId = newNode._id;// = maxId+1;
 				if(!('mapId' in newNode) || !newNode.mapId) newNode.mapId = this.mapId;

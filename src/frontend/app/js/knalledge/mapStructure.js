@@ -199,7 +199,7 @@ MapStructure.prototype.cloneObject = function(obj){
 	return (JSON.parse(JSON.stringify(obj)));
 };
 
-MapStructure.prototype.createNode = function(vkNode) {
+MapStructure.prototype.createNode = function(vkNode, nodeType) {
 	if(!this.mapService) return null;
 	
 	// var nodeCreated = function(nodeFromServer) {
@@ -210,7 +210,7 @@ MapStructure.prototype.createNode = function(vkNode) {
 	var newVKNode = vkNode;
 	if(!newVKNode) newVKNode = new knalledge.VKNode();
 
-	newVKNode.kNode = this.mapService.createNode(newVKNode.kNode);
+	newVKNode.kNode = this.mapService.createNode(newVKNode.kNode, nodeType);
 	newVKNode.kNode.$promise.then(function(nodeCreated){
 		console.log("MapStructure.prototype.createNode - promised");//TODO:remove this test
 	});
