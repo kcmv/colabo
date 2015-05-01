@@ -20,8 +20,14 @@ angular.module('KnAllEdgeApp',[
 	.when('/map', {
 		templateUrl: '../components/knalledgeMap/partials/index.tpl.html'
 	})
+	.when('/map/id/:id', {
+		templateUrl: '../components/knalledgeMap/partials/index.tpl.html'
+	})
+	.when('/maps', {
+		templateUrl: '../components/knalledgeMap/partials/knalledgeMap-index.tpl.html'
+	})
 	.otherwise({
-		redirectTo: '/map'
+		redirectTo: '/maps'
 	});
 }])
 // Disabling Debug Data

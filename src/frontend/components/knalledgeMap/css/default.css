@@ -732,3 +732,78 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     /* line 724, ../sass/default.scss */
     .knalledge-map-image-editing form .buttons {
       text-align: right; }
+
+/*
+Knalledge Maps
+*/
+/* line 733, ../sass/default.scss */
+.mcmButton {
+  background-color: #dddddd;
+  border: solid 3px #555555;
+  font-weight: bold;
+  color: #888888;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  border-radius: 15px;
+  cursor: pointer; }
+  /* line 741, ../sass/default.scss */
+  .mcmButton :hover {
+    background-color: #ffffff; }
+
+/* line 746, ../sass/default.scss */
+.creatingNewMap {
+  display: block;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding-top: 0.35em;
+  padding-bottom: 0.625em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  border: 2px groove #333;
+  border: solid 1px #000;
+  padding: 10px; }
+  /* line 757, ../sass/default.scss */
+  .creatingNewMap label {
+    width: 20em; }
+
+/* line 762, ../sass/default.scss */
+.displayNone {
+  display: none; }
+
+/* line 771, ../sass/default.scss */
+.mapsList {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%; }
+  /* line 776, ../sass/default.scss */
+  .mapsList .list {
+    margin: 5px;
+    text: 18px;
+    border: 1px solid #aaa;
+    -moz-border-radius: 5px / 5px;
+    -webkit-border-radius: 5px 5px;
+    border-radius: 5px / 5px;
+    margin-bottom: 3px;
+    padding: 3px;
+    background-color: #888;
+    /*background-color: #ccc;
+    background-color: #aaf;*/ }
+    /* line 780, ../sass/default.scss */
+    .mapsList .list .active-selection {
+      background-color: #eee; }
+    /* line 784, ../sass/default.scss */
+    .mapsList .list tr:hover {
+      cursor: pointer;
+      background-color: #cccccc; }
+    /* line 796, ../sass/default.scss */
+    .mapsList .list th {
+      background-color: #aaf;
+      border: 1px solid black;
+      padding: 5px; }
+    /* line 801, ../sass/default.scss */
+    .mapsList .list td {
+      border: 1px solid black;
+      padding: 5px; }
+  /* line 808, ../sass/default.scss */
+  .mapsList .buttons {
+    text-align: left; }

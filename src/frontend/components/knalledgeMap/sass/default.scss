@@ -726,3 +726,86 @@ $knalledge_image_editing_title_size: 1em;
 		}
 	}
 }
+
+/*
+Knalledge Maps
+*/
+.mcmButton{
+	background-color: #dddddd;
+	border: solid 3px #555555;
+	font-weight: bold;
+	color: #888888;
+	@include border-radius(15px);
+
+	cursor: pointer;
+	:hover{
+		background-color: #ffffff;
+	}
+}
+
+.creatingNewMap { 
+    display: block;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 0.35em;
+    padding-bottom: 0.625em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    border: 2px groove #333;
+    border: solid 1px #000;
+	padding:10px;
+	label{
+		width: 20em;
+	}
+}
+
+.displayNone{
+	display: none;
+}
+
+.showCreateNewMap{
+
+}
+
+
+.mapsList{
+	width:80%;
+	margin-left:10%;
+	margin-right:10%;
+
+	.list{
+		margin: 5px;
+		text: 18px;
+
+		.active-selection{
+			background-color: #eee;
+		}
+		tr{
+			 &:hover{
+		     	cursor: pointer;
+		     	background-color: #cccccc;
+		  }
+		}
+		border: 1px solid #aaa;
+		@include border-radius(5px, 5px);
+		margin-bottom: 3px;
+		padding: 3px;
+
+		
+		background-color: #888;
+		th{
+			background-color: #aaf;
+			border: 1px solid black;
+			padding: 5px;
+		}
+		td{
+			border: 1px solid black;
+			padding: 5px;
+		}
+		/*background-color: #ccc;
+		background-color: #aaf;*/
+	}
+	.buttons{
+		text-align: left;
+	}
+}

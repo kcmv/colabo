@@ -819,7 +819,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					this.mapId = map._id;
 					this.rootNodeId = map.rootNodeId;
 				}else{
-					mapObj = {
+					var mapObj = {
 						name: "TNC (Tesla - The Nature of Creativty) (DR Model)",
 						createdAt: "2015.03.22.",
 						dataContent: {

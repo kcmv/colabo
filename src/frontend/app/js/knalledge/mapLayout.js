@@ -116,7 +116,7 @@ MapLayout.prototype.getDomFromDatum = function(d) {
 MapLayout.prototype.clickNode = function(d, dom) {
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state
-	if(d.kNode.visual && !d.kNode.visual.selectable){
+	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
 		return;
 	}
 	var nodesHtmlSelected = this.getDomFromDatum(d);

@@ -52,6 +52,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						},
 						tree: {
 							viewspec: "viewspec_tree", // "viewspec_tree" // "viewspec_manual",
+							selectableEnabled: true,
 							fixedDepth: {
 								enabled: false,
 								levelDepth: 300
@@ -206,7 +207,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap.processData(model, function(){
 						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
 						knalledgeMap.update();
-						if($scope.mapData.selectedNode){
+						if($scope.mapData && $scope.mapData.selectedNode){
 							var vkNode = knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
 							knalledgeMap.mapLayout.clickNode(vkNode);
 						}
@@ -217,7 +218,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					init($scope.mapData);
 				}else{
 					// initiating loading map data from server
-					KnalledgeMapService.loadData(); //broadcasts 'modelLoadedEvent'
+					KnalledgeMapVOsService.loadData(); //broadcasts 'modelLoadedEvent'
 				}
 
 				var eventName = "modelLoadedEvent";
@@ -365,6 +366,92 @@ angular.module('knalledgeMapDirectives', ['Config'])
     		}
     	};
 	}])
+	.directive('knalledgeMapsList', ["$rootScope", "$timeout", "$location", 'KnalledgeMapService', 'KnalledgeMapVOsService',
+		function($rootScope, $timeout, $location, KnalledgeMapService, KnalledgeMapVOsService){
+		console.log("[mcmMapsList] loading directive");
+		return {
+			restrict: 'AE',
+			scope: {
+			},
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angularjs.org/guide/expression
+			templateUrl: '../components/mcmMaps/partials/mcmMaps-list.tpl.html',
+			controller: function ( $scope, $element) {
+				$scope.mapToCreate = null;
+				$scope.modeCreating = false;
+				$scope.items = null;
+				$scope.selectedItem = null;
+
+				KnalledgeMapService.query().$promise.then(function(maps){
+					$scope.items = maps;
+					console.log('maps:'+JSON.stringify($scope.maps));
+				});
+
+				$scope.showCreateNewMap = function(){
+					console.log("showCreateNewMap");
+					$scope.mapToCreate = new knalledge.KMap();
+					$scope.modeCreating = true;
+				};
+
+				$scope.cancelled = function(){
+					console.log("Canceled");
+					$scope.modeCreating = false;
+				};
+
+				$scope.createNew = function(){
+					var mapCreated = function(mapFromServer) {
+						console.log("mapCreated:");//+ JSON.stringify(mapFromServer));
+						$scope.items.push(mapFromServer);
+						$scope.selectedItem = mapFromServer;
+						rootNode.mapId = mapFromServer._id;
+						KnalledgeMapVOsService.updateNode(rootNode)
+					}
+
+					var rootNodeCreated = function(rootNode){
+						$scope.mapToCreate.rootNodeId = rootNode._id;
+						var map = KnalledgeMapService.create($scope.mapToCreate);
+						map.$promise.then(mapCreated);
+					}
+
+					console.log("createNew");
+					$scope.modeCreating = false;
+
+					var rootNode = new knalledge.KNode();
+					rootNode.name = $scope.mapToCreate.name;
+					rootNode.type = "model_component";
+					rootNode.visual = {
+					    isOpen: true,
+					    xM: 0,
+					    yM: 0
+					};
+
+					rootNode = KnalledgeMapVOsService.createNode(rootNode);
+					rootNode.$promise.then(rootNodeCreated);					
+				};
+
+				$scope.selectItem = function(item) {
+				    $scope.selectedItem = item;
+				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
+				};
+
+				$scope.openMap = function() {
+				    console.log("openMap");
+					if($scope.selectedItem !== null && $scope.selectedItem !== undefined){
+						console.log("openning Model:" + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
+						console.log("/map/id/" + $scope.selectedItem._id);
+						$location.path("/map/id/" + $scope.selectedItem._id);
+						//openMap($scope.selectedItem);
+						// $element.remove();
+					}
+					else{
+						window.alert('Please, select a Model');
+					}
+				};
+    		}
+    	};
+	}])
+;
+
 ;
 
 }()); // end of 'use strict';
