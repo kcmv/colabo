@@ -691,10 +691,10 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				// }
 
 				var newNode = kNode;
-				if(typeof newNode === 'undefined' || typeof newNode === 'null'){
+				if(typeof newNode === 'undefined' || newNode === null){
 					newNode = new knalledge.KNode();
 				}
-				if(typeof kNodeType === 'undefined' || typeof kNodeType === 'null'){
+				if(typeof kNodeType === 'undefined' || kNodeType === null){
 					kNodeType = knalledge.KNode.TYPE_KNOWLEDGE; //TODO: check about this
 				}
 
