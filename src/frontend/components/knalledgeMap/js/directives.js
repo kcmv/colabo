@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', '$compile', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
-		function(KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, $compile /*, $rootScope, $q, $timeout, ConfigMap*/){
+	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
+		function(KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, $compile, $routeParams /*, $rootScope, $q, $timeout, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -215,10 +215,17 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				};
 
 				if($scope.mapData){
+					console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
 					init($scope.mapData);
 				}else{
-					// initiating loading map data from server
-					KnalledgeMapVOsService.loadData(); //broadcasts 'modelLoadedEvent'
+					var gotMap = function(map){		
+						console.log('gotMap:'+JSON.stringify(map));
+						KnalledgeMapVOsService.loadData(map); //broadcasts 'modelLoadedEvent'
+					};
+					var mapId = $routeParams.id;
+					console.warn("loading map by mcmMapDirectives::mapId: " + mapId);
+
+					KnalledgeMapService.getById(mapId).$promise.then(gotMap);
 				}
 
 				var eventName = "modelLoadedEvent";
