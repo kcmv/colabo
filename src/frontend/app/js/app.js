@@ -10,9 +10,12 @@ angular.module('KnAllEdgeApp',[
 	, 'ngStorage' // local storage support for Angular
 
 	, 'ui.bootstrap' // UI-bootstrap
+	, 'textAngular'
+	// , 'textAngularSetup'
 
 	, 'knalledgeMapDirectives' // KnAllEdge Map component
 	, 'knalledgeMapServices'
+	, 'rimaUserServices'
 ])
 // routes
 .config(['$routeProvider', function($routeProvider) {

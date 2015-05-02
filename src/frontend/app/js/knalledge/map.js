@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal){
+var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, rimaUserService, ibisTypesService){
 	this.config = config;
 	this.clientApi = clientApi;
 	this.entityStyles = entityStyles;
@@ -10,10 +10,12 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.scales = null;
 	this.mapSize = null;
 	this.mapStructureExternal = mapStructureExternal;
+	this.rimaUserService = rimaUserService;
+	this.ibisTypesService = ibisTypesService;
 
 	this.state = new knalledge.State();
-	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure();
-	this.mapVisualization = new knalledge.MapVisualization(this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges);
+	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaUserService);
+	this.mapVisualization = new knalledge.MapVisualization(this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaUserService);
 	var mapLayoutApi = {
 		update: this.mapVisualization.update.bind(this.mapVisualization),
 		getDom: this.mapVisualization.getDom.bind(this.mapVisualization),
@@ -91,7 +93,10 @@ Map.prototype.initializeKeyboard = function() {
 			var vkNode = this.mapStructure.getSelectedNode();
 			this.mapStructure.removeImage(vkNode);
 		}.bind(this),
-		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization)
+		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
+		getActiveIbisType: function(){
+			return this.ibisTypesService.getActiveType().type;
+		}.bind(this)
 	};
 
 	this.keyboardInteraction = new interaction.Keyboard(keyboardClientInterface);

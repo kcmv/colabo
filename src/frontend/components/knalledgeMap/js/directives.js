@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', ['KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
-		function(KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, $compile, $routeParams /*, $rootScope, $q, $timeout, ConfigMap*/){
+	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', 'RimaUsersService', 'IbisTypesService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
+		function($rootScope, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, RimaUsersService, IbisTypesService, $compile, $routeParams /*, $rootScope, $q, $timeout, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -59,7 +59,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							},
 							sizing: {
 								setNodeSize: true,
-								nodeSize: [400, 200]
+								nodeSize: [300, 100]
 							},
 							margin: {
 								top: 10,
@@ -149,6 +149,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								// Referencing DOM nodes in Angular expressions is disallowed!
 								dom = null;
 								$scope.nodeSelected({"vkNode": vkNode, "dom": dom});
+								var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
+								var property = "";
+								if(vkNode.kNode.dataContent) property = vkNode.kNode.dataContent.property;
+								$rootScope.$broadcast(changeKnalledgePropertyEventName, property);
 							});
 						},
 						mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
@@ -201,7 +205,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null, 
-							config.tree.mapService.enabled ? KnalledgeMapVOsService : null);
+							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, undefined, RimaUsersService, IbisTypesService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model, function(){
@@ -241,6 +245,18 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					init(model);
 				});
 
+				var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
+				$scope.$on(knalledgePropertyChangedEventName, function(e, knalledgePropery) {
+					console.log("[knalledgeMap.controller::$on] event: %s", knalledgePropertyChangedEventName);
+					console.log("[knalledgeMap.controller::$on] knalledgePropery: %s", knalledgePropery);
+					var vkNode = knalledgeMap.mapStructure.getSelectedNode();
+					if(!vkNode.kNode.dataContent) vkNode.kNode.dataContent = {};
+					vkNode.kNode.dataContent.property = knalledgePropery;
+					if(vkNode){
+						knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
+					}
+				});
+
 				var viewspecChangedEventName = "viewspecChangedEvent";
 				$scope.$on(viewspecChangedEventName, function(e, newViewspec) {
 					console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
@@ -271,11 +287,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					var viewspecChangedEventName = "viewspecChangedEvent";
 					//console.log("result:" + JSON.stringify(result));
 					$rootScope.$broadcast(viewspecChangedEventName, $scope.bindings.viewspec);
-				}
+				};
 			}
     	};
 	}])
-	.directive('knalledgeMapList', [/*'$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', */ function(/*$rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService, $q*/){
+	.directive('knalledgeMapList', ['$rootScope', /*, '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', */ function($rootScope/*, $window, KnalledgeNodeService, KnalledgeEdgeService, $q*/){
 		// http://docs.angularjs.org/guide/directive
 		return {
 			restrict: 'AE',
@@ -284,7 +300,18 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
-			controller: function (/* $scope */) {
+			controller: function ( $scope ) {
+				$scope.propertyChanged = function(){
+					console.info("[knalledgeMapList] $scope.htmlVariable: %s", $scope.htmlVariable);
+					var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
+					//console.log("result:" + JSON.stringify(result));
+					$rootScope.$broadcast(knalledgePropertyChangedEventName, $scope.htmlVariable);
+				};
+
+				var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
+				$scope.$on(changeKnalledgePropertyEventName, function(e, knalledgePropery) {
+					$scope.htmlVariable = knalledgePropery;
+				});
     		}
     	};
 	}])
@@ -459,8 +486,62 @@ angular.module('knalledgeMapDirectives', ['Config'])
     		}
     	};
 	}])
-;
 
+	.directive('rimaUsersList', ["$rootScope", "$timeout", "$location", "RimaUsersService",
+		function($rootScope, $timeout, $location, RimaUsersService){
+		console.log("[rimaUsersList] loading directive");
+		return {
+			restrict: 'AE',
+			scope: {
+			},
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angularjs.org/guide/expression
+			templateUrl: '../components/knalledgeMap/partials/rimaUsers-list.tpl.html',
+			controller: function ( $scope, $element) {
+				$scope.mapToCreate = null;
+				$scope.modeCreating = false;
+				$scope.items = null;
+				$scope.selectedItem = null;
+
+				$scope.items = RimaUsersService.getUsers();
+
+			    $scope.selectedItem = RimaUsersService.getActiveUser();
+				$scope.selectItem = function(item) {
+				    $scope.selectedItem = item;
+				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
+				    RimaUsersService.selectActiveUser(item);
+				};
+    		}
+    	};
+	}])
+
+	.directive('ibisTypesList', ["$rootScope", "$timeout", "$location", "IbisTypesService",
+		function($rootScope, $timeout, $location, IbisTypesService){
+		console.log("[ibisTypesList] loading directive");
+		return {
+			restrict: 'AE',
+			scope: {
+			},
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angularjs.org/guide/expression
+			templateUrl: '../components/knalledgeMap/partials/ibisTypes-list.tpl.html',
+			controller: function ( $scope, $element) {
+				$scope.mapToCreate = null;
+				$scope.modeCreating = false;
+				$scope.items = null;
+				$scope.selectedItem = null;
+
+				$scope.items = IbisTypesService.getTypes();
+
+			    $scope.selectedItem = IbisTypesService.getActiveType();
+				$scope.selectItem = function(item) {
+				    $scope.selectedItem = item;
+				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
+				    IbisTypesService.selectActiveType	(item);
+				};
+    		}
+    	};
+	}])
 ;
 
 }()); // end of 'use strict';

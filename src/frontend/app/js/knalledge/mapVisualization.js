@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapVisualization =  knalledge.MapVisualization = function(parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges){
+var MapVisualization =  knalledge.MapVisualization = function(parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaUserService){
 	this.dom = {
 		parentDom: parentDom,
 		divMap: null,
@@ -20,6 +20,7 @@ var MapVisualization =  knalledge.MapVisualization = function(parentDom, mapStru
 	this.mapSize = null;
 	// scales used for transformation of knalledge from informational to visual domain
 	this.scales = null;
+	this.rimaUserService = rimaUserService;
 };
 
 MapVisualization.prototype.init = function(mapLayout, mapSize){
@@ -293,6 +294,18 @@ MapVisualization.prototype.updateHtml = function(source) {
 				return d.kNode.name;
 			});
 
+	nodeHtmlEnter
+		.append("div")
+			.attr("class", "open_close_status");
+
+	nodeHtmlEnter
+		.append("div")
+			.attr("class", "node_type");
+
+	nodeHtmlEnter
+		.append("div")
+			.attr("class", "rima_user");
+
 	// nodeHtmlEnter
 	// 	.append("div")
 	// 		.attr("class", "node_status")
@@ -377,6 +390,78 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ? 
 				d.kNode.dataContent.ibis.voteDown : "&nbsp";
 		});
+
+	nodeHtmlUpdate.select(".open_close_status")
+		.style("display", function(d){
+			return that.mapStructure.hasChildren(d) ? "block" : "none";
+		})
+		.html(function(d){
+			return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "+" : "-";
+		});
+	nodeHtmlUpdate.select(".node_type")
+		.style("display", function(d){
+			return (d.kNode && d.kNode.type) ? "block" : "none";
+		})
+		.html(function(d){
+			var label = "";
+			if(d.kNode && d.kNode.type){
+				var type = d.kNode.type;
+				switch(type){
+					case "type_ibis_question":
+						type = "ibis:QUESTION";
+						break;
+					case "type_ibis_idea":
+						type = "ibis:IDEA";
+						break;
+					case "type_ibis_argument":
+						type = "ibis:ARGUMENT";
+						break;
+					case "type_ibis_comment":
+						type = "ibis:COMMENT";
+						break;
+					case "type_knowledge":
+						type = "kn:KnAllEdge";
+						break;
+
+					case "model_component":
+						type = "csdms:COMPONENT";
+						break;
+					case "object":
+						type = "csdms:OBJECT";
+						break;
+					case "variable":
+						type = "csdms:VARIABLE";
+						break;
+					case "assumption":
+						type = "csdms:ASSUMPTION";
+						break;
+					case "grid_desc":
+						type = "csdms:GRID DESC";
+						break;
+					case "grid":
+						type = "csdms:GRID";
+						break;
+					case "process":
+						type = "csdms:PROCESS";
+						break;
+				}
+				label = "%" + type;
+			}
+			return label;
+		});
+	nodeHtmlUpdate.select(".rima_user")
+		.style("display", function(d){
+			return that.rimaUserService.getUserById(d.kNode.iAmId) ? "block" : "none";
+		})
+		.html(function(d){
+			var user = that.rimaUserService.getUserById(d.kNode.iAmId);
+			var label = "";
+			if(user){
+				label = "@" + user.user;
+			}
+			return label;
+		});
+
 
 	(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
 		.style("left", function(d){

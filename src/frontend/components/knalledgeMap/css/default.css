@@ -471,7 +471,9 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     	margin-top: 0.3em;
     */
     /*margin-top: -1.5em;
-    margin-left: -5em;*/ }
+    margin-left: -5em;*/
+    /*TODO: center this verticaly (need to do it from JS :( ))*/
+    /* NODE SEMANTIC / STYLING */ }
     /* line 489, ../sass/default.scss */
     .knalledge_map_container .node_html .node_inner_html {
       position: relative;
@@ -530,19 +532,71 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -moz-border-radius-bottomleft: 15px;
       -webkit-border-bottom-left-radius: 15px;
       border-bottom-left-radius: 15px; }
-    /* line 538, ../sass/default.scss */
+    /* line 539, ../sass/default.scss */
+    .knalledge_map_container .node_html .open_close_status {
+      position: absolute;
+      right: -10px;
+      top: +5px;
+      background-color: #8888ff;
+      border: 2px solid #0000aa;
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      text-align: center;
+      font-weight: bold;
+      min-width: 1.2em;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px; }
+    /* line 555, ../sass/default.scss */
+    .knalledge_map_container .node_html .node_type {
+      position: absolute;
+      left: 10px;
+      top: -25px;
+      /*background-color: #ddddff;*/
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      color: #5555aa;
+      text-align: center;
+      /*font-weight: bold;*/
+      min-width: 1.2em;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px; }
+    /* line 571, ../sass/default.scss */
+    .knalledge_map_container .node_html .rima_user {
+      position: absolute;
+      right: -20px;
+      font-style: italic;
+      bottom: -30px;
+      color: #aa55aa;
+      background-color: #ddffdd;
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      text-align: center;
+      font-weight: bold;
+      min-width: 1.2em;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px; }
+    /* line 589, ../sass/default.scss */
     .knalledge_map_container .node_html.type_ibis_question {
       background-color: #ffffaa; }
-    /* line 541, ../sass/default.scss */
+    /* line 592, ../sass/default.scss */
     .knalledge_map_container .node_html.type_ibis_idea {
       background-color: #aaaaff; }
-    /* line 544, ../sass/default.scss */
+    /* line 595, ../sass/default.scss */
     .knalledge_map_container .node_html.type_ibis_argument {
       background-color: #ffaaaa; }
-    /* line 547, ../sass/default.scss */
+    /* line 598, ../sass/default.scss */
     .knalledge_map_container .node_html.type_ibis_comment {
       background-color: #aaffaa; }
-  /* line 552, ../sass/default.scss */
+  /* line 603, ../sass/default.scss */
   .knalledge_map_container .node_html_fixed {
     width: 150px;
     margin-left: -75px;
@@ -553,13 +607,13 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -moz-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
     -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
     box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75); }
-  /* line 560, ../sass/default.scss */
+  /* line 611, ../sass/default.scss */
   .knalledge_map_container .node_unselected {
     border-style: dashed;
     border-color: #0000ff;
     /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
     /* color h-shadow v-shadow blur spread color inset*/ }
-  /* line 566, ../sass/default.scss */
+  /* line 617, ../sass/default.scss */
   .knalledge_map_container .node_selected {
     border-style: solid;
     border-color: #0000aa;
@@ -567,7 +621,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -moz-box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
     -webkit-box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
     box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75); }
-  /* line 573, ../sass/default.scss */
+  /* line 624, ../sass/default.scss */
   .knalledge_map_container .node_html span {
     display: inline-block;
     vertical-align: middle;
@@ -575,15 +629,15 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     text-align: center;
     font-weight: bold;
     font-style: italic;
-    color: #883333;
+    color: #550000;
     /* just for testing purposs */ }
-    /* line 583, ../sass/default.scss */
+    /* line 634, ../sass/default.scss */
     .knalledge_map_container .node_html span p {
       color: #880000;
       font-weight: 100;
       font-size: 12px;
       font-style: normal; }
-  /* line 591, ../sass/default.scss */
+  /* line 642, ../sass/default.scss */
   .knalledge_map_container .label_html {
     position: absolute;
     /*width: 10em;*/
@@ -609,7 +663,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 /* ------------------------------
 	knalledge-map-image-editing
 ------------------------------ */
-/* line 624, ../sass/default.scss */
+/* line 675, ../sass/default.scss */
 .knalledge-map-image-editing {
   position: absolute;
   width: 40%;
@@ -629,7 +683,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -moz-box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25);
   -webkit-box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25);
   box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25); }
-  /* line 640, ../sass/default.scss */
+  /* line 691, ../sass/default.scss */
   .knalledge-map-image-editing .knalledge_title {
     border-bottom: 3px solid #484848;
     background-color: #888888;
@@ -645,7 +699,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -moz-border-radius-topleft: 15px;
     -webkit-border-top-left-radius: 15px;
     border-top-left-radius: 15px; }
-  /* line 653, ../sass/default.scss */
+  /* line 704, ../sass/default.scss */
   .knalledge-map-image-editing .knalledge_close {
     position: absolute;
     background-color: #dddddd;
@@ -663,17 +717,17 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     top: 0.1em;
     z-index: 101;
     cursor: pointer; }
-    /* line 670, ../sass/default.scss */
+    /* line 721, ../sass/default.scss */
     .knalledge-map-image-editing .knalledge_close:hover {
       background-color: #ffffff; }
-  /* line 675, ../sass/default.scss */
+  /* line 726, ../sass/default.scss */
   .knalledge-map-image-editing ul {
     /* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
     overflow-y: scroll;
     position: relative;
     padding-left: 20%;
     padding-right: 20%; }
-    /* line 682, ../sass/default.scss */
+    /* line 733, ../sass/default.scss */
     .knalledge-map-image-editing ul li {
       list-style-type: none;
       display: block;
@@ -709,15 +763,15 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -o-transition-timing-function: ease-in;
       -webkit-transition-timing-function: ease-in;
       transition-timing-function: ease-in; }
-      /* line 703, ../sass/default.scss */
+      /* line 754, ../sass/default.scss */
       .knalledge-map-image-editing ul li:hover {
         background-color: #bbbbff;
         color: #6e6eff; }
-  /* line 709, ../sass/default.scss */
+  /* line 760, ../sass/default.scss */
   .knalledge-map-image-editing form {
     padding: 5px;
     padding-top: 10px; }
-    /* line 712, ../sass/default.scss */
+    /* line 763, ../sass/default.scss */
     .knalledge-map-image-editing form .image_url {
       font-weight: 300;
       font-size: 1.2em;
@@ -726,29 +780,29 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       width: 100%;
       padding: 3px;
       text-align: center; }
-    /* line 721, ../sass/default.scss */
+    /* line 772, ../sass/default.scss */
     .knalledge-map-image-editing form .dimensions {
       text-align: center; }
-      /* line 723, ../sass/default.scss */
+      /* line 774, ../sass/default.scss */
       .knalledge-map-image-editing form .dimensions input {
         width: 5em;
         background-color: #6f6f6f;
         color: #bbbbbb;
         padding: 3px;
         text-align: center; }
-    /* line 731, ../sass/default.scss */
+    /* line 782, ../sass/default.scss */
     .knalledge-map-image-editing form .help-block {
       font-size: 0.9em;
       font-style: italic;
       text-align: right; }
-    /* line 736, ../sass/default.scss */
+    /* line 787, ../sass/default.scss */
     .knalledge-map-image-editing form .buttons {
       text-align: right; }
 
 /*
 Knalledge Maps
 */
-/* line 745, ../sass/default.scss */
+/* line 796, ../sass/default.scss */
 .mcmButton {
   background-color: #dddddd;
   border: solid 3px #555555;
@@ -758,11 +812,11 @@ Knalledge Maps
   -webkit-border-radius: 15px;
   border-radius: 15px;
   cursor: pointer; }
-  /* line 753, ../sass/default.scss */
+  /* line 804, ../sass/default.scss */
   .mcmButton :hover {
     background-color: #ffffff; }
 
-/* line 758, ../sass/default.scss */
+/* line 809, ../sass/default.scss */
 .creatingNewMap {
   display: block;
   margin-left: 2px;
@@ -774,20 +828,20 @@ Knalledge Maps
   border: 2px groove #333;
   border: solid 1px #000;
   padding: 10px; }
-  /* line 769, ../sass/default.scss */
+  /* line 820, ../sass/default.scss */
   .creatingNewMap label {
     width: 20em; }
 
-/* line 774, ../sass/default.scss */
+/* line 825, ../sass/default.scss */
 .displayNone {
   display: none; }
 
-/* line 783, ../sass/default.scss */
+/* line 833, ../sass/default.scss */
 .mapsList {
   width: 80%;
   margin-left: 10%;
   margin-right: 10%; }
-  /* line 788, ../sass/default.scss */
+  /* line 838, ../sass/default.scss */
   .mapsList .list {
     margin: 5px;
     text: 18px;
@@ -800,22 +854,121 @@ Knalledge Maps
     background-color: #888;
     /*background-color: #ccc;
     background-color: #aaf;*/ }
-    /* line 792, ../sass/default.scss */
+    /* line 842, ../sass/default.scss */
     .mapsList .list .active-selection {
       background-color: #eee; }
-    /* line 796, ../sass/default.scss */
+    /* line 846, ../sass/default.scss */
     .mapsList .list tr:hover {
       cursor: pointer;
       background-color: #cccccc; }
-    /* line 808, ../sass/default.scss */
+    /* line 858, ../sass/default.scss */
     .mapsList .list th {
       background-color: #aaf;
       border: 1px solid black;
       padding: 5px; }
-    /* line 813, ../sass/default.scss */
+    /* line 863, ../sass/default.scss */
     .mapsList .list td {
       border: 1px solid black;
       padding: 5px; }
-  /* line 820, ../sass/default.scss */
+  /* line 870, ../sass/default.scss */
   .mapsList .buttons {
     text-align: left; }
+
+/* 
+	RIMA
+	rima-users-list
+*/
+/* line 880, ../sass/default.scss */
+.rima-users-list {
+  margin-top: 3em; }
+  /* line 882, ../sass/default.scss */
+  .rima-users-list .list {
+    margin: 5px;
+    font-size: 18px;
+    border: 1px solid #aaaaaa;
+    -moz-border-radius: 15px / 15px;
+    -webkit-border-radius: 15px 15px;
+    border-radius: 15px / 15px; }
+    /* line 888, ../sass/default.scss */
+    .rima-users-list .list .active-selection {
+      background-color: #eee; }
+    /* line 891, ../sass/default.scss */
+    .rima-users-list .list tr {
+      margin-bottom: 3px;
+      border-bottom: solid 2px #aaaaaa;
+      margin-bottom: 3px;
+      -moz-border-radius: 5px / 5px;
+      -webkit-border-radius: 5px 5px;
+      border-radius: 5px / 5px; }
+      /* line 896, ../sass/default.scss */
+      .rima-users-list .list tr:hover {
+        cursor: pointer;
+        background-color: #cccccc; }
+    /* line 902, ../sass/default.scss */
+    .rima-users-list .list th {
+      background-color: #aaf;
+      /*border: 1px solid black;*/
+      padding: 5px; }
+    /* line 907, ../sass/default.scss */
+    .rima-users-list .list td {
+      /*border: 1px solid black;*/
+      padding: 5px; }
+    /* line 912, ../sass/default.scss */
+    .rima-users-list .list .active-selection {
+      background-color: #aaf; }
+
+/* 
+	IBIS
+	ibis-types-list
+*/
+/* line 923, ../sass/default.scss */
+.ibis-types-list {
+  margin-top: 3em; }
+  /* line 925, ../sass/default.scss */
+  .ibis-types-list .list {
+    margin: 5px;
+    font-size: 18px;
+    border: 1px solid #aaaaaa;
+    -moz-border-radius: 15px / 15px;
+    -webkit-border-radius: 15px 15px;
+    border-radius: 15px / 15px; }
+    /* line 931, ../sass/default.scss */
+    .ibis-types-list .list .active-selection {
+      background-color: #eee; }
+    /* line 934, ../sass/default.scss */
+    .ibis-types-list .list tr {
+      margin-bottom: 3px;
+      border-bottom: solid 2px #aaaaaa;
+      margin-bottom: 3px;
+      -moz-border-radius: 5px / 5px;
+      -webkit-border-radius: 5px 5px;
+      border-radius: 5px / 5px; }
+      /* line 939, ../sass/default.scss */
+      .ibis-types-list .list tr:hover {
+        cursor: pointer;
+        background-color: #cccccc; }
+    /* line 945, ../sass/default.scss */
+    .ibis-types-list .list th {
+      background-color: #aaf;
+      /*border: 1px solid black;*/
+      padding: 5px; }
+    /* line 950, ../sass/default.scss */
+    .ibis-types-list .list td {
+      /*border: 1px solid black;*/
+      padding: 5px; }
+    /* line 955, ../sass/default.scss */
+    .ibis-types-list .list .active-selection {
+      background-color: #aaf; }
+
+/* line 961, ../sass/default.scss */
+.knalledge-properties {
+  position: relative;
+  width: 100%;
+  height: 100%; }
+  /* line 965, ../sass/default.scss */
+  .knalledge-properties .ta-editor {
+    position: relative; }
+  /* line 968, ../sass/default.scss */
+  .knalledge-properties .ta-scroll-window > .ta-bind {
+    height: 100%;
+    position: relative; }

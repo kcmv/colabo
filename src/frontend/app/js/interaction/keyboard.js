@@ -6,10 +6,35 @@
 var Keyboard =  interaction.Keyboard = function(clientApi){
 	this.clientApi = clientApi;
 	this.editingNodeHtml = null;
+	this.status = Keyboard.STATUS_MAP;
+};
+
+Keyboard.STATUS_EDITOR = "STATUS_EDITOR";
+Keyboard.STATUS_MAP = "STATUS_MAP";
+
+Keyboard.prototype.setStatus = function(status){
+	this.status = status;
+};
+
+Keyboard.prototype.getStatus = function(){
+	return this.status;
 };
 
 Keyboard.prototype.init = function(){
 	this.initializeKeyboard();
+
+	var editor = d3.select(".knalledge_map_list"); // .ta-bind
+	var map = d3.select(".knalledge_map");
+
+	editor.on("click", function(){
+		this.setStatus(Keyboard.STATUS_EDITOR);
+		console.info("Switching to the editor");
+	}.bind(this));
+
+	map.on("click", function(){
+		this.setStatus(Keyboard.STATUS_MAP);
+		console.info("Switching to the map");
+	}.bind(this));
 };
 
 Keyboard.prototype.createCaretPlacer = function(el, atStart){
@@ -63,6 +88,23 @@ Keyboard.prototype.createCaretPlacer = function(el, atStart){
 	}
 };
 
+Keyboard.prototype.switchToProperties = function(){
+	var editor = d3.select(".ta-bind");
+	var map = d3.select(".knalledge_map_container");
+	// editor.remove();
+	map.node().blur();
+	editor.node().focus();
+	$(editor.node()).click();
+};
+
+Keyboard.prototype.switchToMap = function(){
+	var editor = d3.select(".ta-bind");
+	var map = d3.select(".knalledge_map_container");
+	editor.node().blur();
+	map.node().focus();
+	$(map.node()).click();
+};
+
 Keyboard.prototype.setEditing = function(node){
 	if(!node) return;
 	var that = this;
@@ -109,6 +151,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	KeyboardJS.on("right", function(){
 		if(this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 
 		if(this.clientApi.getSelectedNode().children){
 			this.clientApi.clickNode(this.clientApi.getSelectedNode().children[0]);
@@ -117,6 +160,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	KeyboardJS.on("left", function(){
 		if(this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 
 		if(this.clientApi.getSelectedNode().parent){
 			this.clientApi.clickNode(this.clientApi.getSelectedNode().parent);
@@ -125,6 +169,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	KeyboardJS.on("down", function(){
 		if(this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 
 		if(this.clientApi.getSelectedNode().parent && this.clientApi.getSelectedNode().parent.children){
 			for(var i=0; i<this.clientApi.getSelectedNode().parent.children.length; i++){
@@ -139,6 +184,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	KeyboardJS.on("up", function(){
 		if(this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 
 		if(this.clientApi.getSelectedNode().parent && this.clientApi.getSelectedNode().parent.children){
 			for(var i=0; i<this.clientApi.getSelectedNode().parent.children.length; i++){
@@ -154,9 +200,21 @@ Keyboard.prototype.initializeKeyboard = function() {
 	/**
 	 * opening node
 	 */
+
+	KeyboardJS.on("alt + 1", function(){
+		console.log("alt + 1");
+		this.switchToMap();
+	}.bind(this), function(){}.bind(this));
+
+	KeyboardJS.on("alt + 2", function(){
+		console.log("alt + 2");
+		this.switchToProperties();
+	}.bind(this), function(){}.bind(this));
+
 	KeyboardJS.on("ctrl + enter", function(){
 		console.log("ctrl + enter");
 		if(this.editingNodeHtml) return;
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 
 		this.clientApi.getSelectedNode().isOpen = !this.clientApi.getSelectedNode().isOpen;
 		this.clientApi.update(this.clientApi.getSelectedNode());
@@ -170,10 +228,12 @@ Keyboard.prototype.initializeKeyboard = function() {
 			if(this.editingNodeHtml){
 				return;
 			}
+			if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 			return false;
 		}.bind(this),
 		function(){
 			if(this.editingNodeHtml) return;
+			if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 			this.setEditing(this.clientApi.getSelectedNode());
 		}.bind(this),
 		function(){
@@ -189,12 +249,14 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(this.editingNodeHtml){
 			this.exitEditingNode();
 		}
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 	}.bind(this), function(){}.bind(this));	
 
 	// IBIS
 	// Vote up
 	KeyboardJS.on("ctrl + command + up", function(){
 		if(this.editingNodeHtml) return;
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		var node = this.clientApi.getSelectedNode();
 		if(!('dataContent' in node.kNode) || !node.kNode.dataContent) node.kNode.dataContent = {};
 		if(!('ibis' in node.kNode.dataContent) || !node.kNode.dataContent.ibis) node.kNode.dataContent.ibis = {};
@@ -207,6 +269,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	// Vote up
 	KeyboardJS.on("ctrl + command + down", function(){
 		if(this.editingNodeHtml) return;
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		var node = this.clientApi.getSelectedNode();
 		if(!('dataContent' in node.kNode) || !node.kNode.dataContent) node.kNode.dataContent = {};
 		if(!('ibis' in node.kNode.dataContent) || !node.kNode.dataContent.ibis) node.kNode.dataContent.ibis = {};
@@ -219,6 +282,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	// Add Image
 	KeyboardJS.on("ctrl + i", function(){
 		if(this.editingNodeHtml) return;
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		var node = this.clientApi.getSelectedNode();
 		this.clientApi.addImage(node);
 	}.bind(this), function(){}.bind(this));	
@@ -226,6 +290,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	// Remove Image
 	KeyboardJS.on("shift + ctrl + i", function(){
 		if(this.editingNodeHtml) return;
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		console.log("Removing image");
 		this.clientApi.removeImage();
 	}.bind(this), function(){}.bind(this));	
@@ -292,22 +357,29 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	// Add new node
 	KeyboardJS.on("ctrl + n", function(){
-		this.addNode(knalledge.KNode.TYPE_KNOWLEDGE, knalledge.KEdge.TYPE_KNOWLEDGE);
-	}.bind(this), function(){}.bind(this));	
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
+		var type = this.clientApi.getActiveIbisType();
+		if(!type) type = knalledge.KNode.TYPE_KNOWLEDGE;
+		this.addNode(type, type);
+	}.bind(this), function(){}.bind(this));
 
 	KeyboardJS.on("ctrl + alt + 1", function(){
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		this.addNode(knalledge.KNode.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_QUESTION);
 	}.bind(this), function(){}.bind(this));	
 
 	KeyboardJS.on("ctrl + alt + 2", function(){
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		this.addNode(knalledge.KNode.TYPE_IBIS_IDEA, knalledge.KEdge.TYPE_IBIS_IDEA);
 	}.bind(this), function(){}.bind(this));	
 
 	KeyboardJS.on("ctrl + alt + 3", function(){
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		this.addNode(knalledge.KNode.TYPE_IBIS_ARGUMENT, knalledge.KEdge.TYPE_IBIS_ARGUMENT);
 	}.bind(this), function(){}.bind(this));	
 
 	KeyboardJS.on("ctrl + alt + 4", function(){
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		this.addNode(knalledge.KNode.TYPE_IBIS_COMMENT, knalledge.KEdge.TYPE_IBIS_COMMENT);
 	}.bind(this), function(){}.bind(this));	
 	
@@ -315,6 +387,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	KeyboardJS.on("ctrl + delete", function(){
 		console.log("ctrl + delete");
 		if(this.editingNodeHtml) return; // in typing mode
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		var that = this;
 		//if(confirm("Are you sure you want to delete this node od KnAllEdge?")){

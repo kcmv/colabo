@@ -535,6 +535,57 @@ $map: layout(12 1/4 fluid float inside);
 			@include border-bottom-right-radius(15px);
 			@include border-bottom-left-radius(15px);
 		}
+		/*TODO: center this verticaly (need to do it from JS :( ))*/
+		.open_close_status {
+			position: absolute;
+			right: -10px;
+			top: +5px;
+			background-color: #8888ff;
+			border: 2px solid #0000aa;
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			min-width: 1.2em;
+			@include border-radius(5px);
+		}
+
+		.node_type {
+			position: absolute;
+			left: 10px;
+			top: -25px;
+			/*background-color: #ddddff;*/
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			color: #5555aa;
+			text-align: center;
+			/*font-weight: bold;*/
+			min-width: 1.2em;
+			@include border-radius(5px);			
+		}
+
+		.rima_user {
+			position: absolute;
+			right: -20px;
+			font-style: italic;
+			bottom: -30px;
+			color: #aa55aa;
+			background-color: #ddffdd;
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			min-width: 1.2em;
+			@include border-radius(5px);			
+		}
+
+		/* NODE SEMANTIC / STYLING */
 		&.type_ibis_question{
 			background-color: #ffffaa;
 		}
@@ -577,7 +628,7 @@ $map: layout(12 1/4 fluid float inside);
 		text-align: center;
 		font-weight: bold;
 		font-style: italic;
-		color: #883333;
+		color: #550000;
 
 		/* just for testing purposs */
 		p{
@@ -779,7 +830,6 @@ Knalledge Maps
 
 }
 
-
 .mapsList{
 	width:80%;
 	margin-left:10%;
@@ -820,4 +870,104 @@ Knalledge Maps
 	.buttons{
 		text-align: left;
 	}
+}
+
+/* 
+	RIMA
+	rima-users-list
+*/
+
+.rima-users-list{
+	margin-top: 3em;
+	.list{
+		margin: 5px;
+		font-size: 18px;
+		border: 1px solid #aaaaaa;
+		@include border-radius(15px, 15px);
+		
+		.active-selection{
+			background-color: #eee;
+		}
+		tr{
+			margin-bottom: 3px;
+			border-bottom: solid 2px #aaaaaa;
+			margin-bottom: 3px;
+			@include border-radius(5px, 5px);
+			 &:hover{
+		     	cursor: pointer;
+		     	background-color: #cccccc;
+		  }
+		}
+
+		th{
+			background-color: #aaf;
+			/*border: 1px solid black;*/
+			padding: 5px;
+		}
+		td{
+			/*border: 1px solid black;*/
+			padding: 5px;
+		}
+
+		.active-selection{
+			background-color: #aaf;
+		}
+	}
+}
+
+/* 
+	IBIS
+	ibis-types-list
+*/
+
+.ibis-types-list{
+	margin-top: 3em;
+	.list{
+		margin: 5px;
+		font-size: 18px;
+		border: 1px solid #aaaaaa;
+		@include border-radius(15px, 15px);
+		
+		.active-selection{
+			background-color: #eee;
+		}
+		tr{
+			margin-bottom: 3px;
+			border-bottom: solid 2px #aaaaaa;
+			margin-bottom: 3px;
+			@include border-radius(5px, 5px);
+			 &:hover{
+		     	cursor: pointer;
+		     	background-color: #cccccc;
+		  }
+		}
+
+		th{
+			background-color: #aaf;
+			/*border: 1px solid black;*/
+			padding: 5px;
+		}
+		td{
+			/*border: 1px solid black;*/
+			padding: 5px;
+		}
+
+		.active-selection{
+			background-color: #aaf;
+		}
+	}
+}
+
+.knalledge-properties{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	.ta-editor {
+		position: relative;
+	}
+	.ta-scroll-window > .ta-bind {
+		height: 100%;
+		position: relative;
+	}
+
 }
