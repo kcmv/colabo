@@ -83,7 +83,7 @@ exports.index = function(req, res){
 	}
 }
 
-// curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello World Pl", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/whoAmIs
+// curl -v -H "Content-Type: application/json" -X POST -d '{"firstname":"Sasha", "familyname": "Rudan", "displayName": "mPrinc"}' http://127.0.0.1:8888/whoAmIs
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/whoAmIs
 exports.create = function(req, res){
 	console.log("[modules/whoAmI.js:create] req.body: %s", JSON.stringify(req.body));
