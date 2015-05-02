@@ -57,7 +57,7 @@ app.configure(function(){
     app.use(app.router);
 });
 
-var knodes = app.resource('knodes', require('./modules/kNode'), {id: 'type?/:searchParam?'});
+var knodes = app.resource('knodes', require('./modules/kNode'), {id: 'type?/:searchParam?/:searchParam2?'});
 var kedges = app.resource('kedges', require('./modules/kEdge'), {id: 'type?/:searchParam?/:searchParam2?'});
 var kmaps = app.resource('kmaps', require('./modules/kMap'), {id: 'type?/:searchParam?'});
 
