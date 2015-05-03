@@ -149,9 +149,12 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								// Referencing DOM nodes in Angular expressions is disallowed!
 								dom = null;
 								$scope.nodeSelected({"vkNode": vkNode, "dom": dom});
-								var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
 								var property = "";
-								if(vkNode.kNode.dataContent) property = vkNode.kNode.dataContent.property;
+								if(vkNode){
+									// http://www.historyrundown.com/did-galileo-really-say-and-yet-it-moves/
+									if(vkNode.kNode.dataContent) property = vkNode.kNode.dataContent.property;
+								}
+								var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
 								$rootScope.$broadcast(changeKnalledgePropertyEventName, property);
 							});
 						},
@@ -249,10 +252,18 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.$on(knalledgePropertyChangedEventName, function(e, knalledgePropery) {
 					console.log("[knalledgeMap.controller::$on] event: %s", knalledgePropertyChangedEventName);
 					console.log("[knalledgeMap.controller::$on] knalledgePropery: %s", knalledgePropery);
+
 					var vkNode = knalledgeMap.mapStructure.getSelectedNode();
-					if(!vkNode.kNode.dataContent) vkNode.kNode.dataContent = {};
-					vkNode.kNode.dataContent.property = knalledgePropery;
+					var knalledgeProperyBefore = null;
 					if(vkNode){
+						if(!vkNode.kNode.dataContent) vkNode.kNode.dataContent = {};
+						if(vkNode.kNode.dataContent.property) knalledgeProperyBefore = vkNode.kNode.dataContent.property;
+						var nowExist = (knalledgePropery != null) && (knalledgePropery.length > 0);
+						var beforeExisted = (vkNode.kNode.dataContent.property != null) && (vkNode.kNode.dataContent.property.length > 0);
+						if(knalledgeProperyBefore == knalledgePropery) return;
+						if(!knalledgeProperyBefore && !knalledgePropery) return;
+
+						vkNode.kNode.dataContent.property = knalledgePropery;
 						knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
 					}
 				});
