@@ -153,9 +153,17 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								if(vkNode){
 									// http://www.historyrundown.com/did-galileo-really-say-and-yet-it-moves/
 									if(vkNode.kNode.dataContent) property = vkNode.kNode.dataContent.property;
+									console.log("[knalledgeMap::kMapClientInterface::nodeClicked'] vkNode[%s](%s): property: %s", vkNode.id, vkNode.kNode._id, property);
+								}else{
+									console.log("[knalledgeMap::kMapClientInterface::nodeClicked'] node is not selected. property: %s", property);
 								}
 								var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
-								$rootScope.$broadcast(changeKnalledgePropertyEventName, property);
+
+								var nodeContent = {
+									node: vkNode,
+									property: property
+								};
+								$rootScope.$broadcast(changeKnalledgePropertyEventName, nodeContent);
 							});
 						},
 						mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
@@ -250,12 +258,14 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
 				$scope.$on(knalledgePropertyChangedEventName, function(e, knalledgePropery) {
-					console.log("[knalledgeMap.controller::$on] event: %s", knalledgePropertyChangedEventName);
-					console.log("[knalledgeMap.controller::$on] knalledgePropery: %s", knalledgePropery);
-
 					var vkNode = knalledgeMap.mapStructure.getSelectedNode();
+
 					var knalledgeProperyBefore = null;
 					if(vkNode){
+						console.log("[knalledgeMap.controller::$on:%s] vkNode[%s](%s): (old knalledgePropery: %s), knalledgePropery: %s", knalledgePropertyChangedEventName, vkNode.id, vkNode.kNode._id, 
+							(vkNode.kNode.dataContent ? vkNode.kNode.dataContent.property : null),
+							knalledgePropery);
+
 						if(!vkNode.kNode.dataContent) vkNode.kNode.dataContent = {};
 						if(vkNode.kNode.dataContent.property) knalledgeProperyBefore = vkNode.kNode.dataContent.property;
 						var nowExist = (knalledgePropery != null) && (knalledgePropery.length > 0);
@@ -265,6 +275,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 						vkNode.kNode.dataContent.property = knalledgePropery;
 						knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
+					}else{
+					console.log("[knalledgeMap.controller::$on:%s] node not selected. knalledgePropery: %s", knalledgePropertyChangedEventName, knalledgePropery);
+
+
 					}
 				});
 
@@ -312,16 +326,29 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
 			controller: function ( $scope ) {
+				$scope.nodeContent = {
+					htmlProperty: "",
+					editing: false
+				};
+
+				$scope.enableEditing = function(){
+					$scope.nodeContent.editing = true;
+				};
+
 				$scope.propertyChanged = function(){
-					console.info("[knalledgeMapList] $scope.htmlVariable: %s", $scope.htmlVariable);
+					console.info("[knalledgeMapList:propertyChanged] $scope.nodeContent.htmlProperty: %s", $scope.nodeContent.htmlProperty);
 					var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
 					//console.log("result:" + JSON.stringify(result));
-					$rootScope.$broadcast(knalledgePropertyChangedEventName, $scope.htmlVariable);
+					$rootScope.$broadcast(knalledgePropertyChangedEventName, $scope.nodeContent.htmlProperty);
 				};
 
 				var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
-				$scope.$on(changeKnalledgePropertyEventName, function(e, knalledgePropery) {
-					$scope.htmlVariable = knalledgePropery;
+				$scope.$on(changeKnalledgePropertyEventName, function(e, nodeContent) {
+					console.info("[knalledgeMapList] [on:%s] nodeContent.node: %s (%s), property: %s", changeKnalledgePropertyEventName, (nodeContent.node ? nodeContent.node.id : null),
+						(nodeContent.node ? nodeContent.node.kNode._id : null), nodeContent.property);
+					$scope.nodeContent.editing = false;
+					$scope.nodeContent.node = nodeContent.node;
+					$scope.nodeContent.htmlProperty = nodeContent.property;
 				});
     		}
     	};

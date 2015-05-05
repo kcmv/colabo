@@ -1,2 +1,9 @@
-<B>KnAllEdge Info</B>
-<div text-angular name="htmlcontent" ng-model="htmlVariable" ng-change="propertyChanged()" ta-disabled='disabled' class="knalledge-properties" text-angular-name="KN-Properties"></div>
+<div class="heading">
+	<b>KnAllEdge Info</b>
+	<button ng-if="!nodeContent.editing && nodeContent.node" class="btn btn-primary" type="button" ng-click="enableEditing()">Edit</button>
+</div>
+<div class="content">
+	<div ng-if="nodeContent.editing" text-angular name="htmlcontent" ng-model="nodeContent.htmlProperty" ng-change="propertyChanged()" ta-disabled='disabled' class="knalledge-properties knalledge-edit" text-angular-name="KN-Properties"></div>
+
+	<div ng-if="!nodeContent.editing" ng-bind-html="nodeContent.htmlProperty" class="knalledge-properties knalledge-view"></div>
+</div>
