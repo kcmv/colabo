@@ -45,11 +45,6 @@ MapVisualization.prototype.init = function(mapLayout, mapSize){
 		.append("svg")
 			.append("g")
 				.attr("class", "svg_content");
-
-	// listen on change of input radio buttons (tree, manual, ... viewspecs)
-	d3.selectAll("input").on("change", function(){
-		// that.viewspecChanged(this);
-	});
 };
 
 MapVisualization.prototype.getDom = function(){
@@ -144,7 +139,8 @@ MapVisualization.prototype.positionToDatum = function(datum) {
 	var divMapNative = this.dom.divMap.node();
 	var divMapJQ = $(divMapNative);
 	divMapJQ = $('.knalledge_map_container');
-	console.log("divMapJQ.scrollLeft(): %s, divMapJQ.scrollTop(): %s", divMapJQ.scrollLeft(), divMapJQ.scrollTop());
+	// console.log("divMapJQ.scrollLeft(): %s, divMapJQ.scrollTop(): %s", divMapJQ.scrollLeft(), divMapJQ.scrollTop());
+
 	// https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollLeft
 	// http://www.w3schools.com/jquery/css_scrolltop.asp
 	// https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView

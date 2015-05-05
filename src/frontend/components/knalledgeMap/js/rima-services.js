@@ -26,6 +26,11 @@ rimaUserServices.provider('RimaUsersService', {
 			// 	user: "unknown"
 			// },
 			{
+				_id: 5,
+				name: "Sasha",
+				user: "Sasha"
+			},
+			{
 				_id: 1,
 				name: "Anna",
 				user: "Anna"
@@ -46,7 +51,7 @@ rimaUserServices.provider('RimaUsersService', {
 				user: "Laura"
 			},
 			{
-				_id: 5,
+				_id: 8,
 				name: "Chuck",
 				user: "Chuck"
 			},
@@ -59,11 +64,6 @@ rimaUserServices.provider('RimaUsersService', {
 				_id: 7,
 				name: "Ilya",
 				user: "Ilya"
-			},
-			{
-				_id: 8,
-				name: "Sasha",
-				user: "Sasha"
 			}
 		];
 
