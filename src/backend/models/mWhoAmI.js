@@ -7,7 +7,7 @@ var whoAmISchema = mongoose.Schema({
 	e_mail: String,
 	passw: String,
 	displayName: String,
-	gender: Number,
+	gender: Number, //0-undefined, 1-female, 2-male
 	birthday: Date,
 	coordX: Number,
 	coordY: Number,
