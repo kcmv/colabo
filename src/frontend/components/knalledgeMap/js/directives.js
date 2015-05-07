@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', 'RimaUsersService', 'IbisTypesService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
-		function($rootScope, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, RimaUsersService, IbisTypesService, $compile, $routeParams /*, $rootScope, $q, $timeout, ConfigMap*/){
+	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', 'RimaService', 'IbisTypesService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
+		function($rootScope, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, RimaService, IbisTypesService, $compile, $routeParams /*, $rootScope, $q, $timeout, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -216,7 +216,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null, 
-							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, undefined, RimaUsersService, IbisTypesService);
+							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, undefined, RimaService, IbisTypesService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model, function(){
@@ -438,8 +438,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
     		}
     	};
 	}])
-	.directive('knalledgeMapsList', ["$rootScope", "$timeout", "$location", 'KnalledgeMapService', 'KnalledgeMapVOsService', 'RimaUsersService',
-		function($rootScope, $timeout, $location, KnalledgeMapService, KnalledgeMapVOsService, RimaUsersService){
+	.directive('knalledgeMapsList', ["$rootScope", "$timeout", "$location", 'KnalledgeMapService', 'KnalledgeMapVOsService', 'RimaService',
+		function($rootScope, $timeout, $location, KnalledgeMapService, KnalledgeMapVOsService, RimaService){
 		console.log("[mcmMapsList] loading directive");
 		return {
 			restrict: 'AE',
@@ -457,7 +457,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				KnalledgeMapService.query().$promise.then(function(maps){
 					$scope.items = maps;
 					console.log('maps:'+JSON.stringify($scope.maps));
-					RimaUsersService.loadUsersFromList(); //TODO remove, after centralized loading is done
+					RimaService.loadUsersFromList(); //TODO remove, after centralized loading is done
 				});
 
 				$scope.showCreateNewMap = function(){
@@ -482,7 +482,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					var rootNodeCreated = function(rootNode){
 						$scope.mapToCreate.rootNodeId = rootNode._id;
-						$scope.mapToCreate.iAmId = RimaUsersService.getActiveUserId();
+						$scope.mapToCreate.iAmId = RimaService.getActiveUserId();
 						var map = KnalledgeMapService.create($scope.mapToCreate);
 						map.$promise.then(mapCreated);
 					}
@@ -493,7 +493,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					var rootNode = new knalledge.KNode();
 					rootNode.name = $scope.mapToCreate.name;
 					rootNode.mapId = null;
-					rootNode.iAmId = RimaUsersService.getActiveUserId();
+					rootNode.iAmId = RimaService.getActiveUserId();
 					rootNode.type = $scope.mapToCreate.rootNodeType ? 
 						$scope.mapToCreate.rootNodeType : "model_component";
 					rootNode.visual = {
@@ -528,8 +528,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
     	};
 	}])
 
-	.directive('rimaUsersList', ["$rootScope", "$timeout", "$location", "RimaUsersService",
-		function($rootScope, $timeout, $location, RimaUsersService){
+	.directive('rimaUsersList', ["$rootScope", "$timeout", "$location", "RimaService",
+		function($rootScope, $timeout, $location, RimaService){
 		console.log("[rimaUsersList] loading directive");
 		return {
 			restrict: 'AE',
@@ -540,20 +540,20 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			templateUrl: '../components/knalledgeMap/partials/rimaUsers-list.tpl.html',
 			controller: function ( $scope, $element) {
 				var init = function(){
-					$scope.items = RimaUsersService.getUsers();
-			    	$scope.selectedItem = RimaUsersService.getActiveUser();
+					$scope.items = RimaService.getUsers();
+			    	$scope.selectedItem = RimaService.getActiveUser();
 				}
 				$scope.mapToCreate = null;
 				$scope.modeCreating = false;
 				$scope.items = null;
 				$scope.selectedItem = null;
 				 //TODO: select from map.dataContent.mcm.authors list
-				RimaUsersService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
+				RimaService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
 				
 				$scope.selectItem = function(item) {
 				    $scope.selectedItem = item;
 				    console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
-				    RimaUsersService.selectActiveUser(item);
+				    RimaService.selectActiveUser(item);
 				};
     		}
     	};

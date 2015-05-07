@@ -3,7 +3,7 @@
 
 angular.module('rimaDirectives', ['Config'])
 	.directive('rimaWhats', ['$rootScope', 'RimaWhatService',
-		function($rootScope, RimaWhatService){
+		function($rootScope, RimaService){
 		console.log("[rimaWhats] loading directive");
 		return {
 			restrict: 'AE',
@@ -27,8 +27,8 @@ angular.module('rimaDirectives', ['Config'])
 			}
     	};
 	}])
-	.directive('rimaWhat', ['$rootScope', 'RimaWhatService',
-		function($rootScope, RimaWhatService){
+	.directive('rimaWhat', ['$rootScope', 'RimaService',
+		function($rootScope, RimaService){
 		console.log("[rimaWhats] loading directive");
 		return {
 			restrict: 'AE',

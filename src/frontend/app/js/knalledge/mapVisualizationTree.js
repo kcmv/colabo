@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaUserService){
+var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService){
 	this.dom = dom;
 	this.mapStructure = mapStructure;
 
@@ -14,7 +14,7 @@ var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapSt
 	this.mapSize = null;
 	// scales used for transformation of knalledge from informational to visual domain
 	this.scales = null;
-	this.rimaUserService = rimaUserService;
+	this.rimaService = rimaService;
 };
 
 MapVisualizationTree.prototype.init = function(mapLayout, mapSize){
@@ -441,13 +441,14 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		});
 	nodeHtmlUpdate.select(".rima_user")
 		.style("display", function(d){
-			return that.rimaUserService.getUserById(d.kNode.iAmId) ? "block" : "none";
+			return that.rimaService.getUserById(d.kNode.iAmId) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')
+
 		})
 		.html(function(d){
-			var user = that.rimaUserService.getUserById(d.kNode.iAmId);
+			var user = that.rimaService.getUserById(d.kNode.iAmId);
 			var label = "";
 			if(user){
-				label = "@" + user.user;
+				label = "@" + user.displayName;
 			}
 			return label;
 		});

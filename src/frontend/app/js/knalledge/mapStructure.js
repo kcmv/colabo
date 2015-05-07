@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapStructure =  knalledge.MapStructure = function(rimaUserService){
+var MapStructure =  knalledge.MapStructure = function(rimaService){
 	this.rootNode = null;
 	this.selectedNode = null;
 	this.mapService = null;
@@ -9,7 +9,7 @@ var MapStructure =  knalledge.MapStructure = function(rimaUserService){
 	this.edgesById = {};
 	this.properties = {};
 
-	this.rimaUserService = rimaUserService;
+	this.rimaService = rimaService;
 };
 
 MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
@@ -212,7 +212,7 @@ MapStructure.prototype.createNode = function(vkNode, nodeType) {
 	var newVKNode = vkNode;
 	if(!newVKNode) newVKNode = new knalledge.VKNode();
 	if(!newVKNode.kNode) newVKNode.kNode = new knalledge.KNode();
-	newVKNode.kNode.iAmId = this.rimaUserService.getActiveUserId();
+	newVKNode.kNode.iAmId = this.rimaService.getActiveUserId();
 
 	newVKNode.kNode = this.mapService.createNode(newVKNode.kNode, nodeType);
 	newVKNode.kNode.$promise.then(function(nodeCreated){

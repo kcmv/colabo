@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, rimaUserService, ibisTypesService){
+var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, rimaService, ibisTypesService){
 	this.config = config;
 	this.clientApi = clientApi;
 	this.entityStyles = entityStyles;
@@ -10,13 +10,13 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.scales = null;
 	this.mapSize = null;
 	this.mapStructureExternal = mapStructureExternal;
-	this.rimaUserService = rimaUserService;
+	this.rimaService = rimaService;
 	this.ibisTypesService = ibisTypesService;
 
 	this.state = new knalledge.State();
-	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaUserService);
+	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService);
 
-	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaUserService);
+	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService);
 
 	this.mapVisualization = this.mapManager.getActiveVisualization();
 	this.mapLayout = this.mapManager.getActiveLayout();
