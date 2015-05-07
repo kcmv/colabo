@@ -16,6 +16,9 @@ angular.module('KnAllEdgeApp',[
 	, 'knalledgeMapDirectives' // KnAllEdge Map component
 	, 'knalledgeMapServices'
 	, 'rimaUserServices'
+
+	, 'rimaServices'
+	, 'rimaDirectives'
 ])
 // routes
 .config(['$routeProvider', function($routeProvider) {

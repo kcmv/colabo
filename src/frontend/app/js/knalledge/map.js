@@ -15,15 +15,11 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 
 	this.state = new knalledge.State();
 	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaUserService);
-	this.mapVisualization = new knalledge.MapVisualization(this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaUserService);
-	var mapLayoutApi = {
-		update: this.mapVisualization.update.bind(this.mapVisualization),
-		getDom: this.mapVisualization.getDom.bind(this.mapVisualization),
-		setDomSize: this.mapVisualization.setDomSize.bind(this.mapVisualization),
-		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
-		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi)
-	};
-	this.mapLayout = new knalledge.MapLayout(this.mapStructure, this.config.nodes, this.config.tree, mapLayoutApi, this.state);
+
+	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaUserService);
+
+	this.mapVisualization = this.mapManager.getActiveVisualization();
+	this.mapLayout = this.mapManager.getActiveLayout();
 
 	this.keyboardInteraction = null;
 

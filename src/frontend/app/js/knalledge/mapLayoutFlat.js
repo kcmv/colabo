@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayout =  knalledge.MapLayout = function(structure, configNodes, configTree, clientApi, knalledgeState){
+var MapLayoutTree =  knalledge.MapLayoutTree = function(structure, configNodes, configTree, clientApi, knalledgeState){
 	this.structure = structure;
 	this.configNodes = configNodes;
 	this.configTree = configTree;
@@ -13,7 +13,7 @@ var MapLayout =  knalledge.MapLayout = function(structure, configNodes, configTr
 	this.tree = null;
 };
 
-MapLayout.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
+MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
 	var children = [];
 	if(!d.isOpen) return children;
 
@@ -32,7 +32,7 @@ MapLayout.prototype.getChildren = function(d){ //TODO: improve probably, not to 
 	return children;
 };
 
-MapLayout.prototype.init = function(mapSize, scales){
+MapLayoutTree.prototype.init = function(mapSize, scales){
 	this.dom = this.clientApi.getDom();
 	this.scales = scales;
 
@@ -53,7 +53,7 @@ MapLayout.prototype.init = function(mapSize, scales){
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal_projection
 // https://www.dashingd3js.com/svg-paths-and-d3js
-MapLayout.prototype.diagonal = function(that){
+MapLayoutTree.prototype.diagonal = function(that){
 	var diagonalSource = function(d){
 		//return d.source;
 		// here we are creating object with just necessary parameters (x, y)
@@ -100,12 +100,12 @@ MapLayout.prototype.diagonal = function(that){
 	return diagonal;
 };
 
-MapLayout.prototype.getAllNodesHtml = function(){
+MapLayoutTree.prototype.getAllNodesHtml = function(){
 	return this.dom.divMapHtml.selectAll("div.node_html");
 };
 
 // Returns view representation (dom) from datum d
-MapLayout.prototype.getDomFromDatum = function(d) {
+MapLayoutTree.prototype.getDomFromDatum = function(d) {
 	var dom = this.getAllNodesHtml()
 		.data([d], function(d){return d.id;});
 	if(dom.size() != 1) return null;
@@ -113,7 +113,7 @@ MapLayout.prototype.getDomFromDatum = function(d) {
 };
 
 // Select node on node click
-MapLayout.prototype.clickNode = function(d, dom) {
+MapLayoutTree.prototype.clickNode = function(d, dom) {
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state
 	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
@@ -153,13 +153,13 @@ MapLayout.prototype.clickNode = function(d, dom) {
 };
 
 // Toggle children on node double-click
-MapLayout.prototype.clickDoubleNode = function(d) {
+MapLayoutTree.prototype.clickDoubleNode = function(d) {
 	this.structure.toggle(d);
 	this.clientApi.update(d);
 };
 
 // react on label click.
-MapLayout.prototype.clickLinkLabel = function() {
+MapLayoutTree.prototype.clickLinkLabel = function() {
 	// console.log("Label clicked: " + JSON.stringify(d.target.name));
 
 	// just as a click indicator
@@ -170,13 +170,13 @@ MapLayout.prototype.clickLinkLabel = function() {
 	}
 };
 
-MapLayout.prototype.viewspecChanged = function(target){
+MapLayoutTree.prototype.viewspecChanged = function(target){
 	if (target.value === "viewspec_tree") this.configTree.viewspec = "viewspec_tree";
 	else if (target.value === "viewspec_manual") this.configTree.viewspec = "viewspec_manual";
 	this.clientApi.update(this.structure.rootNode);
 };
 
-MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback) {
+MapLayoutTree.prototype.processData = function(rootNodeX, rootNodeY, callback) {
 	if(typeof rootNodeX !== 'undefined' && typeof rootNodeX !== 'function' && 
 		typeof rootNodeY !== 'undefined' && typeof rootNodeY !== 'function'){
 		this.structure.rootNode.x0 = rootNodeX;
@@ -193,7 +193,7 @@ MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback) {
 - setting up VkNode
 position and dimension
  */
-MapLayout.prototype.generateTree = function(source){
+MapLayoutTree.prototype.generateTree = function(source){
 	var that = this;
 	if(this.nodes){
 		// Normalize for fixed-depth.
@@ -280,7 +280,7 @@ MapLayout.prototype.generateTree = function(source){
 	this.printTree(this.nodes);
 };
 
-MapLayout.prototype.printTree = function(nodes) {
+MapLayoutTree.prototype.printTree = function(nodes) {
 	var minX = 0, maxX = 0, minY = 0, maxY = 0;
 	console.log("%d nodes", nodes.length);
 	for(var i=0; i<nodes.length; i++){
@@ -297,7 +297,7 @@ MapLayout.prototype.printTree = function(nodes) {
 	console.log("Dimensions: (minX: %s, maxX: %s, minY: %s, maxY: %s)", minX, maxX, minY, maxY);
 };
 
-MapLayout.prototype.MoveNodesToPositiveSpace = function(nodes) {
+MapLayoutTree.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	var minX = 0, maxX = 0, minY = 0, maxY = 0;
 	var node;
 	for(var i in nodes){
@@ -320,7 +320,7 @@ MapLayout.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	this.clientApi.setDomSize(maxY, maxX);
 };
 
-MapLayout.prototype.getHtmlNodePosition = function(d) {
+MapLayoutTree.prototype.getHtmlNodePosition = function(d) {
 	var x = null;
 	if(this.configNodes.html.show){
 		x = d.x - d.height/2;
