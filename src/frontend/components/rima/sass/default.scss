@@ -1,0 +1,110 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+
+@import "../../../app/sass/include";
+
+.ideas-list{
+	
+}
+
+.ideas-list .item{
+	list-style-type: none;
+}
+
+/* http://www.w3.org/TR/CSS2/selector.html */
+.idea-detail .title-edit{
+	color: #888;
+	font-weight: bold;
+	font-size: 20px;
+	width: 100%;
+	box-sizing: border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing: border-box;
+}
+
+.idea-detail .subtitle-edit{
+	color: #888;
+	font-weight: 200;
+	font-size: 15px;
+	width: 100%;
+	box-sizing: border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing: border-box;
+}
+
+.idea-detail .title-view{
+	width: 100%;
+}
+
+.idea-detail .subtitle-view{
+	width: 100%;
+	font-weight: 500;
+	font-size: 15px;
+	font-style: italic;
+}
+
+/*
+ * IdeaDecorations
+ */
+
+/*
+ * IDEA DECORATION
+ */
+
+.idea-decoration{
+	background-color: #eeeeff;
+	margin-right: 5px;
+	padding-left: 5px;
+	padding-right: 3px;
+	padding-top: 1px;
+	padding-bottom: 2px;
+	border: 1px solid #cccccc;
+	border-radius: 0 15px 15px;
+}
+
+.idea-decoration_in_progress{
+	background-color: #f3f3f3;
+	margin-right: 5px;
+	padding-left: 5px;
+	padding-right: 3px;
+	padding-top: 1px;
+	padding-bottom: 2px;
+	border: 1px dashed #e0e0e0;
+	border-radius: 0 15px 15px;
+}
+
+.idea-decoration_in_progress a{
+	color: #8888ff;
+}
+
+.idea-decoration a{
+	color: #3333aa;
+}
+
+.idea-decoration_delete{
+	color: red;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.idea-decoration_in_progress .idea-decoration_delete{
+	color: #ff8888;
+}
+
+.idea-decoration_select{
+	color: blue;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.idea-decoration_in_progress .idea-decoration_select{
+	color: #ff8888;
+}
+
+
+.idea-decorations-creating-new{
+	background-color: #f3f3f3;
+	margin: 5px;
+	padding: 5px;
+	border: 1px dashed #e0e0e0;
+	border-radius: 0 15px 15px;
+}

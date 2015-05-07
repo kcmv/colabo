@@ -1,0 +1,6 @@
+<B>Whats:</B>
+<div rima-what ng-repeat="what in whats" idea-decoration="ideaDecoration" 
+		is-last="$last" readonly="readonly || ideaDecoration.inProgress">
+	</div>
+
+<span ng-show="!readonly && !decoratingIdeaPartial">New what:<input id="what-input"/></span>
