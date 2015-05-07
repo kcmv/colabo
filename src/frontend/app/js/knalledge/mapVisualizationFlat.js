@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapVisualization =  knalledge.MapVisualization = function(parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaUserService){
+var MapVisualizationFlat =  knalledge.MapVisualizationFlat = function(parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaUserService){
 	this.dom = {
 		parentDom: parentDom,
 		divMap: null,
@@ -23,7 +23,7 @@ var MapVisualization =  knalledge.MapVisualization = function(parentDom, mapStru
 	this.rimaUserService = rimaUserService;
 };
 
-MapVisualization.prototype.init = function(mapLayout, mapSize){
+MapVisualizationFlat.prototype.init = function(mapLayout, mapSize){
 	this.mapSize = mapSize;
 	this.scales = this.setScales();
 
@@ -47,11 +47,11 @@ MapVisualization.prototype.init = function(mapLayout, mapSize){
 				.attr("class", "svg_content");
 };
 
-MapVisualization.prototype.getDom = function(){
+MapVisualizationFlat.prototype.getDom = function(){
 	return this.dom;
 };
 
-MapVisualization.prototype.setDomSize = function(maxX, maxY){
+MapVisualizationFlat.prototype.setDomSize = function(maxX, maxY){
 	if(typeof maxX == 'undefined') maxX = 5000;
 	if(typeof maxY == 'undefined') maxY = 5000;
 
@@ -74,7 +74,7 @@ MapVisualization.prototype.setDomSize = function(maxX, maxY){
 		.style("height", maxY);
 };
 
-MapVisualization.prototype.setScales = function(){
+MapVisualizationFlat.prototype.setScales = function(){
 	// var that = this;
 
 	var scales = {
@@ -132,7 +132,7 @@ MapVisualization.prototype.setScales = function(){
 	return scales;
 };
 
-MapVisualization.prototype.positionToDatum = function(datum) {
+MapVisualizationFlat.prototype.positionToDatum = function(datum) {
 	// TODO: Add support for scales
 	var y = datum.x - this.dom.parentDom.node().getBoundingClientRect().height/2;
 	var x = datum.y - this.dom.parentDom.node().getBoundingClientRect().width/2;
@@ -155,7 +155,7 @@ MapVisualization.prototype.positionToDatum = function(datum) {
  * 	@param {vkNode} source - root node 
  *  @callback callback 
  * */
-MapVisualization.prototype.update = function(source, callback) {
+MapVisualizationFlat.prototype.update = function(source, callback) {
 	this.mapLayout.generateTree(this.mapStructure.rootNode);
 	this.mapLayout.printTree(this.mapLayout.nodes);
 	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
@@ -177,7 +177,7 @@ MapVisualization.prototype.update = function(source, callback) {
  * joins data and view
  * stylize nodes and set their eventlisteners
  * */
-MapVisualization.prototype.updateHtml = function(source) {
+MapVisualizationFlat.prototype.updateHtml = function(source) {
 	var that = this;
 	if(!this.configNodes.html.show) return;
 
@@ -345,7 +345,7 @@ MapVisualization.prototype.updateHtml = function(source) {
 	return nodeHtmlDatasets;
 };
 
-MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
+MapVisualizationFlat.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
 	if(!this.configNodes.html.show) return;
 	var that = this;
 
@@ -531,7 +531,7 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 	nodeHtmlExitTransition.remove();
 };
 
-MapVisualization.prototype.updateName = function(nodeView){
+MapVisualizationFlat.prototype.updateName = function(nodeView){
 	var nodeSpan = nodeView.select("span");
 	var newName = nodeSpan.text();
 	if(newName === ""){
@@ -542,7 +542,7 @@ MapVisualization.prototype.updateName = function(nodeView){
 	this.mapStructure.updateName(d, newName);
 };
 
-MapVisualization.prototype.updateNodeDimensions = function(){
+MapVisualizationFlat.prototype.updateNodeDimensions = function(){
 	if(!this.configNodes.html.show) return;
 	// var that = this;
 
@@ -556,7 +556,7 @@ MapVisualization.prototype.updateNodeDimensions = function(){
 	});
 };
 
-MapVisualization.prototype.updateSvgNodes = function(source) {
+MapVisualizationFlat.prototype.updateSvgNodes = function(source) {
 	if(!this.configNodes.svg.show) return;
 	var that = this;
 
@@ -679,7 +679,7 @@ MapVisualization.prototype.updateSvgNodes = function(source) {
 	}
 };
 
-MapVisualization.prototype.updateLinkLabels = function(source) {
+MapVisualizationFlat.prototype.updateLinkLabels = function(source) {
 	if(!this.configEdges.labels.show) return;
 
 	var that = this;
@@ -810,7 +810,7 @@ MapVisualization.prototype.updateLinkLabels = function(source) {
 		.remove();
 };
 
-MapVisualization.prototype.updateLinks = function(source) {
+MapVisualizationFlat.prototype.updateLinks = function(source) {
 	if(!this.configEdges.show) return;
 
 	var that = this;
