@@ -44,7 +44,7 @@ exports.index = function(req, res){
 			var msg = JSON.stringify(err);
 			resSendJsonProtected(res, {data: kNodes, accessId : accessId, message: msg, success: false});
 		}else{
-			console.log("[modules/kNode.js:index] Data:\n%s", JSON.stringify(kNodes));
+			//console.log("[modules/kNode.js:index] Data:\n%s", JSON.stringify(kNodes));
 			resSendJsonProtected(res, {data: kNodes, accessId : accessId, success: true});
 		}
 	}

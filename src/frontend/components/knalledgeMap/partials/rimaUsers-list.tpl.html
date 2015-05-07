@@ -2,7 +2,7 @@
 users
 <table class="list">
 	<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{row: true, 'active-selection': item._id == selectedItem._id}">
-		<td>{{item.user}}</td>
+		<td>{{item.displayName}}</td>
 	</tr>
 
 </ul>

@@ -14,7 +14,7 @@ var KMap =  knalledge.KMap = function(){
 	this.isPublic = true;
 	this.createdAt = null;
 	this.updatedAt = null;
-	this.dataContent = null;
+	this.dataContent = null; //dataContent.mcm.authors
 	this.visual = {
 	};
 	

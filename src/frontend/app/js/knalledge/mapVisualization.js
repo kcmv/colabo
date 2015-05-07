@@ -447,13 +447,13 @@ MapVisualization.prototype.updateHtmlTransitions = function(source, nodeHtmlData
 		});
 	nodeHtmlUpdate.select(".rima_user")
 		.style("display", function(d){
-			return that.rimaUserService.getUserById(d.kNode.iAmId) ? "block" : "none";
+			return that.rimaUserService.getUserById(d.kNode.iAmId) ? "block" : "none"; //TODO: unefective!! double finding users
 		})
 		.html(function(d){
 			var user = that.rimaUserService.getUserById(d.kNode.iAmId);
 			var label = "";
 			if(user){
-				label = "@" + user.user;
+				label = "@" + user.displayName;
 			}
 			return label;
 		});

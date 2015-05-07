@@ -438,8 +438,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
     		}
     	};
 	}])
-	.directive('knalledgeMapsList', ["$rootScope", "$timeout", "$location", 'KnalledgeMapService', 'KnalledgeMapVOsService',
-		function($rootScope, $timeout, $location, KnalledgeMapService, KnalledgeMapVOsService){
+	.directive('knalledgeMapsList', ["$rootScope", "$timeout", "$location", 'KnalledgeMapService', 'KnalledgeMapVOsService', 'RimaUsersService',
+		function($rootScope, $timeout, $location, KnalledgeMapService, KnalledgeMapVOsService, RimaUsersService){
 		console.log("[mcmMapsList] loading directive");
 		return {
 			restrict: 'AE',
@@ -457,6 +457,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				KnalledgeMapService.query().$promise.then(function(maps){
 					$scope.items = maps;
 					console.log('maps:'+JSON.stringify($scope.maps));
+					RimaUsersService.loadUsersFromList(); //TODO remove, after centralized loading is done
 				});
 
 				$scope.showCreateNewMap = function(){
@@ -481,6 +482,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					var rootNodeCreated = function(rootNode){
 						$scope.mapToCreate.rootNodeId = rootNode._id;
+						$scope.mapToCreate.iAmId = RimaUsersService.getActiveUserId();
 						var map = KnalledgeMapService.create($scope.mapToCreate);
 						map.$promise.then(mapCreated);
 					}
@@ -491,6 +493,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					var rootNode = new knalledge.KNode();
 					rootNode.name = $scope.mapToCreate.name;
 					rootNode.mapId = null;
+					rootNode.iAmId = RimaUsersService.getActiveUserId();
 					rootNode.type = $scope.mapToCreate.rootNodeType ? 
 						$scope.mapToCreate.rootNodeType : "model_component";
 					rootNode.visual = {
@@ -536,17 +539,20 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/rimaUsers-list.tpl.html',
 			controller: function ( $scope, $element) {
+				var init = function(){
+					$scope.items = RimaUsersService.getUsers();
+			    	$scope.selectedItem = RimaUsersService.getActiveUser();
+				}
 				$scope.mapToCreate = null;
 				$scope.modeCreating = false;
 				$scope.items = null;
 				$scope.selectedItem = null;
-
-				$scope.items = RimaUsersService.getUsers();
-
-			    $scope.selectedItem = RimaUsersService.getActiveUser();
+				 //TODO: select from map.dataContent.mcm.authors list
+				RimaUsersService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
+				
 				$scope.selectItem = function(item) {
 				    $scope.selectedItem = item;
-				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
+				    console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
 				    RimaUsersService.selectActiveUser(item);
 				};
     		}

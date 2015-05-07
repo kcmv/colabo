@@ -608,7 +608,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 
 knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	// privateData: "privatno",
-	$get: ['$q', '$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', function($q, $rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService) {
+	$get: ['$q', '$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'RimaUsersService', function($q, $rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService, RimaUsersService) {
 		// var that = this;
 		
 		var provider = {
@@ -710,6 +710,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				if(typeof newNode === 'undefined' || newNode === null){
 					newNode = new knalledge.KNode();
 				}
+				newNode.iAmId = RimaUsersService.getActiveUserId();
 				if(typeof kNodeType === 'undefined' || kNodeType === null){
 					kNodeType = knalledge.KNode.TYPE_KNOWLEDGE; //TODO: check about this
 				}
@@ -805,6 +806,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				if(typeof newEdge === 'undefined' || newEdge == null){
 					newEdge = new knalledge.KEdge();
 				}
+				newEdge.iAmId = RimaUsersService.getActiveUserId();
 
 				if(typeof kEdgeType === 'undefined' || kEdgeType === null){
 					kEdgeType = knalledge.KEdge.TYPE_KNOWLEDGE; //TODO: check about this

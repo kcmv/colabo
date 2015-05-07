@@ -5,7 +5,7 @@ var kEdgeSchema = mongoose.Schema({
 	name: String,
 	type: String,
 	mapId: {type: mongoose.Schema.Types.ObjectId, ref: 'kMap'},
-	iAmId: Number,
+	iAmId: {type: mongoose.Schema.Types.ObjectId, ref: 'whoAmI'},
 	type: String, //TODO: Check 'type' type
 	sourceId: {type: mongoose.Schema.Types.ObjectId, ref: 'kNode'},
 	targetId: {type: mongoose.Schema.Types.ObjectId, ref: 'kNode'},

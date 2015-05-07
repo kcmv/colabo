@@ -9,41 +9,10 @@
     "map": {
         "nodes": [
             {
-                "_id": "55268521fb9a901e442172f9",
-                "name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
-                "mapId": "552678e69ad190a642ad461c",
-                "updatedAt": "2015-04-28T09:39:28.239Z",
-                "createdAt": "2015-04-28T09:39:28.235Z",
-                "visual": {
-                    "xM": 200,
-                    "yM": 50,
-                    "isOpen": true
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            },
-            {
-                "_id": "5526855ac4f4db29446bd183",
-                "name": "Direct Creativity",
-                "mapId": "552678e69ad190a642ad461c",
-                "updatedAt": "2015-04-28T09:39:28.243Z",
-                "createdAt": "2015-04-28T09:39:28.243Z",
-                "visual": {
-                    "xM": 120,
-                    "yM": 150,
-                    "widthM": 100,
-                    "heightM": 180,
-                    "isOpen": true
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            },
-            {
                 "_id": "551b4366fd64e5552ed19364",
                 "name": "Breakthrough in handling creativity possible",
                 "mapId": "552678e69ad190a642ad461c",
+                "iAmId": "55268521fb9a901e442172f9",
                 "updatedAt": "2015-04-28T09:39:28.243Z",
                 "createdAt": "2015-04-28T09:39:28.243Z",
                 "visual": {
@@ -93,6 +62,40 @@
                 "isPublic": true,
                 "version": 1,
                 "activeVersion": 1
+            },
+            {
+                "_id": "55268521fb9a901e442172f9",
+                "name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": "55268521fb9a901e442172f9",
+                "updatedAt": "2015-04-28T09:39:28.239Z",
+                "createdAt": "2015-04-28T09:39:28.235Z",
+                "visual": {
+                    "xM": 200,
+                    "yM": 50,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5526855ac4f4db29446bd183",
+                "name": "Direct Creativity",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": "55268521fb9a901e442172f9",
+                "updatedAt": "2015-04-28T09:39:28.243Z",
+                "createdAt": "2015-04-28T09:39:28.243Z",
+                "visual": {
+                    "xM": 120,
+                    "yM": 150,
+                    "widthM": 100,
+                    "heightM": 180,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
             }
         ],
         "edges": [
@@ -102,6 +105,7 @@
                 "sourceId": "55268521fb9a901e442172f9",
                 "targetId": "5526855ac4f4db29446bd183",
                 "mapId": "552678e69ad190a642ad461c",
+                "iAmId": "55268521fb9a901e442172f9",
                 "updatedAt": "2015-04-28T09:39:28.252Z",
                 "createdAt": "2015-04-28T09:39:28.252Z",
                 "isPublic": true
@@ -112,6 +116,7 @@
                 "sourceId": "55268521fb9a901e442172f9",
                 "targetId": "551bb5d8317e908736b6b21c",
                 "mapId": "552678e69ad190a642ad461c",
+                "iAmId": "55268521fb9a901e442172f9",
                 "updatedAt": "2015-04-28T09:39:28.252Z",
                 "createdAt": "2015-04-28T09:39:28.252Z",
                 "isPublic": true

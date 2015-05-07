@@ -34,7 +34,7 @@ mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/whoAmIs/one/551bdcda1763e3f0eb749bd4
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/whoAmIs/one/5544aedea7592efb3e3c561d
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/whoAmIs/in_map/552678e69ad190a642ad461c
 exports.index = function(req, res){
 	var found = function(err,whoAmIs){
@@ -44,7 +44,7 @@ exports.index = function(req, res){
 			var msg = JSON.stringify(err);
 			resSendJsonProtected(res, {data: whoAmIs, accessId : accessId, message: msg, success: false});
 		}else{
-			console.log("[modules/whoAmI.js:index] Data:\n%s", JSON.stringify(whoAmIs));
+			//console.log("[modules/whoAmI.js:index] Data:\n%s", JSON.stringify(whoAmIs));
 			resSendJsonProtected(res, {data: whoAmIs, accessId : accessId, success: true});
 		}
 	}
@@ -71,6 +71,10 @@ exports.index = function(req, res){
 		case 'one': //by id:
 			console.log("findById:\n id: %s.\n", id);
 			WhoAmIModel.findById(id, found);
+			break;
+		case 'in_list': //by id:
+			console.log("in_list:\n list: %s.\n", req.params.searchParam);
+			WhoAmIModel.find({}, found);
 			break;
 		// case 'in_map': //all whoAmIs in specific map
 		// 	console.log("find:\n mapId: %s.\n", id);

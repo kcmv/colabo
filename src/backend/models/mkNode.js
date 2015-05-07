@@ -6,7 +6,7 @@ var kNodeSchema = mongoose.Schema({
 	name: String,
 	type: String,
 	mapId: {type: mongoose.Schema.Types.ObjectId, ref: 'kMap'},
-	iAmId: Number,
+	iAmId: {type: mongoose.Schema.Types.ObjectId, ref: 'whoAmI'},
 	activeVersion: { type: Number, default: 1 },
 	ideaId: Number,
 	version: { type: Number, default: 1 }, //{type: DataTypes.INTEGER, allowNull: false, primaryKey: true},

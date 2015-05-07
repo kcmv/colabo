@@ -37,8 +37,8 @@ db.on('error', console.error.bind(console, 'connection error:'));
 //curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/in_map/552678e69ad190a642ad461c
 exports.index = function(req, res){
 	var found = function(err,kEdges){
-		console.log("[modules/kEdge.js:index] in found; req.params.type: %s: ", req.params.type);
-		console.log("kEdges:"+kEdges);
+		//console.log("[modules/kEdge.js:index] in found; req.params.type: %s: ", req.params.type);
+		//console.log("kEdges:"+kEdges);
 		if (err){
 			throw err;
 			var msg = JSON.stringify(err);
@@ -61,8 +61,8 @@ exports.index = function(req, res){
 	
 	//TODO: remove (testing)
 	KEdgeModel.find(function (err, kEdges) {
-		console.log("all data:\n length: %d.\n", kEdges.length);
-		console.log(kEdges);
+		//console.log("all data:\n length: %d.\n", kEdges.length);
+		//console.log(kEdges);
 		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	});
 	
