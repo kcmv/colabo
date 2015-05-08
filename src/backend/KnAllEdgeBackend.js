@@ -62,9 +62,9 @@ var kedges = app.resource('kedges', require('./modules/kEdge'), {id: 'type?/:sea
 var kmaps = app.resource('kmaps', require('./modules/kMap'), {id: 'type?/:searchParam?'});
 
 /* RIMA */
+var whatAmIs = app.resource('whatAmIs', require('./modules/whatAmI'), {id: 'type?/:searchParam?'});
 var whoAmIs = app.resource('whoAmIs', require('./modules/whoAmI'), {id: 'type?/:searchParam?'});
 var howAmIs = app.resource('howAmIs', require('./modules/howAmI'), {id: 'type?/:searchParam?'});
-var whatAmIs = app.resource('whatAmIs', require('./modules/whatAmI'), {id: 'type?/:searchParam?'});
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Listening on " + app.get('port'));

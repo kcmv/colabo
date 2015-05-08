@@ -226,12 +226,73 @@ $map: layout(12 1/4 fluid float inside);
 */
 }
 
+.rima-hows{
+	.title{
+		font-weight: bold;
+		text-align: center;
+
+	}
+	.list{
+		margin: 5px;
+		text: 18px;
+
+		.active-selection{
+			background-color: #eee;
+		}
+		tr{
+			 &:hover{
+		     	cursor: pointer;
+		     	background-color: #cccccc;
+		  }
+		}
+		border: 1px solid #aaa;
+		@include border-radius(5px, 5px);
+		margin-bottom: 3px;
+		padding: 3px;
+
+		background-color: #888;
+		th{
+			background-color: #aaf;
+			border: 1px solid black;
+			padding: 5px;
+			font-weight: bold;
+		}
+		td{
+			border: 1px solid black;
+			padding: 5px;
+		}
+		/*background-color: #ccc;
+		background-color: #aaf;*/
+	}
+}
+
 /* ------------------------
  knalledge_map_list
 ------------------------ */
 
 .knalledge_map_list{
 	z-index: 9;
+
+	input.for_tab
+	{
+	    position: absolute;
+	    right: 100%;
+	}
+	.tab_select{
+		cursor: pointer;
+		&:hover{
+			background-color: #aaa;
+		}
+		color: blue;
+	}
+	input:checked + div.tabbed
+	{
+	    display: block;
+	}
+	div.tabbed
+	{
+	    display: none;
+	}
 	.heading{
 		margin: 0.5em;
 		margin-bottom: 1em;

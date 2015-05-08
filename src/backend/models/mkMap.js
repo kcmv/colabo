@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 /* SCHEMA */
 var kMapSchema = mongoose.Schema({
 	name: String,
-	rootNodeId: {type: mongoose.Schema.Types.ObjectId, ref: 'kNode'},
+	rootNodeId: {type: mongoose.Schema.Types.ObjectId, ref: 'KNode'},
 	type: String, //TODO: Check 'type' type
-	iAmId: {type: mongoose.Schema.Types.ObjectId, ref: 'whoAmI'},
+	iAmId: {type: mongoose.Schema.Types.ObjectId, ref: 'WhoAmI'},
 	ideaId: Number,
 	activeVersion: { type: Number, default: 1 },
 	version: { type: Number, default: 1 },

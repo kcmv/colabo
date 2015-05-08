@@ -39,13 +39,17 @@ angular.module('rimaDirectives', ['Config'])
 					$scope.items = RimaService.getUsersHows(RimaService.getActiveUserId());
 			    	//$scope.selectedItem = RimaService.getActiveUser();
 				}
-				$scope.hows = RimaService.getHows();
 				$scope.items = null;
 				$scope.selectedItem = null;
+
+				//html-select:
+				$scope.hows = RimaService.getHows();
+				$scope.selectedHowOption= {id:1};
+				
 				$scope.createHow = function(){
 					var how = new knalledge.HowAmI();
 					how.whoAmI = RimaService.getActiveUserId();
-					var selectedHow = RimaService.getHowForId($scope.hows);
+					var selectedHow = RimaService.getHowForId($scope.selectedHowOption);
 					how.how = selectedHow.title;
 					how.whatAmI = $scope.whatInput; //TODO:
 					RimaService.createHowAmI(how);

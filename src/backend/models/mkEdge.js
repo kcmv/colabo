@@ -4,11 +4,11 @@ var mongoose = require('mongoose');
 var kEdgeSchema = mongoose.Schema({
 	name: String,
 	type: String,
-	mapId: {type: mongoose.Schema.Types.ObjectId, ref: 'kMap'},
-	iAmId: {type: mongoose.Schema.Types.ObjectId, ref: 'whoAmI'},
+	mapId: {type: mongoose.Schema.Types.ObjectId, ref: 'KMap'},
+	iAmId: {type: mongoose.Schema.Types.ObjectId, ref: 'WhoAmI'},
 	type: String, //TODO: Check 'type' type
-	sourceId: {type: mongoose.Schema.Types.ObjectId, ref: 'kNode'},
-	targetId: {type: mongoose.Schema.Types.ObjectId, ref: 'kNode'},
+	sourceId: {type: mongoose.Schema.Types.ObjectId, ref: 'KNode'},
+	targetId: {type: mongoose.Schema.Types.ObjectId, ref: 'KNode'},
 	ideaId: Number,
 	isPublic: { type: Boolean, default: true },
 	dataContent: {type: mongoose.Schema.Types.Mixed},
