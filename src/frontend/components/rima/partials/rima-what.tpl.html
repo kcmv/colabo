@@ -1,5 +1,5 @@
-<span class="{{ (ideaDecoration['inProgress']) ? 'idea-decoration_in_progress' : 'idea-decoration'}}">
-	<span ng-if="!readonly" class='idea-decoration_delete' ng-click="remove();">x</span>
-	<span class='idea-decoration_select' ng-click="select();">{{ideaDecoration['title']}} ({{ideaDecoration['decoratingIdea']['name']}})</span>
-	<!-- <a href="#/ideas/one/{{ideaDecoration['decoratingIdea']['id']}}">{{ideaDecoration['title']}} ({{ideaDecoration['decoratingIdea']['name']}})</a> -->
+<span class="{{ (item['inProgress']) ? 'item_in_progress' : 'item'}}">
+	<span ng-if="!readonly" class='item_delete' ng-click="remove();">x</span>
+	<span class='item_select' ng-click="select();">{{item['title']}}</span>
+	<!-- <a href="#/ideas/one/{{item['decoratingIdea']['id']}}">{{item['title']}} ({{item['decoratingIdea']['name']}})</a> -->
 </span>{{isLast | whatSeparator}}

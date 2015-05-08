@@ -12,12 +12,60 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-/* line 9, ../sass/default.scss */
-.ideas-list .item {
+/*
+ * Whats
+ */
+/*
+ * What
+ */
+/* line 15, ../sass/default.scss */
+.rima-whats .item {
   list-style-type: none; }
+/* line 19, ../sass/default.scss */
+.rima-whats .item {
+  background-color: #eeeeff;
+  margin-right: 5px;
+  padding-left: 5px;
+  padding-right: 3px;
+  padding-top: 1px;
+  padding-bottom: 2px;
+  border: 1px solid #cccccc;
+  border-radius: 0 15px 15px; }
+/* line 30, ../sass/default.scss */
+.rima-whats .item_in_progress {
+  background-color: #f3f3f3;
+  margin-right: 5px;
+  padding-left: 5px;
+  padding-right: 3px;
+  padding-top: 1px;
+  padding-bottom: 2px;
+  border: 1px dashed #e0e0e0;
+  border-radius: 0 15px 15px; }
+/* line 41, ../sass/default.scss */
+.rima-whats .item_in_progress a {
+  color: #8888ff; }
+/* line 45, ../sass/default.scss */
+.rima-whats .item a {
+  color: #3333aa; }
+/* line 49, ../sass/default.scss */
+.rima-whats .item_delete {
+  color: red;
+  font-weight: bold;
+  cursor: pointer; }
+/* line 55, ../sass/default.scss */
+.rima-whats .item_in_progress .item_delete {
+  color: #ff8888; }
+/* line 59, ../sass/default.scss */
+.rima-whats .item_select {
+  color: blue;
+  font-weight: bold;
+  cursor: pointer; }
+/* line 65, ../sass/default.scss */
+.rima-whats .item_in_progress .item_select {
+  color: #ff8888; }
 
 /* http://www.w3.org/TR/CSS2/selector.html */
-/* line 14, ../sass/default.scss */
+/* line 72, ../sass/default.scss */
 .idea-detail .title-edit {
   color: #888;
   font-weight: bold;
@@ -27,7 +75,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box; }
 
-/* line 24, ../sass/default.scss */
+/* line 82, ../sass/default.scss */
 .idea-detail .subtitle-edit {
   color: #888;
   font-weight: 200;
@@ -37,75 +85,19 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box; }
 
-/* line 34, ../sass/default.scss */
+/* line 92, ../sass/default.scss */
 .idea-detail .title-view {
   width: 100%; }
 
-/* line 38, ../sass/default.scss */
+/* line 96, ../sass/default.scss */
 .idea-detail .subtitle-view {
   width: 100%;
   font-weight: 500;
   font-size: 15px;
   font-style: italic; }
 
-/*
- * IdeaDecorations
- */
-/*
- * IDEA DECORATION
- */
-/* line 53, ../sass/default.scss */
-.idea-decoration {
-  background-color: #eeeeff;
-  margin-right: 5px;
-  padding-left: 5px;
-  padding-right: 3px;
-  padding-top: 1px;
-  padding-bottom: 2px;
-  border: 1px solid #cccccc;
-  border-radius: 0 15px 15px; }
-
-/* line 64, ../sass/default.scss */
-.idea-decoration_in_progress {
-  background-color: #f3f3f3;
-  margin-right: 5px;
-  padding-left: 5px;
-  padding-right: 3px;
-  padding-top: 1px;
-  padding-bottom: 2px;
-  border: 1px dashed #e0e0e0;
-  border-radius: 0 15px 15px; }
-
-/* line 75, ../sass/default.scss */
-.idea-decoration_in_progress a {
-  color: #8888ff; }
-
-/* line 79, ../sass/default.scss */
-.idea-decoration a {
-  color: #3333aa; }
-
-/* line 83, ../sass/default.scss */
-.idea-decoration_delete {
-  color: red;
-  font-weight: bold;
-  cursor: pointer; }
-
-/* line 89, ../sass/default.scss */
-.idea-decoration_in_progress .idea-decoration_delete {
-  color: #ff8888; }
-
-/* line 93, ../sass/default.scss */
-.idea-decoration_select {
-  color: blue;
-  font-weight: bold;
-  cursor: pointer; }
-
-/* line 99, ../sass/default.scss */
-.idea-decoration_in_progress .idea-decoration_select {
-  color: #ff8888; }
-
-/* line 104, ../sass/default.scss */
-.idea-decorations-creating-new {
+/* line 105, ../sass/default.scss */
+.items-creating-new {
   background-color: #f3f3f3;
   margin: 5px;
   padding: 5px;

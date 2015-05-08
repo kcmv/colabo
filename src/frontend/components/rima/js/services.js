@@ -235,29 +235,39 @@ rimaServices.provider('WhatService', {
 	$get: ['$q', 'ENV', /*'$rootScope', */
 	function($q, ENV /*, $rootScope*/) {
 		var provider = {
-
+			whats: [
+				{
+					title: "peace"
+				},
+				{
+					title: "life"
+				},
+				{
+					title: "dance"
+				}
+			],
 			init: function(){
 			},
 				
 			loadWhatsFromList: function(usersIds, callback){
 				var that = this;
-				var whoAmIs = WhoAmIService.getByIds(usersIds,
-					function(whoAmIsFromServer){
-						that.whoAmIs = whoAmIsFromServer;
-						//that.selectedWhoAmI = (that.whoAmIs && that.whoAmIs.length) ? that.whoAmIs[0] : null; //TODO: set it to logged-in user
+				var whats = WhoAmIService.getByIds(usersIds,
+					function(whatsFromServer){
+						that.whats = whatsFromServer;
+						//that.selectedWhoAmI = (that.whats && that.whats.length) ? that.whats[0] : null; //TODO: set it to logged-in user
 						if(callback){callback();}
 					});
-				return whoAmIs;
+				return whats;
 			},
 
 			getWhats: function(){
-				return this.whoAmIs;
+				return this.whats;
 			},
 
 			getWhatById: function(id){
-				for(var i in this.whoAmIs){
-					if(this.whoAmIs[i]._id == id){
-						return this.whoAmIs[i];
+				for(var i in this.whats){
+					if(this.whats[i]._id == id){
+						return this.whats[i];
 					}
 				}
 				return null;
@@ -277,9 +287,9 @@ rimaServices.provider('WhatService', {
 
 			getMaxWhatNum: function(){
 				var gridMaxNum = 0;
-				var whoAmIs = this.whoAmIs();
-				for(var i in whoAmIs){
-					var grid = whoAmIs[i];
+				var whats = this.whats();
+				for(var i in whats){
+					var grid = whats[i];
 					var gridId = parseInt(grid.name.substring(2));
 					if(gridId > gridMaxNum){
 						gridMaxNum = gridId;
@@ -293,9 +303,9 @@ rimaServices.provider('WhatService', {
 			*/
 			getWhatsByName: function(nameSubStr){
 				var returnedGrids = [];
-				var whoAmIs = this.whoAmIs();
-				for(var i in whoAmIs){
-					var grid = whoAmIs[i];
+				var whats = this.whats();
+				for(var i in whats){
+					var grid = whats[i];
 					if(grid.name.indexOf(nameSubStr) > -1){
 						returnedGrids.push(grid);
 					}

@@ -3,12 +3,13 @@
 
 angular.module('rimaDirectives', ['Config'])
 	.directive('rimaWhats', ['$rootScope', 'WhatService',
-		function($rootScope, RimaService){
+		function($rootScope, WhatService){
 		console.log("[rimaWhats] loading directive");
 		return {
 			restrict: 'AE',
 			scope: {
-				'readonly': '='
+				'readonly': '=',
+				'node': "="
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
@@ -18,12 +19,7 @@ angular.module('rimaDirectives', ['Config'])
 					viewspec: 'viewspec_manual'
 				};
 
-				$scope.viewspecChanged = function(){
-					console.log("[rimaWhats] viewspec: %s", $scope.bindings.viewspec);
-					var viewspecChangedEventName = "viewspecChangedEvent";
-					//console.log("result:" + JSON.stringify(result));
-					$rootScope.$broadcast(viewspecChangedEventName, $scope.bindings.viewspec);
-				};
+				$scope.items = WhatService.getWhats();
 			}
     	};
 	}])
@@ -33,7 +29,8 @@ angular.module('rimaDirectives', ['Config'])
 		return {
 			restrict: 'AE',
 			scope: {
-				'readonly': '='
+				'readonly': '=',
+				'item': '='
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
