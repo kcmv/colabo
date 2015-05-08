@@ -49,7 +49,8 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.createHow = function(){
 					var how = new knalledge.HowAmI();
 					how.whoAmI = RimaService.getActiveUserId();
-					how.how = 'like'; //$scope.hows.value();
+					var selectedHow = RimaService.getHowForId($scope.hows);
+					how.how = selectedHow.title;
 					RimaService.createHowAmI(how);
 				}
 				 //TODO: select from map.dataContent.mcm.authors list

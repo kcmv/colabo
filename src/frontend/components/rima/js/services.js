@@ -568,6 +568,13 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 	resource.getHows = function(){
 		return this.hows;
 	};
+
+	resource.getHowForId = function(id){
+		for(var i in this.hows){
+			if(i = id) {return this.hows[i];}
+		}
+		return null;
+	};
 	
 	resource.getUsersHows = function(id, callback){
 		var howAmIs = this.queryPlain({ searchParam:id, type:'who_am_i'},
@@ -749,6 +756,11 @@ rimaServices.provider('RimaService', {
 
 			getHows: function(){
 				return HowAmIService.getHows();
+			},
+
+			getHowForId: function(id){
+				var how = HowAmIService.getHowForId(id);
+				return how;
 			},
 
 			getUsersHows: function(id, callback){

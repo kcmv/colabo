@@ -88,6 +88,7 @@ exports.index = function(req, res){
 }
 
 // curl -v -H "Content-Type: application/json" -X POST -d '{"whoAmI":"55268521fb9a901e442172f9", "whatAmI": "554c067c423f0e7d451d2ea4", "how": "like"}' http://127.0.0.1:8888/howAmIs
+// curl -v -H "Content-Type: application/json" -X POST -d '{"whoAmI":"55268521fb9a901e442172f9", "whatAmI": "554c067c423f0e7d451d2ea4", "how": "am specialized in"}' http://127.0.0.1:8888/howAmIs
 // curl -v -H "Content-Type: application/json" -X POST -d '{"whoAmI":"5548fee2e59efb4e0bbb8478", "whatAmI": "554c068e423f0e7d451d2ea5", "how": "like"}' http://127.0.0.1:8888/howAmIs
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/howAmIs
 exports.create = function(req, res){
