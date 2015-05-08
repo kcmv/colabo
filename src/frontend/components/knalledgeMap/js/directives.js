@@ -543,8 +543,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					$scope.items = RimaService.getUsers();
 			    	$scope.selectedItem = RimaService.getActiveUser();
 				}
-				$scope.mapToCreate = null;
-				$scope.modeCreating = false;
 				$scope.items = null;
 				$scope.selectedItem = null;
 				 //TODO: select from map.dataContent.mcm.authors list
