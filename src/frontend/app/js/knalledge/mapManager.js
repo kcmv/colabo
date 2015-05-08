@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService){
+var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState){
 	this.dom = {
 		parentDom: parentDom,
 		divMap: null,
@@ -22,6 +22,7 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 	// scales used for transformation of knalledge from informational to visual domain
 	this.scales = null;
 	this.rimaService = rimaService;
+	this.knalledgeState = knalledgeState;
 	this.visualizations = {
 		'tree': null,
 		'manual': null,
@@ -46,7 +47,7 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 		positionToDatum: this.visualizations.tree.positionToDatum.bind(this.visualizations.tree),
 		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi)
 	};
-	this.layouts.tree = this.layouts.manual = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.tree, this.state);
+	this.layouts.tree = this.layouts.manual = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.tree, this.knalledgeState);
 
 	this.activeVisualization = this.visualizations.tree;
 	this.activeLayout = this.layouts.tree;

@@ -19,6 +19,7 @@ angular.module('KnAllEdgeApp',[
 
 	, 'rimaServices'
 	, 'rimaDirectives'
+	, 'rimaFilters'
 ])
 // routes
 .config(['$routeProvider', function($routeProvider) {

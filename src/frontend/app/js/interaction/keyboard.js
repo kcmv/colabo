@@ -325,10 +325,10 @@ Keyboard.prototype.initializeKeyboard = function() {
 				});
 			}
 
-			that.clientApi.update(newNode, function(){
+			that.clientApi.update(parentNode, function(){
 				that.clientApi.setSelectedNode(newNode); // TODO: that is not defined?
 				that.clientApi.clickNode(newNode);
-				that.clientApi.update(newNode, function(){
+				that.clientApi.update(parentNode, function(){
 					that.setEditing(newNode);
 					// we need to position explicitly here again even though that.clientApi.clickNode(newNode) is doing it
 					// since that.setEditing(newNode); is destroying positioning

@@ -230,6 +230,84 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 	
 }]);
 
+rimaServices.provider('WhatService', {
+	// privateData: "privatno",
+	$get: ['$q', 'ENV', /*'$rootScope', */
+	function($q, ENV /*, $rootScope*/) {
+		var provider = {
+
+			init: function(){
+			},
+				
+			loadWhatsFromList: function(usersIds, callback){
+				var that = this;
+				var whoAmIs = WhoAmIService.getByIds(usersIds,
+					function(whoAmIsFromServer){
+						that.whoAmIs = whoAmIsFromServer;
+						//that.selectedWhoAmI = (that.whoAmIs && that.whoAmIs.length) ? that.whoAmIs[0] : null; //TODO: set it to logged-in user
+						if(callback){callback();}
+					});
+				return whoAmIs;
+			},
+
+			getWhats: function(){
+				return this.whoAmIs;
+			},
+
+			getWhatById: function(id){
+				for(var i in this.whoAmIs){
+					if(this.whoAmIs[i]._id == id){
+						return this.whoAmIs[i];
+					}
+				}
+				return null;
+			},
+
+			selectActiveWhat: function(whoAmI){
+				this.selectedWhoAmI = whoAmI;
+			},
+
+			getActiveWhat: function(){
+				return this.selectedWhoAmI;
+			},
+
+			getActiveWhatId: function(){
+				return this.selectedWhoAmI ? this.selectedWhoAmI._id : undefined;
+			},
+
+			getMaxWhatNum: function(){
+				var gridMaxNum = 0;
+				var whoAmIs = this.whoAmIs();
+				for(var i in whoAmIs){
+					var grid = whoAmIs[i];
+					var gridId = parseInt(grid.name.substring(2));
+					if(gridId > gridMaxNum){
+						gridMaxNum = gridId;
+					}
+				}
+				return gridMaxNum;
+			},
+
+			/*
+			finds all users whos name contains *nameSubSt
+			*/
+			getWhatsByName: function(nameSubStr){
+				var returnedGrids = [];
+				var whoAmIs = this.whoAmIs();
+				for(var i in whoAmIs){
+					var grid = whoAmIs[i];
+					if(grid.name.indexOf(nameSubStr) > -1){
+						returnedGrids.push(grid);
+					}
+				}
+				return returnedGrids;
+			}
+		};
+		provider.init();
+		return provider;
+	}]
+});
+
 rimaServices.provider('RimaService', {
 	// privateData: "privatno",
 	$get: ['$q', 'ENV', 'WhoAmIService', /*'$rootScope', */

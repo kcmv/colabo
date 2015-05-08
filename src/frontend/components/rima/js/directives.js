@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('rimaDirectives', ['Config'])
-	.directive('rimaWhats', ['$rootScope', 'RimaWhatService',
+	.directive('rimaWhats', ['$rootScope', 'WhatService',
 		function($rootScope, RimaService){
 		console.log("[rimaWhats] loading directive");
 		return {

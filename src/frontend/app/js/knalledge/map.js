@@ -13,10 +13,10 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.rimaService = rimaService;
 	this.ibisTypesService = ibisTypesService;
 
-	this.state = new knalledge.State();
+	this.knalledgeState = new knalledge.State();
 	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService);
 
-	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService);
+	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState);
 
 	this.mapVisualization = this.mapManager.getActiveVisualization();
 	this.mapLayout = this.mapManager.getActiveLayout();
@@ -71,7 +71,7 @@ Map.prototype.initializeKeyboard = function() {
 		deleteNode: this.mapStructure.deleteNode.bind(this.mapStructure),
 		createEdgeBetweenNodes: this.mapStructure.createEdgeBetweenNodes.bind(this.mapStructure),
 		expandNode: this.mapStructure.expandNode.bind(this.mapStructure),
-		knalledgeState: this.state,
+		knalledgeState: this.knalledgeState,
 		getParentNodes: this.mapStructure.getParentNodes.bind(this.mapStructure),
 		getSelectedNode: function(){
 			return this.mapStructure.getSelectedNode();
