@@ -216,17 +216,17 @@ MapStructure.prototype.createNode = function(vkNode, nodeType) {
 
 	newVKNode.kNode = this.mapService.createNode(newVKNode.kNode, nodeType);
 	newVKNode.kNode.$promise.then(function(nodeCreated){
-		console.log("MapStructure.prototype.createNode - promised");//TODO:remove this test
+		//console.log("MapStructure.prototype.createNode - promised");
 	});
 	this.nodesById[newVKNode.id] = newVKNode;
 	return newVKNode;
 };
 
 
-MapStructure.prototype.createEdge = function(vkEdge) {
+MapStructure.prototype.createEdge = function(vkEdge, callback) {
 	if(!this.mapService) return null;
 
-	vkEdge.kEdge = this.mapService.createEdge(vkEdge.kEdge);
+	vkEdge.kEdge = this.mapService.createEdge(vkEdge.kEdge, callback);
 
 	this.edgesById[vkEdge.id] = vkEdge;
 	return vkEdge;
@@ -252,7 +252,7 @@ MapStructure.prototype.createNodeWithEdge = function(sourceVKNode, vkEdge, targe
 	}
 	vkEdge.kEdge.sourceId = sourceVKNode.kNode._id;
 	vkEdge.kEdge.targetId = targetVKNode.kNode._id;
-	vkEdge = this.createEdge(vkEdge);
+	vkEdge = this.createEdge(vkEdge, callback);
 
 	return vkEdge;
 };
@@ -346,7 +346,7 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	this.nodesById = {};
 	this.nodesById = {};
 
-	var id;
+	//var id;
 	for(i=0; i<kMapData.map.nodes.length; i++){
 		kNode = kMapData.map.nodes[i];
 		if(!("isOpen" in kNode.visual)){

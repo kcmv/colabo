@@ -146,7 +146,7 @@ Keyboard.prototype.exitEditingNode = function(){
 
 // http://robertwhurst.github.io/KeyboardJS/
 Keyboard.prototype.initializeKeyboard = function() {
-	var that = this;
+	//var that = this;
 	this.editingNodeHtml = null;
 
 	KeyboardJS.on("right", function(){
@@ -389,7 +389,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(this.editingNodeHtml) return; // in typing mode
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
-		var that = this;
+		//var that = this;
 		//if(confirm("Are you sure you want to delete this node od KnAllEdge?")){
 			var parentNodes = this.clientApi.getParentNodes(this.clientApi.getSelectedNode());
 			this.clientApi.deleteNode(this.clientApi.getSelectedNode());

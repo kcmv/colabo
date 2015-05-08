@@ -168,7 +168,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						},
 						mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
 							$scope.$apply(function () {
-								mapEntityClicked = mapEntity;
+								//var mapEntityClicked = mapEntity;
 								var eventName = "mapEntitySelectedEvent";
 								$rootScope.$broadcast(eventName, mapEntity);
 							});
@@ -268,8 +268,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 						if(!vkNode.kNode.dataContent) vkNode.kNode.dataContent = {};
 						if(vkNode.kNode.dataContent.property) knalledgeProperyBefore = vkNode.kNode.dataContent.property;
-						var nowExist = (knalledgePropery != null) && (knalledgePropery.length > 0);
-						var beforeExisted = (vkNode.kNode.dataContent.property != null) && (vkNode.kNode.dataContent.property.length > 0);
+						//var nowExist = (knalledgePropery !== null) && (knalledgePropery.length > 0);
+						//var beforeExisted = (vkNode.kNode.dataContent.property !== null) && (vkNode.kNode.dataContent.property.length > 0);
 						if(knalledgeProperyBefore == knalledgePropery) return;
 						if(!knalledgeProperyBefore && !knalledgePropery) return;
 
@@ -292,7 +292,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			}
     	};
 	}])
-	.directive('knalledgeMapTools', ["$timeout", '$rootScope', 'ConfigMapToolset', function($timeout, $rootScope, ConfigMapToolset){
+	.directive('knalledgeMapTools', ["$timeout", '$rootScope', /*'ConfigMapToolset',*/ function($timeout, $rootScope /*, ConfigMapToolset*/){
 		console.log("[knalledgeMapTools] loading directive");
 		return {
 			restrict: 'AE',
@@ -414,7 +414,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						width: 200,
 						height: 268
 					};
-				};
+				}
 
 				$scope.cancelled = function(){
 					//console.log("Canceled");
@@ -477,15 +477,15 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						$scope.items.push(mapFromServer);
 						$scope.selectedItem = mapFromServer;
 						rootNode.mapId = mapFromServer._id;
-						KnalledgeMapVOsService.updateNode(rootNode)
-					}
+						KnalledgeMapVOsService.updateNode(rootNode);
+					};
 
 					var rootNodeCreated = function(rootNode){
 						$scope.mapToCreate.rootNodeId = rootNode._id;
 						$scope.mapToCreate.iAmId = RimaService.getActiveUserId();
 						var map = KnalledgeMapService.create($scope.mapToCreate);
 						map.$promise.then(mapCreated);
-					}
+					};
 
 					console.log("createNew");
 					$scope.modeCreating = false;
@@ -542,7 +542,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				var init = function(){
 					$scope.items = RimaService.getUsers();
 			    	$scope.selectedItem = RimaService.getActiveUser();
-				}
+				};
 				$scope.items = null;
 				$scope.selectedItem = null;
 				 //TODO: select from map.dataContent.mcm.authors list

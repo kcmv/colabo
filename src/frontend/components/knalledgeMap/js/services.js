@@ -18,7 +18,7 @@ var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource',
 knalledgeMapServices.provider('KnalledgeMapQueue', {
 	//KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
 	// privateData: "privatno",
-	$get: ['$q', '$rootScope', '$window', function($q, $rootScope, $window) {
+	$get: [/*'$q', '$rootScope', '$window',*/ function(/*$q, $rootScope, $window*/) {
 		// var that = this;
 		var provider = {
 			queue: [],
@@ -351,15 +351,15 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			}
 			break;
 		case 'update':
-			this.update;
+			//this.update;
 			break;
 		}
-	}
+	};
 	
 	/* checks if request can be sent to server */
 	resource.check = function(request){
 		return true;
-	}
+	};
 	
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
@@ -580,10 +580,10 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			}
 			break;
 		case 'update':
-			this.update;
+			//this.update;
 			break;
 		}
-	}
+	};
 	
 	/**
 	 * checking dependency for executing some request in Queue
@@ -600,7 +600,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			return false;
 		}
 		return true;
-	}
+	};
 	
 	return resource;
 	
@@ -666,9 +666,9 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				
 				var nodeCreated = function(nodeFromServer) {
 					console.log("[KnalledgeMapVOsService] nodeCreated");// + JSON.stringify(nodeFromServer));
-					var edgeUpdatedNodeRef = function(edgeFromServer){
-						console.log("[KnalledgeMapVOsService] edgeUpdatedNodeRef" + JSON.stringify(edgeFromServer));
-					};
+					// var edgeUpdatedNodeRef = function(edgeFromServer){
+					// 	console.log("[KnalledgeMapVOsService] edgeUpdatedNodeRef" + JSON.stringify(edgeFromServer));
+					// };
 					
 					// updating all references to node on fronted with server-created id:
 					// var oldId = newNode._id;
@@ -738,11 +738,11 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			/**
 			expects already created VOs!
 			*/
-			createNodeWithEdge: function(sourcekNode, kEdge, targetkNode, callback) {
+			createNodeWithEdge: function(sourcekNode, kEdge, targetkNode, edgeType, callback) {
 				var createEdgeAndNodesCallback = function(kEdgeFromServer){
 					console.log("createEdgeAndNodesCallback");
 					if(callback){callback(kEdgeFromServer);}
-				}
+				};
 				//sourcekNode = this.createNode(sourcekNode);
 				targetkNode = this.createNode(targetkNode);
 				kEdge.sourceId = sourcekNode._id;
@@ -755,7 +755,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			},
 			
 			deleteEdgesConnectedTo: function(node) {
-				var result = KnalledgeEdgeService.deleteConnectedTo(node._id); //deleting on server service
+				var result = KnalledgeEdgeService.deleteConnectedTo(node._id); //TODO: handle a case when the edge is not deleted sucessfully
 				//delete edgesById (kEdge):
 				for(var i in this.edgesById){
 					var edge = this.edgesById[i];
@@ -763,6 +763,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 						delete this.edgesById[i]; 
 					}
 				}
+				return result;
 			},
 
 			relinkEdgeSource: function (kEdge, kNode, callback) {
@@ -803,7 +804,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 
 
 				var newEdge = kEdge;
-				if(typeof newEdge === 'undefined' || newEdge == null){
+				if(typeof newEdge === 'undefined' || newEdge === null){
 					newEdge = new knalledge.KEdge();
 				}
 				newEdge.iAmId = RimaService.getActiveUserId();
@@ -840,7 +841,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			},
 
 			updateEdge: function(kEdge, updateType, callback){
-				return KnalledgeEdgeService.update(node, updateType, callback); //updating on server service
+				return KnalledgeEdgeService.update(kEdge, updateType, callback); //updating on server service
 			},
 
 			loadData: function(map){
@@ -872,9 +873,9 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					}
 				};
 
-				var handleReject = function(fail){
-					$window.alert("Error loading knalledgeMap: %s", fail);
-				};
+				// var handleReject = function(fail){
+				// 	$window.alert("Error loading knalledgeMap: %s", fail);
+				// };
 				
 				var nodesEdgesReceived = function(){
 					console.log("[KnalledgeMapVOsService::loadData] nodesEdgesReceived");
@@ -1242,15 +1243,15 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 			}
 			break;
 		case 'update':
-			this.update;
+			//this.update;
 			break;
 		}
-	}
+	};
 	
 	/* checks if request can be sent to server */
 	resource.check = function(request){
 		return true;
-	}
+	};
 	
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
@@ -1259,8 +1260,8 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 
 knalledgeMapServices.provider('IbisTypesService', {
 	// privateData: "privatno",
-	$get: ['$q', 'ENV', /*'$rootScope', */
-	function($q, ENV/*, $rootScope*/) {
+	$get: [/*'$q', 'ENV', '$rootScope', */
+	function(/*$q , ENV, $rootScope*/) {
 		var items = [
 			// {
 			// 	_id: 0,
@@ -1303,7 +1304,7 @@ knalledgeMapServices.provider('IbisTypesService', {
 			},
 
 			getTypeById: function(id){
-				var item = null
+				var item = null;
 				for(var i in items){
 					if(items[i]._id == id){
 						item = items[i];

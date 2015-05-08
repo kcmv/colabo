@@ -187,14 +187,13 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 			return (d.kNode.visual && d.kNode.visual.selectable) ?
 				true : false;
 		}
-	})
+	});
 
 	// Enter the nodes
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", function(d){
-				return "node_html node_unselected draggable "
-				+ d.kNode.type;
+				return "node_html node_unselected draggable " + d.kNode.type;
 			})
 		.on("dblclick", function(d){
 			that.mapLayout.clickDoubleNode(d, this);
@@ -262,7 +261,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 					margin = that.scales.width(-width/2) + "px";
 				}
 				return margin;
-		})
+		});
 		// .style("background-color", function(d) {
 		// 	var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
 		// 	if(image) return null; // no bacground
@@ -689,8 +688,7 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var linkLabelHtmlEnter = linkLabelHtml.enter().append("div")
 		.attr("class", function(d){
-				return "label_html "
-				+ d.vkEdge.kEdge.type;
+				return "label_html " + d.vkEdge.kEdge.type;
 			})
 		// position node on enter at the source position
 		// (it is either parent or another precessor)
