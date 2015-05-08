@@ -39,13 +39,13 @@ db.on('error', console.error.bind(console, 'connection error:'));
 exports.index = function(req, res){
 	console.log("[modules/kMap.js:index]");
 	var found = function(err,kMaps){
-		console.log("[modules/kMap.js:index] in 'found'");
+		//console.log("[modules/kMap.js:index] in 'found'");
 		if (err){
 			throw err;
 			var msg = JSON.stringify(err);
 			resSendJsonProtected(res, {data: kMaps, accessId : accessId, message: msg, success: false});
 		}else{
-			console.log("[modules/kMap.js:index] Data:\n%s", JSON.stringify(kMaps));
+			//console.log("[modules/kMap.js:index] Data:\n%s", JSON.stringify(kMaps));
 			resSendJsonProtected(res, {data: kMaps, accessId : accessId, success: true});
 		}
 	}
@@ -63,8 +63,8 @@ exports.index = function(req, res){
 	}
 	//TODO: remove (this is for testing)
 	KMapModel.find(function (err, kmaps) {
-		console.log("all data:\n length: %d.\n", kmaps.length);
-		console.log(kmaps);
+		//console.log("all data:\n length: %d.\n", kmaps.length);
+		//console.log(kmaps);
 		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	});
 	

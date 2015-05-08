@@ -45,7 +45,7 @@ angular.module('rimaDirectives', ['Config'])
 				//html-select:
 				$scope.hows = RimaService.getHows();
 				$scope.selectedHowOption= {id:1};
-				
+
 				$scope.createHow = function(){
 					var how = new knalledge.HowAmI();
 					how.whoAmI = RimaService.getActiveUserId();
@@ -61,6 +61,9 @@ angular.module('rimaDirectives', ['Config'])
 				    $scope.selectedItem = item;
 				    console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
 				};
+				$scope.whatChanged = function(item) {
+					
+				}
     		}
     	};
 	}])

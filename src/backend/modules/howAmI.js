@@ -26,6 +26,7 @@ function resSendJsonProtected(res, data){
 
 
 var HowAmIModel = mongoose.model('HowAmI', global.db.howAmI.Schema);
+var WhatAmIModel = mongoose.model('WhatAmI', global.db.whatAmI.Schema);
 
 // module.exports = HowAmIModel; //then we can use it by: var User = require('./app/models/HowAmIModel');
 
@@ -95,15 +96,37 @@ exports.create = function(req, res){
 	console.log("[modules/howAmI.js:create] req.body: %s", JSON.stringify(req.body));
 	
 	var data = req.body;
-	
-	console.log(data);
+	var save = function(data){
+		data.save(function(err) {
+			if (err) throw err;
+			console.log("[modules/HowAmI.js:create:saved] howAmI data: %s", JSON.stringify(howAmI));
+			resSendJsonProtected(res, {success: true, data: howAmI, accessId : accessId});
+		});	
+	}
+	//console.log(data);
+	var whatAmIName = data.whatAmI;
+	delete data.whatAmI;
 	var howAmI = new HowAmIModel(data);
-
-	howAmI.save(function(err) {
+	//console.log('howAmI:' + JSON.stringify(data));
+	WhatAmIModel.findOneByName(whatAmIName, function(err, whatAmI){
 		if (err) throw err;
-		console.log("[modules/HowAmI.js:create] id:%s, howAmI data: %s", howAmI._id, JSON.stringify(howAmI));
-		resSendJsonProtected(res, {success: true, data: howAmI, accessId : accessId});
-	});				
+		if(whatAmI === null || typeof whatAmI === 'undefined'){
+			console.log("whatAmI '%s' not found", whatAmIName);
+			var  whatAmI = new WhatAmIModel({name:whatAmIName});
+			whatAmI.save(function (err) {
+				if (err) return handleError(err);
+				//console.log("whatAmI._id: "+whatAmI._id);
+				howAmI.whatAmI = whatAmI._id;
+				save(howAmI);
+			});
+		}
+		else{
+			console.log("whatAmI '%s' is found", whatAmIName);
+			//console.log('findByName:: whatAmI: ' + JSON.stringify(whatAmI));
+			howAmI.whatAmI = whatAmI._id;
+			save(howAmI);
+		}
+	});
 }
 
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/howAmIs/one/55266618cce5af993fe8675f

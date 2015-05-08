@@ -9,8 +9,7 @@
 
 <span ng-show="!readonly && !decoratingIdeaPartial">
 	<div class="title">Add more about you:</div>
-	I <select ng-model="selectedHowOption" ng-options="how.id as how.title for how in hows"></select>
-	<BR/>
-	<input id="whatInput" ng-model="whatInput"/>
+	<div "how_select">I <select ng-model="selectedHowOption" ng-options="how.id as how.title for how in hows"></select></div>
+	<input class="what_input" type="text" placeholder="type your interest ..." ng-model="whatInput" ng-change="whatChanged()"/>
 	<div><button ng-click="createHow()">Add!</button></div>
 </span>

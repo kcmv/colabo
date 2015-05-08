@@ -76,6 +76,10 @@ exports.index = function(req, res){
 			console.log("in_list:\n list: %s.\n", req.params.searchParam);
 			WhatAmIModel.find({}, found);
 			break;
+		case 'name': //by id:
+			console.log("in_list:\n list: %s.\n", req.params.searchParam);
+			WhatAmIModel.findByName(id, found);
+			break;
 		// case 'in_map': //all whatAmIs in specific map
 		// 	console.log("find:\n mapId: %s.\n", id);
 		// 	WhatAmIModel.find({ 'mapId': id}, found);
