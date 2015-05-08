@@ -1,0 +1,13 @@
+<B>Hows:</B>
+<div rima-what ng-repeat="item in items" idea-decoration="ideaDecoration" 
+		is-last="$last" readonly="readonly || ideaDecoration.inProgress">
+
+	</div>
+<table class="list">
+	<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{row: true, 'active-selection': item._id == selectedItem._id}">
+		<td>{{item.whatAmI}}</td>
+	</tr>
+
+</table>
+
+<span ng-show="!readonly && !decoratingIdeaPartial"><b>New How:</b> My relation is <select ng-model="hows" ng-options="how.id as how.title for how in hows"></select> to <input id="what-input"/></span><button ng-click="createHow()">Create 'How'</button>
