@@ -571,7 +571,10 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 
 	resource.getHowForId = function(id){
 		for(var i in this.hows){
-			if(i = id) {return this.hows[i];}
+			if(this.hows[i].id == id) {
+				var how = this.hows[i];
+				return how;
+			}
 		}
 		return null;
 	};
@@ -771,7 +774,7 @@ rimaServices.provider('RimaService', {
 			},
 
 			createHowAmI: function(howAmI, callback){
-				var howAmI = HowAmIService.getUsersHows(howAmI, function(howAmIFromServer){
+				var howAmI = HowAmIService.create(howAmI, function(howAmIFromServer){
 					if(callback){callback(howAmIFromServer);}
 				});
 				return howAmI;
