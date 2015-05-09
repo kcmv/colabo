@@ -193,7 +193,20 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", function(d){
-				return "node_html node_unselected draggable " + d.kNode.type;
+				var userHows = that.rimaService.getUsersHows(that.rimaService.getActiveUserId());
+				var nodeWhats = (d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats) ?
+					d.kNode.dataContent.rima.whats : [];
+				var relevant = false;
+				for(var i in nodeWhats){
+					var nodeWhat = nodeWhats[i];
+					for(var j in userHows){
+						var userHow = userHows[j];
+						if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name)) relevant = true;
+					}
+				}
+				var classes = "node_html node_unselected draggable " + d.kNode.type;
+				if(relevant) classes += "rima_relevant"
+				return classes;
 			})
 		.on("dblclick", function(d){
 			that.mapLayout.clickDoubleNode(d, this);

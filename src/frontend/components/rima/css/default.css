@@ -12,13 +12,17 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+/* line 5, ../sass/default.scss */
+.rima_relevant {
+  border: 3px solid #ff8888; }
+
 /*
  * Whats
  */
 /*
  * What
  */
-/* line 15, ../sass/default.scss */
+/* line 19, ../sass/default.scss */
 .rima-whats .item {
   list-style-type: none;
   background-color: #eeeeff;
@@ -30,7 +34,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   padding-bottom: 2px;
   border: 1px solid #cccccc;
   border-radius: 0 15px 15px; }
-/* line 28, ../sass/default.scss */
+/* line 32, ../sass/default.scss */
 .rima-whats .item_in_progress {
   background-color: #f3f3f3;
   margin-right: 5px;
@@ -40,34 +44,34 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   padding-bottom: 2px;
   border: 1px dashed #e0e0e0;
   border-radius: 0 15px 15px; }
-/* line 39, ../sass/default.scss */
+/* line 43, ../sass/default.scss */
 .rima-whats .item_in_progress a {
   color: #8888ff; }
-/* line 43, ../sass/default.scss */
+/* line 47, ../sass/default.scss */
 .rima-whats .item a {
   color: #3333aa; }
-/* line 47, ../sass/default.scss */
+/* line 51, ../sass/default.scss */
 .rima-whats .item_delete {
   color: red;
   font-weight: bold;
   cursor: pointer; }
-/* line 53, ../sass/default.scss */
+/* line 57, ../sass/default.scss */
 .rima-whats .item_in_progress .item_delete {
   color: #ff8888; }
-/* line 57, ../sass/default.scss */
+/* line 61, ../sass/default.scss */
 .rima-whats .item_select {
   color: blue;
   font-weight: bold;
   cursor: pointer; }
-/* line 63, ../sass/default.scss */
+/* line 67, ../sass/default.scss */
 .rima-whats .item_in_progress .item_select {
   color: #ff8888; }
-/* line 67, ../sass/default.scss */
+/* line 71, ../sass/default.scss */
 .rima-whats .new-item-input {
   width: 80%; }
 
 /* http://www.w3.org/TR/CSS2/selector.html */
-/* line 74, ../sass/default.scss */
+/* line 78, ../sass/default.scss */
 .idea-detail .title-edit {
   color: #888;
   font-weight: bold;
@@ -77,7 +81,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box; }
 
-/* line 84, ../sass/default.scss */
+/* line 88, ../sass/default.scss */
 .idea-detail .subtitle-edit {
   color: #888;
   font-weight: 200;
@@ -87,18 +91,18 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box; }
 
-/* line 94, ../sass/default.scss */
+/* line 98, ../sass/default.scss */
 .idea-detail .title-view {
   width: 100%; }
 
-/* line 98, ../sass/default.scss */
+/* line 102, ../sass/default.scss */
 .idea-detail .subtitle-view {
   width: 100%;
   font-weight: 500;
   font-size: 15px;
   font-style: italic; }
 
-/* line 107, ../sass/default.scss */
+/* line 111, ../sass/default.scss */
 .items-creating-new {
   background-color: #f3f3f3;
   margin: 5px;
@@ -106,11 +110,11 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   border: 1px dashed #e0e0e0;
   border-radius: 0 15px 15px; }
 
-/* line 116, ../sass/default.scss */
+/* line 120, ../sass/default.scss */
 .rima-hows .title {
   font-weight: bold;
   text-align: center; }
-/* line 121, ../sass/default.scss */
+/* line 125, ../sass/default.scss */
 .rima-hows .list {
   margin: 5px;
   text: 18px;
@@ -123,28 +127,28 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   background-color: #888;
   /*background-color: #ccc;
   background-color: #aaf;*/ }
-  /* line 125, ../sass/default.scss */
+  /* line 129, ../sass/default.scss */
   .rima-hows .list .active-selection {
     background-color: #eee; }
-  /* line 129, ../sass/default.scss */
+  /* line 133, ../sass/default.scss */
   .rima-hows .list tr:hover {
     cursor: pointer;
     background-color: #cccccc; }
-  /* line 140, ../sass/default.scss */
+  /* line 144, ../sass/default.scss */
   .rima-hows .list th {
     background-color: #aaf;
     border: 1px solid black;
     padding: 5px;
     font-weight: bold; }
-  /* line 146, ../sass/default.scss */
+  /* line 150, ../sass/default.scss */
   .rima-hows .list td {
     border: 1px solid black;
     padding: 5px; }
-/* line 153, ../sass/default.scss */
+/* line 157, ../sass/default.scss */
 .rima-hows .what_input {
   padding: 5px;
   width: 80%; }
-/* line 157, ../sass/default.scss */
+/* line 161, ../sass/default.scss */
 .rima-hows .how_select {
   padding: 5px; }
 
@@ -152,10 +156,10 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 	RIMA
 	rima-users-list
 */
-/* line 167, ../sass/default.scss */
+/* line 171, ../sass/default.scss */
 .rima-users-list {
   margin-top: 3em; }
-  /* line 169, ../sass/default.scss */
+  /* line 173, ../sass/default.scss */
   .rima-users-list .list {
     margin: 5px;
     font-size: 18px;
@@ -163,10 +167,10 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -moz-border-radius: 15px / 15px;
     -webkit-border-radius: 15px 15px;
     border-radius: 15px / 15px; }
-    /* line 175, ../sass/default.scss */
+    /* line 179, ../sass/default.scss */
     .rima-users-list .list .active-selection {
       background-color: #eee; }
-    /* line 178, ../sass/default.scss */
+    /* line 182, ../sass/default.scss */
     .rima-users-list .list tr {
       margin-bottom: 3px;
       border-bottom: solid 2px #aaaaaa;
@@ -174,19 +178,19 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -moz-border-radius: 5px / 5px;
       -webkit-border-radius: 5px 5px;
       border-radius: 5px / 5px; }
-      /* line 183, ../sass/default.scss */
+      /* line 187, ../sass/default.scss */
       .rima-users-list .list tr:hover {
         cursor: pointer;
         background-color: #cccccc; }
-    /* line 189, ../sass/default.scss */
+    /* line 193, ../sass/default.scss */
     .rima-users-list .list th {
       background-color: #aaf;
       /*border: 1px solid black;*/
       padding: 5px; }
-    /* line 194, ../sass/default.scss */
+    /* line 198, ../sass/default.scss */
     .rima-users-list .list td {
       /*border: 1px solid black;*/
       padding: 5px; }
-    /* line 199, ../sass/default.scss */
+    /* line 203, ../sass/default.scss */
     .rima-users-list .list .active-selection {
       background-color: #aaf; }
