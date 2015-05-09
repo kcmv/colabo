@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('rimaDirectives', ['Config'])
-	.directive('rimaWhats', ['$rootScope', 'WhatAmIService', 'WhatService',
-		function($rootScope, WhatAmIService, WhatService){
+	.directive('rimaWhats', ['$rootScope', 'WhatAmIService',
+		function($rootScope, WhatAmIService){
 		console.log("[rimaWhats] loading directive");
 		return {
 			restrict: 'AE',
@@ -87,8 +87,8 @@ angular.module('rimaDirectives', ['Config'])
     	};
 	}])
 
-	.directive('rimaHows', ["$rootScope", "$timeout", "$location", "RimaService",
-		function($rootScope, $timeout, $location, RimaService){
+	.directive('rimaHows', ["$rootScope", "$timeout", "$location", "RimaService", "WhatAmIService",
+		function($rootScope, $timeout, $location, RimaService, WhatAmIService){
 		console.log("[rimaHows] loading directive");
 		return {
 			restrict: 'AE',
@@ -127,6 +127,42 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.whatChanged = function(item) {
 					
 				}
+
+				/** from rima-what */
+				$scope.bindings = { //TODO: Do we need this? and for what?
+					viewspec: 'viewspec_manual'
+				};
+
+				// $scope.items = WhatService.getWhats();
+				//$scope.items = ($scope.node && $scope.node.kNode.dataContent && $scope.node.kNode.dataContent.rima
+				//	&& $scope.node.kNode.dataContent.rima.whats) ? $scope.node.kNode.dataContent.rima.whats : [];
+
+				// $scope.$watch("node", function(newVal, oldVal){
+				//     console.log('node changed');
+				// 	$scope.items = ($scope.node && $scope.node.kNode.dataContent && $scope.node.kNode.dataContent.rima
+				// 		&& $scope.node.kNode.dataContent.rima.whats) ? $scope.node.kNode.dataContent.rima.whats : [];
+				// }, false);
+
+
+				$scope.getItems = function(value){
+					var items = WhatAmIService.getByNameContains(value);
+					// return items;
+					return items.$promise;
+					// return items.$promise.then(function(items_server){
+					// 	console.log("getItems: ", JSON.stringify(items_server));
+					// 	// return WhatService.getWhats();
+					// 	return items_server;
+					// });
+				};
+
+				$scope.enterPressed = function(value){
+					console.log("Enter pressed. value: %s", value);
+					$scope.addNewWhat(value);
+				};
+
+				$scope.selected = function($item, $model, $label){
+					console.log("selected: $item: %s, $model: %s, $label: %s", JSON.stringify($item), JSON.stringify($model), JSON.stringify($label));
+				};
     		}
     	};
 	}])

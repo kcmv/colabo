@@ -105,3 +105,88 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   padding: 5px;
   border: 1px dashed #e0e0e0;
   border-radius: 0 15px 15px; }
+
+/* line 116, ../sass/default.scss */
+.rima-hows .title {
+  font-weight: bold;
+  text-align: center; }
+/* line 121, ../sass/default.scss */
+.rima-hows .list {
+  margin: 5px;
+  text: 18px;
+  border: 1px solid #aaa;
+  -moz-border-radius: 5px / 5px;
+  -webkit-border-radius: 5px 5px;
+  border-radius: 5px / 5px;
+  margin-bottom: 3px;
+  padding: 3px;
+  background-color: #888;
+  /*background-color: #ccc;
+  background-color: #aaf;*/ }
+  /* line 125, ../sass/default.scss */
+  .rima-hows .list .active-selection {
+    background-color: #eee; }
+  /* line 129, ../sass/default.scss */
+  .rima-hows .list tr:hover {
+    cursor: pointer;
+    background-color: #cccccc; }
+  /* line 140, ../sass/default.scss */
+  .rima-hows .list th {
+    background-color: #aaf;
+    border: 1px solid black;
+    padding: 5px;
+    font-weight: bold; }
+  /* line 146, ../sass/default.scss */
+  .rima-hows .list td {
+    border: 1px solid black;
+    padding: 5px; }
+/* line 153, ../sass/default.scss */
+.rima-hows .what_input {
+  padding: 5px;
+  width: 80%; }
+/* line 157, ../sass/default.scss */
+.rima-hows .how_select {
+  padding: 5px; }
+
+/* 
+	RIMA
+	rima-users-list
+*/
+/* line 167, ../sass/default.scss */
+.rima-users-list {
+  margin-top: 3em; }
+  /* line 169, ../sass/default.scss */
+  .rima-users-list .list {
+    margin: 5px;
+    font-size: 18px;
+    border: 1px solid #aaaaaa;
+    -moz-border-radius: 15px / 15px;
+    -webkit-border-radius: 15px 15px;
+    border-radius: 15px / 15px; }
+    /* line 175, ../sass/default.scss */
+    .rima-users-list .list .active-selection {
+      background-color: #eee; }
+    /* line 178, ../sass/default.scss */
+    .rima-users-list .list tr {
+      margin-bottom: 3px;
+      border-bottom: solid 2px #aaaaaa;
+      margin-bottom: 3px;
+      -moz-border-radius: 5px / 5px;
+      -webkit-border-radius: 5px 5px;
+      border-radius: 5px / 5px; }
+      /* line 183, ../sass/default.scss */
+      .rima-users-list .list tr:hover {
+        cursor: pointer;
+        background-color: #cccccc; }
+    /* line 189, ../sass/default.scss */
+    .rima-users-list .list th {
+      background-color: #aaf;
+      /*border: 1px solid black;*/
+      padding: 5px; }
+    /* line 194, ../sass/default.scss */
+    .rima-users-list .list td {
+      /*border: 1px solid black;*/
+      padding: 5px; }
+    /* line 199, ../sass/default.scss */
+    .rima-users-list .list .active-selection {
+      background-color: #aaf; }

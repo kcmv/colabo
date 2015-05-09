@@ -10,6 +10,9 @@
 <span ng-show="!readonly && !decoratingIdeaPartial">
 	<div class="title">Add more about you:</div>
 	<div "how_select">I <select ng-model="selectedHowOption" ng-options="how.id as how.title for how in hows"></select></div>
-	<input class="what_input" type="text" placeholder="type your interest ..." ng-model="whatInput" ng-change="whatChanged()"/>
-	<div><button ng-click="createHow()">Add!</button></div>
+	<!-- <input class="what_input" type="text" placeholder="type your interest ..." ng-model="whatInput" ng-change="whatChanged()"/> -->
+
+	<input class="what_input" type="text" ng-model="whatInput" placeholder="type your interest ..." typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input">
+
+	<button ng-if="whatInput" class="btn btn-primary" type="button" ng-click="createHow(whatInput)">Add</button>
 </span>
