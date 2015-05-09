@@ -289,6 +289,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					config.tree.viewspec = newViewspec;
 					knalledgeMap.update();
 				});
+
+				var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
+				$scope.$on(changeKnalledgeRimaEventName, function(e, vkNode) {
+					console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
+					knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
+				});
+
 			}
     	};
 	}])

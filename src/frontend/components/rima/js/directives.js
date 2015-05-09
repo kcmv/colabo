@@ -19,7 +19,17 @@ angular.module('rimaDirectives', ['Config'])
 					viewspec: 'viewspec_manual'
 				};
 
-				$scope.items = WhatService.getWhats();
+				// $scope.items = WhatService.getWhats();
+				$scope.items = ($scope.node && $scope.node.kNode.dataContent && $scope.node.kNode.dataContent.rima
+					&& $scope.node.kNode.dataContent.rima.whats) ? $scope.node.kNode.dataContent.rima.whats : [];
+
+				$scope.$watch("node", function(newVal, oldVal){
+				    console.log('node changed');
+					$scope.items = ($scope.node && $scope.node.kNode.dataContent && $scope.node.kNode.dataContent.rima
+						&& $scope.node.kNode.dataContent.rima.whats) ? $scope.node.kNode.dataContent.rima.whats : [];
+				}, false);
+
+
 				$scope.getItems = function(value){
 					var items = WhatAmIService.getByNameContains(value);
 					// return items;
@@ -41,18 +51,33 @@ angular.module('rimaDirectives', ['Config'])
 					$scope.addNewWhat(value);
 				};
 
-				$scope.addNewWhat = function(name){
+				$scope.addNewWhat = function(what){
 					// not clicked on any item, but just type a string
-					if(typeof value === 'string'){
-						if(!node){
-							console.log("Node is not selected");
-							return;
-						}
-						console.log("Adding new what to the node: %d", node.kNode._id);
+					if(!$scope.node){
+						console.log("Node is not selected");
+						return;
 					}
-					else{
-						console.log("Value type is: %s", typeof value);
+					var kNode = $scope.node.kNode;
+					console.log("Adding new what to the node: %s", kNode._id);
+					if(!kNode.dataContent) kNode.dataContent = {};
+					if(!kNode.dataContent.rima) kNode.dataContent.rima = {};
+					if(!kNode.dataContent.rima.whats){
+						kNode.dataContent.rima.whats = [];
+						// create binding in the case of creating a new list
+						$scope.items = kNode.dataContent.rima.whats;
 					}
+					var newWhat = null;
+					if(typeof what === 'string'){
+						newWhat = new knalledge.WhatAmI();
+						newWhat.name = what;
+					}else{
+						newWhat = what;
+					}
+					// TODO: it should be just _id;
+					kNode.dataContent.rima.whats.push(newWhat);
+					$scope.asyncSelected = "";
+					var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
+					$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
 				};
 
 				$scope.selected = function($item, $model, $label){
