@@ -233,26 +233,8 @@ $map: layout(12 1/4 fluid float inside);
 .knalledge_map_list{
 	z-index: 9;
 
-	input.for_tab
-	{
-	    position: absolute;
-	    right: 100%;
-	}
-	.tab_select{
-		cursor: pointer;
-		&:hover{
-			background-color: #aaa;
-		}
-		color: blue;
-	}
-	input:checked + div.tabbed
-	{
-	    display: block;
-	}
-	div.tabbed
-	{
-	    display: none;
-	}
+	padding-top: 3px;
+
 	.heading{
 		margin: 0.5em;
 		margin-bottom: 1em;

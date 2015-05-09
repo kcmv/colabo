@@ -213,6 +213,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						}
 					};
 
+					// $scope.items = RimaService.getUsersHows(RimaService.getActiveUserId());
+
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null, 

@@ -4,24 +4,30 @@ http://www.w3.org/Style/Examples/007/target.en.html
 https://css-tricks.com/functional-css-tabs-revisited/
 http://nontroppo.org/test/tab1.html
  -->
-<div class="tabs">
-	<label class="tab_select" for="one">Properties</label>&nbsp;|&nbsp;<label for="two" class="tab_select">About Me</label>
-</div>
-<input class="for_tab" type="radio" id="one" name="tab" />
-<div class="tabbed">
-    <div class="heading">
-	<div rima-whats class="rima-whats" node="nodeContent.node"></div>
 
-	<b>KnAllEdge Info</b>
-	<button ng-if="!nodeContent.editing && nodeContent.node" class="btn btn-primary" type="button" ng-click="enableEditing()">Edit</button>
-	</div>
-	<div class="content">
-		<div ng-if="nodeContent.editing" text-angular name="htmlcontent" ng-model="nodeContent.htmlProperty" ng-change="propertyChanged()" ta-disabled='disabled' class="knalledge-properties knalledge-edit" text-angular-name="KN-Properties"></div>
+ <tabset>
+	<tab select="alertMe()">
+		<tab-heading>
+			<i style="margin:0.2em;" class="fa fa-pencil"></i> Prop.
+		</tab-heading>
 
-		<div ng-if="!nodeContent.editing" ng-bind-html="nodeContent.htmlProperty" class="knalledge-properties knalledge-view"></div>
-	</div>
-</div>
-<input class="for_tab" type="radio" id="two" name="tab" checked="checked"/>
-<div class="tabbed">
-    <div rima-hows class="rima-hows"></div>
-</div>
+	    <div class="heading">
+			<div rima-whats class="rima-whats" node="nodeContent.node"></div>
+
+			<b>KnAllEdge Info</b>
+			<button ng-if="!nodeContent.editing && nodeContent.node" class="btn btn-primary" type="button" ng-click="enableEditing()">Edit</button>
+		</div>
+		<div class="content">
+			<div ng-if="nodeContent.editing" text-angular name="htmlcontent" ng-model="nodeContent.htmlProperty" ng-change="propertyChanged()" ta-disabled='disabled' class="knalledge-properties knalledge-edit" text-angular-name="KN-Properties"></div>
+
+			<div ng-if="!nodeContent.editing" ng-bind-html="nodeContent.htmlProperty" class="knalledge-properties knalledge-view"></div>
+		</div>
+	</tab>
+	<tab select="alertMe()">
+		<tab-heading>
+			<i style="margin:0.2em;" class="fa fa-suitcase"></i> Me
+		</tab-heading>
+
+	    <div rima-hows class="rima-hows"></div>
+	</tab>
+</tabset>
