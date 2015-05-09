@@ -15,6 +15,15 @@ whatAmISchema.statics.findByName = function (name, cb) {
     return this.find({ name: name}, cb);
 }
 
+// search for whats which name contains namePart
+// http://mongoosejs.com/docs/2.7.x/docs/query.html
+// http://stackoverflow.com/questions/9824010/mongoose-js-find-user-by-username-like-value
+whatAmISchema.statics.findByNameContaining = function (namePart, cb) {
+	var regex = new RegExp(namePart, "i")
+	console.log('whatAmISchema::findByNameContaining:'+ namePart);
+    return this.find({ name: regex}, cb);
+}
+
 whatAmISchema.statics.findOneByName = function (name, cb) {
 	console.log('whatAmISchema::findByName:'+ name);
     return this.findOne({ name: name}, cb);

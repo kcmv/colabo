@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('rimaDirectives', ['Config'])
-	.directive('rimaWhats', ['$rootScope', 'WhatService',
-		function($rootScope, WhatService){
+	.directive('rimaWhats', ['$rootScope', 'WhatAmIService', 'WhatService',
+		function($rootScope, WhatAmIService, WhatService){
 		console.log("[rimaWhats] loading directive");
 		return {
 			restrict: 'AE',
@@ -20,6 +20,44 @@ angular.module('rimaDirectives', ['Config'])
 				};
 
 				$scope.items = WhatService.getWhats();
+				$scope.getItems = function(value){
+					var items = WhatAmIService.getByNameContains(value);
+					// return items;
+					return items.$promise;
+					// return items.$promise.then(function(items_server){
+					// 	console.log("getItems: ", JSON.stringify(items_server));
+					// 	// return WhatService.getWhats();
+					// 	return items_server;
+					// });
+				};
+
+				$scope.enterPressed = function(value){
+					console.log("Enter pressed. value: %s", value);
+					$scope.addNewWhat(value);
+				};
+
+				$scope.addClicked = function(value){
+					console.log("Add clicked. value: %s", value);
+					$scope.addNewWhat(value);
+				};
+
+				$scope.addNewWhat = function(name){
+					// not clicked on any item, but just type a string
+					if(typeof value === 'string'){
+						if(!node){
+							console.log("Node is not selected");
+							return;
+						}
+						console.log("Adding new what to the node: %d", node.kNode._id);
+					}
+					else{
+						console.log("Value type is: %s", typeof value);
+					}
+				};
+
+				$scope.selected = function($item, $model, $label){
+					console.log("selected: $item: %s, $model: %s, $label: %s", JSON.stringify($item), JSON.stringify($model), JSON.stringify($label));
+				};
 			}
     	};
 	}])

@@ -3,4 +3,13 @@
 		is-last="$last" readonly="readonly || item.inProgress">
 	</div>
 <br/>
-<span ng-show="!readonly && !decoratingIdeaPartial">New what:<input id="item-input"/></span>
+<span ng-show="!readonly && !decoratingIdeaPartial">
+<pre>Model: {{asyncSelected | json}}</pre>
+<input type="text" ng-model="asyncSelected" placeholder="Select WHAT" typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" ng-keyup="$event.keyCode == 13 ? enterPressed($viewValue) : null" class="new-item-input">
+
+<button ng-if="asyncSelected && !asyncSelected.name" class="btn btn-primary" type="button" ng-click="addClicked(asyncSelected)">Add</button>
+
+<br/>
+<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh">...</i>
+
+</span>

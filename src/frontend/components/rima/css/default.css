@@ -63,9 +63,12 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 /* line 65, ../sass/default.scss */
 .rima-whats .item_in_progress .item_select {
   color: #ff8888; }
+/* line 69, ../sass/default.scss */
+.rima-whats .new-item-input {
+  width: 80%; }
 
 /* http://www.w3.org/TR/CSS2/selector.html */
-/* line 72, ../sass/default.scss */
+/* line 76, ../sass/default.scss */
 .idea-detail .title-edit {
   color: #888;
   font-weight: bold;
@@ -75,7 +78,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box; }
 
-/* line 82, ../sass/default.scss */
+/* line 86, ../sass/default.scss */
 .idea-detail .subtitle-edit {
   color: #888;
   font-weight: 200;
@@ -85,18 +88,18 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box; }
 
-/* line 92, ../sass/default.scss */
+/* line 96, ../sass/default.scss */
 .idea-detail .title-view {
   width: 100%; }
 
-/* line 96, ../sass/default.scss */
+/* line 100, ../sass/default.scss */
 .idea-detail .subtitle-view {
   width: 100%;
   font-weight: 500;
   font-size: 15px;
   font-style: italic; }
 
-/* line 105, ../sass/default.scss */
+/* line 109, ../sass/default.scss */
 .items-creating-new {
   background-color: #f3f3f3;
   margin: 5px;

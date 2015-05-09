@@ -69,7 +69,7 @@ exports.index = function(req, res){
 	console.log("[modules/whatAmI.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
 	switch (req.params.type){
 		case 'one': //by id:
-			console.log("findById:\n id: %s.\n", id);
+			console.log("one:\n id: %s.\n", id);
 			WhatAmIModel.findById(id, found);
 			break;
 		case 'in_list': //by id:
@@ -77,8 +77,13 @@ exports.index = function(req, res){
 			WhatAmIModel.find({}, found);
 			break;
 		case 'name': //by id:
-			console.log("in_list:\n list: %s.\n", req.params.searchParam);
+			console.log("name:\n list: %s.\n", req.params.searchParam);
 			WhatAmIModel.findByName(id, found);
+			break;
+		case 'name-contains': //by id:
+			console.log("name-contains:\n list: %s.\n", req.params.searchParam);
+			WhatAmIModel.findByNameContaining(id, found);
+
 			break;
 		// case 'in_map': //all whatAmIs in specific map
 		// 	console.log("find:\n mapId: %s.\n", id);

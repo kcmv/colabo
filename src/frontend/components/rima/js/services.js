@@ -245,13 +245,16 @@ rimaServices.provider('WhatService', {
 		var provider = {
 			whats: [
 				{
-					title: "peace"
+					name: "peace"
 				},
 				{
-					title: "life"
+					name: "life"
 				},
 				{
-					title: "dance"
+					name: "love"
+				},
+				{
+					name: "dance"
 				}
 			],
 			init: function(){
@@ -435,6 +438,19 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 	
 	resource.getByIds = function(whatAmIsIds, callback){ //TODO: fix not to return all, but only those in the whatAmIsIds list
 		var whatAmIs = this.queryPlain({ searchParam:whatAmIsIds, type:'in_list'},
+			function(whatAmIsFromServer){
+				for(var id=0; id<whatAmIsFromServer.length; id++){
+					var whatAmI = knalledge.WhatAmI.whatAmIFactory(whatAmIsFromServer[id]);
+					whatAmI.state = knalledge.WhatAmI.STATE_SYNCED;
+					whatAmIsFromServer[id] = whatAmI;
+				}
+				if(callback) callback(whatAmIsFromServer);
+		});
+		return whatAmIs;
+	};
+	
+	resource.getByNameContains = function(namePart, callback){ //TODO: fix not to return all, but only those in the whatAmIsIds list
+		var whatAmIs = this.queryPlain({ searchParam:namePart, type:'name-contains'},
 			function(whatAmIsFromServer){
 				for(var id=0; id<whatAmIsFromServer.length; id++){
 					var whatAmI = knalledge.WhatAmI.whatAmIFactory(whatAmIsFromServer[id]);
