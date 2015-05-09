@@ -114,7 +114,12 @@ angular.module('rimaDirectives', ['Config'])
 					how.whoAmI = RimaService.getActiveUserId();
 					var selectedHow = RimaService.getHowForId($scope.selectedHowOption);
 					how.how = selectedHow.title;
-					how.whatAmI = $scope.whatInput; //TODO:
+					if(typeof $scope.whatInput === "object"){
+						how.whatAmI = $scope.whatInput.name;
+					}
+					else{ //string whatAmI.name:
+						how.whatAmI = $scope.whatInput;
+					}
 					RimaService.createHowAmI(how);
 				}
 				 //TODO: select from map.dataContent.mcm.authors list
