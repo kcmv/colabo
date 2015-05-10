@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('rimaDirectives', ['Config'])
-	.directive('rimaWhats', ['$rootScope', 'WhatAmIService',
-		function($rootScope, WhatAmIService){
+	.directive('rimaWhats', ['$rootScope', 'WhatAmIService', 'WhatService',
+		function($rootScope, WhatAmIService, WhatService){
 		console.log("[rimaWhats] loading directive");
 		return {
 			restrict: 'AE',
@@ -80,15 +80,30 @@ angular.module('rimaDirectives', ['Config'])
 					$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
 				};
 
-				$scope.selected = function($item, $model, $label){
-					console.log("selected: $item: %s, $model: %s, $label: %s", JSON.stringify($item), JSON.stringify($model), JSON.stringify($label));
+				$scope.newItemSelected = function($item, $model, $label){
+					console.log("newItemSelected: $item: %s, $model: %s, $label: %s", JSON.stringify($item), JSON.stringify($model), JSON.stringify($label));
+				};
+
+				$scope.itemSelect = function(item){
+					console.log("itemSelect: %s", item.name);
+				};
+
+				$scope.itemRemove = function(item){
+					console.log("itemRemove: %s", item.name);
+					for(var i=0; i<$scope.items.length; i++){
+						if($scope.items[i] == item){
+							$scope.items.splice(i, 1);
+							var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
+							$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
+						}
+					}
 				};
 			}
     	};
 	}])
 
-	.directive('rimaHows', ["$rootScope", "$timeout", "$location", "RimaService", "WhatAmIService",
-		function($rootScope, $timeout, $location, RimaService, WhatAmIService){
+	.directive('rimaHows', ["$rootScope", "$timeout", "$location", "RimaService",
+		function($rootScope, $timeout, $location, RimaService){
 		console.log("[rimaHows] loading directive");
 		return {
 			restrict: 'AE',
@@ -114,12 +129,7 @@ angular.module('rimaDirectives', ['Config'])
 					how.whoAmI = RimaService.getActiveUserId();
 					var selectedHow = RimaService.getHowForId($scope.selectedHowOption);
 					how.how = selectedHow.title;
-					if(typeof $scope.whatInput === "object"){
-						how.whatAmI = $scope.whatInput.name;
-					}
-					else{ //string whatAmI.name:
-						how.whatAmI = $scope.whatInput;
-					}
+					how.whatAmI = $scope.whatInput; //TODO:
 					RimaService.createHowAmI(how);
 				}
 				 //TODO: select from map.dataContent.mcm.authors list
@@ -132,42 +142,6 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.whatChanged = function(item) {
 					
 				}
-
-				/** from rima-what */
-				$scope.bindings = { //TODO: Do we need this? and for what?
-					viewspec: 'viewspec_manual'
-				};
-
-				// $scope.items = WhatService.getWhats();
-				//$scope.items = ($scope.node && $scope.node.kNode.dataContent && $scope.node.kNode.dataContent.rima
-				//	&& $scope.node.kNode.dataContent.rima.whats) ? $scope.node.kNode.dataContent.rima.whats : [];
-
-				// $scope.$watch("node", function(newVal, oldVal){
-				//     console.log('node changed');
-				// 	$scope.items = ($scope.node && $scope.node.kNode.dataContent && $scope.node.kNode.dataContent.rima
-				// 		&& $scope.node.kNode.dataContent.rima.whats) ? $scope.node.kNode.dataContent.rima.whats : [];
-				// }, false);
-
-
-				$scope.getItems = function(value){
-					var items = WhatAmIService.getByNameContains(value);
-					// return items;
-					return items.$promise;
-					// return items.$promise.then(function(items_server){
-					// 	console.log("getItems: ", JSON.stringify(items_server));
-					// 	// return WhatService.getWhats();
-					// 	return items_server;
-					// });
-				};
-
-				$scope.enterPressed = function(value){
-					console.log("Enter pressed. value: %s", value);
-					$scope.addNewWhat(value);
-				};
-
-				$scope.selected = function($item, $model, $label){
-					console.log("selected: $item: %s, $model: %s, $label: %s", JSON.stringify($item), JSON.stringify($model), JSON.stringify($label));
-				};
     		}
     	};
 	}])
@@ -179,21 +153,24 @@ angular.module('rimaDirectives', ['Config'])
 			restrict: 'AE',
 			scope: {
 				'readonly': '=',
-				'item': '='
+				'item': '=',
+				'isLast': '=',
+				'itemSelect': '&',
+				'itemRemove': '&'
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/rima/partials/rima-what.tpl.html',
 			controller: function ( $scope, $element) {
 				$scope.bindings = {
-					viewspec: 'viewspec_manual'
 				};
 
-				$scope.viewspecChanged = function(){
-					console.log("[rimaWhats] viewspec: %s", $scope.bindings.viewspec);
-					var viewspecChangedEventName = "viewspecChangedEvent";
-					//console.log("result:" + JSON.stringify(result));
-					$rootScope.$broadcast(viewspecChangedEventName, $scope.bindings.viewspec);
+				$scope.select = function(){
+					$scope.itemSelect();
+				};
+
+				$scope.remove = function(){
+					$scope.itemRemove();
 				};
 			}
     	};
