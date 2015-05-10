@@ -154,6 +154,7 @@ angular.module('rimaDirectives', ['Config'])
 			scope: {
 				'readonly': '=',
 				'item': '=',
+				'isLast': '=',
 				'itemSelect': '&',
 				'itemRemove': '&'
 			},
