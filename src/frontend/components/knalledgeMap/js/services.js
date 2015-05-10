@@ -899,6 +899,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				
 				var nodes = KnalledgeNodeService.queryInMap(this.mapId);
 				var edges = KnalledgeEdgeService.queryInMap(this.mapId);
+				//var rimas = KnalledgeEdgeService.queryInMap(this.mapId);
 				
 				$q.all([nodes.$promise, edges.$promise])
 					.then(nodesEdgesReceived.bind(this));

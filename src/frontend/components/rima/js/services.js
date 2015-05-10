@@ -808,6 +808,7 @@ rimaServices.provider('RimaService', {
 			whoAmIs: [],
 			loggedInWhoAmI: new knalledge.WhoAmI(),
 			selectedWhoAmI: null,
+			howAmIs: [],
 
 			init: function(){
 				this.loggedInWhoAmI._id = this.ANONYMOUS_USER_ID;
@@ -824,6 +825,21 @@ rimaServices.provider('RimaService', {
 						if(callback){callback();}
 					});
 				return whoAmIs;
+			},
+
+			loadRimaDataSets: function(){
+				var rimasReceived = function(){
+					console.log("[RimaService::rimasReceived]");
+					var eventName = "rimasLoadedEvent";
+					//console.log("result:" + JSON.stringify(result));
+					$rootScope.$broadcast(eventName, result);
+				};
+				
+				this.whoAmIs = this.loadUsersFromList(null);
+				this.howAmIs = this.getUsersHows(this.getActiveUserId());
+				
+				$q.all([this.whoAmIs.$promise, this.howAmIs.$promise])
+					.then(rimasReceived.bind(this));
 			},
 
 			getUsers: function(){
