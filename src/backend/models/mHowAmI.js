@@ -7,7 +7,7 @@ var howAmISchema = mongoose.Schema({
 	how: String, //TODO: language?!
 	negation: { type: Boolean, default: false },
 	level: { type: Number, default: 3 }, // 0 - 5
-	importance: { type: Number, default: 3 }, // 0 - 5
+	importance: { type: Number, default: 3 } // 0 - 5
 });
 
 var pluginAuditing = require('./pluginAuditing');

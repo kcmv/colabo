@@ -201,7 +201,11 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 					var nodeWhat = nodeWhats[i];
 					for(var j in userHows){
 						var userHow = userHows[j];
-						if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name)) relevant = true;
+						if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name))
+						{
+							relevant = true;
+							break;
+						}
 					}
 				}
 				var classes = "node_html node_unselected draggable " + d.kNode.type;
