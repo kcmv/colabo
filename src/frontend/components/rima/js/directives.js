@@ -91,7 +91,7 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.itemRemove = function(item){
 					console.log("itemRemove: %s", item.name);
 					for(var i=0; i<$scope.items.length; i++){
-						if($scope.items[i] == item){
+						if($scope.items[i]._id == item._id){
 							$scope.items.splice(i, 1);
 							var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
 							$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
