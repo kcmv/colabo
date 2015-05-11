@@ -814,6 +814,7 @@ rimaServices.provider('RimaService', {
 				this.loggedInWhoAmI._id = this.ANONYMOUS_USER_ID;
 				this.loggedInWhoAmI.displayName = "anonymous";
 				this.selectedWhoAmI = this.loggedInWhoAmI;
+				this.loadRimaDataSets();
 			},
 				
 			loadUsersFromList: function(usersIds, callback){
@@ -830,9 +831,9 @@ rimaServices.provider('RimaService', {
 			loadRimaDataSets: function(){
 				var rimasReceived = function(){
 					console.log("[RimaService::rimasReceived]");
-					var eventName = "rimasLoadedEvent";
-					//console.log("result:" + JSON.stringify(result));
-					$rootScope.$broadcast(eventName, result);
+					// var eventName = "rimasLoadedEvent";
+					// //console.log("result:" + JSON.stringify(result));
+					// $rootScope.$broadcast(eventName, result);
 				};
 				
 				this.whoAmIs = this.loadUsersFromList(null);

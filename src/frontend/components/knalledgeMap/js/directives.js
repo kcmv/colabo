@@ -233,7 +233,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					// console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
 					init($scope.mapData);
 				}else{
-					var gotMap = function(map){		
+					var gotMap = function(map){
 						console.log('gotMap:'+JSON.stringify(map));
 						KnalledgeMapVOsService.loadData(map); //broadcasts 'modelLoadedEvent'
 					};
@@ -245,6 +245,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				var eventName = "modelLoadedEvent";
 				$scope.$on(eventName, function(e, eventModel) {
+					// there is only one listener so we can stop further propagation of the event
+					// e.stopPropagation();
 					console.log("[knalledgeMap.controller::$on] ModelMap  nodes(len: %d): %s",
 						eventModel.map.nodes, JSON.stringify(eventModel.map.nodes));
 					console.log("[knalledgeMap.controller::$on] ModelMap  edges(len: %d): %s",
@@ -295,6 +297,14 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
 					knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
 				});
+
+				$scope.$watch(function () {
+					return RimaService.howAmIs;
+				},
+				function(newValue){
+					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+					knalledgeMap.update();
+				}, true);
 
 			}
     	};

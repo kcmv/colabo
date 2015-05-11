@@ -49,8 +49,20 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 	};
 	this.layouts.tree = this.layouts.manual = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.tree, this.knalledgeState);
 
-	this.activeVisualization = this.visualizations.tree;
-	this.activeLayout = this.layouts.tree;
+	this.visualizations.flat = new knalledge.MapVisualizationTree(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService);
+	this.layoutApis.flat = {
+		update: this.visualizations.flat.update.bind(this.visualizations.flat),
+		getDom: this.visualizations.flat.getDom.bind(this.visualizations.flat),
+		setDomSize: this.visualizations.flat.setDomSize.bind(this.visualizations.flat),
+		positionToDatum: this.visualizations.flat.positionToDatum.bind(this.visualizations.flat),
+		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi)
+	};
+	this.layouts.flat = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.flat, this.knalledgeState);
+
+	// this.activeVisualization = this.visualizations.tree;
+	// this.activeLayout = this.layouts.tree;
+	this.activeVisualization = this.visualizations.flat;
+	this.activeLayout = this.layouts.flat;
 };
 
 MapManager.prototype.init = function(mapLayout, mapSize){

@@ -1,10 +1,11 @@
 /*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
 /* @import "normalize"; */
 /*
-http://compass-style.org/examples/compass/css3/box_sizing/
-http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
+	http://compass-style.org/examples/compass/css3/box_sizing/
+	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
+	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 */
-/* line 17, ../../../app/sass/_include.scss */
+/* line 18, ../../../app/sass/_include.scss */
 * {
   margin: 0px;
   padding: 0px;
@@ -24,7 +25,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     padding-right: 0.83333%; }
 
   /* line 28, ../sass/default.scss */
-  .knalledge_map {
+  .knalledge_map_middle {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -48,7 +49,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     padding-right: 0.83333%; }
 
   /* line 42, ../sass/default.scss */
-  .knalledge_map {
+  .knalledge_map_middle {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -87,11 +88,10 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     padding-right: 0.83333%; }
 
   /* line 65, ../sass/default.scss */
-  .knalledge_map {
+  .knalledge_map_middle {
     /* make #content content occupying 2 cells less on large screens */
-    height: 100%;
-    min-height: 100%;
-    height: 100%;
+    height: 75%;
+    min-height: 75%;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -100,7 +100,20 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     padding-left: 0.83333%;
     padding-right: 0.83333%; }
 
-  /* line 73, ../sass/default.scss */
+  /* line 72, ../sass/default.scss */
+  .knalledge_relevant {
+    /* make #content content occupying 2 cells less on large screens */
+    height: 25%;
+    min-height: 25%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 75%;
+    float: left;
+    padding-left: 0.83333%;
+    padding-right: 0.83333%; }
+
+  /* line 79, ../sass/default.scss */
   .knalledge_map_list {
     height: 100%;
     min-height: 100%;
@@ -113,7 +126,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     float: left;
     padding-left: 0.83333%;
     padding-right: 0.83333%; } }
-/* line 82, ../sass/default.scss */
+/* line 88, ../sass/default.scss */
 .knalledge_map_index {
   position: relative;
   height: 100%;
@@ -122,7 +135,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   border: solid 1px #aaaa00;*/
   overflow-x: hidden;
   overflow-y: scroll; }
-  /* line 91, ../sass/default.scss */
+  /* line 97, ../sass/default.scss */
   .knalledge_map_index .logo_background {
     top: 35%;
     left: 25%;
@@ -131,7 +144,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     position: absolute;
     opacity: 0.5;
     text-align: right; }
-    /* line 100, ../sass/default.scss */
+    /* line 106, ../sass/default.scss */
     .knalledge_map_index .logo_background h1 {
       font-size: 100px;
       border-bottom: solid 1px #aaaaaa;
@@ -141,16 +154,16 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       margin-bottom: 0px;
       padding-top: 0px;
       margin-top: 0px; }
-      /* line 106, ../sass/default.scss */
+      /* line 112, ../sass/default.scss */
       .knalledge_map_index .logo_background h1 .title_kn {
         color: #555555; }
-      /* line 109, ../sass/default.scss */
+      /* line 115, ../sass/default.scss */
       .knalledge_map_index .logo_background h1 .title_all {
         color: #000055; }
-      /* line 112, ../sass/default.scss */
+      /* line 118, ../sass/default.scss */
       .knalledge_map_index .logo_background h1 .title_edge {
         color: #880000; }
-    /* line 121, ../sass/default.scss */
+    /* line 128, ../sass/default.scss */
     .knalledge_map_index .logo_background h2 {
       padding-top: 0px;
       margin-top: 0px;
@@ -158,24 +171,24 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       display: inline;
       text-align: right;
       /*border-bottom: solid 1px #aaaaaa;*/ }
-      /* line 130, ../sass/default.scss */
+      /* line 137, ../sass/default.scss */
       .knalledge_map_index .logo_background h2 .title_collabo {
         color: #000055;
         font-style: italic;
         margin-left: 50px; }
-      /* line 135, ../sass/default.scss */
+      /* line 142, ../sass/default.scss */
       .knalledge_map_index .logo_background h2 .title_science {
         color: #880000; }
 
 /* ------------------------
  knalledge_map_tools
 ------------------------ */
-/* line 146, ../sass/default.scss */
+/* line 153, ../sass/default.scss */
 .knalledge_map_tools {
   z-index: 10;
   position: relative;
   height: 100%; }
-  /* line 147, ../sass/default.scss */
+  /* line 154, ../sass/default.scss */
   .knalledge_map_tools .titles {
     z-index: 1000;
     position: absolute;
@@ -191,10 +204,10 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     padding: 5px;
     margin-top: 10px;
     margin-left: 3px; }
-  /* line 160, ../sass/default.scss */
+  /* line 167, ../sass/default.scss */
   .knalledge_map_tools .controlls {
     margin-top: 100px; }
-  /* line 163, ../sass/default.scss */
+  /* line 170, ../sass/default.scss */
   .knalledge_map_tools h1 {
     font-size: 30px;
     border-bottom: solid 1px #aaaaaa;
@@ -202,29 +215,29 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     margin-bottom: 0px;
     padding-top: 0px;
     margin-top: 0px; }
-    /* line 167, ../sass/default.scss */
+    /* line 174, ../sass/default.scss */
     .knalledge_map_tools h1 .title_kn {
       color: #555555; }
-    /* line 170, ../sass/default.scss */
+    /* line 177, ../sass/default.scss */
     .knalledge_map_tools h1 .title_all {
       color: #000055; }
-    /* line 173, ../sass/default.scss */
+    /* line 180, ../sass/default.scss */
     .knalledge_map_tools h1 .title_edge {
       color: #880000; }
-  /* line 182, ../sass/default.scss */
+  /* line 189, ../sass/default.scss */
   .knalledge_map_tools h2 {
     padding-top: 0px;
     margin-top: 0px;
     font-size: 20px;
     /*border-bottom: solid 1px #aaaaaa;*/ }
-    /* line 188, ../sass/default.scss */
+    /* line 195, ../sass/default.scss */
     .knalledge_map_tools h2 .title_collabo {
       color: #000055;
       font-style: italic; }
-    /* line 192, ../sass/default.scss */
+    /* line 199, ../sass/default.scss */
     .knalledge_map_tools h2 .title_science {
       color: #880000; }
-  /* line 199, ../sass/default.scss */
+  /* line 206, ../sass/default.scss */
   .knalledge_map_tools ul {
     /* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
     overflow: visible;
@@ -232,7 +245,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     	overflow-y: scroll;
     */
     position: relative; }
-    /* line 207, ../sass/default.scss */
+    /* line 214, ../sass/default.scss */
     .knalledge_map_tools ul li {
       position: absolute;
       list-style-type: none;
@@ -258,48 +271,52 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 /* ------------------------
  knalledge_map_list
 ------------------------ */
-/* line 238, ../sass/default.scss */
+/* line 245, ../sass/default.scss */
 .knalledge_map_list {
   z-index: 9;
   padding-top: 3px; }
-  /* line 243, ../sass/default.scss */
+  /* line 250, ../sass/default.scss */
   .knalledge_map_list .heading {
     margin: 0.5em;
     margin-bottom: 1em;
     padding: 0.1em;
     border-bottom: solid 1px #555555; }
-  /* line 249, ../sass/default.scss */
+  /* line 256, ../sass/default.scss */
   .knalledge_map_list .content {
     position: relative;
     margin: 0.1em;
     padding: 0.0em; }
-    /* line 254, ../sass/default.scss */
+    /* line 261, ../sass/default.scss */
     .knalledge_map_list .content .knalledge-properties {
       position: relative;
       width: 90%;
       height: 100%; }
-      /* line 259, ../sass/default.scss */
+      /* line 266, ../sass/default.scss */
       .knalledge_map_list .content .knalledge-properties.knalledge-view {
         word-break: break-all;
         padding: 0.3em; }
-      /* line 268, ../sass/default.scss */
+      /* line 275, ../sass/default.scss */
       .knalledge_map_list .content .knalledge-properties .ta-editor {
         position: relative; }
-      /* line 271, ../sass/default.scss */
+      /* line 278, ../sass/default.scss */
       .knalledge_map_list .content .knalledge-properties .ta-scroll-window > .ta-bind {
         height: 100%;
         position: relative; }
 
 /* ------------------------
+ knalledge_map_middle
+------------------------ */
+/* ------------------------
  knalledge_map
 ------------------------ */
-/* line 283, ../sass/default.scss */
+/* line 297, ../sass/default.scss */
 .knalledge_map {
   z-index: 8;
   position: relative;
-  overflow: scroll; }
+  overflow: scroll;
+  width: 100%; }
 
-/* line 289, ../sass/default.scss */
+/* line 304, ../sass/default.scss */
 .knalledge_map_container {
   position: relative;
   height: 100%;
@@ -319,21 +336,21 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   	/* -------------------------
   		KnAllEdge Map Internals
      	-------------------------*/ }
-  /* line 301, ../sass/default.scss */
+  /* line 316, ../sass/default.scss */
   .knalledge_map_container .map_svg {
     height: 100%;
     width: 100%;
     position: absolute;
     /*background-color: #ffffaa;*/
     z-index: 1; }
-  /* line 309, ../sass/default.scss */
+  /* line 324, ../sass/default.scss */
   .knalledge_map_container .map_html {
     height: 100%;
     width: 100%;
     position: absolute;
     /*background-color: #ffffaa;*/
     z-index: 2; }
-  /* line 317, ../sass/default.scss */
+  /* line 332, ../sass/default.scss */
   .knalledge_map_container .map_entity {
     width: 100px;
     height: 50px;
@@ -352,7 +369,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -webkit-box-shadow: 2px 1px 3px 1px rgba(150, 150, 255, 0.75);
     box-shadow: 2px 1px 3px 1px rgba(150, 150, 255, 0.75);
     /* entity stylings */ }
-    /* line 331, ../sass/default.scss */
+    /* line 346, ../sass/default.scss */
     .knalledge_map_container .map_entity .status {
       position: absolute;
       left: -10px;
@@ -368,7 +385,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -moz-border-radius: 10px / 10px;
       -webkit-border-radius: 10px 10px;
       border-radius: 10px / 10px; }
-    /* line 345, ../sass/default.scss */
+    /* line 360, ../sass/default.scss */
     .knalledge_map_container .map_entity .type {
       position: absolute;
       right: -15px;
@@ -387,38 +404,38 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -moz-border-radius: 5px / 5px;
       -webkit-border-radius: 5px 5px;
       border-radius: 5px / 5px; }
-    /* line 362, ../sass/default.scss */
+    /* line 377, ../sass/default.scss */
     .knalledge_map_container .map_entity .name {
       position: relative;
       padding: 3px;
       /*background-color: yellow;*/ }
-    /* line 374, ../sass/default.scss */
+    /* line 389, ../sass/default.scss */
     .knalledge_map_container .map_entity.selected {
       border-color: #ffa;
       border-width: 3px; }
-    /* line 383, ../sass/default.scss */
+    /* line 398, ../sass/default.scss */
     .knalledge_map_container .map_entity.map_entity_object {
       background-color: #aaa; }
-    /* line 387, ../sass/default.scss */
+    /* line 402, ../sass/default.scss */
     .knalledge_map_container .map_entity.map_entity_process {
       background-color: #aaf; }
-  /* line 405, ../sass/default.scss */
+  /* line 420, ../sass/default.scss */
   .knalledge_map_container .dropzone {
     background-color: #ccc;
     border-radius: 4px;
     margin: 10px auto 30px;
     padding: 10px;
     transition: background-color 0.3s; }
-  /* line 413, ../sass/default.scss */
+  /* line 428, ../sass/default.scss */
   .knalledge_map_container .drop-active {
     border: 3px dotted red; }
-  /* line 417, ../sass/default.scss */
+  /* line 432, ../sass/default.scss */
   .knalledge_map_container .drop-target {
     background-color: #4bf;
     border-color: #f88;
     border-style: solid;
     border-width: 5px; }
-  /* line 424, ../sass/default.scss */
+  /* line 439, ../sass/default.scss */
   .knalledge_map_container .drag-drop {
     display: inline-block;
     min-width: 40px;
@@ -429,10 +446,10 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -webkit-transform: translate(0px, 0px);
     transform: translate(0px, 0px);
     transition: background-color 0.3s; }
-  /* line 439, ../sass/default.scss */
+  /* line 454, ../sass/default.scss */
   .knalledge_map_container .drag-drop.can-drop {
     border: 3px solid green; }
-  /* line 448, ../sass/default.scss */
+  /* line 463, ../sass/default.scss */
   .knalledge_map_container .div_map {
     position: relative;
     width: 100%;
@@ -440,39 +457,39 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     overflow: scroll;
     /*background-color: #aaaaaa;*/
     /*padding: 5px;*/ }
-  /* line 458, ../sass/default.scss */
+  /* line 473, ../sass/default.scss */
   .knalledge_map_container .div_map_svg {
     position: absolute;
     width: 100%;
     height: 100%;
     /*background-color: #ffffaa;*/
     z-index: 1; }
-    /* line 466, ../sass/default.scss */
+    /* line 481, ../sass/default.scss */
     .knalledge_map_container .div_map_svg svg {
       width: 100%;
       height: 100%; }
-  /* line 472, ../sass/default.scss */
+  /* line 487, ../sass/default.scss */
   .knalledge_map_container .svg_content {
     position: absolute;
     width: 100%;
     height: 100%; }
-  /* line 478, ../sass/default.scss */
+  /* line 493, ../sass/default.scss */
   .knalledge_map_container .node {
     cursor: pointer; }
-  /* line 482, ../sass/default.scss */
+  /* line 497, ../sass/default.scss */
   .knalledge_map_container .node circle {
     fill: #fff;
     stroke: steelblue;
     stroke-width: 1px; }
-  /* line 488, ../sass/default.scss */
+  /* line 503, ../sass/default.scss */
   .knalledge_map_container .node text {
     font: 12px sans-serif; }
-  /* line 490, ../sass/default.scss */
+  /* line 505, ../sass/default.scss */
   .knalledge_map_container .link {
     fill: none;
     stroke: #000;
     stroke-width: 3px; }
-  /* line 496, ../sass/default.scss */
+  /* line 511, ../sass/default.scss */
   .knalledge_map_container .div_map_html {
     position: absolute;
     width: 100%;
@@ -481,12 +498,12 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     /*opacity: 0.5;*/
     z-index: 2;
     /*display: none;*/ }
-  /* line 506, ../sass/default.scss */
+  /* line 521, ../sass/default.scss */
   .knalledge_map_container .html_content {
     position: absolute;
     width: 100%;
     height: 100%; }
-  /* line 512, ../sass/default.scss */
+  /* line 527, ../sass/default.scss */
   .knalledge_map_container .node_html {
     position: absolute;
     border-width: 0px;
@@ -506,12 +523,12 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     margin-left: -5em;*/
     /*TODO: center this verticaly (need to do it from JS :( ))*/
     /* NODE SEMANTIC / STYLING */ }
-    /* line 530, ../sass/default.scss */
+    /* line 545, ../sass/default.scss */
     .knalledge_map_container .node_html .node_inner_html {
       position: relative;
       padding: 3px;
       /*background-color: yellow;*/ }
-    /* line 536, ../sass/default.scss */
+    /* line 551, ../sass/default.scss */
     .knalledge_map_container .node_html .node_status {
       position: absolute;
       left: -10px;
@@ -524,7 +541,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -moz-border-radius: 10px / 10px;
       -webkit-border-radius: 10px 10px;
       border-radius: 10px / 10px; }
-    /* line 547, ../sass/default.scss */
+    /* line 562, ../sass/default.scss */
     .knalledge_map_container .node_html .vote_up {
       position: absolute;
       left: -10px;
@@ -544,7 +561,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -moz-border-radius-topleft: 15px;
       -webkit-border-top-left-radius: 15px;
       border-top-left-radius: 15px; }
-    /* line 563, ../sass/default.scss */
+    /* line 578, ../sass/default.scss */
     .knalledge_map_container .node_html .vote_down {
       position: absolute;
       left: -10px;
@@ -564,7 +581,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -moz-border-radius-bottomleft: 15px;
       -webkit-border-bottom-left-radius: 15px;
       border-bottom-left-radius: 15px; }
-    /* line 580, ../sass/default.scss */
+    /* line 595, ../sass/default.scss */
     .knalledge_map_container .node_html .open_close_status {
       position: absolute;
       right: -10px;
@@ -581,7 +598,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -moz-border-radius: 5px;
       -webkit-border-radius: 5px;
       border-radius: 5px; }
-    /* line 596, ../sass/default.scss */
+    /* line 611, ../sass/default.scss */
     .knalledge_map_container .node_html .node_type {
       position: absolute;
       left: 10px;
@@ -598,7 +615,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -moz-border-radius: 5px;
       -webkit-border-radius: 5px;
       border-radius: 5px; }
-    /* line 612, ../sass/default.scss */
+    /* line 627, ../sass/default.scss */
     .knalledge_map_container .node_html .rima_user {
       position: absolute;
       right: -20px;
@@ -616,19 +633,19 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -moz-border-radius: 5px;
       -webkit-border-radius: 5px;
       border-radius: 5px; }
-    /* line 630, ../sass/default.scss */
+    /* line 645, ../sass/default.scss */
     .knalledge_map_container .node_html.type_ibis_question {
       background-color: #ffffaa; }
-    /* line 633, ../sass/default.scss */
+    /* line 648, ../sass/default.scss */
     .knalledge_map_container .node_html.type_ibis_idea {
       background-color: #aaaaff; }
-    /* line 636, ../sass/default.scss */
+    /* line 651, ../sass/default.scss */
     .knalledge_map_container .node_html.type_ibis_argument {
       background-color: #ffaaaa; }
-    /* line 639, ../sass/default.scss */
+    /* line 654, ../sass/default.scss */
     .knalledge_map_container .node_html.type_ibis_comment {
       background-color: #aaffaa; }
-  /* line 644, ../sass/default.scss */
+  /* line 659, ../sass/default.scss */
   .knalledge_map_container .node_html_fixed {
     width: 150px;
     margin-left: -75px;
@@ -639,13 +656,13 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -moz-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
     -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
     box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75); }
-  /* line 652, ../sass/default.scss */
+  /* line 667, ../sass/default.scss */
   .knalledge_map_container .node_unselected {
     border-style: dashed;
     border-color: #0000ff;
     /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
     /* color h-shadow v-shadow blur spread color inset*/ }
-  /* line 658, ../sass/default.scss */
+  /* line 673, ../sass/default.scss */
   .knalledge_map_container .node_selected {
     border-style: solid;
     border-color: #0000aa;
@@ -653,7 +670,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -moz-box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
     -webkit-box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
     box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75); }
-  /* line 665, ../sass/default.scss */
+  /* line 680, ../sass/default.scss */
   .knalledge_map_container .node_html span {
     display: inline-block;
     vertical-align: middle;
@@ -663,13 +680,13 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     font-style: italic;
     color: #550000;
     /* just for testing purposs */ }
-    /* line 675, ../sass/default.scss */
+    /* line 690, ../sass/default.scss */
     .knalledge_map_container .node_html span p {
       color: #880000;
       font-weight: 100;
       font-size: 12px;
       font-style: normal; }
-  /* line 683, ../sass/default.scss */
+  /* line 698, ../sass/default.scss */
   .knalledge_map_container .label_html {
     position: absolute;
     /*width: 10em;*/
@@ -692,10 +709,32 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     /*margin-top: -1.5em;
     margin-left: -5em;*/ }
 
+/* ------------------------
+ knalledge_relevant
+------------------------ */
+/* line 726, ../sass/default.scss */
+.knalledge_relevant {
+  position: relative;
+  margin-top: 150px;
+  width: 100%; }
+  /* line 731, ../sass/default.scss */
+  .knalledge_relevant .knalledge_relevant_container {
+    background-color: rgba(240, 240, 255, 0.75);
+    border: solid 1px #aaaaff;
+    position: relative;
+    margin-top: 150px;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -moz-border-radius: 10px / 10px;
+    -webkit-border-radius: 10px 10px;
+    border-radius: 10px / 10px; }
+
 /* ------------------------------
 	knalledge-map-image-editing
 ------------------------------ */
-/* line 716, ../sass/default.scss */
+/* line 753, ../sass/default.scss */
 .knalledge-map-image-editing {
   position: absolute;
   width: 40%;
@@ -715,7 +754,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   -moz-box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25);
   -webkit-box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25);
   box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25); }
-  /* line 732, ../sass/default.scss */
+  /* line 769, ../sass/default.scss */
   .knalledge-map-image-editing .knalledge_title {
     border-bottom: 3px solid #484848;
     background-color: #888888;
@@ -731,7 +770,7 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     -moz-border-radius-topleft: 15px;
     -webkit-border-top-left-radius: 15px;
     border-top-left-radius: 15px; }
-  /* line 745, ../sass/default.scss */
+  /* line 782, ../sass/default.scss */
   .knalledge-map-image-editing .knalledge_close {
     position: absolute;
     background-color: #dddddd;
@@ -749,17 +788,17 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
     top: 0.1em;
     z-index: 101;
     cursor: pointer; }
-    /* line 762, ../sass/default.scss */
+    /* line 799, ../sass/default.scss */
     .knalledge-map-image-editing .knalledge_close:hover {
       background-color: #ffffff; }
-  /* line 767, ../sass/default.scss */
+  /* line 804, ../sass/default.scss */
   .knalledge-map-image-editing ul {
     /* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
     overflow-y: scroll;
     position: relative;
     padding-left: 20%;
     padding-right: 20%; }
-    /* line 774, ../sass/default.scss */
+    /* line 811, ../sass/default.scss */
     .knalledge-map-image-editing ul li {
       list-style-type: none;
       display: block;
@@ -795,15 +834,15 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       -o-transition-timing-function: ease-in;
       -webkit-transition-timing-function: ease-in;
       transition-timing-function: ease-in; }
-      /* line 795, ../sass/default.scss */
+      /* line 832, ../sass/default.scss */
       .knalledge-map-image-editing ul li:hover {
         background-color: #bbbbff;
         color: #6e6eff; }
-  /* line 801, ../sass/default.scss */
+  /* line 838, ../sass/default.scss */
   .knalledge-map-image-editing form {
     padding: 5px;
     padding-top: 10px; }
-    /* line 804, ../sass/default.scss */
+    /* line 841, ../sass/default.scss */
     .knalledge-map-image-editing form .image_url {
       font-weight: 300;
       font-size: 1.2em;
@@ -812,29 +851,29 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
       width: 100%;
       padding: 3px;
       text-align: center; }
-    /* line 813, ../sass/default.scss */
+    /* line 850, ../sass/default.scss */
     .knalledge-map-image-editing form .dimensions {
       text-align: center; }
-      /* line 815, ../sass/default.scss */
+      /* line 852, ../sass/default.scss */
       .knalledge-map-image-editing form .dimensions input {
         width: 5em;
         background-color: #6f6f6f;
         color: #bbbbbb;
         padding: 3px;
         text-align: center; }
-    /* line 823, ../sass/default.scss */
+    /* line 860, ../sass/default.scss */
     .knalledge-map-image-editing form .help-block {
       font-size: 0.9em;
       font-style: italic;
       text-align: right; }
-    /* line 828, ../sass/default.scss */
+    /* line 865, ../sass/default.scss */
     .knalledge-map-image-editing form .buttons {
       text-align: right; }
 
 /*
 Knalledge Maps
 */
-/* line 837, ../sass/default.scss */
+/* line 874, ../sass/default.scss */
 .mcmButton {
   background-color: #dddddd;
   border: solid 3px #555555;
@@ -844,11 +883,11 @@ Knalledge Maps
   -webkit-border-radius: 15px;
   border-radius: 15px;
   cursor: pointer; }
-  /* line 845, ../sass/default.scss */
+  /* line 882, ../sass/default.scss */
   .mcmButton :hover {
     background-color: #ffffff; }
 
-/* line 850, ../sass/default.scss */
+/* line 887, ../sass/default.scss */
 .creatingNewMap {
   display: block;
   margin-left: 2px;
@@ -860,20 +899,20 @@ Knalledge Maps
   border: 2px groove #333;
   border: solid 1px #000;
   padding: 10px; }
-  /* line 861, ../sass/default.scss */
+  /* line 898, ../sass/default.scss */
   .creatingNewMap label {
     width: 20em; }
 
-/* line 866, ../sass/default.scss */
+/* line 903, ../sass/default.scss */
 .displayNone {
   display: none; }
 
-/* line 874, ../sass/default.scss */
+/* line 911, ../sass/default.scss */
 .mapsList {
   width: 80%;
   margin-left: 10%;
   margin-right: 10%; }
-  /* line 879, ../sass/default.scss */
+  /* line 916, ../sass/default.scss */
   .mapsList .list {
     margin: 5px;
     text: 18px;
@@ -886,23 +925,23 @@ Knalledge Maps
     background-color: #888;
     /*background-color: #ccc;
     background-color: #aaf;*/ }
-    /* line 883, ../sass/default.scss */
+    /* line 920, ../sass/default.scss */
     .mapsList .list .active-selection {
       background-color: #eee; }
-    /* line 887, ../sass/default.scss */
+    /* line 924, ../sass/default.scss */
     .mapsList .list tr:hover {
       cursor: pointer;
       background-color: #cccccc; }
-    /* line 899, ../sass/default.scss */
+    /* line 936, ../sass/default.scss */
     .mapsList .list th {
       background-color: #aaf;
       border: 1px solid black;
       padding: 5px; }
-    /* line 904, ../sass/default.scss */
+    /* line 941, ../sass/default.scss */
     .mapsList .list td {
       border: 1px solid black;
       padding: 5px; }
-  /* line 911, ../sass/default.scss */
+  /* line 948, ../sass/default.scss */
   .mapsList .buttons {
     text-align: left; }
 
@@ -910,10 +949,10 @@ Knalledge Maps
 	IBIS
 	ibis-types-list
 */
-/* line 921, ../sass/default.scss */
+/* line 958, ../sass/default.scss */
 .ibis-types-list {
   margin-top: 3em; }
-  /* line 923, ../sass/default.scss */
+  /* line 960, ../sass/default.scss */
   .ibis-types-list .list {
     margin: 5px;
     font-size: 18px;
@@ -921,10 +960,10 @@ Knalledge Maps
     -moz-border-radius: 15px / 15px;
     -webkit-border-radius: 15px 15px;
     border-radius: 15px / 15px; }
-    /* line 929, ../sass/default.scss */
+    /* line 966, ../sass/default.scss */
     .ibis-types-list .list .active-selection {
       background-color: #eee; }
-    /* line 932, ../sass/default.scss */
+    /* line 969, ../sass/default.scss */
     .ibis-types-list .list tr {
       margin-bottom: 3px;
       border-bottom: solid 2px #aaaaaa;
@@ -932,19 +971,19 @@ Knalledge Maps
       -moz-border-radius: 5px / 5px;
       -webkit-border-radius: 5px 5px;
       border-radius: 5px / 5px; }
-      /* line 937, ../sass/default.scss */
+      /* line 974, ../sass/default.scss */
       .ibis-types-list .list tr:hover {
         cursor: pointer;
         background-color: #cccccc; }
-    /* line 943, ../sass/default.scss */
+    /* line 980, ../sass/default.scss */
     .ibis-types-list .list th {
       background-color: #aaf;
       /*border: 1px solid black;*/
       padding: 5px; }
-    /* line 948, ../sass/default.scss */
+    /* line 985, ../sass/default.scss */
     .ibis-types-list .list td {
       /*border: 1px solid black;*/
       padding: 5px; }
-    /* line 953, ../sass/default.scss */
+    /* line 990, ../sass/default.scss */
     .ibis-types-list .list .active-selection {
       background-color: #aaf; }

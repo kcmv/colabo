@@ -25,7 +25,7 @@ $map: layout(12 1/4 fluid float inside);
 		@include span(2 at 1); 
 	}
 
-	.knalledge_map{
+	.knalledge_map_middle{
 		@include span(10 at 3);
 	}
 
@@ -39,7 +39,7 @@ $map: layout(12 1/4 fluid float inside);
 		@include span(1 at 1);
 	}
 
-	.knalledge_map{
+	.knalledge_map_middle{
 		@include span(9 at 2);
 	}
 
@@ -59,14 +59,20 @@ $map: layout(12 1/4 fluid float inside);
 		/*	overflow-x: visible;
 			overflow-y: scroll;
 		*/
-		@include span(1 at 1); 
+		@include span(1 at 1);
 	}
 
-	.knalledge_map{
+	.knalledge_map_middle{
 		/* make #content content occupying 2 cells less on large screens */
-		height: 100%;
-		min-height: 100%;
-		height: 100%;
+		height: 75%;
+		min-height: 75%;
+		@include span(9 at 2);
+	}
+
+	.knalledge_relevant{
+		/* make #content content occupying 2 cells less on large screens */
+		height: 25%;
+		min-height: 25%;
 		@include span(9 at 2);
 	}
 
@@ -118,6 +124,7 @@ $map: layout(12 1/4 fluid float inside);
 			padding-top: 0px;
 			margin-top: 0px;
 		}
+
 		h2 {
 			padding-top: 0px;
 			margin-top: 0px;
@@ -277,6 +284,13 @@ $map: layout(12 1/4 fluid float inside);
 }
 
 /* ------------------------
+ knalledge_map_middle
+------------------------ */
+.knalledge_map_middle{
+
+}
+
+/* ------------------------
  knalledge_map
 ------------------------ */
 
@@ -284,6 +298,7 @@ $map: layout(12 1/4 fluid float inside);
 	z-index: 8;
 	position: relative;
 	overflow: scroll;
+	width: 100%;
 }
 
 .knalledge_map_container{
@@ -704,6 +719,28 @@ $map: layout(12 1/4 fluid float inside);
 		}
 	}
 }
+
+/* ------------------------
+ knalledge_relevant
+------------------------ */
+.knalledge_relevant{
+	position: relative;
+	margin-top: 150px;
+	width: 100%;
+
+	.knalledge_relevant_container{
+		background-color: rgba(240, 240, 255, 0.75);
+		border: solid 1px #aaaaff;
+		position: relative;
+		margin-top: 150px;
+		height: 100%;
+		width: 100%;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		@include border-radius(10px, 10px);
+	}
+}
+
 
 /* ------------------------------
 	knalledge-map-image-editing

@@ -193,7 +193,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", function(d){
-				var userHows = that.rimaService.getUsersHows(that.rimaService.getActiveUserId());
+				var userHows = that.rimaService.howAmIs;
 				var nodeWhats = (d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats) ?
 					d.kNode.dataContent.rima.whats : [];
 				var relevant = false;
@@ -209,7 +209,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 					}
 				}
 				var classes = "node_html node_unselected draggable " + d.kNode.type;
-				if(relevant) classes += "rima_relevant"
+				if(relevant) classes += " rima_relevant"
 				return classes;
 			})
 		.on("dblclick", function(d){
