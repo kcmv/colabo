@@ -63,17 +63,20 @@ $map: layout(12 1/4 fluid float inside);
 	}
 
 	.knalledge_map_middle{
+		height: 100%;
+		min-height: 100%;
 		/* make #content content occupying 2 cells less on large screens */
-		height: 75%;
-		min-height: 75%;
 		@include span(9 at 2);
 	}
 
+	.knalledge_map{
+		height: 75%;
+		min-height: 75%;
+	}
+
 	.knalledge_relevant{
-		/* make #content content occupying 2 cells less on large screens */
 		height: 25%;
 		min-height: 25%;
-		@include span(9 at 2);
 	}
 
 	.knalledge_map_list{
@@ -725,15 +728,14 @@ $map: layout(12 1/4 fluid float inside);
 ------------------------ */
 .knalledge_relevant{
 	position: relative;
-	margin-top: 150px;
 	width: 100%;
 
 	.knalledge_relevant_container{
 		background-color: rgba(240, 240, 255, 0.75);
 		border: solid 1px #aaaaff;
 		position: relative;
-		margin-top: 150px;
-		height: 100%;
+	margin-top: 0.5%;
+		height: 95.5%;
 		width: 100%;
 		overflow-x: hidden;
 		overflow-y: scroll;
