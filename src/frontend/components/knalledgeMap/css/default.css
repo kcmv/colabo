@@ -106,7 +106,7 @@
     min-height: 75%; }
 
   /* line 77, ../sass/default.scss */
-  .knalledge_relevant {
+  .knalledge_map_middle_bottom {
     height: 25%;
     min-height: 25%; }
 
@@ -706,31 +706,15 @@
     /*margin-top: -1.5em;
     margin-left: -5em;*/ }
 
-/* ------------------------
- knalledge_relevant
------------------------- */
-/* line 729, ../sass/default.scss */
-.knalledge_relevant {
+/* line 726, ../sass/default.scss */
+.knalledge_map_middle_bottom {
   position: relative;
   width: 100%; }
-  /* line 733, ../sass/default.scss */
-  .knalledge_relevant .knalledge_relevant_container {
-    background-color: rgba(240, 240, 255, 0.75);
-    border: solid 1px #aaaaff;
-    position: relative;
-    margin-top: 0.5%;
-    height: 95.5%;
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    -moz-border-radius: 10px / 10px;
-    -webkit-border-radius: 10px 10px;
-    border-radius: 10px / 10px; }
 
 /* ------------------------------
 	knalledge-map-image-editing
 ------------------------------ */
-/* line 755, ../sass/default.scss */
+/* line 739, ../sass/default.scss */
 .knalledge-map-image-editing {
   position: absolute;
   width: 40%;
@@ -750,7 +734,7 @@
   -moz-box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25);
   -webkit-box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25);
   box-shadow: 10px 10px 5px 5px rgba(98, 98, 98, 0.25); }
-  /* line 771, ../sass/default.scss */
+  /* line 755, ../sass/default.scss */
   .knalledge-map-image-editing .knalledge_title {
     border-bottom: 3px solid #484848;
     background-color: #888888;
@@ -766,7 +750,7 @@
     -moz-border-radius-topleft: 15px;
     -webkit-border-top-left-radius: 15px;
     border-top-left-radius: 15px; }
-  /* line 784, ../sass/default.scss */
+  /* line 768, ../sass/default.scss */
   .knalledge-map-image-editing .knalledge_close {
     position: absolute;
     background-color: #dddddd;
@@ -784,17 +768,17 @@
     top: 0.1em;
     z-index: 101;
     cursor: pointer; }
-    /* line 801, ../sass/default.scss */
+    /* line 785, ../sass/default.scss */
     .knalledge-map-image-editing .knalledge_close:hover {
       background-color: #ffffff; }
-  /* line 806, ../sass/default.scss */
+  /* line 790, ../sass/default.scss */
   .knalledge-map-image-editing ul {
     /* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
     overflow-y: scroll;
     position: relative;
     padding-left: 20%;
     padding-right: 20%; }
-    /* line 813, ../sass/default.scss */
+    /* line 797, ../sass/default.scss */
     .knalledge-map-image-editing ul li {
       list-style-type: none;
       display: block;
@@ -830,15 +814,15 @@
       -o-transition-timing-function: ease-in;
       -webkit-transition-timing-function: ease-in;
       transition-timing-function: ease-in; }
-      /* line 834, ../sass/default.scss */
+      /* line 818, ../sass/default.scss */
       .knalledge-map-image-editing ul li:hover {
         background-color: #bbbbff;
         color: #6e6eff; }
-  /* line 840, ../sass/default.scss */
+  /* line 824, ../sass/default.scss */
   .knalledge-map-image-editing form {
     padding: 5px;
     padding-top: 10px; }
-    /* line 843, ../sass/default.scss */
+    /* line 827, ../sass/default.scss */
     .knalledge-map-image-editing form .image_url {
       font-weight: 300;
       font-size: 1.2em;
@@ -847,29 +831,29 @@
       width: 100%;
       padding: 3px;
       text-align: center; }
-    /* line 852, ../sass/default.scss */
+    /* line 836, ../sass/default.scss */
     .knalledge-map-image-editing form .dimensions {
       text-align: center; }
-      /* line 854, ../sass/default.scss */
+      /* line 838, ../sass/default.scss */
       .knalledge-map-image-editing form .dimensions input {
         width: 5em;
         background-color: #6f6f6f;
         color: #bbbbbb;
         padding: 3px;
         text-align: center; }
-    /* line 862, ../sass/default.scss */
+    /* line 846, ../sass/default.scss */
     .knalledge-map-image-editing form .help-block {
       font-size: 0.9em;
       font-style: italic;
       text-align: right; }
-    /* line 867, ../sass/default.scss */
+    /* line 851, ../sass/default.scss */
     .knalledge-map-image-editing form .buttons {
       text-align: right; }
 
 /*
 Knalledge Maps
 */
-/* line 876, ../sass/default.scss */
+/* line 860, ../sass/default.scss */
 .mcmButton {
   background-color: #dddddd;
   border: solid 3px #555555;
@@ -879,11 +863,11 @@ Knalledge Maps
   -webkit-border-radius: 15px;
   border-radius: 15px;
   cursor: pointer; }
-  /* line 884, ../sass/default.scss */
+  /* line 868, ../sass/default.scss */
   .mcmButton :hover {
     background-color: #ffffff; }
 
-/* line 889, ../sass/default.scss */
+/* line 873, ../sass/default.scss */
 .creatingNewMap {
   display: block;
   margin-left: 2px;
@@ -895,20 +879,20 @@ Knalledge Maps
   border: 2px groove #333;
   border: solid 1px #000;
   padding: 10px; }
-  /* line 900, ../sass/default.scss */
+  /* line 884, ../sass/default.scss */
   .creatingNewMap label {
     width: 20em; }
 
-/* line 905, ../sass/default.scss */
+/* line 889, ../sass/default.scss */
 .displayNone {
   display: none; }
 
-/* line 913, ../sass/default.scss */
+/* line 897, ../sass/default.scss */
 .mapsList {
   width: 80%;
   margin-left: 10%;
   margin-right: 10%; }
-  /* line 918, ../sass/default.scss */
+  /* line 902, ../sass/default.scss */
   .mapsList .list {
     margin: 5px;
     text: 18px;
@@ -921,23 +905,23 @@ Knalledge Maps
     background-color: #888;
     /*background-color: #ccc;
     background-color: #aaf;*/ }
-    /* line 922, ../sass/default.scss */
+    /* line 906, ../sass/default.scss */
     .mapsList .list .active-selection {
       background-color: #eee; }
-    /* line 926, ../sass/default.scss */
+    /* line 910, ../sass/default.scss */
     .mapsList .list tr:hover {
       cursor: pointer;
       background-color: #cccccc; }
-    /* line 938, ../sass/default.scss */
+    /* line 922, ../sass/default.scss */
     .mapsList .list th {
       background-color: #aaf;
       border: 1px solid black;
       padding: 5px; }
-    /* line 943, ../sass/default.scss */
+    /* line 927, ../sass/default.scss */
     .mapsList .list td {
       border: 1px solid black;
       padding: 5px; }
-  /* line 950, ../sass/default.scss */
+  /* line 934, ../sass/default.scss */
   .mapsList .buttons {
     text-align: left; }
 
@@ -945,10 +929,10 @@ Knalledge Maps
 	IBIS
 	ibis-types-list
 */
-/* line 960, ../sass/default.scss */
+/* line 944, ../sass/default.scss */
 .ibis-types-list {
   margin-top: 3em; }
-  /* line 962, ../sass/default.scss */
+  /* line 946, ../sass/default.scss */
   .ibis-types-list .list {
     margin: 5px;
     font-size: 18px;
@@ -956,10 +940,10 @@ Knalledge Maps
     -moz-border-radius: 15px / 15px;
     -webkit-border-radius: 15px 15px;
     border-radius: 15px / 15px; }
-    /* line 968, ../sass/default.scss */
+    /* line 952, ../sass/default.scss */
     .ibis-types-list .list .active-selection {
       background-color: #eee; }
-    /* line 971, ../sass/default.scss */
+    /* line 955, ../sass/default.scss */
     .ibis-types-list .list tr {
       margin-bottom: 3px;
       border-bottom: solid 2px #aaaaaa;
@@ -967,19 +951,19 @@ Knalledge Maps
       -moz-border-radius: 5px / 5px;
       -webkit-border-radius: 5px 5px;
       border-radius: 5px / 5px; }
-      /* line 976, ../sass/default.scss */
+      /* line 960, ../sass/default.scss */
       .ibis-types-list .list tr:hover {
         cursor: pointer;
         background-color: #cccccc; }
-    /* line 982, ../sass/default.scss */
+    /* line 966, ../sass/default.scss */
     .ibis-types-list .list th {
       background-color: #aaf;
       /*border: 1px solid black;*/
       padding: 5px; }
-    /* line 987, ../sass/default.scss */
+    /* line 971, ../sass/default.scss */
     .ibis-types-list .list td {
       /*border: 1px solid black;*/
       padding: 5px; }
-    /* line 992, ../sass/default.scss */
+    /* line 976, ../sass/default.scss */
     .ibis-types-list .list .active-selection {
       background-color: #aaf; }
