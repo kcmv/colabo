@@ -91,7 +91,8 @@ angular.module('rimaDirectives', ['Config'])
 				}, true);
 
 				$scope.$watch(function () {
-					return KnalledgeMapVOsService.mapStructure.nodesById;
+					// return KnalledgeMapVOsService.mapStructure.nodesById;
+					return KnalledgeMapVOsService.nodesById;
 				},
 				function(newValue){
 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
