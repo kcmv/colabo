@@ -144,8 +144,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					if($scope.mapConfig) overwriteConfig($scope.mapConfig, config);
 
 					var kMapClientInterface = {
-						nodeClicked: function(vkNode, dom){
-							$scope.$apply(function () {
+						nodeClicked: function(vkNode, dom, commingFromAngular){
+							var processNodeClick = function(){
 								// Referencing DOM nodes in Angular expressions is disallowed!
 								dom = null;
 								$scope.nodeSelected({"vkNode": vkNode, "dom": dom});
@@ -163,8 +163,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									node: vkNode,
 									property: property
 								};
-								$rootScope.$broadcast(changeKnalledgePropertyEventName, nodeContent);
-							});
+								$rootScope.$broadcast(changeKnalledgePropertyEventName, nodeContent);								
+							}
+
+							if(commingFromAngular) processNodeClick();
+							else{
+								$scope.$apply(processNodeClick);
+							}
 						},
 						mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
 							$scope.$apply(function () {
@@ -296,6 +301,12 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.$on(changeKnalledgeRimaEventName, function(e, vkNode) {
 					console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
 					knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
+				});
+
+				var changeSelectedNodeEventName = "changeSelectedNodeEvent";
+				$scope.$on(changeSelectedNodeEventName, function(e, vkNode) {
+					console.log("[knalledgeMap.controller::$on] event: %s", changeSelectedNodeEventName);
+					knalledgeMap.mapManager.getActiveLayout().clickNode(vkNode, undefined, true);
 				});
 
 				$scope.$watch(function () {

@@ -113,7 +113,7 @@ MapLayoutTree.prototype.getDomFromDatum = function(d) {
 };
 
 // Select node on node click
-MapLayoutTree.prototype.clickNode = function(d, dom) {
+MapLayoutTree.prototype.clickNode = function(d, dom, commingFromAngular) {
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state
 	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
@@ -148,7 +148,7 @@ MapLayoutTree.prototype.clickNode = function(d, dom) {
 			this.clientApi.update(this.structure.rootNode); //TODO: should we move it into this.structure.createEdge?
 		}
 	}
-	this.clientApi.nodeClicked(this.structure.getSelectedNode(), dom);
+	this.clientApi.nodeClicked(this.structure.getSelectedNode(), dom, commingFromAngular);
 	//this.clientApi.update(this.structure.rootNode);
 };
 

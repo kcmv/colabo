@@ -44,9 +44,9 @@ angular.module('rimaDirectives', ['Config'])
 
 					var userHows = RimaService.howAmIs;
 					for (var i in KnalledgeMapVOsService.mapStructure.nodesById){
-						var node = KnalledgeMapVOsService.mapStructure.nodesById[i];
-						var nodeWhats = (node && node.kNode.dataContent && node.kNode.dataContent.rima && node.kNode.dataContent.rima.whats) ?
-							node.kNode.dataContent.rima.whats : [];
+						var vkNode = KnalledgeMapVOsService.mapStructure.nodesById[i];
+						var nodeWhats = (vkNode && vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats) ?
+							vkNode.kNode.dataContent.rima.whats : [];
 
 						var relevant = false;
 						// TODO: can be optimized by hash of userHows
@@ -73,8 +73,9 @@ angular.module('rimaDirectives', ['Config'])
 							]
 							$scope.items.push(
 								{
-									_id: node.kNode._id,
-									name: node.kNode.name,
+									_id: vkNode.kNode._id,
+									name: vkNode.kNode.name,
+									vkNode: vkNode,
 									whats: whats
 								}
 							);
@@ -111,6 +112,8 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.selectItem = function(item) {
 				    $scope.selectedItem = item;
 				    console.log("$scope.selectedItem = %s", $scope.selectedItem.name);
+					var changeSelectedNodeEventName = "changeSelectedNodeEvent";
+					$rootScope.$broadcast(changeSelectedNodeEventName, item.vkNode);
 				};
 
 				updateList();
