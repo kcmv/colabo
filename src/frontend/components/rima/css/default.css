@@ -29,8 +29,62 @@
   -moz-border-radius: 10px / 10px;
   -webkit-border-radius: 10px 10px;
   border-radius: 10px / 10px; }
+  /* line 20, ../sass/default.scss */
+  .rima_relevant_list .rima-relevant_whats_list .title {
+    font-weight: bold;
+    text-align: center; }
+  /* line 26, ../sass/default.scss */
+  .rima_relevant_list .rima-relevant_whats_list .list {
+    margin: 5px;
+    margin-bottom: 3px;
+    font-size: 0.85em;
+    padding: 3px;
+    width: 98%; }
+    /* line 33, ../sass/default.scss */
+    .rima_relevant_list .rima-relevant_whats_list .list tr {
+      /*border-bottom: 1px solid black;*/ }
+      /* line 36, ../sass/default.scss */
+      .rima_relevant_list .rima-relevant_whats_list .list tr.heading th {
+        border-bottom: 1px solid #515151;
+        /*						border-left: 1px solid  darken($item_background_color, 20%);
+        						border-right: 1px solid  darken($item_background_color, 20%);
+        */
+        padding: 5px;
+        font-weight: bold; }
+        /* line 42, ../sass/default.scss */
+        .rima_relevant_list .rima-relevant_whats_list .list tr.heading th.node {
+          width: 75%;
+          border-right: 1px solid #777777; }
+        /* line 46, ../sass/default.scss */
+        .rima_relevant_list .rima-relevant_whats_list .list tr.heading th.whats {
+          width: 25%; }
+      /* line 52, ../sass/default.scss */
+      .rima_relevant_list .rima-relevant_whats_list .list tr.data_row:nth-child(odd) {
+        background-color: #aaaaaa; }
+      /* line 53, ../sass/default.scss */
+      .rima_relevant_list .rima-relevant_whats_list .list tr.data_row:nth-child(even) {
+        background-color: #c3c3c3; }
+      /* line 55, ../sass/default.scss */
+      .rima_relevant_list .rima-relevant_whats_list .list tr.data_row:hover {
+        cursor: pointer;
+        background-color: white; }
+      /* line 59, ../sass/default.scss */
+      .rima_relevant_list .rima-relevant_whats_list .list tr.data_row.active-selection {
+        background-color: #eaeaea;
+        font-weight: bold; }
+      /* line 63, ../sass/default.scss */
+      .rima_relevant_list .rima-relevant_whats_list .list tr.data_row td {
+        padding: 5px; }
+        /* line 65, ../sass/default.scss */
+        .rima_relevant_list .rima-relevant_whats_list .list tr.data_row td.node {
+          border-right: 1px solid #777777; }
+        /* line 69, ../sass/default.scss */
+        .rima_relevant_list .rima-relevant_whats_list .list tr.data_row td.whats .relevant {
+          font-weight: bold;
+          color: #880000;
+          text-decoration: underline; }
 
-/* line 20, ../sass/default.scss */
+/* line 82, ../sass/default.scss */
 .rima_relevant {
   border: 3px solid #ff8888; }
 
@@ -40,10 +94,10 @@
 /*
  * What
  */
-/* line 33, ../sass/default.scss */
+/* line 95, ../sass/default.scss */
 .rima-whats .rima-what {
   margin-bottom: 7px; }
-/* line 37, ../sass/default.scss */
+/* line 99, ../sass/default.scss */
 .rima-whats .item {
   list-style-type: none;
   background-color: #eeeeff;
@@ -55,7 +109,7 @@
   padding-bottom: 2px;
   border: 1px solid #cccccc;
   border-radius: 0 15px 15px; }
-/* line 50, ../sass/default.scss */
+/* line 112, ../sass/default.scss */
 .rima-whats .item_in_progress {
   background-color: #f3f3f3;
   margin-right: 5px;
@@ -65,34 +119,34 @@
   padding-bottom: 2px;
   border: 1px dashed #e0e0e0;
   border-radius: 0 15px 15px; }
-/* line 61, ../sass/default.scss */
+/* line 123, ../sass/default.scss */
 .rima-whats .item_in_progress a {
   color: #8888ff; }
-/* line 65, ../sass/default.scss */
+/* line 127, ../sass/default.scss */
 .rima-whats .item a {
   color: #3333aa; }
-/* line 69, ../sass/default.scss */
+/* line 131, ../sass/default.scss */
 .rima-whats .item_delete {
   color: red;
   font-weight: bold;
   cursor: pointer; }
-/* line 75, ../sass/default.scss */
+/* line 137, ../sass/default.scss */
 .rima-whats .item_in_progress .item_delete {
   color: #ff8888; }
-/* line 79, ../sass/default.scss */
+/* line 141, ../sass/default.scss */
 .rima-whats .item_select {
   color: blue;
   font-weight: bold;
   cursor: pointer; }
-/* line 85, ../sass/default.scss */
+/* line 147, ../sass/default.scss */
 .rima-whats .item_in_progress .item_select {
   color: #ff8888; }
-/* line 89, ../sass/default.scss */
+/* line 151, ../sass/default.scss */
 .rima-whats .new-item-input {
   width: 80%; }
 
 /* http://www.w3.org/TR/CSS2/selector.html */
-/* line 96, ../sass/default.scss */
+/* line 158, ../sass/default.scss */
 .idea-detail .title-edit {
   color: #888;
   font-weight: bold;
@@ -102,7 +156,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box; }
 
-/* line 106, ../sass/default.scss */
+/* line 168, ../sass/default.scss */
 .idea-detail .subtitle-edit {
   color: #888;
   font-weight: 200;
@@ -112,18 +166,18 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box; }
 
-/* line 116, ../sass/default.scss */
+/* line 178, ../sass/default.scss */
 .idea-detail .title-view {
   width: 100%; }
 
-/* line 120, ../sass/default.scss */
+/* line 182, ../sass/default.scss */
 .idea-detail .subtitle-view {
   width: 100%;
   font-weight: 500;
   font-size: 15px;
   font-style: italic; }
 
-/* line 129, ../sass/default.scss */
+/* line 191, ../sass/default.scss */
 .items-creating-new {
   background-color: #f3f3f3;
   margin: 5px;
@@ -131,11 +185,11 @@
   border: 1px dashed #e0e0e0;
   border-radius: 0 15px 15px; }
 
-/* line 138, ../sass/default.scss */
+/* line 200, ../sass/default.scss */
 .rima-hows .title {
   font-weight: bold;
   text-align: center; }
-/* line 143, ../sass/default.scss */
+/* line 206, ../sass/default.scss */
 .rima-hows .list {
   margin: 5px;
   text: 18px;
@@ -145,31 +199,37 @@
   border-radius: 5px / 5px;
   margin-bottom: 3px;
   padding: 3px;
-  background-color: #888;
   /*background-color: #ccc;
   background-color: #aaf;*/ }
-  /* line 147, ../sass/default.scss */
-  .rima-hows .list .active-selection {
-    background-color: #eee; }
-  /* line 151, ../sass/default.scss */
+  /* line 211, ../sass/default.scss */
+  .rima-hows .list tr:nth-child(odd) {
+    background-color: #888; }
+  /* line 212, ../sass/default.scss */
+  .rima-hows .list tr:nth-child(even) {
+    background-color: #a2a2a2; }
+  /* line 214, ../sass/default.scss */
   .rima-hows .list tr:hover {
     cursor: pointer;
-    background-color: #cccccc; }
-  /* line 162, ../sass/default.scss */
+    background-color: #e1e1e1; }
+  /* line 218, ../sass/default.scss */
+  .rima-hows .list tr.active-selection {
+    background-color: #c8c8c8;
+    font-weight: bold; }
+  /* line 228, ../sass/default.scss */
   .rima-hows .list th {
     background-color: #aaf;
     border: 1px solid black;
     padding: 5px;
     font-weight: bold; }
-  /* line 168, ../sass/default.scss */
+  /* line 234, ../sass/default.scss */
   .rima-hows .list td {
     border: 1px solid black;
     padding: 5px; }
-/* line 175, ../sass/default.scss */
+/* line 241, ../sass/default.scss */
 .rima-hows .what_input {
   padding: 5px;
   width: 80%; }
-/* line 179, ../sass/default.scss */
+/* line 245, ../sass/default.scss */
 .rima-hows .how_select {
   padding: 5px; }
 
@@ -177,10 +237,10 @@
 	RIMA
 	rima-users-list
 */
-/* line 189, ../sass/default.scss */
+/* line 255, ../sass/default.scss */
 .rima-users-list {
   margin-top: 3em; }
-  /* line 191, ../sass/default.scss */
+  /* line 257, ../sass/default.scss */
   .rima-users-list .list {
     margin: 5px;
     font-size: 18px;
@@ -188,10 +248,10 @@
     -moz-border-radius: 15px / 15px;
     -webkit-border-radius: 15px 15px;
     border-radius: 15px / 15px; }
-    /* line 197, ../sass/default.scss */
+    /* line 263, ../sass/default.scss */
     .rima-users-list .list .active-selection {
       background-color: #eee; }
-    /* line 200, ../sass/default.scss */
+    /* line 266, ../sass/default.scss */
     .rima-users-list .list tr {
       margin-bottom: 3px;
       border-bottom: solid 2px #aaaaaa;
@@ -199,19 +259,19 @@
       -moz-border-radius: 5px / 5px;
       -webkit-border-radius: 5px 5px;
       border-radius: 5px / 5px; }
-      /* line 205, ../sass/default.scss */
+      /* line 271, ../sass/default.scss */
       .rima-users-list .list tr:hover {
         cursor: pointer;
         background-color: #cccccc; }
-    /* line 211, ../sass/default.scss */
+    /* line 277, ../sass/default.scss */
     .rima-users-list .list th {
       background-color: #aaf;
       /*border: 1px solid black;*/
       padding: 5px; }
-    /* line 216, ../sass/default.scss */
+    /* line 282, ../sass/default.scss */
     .rima-users-list .list td {
       /*border: 1px solid black;*/
       padding: 5px; }
-    /* line 221, ../sass/default.scss */
+    /* line 287, ../sass/default.scss */
     .rima-users-list .list .active-selection {
       background-color: #aaf; }

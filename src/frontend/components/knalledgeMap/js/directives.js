@@ -216,7 +216,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null, 
-							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, undefined, RimaService, IbisTypesService);
+							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, KnalledgeMapVOsService.mapStructure, RimaService, IbisTypesService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model, function(){
@@ -287,7 +287,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				var viewspecChangedEventName = "viewspecChangedEvent";
 				$scope.$on(viewspecChangedEventName, function(e, newViewspec) {
 					console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
-					console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
+					console.log("[knalledgeMap.controller::$on] newViewspec: %s", netggrwViewspec);
 					config.tree.viewspec = newViewspec;
 					knalledgeMap.update();
 				});
@@ -303,7 +303,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				},
 				function(newValue){
 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
-					knalledgeMap.update();
+					if(knalledgeMap) knalledgeMap.update();
 				}, true);
 
 			}
