@@ -22,7 +22,7 @@
 			text-align: center;
 
 		}
-		$item_background_color: #aaaaaa;
+		$item_background_color: #dddddd;
 		.list{
 			margin: 5px;
 			margin-bottom: 3px;
@@ -54,11 +54,16 @@
 
 					&:hover{
 						cursor: pointer;
-						background-color: lighten($item_background_color, 35%);
+						background-color: darken($item_background_color, 35%);
 					}
 					&.active-selection{
-						background-color: lighten($item_background_color, 25%);
-						font-weight: bold;
+						background-color: darken($item_background_color, 25%);
+						td{
+							&.node{
+								font-weight: bold;
+								color: lighten($item_background_color, 10%);
+							}
+						}
 					}
 					td{
 						padding: 5px;

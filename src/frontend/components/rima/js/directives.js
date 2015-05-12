@@ -107,6 +107,11 @@ angular.module('rimaDirectives', ['Config'])
 				// 	updateList();
 				// }, true);
 
+				$scope.selectItem = function(item) {
+				    $scope.selectedItem = item;
+				    console.log("$scope.selectedItem = %s", $scope.selectedItem.name);
+				};
+
 				updateList();
 			}
     	};
