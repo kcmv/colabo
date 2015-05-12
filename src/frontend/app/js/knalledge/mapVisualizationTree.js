@@ -374,6 +374,62 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 			.duration(this.configTransitions.update.duration);
 	}
 
+	nodeHtmlUpdate
+		.classed({
+			"node_html_fixed": function(d){
+				return (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					false : true;
+			}
+		})
+		.style("width", function(d){
+				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					d.kNode.dataContent.image.width : width;
+				if(width === null) {
+					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+					 that.configNodes.html.dimensions.sizes.width : null;
+				}
+				return that.scales.width(width) + "px";
+		})
+		.style("margin-left", function(d){
+				// centering the node (set margin to half the width of the node)
+				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					d.kNode.dataContent.image.width : width;
+				if(width === null) {
+					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+					 that.configNodes.html.dimensions.sizes.width : null;
+				}
+
+				var margin = null;
+				if(width !== null) {
+					margin = that.scales.width(-width/2) + "px";
+				}
+				return margin;
+		});
+
+	// image exists in data but not in the view
+	nodeHtmlUpdate.filter(function(d) {
+		return (d.kNode.dataContent && d.kNode.dataContent.image && (d3.select(this).select("img").size() <= 0));
+	})
+		.append("img")
+			.attr("src", function(d){
+				return d.kNode.dataContent.image.url;
+			})
+			.attr("width", function(d){
+				return that.scales.width(d.kNode.dataContent.image.width) + "px";
+			})
+			.attr("height", function(d){
+				return that.scales.height(d.kNode.dataContent.image.height) + "px";
+			})
+			.attr("alt", function(d){
+				return d.kNode.name;
+			});
+
+	// image does not exist in data but does exist in the view
+	nodeHtmlUpdate.select("img").filter(function(d) { 
+		return (!(d.kNode.dataContent && d.kNode.dataContent.image) ); 
+	})
+		.remove();
+
 	nodeHtmlUpdate.select(".vote_up")
 		.style("opacity", function(d){
 			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ? 
