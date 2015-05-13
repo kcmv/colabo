@@ -251,7 +251,8 @@ notifyServices.provider('NotifyService', {
 					iAmId_dest: "",
 					message: "Саша и Синиша требају да спавају!",
 					type: "",
-					what: ""
+					what: "",
+					notifyed: false
 				},
 				{
 					entity_id: "",
@@ -260,7 +261,8 @@ notifyServices.provider('NotifyService', {
 					iAmId_dest: "",
 					message: "Semantic-web is so cool but hard",
 					type: "",
-					what: "semantic-web"
+					what: "semantic-web",
+					notifyed: false
 				},
 			],
 			init: function(){
@@ -306,7 +308,11 @@ notifyServices.provider('NotifyNodeService', {
 			nodeHtmlEnter: function(nodeHtmlEnter){
 				// .filter(function(d) { return d.kNode.dataContent && d.kNode.dataContent.image; })
 				nodeHtmlEnter.append("div")
-					.attr("class", "notification");
+					.attr("class", "notification")
+					.on("click", function(d){
+						d3.select(this).remove();
+						// d3.select(this).style("display", "none");
+					})
 			},
 				
 			nodeHtmlUpdate: function(nodeHtmlUpdate){
@@ -317,6 +323,7 @@ notifyServices.provider('NotifyNodeService', {
 						for(var notificationId=0; notificationId<notifications.length; notificationId++){
 							var notification = notifications[notificationId];
 							var relevant = false;
+							if(notification.notifyed) continue;
 
 							if(notification.entity_id == d.kNode._id) relevant = true;
 							if(notification.entity_name == d.kNode.name) relevant = true;
@@ -357,7 +364,9 @@ notifyServices.provider('NotifyNodeService', {
 
 			},
 
-			nodeHtmlExit: function(){
+			nodeHtmlExit: function(nodeHtmlExit){
+				nodeHtmlExit.select(".notification")
+					.on("click", null);
 			}
 		};
 		provider.init();
