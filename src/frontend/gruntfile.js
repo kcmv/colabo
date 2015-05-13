@@ -133,6 +133,29 @@ module.exports = function(grunt) {
 					require: ["susy", "breakpoint"],
 					trace: true
 				}
+			},
+			notify_dist: { // target
+				options: { // Target options
+					// config: 'config/config.rb',
+					sassDir: ['components/notify/sass'],
+					cssDir: ['components/notify/css'],
+					outputStyle: "nested",
+					environment: 'production',
+					noLineComments: true,
+					require: ["susy", "breakpoint"],
+					trace: true
+				}
+			},
+			notify_dev: { // Another target
+				options: {
+					sassDir: ['components/notify/sass'],
+					cssDir: ['components/notify/css'],
+					outputStyle: "nested", // expanded, nested, compact, compressed
+					environment: 'development',
+					noLineComments: false,
+					require: ["susy", "breakpoint"],
+					trace: true
+				}
 			}
 		},
 		concat: {
@@ -177,19 +200,23 @@ module.exports = function(grunt) {
 			rima_css: {
 				files: ['components/rima/sass/**/*.{scss,sass}'],
 				tasks: ['compass:rima_dev', 'notify:watch_css'],
+			},
+			notify_css: {
+				files: ['components/notify/sass/**/*.{scss,sass}'],
+				tasks: ['compass:notify_dev', 'notify:watch_css'],
 			}
 		},
 		concurrent: {
 			watch: {
-				tasks: ['watch:js', 'watch:app_css', 'watch:map_css', 'watch:rima_css'],
+				tasks: ['watch:js', 'watch:app_css', 'watch:map_css', 'watch:rima_css', 'watch:notify_css'],
 				options: { logConcurrentOutput: true }
 			},
 			dev: {
-				tasks: ['jshint', 'compass:app_dev', 'compass:map_dev', 'compass:rima_dev'],
+				tasks: ['jshint', 'compass:app_dev', 'compass:map_dev', 'compass:rima_dev', 'compass:notify_dev'],
 				options: { logConcurrentOutput: true }
 			},
 			dist: {
-				tasks: ['jshint', 'compass:app_dist', 'compass:map_dist', 'compass:rima_dist'],
+				tasks: ['jshint', 'compass:app_dist', 'compass:map_dist', 'compass:rima_dist', 'compass:notify_dist'],
 				options: { logConcurrentOutput: true }
 			}
 		},

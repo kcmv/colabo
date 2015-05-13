@@ -4,7 +4,7 @@
 
 <form>
 	<fieldset>
-		<input class="image_url" type="text" placeholder="type image url.." ng-model="image.url" />
+		<input class="image_url" type="text" placeholder="type image url.." ng-model="image.url" ng-change="urlChanged()"/>
 		<span class="help-block">(please, provide a full url)</span>
 		<p class="dimensions">
 			<input type="text" placeholder="width" ng-model="image.width"/> x <input type="text" placeholder="height" ng-model="image.height"/>

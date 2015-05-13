@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService){
+var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins){
 	this.dom = dom;
 	this.mapStructure = mapStructure;
 
@@ -15,6 +15,8 @@ var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapSt
 	// scales used for transformation of knalledge from informational to visual domain
 	this.scales = null;
 	this.rimaService = rimaService;
+	this.notifyService = notifyService;
+	this.mapPlugins = mapPlugins;
 };
 
 MapVisualizationTree.prototype.init = function(mapLayout, mapSize){
@@ -142,6 +144,7 @@ MapVisualizationTree.prototype.positionToDatum = function(datum) {
 	// https://api.jquery.com/scrollTop/
 	// https://api.jquery.com/scrollleft/
 
+	// 	// https://github.com/tweenjs/tween.js/blob/master/docs/user_guide.md
 	var position = { x:divMapJQ.scrollLeft(), y:divMapJQ.scrollTop()};
 	var target = { x:x, y:y};
 	var tween = new TWEEN.Tween(position).to(target, 500);
