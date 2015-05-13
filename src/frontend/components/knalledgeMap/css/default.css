@@ -646,7 +646,7 @@ $large: 1400px;
       background-color: #aaaaff; }
     /* line 659, ../sass/default.scss */
     .knalledge_map_container .node_html.type_ibis_argument {
-      background-color: #ffaaaa; }
+      background-color: rgba(255, 170, 170, 0.5); }
     /* line 662, ../sass/default.scss */
     .knalledge_map_container .node_html.type_ibis_comment {
       background-color: #aaffaa; }

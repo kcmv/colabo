@@ -657,7 +657,7 @@ $map: layout(12 1/4 fluid float inside);
 			background-color: #aaaaff;
 		}
 		&.type_ibis_argument{
-			background-color: #ffaaaa;
+			background-color: transparentize(#ffaaaa, 0.50);
 		}
 		&.type_ibis_comment{
 			background-color: #aaffaa;

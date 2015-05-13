@@ -61,7 +61,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							},
 							sizing: {
 								setNodeSize: true,
-								nodeSize: [300, 100]
+								nodeSize: [350, 150]
 							},
 							margin: {
 								top: 35,
@@ -300,7 +300,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				var viewspecChangedEventName = "viewspecChangedEvent";
 				$scope.$on(viewspecChangedEventName, function(e, newViewspec) {
 					console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
-					console.log("[knalledgeMap.controller::$on] newViewspec: %s", netggrwViewspec);
+					console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
 					config.tree.viewspec = newViewspec;
 					knalledgeMap.update();
 				});

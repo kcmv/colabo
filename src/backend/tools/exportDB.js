@@ -28,7 +28,7 @@ db.on('open', function (callback) {
 	{
 		"properties": {
 			"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
-			"date": "2015.03.22.",
+			"date": "2015.05.13.",
 			"authors": "S. Rudan, D. Karabeg",
 			"mapId": mapId,
 			"rootNodeId": rootNodeId

@@ -1,0 +1,10 @@
+{ "_id" : { "$oid" : "5544aedea7592efb3e3c561d" }, "firstname" : "Dino", "familyname" : "Karabeg", "displayName" : "Karabeg", "e_mail" : "mprinc@gmail.com", "updatedAt" : { "$date" : 1430564574438 }, "createdAt" : { "$date" : 1430564574433 }, "__v" : 0 }
+{ "_id" : { "$oid" : "5548fee2e59efb4e0bbb8478" }, "firstname" : "Dejan", "familyname" : "Rakovic", "displayName" : "Rakovic", "e_mail" : "sinisa.rudan@gmail.com", "gender" : 2, "passw" : "sifra" }
+{ "_id" : { "$oid" : "55268521fb9a901e442172f9" }, "firstname" : "Sasha", "familyname" : "Rudan", "displayName" : "Sa.Rudan", "e_mail" : "" }
+{ "_id" : { "$oid" : "55490151e59efb4e0bbb8479" }, "firstname" : "Sinisha", "familyname" : "Rudan", "displayName" : "Si.Rudan", "e_mail" : "", "gender" : 1 }
+{ "_id" : { "$oid" : "55490178e59efb4e0bbb847a" }, "firstname" : "Alexander", "familyname" : "Laszlo", "displayName" : "Laszlo", "e_mail" : "", "gender" : 2 }
+{ "_id" : { "$oid" : "5552c80114fbfed56609d9bb" }, "firstname" : "Ramon", "familyname" : "Sangüesa", "displayName" : "Sangüesa", "e_mail" : "", "gender" : 2 }
+{ "_id" : { "$oid" : "5552c82a14fbfed56609d9bd" }, "firstname" : "Vera", "familyname" : "Stanojevic", "displayName" : "Stanojevic", "e_mail" : "", "gender" : 2 }
+{ "_id" : { "$oid" : "5552c80814fbfed56609d9bc" }, "firstname" : "W. Bernard", "familyname" : "Carlson", "displayName" : "Carlson", "e_mail" : "", "gender" : 2 }
+{ "_id" : { "$oid" : "5552c82e14fbfed56609d9be" }, "firstname" : "Dusan", "familyname" : "Pavlovic", "displayName" : "Pavlovic", "e_mail" : "", "gender" : 2 }
+{ "_id" : { "$oid" : "55268521fb9a901e442172f8" }, "firstname" : "Anonymous", "familyname" : "Anonymous", "displayName" : "TNC", "e_mail" : "" }
