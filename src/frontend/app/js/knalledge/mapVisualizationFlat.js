@@ -147,8 +147,33 @@ MapVisualizationFlat.prototype.positionToDatum = function(datum) {
 	// http://stackoverflow.com/questions/4897947/jquery-scrolling-inside-a-div-scrollto
 	// https://api.jquery.com/scrollTop/
 	// https://api.jquery.com/scrollleft/
-	divMapJQ.scrollLeft(x);
-	divMapJQ.scrollTop(y);
+
+	var position = { x:divMapJQ.scrollLeft(), y:divMapJQ.scrollTop()};
+	var target = { x:x, y:y};
+	var tween = new TWEEN.Tween(position).to(target, 2000);
+	tween.easing(TWEEN.Easing.Exponential.InOut);
+	tween.onUpdate(function(){
+		divMapJQ.scrollLeft(position.x);
+		divMapJQ.scrollTop(position.y);
+	});
+	// TWEEN.update();
+	// TWEEN.remove(tween);
+	// this.shapeView.animations.transition.push(tween);
+	
+	console.log("[GameView.rotateShape] starting pushing = %s", tween);
+	tween.start();
+
+	var animatePositioning = function() {
+		requestAnimationFrame(animatePositioning);
+		TWEEN.update();
+	};
+
+	animatePositioning();
+
+	// d3.transition().duration(2000)
+	// 	.ease("linear").each(function(){
+	// d3.selectAll(".foo").transition() .style("opacity",0)
+	// .remove(); })
 };
 
 /** @function update 

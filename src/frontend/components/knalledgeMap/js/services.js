@@ -619,7 +619,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			nodesById: {},
 			edgesById: {},
 			properties: {},
-			mapStructure: new knalledge.MapStructure(),
+			mapStructure: new knalledge.MapStructure(RimaService),
 
 			unsetSelectedNode: function(){
 				this.selectedNode = null;

@@ -2,6 +2,90 @@
 
 @import "../../../app/sass/include";
 
+/* ------------------------
+ rima_relevant_list
+------------------------ */
+.rima_relevant_list{
+	background-color: rgba(240, 240, 255, 0.75);
+	border: solid 1px #aaaaff;
+	position: relative;
+	margin-top: 0.5%;
+	height: 95.5%;
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	@include border-radius(10px, 10px);
+
+	.rima-relevant_whats_list{
+		.title{
+			font-weight: bold;
+			text-align: center;
+
+		}
+		
+		$item_background_color: #dddddd;
+		.list{
+			margin: 5px;
+			margin-left: 1%;
+			margin-bottom: 3px;
+			font-size: 0.85em;
+			padding: 3px;
+			width: 98%;
+
+			tr{
+				/*border-bottom: 1px solid black;*/
+				&.heading{
+					th{
+						border-bottom: 1px solid darken($item_background_color, 35%);
+/*						border-left: 1px solid  darken($item_background_color, 20%);
+						border-right: 1px solid  darken($item_background_color, 20%);
+*/						padding: 5px;
+						font-weight: bold;
+						&.node{
+							width: 75%;
+							border-right: 1px solid  darken($item_background_color, 20%);
+						}
+						&.whats{
+							width: 25%;
+						}
+					}
+				}
+				&.data_row{
+					&:nth-child(odd) {background-color: $item_background_color;}
+					&:nth-child(even) {background-color: lighten($item_background_color, 10%);}
+
+					&:hover{
+						cursor: pointer;
+						background-color: darken($item_background_color, 35%);
+					}
+					&.active-selection{
+						background-color: darken($item_background_color, 25%);
+						td{
+							&.node{
+								font-weight: bold;
+								color: lighten($item_background_color, 10%);
+							}
+						}
+					}
+					td{
+						padding: 5px;
+						&.node{
+							border-right: 1px solid  darken($item_background_color, 20%);
+						}
+						&.whats{
+							.relevant{
+								font-weight: bold;
+								color: #880000;
+								text-decoration: underline;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 .rima_relevant{
 	border: 3px solid #ff8888;
 }
@@ -15,7 +99,6 @@
  */
 
 .rima-whats{
-
 	.rima-what{
 		margin-bottom: 7px;
 	}
@@ -126,25 +209,29 @@
 		text-align: center;
 
 	}
+	$item_background_color: #888;
 	.list{
 		margin: 5px;
 		text: 18px;
 
-		.active-selection{
-			background-color: #eee;
-		}
 		tr{
-			 &:hover{
-		     	cursor: pointer;
-		     	background-color: #cccccc;
-		  }
+			&:nth-child(odd) {background-color: #888;}
+			&:nth-child(even) {background-color: lighten(#888, 10%);}
+
+			&:hover{
+				cursor: pointer;
+				background-color: lighten(#888, 35%);
+			}
+			&.active-selection{
+				background-color: lighten(#888, 25%);
+				font-weight: bold;
+			}
 		}
 		border: 1px solid #aaa;
 		@include border-radius(5px, 5px);
 		margin-bottom: 3px;
 		padding: 3px;
 
-		background-color: #888;
 		th{
 			background-color: #aaf;
 			border: 1px solid black;

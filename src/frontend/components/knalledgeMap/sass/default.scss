@@ -22,20 +22,14 @@ $map: layout(12 1/4 fluid float inside);
 
 @include breakpoint($small) {
 	.knalledge_map_tools{
-		height: 100%;
-		min-height: 100%;
 		@include span(2 at 1); 
 	}
 
-	.knalledge_map{
-		height: 100%;
-		min-height: 100%;
+	.knalledge_map_middle{
 		@include span(10 at 3);
 	}
 
 	.knalledge_map_list{
-		height: 100%;
-		min-height: 100%;
 		/*@include span(3 at 1); */
 	}
 }
@@ -45,7 +39,7 @@ $map: layout(12 1/4 fluid float inside);
 		@include span(1 at 1);
 	}
 
-	.knalledge_map{
+	.knalledge_map_middle{
 		@include span(9 at 2);
 	}
 
@@ -56,15 +50,40 @@ $map: layout(12 1/4 fluid float inside);
 
 @include breakpoint($large) {
 	.knalledge_map_tools{
-		@include span(1 at 1); 
+		height: 100%;
+		min-height: 100%;
+		overflow-x: visible;
+		overflow-y: scroll;
+		/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
+		/*overflow: visible;*/
+		/*	overflow-x: visible;
+			overflow-y: scroll;
+		*/
+		@include span(1 at 1);
 	}
 
-	.knalledge_map{
+	.knalledge_map_middle{
+		height: 100%;
+		min-height: 100%;
 		/* make #content content occupying 2 cells less on large screens */
 		@include span(9 at 2);
 	}
 
+	.knalledge_map{
+		height: 75%;
+		min-height: 75%;
+	}
+
+	.knalledge_map_middle_bottom{
+		height: 25%;
+		min-height: 25%;
+	}
+
 	.knalledge_map_list{
+		height: 100%;
+		min-height: 100%;
+		overflow-x: visible;
+		overflow-y: scroll;
 		@include span(2 at 10); 
 	}
 }
@@ -108,6 +127,7 @@ $map: layout(12 1/4 fluid float inside);
 			padding-top: 0px;
 			margin-top: 0px;
 		}
+
 		h2 {
 			padding-top: 0px;
 			margin-top: 0px;
@@ -186,11 +206,6 @@ $map: layout(12 1/4 fluid float inside);
 	z-index: 10;
 	position: relative;
 	height: 100%;
-	/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
-	overflow: visible;
-	/*	overflow-x: visible;
-		overflow-y: scroll;
-	*/
 	ul {
 		/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
 		overflow: visible;
@@ -245,6 +260,7 @@ $map: layout(12 1/4 fluid float inside);
 		padding: 0.1em;
 		border-bottom: solid 1px #555555;
 	}
+	
 	.content{
 		position: relative;
 		margin: 0.1em;
@@ -276,14 +292,21 @@ $map: layout(12 1/4 fluid float inside);
 }
 
 /* ------------------------
+ knalledge_map_middle
+------------------------ */
+.knalledge_map_middle{
+
+}
+
+/* ------------------------
  knalledge_map
 ------------------------ */
 
 .knalledge_map{
 	z-index: 8;
 	position: relative;
-	height: 100%;
 	overflow: scroll;
+	width: 100%;
 }
 
 .knalledge_map_container{
@@ -703,6 +726,11 @@ $map: layout(12 1/4 fluid float inside);
 
 		}
 	}
+}
+
+.knalledge_map_middle_bottom{
+	position: relative;
+	width: 100%;
 }
 
 /* ------------------------------

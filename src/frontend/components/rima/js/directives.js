@@ -2,6 +2,124 @@
 'use strict';
 
 angular.module('rimaDirectives', ['Config'])
+	.directive('rimaRelevantList', ['$rootScope', 'WhatAmIService', 'WhatService',
+		function($rootScope, WhatAmIService, WhatService){
+		console.log("[rimaWhats] loading directive");
+		return {
+			restrict: 'AE',
+			scope: {
+				'readonly': '=',
+				'node': "="
+			},
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angularjs.org/guide/expression
+			templateUrl: '../components/rima/partials/rima_relevant_list.tpl.html',
+			controller: function ( $scope, $element) {
+				$scope.bindings = {
+				};
+			}
+    	};
+	}])
+
+	.directive('rimaRelevantWhatsList', ['$rootScope', 'KnalledgeMapVOsService', 'WhatAmIService', 'WhatService', 'RimaService',
+		function($rootScope, KnalledgeMapVOsService, WhatAmIService, WhatService, RimaService){
+		console.log("[rimaWhats] loading directive");
+		return {
+			restrict: 'AE',
+			scope: {
+				'readonly': '=',
+				'node': "="
+			},
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angularjs.org/guide/expression
+			templateUrl: '../components/rima/partials/rima-relevant_whats_list.tpl.html',
+			controller: function ( $scope, $element) {
+				$scope.bindings = {
+				};
+
+				$scope.items = [];
+
+				var updateList = function(){
+					$scope.items.length = 0;
+
+					var userHows = RimaService.howAmIs;
+					for (var i in KnalledgeMapVOsService.mapStructure.nodesById){
+						var vkNode = KnalledgeMapVOsService.mapStructure.nodesById[i];
+						var nodeWhats = (vkNode && vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats) ?
+							vkNode.kNode.dataContent.rima.whats : [];
+
+						var relevant = false;
+						// TODO: can be optimized by hash of userHows
+						for(var i in nodeWhats){
+							var nodeWhat = nodeWhats[i];
+							for(var j in userHows){
+								var userHow = userHows[j];
+								if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name))
+								{
+									relevant = true;
+								}
+							}
+						}
+						if(relevant){
+							var whats = [
+								{
+									name: "knalledge",
+									relevant: true
+								},
+								{
+									name: "science",
+									relevant: false
+								}
+							]
+							$scope.items.push(
+								{
+									_id: vkNode.kNode._id,
+									name: vkNode.kNode.name,
+									vkNode: vkNode,
+									whats: whats
+								}
+							);
+						}
+					}
+				};
+
+				$scope.$watch(function () {
+					return RimaService.howAmIs;
+				},
+				function(newValue){
+					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+					updateList();
+				}, true);
+
+				$scope.$watch(function () {
+					// return KnalledgeMapVOsService.mapStructure.nodesById;
+					return KnalledgeMapVOsService.nodesById;
+				},
+				function(newValue){
+					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+					console.log("[KnalledgeMapVOsService.mapStructure.nodesById watch]: elements no: %d", Object.keys(newValue).length);
+					updateList();
+				}, true);
+
+				// $scope.$watch(function () {
+				// 	return KnalledgeMapVOsService.mapStructure.selectedNode;
+				// },
+				// function(newValue){
+				// 	//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+				// 	updateList();
+				// }, true);
+
+				$scope.selectItem = function(item) {
+				    $scope.selectedItem = item;
+				    console.log("$scope.selectedItem = %s", $scope.selectedItem.name);
+					var changeSelectedNodeEventName = "changeSelectedNodeEvent";
+					$rootScope.$broadcast(changeSelectedNodeEventName, item.vkNode);
+				};
+
+				updateList();
+			}
+    	};
+	}])
 	.directive('rimaWhats', ['$rootScope', 'WhatAmIService', 'WhatService', 'RimaService',
 		function($rootScope, WhatAmIService, WhatService, RimaService){
 		console.log("[rimaWhats] loading directive");
@@ -121,7 +239,7 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.itemRemove = function(item){
 					console.log("itemRemove: %s", item.name);
 					for(var i=0; i<$scope.items.length; i++){
-						if($scope.items[i] == item){
+						if($scope.items[i]._id == item._id){
 							$scope.items.splice(i, 1);
 							var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
 							$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);

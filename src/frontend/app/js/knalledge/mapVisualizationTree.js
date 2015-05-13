@@ -141,8 +141,33 @@ MapVisualizationTree.prototype.positionToDatum = function(datum) {
 	// http://stackoverflow.com/questions/4897947/jquery-scrolling-inside-a-div-scrollto
 	// https://api.jquery.com/scrollTop/
 	// https://api.jquery.com/scrollleft/
-	divMapJQ.scrollLeft(x);
-	divMapJQ.scrollTop(y);
+
+	var position = { x:divMapJQ.scrollLeft(), y:divMapJQ.scrollTop()};
+	var target = { x:x, y:y};
+	var tween = new TWEEN.Tween(position).to(target, 500);
+	tween.easing(TWEEN.Easing.Exponential.InOut);
+	tween.onUpdate(function(){
+		divMapJQ.scrollLeft(position.x);
+		divMapJQ.scrollTop(position.y);
+	});
+
+	var animatePositioning = function() {
+		requestAnimationFrame(animatePositioning);
+		TWEEN.update();
+	};
+
+	animatePositioning();
+
+	// TWEEN.remove(tween);
+	// this.shapeView.animations.transition.push(tween);
+	
+	console.log("[GameView.rotateShape] starting pushing = %s", tween);
+	tween.start();
+
+	// d3.transition().duration(2000)
+	// 	.ease("linear").each(function(){
+	// d3.selectAll(".foo").transition() .style("opacity",0)
+	// .remove(); })
 };
 
 /** @function update 
@@ -193,7 +218,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", function(d){
-				var userHows = that.rimaService.getUsersHows(that.rimaService.getActiveUserId());
+				var userHows = that.rimaService.howAmIs;
 				var nodeWhats = (d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats) ?
 					d.kNode.dataContent.rima.whats : [];
 				var relevant = false;
@@ -209,7 +234,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 					}
 				}
 				var classes = "node_html node_unselected draggable " + d.kNode.type;
-				if(relevant) classes += "rima_relevant"
+				if(relevant) classes += " rima_relevant"
 				return classes;
 			})
 		.on("dblclick", function(d){
@@ -373,6 +398,62 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		nodeHtmlUpdateTransition = nodeHtmlUpdate.transition()
 			.duration(this.configTransitions.update.duration);
 	}
+
+	nodeHtmlUpdate
+		.classed({
+			"node_html_fixed": function(d){
+				return (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					false : true;
+			}
+		})
+		.style("width", function(d){
+				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					d.kNode.dataContent.image.width : width;
+				if(width === null) {
+					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+					 that.configNodes.html.dimensions.sizes.width : null;
+				}
+				return that.scales.width(width) + "px";
+		})
+		.style("margin-left", function(d){
+				// centering the node (set margin to half the width of the node)
+				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					d.kNode.dataContent.image.width : width;
+				if(width === null) {
+					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+					 that.configNodes.html.dimensions.sizes.width : null;
+				}
+
+				var margin = null;
+				if(width !== null) {
+					margin = that.scales.width(-width/2) + "px";
+				}
+				return margin;
+		});
+
+	// image exists in data but not in the view
+	nodeHtmlUpdate.filter(function(d) {
+		return (d.kNode.dataContent && d.kNode.dataContent.image && (d3.select(this).select("img").size() <= 0));
+	})
+		.append("img")
+			.attr("src", function(d){
+				return d.kNode.dataContent.image.url;
+			})
+			.attr("width", function(d){
+				return that.scales.width(d.kNode.dataContent.image.width) + "px";
+			})
+			.attr("height", function(d){
+				return that.scales.height(d.kNode.dataContent.image.height) + "px";
+			})
+			.attr("alt", function(d){
+				return d.kNode.name;
+			});
+
+	// image does not exist in data but does exist in the view
+	nodeHtmlUpdate.select("img").filter(function(d) { 
+		return (!(d.kNode.dataContent && d.kNode.dataContent.image) ); 
+	})
+		.remove();
 
 	nodeHtmlUpdate.select(".vote_up")
 		.style("opacity", function(d){

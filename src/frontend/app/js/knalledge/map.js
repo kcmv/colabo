@@ -88,6 +88,7 @@ Map.prototype.initializeKeyboard = function() {
 		removeImage: function(){
 			var vkNode = this.mapStructure.getSelectedNode();
 			this.mapStructure.removeImage(vkNode);
+			this.update(vkNode);
 		}.bind(this),
 		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
 		getActiveIbisType: function(){

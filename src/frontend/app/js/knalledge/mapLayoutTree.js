@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutTree =  knalledge.MapLayoutTree = function(structure, configNodes, configTree, clientApi, knalledgeState){
-	this.structure = structure;
+var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, configNodes, configTree, clientApi, knalledgeState){
+	this.mapStructure = mapStructure;
 	this.configNodes = configNodes;
 	this.configTree = configTree;
 	this.clientApi = clientApi;
@@ -17,10 +17,10 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 	var children = [];
 	if(!d.isOpen) return children;
 
-	for(var i in this.structure.edgesById){
-		var vkEdge = this.structure.edgesById[i];
+	for(var i in this.mapStructure.edgesById){
+		var vkEdge = this.mapStructure.edgesById[i];
 		if(vkEdge.kEdge.sourceId == d.kNode._id){
-			var vkNode = this.structure.getVKNodeByKId(vkEdge.kEdge.targetId);
+			var vkNode = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
 			if(vkNode){
 				children.push(vkNode);
 			}
@@ -113,7 +113,7 @@ MapLayoutTree.prototype.getDomFromDatum = function(d) {
 };
 
 // Select node on node click
-MapLayoutTree.prototype.clickNode = function(d, dom) {
+MapLayoutTree.prototype.clickNode = function(d, dom, commingFromAngular) {
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state
 	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
@@ -132,7 +132,7 @@ MapLayoutTree.prototype.clickNode = function(d, dom) {
 
 	if(isSelected){//it was selected, and with this click it becomes unselected:
 		d.isSelected = false;
-		this.structure.unsetSelectedNode();
+		this.mapStructure.unsetSelectedNode();
 	}else{//it was unselected, and with this click it becomes selected:
 		// var nodeHtml = nodesHtml[0];
 		nodesHtmlSelected.classed({
@@ -140,21 +140,21 @@ MapLayoutTree.prototype.clickNode = function(d, dom) {
 			"node_unselected": false
 		});
 		d.isSelected = true;
-		this.structure.setSelectedNode(d);
+		this.mapStructure.setSelectedNode(d);
 		this.clientApi.positionToDatum(d);
 		if(this.knalledgeState.addingLinkFrom !== null){
-			this.structure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d);
+			this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d);
 			this.knalledgeState.addingLinkFrom = null;
-			this.clientApi.update(this.structure.rootNode); //TODO: should we move it into this.structure.createEdge?
+			this.clientApi.update(this.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.createEdge?
 		}
 	}
-	this.clientApi.nodeClicked(this.structure.getSelectedNode(), dom);
-	//this.clientApi.update(this.structure.rootNode);
+	this.clientApi.nodeClicked(this.mapStructure.getSelectedNode(), dom, commingFromAngular);
+	//this.clientApi.update(this.mapStructure.rootNode);
 };
 
 // Toggle children on node double-click
 MapLayoutTree.prototype.clickDoubleNode = function(d) {
-	this.structure.toggle(d);
+	this.mapStructure.toggle(d);
 	this.clientApi.update(d);
 };
 
@@ -173,17 +173,17 @@ MapLayoutTree.prototype.clickLinkLabel = function() {
 MapLayoutTree.prototype.viewspecChanged = function(target){
 	if (target.value === "viewspec_tree") this.configTree.viewspec = "viewspec_tree";
 	else if (target.value === "viewspec_manual") this.configTree.viewspec = "viewspec_manual";
-	this.clientApi.update(this.structure.rootNode);
+	this.clientApi.update(this.mapStructure.rootNode);
 };
 
 MapLayoutTree.prototype.processData = function(rootNodeX, rootNodeY, callback) {
 	if(typeof rootNodeX !== 'undefined' && typeof rootNodeX !== 'function' && 
 		typeof rootNodeY !== 'undefined' && typeof rootNodeY !== 'function'){
-		this.structure.rootNode.x0 = rootNodeX;
-		this.structure.rootNode.y0 = rootNodeY;
+		this.mapStructure.rootNode.x0 = rootNodeX;
+		this.mapStructure.rootNode.y0 = rootNodeY;
 	}
-	this.clickNode(this.structure.rootNode);
-	this.clientApi.update(this.structure.rootNode, 
+	this.clickNode(this.mapStructure.rootNode);
+	this.clientApi.update(this.mapStructure.rootNode, 
 		(typeof callback === 'function') ? callback : undefined);
 };
 
@@ -217,7 +217,7 @@ MapLayoutTree.prototype.generateTree = function(source){
 	//links are D3.tree-generated objects of type Object: {source, target}
 	for(var i in this.links){
 		var link = this.links[i];
-		var edges = this.structure.getEdgesBetweenNodes(link.source.kNode, link.target.kNode);
+		var edges = this.mapStructure.getEdgesBetweenNodes(link.source.kNode, link.target.kNode);
 		if(edges && edges[0]){
 			link.vkEdge = edges[0]; //TODO: see what will happen when we have more links between two nodes
 		}
