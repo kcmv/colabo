@@ -141,6 +141,9 @@ Keyboard.prototype.exitEditingNode = function(){
 		this.clientApi.updateName(this.editingNodeHtml);
 		nodeSpan.node().blur();
 		this.editingNodeHtml = null;
+		this.clientApi.update(this.clientApi.getSelectedNode(), function(){
+			// that.clientApi.setSelectedNode(null); //TODO: set to parent
+		});
 	}
 };
 

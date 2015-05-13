@@ -20,6 +20,9 @@ angular.module('KnAllEdgeApp',[
 	, 'rimaServices'
 	, 'rimaDirectives'
 	, 'rimaFilters'
+
+	, 'notifyServices'
+	, 'notifyDirectives'
 ])
 // routes
 .config(['$routeProvider', function($routeProvider) {

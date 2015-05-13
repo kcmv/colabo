@@ -365,7 +365,7 @@ MapVisualizationFlat.prototype.updateHtml = function(source) {
 	}
 
 	if(mapPlugins && mapPlugins.mapVisualizePlugins){
-		for(var pluginName = mapPlugins.mapVisualizePlugins){
+		for(var pluginName in mapPlugins.mapVisualizePlugins){
 			var plugin = mapPlugins.mapVisualizePlugins[pluginName];
 			if(plugin.nodeHtmlEnter){
 				plugin.nodeHtmlEnter(nodeHtmlEnter);
@@ -495,7 +495,7 @@ MapVisualizationFlat.prototype.updateHtmlTransitions = function(source, nodeHtml
 		});
 
 	if(mapPlugins && mapPlugins.mapVisualizePlugins){
-		for(var pluginName = mapPlugins.mapVisualizePlugins){
+		for(var pluginName in mapPlugins.mapVisualizePlugins){
 			var plugin = mapPlugins.mapVisualizePlugins[pluginName];
 			if(plugin.nodeHtmlUpdate){
 				plugin.nodeHtmlUpdate(nodeHtmlUpdate);

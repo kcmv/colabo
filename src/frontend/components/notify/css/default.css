@@ -19,18 +19,24 @@
 /* line 11, ../sass/default.scss */
 .knalledge_map_container .node_html .notification {
   position: absolute;
-  right: -20px;
+  left: 35px;
   font-style: italic;
-  bottom: -75px;
-  color: #aa55aa;
+  top: 20px;
+  color: #ffffee;
+  opacity: 0.75;
   background-color: #ff8888;
-  padding-left: 5px;
-  padding-right: 5px;
+  border: solid 5px #ff4444;
+  padding-left: 10px;
+  padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
   text-align: center;
   font-weight: bold;
   min-width: 1.2em;
+  width: 150px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  border-radius: 10px; }
+  border-radius: 10px;
+  -moz-box-shadow: 10px 10px 9px 5px rgba(255, 80, 80, 0.75);
+  -webkit-box-shadow: 10px 10px 9px 5px rgba(255, 80, 80, 0.75);
+  box-shadow: 10px 10px 9px 5px rgba(255, 80, 80, 0.75); }

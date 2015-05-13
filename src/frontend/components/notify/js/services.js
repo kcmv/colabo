@@ -246,19 +246,21 @@ notifyServices.provider('NotifyService', {
 			notifications: [
 				{
 					entity_id: "",
-					item_name: "",
+					entity_name: "Event",
 					iAmId_orig: "",
 					iAmId_dest: "",
-					message: "",
-					type: ""
+					message: "Саша и Синиша требају да спавају!",
+					type: "",
+					what: ""
 				},
 				{
 					entity_id: "",
-					item_name: "",
+					entity_name: "",
 					iAmId_orig: "",
 					iAmId_dest: "",
-					message: "",
-					type: ""
+					message: "Semantic-web is so cool but hard",
+					type: "",
+					what: "semantic-web"
 				},
 			],
 			init: function(){
@@ -298,6 +300,9 @@ notifyServices.provider('NotifyNodeService', {
 	$get: ['NotifyService', /*'$rootScope', */
 	function(NotifyService /*, $rootScope*/) {
 		var provider = {
+			init: function(){
+			},
+
 			nodeHtmlEnter: function(nodeHtmlEnter){
 				// .filter(function(d) { return d.kNode.dataContent && d.kNode.dataContent.image; })
 				nodeHtmlEnter.append("div")
@@ -307,14 +312,45 @@ notifyServices.provider('NotifyNodeService', {
 			nodeHtmlUpdate: function(nodeHtmlUpdate){
 				nodeHtmlUpdate.select(".notification")
 					.style("display", function(d){
-						NotifyService.
-						return that.rimaService.getUserById(d.kNode.iAmId) ? "block" : "none"; //TODO: unefective!! double finding users
+						var notifications = NotifyService.getNotifications();
+						var notificationsRelevant = [];
+						for(var notificationId=0; notificationId<notifications.length; notificationId++){
+							var notification = notifications[notificationId];
+							var relevant = false;
+
+							if(notification.entity_id == d.kNode._id) relevant = true;
+							if(notification.entity_name == d.kNode.name) relevant = true;
+							if((d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats)){
+								for(var whatId in d.kNode.dataContent.rima.whats){
+									var what = d.kNode.dataContent.rima.whats[whatId];
+									if(notification.what == what.name) relevant = true;
+								}
+							}
+							if(relevant) notificationsRelevant.push(notification);
+						}
+						return notificationsRelevant.length > 0  ? "block" : "none"; //TODO: unefective!! double finding notifications
 					})
 					.html(function(d){
-						var user = that.rimaService.getUserById(d.kNode.iAmId);
+						var notifications = NotifyService.getNotifications();
+						var notificationsRelevant = [];
+						for(var notificationId=0; notificationId<notifications.length; notificationId++){
+							var notification = notifications[notificationId];
+							var relevant = false;
+
+							if(notification.entity_id == d.kNode._id) relevant = true;
+							if(notification.entity_name == d.kNode.name) relevant = true;
+							if((d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats)){
+								for(var whatId in d.kNode.dataContent.rima.whats){
+									var what = d.kNode.dataContent.rima.whats[whatId];
+									if(notification.what == what.name) relevant = true;
+								}
+							}
+							if(relevant) notificationsRelevant.push(notification);
+						}
 						var label = "";
-						if(user){
-							label = "@" + user.displayName;
+						if(notificationsRelevant.length > 0){
+							var notification = notificationsRelevant[0];
+							label = notification.message;
 						}
 						return label;
 					});

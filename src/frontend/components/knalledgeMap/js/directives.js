@@ -309,6 +309,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.$on(changeKnalledgeRimaEventName, function(e, vkNode) {
 					console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
 					knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
+					knalledgeMap.update();
 				});
 
 				var changeSelectedNodeEventName = "changeSelectedNodeEvent";

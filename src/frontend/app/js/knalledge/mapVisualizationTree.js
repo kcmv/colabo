@@ -375,6 +375,15 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 			.style("opacity", 1e-6);
 	}
 
+	if(this.mapPlugins && this.mapPlugins.mapVisualizePlugins){
+		for(var pluginName in this.mapPlugins.mapVisualizePlugins){
+			var plugin = this.mapPlugins.mapVisualizePlugins[pluginName];
+			if(plugin.nodeHtmlEnter){
+				plugin.nodeHtmlEnter(nodeHtmlEnter);
+			}
+		}
+	}
+
 	var nodeHtmlDatasets = {
 		elements: nodeHtml,
 		enter: nodeHtmlEnter,
@@ -552,6 +561,15 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 			}
 			return label;
 		});
+
+	if(this.mapPlugins && this.mapPlugins.mapVisualizePlugins){
+		for(var pluginName in this.mapPlugins.mapVisualizePlugins){
+			var plugin = this.mapPlugins.mapVisualizePlugins[pluginName];
+			if(plugin.nodeHtmlUpdate){
+				plugin.nodeHtmlUpdate(nodeHtmlUpdate);
+			}
+		}
+	}
 
 
 	(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
