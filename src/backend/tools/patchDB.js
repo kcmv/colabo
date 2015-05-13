@@ -8,7 +8,7 @@ var Promise = require("bluebird");
 // set it either in path: (node createDemoData.js 'demo_data.json') or default
 // var fileName = process.argv[2] || '../../data/exportedDB.json';
 // var mapId = process.argv[3] || '552678e69ad190a642ad461c';
-// var rootNodeId = process.argv[4] || '55268521fb9a901e442172f9';
+// var rootNodeId = process.argv[4] || '55268521fb9a901e442172f8';
 
 // var fs = require('fs');
 
@@ -33,9 +33,9 @@ function updateDefaultWhoAmi(){
 		console.log("updateDefaultWhoAmiCallback");
 	}
 	console.log("updateDefaultWhoAmi");
-	var nodes = KNodeModel.update({ $or:[ {'iAmId':'0'}, {'iAmId':undefined}]}, { iAmId: "55268521fb9a901e442172f9"}).exec();
-	var edges = KEdgeModel.update({ $or:[ {'iAmId':'0'}, {'iAmId':undefined}]}, { iAmId: "55268521fb9a901e442172f9"}).exec();
-	var maps = KMapModel.update({ $or:[ {'iAmId':'0'}, {'iAmId':undefined}]}, { iAmId: "55268521fb9a901e442172f9"}).exec();
+	var nodes = KNodeModel.update({ $or:[ {'iAmId':'0'}, {'iAmId':undefined}]}, { iAmId: "55268521fb9a901e442172f8"}).exec();
+	var edges = KEdgeModel.update({ $or:[ {'iAmId':'0'}, {'iAmId':undefined}]}, { iAmId: "55268521fb9a901e442172f8"}).exec();
+	var maps = KMapModel.update({ $or:[ {'iAmId':'0'}, {'iAmId':undefined}]}, { iAmId: "55268521fb9a901e442172f8"}).exec();
 	
 	Promise.join(nodes,edges, maps, updateDefaultWhoAmiCallback);
 }

@@ -540,6 +540,15 @@ MapVisualizationFlat.prototype.updateHtmlTransitions = function(source, nodeHtml
 	nodeHtmlExit.on("click", null);
 	nodeHtmlExit.on("dblclick", null);
 
+	if(mapPlugins && mapPlugins.mapVisualizePlugins){
+		for(var pluginName in mapPlugins.mapVisualizePlugins){
+			var plugin = mapPlugins.mapVisualizePlugins[pluginName];
+			if(plugin.nodeHtmlExit){
+				plugin.nodeHtmlExit(nodeHtmlExit);
+			}
+		}
+	}
+
 	if(this.configTransitions.exit.animate.position || this.configTransitions.exit.animate.opacity){
 		nodeHtmlExitTransition = nodeHtmlExit.transition()
 			.duration(this.configTransitions.exit.duration);

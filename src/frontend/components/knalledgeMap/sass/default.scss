@@ -53,7 +53,7 @@ $map: layout(12 1/4 fluid float inside);
 		height: 100%;
 		min-height: 100%;
 		overflow-x: visible;
-		overflow-y: scroll;
+		overflow-y: visible; /* temporary replacement for scroll; */
 		/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
 		/*overflow: visible;*/
 		/*	overflow-x: visible;

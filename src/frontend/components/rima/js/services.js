@@ -804,7 +804,7 @@ rimaServices.provider('RimaService', {
 	$get: ['$q', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', /*'$rootScope', */
 	function($q, ENV, WhoAmIService, WhatAmIService, HowAmIService /*, $rootScope*/) {
 		var provider = {
-			ANONYMOUS_USER_ID: "55268521fb9a901e442172f9",
+			ANONYMOUS_USER_ID: "55268521fb9a901e442172f8",
 			whoAmIs: [],
 			loggedInWhoAmI: new knalledge.WhoAmI(),
 			selectedWhoAmI: null,

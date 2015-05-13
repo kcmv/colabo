@@ -64,10 +64,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								nodeSize: [300, 100]
 							},
 							margin: {
-								top: 10,
-								left: 20,
+								top: 35,
+								left: 25,
 								right: 100,
-								bottom: 10
+								bottom: 100
 							},
 							scaling: {
 								x: 0.5,
@@ -483,7 +483,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.urlChanged = function(){
 					getImageMeta(
 						$scope.image.url,
-						function(width, height) { alert(width + 'px ' + height + 'px') }
+						function(width, height) {
+							$scope.$apply(function(){
+								// alert(width + 'px ' + height + 'px');
+								$scope.image.width = width;
+								$scope.image.height = height;
+							});
+						}
 					);
 				}
 
