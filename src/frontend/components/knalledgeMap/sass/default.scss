@@ -112,6 +112,10 @@ $map: layout(12 1/4 fluid float inside);
 			display: inline;
 			text-align: right;
 
+			.title_web{
+				color: #333333;
+				font-size: 50px;
+			}
 			.title_kn{
 				color: #555555;
 			}
@@ -137,6 +141,10 @@ $map: layout(12 1/4 fluid float inside);
 
 			/*border-bottom: solid 1px #aaaaaa;*/
 
+			.title_web{
+				color: #333333;
+				font-size: 30px;
+			}
 			.title_collabo{
 				color: #000055;
 				font-style: italic;
@@ -174,6 +182,10 @@ $map: layout(12 1/4 fluid float inside);
 		font-size: 30px;
 		border-bottom: solid 1px #aaaaaa;
 
+		.title_web{
+			color: #333333;
+			font-size: 15px;
+		}
 		.title_kn{
 			color: #555555;
 		}
@@ -195,6 +207,10 @@ $map: layout(12 1/4 fluid float inside);
 		font-size: 20px;
 		/*border-bottom: solid 1px #aaaaaa;*/
 
+		.title_web{
+			color: #222222;
+			font-size: 15px;
+		}
 		.title_collabo{
 			color: #000055;
 			font-style: italic;
@@ -665,7 +681,7 @@ $map: layout(12 1/4 fluid float inside);
 	}
 
 	.node_html_fixed{
-		width: 150px;
+		width: 200px;
 		margin-left: -75px;
 		@include border-radius(10px, 10px);
 		border-width: 1px;

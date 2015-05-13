@@ -8,3 +8,5 @@
 { "_id" : { "$oid" : "5552c80814fbfed56609d9bc" }, "firstname" : "W. Bernard", "familyname" : "Carlson", "displayName" : "Carlson", "e_mail" : "", "gender" : 2 }
 { "_id" : { "$oid" : "5552c82e14fbfed56609d9be" }, "firstname" : "Dusan", "familyname" : "Pavlovic", "displayName" : "Pavlovic", "e_mail" : "", "gender" : 2 }
 { "_id" : { "$oid" : "55268521fb9a901e442172f8" }, "firstname" : "Anonymous", "familyname" : "Anonymous", "displayName" : "TNC", "e_mail" : "" }
+{ "_id" : { "$oid" : "5552fa7114fbfed56609d9bf" }, "firstname" : "S.", "familyname" : "Rudan", "displayName" : "S.Rudan", "e_mail" : "" }
+{ "_id" : { "$oid" : "555308ac14fbfed56609d9c0" }, "firstname" : "Аudience", "familyname" : "Аudience", "displayName" : "<Аudience>", "e_mail" : "" }

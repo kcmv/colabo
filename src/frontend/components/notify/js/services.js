@@ -256,7 +256,7 @@ notifyServices.provider('NotifyService', {
 				},
 				{
 					entity_id: "",
-					entity_name: "",
+					entity_name: null,
 					iAmId_orig: "",
 					iAmId_dest: "",
 					message: "Semantic-web is so cool but hard",
@@ -264,6 +264,26 @@ notifyServices.provider('NotifyService', {
 					what: "semantic-web",
 					notifyed: false
 				},
+				{
+					entity_id: "",
+					entity_name: "The 21st Century Enlightenment",
+					iAmId_orig: "",
+					iAmId_dest: "",
+					message: "prof. Laszlo wants to discuss this topic",
+					type: "",
+					what: "",
+					notifyed: false
+				},
+				{
+					entity_id: "",
+					entity_name: "Creativity as Praxis",
+					iAmId_orig: "",
+					iAmId_dest: "",
+					message: "CollaboScience invites prof. Sangüesa, based on his expertise in “creativity dynamics",
+					type: "",
+					what: "",
+					notifyed: false
+				}
 			],
 			init: function(){
 			},
@@ -344,12 +364,12 @@ notifyServices.provider('NotifyNodeService', {
 							var notification = notifications[notificationId];
 							var relevant = false;
 
-							if(notification.entity_id == d.kNode._id) relevant = true;
-							if(notification.entity_name == d.kNode.name) relevant = true;
+							if(notification.entity_id === d.kNode._id) relevant = true;
+							if(notification.entity_name === d.kNode.name) relevant = true;
 							if((d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats)){
 								for(var whatId in d.kNode.dataContent.rima.whats){
 									var what = d.kNode.dataContent.rima.whats[whatId];
-									if(notification.what == what.name) relevant = true;
+									if(notification.what === what.name) relevant = true;
 								}
 							}
 							if(relevant) notificationsRelevant.push(notification);
@@ -360,8 +380,11 @@ notifyServices.provider('NotifyNodeService', {
 							label = notification.message;
 						}
 						return label;
-					});
+					})
+					.style("opacity", 1e-6);
 
+				var nodeHtmlUpdateTransition = nodeHtmlUpdate.select(".notification").transition().delay(500).duration(500)
+					.style("opacity", 0.8);
 			},
 
 			nodeHtmlExit: function(nodeHtmlExit){

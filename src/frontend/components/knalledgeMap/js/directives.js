@@ -53,7 +53,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							}
 						},
 						tree: {
-							viewspec: "viewspec_tree", // "viewspec_tree" // "viewspec_manual",
+							viewspec: "viewspec_manual", // "viewspec_tree" // "viewspec_manual",
 							selectableEnabled: false,
 							fixedDepth: {
 								enabled: false,
@@ -67,7 +67,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								top: 35,
 								left: 25,
 								right: 100,
-								bottom: 100
+								bottom: 500
 							},
 							scaling: {
 								x: 0.5,
