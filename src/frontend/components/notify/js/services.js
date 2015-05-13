@@ -276,12 +276,12 @@ notifyServices.provider('NotifyService', {
 				},
 				{
 					entity_id: "",
-					entity_name: "Creativity as Praxis",
+					entity_name: null,
 					iAmId_orig: "",
 					iAmId_dest: "",
-					message: "CollaboScience invites prof. Sangüesa, based on his expertise in “creativity dynamics",
+					message: "CollaboScience invites prof. Sangüesa, based on his expertise in \“creativity dynamics\"",
 					type: "",
-					what: "",
+					what: "creativity-dynamics",
 					notifyed: false
 				}
 			],

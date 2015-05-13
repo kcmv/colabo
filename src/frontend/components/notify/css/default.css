@@ -24,20 +24,22 @@ $large: 1400px;
 .knalledge_map_container .node_html .notification {
   position: absolute;
   left: 35px;
-  font-style: italic;
+  /*font-style: italic;*/
+  font-size: 1.1em;
   top: 20px;
   color: #ffffee;
-  opacity: 0.85;
-  background-color: #ff8888;
+  opacity: 0.90;
+  background-color: #ff6666;
   border: solid 5px #ff4444;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   text-align: center;
-  font-weight: bold;
+  /*			font-weight: bold;
+  */
   min-width: 1.2em;
-  width: 150px;
+  width: 200px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
