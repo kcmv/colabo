@@ -342,6 +342,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					$scope.nodeContent.editing = true;
 				};
 
+				// $scope.nodeState = {
+				//     selected: function() {
+				//     	//console.warn('knalledgeMap.mapStructure.getSelectedNode():'+knalledgeMap.mapStructure.getSelectedNode());
+				//     	return 1;//nodeContent.node;//return knalledgeMap.mapStructure.getSelectedNode();
+				//     }
+				//  };
+
 				$scope.propertyChanged = function(){
 					console.info("[knalledgeMapList:propertyChanged] $scope.nodeContent.htmlProperty: %s", $scope.nodeContent.htmlProperty);
 					var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
@@ -351,6 +358,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
 				$scope.$on(changeKnalledgePropertyEventName, function(e, nodeContent) {
+					//console.warn('nodeContent.node:'+nodeContent.node);
 					console.info("[knalledgeMapList] [on:%s] nodeContent.node: %s (%s), property: %s", changeKnalledgePropertyEventName, (nodeContent.node ? nodeContent.node.id : null),
 						(nodeContent.node ? nodeContent.node.kNode._id : null), nodeContent.property);
 					$scope.nodeContent.editing = false;

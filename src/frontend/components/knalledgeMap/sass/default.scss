@@ -235,6 +235,10 @@ $map: layout(12 1/4 fluid float inside);
 
 	padding-top: 3px;
 
+	.hidden{
+		display:none;
+	}
+
 	.heading{
 		margin: 0.5em;
 		margin-bottom: 1em;

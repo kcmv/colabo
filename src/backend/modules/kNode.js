@@ -107,6 +107,48 @@ exports.update = function(req, res){
 
 	var data = req.body;
 	var id = req.params.searchParam;
+
+
+	/* here, we started logics if RIMA-whats are integrated in kNode.dataContent.rima.whats and
+	some of them are newly created on frontend so should be first created in whatAmI collection.
+	But now we do this logic on frontend, so this code is just for possible usage in other usecases (btw, this code is not finished, just started)
+
+	if((knode.dataContent !== null && typeof knode.dataContent !== 'undefined') &&  (knode.dataContent.rima !== null && typeof knode.dataContent.rima !== 'undefined') && (knode.dataContent.rima.whats !== null && typeof knode.dataContent.rima.whats !== 'undefined'){
+		for(var i in kNode.dataContent.rima.whats){
+			var what = kNode.dataContent.rima.whats[i];
+			if(typeof what !== 'string'){ //it is newly created RIMA-what
+				//console.log('howAmI:' + JSON.stringify(data));
+				WhatAmIModel.findOneByName(what.name, function(err, whatAmI){ // Nevertheless, we check, for its existence:
+					if (err) throw err;
+					if(whatAmI === null || typeof whatAmI === 'undefined'){
+						console.log("whatAmI '%s' not found", what.name);
+						var  whatAmI = new WhatAmIModel({name:what.name});
+						whatAmI.save(function (err) {
+							if (err) return handleError(err);
+							//console.log("whatAmI._id: "+whatAmI._id);
+							knode.whatAmI = whatAmI._id;
+							save(knode);
+						});
+					}
+					else{
+						console.log("whatAmI '%s' is found", whatAmIName);
+						//console.log('findByName:: whatAmI: ' + JSON.stringify(whatAmI));
+						knode.whatAmI = whatAmI._id;
+						save(knode);
+					}
+				});
+			}else{ //it is whatAmi._id. we don't have anything to do:
+				console.log("it is whatAmi._id: " + what);
+			}
+		}
+	}
+	else
+	{
+		save(knode);
+	}
+	$q.all([nodes.$promise, edges.$promise])
+					.then(nodesEdgesReceived.bind(this));
+	*/
 	
 	/* this is wrong because it creates default-values populated object (including id) first and then populate it with paremeter object:
 	 * var knode = new KNodeModel(req.body);
