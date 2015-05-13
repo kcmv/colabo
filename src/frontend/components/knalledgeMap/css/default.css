@@ -1,11 +1,15 @@
 /*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
 /* @import "normalize"; */
 /*
+$medium: 800px;
+$large: 1400px;
+*/
+/*
 	http://compass-style.org/examples/compass/css3/box_sizing/
 	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
 	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 */
-/* line 18, ../../../app/sass/_include.scss */
+/* line 22, ../../../app/sass/_include.scss */
 * {
   margin: 0px;
   padding: 0px;
@@ -37,7 +41,7 @@
   /* line 32, ../sass/default.scss */
   .knalledge_map_list {
     /*@include span(3 at 1); */ } }
-@media (min-width: 800px) {
+@media (min-width: 700px) {
   /* line 38, ../sass/default.scss */
   .knalledge_map_tools {
     -moz-box-sizing: border-box;
@@ -67,7 +71,7 @@
     float: left;
     padding-left: 0.83333%;
     padding-right: 0.83333%; } }
-@media (min-width: 1400px) {
+@media (min-width: 705px) {
   /* line 52, ../sass/default.scss */
   .knalledge_map_tools {
     height: 100%;

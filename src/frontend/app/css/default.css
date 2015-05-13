@@ -2,11 +2,15 @@
 /*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
 /* @import "normalize"; */
 /*
+$medium: 800px;
+$large: 1400px;
+*/
+/*
 	http://compass-style.org/examples/compass/css3/box_sizing/
 	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
 	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 */
-/* line 18, ../sass/_include.scss */
+/* line 22, ../sass/_include.scss */
 * {
   margin: 0px;
   padding: 0px;
