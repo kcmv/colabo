@@ -250,12 +250,17 @@ $map: layout(12 1/4 fluid float inside);
 
 	padding-top: 3px;
 
+	.hidden{
+		display:none;
+	}
+
 	.heading{
 		margin: 0.5em;
 		margin-bottom: 1em;
 		padding: 0.1em;
 		border-bottom: solid 1px #555555;
 	}
+	
 	.content{
 		position: relative;
 		margin: 0.1em;

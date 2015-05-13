@@ -436,8 +436,8 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 		return whatAmI;
 	};
 	
-	resource.getByIds = function(whatAmIsIds, callback){ //TODO: fix not to return all, but only those in the whatAmIsIds list
-		var whatAmIs = this.queryPlain({ searchParam:whatAmIsIds, type:'in_list'},
+	resource.getByIds = function(ids, callback){ //TODO: fix not to return all, but only those in the whatAmIsIds list
+		var whatAmIs = this.queryPlain({ searchParam:JSON.stringify(ids), type:'in_list'},
 			function(whatAmIsFromServer){
 				for(var id=0; id<whatAmIsFromServer.length; id++){
 					var whatAmI = knalledge.WhatAmI.whatAmIFactory(whatAmIsFromServer[id]);
@@ -809,6 +809,7 @@ rimaServices.provider('RimaService', {
 			loggedInWhoAmI: new knalledge.WhoAmI(),
 			selectedWhoAmI: null,
 			howAmIs: [],
+			whatAmIs: [],
 
 			init: function(){
 				this.loggedInWhoAmI._id = this.ANONYMOUS_USER_ID;
@@ -904,6 +905,10 @@ rimaServices.provider('RimaService', {
 				return howAmI;
 			},
 
+			createWhatAmI: function(whatAmI, callback){
+				return WhatAmIService.create(whatAmI, callback);
+			},
+
 			/*
 			finds all users whos name contains *nameSubSt
 			*/
@@ -917,6 +922,10 @@ rimaServices.provider('RimaService', {
 					}
 				}
 				return returnedGrids;
+			},
+
+			getWhatsById: function(ids){
+				var whats = WhatAmIService.getByIds(ids);
 			}
 		};
 		provider.init();

@@ -72,9 +72,11 @@ exports.index = function(req, res){
 			console.log("one:\n id: %s.\n", id);
 			WhatAmIModel.findById(id, found);
 			break;
-		case 'in_list': //by id:
+		case 'in_list': //by list of ids:
 			console.log("in_list:\n list: %s.\n", req.params.searchParam);
-			WhatAmIModel.find({}, found);
+			var ids = JSON.parse(id);
+			console.log("in_list:\n ids: %s.\n", ids);
+			WhatAmIModel.find( {'_id': { $in:ids}}, found);
 			break;
 		case 'name': //by id:
 			console.log("name:\n list: %s.\n", req.params.searchParam);
