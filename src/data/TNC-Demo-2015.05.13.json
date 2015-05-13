@@ -43,32 +43,6 @@
                 "activeVersion": 1
             },
             {
-                "_id": "5552c2c87ffdccd74096d0c9",
-                "name": "TNC (Tesla and the Nature of Creativity)",
-                "type": "type_knowledge",
-                "mapId": "5552c2c87ffdccd74096d0ca",
-                "iAmId": "55268521fb9a901e442172f8",
-                "ideaId": 0,
-                "__v": 0,
-                "dataContent": {
-                    "image": {
-                        "url": "http://localhost:8410/app/images/tnc-tesla.png",
-                        "width": "250",
-                        "height": "250"
-                    }
-                },
-                "updatedAt": "2015-05-13T03:19:36.966Z",
-                "createdAt": "2015-05-13T03:19:36.965Z",
-                "visual": {
-                    "xM": 0,
-                    "yM": 0,
-                    "isOpen": true
-                },
-                "isPublic": true,
-                "version": 1,
-                "activeVersion": 1
-            },
-            {
                 "_id": "5552d7c17ffdccd74096d0cf",
                 "name": "Models of creativity",
                 "type": "type_ibis_question",
@@ -438,6 +412,33 @@
                 "visual": {
                     "xM": 1778.5,
                     "yM": 1203,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552c2c87ffdccd74096d0c9",
+                "name": "TNC (Tesla and the Nature of Creativity)",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "55268521fb9a901e442172f8",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "property": "<p>Link to the <b>English webpage</b> on the roundtable: <a href=\"http://www.tesla2015.com/tesla_en/workshop-tesla-and-the-nature-of-creativity-2015/\">http://www.tesla2015.com/tesla_en/workshop-tesla-and-the-nature-of-creativity-2015/</a></p><p>Линк на <b>српску вебстраницу</b> о округлом столу: <a href=\"http://www.tesla2015.com/tesla/?page_id=1223\">http://www.tesla2015.com/tesla/?page_id=1223</a></p>",
+                    "image": {
+                        "height": "250",
+                        "width": "250",
+                        "url": "http://localhost:8410/app/images/tnc-tesla.png"
+                    }
+                },
+                "updatedAt": "2015-05-13T03:19:36.966Z",
+                "createdAt": "2015-05-13T03:19:36.965Z",
+                "visual": {
+                    "xM": 0,
+                    "yM": 0,
                     "isOpen": true
                 },
                 "isPublic": true,
