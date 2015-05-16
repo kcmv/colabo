@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins){
+var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
 	this.dom = dom;
 	this.mapStructure = mapStructure;
 
@@ -17,6 +17,7 @@ var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapSt
 	this.rimaService = rimaService;
 	this.notifyService = notifyService;
 	this.mapPlugins = mapPlugins;
+	this.knalledgeMapViewService = knalledgeMapViewService;
 };
 
 MapVisualizationTree.prototype.init = function(mapLayout, mapSize){
@@ -185,6 +186,11 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 	window.setTimeout(function() {
 		that.updateNodeDimensions();
 		that.updateHtmlTransitions(source, nodeHtmlDatasets); // all transitions are put here to be in the same time-slot as links, labels, etc
+
+		// we do it "second time" to react to width/height changes after adding/removing elemetns (like images, ...)
+		that.updateNodeDimensions();
+		that.updateHtmlAfterTransitions(source, nodeHtmlDatasets);
+
 		that.updateSvgNodes(source);
 		that.updateLinks(source);
 		that.updateLinkLabels(source);
@@ -279,12 +285,12 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		})
 		.classed({
 			"node_html_fixed": function(d){
-				return (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					false : true;
 			}
 		})
 		.style("width", function(d){
-				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					d.kNode.dataContent.image.width : width;
 				if(width === null) {
 					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
@@ -294,7 +300,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		})
 		.style("margin-left", function(d){
 				// centering the node (set margin to half the width of the node)
-				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					d.kNode.dataContent.image.width : width;
 				if(width === null) {
 					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
@@ -313,7 +319,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		// 	return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
 		// });
 
-	nodeHtmlEnter.filter(function(d) { return d.kNode.dataContent && d.kNode.dataContent.image; })
+	nodeHtmlEnter.filter(function(d) { return that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image; })
 		.append("img")
 			.attr("src", function(d){
 				return d.kNode.dataContent.image.url;
@@ -417,12 +423,12 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 	nodeHtmlUpdate
 		.classed({
 			"node_html_fixed": function(d){
-				return (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					false : true;
 			}
 		})
 		.style("width", function(d){
-				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					d.kNode.dataContent.image.width : width;
 				if(width === null) {
 					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
@@ -432,7 +438,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		})
 		.style("margin-left", function(d){
 				// centering the node (set margin to half the width of the node)
-				var width = (d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					d.kNode.dataContent.image.width : width;
 				if(width === null) {
 					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
@@ -448,7 +454,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 
 	// image exists in data but not in the view
 	nodeHtmlUpdate.filter(function(d) {
-		return (d.kNode.dataContent && d.kNode.dataContent.image && (d3.select(this).select("img").size() <= 0));
+		return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && (d3.select(this).select("img").size() <= 0));
 	})
 		.append("img")
 			.attr("src", function(d){
@@ -466,7 +472,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 
 	// image does not exist in data but does exist in the view
 	nodeHtmlUpdate.select("img").filter(function(d) { 
-		return (!(d.kNode.dataContent && d.kNode.dataContent.image) ); 
+		return (!(that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image) ); 
 	})
 		.remove();
 
@@ -574,7 +580,6 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		}
 	}
 
-
 	(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
 		.style("left", function(d){
 			return that.scales.y(d.y) + "px";
@@ -645,6 +650,51 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 			});
 	}
 	nodeHtmlExitTransition.remove();
+};
+
+MapVisualizationTree.prototype.updateHtmlAfterTransitions = function(source, nodeHtmlDatasets){
+	if(!this.configNodes.html.show) return;
+	var that = this;
+
+	var nodeHtml = nodeHtmlDatasets.elements;
+	// var nodeHtmlEnter = nodeHtmlDatasets.enter;
+
+	// var nodeHtml = divMapHtml.selectAll("div.node_html")
+	// 	.data(nodes, function(d) { return d.id; });
+
+	// Transition nodes to their new (final) position
+	// it happens also for entering nodes (http://bl.ocks.org/mbostock/3900925)
+	var nodeHtmlUpdate = nodeHtml;
+	var nodeHtmlUpdateTransition = nodeHtmlUpdate;
+	if(this.configTransitions.update.animate.position || this.configTransitions.update.animate.opacity){
+		nodeHtmlUpdateTransition = nodeHtmlUpdate.transition()
+			.duration(this.configTransitions.update.duration);
+	}
+
+	(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
+		.style("left", function(d){
+			return that.scales.y(d.y) + "px";
+		})
+		// .each("start", function(d){
+		// 	console.log("[nodeHtmlUpdateTransition] STARTED: d: %s, xCurrent: %s", d.kNode.name, d3.select(this).style("top"));
+		// })
+		.style("top", function(d){
+			var x = that.mapLayout.getHtmlNodePosition(d);
+			// x = d.x;
+			// console.log("[nodeHtmlUpdateTransition] d: %s, xCurrent: %s, xNew: %s", d.kNode.name, d3.select(this).style("top"), x);
+			return that.scales.x(x) + "px";
+		});
+
+	if(this.configTransitions.update.animate.opacity){
+		nodeHtmlUpdateTransition
+			.style("opacity", 1.0);
+		nodeHtmlUpdateTransition.select(".node_inner_html")
+			.style("opacity", function(d){
+				return (d.kNode.visual && d.kNode.visual.selectable) ?
+					1.0 : 0.5;
+			});
+	}
+
 };
 
 MapVisualizationTree.prototype.updateName = function(nodeView){

@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState, notifyService, mapPlugins){
+var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState, notifyService, mapPlugins, knalledgeMapViewService){
 	this.dom = {
 		parentDom: parentDom,
 		divMap: null,
@@ -42,7 +42,7 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 		'flat': null
 	};
 
-	this.visualizations.tree = this.visualizations.manual = new knalledge.MapVisualizationTree(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService, this.notifyService, this.mapPlugins);
+	this.visualizations.tree = this.visualizations.manual = new knalledge.MapVisualizationTree(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService, this.notifyService, this.mapPlugins, knalledgeMapViewService);
 	this.layoutApis.tree = this.layoutApis.manual = {
 		update: this.visualizations.tree.update.bind(this.visualizations.tree),
 		getDom: this.visualizations.tree.getDom.bind(this.visualizations.tree),
@@ -52,7 +52,7 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 	};
 	this.layouts.tree = this.layouts.manual = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.tree, this.knalledgeState);
 
-	this.visualizations.flat = new knalledge.MapVisualizationTree(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService, this.notifyService, mapPlugins);
+	this.visualizations.flat = new knalledge.MapVisualizationTree(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService, this.notifyService, mapPlugins, knalledgeMapViewService);
 	this.layoutApis.flat = {
 		update: this.visualizations.flat.update.bind(this.visualizations.flat),
 		getDom: this.visualizations.flat.getDom.bind(this.visualizations.flat),

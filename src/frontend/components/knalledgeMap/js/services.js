@@ -1259,6 +1259,24 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 	return resource;
 }]);
 
+knalledgeMapServices.provider('KnalledgeMapViewService', {
+	// privateData: "privatno",
+	$get: [/*'$q', 'ENV', '$rootScope', */
+	function(/*$q , ENV, $rootScope*/) {
+
+				// var that = this;
+		var provider = {
+			config: {
+				nodes: {
+					showImages: true
+				}
+			}
+		};
+
+		return provider;
+	}]
+});
+
 knalledgeMapServices.provider('IbisTypesService', {
 	// privateData: "privatno",
 	$get: [/*'$q', 'ENV', '$rootScope', */

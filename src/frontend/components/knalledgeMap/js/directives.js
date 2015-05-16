@@ -3,9 +3,9 @@
 
 angular.module('knalledgeMapDirectives', ['Config'])
 	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', 
-		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
+		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
 		function($rootScope, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, 
-		RimaService, IbisTypesService, NotifyService, NotifyNodeService, $compile, $routeParams /*, $rootScope, $q, $timeout, ConfigMap*/){
+		RimaService, IbisTypesService, NotifyService, NotifyNodeService, KnalledgeMapViewService, $compile, $routeParams /*, $rootScope, $q, $timeout, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -229,7 +229,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null,
-							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, KnalledgeMapVOsService.mapStructure, RimaService, IbisTypesService, NotifyService, mapPlugins);
+							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, KnalledgeMapVOsService.mapStructure, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model, function(){
@@ -335,7 +335,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			}
     	};
 	}])
-	.directive('knalledgeMapTools', ["$timeout", '$rootScope', /*'ConfigMapToolset',*/ function($timeout, $rootScope /*, ConfigMapToolset*/){
+	.directive('knalledgeMapTools', ["$timeout", '$rootScope', 'KnalledgeMapViewService', function($timeout, $rootScope, KnalledgeMapViewService){
 		console.log("[knalledgeMapTools] loading directive");
 		return {
 			restrict: 'AE',
@@ -348,6 +348,12 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			controller: function ( $scope, $element) {
 				$scope.bindings = {
 					viewspec: 'viewspec_manual'
+				};
+
+				$scope.config = KnalledgeMapViewService.config;
+				$scope.configChanged = function(){
+					var mapStylingChangedEventName = "mapStylingChangedEvent";
+					$rootScope.$broadcast(mapStylingChangedEventName);
 				};
 
 				$scope.viewspecChanged = function(){

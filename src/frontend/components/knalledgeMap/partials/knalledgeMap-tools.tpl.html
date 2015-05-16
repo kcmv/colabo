@@ -4,6 +4,10 @@
 </div>
 
 <div class="controlls">
+	<p>
+		<a ng-href="#/maps">Maps</a>
+	</p>
+
 	<h4>Visualize:</h4>
 	<!-- <pre>{{radioModel || 'null'}}</pre> -->
 	<div class="btn-group">
@@ -11,11 +15,12 @@
 		<label class="btn btn-sm btn-primary" ng-model="bindings.viewspec" btn-radio="'viewspec_tree'" ng-change="viewspecChanged()">T</label>
 		<label class="btn btn-sm btn-primary" ng-model="bindings.viewspec" btn-radio="'viewspec_flat'" ng-change="viewspecChanged()">F</label>
 	</div>
-</div>
 
-<p>
-	<a ng-href="#/maps">Maps</a>
-</p>
+	<div class="btn-group">
+		<label class="btn btn-primary" ng-model="config.nodes.showImages" btn-checkbox ng-change="configChanged()">Show Images</label>
+	</div>
+
+</div>
 
 <div rima-users-list class="rima-users-list"></div>
 
