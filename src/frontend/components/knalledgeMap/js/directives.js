@@ -305,6 +305,12 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap.update();
 				});
 
+				var mapStylingChangedEventName = "mapStylingChangedEvent";
+				$scope.$on(mapStylingChangedEventName, function(e) {
+					console.log("[knalledgeMap.controller::$on] event: %s", mapStylingChangedEventName);
+					knalledgeMap.update();
+				});
+
 				var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
 				$scope.$on(changeKnalledgeRimaEventName, function(e, vkNode) {
 					console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
@@ -589,35 +595,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					else{
 						window.alert('Please, select a Model');
 					}
-				};
-    		}
-    	};
-	}])
-
-	.directive('rimaUsersList', ["$rootScope", "$timeout", "$location", "RimaService",
-		function($rootScope, $timeout, $location, RimaService){
-		console.log("[rimaUsersList] loading directive");
-		return {
-			restrict: 'AE',
-			scope: {
-			},
-			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
-			// expression: http://docs.angularjs.org/guide/expression
-			templateUrl: '../components/knalledgeMap/partials/rimaUsers-list.tpl.html',
-			controller: function ( $scope, $element) {
-				var init = function(){
-					$scope.items = RimaService.getUsers();
-			    	$scope.selectedItem = RimaService.getActiveUser();
-				};
-				$scope.items = null;
-				$scope.selectedItem = null;
-				 //TODO: select from map.dataContent.mcm.authors list
-				RimaService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
-				
-				$scope.selectItem = function(item) {
-				    $scope.selectedItem = item;
-				    console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
-				    RimaService.selectActiveUser(item);
 				};
     		}
     	};

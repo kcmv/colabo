@@ -811,6 +811,10 @@ rimaServices.provider('RimaService', {
 			howAmIs: [],
 			whatAmIs: [],
 
+			config: {
+				showUsers: true
+			},
+
 			init: function(){
 				this.loggedInWhoAmI._id = this.ANONYMOUS_USER_ID;
 				this.loggedInWhoAmI.displayName = "anonymous";
@@ -924,8 +928,15 @@ rimaServices.provider('RimaService', {
 				return returnedGrids;
 			},
 
+			// TODO: Not finished
 			getWhatsById: function(ids){
 				var whats = WhatAmIService.getByIds(ids);
+				// ...
+				return whats;
+			},
+
+			getByNameContains: function(namePart, callback){
+				return WhatAmIService.getByNameContains(namePart, callback);
 			}
 		};
 		provider.init();

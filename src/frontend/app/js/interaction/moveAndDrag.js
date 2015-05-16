@@ -128,7 +128,13 @@ MoveAndDrag.InitializeDragging = function (config) {
 				targetD3.attr('data-z-index', null);
 
 				// resetting element translation
-				targetD3.style("transform", null);
+				targetD3
+					.style("transform", null)
+					.style("-ms-transform", null)
+					.style("-webkit-transform", null)
+					.style("-moz-transform", null)
+					.style("-o-transform", null)
+				;
 				// update the posiion attributes
 				targetD3.attr('data-x', null);
 				targetD3.attr('data-y', null);
@@ -142,6 +148,10 @@ MoveAndDrag.InitializeDragging = function (config) {
 				}
 				clonedD3.remove();
 				clonedD3 = null;
+
+				// cleaning classes
+				targetD3.classed({target_placeholder: false});
+				targetD3.classed({moving_placeholder: false, static_placeholder: false});
 
 				staticPlaceholder = null;
 				movingPlaceholder = null;

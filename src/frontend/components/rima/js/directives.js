@@ -21,6 +21,40 @@ angular.module('rimaDirectives', ['Config'])
     	};
 	}])
 
+	.directive('rimaUsersList', ["$rootScope", "$timeout", "$location", "RimaService",
+		function($rootScope, $timeout, $location, RimaService){
+		console.log("[rimaUsersList] loading directive");
+		return {
+			restrict: 'AE',
+			scope: {
+			},
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angularjs.org/guide/expression
+			templateUrl: '../components/rima/partials/rimaUsers-list.tpl.html',
+			controller: function ( $scope, $element) {
+				var init = function(){
+					$scope.items = RimaService.getUsers();
+			    	$scope.selectedItem = RimaService.getActiveUser();
+				};
+				$scope.config = RimaService.config;
+				$scope.configChanged = function(){
+					var mapStylingChangedEventName = "mapStylingChangedEvent";
+					$rootScope.$broadcast(mapStylingChangedEventName);
+				};
+				$scope.items = null;
+				$scope.selectedItem = null;
+				 //TODO: select from map.dataContent.mcm.authors list
+				RimaService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
+				
+				$scope.selectItem = function(item) {
+				    $scope.selectedItem = item;
+				    console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
+				    RimaService.selectActiveUser(item);
+				};
+    		}
+    	};
+	}])
+
 	.directive('rimaRelevantWhatsList', ['$rootScope', 'KnalledgeMapVOsService', 'WhatAmIService', 'WhatService', 'RimaService',
 		function($rootScope, KnalledgeMapVOsService, WhatAmIService, WhatService, RimaService){
 		console.log("[rimaWhats] loading directive");
@@ -120,8 +154,8 @@ angular.module('rimaDirectives', ['Config'])
 			}
     	};
 	}])
-	.directive('rimaWhats', ['$rootScope', 'WhatAmIService', 'WhatService', 'RimaService',
-		function($rootScope, WhatAmIService, WhatService, RimaService){
+	.directive('rimaWhats', ['$rootScope', 'WhatService', 'RimaService',
+		function($rootScope, WhatService, RimaService){
 		console.log("[rimaWhats] loading directive");
 		return {
 			restrict: 'AE',
@@ -151,7 +185,7 @@ angular.module('rimaDirectives', ['Config'])
 
 
 				$scope.getItems = function(value){
-					var items = WhatAmIService.getByNameContains(value);
+					var items = RimaService.getByNameContains(value);
 					// return items;
 					return items.$promise;
 					// return items.$promise.then(function(items_server){
@@ -280,6 +314,18 @@ angular.module('rimaDirectives', ['Config'])
 					how.whatAmI = $scope.whatInput; //TODO:
 					RimaService.createHowAmI(how);
 				}
+
+				$scope.getItems = function(value){
+					var items = RimaService.getByNameContains(value);
+					// return items;
+					return items.$promise;
+					// return items.$promise.then(function(items_server){
+					// 	console.log("getItems: ", JSON.stringify(items_server));
+					// 	// return WhatService.getWhats();
+					// 	return items_server;
+					// });
+				};
+
 				 //TODO: select from map.dataContent.mcm.authors list
 				//RimaService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
 				init();

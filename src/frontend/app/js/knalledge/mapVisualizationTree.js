@@ -336,9 +336,12 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		.append("div")
 			.attr("class", "node_type");
 
-	nodeHtmlEnter
-		.append("div")
-			.attr("class", "rima_user");
+	// we cannot optimize
+	// if(this.rimaService.config.showUsers){
+		nodeHtmlEnter
+			.append("div")
+				.attr("class", "rima_user");
+	// }
 
 	// nodeHtmlEnter
 	// 	.append("div")
@@ -550,7 +553,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		});
 	nodeHtmlUpdate.select(".rima_user")
 		.style("display", function(d){
-			return that.rimaService.getUserById(d.kNode.iAmId) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')
+			return that.rimaService.config.showUsers && that.rimaService.getUserById(d.kNode.iAmId) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')
 
 		})
 		.html(function(d){
