@@ -338,11 +338,14 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		.append("div")
 			.attr("class", "open_close_status");
 
+	// TODO: we cannot optimize
+	// if(this.knalledgeMapViewService.config.nodes.showTypes){
 	nodeHtmlEnter
 		.append("div")
 			.attr("class", "node_type");
+	// }
 
-	// we cannot optimize
+	// TODO: we cannot optimize
 	// if(this.rimaService.config.showUsers){
 		nodeHtmlEnter
 			.append("div")
@@ -508,7 +511,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		});
 	nodeHtmlUpdate.select(".node_type")
 		.style("display", function(d){
-			return (d.kNode && d.kNode.type) ? "block" : "none";
+			return (that.knalledgeMapViewService.config.nodes.showTypes && d.kNode && d.kNode.type) ? "block" : "none";
 		})
 		.html(function(d){
 			var label = "";

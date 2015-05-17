@@ -1268,7 +1268,8 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 		var provider = {
 			config: {
 				nodes: {
-					showImages: true
+					showImages: true,
+					showTypes: true
 				}
 			}
 		};
