@@ -96,6 +96,17 @@ exports.create = function(req, res){
 	console.log("[modules/howAmI.js:create] req.body: %s", JSON.stringify(req.body));
 	
 	var data = req.body;
+	var howAmI = new HowAmIModel(data);
+	howAmI.save(function(err) {
+		if (err) throw err;
+		console.log("[modules/HowAmI.js:create:saved] howAmI data: %s", JSON.stringify(howAmI));
+		resSendJsonProtected(res, {success: true, data: howAmI, accessId : accessId});
+	});	
+	
+	/*
+	very useful logics, that is not used any more because we made client fatter and server thiner,
+	but what it does is: it saves a howAmI document that contains either referenced 'whatAmI' sub-document or a name by which we shuold create it first and then save it as a reference from the document:
+
 	var save = function(data){
 		data.save(function(err) {
 			if (err) throw err;
@@ -111,22 +122,23 @@ exports.create = function(req, res){
 	WhatAmIModel.findOneByName(whatAmIName, function(err, whatAmI){
 		if (err) throw err;
 		if(whatAmI === null || typeof whatAmI === 'undefined'){
-			console.log("whatAmI '%s' not found", whatAmIName);
+			//console.log("Specified whatAmI '%s' does not exist in 'WhatAmI' collection", whatAmIName);
 			var  whatAmI = new WhatAmIModel({name:whatAmIName});
 			whatAmI.save(function (err) {
 				if (err) return handleError(err);
-				//console.log("whatAmI._id: "+whatAmI._id);
+				//console.log("whatAmI._id of newly created whatAmI is: "+whatAmI._id);
 				howAmI.whatAmI = whatAmI._id;
 				save(howAmI);
 			});
 		}
 		else{
-			console.log("whatAmI '%s' is found", whatAmIName);
+			//console.log("Specified whatAmI '%s' already exists in 'WhatAmI' collection", whatAmIName);
 			//console.log('findByName:: whatAmI: ' + JSON.stringify(whatAmI));
 			howAmI.whatAmI = whatAmI._id;
 			save(howAmI);
 		}
 	});
+	*/
 }
 
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/howAmIs/one/55266618cce5af993fe8675f

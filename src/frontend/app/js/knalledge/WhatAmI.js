@@ -4,7 +4,7 @@
 var WhatAmI =  knalledge.WhatAmI = function(){
 	this._id = WhatAmI.MaxId++; //TODO: maxId logic should be migrated here
 	this.name = "";
-	this.parent = "";
+	this.parent = null;
 
 	this.createdAt = null;
 	this.updatedAt = null;

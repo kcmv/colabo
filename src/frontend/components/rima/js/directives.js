@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('rimaDirectives', ['Config'])
-	.directive('rimaRelevantList', ['$rootScope', 'WhatAmIService', 'WhatService',
-		function($rootScope, WhatAmIService, WhatService){
+	.directive('rimaRelevantList', ['$rootScope', 'WhatAmIService',
+		function($rootScope, WhatAmIService){
 		console.log("[rimaWhats] loading directive");
 		return {
 			restrict: 'AE',
@@ -55,8 +55,8 @@ angular.module('rimaDirectives', ['Config'])
     	};
 	}])
 
-	.directive('rimaRelevantWhatsList', ['$rootScope', 'KnalledgeMapVOsService', 'WhatAmIService', 'WhatService', 'RimaService',
-		function($rootScope, KnalledgeMapVOsService, WhatAmIService, WhatService, RimaService){
+	.directive('rimaRelevantWhatsList', ['$rootScope', 'KnalledgeMapVOsService', 'WhatAmIService', 'RimaService',
+		function($rootScope, KnalledgeMapVOsService, WhatAmIService, RimaService){
 		console.log("[rimaWhats] loading directive");
 		return {
 			restrict: 'AE',
@@ -154,8 +154,8 @@ angular.module('rimaDirectives', ['Config'])
 			}
     	};
 	}])
-	.directive('rimaWhats', ['$rootScope', 'WhatService', 'RimaService',
-		function($rootScope, WhatService, RimaService){
+	.directive('rimaWhats', ['$rootScope', 'RimaService',
+		function($rootScope, RimaService){
 		console.log("[rimaWhats] loading directive");
 		return {
 			restrict: 'AE',
@@ -173,7 +173,6 @@ angular.module('rimaDirectives', ['Config'])
 
 				 $(this).addClass('hidden');
 
-				// $scope.items = WhatService.getWhats();
 				$scope.items = ($scope.node && $scope.node.kNode.dataContent && $scope.node.kNode.dataContent.rima
 					&& $scope.node.kNode.dataContent.rima.whats) ? $scope.node.kNode.dataContent.rima.whats : [];
 
@@ -190,7 +189,6 @@ angular.module('rimaDirectives', ['Config'])
 					return items.$promise;
 					// return items.$promise.then(function(items_server){
 					// 	console.log("getItems: ", JSON.stringify(items_server));
-					// 	// return WhatService.getWhats();
 					// 	return items_server;
 					// });
 				};
@@ -307,12 +305,47 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.selectedHowOption= {id:1};
 
 				$scope.createHow = function(){
+					var createdHow = function(howFromServer){
+						howFromServer.whatAmI = RimaService.getWhatById(howFromServer.whatAmI);
+						$scope.items.push(howFromServer);
+					}
+
+					var selectedHow = RimaService.getHowForId($scope.selectedHowOption);
+
+					for(var i in $scope.items){
+						var item = $scope.items[i];
+						var whatName = $scope.whatInput === 'string' ? $scope.whatInput : $scope.whatInput.name;
+						if(selectedHow.title == item.how && whatName == item.whatAmI.name){
+							window.alert("You have already described yourself through this");
+							return;
+						}
+					}
+
 					var how = new knalledge.HowAmI();
 					how.whoAmI = RimaService.getActiveUserId();
-					var selectedHow = RimaService.getHowForId($scope.selectedHowOption);
 					how.how = selectedHow.title;
-					how.whatAmI = $scope.whatInput; //TODO:
-					RimaService.createHowAmI(how);
+					
+					//how.whatAmI = $scope.whatInput; //TODO:
+
+					var whatCreated = function(whatFromServer){
+						console.log("whatCreated", whatFromServer);
+						saveHowWIthNewWhat(whatFromServer._id);
+					}
+
+					var saveHowWIthNewWhat = function(whatId){
+						how.whatAmI = whatId;
+						RimaService.createHowAmI(how, createdHow);
+					}
+					
+					if(typeof $scope.whatInput === 'string'){ //new what
+						var newWhat = new knalledge.WhatAmI();
+						newWhat.name = $scope.whatInput;
+						RimaService.createWhatAmI(newWhat).$promise.then(whatCreated);
+					}else{ //already existing what (found through typeahead)
+						console.log("already existing what '%s' (found through typeahead)", $scope.whatInput);
+						RimaService.addToLocalWhats($scope.whatInput);//TODO: here we are adding it to 'whatAmI' local cache:
+						saveHowWIthNewWhat($scope.whatInput._id);
+					}
 				}
 
 				$scope.getItems = function(value){
@@ -321,7 +354,6 @@ angular.module('rimaDirectives', ['Config'])
 					return items.$promise;
 					// return items.$promise.then(function(items_server){
 					// 	console.log("getItems: ", JSON.stringify(items_server));
-					// 	// return WhatService.getWhats();
 					// 	return items_server;
 					// });
 				};

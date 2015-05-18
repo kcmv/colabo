@@ -235,101 +235,6 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 }]);
 
 /**
-* 	factory 'WhatService'
-*/
-
-rimaServices.provider('WhatService', {
-	// privateData: "privatno",
-	$get: ['$q', 'ENV', /*'$rootScope', */
-	function($q, ENV /*, $rootScope*/) {
-		var provider = {
-			whats: [
-				{
-					name: "peace"
-				},
-				{
-					name: "life"
-				},
-				{
-					name: "love"
-				},
-				{
-					name: "dance"
-				}
-			],
-			init: function(){
-			},
-				
-			loadWhatsFromList: function(usersIds, callback){
-				var that = this;
-				var whats = WhoAmIService.getByIds(usersIds,
-					function(whatsFromServer){
-						that.whats = whatsFromServer;
-						//that.selectedWhoAmI = (that.whats && that.whats.length) ? that.whats[0] : null; //TODO: set it to logged-in user
-						if(callback){callback();}
-					});
-				return whats;
-			},
-
-			getWhats: function(){
-				return this.whats;
-			},
-
-			getWhatById: function(id){
-				for(var i in this.whats){
-					if(this.whats[i]._id == id){
-						return this.whats[i];
-					}
-				}
-				return null;
-			},
-
-			selectActiveWhat: function(whoAmI){
-				this.selectedWhoAmI = whoAmI;
-			},
-
-			getActiveWhat: function(){
-				return this.selectedWhoAmI;
-			},
-
-			getActiveWhatId: function(){
-				return this.selectedWhoAmI ? this.selectedWhoAmI._id : undefined;
-			},
-
-			getMaxWhatNum: function(){
-				var gridMaxNum = 0;
-				var whats = this.whats();
-				for(var i in whats){
-					var grid = whats[i];
-					var gridId = parseInt(grid.name.substring(2));
-					if(gridId > gridMaxNum){
-						gridMaxNum = gridId;
-					}
-				}
-				return gridMaxNum;
-			},
-
-			/*
-			finds all users whos name contains *nameSubSt
-			*/
-			getWhatsByName: function(nameSubStr){
-				var returnedGrids = [];
-				var whats = this.whats();
-				for(var i in whats){
-					var grid = whats[i];
-					if(grid.name.indexOf(nameSubStr) > -1){
-						returnedGrids.push(grid);
-					}
-				}
-				return returnedGrids;
-			}
-		};
-		provider.init();
-		return provider;
-	}]
-});
-
-/**
 * 	factory 'WhatAmIService'
 */
 
@@ -903,14 +808,21 @@ rimaServices.provider('RimaService', {
 			},
 
 			createHowAmI: function(howAmI, callback){
+				var that = this;
 				var howAmI = HowAmIService.create(howAmI, function(howAmIFromServer){
+					that.howAmIs.push(howAmIFromServer);
 					if(callback){callback(howAmIFromServer);}
 				});
 				return howAmI;
 			},
 
 			createWhatAmI: function(whatAmI, callback){
-				return WhatAmIService.create(whatAmI, callback);
+				var that = this;
+				var whatAmI = WhatAmIService.create(whatAmI, function(whatAmIFromServer){
+					that.whatAmIs.push(whatAmIFromServer);
+					if(callback){callback(whatAmIFromServer);}
+				});
+				return whatAmI;
 			},
 
 			/*
@@ -935,9 +847,77 @@ rimaServices.provider('RimaService', {
 				return whats;
 			},
 
+			getWhatById: function(id){
+				for(var i in this.whatAmIs){
+					if(this.whatAmIs[i]._id == id){
+						return this.whatAmIs[i];
+					}
+				}
+				return null;
+			},
+
 			getByNameContains: function(namePart, callback){
 				return WhatAmIService.getByNameContains(namePart, callback);
+			},
+
+			addToLocalWhats: function(what){
+				this.whatAmIs.push(what);
 			}
+
+			/*
+			loadWhatsFromList: function(usersIds, callback){
+				var that = this;
+				var whats = WhoAmIService.getByIds(usersIds,
+					function(whatsFromServer){
+						that.whats = whatsFromServer;
+						//that.selectedWhoAmI = (that.whats && that.whats.length) ? that.whats[0] : null; //TODO: set it to logged-in user
+						if(callback){callback();}
+					});
+				return whats;
+			},
+
+			getWhats: function(){
+				return this.whats;
+			},
+
+			selectActiveWhat: function(whoAmI){
+				this.selectedWhoAmI = whoAmI;
+			},
+
+			getActiveWhat: function(){
+				return this.selectedWhoAmI;
+			},
+
+			getActiveWhatId: function(){
+				return this.selectedWhoAmI ? this.selectedWhoAmI._id : undefined;
+			},
+
+			getMaxWhatNum: function(){
+				var gridMaxNum = 0;
+				var whats = this.whats();
+				for(var i in whats){
+					var grid = whats[i];
+					var gridId = parseInt(grid.name.substring(2));
+					if(gridId > gridMaxNum){
+						gridMaxNum = gridId;
+					}
+				}
+				return gridMaxNum;
+			},
+
+			getWhatsByName: function(nameSubStr){
+				var returnedGrids = [];
+				var whats = this.whats();
+				for(var i in whats){
+					var grid = whats[i];
+					if(grid.name.indexOf(nameSubStr) > -1){
+						returnedGrids.push(grid);
+					}
+				}
+				return returnedGrids;
+			}
+			*/
+
 		};
 		provider.init();
 		return provider;

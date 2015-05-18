@@ -3,7 +3,7 @@
 
 angular.module('notifyDirectives', ['Config'])
 	.directive('notifyRelevantList', ['$rootScope', 'NotifyService',
-		function($rootScope, WhatAmIService, WhatService){
+		function($rootScope, WhatAmIService){
 		console.log("[notifyWhats] loading directive");
 		return {
 			restrict: 'AE',
