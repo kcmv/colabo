@@ -19,4 +19,9 @@ var kEdgeSchema = mongoose.Schema({
 var pluginAuditing = require('./pluginAuditing');
 kEdgeSchema.plugin(pluginAuditing, {});
 
+kEdgeSchema.statics.findInMapAfterTime = function (map, time, cb) {
+	console.log('kEdgeSchema::findInMapAfterTime: %s, %s', map, time);
+    return this.find( {$and: [ { mapId: map}, {updatedAt: {$gte: time}}]}, cb);
+}
+
 exports.Schema = kEdgeSchema;

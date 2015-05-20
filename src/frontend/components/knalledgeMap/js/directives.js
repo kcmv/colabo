@@ -3,9 +3,9 @@
 
 angular.module('knalledgeMapDirectives', ['Config'])
 	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', 
-		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
+		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', 'SyncingService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
 		function($rootScope, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, 
-		RimaService, IbisTypesService, NotifyService, NotifyNodeService, KnalledgeMapViewService, $compile, $routeParams /*, $rootScope, $q, $timeout, ConfigMap*/){
+		RimaService, IbisTypesService, NotifyService, NotifyNodeService, KnalledgeMapViewService, SyncingService, $compile, $routeParams /*, $rootScope, $q, $timeout, ConfigMap*/){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -229,7 +229,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null,
-							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, KnalledgeMapVOsService.mapStructure, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService);
+							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, KnalledgeMapVOsService.mapStructure, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model, function(){

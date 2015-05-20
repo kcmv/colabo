@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService){
+var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService){
 	this.config = config;
 	this.clientApi = clientApi;
 	this.entityStyles = entityStyles;
@@ -13,6 +13,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.rimaService = rimaService;
 	this.ibisTypesService = ibisTypesService;
 	this.notifyService = notifyService;
+	this.syncingService = syncingService;
 	this.mapPlugins = mapPlugins;
 
 	this.knalledgeState = new knalledge.State();
@@ -28,6 +29,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 };
 
 Map.prototype.init = function() {
+	var that = this;
 	this.mapSize = [
 		this.parentDom.node().getBoundingClientRect().width - this.config.tree.margin.right - this.config.tree.margin.left,
 		this.parentDom.node().getBoundingClientRect().height - this.config.tree.margin.bottom - this.config.tree.margin.top 
@@ -46,6 +48,18 @@ Map.prototype.init = function() {
 	this.mapLayout.init(this.mapSize, this.scales);
 	this.initializeKeyboard();
 	this.initializeManipulation();
+
+	//setInterval(function() { that.syncingService.getUpdatesFromServer(that.updatesFromServer); }, 1000);
+	var syncing = 
+	//true;
+	false;
+	if(syncing){
+		setInterval(this.syncingService.getUpdatesFromServer.bind(this.syncingService, this.updatesFromServer), 1000);
+	}
+};
+
+Map.prototype.updatesFromServer = function(updates) {
+	
 };
 
 Map.prototype.update = function(node) {
