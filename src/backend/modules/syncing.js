@@ -62,27 +62,34 @@ exports.index = function(req, res){
 			console.log("Syncing::get changes for map '%s', after timestamp: %s", mapId, time);
 
 			var nodesEdgesReceived = function(nodes,edges){
-				var changes = {nodes:[],edges:[]};
-				console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);
-				console.log(JSON.stringify(nodes));
-				console.log("[nodesEdgesReceived] %d edges **************** :", edges.length);
-				console.log(JSON.stringify(edges));
+				var changes = {last_change:time, nodes:[],edges:[]};
+				console.log("[nodesEdgesReceived] %d nodes and %d edges :", nodes.length, edges.length);
+				//console.log(JSON.stringify(nodes));
+				//console.log(JSON.stringify(edges));
 				var i;
 				for(i=0; i<nodes.length; i++){
 					//console.log("nodes[i]:"+nodes[i]);
 					changes.nodes.push(nodes[i]);
+					// console.log("nodes[i].updatedAt instanceof Date:"+ (nodes[i].updatedAt instanceof Date));
+					if(nodes[i].updatedAt > changes.last_change){ //mongoose returns here JavaScript Date object so we can compare it regularly (note: in MongoDb dates are stored as ISODate object but mongoose takes care of conversions)
+						// console.log("nodes[i].updatedAt [%s] > changes.last_change [%s]", nodes[i].updatedAt, changes.last_change);
+						changes.last_change = nodes[i].updatedAt;
+					}
 				}
 				for(i=0; i<edges.length; i++){
 					changes.edges.push(edges[i]);
+					// console.log("edges[i].updatedAt instanceof Date:"+ (edges[i].updatedAt instanceof Date));
+					if(edges[i].updatedAt > changes.last_change){
+						changes.last_change = edges[i].updatedAt;
+					}
 				}
-				console.log("changes: " + JSON.stringify(changes));
+				// console.log("changes: " + JSON.stringify(changes));
 				
 				resSendJsonProtected(res, {data: changes, accessId : accessId, success: true});
 			};
 
 			var nodes = KNodeModel.findInMapAfterTime(mapId, time).exec();
 			var edges = KEdgeModel.findInMapAfterTime(mapId, time).exec();
-			var allArrray = [nodes, edges];
 			Promise.join(nodes,edges, nodesEdgesReceived);
 
 		break;

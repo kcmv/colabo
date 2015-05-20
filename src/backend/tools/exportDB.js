@@ -60,8 +60,6 @@ db.on('open', function (callback) {
 	
 	var nodes = KNodeModel.find({ 'mapId': mapId}).exec();
 	var edges = KEdgeModel.find({ 'mapId': mapId}).exec();
-	var allArrray = [nodes, edges];
-	//Promise.all(allArrray).then(nodesEdgesReceived);
 	Promise.join(nodes,edges, nodesEdgesReceived);
 	
 	//mongoose.connection.close();

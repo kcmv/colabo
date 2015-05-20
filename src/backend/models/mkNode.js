@@ -26,7 +26,7 @@ kNodeSchema.plugin(pluginAuditing, {});
 
 kNodeSchema.statics.findInMapAfterTime = function (map, time, cb) {
 	console.log('kNodeSchema::findInMapAfterTime: %s, %s', map, time);
-    return this.find( {$and: [ { mapId: map}, {updatedAt: {$gte: time}}]}, cb);
+    return this.find( {$and: [ { mapId: map}, {updatedAt: {$gt: time}}]}, cb);
 }
 
 exports.Schema = kNodeSchema;
