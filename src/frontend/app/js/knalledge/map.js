@@ -49,16 +49,16 @@ Map.prototype.init = function() {
 	this.initializeKeyboard();
 	this.initializeManipulation();
 
-	//setInterval(function() { that.syncingService.getUpdatesFromServer(that.updatesFromServer); }, 1000);
+	//setInterval(function() { that.syncingService.getChangesFromServer(that.changesFromServer); }, 1000);
 	var syncing = 
-	//true;
-	false;
+	true;
+	//false;
 	if(syncing){
-		setInterval(this.syncingService.getUpdatesFromServer.bind(this.syncingService, this.updatesFromServer), 1000);
+		setInterval(this.syncingService.getChangesFromServer.bind(this.syncingService, this.changesFromServer), 1000);
 	}
 };
 
-Map.prototype.updatesFromServer = function(updates) {
+Map.prototype.changesFromServer = function(changes) {
 	
 };
 

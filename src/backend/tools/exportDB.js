@@ -38,8 +38,6 @@ db.on('open', function (callback) {
 			"edges": []
 		}
 	};
-	var nodes;
-	var edges;
 	
 	var nodesEdgesReceived = function(nodes,edges){
 		console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);
@@ -60,8 +58,8 @@ db.on('open', function (callback) {
 		writeToFile(fileName, dataStr);
 	};
 	
-	nodes = KNodeModel.find({ 'mapId': mapId}).exec();
-	edges = KEdgeModel.find({ 'mapId': mapId}).exec();
+	var nodes = KNodeModel.find({ 'mapId': mapId}).exec();
+	var edges = KEdgeModel.find({ 'mapId': mapId}).exec();
 	var allArrray = [nodes, edges];
 	//Promise.all(allArrray).then(nodesEdgesReceived);
 	Promise.join(nodes,edges, nodesEdgesReceived);

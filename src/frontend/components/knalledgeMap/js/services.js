@@ -1421,10 +1421,10 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 	// 	return maps;
 	// };
 
-	resource.getUpdatesFromServer = function(callback){
-		console.log("getUpdatesFromServer");
+	resource.getChangesFromServer = function(callback){
+		console.log("getChangesFromServer");
 		this.lastUpdate = "2015-05-20T11:35:53.108Z";
-		var updates = this.queryPlain({type:'in_map_after', searchParam: KnalledgeMapVOsService.mapId, searchParam2:this.lastUpdate}, function(updatesFromServer){
+		var updates = this.getPlain({type:'in_map_after', searchParam: KnalledgeMapVOsService.mapId, searchParam2:this.lastUpdate}, function(updatesFromServer){
 			for(var id=0; id<updatesFromServer.length; id++){
 				var kNode = knalledge.KNode.nodeFactory(updatesFromServer[id]);
 				kNode.state = knalledge.KNode.STATE_SYNCED;

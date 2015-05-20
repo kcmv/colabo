@@ -4,7 +4,7 @@
  * New map file
  */
 var mongoose = require('mongoose');
-//var Promise = require("bluebird");
+var Promise = require("bluebird");
 
 var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
@@ -60,14 +60,32 @@ exports.index = function(req, res){
 	switch (type){
 		case 'in_map_after': //:
 			console.log("Syncing::get changes for map '%s', after timestamp: %s", mapId, time);
-			KNodeModel.findInMapAfterTime(mapId, time, function(err, data){
-				if (err) {
-					throw err;
-					var msg = JSON.stringify(err);
+
+			var nodesEdgesReceived = function(nodes,edges){
+				var changes = {nodes:[],edges:[]};
+				console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);
+				console.log(JSON.stringify(nodes));
+				console.log("[nodesEdgesReceived] %d edges **************** :", edges.length);
+				console.log(JSON.stringify(edges));
+				var i;
+				for(i=0; i<nodes.length; i++){
+					//console.log("nodes[i]:"+nodes[i]);
+					changes.nodes.push(nodes[i]);
 				}
-				resSendJsonProtected(res, {data: data, accessId : accessId, success: true});
-			});
-			break;
+				for(i=0; i<edges.length; i++){
+					changes.edges.push(edges[i]);
+				}
+				console.log("changes: " + JSON.stringify(changes));
+				
+				resSendJsonProtected(res, {data: changes, accessId : accessId, success: true});
+			};
+
+			var nodes = KNodeModel.findInMapAfterTime(mapId, time).exec();
+			var edges = KEdgeModel.findInMapAfterTime(mapId, time).exec();
+			var allArrray = [nodes, edges];
+			Promise.join(nodes,edges, nodesEdgesReceived);
+
+		break;
 	}
 }
 
