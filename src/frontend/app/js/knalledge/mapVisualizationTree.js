@@ -301,7 +301,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		.style("margin-left", function(d){
 				// centering the node (set margin to half the width of the node)
 				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width : width;
+					d.kNode.dataContent.image.width : null;
 				if(width === null) {
 					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
 					 that.configNodes.html.dimensions.sizes.width : null;
@@ -432,7 +432,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		})
 		.style("width", function(d){
 				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width : width;
+					d.kNode.dataContent.image.width : null;
 				if(width === null) {
 					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
 					 that.configNodes.html.dimensions.sizes.width : null;
@@ -915,6 +915,13 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 		linkLabelHtmlUpdateTransition = linkLabelHtmlUpdate.transition()
 			.duration(this.configTransitions.update.duration);
 	}
+
+	linkLabelHtmlUpdate.select("span")
+			.html(function(d) {
+				var edge = that.mapStructure.getEdge(d.source.id, d.target.id); //TODO: replace with added kEdge 
+				return that.knalledgeMapViewService.config.edges.showNames ? edge.kEdge.name : "";
+			});
+
 	if(this.configTransitions.update.animate.position){
 		linkLabelHtmlUpdateTransition
 			.style("left", function(d){

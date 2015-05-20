@@ -1270,6 +1270,10 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 				nodes: {
 					showImages: true,
 					showTypes: true
+				},
+				edges: {
+					showNames: true,
+					showTypes: true
 				}
 			}
 		};
