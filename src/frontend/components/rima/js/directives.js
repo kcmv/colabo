@@ -231,6 +231,13 @@ angular.module('rimaDirectives', ['Config'])
 						newWhat = what;
 					}
 
+					for(var i in kNode.dataContent.rima.whats){
+						if(kNode.dataContent.rima.whats[i].name == newWhat.name){
+							window.alert("The node is already described by '"+newWhat.name+"'");
+							return;
+						}
+					}
+
 					// TODO: it should be just _id;
 					kNode.dataContent.rima.whats.push(newWhat);
 					$scope.asyncSelected = "";

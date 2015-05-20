@@ -1259,6 +1259,202 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 	return resource;
 }]);
 
+
+knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', 'KnalledgeMapVOsService',
+	function($resource, $q, ENV, KnalledgeMapQueue, KnalledgeMapVOsService){
+	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
+	// creationId is parameter that will be replaced with real value during the service call from controller
+	var url = ENV.server.backend + '/syncing/:type/:searchParam/:searchParam2.json';
+	var resource = $resource(url, {}, {
+		// extending the query action
+		// method has to be defined
+		// we are setting creationId as a pre-bound parameter. in that way url for the query action is equal to: data/creations/creations.json
+		// we also need to set isArray to true, since that is the main difference with get action that also uses GET method
+		getPlain: {method:'GET', params:{type:'one', searchParam:''}, isArray:false,
+			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
+			var serverResponse;
+			if(ENV.server.parseResponse){
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				// console.log("[SyncingService] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[SyncingServices] accessId: %s", serverResponse.accessId);
+				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
+				var data = knalledge.KMap.MapFactory(serverResponse.data[0]);
+				data.state = knalledge.KMap.STATE_SYNCED;
+				return data;
+				*/
+				return serverResponse.data;//TODO: data[0];
+			}else{
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				return serverResponse;
+			}
+		}},
+		
+		queryPlain: {method:'GET', params:{type:'', searchParam:'', searchParam2:''}, isArray:true, 
+			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
+			var serverResponse;
+			if(ENV.server.parseResponse){
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				console.log("[SyncingService] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[SyncingService] accessId: %s", serverResponse.accessId);
+				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
+				var data = serverResponse.data;
+				var VOs = [];
+				for(var datumId in serverResponse.data){
+					var VO = knalledge.KMap.nodeFactory(data[datumId]);
+					VO.state = knalledge.KMap.STATE_SYNCED;
+					VOs.push(VO);
+				}
+				//console.log("[SyncingService] data: %s", JSON.stringify(data));
+				return VOs;
+				*/
+				return serverResponse.data;
+			}else{
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				return serverResponse;
+			}
+		}},
+		
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/, 
+			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
+			var serverResponse;
+			if(ENV.server.parseResponse){
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				//console.log("[SyncingService] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[ng-SyncingService::createPlain] accessId: %s", serverResponse.accessId);
+				var data = serverResponse.data;
+				console.log("ng-[SyncingService::createPlain] data: %s", JSON.stringify(data));
+				return data;
+			}else{
+				//console.log("ENV.server.parseResponse = false");
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				return serverResponse;
+			}
+		}},
+		
+		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
+			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
+				var serverResponse;
+				if(ENV.server.parseResponse){
+					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+					serverResponse = JSON.parse(serverResponseNonParsed);
+					//console.log("[SyncingService] serverResponse: %s", JSON.stringify(serverResponse));
+					console.log("[SyncingService:create] accessId: %s", serverResponse.accessId);
+					var data = serverResponse.data;
+					return data;
+				}else{
+					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+					serverResponse = JSON.parse(serverResponseNonParsed);
+					return serverResponse;					
+				}
+			}
+		},
+		
+		destroyPlain: {method:'DELETE', params:{type:'one'},
+			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
+				var serverResponse;
+				if(ENV.server.parseResponse){
+					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+					serverResponse = JSON.parse(serverResponseNonParsed);
+					//console.log("[SyncingService] serverResponse: %s", JSON.stringify(serverResponse));
+					console.log("[SyncingService:create] accessId: %s", serverResponse.accessId);
+					var data = serverResponse.data;
+					return data;
+				}else{
+					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+					serverResponse = JSON.parse(serverResponseNonParsed);
+					return serverResponse;					
+				}
+			}
+		}
+	});
+
+	resource.RESOURCE_TYPE = 'Syncing';
+	resource.lastUpdate = 0;
+
+	// resource.getById = function(id, callback)
+	// {
+	// 	var map = this.getPlain({ searchParam:id, type:'one' }, function(mapFromServer){
+	// 		mapFromServer = knalledge.KMap.mapFactory(mapFromServer);
+	// 		mapFromServer.state = knalledge.KMap.STATE_SYNCED;
+	// 		if(callback) callback(mapFromServer);
+	// 	});
+	// 	return map;
+	// };
+	
+	// resource.query = function(callback)
+	// {
+	// 	console.log('query');
+	// 	var maps = this.queryPlain({type:'all' }, function(mapsFromServer){
+	// 		for(var id=0; id<mapsFromServer.length; id++){
+	// 			var kMap = knalledge.KMap.mapFactory(mapsFromServer[id]);
+	// 			kMap.state = knalledge.KMap.STATE_SYNCED;
+	// 			mapsFromServer[id] = kMap;
+	// 		}
+
+	// 		if(callback) callback(mapsFromServer);
+	// 	});
+	// 	// for(var i in maps){
+	// 	// 	//TODO fix maps.state, etc
+	// 	// }
+	// 	return maps;
+	// };
+	
+	// resource.queryByType = function(mapType, callback)
+	// {
+	// 	console.log('query');
+	// 	var maps = this.queryPlain({type:'by-type', searchParam: mapType}, function(mapsFromServer){
+	// 		for(var id=0; id<mapsFromServer.length; id++){
+	// 			var kMap = knalledge.KMap.mapFactory(mapsFromServer[id]);
+	// 			kMap.state = knalledge.KMap.STATE_SYNCED;
+	// 			mapsFromServer[id] = kMap;
+	// 		}
+
+	// 		if(callback) callback(mapsFromServer);
+	// 	});
+	// 	// for(var i in maps){
+	// 	// 	//TODO fix maps.state, etc
+	// 	// }
+	// 	return maps;
+	// };
+
+	resource.getUpdatesFromServer = function(callback){
+		console.log("getUpdatesFromServer");
+		this.lastUpdate = "2015-05-20T11:35:53.108Z";
+		var updates = this.queryPlain({type:'in_map_after', searchParam: KnalledgeMapVOsService.mapId, searchParam2:this.lastUpdate}, function(updatesFromServer){
+			for(var id=0; id<updatesFromServer.length; id++){
+				var kNode = knalledge.KNode.nodeFactory(updatesFromServer[id]);
+				kNode.state = knalledge.KNode.STATE_SYNCED;
+				updatesFromServer[id] = kNode;
+			}
+
+			if(callback) callback(updatesFromServer);
+		});
+		return updates;
+	};
+	
+	// /* checks if request can be sent to server */
+	// resource.check = function(request){
+	// 	return true;
+	// };
+	
+	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
+
+	// resource.init = function(){
+	// 	console.log("Syncing::init");
+		
+	// };
+
+	//init();
+
+	return resource;
+}]);
+
+
+
 knalledgeMapServices.provider('KnalledgeMapViewService', {
 	// privateData: "privatno",
 	$get: [/*'$q', 'ENV', '$rootScope', */
