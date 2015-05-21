@@ -13,20 +13,21 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.rimaService = rimaService;
 	this.ibisTypesService = ibisTypesService;
 	this.notifyService = notifyService;
-	this.syncingService = syncingService;
+	this.knalledgeMapViewService = knalledgeMapViewService;
 	this.mapPlugins = mapPlugins;
+	this.syncingService = syncingService;
 
 	this.knalledgeState = new knalledge.State();
 	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService);
 
-	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, knalledgeMapViewService);
+	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService);
 
 	this.mapVisualization = this.mapManager.getActiveVisualization();
 	this.mapLayout = this.mapManager.getActiveLayout();
 
 	this.keyboardInteraction = null;
 	this.syncingInterval = 1000;
-
+	this.syncingTimerId = null;
 };
 
 Map.prototype.init = function() {
@@ -73,8 +74,17 @@ Map.prototype.processData = function(mapData, callback) {
 	if(!this.mapStructureExternal) this.mapStructure.processData(mapData);
 	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, callback);
 
-	if(knalledgeMapViewService.config.poolChanges){
-		setInterval(this.syncingService.getChangesFromServer.bind(this.syncingService, this.processSyncedData.bind(this)), this.syncingInterval);
+	this.syncingChanged();
+};
+
+Map.prototype.syncingChanged = function() {
+	if(this.syncingTimerId){
+		window.clearInterval(this.syncingTimerId);
+	}
+	if(this.knalledgeMapViewService.config.syncing.poolChanges){
+		this.syncingTimerId = window.setInterval(function(){
+			this.syncingService.getChangesFromServer(this.processSyncedData.bind(this));
+		}.bind(this), this.syncingInterval);
 	}
 };
 

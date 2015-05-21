@@ -311,6 +311,12 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap.update();
 				});
 
+				var syncingChangedEventName = "syncingChangedEvent"
+				$scope.$on(syncingChangedEventName, function(e) {
+					console.log("[knalledgeMap.controller::$on] event: %s", syncingChangedEventName);
+					knalledgeMap.syncingChanged();
+				});
+
 				var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
 				$scope.$on(changeKnalledgeRimaEventName, function(e, vkNode) {
 					console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
@@ -361,6 +367,12 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					var viewspecChangedEventName = "viewspecChangedEvent";
 					//console.log("result:" + JSON.stringify(result));
 					$rootScope.$broadcast(viewspecChangedEventName, $scope.bindings.viewspec);
+				};
+
+				$scope.syncingChanged = function(){
+					var syncingChangedEventName = "syncingChangedEvent";
+					//console.log("result:" + JSON.stringify(result));
+					$rootScope.$broadcast(syncingChangedEventName);
 				};
 			}
     	};

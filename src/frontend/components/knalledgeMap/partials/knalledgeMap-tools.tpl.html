@@ -23,6 +23,11 @@
 		<label class="btn btn-primary" ng-model="config.edges.showTypes" btn-checkbox ng-change="configChanged()">Show Edge Types</label>
 	</div>
 
+	<h4>Syncing:</h4>
+	<div class="btn-group">
+		<label class="btn btn-primary" ng-model="config.syncing.poolChanges" btn-checkbox ng-change="syncingChanged()">Pool Changes</label>
+	</div>
+
 </div>
 
 <div rima-users-list class="rima-users-list"></div>
