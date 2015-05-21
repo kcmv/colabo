@@ -1476,8 +1476,8 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 					// TODO: is this ok?
 					kNode.fill(changesKNode);
 				}
-				// TODO: I removed this was wrong to me?!
-				// changesFromServer.nodes[id] = kNode;
+				// we need to replace with our own version of the kNode, so upper levels (like vkNode) stays in the sync
+				changesFromServer.nodes[id] = kNode;
 
 				// TODO: why this, and is it for both creating and updating
 				kNode.state = knalledge.KNode.STATE_SYNCED;
@@ -1506,8 +1506,8 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 
 				// TODO: why this, and is it for both creating and updating
 				kEdge.state = knalledge.KEdge.STATE_SYNCED;
-				// TODO: I removed this was wrong to me?!
-				// changesFromServer.edges[id] = kEdge;
+				// we need to replace with our own version of the kEdge, so upper levels (like vkEdge) stays in the sync
+				changesFromServer.edges[id] = kEdge;
 			}
 
 			if(callback && newChanges){

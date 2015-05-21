@@ -417,19 +417,23 @@ MapStructure.prototype.processSyncedData = function(syncedData) {
 	var newestNode = null; //the node that has be changed the last (so that we can focus on it - as selectedNode)
 	for(i=0; i<syncedData.nodes.length; i++){
 		kNode = syncedData.nodes[i];
-		if(!("isOpen" in kNode.visual)){
-			kNode.visual.isOpen = false;
-		}
+		// TODO: not necessart since we do it on the level of kNode already
+		// resource.getChangesFromServer
+		//		...
+		// 		kNode.fill(changesKNode);
+		// if(!("isOpen" in kNode.visual)){
+		// 	kNode.visual.isOpen = false;
+		// }
 
 		var vkNode = this.getVKNodeByKId(kNode._id);
 		if(!vkNode){ // it is a new node not an updated one
 			vkNode = new knalledge.VKNode();
 			vkNode.fillWithKNode(kNode, true);
+			this.nodesById[vkNode.id] = vkNode;
 		}else{
 			vkNode.fillWithKNode(kNode);			
 		}
 
-		this.nodesById[vkNode.id] = vkNode;
 		if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){
 			newestNode = vkNode;
 		}
@@ -441,12 +445,11 @@ MapStructure.prototype.processSyncedData = function(syncedData) {
 		var vkEdge = this.getVKEdgeByKId(kEdge._id);
 		if(!vkEdge){ // it is a new edge not an updated one
 			vkEdge = new knalledge.VKEdge();
-			vkEdge.fillWithKEdge(kEdge, true);			
+			vkEdge.fillWithKEdge(kEdge, true);
+			this.edgesById[vkEdge.id] = vkEdge;
 		}else{
-			vkEdge.fillWithKEdge(kEdge);			
+			vkEdge.fillWithKEdge(kEdge);
 		}
-
-		this.edgesById[vkEdge.id] = vkEdge;
 	}
 
 	this.selectedNode = newestNode; //we focus on the last changed node. It is used for next functions in calls
