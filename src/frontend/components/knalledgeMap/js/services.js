@@ -1510,7 +1510,9 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				// changesFromServer.edges[id] = kEdge;
 			}
 
-			if(callback && newChanges) callback(changesFromServer);
+			if(callback && newChanges){
+				callback(changesFromServer);
+			}
 		}.bind(this));
 		return updates;
 	};
