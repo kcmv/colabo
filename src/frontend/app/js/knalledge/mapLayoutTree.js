@@ -188,8 +188,8 @@ MapLayoutTree.prototype.processData = function(rootNodeX, rootNodeY, callback) {
 };
 
 MapLayoutTree.prototype.processSyncedData = function(callback) {
-	this.clickNode(this.structure.getSelectedNode());
-	this.clientApi.update(this.structure.getSelectedNode(), 
+	this.clickNode(this.mapStructure.getSelectedNode(), null, true);
+	this.clientApi.update(this.mapStructure.getSelectedNode(), 
 		(typeof callback === 'function') ? callback : undefined);
 };
 

@@ -316,12 +316,33 @@ MapStructure.prototype.getVKNodeByKId = function(kId) {
 			return vkNode;
 		}
 	}
+	// TODO: This is now also a regular case when we check for pooling syncing updates from server
+	// then we often get missing hit when the node is a new node
 	try {
 		throw new Error('myError');
 	}
 	catch(e) {
 	// console.warn((new Error).lineNumber)
 		console.warn('getVKNodeByKId found kNode.'+kId+' without parent vkNode: \n' + e.stack);
+		return null;
+	}
+};
+
+MapStructure.prototype.getVKEdgeByKId = function(kId) {
+	for(var i in this.edgesById){
+		var vkEdge = this.edgesById[i];
+		if(vkEdge.kEdge._id == kId) {
+			return vkEdge;
+		}
+	}
+	// TODO: This is now also a regular case when we check for pooling syncing updates from server
+	// then we often get missing hit when the edge is a new edge
+	try {
+		throw new Error('myError');
+	}
+	catch(e) {
+	// console.warn((new Error).lineNumber)
+		console.warn('getVKEdgeByKId found kEdge.'+kId+' without parent vkEdge: \n' + e.stack);
 		return null;
 	}
 };
@@ -385,6 +406,9 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	// this.update(this.rootNode);
 };
 
+// [21.05.15 11:40:07] Sinisa (лични): MapStructure.prototype.processSyncedData to radi, ona kreira novi node
+// pa samo proveri da li vec ga imamo preko kNode._id
+// [21.05.15 11:40:10] Sinisa (лични): i onda osvezi samo
 MapStructure.prototype.processSyncedData = function(syncedData) {
 	var i=0;
 	var kNode = null;
@@ -397,13 +421,11 @@ MapStructure.prototype.processSyncedData = function(syncedData) {
 			kNode.visual.isOpen = false;
 		}
 
-		var vkNode = new knalledge.VKNode();
-		vkNode.kNode = kNode;
-		vkNode.isOpen = kNode.visual.isOpen;
-		vkNode.xM = kNode.visual.xM;
-		vkNode.yM = kNode.visual.yM;
-		vkNode.widthM = kNode.visual.widthM;
-		vkNode.heightM = kNode.visual.heightM;
+		var vkNode = this.getVKNodeByKId(kNode._id);
+		if(!vkNode){ // it is a new node not an updated one
+			vkNode = new knalledge.VKNode();
+		}
+		vkNode.fillWithKNode(kNode);
 
 		this.nodesById[vkNode.id] = vkNode;
 		if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){
@@ -413,8 +435,13 @@ MapStructure.prototype.processSyncedData = function(syncedData) {
 
 	for(i=0; i<syncedData.edges.length; i++){
 		kEdge = syncedData.edges[i];
-		var vkEdge = new knalledge.VKEdge();
-		vkEdge.kEdge = kEdge;
+
+		var vkEdge = this.getVKEdgeByKId(kEdge._id);
+		if(!vkEdge){ // it is a new edge not an updated one
+			vkEdge = new knalledge.VKEdge();
+		}
+		vkEdge.fillWithKEdge(kEdge);
+
 		this.edgesById[vkEdge.id] = vkEdge;
 	}
 

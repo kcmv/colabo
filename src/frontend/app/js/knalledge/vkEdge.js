@@ -14,4 +14,10 @@ VKEdge.MaxId = 0;
 VKEdge.prototype.init = function(){
 };
 
+VKEdge.prototype.fillWithKEdge = function(kEdge, setKEdge){
+	if(kEdge){
+		if(setKEdge) this.kEdge = kEdge;
+	}
+};
+
 }()); // end of 'use strict';

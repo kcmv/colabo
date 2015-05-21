@@ -663,6 +663,24 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				d.isOpen = !d.isOpen;
 			},
 	
+			getNodeById: function(kId) {
+				for(var i in this.nodesById){
+					var node = this.nodesById[i];
+					if(node._id == kId) {
+						return node;
+					}
+				}
+			},
+
+			getEdgeById: function(kId) {
+				for(var i in this.edgesById){
+					var edge = this.edgesById[i];
+					if(edge._id == kId) {
+						return edge;
+					}
+				}
+			},
+
 			createNode: function(kNode, kNodeType) {
 				
 				var nodeCreated = function(nodeFromServer) {
@@ -1448,9 +1466,22 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 			var newChanges = false;
 			for(id=0; id<changesFromServer.nodes.length; id++){
 				newChanges = true;
-				var kNode = knalledge.KNode.nodeFactory(changesFromServer.nodes[id]);
+
+				var changesKNode = changesFromServer.nodes[id];
+				var kNode = KnalledgeMapVOsService.getNodeById(changesKNode._id);
+				if(!kNode){
+					kNode = knalledge.KNode.nodeFactory(changesKNode);
+					KnalledgeMapVOsService.nodesById[kNode._id] = kNode;
+				}else{
+					// TODO: is this ok?
+					kNode.fill(changesKNode);
+				}
+				// TODO: I removed this was wrong to me?!
+				// changesFromServer.nodes[id] = kNode;
+
+				// TODO: why this, and is it for both creating and updating
 				kNode.state = knalledge.KNode.STATE_SYNCED;
-				changesFromServer.nodes[id] = kNode;
+
 				if(kNode.updatedAt.getTime() <= this.lastChange.getTime()){
 					console.error("received node with same or earlier date '%d' as this.lastChange (%d)", kNode.updatedAt.getTime(), this.lastChange.getTime());
 					//console.log("node date '%s' vs this.lastChange (%s)", kNode.updatedAt, this.lastChange);
@@ -1462,9 +1493,21 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 
 			for(id=0; id<changesFromServer.edges.length; id++){
 				newChanges = true;
-				var kEdge = knalledge.KEdge.edgeFactory(changesFromServer.edges[id]);
+
+				var changesKEdge = changesFromServer.edges[id];
+				var kEdge = KnalledgeMapVOsService.getEdgeById(changesKEdge._id);
+				if(!kEdge){
+					kEdge = knalledge.KEdge.edgeFactory(changesKEdge);
+					KnalledgeMapVOsService.nodesById[kEdge._id] = kEdge;
+				}else{
+					// TODO: is this ok?
+					kEdge.fill(changesKEdge);
+				}
+
+				// TODO: why this, and is it for both creating and updating
 				kEdge.state = knalledge.KEdge.STATE_SYNCED;
-				changesFromServer.edges[id] = kEdge;
+				// TODO: I removed this was wrong to me?!
+				// changesFromServer.edges[id] = kEdge;
 			}
 
 			if(callback && newChanges) callback(changesFromServer);
@@ -1500,7 +1543,7 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 		var provider = {
 			config: {
 				syncing: {
-					poolChanges: true,
+					poolChanges: false,
 				},
 				nodes: {
 					showImages: true,

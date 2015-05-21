@@ -454,6 +454,11 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 				}
 				return margin;
 		});
+		nodeHtmlUpdate.select(".node_inner_html span")
+			.html(function(d) {
+				return d.kNode.name;
+			});
+
 
 	// image exists in data but not in the view
 	nodeHtmlUpdate.filter(function(d) {
