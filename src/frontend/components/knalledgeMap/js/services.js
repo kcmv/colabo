@@ -1467,7 +1467,9 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				changesFromServer.edges[id] = kEdge;
 			}
 
-			if(callback && newChanges) callback(changesFromServer);
+			if(callback && newChanges){
+				callback(changesFromServer);
+			}
 		}.bind(this));
 		return updates;
 	};
@@ -1500,7 +1502,7 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 		var provider = {
 			config: {
 				syncing: {
-					poolChanges: true,
+					poolChanges: false,
 				},
 				nodes: {
 					showImages: true,
