@@ -119,12 +119,19 @@ exports.update = function(req, res){
 	delete data._id;
 	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
 	//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
-	KEdgeModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
-		  if (err) throw err;
-		  console.log('The number of updated documents was %d', numberAffected);
-		  console.log('The raw response from Mongo was ', raw);
-		  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
-	});			
+	// KEdgeModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
+	// 	  if (err) throw err;
+	// 	  console.log('The number of updated documents was %d', numberAffected);
+	// 	  console.log('The raw response from Mongo was ', raw);
+	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
+	// });		
+	
+	data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
+	KEdgeModel.update({_id:id}, data, function (err, raw) {
+		if (err) throw err;
+		console.log('The raw response from Mongo was ', raw);
+		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+	});	
 }
 
 exports.destroy = function(req, res){

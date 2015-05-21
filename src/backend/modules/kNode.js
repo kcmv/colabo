@@ -160,12 +160,19 @@ exports.update = function(req, res){
 	delete data._id;
 	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
 	//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
-	KNodeModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
-		  if (err) throw err;
-		  console.log('The number of updated documents was %d', numberAffected);
-		  console.log('The raw response from Mongo was ', raw);
-		  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
-	});			
+	// KNodeModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
+	// 	  if (err) throw err;
+	// 	  console.log('The number of updated documents was %d', numberAffected);
+	// 	  console.log('The raw response from Mongo was ', raw);
+	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
+	// });			
+	
+	data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
+	KNodeModel.update({_id:id}, data, function (err, raw) {
+		if (err) throw err;
+		console.log('The raw response from Mongo was ', raw);
+		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+	});
 }
 
 // curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8888/knodes/one/551bdcda1763e3f0eb749bd4
