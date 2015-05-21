@@ -187,6 +187,12 @@ MapLayoutTree.prototype.processData = function(rootNodeX, rootNodeY, callback) {
 		(typeof callback === 'function') ? callback : undefined);
 };
 
+MapLayoutTree.prototype.processSyncedData = function(callback) {
+	this.clickNode(this.structure.getSelectedNode());
+	this.clientApi.update(this.structure.getSelectedNode(), 
+		(typeof callback === 'function') ? callback : undefined);
+};
+
 /**
  * @func generateTree
  * - destroying structure of the old tree

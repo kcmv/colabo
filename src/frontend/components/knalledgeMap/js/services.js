@@ -620,6 +620,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			edgesById: {},
 			properties: {},
 			mapStructure: new knalledge.MapStructure(RimaService),
+			lastVOUpdateTime: null,
 
 			unsetSelectedNode: function(){
 				this.selectedNode = null;
@@ -879,13 +880,22 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				
 				var nodesEdgesReceived = function(){
 					console.log("[KnalledgeMapVOsService::loadData] nodesEdgesReceived");
+					
+					this.lastVOUpdateTime = new Date(0); //"Beginning of time :) 'Thu Jan 01 1970 01:00:00 GMT+0100 (CET)' "
+					
 					var i;
 					for(i=0; i<nodes.length; i++){
 						result.map.nodes.push(nodes[i]);
+						if(nodes[i].updatedAt > this.lastVOUpdateTime){ 
+							this.lastVOUpdateTime = nodes[i].updatedAt;
+						}
 					}
 					for(i=0; i<edges.length; i++){
 						result.map.edges.push(edges[i]);
-					}
+						if(edges[i].updatedAt > this.lastVOUpdateTime){ 
+							this.lastVOUpdateTime = edges[i].updatedAt;
+						}
+					}	
 
 					this.processData(result);
 
@@ -904,6 +914,10 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				$q.all([nodes.$promise, edges.$promise])
 					.then(nodesEdgesReceived.bind(this));
 					//.catch(handleReject); //TODO: test this. 2nd function fail or like this 'catch' 
+			},
+
+			getLastVOUpdateTime: function() {
+				return this.lastVOUpdateTime;
 			},
 
 			processData: function(mapData) {
@@ -1373,7 +1387,7 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 	});
 
 	resource.RESOURCE_TYPE = 'Syncing';
-	resource.lastUpdate = 0;
+	resource.lastChange = new Date(0);
 
 	// resource.getById = function(id, callback)
 	// {
@@ -1423,16 +1437,38 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 
 	resource.getChangesFromServer = function(callback){
 		console.log("getChangesFromServer");
-		this.lastUpdate = "2015-05-20T11:35:53.108Z";
-		var updates = this.getPlain({type:'in_map_after', searchParam: KnalledgeMapVOsService.mapId, searchParam2:this.lastUpdate}, function(updatesFromServer){
-			for(var id=0; id<updatesFromServer.length; id++){
-				var kNode = knalledge.KNode.nodeFactory(updatesFromServer[id]);
+		
+		if(KnalledgeMapVOsService.getLastVOUpdateTime() > this.lastChange){
+			this.lastChange = KnalledgeMapVOsService.getLastVOUpdateTime();
+		}
+
+		var updates = this.getPlain({type:'in_map_after', searchParam: KnalledgeMapVOsService.mapId, searchParam2:this.lastChange.getTime()}, function(changesFromServer){
+			this.lastChange = changesFromServer.last_change = new Date(changesFromServer.last_change);
+			var id=0;
+			var newChanges = false;
+			for(id=0; id<changesFromServer.nodes.length; id++){
+				newChanges = true;
+				var kNode = knalledge.KNode.nodeFactory(changesFromServer.nodes[id]);
 				kNode.state = knalledge.KNode.STATE_SYNCED;
-				updatesFromServer[id] = kNode;
+				changesFromServer.nodes[id] = kNode;
+				if(kNode.updatedAt.getTime() <= this.lastChange.getTime()){
+					console.error("received node with same or earlier date '%d' as this.lastChange (%d)", kNode.updatedAt.getTime(), this.lastChange.getTime());
+					//console.log("node date '%s' vs this.lastChange (%s)", kNode.updatedAt, this.lastChange);
+				}
+				// else{
+				// 	console.warn("received node date '%s' vs this.lastChange (%s)", kNode.updatedAt.getTime(), this.lastChange.getTime());
+				// }
 			}
 
-			if(callback) callback(updatesFromServer);
-		});
+			for(id=0; id<changesFromServer.edges.length; id++){
+				newChanges = true;
+				var kEdge = knalledge.KEdge.edgeFactory(changesFromServer.edges[id]);
+				kEdge.state = knalledge.KEdge.STATE_SYNCED;
+				changesFromServer.edges[id] = kEdge;
+			}
+
+			if(callback && newChanges) callback(changesFromServer);
+		}.bind(this));
 		return updates;
 	};
 	

@@ -58,8 +58,8 @@ KNode.prototype.fill = function(obj){
 		if("ideaId" in obj){this.ideaId = obj.ideaId;}
 		if("version" in obj){this.version = obj.version;}
 		if("isPublic" in obj){this.isPublic = obj.isPublic;}
-		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date native type
-		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date native type
+		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 		if("dataContent" in obj){this.dataContent = obj.dataContent;} //TODO: deep copy?
 		if("visual" in obj){
 			if(!('visual' in this)) this.visual = {};
@@ -76,8 +76,8 @@ KNode.prototype.fill = function(obj){
 KNode.prototype.overrideFromServer = function(obj){
 	if(obj){
 		if("_id" in obj){this._id = obj._id;}
-		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date nativ type
-		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ type
+		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 	}
 	this.state = KNode.STATE_SYNCED;
 };

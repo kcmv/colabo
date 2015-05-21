@@ -40,26 +40,15 @@ db.on('error', console.error.bind(console, 'connection error:'));
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/syncing/all
 exports.index = function(req, res){
 	console.log("[modules/Syncing.js:index]");
-	var found = function(err,syncing){
-		//console.log("[modules/Syncing.js:index] in 'found'");
-		if (err){
-			throw err;
-			var msg = JSON.stringify(err);
-			resSendJsonProtected(res, {data: syncing, accessId : accessId, message: msg, success: false});
-		}else{
-			//console.log("[modules/Syncing.js:index] Data:\n%s", JSON.stringify(syncing));
-			resSendJsonProtected(res, {data: syncing, accessId : accessId, success: true});
-		}
-	}
 	
 	var mapId = req.params.searchParam;
-	var time = new Date(req.params.searchParam2);
+	var time = new Date(parseInt(req.params.searchParam2,10));
 	var type = req.params.type;
 	
 	console.log("[modules/Syncing.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
 	switch (type){
 		case 'in_map_after': //:
-			console.log("Syncing::get changes for map '%s', after timestamp: %s", mapId, time);
+			console.log("Syncing::get changes for map '%s', after timestamp: %s (%d)", mapId, time, time.getTime());
 
 			var nodesEdgesReceived = function(nodes,edges){
 				var changes = {last_change:time, nodes:[],edges:[]};
@@ -68,10 +57,12 @@ exports.index = function(req, res){
 				//console.log(JSON.stringify(edges));
 				var i;
 				for(i=0; i<nodes.length; i++){
-					//console.log("nodes[i]:"+nodes[i]);
+					console.log("nodes[i]:"+nodes[i]);
+					console.log("nodes[i].time: %s (%d)",  nodes[i].updatedAt, nodes[i].updatedAt.getTime());
 					changes.nodes.push(nodes[i]);
 					// console.log("nodes[i].updatedAt instanceof Date:"+ (nodes[i].updatedAt instanceof Date));
-					if(nodes[i].updatedAt > changes.last_change){ //mongoose returns here JavaScript Date object so we can compare it regularly (note: in MongoDb dates are stored as ISODate object but mongoose takes care of conversions)
+					//NOTE: mongoose returns here JavaScript Date object so we can compare it regularly (note: in MongoDb dates are stored as ISODate object but mongoose takes care of conversions)
+					if(nodes[i].updatedAt > changes.last_change){ 
 						// console.log("nodes[i].updatedAt [%s] > changes.last_change [%s]", nodes[i].updatedAt, changes.last_change);
 						changes.last_change = nodes[i].updatedAt;
 					}
@@ -83,8 +74,8 @@ exports.index = function(req, res){
 						changes.last_change = edges[i].updatedAt;
 					}
 				}
-				// console.log("changes: " + JSON.stringify(changes));
-				
+				console.log("changes: " + JSON.stringify(changes));
+				changes.last_change = changes.last_change.getTime();
 				resSendJsonProtected(res, {data: changes, accessId : accessId, success: true});
 			};
 

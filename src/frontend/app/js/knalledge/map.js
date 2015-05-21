@@ -25,6 +25,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.mapLayout = this.mapManager.getActiveLayout();
 
 	this.keyboardInteraction = null;
+	this.syncingInterval = 1000;
 
 };
 
@@ -48,18 +49,18 @@ Map.prototype.init = function() {
 	this.mapLayout.init(this.mapSize, this.scales);
 	this.initializeKeyboard();
 	this.initializeManipulation();
-
-	//setInterval(function() { that.syncingService.getChangesFromServer(that.changesFromServer); }, 1000);
-	var syncing = 
-	true;
-	//false;
-	if(syncing){
-		setInterval(this.syncingService.getChangesFromServer.bind(this.syncingService, this.changesFromServer), 1000);
-	}
 };
 
-Map.prototype.changesFromServer = function(changes) {
-	
+Map.prototype.processSyncedData = function(changes) {
+	var syncedDataProcessedAndVisualized = function(){
+		this.update(this.mapStructure.getSelectedNode());
+		if(this.mapStructure.getSelectedNode()){
+			var vkNode = this.mapStructure.getVKNodeByKId(this.mapStructure.getSelectedNode()._id);
+			this.mapLayout.clickNode(vkNode);
+		}
+	}
+	this.mapStructure.processSyncedData(changes);
+	this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
 };
 
 Map.prototype.update = function(node) {
@@ -71,6 +72,14 @@ Map.prototype.processData = function(mapData, callback) {
 	// we do this only if we created an mapStructure in our class
 	if(!this.mapStructureExternal) this.mapStructure.processData(mapData);
 	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, callback);
+
+	//setting up syncing
+	var syncing = 
+	//true;
+	false;
+	if(syncing){
+		setInterval(this.syncingService.getChangesFromServer.bind(this.syncingService, this.processSyncedData.bind(this)), this.syncingInterval);
+	}
 };
 
 Map.prototype.initializeKeyboard = function() {

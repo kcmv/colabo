@@ -50,16 +50,16 @@ HowAmI.prototype.fill = function(obj){
 		if("level" in obj){this.level = obj.level;}
 		if("importance" in obj){this.importance = obj.importance;}
 
-		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date native whatAmI
-		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date native whatAmI
+		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 	}
 };
 
 HowAmI.prototype.overrideFromServer = function(obj){
 	if(obj){
 		if("_id" in obj){this._id = obj._id;}
-		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date nativ whatAmI
-		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ whatAmI
+		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 	}
 	this.state = HowAmI.STATE_SYNCED;
 };

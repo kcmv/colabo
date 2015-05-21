@@ -34,16 +34,16 @@ WhatAmI.prototype.fill = function(obj){
 		if("name" in obj){this.name = obj.name;}
 		if("parent" in obj){this.parent = obj.parent;}
 
-		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date native parent
-		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date native parent
+		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 	}
 };
 
 WhatAmI.prototype.overrideFromServer = function(obj){
 	if(obj){
 		if("_id" in obj){this._id = obj._id;}
-		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date nativ parent
-		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ parent
+		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 	}
 	this.state = WhatAmI.STATE_SYNCED;
 };

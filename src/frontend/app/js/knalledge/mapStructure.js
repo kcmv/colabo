@@ -385,4 +385,40 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	// this.update(this.rootNode);
 };
 
+MapStructure.prototype.processSyncedData = function(syncedData) {
+	var i=0;
+	var kNode = null;
+	var kEdge = null;
+
+	var newestNode = null; //the node that has be changed the last (so that we can focus on it - as selectedNode)
+	for(i=0; i<syncedData.nodes.length; i++){
+		kNode = syncedData.nodes[i];
+		if(!("isOpen" in kNode.visual)){
+			kNode.visual.isOpen = false;
+		}
+
+		var vkNode = new knalledge.VKNode();
+		vkNode.kNode = kNode;
+		vkNode.isOpen = kNode.visual.isOpen;
+		vkNode.xM = kNode.visual.xM;
+		vkNode.yM = kNode.visual.yM;
+		vkNode.widthM = kNode.visual.widthM;
+		vkNode.heightM = kNode.visual.heightM;
+
+		this.nodesById[vkNode.id] = vkNode;
+		if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){
+			newestNode = vkNode;
+		}
+	}
+
+	for(i=0; i<syncedData.edges.length; i++){
+		kEdge = syncedData.edges[i];
+		var vkEdge = new knalledge.VKEdge();
+		vkEdge.kEdge = kEdge;
+		this.edgesById[vkEdge.id] = vkEdge;
+	}
+
+	this.selectedNode = newestNode; //we focus on the last changed node. It is used for next functions in calls
+};
+
 }()); // end of 'use strict';

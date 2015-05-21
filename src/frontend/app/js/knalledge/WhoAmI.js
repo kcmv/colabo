@@ -71,16 +71,16 @@ WhoAmI.prototype.fill = function(obj){
 		if("language" in obj){this.language = obj.language;}
 		if("origin" in obj){this.origin = obj.origin;}
 
-		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date native familyname
-		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date native familyname
+		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 	}
 };
 
 WhoAmI.prototype.overrideFromServer = function(obj){
 	if(obj){
 		if("_id" in obj){this._id = obj._id;}
-		if("createdAt" in obj){this.createdAt = obj.createdAt;} //TODO: converto to Date nativ familyname
-		if("updatedAt" in obj){this.updatedAt = obj.updatedAt;}//TODO: converto to Date nativ familyname
+		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 	}
 	this.state = WhoAmI.STATE_SYNCED;
 };

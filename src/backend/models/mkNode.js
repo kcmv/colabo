@@ -25,7 +25,7 @@ var pluginAuditing = require('./pluginAuditing');
 kNodeSchema.plugin(pluginAuditing, {});
 
 kNodeSchema.statics.findInMapAfterTime = function (map, time, cb) {
-	console.log('kNodeSchema::findInMapAfterTime: %s, %s', map, time);
+	//console.log('kNodeSchema::findInMapAfterTime: %s, %s (%d)', map, time, time.getTime());
     return this.find( {$and: [ { mapId: map}, {updatedAt: {$gt: time}}]}, cb);
 }
 
