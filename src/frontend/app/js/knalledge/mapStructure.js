@@ -424,8 +424,10 @@ MapStructure.prototype.processSyncedData = function(syncedData) {
 		var vkNode = this.getVKNodeByKId(kNode._id);
 		if(!vkNode){ // it is a new node not an updated one
 			vkNode = new knalledge.VKNode();
+			vkNode.fillWithKNode(kNode, true);
+		}else{
+			vkNode.fillWithKNode(kNode);			
 		}
-		vkNode.fillWithKNode(kNode);
 
 		this.nodesById[vkNode.id] = vkNode;
 		if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){
@@ -439,8 +441,10 @@ MapStructure.prototype.processSyncedData = function(syncedData) {
 		var vkEdge = this.getVKEdgeByKId(kEdge._id);
 		if(!vkEdge){ // it is a new edge not an updated one
 			vkEdge = new knalledge.VKEdge();
+			vkEdge.fillWithKEdge(kEdge, true);			
+		}else{
+			vkEdge.fillWithKEdge(kEdge);			
 		}
-		vkEdge.fillWithKEdge(kEdge);
 
 		this.edgesById[vkEdge.id] = vkEdge;
 	}
