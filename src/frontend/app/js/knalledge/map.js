@@ -73,11 +73,7 @@ Map.prototype.processData = function(mapData, callback) {
 	if(!this.mapStructureExternal) this.mapStructure.processData(mapData);
 	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, callback);
 
-	//setting up syncing
-	var syncing = 
-	//true;
-	false;
-	if(syncing){
+	if(knalledgeMapViewService.config.poolChanges){
 		setInterval(this.syncingService.getChangesFromServer.bind(this.syncingService, this.processSyncedData.bind(this)), this.syncingInterval);
 	}
 };

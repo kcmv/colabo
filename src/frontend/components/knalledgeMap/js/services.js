@@ -1499,6 +1499,9 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 				// var that = this;
 		var provider = {
 			config: {
+				syncing: {
+					poolChanges: true,
+				},
 				nodes: {
 					showImages: true,
 					showTypes: true
