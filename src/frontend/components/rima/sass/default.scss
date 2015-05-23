@@ -222,7 +222,18 @@
 			&:hover{
 				cursor: pointer;
 				background-color: lighten(#888, 35%);
+
+				.management{
+					display : block;
+				}
 			}
+
+			td{
+				.management{ 
+					display: none;
+				}
+			}
+
 			&.active-selection{
 				background-color: lighten(#888, 25%);
 				font-weight: bold;
