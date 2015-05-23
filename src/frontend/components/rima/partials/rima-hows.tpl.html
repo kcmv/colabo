@@ -3,7 +3,7 @@
 	<tr><th>my relation</th><th>what</th></tr>
 	<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
 		<td class="cell">{{item.how}}</td>
-		<td>{{item.whatAmI.name}}</td>
+		<td>{{item.whatAmI.name}}<div class="management"><button class="btn btn-primary" type="button" ng-click="delete(item)">X</button></div></td>
 	</tr>
 </table>
 

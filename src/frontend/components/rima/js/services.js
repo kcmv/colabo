@@ -852,6 +852,13 @@ rimaServices.provider('RimaService', {
 				return hows;
 			},
 
+			deleteHow: function(id, callback){
+				var data = HowAmIService.destroy(id, function(data){
+					if(callback){callback(data);}
+				});
+				return data;
+			},
+
 			createHowAmI: function(howAmI, callback){
 				var that = this;
 				var howAmI = HowAmIService.create(howAmI, function(howAmIFromServer){

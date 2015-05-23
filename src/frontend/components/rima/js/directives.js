@@ -377,6 +377,21 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.whatChanged = function(item) {
 					
 				}
+
+				$scope.delete = function(how) {
+					if(confirm("Are you sure you want to delete you relation to '"+ how.whatAmI.name +"'?")){
+						RimaService.deleteHow(how._id, function(){
+							var index = -1;
+							for(var i in $scope.items){
+								if($scope.items[i]._id == how._id){
+									index = i;
+									break;
+								}
+							}
+							if(index != -1){delete $scope.items[index];}
+						});
+					}
+				}
     		}
     	};
 	}])
