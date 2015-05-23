@@ -13,9 +13,12 @@ angular.module('KnAllEdgeApp',[
 	, 'textAngular'
 	// , 'textAngularSetup'
 
-	, 'knalledgeMapDirectives' // KnAllEdge Map component
-	, 'knalledgeMapServices'
+	, 'knalledgeMapServices' // KnAllEdge Map component
+	, 'knalledgeMapDirectives'
 	// , 'rimaUserServices'
+
+	, 'loginServices'
+	, 'loginDirectives'
 
 	, 'rimaServices'
 	, 'rimaDirectives'
@@ -35,6 +38,21 @@ angular.module('KnAllEdgeApp',[
 	})
 	.when('/maps', {
 		templateUrl: '../components/knalledgeMap/partials/knalledgeMaps-index.tpl.html'
+	})
+	.when('/login/iAmId/:iAmId?', {
+		templateUrl: '../components/login/partials/index.tpl.html'
+	})
+	// https://docs.angularjs.org/api/ngRoute/provider/$routeProvider
+	// http://stackoverflow.com/questions/17510962/can-angularjs-routes-have-optional-parameter-values
+	// http://localhost:8410/app/index-dev.html#/login/iAmId/55268521fb9a901e442172f8/token/1/route/whoAmI
+	.when('/login/iAmId/:iAmId/token/:token?/route/:route?', {
+		templateUrl: '../components/login/partials/index.tpl.html'
+	})
+	.when('/logout', {
+		templateUrl: '../components/login/partials/logout-index.tpl.html'
+	})
+	.when('/whoAmI', {
+		templateUrl: '../components/rima/partials/rima-whoAmI.tpl.html'
 	})
 	.otherwise({
 		redirectTo: '/maps'

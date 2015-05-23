@@ -18,7 +18,7 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.bindings = {
 				};
 			}
-    	};
+		};
 	}])
 
 	.directive('rimaUsersList', ["$rootScope", "$timeout", "$location", "RimaService",
@@ -306,6 +306,8 @@ angular.module('rimaDirectives', ['Config'])
 				}
 				$scope.items = null;
 				$scope.selectedItem = null;
+
+				$scope.iAmId = RimaService.getIAmId();
 
 				//html-select:
 				$scope.hows = RimaService.getHows();

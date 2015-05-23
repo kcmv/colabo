@@ -706,15 +706,17 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 
 rimaServices.provider('RimaService', {
 	// privateData: "privatno",
-	$get: ['$q', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', /*'$rootScope', */
-	function($q, ENV, WhoAmIService, WhatAmIService, HowAmIService /*, $rootScope*/) {
+	$get: ['$q', '$window', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', /*'$rootScope', */
+	function($q, $window, ENV, WhoAmIService, WhatAmIService, HowAmIService /*, $rootScope*/) {
 		var provider = {
 			ANONYMOUS_USER_ID: "55268521fb9a901e442172f8",
+			iAmId: null,
 			whoAmIs: [],
 			loggedInWhoAmI: new knalledge.WhoAmI(),
 			selectedWhoAmI: null,
 			howAmIs: [],
 			whatAmIs: [],
+			loginInfo: {},
 
 			config: {
 				showUsers: true
@@ -725,6 +727,49 @@ rimaServices.provider('RimaService', {
 				this.loggedInWhoAmI.displayName = "anonymous";
 				this.selectedWhoAmI = this.loggedInWhoAmI;
 				this.loadRimaDataSets();
+
+				if($window.localStorage){
+					console.info("[RimaService:init] There is a localstorage!");
+					if($window.localStorage.loginInfo){
+						console.info("[RimaService:init] There is a $window.localStorage.loginInfo!");
+						this.loginInfo = JSON.parse($window.localStorage.loginInfo);
+						if(this.loginInfo.iAmId) this.loggedInWhoAmI._id = this.loginInfo.iAmId;
+						if(this.loginInfo.token) this.loggedInWhoAmI.token = this.loginInfo.token;						
+					}
+				}
+			},
+
+			logout: function(){
+				this.loggedInWhoAmI._id = this.ANONYMOUS_USER_ID;
+				this.loginInfo.iAmId = this.ANONYMOUS_USER_ID;
+				this.loggedInWhoAmI.displayName = "anonymous";
+				this.loginInfo.displayName = "anonymous";
+				this.loggedInWhoAmI.token = null;
+				this.loginInfo.token = null;
+				if($window.localStorage){
+					$window.localStorage.loginInfo = JSON.stringify(this.loginInfo);
+				}
+			},
+			setIAmId: function(iAmId){
+				this.loggedInWhoAmI._id = iAmId;
+				this.loginInfo.iAmId = iAmId;
+				if($window.localStorage){
+					$window.localStorage.loginInfo = JSON.stringify(this.loginInfo);
+				}
+			},
+			getIAmId: function(){
+				return this.loggedInWhoAmI._id;
+			},
+				
+			setUserToken: function(token){
+				this.loggedInWhoAmI.token = token;
+				this.loginInfo.token = token;
+				if($window.localStorage){
+					$window.localStorage.loginInfo = JSON.stringify(this.loginInfo);
+				}
+			},
+			getUserToken: function(){
+				return this.loggedInWhoAmI.token;
 			},
 				
 			loadUsersFromList: function(usersIds, callback){
