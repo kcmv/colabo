@@ -1,0 +1,15 @@
+<B>WhoAmI</B> RIMA Wizard
+
+<wizard current-step-number="currentStepNumber" submit="submit()">
+	<wizard-step title="step 1" entered="stepEntered()">
+		<p>step 1</p>
+		<input type="text" ng-model="requiredText" required />
+	</wizard-step>
+	<wizard-step title="step 2" required-step-number="0" entered="stepEntered()">
+		<p>step 2</p>
+		<input type="text" ng-model="requiredText2" required />
+	</wizard-step>
+	<wizard-step title="WhoAmI" required-step-number="1" entered="stepEntered()">
+		<p>step 2</p>
+	</wizard-step>
+</wizard>

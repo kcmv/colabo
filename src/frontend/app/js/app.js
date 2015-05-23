@@ -8,10 +8,12 @@ angular.module('KnAllEdgeApp',[
 	  'ngRoute'
 	, 'ngSanitize' // necessary for outputing HTML in angular directive
 	, 'ngStorage' // local storage support for Angular
+	, 'ngAnimate'
 
 	, 'ui.bootstrap' // UI-bootstrap
 	, 'textAngular'
 	// , 'textAngularSetup'
+	, 'ngWizard'
 
 	, 'knalledgeMapServices' // KnAllEdge Map component
 	, 'knalledgeMapDirectives'
@@ -39,6 +41,7 @@ angular.module('KnAllEdgeApp',[
 	.when('/maps', {
 		templateUrl: '../components/knalledgeMap/partials/knalledgeMaps-index.tpl.html'
 	})
+	// http://localhost:8410/app/index-dev.html#/login/iAmId
 	.when('/login/iAmId/:iAmId?', {
 		templateUrl: '../components/login/partials/index.tpl.html'
 	})
@@ -48,9 +51,11 @@ angular.module('KnAllEdgeApp',[
 	.when('/login/iAmId/:iAmId/token/:token?/route/:route?', {
 		templateUrl: '../components/login/partials/index.tpl.html'
 	})
+	// http://localhost:8410/app/index-dev.html#/logout
 	.when('/logout', {
 		templateUrl: '../components/login/partials/logout-index.tpl.html'
 	})
+	// http://localhost:8410/app/index-dev.html#/whoAmI
 	.when('/whoAmI', {
 		templateUrl: '../components/rima/partials/rima-whoAmI.tpl.html'
 	})

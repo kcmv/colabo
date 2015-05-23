@@ -383,7 +383,7 @@ angular.module('rimaDirectives', ['Config'])
 
 	.directive('rimaWhat', ['$rootScope', 'RimaService',
 		function($rootScope, RimaService){
-		console.log("[rimaWhats] loading directive");
+		console.log("[rimaWhat] loading directive");
 		return {
 			restrict: 'AE',
 			scope: {
@@ -406,6 +406,21 @@ angular.module('rimaDirectives', ['Config'])
 
 				$scope.remove = function(){
 					$scope.itemRemove();
+				};
+			}
+    	};
+	}])
+
+	.directive('rimaWizard', ['$rootScope', 'RimaService',
+		function($rootScope, RimaService){
+		console.log("[rimaWizard] loading directive");
+		return {
+			restrict: 'AE',
+			scope: {
+			},
+			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
+			link: function ( $scope, $element) {
+				$scope.bindings = {
 				};
 			}
     	};
