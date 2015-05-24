@@ -1,5 +1,6 @@
 'use strict';
 
+var ANONYMOUS_USER_ID = "55268521fb9a901e442172f8";
 var mongoose = require('mongoose');
 //var Promise = require("bluebird");
 
@@ -88,6 +89,7 @@ exports.create = function(req, res){
 	console.log("[modules/kEdge.js:create] req.body: %s", JSON.stringify(req.body));
 	
 	var data = req.body;
+	if(!("iAmId" in data) || data.iAmId == null || data.iAmId == 0) data.iAmId = mongoose.Types.ObjectId(ANONYMOUS_USER_ID);
 	
 	var kEdge = new KEdgeModel(data);
 	//TODO: Should we force existence of node ids?

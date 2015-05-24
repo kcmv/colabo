@@ -248,7 +248,7 @@ MapStructure.prototype.createNodeWithEdge = function(sourceVKNode, vkEdge, targe
 		this.createNode(sourceVKNode);
 	}
 	if(!(targetVKNode.id in this.nodesById)){
-		this.createNode(targetVKNode);
+		this.createNode(targetVKNode, targetVKNode.kNode ? targetVKNode.kNode.type : undefined);
 	}
 	vkEdge.kEdge.sourceId = sourceVKNode.kNode._id;
 	vkEdge.kEdge.targetId = targetVKNode.kNode._id;
