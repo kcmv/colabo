@@ -19,6 +19,9 @@ var WhoAmI =  knalledge.WhoAmI = function(){
 	this.locationUpdatedAt = null;
 	this.language = "";
 	this.origin = "";
+	this.extensions = {
+		contacts: null
+	};
 
 	this.createdAt = null;
 	this.updatedAt = null;

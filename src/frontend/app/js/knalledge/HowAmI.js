@@ -5,7 +5,7 @@ var HowAmI =  knalledge.HowAmI = function(){
 	this._id = HowAmI.MaxId++; //TODO: maxId logic should be migrated here
 	this.whoAmI = "";
 	this.whatAmI = "";
-	this.how = "";	
+	this.how = 1;	
 	this.negation = "";
 	this.level = "";
 	this.importance = 0;

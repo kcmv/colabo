@@ -17,7 +17,10 @@ var whoAmISchema = mongoose.Schema({
 	accessedAt: Date,
 	locationUpdatedAt: Date,
 	language: String,
-	origin: String
+	origin: String,
+	extensions: {
+		contacts:{}
+	}
 });
 
 var pluginAuditing = require('./pluginAuditing');

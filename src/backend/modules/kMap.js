@@ -117,14 +117,22 @@ exports.update = function(req, res){
 	console.log("[modules/KMap.js:update] data, : %s", JSON.stringify(data));
 	// console.log("[modules/KMap.js:update] kmap.toObject(), : %s", JSON.stringify(kmap.toObject());
 	delete data._id;
+
+	data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
+	KMapModel.update({_id:id}, data, function (err, raw) {
+		if (err) throw err;
+		console.log('The raw response from Mongo was ', raw);
+		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+	});
+	
 	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
 	//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
-	KMapModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
-		  if (err) throw err;
-		  console.log('The number of updated documents was %d', numberAffected);
-		  console.log('The raw response from Mongo was ', raw);
-		  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
-	});			
+	// KMapModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
+	// 	  if (err) throw err;
+	// 	  console.log('The number of updated documents was %d', numberAffected);
+	// 	  console.log('The raw response from Mongo was ', raw);
+	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
+	// });			
 }
 
 // curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8042/kmaps/one/553fa6ed4f05fdb0311a10cb

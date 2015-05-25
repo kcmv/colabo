@@ -177,9 +177,9 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 			return null;
 		}
 		var id = whoAmI._id;
-		var whoAmIForServer = whoAmI.toServerCopy(); //TODO: move it to transformRequest ?
+		var whoAmIForServer = whoAmI.toServerCopy();
 		if(QUEUE && false){
-			KnalledgeMapQueue.execute({data: whoAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create"});
+			KnalledgeMapQueue.execute({data: whoAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"});
 			return this.updatePlain({searchParam:id, type:'one'}, whoAmIForServer, callback); //TODO: does it return whoAmI so we should fix it like in create?
 		}
 		else{
@@ -411,7 +411,7 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 		var id = whatAmI._id;
 		var whatAmIForServer = whatAmI.toServerCopy(); //TODO: move it to transformRequest ?
 		if(QUEUE && false){
-			KnalledgeMapQueue.execute({data: whatAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create"});
+			KnalledgeMapQueue.execute({data: whatAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"});
 			return this.updatePlain({searchParam:id, type:'one'}, whatAmIForServer, callback); //TODO: does it return whatAmI so we should fix it like in create?
 		}
 		else{
@@ -649,7 +649,7 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		var id = howAmI._id;
 		var howAmIForServer = howAmI.toServerCopy(); //TODO: move it to transformRequest ?
 		if(QUEUE && false){
-			KnalledgeMapQueue.execute({data: howAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create"});
+			KnalledgeMapQueue.execute({data: howAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"});
 			return this.updatePlain({searchParam:id, type:'one'}, howAmIForServer, callback); //TODO: does it return howAmI so we should fix it like in create?
 		}
 		else{
@@ -733,10 +733,18 @@ rimaServices.provider('RimaService', {
 					if($window.localStorage.loginInfo){
 						console.info("[RimaService:init] There is a $window.localStorage.loginInfo!");
 						this.loginInfo = JSON.parse($window.localStorage.loginInfo);
-						if(this.loginInfo.iAmId) this.loggedInWhoAmI._id = this.loginInfo.iAmId;
-						if(this.loginInfo.token) this.loggedInWhoAmI.token = this.loginInfo.token;						
+						if(this.loginInfo.iAmId){
+							this.loggedInWhoAmI._id = this.loginInfo.iAmId;
+							this.loggedInWhoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
+						}
+						if(this.loginInfo.token) this.loggedInWhoAmI.token = this.loginInfo.token;					
 					}
 				}
+			},
+
+			updateWhoAmI: function(callback){
+				this.loggedInWhoAmI = WhoAmIService.update(this.loggedInWhoAmI, callback);
+				return this.loggedInWhoAmI;
 			},
 
 			logout: function(){

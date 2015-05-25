@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var howAmISchema = mongoose.Schema({
 	whoAmI: {type: mongoose.Schema.Types.ObjectId, ref: 'WhoAmI'},
 	whatAmI: {type: mongoose.Schema.Types.ObjectId, ref: 'WhatAmI'},
-	how: String, //TODO: language?!
+	how: Number,
 	negation: { type: Boolean, default: false },
 	level: { type: Number, default: 3 }, // 0 - 5
 	importance: { type: Number, default: 3 } // 0 - 5

@@ -310,9 +310,9 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			return null;
 		}
 		var id = kNode._id;
-		var kNodeForServer = kNode.toServerCopy(); //TODO: move it to transformRequest ?
+		var kNodeForServer = kNode.toServerCopy();
 		if(QUEUE && false){
-			KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create"});
+			KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"});
 			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, callback); //TODO: does it return node so we should fix it like in create?
 		}
 		else{
@@ -1237,7 +1237,7 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 		var id = kMap._id;
 		var kMapForServer = kMap.toServerCopy(); //TODO: move it to transformRequest ?
 		if(QUEUE && false){
-			KnalledgeMapQueue.execute({data: kMap, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create"});
+			KnalledgeMapQueue.execute({data: kMap, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"});
 			return this.updatePlain({searchParam:id, type:'one'}, kMapForServer, callback); //TODO: does it return map so we should fix it like in create?
 		}
 		else{

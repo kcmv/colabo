@@ -302,6 +302,8 @@ angular.module('rimaDirectives', ['Config'])
 			controller: function ( $scope, $element) {
 				var init = function(){
 					$scope.items = RimaService.getUsersHows(RimaService.getActiveUserId());
+					//$scope.modal.formData.contentTypeId= option.contentTypes[0].id;
+					$scope.selectedHowOption = $scope.hows[0].id;
 			    	//$scope.selectedItem = RimaService.getActiveUser();
 				}
 				$scope.items = null;
@@ -311,7 +313,10 @@ angular.module('rimaDirectives', ['Config'])
 
 				//html-select:
 				$scope.hows = RimaService.getHows();
-				$scope.selectedHowOption= {id:1};
+
+				$scope.howById = function(id){
+					return RimaService.getHowForId(id).title;
+				};
 
 				$scope.createHow = function(){
 					var createdHow = function(howFromServer){
@@ -324,7 +329,7 @@ angular.module('rimaDirectives', ['Config'])
 					for(var i in $scope.items){
 						var item = $scope.items[i];
 						var whatName = $scope.whatInput === 'string' ? $scope.whatInput : $scope.whatInput.name;
-						if(selectedHow.title == item.how && whatName == item.whatAmI.name){
+						if(selectedHow.id == item.how && whatName == item.whatAmI.name){
 							window.alert("You have already described yourself through this");
 							return;
 						}
@@ -332,7 +337,7 @@ angular.module('rimaDirectives', ['Config'])
 
 					var how = new knalledge.HowAmI();
 					how.whoAmI = RimaService.getActiveUserId();
-					how.how = selectedHow.title;
+					how.how = selectedHow.id;
 					
 					//how.whatAmI = $scope.whatInput; //TODO:
 
@@ -355,7 +360,7 @@ angular.module('rimaDirectives', ['Config'])
 						RimaService.addToLocalWhats($scope.whatInput);//TODO: here we are adding it to 'whatAmI' local cache:
 						saveHowWIthNewWhat($scope.whatInput._id);
 					}
-				}
+				};
 
 				$scope.getItems = function(value){
 					var items = RimaService.getByNameContains(value);
@@ -435,9 +440,22 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
+				//$scope.currentStepNumber = 2;
 				$scope.bindings = {
 				};
+			},
+			controller: function ( $scope, $element) {
+				$scope.whoAmI = RimaService.loggedInWhoAmI;
+				$scope.submitted = false;
+				$scope.submit = function(){
+					console.log('pre:'+RimaService.loggedInWhoAmI);
+					RimaService.updateWhoAmI(function(){
+						console.log('after:'+RimaService.loggedInWhoAmI);
+						$scope.submitted = true;
+					});
+				};
 			}
+			
     	};
 	}]);
 

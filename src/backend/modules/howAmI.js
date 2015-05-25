@@ -156,14 +156,22 @@ exports.update = function(req, res){
 	console.log("[modules/HowAmI.js:update] data, : %s", JSON.stringify(data));
 	// console.log("[modules/HowAmI.js:update] howAmI.toObject(), : %s", JSON.stringify(howAmI.toObject());
 	delete data._id;
+
+	data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
+	HowAmIModel.update({_id:id}, data, function (err, raw) {
+		if (err) throw err;
+		console.log('The raw response from Mongo was ', raw);
+		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+	});
+	
 	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
 	//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
-	HowAmIModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
-		  if (err) throw err;
-		  console.log('The number of updated documents was %d', numberAffected);
-		  console.log('The raw response from Mongo was ', raw);
-		  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
-	});			
+	// HowAmIModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
+	// 	  if (err) throw err;
+	// 	  console.log('The number of updated documents was %d', numberAffected);
+	// 	  console.log('The raw response from Mongo was ', raw);
+	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
+	// });			
 }
 
 // curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8888/howAmIs/one/551bdcda1763e3f0eb749bd4

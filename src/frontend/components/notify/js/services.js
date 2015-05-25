@@ -179,7 +179,7 @@ notifyServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMap
 		var id = whoAmI._id;
 		var whoAmIForServer = whoAmI.toServerCopy(); //TODO: move it to transformRequest ?
 		if(QUEUE && false){
-			KnalledgeMapQueue.execute({data: whoAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create"});
+			KnalledgeMapQueue.execute({data: whoAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"});
 			return this.updatePlain({searchParam:id, type:'one'}, whoAmIForServer, callback); //TODO: does it return whoAmI so we should fix it like in create?
 		}
 		else{

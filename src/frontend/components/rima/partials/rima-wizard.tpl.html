@@ -1,16 +1,34 @@
-<B>WhoAmI</B> RIMA Wizard
-
+<!-- <B>WhoAmI</B> RIMA Wizard
+ -->
 <wizard current-step-number="currentStepNumber" submit="submit()">
-	<wizard-step title="step 1" entered="stepEntered()">
-		<p>step 1</p>
-		<input type="text" ng-model="requiredText" required />
+	<wizard-step title="step 1" entered="stepEntered()" animation="slide">
+		<div class="general-data">
+			<p class="title">Welcome to CollaboScience!</p>
+			<form>
+				<fieldset>
+					<legend>General data</legend>
+					<div><label>First name</label><input type="text" required ng-model="whoAmI.firstname" /></div>
+					<div><label>Last name</label><input type="text" required ng-model="whoAmI.familyname" /></div>
+					<div><label>Display name</label><input type="text" required ng-model="whoAmI.displayName" /><span class='note'>(shorter - preferrably, up to 10 characters, no spaces)</span></div>
+					<div><label>email</label><input type="text" required ng-model="whoAmI.e_mail" /></div>
+				</fieldset>
+			</form>
+		</div>
 	</wizard-step>
-	<wizard-step title="step 2" required-step-number="0" entered="stepEntered()">
+	<wizard-step title="step 2" required-step-number="0" entered="stepEntered()" animation="slide">
 		<p>step 2</p>
-		<input type="text" ng-model="requiredText2" required />
-		<div rima-hows class="rima-hows"></div>
+		<div class="general-data">
+			<p class="title">Welcome to CollaboScience!</p>
+			<form>
+				<fieldset>
+					<legend>Conferencing Details</legend>
+					<div><label>Skype Contact</label><input type="text" required ng-model="whoAmI.extensions.contacts.skype" /></div>
+				</fieldset>
+			</form>
+		</div>
 	</wizard-step>
-	<wizard-step title="WhoAmI" required-step-number="1" entered="stepEntered()">
-		<p>step 2</p>
+	<wizard-step title="step 3" required-step-number="1" required-step-number="1" entered="stepEntered()" animation="slide">
+		<p>step 3</p>
+			<div rima-hows class="rima-hows"></div>
 	</wizard-step>
 </wizard>

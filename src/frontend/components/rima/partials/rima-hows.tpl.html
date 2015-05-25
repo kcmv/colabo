@@ -2,17 +2,17 @@
 <table class="list">
 	<tr><th>my relation</th><th>what</th></tr>
 	<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
-		<td class="cell">{{item.how}}</td>
+		<td class="cell">{{howById(item.how)}}</td>
 		<td>{{item.whatAmI.name}}<div class="management"><button class="btn btn-primary" type="button" ng-click="delete(item)">X</button></div></td>
 	</tr>
 </table>
 
 <span ng-show="!readonly && !decoratingIdeaPartial">
 	<div class="title">Add more about you:</div>
-	<div "how_select">I <select ng-model="selectedHowOption" ng-options="how.id as how.title for how in hows"></select></div>
+	<div "how_select">I <select ng-attr-size="{{hows.length}}" ng-model="selectedHowOption" ng-options="how.id as how.title for how in hows"></select>
 	<!-- <input class="what_input" type="text" placeholder="type your interest ..." ng-model="whatInput" ng-change="whatChanged()"/> -->
 
 	<input class="what_input" type="text" ng-model="whatInput" placeholder="type your interest ..." typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input">
 
-	<button ng-if="whatInput" class="btn btn-primary" type="button" ng-click="createHow(whatInput)">Add</button>
+	<button ng-if="whatInput" class="btn btn-primary" type="button" ng-click="createHow(whatInput)">Add</button></div>
 </span>
