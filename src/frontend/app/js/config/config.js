@@ -2,31 +2,6 @@
 'use strict';
 
 /* Configuration */
-var envs = {
-	"server": {
-		"server": {
-			"frontend": "http://headsware.com/mcm/McMap/app",
-			"backend": "http://headsware.com/mcm/McMap/app/data",
-			"parseResponse": true,
-			"jsonPrefixed": ")]}',\n"
-		},
-	},
-	"localhost": {
-		"server": {
-			"frontend": "http://localhost:8410/app",
-			"backend": "http://localhost:8888",
-			"parseResponse": true,
-			"jsonPrefixed": ")]}',\n"
-		},
-	},
-	"json": {		
-		"server": {
-			"frontend": "http://localhost:8410/app",
-			"backend": "http://localhost:8410/app/data",
-			"parseResponse": false
-		}
-	}
-};
 
 var map = {
 	nodes: {
@@ -83,13 +58,7 @@ var map = {
 var mapToolset = {
 };
 
-//var env = envs['json'];
-//var env = envs.json;
-var env = envs.localhost;
-// var env = envs.server;
-
 angular.module('Config', [])
-	.constant("ENV", env)
 	.constant("ConfigMap", map)
 	.constant("ConfigMapToolset", mapToolset);
 
