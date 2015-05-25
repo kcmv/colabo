@@ -309,13 +309,17 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.items = null;
 				$scope.selectedItem = null;
 
-				$scope.iAmId = RimaService.getIAmId();
+				$scope.displayName = RimaService.loggedInWhoAmI.displayName;
 
 				//html-select:
 				$scope.hows = RimaService.getHows();
 
 				$scope.howById = function(id){
 					return RimaService.getHowForId(id).title;
+				};
+
+				$scope.haveHows = function(){
+					return $scope.items.length != 0;
 				};
 
 				$scope.createHow = function(){

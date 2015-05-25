@@ -1,5 +1,5 @@
-<div class="title">Who am I: (iAmID: {{iAmId}})</div>
-<table class="list">
+<div class="title">{{displayName}}'s interests, expertises</div>
+<table class="list" ng-show="haveHows()">
 	<tr><th>my relation</th><th>what</th></tr>
 	<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
 		<td class="cell">{{howById(item.how)}}</td>
@@ -8,11 +8,17 @@
 </table>
 
 <span ng-show="!readonly && !decoratingIdeaPartial">
-	<div class="title">Add more about you:</div>
-	<div "how_select">I <select ng-attr-size="{{hows.length}}" ng-model="selectedHowOption" ng-options="how.id as how.title for how in hows"></select>
+	<div class="subtitle">Add more about you so that CollaboScience can improve your experience and guide collaboration based on your interests and expertises:</div>
+	<div class="note">(examples: "I like 'Psychology'", "I am specialized in 'Computer Networking'")</div>
+	<table "how_select">
+		<tr>
+		<td class="subject">I</td>
+		<td class="select"><select ng-attr-size="{{hows.length}}" ng-model="selectedHowOption" ng-options="how.id as how.title for how in hows"></select></td>
 	<!-- <input class="what_input" type="text" placeholder="type your interest ..." ng-model="whatInput" ng-change="whatChanged()"/> -->
 
-	<input class="what_input" type="text" ng-model="whatInput" placeholder="type your interest ..." typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input">
+		<td class="what_input_element"><input class="what_input" type="text" ng-model="whatInput" placeholder="type your interest ..." typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input"></td>
 
-	<button ng-if="whatInput" class="btn btn-primary" type="button" ng-click="createHow(whatInput)">Add</button></div>
+		<td><button ng-if="whatInput" class="btn btn-primary" type="button" ng-click="createHow(whatInput)">Add</button></td>
+		</tr>
+	</table>
 </span>

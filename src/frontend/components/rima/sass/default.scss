@@ -208,7 +208,9 @@
 	.title{
 		font-weight: bold;
 		text-align: center;
-
+	}
+	.title{
+		text-align: center;
 	}
 	$item_background_color: #888;
 	.list{
@@ -269,7 +271,32 @@
 		width: 60%;
 	}
 	.how_select{
-		padding: 5px;	
+		padding: 5px;
+		display: table;
+	}
+	.note{
+		font-size: 12;
+		font-style: italic;
+		padding: 5px 5px;
+		color: darkgrey;
+	}
+	.subject{
+		/*display: table-cell;*/
+		vertical-align: middle;
+		padding: 5px;
+		/*width: 100%;*/
+	}
+	.select{
+		/*display: table-cell;*/
+		vertical-align: middle;
+		padding: 5px;
+		/*width: 100%;*/
+	}
+	.what_input_element{
+		/*display: table-cell;*/
+		vertical-align: middle;
+		padding: 5px;
+		width: 100%;
 	}
 }
 

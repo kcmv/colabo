@@ -574,6 +574,10 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		},
 		{
 			id:2,
+			title:'am experienced with'
+		},
+		{
+			id:3,
 			title:'am specialized in'
 		}
 	];
