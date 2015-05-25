@@ -1,7 +1,7 @@
 <!-- <B>WhoAmI</B> RIMA Wizard
  -->
-<wizard current-step-number="currentStepNumber" submit="submit()">
-	<wizard-step title="step 1" entered="stepEntered()" animation="slide">
+<div wizard current-step-number="currentStepNumber" submit="submit()">
+	<div wizard-step title="step 1" entered="stepEntered()" animation="slide">
 		<div class="general-data">
 			<p class="title">Welcome to CollaboScience!</p>
 			<form>
@@ -14,8 +14,8 @@
 				</fieldset>
 			</form>
 		</div>
-	</wizard-step>
-	<wizard-step title="step 2" required-step-number="0" entered="stepEntered()" animation="slide">
+	</div>
+	<div wizard-step title="step 2" required-step-number="0" entered="stepEntered()" animation="slide">
 		<p>step 2</p>
 		<div class="general-data">
 			<p class="title">Get most from CollaboScience!</p>
@@ -26,9 +26,9 @@
 				</fieldset>
 			</form>
 		</div>
-	</wizard-step>
-	<wizard-step title="step 3" required-step-number="1" required-step-number="1" entered="stepEntered()" animation="slide">
+	</div>
+	<div wizard-step title="step 3" required-step-number="1" required-step-number="1" entered="stepEntered()" animation="slide">
 		<p>step 3</p>
 			<div rima-hows class="rima-hows"></div>
-	</wizard-step>
-</wizard>
+	</div>
+</div>
