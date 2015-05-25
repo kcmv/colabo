@@ -1,16 +1,20 @@
 <div class="title">{{displayName}}'s interests, expertises</div>
-<table class="list" ng-show="haveHows()">
-	<tr><th>my relation</th><th>what</th></tr>
-	<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
-		<td class="cell">{{howById(item.how)}}</td>
-		<td>{{item.whatAmI.name}}<div class="management"><button class="btn btn-primary" type="button" ng-click="delete(item)">X</button></div></td>
-	</tr>
-</table>
-
+<hr/>
+<div ng-show="haveHows()">
+	<div class="subtitle">This is how you described yourself so far:</div>
+	<table class="list">
+		<tr><th>my relation</th><th>what</th></tr>
+		<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
+			<td class="cell">{{howById(item.how)}}</td>
+			<td>{{item.whatAmI.name}}<div class="management"><button class="btn btn-primary" type="button" ng-click="delete(item)">X</button></div></td>
+		</tr>
+	</table>
+	<hr/>
+</div>
 <span ng-show="!readonly && !decoratingIdeaPartial">
-	<div class="subtitle">Add more about you so that CollaboScience can improve your experience and guide collaboration based on your interests and expertises:</div>
-	<div class="note">(examples: "I like 'Psychology'", "I am specialized in 'Computer Networking'")</div>
-	<table "how_select">
+	<a href="#" class="info">Why should I describe myself?<span>Add more about you so that CollaboScience can improve your experience<br/>and guide collaboration based on your interests and expertises!</span></a>
+	<div class="note">(examples: "I like 'Psychology'", "I am specialized in 'Computer Networking'")<a href="#" class="info">&nbsp;[more help ...]<span><B>How you describe yourself?</B><BR/>.....</span></a></div>
+	<table class="how_select">
 		<tr>
 		<td class="subject">I</td>
 		<td class="select"><select ng-attr-size="{{hows.length}}" ng-model="selectedHowOption" ng-options="how.id as how.title for how in hows"></select></td>
@@ -21,4 +25,8 @@
 		<td><button ng-if="whatInput" class="btn btn-primary" type="button" ng-click="createHow(whatInput)">Add</button></td>
 		</tr>
 	</table>
+	<div class="whats">
+	<div class="subtitle">Or choose from some of existing Topics</div>
+	<div class="note">(just click a Topic to auto-fill it above)</div>
+	</div>
 </span>

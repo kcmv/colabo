@@ -353,6 +353,10 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 		});
 		return whatAmIs;
 	};
+
+	resource.getAll = function(callback){
+		//TODO:
+	}
 	
 	resource.getByNameContains = function(namePart, callback){ //TODO: fix not to return all, but only those in the whatAmIsIds list
 		var whatAmIs = this.queryPlain({ searchParam:namePart, type:'name-contains'},
@@ -926,6 +930,13 @@ rimaServices.provider('RimaService', {
 
 			addToLocalWhats: function(what){
 				this.whatAmIs.push(what);
+			},
+
+			getAllWhats: function(callback){
+				this.whatAmIs = WhatAmIService.getAll(function(whatAmIsFromServer){
+					if(callback){callback(whatAmIsFromServer);}
+				});
+				return this.whatAmIs;
 			}
 
 			/*
