@@ -735,6 +735,7 @@ rimaServices.provider('RimaService', {
 				this.loggedInWhoAmI.displayName = "anonymous";
 				this.selectedWhoAmI = this.loggedInWhoAmI;
 				this.loadRimaDataSets();
+				//TODO: loadUser
 
 				if($window.localStorage){
 					console.info("[RimaService:init] There is a localstorage!");
@@ -751,8 +752,8 @@ rimaServices.provider('RimaService', {
 			},
 
 			updateWhoAmI: function(callback){
-				this.loggedInWhoAmI = WhoAmIService.update(this.loggedInWhoAmI, callback);
-				return this.loggedInWhoAmI;
+				WhoAmIService.update(this.loggedInWhoAmI, callback);
+				//return this.loggedInWhoAmI;
 			},
 
 			logout: function(){
@@ -799,7 +800,7 @@ rimaServices.provider('RimaService', {
 				return whoAmIs;
 			},
 
-			loadRimaDataSets: function(){
+			loadRimaDataSets: function(){ //not used yet ...
 				var rimasReceived = function(){
 					console.log("[RimaService::rimasReceived]");
 					// var eventName = "rimasLoadedEvent";

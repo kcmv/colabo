@@ -358,10 +358,10 @@ $large: 1400px;
     width: 20em; }
 /* line 373, ../sass/default.scss */
 .rima-wizard .note {
-  font-size: 12;
+  font-size: 14;
   font-style: italic;
   padding: 5px 5px;
-  color: darkgrey; }
+  color: #666; }
 /* line 379, ../sass/default.scss */
 .rima-wizard .submit {
   display: none; }

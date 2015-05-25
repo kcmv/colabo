@@ -315,7 +315,12 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.hows = RimaService.getHows();
 
 				$scope.howById = function(id){
-					return RimaService.getHowForId(id).title;
+					if(id !== 'undefined'){
+						return RimaService.getHowForId(id).title;
+					}
+					else{
+						return new knalledge.HowAmI();
+					}
 				};
 
 				$scope.haveHows = function(){
@@ -385,7 +390,7 @@ angular.module('rimaDirectives', ['Config'])
 				};
 				$scope.whatChanged = function(item) {
 					
-				}
+				};
 
 				$scope.delete = function(how) {
 					if(confirm("Are you sure you want to delete you relation to '"+ how.whatAmI.name +"'?")){
@@ -400,7 +405,24 @@ angular.module('rimaDirectives', ['Config'])
 							if(index != -1){delete $scope.items[index];}
 						});
 					}
-				}
+				};
+
+				$scope.finished = function(){
+					var finishIt = function(){
+						$location.path("/maps");
+					};
+
+					if($scope.items.length == 0){
+						if(confirm("You have not added any of descriptions! Are you sure that we should continue?")){
+							finishIt();
+						}
+					}
+					else{
+						if(confirm("Are you satisfied with your description, so that we can continue?")){
+							finishIt();
+						}
+					}
+				};
     		}
     	};
 	}])
@@ -449,14 +471,21 @@ angular.module('rimaDirectives', ['Config'])
 				};
 			},
 			controller: function ( $scope, $element) {
+
 				$scope.whoAmI = RimaService.loggedInWhoAmI;
 				$scope.submitted = false;
-				$scope.submit = function(){
-					console.log('pre:'+RimaService.loggedInWhoAmI);
+
+				$scope.stepEntered = function(){
+					console.log('stepEntered (); $scope.currentStepNumber: %d',$scope.currentStepNumber);
 					RimaService.updateWhoAmI(function(){
-						console.log('after:'+RimaService.loggedInWhoAmI);
-						$scope.submitted = true;
+						console.log('after:' + RimaService.loggedInWhoAmI);
+						//$scope.submitted = true;
 					});
+				};
+
+				$scope.submit = function(){//not used in our case, because we save it upon each step
+					console.log('pre:'+RimaService.loggedInWhoAmI);
+					//$scope.submitted = true;
 				};
 			}
 			
