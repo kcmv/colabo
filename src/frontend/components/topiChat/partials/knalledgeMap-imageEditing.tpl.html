@@ -1,0 +1,19 @@
+<div class="knalledge_title">{{title}}
+	<div class="knalledge_close" ng-click="cancelled()">X</div>
+</div>
+
+<form>
+	<fieldset>
+		<input class="image_url" type="text" placeholder="type image url.." ng-model="image.url" ng-change="urlChanged()"/>
+		<span class="help-block">(please, provide a full url)</span>
+		<p class="dimensions">
+			<input type="text" placeholder="width" ng-model="image.width"/> x <input type="text" placeholder="height" ng-model="image.height"/>
+		</p>
+<!-- 		<label class="checkbox"><input type="checkbox"> Keep apsect-ratio</label>
+ -->
+ 		<p class="buttons">
+			<button class="btn btn-primary" type="submit" ng-click="submitted()">Add Image</button>
+			<button class="btn btn-warning" ng-click="cancelled()">Cancel</button>
+		</p>
+	</fieldset>
+</form>
