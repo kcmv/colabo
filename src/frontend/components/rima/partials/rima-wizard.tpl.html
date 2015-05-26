@@ -22,7 +22,7 @@
 			<form>
 				<fieldset>
 					<legend>Conferencing Details</legend>
-					<div><label>Skype Contact</label><span ng-show="noSkype" class="note">Skype is not required, but without it, it might be difficult to perform online dialogues</span><input type="text" ng-show="!noSkype" ng-model="whoAmI.extensions.contacts.skype" required /><span class='padded'><input type="checkbox" ng-model="noSkype" /><label class="note">I don't have / don't want to provide skype contact</label></span></div>
+					<div><label>Skype Contact</label><span ng-show="noSkype" class="note">Skype is not required, but without it, it might be difficult to perform online dialogues</span><input type="text" ng-show="!noSkype" ng-model="whoAmI.extensions.contacts.skype" required /><span class='padded'><input type="checkbox" ng-model="noSkype" ng-change="noSkypeChange()"/><label class="note">I don't have / don't want to provide skype contact</label></span></div>
 				</fieldset>
 			</form>
 		</div>

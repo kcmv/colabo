@@ -474,6 +474,7 @@ angular.module('rimaDirectives', ['Config'])
 
 				$scope.whoAmI = RimaService.loggedInWhoAmI;
 				$scope.submitted = false;
+				$scope.noSkype = false;
 
 				$scope.stepEntered = function(){
 					console.log('stepEntered (); $scope.currentStepNumber: %d',$scope.currentStepNumber);
@@ -481,6 +482,16 @@ angular.module('rimaDirectives', ['Config'])
 						console.log('after:' + RimaService.loggedInWhoAmI);
 						//$scope.submitted = true;
 					});
+				};
+
+				$scope.noSkypeChange = function(){
+					//console.log('noSkypeChange ()');
+					if($scope.noSkype){
+						$scope.whoAmI.extensions.contacts.skype = '<skype not provided>';
+					}
+					else{
+						$scope.whoAmI.extensions.contacts.skype = '';	
+					}
 				};
 
 				$scope.submit = function(){//not used in our case, because we save it upon each step
