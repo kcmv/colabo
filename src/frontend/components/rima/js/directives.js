@@ -467,14 +467,14 @@ angular.module('rimaDirectives', ['Config'])
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
 				//$scope.currentStepNumber = 2;
-				$scope.bindings = {
-				};
 			},
 			controller: function ( $scope, $element) {
 
 				$scope.whoAmI = RimaService.loggedInWhoAmI;
 				$scope.submitted = false;
-				$scope.noSkype = false;
+				$scope.bindings = {
+					noSkype: false
+				};
 
 				$scope.stepEntered = function(){
 					console.log('stepEntered (); $scope.currentStepNumber: %d',$scope.currentStepNumber);
@@ -486,7 +486,7 @@ angular.module('rimaDirectives', ['Config'])
 
 				$scope.noSkypeChange = function(){
 					//console.log('noSkypeChange ()');
-					if($scope.noSkype){
+					if($scope.bindings.noSkype){
 						$scope.whoAmI.extensions.contacts.skype = '<skype not provided>';
 					}
 					else{
