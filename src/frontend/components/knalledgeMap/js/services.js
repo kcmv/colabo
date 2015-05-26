@@ -682,6 +682,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			},
 
 			createNode: function(kNode, kNodeType) {
+				if (kNode && kNode.type && typeof kNodeType == 'undefined') kNodeType = kNode.type;
 				
 				var nodeCreated = function(nodeFromServer) {
 					console.log("[KnalledgeMapVOsService] nodeCreated");// + JSON.stringify(nodeFromServer));
