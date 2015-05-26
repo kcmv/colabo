@@ -586,7 +586,7 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		}
 	];
 
-	resource.getHows = function(){
+	resource.getHowVerbs = function(){
 		return this.hows;
 	};
 
@@ -722,7 +722,7 @@ rimaServices.provider('RimaService', {
 			whoAmIs: [],
 			loggedInWhoAmI: new knalledge.WhoAmI(),
 			selectedWhoAmI: null,
-			howAmIs: [],
+			howAmIs: {},
 			whatAmIs: [],
 			loginInfo: {},
 
@@ -801,18 +801,18 @@ rimaServices.provider('RimaService', {
 			},
 
 			loadRimaDataSets: function(){ //not used yet ...
-				var rimasReceived = function(){
-					console.log("[RimaService::rimasReceived]");
-					// var eventName = "rimasLoadedEvent";
-					// //console.log("result:" + JSON.stringify(result));
-					// $rootScope.$broadcast(eventName, result);
-				};
+				// var rimasReceived = function(){
+				// 	console.log("[RimaService::rimasReceived]");
+				// 	// var eventName = "rimasLoadedEvent";
+				// 	// //console.log("result:" + JSON.stringify(result));
+				// 	// $rootScope.$broadcast(eventName, result);
+				// };
 				
-				this.whoAmIs = this.loadUsersFromList(null);
-				this.howAmIs = this.getUsersHows(this.getActiveUserId());
+				// this.whoAmIs = this.loadUsersFromList(null);
+				// this.howAmIs = this.getUsersHows(this.getActiveUserId());
 				
-				$q.all([this.whoAmIs.$promise, this.howAmIs.$promise])
-					.then(rimasReceived.bind(this));
+				// $q.all([this.whoAmIs.$promise, this.howAmIs.$promise])
+				// 	.then(rimasReceived.bind(this));
 			},
 
 			getUsers: function(){
@@ -853,8 +853,8 @@ rimaServices.provider('RimaService', {
 				return gridMaxNum;
 			},
 
-			getHows: function(){
-				return HowAmIService.getHows();
+			getHowVerbs: function(){
+				return HowAmIService.getHowVerbs();
 			},
 
 			getHowForId: function(id){
@@ -863,34 +863,48 @@ rimaServices.provider('RimaService', {
 			},
 
 			getUsersHows: function(id, callback){
-				var hows = HowAmIService.getUsersHows(id, function(hows){
-					if(callback){callback(hows);}
+				if (!this.howAmIs.hasOwnProperty(id)) {this.howAmIs[id] = [];}
+				this.howAmIs[id] = HowAmIService.getUsersHows(id, function(howsFromServer){
+					if(callback){callback(howsFromServer);}
 				});
-				return hows;
+				return this.howAmIs[id];
 			},
 
 			deleteHow: function(id, callback){
 				var data = HowAmIService.destroy(id, function(data){
+					if (this.howAmIs.hasOwnProperty(this.loggedInWhoAmI._id)){
+						var howAmIs = this.howAmIs[this.loggedInWhoAmI._id];
+						for(var i=0;i<howAmIs.length;i++){
+							if(howAmIs[i]._id == id){
+								howAmIs.splice(i,1);
+								break;
+							}
+						}
+					}
 					if(callback){callback(data);}
-				});
+				}.bind(this));
 				return data;
 			},
 
 			createHowAmI: function(howAmI, callback){
-				var that = this;
+				//var that = this;
 				var howAmI = HowAmIService.create(howAmI, function(howAmIFromServer){
-					that.howAmIs.push(howAmIFromServer);
+					if (!this.howAmIs.hasOwnProperty(this.loggedInWhoAmI._id)) {this.howAmIs[this.loggedInWhoAmI._id] = [];}
+					var whatAmI = this.getWhatById(howAmIFromServer.whatAmI);
+					if(whatAmI == null){throw new Error("createHowAmI: What no foud for the created 'How'");}
+					howAmIFromServer.whatAmI = whatAmI;
+					this.howAmIs[this.loggedInWhoAmI._id].push(howAmIFromServer);
 					if(callback){callback(howAmIFromServer);}
-				});
+				}.bind(this));
 				return howAmI;
 			},
 
 			createWhatAmI: function(whatAmI, callback){
-				var that = this;
+				//var that = this;
 				var whatAmI = WhatAmIService.create(whatAmI, function(whatAmIFromServer){
-					that.whatAmIs.push(whatAmIFromServer);
+					this.whatAmIs.push(whatAmIFromServer);
 					if(callback){callback(whatAmIFromServer);}
-				});
+				}.bind(this));
 				return whatAmI;
 			},
 

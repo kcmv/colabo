@@ -312,15 +312,15 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.displayName = RimaService.loggedInWhoAmI.displayName;
 
 				//html-select:
-				$scope.hows = RimaService.getHows();
+				$scope.hows = RimaService.getHowVerbs();
 
 				$scope.howById = function(id){
-					if(id !== 'undefined'){
-						return RimaService.getHowForId(id).title;
-					}
-					else{
-						return new knalledge.HowAmI();
-					}
+					// if(id !== 'undefined'){
+					return RimaService.getHowForId(id).title;
+					// }
+					// else{
+					// 	return new knalledge.HowAmI();
+					// }
 				};
 
 				$scope.haveHows = function(){
@@ -329,8 +329,8 @@ angular.module('rimaDirectives', ['Config'])
 
 				$scope.createHow = function(){
 					var createdHow = function(howFromServer){
-						howFromServer.whatAmI = RimaService.getWhatById(howFromServer.whatAmI);
-						$scope.items.push(howFromServer);
+						//done already in service: ahowFromServer.whatAmI = RimaService.getWhatById(howFromServer.whatAmI);
+						//already bound to the howAmIs array in the RIMA service, so this would cause duplicates: $scope.items.push(howFromServer);
 					}
 
 					var selectedHow = RimaService.getHowForId($scope.selectedHowOption);
