@@ -30,7 +30,8 @@ var WhoAmIModel = mongoose.model('WhoAmI', global.db.whoAmI.Schema);
 // module.exports = WhoAmIModel; //then we can use it by: var User = require('./app/models/WhoAmIModel');
 
 /* connecting */
-mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
+var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
+mongoose.connect('mongodb://127.0.0.1/' + dbName);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 

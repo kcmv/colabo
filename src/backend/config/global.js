@@ -1,5 +1,7 @@
 'use strict';
 
+console.log("Setting up global for knalledge");
+
 var path = require('path');
 
 // expose this function to our app using module.exports
@@ -15,4 +17,12 @@ if (!global.hasOwnProperty('paths')) {
 	global.paths.FOLDER_OUT = path.resolve(global.paths.DATASET_FOLDER + "/out");
 	global.paths.FOLDER_CACHE = path.resolve(global.paths.EXPERIMENTS_FOLDER + "/cache");
 }
-module.exports = global.paths;
+
+if (!global.hasOwnProperty('dbConfig')) {
+	console.log("Setting up global.dbConfig");
+	global.dbConfig = {
+		name: "KnAllEdge"
+	};
+}
+
+module.exports = global;

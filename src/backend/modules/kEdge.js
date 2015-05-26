@@ -27,7 +27,8 @@ var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
 // module.exports = KEdgeModel; //then we can use it by: var User = require('./app/models/KEdgeModel');
 
 /* connecting */
-mongoose.connect('mongodb://localhost/KnAllEdge');
+var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
+mongoose.connect('mongodb://127.0.0.1/' + dbName);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 

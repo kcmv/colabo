@@ -30,13 +30,15 @@ var KMapModel = mongoose.model('kMap', global.db.kMap.Schema);
 // module.exports = KMapModel; //then we can use it by: var User = require('./app/models/KMapModel');
 
 /* connecting */
-mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
+var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
+mongoose.connect('mongodb://127.0.0.1/' + dbName);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/kmaps/one/551bdcda1763e3f0eb749bd4
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/kmaps/all
 exports.index = function(req, res){
+console.log("dbName: %s", dbName);
 	console.log("[modules/kMap.js:index]");
 	var found = function(err,kMaps){
 		//console.log("[modules/kMap.js:index] in 'found'");
