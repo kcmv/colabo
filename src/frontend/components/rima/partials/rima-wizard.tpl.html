@@ -27,8 +27,8 @@
 						<span ng-show="bindings.noSkype" class="note">Skype is not required, but without it, it might be difficult to perform online dialogues</span>
 						<input type="text" ng-show="!bindings.noSkype" ng-model="whoAmI.extensions.contacts.skype" required />
 						<span class='padded'>
-							<input type="checkbox" ng-model="bindings.noSkype" ng-change="noSkypeChange()"/>
-							<label class="note">I don't have / don't want to provide skype contact</label>
+							<input type="checkbox" id="noSkype" ng-model="bindings.noSkype" ng-change="noSkypeChange()"/>
+							<label class="note" for="noSkype">I don't have / don't want to provide skype contact</label>
 						</span>
 					</div>
 				</fieldset>

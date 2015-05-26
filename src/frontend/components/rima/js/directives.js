@@ -409,7 +409,10 @@ angular.module('rimaDirectives', ['Config'])
 
 				$scope.finished = function(){
 					var finishIt = function(){
-						$location.path("/maps");
+						//TODO: should be this, but for simplicity of TNC online event we directed to its map: $location.path("/maps");
+						var mapID = "5552c2c87ffdccd74096d0ca"; 'TNC-Online'
+						$location.path("/map/id/" + mapID);
+						
 					};
 
 					if($scope.items.length == 0){
