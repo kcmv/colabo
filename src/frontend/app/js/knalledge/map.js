@@ -31,7 +31,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 };
 
 Map.prototype.init = function() {
-	var that = this;
+	//var that = this;
 	this.mapSize = [
 		this.parentDom.node().getBoundingClientRect().width - this.config.tree.margin.right - this.config.tree.margin.left,
 		this.parentDom.node().getBoundingClientRect().height - this.config.tree.margin.bottom - this.config.tree.margin.top 
@@ -59,7 +59,7 @@ Map.prototype.processSyncedData = function(changes) {
 			var vkNode = this.mapStructure.getVKNodeByKId(this.mapStructure.getSelectedNode()._id);
 			this.mapLayout.clickNode(vkNode);
 		}
-	}
+	};
 	this.mapStructure.processSyncedData(changes);
 	this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
 };

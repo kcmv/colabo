@@ -341,7 +341,10 @@ $large: 1400px;
   text-align: center;
   font-size: 20px;
   color: darkblue; }
-/* line 358, ../sass/default.scss */
+/* line 357, ../sass/default.scss */
+.rima-wizard .padded {
+  padding: 5px 5px; }
+/* line 361, ../sass/default.scss */
 .rima-wizard .general-data {
   display: block;
   margin-left: 2px;
@@ -353,23 +356,23 @@ $large: 1400px;
   border: 2px groove #333;
   border: solid 1px #000;
   padding: 10px; }
-  /* line 369, ../sass/default.scss */
+  /* line 372, ../sass/default.scss */
   .rima-wizard .general-data label {
     width: 20em; }
-/* line 373, ../sass/default.scss */
+/* line 376, ../sass/default.scss */
 .rima-wizard .note {
   font-size: 14;
   font-style: italic;
   padding: 5px 5px;
   color: #666; }
-/* line 379, ../sass/default.scss */
+/* line 382, ../sass/default.scss */
 .rima-wizard .submit {
   display: none; }
 
-/* line 384, ../sass/default.scss */
+/* line 387, ../sass/default.scss */
 .rima-users-list {
   margin-top: 3em; }
-  /* line 386, ../sass/default.scss */
+  /* line 389, ../sass/default.scss */
   .rima-users-list .list {
     margin: 5px;
     font-size: 18px;
@@ -377,10 +380,10 @@ $large: 1400px;
     -moz-border-radius: 15px / 15px;
     -webkit-border-radius: 15px 15px;
     border-radius: 15px / 15px; }
-    /* line 392, ../sass/default.scss */
+    /* line 395, ../sass/default.scss */
     .rima-users-list .list .active-selection {
       background-color: #eee; }
-    /* line 395, ../sass/default.scss */
+    /* line 398, ../sass/default.scss */
     .rima-users-list .list tr {
       margin-bottom: 3px;
       border-bottom: solid 2px #aaaaaa;
@@ -388,19 +391,19 @@ $large: 1400px;
       -moz-border-radius: 5px / 5px;
       -webkit-border-radius: 5px 5px;
       border-radius: 5px / 5px; }
-      /* line 400, ../sass/default.scss */
+      /* line 403, ../sass/default.scss */
       .rima-users-list .list tr:hover {
         cursor: pointer;
         background-color: #cccccc; }
-    /* line 406, ../sass/default.scss */
+    /* line 409, ../sass/default.scss */
     .rima-users-list .list th {
       background-color: #aaf;
       /*border: 1px solid black;*/
       padding: 5px; }
-    /* line 411, ../sass/default.scss */
+    /* line 414, ../sass/default.scss */
     .rima-users-list .list td {
       /*border: 1px solid black;*/
       padding: 5px; }
-    /* line 416, ../sass/default.scss */
+    /* line 419, ../sass/default.scss */
     .rima-users-list .list .active-selection {
       background-color: #aaf; }

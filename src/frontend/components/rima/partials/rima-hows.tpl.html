@@ -1,11 +1,11 @@
 <div class="title">{{displayName}}'s interests, expertises</div>
 <hr/>
 <div ng-show="haveHows()">
-	<div class="subtitle">This is how you described yourself so far:</div>
+	<div class="subtitle">This is how you described yourself so far</div>
 	<table class="list">
-		<tr><th>my relation</th><th>what</th></tr>
+		<tr><th>My relation to</th><th>Topic</th></tr>
 		<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
-			<td class="cell">{{howById(item.how)}}</td>
+			<td class="cell">I {{howById(item.how)}}</td>
 			<td>{{item.whatAmI.name}}<div class="management"><button class="btn btn-primary" type="button" ng-click="delete(item)">X</button></div></td>
 		</tr>
 	</table>
@@ -13,14 +13,14 @@
 </div>
 <span ng-show="!readonly && !decoratingIdeaPartial">
 	<a href="javascript::void(0);" class="info">Why should I describe myself?<span>Add more about you so that CollaboScience can improve your experience<br/>and guide collaboration based on your interests and expertises!</span></a>
-	<div class="note">(examples: "I like 'Psychology'", "I am specialized in 'Computer Networking'")<a href="javascript::void(0);" class="info">&nbsp;[more help ...]<span><B>How you describe yourself?</B><BR/>.....</span></a></div>
+	<div class="note">(examples: "I like 'Psychology'", "I am specialized in 'Computer Networking'")&nbsp;<a href="javascript::void(0);" class="info">[more help ...]<span><B>How you describe yourself?</B><BR/><b>1)</b> Type into the textbox whatever topic (interest) you are related to. It can be some skill, knowledge, interest, activity, ...<br/>As you type, we will offer you some suggestions.<br/><b>2)</b> Choose from the left selection box how you are related to that topic<BR/><b>3)</b> Click 'Add' and it will be part of you.<BR/><b>P.S.</b> You can choose to 'like' some topic, meaning that you might be connected to streams related to it, but you can also create 'specialized in' relation to the same topic, so that you might be invited to give your opinions regarding it, during collaborations.</span></a></div>
 	<table class="how_select">
 		<tr>
-		<td class="subject">I</td>
-		<td class="select"><select ng-attr-size="{{hows.length}}" ng-model="selectedHowOption" ng-options="how.id as how.title for how in hows"></select></td>
+		<!-- <td class="subject">I</td> -->
+		<td class="select"><select ng-attr-size="{{hows.length}}" ng-model="selectedHowOption" ng-options="how.id as ('I ' + how.title) for how in hows"></select></td>
 	<!-- <input class="what_input" type="text" placeholder="type your interest ..." ng-model="whatInput" ng-change="whatChanged()"/> -->
 
-		<td class="what_input_element"><input class="what_input" type="text" ng-model="whatInput" placeholder="type your interest ..." typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input"></td>
+		<td class="what_input_element"><input class="what_input" type="text" ng-model="whatInput" placeholder="type a topic / your interest ..." typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input">&nbsp;<a href="javascript::void(0);" class="info">[how to type topics?]<span>You don't embed topics in '...' or "..."<br/>You should just type them plain.<br/>If it is a multi-word topic, type it with regular spaces (e.g.<BR/><B>Computer Sciences</B><BR/><B>Distant reading</B><BR/></span></a></td>
 
 		<td><button ng-if="whatInput" class="btn btn-primary" type="button" ng-click="createHow(whatInput)">Add</button></td>
 		</tr>
