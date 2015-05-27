@@ -300,12 +300,13 @@ angular.module('rimaDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/rima/partials/rima-hows.tpl.html',
 			controller: function ( $scope, $element) {
+				var whatsLimit = 70;
 				var init = function(){
 					$scope.items = RimaService.getUsersHows(RimaService.getActiveUserId());
 					//$scope.modal.formData.contentTypeId= option.contentTypes[0].id;
 					$scope.selectedHowOption = $scope.hows[0].id;
 			    	//$scope.selectedItem = RimaService.getActiveUser();
-			    	$scope.whats = RimaService.getAllWhats(50);
+			    	$scope.whats = RimaService.getAllWhats(whatsLimit);
 				}
 				$scope.items = null;
 				$scope.whats = null;

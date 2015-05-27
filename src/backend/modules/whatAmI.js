@@ -81,7 +81,11 @@ exports.index = function(req, res){
 			break;
 		case 'all':
 			console.log("all:");
-			WhatAmIModel.find(found);
+			if(id === null || id === undefined){
+				id = 0;
+			}
+			//console.log("limit:id:"+id);
+			WhatAmIModel.find(found).sort({name:1}).limit(id);
 			break;
 		case 'name': //by id:
 			console.log("name:\n list: %s.\n", req.params.searchParam);
