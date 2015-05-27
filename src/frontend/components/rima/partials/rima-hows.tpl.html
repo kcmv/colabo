@@ -26,7 +26,7 @@
 	<div class="whats">
 	<div class="subtitle">Or choose from some of the existing Topics</div>
 	<div class="note">(just click a Topic to auto-fill it above)</div>
-	<table class="whats-cloud">
+	<table class="list">
 		<tr ng-click="chooseWhat(what)" ng-repeat="what in whats" data-ng-class="{'active-selection': what._id == selectedWhat._id}">
 			<td class="cell">{{what.name}}</td>
 		</tr>
