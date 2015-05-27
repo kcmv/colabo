@@ -4,7 +4,7 @@
 angular.module('rimaDirectives', ['Config'])
 	.directive('rimaRelevantList', ['$rootScope', 'WhatAmIService',
 		function($rootScope, WhatAmIService){
-		console.log("[rimaWhats] loading directive");
+		console.log("[rimaRelevantList] loading directive");
 		return {
 			restrict: 'AE',
 			scope: {
@@ -57,7 +57,7 @@ angular.module('rimaDirectives', ['Config'])
 
 	.directive('rimaRelevantWhatsList', ['$rootScope', 'KnalledgeMapVOsService', 'WhatAmIService', 'RimaService',
 		function($rootScope, KnalledgeMapVOsService, WhatAmIService, RimaService){
-		console.log("[rimaWhats] loading directive");
+		console.log("[rimaRelevantWhatsList] loading directive");
 		return {
 			restrict: 'AE',
 			scope: {
