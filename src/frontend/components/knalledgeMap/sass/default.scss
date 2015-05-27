@@ -357,7 +357,8 @@ $map: layout(12 1/4 fluid float inside);
 	}
 
 	.map_entity{
-		width: 100px;
+		/* TODO FIxing expandable nodes */
+		min-width: 100px;
 		height: 50px;
 		position: absolute;
 		background-color: #ccf;
@@ -684,7 +685,9 @@ $map: layout(12 1/4 fluid float inside);
 	}
 
 	.node_html_fixed{
-		width: 200px;
+		/* TODO FIxing expandable nodes */
+		/*width: 200px;*/
+		min-width: 200px;
 		margin-left: -75px;
 		@include border-radius(10px, 10px);
 		border-width: 1px;

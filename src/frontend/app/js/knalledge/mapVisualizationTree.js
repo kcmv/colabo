@@ -289,7 +289,9 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 					false : true;
 			}
 		})
-		.style("width", function(d){
+		/* TODO FIxing expandable nodes */
+		// .style("width", function(d){
+		.style("min-width", function(d){
 				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					d.kNode.dataContent.image.width : width;
 				if(width === null) {
@@ -430,7 +432,9 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 					false : true;
 			}
 		})
-		.style("width", function(d){
+		/* TODO FIxing expandable nodes */
+		// .style("width", function(d){
+		.style("min-width", function(d){
 				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 					d.kNode.dataContent.image.width : null;
 				if(width === null) {
