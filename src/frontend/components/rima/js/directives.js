@@ -305,7 +305,7 @@ angular.module('rimaDirectives', ['Config'])
 					//$scope.modal.formData.contentTypeId= option.contentTypes[0].id;
 					$scope.selectedHowOption = $scope.hows[0].id;
 			    	//$scope.selectedItem = RimaService.getActiveUser();
-			    	$scope.whats = RimaService.getAllWhats();
+			    	$scope.whats = RimaService.getAllWhats(50);
 				}
 				$scope.items = null;
 				$scope.whats = null;

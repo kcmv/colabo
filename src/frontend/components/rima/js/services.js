@@ -354,8 +354,11 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 		return whatAmIs;
 	};
 
-	resource.getAll = function(callback){
-		var whatAmIs = this.queryPlain({ type:'all'},
+	/**
+	* @parameter limit: =-1: no limit
+	*/
+	resource.getAll = function(limit, callback){
+		var whatAmIs = this.queryPlain({ searchParam:limit, type:'all'},
 			function(whatAmIsFromServer){
 				for(var id=0; id<whatAmIsFromServer.length; id++){
 					var whatAmI = knalledge.WhatAmI.whatAmIFactory(whatAmIsFromServer[id]);
@@ -958,8 +961,8 @@ rimaServices.provider('RimaService', {
 				}
 			},
 
-			getAllWhats: function(callback){
-				this.whatAmIs = WhatAmIService.getAll(function(whatAmIsFromServer){
+			getAllWhats: function(limit, callback){
+				this.whatAmIs = WhatAmIService.getAll(limit, function(whatAmIsFromServer){
 					if(callback){callback(whatAmIsFromServer);}
 				});
 				return this.whatAmIs;
