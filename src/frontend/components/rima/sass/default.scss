@@ -216,11 +216,17 @@
 	}
 }
 .rima-hows{
-	.title{
-		font-weight: bold;
-		text-align: center;
+	.important{
+		color: red;
+	}
+	.how_verb{
+		color: red;
+	}
+	.how_what{
+		color: blue;
 	}
 	.title{
+		font-weight: bold;
 		text-align: center;
 	}
 	.finish{
@@ -290,6 +296,7 @@
 	.what_input{
 		padding: 5px;
 		width: 60%;
+		color: blue;
 	}
 	.how_select{
 		padding: 5px;
@@ -308,11 +315,15 @@
 		padding: 5px;
 		/*width: 100%;*/
 	}
-	.select{
+	.selectTd{
 		/*display: table-cell;*/
 		vertical-align: middle;
 		padding: 5px;
+		color: red;
 		/*width: 100%;*/
+	}
+	.select{
+		color: red;
 	}
 	.what_input_element{
 		/*display: table-cell;*/
