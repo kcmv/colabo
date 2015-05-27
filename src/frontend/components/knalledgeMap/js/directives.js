@@ -229,7 +229,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null,
-							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, KnalledgeMapVOsService.mapStructure, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService);
+							// if $scope.mapData is set, we do not use KnalledgeMapVOsService.mapStructure but let knalledge.Map to create a new mapStructure and build VKs from Ks
+							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, $scope.mapData ? null : KnalledgeMapVOsService.mapStructure, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService);
 					knalledgeMap.init();
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model, function(){
