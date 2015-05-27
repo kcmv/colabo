@@ -305,9 +305,12 @@ angular.module('rimaDirectives', ['Config'])
 					//$scope.modal.formData.contentTypeId= option.contentTypes[0].id;
 					$scope.selectedHowOption = $scope.hows[0].id;
 			    	//$scope.selectedItem = RimaService.getActiveUser();
+			    	$scope.whats = RimaService.getAllWhats();
 				}
 				$scope.items = null;
+				$scope.whats = null;
 				$scope.selectedItem = null;
+				$scope.selectedWhat = null;
 
 				$scope.displayName = RimaService.loggedInWhoAmI.displayName;
 
@@ -369,6 +372,9 @@ angular.module('rimaDirectives', ['Config'])
 						RimaService.addToLocalWhats($scope.whatInput);//TODO: here we are adding it to 'whatAmI' local cache:
 						saveHowWIthNewWhat($scope.whatInput._id);
 					}
+
+					$scope.whatInput = null;
+
 				};
 
 				$scope.getItems = function(value){
@@ -388,8 +394,13 @@ angular.module('rimaDirectives', ['Config'])
 				    $scope.selectedItem = item;
 				    console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
 				};
-				$scope.whatChanged = function(item) {
-					
+				$scope.selectWhat = function(item) {
+				    $scope.selectedWhat = item;
+				    console.log("$scope.selectWhat = " + $scope.selectWhat.name + ": " + $scope.selectWhat._id);
+				};
+				$scope.chooseWhat = function(what) {
+					console.log("$scope.chooseWhat = " + what.name + ": " + what._id);
+					$scope.whatInput = what;
 				};
 
 				$scope.delete = function(how) {
@@ -469,7 +480,7 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
-				//$scope.currentStepNumber = 2;
+				$scope.currentStepNumber = 2;
 			},
 			controller: function ( $scope, $element) {
 

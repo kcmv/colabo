@@ -204,6 +204,12 @@
 	border-radius: 0 15px 15px;
 }
 
+.whats-cloud{
+	&.active-selection{
+		background-color: lighten(#888, 25%);
+		font-weight: bold;
+	}
+}
 .rima-hows{
 	.title{
 		font-weight: bold;
@@ -252,7 +258,7 @@
 
 			&.active-selection{
 				background-color: lighten(#888, 25%);
-				font-weight: bold;
+				/*font-weight: bold;*/
 			}
 		}
 		border: 1px solid #aaa;

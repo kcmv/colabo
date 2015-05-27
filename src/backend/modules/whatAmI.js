@@ -79,6 +79,10 @@ exports.index = function(req, res){
 			console.log("in_list:\n ids: %s.\n", ids);
 			WhatAmIModel.find( {'_id': { $in:ids}}, found);
 			break;
+		case 'all':
+			console.log("all:");
+			WhatAmIModel.find(found);
+			break;
 		case 'name': //by id:
 			console.log("name:\n list: %s.\n", req.params.searchParam);
 			WhatAmIModel.findByName(id, found);

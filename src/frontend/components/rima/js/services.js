@@ -355,7 +355,16 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 	};
 
 	resource.getAll = function(callback){
-		//TODO:
+		var whatAmIs = this.queryPlain({ type:'all'},
+			function(whatAmIsFromServer){
+				for(var id=0; id<whatAmIsFromServer.length; id++){
+					var whatAmI = knalledge.WhatAmI.whatAmIFactory(whatAmIsFromServer[id]);
+					whatAmI.state = knalledge.WhatAmI.STATE_SYNCED;
+					whatAmIsFromServer[id] = whatAmI;
+				}
+				if(callback) callback(whatAmIsFromServer);
+		});
+		return whatAmIs;
 	}
 	
 	resource.getByNameContains = function(namePart, callback){ //TODO: fix not to return all, but only those in the whatAmIsIds list
@@ -574,15 +583,15 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 	resource.hows = [
 		{	
 			id:1,
-			title:'like',
+			title:'interested in',
 		},
 		{
 			id:2,
-			title:'am experienced with'
+			title:'experienced with'
 		},
 		{
 			id:3,
-			title:'am specialized in'
+			title:'specialized in'
 		}
 	];
 
@@ -944,7 +953,9 @@ rimaServices.provider('RimaService', {
 			},
 
 			addToLocalWhats: function(what){
-				this.whatAmIs.push(what);
+				if(this.getWhatById(what._id) === null){
+					this.whatAmIs.push(what);
+				}
 			},
 
 			getAllWhats: function(callback){
