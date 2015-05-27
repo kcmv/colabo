@@ -341,8 +341,8 @@ angular.module('rimaDirectives', ['Config'])
 
 					for(var i in $scope.items){
 						var item = $scope.items[i];
-						var whatName = $scope.whatInput === 'string' ? $scope.whatInput : $scope.whatInput.name;
-						if(selectedHow.id == item.how && whatName == item.whatAmI.name){
+						var whatName = (typeof $scope.whatInput === 'string') ? $scope.whatInput : $scope.whatInput.name;
+						if(selectedHow.id == item.how && whatName.toLowerCase() == item.whatAmI.name.toLowerCase()){
 							window.alert("You have already described yourself through this");
 							return;
 						}
@@ -366,7 +366,7 @@ angular.module('rimaDirectives', ['Config'])
 					
 					if(typeof $scope.whatInput === 'string'){ //new what
 						var newWhat = new knalledge.WhatAmI();
-						newWhat.name = $scope.whatInput;
+						newWhat.name = $scope.whatInput.toLowerCase();
 						RimaService.createWhatAmI(newWhat).$promise.then(whatCreated);
 					}else{ //already existing what (found through typeahead)
 						console.log("already existing what '%s' (found through typeahead)", $scope.whatInput);
