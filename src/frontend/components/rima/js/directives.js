@@ -422,7 +422,7 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.finished = function(){
 					var finishIt = function(){
 						//TODO: should be this, but for simplicity of TNC online event we directed to its map: $location.path("/maps");
-						var mapID = "5552c2c87ffdccd74096d0ca"; 'TNC-Online'
+						var mapID = "5566f25867a6d01e65beddde"; 'TNC-Online';// old for RTS: 5552c2c87ffdccd74096d0ca
 						$location.path("/map/id/" + mapID);
 						
 					};
@@ -489,7 +489,9 @@ angular.module('rimaDirectives', ['Config'])
 						//already bound to the howAmIs array in the RIMA service, so this would cause duplicates: $scope.items.push(howFromServer);
 					}
 
-					var selectedHow = RimaService.getHowForId($scope.selectedHowOption);
+					var WILLING_TO_PRESENT =4;
+
+					var selectedHow = RimaService.getHowForId(WILLING_TO_PRESENT);
 
 					for(var i in $scope.items){
 						var item = $scope.items[i];
@@ -543,6 +545,7 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.chooseWhat = function(what) {
 					console.log("$scope.chooseWhat = " + what.name + ": " + what._id);
 					$scope.whatInput = what;
+					$scope.createHow();
 				};
 
 				$scope.delete = function(how) {
@@ -602,7 +605,7 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
-				$scope.currentStepNumber = 2;
+				//$scope.currentStepNumber = 2;
 			},
 			controller: function ( $scope, $element) {
 
