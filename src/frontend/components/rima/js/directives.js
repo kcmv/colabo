@@ -602,7 +602,7 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
-				//$scope.currentStepNumber = 2;
+				$scope.currentStepNumber = 2;
 			},
 			controller: function ( $scope, $element) {
 

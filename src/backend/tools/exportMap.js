@@ -13,7 +13,8 @@ var rootNodeId = process.argv[4] || '55268521fb9a901e442172f9';
 var fs = require('fs');
 
 /* connecting */
-mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
+var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
+mongoose.connect('mongodb://127.0.0.1/' + dbName);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 

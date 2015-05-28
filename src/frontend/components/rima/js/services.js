@@ -887,15 +887,27 @@ rimaServices.provider('RimaService', {
 			},
 
 			getAllHows: function(callback){
-				this.howAmIs = HowAmIService.getAll(function(howsFromServer){ //TODO: is this OK with Cache approach, because we overwrite all the list
-					for(var i=0;i<howsFromServer.length;i++){
-						how = howsFromServer[i];
-						if (!this.howAmIs.hasOwnProperty(how.whoAmI)) {this.howAmIs[how.whoAmI] = [];}
-						this.howAmIs[how.whoAmI].push(how);
+				// this.howAmIs = HowAmIService.getAll(function(howsFromServer){ //TODO: is this OK with Cache approach, because we overwrite all the list
+				// 	for(var i=0;i<howsFromServer.length;i++){
+				// 		how = howsFromServer[i];
+				// 		if (!this.howAmIs.hasOwnProperty(how.whoAmI)) {this.howAmIs[how.whoAmI] = [];}
+				// 		this.howAmIs[how.whoAmI].push(how);
+				// 	}
+				// 	if(callback){callback(this.howAmIs);}
+				// });
+				// return this.howAmIs;
+
+
+				var serverWhatAmIs = WhatAmIService.getAll(limit, function(whatAmIsFromServer){
+					this.whatAmIs.length = 0;
+					for(var i=0; i<whatAmIsFromServer.length; i++){
+						this.whatAmIs.push(whatAmIsFromServer[i]);
 					}
-					if(callback){callback(this.howAmIs);}
-				});
-				return this.howAmIs;
+					if(callback){callback(this.whatAmIs);}
+				}.bind(this));
+				this.whatAmIs.$promise = serverWhatAmIs.$promise;
+				this.whatAmIs.$resloved = serverWhatAmIs.$resloved;
+				return this.whatAmIs;
 			},
 
 			deleteHow: function(id, callback){
@@ -978,9 +990,20 @@ rimaServices.provider('RimaService', {
 			},
 
 			getAllWhats: function(limit, callback){
-				this.whatAmIs = WhatAmIService.getAll(limit, function(whatAmIsFromServer){
-					if(callback){callback(whatAmIsFromServer);}
-				});
+				// this.whatAmIs = WhatAmIService.getAll(limit, function(whatAmIsFromServer){
+				// 	if(callback){callback(whatAmIsFromServer);}
+				// });
+				// return this.whatAmIs;
+
+				var serverWhatAmIs = WhatAmIService.getAll(limit, function(whatAmIsFromServer){
+					this.whatAmIs.length = 0;
+					for(var i=0; i<whatAmIsFromServer.length; i++){
+						this.whatAmIs.push(whatAmIsFromServer[i]);
+					}
+					if(callback){callback(this.whatAmIs);}
+				}.bind(this));
+				this.whatAmIs.$promise = serverWhatAmIs.$promise;
+				this.whatAmIs.$resloved = serverWhatAmIs.$resloved;
 				return this.whatAmIs;
 			}
 

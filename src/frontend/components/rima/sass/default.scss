@@ -371,6 +371,162 @@
 	}
 }
 
+.rima-topics{
+	.important{
+		color: red;
+	}
+	.how_verb{
+		color: red;
+	}
+	.how_what{
+		color: blue;
+	}
+	.title{
+		font-weight: bold;
+		text-align: center;
+	}
+	.finish{
+		align:right;
+	}
+	.help_text{
+		text-decoration: none;
+		font-size: 16px;
+		color:#004;
+		font-style: normal;
+	}
+
+	$item_background_color: #888;
+	.list{
+		margin: 5px;
+		text: 18px;
+
+		tr{
+			&:nth-child(odd) {background-color: #888;}
+			&:nth-child(even) {background-color: lighten(#888, 10%);}
+
+			&:hover{
+				cursor: pointer;
+				background-color: lighten(#888, 35%);
+
+				.management{
+					display : block;
+					position: absolute;
+					top: 2px;
+					right: 2px;
+					.btn{
+						padding: 1px 3px;
+					}
+				}
+			}
+
+			td{
+				position: relative;
+				.management{ 
+					display: none;
+				}
+			}
+
+			&.active-selection{
+				background-color: lighten(#888, 25%);
+				/*font-weight: bold;*/
+			}
+		}
+		border: 1px solid #aaa;
+		@include border-radius(5px, 5px);
+		margin-bottom: 3px;
+		padding: 3px;
+
+		th{
+			background-color: #aaf;
+			border: 1px solid black;
+			padding: 5px;
+			font-weight: bold;
+		}
+		td{
+			border: 1px solid black;
+			padding: 5px;
+		}
+		/*background-color: #ccc;
+		background-color: #aaf;*/
+	}
+	.what_input{
+		padding: 5px;
+		width: 60%;
+		color: blue;
+	}
+	.how_select{
+		padding: 5px;
+		display: table;
+		background-color: lightblue;
+	}
+	.note{
+		font-size: 12;
+		font-style: italic;
+		padding: 5px 5px;
+		color: darkgrey;
+	}
+	.subject{
+		/*display: table-cell;*/
+		vertical-align: middle;
+		padding: 5px;
+		/*width: 100%;*/
+	}
+	.selectTd{
+		/*display: table-cell;*/
+		vertical-align: middle;
+		padding: 5px;
+		color: red;
+		/*width: 100%;*/
+	}
+	.select{
+		color: red;
+	}
+	.what_input_element{
+		/*display: table-cell;*/
+		vertical-align: middle;
+		padding: 5px;
+		width: 100%;
+	}
+
+	a.info{
+	    /*position:relative;*/ /*this is the key*/
+	    color:#008;
+	    top:100px;
+	    left:50px;
+	    text-decoration:underline;
+	    text-align:center;
+  }
+
+	a.info span{display: none}
+
+	a.info:hover span{ /*the span will display just on :hover state*/
+		display:block;
+		position:absolute;
+		top:-60px;
+		width:15em;
+		border:5px solid #0cf;
+		background-color:#cff; color:#000;
+		text-align: center;
+		padding:10px;
+	}
+
+	a.info:hover span:after{ /*the span will display just on :hover state*/
+		content:'';
+		position:absolute;
+		bottom:-11px;
+		width:10px;
+		height:10px;
+		border-bottom:5px solid #0cf;
+		border-right:5px solid #0cf;
+		background:#cff;
+		left:50%;
+		margin-left:-5px;
+		-moz-transform:rotate(45deg);
+		-webkit-transform:rotate(45deg);
+		transform:rotate(45deg);
+	}
+}
+
 /* 
 	RIMA
 	rima-users-list

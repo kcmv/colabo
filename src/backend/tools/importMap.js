@@ -1,5 +1,5 @@
 'use strict';
-
+console.log("importMap:start");
 require('../models'); // injects DB Schemas in global.db
 
 var mongoose = require('mongoose');
@@ -9,7 +9,10 @@ var fileName = process.argv[2] || '../../data/demo_data.json';
 var fs = require('fs');
 
 /* connecting */
-mongoose.connect('mongodb://127.0.0.1/KnAllEdge');
+console.log("importMap:connecting");
+var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
+mongoose.connect('mongodb://127.0.0.1/' + dbName);
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
@@ -18,8 +21,12 @@ var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
 
 var mapData = null;
 
+console.log("importMap:after connection");
 db.on('open', function (callback) {
 	loadDataFile(fileName, function(err, _mapData){
+		if(err){
+			throw err;
+		}
 		if(_mapData){
 			mapData = _mapData;
 			console.log("[kNode.populate]");
