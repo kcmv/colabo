@@ -2,18 +2,32 @@
 'use strict';
 
 var guidanceCurrentStep = 0;
-var guidanceStepsOrder = ['enter_what', 'enter_how', 'add_who'];
-var guidanceStepsClasses = [['enter_what_1', 'enter_what_2'], ['enter_how'], ['add_who']];
+var guidanceSteps = [
+	{
+		name: 'enter_what',
+		classes: ['enter_what_1', 'enter_what_2']
+	},
+	{
+		name: 'enter_how',
+		classes: ['enter_how']
+	},
+	{
+		name: 'add_who',
+		classes: ['add_who']
+	}
+];
 
 var getIdFromStep = function(stepName){
-	var id = guidanceStepsOrder.indexOf(stepName);
-	return id;
+	for(var i=0; i<guidanceSteps.length; i++){
+		if(guidanceSteps[i].name == stepName) return i;
+	}
+	return -1;
 };
 
 var guidanceStart = function($timeout, $element){
 	guidanceCurrentStep = 0;
-	for(var i in guidanceStepsClasses){
-		triggerPopup($timeout, $element, '.guidance_'+guidanceStepsClasses[guidanceCurrentStep][i], 'openTrigger', 1500);		
+	for(var i in guidanceSteps[guidanceCurrentStep].classes){
+		triggerPopup($timeout, $element, '.guidance_'+guidanceSteps[guidanceCurrentStep].classes[i], 'openTrigger', guidanceCurrentStep, 1500);		
 	}
 };
 
@@ -21,43 +35,26 @@ var guidanceProcessStep = function($timeout, $element, stepName){
 	var id = getIdFromStep(stepName);
 	if(id == guidanceCurrentStep){
 		var i;
-		for(var i in guidanceStepsClasses){
-			triggerPopup($timeout, $element, '.guidance_'+guidanceStepsClasses[guidanceCurrentStep][i], 'closeTrigger');
+		for(var i in guidanceSteps[guidanceCurrentStep].classes){
+			triggerPopup($timeout, $element, '.guidance_'+guidanceSteps[guidanceCurrentStep].classes[i], 'closeTrigger', guidanceCurrentStep);
 		}
-		if(guidanceCurrentStep <= guidanceStepsOrder.length){
+		if(guidanceCurrentStep < guidanceSteps.length-1){
 			guidanceCurrentStep++;
-			var newStepName = guidanceStepsOrder[guidanceCurrentStep];
-			for(var i in guidanceStepsClasses){
-				triggerPopup($timeout, $element, '.guidance_'+guidanceStepsClasses[guidanceCurrentStep][i], 'openTrigger');
+			var newStepName = guidanceSteps[guidanceCurrentStep].name;
+			for(var i in guidanceSteps[guidanceCurrentStep].classes){
+				triggerPopup($timeout, $element, '.guidance_'+guidanceSteps[guidanceCurrentStep].classes[i], 'openTrigger', guidanceCurrentStep);
 			}
 		}
 	}
 };
 
-var triggerPopup = function($timeout, $element, selector, event, delay){
+var triggerPopup = function($timeout, $element, selector, event, stepNo, delay){
 	if (typeof delay == 'undefined') delay = 25;
-	// $element.find("#testing_input").trigger('openTrigger');
-	// $element.find("#testing_input").triggerHandler('openTrigger');
-	// $element.find("#testing_input").popover('show');
-
-	// angular.element("#testing_input").trigger('openTrigger');
-	// angular.element("#testing_input").triggerHandler('openTrigger');
-
-	// $element.find("#testing_input").trigger('show');
-	// $element.find("#testing_input").triggerHandler('show');
-	// $element.find("#testing_input").popover('show');
-
-	// $("#RegisterHelp").trigger('show');
-	// $("#RegisterHelp").triggerHandler('show');
-	// $element.triggerHandler( 'openTrigger' );
-
-	// $element.find(selector).popover( event );
-	// $element.find(selector).trigger( event );
-
 	// http://stackoverflow.com/questions/12729122/prevent-error-digest-already-in-progress-when-calling-scope-apply
 	// http://stackoverflow.com/questions/22447374/how-to-trigger-ng-click-angularjs-programmatically
 	// https://docs.angularjs.org/api/ng/function/angular.element
 	$timeout(function () {
+		if(stepNo >= guidanceCurrentStep || event != 'openTrigger')
 		$element.find(selector).triggerHandler( event );
 	}, delay);
 };

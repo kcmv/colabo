@@ -20,7 +20,7 @@ smtpTransport.use('compile', nodemailerMustache({
 
 // var subject = "Choreographed co-creation and call for action - TNC Online Dialogue";
 var subject = "TNC test - 5";
-var from = "CollaboScience <collaboscience@gmail.com>";
+var from = "'CollaboScience' <collaboscience@gmail.com>";
 var contacts = [
 	{
 		name: "Sasa Rudan",
