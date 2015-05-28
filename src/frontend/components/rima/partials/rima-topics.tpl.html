@@ -2,7 +2,7 @@
 	<div class="subtitle">These are the topics you have selected to present</div>
 	<table class="list">
 		<tr><th>Topic</th></tr>
-		<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
+		<tr ng-click="selectItem(item)" ng-repeat="item in items | topicsFromHows:['5566c62cbb09e90677658a60', '5566c62cbb09e90677658a61', '5566c62cbb09e90677658a62']" data-ng-class="{'active-selection': item._id == selectedItem._id}">
 			<td>{{item.whatAmI.name}}<div class="management"><button class="btn btn-primary" type="button" ng-click="delete(item)"><i class="fa fa-trash"></i></button></div></td>
 		</tr>
 	</table>
