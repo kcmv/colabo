@@ -8,13 +8,15 @@
 // 	http://stackoverflow.com/questions/14692354/angular-filter-that-generates-html
 // it could be better done with directive instead of filter injecting html code and links
 
-angular.module('rimaFilters',[]).filter('whatSeparator',function(){
+angular.module('rimaFilters',[])
+
+.filter('whatSeparator',function(){
 	return function(isLast) {
 		return (!isLast ? ", " : ""); 
 	};
-});
+})
 
-angular.module('rimaFilters', []).filter('topicsFromWhats',function(){
+.filter('topicsFromWhats',function(){
 	return function(whats, topics){
 		//var topics = "Creation.initialize";
 		
@@ -37,29 +39,22 @@ angular.module('rimaFilters', []).filter('topicsFromWhats',function(){
 		}
 		return whatsOut;
 	};
-});
+})
 
-angular.module('rimaFilters', []).filter('topicsFromHows',function(){
-	return function(hows){
+.filter('topicsFromHows',function(){
+	return function(hows, topics){
+		var HOW_VERB_FOR_TOPICS =4;
 		var howsOut = [];
+		for(var wid=0; wid<hows.length; wid++){
+			for(var tid in topics){
+				if(hows[wid].whatAmI._id == topics[tid] && hows[wid].how == HOW_VERB_FOR_TOPICS){
+					//console.log("[howsFilters:dataFilterIdea] matched data:%s", JSON.stringify(hows[i]));
+					howsOut.push(hows[wid]);
+				}else{
+					//console.log("[howsFilters:dataFilterIdea] mismatched data:%s", JSON.stringify(hows[i]));
+				}
+			}
+		}
 		return howsOut;
 	};
 });
-
-// angular.module('rimaFilters', []).filter('topicsFromHows',function(){
-// 	return function(hows){
-// 		var HOW_VERB_FOR_TOPICS =4;
-// 		var howsOut = [];
-// 		for(var wid=0; wid<hows.length; wid++){
-// 			for(var tid in topics){
-// 				if(hows[wid].whatAmI._id == topics[tid] && hows[wid].how == HOW_VERB_FOR_TOPICS){
-// 					//console.log("[howsFilters:dataFilterIdea] matched data:%s", JSON.stringify(hows[i]));
-// 					howsOut.push(hows[wid]);
-// 				}else{
-// 					//console.log("[howsFilters:dataFilterIdea] mismatched data:%s", JSON.stringify(hows[i]));
-// 				}
-// 			}
-// 		}
-// 		return howsOut;
-// 	};
-// });
