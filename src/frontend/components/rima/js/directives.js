@@ -112,7 +112,7 @@ angular.module('rimaDirectives', ['Config'])
 
 						var relevant = false;
 						// TODO: can be optimized by hash of userHows
-						for(var i in nodeWhats){
+						for(var i=0;i<nodeWhats.length;i++){
 							var nodeWhat = nodeWhats[i];
 							for(var j in userHows){
 								var userHow = userHows[j];
@@ -259,7 +259,7 @@ angular.module('rimaDirectives', ['Config'])
 						newWhat = what;
 					}
 
-					for(var i in kNode.dataContent.rima.whats){
+					for(var i=0;i<kNode.dataContent.rima.whats.length;i++){
 						if(kNode.dataContent.rima.whats[i].name == newWhat.name){
 							window.alert("The node is already described by '"+newWhat.name+"'");
 							return;
@@ -385,7 +385,7 @@ angular.module('rimaDirectives', ['Config'])
 
 					var selectedHow = RimaService.getHowForId($scope.selectedHowOption);
 
-					for(var i in $scope.items){
+					for(var i=0;i<$scope.items.length;i++){
 						var item = $scope.items[i];
 						var whatName = (typeof $scope.whatInput === 'string') ? $scope.whatInput : $scope.whatInput.name;
 						if(selectedHow.id == item.how && whatName.toLowerCase() == item.whatAmI.name.toLowerCase()){
@@ -454,7 +454,7 @@ angular.module('rimaDirectives', ['Config'])
 					if(confirm("Are you sure you want to delete you relation to '"+ how.whatAmI.name +"'?")){
 						RimaService.deleteHow(how._id, function(){
 							var index = -1;
-							for(var i in $scope.items){
+							for(var i=0;i<$scope.items.length;i++){
 								if($scope.items[i]._id == how._id){
 									index = i;
 									break;
@@ -468,7 +468,7 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.finished = function(){
 					var finishIt = function(){
 						//TODO: should be this, but for simplicity of TNC online event we directed to its map: $location.path("/maps");
-						var mapID = "5552c2c87ffdccd74096d0ca"; 'TNC-Online'
+						var mapID = "5566f25867a6d01e65beddde"; 'TNC-Online';// old for RTS: 5552c2c87ffdccd74096d0ca
 						$location.path("/map/id/" + mapID);
 						
 					};
@@ -499,6 +499,8 @@ angular.module('rimaDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/rima/partials/rima-topics.tpl.html',
 			controller: function ( $scope, $element) {
+				var HOW_VERB_FOR_TOPICS =4;
+				var TOPICS_MAX = 2;
 				var init = function(){
 					$scope.items = RimaService.getUsersHows(RimaService.getActiveUserId());
 					//$scope.modal.formData.contentTypeId= option.contentTypes[0].id;
@@ -530,14 +532,20 @@ angular.module('rimaDirectives', ['Config'])
 				};
 
 				$scope.createHow = function(){
+					if($scope.items.length>=TOPICS_MAX){
+						window.alert("You have already selected maximum number of topics.");
+						return;
+					}
 					var createdHow = function(howFromServer){
 						//done already in service: ahowFromServer.whatAmI = RimaService.getWhatById(howFromServer.whatAmI);
 						//already bound to the howAmIs array in the RIMA service, so this would cause duplicates: $scope.items.push(howFromServer);
 					}
 
-					var selectedHow = RimaService.getHowForId($scope.selectedHowOption);
+					
+					var selectedHow = RimaService.getHowForId(HOW_VERB_FOR_TOPICS);
 
-					for(var i in $scope.items){
+
+					for(var i=0;i<$scope.items.length;i++){
 						var item = $scope.items[i];
 						var whatName = (typeof $scope.whatInput === 'string') ? $scope.whatInput : $scope.whatInput.name;
 						if(selectedHow.id == item.how && whatName.toLowerCase() == item.whatAmI.name.toLowerCase()){
@@ -589,13 +597,14 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.chooseWhat = function(what) {
 					console.log("$scope.chooseWhat = " + what.name + ": " + what._id);
 					$scope.whatInput = what;
+					$scope.createHow();
 				};
 
 				$scope.delete = function(how) {
 					if(confirm("Are you sure you want to delete you relation to '"+ how.whatAmI.name +"'?")){
 						RimaService.deleteHow(how._id, function(){
 							var index = -1;
-							for(var i in $scope.items){
+							for(var i=0;i<$scope.items.length;i++){
 								if($scope.items[i]._id == how._id){
 									index = i;
 									break;
@@ -704,7 +713,7 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
-				$scope.currentStepNumber = 3;
+				$scope.currentStepNumber = 2;
 				// triggerPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
 			},
 			controller: function ( $scope, $element) {

@@ -880,9 +880,15 @@ rimaServices.provider('RimaService', {
 
 			getUsersHows: function(id, callback){
 				if (!this.howAmIs.hasOwnProperty(id)) {this.howAmIs[id] = [];}
-				this.howAmIs[id] = HowAmIService.getUsersHows(id, function(howsFromServer){
-					if(callback){callback(howsFromServer);}
-				});
+				var serverHowAmIs = HowAmIService.getUsersHows(id, function(howAmIsFromServer){
+					this.howAmIs[id].length = 0;
+					for(var i=0; i<howAmIsFromServer.length; i++){
+						this.howAmIs[id].push(howAmIsFromServer[i]);
+					}
+					if(callback){callback(howAmIsFromServer);}
+				}.bind(this));
+				this.howAmIs[id].$promise = serverHowAmIs.$promise;
+				this.howAmIs[id].$resloved = serverHowAmIs.$resloved;
 				return this.howAmIs[id];
 			},
 
@@ -897,17 +903,16 @@ rimaServices.provider('RimaService', {
 				// });
 				// return this.howAmIs;
 
-
-				var serverWhatAmIs = WhatAmIService.getAll(limit, function(whatAmIsFromServer){
-					this.whatAmIs.length = 0;
-					for(var i=0; i<whatAmIsFromServer.length; i++){
-						this.whatAmIs.push(whatAmIsFromServer[i]);
+				var serverHowAmIs = HowAmIService.getAll(function(howAmIsFromServer){
+					this.howAmIs.length = 0;
+					for(var i=0; i<howAmIsFromServer.length; i++){
+						this.howAmIs.push(howAmIsFromServer[i]);
 					}
-					if(callback){callback(this.whatAmIs);}
+					if(callback){callback(this.howAmIs);}
 				}.bind(this));
-				this.whatAmIs.$promise = serverWhatAmIs.$promise;
-				this.whatAmIs.$resloved = serverWhatAmIs.$resloved;
-				return this.whatAmIs;
+				this.howAmIs.$promise = serverHowAmIs.$promise;
+				this.howAmIs.$resloved = serverHowAmIs.$resloved;
+				return this.howAmIs;
 			},
 
 			deleteHow: function(id, callback){
