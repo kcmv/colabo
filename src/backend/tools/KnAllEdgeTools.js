@@ -1,6 +1,9 @@
 var nodemailer = require("nodemailer");
 var nodemailerMustache = require('nodemailer-mustache');
 var path = require("path");
+var sleep = require('sleep');
+
+var sleep_time = 10000; // msec
 
 var smtpTransport = nodemailer.createTransport({
 		service: "gmail",  // sets automatically host, port and connection security settings
@@ -19,33 +22,33 @@ smtpTransport.use('compile', nodemailerMustache({
 }));
 
 // var subject = "Choreographed co-creation and call for action - TNC Online Dialogue";
-var subject = "TNC test - 5";
+var subject = "TNC test - 8";
 var from = "'CollaboScience' <collaboscience@gmail.com>";
 var contacts = [
 	{
 		name: "Sasa Rudan",
-		email: "Sasa Rudan <mprinc@gmail.com>",
+		email: "mprinc@gmail.com",
 		id: "5",
 		token: "1"
 	},
-	{
-		name: "Sinisa Rudan",
-		email: "Sinisa Rudan <sinisa.rudan@gmail.com>",
-		id: "7",
-		token: "3"
-	},
+	// {
+	// 	name: "Sinisa Rudan",
+	// 	email: "sinisa.rudan@gmail.com",
+	// 	id: "7",
+	// 	token: "3"
+	// },
 	{
 		name: "Sasha Mile Rudan",
-		email: "Sasha Mile Rudan <sasharu@ifi.uio.no>",
+		email: "sasharu@ifi.uio.no",
 		id: "7",
 		token: "3"
 	}
 ];
 
-var sendMail = function(smtpTransport, from, subject, contact){
+var sendMail = function(smtpTransport, from, subject, contact, id){
 	var mailOptions = {
 			from: from, // sender address.  Must be the same as authenticated user if using Gmail.
-			to: contact.email, // receiver
+			to: contact.emailFull, // receiver
 			subject: subject, // subject
 			template: 'invitation',
 			context: contact,
@@ -57,14 +60,26 @@ var sendMail = function(smtpTransport, from, subject, contact){
 			if(error){
 					return console.log(error);
 			}else{
-					console.log("Message sent: " + info.response);
+					console.log("Message sent [i:%d, %s]: %s", id, contact.emailFull, info.response);
 			}
 
 			// smtpTransport.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
 	});
 };
 
-for (var i=0; i<contacts.length; i++){
-	var contact = contacts[i];
-	sendMail(smtpTransport, from, subject, contact);
-}
+var sendMails = function(contactId){
+	if(typeof contactId == 'undefined') contactId = 0;
+
+	if(contactId<contacts.length){
+		var contact = contacts[contactId];
+		contact.emailFull = contact.name + " <" + contact.email + ">";
+		if(typeof contact.token == 'undefined' || !contact.token) contact.token = 5;
+
+		console.info("Sending mail [contactId:%d]: %s", contactId, contact.emailFull);
+		sendMail(smtpTransport, from, subject, contact, contactId+1);
+
+		setTimeout(sendMails, sleep_time, contactId+1);
+	}
+};
+
+sendMails();
