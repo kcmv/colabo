@@ -1,7 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var triggerPopup = function($timeout, $element, selector, event){
+var triggerPopup = function($timeout, $element, selector, event, delay){
+	if (typeof delay == 'undefined') delay = 25;
 	// $element.find("#testing_input").trigger('openTrigger');
 	// $element.find("#testing_input").triggerHandler('openTrigger');
 	// $element.find("#testing_input").popover('show');
@@ -25,7 +26,7 @@ var triggerPopup = function($timeout, $element, selector, event){
 	// https://docs.angularjs.org/api/ng/function/angular.element
 	$timeout(function () {
 		$element.find(selector).triggerHandler( event );
-	}, 1000);
+	}, delay);
 };
 
 angular.module('rimaDirectives', ['Config'])
@@ -329,7 +330,7 @@ angular.module('rimaDirectives', ['Config'])
 			templateUrl: '../components/rima/partials/rima-hows.tpl.html',
 			link: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
-				triggerPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
+				triggerPopup($timeout, $element, ".what_input", "openTrigger", 1500);
 			},
 			controller: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
@@ -352,6 +353,16 @@ angular.module('rimaDirectives', ['Config'])
 				//html-select:
 				$scope.hows = RimaService.getHowVerbs();
 
+				$scope.inputWhatChanged = function(){
+					triggerPopup($timeout, $element, ".what_input", "closeTrigger");
+					triggerPopup($timeout, $element, ".select", "openTrigger");
+				};
+
+				$scope.howSelectChanged = function(){
+					triggerPopup($timeout, $element, ".select", "closeTrigger");
+					triggerPopup($timeout, $element, ".what_add", "openTrigger");					
+				};
+
 				$scope.howById = function(id){
 					// if(id !== 'undefined'){
 					return RimaService.getHowForId(id).title;
@@ -365,6 +376,8 @@ angular.module('rimaDirectives', ['Config'])
 					return $scope.items.length != 0;
 				};
 				$scope.createHow = function(){
+					triggerPopup($timeout, $element, ".what_add", "closeTrigger");
+
 					var createdHow = function(howFromServer){
 						//done already in service: ahowFromServer.whatAmI = RimaService.getWhatById(howFromServer.whatAmI);
 						//already bound to the howAmIs array in the RIMA service, so this would cause duplicates: $scope.items.push(howFromServer);
