@@ -21,7 +21,11 @@
 		<tr>
 		<!-- <td class="subject">I</td> -->
 		<td class="selectTd"><select class="select" ng-attr-size="{{hows.length}}" ng-model="selectedHowOption" ng-options="how.id as ('I am ' + how.title) for how in hows"></select></td>
-		<td class="what_input_element"><input class="what_input" type="text" ng-model="whatInput" placeholder="type a topic / your interest ..." typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input">&nbsp;<a href="javascript::void(0);" class="info">[how to type topics?]<span  class="help_text">You don't embed topics in '...' or "..."<br/>You should just type them plain.<br/>If it is a multi-word topic, don't use _ or -. Just type it with regular spaces (e.g.<BR/><B>Computer Sciences</B><BR/><B>Distant reading</B><BR/><BR/>Topics should be written in English - multilingual support will come in the future.</span></a></td>
+		<td class="what_input_element">
+			<input class="what_input" type="text" ng-model="whatInput" placeholder="type a topic / your interest ..." typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" typeahead-append-to-body="true" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input">
+			&nbsp;
+			<a href="javascript::void(0);" class="info">[how to type topics?]<span  class="help_text">You don't embed topics in '...' or "..."<br/>You should just type them plain.<br/>If it is a multi-word topic, don't use _ or -. Just type it with regular spaces (e.g.<BR/><B>Computer Sciences</B><BR/><B>Distant reading</B><BR/><BR/>Topics should be written in English - multilingual support will come in the future.</span></a>
+		</td>
 
 		<td><button ng-if="whatInput" class="btn btn-primary" type="button" ng-click="createHow(whatInput)">Add</button></td>
 		</tr>
