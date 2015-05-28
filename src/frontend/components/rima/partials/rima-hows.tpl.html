@@ -22,18 +22,7 @@
 		<!-- <td class="subject">I</td> -->
 		<td class="selectTd"><select class="select" ng-attr-size="{{hows.length}}" ng-model="selectedHowOption" ng-options="how.id as ('I am ' + how.title) for how in hows"></select></td>
 		<td class="what_input_element">
-			    <input type="checkbox" ng-model="show"> Show Popover
-			    <hr>
-			    
-			    <button pop="Text..." pop-show="{{ show }}" pop-title="Title" pop-placement="right" class="btn btn-default">
-			      Button
-			    </button>
-			<div id="RegisterHelp" popover-enable="true" popover-trigger="show" popover-placement="top" popover="{{ 'Login or register here'}}" popover-append-to-body="true">Aha</div>
-			<button class="btn btn-primary" type="button" ng-click="showPopup()">Show Popup</button>
-			<input id="testing_input" class="what_input" type="text" ng-model="whatInput" placeholder="Testing ..." 
-			my-tooltip-show="true" my-tooltip="Testing: Enter your interest here or click on some existing ones underneath" my-tooltip-placement="top" my-tooltip-trigger="openTrigger" my-tooltip-enable="true" my-tooltip-append-to-body="true">
-
-			<input class="what_input" type="text" ng-model="whatInput" placeholder="type a topic / your interest ..." 
+			<input id="testing_tooltip_what" class="what_input" type="text" ng-model="whatInput" placeholder="type a topic / your interest ..." 
 			tooltip="Enter your interest here or click on some existing ones underneath" tooltip-placement="top" tooltip-trigger="openTrigger" tooltip-enable="true" tooltip-append-to-body="true"
 			typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" typeahead-append-to-body="true" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input">
 			<button ng-if="whatInput" class="btn btn-primary" type="button" ng-click="createHow(whatInput)">Add</button>
