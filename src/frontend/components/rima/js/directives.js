@@ -354,16 +354,23 @@ angular.module('rimaDirectives', ['Config'])
 		return {
 			restrict: 'AE',
 			scope: {
+				isActive: "="
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/rima/partials/rima-hows.tpl.html',
 			link: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
-				guidanceStart($timeout, $element);
+				// guidanceStart($timeout, $element);
 			},
 			controller: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
+
+				$scope.$watch("isActive", function(value){
+					if(value == true){
+						guidanceStart($timeout, $element);
+					}
+				});
 
 				var whatsLimit = 70;
 				var init = function(){
@@ -760,7 +767,7 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
-				$scope.currentStepNumber = 3;
+				$scope.currentStepNumber = 0;
 				// triggerPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
 			},
 			controller: function ( $scope, $element) {
