@@ -486,7 +486,7 @@ angular.module('rimaDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/rima/partials/rima-topics.tpl.html',
 			controller: function ( $scope, $element) {
-				var HOW_VERB_WILLING_TO_PRESENT =4;
+				var HOW_VERB_FOR_TOPICS =4;
 				var TOPICS_MAX = 2;
 				var init = function(){
 					$scope.items = RimaService.getUsersHows(RimaService.getActiveUserId());
@@ -529,7 +529,7 @@ angular.module('rimaDirectives', ['Config'])
 					}
 
 					
-					var selectedHow = RimaService.getHowForId(HOW_VERB_WILLING_TO_PRESENT);
+					var selectedHow = RimaService.getHowForId(HOW_VERB_FOR_TOPICS);
 
 
 					for(var i=0;i<$scope.items.length;i++){
@@ -700,7 +700,7 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
-				//$scope.currentStepNumber = 2;
+				$scope.currentStepNumber = 2;
 				// triggerPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
 			},
 			controller: function ( $scope, $element) {
