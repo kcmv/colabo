@@ -516,7 +516,14 @@ angular.module('rimaDirectives', ['Config'])
 				};
 
 				$scope.haveHows = function(){
-					return $scope.items.length != 0;
+					for(var wid=0; wid<$scope.items.length; wid++){
+						for(var tid in $scope.topics ){
+							if($scope.items[wid].whatAmI._id == $scope.topics [tid] && $scope.items[wid].how == HOW_VERB_FOR_TOPICS){
+								return true;
+							}
+						}
+					}
+					return false;
 				};
 
 				$scope.createHow = function(){
