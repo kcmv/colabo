@@ -22,28 +22,13 @@ smtpTransport.use('compile', nodemailerMustache({
 }));
 
 // var subject = "Choreographed co-creation and call for action - TNC Online Dialogue";
-var subject = "TNC test - 8";
+var subject = "TNC test - 9";
 var from = "'CollaboScience' <collaboscience@gmail.com>";
 var contacts = [
-	{
-		name: "Sasa Rudan",
-		email: "mprinc@gmail.com",
-		id: "5",
-		token: "1"
-	},
-	// {
-	// 	name: "Sinisa Rudan",
-	// 	email: "sinisa.rudan@gmail.com",
-	// 	id: "7",
-	// 	token: "3"
-	// },
-	{
-		name: "Sasha Mile Rudan",
-		email: "sasharu@ifi.uio.no",
-		id: "7",
-		token: "3"
-	}
-];
+	{name: "Sasha Rudan", email: "mprinc@gmail.com", id: "556760847125996dc1a4a241"},
+	{name: "CollaboScience", email: "collaboscience@gmail.com", id: "556760847125996dc1a4a219"},
+	{name: "Sinisa Rudan", email: "sinisa.rudan@gmail.com", id: "556760847125996dc1a4a24f"}
+]
 
 var sendMail = function(smtpTransport, from, subject, contact, id){
 	var mailOptions = {
