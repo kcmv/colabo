@@ -338,6 +338,7 @@ wizard{
 		font-size: 12;
 		font-style: italic;
 		padding: 5px 5px;
+		background-color: #ffd;
 		color: darkgrey;
 	}
 	.subject{
@@ -495,6 +496,7 @@ wizard{
 		font-size: 12;
 		font-style: italic;
 		padding: 5px 5px;
+		background-color: #ffd;
 		color: darkgrey;
 	}
 	.subject{
@@ -606,10 +608,11 @@ wizard{
 		}
 	}
 	.note{
-		font-size: 14;
+		font-size: 12;
 		font-style: italic;
 		padding: 5px 5px;
-		color: #666;
+		background-color: #ffd;
+		color: darkgrey;
 	}
 	.submit{
 		display: none;
