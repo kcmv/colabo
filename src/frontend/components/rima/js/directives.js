@@ -541,6 +541,7 @@ angular.module('rimaDirectives', ['Config'])
 			    	$scope.whats = RimaService.getAllWhats();
 				}
 				$scope.items = null;
+				$scope.topics = ['5566c62cbb09e90677658a60', '5566c62cbb09e90677658a61', '5566c62cbb09e90677658a62'];
 				$scope.whats = null;
 				$scope.selectedItem = null;
 				$scope.selectedWhat = null;
@@ -560,14 +561,31 @@ angular.module('rimaDirectives', ['Config'])
 				};
 
 				$scope.haveHows = function(){
-					return $scope.items.length != 0;
+					for(var wid=0; wid<$scope.items.length; wid++){
+						for(var tid in $scope.topics ){
+							if($scope.items[wid].whatAmI._id == $scope.topics [tid] && $scope.items[wid].how == HOW_VERB_FOR_TOPICS){
+								return true;
+							}
+						}
+					}
+					return false;
 				};
 
 				$scope.createHow = function(){
-					if($scope.items.length>=TOPICS_MAX){
+					var topicsSelected=0;
+					for(var wid=0; wid<$scope.items.length; wid++){
+						for(var tid in $scope.topics ){
+							if($scope.items[wid].whatAmI._id == $scope.topics [tid] && $scope.items[wid].how == HOW_VERB_FOR_TOPICS){
+								topicsSelected++;
+							}
+						}
+					}
+
+					if(topicsSelected >= TOPICS_MAX){
 						window.alert("You have already selected maximum number of topics.");
 						return;
 					}
+
 					var createdHow = function(howFromServer){
 						//done already in service: ahowFromServer.whatAmI = RimaService.getWhatById(howFromServer.whatAmI);
 						//already bound to the howAmIs array in the RIMA service, so this would cause duplicates: $scope.items.push(howFromServer);
