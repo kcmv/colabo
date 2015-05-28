@@ -4,6 +4,9 @@
 var guidanceCurrentStep = 0;
 var guidanceStepsOrder = ['enter_what', 'enter_how', 'add_who'];
 
+var start = function($timeout, $element, selector, event, stepName, delay){
+};
+
 var processStep = function($timeout, $element, selector, event, stepName, delay){
 };
 
