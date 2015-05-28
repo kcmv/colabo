@@ -63,6 +63,18 @@ angular.module('KnAllEdgeApp',[
 		redirectTo: '/maps'
 	});
 }])
+
+.config(['$tooltipProvider', function($tooltipProvider){
+  $tooltipProvider.setTriggers({
+    'mouseenter': 'mouseleave',
+    'click': 'click',
+    'focus': 'blur',
+    'never': 'mouseleave', // <- This ensures the tooltip will go away on mouseleave
+    'always': 'mouseleave', // <- This ensures the tooltip will go away on mouseleave
+    'openTrigger': 'closeTrigger',
+    'show': 'hide'
+  });
+}])
 // Disabling Debug Data
 // https://docs.angularjs.org/guide/production#disabling-debug-data
 //.config(['$compileProvider', function ($compileProvider) {

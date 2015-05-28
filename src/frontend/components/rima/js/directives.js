@@ -289,9 +289,77 @@ angular.module('rimaDirectives', ['Config'])
     	};
 	}])
 
+	/*
+	https://angular-ui.github.io/bootstrap/
+	*/
+	.directive( 'popPopup', function () {
+		return {
+			restrict: 'EA',
+			replace: true,
+			scope: { title: '@', content: '@', placement: '@', animation: '&', isOpen: '&' },
+			templateUrl: 'template/popover/popover.html'
+		};
+	})
+	  .directive('pop', function pop ($tooltip, $timeout) {
+	    var tooltip = $tooltip('pop', 'pop', 'event');
+	    var compile = angular.copy(tooltip.compile);
+	    tooltip.compile = function (element, attrs) {      
+	      var first = true;
+	      attrs.$observe('popShow', function (val) {
+	        if (JSON.parse(!first || val || false)) {
+	          $timeout(function () {
+	            element.triggerHandler('event');
+	          });
+	        }
+	        first = false;
+	      });
+	      return compile(element, attrs);
+	    };
+	    return tooltip;
+	  })
+	  .directive('myTooltip', ['$timeout', '$tooltip', function ( $timeout, $tooltip ) {
+		var tooltip = $tooltip( 'myTooltip', 'myTooltip', 'event' );
+		var compile = angular.copy(tooltip.compile);
+		tooltip.compile = function (element, attrs) {
+			var first = true;
+			attrs.$observe('myTooltipShow', function (val) {
+				if (JSON.parse(!first || val || false)) {
+					$timeout(function () {
+						element.triggerHandler('event');
+					});
+				}
+				first = false;
+			});
+			return compile(element, attrs);
+		};
+		return tooltip;
+	}])
+
 	.directive('rimaHows', ["$rootScope", "$timeout", "$location", "RimaService",
 		function($rootScope, $timeout, $location, RimaService){
 		console.log("[rimaHows] loading directive");
+
+		var showPopup = function($element, selector, event){
+			// $element.find("#testing_input").trigger('openTrigger');
+			// $element.find("#testing_input").triggerHandler('openTrigger');
+			// $element.find("#testing_input").popover('show');
+
+			// angular.element("#testing_input").trigger('openTrigger');
+			// angular.element("#testing_input").triggerHandler('openTrigger');
+
+			// $element.find("#testing_input").trigger('show');
+			// $element.find("#testing_input").triggerHandler('show');
+			// $element.find("#testing_input").popover('show');
+
+			// $("#RegisterHelp").trigger('show');
+			// $("#RegisterHelp").triggerHandler('show');
+			// $element.triggerHandler( 'openTrigger' );
+
+			// $element.find(selector).popover( event );
+			$element.find(selector).trigger( event );
+			$element.find(selector).triggerHandler( event );
+		};
+
 		return {
 			restrict: 'AE',
 			scope: {
@@ -299,7 +367,17 @@ angular.module('rimaDirectives', ['Config'])
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/rima/partials/rima-hows.tpl.html',
+			link: function ( $scope, $element) {
+				// showPopup($element, "#testing_input");
+			},
 			controller: function ( $scope, $element) {
+				// showPopup($element, "#testing_input");
+
+				$scope.showPopup = function(){
+					showPopup($element, "#testing_input", "event");
+					// showPopup($element, "#testing_input", "openTrigger");
+				}
+
 				var whatsLimit = 70;
 				var init = function(){
 					$scope.items = RimaService.getUsersHows(RimaService.getActiveUserId());
@@ -330,7 +408,6 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.haveHows = function(){
 					return $scope.items.length != 0;
 				};
-
 				$scope.createHow = function(){
 					var createdHow = function(howFromServer){
 						//done already in service: ahowFromServer.whatAmI = RimaService.getWhatById(howFromServer.whatAmI);
@@ -602,7 +679,7 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
-				$scope.currentStepNumber = 2;
+				$scope.currentStepNumber = 3;
 			},
 			controller: function ( $scope, $element) {
 

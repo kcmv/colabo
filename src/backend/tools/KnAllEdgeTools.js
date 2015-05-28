@@ -5,8 +5,8 @@ var path = require("path");
 var smtpTransport = nodemailer.createTransport({
 		service: "gmail",  // sets automatically host, port and connection security settings
 		auth: {
-				user: "sasha.rudan@gmail.com",
-				pass: "dastam78"
+				user: "collaboscience@gmail.com",
+				pass: "0310karlovac91"
 		}
 });
 
@@ -15,21 +15,30 @@ console.log("templatePath: %s", templatePath);
 // Use the plugin with the Nodemailer transport instance.
 smtpTransport.use('compile', nodemailerMustache({
   viewPath: templatePath,
-  extName: 'mustache'
+  extName: 'html'
 }));
 
-var subject = "CollaboScience";
-var from = "Sasha Rudan <sasha.rudan@gmail.com>";
+// var subject = "Choreographed co-creation and call for action - TNC Online Dialogue";
+var subject = "TNC test - 5";
+var from = "CollaboScience <collaboscience@gmail.com>";
 var contacts = [
 	{
 		name: "Sasa Rudan",
 		email: "Sasa Rudan <mprinc@gmail.com>",
-		id: "5"
+		id: "5",
+		token: "1"
 	},
 	{
 		name: "Sinisa Rudan",
 		email: "Sinisa Rudan <sinisa.rudan@gmail.com>",
-		id: "7"
+		id: "7",
+		token: "3"
+	},
+	{
+		name: "Sasha Mile Rudan",
+		email: "Sasha Mile Rudan <sasharu@ifi.uio.no>",
+		id: "7",
+		token: "3"
 	}
 ];
 
