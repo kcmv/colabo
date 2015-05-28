@@ -152,6 +152,7 @@ angular.module("src/wizardTemplate.html", []).run([ "$templateCache", function($
 	+ '    <div class="col-md-9 col-xs-12 wizard-main">\n'
 	+ '        <ul class="pager">\n'
 	+ '            <li class="previous" ng-class="{disabled: !hasPrevious()}"><a href="#" ng-click="goToPrevious($event);"><i class="fa fa-arrow-circle-left"></i> Previous</a></li>\n' 
+	+ '            <li class="rima_logo">RIMA</li>\n' 
 	+ '            <li ng-repeat="step in steps">\n'
 	+ "                <i class=\"fa\" ng-class=\"{'fa-circle-o disabled': getStepState(step) == stepStatesEnum.disabled, 'fa-circle': getStepState(step) == stepStatesEnum.complete, 'fa-circle-o': getStepState(step) == stepStatesEnum.ready, selected: getCurrentStep() == step}\"\n"
 	+ '                   ng-click="goToStepByReference(step)" tooltip="{{step.title}}"></i>\n' + "            </li>\n"

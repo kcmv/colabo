@@ -5,6 +5,21 @@
 /* ------------------------
  bootstrap wizard
 ------------------------ */
+
+.wizard-main{
+	position: relative;
+	.rima_logo{
+/*		position: absolute;
+		left: 500px;
+		top: 100px;
+		z-index: 1001;
+*/		font-size: 2em;
+		margin-right: 1em;
+		font-weight: bold;
+		color: gray;
+	}
+};
+
 wizard{
 	border: 5px solid green;
 	ng-form{
