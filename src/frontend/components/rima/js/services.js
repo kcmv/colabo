@@ -798,6 +798,7 @@ rimaServices.provider('RimaService', {
 				if($window.localStorage){
 					$window.localStorage.loginInfo = JSON.stringify(this.loginInfo);
 				}
+				this.loggedInWhoAmI = WhoAmIService.getById(this.loggedInWhoAmI._id );
 			},
 			getIAmId: function(){
 				return this.loggedInWhoAmI._id;
