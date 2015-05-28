@@ -8,7 +8,10 @@ var config = require('./config/global')
   , http    = require('http')
   , https   = require('https')
   , flash 	 = require('connect-flash')
-  , db      = require('./models');
+  , db      = require('./models')
+  , TopiChat = require('./modules/topiChat')
+  , TopiChatKnAllEdge = require('./modules/topiChat-knalledge')
+  ;
  
 console.log("[KnAllEdgeBackend.js:index] config.paths: %s", JSON.stringify(config.paths));
 console.log("[KnAllEdgeBackend.js:index] config.mockups: %s", JSON.stringify(config.mockups));
@@ -41,6 +44,10 @@ function supportCrossOriginScript(req, res, next) {
 }
 
 var app = express();
+var topiChat = new TopiChat(app, 'CollaboScience', 8060);
+var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
+
+topiChat.connect();
 
 app.configure(function(){
     app.use(express.bodyParser());
