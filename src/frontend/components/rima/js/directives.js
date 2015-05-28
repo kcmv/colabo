@@ -1,6 +1,33 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+var showPopup = function($timeout, $element, selector, event){
+	// $element.find("#testing_input").trigger('openTrigger');
+	// $element.find("#testing_input").triggerHandler('openTrigger');
+	// $element.find("#testing_input").popover('show');
+
+	// angular.element("#testing_input").trigger('openTrigger');
+	// angular.element("#testing_input").triggerHandler('openTrigger');
+
+	// $element.find("#testing_input").trigger('show');
+	// $element.find("#testing_input").triggerHandler('show');
+	// $element.find("#testing_input").popover('show');
+
+	// $("#RegisterHelp").trigger('show');
+	// $("#RegisterHelp").triggerHandler('show');
+	// $element.triggerHandler( 'openTrigger' );
+
+	// $element.find(selector).popover( event );
+	// $element.find(selector).trigger( event );
+
+	// http://stackoverflow.com/questions/12729122/prevent-error-digest-already-in-progress-when-calling-scope-apply
+	// http://stackoverflow.com/questions/22447374/how-to-trigger-ng-click-angularjs-programmatically
+	// https://docs.angularjs.org/api/ng/function/angular.element
+	$timeout(function () {
+		$element.find(selector).triggerHandler( event );
+	}, 1000);
+};
+
 angular.module('rimaDirectives', ['Config'])
 	.directive('rimaRelevantList', ['$rootScope', 'WhatAmIService',
 		function($rootScope, WhatAmIService){
@@ -289,62 +316,6 @@ angular.module('rimaDirectives', ['Config'])
     	};
 	}])
 
-	/*
-	https://angular-ui.github.io/bootstrap/
-	http://getbootstrap.com/javascript/#tooltips
-	http://stackoverflow.com/questions/23073156/how-to-open-and-close-angular-ui-popovers-programmatically
-	http://stackoverflow.com/questions/19730461/hide-angular-ui-tooltip-on-custom-event
-	http://stackoverflow.com/questions/13015432/how-to-make-bootstrap-tooltip-to-remain-visible-till-the-link-is-clicked
-	http://stackoverflow.com/questions/12411500/show-twitter-bootstrap-tooltip-on-initalize
-	https://github.com/angular-ui/bootstrap/issues/618
-	http://stackoverflow.com/questions/16651227/enable-angular-ui-tooltip-on-custom-events
-	http://plnkr.co/edit/DmNNkYHfofHTX4omt8GC?p=preview
-	http://stackoverflow.com/questions/20939754/good-way-to-dynamically-open-close-a-popover-or-tooltip-using-angular-based
-	http://plnkr.co/edit/94ZHgQ?p=preview
-	*/
-	.directive( 'popPopup', function () {
-		return {
-			restrict: 'EA',
-			replace: true,
-			scope: { title: '@', content: '@', placement: '@', animation: '&', isOpen: '&' },
-			templateUrl: 'template/popover/popover.html'
-		};
-	})
-	  .directive('pop', function pop ($tooltip, $timeout) {
-	    var tooltip = $tooltip('pop', 'pop', 'event');
-	    var compile = angular.copy(tooltip.compile);
-	    tooltip.compile = function (element, attrs) {      
-	      var first = true;
-	      attrs.$observe('popShow', function (val) {
-	        if (JSON.parse(!first || val || false)) {
-	          $timeout(function () {
-	            element.triggerHandler('event');
-	          });
-	        }
-	        first = false;
-	      });
-	      return compile(element, attrs);
-	    };
-	    return tooltip;
-	  })
-	  .directive('myTooltip', ['$timeout', '$tooltip', function ( $timeout, $tooltip ) {
-		var tooltip = $tooltip( 'myTooltip', 'myTooltip', 'event' );
-		var compile = angular.copy(tooltip.compile);
-		tooltip.compile = function (element, attrs) {
-			var first = true;
-			attrs.$observe('myTooltipShow', function (val) {
-				if (JSON.parse(!first || val || false)) {
-					$timeout(function () {
-						element.triggerHandler('event');
-					});
-				}
-				first = false;
-			});
-			return compile(element, attrs);
-		};
-		return tooltip;
-	}])
-
 	.directive('rimaHows', ["$rootScope", "$timeout", "$location", "RimaService",
 		function($rootScope, $timeout, $location, RimaService){
 		console.log("[rimaHows] loading directive");
@@ -357,10 +328,11 @@ angular.module('rimaDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/rima/partials/rima-hows.tpl.html',
 			link: function ( $scope, $element) {
-				// showPopup($element, "#testing_input");
+				// showPopup($timeout, $element, "#testing_input");
+				showPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
 			},
 			controller: function ( $scope, $element) {
-				// showPopup($element, "#testing_input");
+				// showPopup($timeout, $element, "#testing_input");
 
 				var whatsLimit = 70;
 				var init = function(){
@@ -654,29 +626,65 @@ angular.module('rimaDirectives', ['Config'])
     	};
 	}])
 
-	.directive('rimaWizard', ['$rootScope', 'RimaService',
-		function($rootScope, RimaService){
-		console.log("[rimaWizard] loading directive");
-		var showPopup = function($element, selector, event){
-			// $element.find("#testing_input").trigger('openTrigger');
-			// $element.find("#testing_input").triggerHandler('openTrigger');
-			// $element.find("#testing_input").popover('show');
-
-			// angular.element("#testing_input").trigger('openTrigger');
-			// angular.element("#testing_input").triggerHandler('openTrigger');
-
-			// $element.find("#testing_input").trigger('show');
-			// $element.find("#testing_input").triggerHandler('show');
-			// $element.find("#testing_input").popover('show');
-
-			// $("#RegisterHelp").trigger('show');
-			// $("#RegisterHelp").triggerHandler('show');
-			// $element.triggerHandler( 'openTrigger' );
-
-			// $element.find(selector).popover( event );
-			$element.find(selector).trigger( event );
-			$element.find(selector).triggerHandler( event );
+	/*
+	https://angular-ui.github.io/bootstrap/
+	http://getbootstrap.com/javascript/#tooltips
+	http://stackoverflow.com/questions/23073156/how-to-open-and-close-angular-ui-popovers-programmatically
+	http://stackoverflow.com/questions/19730461/hide-angular-ui-tooltip-on-custom-event
+	http://stackoverflow.com/questions/13015432/how-to-make-bootstrap-tooltip-to-remain-visible-till-the-link-is-clicked
+	http://stackoverflow.com/questions/12411500/show-twitter-bootstrap-tooltip-on-initalize
+	https://github.com/angular-ui/bootstrap/issues/618
+	http://stackoverflow.com/questions/16651227/enable-angular-ui-tooltip-on-custom-events
+	http://plnkr.co/edit/DmNNkYHfofHTX4omt8GC?p=preview
+	http://stackoverflow.com/questions/20939754/good-way-to-dynamically-open-close-a-popover-or-tooltip-using-angular-based
+	http://plnkr.co/edit/94ZHgQ?p=preview
+	*/
+	.directive( 'popPopup', function () {
+		return {
+			restrict: 'EA',
+			replace: true,
+			scope: { title: '@', content: '@', placement: '@', animation: '&', isOpen: '&' },
+			templateUrl: 'template/popover/popover.html'
 		};
+	})
+	  .directive('pop', function pop ($tooltip, $timeout) {
+	    var tooltip = $tooltip('pop', 'pop', 'event');
+	    var compile = angular.copy(tooltip.compile);
+	    tooltip.compile = function (element, attrs) {      
+	      var first = true;
+	      attrs.$observe('popShow', function (val) {
+	        if (JSON.parse(!first || val || false)) {
+	          $timeout(function () {
+	            element.triggerHandler('event');
+	          });
+	        }
+	        first = false;
+	      });
+	      return compile(element, attrs);
+	    };
+	    return tooltip;
+	  })
+	  .directive('myTooltip', ['$timeout', '$tooltip', function ( $timeout, $tooltip ) {
+		var tooltip = $tooltip( 'myTooltip', 'myTooltip', 'openTrigger' );
+		var compile = angular.copy(tooltip.compile);
+		tooltip.compile = function (element, attrs) {
+			var first = true;
+			attrs.$observe('myTooltipShow', function (val) {
+				if (JSON.parse(!first || val || false)) {
+					$timeout(function () {
+						element.triggerHandler('openTrigger');
+					});
+				}
+				first = false;
+			});
+			return compile(element, attrs);
+		};
+		return tooltip;
+	}])
+
+	.directive('rimaWizard', ['$rootScope', '$timeout', 'RimaService',
+		function($rootScope, $timeout, RimaService){
+		console.log("[rimaWizard] loading directive");
 		return {
 			restrict: 'AE',
 			scope: {
@@ -684,6 +692,7 @@ angular.module('rimaDirectives', ['Config'])
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
 				$scope.currentStepNumber = 3;
+				// showPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
 			},
 			controller: function ( $scope, $element) {
 
@@ -694,8 +703,8 @@ angular.module('rimaDirectives', ['Config'])
 				};
 
 				$scope.showPopup = function(){
-					showPopup($element, "#testing_input", "event");
-					// showPopup($element, "#testing_input", "openTrigger");
+					showPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
+					// showPopup($timeout, $element, "#testing_input", "openTrigger");
 				}
 
 				$scope.stepEntered = function(){
