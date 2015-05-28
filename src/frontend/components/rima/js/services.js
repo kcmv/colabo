@@ -879,22 +879,17 @@ rimaServices.provider('RimaService', {
 			},
 
 			getUsersHows: function(id, callback){
-				var serverHowAmIs = HowAmIService.getAll(function(howAmIsFromServer){
-					this.howAmIs.length = 0;
+				if (!this.howAmIs.hasOwnProperty(id)) {this.howAmIs[id] = [];}
+				var serverHowAmIs = HowAmIService.getUsersHows(id, function(howAmIsFromServer){
+					this.howAmIs[id].length = 0;
 					for(var i=0; i<howAmIsFromServer.length; i++){
-						this.howAmIs.push(howAmIsFromServer[i]);
+						this.howAmIs[id].push(howAmIsFromServer[i]);
 					}
-					if(callback){callback(this.howAmIs);}
+					if(callback){callback(howAmIsFromServer);}
 				}.bind(this));
-				this.howAmIs.$promise = serverHowAmIs.$promise;
-				this.howAmIs.$resloved = serverHowAmIs.$resloved;
-				return this.howAmIs;
-				
-				// if (!this.howAmIs.hasOwnProperty(id)) {this.howAmIs[id] = [];}
-				// this.howAmIs[id] = HowAmIService.getUsersHows(id, function(howsFromServer){
-				// 	if(callback){callback(howsFromServer);}
-				// });
-				// return this.howAmIs[id];
+				this.howAmIs[id].$promise = serverHowAmIs.$promise;
+				this.howAmIs[id].$resloved = serverHowAmIs.$resloved;
+				return this.howAmIs[id];
 			},
 
 			getAllHows: function(callback){

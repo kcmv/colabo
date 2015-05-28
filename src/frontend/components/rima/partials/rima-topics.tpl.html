@@ -1,5 +1,5 @@
 <div ng-show="haveHows()">
-	<div class="subtitle">These are the topics you have selected to speak about</div>
+	<div class="subtitle">These are the topics you have selected to present</div>
 	<table class="list">
 		<tr><th>Topic</th></tr>
 		<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
@@ -9,14 +9,14 @@
 	<hr/>
 </div>
 <div ng-hide="haveHows()" class="subtitle important">
-	<p>You have not choses topics yet.</p>
+	<p>You have not selected topics to present yet.</p>
 </div>
 <span ng-show="!readonly && !decoratingIdeaPartial">
 	<!-- <a href="javascript::void(0);" class="info">Why should I describe myself?<span class="help_text">Add more about you so that CollaboScience can improve <B>your experience</B><br/>and guide collaboration based on your interests and expertises!<BR/><BR/><b>It's simple</b> and is <b>changeable</b>: you can <B>delete</B> your descriptions whenever you like, by clicking 'delete' ('trash') button that appears when you move your mouse over the list of your descriptions</span></a>
 	<div class="note">(examples: "I am <span class="how_verb">interested</span> in '<span class="how_what">Psychology</span>'", "I am <span class="how_verb">specialized</span> in '<span class="how_what">Computer Networking</span>'")&nbsp;<a href="javascript::void(0);" class="info">[How to describe yourself - 'step by step' help]<span class="help_text"><B>How you describe yourself?</B><BR/><b>1)</b> Type into the textbox whatever topic (interest) you are related to. It can be some skill, knowledge, interest, activity, ...<br/>As you type, we will offer you some suggestions.<br/><b>2)</b> Choose from the left selection box how you are related to that topic<BR/><b>3)</b> Click 'Add' and it will become part of you.<BR/><b>P.S.</b> You can choose to 'be interested in' some topic, meaning that you might be connected to streams related to it, but you can also create 'specialized in' relation to the same topic, so that you might be invited to give your opinions regarding it, during collaborations.</span></a></div> -->
 	<div class="whats">
 		<div class="subtitle">Choose 2 of selected topics</div>
-		<div class="note">(just click a topic from the list to select it. If you change your mind, you can delete it from upper table that shows your your selections)</div>
+		<div class="note">(just click a topic from the list below to select it. If you change your mind, you can delete it from the upper table, the table that shows your selections)</div>
 		<div class="rima-whats">
 			<div rima-what class="rima-what" ng-repeat="what in whats | topicsFromWhats:['5566c62cbb09e90677658a60', '5566c62cbb09e90677658a61', '5566c62cbb09e90677658a62']" item="what" is-last="$last" readonly="true" item-select="chooseWhat(what)">
 			</div>
