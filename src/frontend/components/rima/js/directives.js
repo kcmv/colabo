@@ -1,6 +1,12 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+var guidanceCurrentStep = 0;
+var guidanceStepsOrder = ['enter_what', 'enter_how', 'add_who'];
+
+var processStep = function($timeout, $element, selector, event, stepName, delay){
+};
+
 var triggerPopup = function($timeout, $element, selector, event, delay){
 	if (typeof delay == 'undefined') delay = 25;
 	// $element.find("#testing_input").trigger('openTrigger');
