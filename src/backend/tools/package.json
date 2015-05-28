@@ -1,25 +1,26 @@
 {
-		"name": "KnAllEdge-tools-backend",
-		"description": "KnAllEdge is a universal knowledge repository system.",
-		"version": "0.0.5",
-		"private": true,
-		"scripts": {
-				"start": "node KnAllEdgeTools"
-		},
-		"dependencies": {
-				"async": "x",
-				"bluebird": "latest",
-				"connect-flash": "latest",
-				"express": "3.x",
-				"express-resource": "1.x",
-				"mongodb": "^1.4.31",
-				"mongoose": "^3.8.23",
-				"mysql": "2.x",
-				"nodemailer": "^1.3.4",
-				"nodemailer-mustache": "^1.1.3",
-				"sequelize": "x"
-		},
-		"devDependencies": {
-				"node-inspector": "~0.8.3"
-		}
+  "name": "KnAllEdge-tools-backend",
+  "description": "KnAllEdge is a universal knowledge repository system.",
+  "version": "0.0.5",
+  "private": true,
+  "scripts": {
+    "start": "node KnAllEdgeTools"
+  },
+  "dependencies": {
+    "async": "x",
+    "bluebird": "latest",
+    "connect-flash": "latest",
+    "express": "3.x",
+    "express-resource": "1.x",
+    "mongodb": "^1.4.31",
+    "mongoose": "^3.8.23",
+    "mysql": "2.x",
+    "nodemailer": "^1.3.4",
+    "nodemailer-mustache": "^1.1.3",
+    "sequelize": "x",
+    "sleep": "^2.0.0"
+  },
+  "devDependencies": {
+    "node-inspector": "~0.8.3"
+  }
 }
