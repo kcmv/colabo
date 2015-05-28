@@ -291,6 +291,16 @@ angular.module('rimaDirectives', ['Config'])
 
 	/*
 	https://angular-ui.github.io/bootstrap/
+	http://getbootstrap.com/javascript/#tooltips
+	http://stackoverflow.com/questions/23073156/how-to-open-and-close-angular-ui-popovers-programmatically
+	http://stackoverflow.com/questions/19730461/hide-angular-ui-tooltip-on-custom-event
+	http://stackoverflow.com/questions/13015432/how-to-make-bootstrap-tooltip-to-remain-visible-till-the-link-is-clicked
+	http://stackoverflow.com/questions/12411500/show-twitter-bootstrap-tooltip-on-initalize
+	https://github.com/angular-ui/bootstrap/issues/618
+	http://stackoverflow.com/questions/16651227/enable-angular-ui-tooltip-on-custom-events
+	http://plnkr.co/edit/DmNNkYHfofHTX4omt8GC?p=preview
+	http://stackoverflow.com/questions/20939754/good-way-to-dynamically-open-close-a-popover-or-tooltip-using-angular-based
+	http://plnkr.co/edit/94ZHgQ?p=preview
 	*/
 	.directive( 'popPopup', function () {
 		return {
@@ -339,27 +349,6 @@ angular.module('rimaDirectives', ['Config'])
 		function($rootScope, $timeout, $location, RimaService){
 		console.log("[rimaHows] loading directive");
 
-		var showPopup = function($element, selector, event){
-			// $element.find("#testing_input").trigger('openTrigger');
-			// $element.find("#testing_input").triggerHandler('openTrigger');
-			// $element.find("#testing_input").popover('show');
-
-			// angular.element("#testing_input").trigger('openTrigger');
-			// angular.element("#testing_input").triggerHandler('openTrigger');
-
-			// $element.find("#testing_input").trigger('show');
-			// $element.find("#testing_input").triggerHandler('show');
-			// $element.find("#testing_input").popover('show');
-
-			// $("#RegisterHelp").trigger('show');
-			// $("#RegisterHelp").triggerHandler('show');
-			// $element.triggerHandler( 'openTrigger' );
-
-			// $element.find(selector).popover( event );
-			$element.find(selector).trigger( event );
-			$element.find(selector).triggerHandler( event );
-		};
-
 		return {
 			restrict: 'AE',
 			scope: {
@@ -372,11 +361,6 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			controller: function ( $scope, $element) {
 				// showPopup($element, "#testing_input");
-
-				$scope.showPopup = function(){
-					showPopup($element, "#testing_input", "event");
-					// showPopup($element, "#testing_input", "openTrigger");
-				}
 
 				var whatsLimit = 70;
 				var init = function(){
@@ -673,6 +657,26 @@ angular.module('rimaDirectives', ['Config'])
 	.directive('rimaWizard', ['$rootScope', 'RimaService',
 		function($rootScope, RimaService){
 		console.log("[rimaWizard] loading directive");
+		var showPopup = function($element, selector, event){
+			// $element.find("#testing_input").trigger('openTrigger');
+			// $element.find("#testing_input").triggerHandler('openTrigger');
+			// $element.find("#testing_input").popover('show');
+
+			// angular.element("#testing_input").trigger('openTrigger');
+			// angular.element("#testing_input").triggerHandler('openTrigger');
+
+			// $element.find("#testing_input").trigger('show');
+			// $element.find("#testing_input").triggerHandler('show');
+			// $element.find("#testing_input").popover('show');
+
+			// $("#RegisterHelp").trigger('show');
+			// $("#RegisterHelp").triggerHandler('show');
+			// $element.triggerHandler( 'openTrigger' );
+
+			// $element.find(selector).popover( event );
+			$element.find(selector).trigger( event );
+			$element.find(selector).triggerHandler( event );
+		};
 		return {
 			restrict: 'AE',
 			scope: {
@@ -688,6 +692,11 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.bindings = {
 					noSkype: false
 				};
+
+				$scope.showPopup = function(){
+					showPopup($element, "#testing_input", "event");
+					// showPopup($element, "#testing_input", "openTrigger");
+				}
 
 				$scope.stepEntered = function(){
 					console.log('stepEntered (); $scope.currentStepNumber: %d',$scope.currentStepNumber);
