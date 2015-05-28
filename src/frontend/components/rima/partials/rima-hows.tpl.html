@@ -44,9 +44,10 @@
 	<div class="finish" align="right"><button class="btn btn-primary" type="button" ng-click="finished()">Finish</button></div>
 	<div class="whats">
 		<div class="subtitle">Or choose from some of the existing topics</div>
-		<div class="note">(just click a topic from the list below to auto-fill it into the upper text field and then click the 'Add' button)</div>
-		<div class="rima-whats guidance_enter_what_2"
+		<div class="note guidance_enter_what_2"
 		tooltip="... or choose from some of the existing ones underneath" tooltip-placement="top" tooltip-trigger="openTrigger" tooltip-enable="true" tooltip-append-to-body="true"
+		>(just click a topic from the list below to auto-fill it into the upper text field and then click the 'Add' button)</div>
+		<div class="rima-whats"
 		>
 			<div rima-what class="rima-what" ng-repeat="what in whats" item="what" is-last="$last" readonly="true" item-select="chooseWhat(what)">
 			</div>
