@@ -442,6 +442,127 @@ angular.module('rimaDirectives', ['Config'])
     	};
 	}])
 
+	.directive('rimaTopics', ["$rootScope", "$timeout", "$location", "RimaService",
+		function($rootScope, $timeout, $location, RimaService){
+		console.log("[rimaTopics] loading directive");
+		return {
+			restrict: 'AE',
+			scope: {
+			},
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angularjs.org/guide/expression
+			templateUrl: '../components/rima/partials/rima-topics.tpl.html',
+			controller: function ( $scope, $element) {
+				var init = function(){
+					$scope.items = RimaService.getUsersHows(RimaService.getActiveUserId());
+					//$scope.modal.formData.contentTypeId= option.contentTypes[0].id;
+					$scope.selectedHowOption = $scope.hows[0].id;
+			    	//$scope.selectedItem = RimaService.getActiveUser();
+			    	$scope.whats = RimaService.getAllWhats();
+				}
+				$scope.items = null;
+				$scope.whats = null;
+				$scope.selectedItem = null;
+				$scope.selectedWhat = null;
+
+				$scope.displayName = RimaService.loggedInWhoAmI.displayName;
+
+				//html-select:
+				$scope.hows = RimaService.getHowVerbs();
+
+				$scope.howById = function(id){
+					// if(id !== 'undefined'){
+					return RimaService.getHowForId(id).title;
+					// }
+					// else{
+					// 	return new knalledge.HowAmI();
+					// }
+				};
+
+				$scope.haveHows = function(){
+					return $scope.items.length != 0;
+				};
+
+				$scope.createHow = function(){
+					var createdHow = function(howFromServer){
+						//done already in service: ahowFromServer.whatAmI = RimaService.getWhatById(howFromServer.whatAmI);
+						//already bound to the howAmIs array in the RIMA service, so this would cause duplicates: $scope.items.push(howFromServer);
+					}
+
+					var selectedHow = RimaService.getHowForId($scope.selectedHowOption);
+
+					for(var i in $scope.items){
+						var item = $scope.items[i];
+						var whatName = (typeof $scope.whatInput === 'string') ? $scope.whatInput : $scope.whatInput.name;
+						if(selectedHow.id == item.how && whatName.toLowerCase() == item.whatAmI.name.toLowerCase()){
+							window.alert("You have already described yourself through this");
+							return;
+						}
+					}
+
+					var how = new knalledge.HowAmI();
+					how.whoAmI = RimaService.getActiveUserId();
+					how.how = selectedHow.id;
+					
+					//how.whatAmI = $scope.whatInput; //TODO:
+
+					var whatCreated = function(whatFromServer){
+						console.log("whatCreated", whatFromServer);
+						saveHowWIthNewWhat(whatFromServer._id);
+					}
+
+					var saveHowWIthNewWhat = function(whatId){
+						how.whatAmI = whatId;
+						RimaService.createHowAmI(how, createdHow);
+					}
+					
+					if(typeof $scope.whatInput === 'string'){ //new what
+						var newWhat = new knalledge.WhatAmI();
+						newWhat.name = $scope.whatInput.toLowerCase();
+						RimaService.createWhatAmI(newWhat).$promise.then(whatCreated);
+					}else{ //already existing what (found through typeahead)
+						console.log("already existing what '%s' (found through typeahead)", $scope.whatInput);
+						RimaService.addToLocalWhats($scope.whatInput);//TODO: here we are adding it to 'whatAmI' local cache:
+						saveHowWIthNewWhat($scope.whatInput._id);
+					}
+
+					$scope.whatInput = null;
+
+				};
+
+
+				init();
+				$scope.selectItem = function(item) {
+				    $scope.selectedItem = item;
+				    console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
+				};
+				$scope.selectWhat = function(item) {
+				    $scope.selectedWhat = item;
+				    console.log("$scope.selectWhat = " + $scope.selectWhat.name + ": " + $scope.selectWhat._id);
+				};
+				$scope.chooseWhat = function(what) {
+					console.log("$scope.chooseWhat = " + what.name + ": " + what._id);
+					$scope.whatInput = what;
+				};
+
+				$scope.delete = function(how) {
+					if(confirm("Are you sure you want to delete you relation to '"+ how.whatAmI.name +"'?")){
+						RimaService.deleteHow(how._id, function(){
+							var index = -1;
+							for(var i in $scope.items){
+								if($scope.items[i]._id == how._id){
+									index = i;
+									break;
+								}
+							}
+							if(index != -1){delete $scope.items[index];}
+						});
+					}
+				};
+    		}
+    	};
+	}])
+
 	.directive('rimaWhat', ['$rootScope', 'RimaService',
 		function($rootScope, RimaService){
 		console.log("[rimaWhat] loading directive");
@@ -481,7 +602,7 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
-				$scope.currentStepNumber = 2;
+				//$scope.currentStepNumber = 2;
 			},
 			controller: function ( $scope, $element) {
 

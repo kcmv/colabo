@@ -595,6 +595,10 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		{
 			id:3,
 			title:'specialized in'
+		},
+		{
+			id:4,
+			title:'willing to present'
 		}
 	];
 
@@ -880,6 +884,18 @@ rimaServices.provider('RimaService', {
 					if(callback){callback(howsFromServer);}
 				});
 				return this.howAmIs[id];
+			},
+
+			getAllHows: function(callback){
+				this.howAmIs = HowAmIService.getAll(function(howsFromServer){ //TODO: is this OK with Cache approach, because we overwrite all the list
+					for(var i=0;i<howsFromServer.length;i++){
+						how = howsFromServer[i];
+						if (!this.howAmIs.hasOwnProperty(how.whoAmI)) {this.howAmIs[how.whoAmI] = [];}
+						this.howAmIs[how.whoAmI].push(how);
+					}
+					if(callback){callback(this.howAmIs);}
+				});
+				return this.howAmIs;
 			},
 
 			deleteHow: function(id, callback){

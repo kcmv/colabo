@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var Promise = require("bluebird");
 // set it either in path: (node createDemoData.js 'demo_data.json') or default
 var fileName = process.argv[2] || '../../data/exportedDB.json';
-var mapId = process.argv[3] || '554a277b180b7c7810e52538';
+var mapId = process.argv[3] || '5552c2c87ffdccd74096d0ca';
 var rootNodeId = process.argv[4] || '55268521fb9a901e442172f9';
 
 var fs = require('fs');
