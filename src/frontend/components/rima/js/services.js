@@ -118,7 +118,15 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 
 	resource.getById = function(id, callback)
 	{
-		var whoAmI = this.getPlain({ searchParam:id, type:'one' }, callback);
+		var whoAmI = new knalledge.WhoAmI();
+		var whoAmIFromGet = this.getPlain({ searchParam:id, type:'one' }, 
+			function(whoAmIFromServer){
+				whoAmI.fill(whoAmIFromServer);
+				whoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
+				if(callback) callback(whoAmI);
+			});
+		whoAmI.$promise = whoAmIFromGet.$promise;
+		whoAmI.$resolved = whoAmIFromGet.$resolved;
 		return whoAmI;
 	};
 	
@@ -131,7 +139,7 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 					whoAmIsFromServer[id] = whoAmI;
 				}
 				if(callback) callback(whoAmIsFromServer);
-		});
+			});
 		return whoAmIs;
 	};
 	
@@ -761,6 +769,7 @@ rimaServices.provider('RimaService', {
 						if(this.loginInfo.iAmId){
 							this.loggedInWhoAmI._id = this.loginInfo.iAmId;
 							this.loggedInWhoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
+							this.loggedInWhoAmI = WhoAmIService.getById(this.loggedInWhoAmI._id );
 						}
 						if(this.loginInfo.token) this.loggedInWhoAmI.token = this.loginInfo.token;					
 					}
