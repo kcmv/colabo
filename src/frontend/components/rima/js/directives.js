@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var showPopup = function($timeout, $element, selector, event){
+var triggerPopup = function($timeout, $element, selector, event){
 	// $element.find("#testing_input").trigger('openTrigger');
 	// $element.find("#testing_input").triggerHandler('openTrigger');
 	// $element.find("#testing_input").popover('show');
@@ -328,11 +328,11 @@ angular.module('rimaDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/rima/partials/rima-hows.tpl.html',
 			link: function ( $scope, $element) {
-				// showPopup($timeout, $element, "#testing_input");
-				showPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
+				// triggerPopup($timeout, $element, "#testing_input");
+				triggerPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
 			},
 			controller: function ( $scope, $element) {
-				// showPopup($timeout, $element, "#testing_input");
+				// triggerPopup($timeout, $element, "#testing_input");
 
 				var whatsLimit = 70;
 				var init = function(){
@@ -692,7 +692,7 @@ angular.module('rimaDirectives', ['Config'])
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
 				$scope.currentStepNumber = 3;
-				// showPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
+				// triggerPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
 			},
 			controller: function ( $scope, $element) {
 
@@ -703,8 +703,12 @@ angular.module('rimaDirectives', ['Config'])
 				};
 
 				$scope.showPopup = function(){
-					showPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
-					// showPopup($timeout, $element, "#testing_input", "openTrigger");
+					triggerPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
+					// triggerPopup($timeout, $element, "#testing_input", "openTrigger");
+				}
+				$scope.closePopup = function(){
+					triggerPopup($timeout, $element, "#testing_tooltip_what", "closeTrigger");
+					// triggerPopup($timeout, $element, "#testing_input", "openTrigger");
 				}
 
 				$scope.stepEntered = function(){
