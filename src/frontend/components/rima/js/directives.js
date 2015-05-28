@@ -3,11 +3,35 @@
 
 var guidanceCurrentStep = 0;
 var guidanceStepsOrder = ['enter_what', 'enter_how', 'add_who'];
+var guidanceStepsClasses = [['enter_what_1', 'enter_what_2'], ['enter_how'], ['add_who']];
 
-var start = function($timeout, $element, selector, event, stepName, delay){
+var getIdFromStep = function(stepName){
+	var id = guidanceStepsOrder.indexOf(stepName);
+	return id;
 };
 
-var processStep = function($timeout, $element, selector, event, stepName, delay){
+var guidanceStart = function($timeout, $element){
+	guidanceCurrentStep = 0;
+	for(var i in guidanceStepsClasses){
+		triggerPopup($timeout, $element, '.guidance_'+guidanceStepsClasses[guidanceCurrentStep][i], 'openTrigger', 1500);		
+	}
+};
+
+var guidanceProcessStep = function($timeout, $element, stepName){
+	var id = getIdFromStep(stepName);
+	if(id == guidanceCurrentStep){
+		var i;
+		for(var i in guidanceStepsClasses){
+			triggerPopup($timeout, $element, '.guidance_'+guidanceStepsClasses[guidanceCurrentStep][i], 'closeTrigger');
+		}
+		if(guidanceCurrentStep <= guidanceStepsOrder.length){
+			guidanceCurrentStep++;
+			var newStepName = guidanceStepsOrder[guidanceCurrentStep];
+			for(var i in guidanceStepsClasses){
+				triggerPopup($timeout, $element, '.guidance_'+guidanceStepsClasses[guidanceCurrentStep][i], 'openTrigger');
+			}
+		}
+	}
 };
 
 var triggerPopup = function($timeout, $element, selector, event, delay){
@@ -339,7 +363,7 @@ angular.module('rimaDirectives', ['Config'])
 			templateUrl: '../components/rima/partials/rima-hows.tpl.html',
 			link: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
-				triggerPopup($timeout, $element, ".what_input", "openTrigger", 1500);
+				guidanceStart($timeout, $element);
 			},
 			controller: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
@@ -363,13 +387,11 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.hows = RimaService.getHowVerbs();
 
 				$scope.inputWhatChanged = function(){
-					triggerPopup($timeout, $element, ".what_input", "closeTrigger");
-					triggerPopup($timeout, $element, ".select", "openTrigger");
+					guidanceProcessStep($timeout, $element, "enter_what");
 				};
 
 				$scope.howSelectChanged = function(){
-					triggerPopup($timeout, $element, ".select", "closeTrigger");
-					triggerPopup($timeout, $element, ".what_add", "openTrigger");					
+					guidanceProcessStep($timeout, $element, "enter_how");
 				};
 
 				$scope.howById = function(id){
@@ -385,7 +407,7 @@ angular.module('rimaDirectives', ['Config'])
 					return $scope.items.length != 0;
 				};
 				$scope.createHow = function(){
-					triggerPopup($timeout, $element, ".what_add", "closeTrigger");
+					guidanceProcessStep($timeout, $element, "add_who");
 
 					var createdHow = function(howFromServer){
 						//done already in service: ahowFromServer.whatAmI = RimaService.getWhatById(howFromServer.whatAmI);
@@ -455,6 +477,7 @@ angular.module('rimaDirectives', ['Config'])
 				    console.log("$scope.selectWhat = " + $scope.selectWhat.name + ": " + $scope.selectWhat._id);
 				};
 				$scope.chooseWhat = function(what) {
+					guidanceProcessStep($timeout, $element, "enter_what");
 					console.log("$scope.chooseWhat = " + what.name + ": " + what._id);
 					$scope.whatInput = what;
 				};
@@ -722,7 +745,7 @@ angular.module('rimaDirectives', ['Config'])
 			},
 			templateUrl: '../components/rima/partials/rima-wizard.tpl.html',
 			link: function ( $scope, $element) {
-				//$scope.currentStepNumber = 2;
+				$scope.currentStepNumber = 3;
 				// triggerPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");
 			},
 			controller: function ( $scope, $element) {

@@ -14,7 +14,7 @@
 <div ng-hide="haveHows()" class="subtitle important">
 	<p>You have not described yourself yet.</p>
 </div>
-<span ng-show="!readonly && !decoratingIdeaPartial">
+<div>
 	<a href="javascript::void(0);" class="info">Why should I describe myself?<span class="help_text">Add more about you so that CollaboScience can improve <B>your experience</B><br/>and guide collaboration based on your interests and expertises!<BR/><BR/><b>It's simple</b> and is <b>changeable</b>: you can <B>delete</B> your descriptions whenever you like, by clicking 'delete' ('trash') button that appears when you move your mouse over the list of your descriptions</span></a>
 	<div class="note">(examples: "I am <span class="how_verb">interested</span> in '<span class="how_what">Psychology</span>'", "I am <span class="how_verb">specialized</span> in '<span class="how_what">Computer Networking</span>'")&nbsp;<a href="javascript::void(0);" class="info">[How to describe yourself - 'step by step' help]<span class="help_text"><B>How you describe yourself?</B><BR/><b>1)</b> Type into the textbox whatever topic (interest) you are related to. It can be some skill, knowledge, interest, activity, ...<br/>As you type, we will offer you some suggestions.<br/><b>2)</b> Choose from the left selection box how you are related to that topic<BR/><b>3)</b> Click 'Add' and it will become part of you.<BR/><b>P.S.</b> You can choose to 'be interested in' some topic, meaning that you might be connected to streams related to it, but you can also create 'specialized in' relation to the same topic, so that you might be invited to give your opinions regarding it, during collaborations.</span></a></div>
 	<table class="how_select"
@@ -22,16 +22,16 @@
 		<tr>
 		<!-- <td class="subject">I</td> -->
 		<td class="selectTd">
-			<select class="select" ng-attr-size="{{hows.length}}" ng-model="selectedHowOption" ng-options="how.id as ('I am ' + how.title) for how in hows"
+			<select class="select guidance_enter_how" ng-attr-size="{{hows.length}}" ng-model="selectedHowOption" ng-options="how.id as ('I am ' + how.title) for how in hows"
 				tooltip="2. Choose HOW you are interested in the TOPIC" tooltip-placement="top" tooltip-trigger="openTrigger" tooltip-enable="true" tooltip-append-to-body="true" ng-click="howSelectChanged()"
 			></select>
 		</td>
 		<td class="what_input_element">
-			<input id="testing_tooltip_what" class="what_input" type="text" ng-model="whatInput" placeholder="type a topic / your interest ..." 
-			tooltip="Enter your interest here or click on some existing ones underneath" tooltip-placement="top" tooltip-trigger="openTrigger" tooltip-enable="true" tooltip-append-to-body="true" ng-change="inputWhatChanged()"
+			<input class="what_input guidance_enter_what_1" type="text" ng-model="whatInput" placeholder="type a topic / your interest ..." 
+			tooltip="Enter your interest here ..." tooltip-placement="top" tooltip-trigger="openTrigger" tooltip-enable="true" tooltip-append-to-body="true" ng-change="inputWhatChanged()"
 			typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" typeahead-append-to-body="true" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input">
 
-			<button ng-if="whatInput" class="btn btn-primary what_add" type="button" ng-click="createHow(whatInput)"
+			<button ng-if="whatInput" class="btn btn-primary guidance_add_who" type="button" ng-click="createHow(whatInput)"
 			tooltip="Click to add your interest to your portfolio" tooltip-placement="top" tooltip-trigger="openTrigger" tooltip-enable="true" tooltip-append-to-body="true"
 			>Add</button>
 			&nbsp;
@@ -45,7 +45,9 @@
 	<div class="whats">
 		<div class="subtitle">Or choose from some of the existing topics</div>
 		<div class="note">(just click a topic from the list below to auto-fill it into the upper text field and then click the 'Add' button)</div>
-		<div class="rima-whats">
+		<div class="rima-whats guidance_enter_what_2"
+		tooltip="... or choose from some of the existing ones underneath" tooltip-placement="top" tooltip-trigger="openTrigger" tooltip-enable="true" tooltip-append-to-body="true"
+		>
 			<div rima-what class="rima-what" ng-repeat="what in whats" item="what" is-last="$last" readonly="true" item-select="chooseWhat(what)">
 			</div>
 			<!-- <table class="whats-cloud">
@@ -55,4 +57,4 @@
 		</table> -->
 		</div>
 	</div>
-</span>
+</div>

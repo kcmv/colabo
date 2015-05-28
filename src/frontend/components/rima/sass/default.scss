@@ -3,6 +3,16 @@
 @import "../../../app/sass/include";
 
 /* ------------------------
+ bootstrap tooltips
+------------------------ */
+.tooltip-inner{
+	color: #bbbbff;
+	background-color: #4444ff;
+	font-size: 1.65em;
+	min-width: 300px;
+}
+
+/* ------------------------
  rima_relevant_list
 ------------------------ */
 .rima_relevant_list{
