@@ -768,6 +768,7 @@ rimaServices.provider('RimaService', {
 						this.loginInfo = JSON.parse($window.localStorage.loginInfo);
 						if(this.loginInfo.iAmId){
 							this.loggedInWhoAmI._id = this.loginInfo.iAmId;
+							this.loggedInWhoAmI.displayName = "";
 							this.loggedInWhoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
 							this.loggedInWhoAmI = WhoAmIService.getById(this.loggedInWhoAmI._id );
 						}
@@ -777,6 +778,10 @@ rimaServices.provider('RimaService', {
 			},
 
 			updateWhoAmI: function(callback){
+				if(this.loggedInWhoAmI._id == this.ANONYMOUS_USER_ID){
+					if(callback){callback(this.loggedInWhoAmI);}
+					return;
+				}
 				WhoAmIService.update(this.loggedInWhoAmI, callback);
 				//return this.loggedInWhoAmI;
 			},
