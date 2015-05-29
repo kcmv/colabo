@@ -775,7 +775,7 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.whoAmI = RimaService.loggedInWhoAmI;
 				$scope.submitted = false;
 				$scope.bindings = {
-					noSkype: false
+					noSkype: false//$scope.whoAmI.extensions.contacts.skype
 				};
 
 				$scope.showPopup = function(){

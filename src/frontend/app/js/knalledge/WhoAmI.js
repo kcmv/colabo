@@ -73,6 +73,13 @@ WhoAmI.prototype.fill = function(obj){
 		if("locationUpdatedAt" in obj){this.locationUpdatedAt = obj.locationUpdatedAt;}
 		if("language" in obj){this.language = obj.language;}
 		if("origin" in obj){this.origin = obj.origin;}
+		if("extensions" in obj){
+			this.extensions = {}; //TODO: see how to copy this
+			if("contacts" in obj.extensions){
+				this.extensions.contacts = obj.extensions.contacts;
+			} 
+		}
+
 
 		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
 		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
