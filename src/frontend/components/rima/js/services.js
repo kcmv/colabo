@@ -908,16 +908,6 @@ rimaServices.provider('RimaService', {
 			},
 
 			getAllHows: function(callback){
-				// this.howAmIs = HowAmIService.getAll(function(howsFromServer){ //TODO: is this OK with Cache approach, because we overwrite all the list
-				// 	for(var i=0;i<howsFromServer.length;i++){
-				// 		how = howsFromServer[i];
-				// 		if (!this.howAmIs.hasOwnProperty(how.whoAmI)) {this.howAmIs[how.whoAmI] = [];}
-				// 		this.howAmIs[how.whoAmI].push(how);
-				// 	}
-				// 	if(callback){callback(this.howAmIs);}
-				// });
-				// return this.howAmIs;
-
 				var serverHowAmIs = HowAmIService.getAll(function(howAmIsFromServer){
 					this.howAmIs.length = 0;
 					for(var i=0; i<howAmIsFromServer.length; i++){

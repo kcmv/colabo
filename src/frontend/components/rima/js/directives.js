@@ -92,6 +92,14 @@ angular.module('rimaDirectives', ['Config'])
 			controller: function ( $scope, $element) {
 				var init = function(){
 					$scope.items = RimaService.getUsers();
+					// var compare = function(a,b) {
+					//   if (a.displayName < b.displayName)
+					//     return 1;
+					//   if (a.displayName > b.displayName)
+					//     return -1;
+					//   return 0;
+					// }
+					// $scope.items.sort(compare);
 			    	$scope.selectedItem = RimaService.getActiveUser();
 				};
 				$scope.config = RimaService.config;

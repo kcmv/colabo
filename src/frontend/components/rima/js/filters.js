@@ -18,14 +18,7 @@ angular.module('rimaFilters',[])
 
 .filter('topicsFromWhats',function(){
 	return function(whats, topics){
-		//var topics = "Creation.initialize";
-		
-		//console.log("[whatsFilters:dataFilterIdea] topics:%s, whats:%s", topics, JSON.stringify(whats));
-		// if(topics == null || topics == undefined || topics == 'all'){
-		// 	return whats;
-		// }
-		//var topics = ['5566c62cbb09e90677658a60', '5566c62cbb09e90677658a61', '5566c62cbb09e90677658a62'];
-
+		if(!whats) return whats;
 		var whatsOut = [];
 		for(var wid=0; wid<whats.length; wid++){
 			for(var tid in topics){
@@ -43,6 +36,7 @@ angular.module('rimaFilters',[])
 
 .filter('topicsFromHows',function(){
 	return function(hows, topics){
+		if(!hows) return hows;
 		var HOW_VERB_FOR_TOPICS =4;
 		var howsOut = [];
 		for(var wid=0; wid<hows.length; wid++){
@@ -56,5 +50,18 @@ angular.module('rimaFilters',[])
 			}
 		}
 		return howsOut;
+	};
+})
+
+.filter('definedDisplayNames',function(){
+	return function(users){
+		if(!users) return users;
+		var usersOut = [];
+		for(var wid=0; wid<users.length; wid++){
+			if(typeof users[wid].displayName !== 'undefined' && users[wid].displayName != ""){
+				usersOut.push(users[wid]);
+			}
+		}
+		return usersOut;
 	};
 });

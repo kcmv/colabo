@@ -5,7 +5,7 @@
 </div>
 
 <table class="list">
-	<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{row: true, 'active-selection': item._id == selectedItem._id}">
+	<tr ng-click="selectItem(item)" ng-repeat="item in items | definedDisplayNames | orderBy:'displayName'" data-ng-class="{row: true, 'active-selection': item._id == selectedItem._id}">
 		<td>{{item.displayName}}</td>
 	</tr>
 
