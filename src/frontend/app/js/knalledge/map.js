@@ -27,8 +27,8 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.mapLayout = this.mapManager.getActiveLayout();
 
 	this.keyboardInteraction = null;
-	this.syncingInterval = 1000;
-	this.syncingTimerId = null;
+	// this.syncingInterval = 1000;
+	// this.syncingTimerId = null;
 };
 
 Map.prototype.init = function() {
@@ -53,17 +53,31 @@ Map.prototype.init = function() {
 	this.initializeManipulation();
 };
 
-Map.prototype.processSyncedData = function(changes) {
+
+Map.prototype.processExternalChangesInMap = function(e, changes) {
 	var syncedDataProcessedAndVisualized = function(){
 		this.update(this.mapStructure.getSelectedNode());
 		if(this.mapStructure.getSelectedNode()){
-			var vkNode = this.mapStructure.getVKNodeByKId(this.mapStructure.getSelectedNode()._id);
+			var vkNode = this.mapStructure.getSelectedNode();
 			this.mapLayout.clickNode(vkNode);
 		}
 	};
 	this.mapStructure.processSyncedData(changes);
 	this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
 };
+
+
+// Map.prototype.processSyncedData = function(changes) {
+// 	var syncedDataProcessedAndVisualized = function(){
+// 		this.update(this.mapStructure.getSelectedNode());
+// 		if(this.mapStructure.getSelectedNode()){
+// 			var vkNode = this.mapStructure.getVKNodeByKId(this.mapStructure.getSelectedNode()._id);
+// 			this.mapLayout.clickNode(vkNode);
+// 		}
+// 	};
+// 	this.mapStructure.processSyncedData(changes);
+// 	this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
+// };
 
 Map.prototype.update = function(node) {
 	if(!node) node = this.mapStructure.rootNode;
@@ -75,19 +89,19 @@ Map.prototype.processData = function(mapData, callback) {
 	if(!this.mapStructureExternal) this.mapStructure.processData(mapData);
 	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, callback);
 
-	this.syncingChanged();
+	//this.syncingChanged();
 };
 
-Map.prototype.syncingChanged = function() {
-	if(this.syncingTimerId){
-		window.clearInterval(this.syncingTimerId);
-	}
-	if(this.knalledgeMapViewService.config.syncing.poolChanges){
-		this.syncingTimerId = window.setInterval(function(){
-			this.syncingService.getChangesFromServer(this.processSyncedData.bind(this));
-		}.bind(this), this.syncingInterval);
-	}
-};
+// Map.prototype.syncingChanged = function() {
+// 	if(this.syncingTimerId){
+// 		window.clearInterval(this.syncingTimerId);
+// 	}
+// 	if(this.knalledgeMapViewService.config.syncing.poolChanges){
+// 		this.syncingTimerId = window.setInterval(function(){
+// 			this.syncingService.getChangesFromServer(this.processSyncedData.bind(this));
+// 		}.bind(this), this.syncingInterval);
+// 	}
+// };
 
 Map.prototype.initializeKeyboard = function() {
 	// var that = this;

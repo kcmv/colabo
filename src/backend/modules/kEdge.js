@@ -133,6 +133,7 @@ exports.update = function(req, res){
 	KEdgeModel.update({_id:id}, data, function (err, raw) {
 		if (err) throw err;
 		console.log('The raw response from Mongo was ', raw);
+		data._id = id;
 		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 	});	
 }

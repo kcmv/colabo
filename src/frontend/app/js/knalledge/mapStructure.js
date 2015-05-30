@@ -5,8 +5,8 @@ var MapStructure =  knalledge.MapStructure = function(rimaService){
 	this.rootNode = null;
 	this.selectedNode = null;
 	this.mapService = null;
-	this.nodesById = {};
-	this.edgesById = {};
+	this.nodesById = {}; //VkNode
+	this.edgesById = {}; //VkEdge
 	this.properties = {};
 
 	this.rimaService = rimaService;

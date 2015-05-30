@@ -244,6 +244,15 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							knalledgeMap.mapLayout.clickNode(vkNode);
 						}
 					});
+
+					var KnRealTimeNodeCreatedEventName = "node-created-to-visual";
+					var KnRealTimeNodeUpdatedEventName = "node-updated-to-visual";
+					var KnRealTimeEdgeCreatedEventName = "edge-created-to-visual";
+					var KnRealTimeEdgeUpdatedEventName = "edge-updated-to-visual";
+					$scope.$on(KnRealTimeNodeCreatedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					$scope.$on(KnRealTimeNodeUpdatedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					$scope.$on(KnRealTimeEdgeCreatedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					$scope.$on(KnRealTimeEdgeUpdatedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 				};
 
 				if($scope.mapData){

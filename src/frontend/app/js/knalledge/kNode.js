@@ -14,8 +14,9 @@ var KNode =  knalledge.KNode = function(){
 	this.createdAt = null;
 	this.updatedAt = null;
 	// this.dataContent = null;
-	// this.visual = {
-	// 		isOpen: false,
+	this.visual = {
+	 		isOpen: false,
+	}
 	// 		xM: undefined,
 	// 		yM: undefined,
 	// 		widthM: undefined,
