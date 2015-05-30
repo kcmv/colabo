@@ -381,11 +381,9 @@ angular.module('rimaDirectives', ['Config'])
 			link: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
 				// guidanceStart($timeout, $element);
-				console.log("whoAmIType:"+$scope.whoAmIType);
 			},
 			controller: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
-				console.log("whoAmIType:"+$scope.whoAmIType);
 
 				$scope.$watch("isActive", function(value){
 					if(value == true){
@@ -395,21 +393,47 @@ angular.module('rimaDirectives', ['Config'])
 
 				var whatsLimit = 70;
 				var init = function(){
-					$scope.items = RimaService.getUsersHows(RimaService.getActiveUserId());
+
+					console.log("whoAmIType:"+$scope.whoAmIType);
+					switch($scope.whoAmIType){
+						case 'logged_in':
+							$scope.whoAmI = RimaService.loggedInWhoAmI;
+						break;
+						case 'active':
+							$scope.whoAmI = RimaService.selectedWhoAmI;
+							$scope.$watch(function () {
+								return RimaService.getActiveUser();
+							},
+							function(newValue){
+								initUserSpecific();
+							}, true);
+						break;
+					}
+					initUserSpecific();
 					//$scope.modal.formData.contentTypeId= option.contentTypes[0].id;
 					$scope.selectedHowOption = $scope.hows[0].id;
 			    	//$scope.selectedItem = RimaService.getActiveUser();
 			    	$scope.whats = RimaService.getAllWhats(whatsLimit);
 				}
+
+				var initUserSpecific = function(){
+					$scope.whoAmI = RimaService.selectedWhoAmI;
+					$scope.items = RimaService.getUsersHows($scope.whoAmI._id);
+					$scope.displayName = $scope.whoAmI.displayName;
+				}
+
+				$scope.whoAmI = null;
 				$scope.items = null;
 				$scope.whats = null;
 				$scope.selectedItem = null;
 				$scope.selectedWhat = null;
 
-				$scope.displayName = RimaService.loggedInWhoAmI.displayName;
-
 				//html-select:
 				$scope.hows = RimaService.getHowVerbs();
+
+				$scope.isMe = function(){
+					return $scope.whoAmIType =='logged_in';
+				}
 
 				$scope.inputWhatChanged = function(){
 					guidanceProcessStep($timeout, $element, "enter_what");
@@ -451,7 +475,7 @@ angular.module('rimaDirectives', ['Config'])
 					}
 
 					var how = new knalledge.HowAmI();
-					how.whoAmI = RimaService.getActiveUserId();
+					how.whoAmI = $scope.whoAmI._id;
 					how.how = selectedHow.id;
 					
 					//how.whatAmI = $scope.whatInput; //TODO:
