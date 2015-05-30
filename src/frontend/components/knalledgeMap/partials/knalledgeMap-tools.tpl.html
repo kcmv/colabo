@@ -11,16 +11,16 @@
 	<h4>Visualize:</h4>
 	<!-- <pre>{{radioModel || 'null'}}</pre> -->
 	<div class="btn-group">
-		<label class="btn btn-sm btn-primary" ng-model="bindings.viewspec" btn-radio="'viewspec_manual'" ng-change="viewspecChanged()">M</label>
-		<label class="btn btn-sm btn-primary" ng-model="bindings.viewspec" btn-radio="'viewspec_tree'" ng-change="viewspecChanged()">T</label>
-		<label class="btn btn-sm btn-primary" ng-model="bindings.viewspec" btn-radio="'viewspec_flat'" ng-change="viewspecChanged()">F</label>
+		<label class="btn btn-sm btn-primary" ng-model="bindings.viewspec" btn-radio="'viewspec_manual'" ng-change="viewspecChanged('viewspec_manual')">M</label>
+		<label class="btn btn-sm btn-primary" ng-model="bindings.viewspec" btn-radio="'viewspec_tree'" ng-change="viewspecChanged('viewspec_tree')">T</label>
+		<label class="btn btn-sm btn-primary" ng-model="bindings.viewspec" btn-radio="'viewspec_flat'" ng-change="viewspecChanged('viewspec_flat')">F</label>
 	</div>
 
 	<div class="btn-group">
-		<label class="btn btn-primary" ng-model="config.nodes.showImages" btn-checkbox ng-change="configChanged()">Show Images</label>
-		<label class="btn btn-primary" ng-model="config.nodes.showTypes" btn-checkbox ng-change="configChanged()">Show Node Types</label>
-		<label class="btn btn-primary" ng-model="config.edges.showNames" btn-checkbox ng-change="configChanged()">Show Edge Names</label>
-		<label class="btn btn-primary" ng-model="config.edges.showTypes" btn-checkbox ng-change="configChanged()">Show Edge Types</label>
+		<label class="btn btn-primary" ng-model="config.nodes.showImages" btn-checkbox ng-change="configChanged('config.nodes.showImages', config.nodes.showImages)">Show Images</label>
+		<label class="btn btn-primary" ng-model="config.nodes.showTypes" btn-checkbox ng-change="configChanged('config.nodes.showTypes', config.nodes.showTypes)">Show Node Types</label>
+		<label class="btn btn-primary" ng-model="config.edges.showNames" btn-checkbox ng-change="configChanged('config.edges.showNames', config.edges.showNames)">Show Edge Names</label>
+		<label class="btn btn-primary" ng-model="config.edges.showTypes" btn-checkbox ng-change="configChanged('config.edges.showTypes', config.edges.showTypes)">Show Edge Types</label>
 	</div>
 
 	<h4>Syncing:</h4>

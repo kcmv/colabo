@@ -1,6 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+var KnRealTimeMapStylingChangedEventName = "map-styling-change";
+var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
 angular.module('knalledgeMapDirectives', ['Config'])
 	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', 
 		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', 'SyncingService', 'KnAllEdgeRealTimeService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
@@ -305,13 +307,57 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
 					config.tree.viewspec = newViewspec;
 					knalledgeMap.update();
+					// realtime distribution
+					if(KnAllEdgeRealTimeService){
+						KnAllEdgeRealTimeService.emit(KnRealTimeMapViewSpecChangedEventName, newViewspec);
+					}
 				});
 
 				var mapStylingChangedEventName = "mapStylingChangedEvent";
-				$scope.$on(mapStylingChangedEventName, function(e) {
+				$scope.$on(mapStylingChangedEventName, function(e, msg) {
 					console.log("[knalledgeMap.controller::$on] event: %s", mapStylingChangedEventName);
 					knalledgeMap.update();
+					// realtime distribution
+					if(KnAllEdgeRealTimeService){
+						KnAllEdgeRealTimeService.emit(KnRealTimeMapStylingChangedEventName, msg);
+					}
 				});
+
+				// realtime listener registration
+				if(KnAllEdgeRealTimeService){
+					var realTimeMapStylingChanged = function(msg){
+						switch(msg.path){
+							case 'config.nodes.showImages':
+								KnalledgeMapViewService.config.nodes.showImages = msg.value;
+								break;
+							case 'config.nodes.showTypes':
+								KnalledgeMapViewService.config.nodes.showTypes = msg.value;
+								break;
+							case 'config.edges.showNames':
+								KnalledgeMapViewService.config.edges.showNames = msg.value;
+								break;
+							case 'config.edges.showTypes':
+								KnalledgeMapViewService.config.edges.showTypes = msg.value;
+								break;
+						}
+						knalledgeMap.update();
+					};
+
+					var realTimeMapViewspecChanged = function(viewspec){
+						console.log("[knalledgeMap.controller::realTimeMapViewspecChanged] newViewspec: %s", newViewspec);
+						config.tree.viewspec = newViewspec;
+						knalledgeMap.update();
+					};
+
+					var mapViewPluginOptions = {
+						name: "mapView",
+						events: {
+						}
+					};
+					mapViewPluginOptions.events[KnRealTimeMapStylingChangedEventName] = realTimeMapStylingChanged.bind(this);
+					mapViewPluginOptions.events[KnRealTimeMapViewSpecChangedEventName] = realTimeMapViewspecChanged.bind(this);
+					KnAllEdgeRealTimeService.registerPlugin(mapViewPluginOptions);
+				}
 
 				var syncingChangedEventName = "syncingChangedEvent"
 				$scope.$on(syncingChangedEventName, function(e) {
@@ -359,12 +405,18 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				};
 
 				$scope.config = KnalledgeMapViewService.config;
-				$scope.configChanged = function(){
+				$scope.configChanged = function(path, value){
+					alert(path + ":" + value);
 					var mapStylingChangedEventName = "mapStylingChangedEvent";
-					$rootScope.$broadcast(mapStylingChangedEventName);
+					var msg = {
+						path: path,
+						value: value
+					};
+					$rootScope.$broadcast(mapStylingChangedEventName, msg);
 				};
 
-				$scope.viewspecChanged = function(){
+				$scope.viewspecChanged = function(viewSpec){
+					alert(viewSpec);
 					console.log("[knalledgeMapTools] viewspec: %s", $scope.bindings.viewspec);
 					var viewspecChangedEventName = "viewspecChangedEvent";
 					//console.log("result:" + JSON.stringify(result));

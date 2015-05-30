@@ -2,7 +2,7 @@
 'use strict';
 
 // realtime distribution
-var KnRealTimeNodeSelectedEvent = "node-selected";
+var KnRealTimeNodeSelectedEventName = "node-selected";
 
 var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
 	this.mapStructure = mapStructure;
@@ -53,13 +53,13 @@ MapLayoutTree.prototype.init = function(mapSize, scales){
 
 	this.tree.children(this.getChildren.bind(this));
 
-	// realtime distribution
+	// realtime listener registration
 	var mapLayoutPluginOptions = {
 		name: "mapLayout",
 		events: {
-			"node-selected": this.realTimeNodeSelected.bind(this)				
 		}
 	};
+	mapLayoutPluginOptions.events[KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
 	this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions);
 };
 
@@ -167,7 +167,7 @@ MapLayoutTree.prototype.clickNode = function(d, dom, commingFromAngular, doNotBu
 
 		// realtime distribution
 		if(this.knAllEdgeRealTimeService && !doNotBroadcast){ 	// do not broadcast back :)
-			this.knAllEdgeRealTimeService.emit(KnRealTimeNodeSelectedEvent, d.kNode._id);
+			this.knAllEdgeRealTimeService.emit(KnRealTimeNodeSelectedEventName, d.kNode._id);
 		}
 
 		this.clientApi.positionToDatum(d);
