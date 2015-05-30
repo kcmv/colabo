@@ -1180,3 +1180,10 @@ Knalledge Maps
   /* line 1174, ../sass/default.scss */
   .knalledge_map_select_item .buttons {
     text-align: center; }
+
+/* line 1179, ../sass/default.scss */
+.tool_info {
+  padding: 5px;
+  margin: 3px;
+  border: 1px solid #888888;
+  background-color: #cccccc; }

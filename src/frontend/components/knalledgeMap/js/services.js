@@ -1893,8 +1893,8 @@ knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 })
 
 knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
-	$get: ['TopiChatService', /*'$q', 'ENV', '$rootScope', */
-	function(TopiChatService/*$q , ENV, $rootScope*/) {
+	$get: ['TopiChatService', 'KnalledgeMapPolicyService', /*'$q', 'ENV', '$rootScope', */
+	function(TopiChatService, KnalledgeMapPolicyService/*$q , ENV, $rootScope*/) {
 
 		// privateData: "privatno",
 
@@ -1918,6 +1918,8 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			},
 
 			emit: function(eventName, msg){
+				// TODO
+				if(!KnalledgeMapPolicyService.config.broadcasting.enabled) return;
 				console.log('[KnAllEdgeRealTimeService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));
 				var knPackage = {
 					eventName: eventName,
