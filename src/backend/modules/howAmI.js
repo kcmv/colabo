@@ -78,6 +78,10 @@ exports.index = function(req, res){
 			console.log("in_list:\n list: %s.\n", req.params.searchParam);
 			HowAmIModel.find({whoAmI:id}).populate('whatAmI', '_id name').exec(found);
 			break;
+		case 'all':
+			console.log("all", req.params.searchParam);
+			HowAmIModel.find().populate('whatAmI', '_id name').sort({'whoAmI':1}).exec(found);
+			break;
 		// case 'in_map': //all howAmIs in specific map
 		// 	console.log("find:\n mapId: %s.\n", id);
 		// 	HowAmIModel.find({ 'mapId': id}, found);

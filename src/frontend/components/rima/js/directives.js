@@ -101,6 +101,7 @@ angular.module('rimaDirectives', ['Config'])
 					// }
 					// $scope.items.sort(compare);
 			    	$scope.selectedItem = RimaService.getActiveUser();
+			    	$scope.howAmIs = RimaService.getAllHows();
 				};
 				$scope.config = RimaService.config;
 				$scope.configChanged = function(){
@@ -142,13 +143,13 @@ angular.module('rimaDirectives', ['Config'])
 				var updateList = function(){
 					$scope.items.length = 0;
 
-					var userHows = RimaService.howAmIs;
+					var userHows = RimaService.howAmIs[RimaService.getActiveUserId()]; // TODO: Sasa want logged in user also [RimaService.loggedInWhoAmI._id];
 					for (var i in KnalledgeMapVOsService.mapStructure.nodesById){
 						var vkNode = KnalledgeMapVOsService.mapStructure.nodesById[i];
 						var nodeWhats = (vkNode && vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats) ?
 							vkNode.kNode.dataContent.rima.whats : [];
 
-						var relevant = false;
+						var relevantWhats = [];
 						// TODO: can be optimized by hash of userHows
 						for(var i=0;i<nodeWhats.length;i++){
 							var nodeWhat = nodeWhats[i];
@@ -156,11 +157,11 @@ angular.module('rimaDirectives', ['Config'])
 								var userHow = userHows[j];
 								if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name))
 								{
-									relevant = true;
+									relevantWhats.push(userHow.whatAmI);
 								}
 							}
 						}
-						if(relevant){
+						if(relevantWhats.length!=0){
 							var whats = [
 								{
 									name: "knalledge",
@@ -176,7 +177,7 @@ angular.module('rimaDirectives', ['Config'])
 									_id: vkNode.kNode._id,
 									name: vkNode.kNode.name,
 									vkNode: vkNode,
-									whats: whats
+									whats: relevantWhats
 								}
 							);
 						}
@@ -194,6 +195,15 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.$watch(function () {
 					// return KnalledgeMapVOsService.mapStructure.nodesById;
 					return KnalledgeMapVOsService.nodesById;
+				},
+				function(newValue){
+					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+					console.log("[KnalledgeMapVOsService.mapStructure.nodesById watch]: elements no: %d", Object.keys(newValue).length);
+					updateList();
+				}, true);
+				$scope.$watch(function () {
+					// return KnalledgeMapVOsService.mapStructure.nodesById;
+					return RimaService.getActiveUser();
 				},
 				function(newValue){
 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
@@ -362,7 +372,8 @@ angular.module('rimaDirectives', ['Config'])
 		return {
 			restrict: 'AE',
 			scope: {
-				isActive: "="
+				isActive: "=",
+				whoAmIType: "="
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
@@ -370,9 +381,11 @@ angular.module('rimaDirectives', ['Config'])
 			link: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
 				// guidanceStart($timeout, $element);
+				console.log("whoAmIType:"+$scope.whoAmIType);
 			},
 			controller: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
+				console.log("whoAmIType:"+$scope.whoAmIType);
 
 				$scope.$watch("isActive", function(value){
 					if(value == true){
