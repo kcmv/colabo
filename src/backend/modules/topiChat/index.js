@@ -166,13 +166,16 @@ module.exports = (function() {
 		// socketSender.emit(eventName, tcPackage);
 	};
 
-	TopiChat.prototype.clientChatMessage = function(eventName, msg, clientId) {
+	TopiChat.prototype.clientChatMessage = function(eventName, msg, clientId, tcPackage) {
 		console.log('[TopiChat:clientChatMessage] event (%s), message received: %s', eventName, JSON.stringify(msg));
-		this.io.emit('tc:chat-message', msg); // to everyone
+		this.emit(eventName, msg, clientId);
+		// var socketSender = this.clientIdToSocket[clientIdSender];
+		// socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
+		// this.io.emit('tc:chat-message', msg); // to everyone
 		// socket.broadcast.emit('tc:chat-message', msg); // to everyone except socket owner
 	};
 
-	TopiChat.prototype.clientHello = function(eventName, msg, clientId) {
+	TopiChat.prototype.clientHello = function(eventName, msg, clientId, tcPackage) {
 		console.log('[TopiChat:clientHello] event (%s), clientHello message from client [%s] received: %s', eventName, clientId, JSON.stringify(msg));
 
 		var tcPackage = {

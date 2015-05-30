@@ -82,7 +82,7 @@ topiChatServices.provider('TopiChatService', {
 
 			emit: function(eventName, msg){
 				var tcPackage = {
-					clientId: this.clientId,
+					clientId: this.clientInfo.clientId,
 					msg: msg
 				}
 				_socket.emit(eventName, tcPackage);

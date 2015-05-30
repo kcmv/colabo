@@ -144,13 +144,15 @@ $large: 1400px;
       #chat .new_message .message_styling .message {
         overflow-y: scroll;
         padding: 2px;
-        background: #888888;
+        background: #bbbbff;
         border: 1px dashed #333333;
         position: relative;
         width: 100%;
         height: 100%;
-        font-size: 0.85em; }
-    /* line 135, ../sass/default.scss */
+        font-size: 0.85em;
+        color: #000088;
+        font-weight: bold; }
+    /* line 137, ../sass/default.scss */
     #chat .new_message .btnSend {
       position: absolute;
       z-index: 4;
@@ -185,6 +187,6 @@ $large: 1400px;
       -o-transition-timing-function: ease-in;
       -webkit-transition-timing-function: ease-in;
       transition-timing-function: ease-in; }
-      /* line 157, ../sass/default.scss */
+      /* line 159, ../sass/default.scss */
       #chat .new_message .btnSend:hover {
         color: #000055; }
