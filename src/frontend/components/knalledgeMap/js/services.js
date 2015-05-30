@@ -1660,7 +1660,80 @@ knalledgeMapServices.provider('IbisTypesService', {
 			}
 		};
 	}]
-});
+})
+
+knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
+	$get: ['TopiChatService', /*'$q', 'ENV', '$rootScope', */
+	function(TopiChatService/*$q , ENV, $rootScope*/) {
+
+		// privateData: "privatno",
+
+		var provider = {
+			plugins: {},
+			eventsByPlugins: {},
+
+			init: function(){
+				// registering chat plugin
+				var knalledgeRealTimeServicePluginOptions = {
+					name: "knalledgeRealTimeService",
+					events: {
+						'kn:realtime': this.dispatchEvent.bind(this)				
+					}
+				};
+				TopiChatService.registerPlugin(knalledgeRealTimeServicePluginOptions);
+			},
+
+			getClientInfo: function(){
+				return TopiChatService.clientInfo;
+			},
+
+			emit: function(eventName, msg){
+				var knPackage = {
+					eventName: eventName,
+					msg: msg
+				};
+
+				// socket.emit('tc:chat-message', msg);
+				// topiChatSocket.emit('tc:chat-message', msg);
+				TopiChatService.emit('kn:realtime', knPackage);
+			},
+
+			registerPlugin: function(pluginOptions) {
+				var pluginName = pluginOptions.name;
+				console.log('[KnAllEdgeRealTimeService:registerPlugin] Registering plugin: %s', pluginName);
+				this.plugins[pluginName] = pluginOptions;
+				for(var eventName in pluginOptions.events){
+					if(!(eventName in this.eventsByPlugins)){
+						this.eventsByPlugins[eventName] = [];
+					}
+					var eventByPlugins = this.eventsByPlugins[eventName];
+					eventByPlugins.push(pluginOptions);
+				}
+			},
+
+			dispatchEvent: function(tcEventName, knPackage) {
+				console.log('[KnAllEdgeRealTimeService:dispatchEvent] tcEventName: %s, knPackage:%s', tcEventName, JSON.stringify(knPackage));
+				var msg = knPackage.msg;
+				var eventName = knPackage.eventName;
+
+				var eventByPlugins = this.eventsByPlugins[eventName];
+				for(var id in eventByPlugins){
+					var pluginOptions = eventByPlugins[id];
+					var pluginName = pluginOptions.name;
+
+					console.log('\t dispatching to plugin: %s', pluginName);
+					var pluginCallback = pluginOptions.events[eventName];
+					pluginCallback(eventName, msg);
+				}
+			}
+		};
+
+		provider.init();
+
+		return provider;
+	}]
+})
+;
 
 
 }()); // end of 'use strict';

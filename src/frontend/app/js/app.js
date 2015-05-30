@@ -14,6 +14,7 @@ angular.module('KnAllEdgeApp',[
 	, 'textAngular'
 	// , 'textAngularSetup'
 	, 'ngWizard'
+	, 'btford.socket-io'
 
 	, 'knalledgeMapServices' // KnAllEdge Map component
 	, 'knalledgeMapDirectives'
@@ -28,6 +29,9 @@ angular.module('KnAllEdgeApp',[
 
 	, 'notifyServices'
 	, 'notifyDirectives'
+
+	, 'topiChatServices'
+	, 'topiChatDirectives'
 ])
 // routes
 .config(['$routeProvider', function($routeProvider) {
