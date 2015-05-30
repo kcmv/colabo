@@ -730,6 +730,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angulajrs.org/guide/expression
 			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-selectItem.tpl.html',
+			link: function ( $scope, $element) {
+				// https://api.jquery.com/focus/
+				$element.find(".item_name").focus();
+			},
+
 			controller: function ( $scope, $element) {
 
 				$scope.selectedItem = null;
