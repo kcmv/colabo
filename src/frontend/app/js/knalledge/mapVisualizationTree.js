@@ -179,6 +179,9 @@ MapVisualizationTree.prototype.positionToDatum = function(datum) {
  *  @callback callback 
  * */
 MapVisualizationTree.prototype.update = function(source, callback) {
+	if(!source){
+		source = this.mapStructure.rootNode;
+	}
 	this.mapLayout.generateTree(this.mapStructure.rootNode);
 	this.mapLayout.printTree(this.mapLayout.nodes);
 	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
