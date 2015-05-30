@@ -123,12 +123,14 @@ $btn_color: #eeeeff;
 			.message {
 				overflow-y: scroll;	
 				padding: 2px;
-				background: #888888;
+				background: #bbbbff;
 				border: 1px dashed #333333;
 				position: relative;
 				width: 100%;
 				height: 100%;
 				font-size: 0.85em;
+				color: #000088;
+				font-weight: bold;
 			}
 		}
 

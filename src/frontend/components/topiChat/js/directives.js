@@ -23,6 +23,10 @@ angular.module('topiChatDirectives', ['Config'])
 				var msgsEl = $element.find('.messages');
 
 				var msgReceived = function(eventName, msg){
+					writeToMsgList(msg);
+				};
+
+				var writeToMsgList = function(msg){
 					msgsEl.append($('<li>').text(msg));
 				};
 
@@ -56,6 +60,7 @@ angular.module('topiChatDirectives', ['Config'])
 					// socket.emit('tc:chat-message', msg);
 					// topiChatSocket.emit('tc:chat-message', msg);
 					TopiChatService.emit('tc:chat-message', msg);
+					writeToMsgList(msg);
 					msgEl.html('');
 					return false;
 				};
