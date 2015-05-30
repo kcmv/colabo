@@ -623,6 +623,19 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		}
 		return null;
 	};
+
+	resource.getAll = function(callback){
+		var howAmIs = this.queryPlain({type:'all'},
+			function(howAmIsFromServer){
+				for(var id=0; id<howAmIsFromServer.length; id++){
+					var howAmI = knalledge.HowAmI.howAmIFactory(howAmIsFromServer[id]);
+					howAmI.state = knalledge.HowAmI.STATE_SYNCED;
+					howAmIsFromServer[id] = howAmI;
+				}
+				if(callback) callback(howAmIsFromServer);
+		});
+		return howAmIs;
+	}
 	
 	resource.getUsersHows = function(id, callback){
 		var howAmIs = this.queryPlain({ searchParam:id, type:'who_am_i'},
@@ -759,6 +772,16 @@ rimaServices.provider('RimaService', {
 				this.loggedInWhoAmI.displayName = "anonymous";
 				this.selectedWhoAmI = this.loggedInWhoAmI;
 				this.loadRimaDataSets();
+				
+				HowAmIService.getAll(function(howAmIsFromServer){
+					for(var i=0; i<howAmIsFromServer.length; i++){
+						var howAmI = howAmIsFromServer[i];
+						if (!this.howAmIs.hasOwnProperty(howAmI.whoAmI)) {this.howAmIs[howAmI.whoAmI] = [];}
+						this.howAmIs[howAmI.whoAmI].push(howAmI);
+					}
+					console.log("this.howAmIs:"+this.howAmIs);
+				}.bind(this));
+				
 				//TODO: loadUser
 
 				if($window.localStorage){
@@ -895,28 +918,28 @@ rimaServices.provider('RimaService', {
 
 			getUsersHows: function(id, callback){
 				if (!this.howAmIs.hasOwnProperty(id)) {this.howAmIs[id] = [];}
-				var serverHowAmIs = HowAmIService.getUsersHows(id, function(howAmIsFromServer){
-					this.howAmIs[id].length = 0;
-					for(var i=0; i<howAmIsFromServer.length; i++){
-						this.howAmIs[id].push(howAmIsFromServer[i]);
-					}
-					if(callback){callback(howAmIsFromServer);}
-				}.bind(this));
-				this.howAmIs[id].$promise = serverHowAmIs.$promise;
-				this.howAmIs[id].$resloved = serverHowAmIs.$resloved;
+				// var serverHowAmIs = HowAmIService.getUsersHows(id, function(howAmIsFromServer){
+				// 	this.howAmIs[id].length = 0;
+				// 	for(var i=0; i<howAmIsFromServer.length; i++){
+				// 		this.howAmIs[id].push(howAmIsFromServer[i]);
+				// 	}
+				// 	if(callback){callback(howAmIsFromServer);}
+				// }.bind(this));
+				// this.howAmIs[id].$promise = serverHowAmIs.$promise;
+				// this.howAmIs[id].$resloved = serverHowAmIs.$resloved;
 				return this.howAmIs[id];
 			},
 
 			getAllHows: function(callback){
-				var serverHowAmIs = HowAmIService.getAll(function(howAmIsFromServer){
-					this.howAmIs.length = 0;
-					for(var i=0; i<howAmIsFromServer.length; i++){
-						this.howAmIs.push(howAmIsFromServer[i]);
-					}
-					if(callback){callback(this.howAmIs);}
-				}.bind(this));
-				this.howAmIs.$promise = serverHowAmIs.$promise;
-				this.howAmIs.$resloved = serverHowAmIs.$resloved;
+				// var serverHowAmIs = HowAmIService.getAll(function(howAmIsFromServer){
+				// 	this.howAmIs.length = 0;
+				// 	for(var i=0; i<howAmIsFromServer.length; i++){
+				// 		this.howAmIs.push(howAmIsFromServer[i]);
+				// 	}
+				// 	if(callback){callback(this.howAmIs);}
+				// }.bind(this));
+				// this.howAmIs.$promise = serverHowAmIs.$promise;
+				// this.howAmIs.$resloved = serverHowAmIs.$resloved;
 				return this.howAmIs;
 			},
 
