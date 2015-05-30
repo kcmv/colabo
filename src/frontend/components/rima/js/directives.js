@@ -314,20 +314,20 @@ angular.module('rimaDirectives', ['Config'])
 						}
 					}
 
-					// TODO: it should be just _id;
-					kNode.dataContent.rima.whats.push(newWhat);
-					$scope.asyncSelected = "";
-					var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
-					$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
+					// kNode.dataContent.rima.whats.push(newWhat);
+					// $scope.asyncSelected = "";
+					// var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
+					// $rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
 
-					/* NEW -- TO BE ADDED - saving in nodes just WhatAmI._id, and saving whole whatAmI in its collection:
+					
 					var whatCreated = function(whatFromServer){
 						console.log("whatCreated", whatFromServer);
-						saveNodeWIthNewWhat(whatFromServer._id);
+						saveNodeWIthNewWhat(whatFromServer);
 					}
 
-					var saveNodeWIthNewWhat = function(whatId){
-						kNode.dataContent.rima.whats.push(whatId);
+					var saveNodeWIthNewWhat = function(what){ // TODO: it should be just _id;
+						kNode.dataContent.rima.whats.push(what);
+						$scope.asyncSelected = "";
 						var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
 						$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
 					}
@@ -338,9 +338,8 @@ angular.module('rimaDirectives', ['Config'])
 						RimaService.createWhatAmI(newWhat).$promise.then(whatCreated);
 					}else{ //already existing what (found through typeahead)
 						console.log("already existing what '%s' (found through typeahead)", what);
-						saveNodeWIthNewWhat(what._id);
+						saveNodeWIthNewWhat(what);
 					}
-					*/
 				};
 
 				$scope.newItemSelected = function($item, $model, $label){
