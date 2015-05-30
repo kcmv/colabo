@@ -245,6 +245,17 @@ Keyboard.prototype.initializeKeyboard = function() {
 	);
 
 	/**
+	 * starting node editing
+	 */
+
+	KeyboardJS.on("ctrl + f", function(){
+		if(this.editingNodeHtml) return;
+		// if(this.getStatus() !== Keyboard.STATUS_MAP) return;
+
+		this.clientApi.searchNodeByName();
+	}.bind(this), function(){}.bind(this));	
+
+	/**
 	 * finishing node editing
 	 */
 	KeyboardJS.on("ctrl + escape", function(){

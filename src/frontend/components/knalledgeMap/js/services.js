@@ -736,6 +736,14 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					// }
 			},
 
+			getNodesList: function(){
+				var nodesList = [];
+				for(var i in this.nodesById){
+					nodesList.push(this.nodesById[i]);
+				}
+				return nodesList;
+			},
+
 
 			unsetSelectedNode: function(){
 				this.selectedNode = null;
@@ -1789,6 +1797,77 @@ knalledgeMapServices.provider('IbisTypesService', {
 				return returnedGrids;
 			}
 		};
+	}]
+})
+
+knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
+	$get: ['$compile', /*'$q', 'ENV', '$rootScope', */
+	function($compile /*$q , ENV, $rootScope*/) {
+
+		// privateData: "privatno",
+
+		var map, $scope, $element;
+		var provider = {
+			itemsDescs: [],
+
+			_init: function(){
+			},
+
+			init: function(_map, _$scope, _$element){
+				map = _map;
+				$scope = _$scope;
+				$element = _$element;
+			},
+
+			setItemsDescs: function(itemsDescs){
+				this.itemsDescs = itemsDescs;
+			},
+
+			getItemsDescs: function(){
+				return this.itemsDescs;
+			},
+
+			getItemsDescsByName: function(nameSubStr){
+				nameSubStr = nameSubStr.toLowerCase();
+				var returnedItems = [];
+				for(var i in this.itemsDescs){
+					var item = this.itemsDescs[i];
+					if(item.name.toLowerCase().indexOf(nameSubStr) > -1){
+						returnedItems.push(item);
+					}
+				}
+				return returnedItems;
+			},
+
+			openSelectItem: function(items, labels, callback){
+				console.log("[KnAllEdgeSelectItemService] selecting Item out of %d items", items.length);
+				this.itemsDescs = items;
+
+				var directiveScope = $scope.$new(); // $new is not super necessary
+				// create popup directive
+				var directiveLink = $compile("<div knalledge_map_select_item labels='labels' class='knalledge_map_select_item'></div>");
+				// link HTML containing the directive
+				var directiveElement = directiveLink(directiveScope);
+				$element.append(directiveElement);
+
+				// directiveScope.mapEntity = mapEntity;
+				directiveScope.labels = labels;
+				directiveScope.shouldSubmitOnSelection = true;
+
+				directiveScope.selectingCanceled = function(){
+					console.log("[KnAllEdgeSelectItemService:openSelectItem] selectingCanceled");
+				}.bind(this);
+
+				directiveScope.selectingSubmited = function(item){
+					console.log("[KnAllEdgeSelectItemService:openSelectItem] Added entity to addingInEntity: %s", JSON.stringify(item));
+					if(typeof callback === 'function') callback(item);
+				}.bind(this);
+			}
+		};
+
+		provider._init();
+
+		return provider;
 	}]
 })
 

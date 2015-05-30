@@ -6,6 +6,8 @@ git pull origin master
 
 cp /var/www/knalledge/src/frontend/app/js/config/config.env.js /var/www/knalledge/config.env.js
 joe /var/www/knalledge/config.env.js
+rm /var/www/knalledge/config.env.js
 cp /var/www/knalledge/config.env.js /var/www/knalledge/src/frontend/app/js/config/config.env.js
-
+rm /var/www/knalledge/src/frontend/app/js/config/config.env.js
+joe /var/www/knalledge/src/frontend/app/js/config/config.env.js
 copy node_modules
