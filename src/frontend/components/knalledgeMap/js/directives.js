@@ -196,13 +196,17 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						},
 
 						toggleModerator: function(){
-							KnalledgeMapPolicyService.config.moderating.enabled = !KnalledgeMapPolicyService.config.moderating.enabled;
+							$scope.$apply(function () {
+								KnalledgeMapPolicyService.config.moderating.enabled = !KnalledgeMapPolicyService.config.moderating.enabled;
+							});
 						},
 
 						togglePresenter: function(){
-							if(KnalledgeMapPolicyService.config.moderating.enabled){
-								KnalledgeMapPolicyService.config.broadcasting.enabled = !KnalledgeMapPolicyService.config.broadcasting.enabled;								
-							}
+							$scope.$apply(function () {
+								if(KnalledgeMapPolicyService.config.moderating.enabled){
+									KnalledgeMapPolicyService.config.broadcasting.enabled = !KnalledgeMapPolicyService.config.broadcasting.enabled;								
+								}
+							});
 						},
 
 						mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
