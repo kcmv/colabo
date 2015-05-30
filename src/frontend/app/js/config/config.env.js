@@ -7,6 +7,7 @@ var envs = {
 		"server": {
 			"frontend": "http://knalledge.org/app",
 			"backend": "http://knalledge.org:8888",
+			"topichat": "http://knalledge.org:8060",
 			"parseResponse": true,
 			"jsonPrefixed": ")]}',\n"
 		},
@@ -15,6 +16,7 @@ var envs = {
 		"server": {
 			"frontend": "http://localhost:8410/app",
 			"backend": "http://localhost:8888",
+			"topichat": "http://localhost:8060",
 			"parseResponse": true,
 			"jsonPrefixed": ")]}',\n"
 		},
@@ -23,6 +25,7 @@ var envs = {
 		"server": {
 			"frontend": "http://localhost:8410/app",
 			"backend": "http://localhost:8410/app/data",
+			"topichat": "http://localhost:8060",
 			"parseResponse": false
 		}
 	}

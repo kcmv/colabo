@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState, notifyService, mapPlugins, knalledgeMapViewService){
+var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState, notifyService, mapPlugins, knalledgeMapViewService, knAllEdgeRealTimeService){
 	this.dom = {
 		parentDom: parentDom,
 		divMap: null,
@@ -25,6 +25,7 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 	this.knalledgeState = knalledgeState;
 	this.notifyService = notifyService;
 	this.mapPlugins = mapPlugins;
+	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
 
 	this.visualizations = {
 		'tree': null,
@@ -50,7 +51,7 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 		positionToDatum: this.visualizations.tree.positionToDatum.bind(this.visualizations.tree),
 		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi)
 	};
-	this.layouts.tree = this.layouts.manual = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.tree, this.knalledgeState);
+	this.layouts.tree = this.layouts.manual = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.tree, this.knalledgeState, this.knAllEdgeRealTimeService);
 
 	this.visualizations.flat = new knalledge.MapVisualizationTree(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService, this.notifyService, mapPlugins, knalledgeMapViewService);
 	this.layoutApis.flat = {
@@ -60,7 +61,7 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 		positionToDatum: this.visualizations.flat.positionToDatum.bind(this.visualizations.flat),
 		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi)
 	};
-	this.layouts.flat = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.flat, this.knalledgeState);
+	this.layouts.flat = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.flat, this.knalledgeState, this.knAllEdgeRealTimeService);
 
 	this.activeVisualization = this.visualizations.tree;
 	this.activeLayout = this.layouts.tree;

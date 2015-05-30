@@ -1,12 +1,16 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, configNodes, configTree, clientApi, knalledgeState){
+// realtime distribution
+var KnRealTimeNodeSelectedEvent = "node-selected";
+
+var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
 	this.mapStructure = mapStructure;
 	this.configNodes = configNodes;
 	this.configTree = configTree;
 	this.clientApi = clientApi;
 	this.knalledgeState = knalledgeState;
+	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
 	this.nodes = null;
 	this.links = null;
 	this.dom = null;
@@ -48,6 +52,25 @@ MapLayoutTree.prototype.init = function(mapSize, scales){
 	}
 
 	this.tree.children(this.getChildren.bind(this));
+
+	// realtime distribution
+	var mapLayoutPluginOptions = {
+		name: "mapLayout",
+		events: {
+			"node-selected": this.realTimeNodeSelected.bind(this)				
+		}
+	};
+	this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions);
+};
+
+MapLayoutTree.prototype.realTimeNodeSelected = function(eventName, msg){
+	var kId = msg;
+	// alert("[MapLayoutTree:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
+	console.log("[MapLayoutTree:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s", 
+		this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
+	var kNode = this.mapStructure.getVKNodeByKId(kId);
+	// do not broadcast back :)
+	this.clickNode(kNode, null, true, false, true);
 };
 
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
@@ -113,7 +136,7 @@ MapLayoutTree.prototype.getDomFromDatum = function(d) {
 };
 
 // Select node on node click
-MapLayoutTree.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleUp) {
+MapLayoutTree.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state
 	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
@@ -141,6 +164,12 @@ MapLayoutTree.prototype.clickNode = function(d, dom, commingFromAngular, doNotBu
 		});
 		d.isSelected = true;
 		this.mapStructure.setSelectedNode(d);
+
+		// realtime distribution
+		if(this.knAllEdgeRealTimeService && !doNotBroadcast){ 	// do not broadcast back :)
+			this.knAllEdgeRealTimeService.emit(KnRealTimeNodeSelectedEvent, d.kNode._id);
+		}
+
 		this.clientApi.positionToDatum(d);
 		if(this.knalledgeState.addingLinkFrom !== null){
 			this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d);

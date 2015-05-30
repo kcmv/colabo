@@ -37,10 +37,10 @@ module.exports = (function() {
 		var pluginOptions = {
 			name: MODULE_NAME,
 			events: {
-				'tc:user-connected': this.userConnected.bind(),
-				'tc:user-disconnected': this.userConnected.bind(),
-				'tc:chat-message': this.chatMessage.bind(),
-				'kn:navigation-changed': this.navigationChanged.bind()		
+				'tc:user-connected': this.userConnected.bind(this),
+				'tc:user-disconnected': this.userConnected.bind(this),
+				'tc:chat-message': this.chatMessage.bind(this),
+				'kn:realtime': this.realtimeMsg.bind(this)		
 			}
 		};
 		this.topiChat.registerPlugin(pluginOptions);
@@ -59,11 +59,13 @@ module.exports = (function() {
 	TopiChatKnAllEdge.prototype.userDisconnected = function() {
 	};
 
-	TopiChatKnAllEdge.prototype.chatMessage = function(msg, eventName) {
+	TopiChatKnAllEdge.prototype.chatMessage = function(eventName, msg, clientId, tcPackage) {
 		console.log('[TopiChatKnAllEdge] event (%s), message received: %s', eventName, JSON.stringify(msg));
 	};
 
-	TopiChatKnAllEdge.prototype.navigationChanged = function() {
+	TopiChatKnAllEdge.prototype.realtimeMsg = function(eventName, msg, clientId, tcPackage) {
+		console.log('[TopiChatKnAllEdge] event (%s), realtime knalledge message received from client [%s] : %s', eventName, clientId, JSON.stringify(msg));
+		this.topiChat.emit(eventName, msg, clientId);
 	};
 
 	/**
