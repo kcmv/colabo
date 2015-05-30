@@ -127,6 +127,7 @@ exports.update = function(req, res){
 	WhoAmIModel.update({_id:id}, data, function (err, raw) {
 		if (err) throw err;
 		console.log('The raw response from Mongo was ', raw);
+		data._id = id;
 		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 	});
 

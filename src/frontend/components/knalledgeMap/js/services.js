@@ -6,6 +6,11 @@ var QUEUE =
 //false;
 true;
 
+var KnRealTimeNodeCreatedEventName = "node-created";
+var KnRealTimeNodeUpdatedEventName = "node-updated";
+var KnRealTimeEdgeCreatedEventName = "edge-created";
+var KnRealTimeEdgeUpdatedEventName = "edge-updated";
+
 var removeJsonProtected = function(ENV, jsonStr){
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
 		jsonStr = jsonStr.substring(ENV.server.jsonPrefixed.length);
@@ -94,7 +99,7 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 	}]
 });
 
-knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
+knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', 'KnAllEdgeRealTimeService', function($resource, $q, ENV, KnalledgeMapQueue, KnAllEdgeRealTimeService){
 	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/knodes/:type/:searchParam/:searchParam2.json';
@@ -313,10 +318,21 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		var kNodeForServer = kNode.toServerCopy();
 		if(QUEUE && false){
 			KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"});
-			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, callback); //TODO: does it return node so we should fix it like in create?
+			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, function(nodeFromServer){
+				// realtime distribution
+				if(KnAllEdgeRealTimeService){
+					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
+				}
+			});
+
 		}
 		else{
-			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, callback); //TODO: does it return node so we should fix it like in create?
+			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, function(nodeFromServer){
+				// realtime distribution
+				if(KnAllEdgeRealTimeService){
+					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
+				}
+			});
 		}
 	};
 	
@@ -340,6 +356,11 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				request.processing.RESOLVE(kNodeReturn);//kNodeReturn.resolve()
 				if(callback) callback(kNodeReturn);
 				KnalledgeMapQueue.executed(request);
+
+				// realtime distribution
+				if(KnAllEdgeRealTimeService){
+					KnAllEdgeRealTimeService.emit(KnRealTimeNodeCreatedEventName, kNodeReturn.toServerCopy());
+				}
 			});
 			
 			//createPlain manages promises for its returning value, in our case 'node', so we need to  set its promise to the value we return
@@ -367,7 +388,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	
 }]);
 
-knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
+knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', 'KnAllEdgeRealTimeService', function($resource, $q, ENV, KnalledgeMapQueue, KnAllEdgeRealTimeService){
 	console.log("[atGsServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/kedges/:type/:searchParam.json';
@@ -569,6 +590,10 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				request.processing.RESOLVE(kEdgeReturn);//kEdgeReturn.resolve()
 				if(callback) callback(kEdgeReturn);
 				KnalledgeMapQueue.executed(request);
+
+				if(KnAllEdgeRealTimeService){
+					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeCreatedEventName, kEdgeReturn.toServerCopy());
+				}
 			});
 			
 			//createPlain manages promises for its returning value, in our case 'edge', so we need to  set its promise to the value we return
@@ -608,9 +633,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 
 knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	// privateData: "privatno",
-	$get: ['$q', '$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'RimaService', function($q, $rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService, RimaService) {
+	$get: ['$q', '$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'RimaService', 'KnAllEdgeRealTimeService', function($q, $rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService, RimaService, KnAllEdgeRealTimeService) {
 		// var that = this;
-		
 		var provider = {
 			mapId: "552678e69ad190a642ad461c",
 			rootNodeId: "55268521fb9a901e442172f9",
@@ -622,7 +646,96 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			mapStructure: new knalledge.MapStructure(RimaService),
 			lastVOUpdateTime: null,
 
-			// TODO: optimize to avoid creating it every time
+			externalChangesInMap: function(eventName, msg){
+				console.log("externalChangesInMap(%s,%s)",eventName, JSON.stringify(msg));
+				var changes = {nodes:[], edges:[]};
+				switch(eventName){
+					case KnRealTimeNodeCreatedEventName:
+						kNode = knalledge.KNode.nodeFactory(msg);
+						this.nodesById[kNode._id] = kNode;
+						kNode.state = knalledge.KNode.STATE_SYNCED;
+						var eventName = "node-created-to-visual";
+						changes.nodes.push(kNode);
+					break;
+					case KnRealTimeNodeUpdatedEventName:	
+						var kNode = this.nodesById[msg._id];
+						if(typeof kNode === 'undefined'){
+							console.error("externalChangesInMap:Node update received for a node that we don't have");
+							this.nodesById[msg._id] = knalledge.KNode.nodeFactory(msg);
+						}
+						kNode.fill(msg);
+						kNode.state = knalledge.KNode.STATE_SYNCED;
+						var eventName = "node-updated-to-visual";
+						changes.nodes.push(kNode);
+					break;
+					case KnRealTimeEdgeCreatedEventName:
+						kEdge = knalledge.KEdge.edgeFactory(msg);
+						this.edgesById[kEdge._id] = kEdge;
+						kEdge.state = knalledge.KEdge.STATE_SYNCED;
+						var eventName = "edge-created-to-visual";
+						changes.edges.push(kEdge);
+					break;
+					case KnRealTimeEdgeUpdatedEventName:
+						var kEdge = this.edgesById[msg._id];
+						if(typeof kEdge === 'undefined'){
+							console.error("externalChangesInMap:Edge update received for a edge that we don't have");
+							this.edgesById[msg._id] = knalledge.KEdge.edgeFactory(msg);
+						}
+						kEdge.fill(msg);
+						kEdge.state = knalledge.KEdge.STATE_SYNCED;
+						var eventName = "edge-updated-to-visual";
+						changes.edges.push(kEdge);
+					break;
+				}
+				$rootScope.$broadcast(eventName, changes);
+
+					// for(id=0; id<changesFromServer.nodes.length; id++){
+					// 	newChanges = true;
+
+					// 	var changesKNode = changesFromServer.nodes[id];
+					// 	var kNode = KnalledgeMapVOsService.getNodeById(changesKNode._id);
+					// 	if(!kNode){ //create
+					// 		kNode = knalledge.KNode.nodeFactory(changesKNode);
+					// 		KnalledgeMapVOsService.nodesById[kNode._id] = kNode;
+					// 	}else{ //update
+					// 		// TODO: is this ok?
+					// 		kNode.fill(changesKNode);
+					// 	}
+					// 	// we need to replace with our own version of the kNode, so upper levels (like vkNode) stays in the sync
+					// 	changesFromServer.nodes[id] = kNode;
+
+					// 	// TODO: why this, and is it for both creating and updating
+					// 	kNode.state = knalledge.KNode.STATE_SYNCED;
+
+					// 	if(kNode.updatedAt.getTime() <= this.lastChange.getTime()){
+					// 		console.error("received node with same or earlier date '%d' as this.lastChange (%d)", kNode.updatedAt.getTime(), this.lastChange.getTime());
+					// 		//console.log("node date '%s' vs this.lastChange (%s)", kNode.updatedAt, this.lastChange);
+					// 	}
+					// 	// else{
+					// 	// 	console.warn("received node date '%s' vs this.lastChange (%s)", kNode.updatedAt.getTime(), this.lastChange.getTime());
+					// 	// }
+					// }
+
+					// for(id=0; id<changesFromServer.edges.length; id++){
+					// 	newChanges = true;
+
+					// 	var changesKEdge = changesFromServer.edges[id];
+					// 	var kEdge = KnalledgeMapVOsService.getEdgeById(changesKEdge._id);
+					// 	if(!kEdge){
+					// 		kEdge = knalledge.KEdge.edgeFactory(changesKEdge);
+					// 		KnalledgeMapVOsService.nodesById[kEdge._id] = kEdge;
+					// 	}else{
+					// 		// TODO: is this ok?
+					// 		kEdge.fill(changesKEdge);
+					// 	}
+
+					// 	// TODO: why this, and is it for both creating and updating
+					// 	kEdge.state = knalledge.KEdge.STATE_SYNCED;
+					// 	// we need to replace with our own version of the kEdge, so upper levels (like vkEdge) stays in the sync
+					// 	changesFromServer.edges[id] = kEdge;
+					// }
+			},
+
 			getNodesList: function(){
 				var nodesList = [];
 				for(var i in this.nodesById){
@@ -910,6 +1023,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				var nodesEdgesReceived = function(){
 					console.log("[KnalledgeMapVOsService::loadData] nodesEdgesReceived");
 					
+					
+					//TODO: remove this - used for syncing with changes, done by other users - but now we have migated to  KnAllEdgeRealTimeService
 					this.lastVOUpdateTime = new Date(0); //"Beginning of time :) 'Thu Jan 01 1970 01:00:00 GMT+0100 (CET)' "
 					
 					var i;
@@ -1039,6 +1154,19 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				return parents;
 			}
 		};
+
+		// realtime listener registration
+		var KnalledgeMapVOsServicePluginOptions = {
+			name: "KnalledgeMapVOsService",
+			events: {
+			}
+		};
+		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeCreatedEventName] = provider.externalChangesInMap.bind(provider);
+		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeUpdatedEventName] = provider.externalChangesInMap.bind(provider);
+		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeCreatedEventName] = provider.externalChangesInMap.bind(provider);
+		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeUpdatedEventName] = provider.externalChangesInMap.bind(provider);
+		KnAllEdgeRealTimeService.registerPlugin(KnalledgeMapVOsServicePluginOptions);
+
 		window.nodesById = provider.nodesById;//TODO:remove
 		window.edgesById = provider.edgesById;//TODO:remove
 		return provider;
@@ -1480,10 +1608,10 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 
 				var changesKNode = changesFromServer.nodes[id];
 				var kNode = KnalledgeMapVOsService.getNodeById(changesKNode._id);
-				if(!kNode){
+				if(!kNode){ //create
 					kNode = knalledge.KNode.nodeFactory(changesKNode);
 					KnalledgeMapVOsService.nodesById[kNode._id] = kNode;
-				}else{
+				}else{ //update
 					// TODO: is this ok?
 					kNode.fill(changesKNode);
 				}
@@ -1790,6 +1918,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			},
 
 			emit: function(eventName, msg){
+				console.log('[KnAllEdgeRealTimeService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));
 				var knPackage = {
 					eventName: eventName,
 					msg: msg
