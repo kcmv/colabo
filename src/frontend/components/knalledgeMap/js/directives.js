@@ -5,9 +5,9 @@ var KnRealTimeMapStylingChangedEventName = "map-styling-change";
 var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
 angular.module('knalledgeMapDirectives', ['Config'])
 	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', 
-		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', 'SyncingService', 'KnAllEdgeRealTimeService', '$compile', '$routeParams', /*'$rootScope', '$qΩ, '$timeout', ConfigMap',*/ 
+		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', 'SyncingService', 'KnAllEdgeRealTimeService', '$compile', '$routeParams', 'KnAllEdgeSelectItemService',
 		function($rootScope, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, 
-		RimaService, IbisTypesService, NotifyService, NotifyNodeService, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService, $compile, $routeParams /*, $rootScope, $q, $timeout, ConfigMap*/){
+		RimaService, IbisTypesService, NotifyService, NotifyNodeService, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService, $compile, $routeParams, KnAllEdgeSelectItemService){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -175,6 +175,23 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								$scope.$apply(processNodeClick);
 							}
 						},
+						searchNodeByName: function(){
+							$scope.$apply(function () {
+								var labels = {
+									itemName: "Node",
+									itemNames: "Nodes"
+								};
+
+								var selectionOfItemFinished = function(item){
+									var vkNode =  knalledgeMap.mapStructure.getVKNodeByKId(item._id);
+									knalledgeMap.mapManager.getActiveLayout().clickNode(vkNode, undefined, true);
+								};
+
+								var items = KnalledgeMapVOsService.getNodesList();
+
+								KnAllEdgeSelectItemService.openSelectItem(items, labels, selectionOfItemFinished);
+							});
+						},
 						mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
 							$scope.$apply(function () {
 								//var mapEntityClicked = mapEntity;
@@ -235,6 +252,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, $scope.mapData ? null : KnalledgeMapVOsService.mapStructure, 
 							RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService);
 					knalledgeMap.init();
+
+					// providing select item service with the context
+					KnAllEdgeSelectItemService.init(knalledgeMap, $scope, $element);
+
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model, function(){
 						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
@@ -699,6 +720,100 @@ angular.module('knalledgeMapDirectives', ['Config'])
     		}
     	};
 	}])
+
+	.directive('knalledgeMapSelectItem', ['KnAllEdgeSelectItemService', function(KnAllEdgeSelectItemService){ // mcm_map_select_sub_entity
+		return {
+			restrict: 'AE',
+			// scope: {
+			// 	labels: '='
+			// },
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angulajrs.org/guide/expression
+			templateUrl: '../components/knalledgeMap/partials/knalledgeMap-selectItem.tpl.html',
+			controller: function ( $scope, $element) {
+
+				$scope.selectedItem = null;
+				$scope.title = "Select Item";
+				$scope.path = ".";
+				$scope.item = {
+					name: null
+				};
+
+				$scope.selectItem = function(item) {
+				    $scope.selectedItem = item;
+				    console.log("$scope.selectedItem = " + JSON.stringify(item));
+				    if($scope.shouldSubmitOnSelection){
+				    	$scope.submitted();
+				    }
+				};
+
+				var populateItems = function(subName){
+					console.log("getItemsDescsByName(%s)", subName);
+					$scope.items = KnAllEdgeSelectItemService.getItemsDescsByName(subName);
+					console.log("$scope.items IN: " + $scope.items);
+				};
+
+				populateItems("");
+
+				$scope.nameChanged = function(){
+					//console.log("New searching Item name: %s", $scope.item.name);
+					populateItems($scope.item.name);
+					console.log("$scope.items: " + $scope.items);
+				};
+				$scope.cancelled = function(){
+					unbindEvents();
+					console.log("[KnAllEdgeSelectItemService] Cancelled");
+					//console.log("Canceled");
+					$element.remove(); //TODO: sta je ovo?
+					$scope.selectingCanceled();
+				};
+
+				$scope.submitted = function(){
+					unbindEvents();
+					console.log("[KnAllEdgeSelectItemService] Submitted");
+					if($scope.selectedItem !== null && $scope.selectedItem !== undefined){
+						$scope.selectingSubmited($scope.selectedItem);
+						$element.remove();
+					}
+					else{
+						window.alert('Please, select a Item');
+					}
+				};
+
+				var unbindEvents = function() {
+			        // https://docs.angularjs.org/api/ng/function/angular.element
+					// http://api.jquery.com/unbind/
+					angular.element("body").unbind("keydown keypress", keyboardProcessing);
+					$element.unbind("keydown keypress", keyboardProcessing);
+				};
+
+				var keyboardProcessing = function (event) {
+		            if(event.which === 27) { // ECAPE
+		                $scope.$apply(function (){
+		                	$scope.cancelled();
+		                });
+
+		                event.preventDefault();
+		            }
+
+		            if(event.which === 13) { // ENTER
+		                // scope.$apply(function (){
+		                //     $scope.$eval(attrs.ngEnter);
+		                // });
+
+		                // event.preventDefault();
+		            }
+		        };
+
+		        // https://docs.angularjs.org/api/ng/function/angular.element
+		        // http://api.jquery.com/bind/
+				angular.element("body").bind("keydown keypress", keyboardProcessing);
+				// http://stackoverflow.com/questions/17470790/how-to-use-a-keypress-event-in-angularjs
+				$element.bind("keydown keypress", keyboardProcessing);
+    		}
+    	};
+	}])
 ;
+
 
 }()); // end of 'use strict';

@@ -117,6 +117,9 @@ Map.prototype.initializeKeyboard = function() {
 		addImage: function(node){
 			this.clientApi.addImage(node);
 		}.bind(this),
+		searchNodeByName: function(){
+			this.clientApi.searchNodeByName();
+		}.bind(this),
 		removeImage: function(){
 			var vkNode = this.mapStructure.getSelectedNode();
 			this.mapStructure.removeImage(vkNode);
