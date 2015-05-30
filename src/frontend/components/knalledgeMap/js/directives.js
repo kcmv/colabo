@@ -325,7 +325,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				// realtime listener registration
 				if(KnAllEdgeRealTimeService){
-					var realTimeMapStylingChanged = function(msg){
+					var realTimeMapStylingChanged = function(eventName, msg){
 						switch(msg.path){
 							case 'config.nodes.showImages':
 								KnalledgeMapViewService.config.nodes.showImages = msg.value;
@@ -343,7 +343,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						knalledgeMap.update();
 					};
 
-					var realTimeMapViewspecChanged = function(viewspec){
+					var realTimeMapViewspecChanged = function(eventName, newViewspec){
 						console.log("[knalledgeMap.controller::realTimeMapViewspecChanged] newViewspec: %s", newViewspec);
 						config.tree.viewspec = newViewspec;
 						knalledgeMap.update();
@@ -406,7 +406,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				$scope.config = KnalledgeMapViewService.config;
 				$scope.configChanged = function(path, value){
-					alert(path + ":" + value);
+					// alert(path + ":" + value);
 					var mapStylingChangedEventName = "mapStylingChangedEvent";
 					var msg = {
 						path: path,
@@ -416,7 +416,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				};
 
 				$scope.viewspecChanged = function(viewSpec){
-					alert(viewSpec);
+					// alert(viewSpec);
 					console.log("[knalledgeMapTools] viewspec: %s", $scope.bindings.viewspec);
 					var viewspecChangedEventName = "viewspecChangedEvent";
 					//console.log("result:" + JSON.stringify(result));
