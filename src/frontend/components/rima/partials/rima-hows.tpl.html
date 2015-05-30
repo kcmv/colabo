@@ -1,7 +1,8 @@
-<div class="title"><!-- {{displayName}}, describe --> Describe yourself. Add interests, expertises, topics related to you</div>
+<div ng-show="isMe()" class="title"><!-- {{displayName}}, describe --> Describe yourself. Add interests, expertises, topics related to you</div>
 <hr/>
 <div ng-show="haveHows()" class="hows_container">
-	<div class="subtitle">This is how you <b>described</b> yourself so far</div>
+	<div class="subtitle" ng-show="isMe()">This is how you <b>described</b> yourself so far</div>
+	<div class="subtitle" ng-show="!isMe()">This is how <span>{{whoAmI.displayName}}</span> <b>described</b> himself/herself so far</div>
 	<table class="list">
 		<tr><th>My relation to</th><th>Topic</th></tr>
 		<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
