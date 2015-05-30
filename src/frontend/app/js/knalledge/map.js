@@ -120,6 +120,12 @@ Map.prototype.initializeKeyboard = function() {
 		searchNodeByName: function(){
 			this.clientApi.searchNodeByName();
 		}.bind(this),
+		toggleModerator: function(){
+			this.clientApi.toggleModerator();
+		}.bind(this),
+		togglePresenter: function(){
+			this.clientApi.togglePresenter();
+		}.bind(this),
 		removeImage: function(){
 			var vkNode = this.mapStructure.getSelectedNode();
 			this.mapStructure.removeImage(vkNode);

@@ -1573,6 +1573,27 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 	}]
 });
 
+knalledgeMapServices.provider('KnalledgeMapPolicyService', {
+	// privateData: "privatno",
+	$get: [/*'$q', 'ENV', '$rootScope', */
+	function(/*$q , ENV, $rootScope*/) {
+
+				// var that = this;
+		var provider = {
+			config: {
+				broadcasting: {
+					enabled: false,
+				},
+				moderating: {
+					enabled: false
+				}
+			}
+		};
+
+		return provider;
+	}]
+});
+
 knalledgeMapServices.provider('IbisTypesService', {
 	// privateData: "privatno",
 	$get: [/*'$q', 'ENV', '$rootScope', */

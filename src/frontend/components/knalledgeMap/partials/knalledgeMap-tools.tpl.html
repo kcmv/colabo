@@ -8,6 +8,9 @@
 		<a ng-href="#/maps">Maps</a>
 	</p>
 
+	<div ng-if="policyConfig.moderating.enabled">Moderator</div>
+	<div ng-if="policyConfig.broadcasting.enabled">Presenter</div>
+
 	<h4>Visualize:</h4>
 	<!-- <pre>{{radioModel || 'null'}}</pre> -->
 	<div class="btn-group">

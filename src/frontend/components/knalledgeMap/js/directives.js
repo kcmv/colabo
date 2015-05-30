@@ -5,9 +5,11 @@ var KnRealTimeMapStylingChangedEventName = "map-styling-change";
 var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
 angular.module('knalledgeMapDirectives', ['Config'])
 	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', 
-		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', 'SyncingService', 'KnAllEdgeRealTimeService', '$compile', '$routeParams', 'KnAllEdgeSelectItemService',
+		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', 'SyncingService', 
+		'KnAllEdgeRealTimeService', '$compile', '$routeParams', 'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService',
 		function($rootScope, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, 
-		RimaService, IbisTypesService, NotifyService, NotifyNodeService, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService, $compile, $routeParams, KnAllEdgeSelectItemService){
+		RimaService, IbisTypesService, NotifyService, NotifyNodeService, KnalledgeMapViewService, SyncingService, 
+		KnAllEdgeRealTimeService, $compile, $routeParams, KnAllEdgeSelectItemService, KnalledgeMapPolicyService){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -192,6 +194,17 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								KnAllEdgeSelectItemService.openSelectItem(items, labels, selectionOfItemFinished);
 							});
 						},
+
+						toggleModerator: function(){
+							KnalledgeMapPolicyService.config.moderating.enabled = !KnalledgeMapPolicyService.config.moderating.enabled;
+						},
+
+						togglePresenter: function(){
+							if(KnalledgeMapPolicyService.config.moderating.enabled){
+								KnalledgeMapPolicyService.config.broadcasting.enabled = !KnalledgeMapPolicyService.config.broadcasting.enabled;								
+							}
+						},
+
 						mapEntityClicked: function(mapEntity /*, mapEntityDom*/){
 							$scope.$apply(function () {
 								//var mapEntityClicked = mapEntity;
@@ -410,7 +423,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			}
     	};
 	}])
-	.directive('knalledgeMapTools', ["$timeout", '$rootScope', 'KnalledgeMapViewService', function($timeout, $rootScope, KnalledgeMapViewService){
+	.directive('knalledgeMapTools', ["$timeout", '$rootScope', 'KnalledgeMapViewService' , 'KnalledgeMapPolicyService', function($timeout, $rootScope, KnalledgeMapViewService, KnalledgeMapPolicyService){
 		console.log("[knalledgeMapTools] loading directive");
 		return {
 			restrict: 'AE',
@@ -426,6 +439,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				};
 
 				$scope.config = KnalledgeMapViewService.config;
+				$scope.policyConfig = KnalledgeMapPolicyService.config;
 				$scope.configChanged = function(path, value){
 					// alert(path + ":" + value);
 					var mapStylingChangedEventName = "mapStylingChangedEvent";

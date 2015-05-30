@@ -247,12 +247,31 @@ Keyboard.prototype.initializeKeyboard = function() {
 	/**
 	 * starting node editing
 	 */
-
 	KeyboardJS.on("ctrl + f", function(){
 		if(this.editingNodeHtml) return;
 		// if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 
 		this.clientApi.searchNodeByName();
+	}.bind(this), function(){}.bind(this));	
+
+	/**
+	 * toggling moderator
+	 */
+	KeyboardJS.on("ctrl + alt + m", function(){
+		if(this.editingNodeHtml) return;
+		// if(this.getStatus() !== Keyboard.STATUS_MAP) return;
+
+		this.clientApi.toggleModerator();
+	}.bind(this), function(){}.bind(this));	
+
+	/**
+	 * toggling presenter
+	 */
+	KeyboardJS.on("ctrl + alt + p", function(){
+		if(this.editingNodeHtml) return;
+		// if(this.getStatus() !== Keyboard.STATUS_MAP) return;
+
+		this.clientApi.togglePresenter();
 	}.bind(this), function(){}.bind(this));	
 
 	/**
