@@ -29,11 +29,13 @@ VKNode.prototype.fill = function(obj){
 VKNode.prototype.fillWithKNode = function(kNode, setKNode){
 	if(kNode){
 		if(setKNode) this.kNode = kNode;
-		if("isOpen" in kNode.visual){this.isOpen = kNode.visual.isOpen;}
-		if("xM" in kNode.visual){this.xM = kNode.visual.xM;}
-		if("yM" in kNode.visual){this.yM = kNode.visual.yM;}
-		if("widthM" in kNode.visual){this.widthM = kNode.visual.widthM;}
-		if("heightM" in kNode.visual){this.heightM = kNode.visual.heightM;}
+		if(kNode.visual){
+			if("isOpen" in kNode.visual){this.isOpen = kNode.visual.isOpen;}
+			if("xM" in kNode.visual){this.xM = kNode.visual.xM;}
+			if("yM" in kNode.visual){this.yM = kNode.visual.yM;}
+			if("widthM" in kNode.visual){this.widthM = kNode.visual.widthM;}
+			if("heightM" in kNode.visual){this.heightM = kNode.visual.heightM;}
+		}
 	}
 };
 
