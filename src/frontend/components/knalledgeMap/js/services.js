@@ -8,8 +8,11 @@ true;
 
 var KnRealTimeNodeCreatedEventName = "node-created";
 var KnRealTimeNodeUpdatedEventName = "node-updated";
+var KnRealTimeNodeDeletedEventName = "node-deleted";
+
 var KnRealTimeEdgeCreatedEventName = "edge-created";
 var KnRealTimeEdgeUpdatedEventName = "edge-updated";
+var KnRealTimeEdgeDeletedEventName = "edge-deleted";
 
 var removeJsonProtected = function(ENV, jsonStr){
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
@@ -338,7 +341,14 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 	
 	resource.destroy = function(id, callback)
 	{
-		return this.destroyPlain({searchParam:id, type:'one'}, callback);
+		var result = this.destroyPlain({searchParam:id, type:'one'}, function(){
+			// realtime distribution
+			if(KnAllEdgeRealTimeService){
+				KnAllEdgeRealTimeService.emit(KnRealTimeNodeDeletedEventName, id);
+			}
+			if(callback){callback()};
+		});
+		return result;
 	};
 	
 	resource.execute = function(request){ //example:: request = {data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
@@ -569,7 +579,14 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	
 	resource.destroy = function(id, callback)
 	{
-		return this.destroyPlain({searchParam:id, type:'one'}, callback);
+		var result = this.destroyPlain({searchParam:id, type:'one'}, function(){
+			// realtime distribution
+			if(KnAllEdgeRealTimeService){
+				KnAllEdgeRealTimeService.emit(KnRealTimeEdgeDeletedEventName, id);
+			}
+			if(callback){callback()};
+		});
+		return result;
 	};
 	
 	resource.deleteConnectedTo = function(id, callback)
@@ -649,12 +666,15 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			externalChangesInMap: function(eventName, msg){
 				console.log("externalChangesInMap(%s,%s)",eventName, JSON.stringify(msg));
 				var changes = {nodes:[], edges:[]};
+				var shouldBroadcast = true;
+				var ToVisualMsg = "-to-visual";
+
 				switch(eventName){
 					case KnRealTimeNodeCreatedEventName:
 						kNode = knalledge.KNode.nodeFactory(msg);
 						this.nodesById[kNode._id] = kNode;
 						kNode.state = knalledge.KNode.STATE_SYNCED;
-						var eventName = "node-created-to-visual";
+						var eventName = KnRealTimeNodeCreatedEventName + ToVisualMsg;
 						changes.nodes.push(kNode);
 					break;
 					case KnRealTimeNodeUpdatedEventName:	
@@ -665,14 +685,25 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 						}
 						kNode.fill(msg);
 						kNode.state = knalledge.KNode.STATE_SYNCED;
-						var eventName = "node-updated-to-visual";
+						var eventName = KnRealTimeNodeUpdatedEventName + ToVisualMsg;
 						changes.nodes.push(kNode);
 					break;
+					case KnRealTimeNodeDeletedEventName: 
+						if(this.nodesById.hasOwnProperty(msg._id)){
+							delete this.nodesById[msg._id];
+							var eventName = KnRealTimeNodeDeletedEventName + ToVisualMsg;
+						}
+						else{
+							console.error("externalChangesInMap: trying to delete a Node that we don't have");
+							shouldBroadcast = false; //TODO: check if this is the right approach
+						}
+					break;
+
 					case KnRealTimeEdgeCreatedEventName:
 						kEdge = knalledge.KEdge.edgeFactory(msg);
 						this.edgesById[kEdge._id] = kEdge;
 						kEdge.state = knalledge.KEdge.STATE_SYNCED;
-						var eventName = "edge-created-to-visual";
+						var eventName = KnRealTimeEdgeCreatedEventName + ToVisualMsg;
 						changes.edges.push(kEdge);
 					break;
 					case KnRealTimeEdgeUpdatedEventName:
@@ -683,11 +714,23 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 						}
 						kEdge.fill(msg);
 						kEdge.state = knalledge.KEdge.STATE_SYNCED;
-						var eventName = "edge-updated-to-visual";
+						var eventName = KnRealTimeEdgeUpdatedEventName + ToVisualMsg;
 						changes.edges.push(kEdge);
 					break;
+					case KnRealTimeEdgeDeletedEventName:
+						if(this.edgesById.hasOwnProperty(msg._id)){
+							delete this.edgesById[msg._id];
+							var eventName = KnRealTimeEdgeDeletedEventName + ToVisualMsg;
+						}
+						else{
+							console.error("externalChangesInMap: trying to delete an Edge that we don't have");
+							shouldBroadcast = false; //TODO: check if this is the right approach
+						}
+					break;
 				}
-				$rootScope.$broadcast(eventName, changes);
+				if(shouldBroadcast){
+					$rootScope.$broadcast(eventName, changes);
+				}
 
 					// for(id=0; id<changesFromServer.nodes.length; id++){
 					// 	newChanges = true;
@@ -1165,6 +1208,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeUpdatedEventName] = provider.externalChangesInMap.bind(provider);
 		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeCreatedEventName] = provider.externalChangesInMap.bind(provider);
 		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeUpdatedEventName] = provider.externalChangesInMap.bind(provider);
+		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeDeletedEventName] = provider.externalChangesInMap.bind(provider);
+		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeDeletedEventName] = provider.externalChangesInMap.bind(provider);
 		KnAllEdgeRealTimeService.registerPlugin(KnalledgeMapVOsServicePluginOptions);
 
 		window.nodesById = provider.nodesById;//TODO:remove

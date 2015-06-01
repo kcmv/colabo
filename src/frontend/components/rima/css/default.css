@@ -651,3 +651,19 @@ wizard {
     /* line 672, ../sass/default.scss */
     .rima-users-list .list .active-selection {
       background-color: #aaf; }
+
+/* line 679, ../sass/default.scss */
+.rima-users-connections path.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px; }
+/* line 685, ../sass/default.scss */
+.rima-users-connections circle {
+  fill: #ccc;
+  stroke: #fff;
+  stroke-width: 1.5px; }
+/* line 691, ../sass/default.scss */
+.rima-users-connections text {
+  fill: #000;
+  font: 10px sans-serif;
+  pointer-events: none; }

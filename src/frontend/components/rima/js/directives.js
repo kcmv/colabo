@@ -60,8 +60,8 @@ var triggerPopup = function($timeout, $element, selector, event, stepNo, delay){
 };
 
 angular.module('rimaDirectives', ['Config'])
-	.directive('rimaRelevantList', ['$rootScope', 'WhatAmIService',
-		function($rootScope, WhatAmIService){
+	.directive('rimaRelevantList', ['$rootScope',
+		function($rootScope){
 		console.log("[rimaRelevantList] loading directive");
 		return {
 			restrict: 'AE',
@@ -91,7 +91,7 @@ angular.module('rimaDirectives', ['Config'])
 			templateUrl: '../components/rima/partials/rimaUsers-list.tpl.html',
 			controller: function ( $scope, $element) {
 				var init = function(){
-					$scope.items = RimaService.getUsers();
+					$scope.items = RimaService.whoAmIs;
 					// var compare = function(a,b) {
 					//   if (a.displayName < b.displayName)
 					//     return 1;
@@ -111,8 +111,9 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.items = null;
 				$scope.selectedItem = null;
 				 //TODO: select from map.dataContent.mcm.authors list
-				RimaService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
+				//RimaService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
 				
+				init();
 				$scope.selectItem = function(item) {
 				    $scope.selectedItem = item;
 				    console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
@@ -122,8 +123,8 @@ angular.module('rimaDirectives', ['Config'])
     	};
 	}])
 
-	.directive('rimaRelevantWhatsList', ['$rootScope', 'KnalledgeMapVOsService', 'WhatAmIService', 'RimaService',
-		function($rootScope, KnalledgeMapVOsService, WhatAmIService, RimaService){
+	.directive('rimaRelevantWhatsList', ['$rootScope', 'KnalledgeMapVOsService', 'RimaService',
+		function($rootScope, KnalledgeMapVOsService, RimaService){
 		console.log("[rimaRelevantWhatsList] loading directive");
 		return {
 			restrict: 'AE',
@@ -230,6 +231,178 @@ angular.module('rimaDirectives', ['Config'])
 			}
     	};
 	}])
+
+	.directive('rimaUsersConnections', ['$rootScope', 'KnalledgeMapVOsService', 'RimaService',
+		function($rootScope, KnalledgeMapVOsService, RimaService){
+		console.log("[rimaRelevantWhatsList] loading directive");
+		return {
+			restrict: 'AE',
+			scope: {
+				'readonly': '=',
+				'node': "="
+			},
+			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+			// expression: http://docs.angularjs.org/guide/expression
+			templateUrl: '../components/rima/partials/rima-users-connections.tpl.html',
+			controller: function ( $scope, $element) {
+				$scope.bindings = {
+				};
+
+				var users = RimaService.getUsers();
+
+				var update = function(){
+					
+					//!!! TODO: check for improving performance of this algorithm!! it is ~ O(n4)!!
+					
+					var links = [];
+					for(var i = 0; i<users.length; i++){ // we go through all users
+						var userI = users[i];
+						if(!RimaService.howAmIs.hasOwnProperty(userI._id)){continue;}
+						var userIHows = RimaService.howAmIs[userI._id]; //take their userHows
+						for(var ih = 0; ih<userIHows.length; ih++){ // go through all their userHows
+							var userIHow = userIHows[ih]; //and for each of their hows
+							for(var j = i; j<users.length; j++){ // we check in all other users (except those already passed)
+								if(i == j){continue;}
+								var userJ = users[j];
+								if(!RimaService.howAmIs.hasOwnProperty(userJ._id)){continue;}
+								var userJHows = RimaService.howAmIs[userJ._id]; //by taking their userHows
+								for(var jh = 0; jh<userJHows.length; jh++){ // go through all their userHows
+									var userJHow = userJHows[jh]; //and for each of their hows
+									if (userIHow.whatAmI._id == userJHow.whatAmI._id)
+									{
+										var foundLink = false;
+										for(var l=0;l<links.length; l++){ // we go through existing links among users:
+											var link = links[l];
+											//TODO: check if we should increase it for multiple how_verb connections with the same WhatAmI
+											if((link.source == userI && link.target == userJ) || (link.source == userJ && link.target == userI)){ //if we find one, we increas its value
+												link.value+=1;
+												foundLink = true;
+												break;
+											}
+										}
+										if(!foundLink){
+											links.push({source:userI, target:userJ, value:1});
+										}
+									}
+								}
+							}
+						}
+					}
+
+					if(users.length>1){
+						var width = 960,
+					    height = 500;
+					    var nodes=[];
+
+					    for(var i = 0; i<users.length; i++){
+					    	nodes.push({name:users[i].displayName});
+					    }
+
+						var force = d3.layout.force()
+						    .nodes(d3.values(nodes))
+						    .links(links)
+						    .size([width, height])
+						    .linkDistance(60)
+						    .charge(-300)
+						    .on("tick", tick)
+						    .start();
+
+						var svg = d3.select("body").append("svg")
+						    .attr("width", width)
+						    .attr("height", height);
+
+						// build the arrow.
+						svg.append("svg:defs").selectAll("marker")
+						    .data(["end"])      // Different link/path types can be defined here
+						  .enter().append("svg:marker")    // This section adds in the arrows
+						    .attr("id", String)
+						    .attr("viewBox", "0 -5 10 10")
+						    .attr("refX", 15)
+						    .attr("refY", -1.5)
+						    .attr("markerWidth", 6)
+						    .attr("markerHeight", 6)
+						    .attr("orient", "auto")
+						  .append("svg:path")
+						    .attr("d", "M0,-5L10,0L0,5");
+
+						// add the links and the arrows
+						var path = svg.append("svg:g").selectAll("path")
+						    .data(force.links())
+						  .enter().append("svg:path")
+						//    .attr("class", function(d) { return "link " + d.type; })
+						    .attr("class", "link")
+						    .attr("marker-end", "url(#end)");
+
+						// define the nodes
+						var node = svg.selectAll(".node")
+						    .data(force.nodes())
+						  .enter().append("g")
+						    .attr("class", "node")
+						    .call(force.drag);
+
+						// add the nodes
+						node.append("circle")
+						    .attr("r", 5);
+
+						// add the text 
+						node.append("text")
+						    .attr("x", 12)
+						    .attr("dy", ".35em")
+						    .text(function(d) { return d.name; });
+
+						// add the curvy lines
+						function tick() {
+						    path.attr("d", function(d) {
+						        var dx = d.target.x - d.source.x,
+						            dy = d.target.y - d.source.y,
+						            dr = Math.sqrt(dx * dx + dy * dy);
+						        return "M" + 
+						            d.source.x + "," + 
+						            d.source.y + "A" + 
+						            dr + "," + dr + " 0 0,1 " + 
+						            d.target.x + "," + 
+						            d.target.y;
+						    });
+
+						    node
+						        .attr("transform", function(d) { 
+						  	    return "translate(" + d.x + "," + d.y + ")"; });
+						}
+					}
+
+					// Compute the distinct nodes from the links.
+					// links.forEach(function(link) {
+					//     link.source = nodes[link.source] || 
+					//         (nodes[link.source] = {name: link.source});
+					//     link.target = nodes[link.target] || 
+					//         (nodes[link.target] = {name: link.target});
+					//     link.value = +link.value;
+					// });
+				};
+
+				$scope.$watch(function () {
+					return RimaService.howAmIs;
+				},
+				function(newValue){
+					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+					update();
+				}, true);
+
+				$scope.$watch(function () {
+					// return KnalledgeMapVOsService.mapStructure.nodesById;
+					return RimaService.whoAmIs;
+				},
+				function(newValue){
+					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+					// console.log("[KnalledgeMapVOsService.mapStructure.nodesById watch]: elements no: %d", Object.keys(newValue).length);
+					update();
+				}, true);
+
+				update();
+			}
+    	};
+	}])
+
 	.directive('rimaWhats', ['$rootScope', 'RimaService',
 		function($rootScope, RimaService){
 		console.log("[rimaWhats] loading directive");

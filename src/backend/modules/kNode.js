@@ -186,9 +186,11 @@ exports.destroy = function(req, res){
 
 	switch (type){
 		case 'one':
-			KNodeModel.findByIdAndRemove(dataId, function (err) {
+			KNodeModel.findByIdAndRemove(dataId, function (err, countOfRemoved) {
+					console.log("err" + err);
+					console.log("data" + countOfRemoved);
 					if (err) throw err;
-					var data = {id:dataId};
+					var data = {countOfRemoved:countOfRemoved}; //ToDo: check this, it looks like it returns deleted Document
 					resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 				}
 			);

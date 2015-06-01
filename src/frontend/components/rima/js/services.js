@@ -142,6 +142,19 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 			});
 		return whoAmIs;
 	};
+
+	resource.getAll = function(callback){
+		var whoAmIs = this.queryPlain({type:'all'},
+			function(whoAmIsFromServer){
+				for(var id=0; id<whoAmIsFromServer.length; id++){
+					var whoAmI = knalledge.WhoAmI.whoAmIFactory(whoAmIsFromServer[id]);
+					whoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
+					whoAmIsFromServer[id] = whoAmI;
+				}
+				if(callback) callback(whoAmIsFromServer);
+			});
+		return whoAmIs;
+	}
 	
 	resource.create = function(whoAmI, callback)
 	{
@@ -756,7 +769,7 @@ rimaServices.provider('RimaService', {
 		var provider = {
 			ANONYMOUS_USER_ID: "55268521fb9a901e442172f8",
 			iAmId: null,
-			whoAmIs: [],
+			whoAmIs: [], //ToDo: check about syncing with loggedInWhoAmI
 			loggedInWhoAmI: new knalledge.WhoAmI(),
 			selectedWhoAmI: null,
 			howAmIs: {},
@@ -781,8 +794,14 @@ rimaServices.provider('RimaService', {
 					}
 					console.log("this.howAmIs:"+this.howAmIs);
 				}.bind(this));
-				
-				//TODO: loadUser
+
+				WhoAmIService.getAll(function(whoAmIsFromServer){
+					for(var i=0; i<whoAmIsFromServer.length; i++){
+						var whoAmI = whoAmIsFromServer[i];
+						this.whoAmIs.push(whoAmI);
+					}
+					console.log("this.whoAmIs:"+this.whoAmIs);
+				}.bind(this));
 
 				if($window.localStorage){
 					console.info("[RimaService:init] There is a localstorage!");
@@ -844,14 +863,8 @@ rimaServices.provider('RimaService', {
 			},
 				
 			loadUsersFromList: function(usersIds, callback){
-				var that = this;
-				var whoAmIs = WhoAmIService.getByIds(usersIds,
-					function(whoAmIsFromServer){
-						that.whoAmIs = whoAmIsFromServer;
-						//that.selectedWhoAmI = (that.whoAmIs && that.whoAmIs.length) ? that.whoAmIs[0] : null; //TODO: set it to logged-in user
-						if(callback){callback();}
-					});
-				return whoAmIs;
+				//TODO: for now we return all users
+				return this.whoAmIs;
 			},
 
 			loadRimaDataSets: function(){ //not used yet ...

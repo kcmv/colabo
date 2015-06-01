@@ -289,8 +289,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					var KnRealTimeEdgeUpdatedEventName = "edge-updated-to-visual";
 					$scope.$on(KnRealTimeNodeCreatedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 					$scope.$on(KnRealTimeNodeUpdatedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					//$scope.$on(KnRealTimeNodeDeletedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+
 					$scope.$on(KnRealTimeEdgeCreatedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 					$scope.$on(KnRealTimeEdgeUpdatedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					//$scope.$on(KnRealTimeEdgeDeletedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 				};
 
 				if($scope.mapData){
@@ -649,7 +652,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				KnalledgeMapService.query().$promise.then(function(maps){
 					$scope.items = maps;
 					console.log('maps:'+JSON.stringify($scope.maps));
-					RimaService.loadUsersFromList(); //TODO remove, after centralized loading is done
+					//RimaService.loadUsersFromList(); //TODO remove, after centralized loading is done
 				});
 
 				$scope.showCreateNewMap = function(){
