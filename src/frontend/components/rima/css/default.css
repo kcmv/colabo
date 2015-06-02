@@ -667,3 +667,8 @@ wizard {
   fill: #000;
   font: 10px sans-serif;
   pointer-events: none; }
+/* line 697, ../sass/default.scss */
+.rima-users-connections .users-graph {
+  /*background-color: blue;
+  width: 500px;
+  height: 300px;*/ }

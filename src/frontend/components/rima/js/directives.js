@@ -249,12 +249,24 @@ angular.module('rimaDirectives', ['Config'])
 				};
 
 				var users = RimaService.getUsers();
+				var force = null;
+
+				var width = 960, height = 600;
+				var svg = d3.select("div.users-graph").append("svg")
+						    .attr("width", width)
+						    .attr("height", height);
 
 				var update = function(){
 					
 					//!!! TODO: check for improving performance of this algorithm!! it is ~ O(n4)!!
 					
 					var links = [];
+					var nodes=[];
+
+				    for(var i = 0; i<users.length; i++){
+				    	nodes.push({name:users[i].displayName});
+				    }
+
 					for(var i = 0; i<users.length; i++){ // we go through all users
 						var userI = users[i];
 						if(!RimaService.howAmIs.hasOwnProperty(userI._id)){continue;}
@@ -274,14 +286,14 @@ angular.module('rimaDirectives', ['Config'])
 										for(var l=0;l<links.length; l++){ // we go through existing links among users:
 											var link = links[l];
 											//TODO: check if we should increase it for multiple how_verb connections with the same WhatAmI
-											if((link.source == userI && link.target == userJ) || (link.source == userJ && link.target == userI)){ //if we find one, we increas its value
+											if((link.source == nodes[i] && link.target == nodes[j]) || (link.source == nodes[j] && link.target == nodes[i])){ //if we find one, we increas its value
 												link.value+=1;
 												foundLink = true;
 												break;
 											}
 										}
 										if(!foundLink){
-											links.push({source:userI, target:userJ, value:1});
+											links.push({source:nodes[i], target:nodes[j], value:1});
 										}
 									}
 								}
@@ -289,41 +301,38 @@ angular.module('rimaDirectives', ['Config'])
 						}
 					}
 
-					if(users.length>1){
-						var width = 960,
-					    height = 500;
-					    var nodes=[];
+					if(nodes.length>1){
 
-					    for(var i = 0; i<users.length; i++){
-					    	nodes.push({name:users[i].displayName});
-					    }
+					    //nodes = [{name:"2", value:1},{name:"dd", value:2},{name:"dde", value:3}];
+					    //links = [{source:nodes[0],target:nodes[1],value:1},{source:nodes[1],target:nodes[2],value:5}];
+					    //links = [{source:0,target:1,value:1},{source:1,target:2,value:5}];
 
-						var force = d3.layout.force()
+						force = d3.layout.force()
 						    .nodes(d3.values(nodes))
 						    .links(links)
 						    .size([width, height])
-						    .linkDistance(60)
-						    .charge(-300)
+						    .linkDistance(300)
+						    .charge(-100)
 						    .on("tick", tick)
 						    .start();
 
-						var svg = d3.select("body").append("svg")
-						    .attr("width", width)
-						    .attr("height", height);
+						//console.log("force:" + force);
+
+						
 
 						// build the arrow.
-						svg.append("svg:defs").selectAll("marker")
-						    .data(["end"])      // Different link/path types can be defined here
-						  .enter().append("svg:marker")    // This section adds in the arrows
-						    .attr("id", String)
-						    .attr("viewBox", "0 -5 10 10")
-						    .attr("refX", 15)
-						    .attr("refY", -1.5)
-						    .attr("markerWidth", 6)
-						    .attr("markerHeight", 6)
-						    .attr("orient", "auto")
-						  .append("svg:path")
-						    .attr("d", "M0,-5L10,0L0,5");
+						// svg.append("svg:defs").selectAll("marker")
+						//     .data(["end"])      // Different link/path types can be defined here
+						//   .enter().append("svg:marker")    // This section adds in the arrows
+						//     .attr("id", String)
+						//     .attr("viewBox", "0 -5 10 10")
+						//     .attr("refX", 15)
+						//     .attr("refY", -1.5)
+						//     .attr("markerWidth", 6)
+						//     .attr("markerHeight", 6)
+						//     .attr("orient", "auto")
+						//   .append("svg:path")
+						//     .attr("d", "M0,-5L10,0L0,5");
 
 						// add the links and the arrows
 						var path = svg.append("svg:g").selectAll("path")
@@ -331,7 +340,11 @@ angular.module('rimaDirectives', ['Config'])
 						  .enter().append("svg:path")
 						//    .attr("class", function(d) { return "link " + d.type; })
 						    .attr("class", "link")
+						    .attr('stroke-width', function(d) { return d.value; })
 						    .attr("marker-end", "url(#end)");
+
+						 path
+						 .attr('stroke-width', function(d) { return d.value; }); //TODO - not working
 
 						// define the nodes
 						var node = svg.selectAll(".node")
