@@ -1,21 +1,13 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-// realtime distribution
-var KnRealTimeNodeSelectedEventName = "node-selected";
-
 var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
-	this.mapStructure = mapStructure;
-	this.configNodes = configNodes;
-	this.configTree = configTree;
-	this.clientApi = clientApi;
-	this.knalledgeState = knalledgeState;
-	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
-	this.nodes = null;
-	this.links = null;
-	this.dom = null;
-	this.tree = null;
+	this._super(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
 };
+
+// TODO: the quickest solution until find the best and the most performance optimal solution
+// Set up MapLayoutTree to inherit from MapLayout
+MapLayoutTree.prototype = Object.create(knalledge.MapLayout.prototype);
 
 MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
 	var children = [];
@@ -59,18 +51,8 @@ MapLayoutTree.prototype.init = function(mapSize, scales){
 		events: {
 		}
 	};
-	mapLayoutPluginOptions.events[KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
+	mapLayoutPluginOptions.events[MapLayoutTree.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
 	this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions);
-};
-
-MapLayoutTree.prototype.realTimeNodeSelected = function(eventName, msg){
-	var kId = msg;
-	// alert("[MapLayoutTree:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
-	console.log("[MapLayoutTree:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s", 
-		this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
-	var kNode = this.mapStructure.getVKNodeByKId(kId);
-	// do not broadcast back :)
-	this.clickNode(kNode, null, true, false, true);
 };
 
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
@@ -121,105 +103,6 @@ MapLayoutTree.prototype.diagonal = function(that){
 		return [d.y, d.x];
 	});
 	return diagonal;
-};
-
-MapLayoutTree.prototype.getAllNodesHtml = function(){
-	return this.dom.divMapHtml.selectAll("div.node_html");
-};
-
-// Returns view representation (dom) from datum d
-MapLayoutTree.prototype.getDomFromDatum = function(d) {
-	var dom = this.getAllNodesHtml()
-		.data([d], function(d){return d.id;});
-	if(dom.size() != 1) return null;
-	else return dom;
-};
-
-// Select node on node click
-MapLayoutTree.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
-	// select clicked
-	var isSelected = d.isSelected; //nodes previous state
-	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
-		return;
-	}
-	var nodesHtmlSelected = this.getDomFromDatum(d);
-	if(!nodesHtmlSelected) return;
-
-	// unselect all nodes
-	var nodesHtml = this.getAllNodesHtml();
-	nodesHtml.classed({
-		"node_selected": false,
-		"node_unselected": true
-	});
-	this.nodes.forEach(function(d){d.isSelected = false;});
-
-	if(isSelected){//it was selected, and with this click it becomes unselected:
-		d.isSelected = false;
-		this.mapStructure.unsetSelectedNode();
-	}else{//it was unselected, and with this click it becomes selected:
-		// var nodeHtml = nodesHtml[0];
-		nodesHtmlSelected.classed({
-			"node_selected": true,
-			"node_unselected": false
-		});
-		d.isSelected = true;
-		this.mapStructure.setSelectedNode(d);
-
-		// realtime distribution
-		if(this.knAllEdgeRealTimeService && !doNotBroadcast){ 	// do not broadcast back :)
-			this.knAllEdgeRealTimeService.emit(KnRealTimeNodeSelectedEventName, d.kNode._id);
-		}
-
-		this.clientApi.positionToDatum(d);
-		if(this.knalledgeState.addingLinkFrom !== null){
-			this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d);
-			this.knalledgeState.addingLinkFrom = null;
-			this.clientApi.update(this.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.createEdge?
-		}
-	}
-	if(!doNotBubleUp) this.clientApi.nodeClicked(this.mapStructure.getSelectedNode(), dom, commingFromAngular);
-	//this.clientApi.update(this.mapStructure.rootNode);
-};
-
-// Toggle children on node double-click
-MapLayoutTree.prototype.clickDoubleNode = function(d) {
-	this.mapStructure.toggle(d);
-	this.clientApi.update(d);
-};
-
-// react on label click.
-MapLayoutTree.prototype.clickLinkLabel = function() {
-	// console.log("Label clicked: " + JSON.stringify(d.target.name));
-
-	// just as a click indicator
-	if(d3.select(this).style("opacity") < 0.75){
-		d3.select(this).style("opacity", 1.0);
-	}else{
-		d3.select(this).style("opacity", 0.5);
-	}
-};
-
-MapLayoutTree.prototype.viewspecChanged = function(target){
-	if (target.value === "viewspec_tree") this.configTree.viewspec = "viewspec_tree";
-	else if (target.value === "viewspec_manual") this.configTree.viewspec = "viewspec_manual";
-	this.clientApi.update(this.mapStructure.rootNode);
-};
-
-MapLayoutTree.prototype.processData = function(rootNodeX, rootNodeY, callback) {
-	if(typeof rootNodeX !== 'undefined' && typeof rootNodeX !== 'function' && 
-		typeof rootNodeY !== 'undefined' && typeof rootNodeY !== 'function'){
-		this.mapStructure.rootNode.x0 = rootNodeX;
-		this.mapStructure.rootNode.y0 = rootNodeY;
-	}
-	this.clickNode(this.mapStructure.rootNode);
-	this.clientApi.update(this.mapStructure.rootNode, 
-		(typeof callback === 'function') ? callback : undefined);
-};
-
-MapLayoutTree.prototype.processSyncedData = function(callback) {
-	this.clickNode(this.mapStructure.getSelectedNode(), null, true);
-	this.clientApi.update(this.mapStructure.getSelectedNode(), 
-		(typeof callback === 'function') ? callback : undefined);
 };
 
 /**
@@ -353,20 +236,6 @@ MapLayoutTree.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	maxX += -minX + this.configTree.margin.bottom;
 	maxY += -minY + this.configTree.margin.right;
 	this.clientApi.setDomSize(maxY, maxX);
-};
-
-MapLayoutTree.prototype.getHtmlNodePosition = function(d) {
-	var x = null;
-	if(this.configNodes.html.show){
-		x = d.x - d.height/2;
-	}else{
-		x = d.x;
-	}
-
-	if (isNaN(x) || x === null){
-		x = d.x;
-	}
-	return x;
 };
 
 }()); // end of 'use strict';

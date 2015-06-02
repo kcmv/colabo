@@ -406,6 +406,14 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	// this.update(this.rootNode);
 };
 
+MapStructure.prototype.getSubChildren = function(vkNode, depth, list) {
+	if(typeof list == 'undefined'){
+		list = [];
+	}
+	getSubChildren(vkNode, depth, list);
+	return list;
+};
+
 // [21.05.15 11:40:07] Sinisa (лични): MapStructure.prototype.processSyncedData to radi, ona kreira novi node
 // pa samo proveri da li vec ga imamo preko kNode._id
 // [21.05.15 11:40:10] Sinisa (лични): i onda osvezi samo
