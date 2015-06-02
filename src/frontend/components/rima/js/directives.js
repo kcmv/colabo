@@ -249,6 +249,8 @@ angular.module('rimaDirectives', ['Config'])
 				};
 
 				var users = RimaService.getUsers();
+				var users_ignored = {"55268521fb9a901e442172f8":true,"556760847125996dc1a4a219":true};
+				var hows_ignored = {"4":true}; //TODO: temp - ignoring because of overconnectedness through this - people have chosen topics of TNC Online dialogue through this how-verb
 				var force = null;
 
 				var width = 960, height = 600;
@@ -264,10 +266,11 @@ angular.module('rimaDirectives', ['Config'])
 					var nodes=[];
 
 				    for(var i = 0; i<users.length; i++){
-				    	nodes.push({name:users[i].displayName});
+				    	nodes.push({id:users[i]._id,name:users[i].displayName});
 				    }
 
 					for(var i = 0; i<users.length; i++){ // we go through all users
+						if(users_ignored.hasOwnProperty(users[i]._id) || users[i].displayName == "" || typeof users[i].displayName == undefined){continue;} //TODO: improve performance by using only preselecte nodes, instead of users for which we always select all of this 
 						var userI = users[i];
 						if(!RimaService.howAmIs.hasOwnProperty(userI._id)){continue;}
 						var userIHows = RimaService.howAmIs[userI._id]; //take their userHows
@@ -275,17 +278,19 @@ angular.module('rimaDirectives', ['Config'])
 							var userIHow = userIHows[ih]; //and for each of their hows
 							for(var j = i; j<users.length; j++){ // we check in all other users (except those already passed)
 								if(i == j){continue;}
+								if(users_ignored.hasOwnProperty(users[j]._id) || users[j].displayName == "" || typeof users[j].displayName == undefined){continue;} //TODO: improve performance by using only preselecte nodes, instead of users for which we always select all of this 
 								var userJ = users[j];
 								if(!RimaService.howAmIs.hasOwnProperty(userJ._id)){continue;}
 								var userJHows = RimaService.howAmIs[userJ._id]; //by taking their userHows
 								for(var jh = 0; jh<userJHows.length; jh++){ // go through all their userHows
 									var userJHow = userJHows[jh]; //and for each of their hows
-									if (userIHow.whatAmI._id == userJHow.whatAmI._id)
+									if (userIHow.whatAmI._id == userJHow.whatAmI._id && (!hows_ignored.hasOwnProperty(userIHow.how) && !hows_ignored.hasOwnProperty(userJHow.how)))
 									{
 										var foundLink = false;
 										for(var l=0;l<links.length; l++){ // we go through existing links among users:
 											var link = links[l];
 											//TODO: check if we should increase it for multiple how_verb connections with the same WhatAmI
+											//if((link.source == userI._id && link.target == userJ._id) || (link.source == userJ._id && link.target == userI._id)){ //if we find one, we increas its value
 											if((link.source == nodes[i] && link.target == nodes[j]) || (link.source == nodes[j] && link.target == nodes[i])){ //if we find one, we increas its value
 												link.value+=1;
 												foundLink = true;
@@ -294,6 +299,7 @@ angular.module('rimaDirectives', ['Config'])
 										}
 										if(!foundLink){
 											links.push({source:nodes[i], target:nodes[j], value:1});
+											//links.push({source:userI._id, target:userJ._id, value:1});
 										}
 									}
 								}
@@ -301,11 +307,18 @@ angular.module('rimaDirectives', ['Config'])
 						}
 					}
 
+					// for(var i = 0; i<nodes.length; i++){ //TODO make it more intelligent, while building nodes
+				 //    	if(nodes[i].displayName == "" || typeof nodes[i].displayName == undefined){
+				 //    		nodes.splice(i,1);
+				 //    	}
+				 //    }
+
 					if(nodes.length>1){
 
 					    //nodes = [{name:"2", value:1},{name:"dd", value:2},{name:"dde", value:3}];
 					    //links = [{source:nodes[0],target:nodes[1],value:1},{source:nodes[1],target:nodes[2],value:5}];
 					    //links = [{source:0,target:1,value:1},{source:1,target:2,value:5}];
+					    //links = [];
 
 						force = d3.layout.force()
 						    .nodes(d3.values(nodes))
@@ -343,8 +356,8 @@ angular.module('rimaDirectives', ['Config'])
 						    .attr('stroke-width', function(d) { return d.value; })
 						    .attr("marker-end", "url(#end)");
 
-						 path
-						 .attr('stroke-width', function(d) { return d.value; }); //TODO - not working
+						 // path
+						 // .attr('stroke-width', function(d) { return d.value; }); //TODO - not working
 
 						// define the nodes
 						var node = svg.selectAll(".node")
