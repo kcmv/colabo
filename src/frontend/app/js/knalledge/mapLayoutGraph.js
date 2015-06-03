@@ -1,21 +1,21 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
+var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
 	this.construct(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
 };
 
 // TODO: the quickest solution until find the best and the most performance optimal solution
-// Set up MapLayoutTree to inherit from MapLayout
-MapLayoutTree.prototype = Object.create(knalledge.MapLayout.prototype);
+// Set up MapLayoutGraph to inherit from MapLayout
+MapLayoutGraph.prototype = Object.create(knalledge.MapLayout.prototype);
 
-MapLayoutTree.prototype._super = function(){
+MapLayoutGraph.prototype._super = function(){
 	var thisP = Object.getPrototypeOf(this);
 	var parentP = Object.getPrototypeOf(thisP);
 	return parentP;
 };
 
-MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
+MapLayoutGraph.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
 	var children = [];
 	if(!d.isOpen) return children;
 
@@ -34,7 +34,7 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 	return children;
 };
 
-MapLayoutTree.prototype.init = function(mapSize, scales){
+MapLayoutGraph.prototype.init = function(mapSize, scales){
 	this.dom = this.clientApi.getDom();
 	this.scales = scales;
 
@@ -57,14 +57,14 @@ MapLayoutTree.prototype.init = function(mapSize, scales){
 		events: {
 		}
 	};
-	mapLayoutPluginOptions.events[MapLayoutTree.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
+	mapLayoutPluginOptions.events[MapLayoutGraph.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
 	this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions);
 };
 
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal_projection
 // https://www.dashingd3js.com/svg-paths-and-d3js
-MapLayoutTree.prototype.diagonal = function(that){
+MapLayoutGraph.prototype.diagonal = function(that){
 	var diagonalSource = function(d){
 		//return d.source;
 		// here we are creating object with just necessary parameters (x, y)
@@ -117,7 +117,7 @@ MapLayoutTree.prototype.diagonal = function(that){
 - setting up VkNode
 position and dimension
  */
-MapLayoutTree.prototype.generateTree = function(source){
+MapLayoutGraph.prototype.generateTree = function(source){
 	var that = this;
 	if(this.nodes){
 		// Normalize for fixed-depth.
@@ -209,7 +209,7 @@ MapLayoutTree.prototype.generateTree = function(source){
 	this.printTree(this.nodes);
 };
 
-MapLayoutTree.prototype.printTree = function(nodes) {
+MapLayoutGraph.prototype.printTree = function(nodes) {
 	var minX = 0, maxX = 0, minY = 0, maxY = 0;
 	if(nodes){
 		console.log("%d nodes", nodes.length);
@@ -233,7 +233,7 @@ MapLayoutTree.prototype.printTree = function(nodes) {
 	}
 };
 
-MapLayoutTree.prototype.MoveNodesToPositiveSpace = function(nodes) {
+MapLayoutGraph.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	var minX = 0, maxX = 0, minY = 0, maxY = 0;
 	var node;
 	for(var i in nodes){

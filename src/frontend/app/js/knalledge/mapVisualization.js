@@ -4,7 +4,7 @@
 var MapVisualization =  knalledge.MapVisualization = function(){
 };
 
-MapVisualization.prototype._super = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
+MapVisualization.prototype.construct = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
 	this.dom = dom;
 	this.mapStructure = mapStructure;
 

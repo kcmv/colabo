@@ -1,15 +1,15 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
+var MapVisualizationGraph =  knalledge.MapVisualizationGraph = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
 	this.construct(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService);
 };
 
 // TODO: the quickest solution until find the best and the most performance optimal solution
-// Set up MapVisualizationTree to inherit from MapVisualization
-MapVisualizationTree.prototype = Object.create(knalledge.MapVisualization.prototype);
+// Set up MapVisualizationGraph to inherit from MapVisualization
+MapVisualizationGraph.prototype = Object.create(knalledge.MapVisualization.prototype);
 
-MapVisualizationTree.prototype._super = function(){
+MapVisualizationGraph.prototype._super = function(){
 	var thisP = Object.getPrototypeOf(this);
 	var parentP = Object.getPrototypeOf(thisP);
 	return parentP;
@@ -19,7 +19,7 @@ MapVisualizationTree.prototype._super = function(){
  * 	@param {vkNode} source - root node 
  *  @callback callback 
  * */
-MapVisualizationTree.prototype.update = function(source, callback) {
+MapVisualizationGraph.prototype.update = function(source, callback) {
 	// If source is missing try with rootNode
 	if(!source){
 		source = this.mapStructure.rootNode;
@@ -54,7 +54,7 @@ MapVisualizationTree.prototype.update = function(source, callback) {
  * joins data and view
  * stylize nodes and set their eventlisteners
  * */
-MapVisualizationTree.prototype.updateHtml = function(source) {
+MapVisualizationGraph.prototype.updateHtml = function(source) {
 	var that = this;
 	if(!this.configNodes.html.show) return;
 
@@ -255,7 +255,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	return nodeHtmlDatasets;
 };
 
-MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
+MapVisualizationGraph.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
 	if(!this.configNodes.html.show) return;
 	var that = this;
 
@@ -513,7 +513,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 	nodeHtmlExitTransition.remove();
 };
 
-MapVisualizationTree.prototype.updateHtmlAfterTransitions = function(source, nodeHtmlDatasets){
+MapVisualizationGraph.prototype.updateHtmlAfterTransitions = function(source, nodeHtmlDatasets){
 	if(!this.configNodes.html.show) return;
 	var that = this;
 
@@ -558,7 +558,7 @@ MapVisualizationTree.prototype.updateHtmlAfterTransitions = function(source, nod
 
 };
 
-MapVisualizationTree.prototype.updateSvgNodes = function(source) {
+MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 	if(!this.configNodes.svg.show) return;
 	var that = this;
 
@@ -681,7 +681,7 @@ MapVisualizationTree.prototype.updateSvgNodes = function(source) {
 	}
 };
 
-MapVisualizationTree.prototype.updateLinkLabels = function(source) {
+MapVisualizationGraph.prototype.updateLinkLabels = function(source) {
 	if(!this.configEdges.labels.show) return;
 
 	var that = this;
@@ -818,7 +818,7 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 		.remove();
 };
 
-MapVisualizationTree.prototype.updateLinks = function(source) {
+MapVisualizationGraph.prototype.updateLinks = function(source) {
 	if(!this.configEdges.show) return;
 
 	var that = this;
