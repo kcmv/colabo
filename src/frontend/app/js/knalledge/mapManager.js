@@ -28,45 +28,58 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
 
 	this.visualizations = {
-		'tree': null,
-		'manual': null,
-		'flat': null
+		'viewspec_tree': null,
+		'viewspec_manual': null,
+		'viewspec_flat': null,
+		'viewspec_graph': null
 	};
 	this.layouts = {
-		'tree': null,
-		'manual': null,
-		'flat': null
+		'viewspec_tree': null,
+		'viewspec_manual': null,
+		'viewspec_flat': null,
+		'viewspec_graph': null
 	};
 	this.layoutApis = {
-		'tree': null,
-		'manual': null,
-		'flat': null
+		'viewspec_tree': null,
+		'viewspec_manual': null,
+		'viewspec_flat': null,
+		'viewspec_graph': null
 	};
 
-	this.visualizations.tree = this.visualizations.manual = new knalledge.MapVisualizationTree(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService, this.notifyService, this.mapPlugins, knalledgeMapViewService);
-	this.layoutApis.tree = this.layoutApis.manual = {
-		update: this.visualizations.tree.update.bind(this.visualizations.tree),
-		getDom: this.visualizations.tree.getDom.bind(this.visualizations.tree),
-		setDomSize: this.visualizations.tree.setDomSize.bind(this.visualizations.tree),
-		positionToDatum: this.visualizations.tree.positionToDatum.bind(this.visualizations.tree),
+	this.visualizations.viewspec_tree = this.visualizations.viewspec_manual = new knalledge.MapVisualizationTree(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService, this.notifyService, this.mapPlugins, knalledgeMapViewService);
+	this.layoutApis.viewspec_tree = this.layoutApis.viewspec_manual = {
+		update: this.visualizations.viewspec_tree.update.bind(this.visualizations.viewspec_tree),
+		getDom: this.visualizations.viewspec_tree.getDom.bind(this.visualizations.viewspec_tree),
+		setDomSize: this.visualizations.viewspec_tree.setDomSize.bind(this.visualizations.viewspec_tree),
+		positionToDatum: this.visualizations.viewspec_tree.positionToDatum.bind(this.visualizations.viewspec_tree),
 		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi)
 	};
-	this.layouts.tree = this.layouts.manual = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.tree, this.knalledgeState, this.knAllEdgeRealTimeService);
+	this.layouts.viewspec_tree = this.layouts.viewspec_manual = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.viewspec_tree, this.knalledgeState, this.knAllEdgeRealTimeService);
 
-	this.visualizations.flat = new knalledge.MapVisualizationTree(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService, this.notifyService, mapPlugins, knalledgeMapViewService);
-	this.layoutApis.flat = {
-		update: this.visualizations.flat.update.bind(this.visualizations.flat),
-		getDom: this.visualizations.flat.getDom.bind(this.visualizations.flat),
-		setDomSize: this.visualizations.flat.setDomSize.bind(this.visualizations.flat),
-		positionToDatum: this.visualizations.flat.positionToDatum.bind(this.visualizations.flat),
+	this.visualizations.viewspec_flat = new knalledge.MapVisualizationTree(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService, this.notifyService, mapPlugins, knalledgeMapViewService);
+	this.layoutApis.viewspec_flat = {
+		update: this.visualizations.viewspec_flat.update.bind(this.visualizations.viewspec_flat),
+		getDom: this.visualizations.viewspec_flat.getDom.bind(this.visualizations.viewspec_flat),
+		setDomSize: this.visualizations.viewspec_flat.setDomSize.bind(this.visualizations.viewspec_flat),
+		positionToDatum: this.visualizations.viewspec_flat.positionToDatum.bind(this.visualizations.viewspec_flat),
 		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi)
 	};
-	this.layouts.flat = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.flat, this.knalledgeState, this.knAllEdgeRealTimeService);
+	this.layouts.viewspec_flat = new knalledge.MapLayoutTree(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.viewspec_flat, this.knalledgeState, this.knAllEdgeRealTimeService);
 
-	this.activeVisualization = this.visualizations.tree;
-	this.activeLayout = this.layouts.tree;
-	// this.activeVisualization = this.visualizations.flat;
-	// this.activeLayout = this.layouts.flat;
+	this.visualizations.viewspec_graph = new knalledge.MapVisualizationGraph(this.dom, this.mapStructure, this.configTransitions, this.configTree, this.configNodes, this.configEdges, this.rimaService, this.notifyService, mapPlugins, knalledgeMapViewService);
+	this.layoutApis.viewspec_graph = {
+		update: this.visualizations.viewspec_graph.update.bind(this.visualizations.viewspec_graph),
+		getDom: this.visualizations.viewspec_graph.getDom.bind(this.visualizations.viewspec_graph),
+		setDomSize: this.visualizations.viewspec_graph.setDomSize.bind(this.visualizations.viewspec_graph),
+		positionToDatum: this.visualizations.viewspec_graph.positionToDatum.bind(this.visualizations.viewspec_graph),
+		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi)
+	};
+	this.layouts.viewspec_graph = new knalledge.MapLayoutGraph(this.mapStructure, this.configNodes, this.configTree, this.layoutApis.viewspec_graph, this.knalledgeState, this.knAllEdgeRealTimeService);
+
+	this.activeVisualization = this.visualizations[this.configTree.viewspec]
+	this.activeLayout = this.layouts[this.configTree.viewspec];
+	// this.activeVisualization = this.visualizations.viewspec_graph;
+	// this.activeLayout = this.layouts.viewspec_graph;
 };
 
 MapManager.prototype.init = function(mapLayout, mapSize){

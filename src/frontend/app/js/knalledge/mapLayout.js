@@ -4,7 +4,7 @@
 var MapLayout =  knalledge.MapLayout = function(){
 }
 
-MapLayout.prototype._super = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
+MapLayout.prototype.construct = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
 	this.mapStructure = mapStructure;
 	this.configNodes = configNodes;
 	this.configTree = configTree;
@@ -42,13 +42,17 @@ MapLayout.prototype.getDomFromDatum = function(d) {
 	else return dom;
 };
 
-MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback) {
+MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback, commingFromAngular, doNotBubleUp, doNotBroadcast) {
 	if(typeof rootNodeX !== 'undefined' && typeof rootNodeX !== 'function' && 
 		typeof rootNodeY !== 'undefined' && typeof rootNodeY !== 'function'){
-		this.mapStructure.rootNode.x0 = rootNodeX;
-		this.mapStructure.rootNode.y0 = rootNodeY;
+		if(this.mapStructure.rootNode){
+			this.mapStructure.rootNode.x0 = rootNodeX;
+			this.mapStructure.rootNode.y0 = rootNodeY;			
+		}
 	}
-	this.clickNode(this.mapStructure.rootNode);
+	if(this.mapStructure.rootNode){
+		this.clickNode(this.mapStructure.rootNode, null, commingFromAngular, doNotBubleUp, doNotBroadcast);
+	}
 	this.clientApi.update(this.mapStructure.rootNode, 
 		(typeof callback === 'function') ? callback : undefined);
 };

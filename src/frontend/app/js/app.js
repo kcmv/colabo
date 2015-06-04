@@ -66,6 +66,9 @@ angular.module('KnAllEdgeApp',[
 	.when('/rima-insights', {
 		templateUrl: '../components/rima/partials/rima-insights.tpl.html'
 	})
+	.when('/rima-insights-map', {
+		templateUrl: '../components/rima/partials/rima-insights-map.tpl.html'
+	})
 	.otherwise({
 		redirectTo: '/maps'
 	});

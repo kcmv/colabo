@@ -84,10 +84,10 @@ Map.prototype.update = function(node) {
 	this.mapVisualization.update(node);
 };
 
-Map.prototype.processData = function(mapData, callback) {
+Map.prototype.processData = function(mapData, callback, commingFromAngular, doNotBubleUp, doNotBroadcast) {
 	// we do this only if we created an mapStructure in our class
 	if(!this.mapStructureExternal) this.mapStructure.processData(mapData);
-	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, callback);
+	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, callback, commingFromAngular, doNotBubleUp, doNotBroadcast);
 
 	//this.syncingChanged();
 };

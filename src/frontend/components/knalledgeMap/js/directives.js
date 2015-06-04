@@ -31,7 +31,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				var knalledgeMap = null;
 				var config = null;
-				var init = function(model){
+				var init = function(){
 					config = {
 						nodes: {
 							punctual: false,
@@ -57,7 +57,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							}
 						},
 						tree: {
-							viewspec: "viewspec_manual", // "viewspec_tree" // "viewspec_manual",
+							viewspec: "viewspec_tree", // "viewspec_tree" // "viewspec_manual",
 							selectableEnabled: false,
 							fixedDepth: {
 								enabled: false,
@@ -273,16 +273,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					// providing select item service with the context
 					KnAllEdgeSelectItemService.init(knalledgeMap, $scope, $element);
 
-					//knalledgeMap.load("treeData.json");
-					knalledgeMap.processData(model, function(){
-						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
-						knalledgeMap.update();
-						if($scope.mapData && $scope.mapData.selectedNode){
-							var vkNode = knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
-							knalledgeMap.mapLayout.clickNode(vkNode);
-						}
-					});
-
 					var KnRealTimeNodeCreatedEventName = "node-created-to-visual";
 					var KnRealTimeNodeUpdatedEventName = "node-updated-to-visual";
 					var KnRealTimeEdgeCreatedEventName = "edge-created-to-visual";
@@ -296,9 +286,23 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					//$scope.$on(KnRealTimeEdgeDeletedEventName,knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 				};
 
+				var setData = function(model){
+					//knalledgeMap.load("treeData.json");
+					knalledgeMap.processData(model, function(){
+						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
+						knalledgeMap.update();
+						if($scope.mapData && $scope.mapData.selectedNode){
+							var vkNode = knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
+							knalledgeMap.mapLayout.clickNode(vkNode, null, true, true, true);
+						}
+					}, true, true, true);
+				};
+
+				init();
+
 				if($scope.mapData){
 					// console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
-					init($scope.mapData);
+					setData($scope.mapData);
 				}else{
 					var gotMap = function(map){
 						console.log('gotMap:'+JSON.stringify(map));
@@ -321,9 +325,17 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					// knalledgeMap.placeModels(eventModel);
 					model = eventModel;
-
-					init(model);
+					setData(model);
 				});
+
+				$scope.$watch(function () {
+					return $scope.mapData;
+				},
+				function(newValue){
+					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+					if(newValue) setData(newValue);
+				}, true);
+
 
 				var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
 				$scope.$on(knalledgePropertyChangedEventName, function(e, knalledgePropery) {
@@ -365,6 +377,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				var mapStylingChangedEventName = "mapStylingChangedEvent";
 				$scope.$on(mapStylingChangedEventName, function(e, msg) {
+					setData(model);
 					console.log("[knalledgeMap.controller::$on] event: %s", mapStylingChangedEventName);
 					knalledgeMap.update();
 					// realtime distribution
