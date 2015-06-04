@@ -368,7 +368,7 @@ angular.module('rimaDirectives', ['Config'])
 
 						// add the nodes
 						node.append("circle")
-						    .attr("r", 5);
+						    .attr("r", 7);
 
 						// add the text 
 						node.append("text")
@@ -376,8 +376,8 @@ angular.module('rimaDirectives', ['Config'])
 						    .attr("dy", ".35em")
 						    .text(function(d) { return d.name; });
 
-						// add the curvy lines
 						function tick() {
+							// add the curvy lines:
 						    path.attr("d", function(d) {
 						        var dx = d.target.x - d.source.x,
 						            dy = d.target.y - d.source.y,
