@@ -662,17 +662,27 @@ wizard {
   stroke: #666;
   stroke-width: 1.5px; }
 /* line 689, ../sass/default.scss */
+.rima-users-connections path.unselected {
+  fill: none;
+  stroke: #333;
+  stroke-width: 1px; }
+/* line 695, ../sass/default.scss */
+.rima-users-connections path.selected {
+  fill: none;
+  stroke: #000;
+  stroke-width: 3px; }
+/* line 701, ../sass/default.scss */
 .rima-users-connections circle {
   fill: #ccc;
   stroke: #fff;
   stroke-width: 1.5px; }
-/* line 695, ../sass/default.scss */
+/* line 707, ../sass/default.scss */
 .rima-users-connections text {
   fill: #00d;
   font: 12px sans-serif;
   font-weight: bold;
   pointer-events: none; }
-/* line 702, ../sass/default.scss */
+/* line 714, ../sass/default.scss */
 .rima-users-connections .users-graph {
   /*background-color: blue;
   width: 500px;

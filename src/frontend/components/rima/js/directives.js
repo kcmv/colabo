@@ -248,7 +248,7 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.bindings = {
 				};
 
-				var users = RimaService.getUsers();
+				var usersAll = RimaService.getUsers();
 				var users_ignored = {"55268521fb9a901e442172f8":true,"556760847125996dc1a4a219":true};
 				var hows_ignored = {"4":true}; //TODO: temp - ignoring because of overconnectedness through this - people have chosen topics of TNC Online dialogue through this how-verb
 				var force = null;
@@ -263,14 +263,15 @@ angular.module('rimaDirectives', ['Config'])
 					//!!! TODO: check for improving performance of this algorithm!! it is ~ O(n4)!!
 					
 					var links = [];
-					var nodes=[];
+					var users=[];
 
-					for(var i = 0; i<users.length; i++){
-						nodes.push({id:users[i]._id,name:users[i].displayName});
+					for(var i = 0; i<usersAll.length; i++){
+						if(users_ignored.hasOwnProperty(usersAll[i]._id) || usersAll[i].displayName == "" || typeof usersAll[i].displayName == undefined){continue;}
+						users.push({_id:usersAll[i]._id, name:usersAll[i].displayName});
 					}
 
 					for(var i = 0; i<users.length; i++){ // we go through all users
-						if(users_ignored.hasOwnProperty(users[i]._id) || users[i].displayName == "" || typeof users[i].displayName == undefined){continue;} //TODO: improve performance by using only preselecte nodes, instead of users for which we always select all of this 
+						
 						var userI = users[i];
 						if(!RimaService.howAmIs.hasOwnProperty(userI._id)){continue;}
 						var userIHows = RimaService.howAmIs[userI._id]; //take their userHows
@@ -278,7 +279,7 @@ angular.module('rimaDirectives', ['Config'])
 							var userIHow = userIHows[ih]; //and for each of their hows
 							for(var j = i; j<users.length; j++){ // we check in all other users (except those already passed)
 								if(i == j){continue;}
-								if(users_ignored.hasOwnProperty(users[j]._id) || users[j].displayName == "" || typeof users[j].displayName == undefined){continue;} //TODO: improve performance by using only preselecte nodes, instead of users for which we always select all of this 
+								//if(users_ignored.hasOwnProperty(users[j]._id) || users[j].displayName == "" || typeof users[j].displayName == undefined){continue;}
 								var userJ = users[j];
 								if(!RimaService.howAmIs.hasOwnProperty(userJ._id)){continue;}
 								var userJHows = RimaService.howAmIs[userJ._id]; //by taking their userHows
@@ -291,14 +292,14 @@ angular.module('rimaDirectives', ['Config'])
 											var link = links[l];
 											//TODO: check if we should increase it for multiple how_verb connections with the same WhatAmI
 											//if((link.source == userI._id && link.target == userJ._id) || (link.source == userJ._id && link.target == userI._id)){ //if we find one, we increas its value
-											if((link.source == nodes[i] && link.target == nodes[j]) || (link.source == nodes[j] && link.target == nodes[i])){ //if we find one, we increas its value
+											if((link.source == users[i] && link.target == users[j]) || (link.source == users[j] && link.target == users[i])){ //if we find one, we increas its value
 												link.value+=1;
 												foundLink = true;
 												break;
 											}
 										}
 										if(!foundLink){
-											links.push({source:nodes[i], target:nodes[j], value:1});
+											links.push({source:users[i], target:users[j], value:1, whatAmI:userIHow.whatAmI.name});
 											//links.push({source:userI._id, target:userJ._id, value:1});
 										}
 									}
@@ -307,21 +308,16 @@ angular.module('rimaDirectives', ['Config'])
 						}
 					}
 
-					// for(var i = 0; i<nodes.length; i++){ //TODO make it more intelligent, while building nodes
-				 //     if(nodes[i].displayName == "" || typeof nodes[i].displayName == undefined){
-				 //         nodes.splice(i,1);
-				 //     }
-				 //    }
+	
+					if(users.length>1){
 
-					if(nodes.length>1){
-
-						//nodes = [{name:"2", value:1},{name:"dd", value:2},{name:"dde", value:3}];
-						//links = [{source:nodes[0],target:nodes[1],value:1},{source:nodes[1],target:nodes[2],value:5}];
+						//users = [{name:"2", value:1},{name:"dd", value:2},{name:"dde", value:3}];
+						//links = [{source:users[0],target:users[1],value:1},{source:users[1],target:users[2],value:5}];
 						//links = [{source:0,target:1,value:1},{source:1,target:2,value:5}];
 						//links = [];
 
 						force = d3.layout.force()
-							.nodes(d3.values(nodes))
+							.nodes(d3.values(users))
 							.links(links)
 							.size([width, height])
 							.linkDistance(300)
@@ -356,6 +352,27 @@ angular.module('rimaDirectives', ['Config'])
 							.attr('stroke-width', function(d) { return d.value; })
 							.attr("marker-end", "url(#end)");
 
+						var linktext = svg.append("svg:g").selectAll("g.linklabelholder").data(force.links());
+	
+					    linktext.enter().append("g").attr("class", "linklabelholder")
+					     .append("text")
+					     .attr("class", "linklabel")
+						 .style("font-size", "13px")
+					     .attr("x", "50")
+						 .attr("y", "-20")
+					     .attr("text-anchor", "start")
+						   .style("fill","#000")
+						 .append("textPath")
+					   // .attr("xlink:href",function(d,i) { return "#linkId_" + i;})
+					     .text(function(d) { 
+						 return "ldf";//d.type; 
+						 });
+
+						// path.append("text")
+						// 	.attr("x", 12)
+						// 	.attr("dy", ".35em")
+						// 	.text(function(d) { return "d.whatAmI"; });
+
 						 // path
 						 // .attr('stroke-width', function(d) { return d.value; }); //TODO - not working
 
@@ -364,6 +381,8 @@ angular.module('rimaDirectives', ['Config'])
 							.data(force.nodes())
 						  .enter().append("g")
 							.attr("class", "node")
+							.on("click", click)
+    						//.on("dblclick", dblclick)
 							.call(force.drag);
 
 						// add the nodes
@@ -375,6 +394,54 @@ angular.module('rimaDirectives', ['Config'])
 							.attr("x", 12)
 							.attr("dy", ".35em")
 							.text(function(d) { return d.name; });
+
+						// action to take on mouse click
+						function click() {
+							this.__data__.selected = !this.__data__.selected;
+							if(this.__data__.selected){
+							    
+							    //d3.select(node).selectedNode(this);
+							    selectNode(this);
+							    var selectedNode = this;
+							    d3.selectAll("path").attr("class", function(d) {
+							    	if(d.target._id == selectedNode.__data__._id || d.source._id == selectedNode.__data__._id){return "selected";}else{return "unselected";} 
+							    });
+	                    		//d3.select(this).style("fill", "black"); 
+                    		}
+                    		else{
+                    			d3.select(this).select("circle").transition()
+							        .duration(750)
+							        .attr("r", 6)
+							        .style("fill", "#ccc");
+							    d3.select(this).select("text").transition()
+							        .duration(750)
+							        .attr("x", 12)
+							        .style("stroke", "none")
+							        .style("fill", "black")
+							        .style("stroke", "none")
+							        .style("font", "10px sans-serif");
+							    d3.selectAll("path").attr("class", 'unselected');
+                    		}
+						}
+
+						function selectNode(node){
+							d3.select(node).select("text").transition()
+							        .duration(750)
+							        .attr("x", 22)
+							        .style("fill", "steelblue")
+							        .style("stroke", "lightsteelblue")
+							        .style("stroke-width", ".5px")
+							        .style("font", "20px sans-serif");
+							    d3.select(node).select("circle").transition()
+							        .duration(750)
+							        .attr("r", 16)
+							        .style("fill", "lightsteelblue");
+						}
+
+						// action to take on mouse double click
+						function dblclick() {
+						    
+						}
 
 						function tick() {
 							// add the curvy lines:

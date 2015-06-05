@@ -686,6 +686,18 @@ wizard{
 	  stroke-width: 1.5px;
 	}
 
+	path.unselected {
+	  fill: none;
+	  stroke: #333;
+	  stroke-width: 1px;
+	}
+	
+	path.selected {
+	  fill: none;
+	  stroke: #000;
+	  stroke-width: 3px;
+	}
+
 	circle {
 	  fill: #ccc;
 	  stroke: #fff;
