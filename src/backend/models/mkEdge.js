@@ -12,6 +12,7 @@ var kEdgeSchema = mongoose.Schema({
 	ideaId: Number,
 	isPublic: { type: Boolean, default: true },
 	dataContent: {type: mongoose.Schema.Types.Mixed},
+	value: {type: Number, default: 0},
 	visual: {
 	}
 });

@@ -4,7 +4,7 @@
 var KEdge =  knalledge.KEdge = function(){
 	this._id = KEdge.MaxId++;
 	this.name = "";//TODO: "name..."
-	this.type = null;
+	this.type = null; //TODO: doubled definition of TYPE
 	this.mapId = null;	
 	this.iAmId = 0;
 	this.type = ""; //TODO: a default type should be assigned
@@ -17,6 +17,7 @@ var KEdge =  knalledge.KEdge = function(){
 	this.sourceId = null;
 	this.targetId = null;
 	this.dataContent = null;
+	this.value = 0;
 	this.visual = null;
 	//this.sid = ++KEdge.S_ID;
 	
@@ -63,7 +64,6 @@ KEdge.prototype.fill = function(obj){
 		if("type" in obj){this.type = obj.type;}
 		if("mapId" in obj){this.mapId = obj.mapId;}
 		if("iAmId" in obj){this.iAmId = obj.iAmId;}
-		if("type" in obj){this.type = obj.type;}
 		if("activeVersion" in obj){this.activeVersion = obj.activeVersion;}
 		if("ideaId" in obj){this.ideaId = obj.ideaId;}
 		if("version" in obj){this.version = obj.version;}
@@ -73,6 +73,7 @@ KEdge.prototype.fill = function(obj){
 		if("sourceId" in obj){this.sourceId = obj.sourceId;}
 		if("targetId" in obj){this.targetId = obj.targetId;}
 		if("dataContent" in obj){this.dataContent = obj.dataContent;} //TODO: deep copy?
+		if("value" in obj){this.value = obj.value;}
 		if("visual" in obj){this.visual = obj.visual;} // Still Visual is not used so we are not filling it like for kNode
 	}
 };

@@ -14,7 +14,6 @@ MapLayout.prototype.construct = function(mapStructure, configNodes, configTree, 
 	this.nodes = null;
 	this.links = null;
 	this.dom = null;
-	this.tree = null;
 };
 
 // realtime distribution

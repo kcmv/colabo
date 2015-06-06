@@ -513,12 +513,12 @@ angular.module('rimaDirectives', ['Config'])
 				};
 
 				var nodes=[];
-				var links = [];
+				var edges = [];
 				var pathSvg = null;
 				var nodeSvg = null;
 
 				$scope.mapConfigForInjecting = {
-					tree: {
+					layout: {
 						viewspec: "viewspec_graph", // "viewspec_tree" // "viewspec_manual"
 						fixedDepth: {
 							enabled: false,
@@ -566,12 +566,12 @@ angular.module('rimaDirectives', ['Config'])
 					properties: properties,
 					map: {
 						nodes: nodes, // kNodesById,
-						edges: links, // kEdgesById
+						edges: edges, // kEdgesById
 					},
-					selectedNode: null // the root node in the tree
+					selectedNode: null // the root node in the map
 				};
 
-				var users = RimaService.getUsers();
+				var usersAll = RimaService.getUsers();
 				var users_ignored = {"55268521fb9a901e442172f8":true, "556760847125996dc1a4a219":true};
 				var hows_ignored = {"4":true}; //TODO: temp - ignoring because of overconnectedness through this - people have chosen topics of TNC Online dialogue through this how-verb
 				var force = null;
@@ -581,69 +581,73 @@ angular.module('rimaDirectives', ['Config'])
 					.attr("width", width)
 					.attr("height", height);
 
-				var generateNodesAndEdges = function(nodes, links){
+				var generateNodesAndEdges = function(nodes, edges){
 					//!!! TODO: check for improving performance of this algorithm!! it is ~ O(n4)!!
 					
-					for(var i = 0; i<users.length; i++){
-						nodes.push({id:users[i]._id,name:users[i].displayName});
+					nodes = [];
+					edges = [];
+
+					for(var i = 0; i<usersAll.length; i++){
+						if(users_ignored.hasOwnProperty(usersAll[i]._id) || usersAll[i].displayName == "" || typeof usersAll[i].displayName == undefined){continue;}
+						var kNode = new knalledge.KNode();
+						kNode._id = usersAll[i]._id;
+						kNode.name = usersAll[i].displayName;
+						nodes.push(kNode);
 					}
 
-					for(var i = 0; i<users.length; i++){ // we go through all users
-						if(users_ignored.hasOwnProperty(users[i]._id) || users[i].displayName == "" || typeof users[i].displayName == undefined){continue;} //TODO: improve performance by using only preselecte nodes, instead of users for which we always select all of this 
-						var userI = users[i];
+					for(var i = 0; i<nodes.length; i++){ // we go through all users
+						var userI = nodes[i];
 						if(!RimaService.howAmIs.hasOwnProperty(userI._id)){continue;}
 						var userIHows = RimaService.howAmIs[userI._id]; //take their userHows
 						for(var ih = 0; ih<userIHows.length; ih++){ // go through all their userHows
 							var userIHow = userIHows[ih]; //and for each of their hows
-							for(var j = i; j<users.length; j++){ // we check in all other users (except those already passed)
+							for(var j = i; j<nodes.length; j++){ // we check in all other users (except those already passed)
 								if(i == j){continue;}
-								if(users_ignored.hasOwnProperty(users[j]._id) || users[j].displayName == "" || typeof users[j].displayName == undefined){continue;} //TODO: improve performance by using only preselecte nodes, instead of users for which we always select all of this 
-								var userJ = users[j];
+								//if(users_ignored.hasOwnProperty(users[j]._id) || users[j].displayName == "" || typeof users[j].displayName == undefined){continue;}
+								var userJ = nodes[j];
 								if(!RimaService.howAmIs.hasOwnProperty(userJ._id)){continue;}
 								var userJHows = RimaService.howAmIs[userJ._id]; //by taking their userHows
 								for(var jh = 0; jh<userJHows.length; jh++){ // go through all their userHows
 									var userJHow = userJHows[jh]; //and for each of their hows
 									if (userIHow.whatAmI._id == userJHow.whatAmI._id && (!hows_ignored.hasOwnProperty(userIHow.how) && !hows_ignored.hasOwnProperty(userJHow.how)))
 									{
-										var foundLink = false;
-										for(var l=0;l<links.length; l++){ // we go through existing links among users:
-											var link = links[l];
+										var foundEdge = false;
+										for(var l=0;l<edges.length; l++){ // we go through existing edges among users:
+											var edge = edges[l];
 											//TODO: check if we should increase it for multiple how_verb connections with the same WhatAmI
-											//if((link.source == userI._id && link.target == userJ._id) || (link.source == userJ._id && link.target == userI._id)){ //if we find one, we increas its value
-											if((link.source == nodes[i] && link.target == nodes[j]) || (link.source == nodes[j] && link.target == nodes[i])){ //if we find one, we increas its value
-												link.value+=1;
-												foundLink = true;
+											//if((edge.source == userI._id && edge.target == userJ._id) || (edge.source == userJ._id && edge.target == userI._id)){ //if we find one, we increas its value
+											if((edge.sourceId == nodes[i]._id && edge.targetId == nodes[j]._id) || (edge.sourceId == nodes[j]._id && edge.targetId == nodes[i]._id)){ //if we find one, we increas its value
+												edge.value+=1;
+												foundEdge = true;
 												break;
 											}
 										}
-										if(!foundLink){
-											links.push({source:nodes[i], target:nodes[j], value:1});
-											//links.push({source:userI._id, target:userJ._id, value:1});
+										if(!foundEdge){
+											var edge = new knalledge.KEdge();
+											edge.sourceId = nodes[i]._id;
+											edge.targetId = nodes[j]._id;
+											edge.value = 1;
+											edge.name = userIHow.whatAmI.name;
+											edges.push(edge);
 										}
 									}
 								}
 							}
 						}
 					}
-				}
+				};
 
 				var update = function(nodes, pathSvg, nodeSvg){
-					for(var i = 0; i<nodes.length; i++){ //TODO make it more intelligent, while building nodes
-							if(nodes[i].displayName == "" || typeof nodes[i].displayName == undefined){
-								nodes.splice(i,1);
-							}
-						}
 
 					if(nodes.length>1){
-
 						//nodes = [{name:"2", value:1},{name:"dd", value:2},{name:"dde", value:3}];
-						//links = [{source:nodes[0],target:nodes[1],value:1},{source:nodes[1],target:nodes[2],value:5}];
-						//links = [{source:0,target:1,value:1},{source:1,target:2,value:5}];
-						//links = [];						
+						//edges = [{source:nodes[0],target:nodes[1],value:1},{source:nodes[1],target:nodes[2],value:5}];
+						//edges = [{source:0,target:1,value:1},{source:1,target:2,value:5}];
+						//edges = [];						
 
 						// build the arrow.
 						// svg.append("svg:defs").selectAll("marker")
-						//     .data(["end"])      // Different link/path types can be defined here
+						//     .data(["end"])      // Different edge/path types can be defined here
 						//   .enter().append("svg:marker")    // This section adds in the arrows
 						//     .attr("id", String)
 						//     .attr("viewBox", "0 -5 10 10")
@@ -655,11 +659,11 @@ angular.module('rimaDirectives', ['Config'])
 						//   .append("svg:path")
 						//     .attr("d", "M0,-5L10,0L0,5");
 
-						// add the links and the arrows
+						// add the edges and the arrows
 						pathSvg = svg.append("svg:g").selectAll("path")
 							.data(force.links())
 						  .enter().append("svg:path")
-						//    .attr("class", function(d) { return "link " + d.type; })
+						//    .attr("class", function(d) { return "edge " + d.type; })
 							.attr("class", "link")
 							.attr('stroke-width', function(d) { return d.value; })
 							.attr("marker-end", "url(#end)");
@@ -698,7 +702,7 @@ angular.module('rimaDirectives', ['Config'])
 				var layoutGraph = function(){
 					force = d3.layout.force()
 						.nodes(d3.values(nodes))
-						.links(links)
+						.links(edges)
 						.size([width, height])
 						.linkDistance(300)
 						.charge(-100)
@@ -736,7 +740,7 @@ angular.module('rimaDirectives', ['Config'])
 					if(nodes.length > 0){
 						properties.rootNodeId =  nodes[0]._id;
 						$scope.mapDataForInjecting.map.nodes = nodes; // kNodesById,
-						$scope.mapDataForInjecting.map.edges = links; // kNodesById,
+						$scope.mapDataForInjecting.map.edges = edges; // kNodesById,
 						$scope.mapDataForInjecting.selectedNode = nodes[0]; // kNodesById,
 					}
 				}
@@ -746,7 +750,7 @@ angular.module('rimaDirectives', ['Config'])
 				},
 				function(newValue){
 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
-					generateNodesAndEdges(nodes, links);
+					generateNodesAndEdges(nodes, edges);
 					layoutGraph();
 					update(nodes, pathSvg, nodeSvg);
 					updateGraph();
@@ -760,14 +764,14 @@ angular.module('rimaDirectives', ['Config'])
 				function(newValue){
 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
 					// console.log("[KnalledgeMapVOsService.mapStructure.nodesById watch]: elements no: %d", Object.keys(newValue).length);
-					generateNodesAndEdges(nodes, links);
+					generateNodesAndEdges(nodes, edges);
 					layoutGraph();
 					update(nodes, pathSvg, nodeSvg);
 					updateGraph();
 					animateGraph();
 				}, true);
 
-				generateNodesAndEdges(nodes, links);
+				generateNodesAndEdges(nodes, edges);
 				layoutGraph();
 				update(nodes, pathSvg, nodeSvg);
 				updateGraph();

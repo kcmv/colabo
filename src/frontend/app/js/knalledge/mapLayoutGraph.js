@@ -1,8 +1,9 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
+var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, configNodes, configGraph, clientApi, knalledgeState, knAllEdgeRealTimeService){
+	this.construct(mapStructure, configNodes, configGraph, clientApi, knalledgeState, knAllEdgeRealTimeService);
+	this.graph = null;
 };
 
 // TODO: the quickest solution until find the best and the most performance optimal solution
@@ -15,41 +16,41 @@ MapLayoutGraph.prototype._super = function(){
 	return parentP;
 };
 
-MapLayoutGraph.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
-	var children = [];
-	if(!d.isOpen) return children;
+// MapLayoutGraph.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
+// 	var children = [];
+// 	if(!d.isOpen) return children;
 
-	for(var i in this.mapStructure.edgesById){
-		var vkEdge = this.mapStructure.edgesById[i];
-		if(vkEdge.kEdge.sourceId == d.kNode._id){
-			var vkNode = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
-			if(vkNode){
-				children.push(vkNode);
-			}
-			else{
-				console.warn('getChildren reached by edge.targetId a node that cannot be found');
-			}
-		}
-	}
-	return children;
-};
+// 	for(var i in this.mapStructure.edgesById){
+// 		var vkEdge = this.mapStructure.edgesById[i];
+// 		if(vkEdge.kEdge.sourceId == d.kNode._id){
+// 			var vkNode = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
+// 			if(vkNode){
+// 				children.push(vkNode);
+// 			}
+// 			else{
+// 				console.warn('getChildren reached by edge.targetId a node that cannot be found');
+// 			}
+// 		}
+// 	}
+// 	return children;
+// };
 
 MapLayoutGraph.prototype.init = function(mapSize, scales){
 	this.dom = this.clientApi.getDom();
 	this.scales = scales;
 
-	this.tree = d3.layout.tree();
+	//this.tree = d3.layout.tree();
 		// we invert x and y since tree grows to the right
-	if(this.configTree.sizing.setNodeSize){
-		this.tree.nodeSize([
-			this.configTree.sizing.nodeSize[1],
-			this.configTree.sizing.nodeSize[0]
-		]);
-	}else{
-		this.tree.size([mapSize[1], mapSize[0]]);
-	}
+	// if(this.configGraph.sizing.setNodeSize){
+	// 	this.tree.nodeSize([
+	// 		this.configGraph.sizing.nodeSize[1],
+	// 		this.configGraph.sizing.nodeSize[0]
+	// 	]);
+	// }else{
+	// 	this.tree.size([mapSize[1], mapSize[0]]);
+	// }
 
-	this.tree.children(this.getChildren.bind(this));
+	//this.tree.children(this.getChildren.bind(this));
 
 	// realtime listener registration
 	var mapLayoutPluginOptions = {
@@ -112,100 +113,112 @@ MapLayoutGraph.prototype.diagonal = function(that){
 };
 
 /**
- * @func generateTree
+ * @func generateGraph
  * - destroying structure of the old tree
 - setting up VkNode
 position and dimension
  */
-MapLayoutGraph.prototype.generateTree = function(source){
+MapLayoutGraph.prototype.generateGraph = function(source){
 	var that = this;
-	if(this.nodes){
-		// Normalize for fixed-depth.
-		this.nodes.forEach(function(d) {
-			// Stash the old positions for transition.
-		    if('x' in d) d.x0 = d.x;
-		    if('y' in d) d.y0 = d.y;
-		    if('width' in d) d.width0 = d.width;
-		    if('height' in d) d.height0 = d.height;
+	// if(this.nodes){
+	// 	// Normalize for fixed-depth.
+	// 	this.nodes.forEach(function(d) {
+	// 		// Stash the old positions for transition.
+	// 	    if('x' in d) d.x0 = d.x;
+	// 	    if('y' in d) d.y0 = d.y;
+	// 	    if('width' in d) d.width0 = d.width;
+	// 	    if('height' in d) d.height0 = d.height;
 
-		    delete d.parent;
-		    delete d.children;
-		    delete d.depth;
-		});
+	// 	    delete d.parent;
+	// 	    delete d.children;
+	// 	    delete d.depth;
+	// 	});
+	// }
+
+	var width = 960, height = 600; //TODO: set somewhere
+
+	this.graph = d3.layout.force()
+		.nodes(d3.values(this.nodes))
+		.links(this.links)
+		.size([width, height])
+		.linkDistance(300)
+		.charge(-100);
+
+
+	//if(source){
+	// Compute the new tree layout.
+	this.nodes = this.tree.nodes(source).reverse();
+	this.links = this.tree.links(this.nodes);
+	
+	//links are D3.tree-generated objects of type Object: {source, target}
+	for(var i in this.links){
+		var link = this.links[i];
+		var edges = this.mapStructure.getEdgesBetweenNodes(link.source.kNode, link.target.kNode);
+		if(edges && edges[0]){
+			link.vkEdge = edges[0]; //TODO: see what will happen when we have more links between two nodes
+		}
 	}
 
-	if(source){
-		// Compute the new tree layout.
-		this.nodes = this.tree.nodes(source).reverse();
-		this.links = this.tree.links(this.nodes);
-		
-		//links are D3.tree-generated objects of type Object: {source, target}
-		for(var i in this.links){
-			var link = this.links[i];
-			var edges = this.mapStructure.getEdgesBetweenNodes(link.source.kNode, link.target.kNode);
-			if(edges && edges[0]){
-				link.vkEdge = edges[0]; //TODO: see what will happen when we have more links between two nodes
-			}
-		}
-
-		// calculating node boundaries
-		if(this.configTree.sizing.setNodeSize){
-			this.MoveNodesToPositiveSpace(this.nodes);
-		}
-
-		var viewspec = this.configTree.viewspec;
-		var sizes = this.configNodes.html.dimensions.sizes;
-		this.nodes.forEach(function(d) {
-			// Normalize for fixed-depth.
-			if(that.configTree.fixedDepth.enabled){
-				var levelDepth = 300;
-				if(that.configTree.fixedDepth.levelDepth) levelDepth = that.configTree.fixedDepth.levelDepth;
-				d.y = d.depth * levelDepth;
-			}
-
-			if(d.parent && d.parent == "null"){
-				d.parent = null;
-			}
-
-			if(viewspec == "viewspec_manual"){
-				// update x and y to manual coordinates if present
-				if('xM' in d && typeof d.xM !== 'undefined' &&  !isNaN(d.xM)){
-					d.x = d.xM;
-				}
-				if('yM' in d && typeof d.yM !== 'undefined' &&  !isNaN(d.yM)){
-					d.y = d.yM;
-				}
-
-				// update width and height to manual values if present
-				if('widthM' in d && typeof d.widthM !== 'undefined' &&  !isNaN(d.widthM)){
-					d.width = d.widthM;
-				}else{
-					d.width = sizes.width;
-				}
-				if('heightM' in d && typeof d.heightM !== 'undefined' &&  !isNaN(d.heightM)){
-					d.height = d.heightM;
-				}else{
-					d.height = sizes.height;
-				}
-
-				// make it sure that x0 and y0 exist for newly entered nodes
-				if(!("x0" in d) || !("y0" in d)){
-					d.x0 = d.x;
-					d.y0 = d.y;
-				}
-				// make it sure that width0 and height0 exist for newly entered nodes
-				if(!("width0" in d)){
-					d.width0 = d.width;
-				}
-				if(!("height0" in d)){
-					d.height0 = d.height;
-				}
-			}
-		});
-	}else{
-		this.nodes = [];
-		this.links = [];
+	// calculating node boundaries
+	if(this.configGraph.sizing.setNodeSize){
+		this.MoveNodesToPositiveSpace(this.nodes);
 	}
+
+	var viewspec = this.configGraph.viewspec;
+	var sizes = this.configNodes.html.dimensions.sizes;
+
+	// 	this.nodes.forEach(function(d) {
+	// 		// Normalize for fixed-depth.
+	// 		if(that.configGraph.fixedDepth.enabled){
+	// 			var levelDepth = 300;
+	// 			if(that.configGraph.fixedDepth.levelDepth) levelDepth = that.configGraph.fixedDepth.levelDepth;
+	// 			d.y = d.depth * levelDepth;
+	// 		}
+
+	// 		if(d.parent && d.parent == "null"){
+	// 			d.parent = null;
+	// 		}
+
+	// 		if(viewspec == "viewspec_manual"){
+	// 			// update x and y to manual coordinates if present
+	// 			if('xM' in d && typeof d.xM !== 'undefined' &&  !isNaN(d.xM)){
+	// 				d.x = d.xM;
+	// 			}
+	// 			if('yM' in d && typeof d.yM !== 'undefined' &&  !isNaN(d.yM)){
+	// 				d.y = d.yM;
+	// 			}
+
+	// 			// update width and height to manual values if present
+	// 			if('widthM' in d && typeof d.widthM !== 'undefined' &&  !isNaN(d.widthM)){
+	// 				d.width = d.widthM;
+	// 			}else{
+	// 				d.width = sizes.width;
+	// 			}
+	// 			if('heightM' in d && typeof d.heightM !== 'undefined' &&  !isNaN(d.heightM)){
+	// 				d.height = d.heightM;
+	// 			}else{
+	// 				d.height = sizes.height;
+	// 			}
+
+	// 			// make it sure that x0 and y0 exist for newly entered nodes
+	// 			if(!("x0" in d) || !("y0" in d)){
+	// 				d.x0 = d.x;
+	// 				d.y0 = d.y;
+	// 			}
+	// 			// make it sure that width0 and height0 exist for newly entered nodes
+	// 			if(!("width0" in d)){
+	// 				d.width0 = d.width;
+	// 			}
+	// 			if(!("height0" in d)){
+	// 				d.height0 = d.height;
+	// 			}
+	// 		}
+	// 	});
+	//}
+	//else{
+	// 	this.nodes = [];
+	// 	this.links = [];
+	// }
 	this.printTree(this.nodes);
 };
 
@@ -248,11 +261,11 @@ MapLayoutGraph.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	console.log("Dimensions: (minX: %s, maxX: %s, minY: %s, maxY: %s)", minX, maxX, minY, maxY);
 	for(i in nodes){
 		node = nodes[i];
-		node.x += -minX + this.configTree.margin.top;
-		node.y += -minY + this.configTree.margin.left;
+		node.x += -minX + this.configGraph.margin.top;
+		node.y += -minY + this.configGraph.margin.left;
 	}
-	maxX += -minX + this.configTree.margin.bottom;
-	maxY += -minY + this.configTree.margin.right;
+	maxX += -minX + this.configGraph.margin.bottom;
+	maxY += -minY + this.configGraph.margin.right;
 	this.clientApi.setDomSize(maxY, maxX);
 };
 

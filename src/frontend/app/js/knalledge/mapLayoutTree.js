@@ -3,6 +3,7 @@
 
 var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
 	this.construct(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
+	this.tree = null;
 };
 
 // TODO: the quickest solution until find the best and the most performance optimal solution
