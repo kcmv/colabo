@@ -518,7 +518,7 @@ angular.module('rimaDirectives', ['Config'])
 				var nodeSvg = null;
 
 				$scope.mapConfigForInjecting = {
-					layout: {
+					tree: {
 						viewspec: "viewspec_graph", // "viewspec_tree" // "viewspec_manual"
 						fixedDepth: {
 							enabled: false,
