@@ -119,6 +119,7 @@ MapLayoutGraph.prototype.diagonal = function(that){
 position and dimension
  */
 MapLayoutGraph.prototype.generateGraph = function(source){
+	if(this.links === null || this.nodes == null){return;}
 	var that = this;
 	// if(this.nodes){
 	// 	// Normalize for fixed-depth.
@@ -147,11 +148,11 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 
 	//if(source){
 	// Compute the new tree layout.
-	this.nodes = this.tree.nodes(source).reverse();
-	this.links = this.tree.links(this.nodes);
+	// this.nodes = this.tree.nodes(source).reverse();
+	// this.links = this.tree.links(this.nodes);
 	
 	//links are D3.tree-generated objects of type Object: {source, target}
-	for(var i in this.links){
+	for(var i = 0;i<this.links.length; i++){
 		var link = this.links[i];
 		var edges = this.mapStructure.getEdgesBetweenNodes(link.source.kNode, link.target.kNode);
 		if(edges && edges[0]){
