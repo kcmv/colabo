@@ -398,9 +398,10 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 		this.mapService ? this.mapService.rootNodeId :
 			(kMapData.properties ? kMapData.properties.rootNodeId : null)
 	);
-	if(typeof rootNodeX !== 'undefined') this.rootNode.x0 = rootNodeX;
-	if(typeof rootNodeY !== 'undefined') this.rootNode.y0 = rootNodeY;
-
+	if(this.rootNode !== null){
+		if(typeof rootNodeX !== 'undefined') this.rootNode.x0 = rootNodeX;
+		if(typeof rootNodeY !== 'undefined') this.rootNode.y0 = rootNodeY;
+	}
 	this.selectedNode = this.rootNode;
 
 	// this.clickNode(this.rootNode);

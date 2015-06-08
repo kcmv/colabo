@@ -56,202 +56,206 @@ MapVisualizationGraph.prototype.update = function(source, callback) {
  * */
 MapVisualizationGraph.prototype.updateHtml = function(source) {
 	var that = this;
-	if(!this.configNodes.html.show) return;
-
-	var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
-		.data(this.mapLayout.nodes, function(d) { return d.id; });
-
-	nodeHtml.classed({
-		"node_unselectable": function(d){
-			return (!d.kNode.visual || !d.kNode.visual.selectable) ?
-				true : false;
-		},
-		"node_selectable": function(d){
-			return (d.kNode.visual && d.kNode.visual.selectable) ?
-				true : false;
-		}
-	});
-
-	// Enter the nodes
-	// we create a div that will contain both visual representation of a node (circle) and text
-	var nodeHtmlEnter = nodeHtml.enter().append("div")
-		.attr("class", function(d){
-				var userHows = that.rimaService.howAmIs;
-				var nodeWhats = (d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats) ?
-					d.kNode.dataContent.rima.whats : [];
-				var relevant = false;
-				for(var i in nodeWhats){
-					var nodeWhat = nodeWhats[i];
-					for(var j in userHows){
-						var userHow = userHows[j];
-						if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name))
-						{
-							relevant = true;
-							break;
-						}
-					}
-				}
-				var classes = "node_html node_unselected draggable " + d.kNode.type;
-				if(relevant) classes += " rima_relevant"
-				return classes;
-			})
-		.on("dblclick", function(d){
-			that.mapLayout.clickDoubleNode(d, this);
-		})
-		.on("click", function(d){
-			that.mapLayout.clickNode(d, this);
-		});
-
-	// position node on enter at the source position
-	// (it is either parent or another precessor)
-	nodeHtmlEnter
-		.style("left", function(d) {
-			var y = null;
-			if(that.configTransitions.enter.animate.position){
-				if(that.configTransitions.enter.referToToggling){
-					y = source.y0;
-				}else{
-					y = d.parent ? d.parent.y0 : d.y0;
-				}
-			}else{
-				y = d.y;
-			}
-			return that.scales.y(y) + "px";
-		})
-		.style("top", function(d) {
-			var x = null;
-			if(that.configTransitions.enter.animate.position){
-				if(that.configTransitions.enter.referToToggling){
-					x = source.x0;
-				}else{
-					x = d.parent ? d.parent.x0 : d.x0;
-				}
-			}else{
-				x = d.x;
-			}
-			// console.log("[nodeHtmlEnter] d: %s, x: %s", d.kNode.name, x);
-			return that.scales.x(x) + "px";
-		})
-		.classed({
-			"node_html_fixed": function(d){
-				return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					false : true;
-			}
-		})
-		/* TODO FIxing expandable nodes */
-		.style("width", function(d){
-		// .style("min-width", function(d){
-				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width : width;
-				if(width === null) {
-					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
-					 that.configNodes.html.dimensions.sizes.width : null;
-				}
-				return that.scales.width(width) + "px";
-		})
-		.style("margin-left", function(d){
-				// centering the node (set margin to half the width of the node)
-				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width : null;
-				if(width === null) {
-					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
-					 that.configNodes.html.dimensions.sizes.width : null;
-				}
-
-				var margin = null;
-				if(width !== null) {
-					margin = that.scales.width(-width/2) + "px";
-				}
-				return margin;
-		});
-		// .style("background-color", function(d) {
-		// 	var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
-		// 	if(image) return null; // no bacground
-		// 	return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
-		// });
-
-	nodeHtmlEnter.filter(function(d) { return that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image; })
-		.append("img")
-			.attr("src", function(d){
-				return d.kNode.dataContent.image.url;
-			})
-			.attr("width", function(d){
-				return that.scales.width(d.kNode.dataContent.image.width) + "px";
-			})
-			.attr("height", function(d){
-				return that.scales.height(d.kNode.dataContent.image.height) + "px";
-			})
-			.attr("alt", function(d){
-				return d.kNode.name;
-			});
-
-	nodeHtmlEnter
-		.append("div")
-			.attr("class", "open_close_status");
-
-	// TODO: we cannot optimize
-	// if(this.knalledgeMapViewService.config.nodes.showTypes){
-	nodeHtmlEnter
-		.append("div")
-			.attr("class", "node_type");
-	// }
-
-	// TODO: we cannot optimize
-	// if(this.rimaService.config.showUsers){
-		nodeHtmlEnter
-			.append("div")
-				.attr("class", "rima_user");
-	// }
-
-	// nodeHtmlEnter
-	// 	.append("div")
-	// 		.attr("class", "node_status")
-	// 			.html(function(){
-	// 				return "&nbsp;"; //d._id; // d.kNode._id;
-	// 			});
-	nodeHtmlEnter
-		.append("div")
-			.attr("class", "vote_up");
-
-	nodeHtmlEnter
-		.append("div")
-			.attr("class", "vote_down");
-
-	nodeHtmlEnter
-		.append("div")
-			.attr("class", "node_inner_html")
-			.append("span")
-				.html(function(d) {
-					return d.kNode.name;
-				});
-			// .append("span")
-			// 	.html(function(d) {
-			// 		return "report: "+d.x+","+d.y;
-			// 	})
-			// .append("p")
-			// 	.html(function(d) {
-			// 		return "moving: ";
-			// 	});
-
-	if(this.configTransitions.enter.animate.opacity){
-		nodeHtmlEnter
-			.style("opacity", 1e-6);
-	}
-
-	if(this.mapPlugins && this.mapPlugins.mapVisualizePlugins){
-		for(var pluginName in this.mapPlugins.mapVisualizePlugins){
-			var plugin = this.mapPlugins.mapVisualizePlugins[pluginName];
-			if(plugin.nodeHtmlEnter){
-				plugin.nodeHtmlEnter(nodeHtmlEnter);
-			}
-		}
-	}
-
 	var nodeHtmlDatasets = {
-		elements: nodeHtml,
-		enter: nodeHtmlEnter,
+		elements: null,
+		enter: null,
 		exit: null
 	};
+	if(this.configNodes.html.show && this.mapLayout.nodes !== null){
+
+		var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
+			.data(this.mapLayout.nodes, function(d) { return d.id; });
+
+		nodeHtml.classed({
+			"node_unselectable": function(d){
+				return (!d.kNode.visual || !d.kNode.visual.selectable) ?
+					true : false;
+			},
+			"node_selectable": function(d){
+				return (d.kNode.visual && d.kNode.visual.selectable) ?
+					true : false;
+			}
+		});
+
+		// Enter the nodes
+		// we create a div that will contain both visual representation of a node (circle) and text
+		var nodeHtmlEnter = nodeHtml.enter().append("div")
+			.attr("class", function(d){
+					var userHows = that.rimaService.howAmIs;
+					var nodeWhats = (d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats) ?
+						d.kNode.dataContent.rima.whats : [];
+					var relevant = false;
+					for(var i in nodeWhats){
+						var nodeWhat = nodeWhats[i];
+						for(var j in userHows){
+							var userHow = userHows[j];
+							if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name))
+							{
+								relevant = true;
+								break;
+							}
+						}
+					}
+					var classes = "node_html node_unselected draggable " + d.kNode.type;
+					if(relevant) classes += " rima_relevant"
+					return classes;
+				})
+			.on("dblclick", function(d){
+				that.mapLayout.clickDoubleNode(d, this);
+			})
+			.on("click", function(d){
+				that.mapLayout.clickNode(d, this);
+			});
+
+		// position node on enter at the source position
+		// (it is either parent or another precessor)
+		nodeHtmlEnter
+			.style("left", function(d) {
+				var y = null;
+				if(that.configTransitions.enter.animate.position){
+					if(that.configTransitions.enter.referToToggling){
+						y = source.y0;
+					}else{
+						y = d.parent ? d.parent.y0 : d.y0;
+					}
+				}else{
+					y = d.y;
+				}
+				return that.scales.y(y) + "px";
+			})
+			.style("top", function(d) {
+				var x = null;
+				if(that.configTransitions.enter.animate.position){
+					if(that.configTransitions.enter.referToToggling){
+						x = source.x0;
+					}else{
+						x = d.parent ? d.parent.x0 : d.x0;
+					}
+				}else{
+					x = d.x;
+				}
+				// console.log("[nodeHtmlEnter] d: %s, x: %s", d.kNode.name, x);
+				return that.scales.x(x) + "px";
+			})
+			.classed({
+				"node_html_fixed": function(d){
+					return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+						false : true;
+				}
+			})
+			/* TODO FIxing expandable nodes */
+			.style("width", function(d){
+			// .style("min-width", function(d){
+					var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+						d.kNode.dataContent.image.width : width;
+					if(width === null) {
+						width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+						 that.configNodes.html.dimensions.sizes.width : null;
+					}
+					return that.scales.width(width) + "px";
+			})
+			.style("margin-left", function(d){
+					// centering the node (set margin to half the width of the node)
+					var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+						d.kNode.dataContent.image.width : null;
+					if(width === null) {
+						width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+						 that.configNodes.html.dimensions.sizes.width : null;
+					}
+
+					var margin = null;
+					if(width !== null) {
+						margin = that.scales.width(-width/2) + "px";
+					}
+					return margin;
+			});
+			// .style("background-color", function(d) {
+			// 	var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
+			// 	if(image) return null; // no bacground
+			// 	return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
+			// });
+
+		nodeHtmlEnter.filter(function(d) { return that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image; })
+			.append("img")
+				.attr("src", function(d){
+					return d.kNode.dataContent.image.url;
+				})
+				.attr("width", function(d){
+					return that.scales.width(d.kNode.dataContent.image.width) + "px";
+				})
+				.attr("height", function(d){
+					return that.scales.height(d.kNode.dataContent.image.height) + "px";
+				})
+				.attr("alt", function(d){
+					return d.kNode.name;
+				});
+
+		nodeHtmlEnter
+			.append("div")
+				.attr("class", "open_close_status");
+
+		// TODO: we cannot optimize
+		// if(this.knalledgeMapViewService.config.nodes.showTypes){
+		nodeHtmlEnter
+			.append("div")
+				.attr("class", "node_type");
+		// }
+
+		// TODO: we cannot optimize
+		// if(this.rimaService.config.showUsers){
+			nodeHtmlEnter
+				.append("div")
+					.attr("class", "rima_user");
+		// }
+
+		// nodeHtmlEnter
+		// 	.append("div")
+		// 		.attr("class", "node_status")
+		// 			.html(function(){
+		// 				return "&nbsp;"; //d._id; // d.kNode._id;
+		// 			});
+		nodeHtmlEnter
+			.append("div")
+				.attr("class", "vote_up");
+
+		nodeHtmlEnter
+			.append("div")
+				.attr("class", "vote_down");
+
+		nodeHtmlEnter
+			.append("div")
+				.attr("class", "node_inner_html")
+				.append("span")
+					.html(function(d) {
+						return d.kNode.name;
+					});
+				// .append("span")
+				// 	.html(function(d) {
+				// 		return "report: "+d.x+","+d.y;
+				// 	})
+				// .append("p")
+				// 	.html(function(d) {
+				// 		return "moving: ";
+				// 	});
+
+		if(this.configTransitions.enter.animate.opacity){
+			nodeHtmlEnter
+				.style("opacity", 1e-6);
+		}
+
+		if(this.mapPlugins && this.mapPlugins.mapVisualizePlugins){
+			for(var pluginName in this.mapPlugins.mapVisualizePlugins){
+				var plugin = this.mapPlugins.mapVisualizePlugins[pluginName];
+				if(plugin.nodeHtmlEnter){
+					plugin.nodeHtmlEnter(nodeHtmlEnter);
+				}
+			}
+		}
+
+		nodeHtmlDatasets.elements = nodeHtml;
+		nodeHtmlDatasets.enter = nodeHtmlEnter;
+		nodeHtmlDatasets.exit = null;
+	}
 	return nodeHtmlDatasets;
 };
 
@@ -268,253 +272,258 @@ MapVisualizationGraph.prototype.updateHtmlTransitions = function(source, nodeHtm
 	// Transition nodes to their new (final) position
 	// it happens also for entering nodes (http://bl.ocks.org/mbostock/3900925)
 	var nodeHtmlUpdate = nodeHtml;
-	var nodeHtmlUpdateTransition = nodeHtmlUpdate;
-	if(this.configTransitions.update.animate.position || this.configTransitions.update.animate.opacity){
-		nodeHtmlUpdateTransition = nodeHtmlUpdate.transition()
-			.duration(this.configTransitions.update.duration);
-	}
+	if(nodeHtmlUpdate !== null){
+		var nodeHtmlUpdateTransition = nodeHtmlUpdate;
+		if(this.configTransitions.update.animate.position || this.configTransitions.update.animate.opacity){
+			nodeHtmlUpdateTransition = nodeHtmlUpdate.transition()
+				.duration(this.configTransitions.update.duration);
+		}
 
-	nodeHtmlUpdate
-		.classed({
-			"node_html_fixed": function(d){
-				return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					false : true;
-			}
-		})
-		/* TODO FIxing expandable nodes */
-		.style("width", function(d){
-		// .style("min-width", function(d){
-				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width : null;
-				if(width === null) {
-					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
-					 that.configNodes.html.dimensions.sizes.width : null;
+		nodeHtmlUpdate
+			.classed({
+				"node_html_fixed": function(d){
+					return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+						false : true;
 				}
-				return that.scales.width(width) + "px";
-		})
-		.style("margin-left", function(d){
-				// centering the node (set margin to half the width of the node)
-				var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width : width;
-				if(width === null) {
-					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
-					 that.configNodes.html.dimensions.sizes.width : null;
-				}
+			})
+			/* TODO FIxing expandable nodes */
+			.style("width", function(d){
+			// .style("min-width", function(d){
+					var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+						d.kNode.dataContent.image.width : null;
+					if(width === null) {
+						width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+						 that.configNodes.html.dimensions.sizes.width : null;
+					}
+					return that.scales.width(width) + "px";
+			})
+			.style("margin-left", function(d){
+					// centering the node (set margin to half the width of the node)
+					var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+						d.kNode.dataContent.image.width : width;
+					if(width === null) {
+						width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
+						 that.configNodes.html.dimensions.sizes.width : null;
+					}
 
-				var margin = null;
-				if(width !== null) {
-					margin = that.scales.width(-width/2) + "px";
-				}
-				return margin;
-		});
-		nodeHtmlUpdate.select(".node_inner_html span")
-			.html(function(d) {
-				return d.kNode.name;
+					var margin = null;
+					if(width !== null) {
+						margin = that.scales.width(-width/2) + "px";
+					}
+					return margin;
+			});
+			nodeHtmlUpdate.select(".node_inner_html span")
+				.html(function(d) {
+					return d.kNode.name;
+				});
+
+
+		// image exists in data but not in the view
+		nodeHtmlUpdate.filter(function(d) {
+			return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && (d3.select(this).select("img").size() <= 0));
+		})
+			.append("img")
+				.attr("src", function(d){
+					return d.kNode.dataContent.image.url;
+				})
+				.attr("width", function(d){
+					return that.scales.width(d.kNode.dataContent.image.width) + "px";
+				})
+				.attr("height", function(d){
+					return that.scales.height(d.kNode.dataContent.image.height) + "px";
+				})
+				.attr("alt", function(d){
+					return d.kNode.name;
+				});
+
+		// image does not exist in data but does exist in the view
+		nodeHtmlUpdate.select("img").filter(function(d) { 
+			return (!(that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image) ); 
+		})
+			.remove();
+
+		nodeHtmlUpdate.select(".vote_up")
+			.style("opacity", function(d){
+				return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ? 
+					1.0 : 0.1;
+			})
+			.html(function(d){
+				// if(!('dataContent' in d.kNode) || !d.kNode.dataContent) d.kNode.dataContent = {};
+				// if(!('ibis' in d.kNode.dataContent) || !d.kNode.dataContent.ibis) d.kNode.dataContent.ibis = {};
+				// if(!('voteUp' in d.kNode.dataContent.ibis)) d.kNode.dataContent.ibis.voteUp = 1;
+				return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ? 
+					d.kNode.dataContent.ibis.voteUp : "&nbsp";
 			});
 
-
-	// image exists in data but not in the view
-	nodeHtmlUpdate.filter(function(d) {
-		return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && (d3.select(this).select("img").size() <= 0));
-	})
-		.append("img")
-			.attr("src", function(d){
-				return d.kNode.dataContent.image.url;
+		nodeHtmlUpdate.select(".vote_down")
+			.style("opacity", function(d){
+				return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ? 
+					1.0 : 0.1;
 			})
-			.attr("width", function(d){
-				return that.scales.width(d.kNode.dataContent.image.width) + "px";
-			})
-			.attr("height", function(d){
-				return that.scales.height(d.kNode.dataContent.image.height) + "px";
-			})
-			.attr("alt", function(d){
-				return d.kNode.name;
+			.html(function(d){
+				return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ? 
+					d.kNode.dataContent.ibis.voteDown : "&nbsp";
 			});
 
-	// image does not exist in data but does exist in the view
-	nodeHtmlUpdate.select("img").filter(function(d) { 
-		return (!(that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image) ); 
-	})
-		.remove();
+		nodeHtmlUpdate.select(".open_close_status")
+			.style("display", function(d){
+				return that.mapStructure.hasChildren(d) ? "block" : "none";
+			})
+			.html(function(d){
+				return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "+" : "-";
+			});
+		nodeHtmlUpdate.select(".node_type")
+			.style("display", function(d){
+				return (that.knalledgeMapViewService.config.nodes.showTypes && d.kNode && d.kNode.type) ? "block" : "none";
+			})
+			.html(function(d){
+				var label = "";
+				if(d.kNode && d.kNode.type){
+					var type = d.kNode.type;
+					switch(type){
+						case "type_ibis_question":
+							type = "ibis:QUESTION";
+							break;
+						case "type_ibis_idea":
+							type = "ibis:IDEA";
+							break;
+						case "type_ibis_argument":
+							type = "ibis:ARGUMENT";
+							break;
+						case "type_ibis_comment":
+							type = "ibis:COMMENT";
+							break;
+						case "type_knowledge":
+							type = "kn:KnAllEdge";
+							break;
 
-	nodeHtmlUpdate.select(".vote_up")
-		.style("opacity", function(d){
-			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ? 
-				1.0 : 0.1;
-		})
-		.html(function(d){
-			// if(!('dataContent' in d.kNode) || !d.kNode.dataContent) d.kNode.dataContent = {};
-			// if(!('ibis' in d.kNode.dataContent) || !d.kNode.dataContent.ibis) d.kNode.dataContent.ibis = {};
-			// if(!('voteUp' in d.kNode.dataContent.ibis)) d.kNode.dataContent.ibis.voteUp = 1;
-			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ? 
-				d.kNode.dataContent.ibis.voteUp : "&nbsp";
-		});
-
-	nodeHtmlUpdate.select(".vote_down")
-		.style("opacity", function(d){
-			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ? 
-				1.0 : 0.1;
-		})
-		.html(function(d){
-			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ? 
-				d.kNode.dataContent.ibis.voteDown : "&nbsp";
-		});
-
-	nodeHtmlUpdate.select(".open_close_status")
-		.style("display", function(d){
-			return that.mapStructure.hasChildren(d) ? "block" : "none";
-		})
-		.html(function(d){
-			return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "+" : "-";
-		});
-	nodeHtmlUpdate.select(".node_type")
-		.style("display", function(d){
-			return (that.knalledgeMapViewService.config.nodes.showTypes && d.kNode && d.kNode.type) ? "block" : "none";
-		})
-		.html(function(d){
-			var label = "";
-			if(d.kNode && d.kNode.type){
-				var type = d.kNode.type;
-				switch(type){
-					case "type_ibis_question":
-						type = "ibis:QUESTION";
-						break;
-					case "type_ibis_idea":
-						type = "ibis:IDEA";
-						break;
-					case "type_ibis_argument":
-						type = "ibis:ARGUMENT";
-						break;
-					case "type_ibis_comment":
-						type = "ibis:COMMENT";
-						break;
-					case "type_knowledge":
-						type = "kn:KnAllEdge";
-						break;
-
-					case "model_component":
-						type = "csdms:COMPONENT";
-						break;
-					case "object":
-						type = "csdms:OBJECT";
-						break;
-					case "variable":
-						type = "csdms:VARIABLE";
-						break;
-					case "assumption":
-						type = "csdms:ASSUMPTION";
-						break;
-					case "grid_desc":
-						type = "csdms:GRID DESC";
-						break;
-					case "grid":
-						type = "csdms:GRID";
-						break;
-					case "process":
-						type = "csdms:PROCESS";
-						break;
+						case "model_component":
+							type = "csdms:COMPONENT";
+							break;
+						case "object":
+							type = "csdms:OBJECT";
+							break;
+						case "variable":
+							type = "csdms:VARIABLE";
+							break;
+						case "assumption":
+							type = "csdms:ASSUMPTION";
+							break;
+						case "grid_desc":
+							type = "csdms:GRID DESC";
+							break;
+						case "grid":
+							type = "csdms:GRID";
+							break;
+						case "process":
+							type = "csdms:PROCESS";
+							break;
+					}
+					label = "%" + type;
 				}
-				label = "%" + type;
-			}
-			return label;
-		});
-	nodeHtmlUpdate.select(".rima_user")
-		.style("display", function(d){
-			return that.rimaService.config.showUsers && that.rimaService.getUserById(d.kNode.iAmId) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')
+				return label;
+			});
+		nodeHtmlUpdate.select(".rima_user")
+			.style("display", function(d){
+				return that.rimaService.config.showUsers && that.rimaService.getUserById(d.kNode.iAmId) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')
 
-		})
-		.html(function(d){
-			var user = that.rimaService.getUserById(d.kNode.iAmId);
-			var label = "";
-			if(user){
-				label = "@" + user.displayName;
-			}
-			return label;
-		});
+			})
+			.html(function(d){
+				var user = that.rimaService.getUserById(d.kNode.iAmId);
+				var label = "";
+				if(user){
+					label = "@" + user.displayName;
+				}
+				return label;
+			});
 
-	if(this.mapPlugins && this.mapPlugins.mapVisualizePlugins){
-		for(var pluginName in this.mapPlugins.mapVisualizePlugins){
-			var plugin = this.mapPlugins.mapVisualizePlugins[pluginName];
-			if(plugin.nodeHtmlUpdate){
-				plugin.nodeHtmlUpdate(nodeHtmlUpdate);
+		if(this.mapPlugins && this.mapPlugins.mapVisualizePlugins){
+			for(var pluginName in this.mapPlugins.mapVisualizePlugins){
+				var plugin = this.mapPlugins.mapVisualizePlugins[pluginName];
+				if(plugin.nodeHtmlUpdate){
+					plugin.nodeHtmlUpdate(nodeHtmlUpdate);
+				}
 			}
 		}
-	}
 
-	(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
-		.style("left", function(d){
-			return that.scales.y(d.y) + "px";
-		})
-		// .each("start", function(d){
-		// 	console.log("[nodeHtmlUpdateTransition] STARTED: d: %s, xCurrent: %s", d.kNode.name, d3.select(this).style("top"));
-		// })
-		.style("top", function(d){
-			var x = that.mapLayout.getHtmlNodePosition(d);
-			// x = d.x;
-			// console.log("[nodeHtmlUpdateTransition] d: %s, xCurrent: %s, xNew: %s", d.kNode.name, d3.select(this).style("top"), x);
-			return that.scales.x(x) + "px";
-		});
-
-	if(this.configTransitions.update.animate.opacity){
-		nodeHtmlUpdateTransition
-			.style("opacity", 1.0);
-		nodeHtmlUpdateTransition.select(".node_inner_html")
-			.style("opacity", function(d){
-				return (d.kNode.visual && d.kNode.visual.selectable) ?
-					1.0 : 0.5;
-			});
-	}
-
-	// nodeHtmlUpdateTransition
-	// 	.style("background-color", function(d) {
-	// 		var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
-	// 		if(image) return null; // no bacground
-	// 		return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
-	// 	});
-
-	// Transition exiting nodes
-	var nodeHtmlExit = nodeHtml.exit();
-	var nodeHtmlExitTransition = nodeHtmlExit;
-	nodeHtmlExit.on("click", null);
-	nodeHtmlExit.on("dblclick", null);
-
-	if(this.configTransitions.exit.animate.position || this.configTransitions.exit.animate.opacity){
-		nodeHtmlExitTransition = nodeHtmlExit.transition()
-			.duration(this.configTransitions.exit.duration);
-	}
-
-	if(this.configTransitions.exit.animate.opacity){
-		nodeHtmlExitTransition
-			.style("opacity", 1e-6);
-	}
-
-	if(this.configTransitions.exit.animate.position){
-		nodeHtmlExitTransition
+		(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
 			.style("left", function(d){
-				var y = null;
-				// Transition nodes to the toggling node's new position
-				if(that.configTransitions.exit.referToToggling){
-					y = source.y;
-				}else{ // Transition nodes to the parent node's new position
-					y = (d.parent ? d.parent.y : d.y);
-				}
 				return that.scales.y(d.y) + "px";
 			})
+			// .each("start", function(d){
+			// 	console.log("[nodeHtmlUpdateTransition] STARTED: d: %s, xCurrent: %s", d.kNode.name, d3.select(this).style("top"));
+			// })
 			.style("top", function(d){
-				var x = null;
-				if(that.configTransitions.exit.referToToggling){
-					x = source.x;
-				}else{
-					x = (d.parent ? d.parent.x : d.x);
-				}
-				return that.scales.x(d.x) + "px";
+				var x = that.mapLayout.getHtmlNodePosition(d);
+				// x = d.x;
+				// console.log("[nodeHtmlUpdateTransition] d: %s, xCurrent: %s, xNew: %s", d.kNode.name, d3.select(this).style("top"), x);
+				return that.scales.x(x) + "px";
 			});
+
+		if(this.configTransitions.update.animate.opacity){
+			nodeHtmlUpdateTransition
+				.style("opacity", 1.0);
+			nodeHtmlUpdateTransition.select(".node_inner_html")
+				.style("opacity", function(d){
+					return (d.kNode.visual && d.kNode.visual.selectable) ?
+						1.0 : 0.5;
+				});
+		}
+
+		// nodeHtmlUpdateTransition
+		// 	.style("background-color", function(d) {
+		// 		var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
+		// 		if(image) return null; // no bacground
+		// 		return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
+		// 	});
 	}
-	nodeHtmlExitTransition.remove();
+
+	// Transition exiting nodes
+	if(nodeHtml !== null && nodeHtml.exit() !== null){
+		var nodeHtmlExit = nodeHtml.exit();
+		var nodeHtmlExitTransition = nodeHtmlExit;
+	
+		nodeHtmlExit.on("click", null);
+		nodeHtmlExit.on("dblclick", null);
+
+		if(this.configTransitions.exit.animate.position || this.configTransitions.exit.animate.opacity){
+			nodeHtmlExitTransition = nodeHtmlExit.transition()
+				.duration(this.configTransitions.exit.duration);
+		}
+
+		if(this.configTransitions.exit.animate.opacity){
+			nodeHtmlExitTransition
+				.style("opacity", 1e-6);
+		}
+
+		if(this.configTransitions.exit.animate.position){
+			nodeHtmlExitTransition
+				.style("left", function(d){
+					var y = null;
+					// Transition nodes to the toggling node's new position
+					if(that.configTransitions.exit.referToToggling){
+						y = source.y;
+					}else{ // Transition nodes to the parent node's new position
+						y = (d.parent ? d.parent.y : d.y);
+					}
+					return that.scales.y(d.y) + "px";
+				})
+				.style("top", function(d){
+					var x = null;
+					if(that.configTransitions.exit.referToToggling){
+						x = source.x;
+					}else{
+						x = (d.parent ? d.parent.x : d.x);
+					}
+					return that.scales.x(d.x) + "px";
+				});
+		}
+		nodeHtmlExitTransition.remove();
+	}
 };
 
 MapVisualizationGraph.prototype.updateHtmlAfterTransitions = function(source, nodeHtmlDatasets){
-	if(!this.configNodes.html.show) return;
+	if(!this.configNodes.html.show || nodeHtmlDatasets === null || nodeHtmlDatasets.elements === null) return;
 	var that = this;
 
 	var nodeHtml = nodeHtmlDatasets.elements;
@@ -682,7 +691,7 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 };
 
 MapVisualizationGraph.prototype.updateLinkLabels = function(source) {
-	if(!this.configEdges.labels.show) return;
+	if(!this.configEdges.labels.show || this.mapLayout.links === null) return;
 
 	var that = this;
 
@@ -819,7 +828,7 @@ MapVisualizationGraph.prototype.updateLinkLabels = function(source) {
 };
 
 MapVisualizationGraph.prototype.updateLinks = function(source) {
-	if(!this.configEdges.show) return;
+	if(!this.configEdges.show || this.mapLayout.links === null) return;
 
 	var that = this;
 

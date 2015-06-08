@@ -584,8 +584,8 @@ angular.module('rimaDirectives', ['Config'])
 				var generateNodesAndEdges = function(nodes, edges){
 					//!!! TODO: check for improving performance of this algorithm!! it is ~ O(n4)!!
 					
-					nodes = [];
-					edges = [];
+					nodes.length = 0;
+					edges.length = 0;
 
 					for(var i = 0; i<usersAll.length; i++){
 						if(users_ignored.hasOwnProperty(usersAll[i]._id) || usersAll[i].displayName == "" || typeof usersAll[i].displayName == undefined){continue;}
@@ -738,7 +738,7 @@ angular.module('rimaDirectives', ['Config'])
 
 				var updateGraph = function(){
 					if(nodes.length > 0){
-						properties.rootNodeId =  nodes[0]._id;
+						properties.rootNodeId =  null;//nodes[0]._id;
 						$scope.mapDataForInjecting.map.nodes = nodes; // kNodesById,
 						$scope.mapDataForInjecting.map.edges = edges; // kNodesById,
 						$scope.mapDataForInjecting.selectedNode = nodes[0]; // kNodesById,
