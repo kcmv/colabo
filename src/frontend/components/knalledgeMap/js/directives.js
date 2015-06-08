@@ -44,8 +44,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									sizes: {
 										y: 10,
 										x: 50,
-										width: 200,
-										height: 50
+										width: 150,
+										height: 40
 									}
 								}
 							}
@@ -65,7 +65,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							},
 							sizing: {
 								setNodeSize: true,
-								nodeSize: [350, 150]
+								nodeSize: [200, 100]
 							},
 							margin: {
 								top: 35,

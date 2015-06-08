@@ -555,6 +555,31 @@ $map: layout(12 1/4 fluid float inside);
 	.node_html{
 		position: absolute;
 		border-width: 0px;
+
+		min-width: 150px;
+		margin-left: -75px;
+		font-size: 14px;
+		font-weight: bold;
+
+		.node_html span {
+			display: inline-block;
+			vertical-align: middle;
+			line-height: normal;      
+			text-align: center;
+			font-weight: normal;
+			font-style: italic;
+			color: #550000;
+
+			/* just for testing purposs */
+			p{
+				color: #880000;		
+				font-weight: 100;
+				font-size: 14px;
+				font-style: normal;
+			}
+		}
+
+
 		/*width: 10em;*/
 		/*height: 3em;
 		line-height: 3em;*/
@@ -639,7 +664,7 @@ $map: layout(12 1/4 fluid float inside);
 		.node_type {
 			position: absolute;
 			left: 10px;
-			top: -25px;
+			top: -20px;
 			/*background-color: #ddddff;*/
 			padding-left: 4px;
 			padding-right: 4px;
@@ -654,9 +679,9 @@ $map: layout(12 1/4 fluid float inside);
 
 		.rima_user {
 			position: absolute;
-			right: -20px;
+			right: -10px;
 			font-style: italic;
-			bottom: -30px;
+			bottom: -20px;
 			color: #aa55aa;
 			background-color: #ddffdd;
 			padding-left: 4px;
@@ -687,7 +712,7 @@ $map: layout(12 1/4 fluid float inside);
 	.node_html_fixed{
 		/* TODO FIxing expandable nodes */
 		/*width: 200px;*/
-		min-width: 200px;
+		min-width: 150px;
 		margin-left: -75px;
 		@include border-radius(10px, 10px);
 		border-width: 1px;
@@ -705,24 +730,6 @@ $map: layout(12 1/4 fluid float inside);
 		border-color: #0000aa;
 		border-width: 5px;
 		@include box-shadow(10px 10px 9px 5px rgba(80, 80, 255, 0.75));
-	}
-
-	.node_html span {
-		display: inline-block;
-		vertical-align: middle;
-		line-height: normal;      
-		text-align: center;
-		font-weight: bold;
-		font-style: italic;
-		color: #550000;
-
-		/* just for testing purposs */
-		p{
-			color: #880000;		
-			font-weight: 100;
-			font-size: 12px;
-			font-style: normal;
-		}
 	}
 
 	.label_html{
