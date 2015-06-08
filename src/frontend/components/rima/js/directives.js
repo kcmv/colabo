@@ -753,7 +753,7 @@ angular.module('rimaDirectives', ['Config'])
 					generateNodesAndEdges(nodes, edges);
 					// layoutGraph();
 					// update(nodes, pathSvg, nodeSvg);
-					// updateGraph();
+					updateGraph();
 					// animateGraph();
 				}, true);
 
@@ -767,14 +767,14 @@ angular.module('rimaDirectives', ['Config'])
 					generateNodesAndEdges(nodes, edges);
 					// layoutGraph();
 					// update(nodes, pathSvg, nodeSvg);
-					// updateGraph();
+					updateGraph();
 					// animateGraph();
 				}, true);
 
 				generateNodesAndEdges(nodes, edges);
 				// layoutGraph();
 				// update(nodes, pathSvg, nodeSvg);
-				// updateGraph();
+				updateGraph();
 				// animateGraph();
 			}
 		};

@@ -356,6 +356,22 @@ MapStructure.prototype.getVKEdgeByKIds = function(sourceKId, targetKId) {
 	return null;
 };
 
+MapStructure.prototype.getNodesList = function() {
+	var nodes = [];
+	for(var i in this.nodesById){
+		nodes.push(this.nodesById[i]);
+	}
+	return nodes;
+};
+
+MapStructure.prototype.getEdgesList = function() {
+	var edges = [];
+	for(var i in this.edgesById){
+		edges.push(this.edgesById[i]);
+	}
+	return edges;
+};
+
 MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	this.properties = kMapData.properties;
 	var i=0;

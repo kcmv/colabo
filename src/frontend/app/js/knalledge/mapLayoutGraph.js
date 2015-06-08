@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, configNodes, configGraph, clientApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct(mapStructure, configNodes, configGraph, clientApi, knalledgeState, knAllEdgeRealTimeService);
+var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
+	this.construct(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
 	this.graph = null;
 };
 
@@ -41,10 +41,10 @@ MapLayoutGraph.prototype.init = function(mapSize, scales){
 
 	//this.tree = d3.layout.tree();
 		// we invert x and y since tree grows to the right
-	// if(this.configGraph.sizing.setNodeSize){
+	// if(this.configTree.sizing.setNodeSize){
 	// 	this.tree.nodeSize([
-	// 		this.configGraph.sizing.nodeSize[1],
-	// 		this.configGraph.sizing.nodeSize[0]
+	// 		this.configTree.sizing.nodeSize[1],
+	// 		this.configTree.sizing.nodeSize[0]
 	// 	]);
 	// }else{
 	// 	this.tree.size([mapSize[1], mapSize[0]]);
@@ -119,7 +119,10 @@ MapLayoutGraph.prototype.diagonal = function(that){
 position and dimension
  */
 MapLayoutGraph.prototype.generateGraph = function(source){
+	this.nodes = this.mapStructure.getNodesList();
+	this.links = this.mapStructure.getEdgesList();
 	if(this.links === null || this.nodes == null){return;}
+
 	var that = this;
 	// if(this.nodes){
 	// 	// Normalize for fixed-depth.
@@ -152,27 +155,29 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 	// this.links = this.tree.links(this.nodes);
 	
 	//links are D3.tree-generated objects of type Object: {source, target}
-	for(var i = 0;i<this.links.length; i++){
-		var link = this.links[i];
-		var edges = this.mapStructure.getEdgesBetweenNodes(link.source.kNode, link.target.kNode);
-		if(edges && edges[0]){
-			link.vkEdge = edges[0]; //TODO: see what will happen when we have more links between two nodes
-		}
-	}
+
+	// TODO: This is currently not supported with dr.layout.force() since it doesn't create links (with source/targer)
+	// for(var i = 0;i<this.links.length; i++){
+	// 	var link = this.links[i];
+	// 	var edges = this.mapStructure.getEdgesBetweenNodes(link.source.kNode, link.target.kNode);
+	// 	if(edges && edges[0]){
+	// 		link.vkEdge = edges[0]; //TODO: see what will happen when we have more links between two nodes
+	// 	}
+	// }
 
 	// calculating node boundaries
-	if(this.configGraph.sizing.setNodeSize){
+	if(this.configTree.sizing.setNodeSize){
 		this.MoveNodesToPositiveSpace(this.nodes);
 	}
 
-	var viewspec = this.configGraph.viewspec;
+	var viewspec = this.configTree.viewspec;
 	var sizes = this.configNodes.html.dimensions.sizes;
 
 	// 	this.nodes.forEach(function(d) {
 	// 		// Normalize for fixed-depth.
-	// 		if(that.configGraph.fixedDepth.enabled){
+	// 		if(that.configTree.fixedDepth.enabled){
 	// 			var levelDepth = 300;
-	// 			if(that.configGraph.fixedDepth.levelDepth) levelDepth = that.configGraph.fixedDepth.levelDepth;
+	// 			if(that.configTree.fixedDepth.levelDepth) levelDepth = that.configTree.fixedDepth.levelDepth;
 	// 			d.y = d.depth * levelDepth;
 	// 		}
 
@@ -262,11 +267,11 @@ MapLayoutGraph.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	console.log("Dimensions: (minX: %s, maxX: %s, minY: %s, maxY: %s)", minX, maxX, minY, maxY);
 	for(i in nodes){
 		node = nodes[i];
-		node.x += -minX + this.configGraph.margin.top;
-		node.y += -minY + this.configGraph.margin.left;
+		node.x += -minX + this.configTree.margin.top;
+		node.y += -minY + this.configTree.margin.left;
 	}
-	maxX += -minX + this.configGraph.margin.bottom;
-	maxY += -minY + this.configGraph.margin.right;
+	maxX += -minX + this.configTree.margin.bottom;
+	maxY += -minY + this.configTree.margin.right;
 	this.clientApi.setDomSize(maxY, maxX);
 };
 
