@@ -751,10 +751,10 @@ angular.module('rimaDirectives', ['Config'])
 				function(newValue){
 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
 					generateNodesAndEdges(nodes, edges);
-					layoutGraph();
-					update(nodes, pathSvg, nodeSvg);
-					updateGraph();
-					animateGraph();
+					// layoutGraph();
+					// update(nodes, pathSvg, nodeSvg);
+					// updateGraph();
+					// animateGraph();
 				}, true);
 
 				$scope.$watch(function () {
@@ -765,17 +765,17 @@ angular.module('rimaDirectives', ['Config'])
 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
 					// console.log("[KnalledgeMapVOsService.mapStructure.nodesById watch]: elements no: %d", Object.keys(newValue).length);
 					generateNodesAndEdges(nodes, edges);
-					layoutGraph();
-					update(nodes, pathSvg, nodeSvg);
-					updateGraph();
-					animateGraph();
+					// layoutGraph();
+					// update(nodes, pathSvg, nodeSvg);
+					// updateGraph();
+					// animateGraph();
 				}, true);
 
 				generateNodesAndEdges(nodes, edges);
-				layoutGraph();
-				update(nodes, pathSvg, nodeSvg);
-				updateGraph();
-				animateGraph();
+				// layoutGraph();
+				// update(nodes, pathSvg, nodeSvg);
+				// updateGraph();
+				// animateGraph();
 			}
 		};
 	}])
