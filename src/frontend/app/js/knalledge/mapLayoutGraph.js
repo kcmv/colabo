@@ -141,12 +141,47 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 
 	var width = 960, height = 600; //TODO: set somewhere
 
+	if(this.nodes.length==0){return;}
+	//this.links = []; //TODO remove
 	this.graph = d3.layout.force()
 		.nodes(this.nodes) //.nodes(d3.values(this.nodes))
-		.links(this.links)
+		.links(this.links)//.links(this.links)
 		.size([width, height])
 		.linkDistance(300)
 		.charge(-100);
+
+	/*
+	var svg = d3.select("div.users-graph").append("svg")
+			.attr("width", width)
+			.attr("height", height);
+
+	var nodeSvg = svg.selectAll(".node")
+		.data(this.nodes)
+	  .enter().append("g")
+		.attr("class", "node")
+		.call(this.graph.drag);
+
+	// add the nodes
+	nodeSvg.append("circle")
+		.attr("r", 5);
+
+	// add the text 
+	nodeSvg.append("text")
+		.attr("x", 12)
+		.attr("dy", ".35em")
+		.text(function(d) { return d.name; });
+
+	function tick(){
+		console.log('tick');
+		nodeSvg
+			.attr("transform", function(d) { 
+			return "translate(" + d.x + "," + d.y + ")"; });
+	}
+	*/
+
+	this.graph
+		//.on("tick", tick)
+		.start();
 
 	// nodeSvg = svg.selectAll(".node")
 	// 	.data(force.nodes())

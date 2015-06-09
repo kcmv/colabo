@@ -61,13 +61,13 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 		enter: null,
 		exit: null
 	};
-	if(this.configNodes.html.show && this.mapLayout.nodes !== null){
+	if(this.configNodes.html.show && this.mapLayout.nodes !== null && typeof this.mapLayout.nodes !== "undefined"){
 
 		// var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
 		// 	.data(this.mapLayout.nodes, function(d) { return d.id; });
 
 		var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
-		.data(this.nodes);//graph.nodes());
+		.data(this.mapLayout.nodes);//graph.nodes());
 	 
 
 		function tick() {
@@ -89,9 +89,9 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 		  	    return "translate(" + d.x + "," + d.y + ")"; });
 		}
 
-		graph.
-		.on("tick", tick)
-		.start();
+		// graph
+		// .on("tick", tick)
+		// .start();
 
 		nodeHtml.classed({
 			"node_unselectable": function(d){
@@ -139,7 +139,7 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 			.on("click", function(d){
 				that.mapLayout.clickNode(d, this);
 			})
-			.call(force.drag);
+			//.call(graph.drag);
 
 		// position node on enter at the source position
 		// (it is either parent or another precessor)
