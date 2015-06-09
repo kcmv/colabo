@@ -142,11 +142,17 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 	var width = 960, height = 600; //TODO: set somewhere
 
 	this.graph = d3.layout.force()
-		.nodes(d3.values(this.nodes))
+		.nodes(this.nodes) //.nodes(d3.values(this.nodes))
 		.links(this.links)
 		.size([width, height])
 		.linkDistance(300)
 		.charge(-100);
+
+	// nodeSvg = svg.selectAll(".node")
+	// 	.data(force.nodes())
+	//   .enter().append("g")
+	// 	.attr("class", "node")
+	// 	.call(force.drag);
 
 
 	//if(source){

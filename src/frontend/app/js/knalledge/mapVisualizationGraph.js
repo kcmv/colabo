@@ -63,8 +63,35 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 	};
 	if(this.configNodes.html.show && this.mapLayout.nodes !== null){
 
+		// var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
+		// 	.data(this.mapLayout.nodes, function(d) { return d.id; });
+
 		var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
-			.data(this.mapLayout.nodes, function(d) { return d.id; });
+		.data(this.nodes);//graph.nodes());
+	 
+
+		function tick() {
+			// add the curvy lines:
+		    path.attr("d", function(d) {
+		        var dx = d.target.x - d.source.x,
+		            dy = d.target.y - d.source.y,
+		            dr = Math.sqrt(dx * dx + dy * dy);
+		        return "M" + 
+		            d.source.x + "," + 
+		            d.source.y + "A" + 
+		            dr + "," + dr + " 0 0,1 " + 
+		            d.target.x + "," + 
+		            d.target.y;
+		    });
+
+		    nodeHtml
+		        .attr("transform", function(d) { 
+		  	    return "translate(" + d.x + "," + d.y + ")"; });
+		}
+
+		graph.
+		.on("tick", tick)
+		.start();
 
 		nodeHtml.classed({
 			"node_unselectable": function(d){
@@ -76,6 +103,12 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 					true : false;
 			}
 		});
+
+		//  .enter().append("g")
+		// .attr("class", "node")
+		// .on("click", click)
+		// //.on("dblclick", dblclick)
+		// .call(force.drag);
 
 		// Enter the nodes
 		// we create a div that will contain both visual representation of a node (circle) and text
@@ -105,7 +138,8 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 			})
 			.on("click", function(d){
 				that.mapLayout.clickNode(d, this);
-			});
+			})
+			.call(force.drag);
 
 		// position node on enter at the source position
 		// (it is either parent or another precessor)
