@@ -119,9 +119,9 @@ MapLayoutGraph.prototype.diagonal = function(that){
 position and dimension
  */
 MapLayoutGraph.prototype.generateGraph = function(source){
-	this.nodes = this.mapStructure.getNodesList();
-	this.links = this.mapStructure.getEdgesList();
-	if(this.links === null || this.nodes == null){return;}
+	this.nodes = this.mapStructure.getNodesList(); //nodesById;
+	this.links = this.mapStructure.getEdgesList();//edgesById;
+	if(this.links === null || this.nodes == null){return;} //TODO: because of adding above two lines, it cannot be null
 
 	var that = this;
 	// if(this.nodes){
@@ -142,6 +142,13 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 	var width = 960, height = 600; //TODO: set somewhere
 
 	if(this.nodes.length==0){return;}
+
+	for(var i =0;i < this.links.length;i++){
+		var vkEdge = this.links[i];
+		vkEdge.source = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.sourceId);
+		vkEdge.target = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
+	}
+
 	//this.links = []; //TODO remove
 	this.graph = d3.layout.force()
 		.nodes(this.nodes) //.nodes(d3.values(this.nodes))

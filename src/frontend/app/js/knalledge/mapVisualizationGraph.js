@@ -732,14 +732,14 @@ MapVisualizationGraph.prototype.updateLinkLabels = function(source) {
 	var linkLabelHtml = this.dom.divMapHtml.selectAll("div.label_html")
 	.data(this.mapLayout.links, function(d) {
 		// there is only one incoming edge
-		return d.vkEdge.id; // d.target.id;
+		return d.id; // d.target.id;
 	});
 
 	// Enter the nodes
 	// we create a div that will contain both visual representation of a node (circle) and text
 	var linkLabelHtmlEnter = linkLabelHtml.enter().append("div")
 		.attr("class", function(d){
-				return "label_html " + d.vkEdge.kEdge.type;
+				return "label_html " + d.kEdge.type;
 			})
 		// position node on enter at the source position
 		// (it is either parent or another precessor)
@@ -870,7 +870,7 @@ MapVisualizationGraph.prototype.updateLinks = function(source) {
 	var link = this.dom.svg.selectAll("path.link")
 	.data(this.mapLayout.links, function(d) {
 		// there is only one incoming edge
-		return d.vkEdge.id; // d.target.id;
+		return d.id; // d.target.id;
 	});
 
 	// Enter the links

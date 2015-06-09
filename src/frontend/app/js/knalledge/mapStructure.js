@@ -382,7 +382,7 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	// deleting all previous data
 	// TODO: FIX: what about incremental updates
 	this.nodesById = {};
-	this.nodesById = {};
+	this.edgesById = {};
 
 	//var id;
 	for(i=0; i<kMapData.map.nodes.length; i++){
