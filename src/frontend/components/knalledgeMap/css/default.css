@@ -556,7 +556,7 @@ $large: 1400px;
     /*TODO: center this verticaly (need to do it from JS :( ))*/
     /* NODE SEMANTIC / STYLING */ }
     /* line 564, ../sass/default.scss */
-    .knalledge_map_container .node_html .node_html span {
+    .knalledge_map_container .node_html span {
       display: inline-block;
       vertical-align: middle;
       line-height: normal;
@@ -566,7 +566,7 @@ $large: 1400px;
       color: #550000;
       /* just for testing purposs */ }
       /* line 574, ../sass/default.scss */
-      .knalledge_map_container .node_html .node_html span p {
+      .knalledge_map_container .node_html span p {
         color: #880000;
         font-weight: 100;
         font-size: 14px;

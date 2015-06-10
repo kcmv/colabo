@@ -39,19 +39,20 @@ topiChatServices.provider('TopiChatViewService', {
 	}]
 });
 
-topiChatServices.provider('TopiChatService', {
+topiChatServices.provider('TopiChatService', function TopiChatServiceProvider(){
 	// privateData: "privatno",
-	$get: ['socketFactory', '$rootScope', 'ENV', /*'$q', */
+	var _isActive = true;
+	
+	this.setActive = function(isActive){
+		_isActive = isActive;
+	};
+
+	this.$get = ['socketFactory', '$rootScope', 'ENV', /*'$q', */
 	function(socketFactory, $rootScope, ENV /*$q */) {
 		// var that = this;
 
 		var _socket;
-		var _sfOptions = {
-			url: ENV.server.topichat
-		};
-		_socket = socketFactory(_sfOptions);
-
-		// _socket.forward('broadcast');
+		var _sfOptions;
 
 		var provider = {
 			plugins: {},
@@ -61,6 +62,14 @@ topiChatServices.provider('TopiChatService', {
 			},
 
 			init: function(){
+				if(!_isActive) return;
+
+				_sfOptions = {
+					url: ENV.server.topichat
+				};
+				_socket = socketFactory(_sfOptions);
+				// _socket.forward('broadcast');
+
 				// registering chat plugin
 				var systemPluginOptions = {
 					name: "system",
@@ -89,6 +98,7 @@ topiChatServices.provider('TopiChatService', {
 			},
 
 			registerPlugin: function(pluginOptions) {
+				if(!_isActive) return;
 				var pluginName = pluginOptions.name;
 				console.log('[TopiChatService:registerPlugin] Registering plugin: %s', pluginName);
 				this.plugins[pluginName] = pluginOptions;
@@ -126,7 +136,7 @@ topiChatServices.provider('TopiChatService', {
 		provider.init();
 
 		return provider;
-	}]
+	}];
 });
 
 

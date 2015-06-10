@@ -302,12 +302,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				if($scope.mapData){
 					// console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
 					setData($scope.mapData);
-					$scope.$watch(function () {
-						return $scope.mapData;
-					},
-					function(newValue){
-						setData($scope.mapData);
-					}, true);
 				}else{
 					var gotMap = function(map){
 						console.log('gotMap:'+JSON.stringify(map));

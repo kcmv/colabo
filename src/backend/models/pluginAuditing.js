@@ -30,4 +30,4 @@ module.exports = exports = function pluginAuditing (schema, options) {
 	function updateDateQueryTest() {
 		console.log("[models/pluginAuditing/updateDateQueryTest]");
 	}
-}
+};

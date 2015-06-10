@@ -574,12 +574,6 @@ angular.module('rimaDirectives', ['Config'])
 				var usersAll = RimaService.getUsers();
 				var users_ignored = {"55268521fb9a901e442172f8":true, "556760847125996dc1a4a219":true};
 				var hows_ignored = {"4":true}; //TODO: temp - ignoring because of overconnectedness through this - people have chosen topics of TNC Online dialogue through this how-verb
-				var force = null;
-
-				var width = 960, height = 600;
-				var svg = d3.select("div.users-graph").append("svg")
-					.attr("width", width)
-					.attr("height", height);
 
 				var generateNodesAndEdges = function(nodes, edges){
 					//!!! TODO: check for improving performance of this algorithm!! it is ~ O(n4)!!
@@ -592,6 +586,8 @@ angular.module('rimaDirectives', ['Config'])
 						var kNode = new knalledge.KNode();
 						kNode._id = usersAll[i]._id;
 						kNode.name = usersAll[i].displayName;
+						if(!kNode.visual) kNode.visual = {};
+						kNode.visual.selectable = true;
 						nodes.push(kNode);
 					}
 
@@ -637,105 +633,6 @@ angular.module('rimaDirectives', ['Config'])
 					}
 				};
 
-				var update = function(nodes, pathSvg, nodeSvg){
-
-					if(nodes.length>1){
-						//nodes = [{name:"2", value:1},{name:"dd", value:2},{name:"dde", value:3}];
-						//edges = [{source:nodes[0],target:nodes[1],value:1},{source:nodes[1],target:nodes[2],value:5}];
-						//edges = [{source:0,target:1,value:1},{source:1,target:2,value:5}];
-						//edges = [];						
-
-						// build the arrow.
-						// svg.append("svg:defs").selectAll("marker")
-						//     .data(["end"])      // Different edge/path types can be defined here
-						//   .enter().append("svg:marker")    // This section adds in the arrows
-						//     .attr("id", String)
-						//     .attr("viewBox", "0 -5 10 10")
-						//     .attr("refX", 15)
-						//     .attr("refY", -1.5)
-						//     .attr("markerWidth", 6)
-						//     .attr("markerHeight", 6)
-						//     .attr("orient", "auto")
-						//   .append("svg:path")
-						//     .attr("d", "M0,-5L10,0L0,5");
-
-						// add the edges and the arrows
-						pathSvg = svg.append("svg:g").selectAll("path")
-							.data(force.links())
-						  .enter().append("svg:path")
-						//    .attr("class", function(d) { return "edge " + d.type; })
-							.attr("class", "link")
-							.attr('stroke-width', function(d) { return d.value; })
-							.attr("marker-end", "url(#end)");
-
-						 // path
-						 // .attr('stroke-width', function(d) { return d.value; }); //TODO - not working
-
-						// define the nodes
-						nodeSvg = svg.selectAll(".node")
-							.data(force.nodes())
-						  .enter().append("g")
-							.attr("class", "node")
-							.call(force.drag);
-
-						// add the nodes
-						nodeSvg.append("circle")
-							.attr("r", 5);
-
-						// add the text 
-						nodeSvg.append("text")
-							.attr("x", 12)
-							.attr("dy", ".35em")
-							.text(function(d) { return d.name; });
-					}
-
-					// Compute the distinct nodes from the links.
-					// links.forEach(function(link) {
-					//     link.source = nodes[link.source] || 
-					//         (nodes[link.source] = {name: link.source});
-					//     link.target = nodes[link.target] || 
-					//         (nodes[link.target] = {name: link.target});
-					//     link.value = +link.value;
-					// });
-				};
-
-				var layoutGraph = function(){
-					force = d3.layout.force()
-						.nodes(d3.values(nodes))
-						.links(edges)
-						.size([width, height])
-						.linkDistance(300)
-						.charge(-100)
-				}
-				var animateGraph = function(){
-					// add the curvy lines
-					function tick() {
-						if(pathSvg && nodeSvg){
-							pathSvg.attr("d", function(d) {
-								var dx = d.target.x - d.source.x,
-									dy = d.target.y - d.source.y,
-									dr = Math.sqrt(dx * dx + dy * dy);
-								return "M" + 
-									d.source.x + "," + 
-									d.source.y + "A" + 
-									dr + "," + dr + " 0 0,1 " + 
-									d.target.x + "," + 
-									d.target.y;
-							});
-
-							nodeSvg
-								.attr("transform", function(d) { 
-								return "translate(" + d.x + "," + d.y + ")"; });
-						}
-					};
-
-					force
-						.on("tick", tick)
-						.start();
-
-						//console.log("force:" + force);
-				}
-
 				var updateGraph = function(){
 					if(nodes.length > 0){
 						properties.rootNodeId =  null;//nodes[0]._id;
@@ -749,12 +646,8 @@ angular.module('rimaDirectives', ['Config'])
 					return RimaService.howAmIs;
 				},
 				function(newValue){
-					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
 					generateNodesAndEdges(nodes, edges);
-					// layoutGraph();
-					// update(nodes, pathSvg, nodeSvg);
 					updateGraph();
-					// animateGraph();
 				}, true);
 
 				$scope.$watch(function () {
@@ -765,17 +658,11 @@ angular.module('rimaDirectives', ['Config'])
 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
 					// console.log("[KnalledgeMapVOsService.mapStructure.nodesById watch]: elements no: %d", Object.keys(newValue).length);
 					generateNodesAndEdges(nodes, edges);
-					// layoutGraph();
-					// update(nodes, pathSvg, nodeSvg);
 					updateGraph();
-					// animateGraph();
 				}, true);
 
 				generateNodesAndEdges(nodes, edges);
-				// layoutGraph();
-				// update(nodes, pathSvg, nodeSvg);
 				updateGraph();
-				// animateGraph();
 			}
 		};
 	}])

@@ -112,6 +112,10 @@ MapLayoutGraph.prototype.diagonal = function(that){
 	return diagonal;
 };
 
+MapLayoutGraph.prototype.getAllNodesHtml = function(){
+	return this.dom.divMapHtml.selectAll("div.node_graph_html");
+};
+
 /**
  * @func generateGraph
  * - destroying structure of the old tree

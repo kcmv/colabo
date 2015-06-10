@@ -63,10 +63,10 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 	};
 	if(this.configNodes.html.show && this.mapLayout.nodes !== null && typeof this.mapLayout.nodes !== "undefined"){
 
-		// var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
+		// var nodeHtml = this.dom.divMapHtml.selectAll("div.node_graph_html")
 		// 	.data(this.mapLayout.nodes, function(d) { return d.id; });
 
-		var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
+		var nodeHtml = this.dom.divMapHtml.selectAll("div.node_graph_html")
 		.data(this.mapLayout.nodes);//graph.nodes());
 	 
 
@@ -114,23 +114,7 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 		// we create a div that will contain both visual representation of a node (circle) and text
 		var nodeHtmlEnter = nodeHtml.enter().append("div")
 			.attr("class", function(d){
-					var userHows = that.rimaService.howAmIs;
-					var nodeWhats = (d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats) ?
-						d.kNode.dataContent.rima.whats : [];
-					var relevant = false;
-					for(var i in nodeWhats){
-						var nodeWhat = nodeWhats[i];
-						for(var j in userHows){
-							var userHow = userHows[j];
-							if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name))
-							{
-								relevant = true;
-								break;
-							}
-						}
-					}
-					var classes = "node_html node_unselected draggable " + d.kNode.type;
-					if(relevant) classes += " rima_relevant"
+					var classes = "node_graph_html node_unselected draggable " + d.kNode.type;
 					return classes;
 				})
 			.on("dblclick", function(d){
@@ -148,9 +132,9 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 				var y = null;
 				if(that.configTransitions.enter.animate.position){
 					if(that.configTransitions.enter.referToToggling){
-						y = source.y0;
+						y = source.py;
 					}else{
-						y = d.parent ? d.parent.y0 : d.y0;
+						y = d.parent ? d.parent.py : d.py;
 					}
 				}else{
 					y = d.y;
@@ -161,9 +145,9 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 				var x = null;
 				if(that.configTransitions.enter.animate.position){
 					if(that.configTransitions.enter.referToToggling){
-						x = source.x0;
+						x = source.px;
 					}else{
-						x = d.parent ? d.parent.x0 : d.x0;
+						x = d.parent ? d.parent.px : d.px;
 					}
 				}else{
 					x = d.x;
@@ -172,7 +156,7 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 				return that.scales.x(x) + "px";
 			})
 			.classed({
-				"node_html_fixed": function(d){
+				"node_graph_html_fixed": function(d){
 					return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 						false : true;
 				}
@@ -208,53 +192,6 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 			// 	if(image) return null; // no bacground
 			// 	return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
 			// });
-
-		nodeHtmlEnter.filter(function(d) { return that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image; })
-			.append("img")
-				.attr("src", function(d){
-					return d.kNode.dataContent.image.url;
-				})
-				.attr("width", function(d){
-					return that.scales.width(d.kNode.dataContent.image.width) + "px";
-				})
-				.attr("height", function(d){
-					return that.scales.height(d.kNode.dataContent.image.height) + "px";
-				})
-				.attr("alt", function(d){
-					return d.kNode.name;
-				});
-
-		nodeHtmlEnter
-			.append("div")
-				.attr("class", "open_close_status");
-
-		// TODO: we cannot optimize
-		// if(this.knalledgeMapViewService.config.nodes.showTypes){
-		nodeHtmlEnter
-			.append("div")
-				.attr("class", "node_type");
-		// }
-
-		// TODO: we cannot optimize
-		// if(this.rimaService.config.showUsers){
-			nodeHtmlEnter
-				.append("div")
-					.attr("class", "rima_user");
-		// }
-
-		// nodeHtmlEnter
-		// 	.append("div")
-		// 		.attr("class", "node_status")
-		// 			.html(function(){
-		// 				return "&nbsp;"; //d._id; // d.kNode._id;
-		// 			});
-		nodeHtmlEnter
-			.append("div")
-				.attr("class", "vote_up");
-
-		nodeHtmlEnter
-			.append("div")
-				.attr("class", "vote_down");
 
 		nodeHtmlEnter
 			.append("div")
@@ -300,7 +237,7 @@ MapVisualizationGraph.prototype.updateHtmlTransitions = function(source, nodeHtm
 	var nodeHtml = nodeHtmlDatasets.elements;
 	// var nodeHtmlEnter = nodeHtmlDatasets.enter;
 
-	// var nodeHtml = divMapHtml.selectAll("div.node_html")
+	// var nodeHtml = divMapHtml.selectAll("div.node_graph_html")
 	// 	.data(nodes, function(d) { return d.id; });
 
 	// Transition nodes to their new (final) position
@@ -315,7 +252,7 @@ MapVisualizationGraph.prototype.updateHtmlTransitions = function(source, nodeHtm
 
 		nodeHtmlUpdate
 			.classed({
-				"node_html_fixed": function(d){
+				"node_graph_html_fixed": function(d){
 					return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 						false : true;
 				}
@@ -350,126 +287,6 @@ MapVisualizationGraph.prototype.updateHtmlTransitions = function(source, nodeHtm
 				.html(function(d) {
 					return d.kNode.name;
 				});
-
-
-		// image exists in data but not in the view
-		nodeHtmlUpdate.filter(function(d) {
-			return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && (d3.select(this).select("img").size() <= 0));
-		})
-			.append("img")
-				.attr("src", function(d){
-					return d.kNode.dataContent.image.url;
-				})
-				.attr("width", function(d){
-					return that.scales.width(d.kNode.dataContent.image.width) + "px";
-				})
-				.attr("height", function(d){
-					return that.scales.height(d.kNode.dataContent.image.height) + "px";
-				})
-				.attr("alt", function(d){
-					return d.kNode.name;
-				});
-
-		// image does not exist in data but does exist in the view
-		nodeHtmlUpdate.select("img").filter(function(d) { 
-			return (!(that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image) ); 
-		})
-			.remove();
-
-		nodeHtmlUpdate.select(".vote_up")
-			.style("opacity", function(d){
-				return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ? 
-					1.0 : 0.1;
-			})
-			.html(function(d){
-				// if(!('dataContent' in d.kNode) || !d.kNode.dataContent) d.kNode.dataContent = {};
-				// if(!('ibis' in d.kNode.dataContent) || !d.kNode.dataContent.ibis) d.kNode.dataContent.ibis = {};
-				// if(!('voteUp' in d.kNode.dataContent.ibis)) d.kNode.dataContent.ibis.voteUp = 1;
-				return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ? 
-					d.kNode.dataContent.ibis.voteUp : "&nbsp";
-			});
-
-		nodeHtmlUpdate.select(".vote_down")
-			.style("opacity", function(d){
-				return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ? 
-					1.0 : 0.1;
-			})
-			.html(function(d){
-				return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ? 
-					d.kNode.dataContent.ibis.voteDown : "&nbsp";
-			});
-
-		nodeHtmlUpdate.select(".open_close_status")
-			.style("display", function(d){
-				return that.mapStructure.hasChildren(d) ? "block" : "none";
-			})
-			.html(function(d){
-				return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "+" : "-";
-			});
-		nodeHtmlUpdate.select(".node_type")
-			.style("display", function(d){
-				return (that.knalledgeMapViewService.config.nodes.showTypes && d.kNode && d.kNode.type) ? "block" : "none";
-			})
-			.html(function(d){
-				var label = "";
-				if(d.kNode && d.kNode.type){
-					var type = d.kNode.type;
-					switch(type){
-						case "type_ibis_question":
-							type = "ibis:QUESTION";
-							break;
-						case "type_ibis_idea":
-							type = "ibis:IDEA";
-							break;
-						case "type_ibis_argument":
-							type = "ibis:ARGUMENT";
-							break;
-						case "type_ibis_comment":
-							type = "ibis:COMMENT";
-							break;
-						case "type_knowledge":
-							type = "kn:KnAllEdge";
-							break;
-
-						case "model_component":
-							type = "csdms:COMPONENT";
-							break;
-						case "object":
-							type = "csdms:OBJECT";
-							break;
-						case "variable":
-							type = "csdms:VARIABLE";
-							break;
-						case "assumption":
-							type = "csdms:ASSUMPTION";
-							break;
-						case "grid_desc":
-							type = "csdms:GRID DESC";
-							break;
-						case "grid":
-							type = "csdms:GRID";
-							break;
-						case "process":
-							type = "csdms:PROCESS";
-							break;
-					}
-					label = "%" + type;
-				}
-				return label;
-			});
-		nodeHtmlUpdate.select(".rima_user")
-			.style("display", function(d){
-				return that.rimaService.config.showUsers && that.rimaService.getUserById(d.kNode.iAmId) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')
-
-			})
-			.html(function(d){
-				var user = that.rimaService.getUserById(d.kNode.iAmId);
-				var label = "";
-				if(user){
-					label = "@" + user.displayName;
-				}
-				return label;
-			});
 
 		if(this.mapPlugins && this.mapPlugins.mapVisualizePlugins){
 			for(var pluginName in this.mapPlugins.mapVisualizePlugins){
@@ -563,7 +380,7 @@ MapVisualizationGraph.prototype.updateHtmlAfterTransitions = function(source, no
 	var nodeHtml = nodeHtmlDatasets.elements;
 	// var nodeHtmlEnter = nodeHtmlDatasets.enter;
 
-	// var nodeHtml = divMapHtml.selectAll("div.node_html")
+	// var nodeHtml = divMapHtml.selectAll("div.node_graph_html")
 	// 	.data(nodes, function(d) { return d.id; });
 
 	// Transition nodes to their new (final) position
@@ -629,22 +446,22 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 			var x = null, y = null;
 			if(that.configTransitions.enter.animate.position){
 				if(that.configTransitions.enter.referToToggling){
-					y = source.y0;
-					x = source.x0;
+					y = source.py;
+					x = source.px;
 				}else{
 					if(d.parent){
-						y = d.parent.y0;
-						x = d.parent.x0;
+						y = d.parent.py;
+						x = d.parent.px;
 					}else{
-						y = d.y0;
-						x = d.x0;
+						y = d.py;
+						x = d.px;
 					}
 				}
 			}else{
 					y = d.y;
 					x = d.x;
 			}
-			return "translate(" + that.scales.y(source.y0) + "," + that.scales.x(source.x0) + ")";
+			return "translate(" + that.scales.y(source.py) + "," + that.scales.x(source.px) + ")";
 		});
 		// .attr("transform", function(d) { 
 		//   // return "translate(0,0)";
@@ -748,9 +565,9 @@ MapVisualizationGraph.prototype.updateLinkLabels = function(source) {
 			var y;
 			if(that.configTransitions.enter.animate.position){
 				if(that.configTransitions.enter.referToToggling){
-					y = source.y0;
+					y = source.py;
 				}else{
-					y = d.source.y0;
+					y = d.source.py;
 				}
 			}else{
 				y = (d.source.y + d.target.y) / 2;
@@ -761,9 +578,9 @@ MapVisualizationGraph.prototype.updateLinkLabels = function(source) {
 			var x;
 			if(that.configTransitions.enter.animate.position){
 				if(that.configTransitions.enter.referToToggling){
-					x = source.x0;
+					x = source.px;
 				}else{
-					x = d.source.x0;
+					x = d.source.px;
 				}
 			}else{
 				x = (d.source.x + d.target.x) / 2;
@@ -886,9 +703,9 @@ MapVisualizationGraph.prototype.updateLinks = function(source) {
 			if(that.configTransitions.enter.animate.position){
 				var o;
 				if(that.configTransitions.enter.referToToggling){
-					o = {x: source.x0, y: source.y0};
+					o = {x: source.px, y: source.py};
 				}else{
-					o = {x: d.source.x0, y: d.source.y0};
+					o = {x: d.source.px, y: d.source.py};
 				}
 				diagonal = that.mapLayout.diagonal(that.mapLayout)({source: o, target: o});
 			}else{
