@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
+var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
+	this.construct(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
 	this.tree = null;
 };
 

@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapVisualizationGraph =  knalledge.MapVisualizationGraph = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
-	this.construct(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService);
+var MapVisualizationGraph =  knalledge.MapVisualizationGraph = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
+	this.construct(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService);
 };
 
 // TODO: the quickest solution until find the best and the most performance optimal solution
@@ -487,7 +487,7 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 		.attr("dy", ".35em")
 		// set the text
 		.text(function(d) {
-			return d.kNode.name;
+			return that.configNodes.labels.show ? d.kNode.name : "";
 		})
 		.style("fill-opacity", 1);
 
@@ -514,7 +514,16 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 	(this.configTransitions.update.animate.opacity ? nodeUpdateTransition : nodeUpdate)
 			.style("opacity", 0.8);
 
-	node.select("circle")
+	nodeUpdate.select("text")
+		.text(function(d) {
+			return that.configNodes.labels.show ? d.kNode.name : "";
+		});
+
+	nodeUpdate.select("circle")
+		// the center of the circle is positioned at the 0,0 coordinate
+		.attr("r", function(d) {
+			return d.size;
+		})
 		.style("fill", function(d) { return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "lightsteelblue" : "#ffffff"; });
 
 	// Transition exiting nodes
@@ -559,7 +568,7 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 };
 
 MapVisualizationGraph.prototype.updateLinkLabels = function(source) {
-	if(!this.configEdges.labels.show || this.mapLayout.links === null) return;
+	if(!this.configEdges.labels.show || this.mapLayout.links === null || this.dom.divMapHtml == null) return;
 
 	var that = this;
 

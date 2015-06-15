@@ -4,9 +4,10 @@
 var MapVisualization =  knalledge.MapVisualization = function(){
 };
 
-MapVisualization.prototype.construct = function(dom, mapStructure, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
+MapVisualization.prototype.construct = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
 	this.dom = dom;
 	this.mapStructure = mapStructure;
+	this.collaboPluginsService = collaboPluginsService;
 
 	this.configTransitions = configTransitions;
 	this.configTree = configTree;

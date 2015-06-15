@@ -6,10 +6,10 @@ var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
 angular.module('knalledgeMapDirectives', ['Config'])
 	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', 
 		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', 'SyncingService', 
-		'KnAllEdgeRealTimeService', '$compile', '$routeParams', 'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService',
+		'KnAllEdgeRealTimeService', '$compile', '$routeParams', 'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService', 'CollaboPluginsService',
 		function($rootScope, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, 
 		RimaService, IbisTypesService, NotifyService, NotifyNodeService, KnalledgeMapViewService, SyncingService, 
-		KnAllEdgeRealTimeService, $compile, $routeParams, KnAllEdgeSelectItemService, KnalledgeMapPolicyService){
+		KnAllEdgeRealTimeService, $compile, $routeParams, KnAllEdgeSelectItemService, KnalledgeMapPolicyService, CollaboPluginsService){
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -270,7 +270,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						config, kMapClientInterface, null,
 							// if $scope.mapData is set, we do not use KnalledgeMapVOsService.mapStructure but let knalledge.Map to create a new mapStructure and build VKs from Ks
 							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, $scope.mapData ? null : KnalledgeMapVOsService.mapStructure, 
-							RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService);
+							CollaboPluginsService, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService);
 					knalledgeMap.init();
 
 					// providing select item service with the context

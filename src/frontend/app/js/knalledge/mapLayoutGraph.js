@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
+var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
+	this.construct(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
 	this.graph = null;
 };
 
@@ -113,7 +113,7 @@ MapLayoutGraph.prototype.diagonal = function(that){
 };
 
 MapLayoutGraph.prototype.getAllNodesHtml = function(){
-	return this.dom.divMapHtml.selectAll("div.node_graph_html");
+	return this.dom.divMapHtml ? this.dom.divMapHtml.selectAll("div.node_graph_html") : null;
 };
 
 /**
@@ -124,14 +124,22 @@ position and dimension
  */
 MapLayoutGraph.prototype.generateGraph = function(source){
 	this.nodes = this.mapStructure.getNodesList(); //nodesById;
-	this.links = this.mapStructure.getEdgesList();//edgesById;
+	this.links = this.mapStructure.getEdgesList(); //edgesById;
 	if(this.links === null || this.nodes == null){return;} //TODO: because of adding above two lines, it cannot be null
 
 	var that = this;
 
-	var width = 960, height = 600; //TODO: set somewhere
-
 	if(this.nodes.length==0){return;}
+
+	for(var i =0; i<this.nodes.length; i++){
+		var vkNode = this.nodes[i];
+		if(!("x" in vkNode) || vkNode.x == undefined) vkNode.x = 0;
+		if(!("y" in vkNode) || vkNode.y == undefined) vkNode.y = 0;
+		if(!("x0" in vkNode) || vkNode.x0 == undefined) vkNode.x0 = 0;
+		if(!("y0" in vkNode) || vkNode.y0 == undefined) vkNode.y0 = 0;
+		if(!("px" in vkNode) || vkNode.px == undefined) vkNode.px = 0;
+		if(!("py" in vkNode) || vkNode.py == undefined) vkNode.py = 0;
+	}
 
 	for(var i =0;i < this.links.length;i++){
 		var vkEdge = this.links[i];
@@ -141,7 +149,7 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 
 
 	//TODO: remove: just for test: 
-	if(this.nodes.length<2){return;} var opions = {mutualNeghbours:[this.nodes[0],this.nodes[1]]};
+	if(this.nodes.length<2){return;} var opions = {mutualNeghbours:[this.nodes[0], this.nodes[1]]};
 	
 	/* filtering only nodes that are mutual neighbours of 2 selected nodes. filtering only links that connect them */
 	if((typeof opions !== "undefined" && opions !==null) && (opions.mutualNeghbours !== null && typeof opions.mutualNeghbours !== "undefined")){
@@ -180,7 +188,21 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 		this.links = linksNew;
 	}
 
+	var viewspec = this.configTree.viewspec;
+	var sizes = this.configNodes.html.dimensions.sizes;
+
+	// calculating node boundaries
+	if(this.configTree.sizing.setNodeSize){
+		this.MoveNodesToPositiveSpace(this.nodes);
+	}
+
+	// this.printTree(this.nodes);
+};
+
+MapLayoutGraph.prototype.distribute = function() {
 	//this.links = []; //TODO remove
+	var width = 960, height = 600; //TODO: set somewhere
+
 	this.graph = d3.layout.force()
 		.nodes(this.nodes) //.nodes(d3.values(this.nodes))
 		.links(this.links)//.links(this.links)
@@ -188,19 +210,18 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 		.linkDistance(300)
 		.charge(-100);
 
+	var tick = function () {
+		// TODO: add updating nodes/edges positions
+	};
+
 	this.graph
-		//.on("tick", tick)
+		.on("tick", tick)
 		.start();
 
 	// calculating node boundaries
 	if(this.configTree.sizing.setNodeSize){
 		this.MoveNodesToPositiveSpace(this.nodes);
 	}
-
-	var viewspec = this.configTree.viewspec;
-	var sizes = this.configNodes.html.dimensions.sizes;
-
-	// this.printTree(this.nodes);
 };
 
 MapLayoutGraph.prototype.printTree = function(nodes) {

@@ -1,7 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService){
+var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService, 
+	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService){
 	this.config = config;
 	this.clientApi = clientApi;
 	this.entityStyles = entityStyles;
@@ -10,6 +11,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.scales = null;
 	this.mapSize = null;
 	this.mapStructureExternal = mapStructureExternal;
+	this.collaboPluginsService = collaboPluginsService;
 	this.rimaService = rimaService;
 	this.ibisTypesService = ibisTypesService;
 	this.notifyService = notifyService;
@@ -21,7 +23,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.knalledgeState = new knalledge.State();
 	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService);
 
-	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService);
+	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService);
 
 	this.mapVisualization = this.mapManager.getActiveVisualization();
 	this.mapLayout = this.mapManager.getActiveLayout();
@@ -51,6 +53,15 @@ Map.prototype.init = function() {
 	this.mapLayout.init(this.mapSize, this.scales);
 	this.initializeKeyboard();
 	this.initializeManipulation();
+
+	this.collaboPluginsService.provideReferences("map", {
+		config: this.config,
+		mapStructure: this.mapStructure
+	});
+	this.collaboPluginsService.provideApi("map", {
+		/* update(source, callback) */
+		update: this.mapVisualization.update.bind(this.mapVisualization)
+	});
 };
 
 

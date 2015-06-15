@@ -4,8 +4,9 @@
 var MapLayout =  knalledge.MapLayout = function(){
 }
 
-MapLayout.prototype.construct = function(mapStructure, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
+MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
 	this.mapStructure = mapStructure;
+	this.collaboPluginsService = collaboPluginsService;
 	this.configNodes = configNodes;
 	this.configTree = configTree;
 	this.clientApi = clientApi;
@@ -14,6 +15,11 @@ MapLayout.prototype.construct = function(mapStructure, configNodes, configTree, 
 	this.nodes = null;
 	this.links = null;
 	this.dom = null;
+
+	this.collaboPluginsService.provideApi("mapLayout", {
+		/* distribute() */
+		distribute: this.distribute.bind(this)
+	});
 };
 
 // realtime distribution
@@ -30,12 +36,14 @@ MapLayout.prototype.realTimeNodeSelected = function(eventName, msg){
 };
 
 MapLayout.prototype.getAllNodesHtml = function(){
-	return this.dom.divMapHtml.selectAll("div.node_html");
+	return this.dom.divMapHtml ? this.dom.divMapHtml.selectAll("div.node_html") : null;
 };
 
 // Returns view representation (dom) from datum d
 MapLayout.prototype.getDomFromDatum = function(d) {
-	var dom = this.getAllNodesHtml()
+	var htmlNodes = this.getAllNodesHtml();
+	if(!htmlNodes) return null;
+	var dom = htmlNodes
 		.data([d], function(d){return d.id;});
 	if(dom.size() != 1) return null;
 	else return dom;
@@ -56,6 +64,9 @@ MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback, commi
 		(typeof callback === 'function') ? callback : undefined);
 };
 
+MapLayout.prototype.distribute = function() {
+};
+
 MapLayout.prototype.processSyncedData = function(callback) {
 	this.clickNode(this.mapStructure.getSelectedNode(), null, true);
 	this.clientApi.update(this.mapStructure.getSelectedNode(), 
@@ -71,21 +82,21 @@ MapLayout.prototype.viewspecChanged = function(target){
 
 // Select node on node click
 MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
-	return;
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state
 	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
 		return;
 	}
 	var nodesHtmlSelected = this.getDomFromDatum(d);
-	if(!nodesHtmlSelected) return;
 
 	// unselect all nodes
 	var nodesHtml = this.getAllNodesHtml();
-	nodesHtml.classed({
-		"node_selected": false,
-		"node_unselected": true
-	});
+	if(nodesHtml){
+		nodesHtml.classed({
+			"node_selected": false,
+			"node_unselected": true
+		});
+	}
 	this.nodes.forEach(function(d){d.isSelected = false;});
 
 	if(isSelected){//it was selected, and with this click it becomes unselected:
@@ -93,10 +104,12 @@ MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleU
 		this.mapStructure.unsetSelectedNode();
 	}else{//it was unselected, and with this click it becomes selected:
 		// var nodeHtml = nodesHtml[0];
-		nodesHtmlSelected.classed({
-			"node_selected": true,
-			"node_unselected": false
-		});
+		if(nodesHtmlSelected){
+			nodesHtmlSelected.classed({
+				"node_selected": true,
+				"node_unselected": false
+			});
+		}
 		d.isSelected = true;
 		this.mapStructure.setSelectedNode(d);
 
