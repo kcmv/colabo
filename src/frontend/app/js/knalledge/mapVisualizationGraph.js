@@ -29,7 +29,7 @@ MapVisualizationGraph.prototype.update = function(source, callback) {
 		source = this.mapStructure.nodesById[Object.keys(this.mapStructure.nodesById)[0]];
 	}
 	this.mapLayout.generateGraph(this.mapStructure.rootNode);
-	this.mapLayout.printTree(this.mapLayout.nodes);
+	// this.mapLayout.printTree(this.mapLayout.nodes);
 	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
 	var that = this;
 	window.setTimeout(function() {
@@ -198,7 +198,7 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 				.attr("class", "node_inner_html")
 				.append("span")
 					.html(function(d) {
-						return d.kNode.name;
+						return that.configNodes.labels.show ? d.kNode.name : "";
 					});
 				// .append("span")
 				// 	.html(function(d) {
@@ -285,7 +285,7 @@ MapVisualizationGraph.prototype.updateHtmlTransitions = function(source, nodeHtm
 			});
 			nodeHtmlUpdate.select(".node_inner_html span")
 				.html(function(d) {
-					return d.kNode.name;
+					return that.configNodes.labels.show ? d.kNode.name : "";
 				});
 
 		if(this.mapPlugins && this.mapPlugins.mapVisualizePlugins){
@@ -441,11 +441,11 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 		.on("dblclick", function(d){
 			that.clickDoubleNode.clickNode(d, this);
 		})
-		// Enter any new nodes at the parent's previous position.
+		// Enter any new nodes at the parent's previous position
 		.attr("transform", function(d) {
 			var x = null, y = null;
 			if(that.configTransitions.enter.animate.position){
-				if(that.configTransitions.enter.referToToggling){
+				if(source && that.configTransitions.enter.referToToggling){
 					y = source.py;
 					x = source.px;
 				}else{
@@ -461,7 +461,7 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 					y = d.y;
 					x = d.x;
 			}
-			return "translate(" + that.scales.y(source.py) + "," + that.scales.x(source.px) + ")";
+			return "translate(" + that.scales.y(y) + "," + that.scales.x(x) + ")";
 		});
 		// .attr("transform", function(d) { 
 		//   // return "translate(0,0)";
@@ -471,8 +471,25 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 	// add visual representation of node
 	nodeEnter.append("circle")
 		// the center of the circle is positioned at the 0,0 coordinate
-		.attr("r", 10)
+		.attr("r", function(d) {
+			return d.size;
+		})
 		.style("fill", "#fff");
+	nodeEnter.append("text")
+		// if there are children anchor text to the end of thext
+		// which means it will be positioned to the right side of the text provided position (x)
+		.attr("text-anchor", "end") // "start"
+		// if there are children text will be on the left side from the node so we need to
+		// increase negative (left) margine
+		// otherwise we increase positive (right) margine
+		.attr("x", 13)
+		// move (relatively) the text down
+		.attr("dy", ".35em")
+		// set the text
+		.text(function(d) {
+			return d.kNode.name;
+		})
+		.style("fill-opacity", 1);
 
 	var nodeEnterTransition;
 	if(this.configTransitions.enter.animate.position || this.configTransitions.enter.animate.opacity){
@@ -702,7 +719,7 @@ MapVisualizationGraph.prototype.updateLinks = function(source) {
 			var diagonal;
 			if(that.configTransitions.enter.animate.position){
 				var o;
-				if(that.configTransitions.enter.referToToggling){
+				if(source && that.configTransitions.enter.referToToggling){
 					o = {x: source.px, y: source.py};
 				}else{
 					o = {x: d.source.px, y: d.source.py};

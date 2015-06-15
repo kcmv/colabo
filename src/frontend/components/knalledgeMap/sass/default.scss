@@ -533,7 +533,8 @@ $map: layout(12 1/4 fluid float inside);
 	.link {
 	  fill: none;
 	  stroke: #000;
-	  stroke-width: 3px;
+	  stroke-width: 1px;
+	  opacity: 0.5;
 	}
 
 	.div_map_html{

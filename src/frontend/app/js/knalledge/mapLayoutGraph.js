@@ -128,20 +128,6 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 	if(this.links === null || this.nodes == null){return;} //TODO: because of adding above two lines, it cannot be null
 
 	var that = this;
-	// if(this.nodes){
-	// 	// Normalize for fixed-depth.
-	// 	this.nodes.forEach(function(d) {
-	// 		// Stash the old positions for transition.
-	// 	    if('x' in d) d.x0 = d.x;
-	// 	    if('y' in d) d.y0 = d.y;
-	// 	    if('width' in d) d.width0 = d.width;
-	// 	    if('height' in d) d.height0 = d.height;
-
-	// 	    delete d.parent;
-	// 	    delete d.children;
-	// 	    delete d.depth;
-	// 	});
-	// }
 
 	var width = 960, height = 600; //TODO: set somewhere
 
@@ -161,61 +147,9 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 		.linkDistance(300)
 		.charge(-100);
 
-	/*
-	var svg = d3.select("div.users-graph").append("svg")
-			.attr("width", width)
-			.attr("height", height);
-
-	var nodeSvg = svg.selectAll(".node")
-		.data(this.nodes)
-	  .enter().append("g")
-		.attr("class", "node")
-		.call(this.graph.drag);
-
-	// add the nodes
-	nodeSvg.append("circle")
-		.attr("r", 5);
-
-	// add the text 
-	nodeSvg.append("text")
-		.attr("x", 12)
-		.attr("dy", ".35em")
-		.text(function(d) { return d.name; });
-
-	function tick(){
-		console.log('tick');
-		nodeSvg
-			.attr("transform", function(d) { 
-			return "translate(" + d.x + "," + d.y + ")"; });
-	}
-	*/
-
 	this.graph
 		//.on("tick", tick)
 		.start();
-
-	// nodeSvg = svg.selectAll(".node")
-	// 	.data(force.nodes())
-	//   .enter().append("g")
-	// 	.attr("class", "node")
-	// 	.call(force.drag);
-
-
-	//if(source){
-	// Compute the new tree layout.
-	// this.nodes = this.tree.nodes(source).reverse();
-	// this.links = this.tree.links(this.nodes);
-	
-	//links are D3.tree-generated objects of type Object: {source, target}
-
-	// TODO: This is currently not supported with dr.layout.force() since it doesn't create links (with source/targer)
-	// for(var i = 0;i<this.links.length; i++){
-	// 	var link = this.links[i];
-	// 	var edges = this.mapStructure.getEdgesBetweenNodes(link.source.kNode, link.target.kNode);
-	// 	if(edges && edges[0]){
-	// 		link.vkEdge = edges[0]; //TODO: see what will happen when we have more links between two nodes
-	// 	}
-	// }
 
 	// calculating node boundaries
 	if(this.configTree.sizing.setNodeSize){
@@ -225,59 +159,7 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 	var viewspec = this.configTree.viewspec;
 	var sizes = this.configNodes.html.dimensions.sizes;
 
-	// 	this.nodes.forEach(function(d) {
-	// 		// Normalize for fixed-depth.
-	// 		if(that.configTree.fixedDepth.enabled){
-	// 			var levelDepth = 300;
-	// 			if(that.configTree.fixedDepth.levelDepth) levelDepth = that.configTree.fixedDepth.levelDepth;
-	// 			d.y = d.depth * levelDepth;
-	// 		}
-
-	// 		if(d.parent && d.parent == "null"){
-	// 			d.parent = null;
-	// 		}
-
-	// 		if(viewspec == "viewspec_manual"){
-	// 			// update x and y to manual coordinates if present
-	// 			if('xM' in d && typeof d.xM !== 'undefined' &&  !isNaN(d.xM)){
-	// 				d.x = d.xM;
-	// 			}
-	// 			if('yM' in d && typeof d.yM !== 'undefined' &&  !isNaN(d.yM)){
-	// 				d.y = d.yM;
-	// 			}
-
-	// 			// update width and height to manual values if present
-	// 			if('widthM' in d && typeof d.widthM !== 'undefined' &&  !isNaN(d.widthM)){
-	// 				d.width = d.widthM;
-	// 			}else{
-	// 				d.width = sizes.width;
-	// 			}
-	// 			if('heightM' in d && typeof d.heightM !== 'undefined' &&  !isNaN(d.heightM)){
-	// 				d.height = d.heightM;
-	// 			}else{
-	// 				d.height = sizes.height;
-	// 			}
-
-	// 			// make it sure that x0 and y0 exist for newly entered nodes
-	// 			if(!("x0" in d) || !("y0" in d)){
-	// 				d.x0 = d.x;
-	// 				d.y0 = d.y;
-	// 			}
-	// 			// make it sure that width0 and height0 exist for newly entered nodes
-	// 			if(!("width0" in d)){
-	// 				d.width0 = d.width;
-	// 			}
-	// 			if(!("height0" in d)){
-	// 				d.height0 = d.height;
-	// 			}
-	// 		}
-	// 	});
-	//}
-	//else{
-	// 	this.nodes = [];
-	// 	this.links = [];
-	// }
-	this.printTree(this.nodes);
+	// this.printTree(this.nodes);
 };
 
 MapLayoutGraph.prototype.printTree = function(nodes) {

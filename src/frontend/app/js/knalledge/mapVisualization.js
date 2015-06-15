@@ -90,13 +90,17 @@ MapVisualization.prototype.setDomSize = function(maxX, maxY){
 	this.dom.divMap
 		.style("width", maxX)
 		.style("height", maxY);		
-	this.dom.divMapHtml
-		.style("width", maxX)
-		.style("height", maxY);		
+	if(this.dom.divMapHtml){
+		this.dom.divMapHtml
+			.style("width", maxX)
+			.style("height", maxY);
+	}
 	// TODO: fix to avoid use of selector
-	this.dom.divMapSvg.select("svg")
-		.style("width", maxX)
-		.style("height", maxY);
+	if(this.dom.divMapSvg){
+		this.dom.divMapSvg.select("svg")
+			.style("width", maxX)
+			.style("height", maxY);
+	}
 };
 
 MapVisualization.prototype.setScales = function(){

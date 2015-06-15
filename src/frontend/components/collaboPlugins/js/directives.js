@@ -1,9 +1,11 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-angular.module('topiChatDirectives', ['Config'])
-	.directive('topichatChat', ['$rootScope', 'TopiChatService',
-		function($rootScope, TopiChatService){
+angular.module('collaboPluginsDirectives', ['Config'])
+	.directive('collaboPluginsList', ['$rootScope', 'CollaboPluginsService',
+		function($rootScope, CollaboPluginsService){
+
+		// http://docs.angularjs.org/guide/directive
 
 		return {
 			restrict: 'EA',
@@ -12,9 +14,8 @@ angular.module('topiChatDirectives', ['Config'])
 				mapConfig: "=",
 				nodeSelected: "&"
 			},
-			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
-			templateUrl: '../components/topiChat/partials/topichat-chat.tpl.html',
+			templateUrl: '../components/collaboPlugins/partials/plugins-list.tpl.html',
 			link: function ($scope, $element) {
 				var msgEl = $element.find('.new_message .message');
 				var msgsEl = $element.find('.messages');
@@ -27,7 +28,7 @@ angular.module('topiChatDirectives', ['Config'])
 					msgsEl.append($('<li>').text(msg));
 				};
 
-				// topiChatSocket.on('tc:chat-message', msgReceived);
+				// collaboPluginsSocket.on('tc:chat-message', msgReceived);
 
 				// socket.on('tc:chat-message', function(msg){
 				// 	msgsEl.append($('<li>').text(msg));
@@ -48,15 +49,15 @@ angular.module('topiChatDirectives', ['Config'])
 						'tc:chat-message': msgReceived.bind(this)				
 					}
 				};
-				TopiChatService.registerPlugin(chatPluginOptions);
+				CollaboPluginsService.registerPlugin(chatPluginOptions);
 
-				$scope.clientInfo = TopiChatService.clientInfo;
+				$scope.clientInfo = CollaboPluginsService.clientInfo;
 
 				$scope.msgSend = function(){
 					var msg = msgEl.html();
 					// socket.emit('tc:chat-message', msg);
-					// topiChatSocket.emit('tc:chat-message', msg);
-					TopiChatService.emit('tc:chat-message', msg);
+					// collaboPluginsSocket.emit('tc:chat-message', msg);
+					CollaboPluginsService.emit('tc:chat-message', msg);
 					writeToMsgList(msg);
 					msgEl.html('');
 					return false;

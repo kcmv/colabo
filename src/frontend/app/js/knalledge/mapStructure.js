@@ -394,6 +394,7 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 		var vkNode = new knalledge.VKNode();
 		vkNode.kNode = kNode;
 		vkNode.isOpen = kNode.visual.isOpen;
+		vkNode.size = kNode.visual.size;
 		vkNode.xM = kNode.visual.xM;
 		vkNode.yM = kNode.visual.yM;
 		vkNode.widthM = kNode.visual.widthM;

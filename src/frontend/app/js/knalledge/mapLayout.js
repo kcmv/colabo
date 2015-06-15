@@ -71,6 +71,7 @@ MapLayout.prototype.viewspecChanged = function(target){
 
 // Select node on node click
 MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
+	return;
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state
 	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){

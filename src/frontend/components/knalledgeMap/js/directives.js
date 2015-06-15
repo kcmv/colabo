@@ -48,6 +48,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 										height: 40
 									}
 								}
+							},
+							labels: {
+								show: true
 							}
 						},
 						edges: {
