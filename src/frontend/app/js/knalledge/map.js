@@ -90,9 +90,9 @@ Map.prototype.processExternalChangesInMap = function(e, changes) {
 // 	this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
 // };
 
-Map.prototype.update = function(node) {
+Map.prototype.update = function(node, shouldGenerateGraph) {
 	if(!node) node = this.mapStructure.rootNode;
-	this.mapVisualization.update(node);
+	this.mapVisualization.update(node, null, shouldGenerateGraph);
 };
 
 Map.prototype.processData = function(mapData, callback, commingFromAngular, doNotBubleUp, doNotBroadcast) {

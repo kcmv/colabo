@@ -19,7 +19,7 @@ MapVisualizationGraph.prototype._super = function(){
  * 	@param {vkNode} source - root node 
  *  @callback callback 
  * */
-MapVisualizationGraph.prototype.update = function(source, callback) {
+MapVisualizationGraph.prototype.update = function(source, callback, shouldGenerateGraph) {
 	// If source is missing try with rootNode
 	if(!source){
 		source = this.mapStructure.rootNode;
@@ -28,7 +28,7 @@ MapVisualizationGraph.prototype.update = function(source, callback) {
 	if(!source && Object.keys(this.mapStructure.nodesById).length > 0){
 		source = this.mapStructure.nodesById[Object.keys(this.mapStructure.nodesById)[0]];
 	}
-	this.mapLayout.generateGraph(this.mapStructure.rootNode);
+	if(shouldGenerateGraph) this.mapLayout.generateGraph(this.mapStructure.rootNode);
 	// this.mapLayout.printTree(this.mapLayout.nodes);
 	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
 	var that = this;
@@ -424,6 +424,7 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 
 	// Declare the nodes, since there is no unique id we are creating one on the fly
 	// not very smart with real data marshaling in/out :)
+	if(!this.mapLayout.nodes) return;
 	var node = this.dom.svg.selectAll("g.node")
 		.data(this.mapLayout.nodes, function(d) { return d.id; });
 

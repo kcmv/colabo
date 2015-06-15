@@ -18,7 +18,13 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
 
 	this.collaboPluginsService.provideApi("mapLayout", {
 		/* distribute() */
-		distribute: this.distribute.bind(this)
+		distribute: this.distribute.bind(this),
+		/* filterGraph(options) */
+		filterGraph: this.filterGraph.bind(this),
+		/* getNodes() */
+		getNodes: this.getNodes.bind(this),
+		/* getLinks() */
+		getLinks: this.getLinks.bind(this),
 	});
 };
 
@@ -33,6 +39,14 @@ MapLayout.prototype.realTimeNodeSelected = function(eventName, msg){
 	var kNode = this.mapStructure.getVKNodeByKId(kId);
 	// do not broadcast back :)
 	this.clickNode(kNode, null, true, false, true);
+};
+
+MapLayout.prototype.getNodes = function(){
+	return this.nodes;
+};
+
+MapLayout.prototype.getLinks = function(){
+	return this.links;
 };
 
 MapLayout.prototype.getAllNodesHtml = function(){
@@ -64,6 +78,9 @@ MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback, commi
 		(typeof callback === 'function') ? callback : undefined);
 };
 
+MapLayout.prototype.filterGraph = function(options){
+};
+
 MapLayout.prototype.distribute = function() {
 };
 
@@ -82,6 +99,8 @@ MapLayout.prototype.viewspecChanged = function(target){
 
 // Select node on node click
 MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
+	if(!this.nodes) return;
+
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state
 	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
