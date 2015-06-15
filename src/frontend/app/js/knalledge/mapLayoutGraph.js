@@ -139,6 +139,47 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 		vkEdge.target = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
 	}
 
+
+	//TODO: remove: just for test: 
+	if(this.nodes.length<2){return;} var opions = {mutualNeghbours:[this.nodes[0],this.nodes[1]]};
+	
+	/* filtering only nodes that are mutual neighbours of 2 selected nodes. filtering only links that connect them */
+	if((typeof opions !== "undefined" && opions !==null) && (opions.mutualNeghbours !== null && typeof opions.mutualNeghbours !== "undefined")){
+		var node1 = opions.mutualNeghbours[0];
+		var node2 = opions.mutualNeghbours[1];
+		var nodesNew = [node1,node2];
+		var linksNew = [];
+		for (var i = 0; i < this.nodes.length; i++) {
+			var neighbour = this.nodes[i];
+			var neighbourPut = false;
+			for (var k = 0; k < this.links.length; k++) {
+				var link1 = this.links[k];
+				var link1Put = false;
+				if((link1.source == node2  && link1.target == node1) || (link1.target == node2 && link1.source == node1)){
+					linksNew.push(link1); //connecting node1 & node2
+				}
+				if((link1.source == neighbour  && link1.target == node1) || (link1.target == neighbour && link1.source == node1)){
+					for (var j = 0; j < this.links.length; j++) {
+						var link2 = this.links[j];
+						if((link2.source == neighbour  && link2.target == node2) || (link2.target == neighbour && link2.source == node2)){
+							if(!neighbourPut){ //neighbour could be connected to node1 by multiple 'link1' links so we just want to put it once
+								nodesNew.push(neighbour);
+								neighbourPut = true;
+							}
+							if(!link1Put){ //node2 and neighbour could be connected by multiple 'link2' links so we just want to put it once
+								linksNew.push(link1);
+								link1Put = true;
+							}
+							linksNew.push(link2);
+						}
+					}
+				}
+			};
+		}
+		this.nodes = nodesNew;
+		this.links = linksNew;
+	}
+
 	//this.links = []; //TODO remove
 	this.graph = d3.layout.force()
 		.nodes(this.nodes) //.nodes(d3.values(this.nodes))
