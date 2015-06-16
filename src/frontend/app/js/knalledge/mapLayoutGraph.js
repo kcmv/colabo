@@ -116,22 +116,79 @@ MapLayoutGraph.prototype.getAllNodesHtml = function(){
 	return this.dom.divMapHtml ? this.dom.divMapHtml.selectAll("div.node_graph_html") : null;
 };
 
+// It calculates node size across all node edges (both visible and hidden)
+MapLayoutGraph.prototype.calculateNodeWeights = function(){
+	var newighbourlinks, weightSum;
+
+	if(!this.nodes || this.nodes.length<=0) return;
+
+	this.nodeWeightSumMin = Number.MAX_VALUE;
+	this.nodeWeightSumMax = Number.MIN_VALUE;
+	for(var i=0; i<this.nodes.length; i++){
+		var node = this.nodes[i];
+		newighbourlinks = this.mapStructure.getChildrenEdges(node);
+		weightSum = 0;
+		for(var j=0; j<newighbourlinks.length; j++){
+			weightSum += newighbourlinks[j].kEdge.value;
+		}
+		node.weightSum = weightSum;
+		if(this.nodeWeightSumMin > weightSum) this.nodeWeightSumMin = weightSum;
+		if(this.nodeWeightSumMax < weightSum) this.nodeWeightSumMax = weightSum;
+	}
+
+	this.updateNodeSizes();
+
+};
+
+// It calculates node size across all node edges (both visible and hidden)
+MapLayoutGraph.prototype.updateNodeSizes = function(){
+	var minSize = 5;
+	var maxSize = 50;
+	var scale = d3.scale.linear()
+		.domain([this.nodeWeightSumMin, this.nodeWeightSumMax])
+		.range([minSize, maxSize]);
+
+	for(var i=0; i<this.nodes.length; i++){
+		var node = this.nodes[i];
+		node.size = scale(node.weightSum);
+	}
+};
+
 MapLayoutGraph.prototype.filterGraph = function(options){
-	this.nodes = this.mapStructure.getNodesList(); //nodesById;
-	this.links = this.mapStructure.getEdgesList(); //edgesById;
+	this._super().filterGraph.call(this, options);
 
 	var nodesNew = [];
 	var linksNew = [];
 
 	switch(options.type){
 	case "seeNode1Neighborhood":
-		alert("Not implemented yet");
+		this.nodes = this.mapStructure.getNodesList(); //nodesById;
+		this.links = this.mapStructure.getEdgesList(); //edgesById;
+
+		/* filtering only nodes that are neighbours of the node. filtering only links that connect the node */
+		var node1 = options.nodes[0];
+
+		nodesNew = this.mapStructure.getChildrenNodes(node1);
+		nodesNew.push(node1);
+
+		linksNew = this.mapStructure.getChildrenEdges(node1);
+
+		this.nodes = nodesNew;
+		this.links = linksNew;
+
+		var avoidOptions = {
+			type: "cleanOutAvoidedNodesAndLinks"
+		};
+		this._super().filterGraph.call(this, avoidOptions);
 		break;
 
 	case "seeNode1Node2Neighborhood":
+		this.nodes = this.mapStructure.getNodesList(); //nodesById;
+		this.links = this.mapStructure.getEdgesList(); //edgesById;
+
 		/* filtering only nodes that are mutual neighbours of 2 selected nodes. filtering only links that connect them */
-		var node1 = options.mutualNeghbours[0];
-		var node2 = options.mutualNeghbours[1];
+		var node1 = options.nodes[0];
+		var node2 = options.nodes[1];
 		nodesNew.push(node1);
 		nodesNew.push(node2);
 
@@ -162,11 +219,16 @@ MapLayoutGraph.prototype.filterGraph = function(options){
 				}
 			}
 		}
+
+		this.nodes = nodesNew;
+		this.links = linksNew;
+
+		var avoidOptions = {
+			type: "cleanOutAvoidedNodesAndLinks"
+		};
+		this._super().filterGraph.call(this, avoidOptions);
 		break;
 	}
-
-	this.nodes = nodesNew;
-	this.links = linksNew;
 };
 
 /**

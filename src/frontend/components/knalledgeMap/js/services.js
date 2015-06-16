@@ -1875,6 +1875,7 @@ knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 		var map, $scope, $element;
 		var provider = {
 			itemsDescs: [],
+			itemType: null,
 
 			_init: function(){
 			},
@@ -1896,18 +1897,31 @@ knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 			getItemsDescsByName: function(nameSubStr){
 				nameSubStr = nameSubStr.toLowerCase();
 				var returnedItems = [];
-				for(var i in this.itemsDescs){
-					var item = this.itemsDescs[i];
-					if(item.name.toLowerCase().indexOf(nameSubStr) > -1){
-						returnedItems.push(item);
-					}
+				switch(this.itemType){
+					case "kNode":
+						for(var i in this.itemsDescs){
+							var item = this.itemsDescs[i];
+							if(item.name.toLowerCase().indexOf(nameSubStr) > -1){
+								returnedItems.push(item);
+							}
+						}
+						break;
+					case "vkNode":
+						for(var i in this.itemsDescs){
+							var item = this.itemsDescs[i];
+							if(item.kNode.name.toLowerCase().indexOf(nameSubStr) > -1){
+								returnedItems.push(item);
+							}
+						}
+						break;
 				}
 				return returnedItems;
 			},
 
-			openSelectItem: function(items, labels, callback){
+			openSelectItem: function(items, labels, callback, itemType){
 				console.log("[KnAllEdgeSelectItemService] selecting Item out of %d items", items.length);
 				this.itemsDescs = items;
+				this.itemType = (typeof itemType == 'undefined') ? 'kNodes' : itemType;
 
 				var directiveScope = $scope.$new(); // $new is not super necessary
 				// create popup directive

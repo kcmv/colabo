@@ -14,6 +14,10 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
 	this.nodes = null;
 	this.links = null;
+	this.nodeWeightSumMin = 0;
+	this.nodeWeightSumMax = 0;
+	this.nodesToAvoid = [];
+
 	this.dom = null;
 
 	this.collaboPluginsService.provideApi("mapLayout", {
@@ -25,6 +29,12 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
 		getNodes: this.getNodes.bind(this),
 		/* getLinks() */
 		getLinks: this.getLinks.bind(this),
+		/* calculateNodeWeights() */
+		calculateNodeWeights: this.calculateNodeWeights.bind(this),
+		/* updateNodeSizes() */
+		updateNodeSizes: this.updateNodeSizes.bind(this),
+		// updateNodesToAvoid(nodesToAvoid)
+		updateNodesToAvoid: this.updateNodesToAvoid.bind(this)
 	});
 };
 
@@ -47,6 +57,24 @@ MapLayout.prototype.getNodes = function(){
 
 MapLayout.prototype.getLinks = function(){
 	return this.links;
+};
+
+MapLayout.prototype.calculateNodeWeights = function(){
+};
+
+MapLayout.prototype.updateNodeSizes = function(){
+};
+
+MapLayout.prototype.updateNodesToAvoid = function(nodesToAvoidNonParsed){
+	this.nodesToAvoid.length = 0;
+
+	for(var i=0; i<nodesToAvoidNonParsed.length; i++){
+		var nodeIdName = nodesToAvoidNonParsed[i];
+		var kNodeId = nodeIdName;
+		if(kNodeId.indexOf(":") >= 0) kNodeId = kNodeId.substring(0, kNodeId.indexOf(":"));
+		var vkNode = this.mapStructure.getVKNodeByKId(parseInt(kNodeId));
+		this.nodesToAvoid.push(vkNode);
+	}
 };
 
 MapLayout.prototype.getAllNodesHtml = function(){
@@ -79,6 +107,25 @@ MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback, commi
 };
 
 MapLayout.prototype.filterGraph = function(options){
+	switch(options.type){
+	case "seeWholeGraph":
+		this.nodes = this.mapStructure.getNodesList(); //nodesById;
+		this.links = this.mapStructure.getEdgesList(); //edgesById;
+		break;
+	case "cleanOutAvoidedNodesAndLinks":
+		for(var i=this.nodes.length-1; i>=0; i--){
+			var node = this.nodes[i];
+			var index = this.nodesToAvoid.indexOf(node);
+			if(index>=0) this.nodes.splice(i, 1);
+		}
+		for(i=this.links.length-1; i>=0; i--){
+			var link = this.links[i];
+			var index1 = this.nodesToAvoid.indexOf(link.source);
+			var index2 = this.nodesToAvoid.indexOf(link.target);
+			if(index1>=0 || index2>=0) this.links.splice(i, 1);
+		}
+		break;
+	}
 };
 
 MapLayout.prototype.distribute = function() {

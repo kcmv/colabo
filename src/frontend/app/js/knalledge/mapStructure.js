@@ -309,6 +309,10 @@ MapStructure.prototype.deleteEdgesConnectedTo = function(vnode) {
 	}
 };
 
+MapStructure.prototype.getVKNodeByVKId = function(id) {
+	return this.nodesById[i];
+};
+
 MapStructure.prototype.getVKNodeByKId = function(kId) {
 	if(kId === null){return null;}
 	for(var i in this.nodesById){

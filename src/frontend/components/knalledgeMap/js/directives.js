@@ -187,14 +187,20 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									itemNames: "Nodes"
 								};
 
+								var itemType = "vkNode";
+
 								var selectionOfItemFinished = function(item){
-									var vkNode =  knalledgeMap.mapStructure.getVKNodeByKId(item._id);
+									var vkNode = item;
+									if(itemType == 'kNode'){
+										knalledgeMap.mapStructure.getVKNodeByKId(item._id);
+									}
 									knalledgeMap.mapManager.getActiveLayout().clickNode(vkNode, undefined, true);
 								};
 
-								var items = KnalledgeMapVOsService.getNodesList();
+								// var items = KnalledgeMapVOsService.getNodesList();
+								var items = knalledgeMap.mapStructure.getNodesList();
 
-								KnAllEdgeSelectItemService.openSelectItem(items, labels, selectionOfItemFinished);
+								KnAllEdgeSelectItemService.openSelectItem(items, labels, selectionOfItemFinished, itemType);
 							});
 						},
 
@@ -799,6 +805,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				var populateItems = function(subName){
 					console.log("getItemsDescsByName(%s)", subName);
+					$scope.itemType = KnAllEdgeSelectItemService.itemType;
 					$scope.items = KnAllEdgeSelectItemService.getItemsDescsByName(subName);
 					console.log("$scope.items IN: " + $scope.items);
 				};

@@ -750,7 +750,7 @@ MapVisualizationGraph.prototype.updateLinks = function(source) {
 			.style("opacity", 1e-6);
 	}
 	linkEnterTransition
-		.style("opacity", 1.0);
+		.style("opacity", 0.1);
 
 	var linkUpdate = link;
 	var linkUpdateTransition = linkUpdate;
