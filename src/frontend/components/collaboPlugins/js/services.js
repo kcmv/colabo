@@ -9,11 +9,6 @@ var removeJsonProtected = function(ENV, jsonStr){
 	return jsonStr;
 };
 
-var bukvikApp=angular.module('bukvikApp');
-bukvikApp.config(["TopiChatServiceProvider", function(TopiChatServiceProvider) {
-  TopiChatServiceProvider.setActive(false);
-}]);
-
 var collaboPluginsServices = angular.module('collaboPluginsServices', ['ngResource', 'Config']);
 
 collaboPluginsServices.provider('CollaboPluginsService', function CollaboPluginsServiceProvider(){
@@ -22,13 +17,14 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 	var _plugins = {};
 	var _apis = {};
 	var _componentsByPlugins = {};
+	var _references = {};
 	var _referencesByPlugins = {};
 	
 	this.setActive = function(isActive){
 		_isActive = isActive;
 	};
 
-	this.registerPlugin = function(pluginOptions) {
+	var _registerPlugin = function(pluginOptions) {
 		if(!_isActive) return;
 		var pluginName = pluginOptions.name;
 		console.log('[CollaboPluginsService:registerPlugin] Registering plugin: %s', pluginName);
@@ -49,6 +45,8 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 		}
 	};
 
+	this.registerPlugin = _registerPlugin;
+
 	this.$get = ['$rootScope', 'ENV', /*'$q', */
 	function($rootScope, ENV /*$q */) {
 		// var that = this;
@@ -62,9 +60,13 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 
 			},
 
+			registerPlugin: _registerPlugin,
+
+			// reference provider provides references (with referenceName) for others to retrieve them
 			provideReferences: function(referenceName, items){
 				console.log("[CollaboPluginsService::provideReferences] providing references from the reference provided '%s'", referenceName);
 				var referenceByPlugins = _referencesByPlugins[referenceName];
+				if (referenceByPlugins == null) return;
 				for(var i=0; i<referenceByPlugins.length; i++){
 					var pluginOptions = referenceByPlugins[i];
 					var pluginReferences = pluginOptions.references[referenceName];
@@ -85,13 +87,14 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 				}
 			},
 
+			// api provider provides api (with apiName name) to be registered with the collaboplugins service and available for others to use it
 			provideApi: function(apiName, api){
 				console.log("[CollaboPluginsService::provideReferences] providing api from the api provider: '%s'", apiName);
 				_apis[apiName] = api;
 			},
 
-
-			getApi: function(apiName, api){
+			// api consumers can ask for particular api
+			getApi: function(apiName){
 				// console.log("[CollaboPluginsService::provideReferences] providing api from the api provider: '%s'", apiName);
 				return _apis[apiName];
 			},

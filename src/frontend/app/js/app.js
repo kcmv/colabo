@@ -16,6 +16,9 @@ angular.module('KnAllEdgeApp',[
 	, 'ngWizard'
 	, 'btford.socket-io'
 
+	, 'collaboPluginsServices'
+	, 'collaboPluginsDirectives'
+
 	, 'knalledgeMapServices' // KnAllEdge Map component
 	, 'knalledgeMapDirectives'
 	// , 'rimaUserServices'
