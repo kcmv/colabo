@@ -2,35 +2,37 @@
 'use strict';
 
 var KNode =  knalledge.KNode = function(){
-	this._id = KNode.MaxId++; //TODO: maxId logic should be migrated here
-	this.name = "";
-	this.type = null;
-	this.mapId = null;	
-	this.iAmId = 0;
-	this.activeVersion = 1;
+	this._id = KNode.MaxId++; //TODO: maxId logic should be migrated here. Unique id. Here it is locally set, but is overriden by unique value, when object is saved in DB
+	this.name = ""; //name that is displayed, when node is visualized
+	this.type = KNode.TYPE_KNOWLEDGE; //type of the object, responding to one of the KNode.TYPE_... constants
+	this.mapId = null; // id of map this object belongs to	
+	this.iAmId = 0;	//id of object creator (whoAmi/RIMA user)
+	this.version = 1; //each object can have several versions, so after creating new verisons, old are saved for auditing
+	this.activeVersion = 1; //saying which version of this object is active
 	this.ideaId = 0;
-	this.version = 1;
-	this.isPublic = true;
-	this.createdAt = null;
-	this.updatedAt = null;
-	// this.dataContent = null;
+	this.isPublic = true; //is the object public or visible/accessible only to the author
+	this.createdAt = null; //when the object is created
+	this.updatedAt = null; //when the obect is updated
+	// this.dataContent = null; //additional data is stored in this object
 	this.visual = {
-	 		isOpen: false,
+	//	visual is an object containing aspects of visual representation of the kNode object. VKNode object is related to it.
+	//	NOTE: in the future, each user will have its one or more visual representations of kNode, so accordingly this object is going to be migrated to an independent object related to iAmId (user ID)!
+	 		isOpen: false, //if object is open, that its children (e.g. in tree) are displayed
 	}
-	// 		xM: undefined,
-	// 		yM: undefined,
-	// 		widthM: undefined,
-	// 		heightM: undefined
+	// 		xM: undefined, //manual set x coordinate, set by user
+	// 		yM: undefined, //manual set y coordinate, set by user
+	// 		widthM: undefined, //manual set width, set by user
+	// 		heightM: undefined //manual set height, set by user
 	// };
 	
 	/* local-to-frontend */
-	this.state = KNode.STATE_LOCAL;
+	this.state = KNode.STATE_LOCAL; //state of the object, responding to some of the KNode.STATE_... constants
 };
 
 KNode.MaxId = 0;
-KNode.STATE_LOCAL = "STATE_LOCAL";
-KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED";
-KNode.STATE_SYNCED = "STATE_SYNCED";
+KNode.STATE_LOCAL = "STATE_LOCAL"; // object is created locally and is still not created on server, so its _id is just local
+KNode.STATE_NON_SYNCED = "STATE_NON_SYNCED"; // object is created already on server but is in meantime updated, so it is not synced
+KNode.STATE_SYNCED = "STATE_SYNCED"; //all object's changes are synced on server
 
 KNode.TYPE_KNOWLEDGE = "type_knowledge";
 KNode.TYPE_IBIS_QUESTION = "type_ibis_question";
@@ -74,6 +76,8 @@ KNode.prototype.fill = function(obj){
 	}
 };
 
+
+/** when object is updated on server we override local object by server version using this function **/
 KNode.prototype.overrideFromServer = function(obj){
 	if(obj){
 		if("_id" in obj){this._id = obj._id;}
@@ -83,6 +87,7 @@ KNode.prototype.overrideFromServer = function(obj){
 	this.state = KNode.STATE_SYNCED;
 };
 
+/** before sending to object to server we clean it and fix it for server **/
 KNode.prototype.toServerCopy = function(){
 	var kNode = {};
 	

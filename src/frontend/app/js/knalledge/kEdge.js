@@ -2,27 +2,29 @@
 'use strict';
 
 var KEdge =  knalledge.KEdge = function(){
-	this._id = KEdge.MaxId++;
-	this.name = "";//TODO: "name..."
-	this.type = null; //TODO: doubled definition of TYPE
-	this.mapId = null;	
-	this.iAmId = 0;
-	this.type = ""; //TODO: a default type should be assigned
-	this.activeVersion = 1;
+	this._id = KEdge.MaxId++; //Unique id. Here it is locally set, but is overriden by unique value, when object is saved in DB
+	this.name = ""; //name that is displayed, when edge is visualized
+
+	this.type = KEdge.TYPE_KNOWLEDGE; //type of the object, responding to one of the KEdge.TYPE_... constants
+	this.mapId = null; // id of map this object belongs to	
+	this.iAmId = 0;	//id of object creator (whoAmi/RIMA user)
+	this.version = 1; //each object can have several versions, so after creating new verisons, old are saved for auditing
+	this.activeVersion = 1; //saying which version of this object is active
 	this.ideaId = 0;
-	this.version = 1;
-	this.isPublic = true;
-	this.createdAt = null;
-	this.updatedAt = null;
-	this.sourceId = null;
-	this.targetId = null;
-	this.dataContent = null;
-	this.value = 0;
-	this.visual = null;
+	this.isPublic = true; //is the object public or visible/accessible only to the author
+	this.createdAt = null; //when the object is created
+	this.updatedAt = null; //when the obect is updated
+	this.sourceId = null; // id of the source node this edge is connected to
+	this.targetId = null; // id of the target node this edge is connected to
+	this.dataContent = null; //additional data is stored in this object
+	this.value = 0; //value assigned to the edge
+	this.visual = null; //	visual is an object containing aspects of visual representation of the kNode object. VKNode object is related to it.
+	//	NOTE: in the future, each user will have its one or more visual representations of kNode, so accordingly this object is going to be migrated to an independent object related to iAmId (user ID)!
+	
 	//this.sid = ++KEdge.S_ID;
 	
 	/* local-to-frontend */
-	this.state = KEdge.STATE_LOCAL;
+	this.state = KEdge.STATE_LOCAL; //state of the object, responding to some of the KEdge.STATE_... constants
 	
 	/*for debugging all moments where this object is created: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Stack
 	try {
@@ -78,6 +80,7 @@ KEdge.prototype.fill = function(obj){
 	}
 };
 
+/** when object is updated on server we override local object by server version using this function **/
 KEdge.prototype.overrideFromServer = function(obj){
 	if(obj){
 		if("_id" in obj){this._id = obj._id;}
@@ -87,6 +90,7 @@ KEdge.prototype.overrideFromServer = function(obj){
 	this.state = KEdge.STATE_SYNCED;
 };
 
+/** before sending to object to server we clean it and fix it for server **/
 KEdge.prototype.toServerCopy = function(){
 	var kEdge = {};
 	
