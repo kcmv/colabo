@@ -164,7 +164,7 @@ exports.destroy = function(req, res){
 				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 			});
 			break;
-		case 'in-map': //all edges connected to knode.id
+		case 'in-map': //all edges in the map
 			console.log("[modules/kEdge.js:destroy] deleting edges in map %s", dataId);
 			KEdgeModel.remove({'mapId': dataId}, function (err) {
 				if (err){
@@ -176,5 +176,18 @@ exports.destroy = function(req, res){
 				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 			});
 			break;
+		case 'by-modification-source': // by source (manual/computer) of modification
+			console.log("[modules/kEdge.js:destroy] deleting edges in map %s", dataId);
+			KEdgeModel.remove({'mapId': dataId}, function (err) {
+				if (err){
+					console.log("[modules/kEdge.js:destroy] error:" + err);
+					throw err;
+				}
+				var data = {id:dataId};
+				console.log("[modules/kEdge.js:destroy] data:" + JSON.stringify(data));
+				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+			});
+			break;
+
 	}
 };

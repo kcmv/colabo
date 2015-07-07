@@ -181,12 +181,12 @@ exports.update = function(req, res){
 exports.destroy = function(req, res){
 	//TODO: should we destroy edges connected to this node? or is it done automatically? or error is risen?
 	var type = req.params.type;
-	var dataId = req.params.searchParam;
-	console.log("[modules/KNode.js:destroy] dataId:%s, type:%s, req.body: %s", dataId, type, JSON.stringify(req.body));
+	var searchParam = req.params.searchParam;
+	console.log("[modules/KNode.js:destroy] searchParam:%s, type:%s, req.body: %s", searchParam, type, JSON.stringify(req.body));
 
 	switch (type){
 		case 'one':
-			KNodeModel.findByIdAndRemove(dataId, function (err, countOfRemoved) {
+			KNodeModel.findByIdAndRemove(searchParam, function (err, countOfRemoved) {
 					console.log("err" + err);
 					console.log("data" + countOfRemoved);
 					if (err) throw err;
@@ -195,14 +195,26 @@ exports.destroy = function(req, res){
 				}
 			);
 			break;
-		case 'in-map': //all nodes connected to knode.id
-			console.log("[modules/kNode.js:destroy] deleting nodes in map %s", dataId);
-			KNodeModel.remove({'mapId': dataId}, function (err) {
+		case 'in-map': //all nodes in the map
+			console.log("[modules/kNode.js:destroy] deleting nodes in map %s", searchParam);
+			KNodeModel.remove({'mapId': searchParam}, function (err) {
 				if (err){
 					console.log("[modules/kNode.js:destroy] error:" + err);
 					throw err;
 				}
-				var data = {id:dataId};
+				var data = {id:searchParam};
+				console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
+				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+			});
+			break;
+		case 'by-modification-source': // by source (manual/computer) of modification
+			console.log("[modules/kNode.js:destroy] deleting nodes in map %s", searchParam);
+			KNodeModel.remove({'mapId': searchParam}, function (err) {
+				if (err){
+					console.log("[modules/kNode.js:destroy] error:" + err);
+					throw err;
+				}
+				var data = {mapId:searchParam};
 				console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
 				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 			});

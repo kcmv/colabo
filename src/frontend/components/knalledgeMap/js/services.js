@@ -9,10 +9,12 @@ true;
 var KnRealTimeNodeCreatedEventName = "node-created";
 var KnRealTimeNodeUpdatedEventName = "node-updated";
 var KnRealTimeNodeDeletedEventName = "node-deleted";
+var KnRealTimeNodesDeletedEventName = "nodes-deleted";
 
 var KnRealTimeEdgeCreatedEventName = "edge-created";
 var KnRealTimeEdgeUpdatedEventName = "edge-updated";
 var KnRealTimeEdgeDeletedEventName = "edge-deleted";
+var KnRealTimeEdgesDeletedEventName = "edges-deleted";
 
 var removeJsonProtected = function(ENV, jsonStr){
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
@@ -351,6 +353,18 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		return result;
 	};
 	
+	resource.destroyByModificationSource = function(mapId, modificationSource, callback)
+	{
+		var result = this.destroyPlain({searchParam:mapId, type:'by-modification-source'}, function(){
+			// realtime distribution
+			if(KnAllEdgeRealTimeService){
+				KnAllEdgeRealTimeService.emit(KnRealTimeNodesDeletedEventName, {mapId: mapId});
+			}
+			if(callback){callback()};
+		});
+		return result;
+	};
+	
 	resource.execute = function(request){ //example:: request = {data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
 		// var kNode;
 		switch(request.method){
@@ -588,7 +602,19 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 		});
 		return result;
 	};
-	
+
+	resource.destroyByModificationSource = function(mapId, modificationSource, callback)
+	{
+		var result = this.destroyPlain({searchParam:mapId, type:'by-modification-source'}, function(){
+			// realtime distribution
+			if(KnAllEdgeRealTimeService){
+				KnAllEdgeRealTimeService.emit(KnRealTimeEdgesDeletedEventName, {mapId: mapId});
+			}
+			if(callback){callback()};
+		});
+		return result;
+	};
+
 	resource.deleteConnectedTo = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'connected'}, callback);
@@ -933,6 +959,9 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				targetkNode = this.createNode(targetkNode);
 				kEdge.sourceId = sourcekNode._id;
 				kEdge.targetId = targetkNode._id;
+				if(typeof edgeType == 'undefined'){
+					edgeType = kEdge.type;
+				}
 	//		newNode.kNode.$promise.then(function(kNodeFromServer){ // TODO: we should remove this promise when we implement KnalledgeMapQueue that will solve these kind of dependencies
 	//			console.log("KeyboardJS.on('tab': in promised fn after createNode");
 				kEdge = this.createEdgeBetweenNodes(sourcekNode, targetkNode, kEdge, edgeType, callback);
