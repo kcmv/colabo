@@ -207,6 +207,7 @@ exports.destroy = function(req, res){
 				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 			});
 			break;
+		// TODO: this currently delete all nodes that belongs to the provided mapId
 		case 'by-modification-source': // by source (manual/computer) of modification
 			console.log("[modules/kNode.js:destroy] deleting nodes in map %s", searchParam);
 			KNodeModel.remove({'mapId': searchParam}, function (err) {

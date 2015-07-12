@@ -131,6 +131,13 @@ $btn_color: #eeeeff;
 				font-size: 0.85em;
 				color: #000088;
 				font-weight: bold;
+
+				/* http://stackoverflow.com/questions/1457849/how-do-i-disable-the-default-border-highlight-on-an-html-input-text-element
+				http://www.w3schools.com/css/css_outline.asp
+				*/
+				&:focus{
+					outline: none;
+				}
 			}
 		}
 

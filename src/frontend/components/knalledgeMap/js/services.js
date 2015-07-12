@@ -120,7 +120,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
+				// console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
 				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
 				var data = knalledge.KNode.nodeFactory(serverResponse.data[0]);
 				data.state = knalledge.KNode.STATE_SYNCED;
@@ -139,8 +139,8 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			if(ENV.server.parseResponse){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[KnalledgeNodeService] accessId: %s", serverResponse.accessId);
+				// console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
+				// console.log("[KnalledgeNodeService] accessId: %s", serverResponse.accessId);
 				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
 				var data = serverResponse.data;
 				var VOs = [];
@@ -428,7 +428,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
+				// console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
 				var data = serverResponse.data;
 				return data[0];
 			}else{
@@ -443,8 +443,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			if(ENV.server.parseResponse){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
-				console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[KnalledgeEdgeService] accessId: %s", serverResponse.accessId);
+				// console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
+				// console.log("[KnalledgeEdgeService] accessId: %s", serverResponse.accessId);
 //				var data = serverResponse.data;
 //				var VOs = [];
 //				for(var datumId in serverResponse.data){
@@ -525,7 +525,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	
 	resource.queryInMap = function(id, callback)
 	{
-		return this.queryPlain({ searchParam:id, type:'in_map' }, function(edgesFromServer){
+		var edges = this.queryPlain({ searchParam:id, type:'in_map' }, function(edgesFromServer){
 			for(var id=0; id<edgesFromServer.length; id++){
 				var kEdge = knalledge.KEdge.edgeFactory(edgesFromServer[id]);
 				kEdge.state = knalledge.KEdge.STATE_SYNCED;
@@ -534,6 +534,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 
 			if(callback) callback(edgesFromServer);
 		});
+
+		return edges;
 	};
 	
 	resource.queryBetween = function(id, callback)
@@ -1059,7 +1061,44 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				return KnalledgeEdgeService.update(kEdge, updateType, callback); //updating on server service
 			},
 
+			loadAndProcessData: function(map){
+				var that = this;
+				var result = this.loadData(map);
+				result.$promise.then(function(results){
+					console.log("[KnalledgeMapVOsService::loadData] nodesEdgesReceived");
+
+					//TODO: remove this - used for syncing with changes, done by other users - but now we have migated to  KnAllEdgeRealTimeService
+					that.lastVOUpdateTime = new Date(0); //"Beginning of time :) 'Thu Jan 01 1970 01:00:00 GMT+0100 (CET)' "
+
+					var i;
+					var nodes = results[0];
+					var edges = results[1];
+					for(i=0; i<nodes.length; i++){
+						result.map.nodes.push(nodes[i]);
+						if(nodes[i].updatedAt > that.lastVOUpdateTime){ 
+							that.lastVOUpdateTime = nodes[i].updatedAt;
+						}
+					}
+					for(i=0; i<edges.length; i++){
+						result.map.edges.push(edges[i]);
+						if(edges[i].updatedAt > that.lastVOUpdateTime){ 
+							that.lastVOUpdateTime = edges[i].updatedAt;
+						}
+					}
+
+					that.processData(result);
+
+					that.mapStructure.init(that);
+					that.mapStructure.processData(result);
+
+					var eventName = "modelLoadedEvent";
+					//console.log("result:" + JSON.stringify(result));
+					$rootScope.$broadcast(eventName, result);
+				});
+				return result;
+			}, 
 			loadData: function(map){
+				var that = this;
 				if(typeof map !== 'undefined'){
 					this.mapId = map._id;
 					this.rootNodeId = map.rootNodeId;
@@ -1067,6 +1106,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					var mapObj = {
 						name: "TNC (Tesla - The Nature of Creativty) (DR Model)",
 						createdAt: "2015.03.22.",
+						type: "knalledge",
 						dataContent: {
                             mcm: {
                                   authors: "S. Rudan, D. Karabeg"
@@ -1091,45 +1131,19 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				// var handleReject = function(fail){
 				// 	$window.alert("Error loading knalledgeMap: %s", fail);
 				// };
-				
-				var nodesEdgesReceived = function(){
-					console.log("[KnalledgeMapVOsService::loadData] nodesEdgesReceived");
-					
-					
-					//TODO: remove this - used for syncing with changes, done by other users - but now we have migated to  KnAllEdgeRealTimeService
-					this.lastVOUpdateTime = new Date(0); //"Beginning of time :) 'Thu Jan 01 1970 01:00:00 GMT+0100 (CET)' "
-					
-					var i;
-					for(i=0; i<nodes.length; i++){
-						result.map.nodes.push(nodes[i]);
-						if(nodes[i].updatedAt > this.lastVOUpdateTime){ 
-							this.lastVOUpdateTime = nodes[i].updatedAt;
-						}
-					}
-					for(i=0; i<edges.length; i++){
-						result.map.edges.push(edges[i]);
-						if(edges[i].updatedAt > this.lastVOUpdateTime){ 
-							this.lastVOUpdateTime = edges[i].updatedAt;
-						}
-					}	
 
-					this.processData(result);
-
-					this.mapStructure.init(this);
-					this.mapStructure.processData(result);
-
-					var eventName = "modelLoadedEvent";
-					//console.log("result:" + JSON.stringify(result));
-					$rootScope.$broadcast(eventName, result);
-				};
+				var nodes = KnalledgeNodeService.queryInMap(that.mapId);
+				var edges = KnalledgeEdgeService.queryInMap(that.mapId);
+				//var rimas = KnalledgeEdgeService.queryInMap(that.mapId);
 				
-				var nodes = KnalledgeNodeService.queryInMap(this.mapId);
-				var edges = KnalledgeEdgeService.queryInMap(this.mapId);
-				//var rimas = KnalledgeEdgeService.queryInMap(this.mapId);
-				
-				$q.all([nodes.$promise, edges.$promise])
-					.then(nodesEdgesReceived.bind(this));
-					//.catch(handleReject); //TODO: test this. 2nd function fail or like this 'catch' 
+				var promiseAll = $q.all([nodes.$promise, edges.$promise]);
+				promiseAll.then(function(results){
+					result.$resolved = true;
+				});
+
+				result.$promise = promiseAll;
+				result.$resolved = false;
+				return result;
 			},
 
 			getLastVOUpdateTime: function() {

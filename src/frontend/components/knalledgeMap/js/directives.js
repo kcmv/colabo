@@ -314,7 +314,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				}else{
 					var gotMap = function(map){
 						console.log('gotMap:'+JSON.stringify(map));
-						KnalledgeMapVOsService.loadData(map); //broadcasts 'modelLoadedEvent'
+						KnalledgeMapVOsService.loadAndProcessData(map); //broadcasts 'modelLoadedEvent'
 					};
 					var mapId = $routeParams.id;
 					console.warn("loading map by mcmMapDirectives::mapId: " + mapId);

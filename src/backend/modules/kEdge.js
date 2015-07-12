@@ -176,6 +176,7 @@ exports.destroy = function(req, res){
 				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 			});
 			break;
+		// TODO: this currently delete all edges that belongs to the provided mapId
 		case 'by-modification-source': // by source (manual/computer) of modification
 			console.log("[modules/kEdge.js:destroy] deleting edges in map %s", dataId);
 			KEdgeModel.remove({'mapId': dataId}, function (err) {
