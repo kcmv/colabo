@@ -940,7 +940,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			},
 
 			updateNode: function(node, updateType, callback) {
-				KnalledgeNodeService.update(node, callback); //TODO: ? updateType); //updating on server service
+				return KnalledgeNodeService.update(node, callback); //TODO: ? updateType); //updating on server service
 			},
 			
 			deleteNode: function(node) {
@@ -1063,6 +1063,10 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 
 			loadAndProcessData: function(map){
 				var that = this;
+				if(typeof map !== 'undefined'){
+					this.mapId = map._id;
+					this.rootNodeId = map.rootNodeId;
+				}
 				var result = this.loadData(map);
 				result.$promise.then(function(results){
 					console.log("[KnalledgeMapVOsService::loadData] nodesEdgesReceived");
@@ -1097,12 +1101,15 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				});
 				return result;
 			}, 
-			loadData: function(map){
+			loadData: function(map, setAsDefaultMap){
 				var that = this;
-				if(typeof map !== 'undefined'){
+
+				if(setAsDefaultMap && typeof map !== 'undefined'){
 					this.mapId = map._id;
 					this.rootNodeId = map.rootNodeId;
-				}else{
+				}
+
+				if(typeof map == 'undefined'){
 					var mapObj = {
 						name: "TNC (Tesla - The Nature of Creativty) (DR Model)",
 						createdAt: "2015.03.22.",
@@ -1132,8 +1139,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				// 	$window.alert("Error loading knalledgeMap: %s", fail);
 				// };
 
-				var nodes = KnalledgeNodeService.queryInMap(that.mapId);
-				var edges = KnalledgeEdgeService.queryInMap(that.mapId);
+				var nodes = KnalledgeNodeService.queryInMap(map._id);
+				var edges = KnalledgeEdgeService.queryInMap(map._id);
 				//var rimas = KnalledgeEdgeService.queryInMap(that.mapId);
 				
 				var promiseAll = $q.all([nodes.$promise, edges.$promise]);
