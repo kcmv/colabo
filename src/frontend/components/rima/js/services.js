@@ -130,6 +130,20 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		return whoAmI;
 	};
 	
+	resource.getByEmail = function(email, callback)
+	{
+		var whoAmI = new knalledge.WhoAmI();
+		var whoAmIFromGet = this.getPlain({ searchParam:email, type:'oneByEmail' }, 
+			function(whoAmIFromServer){
+				whoAmI.fill(whoAmIFromServer);
+				whoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
+				if(callback) callback(whoAmI);
+			});
+		whoAmI.$promise = whoAmIFromGet.$promise;
+		whoAmI.$resolved = whoAmIFromGet.$resolved;
+		return whoAmI;
+	};
+	
 	resource.getByIds = function(whoAmIsIds, callback){ //TODO: fix not to return all, but only those in the whoAmIsIds list
 		var whoAmIs = this.queryPlain({ searchParam:whoAmIsIds, type:'in_list'},
 			function(whoAmIsFromServer){
@@ -826,6 +840,30 @@ rimaServices.provider('RimaService', {
 				}
 				WhoAmIService.update(this.loggedInWhoAmI, callback);
 				//return this.loggedInWhoAmI;
+			},
+
+			login: function(user, criteria, callback){
+				var that = this;
+				switch(criteria){
+				case "by_email":
+					var whoAmI = WhoAmIService.getByEmail(user.e_mail, function(whoAmIFromServer){
+						if(whoAmIFromServer && whoAmIFromServer._id){
+							that.setWhoAmI(whoAmIFromServer);
+							if(typeof callback === 'function'){
+								callback(whoAmIFromServer);
+							}
+						}						
+					});
+					whoAmI.$promise.then(function(whoAmIFromServer){
+						if(whoAmIFromServer && whoAmIFromServer._id){
+							that.setWhoAmI(whoAmIFromServer);
+							if(typeof callback === 'function'){
+								callback(whoAmIFromServer);
+							}
+						}
+					});
+					break;
+				}
 			},
 
 			logout: function(){

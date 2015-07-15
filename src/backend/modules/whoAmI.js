@@ -73,6 +73,10 @@ exports.index = function(req, res){
 			console.log("findById:\n id: %s.\n", id);
 			WhoAmIModel.findById(id, found);
 			break;
+		case 'oneByEmail': // by email
+			console.log("findBy e-mail:\n e-mail: %s.\n", id);
+			WhoAmIModel.findOne({e_mail: id}, found);
+			break;
 		case 'in_list': //by id:
 			console.log("in_list:\n list: %s.\n", req.params.searchParam);
 			WhoAmIModel.find({}, found);
