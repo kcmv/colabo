@@ -161,7 +161,7 @@ angular.module('loginDirectives', ['Config'])
 				$scope.createNew = function(){
 					var user = RimaService.createWhoAmI($scope.user);
 					user.$promise.then(function(userFromServer){
-
+						$location.path('/login');
 					});
 				};
 
