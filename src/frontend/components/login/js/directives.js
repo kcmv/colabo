@@ -18,7 +18,7 @@ angular.module('loginDirectives', ['Config'])
 
 				$scope.user = new knalledge.WhoAmI();
 
-				$scope.user.e_mail = "mprinc@gmail.com";
+				// $scope.user.e_mail = "mprinc@gmail.com";
 
 				if($routeParams.iAmId){
 					RimaService.setIAmId($routeParams.iAmId);
@@ -147,10 +147,10 @@ angular.module('loginDirectives', ['Config'])
 				};
 
 				$scope.user = new knalledge.WhoAmI();
-				$scope.user.firstname = "Sasha";
-				$scope.user.familyname = "Rudan";
-				$scope.user.affiliation = "University of Oslo";
-				$scope.user.e_mail = "mprinc@gmail.com";
+				// $scope.user.firstname = "Sasha";
+				// $scope.user.familyname = "Rudan";
+				// $scope.user.affiliation = "University of Oslo";
+				// $scope.user.e_mail = "mprinc@gmail.com";
 
 				// $scope.iAmId = RimaService.getIAmId();
 
