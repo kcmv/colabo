@@ -396,7 +396,7 @@ angular.module('rimaDirectives', ['Config'])
 							.text(function(d) { return d.name; });
 
 						// action to take on mouse click
-						function click() {
+						var click = function() {
 							this.__data__.selected = !this.__data__.selected;
 							if(this.__data__.selected){
 							    
