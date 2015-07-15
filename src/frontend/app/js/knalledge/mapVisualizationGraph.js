@@ -70,7 +70,7 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 		.data(this.mapLayout.nodes);//graph.nodes());
 	 
 
-		function tick() {
+		var tick = function () {
 			// add the curvy lines:
 		    path.attr("d", function(d) {
 		        var dx = d.target.x - d.source.x,

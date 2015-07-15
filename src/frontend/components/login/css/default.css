@@ -332,3 +332,8 @@ $large: 1400px;
     /* line 347, ../sass/default.scss */
     .logout_index .login_logout label {
       width: 20em; }
+
+/* line 353, ../sass/default.scss */
+.login-check {
+  margin-top: 3px;
+  margin-bottom: 5px; }
