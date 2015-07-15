@@ -1,0 +1,13 @@
+<form>
+	<fieldset>
+		<legend class="table_title">New User</legend>
+		<div><label>Name:</label><input type="text" ng-model="user.firstname" /></div>
+		<div><label>Surname:</label><input type="text" ng-model="user.familyname" /></div>
+		<div><label>Affiliation:</label><input type="text" ng-model="user.affiliation" /></div>
+		<div><label>email:</label><input type="text" ng-model="user.e_mail" /></div>
+ 		<p class="buttons">
+			<button class="btn btn-warning" ng-click="cancelled()">Cancel</button>
+			<button class="btn btn-primary" type="submit" ng-click="createNew()">Register User</button>
+		</p>
+	</fieldset>
+</form>

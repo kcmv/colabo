@@ -297,3 +297,55 @@
 		}
 	}
 }
+
+.login_index{
+	background-image: url("../../../app/img/ESB_Logo_small.png");
+	background-repeat: no-repeat;
+	background-position-x: 50.4em;
+	background-position-y: 1em;
+
+	.login_authentication{
+		width:60%;
+		margin-left:20%;
+		margin-right:20%;
+
+		label{
+			width: 20em;
+		}
+	}
+}
+
+.register_index{
+	background-image: url("../../../app/img/ESB_Logo_small.png");
+	background-repeat: no-repeat;
+	background-position-x: 50.4em;
+	background-position-y: 1em;
+
+	.login_register{
+		width:60%;
+		margin-left:20%;
+		margin-right:20%;
+
+		label{
+			width: 20em;
+		}
+	}
+}
+
+.logout_index{
+	background-image: url("../../../app/img/ESB_Logo_small.png");
+	background-repeat: no-repeat;
+	background-position-x: 50.4em;
+	background-position-y: 1em;
+	min-height: 200px;
+
+	.login_logout{
+		width:60%;
+		margin-left:20%;
+		margin-right:20%;
+
+		label{
+			width: 20em;
+		}
+	}
+}

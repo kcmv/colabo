@@ -10,6 +10,7 @@ var WhoAmI =  knalledge.WhoAmI = function(){
 	this.displayName = "";
 	this.gender = 0;
 	this.birthday = 1;
+	this.affiliation = "";
 	this.coordX = 0;
 	this.coordY = 0;
 	this.locationType = null;	
@@ -63,6 +64,7 @@ WhoAmI.prototype.fill = function(obj){
 		if("displayName" in obj){this.displayName = obj.displayName;}
 		if("gender" in obj){this.gender = obj.gender;}
 		if("birthday" in obj){this.birthday = obj.birthday;}
+		if("affiliation" in obj){this.affiliation = obj.affiliation;}
 		if("coordX" in obj){this.coordX = obj.coordX;}
 		if("coordY" in obj){this.coordY = obj.coordY;}
 		if("locationType" in obj){this.locationType = obj.locationType;}

@@ -830,7 +830,7 @@ rimaServices.provider('RimaService', {
 
 			logout: function(){
 				this.loggedInWhoAmI._id = this.ANONYMOUS_USER_ID;
-				this.loginInfo.iAmId = this.ANONYMOUS_USER_ID;
+				this.loginInfo.iAmId = null;
 				this.loggedInWhoAmI.displayName = "anonymous";
 				this.loginInfo.displayName = "anonymous";
 				this.loggedInWhoAmI.token = null;
@@ -839,6 +839,19 @@ rimaServices.provider('RimaService', {
 					$window.localStorage.loginInfo = JSON.stringify(this.loginInfo);
 				}
 			},
+			setWhoAmI: function(whoAmI){
+				this.loggedInWhoAmI = whoAmI;
+				this.setIAmId(whoAmI._id);
+			},
+
+			getWhoAmI: function(){
+				if(this.loggedInWhoAmI._id == this.ANONYMOUS_USER_ID){
+					return null;
+				}else{
+					return this.loggedInWhoAmI;					
+				}
+			},
+
 			setIAmId: function(iAmId){
 				this.loggedInWhoAmI._id = iAmId;
 				this.loginInfo.iAmId = iAmId;
@@ -970,6 +983,17 @@ rimaServices.provider('RimaService', {
 					if(callback){callback(data);}
 				}.bind(this));
 				return data;
+			},
+
+			createWhoAmI: function(whoAmI, callback){
+				var that = this;
+				var whoAmI = WhoAmIService.create(whoAmI, function(whoAmIFromServer){
+					if(callback){callback(whoAmIFromServer);}
+				}.bind(this));
+				whoAmI.$promise.then(function(whoAmIFromServer){
+					that.setWhoAmI(whoAmIFromServer);
+				});
+				return whoAmI;
 			},
 
 			createHowAmI: function(howAmI, callback){

@@ -1,5 +1,25 @@
-<div class="login_index">
-	Login for iAmId: {{iAmId}}<br/>
-	Token: {{token}}<br/>
-	route: {{route}}
-</div>
+<form>
+	<fieldset>
+		<div ng-if="whoAmI">
+			<legend class="table_title">Logged in user info</legend>
+			<div><label>Name:</label>{{whoAmI.firstname}}</div>
+			<div><label>Surname:</label>{{whoAmI.familyname}}</div>
+			<div><label>Affiliation:</label>{{whoAmI.affiliation}}</div>
+			<div><label>email:</label>{{whoAmI.e_mail}}</div>
+			<div><label>system id:</label>{{iAmId}}</div>
+			<div><label>system route:</label>{{route}}</div>
+	 		<p class="buttons">
+				<button class="btn btn-primary" type="submit" ng-click="gotoMainPage()">Main Page</button>
+				<button class="btn btn-warning" ng-click="logout()">Log out</button>
+			</p>
+		</div>
+		<div ng-if="!whoAmI">
+			<legend class="table_title">Provide your credentials</legend>
+			<div><label>email:</label><input type="text" ng-model="user.e_mail" /></div>
+	 		<p class="buttons">
+				<button class="btn btn-primary" ng-click="logout()">Log in</button>
+				<button class="btn btn-warning" type="submit" ng-click="gotoMainPage()">Main Page</button>
+			</p>
+		</div>
+	</fieldset>
+</form>

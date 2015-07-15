@@ -1,3 +1,8 @@
 <div class="logout">
-	Godbye: {{iAmId}}<br/>
+	<div ng-if="whoAmI">
+		Godbye: {{whoAmI.firstname}} {{whoAmI.familyname}}<br/>
+	</div>
+	<div ng-if="!whoAmI">
+		No user is logged in<br/>
+	</div>
 </div>

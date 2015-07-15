@@ -286,3 +286,49 @@ $large: 1400px;
     /* line 295, ../sass/default.scss */
     .rima-users-list .list .active-selection {
       background-color: #aaf; }
+
+/* line 301, ../sass/default.scss */
+.login_index {
+  background-image: url("../../../app/img/ESB_Logo_small.png");
+  background-repeat: no-repeat;
+  background-position-x: 50.4em;
+  background-position-y: 1em; }
+  /* line 307, ../sass/default.scss */
+  .login_index .login_authentication {
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%; }
+    /* line 312, ../sass/default.scss */
+    .login_index .login_authentication label {
+      width: 20em; }
+
+/* line 318, ../sass/default.scss */
+.register_index {
+  background-image: url("../../../app/img/ESB_Logo_small.png");
+  background-repeat: no-repeat;
+  background-position-x: 50.4em;
+  background-position-y: 1em; }
+  /* line 324, ../sass/default.scss */
+  .register_index .login_register {
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%; }
+    /* line 329, ../sass/default.scss */
+    .register_index .login_register label {
+      width: 20em; }
+
+/* line 335, ../sass/default.scss */
+.logout_index {
+  background-image: url("../../../app/img/ESB_Logo_small.png");
+  background-repeat: no-repeat;
+  background-position-x: 50.4em;
+  background-position-y: 1em;
+  min-height: 200px; }
+  /* line 342, ../sass/default.scss */
+  .logout_index .login_logout {
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%; }
+    /* line 347, ../sass/default.scss */
+    .logout_index .login_logout label {
+      width: 20em; }
