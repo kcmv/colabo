@@ -424,7 +424,7 @@ angular.module('rimaDirectives', ['Config'])
                     		}
 						}
 
-						function selectNode(node){
+						var selectNode = function(node){
 							d3.select(node).select("text").transition()
 							        .duration(750)
 							        .attr("x", 22)
@@ -439,11 +439,11 @@ angular.module('rimaDirectives', ['Config'])
 						}
 
 						// action to take on mouse double click
-						function dblclick() {
+						var dblclick = function() {
 						    
 						}
 
-						function tick() {
+						var tick = function() {
 							// add the curvy lines:
 						    path.attr("d", function(d) {
 						        var dx = d.target.x - d.source.x,
@@ -642,7 +642,7 @@ angular.module('rimaDirectives', ['Config'])
 					}
 				}
 
-				$scope.$watch(function () {
+				$scope.$watch(function() {
 					return RimaService.howAmIs;
 				},
 				function(newValue){
@@ -650,7 +650,7 @@ angular.module('rimaDirectives', ['Config'])
 					updateGraph();
 				}, true);
 
-				$scope.$watch(function () {
+				$scope.$watch(function() {
 					// return KnalledgeMapVOsService.mapStructure.nodesById;
 					return RimaService.whoAmIs;
 				},
