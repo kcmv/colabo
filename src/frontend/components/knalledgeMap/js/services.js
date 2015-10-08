@@ -1989,7 +1989,13 @@ knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 				}.bind(this);
 
 				directiveScope.selectingSubmited = function(item){
-					console.log("[KnAllEdgeSelectItemService:openSelectItem] Added entity to addingInEntity: %s", JSON.stringify(item));
+					try {
+						console.log("[KnAllEdgeSelectItemService:openSelectItem] Added entity to addingInEntity: %s", JSON.stringify(item));
+					}
+					catch(err) {
+						console.log("[KnAllEdgeSelectItemService:openSelectItem] Added entity to addingInEntity with name: %s", JSON.stringify(item.name));
+					}
+
 					if(typeof callback === 'function') callback(item);
 				}.bind(this);
 			}

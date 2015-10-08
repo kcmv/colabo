@@ -797,7 +797,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				$scope.selectItem = function(item) {
 				    $scope.selectedItem = item;
-				    console.log("$scope.selectedItem = " + JSON.stringify(item));
+				    console.log("$scope.selectedItem = " + JSON.stringify(item.name));
 				    if($scope.shouldSubmitOnSelection){
 				    	$scope.submitted();
 				    }

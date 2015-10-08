@@ -2399,6 +2399,7 @@ body {
   position: relative;
   height: 100%;
   width: 100%;
+  padding: 5px;
   /*background-color: #dddd00;
   border: solid 1px #aaaa00;*/
   overflow-x: hidden;
@@ -2416,11 +2417,11 @@ body {
     display: block;
     clear: both; }
 
-/* line 64, ../sass/default.scss */
+/* line 65, ../sass/default.scss */
 .clickable {
   cursor: pointer; }
 
-/* line 68, ../sass/default.scss */
+/* line 69, ../sass/default.scss */
 .clickable:hover {
   /*text-decoration: underline;*/
   /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
@@ -2432,6 +2433,6 @@ body {
 /* necessary for BOOTSTRAP-ANGULAR intregation
  * http://angular-ui.github.io/bootstrap/
  */
-/* line 79, ../sass/default.scss */
+/* line 80, ../sass/default.scss */
 .nav, .pagination, .carousel, .panel-title a {
   cursor: pointer; }

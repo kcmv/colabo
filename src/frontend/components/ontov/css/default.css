@@ -1,0 +1,36 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+/* ------------------------
+
+------------------------ */
+/* line 11, ../sass/default.scss */
+.knalledge_map_container .node_html .notification {
+  position: absolute;
+  left: 35px;
+  /*font-style: italic;*/
+  font-size: 1.1em;
+  top: 20px;
+  color: #ffffee;
+  opacity: 0.90;
+  background-color: #ff6666;
+  border: solid 5px #ff4444;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  /*			font-weight: bold;
+  */
+  min-width: 1.2em;
+  width: 200px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -moz-box-shadow: 10px 10px 9px 5px rgba(255, 80, 80, 0.75);
+  -webkit-box-shadow: 10px 10px 9px 5px rgba(255, 80, 80, 0.75);
+  box-shadow: 10px 10px 9px 5px rgba(255, 80, 80, 0.75); }

@@ -17,51 +17,22 @@ angular.module('collaboPluginsDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: '../components/collaboPlugins/partials/plugins-list.tpl.html',
 			link: function ($scope, $element) {
-				var msgEl = $element.find('.new_message .message');
-				var msgsEl = $element.find('.messages');
-
-				var msgReceived = function(eventName, msg){
-					writeToMsgList(msg);
+				$scope.getItemsNames = function(obj){
+					return Object.keys(obj);
 				};
 
-				var writeToMsgList = function(msg){
-					msgsEl.append($('<li>').text(msg));
+				$scope.getItemsNo = function(obj){
+					return Object.keys(obj).length;
 				};
 
-				// collaboPluginsSocket.on('tc:chat-message', msgReceived);
+				$scope.pluginsInfo = CollaboPluginsService.getPluginsInfo();
+				$scope.pluginsNo = Object.keys($scope.pluginsInfo).length;
 
-				// socket.on('tc:chat-message', function(msg){
-				// 	msgsEl.append($('<li>').text(msg));
-				// });
+				$scope.referencesInfo = CollaboPluginsService.getReferencesInfo();
+				$scope.referencesNo = Object.keys($scope.referencesInfo).length;
 
-				// TODO: Replace with angular
-				msgEl.keypress(function (e) {
-					if (e.which == 13) {
-						$scope.msgSend();
-						return false;	
-					}
-				});
-
-				// registering chat plugin
-				var chatPluginOptions = {
-					name: "chat",
-					events: {
-						'tc:chat-message': msgReceived.bind(this)				
-					}
-				};
-				CollaboPluginsService.registerPlugin(chatPluginOptions);
-
-				$scope.clientInfo = CollaboPluginsService.clientInfo;
-
-				$scope.msgSend = function(){
-					var msg = msgEl.html();
-					// socket.emit('tc:chat-message', msg);
-					// collaboPluginsSocket.emit('tc:chat-message', msg);
-					CollaboPluginsService.emit('tc:chat-message', msg);
-					writeToMsgList(msg);
-					msgEl.html('');
-					return false;
-				};
+				$scope.apisInfo = CollaboPluginsService.getApisInfo();
+				$scope.apisNo = Object.keys($scope.apisInfo).length;
 			},
 
 			controller: function ( $scope, $element) {

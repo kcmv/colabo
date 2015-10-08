@@ -562,9 +562,9 @@ $large: 1400px;
       vertical-align: middle;
       line-height: normal;
       text-align: center;
-      font-weight: normal;
+      font-weight: bold;
       font-style: italic;
-      color: #550000;
+      color: #220000;
       /* just for testing purposs */ }
       /* line 575, ../sass/default.scss */
       .knalledge_map_container .node_html span p {

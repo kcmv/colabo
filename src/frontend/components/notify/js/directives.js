@@ -13,7 +13,7 @@ angular.module('notifyDirectives', ['Config'])
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
-			templateUrl: '../components/notify/partials/notify-relevant-list.html.tpl.html',
+			templateUrl: '../components/notify/partials/notify-relevant-list.tpl.html',
 			controller: function ( $scope, $element) {
 				$scope.bindings = {
 				};

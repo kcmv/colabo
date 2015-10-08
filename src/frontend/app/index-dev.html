@@ -7,6 +7,8 @@
 		<link href="css/libs/bootstrap/bootstrap.css" rel="stylesheet">
 		<link href="css/libs/textAngular/textAngular.css" rel="stylesheet">
 
+		<link href="css/libs/wizard/ngWizard.css" rel="stylesheet">
+
 		<link href="css/default.css" rel="stylesheet">
 		<link href="../components/knalledgeMap/css/default.css" rel="stylesheet">
 		<link href="../components/knalledgeMap/css/graph.css" rel="stylesheet">
@@ -15,8 +17,11 @@
 		<link href="../components/login/css/default.css" rel="stylesheet">
 		<link href="../components/notify/css/default.css" rel="stylesheet">
 		<link href="../components/topiChat/css/default.css" rel="stylesheet">
-		<link href="css/libs/wizard/ngWizard.css" rel="stylesheet">
+		<link href="../components/collaboPlugins/css/default.css" rel="stylesheet">
 
+		<!-- PLUGINS
+		we want to avoid hardoced registering plugins here -->
+		<link href="../components/ontov/css/default.css"></script>
 	</head>
 	<body>
 		<div ng-view id="container"></div>
@@ -80,7 +85,7 @@
 		<script src="js/knalledge/mapManager.js"></script>
 		<script src="js/knalledge/map.js"></script>
 
-		<script src="../components/halo/index.js"></script>
+		<script src="../components/halo/js/index.js"></script>
 
 		<script src="js/mcm/mcm.js"></script>
 		<script src="js/mcm/mcm.js"></script>
@@ -101,5 +106,10 @@
 		<script src="../components/topiChat/js/services.js"></script>
 		<script src="../components/login/js/directives.js"></script>
 		<script src="../components/login/js/services.js"></script>
+
+		<!-- PLUGINS
+		We want to avoid hardoced registering plugins here -->
+		<script src="../components/ontov/js/services.js"></script>
+		<script src="../components/ontov/js/directives.js"></script>
 	</body>
 </html>

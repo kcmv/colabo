@@ -2,9 +2,15 @@
 'use strict';
 //this function is strict...
 
+var plugins = {
+	ontov: {
+		path: 'ontov'
+	}
+};
+
 module.exports = function(grunt) {
 	// Project configuration.
-	grunt.initConfig({
+	var initConfig = {
 		pkg: grunt.file.readJSON('package.json'),
 		jshint: {
 			// define the files to lint
@@ -180,6 +186,29 @@ module.exports = function(grunt) {
 					trace: true
 				}
 			},
+			collaboPlugins_dist: { // target
+				options: { // Target options
+					// config: 'config/config.rb',
+					sassDir: ['components/collaboPlugins/sass'],
+					cssDir: ['components/collaboPlugins/css'],
+					outputStyle: "nested",
+					environment: 'production',
+					noLineComments: true,
+					require: ["susy", "breakpoint"],
+					trace: true
+				}
+			},
+			collaboPlugins_dev: { // Another target
+				options: {
+					sassDir: ['components/collaboPlugins/sass'],
+					cssDir: ['components/collaboPlugins/css'],
+					outputStyle: "nested", // expanded, nested, compact, compressed
+					environment: 'development',
+					noLineComments: false,
+					require: ["susy", "breakpoint"],
+					trace: true
+				}
+			},
 			login_dist: { // target
 				options: { // Target options
 					// config: 'config/config.rb',
@@ -255,6 +284,10 @@ module.exports = function(grunt) {
 				files: ['components/topiChat/sass/**/*.{scss,sass}'],
 				tasks: ['compass:topiChat_dev', 'notify:watch_css'],
 			},
+			collaboPlugins_css: {
+				files: ['components/collaboPlugins/sass/**/*.{scss,sass}'],
+				tasks: ['compass:collaboPlugins_dev', 'notify:watch_css'],
+			},
 			login_css: {
 				files: ['components/login/sass/**/*.{scss,sass}'],
 				tasks: ['compass:login_dev', 'notify:watch_css'],
@@ -262,15 +295,15 @@ module.exports = function(grunt) {
 		},
 		concurrent: {
 			watch: {
-				tasks: ['watch:js', 'watch:app_css', 'watch:map_css', 'watch:rima_css', 'watch:notify_css', 'watch:topiChat_css', 'watch:login_css'],
+				tasks: ['watch:js', 'watch:app_css', 'watch:map_css', 'watch:rima_css', 'watch:notify_css', 'watch:topiChat_css', 'watch:collaboPlugins_css', 'watch:login_css'],
 				options: { logConcurrentOutput: true }
 			},
 			dev: {
-				tasks: ['jshint', 'compass:app_dev', 'compass:map_dev', 'compass:rima_dev', 'compass:notify_dev', 'compass:topiChat_dev', 'compass:login_dev'],
+				tasks: ['jshint', 'compass:app_dev', 'compass:map_dev', 'compass:rima_dev', 'compass:notify_dev', 'compass:topiChat_dev', 'compass:collaboPlugins_dev', 'compass:login_dev'],
 				options: { logConcurrentOutput: true }
 			},
 			dist: {
-				tasks: ['jshint', 'compass:app_dist', 'compass:map_dist', 'compass:rima_dist', 'compass:notify_dist', 'compass:topiChat_dist', 'compass:login_dist'],
+				tasks: ['jshint', 'compass:app_dist', 'compass:map_dist', 'compass:rima_dist', 'compass:notify_dist', 'compass:topiChat_dist', 'compass:collaboPlugins_dist', 'compass:login_dist'],
 				options: { logConcurrentOutput: true }
 			}
 		},
@@ -288,7 +321,51 @@ module.exports = function(grunt) {
 				}
 			}
 		}
-	});
+	};
+
+	for(var pluginName in plugins){
+
+		// distribution target
+		initConfig.compass[pluginName+"_dist"] =
+		{
+			options: { // Target options
+				// config: 'config/config.rb',
+				sassDir: ['components/'+pluginName+'/sass'],
+				cssDir: ['components/'+pluginName+'/css'],
+				outputStyle: "nested",
+				environment: 'production',
+				noLineComments: true,
+				require: ["susy", "breakpoint"],
+				trace: true
+			}
+		};
+		// development target
+		initConfig.compass[pluginName+"_dev"] =
+		{
+			options: {
+				sassDir: ['components/'+pluginName+'/sass'],
+				cssDir: ['components/'+pluginName+'/css'],
+				outputStyle: "nested", // expanded, nested, compact, compressed
+				environment: 'development',
+				noLineComments: false,
+				require: ["susy", "breakpoint"],
+				trace: true
+			}
+		};
+		// watch target
+		initConfig.watch[pluginName+"_css"] =
+		{
+			files: ['components/'+pluginName+'/sass/**/*.{scss,sass}'],
+			tasks: ['compass:'+pluginName+'_dev', 'notify:watch_css'],
+		};
+
+		// concurent targets
+		initConfig.concurrent.watch.tasks.push('watch:'+pluginName+'_css');
+		initConfig.concurrent.dev.tasks.push('compass:'+pluginName+'_dev');
+		initConfig.concurrent.dist.tasks.push('compass:'+pluginName+'_dist');
+	}
+
+	grunt.initConfig(initConfig);
 	
 	// Load plugins that provides the "uglify", ... tasks
 	grunt.loadNpmTasks('grunt-contrib-jshint');

@@ -245,7 +245,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	);
 
 	/**
-	 * starting node editing
+	 * search for the node name
 	 */
 	KeyboardJS.on("ctrl + f", function(){
 		if(this.editingNodeHtml) return;

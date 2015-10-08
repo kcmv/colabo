@@ -35,6 +35,9 @@ angular.module('KnAllEdgeApp',[
 
 	, 'topiChatServices'
 	, 'topiChatDirectives'
+
+	// we want to avoid hardoced registering plugins here
+	, 'ontovServices'
 ])
 // routes
 .config(['$routeProvider', function($routeProvider) {
@@ -71,6 +74,9 @@ angular.module('KnAllEdgeApp',[
 	})
 	.when('/rima-insights-map', {
 		templateUrl: '../components/rima/partials/rima-insights-map.tpl.html'
+	})
+	.when('/plugins', {
+		templateUrl: '../components/collaboPlugins/partials/plugins-index.tpl.html'
 	})
 	.otherwise({
 		redirectTo: '/maps'
