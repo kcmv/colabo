@@ -91,7 +91,23 @@ angular.module('rimaDirectives', ['Config'])
 			templateUrl: '../components/rima/partials/rimaUsers-list.tpl.html',
 			controller: function ( $scope, $element) {
 				var init = function(){
-					$scope.items = RimaService.whoAmIs;
+					$scope.items = [];
+
+					$scope.$watch(function () {
+						return RimaService.whoAmIs;
+					},
+					function(newValue){
+						$scope.items.length = 0;
+						//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+						for(var i=0; i<RimaService.whoAmIs.length; i++){
+							var item = RimaService.whoAmIs[i];
+							// @TODO: Fix to filter by authors that belong to the map
+							if(item.origin === 'TTT'){
+								$scope.items.push(item);
+							}
+						}
+					}, true);
+
 					// var compare = function(a,b) {
 					//   if (a.displayName < b.displayName)
 					//     return 1;
