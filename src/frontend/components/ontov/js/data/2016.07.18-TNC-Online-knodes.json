@@ -1,0 +1,740 @@
+[{ 
+    "_id" : "5552c2c87ffdccd74096d0c9", 
+    "name" : "TNC (Tesla and the Nature of Creativity", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "55268521fb9a901e442172f8", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "url" : "/app/images/tnc-tesla.png", 
+            "width" : "250", 
+            "height" : "250"
+        }, 
+        "property" : "<p>Link to the <b>English webpage</b> on the roundtable: <a href=\"http://www.tesla2015.com/tesla_en/workshop-tesla-and-the-nature-of-creativity-2015/\">http://www.tesla2015.com/tesla_en/workshop-tesla-and-the-nature-of-creativity-2015/</a></p><p>Линк на <b>српску вебстраницу</b> о округлом столу: <a href=\"http://www.tesla2015.com/tesla/?page_id=1223\">http://www.tesla2015.com/tesla/?page_id=1223</a></p>"
+    }, 
+    "updatedAt" : "2015-06-08T15:12:14.520+0100", 
+    "createdAt" : "2015-05-13T04:19:36.965+0100", 
+    "visual" : {
+        "yM" : 179.77099609375, 
+        "xM" : 827.47900390625, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552fa967ffdccd74096d101", 
+    "name" : "Collective creativity, intelligence and scientific dialog – accomplished through accessing collective knowledge in cyber infrastructure", 
+    "type" : "type_ibis_question", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5552fa7114fbfed56609d9bf", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "property" : "<p><b>Предавање</b> (MSc Саша Рудан, MSc Синиша Рудан, Проф. др Дино Карабег, MSc Лазар Ковачевић<b> + Дијалог:</b></p><p>&#34;<b><i>Колективна креативност, интелигенција и научни дијалог - остварени приступањем колективном знању у сајбер-инфраструктури</i></b>&#34;</p><p>- <a href=\"https://docs.google.com/document/d/1MVG_7YV1Ao7SPjKCgs10vHgzEBSqrUCYIt9cIfUtLco/edit#\">Paper</a></p>"
+    }, 
+    "updatedAt" : "2015-06-08T15:12:07.240+0100", 
+    "createdAt" : "2015-05-13T08:17:42.920+0100", 
+    "visual" : {
+        "yM" : 454, 
+        "xM" : 2586, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552d7f87ffdccd74096d0d3", 
+    "name" : "Ideological model", 
+    "type" : "type_ibis_idea", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-07-18T00:25:22.969+0100", 
+    "createdAt" : "2015-05-13T05:50:00.962+0100", 
+    "visual" : {
+        "yM" : 848, 
+        "xM" : 1068, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5569ba4f0432fd6a731538dc", 
+    "name" : "Nature of Creativity", 
+    "type" : "type_ibis_question", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "556760847125996dc1a4a219", 
+    "ideaId" : 0, 
+    "updatedAt" : "2015-05-30T14:27:11.389+0100", 
+    "createdAt" : "2015-05-30T14:25:35.527+0100", 
+    "visual" : {
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1, 
+    "__v" : 0, 
+    "dataContent" : {
+        "rima" : {
+            "whats" : [
+                {
+                    "state" : "STATE_SYNCED", 
+                    "updatedAt" : "2015-05-30T13:27:10.404Z", 
+                    "createdAt" : "2015-05-30T13:27:10.404Z", 
+                    "parent" : null, 
+                    "name" : "Nature of Creativity", 
+                    "_id" : "5566c62cbb09e90677658a60"
+                }
+            ]
+        }
+    }
+},
+{ 
+    "_id" : "5569ba730432fd6a731538de", 
+    "name" : "21st Century Worldview", 
+    "type" : "type_ibis_question", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "556760847125996dc1a4a219", 
+    "ideaId" : 0, 
+    "updatedAt" : "2015-05-30T14:26:59.035+0100", 
+    "createdAt" : "2015-05-30T14:26:11.271+0100", 
+    "visual" : {
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1, 
+    "__v" : 0, 
+    "dataContent" : {
+        "rima" : {
+            "whats" : [
+                {
+                    "state" : "STATE_SYNCED", 
+                    "updatedAt" : "2015-05-30T13:26:58.276Z", 
+                    "createdAt" : "2015-05-30T13:26:58.276Z", 
+                    "parent" : null, 
+                    "name" : "21st Century Worldview", 
+                    "_id" : "5566c62cbb09e90677658a61"
+                }
+            ]
+        }
+    }
+},
+{ 
+    "_id" : "5569b9380432fd6a731538d6", 
+    "name" : "TNC Online", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "556760847125996dc1a4a219", 
+    "ideaId" : 0, 
+    "updatedAt" : "2015-05-30T16:36:13.274+0100", 
+    "createdAt" : "2015-05-30T14:20:56.609+0100", 
+    "visual" : {
+        "yM" : 474, 
+        "xM" : 3137, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1, 
+    "__v" : 0
+},
+{ 
+    "_id" : "5569ba870432fd6a731538e0", 
+    "name" : "Collective Mind", 
+    "type" : "type_ibis_question", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "556760847125996dc1a4a219", 
+    "ideaId" : 0, 
+    "updatedAt" : "2015-05-30T14:26:49.524+0100", 
+    "createdAt" : "2015-05-30T14:26:31.765+0100", 
+    "visual" : {
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1, 
+    "__v" : 0, 
+    "dataContent" : {
+        "rima" : {
+            "whats" : [
+                {
+                    "state" : "STATE_SYNCED", 
+                    "updatedAt" : "2015-05-30T13:26:48.580Z", 
+                    "createdAt" : "2015-05-30T13:26:48.580Z", 
+                    "parent" : null, 
+                    "name" : "Collective Mind", 
+                    "_id" : "5566c62cbb09e90677658a62"
+                }
+            ]
+        }
+    }
+},
+{ 
+    "_id" : "5571d93690e36772741d2839", 
+    "name" : "ok this is important!", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "556760847125996dc1a4a241", 
+    "ideaId" : 0, 
+    "updatedAt" : "2015-06-05T18:16:23.952+0100", 
+    "createdAt" : "2015-06-05T18:15:34.650+0100", 
+    "visual" : {
+        "yM" : 2174, 
+        "xM" : 457, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1, 
+    "__v" : 0
+},
+{ 
+    "_id" : "5571d96b90e36772741d283b", 
+    "name" : "Привет Ања", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "556760847125996dc1a4a241", 
+    "ideaId" : 0, 
+    "updatedAt" : "2015-06-05T18:16:37.683+0100", 
+    "createdAt" : "2015-06-05T18:16:27.761+0100", 
+    "visual" : {
+        "yM" : 2231, 
+        "xM" : 206, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1, 
+    "__v" : 0
+},
+{ 
+    "_id" : "5552df567ffdccd74096d0ed", 
+    "name" : "QUANTUM PHYSICS", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-06-08T11:13:25.272+0100", 
+    "createdAt" : "2015-05-13T06:21:26.947+0100", 
+    "visual" : {
+        "yM" : 1533, 
+        "xM" : 1040.5, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552df907ffdccd74096d0f1", 
+    "name" : "Interaction Types", 
+    "type" : "type_ibis_idea", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-05-13T06:22:24.915+0100", 
+    "createdAt" : "2015-05-13T06:22:24.914+0100", 
+    "visual" : {
+        "xM" : 1778.5, 
+        "yM" : 1203, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552fd037ffdccd74096d103", 
+    "name" : "CLASSICAL SCIENCE", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-06-08T11:13:23.529+0100", 
+    "createdAt" : "2015-05-13T08:28:03.836+0100", 
+    "visual" : {
+        "yM" : 1835, 
+        "xM" : 996.5, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5553035d7ffdccd74096d105", 
+    "name" : "Metaphoric-ideogrammatic model of human energy", 
+    "type" : "type_ibis_argument", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5552fa7114fbfed56609d9bf", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "url" : "/app/images/sr-tri_nacina_rasta_ljudske_energije.png", 
+            "width" : "350", 
+            "height" : "300"
+        }, 
+        "property" : "<p>метафоричко-идеограмског модела људске ”енергије”<br/></p>"
+    }, 
+    "updatedAt" : "2015-05-29T06:53:22.084+0100", 
+    "createdAt" : "2015-05-13T08:55:09.625+0100", 
+    "visual" : {
+        "yM" : 924.5, 
+        "xM" : 2452.56201171875, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "555304b07ffdccd74096d109", 
+    "name" : "Problems with ideology and truth, acceptance for new ideas", 
+    "type" : "type_ibis_argument", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5552fa7114fbfed56609d9bf", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "height" : "220", 
+            "width" : "300", 
+            "url" : "/app/images/sr-u-curve.png"
+        }
+    }, 
+    "updatedAt" : "2015-05-29T06:53:04.868+0100", 
+    "createdAt" : "2015-05-13T09:00:48.517+0100", 
+    "visual" : {
+        "yM" : 974.8970336914062, 
+        "xM" : 2843.7669677734375, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552d81c7ffdccd74096d0d5", 
+    "name" : "Biophysical model", 
+    "type" : "type_ibis_idea", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-05-13T05:50:36.024+0100", 
+    "createdAt" : "2015-05-13T05:50:36.024+0100", 
+    "visual" : {
+        "xM" : 1971, 
+        "yM" : 866, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552d7c17ffdccd74096d0cf", 
+    "name" : "Models of creativity", 
+    "type" : "type_ibis_question", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "55268521fb9a901e442172f8", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-07-16T16:05:46.665+0100", 
+    "createdAt" : "2015-05-13T05:49:05.729+0100", 
+    "visual" : {
+        "yM" : 384, 
+        "xM" : 42, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552d7d67ffdccd74096d0d1", 
+    "name" : "Phenomenological model", 
+    "type" : "type_ibis_idea", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-06-05T18:21:16.555+0100", 
+    "createdAt" : "2015-05-13T05:49:26.822+0100", 
+    "visual" : {
+        "yM" : 843, 
+        "xM" : 394.5, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552d85c7ffdccd74096d0d7", 
+    "name" : "ACUPUNCTURE SYSTEM / NERVOUS SYSTEM THRESHOLD FILTER (Emotional coloring", 
+    "type" : "type_ibis_argument", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "height" : "250", 
+            "width" : "250", 
+            "url" : "/app/images/tnc-acupunture.png"
+        }
+    }, 
+    "updatedAt" : "2015-06-05T18:22:27.118+0100", 
+    "createdAt" : "2015-05-13T06:01:57.172+0100", 
+    "visual" : {
+        "yM" : 1154, 
+        "xM" : 228.5, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552da917ffdccd74096d0db", 
+    "name" : "TUNING INTO SOLUTION (Concentration, relaxation/meditation", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "url" : "/app/images/tnc-tuning.png", 
+            "width" : "275", 
+            "height" : "250"
+        }
+    }, 
+    "updatedAt" : "2015-06-05T18:18:10.189+0100", 
+    "createdAt" : "2015-05-13T06:01:05.423+0100", 
+    "visual" : {
+        "yM" : 1827.875, 
+        "xM" : 469.06201171875, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552dac57ffdccd74096d0dd", 
+    "name" : "FRONTOLIMBIC AMPLIFICATION FILTER (Thinking priority", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "url" : "/app/images/tnc-frontolimbic.png", 
+            "width" : "250", 
+            "height" : "250"
+        }
+    }, 
+    "updatedAt" : "2015-06-05T18:22:01.959+0100", 
+    "createdAt" : "2015-05-13T06:01:57.172+0100", 
+    "visual" : {
+        "yM" : 1605, 
+        "xM" : 175.5, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552dbec7ffdccd74096d0e1", 
+    "name" : "Directly Creative Mode of Conciousness", 
+    "type" : "type_ibis_argument", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "url" : "/app/images/tnc-directly-creative-mode.png", 
+            "width" : "200", 
+            "height" : "200"
+        }
+    }, 
+    "updatedAt" : "2015-06-08T11:13:02.691+0100", 
+    "createdAt" : "2015-05-13T06:06:52.362+0100", 
+    "visual" : {
+        "yM" : 1200, 
+        "xM" : 727.5, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552dc387ffdccd74096d0e3", 
+    "name" : "Indirectly Creative Mode of Conciousness", 
+    "type" : "type_ibis_argument", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "url" : "/app/images/tnc-indirectly-creative-mode.png", 
+            "width" : "200", 
+            "height" : "200"
+        }
+    }, 
+    "updatedAt" : "2015-05-13T06:08:08.909+0100", 
+    "createdAt" : "2015-05-13T06:08:08.909+0100", 
+    "visual" : {
+        "xM" : 1286.5, 
+        "yM" : 1200, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552dc7d7ffdccd74096d0e5", 
+    "name" : "Direct Creativity", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "url" : "/app/images/tnc-direct-creativity.png", 
+            "width" : "200", 
+            "height" : "200"
+        }
+    }, 
+    "updatedAt" : "2015-06-08T11:13:17.489+0100", 
+    "createdAt" : "2015-05-13T06:09:17.158+0100", 
+    "visual" : {
+        "yM" : 1658, 
+        "xM" : 751.5, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552dcb17ffdccd74096d0e7", 
+    "name" : "Indirect Creativity", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "height" : "200", 
+            "width" : "200", 
+            "url" : "/app/images/tnc-indirect-creativity.png"
+        }
+    }, 
+    "updatedAt" : "2015-06-05T18:20:54.128+0100", 
+    "createdAt" : "2015-05-13T06:10:09.133+0100", 
+    "visual" : {
+        "yM" : 1633, 
+        "xM" : 1272.5, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552dfa37ffdccd74096d0f3", 
+    "name" : "Macroscopic Quantum System", 
+    "type" : "type_ibis_idea", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-05-13T06:22:43.508+0100", 
+    "createdAt" : "2015-05-13T06:22:43.508+0100", 
+    "visual" : {
+        "xM" : 1991.5, 
+        "yM" : 1203, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552dfae7ffdccd74096d0f5", 
+    "name" : "Quantum system can behave as a memory", 
+    "type" : "type_ibis_idea", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-05-13T06:22:54.957+0100", 
+    "createdAt" : "2015-05-13T06:22:54.957+0100", 
+    "visual" : {
+        "xM" : 2151.5, 
+        "yM" : 1198, 
+        "isOpen" : true
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552dffd7ffdccd74096d0f9", 
+    "name" : "Quantum physics allows for interaction types that are beyond mechanistic causality (common knowledge", 
+    "type" : "type_ibis_argument", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-05-13T06:24:13.992+0100", 
+    "createdAt" : "2015-05-13T06:24:13.991+0100", 
+    "visual" : {
+        "xM" : 1743.5, 
+        "yM" : 1552, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552e0147ffdccd74096d0fb", 
+    "name" : "The acupuncture system is a macroscopic quantum system", 
+    "type" : "type_ibis_argument", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "property" : "<p>(shown by Russian-Ukrainian school of microwave resonance therapy<br/></p>"
+    }, 
+    "updatedAt" : "2015-05-13T06:24:36.045+0100", 
+    "createdAt" : "2015-05-13T06:24:36.045+0100", 
+    "visual" : {
+        "xM" : 2003.5, 
+        "yM" : 1550, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "555305207ffdccd74096d10b", 
+    "name" : "Sustainable collaborative creativity", 
+    "type" : "type_ibis_idea", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5552fa7114fbfed56609d9bf", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "height" : "280", 
+            "width" : "350", 
+            "url" : "/app/images/sr-collaboarte.jpg"
+        }
+    }, 
+    "updatedAt" : "2015-05-13T09:02:40.592+0100", 
+    "createdAt" : "2015-05-13T09:02:40.592+0100", 
+    "visual" : {
+        "xM" : 2839.5, 
+        "yM" : 1572, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "555317647ffdccd74096d10d", 
+    "name" : "G", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "55268521fb9a901e442172f8", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "image" : {
+            "url" : "/app/images/sr-geteova_nada-horizontal.png", 
+            "width" : 639, 
+            "height" : 220
+        }
+    }, 
+    "updatedAt" : "2015-05-29T06:53:28.859+0100", 
+    "createdAt" : "2015-05-13T10:20:36.948+0100", 
+    "visual" : {
+        "yM" : 1613, 
+        "xM" : 2430.5, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552df697ffdccd74096d0ef", 
+    "name" : "CLASSICAL SCIENCE", 
+    "type" : "type_knowledge", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "updatedAt" : "2015-05-13T06:21:45.758+0100", 
+    "createdAt" : "2015-05-13T06:21:45.758+0100", 
+    "visual" : {
+        "xM" : 1503.5, 
+        "yM" : 1707, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+},
+{ 
+    "_id" : "5552e0987ffdccd74096d0fd", 
+    "name" : "Mathematical isomorphism", 
+    "type" : "type_ibis_argument", 
+    "mapId" : "5566f25867a6d01e65beddde", 
+    "iAmId" : "5548fee2e59efb4e0bbb8478", 
+    "ideaId" : 0, 
+    "__v" : 0, 
+    "dataContent" : {
+        "property" : "<p>Mathematical isomorphism between Feynman’s version of the Schrödinger equation and Hopfield’s neural network model indicates that a quantum system can behave as a memory (shown by M. Peruš.<br/></p>"
+    }, 
+    "updatedAt" : "2015-05-29T12:08:25.175+0100", 
+    "createdAt" : "2015-05-13T06:26:48.288+0100", 
+    "visual" : {
+        "yM" : 1726, 
+        "xM" : 2139.5, 
+        "isOpen" : false
+    }, 
+    "isPublic" : true, 
+    "version" : 1, 
+    "activeVersion" : 1
+}
+]
