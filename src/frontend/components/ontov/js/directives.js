@@ -48,7 +48,16 @@ angular.module('ontovDirectives', ['Config'])
 					for(var edgeId in mapStructure.edgesById){
 						var vkEdge = mapStructure.edgesById[edgeId];
 						if(vkEdge.kEdge.sourceId == mapStructure.rootNode.kNode._id) continue;
-						delete mapStructure.edgesById[edgeId];
+
+						// 1. delete all non-root edges
+						// delete mapStructure.edgesById[edgeId];
+
+						// 2. make invisible all non-root edges
+						// vkEdge.visible = false;
+
+						// 3. make invisible all non-root-connected nodes
+						// mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId)
+						// 	.visible = false;
 					}
 					// alert("Cutting");
 					mapUpdate();

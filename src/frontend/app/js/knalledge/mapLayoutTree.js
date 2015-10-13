@@ -22,8 +22,12 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 
 	for(var i in this.mapStructure.edgesById){
 		var vkEdge = this.mapStructure.edgesById[i];
-		if(vkEdge.kEdge.sourceId == d.kNode._id){
+		// if defined and set to false the vkEdge and its vkNode should not be presented
+		if(vkEdge.visible === false) continue;
+		if(vkEdge.kEdge.sourceId === d.kNode._id){
 			var vkNode = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
+			// if defined and set to false the vkNode should not be presented
+			if(vkNode.visible === false) continue;
 			if(vkNode){
 				children.push(vkNode);
 			}

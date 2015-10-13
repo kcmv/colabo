@@ -11,6 +11,7 @@ var VKNode =  knalledge.VKNode = function(){
 	this.kNode = null; // reference to the related kNode object
 	this.iAmId = 0; //id of node creator (whoAmi/RIMA user)
 	this.selectable = true;
+	this.visible = true; // if defined and set to false the vkNode should not be presented
 	this.createdAt = null; //when the object is created
 	this.updatedAt = null; //when the obect is updated
 	//TODO: some properties are not shown here, but are explained and used in the function "fill" below

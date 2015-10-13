@@ -6,6 +6,7 @@ var VKEdge =  knalledge.VKEdge = function(){
 	this.kEdge = null; // reference to the related kEdge object
 	this.iAmId = 0; //id of node creator (whoAmi/RIMA user)
 	this.selectable = true;
+	this.visible = true; // if defined and set to false the vkEdge should not be presented
 	this.createdAt = null; //when the object is created
 	this.updatedAt = null; //when the obect is updated
 };
