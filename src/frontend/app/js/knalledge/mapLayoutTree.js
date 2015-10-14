@@ -143,7 +143,7 @@ MapLayoutTree.prototype.generateTree = function(source){
 		// Compute the new tree layout.
 		this.nodes = this.tree.nodes(source).reverse();
 		this.links = this.tree.links(this.nodes);
-		
+
 		//links are D3.tree-generated objects of type Object: {source, target}
 		for(var i in this.links){
 			var link = this.links[i];
@@ -228,13 +228,13 @@ MapLayoutTree.prototype.printTree = function(nodes) {
 			var height = ('height' in node) ? node.height : 0;
 			var width = ('width' in node) ? node.width : 0;
 			var name = node.kNode ? node.kNode.name : "(no name)";
-			console.log("\tnode [%d] \"%s\": x:%s, y:%s, width:%s, height: %s)", i, name, node.x, node.y, node.width, node.height);
+			//console.log("\tnode [%d] \"%s\": x:%s, y:%s, width:%s, height: %s)", i, name, node.x, node.y, node.width, node.height);
 			if(node.x - height/2 < minX) minX = node.x - height/2;
 			if(node.x + height/2 > maxX) maxX = node.x + height/2;
 			if(node.y - width/2 < minY) minY = node.y - width/2;
 			if(node.y + width/2 > maxY) maxY = node.y + width/2;
 		}
-		console.log("Dimensions: (minX: %s, maxX: %s, minY: %s, maxY: %s)", minX, maxX, minY, maxY);		
+		console.log("Dimensions: (minX: %s, maxX: %s, minY: %s, maxY: %s)", minX, maxX, minY, maxY);
 	}
 };
 

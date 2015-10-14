@@ -219,10 +219,15 @@
                                 console.log("dataModel::shortPathDAG:: No source node, source set to root.");
                             }
                         }
+                        for(var i in subgraph){
+                            subgraph[i].visible = true;
+                        }
+
                         return subgraph.reverse();
                     };
                 }());
 
+                //Listen for map data
                 $rootScope.$watchGroup([function() {
                     return Object.keys(ontovPluginInfo.references.map.items.mapStructure.edgesById).length;
                 }, function() {
@@ -243,7 +248,6 @@
                     //Create children and parrent arrays on all nodes
 
                     buildInheritanceTree(knalledgeMap.knodes, knalledgeMap.kedges);
-
 
                     //Perform a topological sort
                     var topSort = topologicalSort(knalledgeMap.knodes);
@@ -306,7 +310,7 @@
                             }
                             return _array;
                         }
-                    }
+                    };
 
                     for (var i = edges.length - 1; i >= 0; i--) {
                         var sourceId = edges[i].sourceId,
@@ -341,6 +345,7 @@
                                 .setSearchString(searchTerm)
                                 .query()
                                 .toJSON();
+
                             queryNodes.push({
                                 "type": "queryNode",
                                 "queryString": searchTerm,
@@ -469,6 +474,8 @@
                     search: function(searchString) {
                         //Update viewmodel with search results
                         var _queryNodes = searchCollection(searchString);
+                        //Set node visibility - KnAllEdge requirement
+                        _.each(_queryNodes, function(node){console.log(node);});
                         var _pathNodes = searchQueryPaths(projectCollection.toJSON(), _queryNodes);
                         var _graph = mergePaths(_pathNodes);
 
@@ -486,6 +493,8 @@
 
                         //Tell all views that viewmodel is updated
                         broadcastUpdate();
+
+                        return viewModel;
                     },
                     getPills: function() {
                         return projectSearchCollection.getPills();

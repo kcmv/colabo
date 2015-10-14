@@ -34,7 +34,28 @@
 										});
 										//Remove duplicates in search string
 										//searchString = _.uniq(searchString.split(" ")).join(" ");
-										dataModel.search(searchString);
+
+										var viewNodes = dataModel.search(searchString).nodes;
+										if(viewNodes.length > 0){
+												_.each(mapStructure.nodesById, function(vkNode){
+													vkNode.visible = false;
+												});
+											}else{
+											_.each(mapStructure.nodesById, function(vkNode){
+												delete vkNode.visible;
+											});
+										}
+
+										for(var vmNodeId in viewNodes){
+											for(var nodeId in mapStructure.nodesById){
+												var vkNode = mapStructure.nodesById[nodeId];
+												if(vkNode.kNode._id === viewNodes[vmNodeId]._id){
+														delete vkNode.visible;
+												}
+
+											}
+										}
+										mapUpdate();
 									},
 									facetMatches: function(callback) {
 										// These are the facets that will be autocompleted in an empty input.
@@ -85,6 +106,16 @@
 						$scope.reduceDepth = function(){
 							// mapStructure.edgesById = {};
 							console.log("Cutting");
+							var viewNodes = dataModel.getViewModel().nodes;
+							for(var vmNodeId in dataModel.getViewModel().nodes){
+								for(var nodeId in mapStructure.nodesById){
+									var vkNode = mapStructure.nodesById[nodeId];
+									if(vkNode.kNode._id === viewNodes[vmNodeId]._id)
+										vkNode.visible = false;
+								}
+							}
+
+
 							for(var edgeId in mapStructure.edgesById){
 								var vkEdge = mapStructure.edgesById[edgeId];
 								if(vkEdge.kEdge.sourceId == mapStructure.rootNode.kNode._id) continue;
@@ -93,12 +124,12 @@
 								// delete mapStructure.edgesById[edgeId];
 
 								// 2. make invisible all non-root edges
-								// vkEdge.visible = false;
+								vkEdge.visible = false;
 
 								// 3. make invisible all non-root-connected nodes
 								// mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId)
 								// 	.visible = false;
-								
+
 								mapUpdate();
 							}
 						};
