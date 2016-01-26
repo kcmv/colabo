@@ -37,7 +37,7 @@ Finally, we have a separate **visual representation** of knowledge that provides
 
 ## Service
 
-KnAllEdge service is implemented as a full JSON ***RESTful*** web service.
+KnAllEdge service is implemented as a full JSON ***RESTful*** web service. It relies on and it is integrated with ***WhoAmI*** service for user authentication and authorization, but it is fairly easy to integrate it with other user management components.
 
 ## Product
 
@@ -70,6 +70,30 @@ Backend needs a special **express-resource** package on steroids. You can downlo
 
 ## IBIS
 
-[IBIS plugin] (ibis.collaboscience.com)
+@see [IBIS plugin] (ibis.collaboscience.com)
 
-The main difference from standard IBIS components is in restricted rule of questions restricted to ideas ...
+**IBIS module** implemented on the top of KnAllEdge differs from the standard implementation of IBIS (please @see for the reference: )[reference to IBIS] ).
+
+The main reason for diverging from the original IBIS implementation is that original IBIS system(s) are designed as an independent systems that provides dialogue mapping. CollaboScience promotes frictionless services integration and knowledge sharing among the services.
+
+The fundamental problem with the most of standards IBIS implementation is that although if they were intended to support ***dialogue mapping*** around different topic of interests of a community, naturally the process of argumentative dialogue necessarily introduce new knowledge artifacts which transforms semantically clean IBIS space into space cognitively polluted with knowledge. This additionally brings confusion in community of 
+
+1. Questions may generalize or specialize other Questions
++ Questions may question, or be suggested by, other Questions, Ideas and Argument
++ Ideas can only respond to Questions
++ Arguments can only support or object to Ideas
++ Ideas can generalize or specialize other Ideas
++ Arguments can generalize or specialize other Arguments
+
+# <span style='color: gray; font-style: italic;'>Collabo</span><span style='color: black'>Science</span> Manifesto
+
+ecosystem (@see the [CollaboSceince Homepage](http://www.collaboscience.com).
+
+1. ecosystem should be frictionless
+	1. activities can be seemingly performed across different services
+	* data and produced knowledge should be available in any service
+* knowledge produced should be cultivated across the time to avoid saturation and information glut
+* Artificial Intelligence should explain claims behind decision
+* Domain experts should be able to change processes
+* It should be highly modular and based on socio-technical processes
+	
