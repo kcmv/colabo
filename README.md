@@ -15,7 +15,7 @@ Some of the main motivations behind developing <span style='color: #550000'>Kn</
 
 An outmost goal was succeeding in development of the collaborative-system with unobtrusive and continuous **knowledge-dialogue-decision-action-learn** cycle:
 
-![](../documents/diagrams/CollaboScience-spiral.png)
+![](documents/diagrams/CollaboScience-spiral.png)
 
 KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: **Topic maps** (@see on [Wikipedia]{@link https://en.wikipedia.org/wiki/Topic_Maps}) and __SocioTM__ (please @see [abstract]{@link http://tmra.de/2008/talks/socioTM-relevancies-collaboration-and-socio-knowledge-in-topic-maps.html} and [paper]{@link http://tmra.de/2008/talks/pdf/309-323.pdf}).
 
