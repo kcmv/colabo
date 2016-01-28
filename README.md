@@ -136,11 +136,11 @@ At this moment we do not rely strongly on automatic reasoning and therefore we b
 
 1. ecosystem should be frictionless
 	1. activities can be seemingly performed across different services
-	* data and produced knowledge should be available in any service
-* knowledge produced should be cultivated across the time to avoid saturation and information glut
-* Artificial Intelligence should explain claims behind decision
-* Domain experts should be able to change processes
-* It should be highly modular and based on socio-technical processes
+	1. data and produced knowledge should be available in any service
+1. knowledge produced should be cultivated across the time to avoid saturation and information glut
+1. Artificial Intelligence should explain claims behind decision
+1. Domain experts should be able to change processes
+1. It should be highly modular and based on socio-technical processes
 
 [Kittur, 2007]: http://dl.acm.org/citation.cfm?id=1240698
 [Sumi, 2011]: http://arxiv.org/abs/1107.3689
