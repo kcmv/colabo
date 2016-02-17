@@ -2,6 +2,10 @@
 
 __<span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span>__ is a general knowledge layer, that can serve as a separate knowledge mapping service (please @see [KnAllEdge Homepage]{@link http://www.knalledge.org}), but it also serves as a underlying layer for the __<span style='color: gray; font-style: italic;'>Collabo</span><span style='color: black'>Science</span>__ ecosystem (@see [CollaboSceince Homepage]{@link http://www.collaboscience.com}).
 
+![KnAllEdge - Tesla example](documents/diagrams/KnAllEdge-Tesla-Example.png)
+
+**Figure 1**: KnAllEdge example - Modeling the open table dialogue on the topic of the Tesla's Nature of Creativity at the Tesla Conference (2015)
+
 Some of the main motivations behind developing <span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span> are the following:
 
 * support of collective "knowledge-gardening" (thanks to Jack Park for the term)
@@ -15,7 +19,9 @@ Some of the main motivations behind developing <span style='color: #550000'>Kn</
 
 An outmost goal was succeeding in development of the collaborative-system with unobtrusive and continuous **knowledge-dialogue-decision-action-learn** cycle:
 
-![](documents/diagrams/CollaboScience-spiral.png)
+![CollaboScience spiral](documents/diagrams/CollaboScience-spiral.png)
+
+**Figure 2**: CollaboScience spiral
 
 KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: **Topic maps** (@see on [Wikipedia]{@link https://en.wikipedia.org/wiki/Topic_Maps}) and __SocioTM__ (please @see [abstract]{@link http://tmra.de/2008/talks/socioTM-relevancies-collaboration-and-socio-knowledge-in-topic-maps.html} and [paper]{@link http://tmra.de/2008/talks/pdf/309-323.pdf}).
 
@@ -65,6 +71,18 @@ Backend needs a special **express-resource** package on steroids. You can downlo
 
 [RIMA service] (rima.collaboscience.com)
 [RIMA draft discussion] (https://docs.google.com/document/d/1krMfz7G0iFgNc538tzblAwOov2w2JXvoit_UPhndL1Q/edit?usp=sharing)
+
+## Multi-truth
+
++ already accepted
++ discussion before merging into one
+
+## Boundary-objects
+
++ trans-disciplinarity
++ multi-definitions
++ connecting different topics and unites them
++ long- and trans-disciplinary- leaps for discovering topics, ideas, ...
 
 ## IBIS
 
