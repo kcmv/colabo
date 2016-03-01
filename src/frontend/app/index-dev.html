@@ -1,4 +1,4 @@
-<html lang="en" ng-app="KnAllEdgeApp" id="ng-app">
+<html lang="en">
 	<head>
 		<title>KnAllEdge</title>
 		<meta name=”viewport” content=”initial-scale=1.0, width=device-width”>
@@ -37,12 +37,22 @@
 		<script src="js/lib/tween/tween.js"></script>
 		<script src="js/lib/socket.io/socket.io.js"></script>
 
-		<script src="js/lib/angular/angular.js"></script>
-		<script src="js/lib/angular/angular-route.js"></script>
-		<script src="js/lib/angular/angular-sanitize.js"></script>
-		<script src="js/lib/angular/angular-resource.js"></script>
-		<script src="js/lib/angular/angular-animate.js"></script>
-		<script src="js/lib/angular/ngStorage.js"></script>
+		<script src="../node_modules/angular/angular.js"></script>
+		<script src="../node_modules/angular-route/angular-route.js"></script>
+		<script src="../node_modules/angular-sanitize/angular-sanitize.js"></script>
+		<script src="../node_modules/angular-resource/angular-resource.js"></script>
+		<script src="../node_modules/angular-animate/angular-animate.js"></script>
+		<script src="../node_modules/ngstorage/ngStorage.js"></script>
+
+		<script src="../node_modules/es6-shim/es6-shim.min.js"></script>
+	    <script src="../node_modules/systemjs/dist/system-polyfills.js"></script>
+	    <script src="../node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
+
+		<script src="../node_modules/systemjs/dist/system.src.js"></script>
+	    <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
+	    <script src="../node_modules/rxjs/bundles/Rx.js"></script>
+	    <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
+
 		<script src="js/lib/ui-bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
 
 <!--		<script src="js/lib/textAngular/textAngular.js"></script>
@@ -58,7 +68,6 @@
 
 		<script src="js/config/config.js"></script>
 		<script src="js/config/config.env.js"></script>
-		<script src="js/app.js"></script>
 
 		<script src="js/interaction/interaction.js"></script>
 		<script src="js/interaction/moveAndDrag.js"></script>
@@ -118,6 +127,63 @@
 		<script src="../components/ontov/js/vendor/visualsearch.js"></script>
 		<script src="../components/ontov/js/services.js"></script>
 		<script src="../components/ontov/js/directives.js"></script>
+
+		<script>
+		// function.name (all IE)
+	    // Remove once https://github.com/angular/angular/issues/6501 is fixed.
+	    /*! @source http://stackoverflow.com/questions/6903762/function-name-not-supported-in-ie*/
+	    if (!Object.hasOwnProperty('name')) {
+	      Object.defineProperty(Function.prototype, 'name', {
+	        get: function() {
+	          var matches = this.toString().match(/^\s*function\s*(\S*)\s*\(/);
+	          var name = matches && matches.length > 1 ? matches[1] : "";
+	          // For better performance only parse once, and then cache the
+	          // result through a new accessor for repeated access.
+	          Object.defineProperty(this, 'name', {value: name});
+	          return name;
+	        }
+	      });
+	    }
+	    </script>
+
+	    <script>
+	    // Fixes undefined module function in SystemJS bundle
+	    function module() {}
+	    </script>
+
+	    <!-- shims:js -->
+	    <!-- endinject -->
+
+	    <% if (ENV === 'dev') { %>
+	    <script>System.config({
+			"defaultJSExtensions":true,
+			"paths":{
+				"bootstrap":"/bootstrap",
+				"*":"../node_modules/*"
+			},
+			"packages":{
+			}
+		})</script>
+	    <% } %>
+
+	    <!-- libs:js -->
+	    <!-- endinject -->
+
+	    <!-- inject:js -->
+	    <!-- endinject -->
+
+		<script src="js/app.js"></script>
+		<!-- <script src="js/app2.js"></script> -->
+
+	    <% if (ENV === 'dev') { %>
+	    <script>
+	    System.import('./js/app2')
+	      .catch(function (e) {
+	        console.error(e,
+	          'Report this error at https://github.com/mprinc/KnAllEdge/issues');
+	      });
+	    </script>
+	    <% } %>
 
 
 	</body>

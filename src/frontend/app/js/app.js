@@ -101,4 +101,6 @@ angular.module('KnAllEdgeApp',[
 //}])
 ;
 
+// angular.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false});
+
 }()); // end of 'use strict';

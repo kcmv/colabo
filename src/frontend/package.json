@@ -1,14 +1,34 @@
 {
-    "name": "McModelar-frontend",
+    "name": "KnAllEdge-frontend",
     "version": "0.0.5",
     "private": true,
     "scripts": {
-        "start": "open http://localhost:8410/app/index-dev.html; node ./scripts/web-server.js 8410 ..",
+        "start": "concurrent \"npm run tsc:w\" \"npm run lite\" ",
+        "start-old": "open http://localhost:8410/app/index-dev.html; node ./scripts/web-server.js 8410 ..",
         "test": "node_modules/protractor/bin/protractor tests/e2e-config.js",
         "test-a": "node_modules/mocha/bin/mocha tests/unit-tests.js",
-        "hello": "echo 'Hello'"
+        "hello": "echo 'Hello'",
+        "tsc": "tsc",
+        "tsc:w": "tsc -w",
+        "lite": "lite-server",
+        "typings": "typings",
+        "postinstall": "typings install"
     },
-    "dependencies": {},
+    "dependencies": {
+        "angular": "^1.5.0",
+        "angular-animate": "^1.5.0",
+        "angular-resource": "^1.5.0",
+        "angular-route": "^1.5.0",
+        "angular-sanitize": "^1.5.0",
+        "ngstorage": "^0.3.10",
+        "angular2": "2.0.0-beta.7",
+        "systemjs": "0.19.22",
+        "es6-promise": "^3.0.2",
+        "es6-shim": "^0.33.3",
+        "reflect-metadata": "0.1.2",
+        "rxjs": "5.0.0-beta.2",
+        "zone.js": "0.5.15"
+    },
     "devDependencies": {
         "grunt": "~0.4.5",
         "grunt-contrib-concat": "~0.5.0",
@@ -38,6 +58,10 @@
         "karma-chrome-launcher": "^0.1.7",
         "karma-firefox-launcher": "^0.1.3",
         "karma-safari-launcher": "^0.1.1",
-        "karma-coverage": "*"
+        "karma-coverage": "*",
+        "concurrently": "^2.0.0",
+        "lite-server": "^2.1.0",
+        "typescript": "^1.8.2",
+        "typings":"^0.6.8"
     }
 }

@@ -237,22 +237,25 @@
                 }());
 
                 //Listen for map data
-                $rootScope.$watchGroup([function() {
-                    // return Object.keys(ontovPluginInfo.references.map.items.mapStructure.edgesById).length;
-                    return Object.keys(ontovPluginInfo.references.mapVOsService.items.edgesById).length;
-                }, function() {
-                    // return Object.keys(ontovPluginInfo.references.map.items.mapStructure.nodesById).length;
-                    return Object.keys(ontovPluginInfo.references.mapVOsService.items.nodesById).length;
-                }], function(oldVal, newVal, scope) {
-                    var edgeObj = ontovPluginInfo.references.map.items.mapStructure.edgesById,
-                        nodeObj = ontovPluginInfo.references.map.items.mapStructure.nodesById;
-                    if (Object.keys(edgeObj).length != knalledgeMap.kedges.length && Object.keys(nodeObj).length != knalledgeMap.knodes.length){
-                        knalledgeMap.kedges = _.pluck(edgeObj, 'kEdge');
-                        knalledgeMap.knodes = _.pluck(nodeObj, 'kNode');
-                        updateDataModel();
-                    }
+                if(true){ // false avoids error: angular.js:13236 RangeError: Maximum call stack size exceeded
+                    $rootScope.$watchGroup([function() {
+                        // return Object.keys(ontovPluginInfo.references.map.items.mapStructure.edgesById).length;
+                        return Object.keys(ontovPluginInfo.references.mapVOsService.items.edgesById).length;
+                    }, function() {
+                        // return Object.keys(ontovPluginInfo.references.map.items.mapStructure.nodesById).length;
+                        return Object.keys(ontovPluginInfo.references.mapVOsService.items.nodesById).length;
+                    }], function(oldVal, newVal, scope) {
+                        var edgeObj = ontovPluginInfo.references.map.items.mapStructure.edgesById,
+                            nodeObj = ontovPluginInfo.references.map.items.mapStructure.nodesById;
+                        if (Object.keys(edgeObj).length != knalledgeMap.kedges.length && Object.keys(nodeObj).length != knalledgeMap.knodes.length){
+                            knalledgeMap.kedges = _.pluck(edgeObj, 'kEdge');
+                            knalledgeMap.knodes = _.pluck(nodeObj, 'kNode');
+                            updateDataModel();
+                        }
 
-                });
+                    });
+                }
+
                 //Update model with new data
                 function updateDataModel() {
                     console.log("dataModel::KnAllEdge map data received");
