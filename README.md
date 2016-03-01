@@ -1,6 +1,6 @@
 # <span style='font-weight:bold'><span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span>
 
-__<span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span>__ is a general knowledge layer, that can serve as a separate knowledge mapping service (please @see [KnAllEdge Homepage]{@link http://www.knalledge.org}), but it also serves as a underlying layer for the __<span style='color: gray; font-style: italic;'>Collabo</span><span style='color: black'>Science</span>__ ecosystem (@see [CollaboSceince Homepage]{@link http://www.collaboscience.com}).
+__<span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span>__ is a general knowledge layer, that can serve as a separate knowledge mapping service (please @see [KnAllEdge Homepage]{@link http://www.knalledge.org}), but it also serves as an underlying layer for the __<span style='color: gray; font-style: italic;'>Collabo</span><span style='color: black'>Science</span>__ ecosystem (@see [CollaboSceince Homepage]{@link http://www.collaboscience.com}).
 
 ![KnAllEdge - Tesla example](documents/diagrams/KnAllEdge-Tesla-Example.png)
 

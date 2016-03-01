@@ -2,7 +2,7 @@
 'use strict';
 //this function is strict...
 
-var QUEUE = 
+var QUEUE =
 //false;
 true;
 
@@ -23,7 +23,7 @@ var removeJsonProtected = function(ENV, jsonStr){
 	return jsonStr;
 };
 
-var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config']);
+var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config', 'collaboPluginsServices']);
 
 knalledgeMapServices.provider('KnalledgeMapQueue', {
 	//KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
@@ -50,17 +50,17 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 				this.queue.push(request);
 				this.flush();
 			},
-			
+
 			flush: function(){
 				for(var i in this.queue){
-					var request = this.queue[i]; 
+					var request = this.queue[i];
 					if((request.state != this.STATE_SENT && request.state != this.STATE_EXECUTED) && request.processing[this.SERVICE_METHOD_CHECK](request) && this.check(request,i)){
 						request.state = this.STATE_SENT;
 						request.processing[this.SERVICE_METHOD_EXECUTE](request);
 					}
 				}
 			},
-			
+
 			check: function(request,index){
 				/* update cannot be sent if it is updating resource (VO) that is still not created  */
 				if(request.method == this.SERVICE_METHOD_UPDATE){
@@ -74,7 +74,7 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 //				}
 				return true;
 			},
-			
+
 			executed:function(request){
 				for(var i in this.queue){
 					var requestT = this.queue[i];
@@ -88,11 +88,11 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 				}
 				this.flush(); //trying to execute some other request being dependent on executed request
 			}
-			
-			
+
+
 //			link: function(resource, methods){
-//				this.linkToServices[resource] = methods 
-//				
+//				this.linkToServices[resource] = methods
+//
 //			}
 
 //			updateNode: function(node) {
@@ -132,8 +132,8 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				return serverResponse;
 			}
 		}},
-		
-		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true, 
+
+		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true,
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -158,8 +158,8 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				return serverResponse;
 			}
 		}},
-		
-		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/, 
+
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -177,7 +177,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				return serverResponse;
 			}
 		}},
-		
+
 		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -191,11 +191,11 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		},
-		
+
 		destroyPlain: {method:'DELETE', params:{type:'one'},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -209,14 +209,14 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		}
 	});
 
 	resource.RESOURCE_TYPE = 'KNode';
-	
+
 	resource.query = function(){
 		var data = {
 			$promise: null,
@@ -244,7 +244,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		var node = this.getPlain({ searchParam:id, type:'one' }, callback);
 		return node;
 	};
-	
+
 	resource.queryInMap = function(id, callback)
 	{
 		var nodes = this.queryPlain({ searchParam:id, type:'in_map' }, function(nodesFromServer){
@@ -277,11 +277,11 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		// }
 		return nodes;
 	};
-	
+
 	resource.create = function(kNode, callback)
 	{
 		console.log("resource.create");
-		
+
 		if(QUEUE){
 			kNode.$promise = null;
 			kNode.$resolved = false;
@@ -292,30 +292,30 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		}
 		else{
 			var kNodeForServer = kNode.toServerCopy();
-			//we return kNode:kNode, because 'node' is of type 'Resource'  
+			//we return kNode:kNode, because 'node' is of type 'Resource'
 			var node = this.createPlain({}, kNodeForServer, function(nodeFromServer){
 				kNode.$resolved = node.$resolved;
 				kNode.overrideFromServer(nodeFromServer);
 				if(callback) callback(kNode);
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'node', so we need to  set its promise to the value we return
 			kNode.$promise = node.$promise;
 			kNode.$resolved = node.$resolved;
-			
-			if(node.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(node.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				kNode.overrideFromServer(node);
 			}
 		}
 		//we return this value to caller as a dirty one, and then set its value to nodeFromServer when upper callback is called
-		//TODO: a problem may occur if promise is resolved BEFORE callback is called 
+		//TODO: a problem may occur if promise is resolved BEFORE callback is called
 		return kNode;
 	};
-	
+
 	resource.update = function(kNode, callback)
 	{
 		console.log("resource.update");
-		if(kNode.state == knalledge.KNode.STATE_LOCAL){//TODO: fix it by going throgh queue 
+		if(kNode.state == knalledge.KNode.STATE_LOCAL){//TODO: fix it by going throgh queue
 			window.alert("Please, wait while entity is being saved, before updating it:\n"+kNode.name);
 			return null;
 		}
@@ -340,7 +340,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			});
 		}
 	};
-	
+
 	resource.destroy = function(id, callback)
 	{
 		var result = this.destroyPlain({searchParam:id, type:'one'}, function(){
@@ -352,7 +352,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		});
 		return result;
 	};
-	
+
 	resource.destroyByModificationSource = function(mapId, modificationSource, callback)
 	{
 		var result = this.destroyPlain({searchParam:mapId, type:'by-modification-source'}, function(){
@@ -364,7 +364,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		});
 		return result;
 	};
-	
+
 	resource.execute = function(request){ //example:: request = {data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
 		// var kNode;
 		switch(request.method){
@@ -373,7 +373,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			var kNodeForServer = request.data.toServerCopy();
 			var kNodeReturn = request.data;
 			var callback = request.callback;
-			
+
 			var node = resource.createPlain({}, kNodeForServer, function(nodeFromServer){
 				kNodeReturn.$resolved = node.$resolved;
 				kNodeReturn.overrideFromServer(nodeFromServer);
@@ -386,12 +386,12 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 					KnAllEdgeRealTimeService.emit(KnRealTimeNodeCreatedEventName, kNodeReturn.toServerCopy());
 				}
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'node', so we need to  set its promise to the value we return
 			kNodeReturn.$promise = node.$promise;
 			kNodeReturn.$resolved = node.$resolved;
-			
-			if(node.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(node.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				kNodeReturn.overrideFromServer(node);
 			}
 			break;
@@ -400,16 +400,16 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			break;
 		}
 	};
-	
+
 	/* checks if request can be sent to server */
 	resource.check = function(request){
 		return true;
 	};
-	
+
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
 	return resource;
-	
+
 }]);
 
 knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', 'KnAllEdgeRealTimeService', function($resource, $q, ENV, KnalledgeMapQueue, KnAllEdgeRealTimeService){
@@ -436,8 +436,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				return serverResponse;
 			}
 		}},
-		
-		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true, 
+
+		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true,
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -453,15 +453,15 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 //				}
 //				//console.log("[KnalledgeNodeService] data: %s", JSON.stringify(data));
 //				return VOs;
-				
+
 				return serverResponse.data;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
 			}
 		}},
-		
-		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/, 
+
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -478,7 +478,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				return serverResponse;
 			}
 		}},
-		
+
 		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -492,11 +492,11 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		},
-		
+
 		destroyPlain: {method:'DELETE', params:{type:'one'},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -510,19 +510,19 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		}
 	});
-	
+
 	resource.RESOURCE_TYPE = 'KEdge';
-	
+
 	resource.getById = function(id, callback)
 	{
 		return this.getPlain({ searchParam:id, type:'one' }, callback);
 	};
-	
+
 	resource.queryInMap = function(id, callback)
 	{
 		var edges = this.queryPlain({ searchParam:id, type:'in_map' }, function(edgesFromServer){
@@ -537,21 +537,21 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 
 		return edges;
 	};
-	
+
 	resource.queryBetween = function(id, callback)
 	{
 		return this.queryPlain({ searchParam:id, type:'between' }, callback);
 	};
-	
+
 	resource.queryConnected = function(id, callback)
 	{
 		return this.queryPlain({ searchParam:id, type:'connected' }, callback);
 	};
-	
+
 	resource.create = function(kEdge, callback)
 	{
 		console.log("Edge-resource.create");
-		
+
 		if(QUEUE){
 			kEdge.$promise = null;
 			kEdge.$resolved = false;
@@ -562,37 +562,37 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 		}
 		else{
 			var kEdgeForServer = kEdge.toServerCopy();
-	
+
 			//we return kEdge:KEdge, because 'edge' is of type 'Resource'
 			var edge = this.createPlain({}, kEdgeForServer, function(edgeFromServer){
 				kEdge.$resolved = edge.$resolved;
 				kEdge.overrideFromServer(edgeFromServer);
 				if(callback) callback(kEdge);
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'edge', so we need to  set its promise to the value we return
 			kEdge.$promise = edge.$promise;
 			kEdge.$resolved = edge.$resolved;
-			
-			if(edge.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(edge.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				kEdge.overrideFromServer(edge);
 			}
 		}
 		//we return this value to caller as a dirty one, and then set its value to nodeFromServer when upper callback is called
-		//TODO: a problem may occur if promise is resolved BEFORE callback is called 
+		//TODO: a problem may occur if promise is resolved BEFORE callback is called
 		return kEdge;
 	};
-	
+
 	resource.update = function(kEdge, callback)
 	{
-		if(kEdge.state == knalledge.KEdge.STATE_LOCAL){//TODO: fix it by going throgh queue 
+		if(kEdge.state == knalledge.KEdge.STATE_LOCAL){//TODO: fix it by going throgh queue
 			window.alert("Please, wait while entity is being saved, before updating it:\n"+kEdge.name);
 			return null;
 		}
 		//TODO: check the name of param: id or ObjectId or _id?
 		return this.updatePlain({searchParam:kEdge._id, type:'one'}, kEdge, callback);
 	};
-	
+
 	resource.destroy = function(id, callback)
 	{
 		var result = this.destroyPlain({searchParam:id, type:'one'}, function(){
@@ -621,14 +621,14 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 	{
 		return this.destroyPlain({searchParam:id, type:'connected'}, callback);
 	};
-	
+
 	resource.execute = function(request){ //example:: {data: kEdge, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
 		switch(request.method){
 		case 'create':
 			var kEdgeForServer = request.data.toServerCopy();
 			var kEdgeReturn = request.data;
 			var callback = request.callback;
-			
+
 			var edge = resource.createPlain({}, kEdgeForServer, function(edgeFromServer){
 				kEdgeReturn.$resolved = edge.$resolved;
 				kEdgeReturn.overrideFromServer(edgeFromServer);
@@ -640,12 +640,12 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeCreatedEventName, kEdgeReturn.toServerCopy());
 				}
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'edge', so we need to  set its promise to the value we return
 			kEdgeReturn.$promise = edge.$promise;
 			kEdgeReturn.$resolved = edge.$resolved;
-			
-			if(edge.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(edge.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				kEdgeReturn.overrideFromServer(edge);
 			}
 			break;
@@ -654,14 +654,14 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			break;
 		}
 	};
-	
+
 	/**
 	 * checking dependency for executing some request in Queue
 	 */
 	resource.check = function(request)
 	{//execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
 		console.log("[EdgeService::check]");
-		
+
 		var edge = request.data;
 		if(typeof edge.sourceId !== 'string'){//TODO: Fix it through Node states
 			return false;
@@ -671,14 +671,15 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 		}
 		return true;
 	};
-	
+
 	return resource;
-	
+
 }]);
 
 knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	// privateData: "privatno",
-	$get: ['$q', '$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'RimaService', 'KnAllEdgeRealTimeService', function($q, $rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService, RimaService, KnAllEdgeRealTimeService) {
+	$get: ['$q', '$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'RimaService', 'KnAllEdgeRealTimeService', 'CollaboPluginsService',
+	function($q, $rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService, RimaService, KnAllEdgeRealTimeService, CollaboPluginsService) {
 		// var that = this;
 		var provider = {
 			mapId: "552678e69ad190a642ad461c",
@@ -705,7 +706,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 						var eventName = KnRealTimeNodeCreatedEventName + ToVisualMsg;
 						changes.nodes.push(kNode);
 					break;
-					case KnRealTimeNodeUpdatedEventName:	
+					case KnRealTimeNodeUpdatedEventName:
 						var kNode = this.nodesById[msg._id];
 						if(typeof kNode === 'undefined'){
 							console.error("externalChangesInMap:Node update received for a node that we don't have");
@@ -716,7 +717,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 						var eventName = KnRealTimeNodeUpdatedEventName + ToVisualMsg;
 						changes.nodes.push(kNode);
 					break;
-					case KnRealTimeNodeDeletedEventName: 
+					case KnRealTimeNodeDeletedEventName:
 						if(this.nodesById.hasOwnProperty(msg._id)){
 							delete this.nodesById[msg._id];
 							var eventName = KnRealTimeNodeDeletedEventName + ToVisualMsg;
@@ -856,7 +857,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			toggle: function(d) {
 				d.isOpen = !d.isOpen;
 			},
-	
+
 			getNodeById: function(kId) {
 				for(var i in this.nodesById){
 					var node = this.nodesById[i];
@@ -877,13 +878,13 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 
 			createNode: function(kNode, kNodeType) {
 				if (kNode && kNode.type && typeof kNodeType == 'undefined') kNodeType = kNode.type;
-				
+
 				var nodeCreated = function(nodeFromServer) {
 					console.log("[KnalledgeMapVOsService] nodeCreated");// + JSON.stringify(nodeFromServer));
 					// var edgeUpdatedNodeRef = function(edgeFromServer){
 					// 	console.log("[KnalledgeMapVOsService] edgeUpdatedNodeRef" + JSON.stringify(edgeFromServer));
 					// };
-					
+
 					// updating all references to node on fronted with server-created id:
 					// var oldId = newNode._id;
 					delete this.nodesById[localNodeId];//		this.nodesById.splice(oldId, 1);
@@ -902,7 +903,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 						/* but so far we are commenting this because we won't update edge. Instead createEdge will be blocked (by promise, until this createNode is finished) in:
 						 * 		// Add new node:
 						 *		KeyboardJS.on("tab", function(){
-						 *  so 
+						 *  so
 						if(changed){
 							//TODO: should we clone it or call vanilla object creation:
 							KnalledgeEdgeService.update(edge, edgeUpdatedNodeRef.bind(this)); //saving changes in edges's node refs to server
@@ -912,7 +913,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				};
 
 				console.log("[KnalledgeMapVOsService] createNode");
-				
+
 				// var maxId = -1;
 				// for(var i in this.nodesById){
 				// 	if(maxId < this.nodesById[i]._id){
@@ -930,7 +931,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				}
 
 				newNode.type = kNodeType;
-				
+
 				var localNodeId = newNode._id;// = maxId+1;
 				if(!('mapId' in newNode) || !newNode.mapId) newNode.mapId = this.mapId;
 
@@ -942,7 +943,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			updateNode: function(node, updateType, callback) {
 				return KnalledgeNodeService.update(node, callback); //TODO: ? updateType); //updating on server service
 			},
-			
+
 			deleteNode: function(node) {
 				var result = KnalledgeNodeService.destroy(node._id); //deleteNode on server service
 				delete this.nodesById[node._id]; //TODO: see if we should do it only upon server deleting success
@@ -970,14 +971,14 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				kEdge.$promise.then(createEdgeAndNodesCallback);
 				return kEdge;
 			},
-			
+
 			deleteEdgesConnectedTo: function(node) {
 				var result = KnalledgeEdgeService.deleteConnectedTo(node._id); //TODO: handle a case when the edge is not deleted sucessfully
 				//delete edgesById (kEdge):
 				for(var i in this.edgesById){
 					var edge = this.edgesById[i];
 					if(edge.sourceId == node._id || edge.targetId == node._id){
-						delete this.edgesById[i]; 
+						delete this.edgesById[i];
 					}
 				}
 				return result;
@@ -991,7 +992,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			createEdge: function(kEdge, callback) {
 				var edgeCreated = function(edgeFromServer) {
 					console.log("[KnalledgeMapVOsService::createEdge] edgeCreated" + JSON.stringify(edgeFromServer));
-					
+
 					// updating all references to edge on fronted with server-created id:
 					// var oldId = newEdge._id;
 					delete this.edgesById[localEdgeId];//		this.nodesById.splice(oldId, 1);
@@ -1000,7 +1001,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					// newEdge.fill(edgeFromServer);
 					if(callback) callback(edgeFromServer);
 				};
-				
+
 				if(!('mapId' in kEdge) || !kEdge.mapId) kEdge.mapId = this.mapId;
 				window.edgeETest = kEdge;//TODO:remove this
 				var localEdgeId = kEdge._id;
@@ -1034,16 +1035,16 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 
 				newEdge.sourceId = sourceNode._id;
 				newEdge.targetId = targetNode._id;
-				
+
 				newEdge = this.createEdge(newEdge, callback);
 
 				//preparing and saving on server service:
 				// var edgeCloned = newEdge.toServerCopy();
-				
+
 				//TODO: check should we do here something, after KnalledgeMapQueue logic is used etc:
 				/* this was used when createEdge request is sent to server without waiting for target node to be created.
 				 * now must remove it, because by this nodeCreated will find edges connected to it and update their links over localID to new server-created-Id
-				 *  
+				 *
 				if(sourceNode.state == knalledge.KNode.STATE_LOCAL) //TODO: not working till state is not set for resources retreived from server
 				{
 					delete edgeCloned.sourceId; // this is still not set to server Id
@@ -1052,7 +1053,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				{
 					delete edgeCloned.targetId; // this is still not set to server Id
 				}
-				*/	
+				*/
 
 				return newEdge;
 			},
@@ -1079,13 +1080,13 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					var edges = results[1];
 					for(i=0; i<nodes.length; i++){
 						result.map.nodes.push(nodes[i]);
-						if(nodes[i].updatedAt > that.lastVOUpdateTime){ 
+						if(nodes[i].updatedAt > that.lastVOUpdateTime){
 							that.lastVOUpdateTime = nodes[i].updatedAt;
 						}
 					}
 					for(i=0; i<edges.length; i++){
 						result.map.edges.push(edges[i]);
-						if(edges[i].updatedAt > that.lastVOUpdateTime){ 
+						if(edges[i].updatedAt > that.lastVOUpdateTime){
 							that.lastVOUpdateTime = edges[i].updatedAt;
 						}
 					}
@@ -1100,7 +1101,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					$rootScope.$broadcast(eventName, result);
 				});
 				return result;
-			}, 
+			},
 			loadData: function(map, setAsDefaultMap){
 				var that = this;
 
@@ -1142,7 +1143,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				var nodes = KnalledgeNodeService.queryInMap(map._id);
 				var edges = KnalledgeEdgeService.queryInMap(map._id);
 				//var rimas = KnalledgeEdgeService.queryInMap(that.mapId);
-				
+
 				var promiseAll = $q.all([nodes.$promise, edges.$promise]);
 				promiseAll.then(function(results){
 					result.$resolved = true;
@@ -1248,6 +1249,22 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			}
 		};
 
+		// registering plugin support
+		CollaboPluginsService.provideReferences("mapVOsService", {
+			// nodesById: function(){
+			// 	return provider.nodesById;
+			// },
+			// edgesById: function(){
+			// 	return provider.edgesById;
+			// }
+			nodesById: provider.nodesById,
+			edgesById: provider.edgesById
+		});
+		// this.collaboPluginsService.provideApi("map", {
+		// 	/* update(source, callback) */
+		// 	update: this.mapVisualization.update.bind(this.mapVisualization)
+		// });
+
 		// realtime listener registration
 		var KnalledgeMapVOsServicePluginOptions = {
 			name: "KnalledgeMapVOsService",
@@ -1268,7 +1285,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	}]
 });
 
-knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
+knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue',
+function($resource, $q, ENV, KnalledgeMapQueue){
 	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/kmaps/:type/:searchParam.json';
@@ -1296,8 +1314,8 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 				return serverResponse;
 			}
 		}},
-		
-		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true, 
+
+		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true,
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -1322,8 +1340,8 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 				return serverResponse;
 			}
 		}},
-		
-		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/, 
+
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -1341,7 +1359,7 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 				return serverResponse;
 			}
 		}},
-		
+
 		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -1355,11 +1373,11 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		},
-		
+
 		destroyPlain: {method:'DELETE', params:{type:'one'},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -1373,7 +1391,7 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		}
@@ -1390,7 +1408,7 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 		});
 		return map;
 	};
-	
+
 	resource.query = function(callback)
 	{
 		console.log('query');
@@ -1408,7 +1426,7 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 		// }
 		return maps;
 	};
-	
+
 	resource.queryByType = function(mapType, callback)
 	{
 		console.log('query');
@@ -1426,11 +1444,11 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 		// }
 		return maps;
 	};
-	
+
 	resource.create = function(kMap, callback)
 	{
 		console.log("resource.create");
-		
+
 		if(QUEUE){
 			kMap.$promise = null;
 			kMap.$resolved = false;
@@ -1441,30 +1459,30 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 		}
 		else{
 			var kMapForServer = kMap.toServerCopy();
-			//we return kMap:kMap, because 'map' is of type 'Resource'  
+			//we return kMap:kMap, because 'map' is of type 'Resource'
 			var map = this.createPlain({}, kMapForServer, function(mapFromServer){
 				kMap.$resolved = map.$resolved;
 				kMap.overrideFromServer(mapFromServer);
 				if(callback) callback(kMap);
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'map', so we need to  set its promise to the value we return
 			kMap.$promise = map.$promise;
 			kMap.$resolved = map.$resolved;
-			
-			if(map.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(map.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				kMap.overrideFromServer(map);
 			}
 		}
 		//we return this value to caller as a dirty one, and then set its value to mapFromServer when upper callback is called
-		//TODO: a problem may occur if promise is resolved BEFORE callback is called 
+		//TODO: a problem may occur if promise is resolved BEFORE callback is called
 		return kMap;
 	};
-	
+
 	resource.update = function(kMap, callback)
 	{
 		console.log("resource.update");
-		if(kMap.state == knalledge.KMap.STATE_LOCAL){//TODO: fix it by going throgh queue 
+		if(kMap.state == knalledge.KMap.STATE_LOCAL){//TODO: fix it by going throgh queue
 			window.alert("Please, wait while entity is being saved, before updating it:\n"+kMap.name);
 			return null;
 		}
@@ -1478,12 +1496,12 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 			return this.updatePlain({searchParam:id, type:'one'}, kMapForServer, callback); //TODO: does it return map so we should fix it like in create?
 		}
 	};
-	
+
 	resource.destroy = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'one'}, callback);
 	};
-	
+
 	resource.execute = function(request){ //example:: request = {data: kMap, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
 		// var kMap;
 		switch(request.method){
@@ -1492,7 +1510,7 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 			var kMapForServer = request.data.toServerCopy();
 			var kMapReturn = request.data;
 			var callback = request.callback;
-			
+
 			var map = resource.createPlain({}, kMapForServer, function(mapFromServer){
 				kMapReturn.$resolved = map.$resolved;
 				kMapReturn.overrideFromServer(mapFromServer);
@@ -1500,12 +1518,12 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 				if(callback) callback(kMapReturn);
 				KnalledgeMapQueue.executed(request);
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'map', so we need to  set its promise to the value we return
 			kMapReturn.$promise = map.$promise;
 			kMapReturn.$resolved = map.$resolved;
-			
-			if(map.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(map.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				kMapReturn.overrideFromServer(map);
 			}
 			break;
@@ -1514,12 +1532,12 @@ knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', '
 			break;
 		}
 	};
-	
+
 	/* checks if request can be sent to server */
 	resource.check = function(request){
 		return true;
 	};
-	
+
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
 	return resource;
@@ -1555,8 +1573,8 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				return serverResponse;
 			}
 		}},
-		
-		queryPlain: {method:'GET', params:{type:'', searchParam:'', searchParam2:''}, isArray:true, 
+
+		queryPlain: {method:'GET', params:{type:'', searchParam:'', searchParam2:''}, isArray:true,
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -1581,8 +1599,8 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				return serverResponse;
 			}
 		}},
-		
-		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/, 
+
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -1600,7 +1618,7 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				return serverResponse;
 			}
 		}},
-		
+
 		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -1614,11 +1632,11 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		},
-		
+
 		destroyPlain: {method:'DELETE', params:{type:'one'},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -1632,7 +1650,7 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		}
@@ -1650,7 +1668,7 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 	// 	});
 	// 	return map;
 	// };
-	
+
 	// resource.query = function(callback)
 	// {
 	// 	console.log('query');
@@ -1668,7 +1686,7 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 	// 	// }
 	// 	return maps;
 	// };
-	
+
 	// resource.queryByType = function(mapType, callback)
 	// {
 	// 	console.log('query');
@@ -1689,7 +1707,7 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 
 	resource.getChangesFromServer = function(callback){
 		console.log("getChangesFromServer");
-		
+
 		if(KnalledgeMapVOsService.getLastVOUpdateTime() > this.lastChange){
 			this.lastChange = KnalledgeMapVOsService.getLastVOUpdateTime();
 		}
@@ -1750,17 +1768,17 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 		}.bind(this));
 		return updates;
 	};
-	
+
 	// /* checks if request can be sent to server */
 	// resource.check = function(request){
 	// 	return true;
 	// };
-	
+
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
 	// resource.init = function(){
 	// 	console.log("Syncing::init");
-		
+
 	// };
 
 	//init();
@@ -2022,7 +2040,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				var knalledgeRealTimeServicePluginOptions = {
 					name: "knalledgeRealTimeService",
 					events: {
-						'kn:realtime': this.dispatchEvent.bind(this)				
+						'kn:realtime': this.dispatchEvent.bind(this)
 					}
 				};
 				TopiChatService.registerPlugin(knalledgeRealTimeServicePluginOptions);

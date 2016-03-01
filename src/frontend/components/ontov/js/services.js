@@ -19,6 +19,15 @@
 
                 },
                 references: {
+                    mapVOsService: {
+                        items: {
+                            nodesById: {},
+                            edgesById: {},
+                        },
+                        $resolved: false,
+                        callback: null,
+                        $promise: null
+                    },
                     map: {
                         items: {
                             mapStructure: {
@@ -229,9 +238,11 @@
 
                 //Listen for map data
                 $rootScope.$watchGroup([function() {
-                    return Object.keys(ontovPluginInfo.references.map.items.mapStructure.edgesById).length;
+                    // return Object.keys(ontovPluginInfo.references.map.items.mapStructure.edgesById).length;
+                    return Object.keys(ontovPluginInfo.references.mapVOsService.items.edgesById).length;
                 }, function() {
-                    return Object.keys(ontovPluginInfo.references.map.items.mapStructure.nodesById).length;
+                    // return Object.keys(ontovPluginInfo.references.map.items.mapStructure.nodesById).length;
+                    return Object.keys(ontovPluginInfo.references.mapVOsService.items.nodesById).length;
                 }], function(oldVal, newVal, scope) {
                     var edgeObj = ontovPluginInfo.references.map.items.mapStructure.edgesById,
                         nodeObj = ontovPluginInfo.references.map.items.mapStructure.nodesById;
@@ -291,7 +302,6 @@
                     //Done
                     dataModelReady();
                 }
-
 
                 //Attach parent and child references to nodes (for d3)
                 function buildInheritanceTree(nodes, edges) {

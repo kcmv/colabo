@@ -1,11 +1,14 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+// node support (import)
+var knalledge = (typeof global !== 'undefined' && global.knalledge) || (typeof window !== 'undefined' && window.knalledge);
+
 var KNode =  knalledge.KNode = function(){
 	this._id = KNode.MaxId++; //TODO: maxId logic should be migrated here. Unique id. Here it is locally set, but is overriden by unique value, when object is saved in DB
 	this.name = ""; //name that is displayed, when node is visualized
 	this.type = KNode.TYPE_KNOWLEDGE; //type of the object, responding to one of the KNode.TYPE_... constants
-	this.mapId = null; // id of map this object belongs to	
+	this.mapId = null; // id of map this object belongs to
 	this.iAmId = 0;	//id of object creator (whoAmi/RIMA user)
 	this.version = 1; //each object can have several versions, so after creating new verisons, old are saved for auditing
 	this.activeVersion = 1; //saying which version of this object is active
@@ -14,6 +17,18 @@ var KNode =  knalledge.KNode = function(){
 	this.createdAt = null; //when the object is created
 	this.updatedAt = null; //when the obect is updated
 	// this.dataContent = null; //additional data is stored in this object
+
+	// next higher level of abstraction
+	this.up = {
+	/*
+		Suggested elements:
+
+		_id: undefined,
+		name: undefined,
+		type: undefined
+	*/
+	};
+
 	this.visual = {
 	//	visual is an object containing aspects of visual representation of the kNode object. VKNode object is related to it.
 	//	NOTE: in the future, each user will have its one or more visual representations of kNode, so accordingly this object is going to be migrated to an independent object related to iAmId (user ID)!
@@ -24,7 +39,7 @@ var KNode =  knalledge.KNode = function(){
 	// 		widthM: undefined, //manual set width, set by user
 	// 		heightM: undefined //manual set height, set by user
 	// };
-	
+
 	/* local-to-frontend */
 	this.state = KNode.STATE_LOCAL; //state of the object, responding to some of the KNode.STATE_... constants
 };
@@ -41,7 +56,7 @@ KNode.TYPE_IBIS_ARGUMENT = "type_ibis_argument";
 KNode.TYPE_IBIS_COMMENT = "type_ibis_comment";
 
 KNode.prototype.init = function(){
-	
+
 };
 
 KNode.nodeFactory = function(obj){
@@ -90,7 +105,7 @@ KNode.prototype.overrideFromServer = function(obj){
 /** before sending to object to server we clean it and fix it for server **/
 KNode.prototype.toServerCopy = function(){
 	var kNode = {};
-	
+
 	/* copying all non-system and non-function properties */
 	for(var id in this){
 		if(id[0] == '$') continue;
@@ -100,19 +115,22 @@ KNode.prototype.toServerCopy = function(){
 			kNode[id] = (JSON.parse(JSON.stringify(this[id])));
 		}
 	}
-	
+
 	/* deleting properties that should be set created to default value on server */
 	if(kNode.createdAt === undefined || kNode.createdAt === null) {delete kNode.createdAt;}
 	if(kNode.updatedAt === undefined || kNode.updatedAt === null) {delete kNode.updatedAt;}
-	
+
 	if(kNode.state == KNode.STATE_LOCAL){
 		delete kNode._id;
 	}
-	
+
 	/* deleting local-frontend parameters */
 	delete kNode.state;
-	
+
 	return kNode;
 };
+
+// node support (export)
+if (typeof module !== 'undefined') module.exports = KNode;
 
 }()); // end of 'use strict';

@@ -4,11 +4,11 @@
 var KnRealTimeMapStylingChangedEventName = "map-styling-change";
 var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
 angular.module('knalledgeMapDirectives', ['Config'])
-	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService', 
-		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', 'SyncingService', 
+	.directive('knalledgeMap', ['$rootScope', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService', 'KnalledgeMapService',
+		'RimaService', 'IbisTypesService', 'NotifyService', 'NotifyNodeService', 'KnalledgeMapViewService', 'SyncingService',
 		'KnAllEdgeRealTimeService', '$compile', '$routeParams', 'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService', 'CollaboPluginsService',
-		function($rootScope, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService, 
-		RimaService, IbisTypesService, NotifyService, NotifyNodeService, KnalledgeMapViewService, SyncingService, 
+		function($rootScope, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService, KnalledgeMapService,
+		RimaService, IbisTypesService, NotifyService, NotifyNodeService, KnalledgeMapViewService, SyncingService,
 		KnAllEdgeRealTimeService, $compile, $routeParams, KnAllEdgeSelectItemService, KnalledgeMapPolicyService, CollaboPluginsService){
 
 		// http://docs.angularjs.org/guide/directive
@@ -172,7 +172,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									node: vkNode,
 									property: property
 								};
-								$rootScope.$broadcast(changeKnalledgePropertyEventName, nodeContent);								
+								$rootScope.$broadcast(changeKnalledgePropertyEventName, nodeContent);
 							}
 
 							if(commingFromAngular) processNodeClick();
@@ -213,7 +213,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						togglePresenter: function(){
 							$scope.$apply(function () {
 								if(KnalledgeMapPolicyService.config.moderating.enabled){
-									KnalledgeMapPolicyService.config.broadcasting.enabled = !KnalledgeMapPolicyService.config.broadcasting.enabled;								
+									KnalledgeMapPolicyService.config.broadcasting.enabled = !KnalledgeMapPolicyService.config.broadcasting.enabled;
 								}
 							});
 						},
@@ -236,7 +236,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									var directiveElement = directiveLink(directiveScope);
 
 									$element.append(directiveElement);
-									directiveScope.image = 
+									directiveScope.image =
 										(('dataContent' in vkNode.kNode) && ('image' in vkNode.kNode.dataContent)) ?
 											vkNode.kNode.dataContent.image : null;
 
@@ -275,7 +275,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null,
 							// if $scope.mapData is set, we do not use KnalledgeMapVOsService.mapStructure but let knalledge.Map to create a new mapStructure and build VKs from Ks
-							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, $scope.mapData ? null : KnalledgeMapVOsService.mapStructure, 
+							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, $scope.mapData ? null : KnalledgeMapVOsService.mapStructure,
 							CollaboPluginsService, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService);
 					knalledgeMap.init();
 
@@ -351,7 +351,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					var knalledgeProperyBefore = null;
 					if(vkNode){
-						console.log("[knalledgeMap.controller::$on:%s] vkNode[%s](%s): (old knalledgePropery: %s), knalledgePropery: %s", knalledgePropertyChangedEventName, vkNode.id, vkNode.kNode._id, 
+						console.log("[knalledgeMap.controller::$on:%s] vkNode[%s](%s): (old knalledgePropery: %s), knalledgePropery: %s", knalledgePropertyChangedEventName, vkNode.id, vkNode.kNode._id,
 							(vkNode.kNode.dataContent ? vkNode.kNode.dataContent.property : null),
 							knalledgePropery);
 
@@ -710,7 +710,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					rootNode.name = $scope.mapToCreate.name;
 					rootNode.mapId = null;
 					rootNode.iAmId = RimaService.getActiveUserId();
-					rootNode.type = $scope.mapToCreate.rootNodeType ? 
+					rootNode.type = $scope.mapToCreate.rootNodeType ?
 						$scope.mapToCreate.rootNodeType : "model_component";
 					rootNode.visual = {
 					    isOpen: true,
@@ -719,7 +719,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					};
 
 					rootNode = KnalledgeMapVOsService.createNode(rootNode);
-					rootNode.$promise.then(rootNodeCreated);					
+					rootNode.$promise.then(rootNodeCreated);
 				};
 
 				$scope.selectItem = function(item) {

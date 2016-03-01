@@ -1,12 +1,15 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+// node support (import)
+var knalledge = (typeof global !== 'undefined' && global.knalledge) || (typeof window !== 'undefined' && window.knalledge);
+
 var KEdge =  knalledge.KEdge = function(){
 	this._id = KEdge.MaxId++; //Unique id. Here it is locally set, but is overriden by unique value, when object is saved in DB
 	this.name = ""; //name that is displayed, when edge is visualized
 
 	this.type = KEdge.TYPE_KNOWLEDGE; //type of the object, responding to one of the KEdge.TYPE_... constants
-	this.mapId = null; // id of map this object belongs to	
+	this.mapId = null; // id of map this object belongs to
 	this.iAmId = 0;	//id of object creator (whoAmi/RIMA user)
 	this.version = 1; //each object can have several versions, so after creating new verisons, old are saved for auditing
 	this.activeVersion = 1; //saying which version of this object is active
@@ -18,14 +21,28 @@ var KEdge =  knalledge.KEdge = function(){
 	this.targetId = null; // id of the target node this edge is connected to
 	this.dataContent = null; //additional data is stored in this object
 	this.value = 0; //value assigned to the edge
+
+	// next higher level of abstraction
+	this.up = {
+	/*
+		Suggested elements:
+
+		_id: undefined,
+		name: undefined,
+		type: undefined,
+		sourceId: undefined,
+		targetId: undefined
+	*/
+	};
+
 	this.visual = null; //	visual is an object containing aspects of visual representation of the kNode object. VKNode object is related to it.
 	//	NOTE: in the future, each user will have its one or more visual representations of kNode, so accordingly this object is going to be migrated to an independent object related to iAmId (user ID)!
-	
+
 	//this.sid = ++KEdge.S_ID;
-	
+
 	/* local-to-frontend */
 	this.state = KEdge.STATE_LOCAL; //state of the object, responding to some of the KEdge.STATE_... constants
-	
+
 	/*for debugging all moments where this object is created: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Stack
 	try {
 		throw new Error('myError');
@@ -56,7 +73,7 @@ KEdge.edgeFactory = function(obj){
 };
 
 KEdge.prototype.init = function(){
-	
+
 };
 
 KEdge.prototype.fill = function(obj){
@@ -93,7 +110,7 @@ KEdge.prototype.overrideFromServer = function(obj){
 /** before sending to object to server we clean it and fix it for server **/
 KEdge.prototype.toServerCopy = function(){
 	var kEdge = {};
-	
+
 	/* copying all non-system and non-function properties */
 	for(var id in this){
 		if(id[0] == '$') continue;
@@ -103,19 +120,22 @@ KEdge.prototype.toServerCopy = function(){
 			kEdge[id] = (JSON.parse(JSON.stringify(this[id])));
 		}
 	}
-	
+
 	/* deleting properties that should be set to default value on server */
 	if(kEdge.createdAt === undefined || kEdge.createdAt === null) {delete kEdge.createdAt;}
 	if(kEdge.updatedAt === undefined || kEdge.updatedAt === null) {delete kEdge.updatedAt;}
-	
+
 	if(kEdge.state == KEdge.STATE_LOCAL){
 		delete kEdge._id;
 	}
-	
+
 	/* deleting local-frontend parameters */
 	delete kEdge.state;
-	
+
 	return kEdge;
 };
+
+// node support (export)
+if (typeof module !== 'undefined') module.exports = KEdge;
 
 }()); // end of 'use strict';
