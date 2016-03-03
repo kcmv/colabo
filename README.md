@@ -60,7 +60,7 @@ KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: *
 
 ![KnAllEdge-cooncepts-poliscopy-view-1](documents/diagrams/KnAllEdge-cooncepts-poliscopy-view-1.png)
 
-**Figure 4**: Poloscopy - multiple alternatives/perspectives/views
+**Figure 5**: Poloscopy - multiple alternatives/perspectives/views
 
 ### Truth-evolution
 + truth might not be known, and we might let community to provide multiple truths until it evolves into the right one
