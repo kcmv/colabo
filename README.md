@@ -25,45 +25,10 @@ An outmost goal was succeeding in development of the collaborative-system with u
 
 KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: **Topic maps** (@see on [Wikipedia]{@link https://en.wikipedia.org/wiki/Topic_Maps}) and __SocioTM__ (please @see [abstract]{@link http://tmra.de/2008/talks/socioTM-relevancies-collaboration-and-socio-knowledge-in-topic-maps.html} and [paper]{@link http://tmra.de/2008/talks/pdf/309-323.pdf}).
 
-## Structure
-
-KnAllEdge structure is implemented as a ***directed graph*** which **data representation** is consisting of the set of:
-
-* **kNode** - representing a graph node and
-* **kEdge** - representing a graph edge
-
-Currently, nodes and edges are explicitly organized into containers, called **kMaps** which represent a third construct. We recognize maps as a temporal solution for more advanced and real-time filtering, cropping and domain isolation.
-
-Finally, we have a separate **visual representation** of knowledge that provides both visual isolation of knowledge, supporting multiple visual representation, both multi-perspective and personalized:
-
-* **vkNode** - representing a visual representation of the graph node and
-* **vkEdge** - representing a visual representation of the graph edge
-
-## Service
-
-KnAllEdge service is implemented as a full JSON ***RESTful*** web service. It relies on and it is integrated with ***WhoAmI*** service for user authentication and authorization, but it is fairly easy to integrate it with other user management components.
 
 ## Product
 
 [www.**<span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span>**.org]{@link http://www.KnAllEdge.org} is a product running on the top of the KnAllEdge service, and provides intuitive interface to the KnAllEdge.
-
-## Team
-
-* Sasha Mile Rudan
-* Sinisha Rudan
-* Jack Park
-* Dino Karabeg
-* Knowledge Federation
-
-## NOTE:
-
-Backend needs a special **express-resource** package on steroids. You can download it as a separate package [here]{@link http://magicheads.info/downloads/express-resource.zip}. After or even before issuing "**npm install**" you should (re)place the content of the archive into your  backend/node_modules folder.
-
-## Documents
-
-* [KnAllEdge - User Guide] (https://docs.google.com/document/d/1hEVIKLQqV_cEnZgHZUGFiqa20XmbhDmmOMvi6iGnGR8/edit?usp=sharing)
-* [KnAllEdge - Technical Guide](https://docs.google.com/document/d/1MluIPyw9eRz3rBM4eXysrs1WX_IIrGkaHLgmGON-s6E/edit?usp=sharing)
-
 
 # Semantic plugins
 
@@ -74,8 +39,21 @@ Backend needs a special **express-resource** package on steroids. You can downlo
 
 ## Multi-truth
 
-+ already accepted
-+ discussion before merging into one
+### Poliscopy
+
++ Some facts/truths have multiple alternatives/perspectives/views
+	+ religion
+	+ morality
+	+ duality of matter and light
+	+ ...
++ We need to support providing multiple "dimensions" or knowledge representations of the same fact/topic/node.
++ We also need to provide multiple projections of the ***"truth-branch"***
+	+ all nodes that polyscopic or do exist only in some scope, must transform / appear / disappear according to chosen scope of the truth
+
+### Truth-evolution
++ truth might not be known, and we might let community to provide multiple truths until it evolves into the right one
++ we need to provide discussion before merging into one truth
+	+ discussion should be ortogonal to knowledge
 
 ## Boundary-objects
 
@@ -83,6 +61,14 @@ Backend needs a special **express-resource** package on steroids. You can downlo
 + multi-definitions
 + connecting different topics and unites them
 + long- and trans-disciplinary- leaps for discovering topics, ideas, ...
+
+## Fuziness
+
++
+
+## SocioTM / Personalization
+
++
 
 ## IBIS
 
@@ -159,6 +145,41 @@ At this moment we do not rely strongly on automatic reasoning and therefore we b
 1. Artificial Intelligence should explain claims behind decision
 1. Domain experts should be able to change processes
 1. It should be highly modular and based on socio-technical processes
+
+## Structure
+
+KnAllEdge structure is implemented as a ***directed graph*** which **data representation** is consisting of the set of:
+
+* **kNode** - representing a graph node and
+* **kEdge** - representing a graph edge
+
+Currently, nodes and edges are explicitly organized into containers, called **kMaps** which represent a third construct. We recognize maps as a temporal solution for more advanced and real-time filtering, cropping and domain isolation.
+
+Finally, we have a separate **visual representation** of knowledge that provides both visual isolation of knowledge, supporting multiple visual representation, both multi-perspective and personalized:
+
+* **vkNode** - representing a visual representation of the graph node and
+* **vkEdge** - representing a visual representation of the graph edge
+
+### NOTE:
+
+Backend needs a special **express-resource** package on steroids. You can download it as a separate package [here]{@link http://magicheads.info/downloads/express-resource.zip}. After or even before issuing "**npm install**" you should (re)place the content of the archive into your  backend/node_modules folder.
+
+## Service
+
+KnAllEdge service is implemented as a full JSON ***RESTful*** web service. It relies on and it is integrated with ***WhoAmI*** service for user authentication and authorization, but it is fairly easy to integrate it with other user management components.
+
+## Team
+
+* Sasha Mile Rudan
+* Sinisha Rudan
+* Jack Park
+* Dino Karabeg
+* Knowledge Federation
+
+## Documents
+
+* [KnAllEdge - User Guide] (https://docs.google.com/document/d/1hEVIKLQqV_cEnZgHZUGFiqa20XmbhDmmOMvi6iGnGR8/edit?usp=sharing)
+* [KnAllEdge - Technical Guide](https://docs.google.com/document/d/1MluIPyw9eRz3rBM4eXysrs1WX_IIrGkaHLgmGON-s6E/edit?usp=sharing)
 
 [Kittur, 2007]: http://dl.acm.org/citation.cfm?id=1240698
 [Sumi, 2011]: http://arxiv.org/abs/1107.3689
