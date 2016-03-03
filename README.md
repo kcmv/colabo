@@ -39,7 +39,15 @@ KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: *
 
 ## Multi-truth
 
+![KnAllEdge-cooncepts-topics](documents/diagrams/KnAllEdge-cooncepts-topics.png)
+
+**Figure 3**: KnAllEdge - a set of related topics
+
 ### Poliscopy
+
+![KnAllEdge-cooncepts-poliscopy](documents/diagrams/KnAllEdge-cooncepts-poliscopy.png)
+
+**Figure 4**: Poloscopy - multiple alternatives/perspectives/views
 
 + Some facts/truths have multiple alternatives/perspectives/views
 	+ religion
@@ -49,6 +57,10 @@ KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: *
 + We need to support providing multiple "dimensions" or knowledge representations of the same fact/topic/node.
 + We also need to provide multiple projections of the ***"truth-branch"***
 	+ all nodes that polyscopic or do exist only in some scope, must transform / appear / disappear according to chosen scope of the truth
+
+![KnAllEdge-cooncepts-poliscopy-view-1](documents/diagrams/KnAllEdge-cooncepts-poliscopy-view-1.png)
+
+**Figure 4**: Poloscopy - multiple alternatives/perspectives/views
 
 ### Truth-evolution
 + truth might not be known, and we might let community to provide multiple truths until it evolves into the right one
