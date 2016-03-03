@@ -62,13 +62,14 @@ KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: *
 + connecting different topics and unites them
 + long- and trans-disciplinary- leaps for discovering topics, ideas, ...
 
-## Fuziness
+## Fuzziness
 
-+
++ Support distance between topics
++ Support bidirectionality, different distances between topics
 
 ## SocioTM / Personalization
 
-+
++ How each person can ***"see"*** her/his own truth?
 
 ## IBIS
 

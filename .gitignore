@@ -34,3 +34,5 @@ node_modules
 .lock-wscript
 
 typings/
+dist/
+manual_typings/
