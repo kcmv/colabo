@@ -69,10 +69,20 @@ KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: *
 
 ## Boundary-objects
 
++ How to talk across discipliness
+
+![KnAllEdge-cooncepts-transdisciplinarity](documents/diagrams/KnAllEdge-cooncepts-transdisciplinarity.png)
+
+**Figure 6**: Transdisciplinarity
+
 + trans-disciplinarity
 + multi-definitions
 + connecting different topics and unites them
 + long- and trans-disciplinary- leaps for discovering topics, ideas, ...
+
+![KnAllEdge-cooncepts-boundary-objects](documents/diagrams/KnAllEdge-cooncepts-boundary-objects.png)
+
+**Figure 6**: Boundary objects
 
 ## Fuzziness
 
@@ -82,6 +92,16 @@ KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: *
 ## SocioTM / Personalization
 
 + How each person can ***"see"*** her/his own truth?
+
+## Hierarchy
+
++ Support relationship between entities
+	+ TopicMap's support generalization
+
+## Semantical sugger
+
++ TopicMap's support specialized semantic
++ some standards provide as well
 
 ## IBIS
 
@@ -196,3 +216,13 @@ KnAllEdge service is implemented as a full JSON ***RESTful*** web service. It re
 
 [Kittur, 2007]: http://dl.acm.org/citation.cfm?id=1240698
 [Sumi, 2011]: http://arxiv.org/abs/1107.3689
+
+# History
+
+## DataTalks
+
+## KnAllEdge
+
+### TopicMaps
+#### Mindmup
+#### RFD
