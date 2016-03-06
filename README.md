@@ -226,3 +226,10 @@ KnAllEdge service is implemented as a full JSON ***RESTful*** web service. It re
 ### TopicMaps
 #### Mindmup
 #### RFD
+
+
+# Open Questions
+
+## Can we (humans) be node in the Collective Mind/Knowledge
+
+##

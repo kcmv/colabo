@@ -31,3 +31,18 @@ Server will start, connect to default mongodb port and start listening for clien
 ## Client
 
 ![KnAllEdge - frontend class-diagram](documents/diagrams/KnAllEdge-frontend-class-diagram.png)
+
+Client is implemented at the moment as a ng1/2 hybrid (Angular1/Angular2). Angular
+
+### DefinitelyTyped conflicts
+
+jQuery and Protractor (Seleinum) both use the same global variable: ```$```. There fore TypeScript compiler complains:
+
+    ⨯ Unable to compile TypeScript
+
+    typings/main/ambient/jquery/jquery.d.ts (3212,13): Subsequent variable declarations must have the same type.  Variable '$' must be of type 'cssSelectorHelper', but here has type 'JQueryStatic'. (2403)
+
+At the moment there is no simple solution except remove it from some of the tools, etc.
+We did remove it manually:
+
+Here are
