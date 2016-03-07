@@ -34,6 +34,40 @@ Server will start, connect to default mongodb port and start listening for clien
 
 Client is implemented at the moment as a ng1/2 hybrid (Angular1/Angular2). Angular
 
+### Debugging support
+
+Debugging is handled with the support of the [debugpp](https://www.npmjs.com/package/debugpp) and [debug](https://www.npmjs.com/package/debug) libraries. Therefore in the browser console you need to enable debugging in order to see it:
+
+This is how you would globally enable debugging:
+```js
+localStorage.debug = '*';
+```
+
+or just for particular namespace (and all subspaces)
+```js
+localStorage.debug = 'knalledge.collaboPluginsServices.*';
+```
+
+or just for the semantic-subspace (`error` in this case) of a for particular namespace:
+```js
+localStorage.debug = 'knalledge.collaboPluginsServices.*.error';
+```
+
+### Development deployment
+
+#### server
+Anything that should be served OUT of the dist/dev folder, should be mapped in the server config to be available: `src/frontend/tools/utils/code_change_tools.ts`
+
+This is how we have enabled `bower_components`:
+
+```js
+let routes:any = {
+  ...
+  '/bower_components': 'bower_components'
+};
+
+```
+
 ### DefinitelyTyped conflicts
 
 jQuery and Protractor (Seleinum) both use the same global variable: ```$```. There fore TypeScript compiler complains:
