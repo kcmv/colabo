@@ -21,20 +21,23 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
 	this.dom = null;
 
 	this.collaboPluginsService.provideApi("mapLayout", {
-		/* distribute() */
-		distribute: this.distribute.bind(this),
-		/* filterGraph(options) */
-		filterGraph: this.filterGraph.bind(this),
-		/* getNodes() */
-		getNodes: this.getNodes.bind(this),
-		/* getLinks() */
-		getLinks: this.getLinks.bind(this),
-		/* calculateNodeWeights() */
-		calculateNodeWeights: this.calculateNodeWeights.bind(this),
-		/* updateNodeSizes() */
-		updateNodeSizes: this.updateNodeSizes.bind(this),
-		// updateNodesToAvoid(nodesToAvoid)
-		updateNodesToAvoid: this.updateNodesToAvoid.bind(this)
+		name: "mapLayout",
+		items: {
+			/* distribute() */
+			distribute: this.distribute.bind(this),
+			/* filterGraph(options) */
+			filterGraph: this.filterGraph.bind(this),
+			/* getNodes() */
+			getNodes: this.getNodes.bind(this),
+			/* getLinks() */
+			getLinks: this.getLinks.bind(this),
+			/* calculateNodeWeights() */
+			calculateNodeWeights: this.calculateNodeWeights.bind(this),
+			/* updateNodeSizes() */
+			updateNodeSizes: this.updateNodeSizes.bind(this),
+			// updateNodesToAvoid(nodesToAvoid)
+			updateNodesToAvoid: this.updateNodesToAvoid.bind(this)
+		}
 	});
 };
 
@@ -44,7 +47,7 @@ MapLayout.KnRealTimeNodeSelectedEventName = "node-selected";
 MapLayout.prototype.realTimeNodeSelected = function(eventName, msg){
 	var kId = msg;
 	// alert("[MapLayout:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
-	console.log("[MapLayout:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s", 
+	console.log("[MapLayout:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s",
 		this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
 	var kNode = this.mapStructure.getVKNodeByKId(kId);
 	// do not broadcast back :)
@@ -92,17 +95,17 @@ MapLayout.prototype.getDomFromDatum = function(d) {
 };
 
 MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback, commingFromAngular, doNotBubleUp, doNotBroadcast) {
-	if(typeof rootNodeX !== 'undefined' && typeof rootNodeX !== 'function' && 
+	if(typeof rootNodeX !== 'undefined' && typeof rootNodeX !== 'function' &&
 		typeof rootNodeY !== 'undefined' && typeof rootNodeY !== 'function'){
 		if(this.mapStructure.rootNode){
 			this.mapStructure.rootNode.x0 = rootNodeX;
-			this.mapStructure.rootNode.y0 = rootNodeY;			
+			this.mapStructure.rootNode.y0 = rootNodeY;
 		}
 	}
 	if(this.mapStructure.rootNode){
 		this.clickNode(this.mapStructure.rootNode, null, commingFromAngular, doNotBubleUp, doNotBroadcast);
 	}
-	this.clientApi.update(this.mapStructure.rootNode, 
+	this.clientApi.update(this.mapStructure.rootNode,
 		(typeof callback === 'function') ? callback : undefined);
 };
 
@@ -133,7 +136,7 @@ MapLayout.prototype.distribute = function() {
 
 MapLayout.prototype.processSyncedData = function(callback) {
 	this.clickNode(this.mapStructure.getSelectedNode(), null, true);
-	this.clientApi.update(this.mapStructure.getSelectedNode(), 
+	this.clientApi.update(this.mapStructure.getSelectedNode(),
 		(typeof callback === 'function') ? callback : undefined);
 };
 

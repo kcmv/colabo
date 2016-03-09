@@ -1,0 +1,63 @@
+<div class="plugins-list">
+	<h1>Plugins list</h1>
+	<div class="list">
+		Plugins no: {{pluginsNo}}<br/>
+
+		<div class="plugin-info" ng-repeat="(pluginName, pluginInfo) in pluginsInfo">
+		<h2>{{pluginName}}</h2>
+
+		<h3>APIs</h3>
+		<table class="list" >
+			<tr class="heading"><th>Name</th><th>items</th></tr>
+
+			<tr class="data_row"  ng-repeat="(apiName, apiInfo) in pluginInfo.apis">
+				<td class="cell">{{apiName}}</td>
+				<td><b>[{{getItemsNo(apiInfo.items)}}]</b> :
+				<span ng-repeat="(entryName, entry) in apiInfo.items">{{entryName}} {{$last ? '' : ','}} </span>
+				</td>
+			</tr>
+		</table>
+
+		<h3>References</h3>
+		<table class="list" >
+			<tr class="heading"><th>Name</th><th>items</th></tr>
+
+			<tr class="data_row"  ng-repeat="(referenceName, referenceInfo) in pluginInfo.references">
+				<td class="cell">{{referenceName}}</td>
+				<td><b>[{{getItemsNo(referenceInfo.items)}}]</b> :
+				<span ng-repeat="(entryName, entry) in referenceInfo.items">{{entryName}} {{$last ? '' : ','}} </span>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<h1>References list</h1>
+	<div class="list">
+		References no: {{referencesNo}}<br/>
+		<table class="list">
+			<tr class="heading"><th>Name</th><th>items</th></tr>
+
+			<tr class="data_row" ng-repeat="(referenceName, referenceInfo) in referencesInfo">
+				<td class="cell">{{referenceName}}</td>
+				<td><b>[{{getItemsNo(referenceInfo.items)}}]</b> :
+				<span ng-repeat="(entryName, entry) in referenceInfo.items">{{entryName}} {{$last ? '' : ','}} </span>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<h1>APIs list</h1>
+	<div class="list">
+		APIs no: {{apisNo}}<br/>
+		<table class="list">
+			<tr class="heading"><th>Name</th><th>items</th></tr>
+
+			<tr class="data_row" ng-repeat="(apiName, apiInfo) in apisInfo">
+				<td class="cell">{{apiName}}</td>
+				<td><b>[{{getItemsNo(apiInfo.items)}}]</b> :
+				<span ng-repeat="(entryName, entry) in apiInfo.items">{{entryName}} {{$last ? '' : ','}} </span>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

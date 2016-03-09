@@ -1,6 +1,14 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+/**
+@classdesc Provides the interface for manipulating with the knalledge map structure,
+it is used as a prerequisite for the map visualization
+@class MapStructure
+@memberof knalledge
+@constructor
+*/
+
 var MapStructure =  knalledge.MapStructure = function(rimaService){
 	this.rootNode = null;
 	this.selectedNode = null;
@@ -17,6 +25,12 @@ MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT";
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
 MapStructure.UPDATE_NODE_APPEARENCE = "UPDATE_NODE_APPEARENCE";
 MapStructure.UPDATE_NODE_IBIS_VOTING = "UPDATE_NODE_IBIS_VOTING";
+
+/**
+* @var {debugPP} debug - namespaced debug for the class
+* @memberof knalledge.MapStructure
+*/
+MapStructure.debug = debugpp.debug('knalledge.MapStructure');
 
 MapStructure.prototype.init = function(mapService){
 	this.mapService = mapService;
@@ -46,9 +60,9 @@ MapStructure.prototype.setSelectedNode = function(selectedNode){
 //	}
 //	catch(e) {
 //	// console.warn((new Error).lineNumber)
-//		nsDebug.d.cnTb('selectedNode: \n' + e.stack);
+//		MapStructure.debug.log('selectedNode: \n' + e.stack);
 //		if(selectedNode && selectedNode.kNode){
-//			nsDebug.d.cnTb('selectedNode.kNode.name: ' + selectedNode.kNode.name);
+//			MapStructure.debug.log('selectedNode.kNode.name: ' + selectedNode.kNode.name);
 //		}
 //	}
 };
@@ -161,7 +175,7 @@ MapStructure.prototype.getMaxEdgeId = function(){
 	var id = -1;
 	for(var i in this.edgesById){
 		if(this.edgesById[i].id > id) id = this.edgesById[i].id;
-	}	
+	}
 };
 
 // TODO
@@ -192,7 +206,7 @@ MapStructure.prototype.expandNode = function(vkNode) {
 
 // toggle children of the provided node
 MapStructure.prototype.toggle = function(vkNode) {
-	vkNode.isOpen = !vkNode.isOpen;	
+	vkNode.isOpen = !vkNode.isOpen;
 	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
 };
 
@@ -203,11 +217,11 @@ MapStructure.prototype.cloneObject = function(obj){
 
 MapStructure.prototype.createNode = function(vkNode, nodeType) {
 	if(!this.mapService) return null;
-	
+
 	// var nodeCreated = function(nodeFromServer) {
 	// 	console.log("[MapStructure.createNode] nodeCreated" + JSON.stringify(nodeFromServer));
 	// };
-	
+
 	console.log("[MapStructure.createNode] createNode");
 	var newVKNode = vkNode;
 	if(!newVKNode) newVKNode = new knalledge.VKNode();
@@ -299,12 +313,12 @@ MapStructure.prototype.deleteEdgesConnectedTo = function(vnode) {
 	if(!this.mapService) return;
 
 	this.mapService.deleteEdgesConnectedTo(vnode.kNode);
-	
+
 	//deleting from edgesById:
 	for(var i in this.edgesById){
 		var edge = this.edgesById[i];
 		if(edge.kEdge.sourceId == vnode.kNode._id || edge.kEdge.targetId == vnode.kNode._id){
-			delete this.edgesById[i]; 
+			delete this.edgesById[i];
 		}
 	}
 };
@@ -462,7 +476,7 @@ MapStructure.prototype.processSyncedData = function(syncedData) {
 			vkNode.fillWithKNode(kNode, true);
 			this.nodesById[vkNode.id] = vkNode;
 		}else{
-			vkNode.fillWithKNode(kNode);			
+			vkNode.fillWithKNode(kNode);
 		}
 
 		if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){

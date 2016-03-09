@@ -1,0 +1,181 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+/* @import "normalize"; */
+/*
+$medium: 800px;
+$large: 1400px;
+*/
+/*
+	http://compass-style.org/examples/compass/css3/box_sizing/
+	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
+	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
+*/
+* {
+  margin: 0px;
+  padding: 0px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.client_id {
+  z-index: 20001;
+  position: absolute;
+  font-size: 0.7em;
+  margin-top: 0.1em; }
+
+.topichat-chat {
+  height: 80%;
+  width: 100%;
+  overflow: hidden; }
+
+.whami_reference {
+  color: #0000aa;
+  font-weight: bold;
+  font-style: italic;
+  cursor: pointer;
+  -moz-transition-property: color;
+  -o-transition-property: color;
+  -webkit-transition-property: color;
+  transition-property: color;
+  -moz-transition-duration: 0.25s;
+  -o-transition-duration: 0.25s;
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  -moz-transition-timing-function: ease-in;
+  -o-transition-timing-function: ease-in;
+  -webkit-transition-timing-function: ease-in;
+  transition-timing-function: ease-in; }
+  .whami_reference:hover {
+    color: #4444ff; }
+
+.topic_reference {
+  color: #aa0000;
+  font-weight: bold;
+  font-style: italic;
+  cursor: pointer;
+  -moz-transition-property: color;
+  -o-transition-property: color;
+  -webkit-transition-property: color;
+  transition-property: color;
+  -moz-transition-duration: 0.25s;
+  -o-transition-duration: 0.25s;
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  -moz-transition-timing-function: ease-in;
+  -o-transition-timing-function: ease-in;
+  -webkit-transition-timing-function: ease-in;
+  transition-timing-function: ease-in; }
+  .topic_reference:hover {
+    color: #ff1111; }
+
+#chat {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  /*background-color: #dddd00;
+  border: solid 1px #aaaa00;*/
+  overflow: hidden; }
+  #chat .messages_positioning {
+    margin: 0px;
+    padding: 5px;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    padding-bottom: 2.1em;
+    padding-top: 1.1em; }
+    #chat .messages_positioning .messages_styling {
+      padding: 5px;
+      /*			TODO: Not working well, due to height: 100%
+      			we cannot introduce margins/paddings since it will bring overflowing
+      			margin-top: 0.4em; */
+      background-color: #eeeeff;
+      border: 1px dashed #ffaaaa;
+      -moz-border-radius: 10px / 10px;
+      -webkit-border-radius: 10px 10px;
+      border-radius: 10px / 10px;
+      position: relative;
+      height: 100%;
+      width: 100%; }
+      #chat .messages_positioning .messages_styling .messages {
+        list-style-type: none;
+        overflow-y: scroll;
+        position: relative;
+        height: 100%;
+        width: 100%; }
+        #chat .messages_positioning .messages_styling .messages li {
+          padding: 5px 10px;
+          border-bottom: 1px solid #ddddff; }
+          #chat .messages_positioning .messages_styling .messages li:nth-child(odd) {
+            background: #eee; }
+  #chat .new_message {
+    /*		background-color: #dddddd;
+    		border: solid 1px #888888;
+    */
+    margin: 0px;
+    padding: 3px;
+    width: 100%;
+    height: 1.5em;
+    position: absolute;
+    z-index: 2;
+    bottom: 0.4em; }
+    #chat .new_message .message_styling {
+      position: absolute;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      /*TODO: how can it be fine - 1em ?!*/
+      padding-right: 3.5em; }
+      #chat .new_message .message_styling .message {
+        overflow-y: scroll;
+        padding: 2px;
+        background: #bbbbff;
+        border: 1px dashed #333333;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        font-size: 0.85em;
+        color: #000088;
+        font-weight: bold;
+        /* http://stackoverflow.com/questions/1457849/how-do-i-disable-the-default-border-highlight-on-an-html-input-text-element
+        http://www.w3schools.com/css/css_outline.asp
+        */ }
+        #chat .new_message .message_styling .message:focus {
+          outline: none; }
+    #chat .new_message .btnSend {
+      position: absolute;
+      z-index: 4;
+      width: 4em;
+      background-color: #eeeeff;
+      border: 1px solid #ffaaaa;
+      -moz-border-radius: 0.5em / 0.5em;
+      -webkit-border-radius: 0.5em 0.5em;
+      border-radius: 0.5em / 0.5em;
+      margin: 3px;
+      margin-top: 0.3em;
+      padding-top: 0.2em;
+      padding-bottom: 0.2em;
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      top: 0px;
+      right: 0px;
+      font-size: 0.75em;
+      -moz-transition-property: color;
+      -o-transition-property: color;
+      -webkit-transition-property: color;
+      transition-property: color;
+      -moz-transition-property: color;
+      -o-transition-property: color;
+      -webkit-transition-property: color;
+      transition-property: color;
+      -moz-transition-duration: 0.5s;
+      -o-transition-duration: 0.5s;
+      -webkit-transition-duration: 0.5s;
+      transition-duration: 0.5s;
+      -moz-transition-timing-function: ease-in;
+      -o-transition-timing-function: ease-in;
+      -webkit-transition-timing-function: ease-in;
+      transition-timing-function: ease-in; }
+      #chat .new_message .btnSend:hover {
+        color: #000055; }
+
+/*# sourceMappingURL=default.css.map */

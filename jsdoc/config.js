@@ -19,7 +19,7 @@
 		"navType"   : "inline",
 		"theme"     : "cerulean",
 		"linenums"  : "true",
-		"collapseSymbols"       : "true",
+		"collapseSymbols"       : "false",
 		"inverseNav": "true",
 		"outputSourceFiles"     : "true" ,
 		"outputSourcePath"      : "true",
@@ -30,7 +30,7 @@
 	"source": {
 		"include": [
 			"../README.md",
-			"../src/frontend"
+			"../src/frontend/app"
 		],
 		"exclude": [
 			"../src/frontend/app/js/lib",

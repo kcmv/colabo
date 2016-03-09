@@ -55,12 +55,18 @@ Map.prototype.init = function() {
 	this.initializeManipulation();
 
 	this.collaboPluginsService.provideReferences("map", {
-		config: this.config,
-		mapStructure: this.mapStructure
+		name: "map",
+		items: {
+			config: this.config,
+			mapStructure: this.mapStructure			
+		}
 	});
 	this.collaboPluginsService.provideApi("map", {
-		/* update(source, callback) */
-		update: this.mapVisualization.update.bind(this.mapVisualization)
+		name: "map",
+		items: {
+			/* update(source, callback) */
+			update: this.mapVisualization.update.bind(this.mapVisualization)
+		}
 	});
 };
 
