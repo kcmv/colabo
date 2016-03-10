@@ -58,12 +58,13 @@ localStorage.debug = 'knalledge.collaboPluginsServices.*.error';
 #### server
 Anything that should be served OUT of the dist/dev folder, should be mapped in the server config to be available: `src/frontend/tools/utils/code_change_tools.ts`
 
-This is how we have enabled `bower_components`:
+This is how we have enabled `bower_components` and images:
 
 ```js
 let routes:any = {
   ...
-  '/bower_components': 'bower_components'
+  '/bower_components': 'bower_components',
+  '/app/images': 'app/images'
 };
 
 ```

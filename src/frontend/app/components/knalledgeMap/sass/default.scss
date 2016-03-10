@@ -1,0 +1,1197 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+@import "../../../sass/include";
+
+$color_tool_border: gray;
+
+$susy: (
+	columns: 12,
+	gutters: 1/4,
+	math: fluid,
+	output: float,
+	gutter-position: inside,
+
+	debug: (
+		image: hide,
+		color: red,
+		output: background,
+		toggle: top right,
+	),
+);
+
+$map: layout(12 1/4 fluid float inside);
+
+@include breakpoint($small) {
+	.knalledge_map_tools{
+		@include span(2 at 1);
+	}
+
+	.knalledge_map_middle{
+		@include span(10 at 3);
+	}
+
+	.knalledge_map_list{
+		/*@include span(3 at 1); */
+	}
+}
+
+@include breakpoint($medium) {
+	.knalledge_map_tools{
+		@include span(1 at 1);
+	}
+
+	.knalledge_map_middle{
+		@include span(9 at 2);
+	}
+
+	.knalledge_map_list{
+		@include span(2 at 10);
+	}
+}
+
+@include breakpoint($large) {
+	.knalledge_map_tools{
+		height: 100%;
+		min-height: 100%;
+		overflow-x: visible;
+		overflow-y: visible; /* temporary replacement for scroll; */
+		/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
+		/*overflow: visible;*/
+		/*	overflow-x: visible;
+			overflow-y: scroll;
+		*/
+		@include span(1 at 1);
+	}
+
+	.knalledge_map_middle{
+		height: 100%;
+		min-height: 100%;
+		/* make #content content occupying 2 cells less on large screens */
+		@include span(9 at 2);
+	}
+
+	.knalledge_map{
+		height: 100%;
+		min-height: 100%;
+	}
+
+	.knalledge_map_middle_bottom{
+		height: 25%;
+		min-height: 25%;
+	}
+
+	.knalledge_map_list{
+		height: 100%;
+		min-height: 100%;
+		overflow-x: visible;
+		overflow-y: scroll;
+		@include span(2 at 10);
+	}
+}
+
+.knalledge_map_index{
+	position: relative;
+	height: 100%;
+	width: 100%;
+	/*background-color: #dddd00;
+	border: solid 1px #aaaa00;*/
+	overflow-x: hidden;
+	overflow-y: scroll;
+
+	.logo_background{
+		top: 35%;
+		left: 25%;
+		right: 50%;
+		bottom: 25%;
+		position: absolute;
+		opacity: 0.5;
+		text-align: right;
+
+		h1 {
+			font-size: 100px;
+			border-bottom: solid 1px #aaaaaa;
+			display: inline;
+			text-align: right;
+
+			.title_web{
+				color: #333333;
+				font-size: 50px;
+			}
+			.title_kn{
+				color: #555555;
+			}
+			.title_all{
+				color: #000055;
+			}
+			.title_edge{
+				color: #880000;
+			}
+			padding-bottom: 0px;
+			margin-bottom: 0px;
+
+			padding-top: 0px;
+			margin-top: 0px;
+		}
+
+		h2 {
+			padding-top: 0px;
+			margin-top: 0px;
+			font-size: 50px;
+			display: inline;
+			text-align: right;
+
+			/*border-bottom: solid 1px #aaaaaa;*/
+
+			.title_web{
+				color: #333333;
+				font-size: 30px;
+			}
+			.title_collabo{
+				color: #000055;
+				font-style: italic;
+				margin-left: 50px;
+			}
+			.title_science{
+				color: #880000;
+			}
+		}
+	}
+}
+
+/* ------------------------
+ knalledge_map_tools
+------------------------ */
+
+.knalledge_map_tools{
+	.titles{
+		z-index: 1000;
+		position: absolute;
+		background-color: #ddddff;
+		border: solid 3px #aaaaff;
+/*		overflow-x: scroll;
+		overflow-y: scroll;
+*/		@include border-radius(10px, 10px);
+		opacity: 0.5;
+		padding: 5px;
+		margin-top: 10px;
+		margin-left: 3px;
+	}
+	.controlls{
+		margin-top: 100px;
+	}
+	h1 {
+		font-size: 30px;
+		border-bottom: solid 1px #aaaaaa;
+
+		.title_web{
+			color: #333333;
+			font-size: 15px;
+		}
+		.title_kn{
+			color: #555555;
+		}
+		.title_all{
+			color: #000055;
+		}
+		.title_edge{
+			color: #880000;
+		}
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+
+		padding-top: 0px;
+		margin-top: 0px;
+	}
+	h2 {
+		padding-top: 0px;
+		margin-top: 0px;
+		font-size: 20px;
+		/*border-bottom: solid 1px #aaaaaa;*/
+
+		.title_web{
+			color: #222222;
+			font-size: 15px;
+		}
+		.title_collabo{
+			color: #000055;
+			font-style: italic;
+		}
+		.title_science{
+			color: #880000;
+		}
+	}
+	z-index: 10;
+	position: relative;
+	height: 100%;
+	ul {
+		/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
+		overflow: visible;
+		/*	overflow-x: visible;can-drop
+			overflow-y: scroll;
+		*/
+		position: relative;
+
+		li {
+			position: absolute;
+			list-style-type: none;
+			display: block;
+			border: 1px solid $color_tool_border;
+			padding: 10px;
+			padding-right: 25px;
+			margin: 3px;
+			@include border-radius(10px, 10px);
+			/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+			/* color h-shadow v-shadow blur spread color inset*/
+			@include box-shadow(4px 3px 7px 2px rgba(150, 150, 255, 0.75));
+		}
+	}
+}
+
+.draggable_tool{
+
+}
+
+@media print {
+/*	#map-canvas {
+		height: 650px;
+	}
+*/
+}
+
+/* ------------------------
+ knalledge_map_list
+------------------------ */
+
+.knalledge_map_list{
+	z-index: 9;
+
+	padding-top: 3px;
+
+	.hidden{
+		display:none;
+	}
+
+	.heading{
+		margin: 0.5em;
+		margin-bottom: 1em;
+		padding: 0.1em;
+		border-bottom: solid 1px #555555;
+	}
+
+	.content{
+		position: relative;
+		margin: 0.1em;
+		padding: 0.0em;
+
+		.knalledge-properties{
+			position: relative;
+			width: 90%;
+			height: 100%;
+
+			&.knalledge-view{
+				word-break: break-all;
+				padding: 0.3em;
+			}
+
+			&.knalledge-edit{
+
+			}
+
+			.ta-editor {
+				position: relative;
+			}
+			.ta-scroll-window > .ta-bind {
+				height: 100%;
+				position: relative;
+			}
+		}
+	}
+}
+
+/* ------------------------
+ knalledge_map_middle
+------------------------ */
+.knalledge_map_middle{
+
+}
+
+/* ------------------------
+ knalledge_map
+------------------------ */
+
+.knalledge_map{
+	z-index: 8;
+	position: relative;
+	overflow: scroll;
+	width: 100%;
+}
+
+.knalledge_map_container{
+	position: relative;
+	height: 100%;
+	width: 100%;
+	z-index: 5;
+	position:relative;
+	background-color: rgba(240, 240, 255, 0.75);
+	border: solid 1px #aaaaff;
+	overflow-x: scroll;
+	overflow-y: scroll;
+	@include border-radius(10px, 10px);
+/*	http://compass-style.org/reference/compass/css3/user_interface/#mixin-user-select
+	http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting*/
+	@include user-select(none);
+
+	.map_svg{
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		/*background-color: #ffffaa;*/
+		z-index: 1;
+	}
+
+	.map_html{
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		/*background-color: #ffffaa;*/
+		z-index: 2;
+	}
+
+	.map_entity{
+		/* TODO FIxing expandable nodes */
+		min-width: 100px;
+		height: 50px;
+		position: absolute;
+		background-color: #ccf;
+		border: 3px solid gray;
+		padding: 10px;
+		margin: 3px;
+		z-index: 1;
+		@include border-radius(10px, 10px);
+		/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+		/* color h-shadow v-shadow blur spread color inset*/
+		@include box-shadow(2px 1px 3px 1px rgba(150, 150, 255, 0.75));
+
+		.status {
+			position: absolute;
+			left: -10px;
+			top: -10px;
+			background-color: yellow;
+			border: 2px solid red;
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			@include border-radius(10px, 10px);
+		}
+		.type {
+			position: absolute;
+			right: -15px;
+			bottom: -15px;
+			background-color: rgba(200, 200, 255, 0.5);
+			border: 2px solid rgba(100, 100, 255, 0.25);
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			font-size: 20px;
+			color: #555f;
+			font-style: italic;
+			@include border-radius(5px, 5px);
+		}
+		.name {
+			position: relative;
+			padding: 3px;
+			/*background-color: yellow;*/
+		}
+
+		&.has_children{
+		}
+
+		&.has_no_children{
+		}
+
+		&.selected{
+			border-color: #ffa;
+			border-width: 3px;
+		}
+
+		&.unselected{
+		}
+
+		/* entity stylings */
+		&.map_entity_object{
+			background-color: #aaa;
+		}
+
+		&.map_entity_process{
+			background-color: #aaf;
+		}
+
+		&.resizable_map_entity{
+
+		}
+	}
+
+	.draggable_map_entity{
+
+	}
+
+
+	/* ------------------------
+	 interaction
+	------------------------ */
+
+	.dropzone {
+		background-color: #ccc;
+		border-radius: 4px;
+		margin: 10px auto 30px;
+		padding: 10px;
+		transition: background-color 0.3s;
+	}
+
+	.drop-active {
+		border: 3px dotted red;
+	}
+
+	.drop-target {
+		background-color: #4bf;
+		border-color: #f88;
+		border-style: solid;
+		border-width: 5px;
+	}
+
+	.drag-drop {
+		display: inline-block;
+		min-width: 40px;
+		padding: 2em 0.5em;
+
+		color: #fff;
+		background-color: #29e;
+		border: solid 2px #fff;
+
+		-webkit-transform: translate(0px, 0px);
+		transform: translate(0px, 0px);
+
+		transition: background-color 0.3s;
+	}
+
+	.drag-drop.can-drop {
+		border: 3px solid green;
+	}
+
+
+	/* -------------------------
+		KnAllEdge Map Internals
+   	-------------------------*/
+
+	.div_map{
+		position: relative;
+		width: 100%;
+		height: 100%;
+
+		overflow: scroll;
+		/*background-color: #aaaaaa;*/
+		/*padding: 5px;*/
+	}
+
+	.div_map_svg{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		/*background-color: #ffffaa;*/
+
+		z-index: 1;
+
+		svg{
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.svg_content{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+
+	.node {
+		cursor: pointer;
+	}
+
+	.node circle {
+	  fill: #fff;
+	  stroke: steelblue;
+	  stroke-width: 1px;
+	}
+
+	.node text { font: 12px sans-serif; }
+
+	.link {
+	  fill: none;
+	  stroke: #000;
+	  stroke-width: 1px;
+	  opacity: 0.5;
+	}
+
+	.div_map_html{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		/*background-color: #aaaaff;*/
+		/*opacity: 0.5;*/
+		z-index: 2;
+		/*display: none;*/
+	}
+
+	.html_content{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+
+	.node_html{
+		position: absolute;
+		border-width: 0px;
+
+		min-width: 150px;
+		margin-left: -75px;
+		font-size: 14px;
+		font-weight: bold;
+
+		span {
+			display: inline-block;
+			vertical-align: middle;
+			line-height: normal;
+			text-align: center;
+			font-weight: normal;
+			font-style: italic;
+			color: #550000;
+
+			/* just for testing purposs */
+			p{
+				color: #880000;
+				font-weight: 100;
+				font-size: 14px;
+				font-style: normal;
+			}
+		}
+
+
+		/*width: 10em;*/
+		/*height: 3em;
+		line-height: 3em;*/
+
+	/*	background-color: #ffffff;
+	*/	/*opacity: 0.7;*/
+		z-index: 5;
+		padding: 3px;
+		cursor: pointer;
+	/*	margin-left: 3em;
+		margin-top: 0.3em;
+	*/
+		/*margin-top: -1.5em;
+		margin-left: -5em;*/
+
+		.node_inner_html {
+			position: relative;
+			padding: 3px;
+			/*background-color: yellow;*/
+		}
+
+		.node_status {
+			position: absolute;
+			left: -10px;
+			top: -10px;
+			background-color: yellow;
+			border: 1px solid red;
+			width: 20px;
+			text-align: center;
+			font-weight: bold;
+			@include border-radius(10px, 10px);
+		}
+		.vote_up {
+			position: absolute;
+			left: -10px;
+			top: -10px;
+			background-color: #88ff88;
+			border: 2px solid #00aa00;
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			min-width: 1.2em;
+			@include border-top-right-radius(15px);
+			@include border-top-left-radius(15px);
+		}
+		.vote_down {
+			position: absolute;
+			left: -10px;
+			top: +15px;
+			background-color: #ff8888;
+			border: 2px solid #aa0000;
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			min-width: 1.2em;
+			@include border-bottom-right-radius(15px);
+			@include border-bottom-left-radius(15px);
+		}
+		/*TODO: center this verticaly (need to do it from JS :( ))*/
+		.open_close_status {
+			position: absolute;
+			right: -10px;
+			top: +5px;
+			background-color: #8888ff;
+			border: 2px solid #0000aa;
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			min-width: 1.2em;
+			@include border-radius(5px);
+		}
+
+		.node_type {
+			position: absolute;
+			left: 10px;
+			top: -20px;
+			/*background-color: #ddddff;*/
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			color: #5555aa;
+			text-align: center;
+			/*font-weight: bold;*/
+			min-width: 1.2em;
+			@include border-radius(5px);
+		}
+
+		.rima_user {
+			position: absolute;
+			right: -10px;
+			font-style: italic;
+			bottom: -20px;
+			color: #aa55aa;
+			background-color: #ddffdd;
+			padding-left: 4px;
+			padding-right: 4px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			text-align: center;
+			font-weight: bold;
+			min-width: 1.2em;
+			@include border-radius(5px);
+		}
+
+		/* NODE SEMANTIC / STYLING */
+		&.type_ibis_question{
+			background-color: #ffffaa;
+		}
+		&.type_ibis_idea{
+			background-color: #aaaaff;
+		}
+		&.type_ibis_argument{
+			background-color: transparentize(#ffaaaa, 0.50);
+		}
+		&.type_ibis_comment{
+			background-color: #aaffaa;
+		}
+	}
+
+	.node_html_fixed{
+		/* TODO FIxing expandable nodes */
+		/*width: 200px;*/
+		min-width: 150px;
+		margin-left: -75px;
+		@include border-radius(10px, 10px);
+		border-width: 1px;
+		@include box-shadow(4px 3px 7px 2px rgba(150, 150, 255, 0.75));
+	}
+
+	.node_unselected{
+		border-style: dashed;
+		border-color: #0000ff;
+		/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+		/* color h-shadow v-shadow blur spread color inset*/
+	}
+	.node_selected{
+		border-style: solid;
+		border-color: #0000aa;
+		border-width: 5px;
+		@include box-shadow(10px 10px 9px 5px rgba(80, 80, 255, 0.75));
+	}
+
+	.label_html{
+		position: absolute;
+		/*width: 10em;*/
+		/*width: 150px;
+		margin-left: -75px;*/
+		/*height: 3em;
+		line-height: 3em;*/
+		border: 1px dashed #8888ff;
+		background-color: #eeeeff;
+		@include border-radius(5px);
+		opacity: 0.7;
+		z-index: 4;
+		padding: 3px;
+		cursor: pointer;
+	/*	margin-left: 3em;
+		margin-top: 0.3em;
+	*/
+		/*margin-top: -1.5em;
+		margin-left: -5em;*/
+		span {
+
+		}
+	}
+}
+
+.knalledge_map_middle_bottom{
+	position: relative;
+	width: 100%;
+}
+
+/* ------------------------------
+	knalledge-map-image-editing
+------------------------------ */
+
+$knalledge_image_editing_color: #888888;
+$knalledge_image_editing_entity_color: #8888FF;
+$knalledge_image_editing_title_size: 1em;
+
+.knalledge-map-image-editing{
+	position: absolute;
+	width: 40%;
+	z-index: 100;
+	left: 50%;
+	margin-left: -20%;
+	top: 10%;
+	/* https://www.safaribooksonline.com/library/view/sass-and-compass/9781849694544/ch04s09.html
+	https://robots.thoughtbot.com/controlling-color-with-sass-color-functions
+	*/
+	border: 3px solid transparentize(darken($knalledge_image_editing_color, 25%), 0.5);
+	background-color: transparentize($knalledge_image_editing_color, 0.25);
+	@include border-radius(15px);
+	/* color h-shadow v-shadow blur spread color inset*/
+	@include box-shadow(10px 10px 5px 5px transparentize(darken($knalledge_image_editing_color, 15%), 0.75));
+
+	.knalledge_title{
+		border-bottom: 3px solid darken($knalledge_image_editing_color, 25%);
+		background-color: $knalledge_image_editing_color;
+		text-align: center;
+		color: lighten($knalledge_image_editing_color, 35%);
+		font-weight: bold;
+		padding-top: 3px;
+		padding-bottom: 3px;
+		height: $knalledge_image_editing_title_size*1.5;
+		@include border-top-right-radius(15px);
+		@include border-top-left-radius(15px);
+	}
+
+	.knalledge_close{
+		position: absolute;
+		background-color: #dddddd;
+		border: solid 3px #555555;
+		font-weight: bold;
+		color: #888888;
+		font-size: $knalledge_image_editing_title_size;
+		padding: 0.1*$knalledge_image_editing_title_size;
+		padding-left: $knalledge_image_editing_title_size;
+		padding-right: $knalledge_image_editing_title_size;
+		@include border-radius(15px);
+		right: $knalledge_image_editing_title_size*0.1;
+		top: $knalledge_image_editing_title_size*0.1;
+		z-index: 101;
+
+		cursor: pointer;
+
+		&:hover{
+			background-color: #ffffff;
+		}
+	}
+
+	ul {
+		/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
+		overflow-y: scroll;
+		position: relative;
+		padding-left: 20%;
+		padding-right: 20%;
+
+		li {
+			list-style-type: none;
+			display: block;
+			background-color: lighten($knalledge_image_editing_entity_color, 5%);
+			border: 1px solid $knalledge_image_editing_entity_color;
+			margin: 25px 10px;
+			padding: 10px;
+			padding-right: 25px;
+			@include border-radius(10px, 10px);
+			cursor: pointer;
+			text-align: center;
+			color: lighten($knalledge_image_editing_entity_color, 15%);
+			/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+			/* color h-shadow v-shadow blur spread color inset*/
+			@include box-shadow(3px 2px 3px 1px rgba(150, 150, 255, 0.75));
+
+			@include transition-property(color);
+			@include transition-property(background-color);
+			@include transition-duration(0.3s);
+			@include transition-timing-function(ease-in);
+
+			&:hover{
+				background-color: lighten($knalledge_image_editing_entity_color, 10%);
+				color: darken($knalledge_image_editing_entity_color, 5%);
+			}
+		}
+	}
+	form{
+		padding: 5px;
+		padding-top: 10px;
+		.image_url{
+			font-weight: 300;
+			font-size: 1.2em;
+			background-color: darken($knalledge_image_editing_color, 5%);
+			color: lighten($knalledge_image_editing_color, 25%);
+			width: 100%;
+			padding: 3px;
+			text-align: center;
+		}
+		.dimensions{
+			text-align: center;
+			input{
+				width: 5em;
+				background-color: darken($knalledge_image_editing_color, 10%);
+				color: lighten($knalledge_image_editing_color, 20%);
+				padding: 3px;
+				text-align: center;
+			}
+		}
+		.help-block{
+			font-size: 0.9em;
+			font-style: italic;
+			text-align: right;
+		}
+		.buttons{
+			text-align: right;
+		}
+	}
+}
+
+/*
+Knalledge Maps
+*/
+.mcmButton{
+	background-color: #dddddd;
+	border: solid 3px #555555;
+	font-weight: bold;
+	color: #888888;
+	@include border-radius(15px);
+
+	cursor: pointer;
+	:hover{
+		background-color: #ffffff;
+	}
+}
+
+.creatingNewMap {
+    display: block;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 0.35em;
+    padding-bottom: 0.625em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+/*    border: 2px groove #333;
+    border: solid 1px #000;
+*/	padding:10px;
+	label{
+		width: 20em;
+	}
+	input[type=text] {
+		@include border-radius(5px);
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+
+.displayNone{
+	display: none;
+}
+
+.showCreateNewMap{
+
+}
+
+.mapsList{
+	width:80%;
+	margin-left:10%;
+	margin-right:10%;
+
+	.list{
+		margin: 5px;
+		text: 18px;
+
+		.active-selection{
+			background-color: #eee;
+		}
+		tr{
+			 &:hover{
+		     	cursor: pointer;
+		     	background-color: #cccccc;
+		  }
+		}
+		border: 1px solid #aaa;
+		@include border-radius(5px, 5px);
+		margin-bottom: 3px;
+		padding: 3px;
+
+
+		background-color: #888;
+		th{
+			background-color: #aaf;
+			border: 1px solid black;
+			padding: 5px;
+		}
+		td{
+			border: 1px solid black;
+			padding: 5px;
+		}
+		/*background-color: #ccc;
+		background-color: #aaf;*/
+	}
+	.buttons{
+		text-align: left;
+	}
+}
+
+/* -------------------------
+	IBIS
+	ibis-types-list
+------------------------- */
+
+.ibis-types-list{
+	margin-top: 3em;
+	.list{
+		margin: 5px;
+		font-size: 18px;
+		border: 1px solid #aaaaaa;
+		@include border-radius(15px, 15px);
+
+		.active-selection{
+			background-color: #eee;
+		}
+		tr{
+			margin-bottom: 3px;
+			border-bottom: solid 2px #aaaaaa;
+			margin-bottom: 3px;
+			@include border-radius(5px, 5px);
+			 &:hover{
+		     	cursor: pointer;
+		     	background-color: #cccccc;
+		  }
+		}
+
+		th{
+			background-color: #aaf;
+			/*border: 1px solid black;*/
+			padding: 5px;
+		}
+		td{
+			/*border: 1px solid black;*/
+			padding: 5px;
+		}
+
+		.active-selection{
+			background-color: #aaf;
+		}
+	}
+}
+
+/* -------------------------
+	Select item
+------------------------- */
+
+$select_sub_entity_color: #888888;
+$select_sub_entity_entity_color: #8888FF;
+$select_sub_entity_title_size: 1em;
+
+.knalledge_map_select_item{
+	position: absolute;
+	width: 80%;
+	z-index: 100;
+	left: 50%;
+	margin-left: -40%;
+	top: 10%;
+	height: 80%;
+	min-height: 300px;
+	padding: 15px;
+
+	/* https://www.safaribooksonline.com/library/view/sass-and-compass/9781849694544/ch04s09.html
+	https://robots.thoughtbot.com/controlling-color-with-sass-color-functions
+	*/
+	border: 3px solid transparentize(darken($select_sub_entity_color, 25%), 0.5);
+	background-color: transparentize($select_sub_entity_color, 0.05);
+	@include border-radius(15px);
+	/* color h-shadow v-shadow blur spread color inset*/
+	@include box-shadow(10px 10px 5px 5px transparentize(darken($select_sub_entity_color, 15%), 0.75));
+
+	.mcm_title{
+		border-bottom: 3px solid darken($select_sub_entity_color, 25%);
+		background-color: $select_sub_entity_color;
+		text-align: center;
+		color: lighten($select_sub_entity_color, 35%);
+		font-weight: bold;
+		padding-top: 3px;
+		padding-bottom: 3px;
+		height: $select_sub_entity_title_size*1.5;
+		@include border-top-right-radius(15px);
+		@include border-top-left-radius(15px);
+	}
+
+	.mcm_close{
+		position: absolute;
+		background-color: #dddddd;
+		border: solid 3px #555555;
+		font-weight: bold;
+		color: #888888;
+		font-size: $select_sub_entity_title_size;
+		padding: 0.1*$select_sub_entity_title_size;
+		padding-left: $select_sub_entity_title_size;
+		padding-right: $select_sub_entity_title_size;
+		@include border-radius(15px);
+		right: $select_sub_entity_title_size*0.1;
+		top: $select_sub_entity_title_size*0.1;
+		z-index: 101;
+
+		cursor: pointer;
+
+		&:hover{
+			background-color: #ffffff;
+		}
+	}
+
+	.mcm_path{
+		display: block;
+		border: 1px solid blue;
+		@include border-top-right-radius(15px);
+		@include border-top-left-radius(15px);
+		height: $select_sub_entity_title_size;
+
+		.mcm_label{
+			display: inline-block;
+			border-right: 1px solid orange;
+			width: 5em;
+		}
+		.mcm_value{
+			display: inline-block;
+		}
+	}
+
+	.item_name{
+		margin-top: 10px;
+		margin-left: 10px;
+		padding: 5px;
+		text-align: center;
+		size:100;
+		font-size: 22px;
+		width: 80%;
+		margin-left: 10%;
+		margin-right: 10%;
+		@include border-radius(25px, 25px);
+	}
+	.items{
+		height: 50%;
+		text-align: center;
+		margin: 15px;
+		overflow-y: auto;
+
+		.list{
+			width: 80%;
+			margin-left: 10%;
+			margin-right: 10%;
+			text-align: center;
+			.active-selection{
+				background-color: #eee;
+			}
+			.title_name{
+				font-weight: bold;
+				color: white;
+				text-align: center;
+				background-color: #aaaaaa;
+			}
+			tr{
+				 &:hover{
+			     cursor: pointer;
+			     background-color: #cccccc;
+			  }
+			}
+			th, td {
+				padding: 5px;
+				border-bottom: 1px solid black;
+			}
+
+			a{
+				color: white;
+				cursor: pointer;
+			}
+		}
+	}
+
+	ul {
+		/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
+		overflow-y: scroll;
+		position: relative;
+		padding-left: 20%;
+		padding-right: 20%;
+
+		li {
+			list-style-type: none;
+			display: block;
+			background-color: lighten($select_sub_entity_entity_color, 5%);
+			border: 1px solid $select_sub_entity_entity_color;
+			margin: 25px 10px;
+			padding: 10px;
+			padding-right: 25px;
+			@include border-radius(10px, 10px);
+			cursor: pointer;
+			text-align: center;
+			color: lighten($select_sub_entity_entity_color, 15%);
+			/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+			/* color h-shadow v-shadow blur spread color inset*/
+			@include box-shadow(3px 2px 3px 1px rgba(150, 150, 255, 0.75));
+
+			@include transition-property(color);
+			@include transition-property(background-color);
+			@include transition-duration(0.3s);
+			@include transition-timing-function(ease-in);
+
+			&:hover{
+				background-color: lighten($select_sub_entity_entity_color, 10%);
+				color: darken($select_sub_entity_entity_color, 5%);
+			}
+		}
+	}
+
+	.buttons{
+		text-align: center;
+	}
+}
+
+.tool_info{
+	padding: 5px;
+	margin: 3px;
+	border: 1px solid #888888;
+	background-color: #cccccc;
+}
