@@ -7,7 +7,43 @@ Server is at the moment completely built as **node.js** environment. Therefore y
 
     npm install
 
-**NOTE**: Backend needs a special ```express-resource``` package on steroids. You can download it as a separate package [here](). After or even before issuing ```npm install``` you should (re)place the content of the archive:
+    npm install --production
+
+    sudo npm install node-gyp -g
+    sudo npm cache clean
+    rm -rf node_modules
+
+    sudo npm install npm -g
+    sudo npm install gulp -g
+    sudo npm i typings -g
+    sudo npm install -g typescript
+    sudo npm install ts-node -g
+    sudo npm install typescript-node -g
+    sudo npm install node-gyp -g
+    sudo npm install marked -g
+
+
+
+
+```sh
+npm WARN enoent ENOENT: no such file or directory, open '/Users/sir/Documents/data/Development/KnAllEdge/src/backend/node_modules/v8-debug/package.json'
+npm ERR! Darwin 15.3.0
+npm ERR! argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "--dev"
+npm ERR! node v5.8.0
+npm ERR! npm  v3.8.0
+npm ERR! path /Users/sir/Documents/data/Development/KnAllEdge/src/backend/node_modules/.staging/npmlog-57f83870
+npm ERR! code ENOENT
+npm ERR! errno -2
+npm ERR! syscall rename
+
+npm ERR! enoent ENOENT: no such file or directory, rename '/Users/sir/Documents/data/Development/KnAllEdge/src/backend/node_modules/.staging/npmlog-57f83870' -> '/Users/sir/Documents/data/Development/KnAllEdge/src/backend/node_modules/node-inspector/node_modules/v8-debug/node_modules/node-pre-gyp/node_modules/npmlog'
+npm ERR! enoent ENOENT: no such file or directory, rename '/Users/sir/Documents/data/Development/KnAllEdge/src/backend/node_modules/.staging/npmlog-57f83870' -> '/Users/sir/Documents/data/Development/KnAllEdge/src/backend/node_modules/node-inspector/node_modules/v8-debug/node_modules/node-pre-gyp/node_modules/npmlog'
+npm ERR! enoent This is most likely not a problem with npm itself
+npm ERR! enoent and is related to npm not being able to find a file.
+npm ERR! enoent
+```
+
+**NOTE**: Backend needs a special ```express-resource``` package on steroids. You can download it as a separate package [here](http://magicheads.info/downloads/express-resource.zip). After or even before issuing ```npm install``` you should (re)place the content of the archive:
 
 1. in your ```backend/node_modules``` folder and
 2. in ```backend/modules/topiChat```
