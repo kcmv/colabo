@@ -2,6 +2,48 @@
 
 The majority of server and client components are built on **MEAN stack** so the environment necessary for starting tool should be straightforward.
 
+## Local machine
+
+[fixing-npm-permissions](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
+`sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}`
+
+Install tools:
+
+```sh
+npm install -g bower
+```
+
+### NPM privileges problem
+
+
+```sh
+cd /usr/local/lib/node_modules
+sudo chmod o+rx npm
+cd npm
+sudo chmod -R o+r  *
+sudo chmod o+rx  node_modules/
+```
+
+This didn't work: [solution?](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
+
+### Bower install issues
+
+```sh
+bower install
+```
+
+With installing bower packages on OSX you might need xcode, here are some hints what might be happening and how to resolve it:
+
+if you get the error:
+```
+"xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun"
+```
+This is a problem with 'OS X El Capitan', you should run: `xcode-select --install`
+
+More on:
++ [invalid-active-developer-path-on-mac-os-x-after-installing-ruby](http://stackoverflow.com/questions/28706428/invalid-active-developer-path-on-mac-os-x-after-installing-ruby)
++ [xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/](http://tips.tutorialhorizon.com/2015/10/01/xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/)
+
 ## Server
 Server is at the moment completely built as **node.js** environment. Therefore you need node and npm tools installed to run it properly. When you have them installed all you need to do is to install necessary packages with
 
@@ -15,6 +57,18 @@ Server is at the moment completely built as **node.js** environment. Therefore y
 and (re)start the server
 
     npm start
+
+## Collabo Server
+
+### Node
+
+[info](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
+
+```sh
+sudo apt-get update
+curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
 
 ## MongoDB
 
