@@ -83,6 +83,7 @@ console.log('APP_SRC: %s, APP_SRC_FROM_HERE: ', APP_SRC, APP_SRC_FROM_HERE);
 console.log('APP_DEST: %s, APP_DEST_FROM_HERE: ', APP_DEST, APP_DEST_FROM_HERE);
 
 SUB_PROJECTS.KNALLEDGE.COMPILATION = {
+    ADD_ANTICACHE_SUFIX: false,
     INLINE_NG1: {
         SRC: [join(APP_SRC, '**/*.tpl.html')]
     },
@@ -109,6 +110,7 @@ SUB_PROJECTS.KNALLEDGE.COMPILATION = {
 };
 
 SUB_PROJECTS.BUTTONS.COMPILATION = {
+    ADD_ANTICACHE_SUFIX: true,
     INLINE: {
         USE_RELATIVE_PATHS: true
     },
@@ -210,8 +212,10 @@ KNALLEDGE: {
 		{ src: join(APP_DEST, 'components/ontov/js/directives.js'), inject: true, noNorm: true},
 
     // ng1 registration and bootstrap
+        // { src: join(APP_DEST, 'components/knalledgeMap/knalledgeMapPolicyService.js'), inject: true, noNorm: true},
+        // { src: join(APP_DEST, 'components/knalledgeMap/knalledgeMapViewService.js'), inject: true, noNorm: true},
         // { src: join(APP_DEST, 'js/app_pre.js'), inject: true, noNorm: true},
-        // { src: join(APP_DEST, 'js/app.js'), inject: true, noNorm: true},
+        { src: join(APP_DEST, 'js/app.js'), inject: true, noNorm: true},
 
     // CSS
     // LIBS
@@ -302,16 +306,22 @@ const NPM_DEPENDENCIES: IDependency[] = [
     { src: join(APP_DEST, 'js/lib/socket.io/angular.socket.io.js'), inject: 'libs', noNorm: true},
 
     { src: 'rxjs/bundles/Rx.js', inject: 'libs' },
-    { src: 'angular2/bundles/angular2.js', inject: 'libs' },
-    { src: 'angular2/bundles/router.js', inject: 'libs' },
-    { src: 'angular2/bundles/http.js', inject: 'libs' },
 ];
 
 const DEV_NPM_DEPENDENCIES: IDependency[] = [
-    { src: 'angular2/es6/dev/src/testing/shims_for_IE.js', inject: 'shims' }
+    { src: 'angular2/es6/dev/src/testing/shims_for_IE.js', inject: 'shims' },
+    // { src: 'angular2/bundles/angular2.dev.js', inject: 'libs' },
+    // { src: 'angular2/bundles/router.dev.js', inject: 'libs' },
+    // { src: 'angular2/bundles/http.dev.js', inject: 'libs' },
+    { src: 'angular2/bundles/angular2.js', inject: 'libs' },
+    { src: 'angular2/bundles/router.js', inject: 'libs' },
+    { src: 'angular2/bundles/http.js', inject: 'libs' }
 ];
 
 const PROD_NPM_DEPENDENCIES: IDependency[] = [
+    { src: 'angular2/bundles/angular2.min.js', inject: 'libs' },
+    { src: 'angular2/bundles/router.min.js', inject: 'libs' },
+    { src: 'angular2/bundles/http.min.js', inject: 'libs' },
 ];
 
 export const DEV_DEPENDENCIES = normalizeDependencies(NPM_DEPENDENCIES.

@@ -1,5 +1,5 @@
 import {join} from 'path';
-import {APP_SRC, APP_DEST, DEV_DEPENDENCIES} from '../config';
+import {APP_SRC, APP_DEST, DEV_DEPENDENCIES, SUB_PROJECT} from '../config';
 import {templateLocals} from '../utils';
 
 // inject all (shims/libs/and inject='true') dependencies under coresponding placeholders
@@ -37,12 +37,15 @@ export = function buildIndexDev(gulp, plugins) {
         console.log("[build.index.dev] (name:%s): ", nameInner, plugins.sniff.get(nameInner));
     });
 
-    return plugins.inject(sourceStream, {
+    let injectOpt = {
       name: name,
       relative: true,
-      addRootSlash: false,
-      addSuffix: dateTime
-    });
+      addRootSlash: false
+    };
+    if(SUB_PROJECT.COMPILATION.ADD_ANTICACHE_SUFIX) {
+        injectOpt['addSuffix'] = dateTime;
+    }
+    return plugins.inject(sourceStream, injectOpt);
   }
 
   // get all dependencies that conforms with the inject == name or inject == true if no name
