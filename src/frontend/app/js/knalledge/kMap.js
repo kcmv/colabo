@@ -11,13 +11,14 @@ var KMap =  knalledge.KMap = function(){
 	this.activeVersion = 1;
 	this.version = 1;
 	this.parentMapId = "";
+	this.participants = [];
 	this.isPublic = true;
 	this.createdAt = null;
 	this.updatedAt = null;
 	this.dataContent = null; //dataContent.mcm.authors
 	this.visual = {
 	};
-	
+
 	/* local-to-frontend */
 	this.state = KMap.STATE_LOCAL;
 };
@@ -28,7 +29,7 @@ KMap.STATE_NON_SYNCED = "STATE_NON_SYNCED";
 KMap.STATE_SYNCED = "STATE_SYNCED";
 
 KMap.prototype.init = function(){
-	
+
 };
 
 KMap.mapFactory = function(obj){
@@ -48,6 +49,7 @@ KMap.prototype.fill = function(obj){
 		if("activeVersion" in obj){this.activeVersion = obj.activeVersion;}
 		if("version" in obj){this.version = obj.version;}
 		if("parentMapId" in obj){this.parentMapId = obj.parentMapId;}
+		if("participants" in obj){this.participants = obj.participants;} //TODO deep copy of array?
 		if("isPublic" in obj){this.isPublic = obj.isPublic;}
 		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
 		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
@@ -68,7 +70,7 @@ KMap.prototype.overrideFromServer = function(obj){
 
 KMap.prototype.toServerCopy = function(){
 	var kMap = {};
-	
+
 	/* copying all non-system and non-function properties */
 	for(var id in this){
 		if(id[0] == '$') continue;
@@ -78,18 +80,18 @@ KMap.prototype.toServerCopy = function(){
 			kMap[id] = (JSON.parse(JSON.stringify(this[id])));
 		}
 	}
-	
+
 	/* deleting properties that should be set created to default value on server */
 	if(kMap.createdAt === undefined || kMap.createdAt === null) {delete kMap.createdAt;}
 	if(kMap.updatedAt === undefined || kMap.updatedAt === null) {delete kMap.updatedAt;}
-	
+
 	if(kMap.state == KMap.STATE_LOCAL){
 		delete kMap._id;
 	}
-	
+
 	/* deleting local-frontend parameters */
 	delete kMap.state;
-	
+
 	return kMap;
 };
 

@@ -5,6 +5,7 @@ import {templateLocals} from '../utils';
 // inject all (shims/libs/and inject='true') dependencies under coresponding placeholders
 // adds a versioning (current date) sufix to each file to avoid cashing issues
 export = function buildIndexDev(gulp, plugins) {
+  var addAniCacheSufix = false;
   var dateTime = '?'+Date.now();
   console.log("[build.index.dev] process.cwd(): ", process.cwd());
 
@@ -37,12 +38,16 @@ export = function buildIndexDev(gulp, plugins) {
         console.log("[build.index.dev] (name:%s): ", nameInner, plugins.sniff.get(nameInner));
     });
 
-    return plugins.inject(sourceStream, {
+    var injectObj = {
       name: name,
       relative: true,
-      addRootSlash: false,
-      addSuffix: dateTime
-    });
+      addRootSlash: false
+    };
+
+    if(addAniCacheSufix) {
+      injectObj['addSuffix'] = dateTime;
+    }
+    return plugins.inject(sourceStream, injectObj);
   }
 
   // get all dependencies that conforms with the inject == name or inject == true if no name

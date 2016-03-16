@@ -9,6 +9,7 @@
   "dependencies": {
     "async": "x",
     "bluebird": "latest",
+    "bson": "^0.4.22",
     "connect-flash": "latest",
     "express": "3.x",
     "express-resource": "1.x",

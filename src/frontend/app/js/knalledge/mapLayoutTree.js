@@ -20,6 +20,11 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 	var children = [];
 	if(!d.isOpen) return children;
 
+	// if(this.mapStructure.getSelectedNode() == d){
+	// 	return children;
+	// }
+
+
 	for(var i in this.mapStructure.edgesById){
 		var vkEdge = this.mapStructure.edgesById[i];
 		// if defined and set to false the vkEdge and its vkNode should not be presented
@@ -28,7 +33,11 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 			var vkNode = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
 			// if defined and set to false the vkNode should not be presented
 			if(vkNode.visible === false) continue;
-			if(vkNode){
+			if(vkNode
+				 && vkNode.presentation.visibleDistance
+				 && true //TODO: MIGRATE TO mapStructure FUNC CALL? (vkNode.kNode.isPublic || vkNode.kNode.iAmId == this.rimaService.getActiveUserId())
+				 
+			){
 				children.push(vkNode);
 			}
 			else{
@@ -123,6 +132,7 @@ MapLayoutTree.prototype.diagonal = function(that){
 position and dimension
  */
 MapLayoutTree.prototype.generateTree = function(source){
+	//this.mapStructure.setVisibilityByDistance(this.mapStructure.getSelectedNode(), 2);
 	var that = this;
 	if(this.nodes){
 		// Normalize for fixed-depth.

@@ -433,6 +433,12 @@ Keyboard.prototype.initializeKeyboard = function() {
 		this.addNode(knalledge.KNode.TYPE_IBIS_COMMENT, knalledge.KEdge.TYPE_IBIS_COMMENT);
 	}.bind(this), function(){}.bind(this));
 
+	// Relink the node:
+	KeyboardJS.on("ctrl + k", function(){
+		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
+		this.relinkNode(type, type);
+	}.bind(this), function(){}.bind(this));
+
 	// Delete node:
 	KeyboardJS.on("ctrl + delete", function(){
 		console.log("ctrl + delete");

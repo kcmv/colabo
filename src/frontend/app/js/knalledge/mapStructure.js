@@ -9,10 +9,11 @@ it is used as a prerequisite for the map visualization
 @constructor
 */
 
-var MapStructure =  knalledge.MapStructure = function(rimaService){
+var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService){
 	this.rootNode = null;
 	this.selectedNode = null;
 	this.mapService = null;
+	this.knalledgeMapViewService = knalledgeMapViewService;
 	this.nodesById = {}; //VkNode
 	this.edgesById = {}; //VkEdge
 	this.properties = {};
@@ -55,6 +56,7 @@ MapStructure.prototype.unsetSelectedNode = function(){
 
 MapStructure.prototype.setSelectedNode = function(selectedNode){
 	this.selectedNode = selectedNode;
+	this.setVisibilityByDistance(selectedNode, 	this.knalledgeMapViewService.config.filtering.displayDistance);
 //	try {
 //		throw new Error('DebugStack');
 //	}
@@ -131,6 +133,112 @@ MapStructure.prototype.getChildrenEdges = function(vkNode, edgeType){
 	return children;
 };
 
+MapStructure.prototype.getNeighbours = function(sourceNode){
+	var neighbours = {};
+	if(this.edgesById != null && this.nodesById != null){
+		for(var i in this.edgesById){
+			var vkEdge = this.edgesById[i];
+			if((vkEdge.kEdge.sourceId == sourceNode.kNode._id || vkEdge.kEdge.targetId == sourceNode.kNode._id) && ((typeof edgeType === 'undefined') || vkEdge.kEdge.type == edgeType)){
+				for(var j in this.nodesById){
+					var targetNode = this.nodesById[j];
+					if((targetNode.kNode._id == vkEdge.kEdge.targetId || targetNode.kNode._id == vkEdge.kEdge.sourceId) && targetNode != sourceNode){
+						neighbours[targetNode.kNode._id] = targetNode;
+					}
+				}
+			}
+		}
+	}
+	delete neighbours[sourceNode.kNode._id];
+	console.log('getNeighbours - ' + sourceNode.kNode.name + '\'s neighbours: ' + getNodesNames(neighbours));
+	return neighbours;
+}
+
+MapStructure.prototype.setVisibility = function(){
+	//hiding all nodes:
+	for(var j in this.nodesById){
+		this.nodesById[j].presentation.visibleDistance = false;
+	}
+	var ancestors = this.getAncestorsPath(sourceNode);
+	for(var j in ancestors){
+		ancestors[j].presentation.visibleDistance = true;
+	}
+	console.log('setVisibility - getAncestorsPath: ' + getNodesNames(ancestors));
+}
+
+MapStructure.prototype.setVisibilityByAuthor = function(sourceNode, distance){
+	
+}
+
+/*
+	set nodes visibility based on their distance (length of path) from source node
+*/
+MapStructure.prototype.setVisibilityByDistance = function(sourceNode, distance){
+	if(sourceNode!=null){
+		//console.log('setVisibilityByDistance(sourceNode, distance): ' + sourceNode.kNode.name + ', ' + distance);
+		if(distance != -1){ //all should be visible
+			var visibleNodes = this.getNeghboursInDistance(sourceNode, distance);
+			for(var j in this.nodesById){
+				this.nodesById[j].presentation.visibleDistance = true;
+			}
+		}
+		else{
+
+
+
+			for(var j in visibleNodes){
+				visibleNodes[j].presentation.visibleDistance = true;
+			}
+		}
+	}
+}
+
+MapStructure.prototype.getNeghboursInDistance = function(sourceNode, distance){
+	//algorythm is parallel, walk in widenes, not in depth (recursive)
+	console.log('getNeghboursInDistance(sourceNode, distance): ' + sourceNode.kNode.name + ', ' + distance);
+	var passedNodes = {};
+	var currentDistance = 0;
+	passedNodes[sourceNode.kNode._id] = sourceNode;
+	if(distance > 0){
+		var reachedNodes = this.getNeighbours(sourceNode);
+		//console.log('getNeghboursInDistance - neighbours - first: ' + getNodesNames(reachedNodes));
+		var neighbours = {};
+		var neighbourNode = null;
+		do{ //
+			currentDistance++;
+			console.log('getNeghboursInDistance - neighbours in ' + currentDistance + ' distance from ' + sourceNode.kNode.name + ': ' + getNodesNames(reachedNodes));
+			var neighboursOfReachedNodes = {};
+			for(var i in reachedNodes){ // going through all neighbours of current source node
+				var node = reachedNodes[i];
+				neighbours = this.getNeighbours(node);
+				console.log('getNeghboursInDistance - neighbours of ' + node.kNode.name + ': ' + getNodesNames(neighbours));
+				//TODO: this could be improved by a function of adding elements to object-hash
+				for(var i in neighbours){ //adding neighbours of current neighbours of actual source node.
+					neighbourNode = neighbours[i];
+					if(!(neighbourNode.kNode._id in passedNodes)){
+						neighboursOfReachedNodes[neighbourNode.kNode._id] = neighbourNode; // filling the array of neighbours of current neighbours of actual source node. If we come to the same node from different reachedNodes, we will just override it, not duplicate it
+					}
+				}
+				passedNodes[node.kNode._id] = node; //we have passed now the actual node
+			}
+			reachedNodes = neighboursOfReachedNodes;
+			console.log('getNeghboursInDistance: distance:' + distance + ', reachedNodes: ' + getNodesNames(reachedNodes));
+		}while(currentDistance < distance && Object.keys(reachedNodes).length > 0);
+	}
+	console.log('getNeghboursInDistance - passedNodes: ' + getNodesNames(passedNodes));
+	return passedNodes;
+};
+
+function getNodesNames(nodesHash){
+	var names = "";
+	for(var i in nodesHash){
+		names = names + '; ' + nodesHash[i].kNode.name;
+	}
+	return names;
+}
+
+/*
+	get all nodes that are children (immediate descendant) of @vkNode
+*/
 MapStructure.prototype.getChildrenNodes = function(vkNode, edgeType){
 	var children = [];
 	for(var i in this.edgesById){
@@ -147,6 +255,9 @@ MapStructure.prototype.getChildrenNodes = function(vkNode, edgeType){
 	return children;
 };
 
+/*
+	get all nodes that are parent (immediate ancestors) of @vkNode
+*/
 MapStructure.prototype.getParentNodes = function(vkNode, edgeType){
 	var parents = [];
 	for(var i in this.edgesById){
@@ -162,6 +273,25 @@ MapStructure.prototype.getParentNodes = function(vkNode, edgeType){
 	}
 	return parents;
 };
+
+/*
+	returns all nodes that are ancestors of @node, INCLUDING the node
+*/
+MapStructure.prototype.getAncestorsPath = function(node){
+	//TODO: we display now all parent paths. OK?
+	//TODO: other concerns regarding this algorythm are elaborated at photo of WHiteBoard@UiO prior DHN 2016
+	var ancestors = {};
+	ancestors[node.kNode._id] = node;
+	var parents = this.getParentNodes(node);
+	var ancestorsNew ={};
+	for (var i = 0; i < parents.length; i++) {
+		ancestorsNew = this.getAncestorsPath(parents[i]);
+		for(var ancestors_i in ancestorsNew){
+			ancestors[ancestors_i] = ancestorsNew[ancestors_i]; //IMPORTANT: by this algorythm the same ancestor can be found and added if he is on multiple paths (by using hash-object we override it, but by using array we sould duplicate it)
+		}
+	}
+	return ancestors;
+}
 
 MapStructure.prototype.getMaxNodeId = function(){
 	var maxId = -1;

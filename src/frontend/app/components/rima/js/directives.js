@@ -27,7 +27,7 @@ var getIdFromStep = function(stepName){
 var guidanceStart = function($timeout, $element){
 	guidanceCurrentStep = 0;
 	for(var i in guidanceSteps[guidanceCurrentStep].classes){
-		triggerPopup($timeout, $element, '.guidance_'+guidanceSteps[guidanceCurrentStep].classes[i], 'openTrigger', guidanceCurrentStep, 1500);     
+		triggerPopup($timeout, $element, '.guidance_'+guidanceSteps[guidanceCurrentStep].classes[i], 'openTrigger', guidanceCurrentStep, 1500);
 	}
 };
 
@@ -102,9 +102,9 @@ angular.module('rimaDirectives', ['Config'])
 						for(var i=0; i<RimaService.whoAmIs.length; i++){
 							var item = RimaService.whoAmIs[i];
 							// @TODO: Fix to filter by authors that belong to the map
-							if(item.origin === 'TTT'){
+							//TODO: ??? @SASHA dodao ovo??: if(item.origin === 'TTT'){
 								$scope.items.push(item);
-							}
+							//}
 						}
 					}, true);
 
@@ -128,7 +128,7 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.selectedItem = null;
 				 //TODO: select from map.dataContent.mcm.authors list
 				//RimaService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
-				
+
 				init();
 				$scope.selectItem = function(item) {
 					$scope.selectedItem = item;
@@ -275,9 +275,9 @@ angular.module('rimaDirectives', ['Config'])
 							.attr("height", height);
 
 				var update = function(){
-					
+
 					//!!! TODO: check for improving performance of this algorithm!! it is ~ O(n4)!!
-					
+
 					var links = [];
 					var users=[];
 
@@ -287,7 +287,7 @@ angular.module('rimaDirectives', ['Config'])
 					}
 
 					for(var i = 0; i<users.length; i++){ // we go through all users
-						
+
 						var userI = users[i];
 						if(!RimaService.howAmIs.hasOwnProperty(userI._id)){continue;}
 						var userIHows = RimaService.howAmIs[userI._id]; //take their userHows
@@ -324,7 +324,7 @@ angular.module('rimaDirectives', ['Config'])
 						}
 					}
 
-	
+
 					if(users.length>1){
 
 						//users = [{name:"2", value:1},{name:"dd", value:2},{name:"dde", value:3}];
@@ -343,7 +343,7 @@ angular.module('rimaDirectives', ['Config'])
 
 						//console.log("force:" + force);
 
-						
+
 
 						// build the arrow.
 						// svg.append("svg:defs").selectAll("marker")
@@ -369,7 +369,7 @@ angular.module('rimaDirectives', ['Config'])
 							.attr("marker-end", "url(#end)");
 
 						var linktext = svg.append("svg:g").selectAll("g.linklabelholder").data(force.links());
-	
+
 					    linktext.enter().append("g").attr("class", "linklabelholder")
 					     .append("text")
 					     .attr("class", "linklabel")
@@ -380,8 +380,8 @@ angular.module('rimaDirectives', ['Config'])
 						   .style("fill","#000")
 						 .append("textPath")
 					   // .attr("xlink:href",function(d,i) { return "#linkId_" + i;})
-					     .text(function(d) { 
-						 return "ldf";//d.type; 
+					     .text(function(d) {
+						 return "ldf";//d.type;
 						 });
 
 						// path.append("text")
@@ -405,7 +405,7 @@ angular.module('rimaDirectives', ['Config'])
 						node.append("circle")
 						    .attr("r", 7);
 
-						// add the text 
+						// add the text
 						node.append("text")
 							.attr("x", 12)
 							.attr("dy", ".35em")
@@ -415,14 +415,14 @@ angular.module('rimaDirectives', ['Config'])
 						var click = function() {
 							this.__data__.selected = !this.__data__.selected;
 							if(this.__data__.selected){
-							    
+
 							    //d3.select(node).selectedNode(this);
 							    selectNode(this);
 							    var selectedNode = this;
 							    d3.selectAll("path").attr("class", function(d) {
-							    	if(d.target._id == selectedNode.__data__._id || d.source._id == selectedNode.__data__._id){return "selected";}else{return "unselected";} 
+							    	if(d.target._id == selectedNode.__data__._id || d.source._id == selectedNode.__data__._id){return "selected";}else{return "unselected";}
 							    });
-	                    		//d3.select(this).style("fill", "black"); 
+	                    		//d3.select(this).style("fill", "black");
                     		}
                     		else{
                     			d3.select(this).select("circle").transition()
@@ -456,7 +456,7 @@ angular.module('rimaDirectives', ['Config'])
 
 						// action to take on mouse double click
 						var dblclick = function() {
-						    
+
 						}
 
 						var tick = function() {
@@ -465,25 +465,25 @@ angular.module('rimaDirectives', ['Config'])
 						        var dx = d.target.x - d.source.x,
 						            dy = d.target.y - d.source.y,
 						            dr = Math.sqrt(dx * dx + dy * dy);
-						        return "M" + 
-						            d.source.x + "," + 
-						            d.source.y + "A" + 
-						            dr + "," + dr + " 0 0,1 " + 
-						            d.target.x + "," + 
+						        return "M" +
+						            d.source.x + "," +
+						            d.source.y + "A" +
+						            dr + "," + dr + " 0 0,1 " +
+						            d.target.x + "," +
 						            d.target.y;
 						    });
 
 						    node
-						        .attr("transform", function(d) { 
+						        .attr("transform", function(d) {
 						  	    return "translate(" + d.x + "," + d.y + ")"; });
 						}
 					}
 
 					// Compute the distinct nodes from the links.
 					// links.forEach(function(link) {
-					//     link.source = nodes[link.source] || 
+					//     link.source = nodes[link.source] ||
 					//         (nodes[link.source] = {name: link.source});
-					//     link.target = nodes[link.target] || 
+					//     link.target = nodes[link.target] ||
 					//         (nodes[link.target] = {name: link.target});
 					//     link.value = +link.value;
 					// });
@@ -593,7 +593,7 @@ angular.module('rimaDirectives', ['Config'])
 
 				var generateNodesAndEdges = function(nodes, edges){
 					//!!! TODO: check for improving performance of this algorithm!! it is ~ O(n4)!!
-					
+
 					nodes.length = 0;
 					edges.length = 0;
 
@@ -733,7 +733,7 @@ angular.module('rimaDirectives', ['Config'])
 				};
 
 				$scope.addNewWhat = function(what){
-					
+
 					//RimaService.getWhatsById(['554c14a6d25c460d4f225ee7','554d3d40b77c84c474e0140c']);
 
 					// not clicked on any item, but just type a string
@@ -772,7 +772,7 @@ angular.module('rimaDirectives', ['Config'])
 					// var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
 					// $rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
 
-					
+
 					var whatCreated = function(whatFromServer){
 						console.log("whatCreated", whatFromServer);
 						saveNodeWIthNewWhat(whatFromServer);
@@ -784,7 +784,7 @@ angular.module('rimaDirectives', ['Config'])
 						var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
 						$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
 					}
-					
+
 					if(typeof what === 'string'){ //new what
 						var newWhat = new knalledge.WhatAmI();
 						newWhat.name = what;
@@ -929,7 +929,7 @@ angular.module('rimaDirectives', ['Config'])
 					var how = new knalledge.HowAmI();
 					how.whoAmI = $scope.whoAmI._id;
 					how.how = selectedHow.id;
-					
+
 					//how.whatAmI = $scope.whatInput; //TODO:
 
 					var whatCreated = function(whatFromServer){
@@ -941,7 +941,7 @@ angular.module('rimaDirectives', ['Config'])
 						how.whatAmI = whatId;
 						RimaService.createHowAmI(how, createdHow);
 					}
-					
+
 					if(typeof $scope.whatInput === 'string'){ //new what
 						var newWhat = new knalledge.WhatAmI();
 						newWhat.name = $scope.whatInput.toLowerCase();
@@ -1003,7 +1003,7 @@ angular.module('rimaDirectives', ['Config'])
 						//TODO: should be this, but for simplicity of TNC online event we directed to its map: $location.path("/maps");
 						var mapID = "5566f25867a6d01e65beddde"; 'TNC-Online';// old for RTS: 5552c2c87ffdccd74096d0ca
 						$location.path("/map/id/" + mapID);
-						
+
 					};
 
 					if($scope.items.length == 0){
@@ -1092,7 +1092,7 @@ angular.module('rimaDirectives', ['Config'])
 						//already bound to the howAmIs array in the RIMA service, so this would cause duplicates: $scope.items.push(howFromServer);
 					}
 
-					
+
 					var selectedHow = RimaService.getHowForId(HOW_VERB_FOR_TOPICS);
 
 
@@ -1108,7 +1108,7 @@ angular.module('rimaDirectives', ['Config'])
 					var how = new knalledge.HowAmI();
 					how.whoAmI = RimaService.getActiveUserId();
 					how.how = selectedHow.id;
-					
+
 					//how.whatAmI = $scope.whatInput; //TODO:
 
 					var whatCreated = function(whatFromServer){
@@ -1120,7 +1120,7 @@ angular.module('rimaDirectives', ['Config'])
 						how.whatAmI = whatId;
 						RimaService.createHowAmI(how, createdHow);
 					}
-					
+
 					if(typeof $scope.whatInput === 'string'){ //new what
 						var newWhat = new knalledge.WhatAmI();
 						newWhat.name = $scope.whatInput.toLowerCase();
@@ -1223,7 +1223,7 @@ angular.module('rimaDirectives', ['Config'])
 	  .directive('pop', function pop ($tooltip, $timeout) {
 		var tooltip = $tooltip('pop', 'pop', 'event');
 		var compile = angular.copy(tooltip.compile);
-		tooltip.compile = function (element, attrs) {      
+		tooltip.compile = function (element, attrs) {
 		  var first = true;
 		  attrs.$observe('popShow', function (val) {
 			if (JSON.parse(!first || val || false)) {
@@ -1298,7 +1298,7 @@ angular.module('rimaDirectives', ['Config'])
 						$scope.whoAmI.extensions.contacts.skype = '<skype not provided>';
 					}
 					else{
-						$scope.whoAmI.extensions.contacts.skype = '';   
+						$scope.whoAmI.extensions.contacts.skype = '';
 					}
 				};
 
@@ -1307,7 +1307,7 @@ angular.module('rimaDirectives', ['Config'])
 					//$scope.submitted = true;
 				};
 			}
-			
+
 		};
 	}]);
 

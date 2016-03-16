@@ -8,12 +8,14 @@
         "noLib": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "allowSyntheticDefaultImports": false
     },
+    "allowSyntheticDefaultImports": false,
     "exclude": [
         "node_modules",
-        "typings/browser.d.ts",
-        "typings/browser/**"
+        "typings/main.d.ts",
+        "typings/main/**"
     ],
     "compileOnSave": false
 }

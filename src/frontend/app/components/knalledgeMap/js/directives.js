@@ -710,6 +710,15 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					$scope.modeCreating = false;
 				};
 
+				$scope.getParticipantsNames = function(ids){
+						var names = '';
+						for(var i=0; i<ids.length;i++){
+							var user = RimaService.getUserById(ids[i]);
+							names+=user == null ? 'unknown' : user.displayName + ', ';
+						}
+						return names;
+				};
+
 				$scope.createNew = function(){
 					var mapCreated = function(mapFromServer) {
 						console.log("mapCreated:");//+ JSON.stringify(mapFromServer));
@@ -722,6 +731,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					var rootNodeCreated = function(rootNode){
 						$scope.mapToCreate.rootNodeId = rootNode._id;
 						$scope.mapToCreate.iAmId = RimaService.getActiveUserId();
+
+						//TODO: so far this is string of comma-separated iAmIds:
+						$scope.mapToCreate.participants = $scope.mapToCreate.participants.replace(/\s/g, '');
+						$scope.mapToCreate.participants = $scope.mapToCreate.participants.split(',');
+
 						var map = KnalledgeMapService.create($scope.mapToCreate);
 						map.$promise.then(mapCreated);
 					};

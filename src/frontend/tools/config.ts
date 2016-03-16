@@ -210,8 +210,10 @@ KNALLEDGE: {
 		{ src: join(APP_DEST, 'components/ontov/js/directives.js'), inject: true, noNorm: true},
 
     // ng1 registration and bootstrap
+        // { src: join(APP_DEST, 'components/knalledgeMap/knalledgeMapPolicyService.js'), inject: true, noNorm: true},
+        // { src: join(APP_DEST, 'components/knalledgeMap/knalledgeMapViewService.js'), inject: true, noNorm: true},
         // { src: join(APP_DEST, 'js/app_pre.js'), inject: true, noNorm: true},
-        // { src: join(APP_DEST, 'js/app.js'), inject: true, noNorm: true},
+        { src: join(APP_DEST, 'js/app.js'), inject: true, noNorm: true},
 
     // CSS
     // LIBS

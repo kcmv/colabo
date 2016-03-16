@@ -1260,7 +1260,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				// 	return provider.edgesById;
 				// }
 				nodesById: provider.nodesById,
-				edgesById: provider.edgesById				
+				edgesById: provider.edgesById
 			}
 		});
 		// this.collaboPluginsService.provideApi("map", {
@@ -1812,6 +1812,10 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 				edges: {
 					showNames: true,
 					showTypes: true
+				},
+				filtering: {
+					displayDistance	: 2,
+					byAuthor: [] //array of iAmId. An empty means to see for all authors
 				}
 			}
 		};
