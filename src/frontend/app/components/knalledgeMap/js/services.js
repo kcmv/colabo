@@ -1814,6 +1814,10 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 				edges: {
 					showNames: true,
 					showTypes: true
+				},
+				filtering: {
+					displayDistance	: 2,
+					byAuthor: [] //array of iAmId. An empty means to see for all authors
 				}
 			}
 		};

@@ -9,6 +9,7 @@
 				<div><label>Root NodeType</label><input type="text" ng-model="mapToCreate.rootNodeType" /></div>
 				<div><label>Parent map ID</label><input type="text" ng-model="mapToCreate.parentMapId" /></div>
 				<div><label>Map Version</label><input type="text" ng-model="mapToCreate.version" /></div>
+				<div><label>Participants</label><input type="text" ng-model="mapToCreate.participants" /></div>
 				<div><label>Authors</label><input type="text" ng-model="mapToCreate.dataContent.mcm.authors" /></div>
 		 		<p class="buttons">
 					<button class="btn btn-warning" ng-click="cancelled()">Cancel</button>
@@ -16,17 +17,18 @@
 				</p>
 			</fieldset>
 		</form>
-	
+
 	</div>
 	<div>
 		<br/>
 		<span>Existing maps:</span>
 		<table class="list">
-			<tr><th class="mcm_name">Id</th><th class="mcm_name">Name</th><th class="mcm_type">Type</th><th class="mcm_authors">Authors</th><th class="creation_date">Creation Date</th></tr>
+			<tr><th class="mcm_name">Id</th><th class="mcm_name">Name</th><th class="mcm_type">Type</th><th>Participants</th><th class="mcm_authors">Authors</th><th class="creation_date">Creation Date</th></tr>
 			<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
 				<td>{{item._id}}</td>
 				<td>{{item.name}}</td>
 				<td>{{item.type}}</td>
+				<td>{{getParticipantsNames(item.participants)}}</td>
 				<td>{{item.dataContent.mcm.authors}}</td>
 				<td>{{item.createdAt}}</td>
 			</tr>

@@ -8,8 +8,10 @@
         "noLib": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "allowSyntheticDefaultImports": false
     },
+    "allowSyntheticDefaultImports": false,
     "exclude": [
         "node_modules",
         "typings/main.d.ts",

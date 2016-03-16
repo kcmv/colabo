@@ -106,9 +106,9 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						for(var i=0; i<RimaService.whoAmIs.length; i++){
 							var item = RimaService.whoAmIs[i];
 							// @TODO: Fix to filter by authors that belong to the map
-							if(item.origin === 'TTT'){
+							//TODO: ??? @SASHA dodao ovo??: if(item.origin === 'TTT'){
 								$scope.items.push(item);
-							}
+							//}
 						}
 					}, true);
 

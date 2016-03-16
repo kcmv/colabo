@@ -14,6 +14,8 @@ var VKNode =  knalledge.VKNode = function(){
 	this.visible = true; // if defined and set to false the vkNode should not be presented
 	this.createdAt = null; //when the object is created
 	this.updatedAt = null; //when the obect is updated
+	this.presentation = {}; //containing all the parameters that define is and how the node presented regarding filtering, depth of view, etc
+	this.presentation.visibleDistance = true;
 	//TODO: some properties are not shown here, but are explained and used in the function "fill" below
 };
 

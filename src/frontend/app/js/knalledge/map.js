@@ -21,7 +21,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
 
 	this.knalledgeState = new knalledge.State();
-	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService);
+	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService);
 
 	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService);
 
@@ -58,7 +58,7 @@ Map.prototype.init = function() {
 		name: "map",
 		items: {
 			config: this.config,
-			mapStructure: this.mapStructure			
+			mapStructure: this.mapStructure
 		}
 	});
 	this.collaboPluginsService.provideApi("map", {

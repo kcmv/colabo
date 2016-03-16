@@ -19,6 +19,7 @@ var whoAmISchema = mongoose.Schema({
 	locationUpdatedAt: Date,
 	language: String,
 	origin: String,
+	status: Number, //TODO: added just here, support through the rest of the system
 	extensions: {
 		contacts:{}
 	}

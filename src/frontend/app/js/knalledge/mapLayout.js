@@ -205,15 +205,19 @@ MapLayout.prototype.clickDoubleNode = function(d) {
 };
 
 // react on label click.
-MapLayout.prototype.clickLinkLabel = function() {
+MapLayout.prototype.clickLinkLabel = function(d) {
 	// console.log("Label clicked: " + JSON.stringify(d.target.name));
 
 	// just as a click indicator
-	if(d3.select(this).style("opacity") < 0.75){
-		d3.select(this).style("opacity", 1.0);
-	}else{
-		d3.select(this).style("opacity", 0.5);
-	}
+	console.log('link clicked:'+d);
+
+	// TODO: This code causes error:
+	//if(d3.select(this).style("opacity") < 0.75){
+	// 	d3.select(this).style("opacity", 1.0);
+	// }else{
+	// 	d3.select(this).style("opacity", 0.5);
+	// }
+
 };
 
 MapLayout.prototype.getHtmlNodePosition = function(d) {
