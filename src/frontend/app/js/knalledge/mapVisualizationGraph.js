@@ -157,14 +157,14 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 			})
 			.classed({
 				"node_graph_html_fixed": function(d){
-					return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					return (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 						false : true;
 				}
 			})
 			/* TODO FIxing expandable nodes */
 			.style("width", function(d){
 			// .style("min-width", function(d){
-					var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					var width = (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 						d.kNode.dataContent.image.width : width;
 					if(width === null) {
 						width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
@@ -174,7 +174,7 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 			})
 			.style("margin-left", function(d){
 					// centering the node (set margin to half the width of the node)
-					var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					var width = (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 						d.kNode.dataContent.image.width : null;
 					if(width === null) {
 						width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
@@ -253,14 +253,14 @@ MapVisualizationGraph.prototype.updateHtmlTransitions = function(source, nodeHtm
 		nodeHtmlUpdate
 			.classed({
 				"node_graph_html_fixed": function(d){
-					return (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					return (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 						false : true;
 				}
 			})
 			/* TODO FIxing expandable nodes */
 			.style("width", function(d){
 			// .style("min-width", function(d){
-					var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					var width = (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 						d.kNode.dataContent.image.width : null;
 					if(width === null) {
 						width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
@@ -270,7 +270,7 @@ MapVisualizationGraph.prototype.updateHtmlTransitions = function(source, nodeHtm
 			})
 			.style("margin-left", function(d){
 					// centering the node (set margin to half the width of the node)
-					var width = (that.knalledgeMapViewService.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+					var width = (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
 						d.kNode.dataContent.image.width : width;
 					if(width === null) {
 						width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
@@ -639,7 +639,7 @@ MapVisualizationGraph.prototype.updateLinkLabels = function(source) {
 	linkLabelHtmlUpdate.select("span")
 			.html(function(d) {
 				var edge = that.mapStructure.getEdge(d.source.id, d.target.id); //TODO: replace with added kEdge 
-				return that.knalledgeMapViewService.config.edges.showNames ? edge.kEdge.name : "";
+				return that.knalledgeMapViewService.provider.config.edges.showNames ? edge.kEdge.name : "";
 			});
 
 	if(this.configTransitions.update.animate.position){
