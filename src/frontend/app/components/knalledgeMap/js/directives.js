@@ -15,10 +15,16 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		KnAllEdgeRealTimeService, KnAllEdgeSelectItemService, KnalledgeMapPolicyService,
 		CollaboPluginsService, SyncingService){
 
+		// getting services dinamicaly by injecting
+		// TODO: here we can inject config object/service
+		// that will pull/provide services across the system
+		// depending on available (which is configurabe) components/plugins
+		// and services
 		var RimaService = $injector.get('RimaService');
 		var IbisTypesService = $injector.get('IbisTypesService');
 		var NotifyService = $injector.get('NotifyService');
 		var NotifyNodeService = $injector.get('NotifyNodeService');
+		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -215,14 +221,14 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 						toggleModerator: function(){
 							$scope.$apply(function () {
-								KnalledgeMapPolicyService.config.moderating.enabled = !KnalledgeMapPolicyService.config.moderating.enabled;
+								knalledgeMapPolicyService.provider.config.moderating.enabled = !knalledgeMapPolicyService.provider.config.moderating.enabled;
 							});
 						},
 
 						togglePresenter: function(){
 							$scope.$apply(function () {
-								if(KnalledgeMapPolicyService.config.moderating.enabled){
-									KnalledgeMapPolicyService.config.broadcasting.enabled = !KnalledgeMapPolicyService.config.broadcasting.enabled;
+								if(knalledgeMapPolicyService.provider.config.moderating.enabled){
+									knalledgeMapPolicyService.provider.config.broadcasting.enabled = !knalledgeMapPolicyService.provider.config.broadcasting.enabled;
 								}
 							});
 						},
@@ -395,7 +401,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					});
 
 					var viewspecChangedEventName = "viewspecChangedEvent";
-					$scope.$on(viewspecChangedEventName, function(e, newViewspec) {
+					GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', function(newViewspec) {
 						console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
 						console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
 						config.tree.viewspec = newViewspec;
@@ -407,7 +413,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					});
 
 					var mapStylingChangedEventName = "mapStylingChangedEvent";
-					$scope.$on(mapStylingChangedEventName, function(e, msg) {
+					GlobalEmitterServicesArray.get(mapStylingChangedEventName).subscribe('knalledgeMap', function(msg) {
 						setData(model);
 						console.log("[knalledgeMap.controller::$on] event: %s", mapStylingChangedEventName);
 						knalledgeMap.update();
@@ -422,16 +428,16 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						var realTimeMapStylingChanged = function(eventName, msg){
 							switch(msg.path){
 								case 'config.nodes.showImages':
-									KnalledgeMapViewService.config.nodes.showImages = msg.value;
+									knalledgeMapViewService.provider.config.nodes.showImages = msg.value;
 									break;
 								case 'config.nodes.showTypes':
-									KnalledgeMapViewService.config.nodes.showTypes = msg.value;
+									knalledgeMapViewService.provider.config.nodes.showTypes = msg.value;
 									break;
 								case 'config.edges.showNames':
-									KnalledgeMapViewService.config.edges.showNames = msg.value;
+									knalledgeMapViewService.provider.config.edges.showNames = msg.value;
 									break;
 								case 'config.edges.showTypes':
-									KnalledgeMapViewService.config.edges.showTypes = msg.value;
+									knalledgeMapViewService.provider.config.edges.showTypes = msg.value;
 									break;
 							}
 							knalledgeMap.update();
@@ -454,7 +460,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					}
 
 					var syncingChangedEventName = "syncingChangedEvent"
-					$scope.$on(syncingChangedEventName, function(e) {
+					GlobalEmitterServicesArray.get(syncingChangedEventName).subscribe('knalledgeMap', function() {
 						console.log("[knalledgeMap.controller::$on] event: %s", syncingChangedEventName);
 						knalledgeMap.syncingChanged();
 					});
@@ -479,49 +485,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
 						if(knalledgeMap) knalledgeMap.update();
 					}, true);
-				};
-			}
-    	};
-	}])
-	.directive('knalledgeMapTools', ["$timeout", '$rootScope', 'KnalledgeMapViewService' , 'KnalledgeMapPolicyService', function($timeout, $rootScope, KnalledgeMapViewService, KnalledgeMapPolicyService){
-		console.log("[knalledgeMapTools] loading directive");
-		return {
-			restrict: 'AE',
-			scope: {
-				'readonly': '='
-			},
-			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
-			// expression: http://docs.angularjs.org/guide/expression
-			templateUrl: 'components/knalledgeMap/partials/knalledgeMap-tools.tpl.html',
-			controller: function ( $scope, $element) {
-				$scope.bindings = {
-					viewspec: 'viewspec_manual'
-				};
-
-				$scope.config = KnalledgeMapViewService.config;
-				$scope.policyConfig = KnalledgeMapPolicyService.config;
-				$scope.configChanged = function(path, value){
-					// alert(path + ":" + value);
-					var mapStylingChangedEventName = "mapStylingChangedEvent";
-					var msg = {
-						path: path,
-						value: value
-					};
-					$rootScope.$broadcast(mapStylingChangedEventName, msg);
-				};
-
-				$scope.viewspecChanged = function(viewSpec){
-					// alert(viewSpec);
-					console.log("[knalledgeMapTools] viewspec: %s", $scope.bindings.viewspec);
-					var viewspecChangedEventName = "viewspecChangedEvent";
-					//console.log("result:" + JSON.stringify(result));
-					$rootScope.$broadcast(viewspecChangedEventName, $scope.bindings.viewspec);
-				};
-
-				$scope.syncingChanged = function(){
-					var syncingChangedEventName = "syncingChangedEvent";
-					//console.log("result:" + JSON.stringify(result));
-					$rootScope.$broadcast(syncingChangedEventName);
 				};
 			}
     	};
@@ -767,8 +730,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
     	};
 	}])
 
-	.directive('ibisTypesList', ["$rootScope", "$timeout", "$location", "IbisTypesService",
-		function($rootScope, $timeout, $location, IbisTypesService){
+	.directive('ibisTypesList', ["$rootScope", "$timeout"/*, "$location"*/, "IbisTypesService",
+		function($rootScope, $timeout/*, $location*/, IbisTypesService){
 		console.log("[ibisTypesList] loading directive");
 		return {
 			restrict: 'AE',

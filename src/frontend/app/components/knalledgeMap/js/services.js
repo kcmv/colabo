@@ -1260,7 +1260,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				// 	return provider.edgesById;
 				// }
 				nodesById: provider.nodesById,
-				edgesById: provider.edgesById				
+				edgesById: provider.edgesById
 			}
 		});
 		// this.collaboPluginsService.provideApi("map", {
@@ -1794,10 +1794,12 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 
 
 
+/*
+Migrated into separate TypeScript service class: KnalledgeMapViewService
 knalledgeMapServices.provider('KnalledgeMapViewService', {
 	// privateData: "privatno",
-	$get: [/*'$q', 'ENV', '$rootScope', */
-	function(/*$q , ENV, $rootScope*/) {
+	$get: [
+	function() {
 
 				// var that = this;
 		var provider = {
@@ -1819,11 +1821,14 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 		return provider;
 	}]
 });
+*/
 
+/*
+Migrated into separate TypeScript service class: KnalledgeMapPolicyService
 knalledgeMapServices.provider('KnalledgeMapPolicyService', {
 	// privateData: "privatno",
-	$get: [/*'$q', 'ENV', '$rootScope', */
-	function(/*$q , ENV, $rootScope*/) {
+	$get: [
+	function() {
 
 				// var that = this;
 		var provider = {
@@ -1840,6 +1845,7 @@ knalledgeMapServices.provider('KnalledgeMapPolicyService', {
 		return provider;
 	}]
 });
+ */
 
 knalledgeMapServices.provider('IbisTypesService', {
 	// privateData: "privatno",
@@ -2058,7 +2064,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 
 			emit: function(eventName, msg){
 				// TODO
-				if(!KnalledgeMapPolicyService.config.broadcasting.enabled) return;
+				if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled) return;
 				console.log('[KnAllEdgeRealTimeService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));
 				var knPackage = {
 					eventName: eventName,

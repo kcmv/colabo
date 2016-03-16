@@ -23,8 +23,8 @@ $large: 1400px;
     box-sizing: border-box;
     width: 16.66667%;
     float: left;
-    padding-left: 0.83333%;
-    padding-right: 0.83333%; }
+    padding-left: 0.46296%;
+    padding-right: 0.46296%; }
 
   .knalledge_map_middle {
     -moz-box-sizing: border-box;
@@ -32,8 +32,8 @@ $large: 1400px;
     box-sizing: border-box;
     width: 83.33333%;
     float: right;
-    padding-left: 0.83333%;
-    padding-right: 0.83333%; }
+    padding-left: 0.46296%;
+    padding-right: 0.46296%; }
 
   .knalledge_map_list {
     /*@include span(3 at 1); */ } }
@@ -44,8 +44,8 @@ $large: 1400px;
     box-sizing: border-box;
     width: 8.33333%;
     float: left;
-    padding-left: 0.83333%;
-    padding-right: 0.83333%; }
+    padding-left: 0.46296%;
+    padding-right: 0.46296%; }
 
   .knalledge_map_middle {
     -moz-box-sizing: border-box;
@@ -53,8 +53,8 @@ $large: 1400px;
     box-sizing: border-box;
     width: 75%;
     float: left;
-    padding-left: 0.83333%;
-    padding-right: 0.83333%; }
+    padding-left: 0.46296%;
+    padding-right: 0.46296%; }
 
   .knalledge_map_list {
     -moz-box-sizing: border-box;
@@ -62,8 +62,8 @@ $large: 1400px;
     box-sizing: border-box;
     width: 16.66667%;
     float: left;
-    padding-left: 0.83333%;
-    padding-right: 0.83333%; } }
+    padding-left: 0.46296%;
+    padding-right: 0.46296%; } }
 @media (min-width: 705px) {
   .knalledge_map_tools {
     height: 100%;
@@ -81,8 +81,8 @@ $large: 1400px;
     box-sizing: border-box;
     width: 8.33333%;
     float: left;
-    padding-left: 0.83333%;
-    padding-right: 0.83333%; }
+    padding-left: 0.46296%;
+    padding-right: 0.46296%; }
 
   .knalledge_map_middle {
     height: 100%;
@@ -93,8 +93,8 @@ $large: 1400px;
     box-sizing: border-box;
     width: 75%;
     float: left;
-    padding-left: 0.83333%;
-    padding-right: 0.83333%; }
+    padding-left: 0.46296%;
+    padding-right: 0.46296%; }
 
   .knalledge_map {
     height: 100%;
@@ -114,8 +114,12 @@ $large: 1400px;
     box-sizing: border-box;
     width: 16.66667%;
     float: left;
-    padding-left: 0.83333%;
-    padding-right: 0.83333%; } }
+    padding-left: 0.46296%;
+    padding-right: 0.46296%; } }
+/* @if */
+.main-column {
+  height: 100%; }
+
 .knalledge_map_index {
   position: relative;
   height: 100%;
@@ -144,11 +148,11 @@ $large: 1400px;
       .knalledge_map_index .logo_background h1 .title_web {
         color: #333333;
         font-size: 50px; }
-      .knalledge_map_index .logo_background h1 .title_kn {
-        color: #555555; }
-      .knalledge_map_index .logo_background h1 .title_all {
-        color: #000055; }
-      .knalledge_map_index .logo_background h1 .title_edge {
+      .knalledge_map_index .logo_background h1 .title_collabo {
+        color: #000055;
+        font-style: italic;
+        margin-left: 10px; }
+      .knalledge_map_index .logo_background h1 .title_science {
         color: #880000; }
     .knalledge_map_index .logo_background h2 {
       padding-top: 0px;
@@ -160,20 +164,26 @@ $large: 1400px;
       .knalledge_map_index .logo_background h2 .title_web {
         color: #333333;
         font-size: 30px; }
-      .knalledge_map_index .logo_background h2 .title_collabo {
-        color: #000055;
-        font-style: italic;
-        margin-left: 50px; }
-      .knalledge_map_index .logo_background h2 .title_science {
+      .knalledge_map_index .logo_background h2 .title_kn {
+        color: #555555; }
+      .knalledge_map_index .logo_background h2 .title_all {
+        color: #000055; }
+      .knalledge_map_index .logo_background h2 .title_edge {
         color: #880000; }
 
 /* ------------------------
  knalledge_map_tools
 ------------------------ */
 .knalledge_map_tools {
+  padding: 5px;
   z-index: 10;
   position: relative;
   height: 100%; }
+  .knalledge_map_tools h4 {
+    border-bottom: 1px solid #660000;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    padding-bottom: 3px; }
   .knalledge_map_tools .titles {
     z-index: 1000;
     position: absolute;
@@ -190,10 +200,12 @@ $large: 1400px;
     margin-top: 10px;
     margin-left: 3px; }
   .knalledge_map_tools .controlls {
+    margin: 10px;
     margin-top: 100px; }
   .knalledge_map_tools h1 {
     font-size: 30px;
     border-bottom: solid 1px #aaaaaa;
+    text-align: center;
     padding-bottom: 0px;
     margin-bottom: 0px;
     padding-top: 0px;
@@ -201,24 +213,25 @@ $large: 1400px;
     .knalledge_map_tools h1 .title_web {
       color: #333333;
       font-size: 15px; }
-    .knalledge_map_tools h1 .title_kn {
-      color: #555555; }
-    .knalledge_map_tools h1 .title_all {
-      color: #000055; }
-    .knalledge_map_tools h1 .title_edge {
+    .knalledge_map_tools h1 .title_collabo {
+      color: #000055;
+      font-style: italic; }
+    .knalledge_map_tools h1 .title_science {
       color: #880000; }
   .knalledge_map_tools h2 {
     padding-top: 0px;
     margin-top: 0px;
     font-size: 20px;
+    text-align: center;
     /*border-bottom: solid 1px #aaaaaa;*/ }
     .knalledge_map_tools h2 .title_web {
       color: #222222;
       font-size: 15px; }
-    .knalledge_map_tools h2 .title_collabo {
-      color: #000055;
-      font-style: italic; }
-    .knalledge_map_tools h2 .title_science {
+    .knalledge_map_tools h2 .title_kn {
+      color: #555555; }
+    .knalledge_map_tools h2 .title_all {
+      color: #000055; }
+    .knalledge_map_tools h2 .title_edge {
       color: #880000; }
   .knalledge_map_tools ul {
     /* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
@@ -1055,6 +1068,7 @@ Knalledge Maps
   padding: 5px;
   margin: 3px;
   border: 1px solid #888888;
-  background-color: #cccccc; }
+  background-color: #cccccc;
+  text-align: center; }
 
 /*# sourceMappingURL=default.css.map */
