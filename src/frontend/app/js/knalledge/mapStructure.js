@@ -169,7 +169,7 @@ MapStructure.prototype.setVisibility = function(){
 	}
 
 	//calling functions for all the types of visibility:
-	this.setVisibilityByDistance(this.selectedNode, this.knalledgeMapViewService.config.filtering.displayDistance);
+	this.setVisibilityByDistance(this.selectedNode, this.knalledgeMapViewService.provider.config.filtering.displayDistance);
 	//setVisibilityByAuthor();
 	//..
 
