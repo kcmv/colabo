@@ -790,6 +790,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
 				    IbisTypesService.selectActiveType	(item);
 				};
+				$scope.switchClicked = function($el){
+					var elSwitch = $element.find('.content');
+					$(elSwitch).slideToggle();
+					// console.log("Switching: ", $el);
+				}
     		}
     	};
 	}])

@@ -6,6 +6,15 @@
  bootstrap wizard
 ------------------------ */
 
+.switch{
+	cursor: pointer;
+}
+.title{
+	padding-bottom: 3px;
+	border-bottom: 1px solid black;
+	margin-bottom: 7px;
+}
+
 .wizard-main{
 	position: relative;
 	.rima_logo{

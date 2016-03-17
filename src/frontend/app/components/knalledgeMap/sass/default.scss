@@ -1,6 +1,15 @@
 /*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
 @import "../../../sass/include";
 
+.switch{
+	cursor: pointer;
+}
+.title{
+	padding-bottom: 3px;
+	border-bottom: 1px solid black;
+	margin-bottom: 7px;
+}
+
 $color_tool_border: gray;
 
 $provideLayout: 'show';

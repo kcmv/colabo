@@ -19,6 +19,14 @@ $large: 1400px;
 /* ------------------------
  bootstrap wizard
 ------------------------ */
+.switch {
+  cursor: pointer; }
+
+.title {
+  padding-bottom: 3px;
+  border-bottom: 1px solid black;
+  margin-bottom: 7px; }
+
 .wizard-main {
   position: relative; }
   .wizard-main .rima_logo {
@@ -37,10 +45,6 @@ wizard {
   wizard ng-form {
     height: 100%;
     overflow: scroll; }
-  .strong   { background-color: #060; border-color: #0F0;}
-  .medium   { background-color: #C60; border-color: #FC0;}
-  .weak     { background-color: #900; border-color: #F00;}
-  .strength { padding: 1px 10px; border: 2px solid; color: #FFF;}
 
 /* ------------------------
  bootstrap tooltips

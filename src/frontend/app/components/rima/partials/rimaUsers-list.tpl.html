@@ -1,12 +1,13 @@
-<B>RIMA</B> users
+<span class="title switch" ng-click="switchClicked($item)"><b>RIMA</b> users</span><br/>
+<div class="content">
+	<div class="btn-group">
+		<label class="btn btn-primary" ng-model="config.showUsers" btn-checkbox ng-change="configChanged()">Show Users</label>
+	</div>
 
-<div class="btn-group">
-	<label class="btn btn-primary" ng-model="config.showUsers" btn-checkbox ng-change="configChanged()">Show Users</label>
+	<table class="list">
+		<tr ng-click="selectItem(item)" ng-repeat="item in items | definedDisplayNames | orderBy:'displayName'" data-ng-class="{row: true, 'active-selection': item._id == selectedItem._id}">
+			<td>{{item.displayName}}</td>
+		</tr>
+
+	</table>
 </div>
-
-<table class="list">
-	<tr ng-click="selectItem(item)" ng-repeat="item in items | definedDisplayNames | orderBy:'displayName'" data-ng-class="{row: true, 'active-selection': item._id == selectedItem._id}">
-		<td>{{item.displayName}}</td>
-	</tr>
-
-</table>

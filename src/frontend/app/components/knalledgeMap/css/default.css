@@ -16,6 +16,14 @@ $large: 1400px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+.switch {
+  cursor: pointer; }
+
+.title {
+  padding-bottom: 3px;
+  border-bottom: 1px solid black;
+  margin-bottom: 7px; }
+
 @media (min-width: 680px) {
   .knalledge_map_tools {
     -moz-box-sizing: border-box;
