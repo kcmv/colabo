@@ -702,6 +702,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.showCreateNewMap = function(){
 					console.log("showCreateNewMap");
 					$scope.mapToCreate = new knalledge.KMap();
+					$scope.mapToCreate.participants = RimaService.getActiveUserId();
 					$scope.modeCreating = true;
 				};
 

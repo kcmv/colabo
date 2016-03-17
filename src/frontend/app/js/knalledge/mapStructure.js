@@ -56,7 +56,7 @@ MapStructure.prototype.unsetSelectedNode = function(){
 
 MapStructure.prototype.setSelectedNode = function(selectedNode){
 	this.selectedNode = selectedNode;
-	this.setVisibilityByDistance(selectedNode, 	this.knalledgeMapViewService.config.filtering.displayDistance);
+	this.setVisibility(); //TODO: should be called only setVisibilityByDistance(), but we would have problem in finding visibleAsAncestors if not calculating for all
 //	try {
 //		throw new Error('DebugStack');
 //	}
@@ -153,20 +153,44 @@ MapStructure.prototype.getNeighbours = function(sourceNode){
 	return neighbours;
 }
 
+MapStructure.prototype.isNodeVisible = function(node){
+	 return this.isNodeVisibleWOAncestory(node) || node.presentation.visibleAsAncestor;
+}
+
+MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
+	 return node.presentation.visibleByDistance;
+	 	//TODO: ADD for isPublic, but MIGRATE TO mapStructure FUNC CALL (vkNode.kNode.isPublic || vkNode.kNode.iAmId == this.rimaService.getActiveUserId())
+}
+
 MapStructure.prototype.setVisibility = function(){
 	//hiding all nodes:
 	for(var j in this.nodesById){
-		this.nodesById[j].presentation.visibleDistance = false;
+		this.nodesById[j].presentation.visibleAsAncestor = false;
 	}
-	var ancestors = this.getAncestorsPath(sourceNode);
+
+	//calling functions for all the types of visibility:
+	this.setVisibilityByDistance(this.selectedNode, this.knalledgeMapViewService.config.filtering.displayDistance);
+	//setVisibilityByAuthor();
+	//..
+
+	for(var j in this.nodesById){ //TODO: this should be improved so that some nodes that are already covered are not treated again:
+		var node = this.nodesById[j];
+		if(this.isNodeVisibleWOAncestory(node)){
+			this.setAncestorsVisibile(node);
+		}
+	}
+}
+
+MapStructure.prototype.setAncestorsVisibile = function(node){
+	var ancestors = this.getAncestorsPath(node);
 	for(var j in ancestors){
-		ancestors[j].presentation.visibleDistance = true;
+		ancestors[j].presentation.visibleAsAncestor = true;
 	}
 	console.log('setVisibility - getAncestorsPath: ' + getNodesNames(ancestors));
 }
 
 MapStructure.prototype.setVisibilityByAuthor = function(sourceNode, distance){
-	
+
 }
 
 /*
@@ -176,17 +200,17 @@ MapStructure.prototype.setVisibilityByDistance = function(sourceNode, distance){
 	if(sourceNode!=null){
 		//console.log('setVisibilityByDistance(sourceNode, distance): ' + sourceNode.kNode.name + ', ' + distance);
 		if(distance != -1){ //all should be visible
-			var visibleNodes = this.getNeghboursInDistance(sourceNode, distance);
 			for(var j in this.nodesById){
-				this.nodesById[j].presentation.visibleDistance = true;
+				this.nodesById[j].presentation.visibleByDistance = false;
+			}
+			var visibleNodes = this.getNeghboursInDistance(sourceNode, distance);
+			for(var j in visibleNodes){
+				visibleNodes[j].presentation.visibleByDistance = true;
 			}
 		}
 		else{
-
-
-
-			for(var j in visibleNodes){
-				visibleNodes[j].presentation.visibleDistance = true;
+			for(var j in this.nodesById){
+				this.nodesById[j].presentation.visibleByDistance = true;
 			}
 		}
 	}
@@ -385,6 +409,11 @@ MapStructure.prototype.createEdgeBetweenNodes = function(sourceNode, targetNode,
 
 	this.edgesById[newVKEdge.id] = newVKEdge;
 	return newVKEdge;
+};
+
+MapStructure.prototype.relinkNode = function(sourceNode, newParent, callback) {
+	if(!this.mapService) return null;
+	this.mapService.relinkNode(sourceNode.kNode, newParent.kNode, callback);
 };
 
 MapStructure.prototype.createNodeWithEdge = function(sourceVKNode, vkEdge, targetVKNode, callback) {

@@ -3,6 +3,7 @@
 
 var State =  knalledge.State = function(/*storageApi*/){
 	this.addingLinkFrom = null;
+	this.relinkingFrom = null;
 };
 
 State.prototype.init = function(){

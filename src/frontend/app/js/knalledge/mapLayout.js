@@ -188,10 +188,22 @@ MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleU
 		}
 
 		this.clientApi.positionToDatum(d);
+
 		if(this.knalledgeState.addingLinkFrom !== null){
 			this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d);
 			this.knalledgeState.addingLinkFrom = null;
+			//TODO: UPDATE SHOUL BE CALLED IN THE CALLBACK
 			this.clientApi.update(this.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.createEdge?
+		}
+
+		if(this.knalledgeState.relinkingFrom !== null){
+			var that = this;
+			this.mapStructure.relinkNode(this.knalledgeState.relinkingFrom, d, function(result, error){
+				that.knalledgeState.relinkingFrom = null;
+				d.isOpen = true;
+				that.clientApi.update(that.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.relinkNode?
+			}
+			);
 		}
 	}
 	if(!doNotBubleUp) this.clientApi.nodeClicked(this.mapStructure.getSelectedNode(), dom, commingFromAngular);

@@ -15,7 +15,8 @@ var VKNode =  knalledge.VKNode = function(){
 	this.createdAt = null; //when the object is created
 	this.updatedAt = null; //when the obect is updated
 	this.presentation = {}; //containing all the parameters that define is and how the node presented regarding filtering, depth of view, etc
-	this.presentation.visibleDistance = true;
+	this.presentation.visibleByDistance = true;
+	this.presentation.visibleAsAncestor = true; //visibile because it is on root to some of visible nodes
 	//TODO: some properties are not shown here, but are explained and used in the function "fill" below
 };
 

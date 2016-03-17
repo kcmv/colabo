@@ -583,14 +583,36 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 		return kEdge;
 	};
 
-	resource.update = function(kEdge, callback)
+	resource.update = function(kEdge, updateType, callback)
 	{
+		//console.log('update edge: ' + this.getNodeById(kEdge.sourceId).name + ' -> ' + this.getNodeById(kEdge.targetId));
 		if(kEdge.state == knalledge.KEdge.STATE_LOCAL){//TODO: fix it by going throgh queue
 			window.alert("Please, wait while entity is being saved, before updating it:\n"+kEdge.name);
 			return null;
 		}
-		//TODO: check the name of param: id or ObjectId or _id?
-		return this.updatePlain({searchParam:kEdge._id, type:'one'}, kEdge, callback);
+
+		var id = kEdge._id;
+		var kEdgeForServer = kEdge.toServerCopy();
+		if(QUEUE && false){
+			KnalledgeMapQueue.execute({data: kEdge, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"});
+			return this.updatePlain({searchParam:id, type:'one'}, kEdgeForServer, function(edgeFromServer){
+				// realtime distribution
+				if(KnAllEdgeRealTimeService){
+					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, edgeFromServer);
+				}
+				callback(true);
+			});
+
+		}
+		else{
+			return this.updatePlain({searchParam:id, type:'one'}, kEdgeForServer, function(edgeFromServer){
+				// realtime distribution
+				if(KnAllEdgeRealTimeService){
+					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, edgeFromServer);
+				}
+				callback(true);
+			});
+		}
 	};
 
 	resource.destroy = function(id, callback)
@@ -984,9 +1006,20 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				return result;
 			},
 
-			relinkEdgeSource: function (kEdge, kNode, callback) {
-				kEdge.sourceId = kNode._id;
-				this.updateEdge(kEdge, "UPDATE_RELINK_EDGE", callback);
+			relinkNode: function (relinkingNode, newParent, callback) {
+				var parents = this.getParentNodes(relinkingNode);
+				var parentId = parents[0]._id; //TODO: by this we are always relinking first parent (when we wil have more parents, this wil need to be resSendJsonProtected)
+				var relinkingEdge = this.getEdge(parentId, relinkingNode._id);
+				if(relinkingEdge){
+					relinkingEdge.sourceId = newParent._id;
+					this.updateEdge(relinkingEdge, "UPDATE_RELINK_EDGE", function(success, error){
+						callback(success, error);
+					});
+				}
+				else{
+					callback(false,'NO_EDGE');
+				}
+
 			},
 
 			createEdge: function(kEdge, callback) {
@@ -1814,7 +1847,7 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 					showTypes: true
 				},
 				filtering: {
-					displayDistance	: 2,
+					displayDistance	: 3,
 					byAuthor: [] //array of iAmId. An empty means to see for all authors
 				}
 			}

@@ -434,9 +434,13 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 
 	// Relink the node:
+	// PreAction: select the node to relink
+	// PostAction: select new parent node
+	//TODO: this UI will not work when we will have more parents of node!
 	KeyboardJS.on("ctrl + k", function(){
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
-		this.relinkNode(type, type);
+		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
+		this.clientApi.knalledgeState.relinkingFrom = this.clientApi.getSelectedNode();
 	}.bind(this), function(){}.bind(this));
 
 	// Delete node:
