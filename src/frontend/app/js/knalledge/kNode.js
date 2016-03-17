@@ -18,6 +18,9 @@ var KNode =  knalledge.KNode = function(){
 	this.updatedAt = null; //when the obect is updated
 	// this.dataContent = null; //additional data is stored in this object
 
+	this.decorations = {
+
+	};
 	// next higher level of abstraction
 	this.up = {
 	/*
@@ -65,6 +68,10 @@ KNode.nodeFactory = function(obj){
 	return kNode;
 };
 
+KNode.prototype.isIbis = function(){
+	return this.type == KNode.TYPE_IBIS_QUESTION || this.type == KNode.TYPE_IBIS_IDEA || this.type == KNode.TYPE_IBIS_ARGUMENT || this.type == KNode.TYPE_IBIS_COMMENT;
+}
+
 KNode.prototype.fill = function(obj){
 	if(obj){
 		if("_id" in obj){this._id = obj._id;}
@@ -79,6 +86,7 @@ KNode.prototype.fill = function(obj){
 		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
 		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 		if("dataContent" in obj){this.dataContent = obj.dataContent;} //TODO: deep copy?
+		if("decorations" in obj){this.decorations = obj.decorations;} //TODO: deep copy?
 		if("visual" in obj){
 			if(!('visual' in this)) this.visual = {};
 

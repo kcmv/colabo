@@ -158,7 +158,7 @@ Keyboard.prototype.exitEditingNode = function(){
 		nodeSpan.node().blur();
 		this.editingNodeHtml = null;
 		this.clientApi.update(this.clientApi.getSelectedNode(), function(){
-			// that.clientApi.setSelectedNode(null); //TODO: set to parent
+			// that.clientApi.selectNode(null); //TODO: set to parent
 		});
 	}
 };
@@ -377,7 +377,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 			}
 
 			that.clientApi.update(parentNode, function(){
-				that.clientApi.setSelectedNode(newNode); // TODO: that is not defined?
+				that.clientApi.selectNode(newNode); // TODO: that is not defined?
 				that.clientApi.clickNode(newNode);
 				that.clientApi.update(parentNode, function(){
 					that.setEditing(newNode);
@@ -398,7 +398,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 		// 	}
 
 		// 	that.clientApi.update(that.clientApi.getSelectedNode(), function(){
-		// 		that.clientApi.setSelectedNode(newNode);//TODO: that is not defined?
+		// 		that.clientApi.selectNode(newNode);//TODO: that is not defined?
 		// 		that.setEditing(newNode);
 		// 	});
 		// });
@@ -459,7 +459,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 			}
 
 			this.clientApi.update(this.clientApi.getSelectedNode(), function(){
-				// that.clientApi.setSelectedNode(null); //TODO: set to parent
+				// that.clientApi.selectNode(null); //TODO: set to parent
 			});
 		//}
 	}.bind(this), function(){}.bind(this));

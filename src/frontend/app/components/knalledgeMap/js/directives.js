@@ -312,7 +312,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						config, kMapClientInterface, null,
 							// if $scope.mapData is set, we do not use KnalledgeMapVOsService.mapStructure but let knalledge.Map to create a new mapStructure and build VKs from Ks
 							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, $scope.mapData ? null : KnalledgeMapVOsService.mapStructure,
-							CollaboPluginsService, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService);
+							CollaboPluginsService, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService, KnalledgeMapPolicyService);
 					knalledgeMap.init();
 
 					// providing select item service with the context

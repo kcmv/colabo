@@ -9,11 +9,12 @@ it is used as a prerequisite for the map visualization
 @constructor
 */
 
-var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService){
+var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService){
 	this.rootNode = null;
 	this.selectedNode = null;
 	this.mapService = null;
 	this.knalledgeMapViewService = knalledgeMapViewService;
+	this.knalledgeMapPolicyService = knalledgeMapPolicyService;
 	this.nodesById = {}; //VkNode
 	this.edgesById = {}; //VkEdge
 	this.properties = {};
@@ -154,12 +155,33 @@ MapStructure.prototype.getNeighbours = function(sourceNode){
 }
 
 MapStructure.prototype.isNodeVisible = function(node){
-	 return this.isNodeVisibleWOAncestory(node) || node.presentation.visibleAsAncestor;
+	 var result =
+	 this.isNodeVisibleWOAncestory(node) ||
+	 node.presentation.visibleAsAncestor;
+	 return result;
 }
 
 MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
-	 return node.presentation.visibleByDistance;
-	 	//TODO: ADD for isPublic, but MIGRATE TO mapStructure FUNC CALL (vkNode.kNode.isPublic || vkNode.kNode.iAmId == this.rimaService.getActiveUserId())
+	var visibleIBIS = true;
+	if(node.kNode.isIbis()){
+		var parents = this.getParentNodes(node);
+		var parentIsKn = false;
+		for(var i=0;i<parents.length;i++){
+			if(parents[0].kNode.type == knalledge.KNode.TYPE_KNOWLEDGE){
+				parentIsKn = true;
+			}
+		}
+		visibleIBIS = this.knalledgeMapViewService.provider.config.filtering.visbileTypes.ibis || parentIsKn;
+	}
+
+	var visibleBrainstorming = true;
+	if(node.kNode.decorations.brainstorming>=1 && this.knalledgeMapPolicyService.provider.config.behaviour.brainstorming == 1 && node.kNode.iAmId != this.rimaService.getActiveUserId()){ // brainstorming node && behaviour brainstorming
+		visibleBrainstorming = false;
+	}
+
+	var result = node.presentation.visibleByDistance && visibleIBIS && visibleBrainstorming;
+ 	//TODO: ADD for isPublic, but MIGRATE TO mapStructure FUNC CALL (vkNode.kNode.isPublic || vkNode.kNode.iAmId == this.rimaService.getActiveUserId())
+	return result;
 }
 
 MapStructure.prototype.setVisibility = function(){
@@ -382,6 +404,7 @@ MapStructure.prototype.createNode = function(vkNode, nodeType) {
 	if(!newVKNode.kNode) newVKNode.kNode = new knalledge.KNode();
 	newVKNode.kNode.iAmId = this.rimaService.getActiveUserId();
 
+	newVKNode = this.nodeDecoration(newVKNode);
 	newVKNode.kNode = this.mapService.createNode(newVKNode.kNode, nodeType);
 	newVKNode.kNode.$promise.then(function(nodeCreated){
 		//console.log("MapStructure.prototype.createNode - promised");
@@ -390,6 +413,12 @@ MapStructure.prototype.createNode = function(vkNode, nodeType) {
 	return newVKNode;
 };
 
+MapStructure.prototype.nodeDecoration = function(node) {
+	if(this.knalledgeMapPolicyService.provider.config.behaviour.brainstorming >= 1){//we are in Brainstorming mode:
+		node.kNode.decorations.brainstorming = this.knalledgeMapPolicyService.provider.config.behaviour.brainstorming;
+	}
+	return node;
+};
 
 MapStructure.prototype.createEdge = function(vkEdge, callback) {
 	if(!this.mapService) return null;
