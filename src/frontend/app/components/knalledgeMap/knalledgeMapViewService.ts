@@ -18,7 +18,7 @@ export class KnalledgeMapViewService {
                 // name: "collabo_business"
             },
             filtering: {
-                displayDistance	: 2,
+                displayDistance	: -1,
                 byAuthor: [] //array of iAmId. An empty means to see for all authors
             }
         }
