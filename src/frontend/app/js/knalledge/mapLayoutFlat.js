@@ -140,7 +140,7 @@ MapLayoutFlat.prototype.clickNode = function(d, dom, commingFromAngular) {
 			"node_unselected": false
 		});
 		d.isSelected = true;
-		this.structure.setSelectedNode(d);
+		this.structure.setSelectedNode(d); //TODO:migrate to Map.selectNode();
 		this.clientApi.positionToDatum(d);
 		if(this.knalledgeState.addingLinkFrom !== null){
 			this.structure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d);
@@ -177,19 +177,19 @@ MapLayoutFlat.prototype.viewspecChanged = function(target){
 };
 
 MapLayoutFlat.prototype.processData = function(rootNodeX, rootNodeY, callback) {
-	if(typeof rootNodeX !== 'undefined' && typeof rootNodeX !== 'function' && 
+	if(typeof rootNodeX !== 'undefined' && typeof rootNodeX !== 'function' &&
 		typeof rootNodeY !== 'undefined' && typeof rootNodeY !== 'function'){
 		this.structure.rootNode.x0 = rootNodeX;
 		this.structure.rootNode.y0 = rootNodeY;
 	}
 	this.clickNode(this.structure.rootNode);
-	this.clientApi.update(this.structure.rootNode, 
+	this.clientApi.update(this.structure.rootNode,
 		(typeof callback === 'function') ? callback : undefined);
 };
 
 MapLayoutFlat.prototype.processSyncedData = function(callback) {
 	this.clickNode(this.structure.getSelectedNode());
-	this.clientApi.update(this.structure.getSelectedNode(), 
+	this.clientApi.update(this.structure.getSelectedNode(),
 		(typeof callback === 'function') ? callback : undefined);
 };
 
@@ -219,7 +219,7 @@ MapLayoutFlat.prototype.generateTree = function(source){
 	// Compute the new tree layout.
 	this.nodes = this.tree.nodes(source).reverse();
 	this.links = this.tree.links(this.nodes);
-	
+
 	//links are D3.tree-generated objects of type Object: {source, target}
 	for(var i in this.links){
 		var link = this.links[i];

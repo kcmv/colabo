@@ -3,7 +3,7 @@
 	<md-icon md-svg-icon="menu"></md-icon>
 </md-button> -->
 
-<div template="ngIf:viewConfig.type.name =='collabo_science'" class="titles">
+<!--<div template="ngIf:viewConfig.type.name =='collabo_science'" class="titles">
 	<h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Science</span><span class="title_web">.com</span></h1>
 	<h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
 </div>
@@ -13,11 +13,16 @@
 	<h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
 </div>
 
+<div template="ngIf:viewConfig.type.name =='collabo_framework'" class="titles">
+	<h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Science</span><span class="title_web">.com</span></h1>
+	<h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
+</div>
+
 <div template="ngIf:viewConfig.type.name =='collabo_business'" class="titles">
 	<h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Business</span><span class="title_web">.com</span></h1>
 	<h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
 </div>
-
+-->
 <div class="controlls">
 	<p>
 		<a href="#/maps">Maps</a>
@@ -63,7 +68,57 @@
 		<md-switch class="md-primary" aria-label="Edge Types" [(checked)]="viewConfig.edges.showNames"
 		(checkedChange)="viewConfigChanged('viewConfig.edges.showNames', viewConfig.edges.showNames)"
 		>Edge Types</md-switch>
+
+		<md-switch class="md-primary" aria-label="Limit range" [(checked)]="visualization.limitedRange"
+		(checkedChange)="limitDisplayChanged('visualization.limitedRange', visualization.limitedRange)"
+		>Limit range</md-switch>
+
+		<!-- <select [(value)]=“viewConfig.filtering.displayDistance”>
+        <option [value]="'1'">1</option>
+				<option [value]="'2'">2</option>
+				<option [value]="'3'">3</option>
+				<option [value]="'4'">4</option>
+				<option [value]="'5'">5</option>
+				<option [value]="'10'">10</option>
+				<option [value]="'15'">15</option>
+		</select> -->
 	</div>
+
+	<h4>Filtering:</h4>
+	<div class="btn-group">
+		<!-- <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
+			{{user.name}}
+		</button> -->
+
+		<!-- <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_manual'" (click)="viewspecChanged('viewspec_manual')">M</label>
+		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_tree'" (click)="viewspecChanged('viewspec_tree')">T</label>
+		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_flat'" (click)="viewspecChanged('viewspec_flat')">F</label> -->
+	</div>
+
+	<div class="btn-group">
+		<md-switch class="md-primary" aria-label="show IBIS" [(checked)]="viewConfig.filtering.visbileTypes.ibis"
+		(checkedChange)="viewConfigChanged('viewConfig.filtering.visbileTypes.ibis', viewConfig.filtering.visbileTypes.ibis)"
+		>show IBIS</md-switch>
+	</div>
+
+	<h4>Behaviours:</h4>
+	<div class="btn-group">
+		<!-- <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
+			{{user.name}}
+		</button> -->
+
+		<!-- <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_manual'" (click)="viewspecChanged('viewspec_manual')">M</label>
+		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_tree'" (click)="viewspecChanged('viewspec_tree')">T</label>
+		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_flat'" (click)="viewspecChanged('viewspec_flat')">F</label> -->
+	</div>
+
+	<md-radio-group [(value)]="policyConfig.behaviour.brainstorming">
+		<md-radio-button value="0" class="md-primary"  (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">Off</md-radio-button>
+		<md-radio-button value="1" class="md-primary"  (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">1</md-radio-button>
+		<md-radio-button value="2" class="md-primary"  (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">2</md-radio-button>
+		<md-radio-button value="3" class="md-primary"  (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">3</md-radio-button>
+		<md-radio-button value="4" class="md-primary"  (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">4</md-radio-button>
+	</md-radio-group>
 
 	<h4>Syncing:</h4>
 	<div class="btn-group">
@@ -73,6 +128,5 @@
 	</div>
 
 </div>
-
-<rima-users-list class="rima-users-list"></rima-users-list>
 <ibis-types-list class="ibis-types-list"></ibis-types-list>
+<rima-users-list class="rima-users-list"></rima-users-list>

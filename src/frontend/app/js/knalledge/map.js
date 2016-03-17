@@ -2,7 +2,7 @@
 'use strict';
 
 var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
-	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService){
+	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService){
 	this.config = config;
 	this.clientApi = clientApi;
 	this.entityStyles = entityStyles;
@@ -21,8 +21,9 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
 
 	this.knalledgeState = new knalledge.State();
-	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService);
+	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService);
 
+	this.clientApi.selectNode	= this.selectNode.bind(this);
 	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService);
 
 	this.mapVisualization = this.mapManager.getActiveVisualization();
@@ -139,8 +140,8 @@ Map.prototype.initializeKeyboard = function() {
 		getSelectedNode: function(){
 			return this.mapStructure.getSelectedNode();
 		}.bind(this),
-		setSelectedNode: function(selectedNode){
-			this.mapStructure.setSelectedNode(selectedNode);
+		selectNode: function(selectedNode){
+			this.selectNode(selectedNode);
 		}.bind(this),
 		updateName: function(nodeView){
 			this.mapVisualization.updateName(nodeView);
@@ -197,5 +198,10 @@ Map.prototype.initializeManipulation = function() {
 
 	interaction.MoveAndDrag.InitializeDragging(this.draggingConfig);
 };
+
+Map.prototype.selectNode = function(selectedNode){
+	this.mapStructure.setSelectedNode(selectedNode);
+	this.update();
+}
 
 }()); // end of 'use strict';

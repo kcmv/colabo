@@ -181,7 +181,8 @@ MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleU
 			});
 		}
 		d.isSelected = true;
-		this.mapStructure.setSelectedNode(d);
+		// this.mapStructure.setSelectedNode(d);
+		this.clientApi.selectNode(d);
 
 		// realtime distribution
 		if(this.knAllEdgeRealTimeService && !doNotBroadcast){ 	// do not broadcast back :)

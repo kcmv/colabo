@@ -6,6 +6,9 @@ export class KnalledgeMapPolicyService {
             },
             moderating: {
                 enabled: true
+            },
+            behaviour: {
+                brainstorming: 0 //0:off, 1:phase 1; ... 4:phase 4
             }
         }
     };
