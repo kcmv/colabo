@@ -23,6 +23,7 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
      KnalledgeMapTools
    ],
     templateUrl: 'components/knalledgeMap/partials/main.tpl.html',
+    // templateUrl: 'partials/main.tpl.html',
     styles: [`
         .msg {
             font-size: 0.5em;

@@ -26,8 +26,18 @@
 
 	<!-- <div *ngIf="policyConfig.moderating.enabled" class="tool_info">Moderator</div>
 	<div *ngIf="policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
-	<div template="ngIf:policyConfig.moderating.enabled" class="tool_info">Moderator</div>
-	<div template="ngIf:policyConfig.broadcasting.enabled" class="tool_info">Presenter</div>
+	<!-- <div template="ngIf:policyConfig.moderating.enabled" class="tool_info">Moderator</div>
+	<div template="ngIf:policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
+
+	<div class="btn-group">
+		<md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled"
+		(checkedChange)="viewConfigChanged('policyConfig.moderating.enabled', policyConfig.moderating.enabled)"
+		>Moderator</md-switch>
+
+		<md-switch class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled"
+		(checkedChange)="viewConfigChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)"
+		>Presenter</md-switch>
+	</div>
 
 	<!-- <h4>Visualize:</h4>
 	<md-radio-group [(value)]="bindings.viewspec">

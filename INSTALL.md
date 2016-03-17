@@ -47,23 +47,67 @@ More on:
 ## Server
 Server is at the moment completely built as **node.js** environment. Therefore you need node and npm tools installed to run it properly. When you have them installed all you need to do is to install necessary packages with
 
-    npm install
+```sh
+git clone https://github.com/mprinc/KnAllEdge
+mv KnAllEdge knalledge
+chmod -R g+ws knalledge
+    drwxrwsr-x+  7 mprinc developers
+    drwxrwsr-x   7 mprinc developers    4096 Mar 17 09:28 knalledge
+# npm install
+# sudo npm install node-gyp -g
 
-    npm install --production
-
-    sudo npm install node-gyp -g
-    sudo npm cache clean
-    rm -rf node_modules
-
-    sudo npm install npm -g
+su
+    # sudo npm install npm -g
     sudo npm install gulp -g
     sudo npm i typings -g
     sudo npm install -g typescript
     sudo npm install ts-node -g
-    sudo npm install typescript-node -g
+    # sudo npm install typescript-node -g
     sudo npm install node-gyp -g
     sudo npm install marked -g
 
+cd src/backend/
+    npm install --production
+
+    # sudo npm cache clean
+    # rm -rf node_modules
+
+joe /etc/apache2/sites-enabled/knalledge.org
+# DocumentRoot /var/www/knalledge/src/frontend
+# ->
+# DocumentRoot /var/www/knalledge_frontend
+apache2ctl restart
+
+cd /var/www/knalledge_frontend/
+chmod -R o+r *
+ls -al node_modules | grep ng2
+chmod -R g-s node_modules/*
+chmod -R go+rx node_modules/*
+ls -al node_modules | grep ng2
+
+# From here is the local server
+chmod -R g-s *
+chmod -R go+rx *
+
+cp dist/dev/components/collaboPlugins/globalEmitterService.js dist/dev/components/collaboPlugins/GlobalEmitterService.js
+cp dist/dev/components/collaboPlugins/globalEmitterServicesArray.js dist/dev/components/collaboPlugins/GlobalEmitterServicesArray.js
+
+joe dist/dev/js/config/config.env.js
+#    //var env = envs.localhost;
+#    var env = envs.server;
+
+cp -r dist/dev
+cd ../frontend
+    npm install --production
+
+joe dist/dev/index.html
+# var disableLog = true;
+
+stop knalledge-b
+start knalledge-b
+restart knalledge-b
+
+```
 
 # TypeScript
 
