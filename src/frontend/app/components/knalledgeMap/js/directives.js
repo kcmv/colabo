@@ -316,7 +316,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap.init();
 
 					// providing select item service with the context
-					KnAllEdgeSelectItemService.init(knalledgeMap, $scope, $element);
+					// var el = $element;
+					// https://docs.angularjs.org/api/ng/function/angular.element
+					var el = angular.element('.knalledge_map_middle');
+					KnAllEdgeSelectItemService.init(knalledgeMap, $scope, el);
 
 					GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 					GlobalEmitterServicesArray.get(KnRealTimeNodeUpdatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
