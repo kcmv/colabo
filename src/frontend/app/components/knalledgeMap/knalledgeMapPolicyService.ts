@@ -2,10 +2,10 @@ export class KnalledgeMapPolicyService {
     private provider: any = {
         config: {
             broadcasting: {
-                enabled: true,
+                enabled: false,
             },
             moderating: {
-                enabled: true
+                enabled: false
             },
             behaviour: {
                 brainstorming: 0 //0:off, 1:phase 1; ... 4:phase 4

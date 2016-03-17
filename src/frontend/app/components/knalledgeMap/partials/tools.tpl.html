@@ -24,26 +24,6 @@
 </div>
 -->
 <div class="controlls">
-	<p>
-		<a href="#/maps">Maps</a>
-		<a href="#/plugins">Plugins</a>
-	</p>
-
-	<!-- <div *ngIf="policyConfig.moderating.enabled" class="tool_info">Moderator</div>
-	<div *ngIf="policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
-	<!-- <div template="ngIf:policyConfig.moderating.enabled" class="tool_info">Moderator</div>
-	<div template="ngIf:policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
-
-	<div class="btn-group">
-		<md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled"
-		(checkedChange)="viewConfigChanged('policyConfig.moderating.enabled', policyConfig.moderating.enabled)"
-		>Moderator</md-switch>
-
-		<md-switch class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled"
-		(checkedChange)="viewConfigChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)"
-		>Presenter</md-switch>
-	</div>
-
 	<!-- <h4>Visualize:</h4>
 	<md-radio-group [(value)]="bindings.viewspec">
 		<md-radio-button value="viewspec_manual" class="md-primary"  (click)="viewspecChanged('viewspec_manual')">M</md-radio-button>
@@ -123,7 +103,7 @@
 	</div>
 
 	<md-radio-group [(value)]="policyConfig.behaviour.brainstorming">
-		<md-radio-button value="0" class="md-primary"  (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">Off</md-radio-button>
+		<md-radio-button value="0" class="md-primary"  checked="true" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">Off</md-radio-button>
 		<md-radio-button value="1" class="md-primary"  (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">1</md-radio-button>
 		<md-radio-button value="2" class="md-primary"  (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">2</md-radio-button>
 		<md-radio-button value="3" class="md-primary"  (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">3</md-radio-button>
@@ -140,3 +120,23 @@
 </div>
 <ibis-types-list class="ibis-types-list"></ibis-types-list>
 <rima-users-list class="rima-users-list"></rima-users-list>
+
+<p>
+	<a href="#/maps">Maps</a>
+	<a href="#/plugins">Plugins</a>
+</p>
+
+<!-- <div *ngIf="policyConfig.moderating.enabled" class="tool_info">Moderator</div>
+<div *ngIf="policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
+<!-- <div template="ngIf:policyConfig.moderating.enabled" class="tool_info">Moderator</div>
+<div template="ngIf:policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
+
+<div class="btn-group">
+	<md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled"
+	(checkedChange)="viewConfigChanged('policyConfig.moderating.enabled', policyConfig.moderating.enabled)"
+	>Moderator</md-switch>
+
+	<md-switch class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled"
+	(checkedChange)="viewConfigChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)"
+	>Presenter</md-switch>
+</div>
