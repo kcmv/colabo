@@ -177,8 +177,8 @@ MapStructure.prototype.setVisibility = function(){
 		var node = this.nodesById[j];
 		if(this.isNodeVisibleWOAncestory(node)){
 			this.setAncestorsVisibile(node);
-		}
-	}
+
+}	}
 }
 
 MapStructure.prototype.setAncestorsVisibile = function(node){

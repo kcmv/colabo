@@ -700,9 +700,12 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 
 knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	// privateData: "privatno",
-	$get: ['$q', '$rootScope', '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'RimaService', 'KnAllEdgeRealTimeService', 'CollaboPluginsService',
-	function($q, $rootScope, $window, KnalledgeNodeService, KnalledgeEdgeService, RimaService, KnAllEdgeRealTimeService, CollaboPluginsService) {
+	$get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'KnalledgeEdgeService',
+	'RimaService', 'KnAllEdgeRealTimeService', 'CollaboPluginsService',
+	function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, RimaService,
+		KnAllEdgeRealTimeService, CollaboPluginsService) {
 		// var that = this;
+		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var provider = {
 			mapId: "552678e69ad190a642ad461c",
 			rootNodeId: "55268521fb9a901e442172f9",
@@ -780,7 +783,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					break;
 				}
 				if(shouldBroadcast){
-					$rootScope.$broadcast(eventName, changes);
+					GlobalEmitterServicesArray.register(eventName);
+					GlobalEmitterServicesArray.get(eventName).broadcast('KnalledgeMapVOsService', changes);
 				}
 
 					// for(id=0; id<changesFromServer.nodes.length; id++){
@@ -1129,9 +1133,10 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					that.mapStructure.init(that);
 					that.mapStructure.processData(result);
 
-					var eventName = "modelLoadedEvent";
+					var modelLoadedEventName = "modelLoadedEvent";
 					//console.log("result:" + JSON.stringify(result));
-					$rootScope.$broadcast(eventName, result);
+					GlobalEmitterServicesArray.register(modelLoadedEventName);
+					GlobalEmitterServicesArray.get(modelLoadedEventName).broadcast('KnalledgeMapVOsService', result);
 				});
 				return result;
 			},
@@ -1827,10 +1832,12 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 
 
 
+/*
+Migrated into separate TypeScript service class: KnalledgeMapViewService
 knalledgeMapServices.provider('KnalledgeMapViewService', {
 	// privateData: "privatno",
-	$get: [/*'$q', 'ENV', '$rootScope', */
-	function(/*$q , ENV, $rootScope*/) {
+	$get: [
+	function() {
 
 				// var that = this;
 		var provider = {
@@ -1856,11 +1863,14 @@ knalledgeMapServices.provider('KnalledgeMapViewService', {
 		return provider;
 	}]
 });
+*/
 
+/*
+Migrated into separate TypeScript service class: KnalledgeMapPolicyService
 knalledgeMapServices.provider('KnalledgeMapPolicyService', {
 	// privateData: "privatno",
-	$get: [/*'$q', 'ENV', '$rootScope', */
-	function(/*$q , ENV, $rootScope*/) {
+	$get: [
+	function() {
 
 				// var that = this;
 		var provider = {
@@ -1877,6 +1887,7 @@ knalledgeMapServices.provider('KnalledgeMapPolicyService', {
 		return provider;
 	}]
 });
+ */
 
 knalledgeMapServices.provider('IbisTypesService', {
 	// privateData: "privatno",
@@ -2095,7 +2106,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 
 			emit: function(eventName, msg){
 				// TODO
-				if(!KnalledgeMapPolicyService.config.broadcasting.enabled) return;
+				if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled) return;
 				console.log('[KnAllEdgeRealTimeService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));
 				var knPackage = {
 					eventName: eventName,

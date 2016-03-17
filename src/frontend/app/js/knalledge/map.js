@@ -113,7 +113,7 @@ Map.prototype.processData = function(mapData, callback, commingFromAngular, doNo
 // 	if(this.syncingTimerId){
 // 		window.clearInterval(this.syncingTimerId);
 // 	}
-// 	if(this.knalledgeMapViewService.config.syncing.poolChanges){
+// 	if(this.knalledgeMapViewService.provider.config.syncing.poolChanges){
 // 		this.syncingTimerId = window.setInterval(function(){
 // 			this.syncingService.getChangesFromServer(this.processSyncedData.bind(this));
 // 		}.bind(this), this.syncingInterval);

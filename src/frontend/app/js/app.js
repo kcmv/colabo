@@ -39,6 +39,7 @@ requiresList.push('topiChatDirectives');
 // we want to avoid hardoced registering plugins here
 requiresList.push('ontovServices');
 
+// a module that contains ng2 directives and services downgraded for ng1 space
 requiresList.push('KnAllEdgeNg2');
 
 angular.module('KnAllEdgeApp', requiresList)

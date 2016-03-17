@@ -59,7 +59,7 @@ var triggerPopup = function($timeout, $element, selector, event, stepNo, delay){
 	}, delay);
 };
 
-angular.module('rimaDirectives', ['Config'])
+angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 	.directive('rimaRelevantList', ['$rootScope',
 		function($rootScope){
 		console.log("[rimaRelevantList] loading directive");
@@ -79,9 +79,13 @@ angular.module('rimaDirectives', ['Config'])
 		};
 	}])
 
-	.directive('rimaUsersList', ["$rootScope", "$timeout", "$location", "RimaService",
-		function($rootScope, $timeout, $location, RimaService){
+	.directive('rimaUsersList', ["$rootScope", "$timeout", '$injector', "RimaService",
+		function($rootScope, $timeout, $injector, RimaService){
 		console.log("[rimaUsersList] loading directive");
+		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+		var mapStylingChangedEventName = "mapStylingChangedEvent";
+		GlobalEmitterServicesArray.register(mapStylingChangedEventName);
+
 		return {
 			restrict: 'AE',
 			scope: {
@@ -121,8 +125,7 @@ angular.module('rimaDirectives', ['Config'])
 				};
 				$scope.config = RimaService.config;
 				$scope.configChanged = function(){
-					var mapStylingChangedEventName = "mapStylingChangedEvent";
-					$rootScope.$broadcast(mapStylingChangedEventName);
+					GlobalEmitterServicesArray.get(mapStylingChangedEventName).broadcast('rimaUsersList');
 				};
 				$scope.items = null;
 				$scope.selectedItem = null;
@@ -139,9 +142,12 @@ angular.module('rimaDirectives', ['Config'])
 		};
 	}])
 
-	.directive('rimaRelevantWhatsList', ['$rootScope', 'KnalledgeMapVOsService', 'RimaService',
-		function($rootScope, KnalledgeMapVOsService, RimaService){
+	.directive('rimaRelevantWhatsList', ['$rootScope', '$injector', 'KnalledgeMapVOsService', 'RimaService',
+		function($rootScope, $injector, KnalledgeMapVOsService, RimaService){
 		console.log("[rimaRelevantWhatsList] loading directive");
+		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+		var changeSelectedNodeEventName = "changeSelectedNodeEvent";
+		GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
 		return {
 			restrict: 'AE',
 			scope: {
@@ -239,8 +245,7 @@ angular.module('rimaDirectives', ['Config'])
 				$scope.selectItem = function(item) {
 					$scope.selectedItem = item;
 					console.log("$scope.selectedItem = %s", $scope.selectedItem.name);
-					var changeSelectedNodeEventName = "changeSelectedNodeEvent";
-					$rootScope.$broadcast(changeSelectedNodeEventName, item.vkNode);
+					GlobalEmitterServicesArray.get(changeSelectedNodeEventName).broadcast('rimaWhats', item.vkNode);
 				};
 
 				updateList();
@@ -683,9 +688,15 @@ angular.module('rimaDirectives', ['Config'])
 		};
 	}])
 
-	.directive('rimaWhats', ['$rootScope', 'RimaService',
-		function($rootScope, RimaService){
+	.directive('rimaWhats', ['$rootScope', '$injector', 'RimaService',
+		function($rootScope, $injector, RimaService){
 		console.log("[rimaWhats] loading directive");
+
+		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
+		var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
+		GlobalEmitterServicesArray.register(changeKnalledgeRimaEventName);
+
 		return {
 			restrict: 'AE',
 			scope: {
@@ -714,12 +725,17 @@ angular.module('rimaDirectives', ['Config'])
 
 				$scope.getItems = function(value){
 					var items = RimaService.getByNameContains(value);
-					// return items;
-					return items.$promise;
+					// return items.$promise;
 					// return items.$promise.then(function(items_server){
 					//  console.log("getItems: ", JSON.stringify(items_server));
 					//  return items_server;
 					// });
+					// items.$promise.then(function(items_server){
+					//  window.alert("getItems: " + JSON.stringify(items_server));
+					//  return items_server;
+					// });
+					return items.$promise;
+					// return items;
 				};
 
 				$scope.enterPressed = function(value){
@@ -781,8 +797,7 @@ angular.module('rimaDirectives', ['Config'])
 					var saveNodeWIthNewWhat = function(what){ // TODO: it should be just _id;
 						kNode.dataContent.rima.whats.push(what);
 						$scope.asyncSelected = "";
-						var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
-						$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
+						GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node);
 					}
 
 					if(typeof what === 'string'){ //new what
@@ -808,8 +823,7 @@ angular.module('rimaDirectives', ['Config'])
 					for(var i=0; i<$scope.items.length; i++){
 						if($scope.items[i]._id == item._id){
 							$scope.items.splice(i, 1);
-							var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
-							$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
+							GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node);
 						}
 					}
 				};

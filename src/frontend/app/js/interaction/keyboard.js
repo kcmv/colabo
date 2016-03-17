@@ -16,6 +16,7 @@ var Keyboard =  interaction.Keyboard = function(clientApi){
 	this.status = Keyboard.STATUS_MAP;
 };
 
+Keyboard.KEY_PREFIX = "ctrl + ";
 Keyboard.STATUS_EDITOR = "STATUS_EDITOR";
 
 /**
@@ -229,7 +230,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 		this.switchToProperties();
 	}.bind(this), function(){}.bind(this));
 
-	KeyboardJS.on("ctrl + enter", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "enter", function(){
 		console.log("ctrl + enter");
 		if(this.editingNodeHtml) return;
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
@@ -241,7 +242,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	/**
 	 * starting node editing
 	 */
-	KeyboardJS.on("ctrl + space",
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "space",
 		function(){
 			if(this.editingNodeHtml){
 				return;
@@ -262,7 +263,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	/**
 	 * search for the node name
 	 */
-	KeyboardJS.on("ctrl + f", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "f", function(){
 		if(this.editingNodeHtml) return;
 		// if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 
@@ -272,7 +273,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	/**
 	 * toggling moderator
 	 */
-	KeyboardJS.on("ctrl + alt + m", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "alt + m", function(){
 		if(this.editingNodeHtml) return;
 		// if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 
@@ -282,7 +283,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	/**
 	 * toggling presenter
 	 */
-	KeyboardJS.on("ctrl + alt + p", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "alt + p", function(){
 		if(this.editingNodeHtml) return;
 		// if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 
@@ -292,7 +293,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	/**
 	 * finishing node editing
 	 */
-	KeyboardJS.on("ctrl + escape", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "escape", function(){
 		console.log("editing escaping");
 		if(this.editingNodeHtml){
 			this.exitEditingNode();
@@ -302,7 +303,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	// IBIS
 	// Vote up
-	KeyboardJS.on("ctrl + command + up", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "command + up", function(){
 		if(this.editingNodeHtml) return;
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		var node = this.clientApi.getSelectedNode();
@@ -315,7 +316,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 
 	// Vote up
-	KeyboardJS.on("ctrl + command + down", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "command + down", function(){
 		if(this.editingNodeHtml) return;
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		var node = this.clientApi.getSelectedNode();
@@ -328,8 +329,8 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 
 	// Add Image
-	KeyboardJS.on("ctrl + i", function(){
-		window.prompt("Kmek");
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "i", function(){
+		// window.prompt("Kmek");
 		if(this.editingNodeHtml) return;
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		var node = this.clientApi.getSelectedNode();
@@ -338,7 +339,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 
 	// Remove Image
-	KeyboardJS.on("shift + ctrl + i", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "shift + i", function(){
 		if(this.editingNodeHtml) return;
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		console.log("Removing image");
@@ -346,7 +347,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this), function(){}.bind(this));
 
 	// Add Link
-	KeyboardJS.on("ctrl + l", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "l", function(){
 		if(this.editingNodeHtml) return;
 		var node = this.clientApi.getSelectedNode();
 		if(node){ // if source node is selected
@@ -406,45 +407,45 @@ Keyboard.prototype.initializeKeyboard = function() {
 };
 
 	// Add new node
-	KeyboardJS.on("ctrl + n", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "n", function(){
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		var type = this.clientApi.getActiveIbisType();
 		if(!type) type = knalledge.KNode.TYPE_KNOWLEDGE;
 		this.addNode(type, type);
 	}.bind(this), function(){}.bind(this));
 
-	KeyboardJS.on("ctrl + alt + 1", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "alt + 1", function(){
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		this.addNode(knalledge.KNode.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_QUESTION);
 	}.bind(this), function(){}.bind(this));
 
-	KeyboardJS.on("ctrl + alt + 2", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "alt + 2", function(){
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		this.addNode(knalledge.KNode.TYPE_IBIS_IDEA, knalledge.KEdge.TYPE_IBIS_IDEA);
 	}.bind(this), function(){}.bind(this));
 
-	KeyboardJS.on("ctrl + alt + 3", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "alt + 3", function(){
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		this.addNode(knalledge.KNode.TYPE_IBIS_ARGUMENT, knalledge.KEdge.TYPE_IBIS_ARGUMENT);
 	}.bind(this), function(){}.bind(this));
 
-	KeyboardJS.on("ctrl + alt + 4", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "alt + 4", function(){
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		this.addNode(knalledge.KNode.TYPE_IBIS_COMMENT, knalledge.KEdge.TYPE_IBIS_COMMENT);
 	}.bind(this), function(){}.bind(this));
 
-	// Relink the node:
+	// Relinks the node:
 	// PreAction: select the node to relink
 	// PostAction: select new parent node
 	//TODO: this UI will not work when we will have more parents of node!
-	KeyboardJS.on("ctrl + k", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "k", function(){
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		this.clientApi.knalledgeState.relinkingFrom = this.clientApi.getSelectedNode();
 	}.bind(this), function(){}.bind(this));
 
 	// Delete node:
-	KeyboardJS.on("ctrl + delete", function(){
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "delete", function(){
 		console.log("ctrl + delete");
 		if(this.editingNodeHtml) return; // in typing mode
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;

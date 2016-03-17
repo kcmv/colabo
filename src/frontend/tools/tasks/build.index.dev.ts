@@ -1,11 +1,10 @@
 import {join} from 'path';
-import {APP_SRC, APP_DEST, DEV_DEPENDENCIES} from '../config';
+import {APP_SRC, APP_DEST, DEV_DEPENDENCIES, SUB_PROJECT} from '../config';
 import {templateLocals} from '../utils';
 
 // inject all (shims/libs/and inject='true') dependencies under coresponding placeholders
 // adds a versioning (current date) sufix to each file to avoid cashing issues
 export = function buildIndexDev(gulp, plugins) {
-  var addAniCacheSufix = false;
   var dateTime = '?'+Date.now();
   console.log("[build.index.dev] process.cwd(): ", process.cwd());
 
@@ -38,16 +37,15 @@ export = function buildIndexDev(gulp, plugins) {
         console.log("[build.index.dev] (name:%s): ", nameInner, plugins.sniff.get(nameInner));
     });
 
-    var injectObj = {
+    let injectOpt = {
       name: name,
       relative: true,
       addRootSlash: false
     };
-
-    if(addAniCacheSufix) {
-      injectObj['addSuffix'] = dateTime;
+    if(SUB_PROJECT.COMPILATION.ADD_ANTICACHE_SUFIX) {
+        injectOpt['addSuffix'] = dateTime;
     }
-    return plugins.inject(sourceStream, injectObj);
+    return plugins.inject(sourceStream, injectOpt);
   }
 
   // get all dependencies that conforms with the inject == name or inject == true if no name

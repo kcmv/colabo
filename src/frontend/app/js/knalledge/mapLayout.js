@@ -81,7 +81,8 @@ MapLayout.prototype.updateNodesToAvoid = function(nodesToAvoidNonParsed){
 };
 
 MapLayout.prototype.getAllNodesHtml = function(){
-	return this.dom.divMapHtml ? this.dom.divMapHtml.selectAll("div.node_html") : null;
+	var result = this.dom.divMapHtml ? this.dom.divMapHtml.selectAll("div.node_html") : null;
+	return result;
 };
 
 // Returns view representation (dom) from datum d

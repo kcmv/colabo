@@ -3,89 +3,99 @@
 
 $color_tool_border: gray;
 
-$susy: (
-	columns: 12,
-	gutters: 1/4,
-	math: fluid,
-	output: float,
-	gutter-position: inside,
+$provideLayout: 'show';
 
-	debug: (
-		image: hide,
-		color: red,
-		output: background,
-		toggle: top right,
-	),
-);
+@if $provideLayout == 'show' {
+	$susy: (
+		columns: 12,
+		gutters: 1/8,
+		math: fluid,
+		output: float,
+		gutter-position: inside,
 
-$map: layout(12 1/4 fluid float inside);
+		debug: (
+			image: hide,
+			color: red,
+			output: background,
+			toggle: top right,
+		),
+	);
 
-@include breakpoint($small) {
-	.knalledge_map_tools{
-		@include span(2 at 1);
-	}
-
-	.knalledge_map_middle{
-		@include span(10 at 3);
-	}
-
-	.knalledge_map_list{
-		/*@include span(3 at 1); */
-	}
+	$map: layout(12 1/4 fluid float inside);
 }
 
-@include breakpoint($medium) {
-	.knalledge_map_tools{
-		@include span(1 at 1);
+@if $provideLayout == 'show' {
+	@include breakpoint($small) {
+		.knalledge_map_tools{
+			@include span(2 at 1);
+		}
+
+		.knalledge_map_middle{
+			@include span(10 at 3);
+		}
+
+		.knalledge_map_list{
+			/*@include span(3 at 1); */
+		}
 	}
 
-	.knalledge_map_middle{
-		@include span(9 at 2);
+	@include breakpoint($medium) {
+		.knalledge_map_tools{
+			@include span(1 at 1);
+		}
+
+		.knalledge_map_middle{
+			@include span(9 at 2);
+		}
+
+		.knalledge_map_list{
+			@include span(2 at 10);
+		}
 	}
 
-	.knalledge_map_list{
-		@include span(2 at 10);
-	}
-}
+	@include breakpoint($large) {
+		.knalledge_map_tools{
+			height: 100%;
+			min-height: 100%;
+			overflow-x: visible;
+			overflow-y: visible; /* temporary replacement for scroll; */
+			/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
+			/*overflow: visible;*/
+			/*	overflow-x: visible;
+				overflow-y: scroll;
+			*/
+			@include span(1 at 1);
+		}
 
-@include breakpoint($large) {
-	.knalledge_map_tools{
-		height: 100%;
-		min-height: 100%;
-		overflow-x: visible;
-		overflow-y: visible; /* temporary replacement for scroll; */
-		/* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
-		/*overflow: visible;*/
-		/*	overflow-x: visible;
+		.knalledge_map_middle{
+			height: 100%;
+			min-height: 100%;
+			/* make #content content occupying 2 cells less on large screens */
+			@include span(9 at 2);
+		}
+
+		.knalledge_map{
+			height: 100%;
+			min-height: 100%;
+		}
+
+		.knalledge_map_middle_bottom{
+			height: 25%;
+			min-height: 25%;
+		}
+
+		.knalledge_map_list{
+			height: 100%;
+			min-height: 100%;
+			overflow-x: visible;
 			overflow-y: scroll;
-		*/
-		@include span(1 at 1);
+			@include span(2 at 10);
+		}
 	}
+} /* @if */
 
-	.knalledge_map_middle{
-		height: 100%;
-		min-height: 100%;
-		/* make #content content occupying 2 cells less on large screens */
-		@include span(9 at 2);
-	}
-
-	.knalledge_map{
-		height: 100%;
-		min-height: 100%;
-	}
-
-	.knalledge_map_middle_bottom{
-		height: 25%;
-		min-height: 25%;
-	}
-
-	.knalledge_map_list{
-		height: 100%;
-		min-height: 100%;
-		overflow-x: visible;
-		overflow-y: scroll;
-		@include span(2 at 10);
-	}
+.main-column{
+	height: 100%;
 }
 
 .knalledge_map_index{
@@ -116,13 +126,12 @@ $map: layout(12 1/4 fluid float inside);
 				color: #333333;
 				font-size: 50px;
 			}
-			.title_kn{
-				color: #555555;
-			}
-			.title_all{
+			.title_collabo{
 				color: #000055;
+				font-style: italic;
+				margin-left: 10px;
 			}
-			.title_edge{
+			.title_science{
 				color: #880000;
 			}
 			padding-bottom: 0px;
@@ -145,12 +154,13 @@ $map: layout(12 1/4 fluid float inside);
 				color: #333333;
 				font-size: 30px;
 			}
-			.title_collabo{
-				color: #000055;
-				font-style: italic;
-				margin-left: 50px;
+			.title_kn{
+				color: #555555;
 			}
-			.title_science{
+			.title_all{
+				color: #000055;
+			}
+			.title_edge{
 				color: #880000;
 			}
 		}
@@ -162,6 +172,13 @@ $map: layout(12 1/4 fluid float inside);
 ------------------------ */
 
 .knalledge_map_tools{
+	padding: 5px;
+	h4 {
+		border-bottom: 1px solid #660000;
+		margin-bottom: 5px;
+		margin-top: 10px;
+		padding-bottom: 3px;
+	}
 	.titles{
 		z-index: 1000;
 		position: absolute;
@@ -176,23 +193,23 @@ $map: layout(12 1/4 fluid float inside);
 		margin-left: 3px;
 	}
 	.controlls{
+		margin: 10px;
 		margin-top: 100px;
 	}
 	h1 {
 		font-size: 30px;
 		border-bottom: solid 1px #aaaaaa;
+		text-align: center;
 
 		.title_web{
 			color: #333333;
 			font-size: 15px;
 		}
-		.title_kn{
-			color: #555555;
-		}
-		.title_all{
+		.title_collabo{
 			color: #000055;
+			font-style: italic;
 		}
-		.title_edge{
+		.title_science{
 			color: #880000;
 		}
 		padding-bottom: 0px;
@@ -205,17 +222,20 @@ $map: layout(12 1/4 fluid float inside);
 		padding-top: 0px;
 		margin-top: 0px;
 		font-size: 20px;
+		text-align: center;
 		/*border-bottom: solid 1px #aaaaaa;*/
 
 		.title_web{
 			color: #222222;
 			font-size: 15px;
 		}
-		.title_collabo{
-			color: #000055;
-			font-style: italic;
+		.title_kn{
+			color: #555555;
 		}
-		.title_science{
+		.title_all{
+			color: #000055;
+		}
+		.title_edge{
 			color: #880000;
 		}
 	}
@@ -567,9 +587,9 @@ $map: layout(12 1/4 fluid float inside);
 			vertical-align: middle;
 			line-height: normal;
 			text-align: center;
-			font-weight: normal;
+			font-weight: bold;
 			font-style: italic;
-			color: #550000;
+			color: #000000;
 
 			/* just for testing purposs */
 			p{
@@ -1194,4 +1214,5 @@ $select_sub_entity_title_size: 1em;
 	margin: 3px;
 	border: 1px solid #888888;
 	background-color: #cccccc;
+	text-align: center;
 }

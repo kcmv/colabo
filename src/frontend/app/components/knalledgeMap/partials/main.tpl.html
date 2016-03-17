@@ -1,18 +1,70 @@
 <div class="knalledge_map_index">
-	<div class="logo_background">
-		<div class="titles">
-			<h1><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h1>
-			<h2><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Science</span><span class="title_web">.com</span></h2>
-		</div>
-	</div>
-	<knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
+    <div class="logo_background">
+        <div class="titles">
+            <div template="ngIf:viewConfig.type.name =='collabo_arte'">
+                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Arte</span><span class="title_web">.com</span></h1>
+                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
+            </div>
+            <div template="ngIf:viewConfig.type.name =='collabo_science'">
+                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Science</span><span class="title_web">.com</span></h1>
+                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
+            </div>
+            <div template="ngIf:viewConfig.type.name =='collabo_business'">
+                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Business</span><span class="title_web">.com</span></h1>
+                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
+            </div>
+        </div>
+    </div>
 
+    <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
     <div class="knalledge_map_middle">
-		<ontov-search></ontov-search>
-		<div class="knalledge_map_middle_bottom">
-			 <rima-relevant-list class="rima_relevant_list"></rima-relevant-list>
-		</div>
-		<knalledge-map class="knalledge_map"></knalledge-map>
-	</div>
-	<knalledge-map-list class="knalledge_map_list"></knalledge-map-list>
+        <ontov-search></ontov-search>
+        <div class="knalledge_map_middle_bottom">
+            <rima-relevant-list class="rima_relevant_list"></rima-relevant-list>
+        </div>
+        <knalledge-map class="knalledge_map"></knalledge-map>
+    </div>
+    <knalledge-map-list class="knalledge_map_list"></knalledge-map-list>
 </div>
+
+<!-- <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" name="left" hide-st-sm md-is-locked-open="hasMedia('gt-sm')">
+    <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
+</md-sidenav>
+
+
+<div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2" class="main-column">
+    <md-content flex id="content">
+        <md-button class="menu" hide-gt-sm (click)="toggleList()" aria-label="Show menu">
+            MENU
+            <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+        <div class="knalledge_map_middle">
+            <ontov-search></ontov-search>
+            <div class="knalledge_map_middle_bottom">
+                <rima-relevant-list class="rima_relevant_list"></rima-relevant-list>
+            </div>
+            <knalledge-map class="knalledge_map"></knalledge-map>
+        </div>
+        <knalledge-map-list class="knalledge_map_list"></knalledge-map-list>
+
+    </md-content>
+</div>
+
+<div class="knalledge_map_index">
+    <div class="logo_background">
+        <div class="titles">
+            <div template="ngIf:viewConfig.type.name =='collabo_arte'">
+                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Arte</span><span class="title_web">.com</span></h1>
+                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
+            </div>
+            <div template="ngIf:viewConfig.type.name =='collabo_science'">
+                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Science</span><span class="title_web">.com</span></h1>
+                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
+            </div>
+            <div template="ngIf:viewConfig.type.name =='collabo_business'">
+                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Business</span><span class="title_web">.com</span></h1>
+                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
+            </div>
+        </div>
+    </div>
+</div> -->
