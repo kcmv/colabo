@@ -142,9 +142,12 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 		};
 	}])
 
-	.directive('rimaRelevantWhatsList', ['$rootScope', 'KnalledgeMapVOsService', 'RimaService',
-		function($rootScope, KnalledgeMapVOsService, RimaService){
+	.directive('rimaRelevantWhatsList', ['$rootScope', '$injector', 'KnalledgeMapVOsService', 'RimaService',
+		function($rootScope, $injector, KnalledgeMapVOsService, RimaService){
 		console.log("[rimaRelevantWhatsList] loading directive");
+		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+		var changeSelectedNodeEventName = "changeSelectedNodeEvent";
+		GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
 		return {
 			restrict: 'AE',
 			scope: {
@@ -242,8 +245,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				$scope.selectItem = function(item) {
 					$scope.selectedItem = item;
 					console.log("$scope.selectedItem = %s", $scope.selectedItem.name);
-					var changeSelectedNodeEventName = "changeSelectedNodeEvent";
-					$rootScope.$broadcast(changeSelectedNodeEventName, item.vkNode);
+					GlobalEmitterServicesArray.get(changeSelectedNodeEventName).broadcast('rimaWhats', item.vkNode);
 				};
 
 				updateList();
@@ -686,9 +688,15 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 		};
 	}])
 
-	.directive('rimaWhats', ['$rootScope', 'RimaService',
-		function($rootScope, RimaService){
+	.directive('rimaWhats', ['$rootScope', '$injector', 'RimaService',
+		function($rootScope, $injector, RimaService){
 		console.log("[rimaWhats] loading directive");
+
+		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
+		var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
+		GlobalEmitterServicesArray.register(changeKnalledgeRimaEventName);
+
 		return {
 			restrict: 'AE',
 			scope: {
@@ -789,8 +797,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					var saveNodeWIthNewWhat = function(what){ // TODO: it should be just _id;
 						kNode.dataContent.rima.whats.push(what);
 						$scope.asyncSelected = "";
-						var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
-						$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
+						GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node);
 					}
 
 					if(typeof what === 'string'){ //new what
@@ -816,8 +823,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					for(var i=0; i<$scope.items.length; i++){
 						if($scope.items[i]._id == item._id){
 							$scope.items.splice(i, 1);
-							var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
-							$rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
+							GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node);
 						}
 					}
 				};

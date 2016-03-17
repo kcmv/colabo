@@ -329,7 +329,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	// Add Image
 	KeyboardJS.on("ctrl + i", function(){
-		window.prompt("Kmek");
+		// window.prompt("Kmek");
 		if(this.editingNodeHtml) return;
 		if(this.getStatus() !== Keyboard.STATUS_MAP) return;
 		var node = this.clientApi.getSelectedNode();

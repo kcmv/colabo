@@ -56,7 +56,7 @@ MapStructure.prototype.unsetSelectedNode = function(){
 
 MapStructure.prototype.setSelectedNode = function(selectedNode){
 	this.selectedNode = selectedNode;
-	this.setVisibilityByDistance(selectedNode, 	this.knalledgeMapViewService.config.filtering.displayDistance);
+	this.setVisibilityByDistance(selectedNode, 	this.knalledgeMapViewService.provider.config.filtering.displayDistance);
 //	try {
 //		throw new Error('DebugStack');
 //	}
@@ -166,7 +166,7 @@ MapStructure.prototype.setVisibility = function(){
 }
 
 MapStructure.prototype.setVisibilityByAuthor = function(sourceNode, distance){
-	
+
 }
 
 /*

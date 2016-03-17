@@ -16,6 +16,10 @@ export class KnalledgeMapViewService {
                 // name: "collabo_science"
                 name: "collabo_arte"
                 // name: "collabo_business"
+            },
+            filtering: {
+                displayDistance	: 2,
+                byAuthor: [] //array of iAmId. An empty means to see for all authors
             }
         }
     };

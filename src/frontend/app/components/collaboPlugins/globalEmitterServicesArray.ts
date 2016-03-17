@@ -1,3 +1,22 @@
+// TODO: FIX: directives lifetime: what about directives that registered and then are removed?
+//  - stoping broadcasting
+//  - ill reference
+//  - garbage collection is disabled?!
+/*
+
+$scope.$on
+$rootScope.$broadcast(eventName, changes);
+
+var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+GlobalEmitterServicesArray.register(mapStylingChangedEventName);
+// $rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
+GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node);
+GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', function(newViewspec) {
+    console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
+    console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
+});
+
+ */
 import {GlobalEmitterService} from './globalEmitterService';
 
 interface NameToService {

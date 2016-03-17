@@ -461,7 +461,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		nodeHtmlUpdateTransition.select(".node_inner_html")
 			.style("opacity", function(d){
 				return (d.kNode.visual && d.kNode.visual.selectable) ?
-					1.0 : 0.5;
+					1.0 : 0.95;
 			});
 	}
 
@@ -552,7 +552,7 @@ MapVisualizationTree.prototype.updateHtmlAfterTransitions = function(source, nod
 		nodeHtmlUpdateTransition.select(".node_inner_html")
 			.style("opacity", function(d){
 				return (d.kNode.visual && d.kNode.visual.selectable) ?
-					1.0 : 0.5;
+					1.0 : 0.95;
 			});
 	}
 

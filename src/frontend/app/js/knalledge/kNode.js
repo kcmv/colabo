@@ -106,6 +106,12 @@ KNode.prototype.overrideFromServer = function(obj){
 KNode.prototype.toServerCopy = function(){
 	var kNode = {};
 
+	// TODO: fix cloning
+	var whats = null;
+	if(this.dataContent && this.dataContent.rima && this.dataContent.rima.whats){
+		var whats = this.dataContent.rima.whats;
+		this.dataContent.rima.whats = [];
+	}
 	/* copying all non-system and non-function properties */
 	for(var id in this){
 		if(id[0] == '$') continue;
@@ -114,6 +120,23 @@ KNode.prototype.toServerCopy = function(){
 		if(this[id] !== undefined){ //JSON.parse breaks at "undefined"
 			kNode[id] = (JSON.parse(JSON.stringify(this[id])));
 		}
+	}
+	if(whats){
+		var whatsNew = [];
+		/* copying all non-system and non-function properties */
+		for(var wI in whats){
+			var what = whats[wI];
+			var whatNew = {};
+			whatsNew.push(whatNew);
+			for(var id in what){
+				if(id[0] == '$') continue;
+				if (typeof what[id] == 'function') continue;
+				//console.log("cloning: %s", id);
+				whatNew[id] = (JSON.parse(JSON.stringify(what[id])));
+			}
+		}
+		this.dataContent.rima.whats = whats;
+		kNode.dataContent.rima.whats = whatsNew;
 	}
 
 	/* deleting properties that should be set created to default value on server */
