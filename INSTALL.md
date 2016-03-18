@@ -86,11 +86,24 @@ chmod -R go+rx node_modules/*
 ls -al node_modules | grep ng2
 
 # From here is the local server
+# frontend/dist/dev
+# zip dev.zip
+
+cd /var/www/knalledge_frontend/dist
+# drwxrwxr-x  9 mprinc developers    4096 Mar 17 12:39 dev
+rm -r dev
+unzip dev.zip
+chmod -R g-s *
+chmod -R go+rx *
+
+# login/iAmId/556760847125996dc1a4a24f
+
 chmod -R g-s *
 chmod -R go+rx *
 
 cp dist/dev/components/collaboPlugins/globalEmitterService.js dist/dev/components/collaboPlugins/GlobalEmitterService.js
 cp dist/dev/components/collaboPlugins/globalEmitterServicesArray.js dist/dev/components/collaboPlugins/GlobalEmitterServicesArray.js
+
 
 joe dist/dev/js/config/config.env.js
 #    //var env = envs.localhost;

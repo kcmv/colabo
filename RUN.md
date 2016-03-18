@@ -13,7 +13,8 @@
 + [maps](http://KnAllEdge.org/app/index-dev.html#/maps)
 + [a map](http://knalledge.org/app/index-dev.html#/map/id/5566f25867a6d01e65beddde)
 + Users
-    + [login user](http://knalledge.org/app/index-dev.html#/login/iAmId/556760847125996dc1a4a241)
+    + [login user - sasha](http://knalledge.org/app/index-dev.html#/login/iAmId/556760847125996dc1a4a241)
+    + [login user - sinisha](http://knalledge.org/app/index-dev.html#/login/iAmId/556760847125996dc1a4a24f)
     + [logout user](http://knalledge.org/app/index-dev.html#/logout)
 + RIMA
     + [whoAmI](http://KnAllEdge.org/app/index-dev.html#/whoAmI)
