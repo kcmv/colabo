@@ -82,6 +82,12 @@ angular.module('KnAllEdgeApp', requiresList)
 	.when('/plugins', {
 		templateUrl: 'components/collaboPlugins/partials/plugins-index.tpl.html'
 	})
+	.when('/topichat', {
+		templateUrl: 'components/topiChat/partials/topichat-index.tpl.html'
+	})
+	.when('/topichat-report', {
+		templateUrl: 'components/topiChat/partials/report-index.tpl.html'
+	})
 	.otherwise({
 		redirectTo: '/maps'
 	});

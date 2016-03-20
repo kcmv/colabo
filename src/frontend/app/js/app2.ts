@@ -4,8 +4,10 @@ import {LoginStatusComponent} from '../components/login/login-status-component';
 import {KnalledgeMapMain} from '../components/knalledgeMap/main';
 import {KnalledgeMapPolicyService} from '../components/knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../components/knalledgeMap/knalledgeMapViewService';
+import {TopiChatReports} from '../components/topiChat/reports';
 // import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterService';
 import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmitterServicesArray';
+import {TopiChatService} from '../components/topiChat/topiChatService';
 
 /// <reference path="../../../typings/browser/ambient/angular/angular.d.ts" />
 /// <reference path="../../../typings/browser/ambient/angular-route/angular-route.d.ts" />
@@ -19,12 +21,21 @@ angular.module('knalledgeMapDirectives')
         // ,
         // 'knalledgeMapMain':
         //     upgradeAdapter.downgradeNg2Component(KnalledgeMapMain)
-    });
+    })
+    ;
+var topiChatServices = angular.module('topiChatServices');
+topiChatServices
+    .service('TopiChatService', TopiChatService);
+
 angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives'])
      .directive({
         'knalledgeMapMain':
             upgradeAdapter.downgradeNg2Component(KnalledgeMapMain)
     })
+    .directive({
+       'topichatReports':
+           upgradeAdapter.downgradeNg2Component(TopiChatReports)
+   })
     ;
 
 // In Angular 2, we have to add a provider configuration for the component’s injector,
@@ -44,6 +55,7 @@ knalledgeMapServicesModule
 
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
 upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
+upgradeAdapter.upgradeNg1Provider('TopiChatService');
 // upgradeAdapter.addProvider(GlobalEmitterService);
 // upgradeAdapter.upgradeNg1Provider(GlobalEmitterService);
 

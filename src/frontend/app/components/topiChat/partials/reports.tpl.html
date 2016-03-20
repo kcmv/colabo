@@ -1,0 +1,33 @@
+<div class="controlls">
+    <div class="btn-group">
+        <md-switch class="md-primary" aria-label="Sniff communication" [(checked)]="config.sniff" (checkedChange)="configChanged('sniff', sniff)">Sniff communication</md-switch>
+		<button md-raised-button class="md-raised" (click)="addPlugin()">Add Plugin</button>
+    </div>
+</div>
+
+<div class="plugins">
+    Plugins:
+    <div class="plugin">
+        <md-content>
+            <md-list>
+                <md-subheader class="">Standard</md-subheader>
+                <md-list-item class="md-1-line" *ngFor="#plugin of getPlugins()">
+                    <div class="md-list-item-text" layout="column">
+                        <h1>Plugin: {{ plugin.name }}</h1>
+						<md-list>
+			                <md-subheader class="">Events</md-subheader>
+			                <md-list-item class="md-1-line" *ngFor="#event of plugin.events">
+			                    <div class="md-list-item-text" layout="column">
+			                        <h2>Event: {{ event.name }}</h2>
+			                    </div>
+			                </md-list-item>
+			            </md-list>
+                    </div>
+                </md-list-item>
+
+                <md-divider></md-divider>
+                <md-subheader class="md-no-sticky">Special</md-subheader>
+            </md-list>
+        </md-content>
+    </div>
+</div>
