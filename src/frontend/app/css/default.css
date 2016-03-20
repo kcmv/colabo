@@ -1851,8 +1851,6 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
   /* This is the default clearfix from Compass. You can opt to use other clearfix methods */
-  overflow: hidden;
-  *zoom: 1;
   /* The Container Mixin */
   max-width: 100%;
   margin-left: auto;

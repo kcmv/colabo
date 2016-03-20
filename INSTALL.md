@@ -101,6 +101,7 @@ chmod -R go+rx *
 chmod -R g-s *
 chmod -R go+rx *
 
+cd /var/www/knalledge_frontend
 cp dist/dev/components/collaboPlugins/globalEmitterService.js dist/dev/components/collaboPlugins/GlobalEmitterService.js
 cp dist/dev/components/collaboPlugins/globalEmitterServicesArray.js dist/dev/components/collaboPlugins/GlobalEmitterServicesArray.js
 
@@ -119,6 +120,8 @@ joe dist/dev/index.html
 stop knalledge-b
 start knalledge-b
 restart knalledge-b
+
+nodejs /var/www/knalledge/src/backend/KnAllEdgeBackend.js
 
 ```
 
@@ -213,6 +216,15 @@ and (re)start the server
     npm start
 
 ## Collabo Server
+
+### users
+
+add mprinc/sir to sudoers
+
+```sh
+usermod -a -G sudo mprinc
+usermod -a -G sudo sir
+```
 
 ### Node
 

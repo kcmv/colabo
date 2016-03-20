@@ -57,7 +57,7 @@ body {
 	overflow-y: scroll;
 
 	/* This is the default clearfix from Compass. You can opt to use other clearfix methods */
-	@include clearfix;
+	// @include clearfix;
 	/* The Container Mixin */
 	@include container( 100% );
 }

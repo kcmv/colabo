@@ -47,20 +47,11 @@ export class KnalledgeMapTools {
         this.policyConfig = knalledgeMapPolicyService.get().config;
         this.viewConfig = knalledgeMapViewService.get().config;
 
-        // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
-        // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
-
         this.globalEmitterServicesArray = globalEmitterServicesArray;
         globalEmitterServicesArray.register(this.mapStylingChangedEventName);
         globalEmitterServicesArray.register(this.viewspecChangedEventName);
         globalEmitterServicesArray.register(this.syncingChangedEventName);
     };
-    public data: any = {
-       cb1: true,
-       cb4: true,
-       cb5: false
-     };
-     public message = 'false';
     bindings:Object = {
         viewspec: 'viewspec_manual'
     };
@@ -78,9 +69,6 @@ export class KnalledgeMapTools {
         var result = this.sidenavService.hide('left');
         console.log("[toggleList] result: ", result);
         return;
-    };
-    public onChange(cbState) {
-      this.message = cbState;
     };
 
     limitDisplayChanged:Function = function(path, value){
