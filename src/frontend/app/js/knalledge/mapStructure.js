@@ -175,7 +175,7 @@ MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 	}
 
 	var visibleBrainstorming = true;
-	if(node.kNode.decorations.brainstorming>=1 && this.knalledgeMapPolicyService.provider.config.behaviour.brainstorming == 1 && node.kNode.iAmId != this.rimaService.getActiveUserId()){ // brainstorming node && behaviour brainstorming
+	if((node.kNode.decorations.brainstorming != undefined || node.kNode.decorations.brainstorming>=1) && this.knalledgeMapPolicyService.provider.config.behaviour.brainstorming == 1 && node.kNode.iAmId != this.rimaService.getActiveUserId()){ // brainstorming node && behaviour brainstorming
 		visibleBrainstorming = false;
 	}
 
@@ -643,49 +643,51 @@ MapStructure.prototype.getSubChildren = function(vkNode, depth, list) {
 // pa samo proveri da li vec ga imamo preko kNode._id
 // [21.05.15 11:40:10] Sinisa (лични): i onda osvezi samo
 MapStructure.prototype.processSyncedData = function(syncedData) {
-	var i=0;
-	var kNode = null;
-	var kEdge = null;
+	if(syncedData !== undefined){
+		var i=0;
+		var kNode = null;
+		var kEdge = null;
 
-	var newestNode = null; //the node that has be changed the last (so that we can focus on it - as selectedNode)
-	for(i=0; i<syncedData.nodes.length; i++){
-		kNode = syncedData.nodes[i];
-		// TODO: not necessart since we do it on the level of kNode already
-		// resource.getChangesFromServer
-		//		...
-		// 		kNode.fill(changesKNode);
-		// if(!("isOpen" in kNode.visual)){
-		// 	kNode.visual.isOpen = false;
-		// }
+		var newestNode = null; //the node that has be changed the last (so that we can focus on it - as selectedNode)
+		for(i=0; i<syncedData.nodes.length; i++){
+			kNode = syncedData.nodes[i];
+			// TODO: not necessart since we do it on the level of kNode already
+			// resource.getChangesFromServer
+			//		...
+			// 		kNode.fill(changesKNode);
+			// if(!("isOpen" in kNode.visual)){
+			// 	kNode.visual.isOpen = false;
+			// }
 
-		var vkNode = this.getVKNodeByKId(kNode._id);
-		if(!vkNode){ // it is a new node not an updated one
-			vkNode = new knalledge.VKNode();
-			vkNode.fillWithKNode(kNode, true);
-			this.nodesById[vkNode.id] = vkNode;
-		}else{
-			vkNode.fillWithKNode(kNode);
+			var vkNode = this.getVKNodeByKId(kNode._id);
+			if(!vkNode){ // it is a new node not an updated one
+				vkNode = new knalledge.VKNode();
+				vkNode.fillWithKNode(kNode, true);
+				this.nodesById[vkNode.id] = vkNode;
+			}else{
+				vkNode.fillWithKNode(kNode);
+			}
+
+			if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){
+				newestNode = vkNode;
+			}
 		}
 
-		if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){
-			newestNode = vkNode;
+		for(i=0; i<syncedData.edges.length; i++){
+			kEdge = syncedData.edges[i];
+
+			var vkEdge = this.getVKEdgeByKId(kEdge._id);
+			if(!vkEdge){ // it is a new edge not an updated one
+				vkEdge = new knalledge.VKEdge();
+				vkEdge.fillWithKEdge(kEdge, true);
+				this.edgesById[vkEdge.id] = vkEdge;
+			}else{
+				vkEdge.fillWithKEdge(kEdge);
+			}
 		}
+
+		this.selectedNode = newestNode; //we focus on the last changed node. It is used for next functions in calls
 	}
-
-	for(i=0; i<syncedData.edges.length; i++){
-		kEdge = syncedData.edges[i];
-
-		var vkEdge = this.getVKEdgeByKId(kEdge._id);
-		if(!vkEdge){ // it is a new edge not an updated one
-			vkEdge = new knalledge.VKEdge();
-			vkEdge.fillWithKEdge(kEdge, true);
-			this.edgesById[vkEdge.id] = vkEdge;
-		}else{
-			vkEdge.fillWithKEdge(kEdge);
-		}
-	}
-
-	this.selectedNode = newestNode; //we focus on the last changed node. It is used for next functions in calls
 };
 
 }()); // end of 'use strict';
