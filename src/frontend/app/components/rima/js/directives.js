@@ -295,8 +295,12 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					var users=[];
 
 					for(var i = 0; i<usersAll.length; i++){
-						if(users_ignored.hasOwnProperty(usersAll[i]._id) || usersAll[i].displayName == "" || typeof usersAll[i].displayName == undefined){continue;}
-						users.push({_id:usersAll[i]._id, name:usersAll[i].displayName, connectionsNo: 0});
+						if(users_ignored.hasOwnProperty(usersAll[i]._id) || usersAll[i].displayName == "" || typeof usersAll[i].displayName == 'undefined'){continue;}
+						users.push({
+							_id: usersAll[i]._id,
+							name: usersAll[i].displayName,
+							connectionsNo: 0
+						});
 					}
 
 					console.log("[rimaUsersConnections] users.length: ", users.length);
@@ -308,19 +312,30 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						var userIHows = RimaService.howAmIs[userI._id]; //take their userHows
 						console.log("[rimaUsersConnections] userI.name: '%s', userIHows.length: %s",
 							userI.name, userIHows.length);
+
+						userI.connectedWith = {};
+
 						for(var ih = 0; ih<userIHows.length; ih++){ // go through all their userHows
 							var userIHow = userIHows[ih]; //and for each of their hows
-							for(var j = i; j<users.length; j++){ // we check in all other users (except those already passed)
-								if(i == j){continue;}
+							var userJ, j;
+							// we just add number of matching users from passed users,
+							// but we do not draw extra lines or calculations
+							for(j = 0; j<i; j++){
+								userJ = users[j];
+								if(userJ.connectedWith[userI._id]){
+									userI.connectedWith[userJ._id] = true;
+								}
+							}
+							for(j = i+1; j<users.length; j++){ // we check in all other users (except those already passed)
 								//if(users_ignored.hasOwnProperty(users[j]._id) || users[j].displayName == "" || typeof users[j].displayName == undefined){continue;}
-								var userJ = users[j];
+								userJ = users[j];
 								if(!RimaService.howAmIs.hasOwnProperty(userJ._id)){continue;}
 								var userJHows = RimaService.howAmIs[userJ._id]; //by taking their userHows
 								for(var jh = 0; jh<userJHows.length; jh++){ // go through all their userHows
 									var userJHow = userJHows[jh]; //and for each of their hows
 									if (userIHow.whatAmI._id == userJHow.whatAmI._id && (!hows_ignored.hasOwnProperty(userIHow.how) && !hows_ignored.hasOwnProperty(userJHow.how)))
 									{
-										userI.connectionsNo++;
+										userI.connectedWith[userJ._id] = true;
 										var foundLink = false;
 										for(var l=0;l<links.length; l++){ // we go through existing links among users:
 											var link = links[l];
@@ -340,6 +355,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 								}
 							}
 						}
+						userI.connectionsNo += Object.keys(userI.connectedWith).length;
 					}
 
 
@@ -369,51 +385,89 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						  	    return "translate(" + d.x + "," + d.y + ")"; });
 						}
 
+						var _selectedNode = null;
 						// action to take on mouse click
 						var click = function() {
-							this.__data__.selected = !this.__data__.selected;
-							if(this.__data__.selected){
+							if(_selectedNode && _selectedNode != this){
+								unselectNode(_selectedNode);
+								selectNode(this);
+							}else if(_selectedNode && _selectedNode == this){
+								unselectNode(_selectedNode);
+							}else{
+								selectNode(this);
+							}
+						};
 
-							    //d3.select(node).selectedNode(this);
-							    selectNode(this);
-							    var selectedNode = this;
-							    d3.selectAll("path").attr("class", function(d) {
-							    	if(d.target._id == selectedNode.__data__._id || d.source._id == selectedNode.__data__._id){return "selected";}else{return "unselected";}
-							    });
-	                    		//d3.select(this).style("fill", "black");
-                    		}
-                    		else{
-                    			d3.select(this).select("circle").transition()
-							        .duration(750)
-									.attr("r", function(d) {
-										return 5 + d.connectionsNo;
-									})
-							        .style("fill", "#ccc");
-							    d3.select(this).select("text").transition()
-							        .duration(750)
-							        .attr("x", 12)
-							        .style("stroke", "none")
-							        .style("fill", "black")
-							        .style("stroke", "none")
-							        .style("font", "10px sans-serif");
-							    d3.selectAll("path").attr("class", 'unselected');
-                    		}
-						}
+						var unselectNode = function(node){
+							_selectedNode = null;
+							// reset all nodes
+							d3.select(node).select("circle").transition()
+								.duration(750)
+								.attr("r", function(d) {
+									return 5 + d.connectionsNo;
+								})
+								.style("stroke", "none")
+								.style("fill", "#ccc");
+
+							d3.select(node).select("text").transition()
+								.duration(750)
+								.attr("x", 12)
+								.style("fill", "blue")
+								.style("stroke", "blue")
+								.style("stroke-width", ".5px")
+								.style("font", "10px sans-serif");
+
+							d3.selectAll("path").attr("class", 'unselected');
+							svg.selectAll(".node")
+								.filter(function(d){
+									return node.__data__.connectedWith[d._id];
+								})
+								.select("circle").transition()
+								.duration(750)
+								.attr("r", function(d) {
+									return 5 + d.connectionsNo;
+								})
+								.style("stroke", "none")
+								.style("fill", "#ccc");
+
+						};
 
 						var selectNode = function(node){
+							_selectedNode = node;
 							d3.select(node).select("text").transition()
-							        .duration(750)
-							        .attr("x", 22)
-							        .style("fill", "steelblue")
-							        .style("stroke", "lightsteelblue")
-							        .style("stroke-width", ".5px")
-							        .style("font", "20px sans-serif");
-							    d3.select(node).select("circle").transition()
-							        .duration(750)
-							        .attr("r", function(d) {
-										return 5 + d.connectionsNo + 5;
-									})
-							        .style("fill", "lightsteelblue");
+						        .duration(750)
+						        .attr("x", 22)
+						        .style("fill", "steelblue")
+						        .style("stroke", "lightsteelblue")
+						        .style("stroke-width", ".5px")
+						        .style("font", "20px sans-serif");
+						    d3.select(node).select("circle").transition()
+						        .duration(750)
+						        .attr("r", function(d) {
+									return 5 + d.connectionsNo + 5;
+								})
+								.style("stroke", "steelblue")
+						        .style("fill", "lightsteelblue");
+
+							svg.selectAll(".node")
+								.filter(function(d){
+									return _selectedNode.__data__.connectedWith[d._id];
+								})
+								.select("circle").transition()
+								.duration(750)
+								.attr("r", function(d) {
+									return 5 + d.connectionsNo + 1;
+								})
+								.style("stroke", "steelblue")
+								.style("fill", "#faa");
+
+							d3.selectAll("path").attr("class", function(d) {
+								if(d.target._id == _selectedNode.__data__._id || d.source._id == _selectedNode.__data__._id){
+									return "selected";
+								}else{
+									return "unselected";
+								}
+							});
 						}
 
 						// action to take on mouse double click
@@ -503,7 +557,11 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						node.append("text")
 							.attr("x", 12)
 							.attr("dy", ".35em")
-							.text(function(d) { return d.name; });
+							.style("fill", "blue")
+							.style("stroke", "blue")
+							.style("stroke-width", ".5px")
+							.style("font", "10px sans-serif")
+							.text(function(d) { return d.name + " (" + d.connectionsNo + ")"; });
 
 						force.start();
 					}
