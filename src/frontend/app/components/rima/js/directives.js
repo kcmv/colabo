@@ -489,8 +489,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						  .enter().append("g")
 							.attr("class", "node")
 							.on("click", click)
-    						.on("dblclick", dblclick)
-							// .call(force.drag)
+    						// .on("dblclick", dblclick)
+							.call(force.drag)
 							;
 
 						// add the nodes
