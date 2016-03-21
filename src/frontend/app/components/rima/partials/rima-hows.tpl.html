@@ -28,9 +28,9 @@
 			></select>
 		</td>
 		<td class="what_input_element">
-			<input class="what_input guidance_enter_what_1" type="text" ng-model="whatInput" placeholder="type a topic / your interest ..." 
+			<input class="what_input guidance_enter_what_1" type="text" ng-model="whatInput" placeholder="type a topic / your interest ..."
 			tooltip="Enter your interest here ..." tooltip-placement="top" tooltip-trigger="openTrigger" tooltip-enable="true" tooltip-append-to-body="true" ng-change="inputWhatChanged()"
-			typeahead="item as item.name for item in getItems($viewValue) | filter:{name:$viewValue}" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" typeahead-append-to-body="true" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input">
+			typeahead="item as item.name for item in getItems($viewValue)" typeahead-loading="loadingLocations" typeahead-on-select="selected($item, $model, $label)" typeahead-append-to-body="true" ng-keyup="$event.keyCode == 13 ? enterPressed(whatInput) : null" class="new-item-input">
 
 			<button ng-if="whatInput" class="btn btn-primary guidance_add_who" type="button" ng-click="createHow(whatInput)"
 			tooltip="Click to add your interest to your portfolio" tooltip-placement="top" tooltip-trigger="openTrigger" tooltip-enable="true" tooltip-append-to-body="true"
