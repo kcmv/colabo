@@ -369,7 +369,57 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						  	    return "translate(" + d.x + "," + d.y + ")"; });
 						}
 
-						// tick();
+						// action to take on mouse click
+						var click = function() {
+							this.__data__.selected = !this.__data__.selected;
+							if(this.__data__.selected){
+
+							    //d3.select(node).selectedNode(this);
+							    selectNode(this);
+							    var selectedNode = this;
+							    d3.selectAll("path").attr("class", function(d) {
+							    	if(d.target._id == selectedNode.__data__._id || d.source._id == selectedNode.__data__._id){return "selected";}else{return "unselected";}
+							    });
+	                    		//d3.select(this).style("fill", "black");
+                    		}
+                    		else{
+                    			d3.select(this).select("circle").transition()
+							        .duration(750)
+									.attr("r", function(d) {
+										return 5 + d.connectionsNo;
+									})
+							        .style("fill", "#ccc");
+							    d3.select(this).select("text").transition()
+							        .duration(750)
+							        .attr("x", 12)
+							        .style("stroke", "none")
+							        .style("fill", "black")
+							        .style("stroke", "none")
+							        .style("font", "10px sans-serif");
+							    d3.selectAll("path").attr("class", 'unselected');
+                    		}
+						}
+
+						var selectNode = function(node){
+							d3.select(node).select("text").transition()
+							        .duration(750)
+							        .attr("x", 22)
+							        .style("fill", "steelblue")
+							        .style("stroke", "lightsteelblue")
+							        .style("stroke-width", ".5px")
+							        .style("font", "20px sans-serif");
+							    d3.select(node).select("circle").transition()
+							        .duration(750)
+							        .attr("r", function(d) {
+										return 5 + d.connectionsNo + 5;
+									})
+							        .style("fill", "lightsteelblue");
+						}
+
+						// action to take on mouse double click
+						var dblclick = function() {
+
+						}
 
 						force = d3.layout.force()
 							.nodes(d3.values(users))
@@ -439,13 +489,14 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						  .enter().append("g")
 							.attr("class", "node")
 							.on("click", click)
-    						//.on("dblclick", dblclick)
-							.call(force.drag);
+    						.on("dblclick", dblclick)
+							// .call(force.drag)
+							;
 
 						// add the nodes
 						node.append("circle")
 						    .attr("r", function(d) {
-								return 5 + d.connectionsNo; 
+								return 5 + d.connectionsNo;
 							});
 
 						// add the text
@@ -453,54 +504,6 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 							.attr("x", 12)
 							.attr("dy", ".35em")
 							.text(function(d) { return d.name; });
-
-						// action to take on mouse click
-						var click = function() {
-							this.__data__.selected = !this.__data__.selected;
-							if(this.__data__.selected){
-
-							    //d3.select(node).selectedNode(this);
-							    selectNode(this);
-							    var selectedNode = this;
-							    d3.selectAll("path").attr("class", function(d) {
-							    	if(d.target._id == selectedNode.__data__._id || d.source._id == selectedNode.__data__._id){return "selected";}else{return "unselected";}
-							    });
-	                    		//d3.select(this).style("fill", "black");
-                    		}
-                    		else{
-                    			d3.select(this).select("circle").transition()
-							        .duration(750)
-							        .attr("r", 6)
-							        .style("fill", "#ccc");
-							    d3.select(this).select("text").transition()
-							        .duration(750)
-							        .attr("x", 12)
-							        .style("stroke", "none")
-							        .style("fill", "black")
-							        .style("stroke", "none")
-							        .style("font", "10px sans-serif");
-							    d3.selectAll("path").attr("class", 'unselected');
-                    		}
-						}
-
-						var selectNode = function(node){
-							d3.select(node).select("text").transition()
-							        .duration(750)
-							        .attr("x", 22)
-							        .style("fill", "steelblue")
-							        .style("stroke", "lightsteelblue")
-							        .style("stroke-width", ".5px")
-							        .style("font", "20px sans-serif");
-							    d3.select(node).select("circle").transition()
-							        .duration(750)
-							        .attr("r", 16)
-							        .style("fill", "lightsteelblue");
-						}
-
-						// action to take on mouse double click
-						var dblclick = function() {
-
-						}
 
 						force.start();
 					}
