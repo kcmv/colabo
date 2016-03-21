@@ -4,6 +4,7 @@ import {NgIf, NgFor, FORM_DIRECTIVES} from 'angular2/common';
 import {MdRadioDispatcher, MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {TopiChatService} from '../topiChat/topiChatService';
+import {TopiChatConfigService} from './topiChatConfigService';
 
 @Component({
     selector: 'topichat-reports',
@@ -22,7 +23,8 @@ export class TopiChatReports {
 
     constructor(
         @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
-        @Inject('TopiChatService') topiChatService:TopiChatService
+        @Inject('TopiChatService') topiChatService:TopiChatService,
+        @Inject('TopiChatConfigService') topiChatConfigService:TopiChatConfigService
         // globalEmitterServicesArray:GlobalEmitterServicesArray
     ) {
         console.log('[TopiChatReports]');
@@ -32,10 +34,12 @@ export class TopiChatReports {
 
         this.globalEmitterServicesArray = globalEmitterServicesArray;
         this.topiChatService = topiChatService;
+        this.topiChatConfigService = topiChatConfigService;
         this.plugins = this.getPlugins();
     };
     private globalEmitterServicesArray:GlobalEmitterServicesArray;
     private topiChatService:TopiChatService;
+    private topiChatConfigService:TopiChatConfigService;
 
     configChanged(path, value) {
         return;
@@ -53,6 +57,11 @@ export class TopiChatReports {
         this.topiChatService.registerPlugin(pluginOptions);
     };
 
+    /**
+     * Transforms hash array of plugins and events into array
+     * that is user friendly with directives like *ngFor
+     * @return {any} plugins array
+     */
     getPlugins():any {
         var plugins = this.topiChatService.getPlugins();
         var pluginsArray = [];
@@ -74,4 +83,35 @@ export class TopiChatReports {
         }
         return pluginsArray;
     };
+
+    /**
+    * Transforms hash array of event into array
+    * that is user friendly with directives like *ngFor
+     * @return {any} events list
+     */
+    getEvents():any {
+        var events = this.topiChatService.getEvents();
+        var eventsArray = [];
+        for(let eI in events) {
+            var event = events[eI];
+            var eventObj:any = {};
+            eventsArray.push(eventObj);
+
+            eventObj.name = eI;
+            eventObj.plugins = [];
+
+            // currently event contains only array of plugin options
+            var plugins = event;
+            for(let pI in plugins) {
+                eventObj.plugins.push(plugins[pI].name);
+            }
+        }
+        return eventsArray;
+    };
+
+    getMessagesForEvent(eventName):Object[] {
+        var messages = this.topiChatService.getMessagesForEvent(eventName);
+        return messages;
+    };
+
 }

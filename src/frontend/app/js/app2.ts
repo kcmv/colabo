@@ -7,6 +7,7 @@ import {KnalledgeMapViewService} from '../components/knalledgeMap/knalledgeMapVi
 import {TopiChatReports} from '../components/topiChat/reports';
 // import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterService';
 import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmitterServicesArray';
+import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
 
 /// <reference path="../../../typings/browser/ambient/angular/angular.d.ts" />
@@ -25,7 +26,9 @@ angular.module('knalledgeMapDirectives')
     ;
 var topiChatServices = angular.module('topiChatServices');
 topiChatServices
-    .service('TopiChatService', TopiChatService);
+    .service('TopiChatConfigService', TopiChatConfigService)
+    .service('TopiChatService', TopiChatService)
+    ;
 
 angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives'])
      .directive({
@@ -55,7 +58,9 @@ knalledgeMapServicesModule
 
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
 upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
+upgradeAdapter.upgradeNg1Provider('TopiChatConfigService');
 upgradeAdapter.upgradeNg1Provider('TopiChatService');
+
 // upgradeAdapter.addProvider(GlobalEmitterService);
 // upgradeAdapter.upgradeNg1Provider(GlobalEmitterService);
 
