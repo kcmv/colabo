@@ -299,7 +299,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						users.push({
 							_id: usersAll[i]._id,
 							name: usersAll[i].displayName,
-							connectionsNo: 0
+							connectionsNo: 0,
+							connectedWith: {}
 						});
 					}
 
@@ -322,7 +323,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 							// but we do not draw extra lines or calculations
 							for(j = 0; j<i; j++){
 								userJ = users[j];
-								if(('connectedWith' in userJ) && userJ.connectedWith[userI._id]){
+								if(userJ.connectedWith[userI._id]){
 									userI.connectedWith[userJ._id] = true;
 								}
 							}
