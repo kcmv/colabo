@@ -286,6 +286,9 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 
 				var update = function(){
 
+					// clear content
+					svg.selectAll("*").remove();
+
 					//!!! TODO: check for improving performance of this algorithm!! it is ~ O(n4)!!
 
 					var links = [];
@@ -296,11 +299,15 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						users.push({_id:usersAll[i]._id, name:usersAll[i].displayName});
 					}
 
+					console.log("[rimaUsersConnections] users.length: ", users.length);
+
 					for(var i = 0; i<users.length; i++){ // we go through all users
 
 						var userI = users[i];
 						if(!RimaService.howAmIs.hasOwnProperty(userI._id)){continue;}
 						var userIHows = RimaService.howAmIs[userI._id]; //take their userHows
+						console.log("[rimaUsersConnections] userI.name: '%s', userIHows.length: %s",
+							userI.name, userIHows.length);
 						for(var ih = 0; ih<userIHows.length; ih++){ // go through all their userHows
 							var userIHow = userIHows[ih]; //and for each of their hows
 							for(var j = i; j<users.length; j++){ // we check in all other users (except those already passed)
@@ -342,6 +349,27 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						//links = [{source:0,target:1,value:1},{source:1,target:2,value:5}];
 						//links = [];
 
+						var tick = function() {
+							// add the curvy lines:
+						    path.attr("d", function(d) {
+						        var dx = d.target.x - d.source.x,
+						            dy = d.target.y - d.source.y,
+						            dr = Math.sqrt(dx * dx + dy * dy);
+						        return "M" +
+						            d.source.x + "," +
+						            d.source.y + "A" +
+						            dr + "," + dr + " 0 0,1 " +
+						            d.target.x + "," +
+						            d.target.y;
+						    });
+
+						    node
+						        .attr("transform", function(d) {
+						  	    return "translate(" + d.x + "," + d.y + ")"; });
+						}
+
+						// tick();
+
 						force = d3.layout.force()
 							.nodes(d3.values(users))
 							.links(links)
@@ -349,7 +377,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 							.linkDistance(300)
 							.charge(-100)
 							.on("tick", tick)
-							.start();
+							// .start()
+							;
 
 						//console.log("force:" + force);
 
@@ -391,7 +420,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						 .append("textPath")
 					   // .attr("xlink:href",function(d,i) { return "#linkId_" + i;})
 					     .text(function(d) {
-						 return "ldf";//d.type;
+							 return d.whatAmI
+							// 	return "ldf";//d.type;
 						 });
 
 						// path.append("text")
@@ -469,24 +499,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 
 						}
 
-						var tick = function() {
-							// add the curvy lines:
-						    path.attr("d", function(d) {
-						        var dx = d.target.x - d.source.x,
-						            dy = d.target.y - d.source.y,
-						            dr = Math.sqrt(dx * dx + dy * dy);
-						        return "M" +
-						            d.source.x + "," +
-						            d.source.y + "A" +
-						            dr + "," + dr + " 0 0,1 " +
-						            d.target.x + "," +
-						            d.target.y;
-						    });
-
-						    node
-						        .attr("transform", function(d) {
-						  	    return "translate(" + d.x + "," + d.y + ")"; });
-						}
+						force.start();
 					}
 
 					// Compute the distinct nodes from the links.
