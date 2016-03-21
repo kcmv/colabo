@@ -907,7 +907,8 @@ Knalledge Maps
       padding: 5px; }
     .ibis-types-list .list td {
       /*border: 1px solid black;*/
-      padding: 5px; }
+      padding: 5px;
+      font-size: 0.75em; }
     .ibis-types-list .list .active-selection {
       background-color: #aaf; }
 

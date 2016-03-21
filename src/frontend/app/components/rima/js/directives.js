@@ -296,7 +296,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 
 					for(var i = 0; i<usersAll.length; i++){
 						if(users_ignored.hasOwnProperty(usersAll[i]._id) || usersAll[i].displayName == "" || typeof usersAll[i].displayName == undefined){continue;}
-						users.push({_id:usersAll[i]._id, name:usersAll[i].displayName});
+						users.push({_id:usersAll[i]._id, name:usersAll[i].displayName, connectionsNo: 0});
 					}
 
 					console.log("[rimaUsersConnections] users.length: ", users.length);
@@ -320,6 +320,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 									var userJHow = userJHows[jh]; //and for each of their hows
 									if (userIHow.whatAmI._id == userJHow.whatAmI._id && (!hows_ignored.hasOwnProperty(userIHow.how) && !hows_ignored.hasOwnProperty(userJHow.how)))
 									{
+										userI.connectionsNo++;
 										var foundLink = false;
 										for(var l=0;l<links.length; l++){ // we go through existing links among users:
 											var link = links[l];
@@ -443,7 +444,9 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 
 						// add the nodes
 						node.append("circle")
-						    .attr("r", 7);
+						    .attr("r", function(d) {
+								return 5 + d.connectionsNo; 
+							});
 
 						// add the text
 						node.append("text")

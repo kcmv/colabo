@@ -544,7 +544,8 @@ wizard {
       padding: 5px; }
     .rima-users-list .list td {
       /*border: 1px solid black;*/
-      padding: 5px; }
+      padding: 5px;
+      font-size: 0.75em; }
     .rima-users-list .list .active-selection {
       background-color: #aaf; }
 
