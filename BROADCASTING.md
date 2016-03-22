@@ -1,5 +1,7 @@
 # BROADCASTING
 
+**IMPORTANT**: In order to practice/test collaboration we need to enable it (Tools > Moderator: on, Presenter: on)
+
 ## TopiChatService
 
 registered in `components/topiChat/topiChatService.ts`

@@ -66,7 +66,7 @@ MapLayoutTree.prototype.init = function(mapSize, scales){
 		events: {
 		}
 	};
-	mapLayoutPluginOptions.events[MapLayoutTree.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
+	mapLayoutPluginOptions.events[knalledge.MapLayout.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
 	this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions);
 };
 

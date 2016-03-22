@@ -186,7 +186,7 @@ MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleU
 
 		// realtime distribution
 		if(this.knAllEdgeRealTimeService && !doNotBroadcast){ 	// do not broadcast back :)
-			this.knAllEdgeRealTimeService.emit(MapLayout.KnRealTimeNodeSelectedEventName, d.kNode._id);
+			this.knAllEdgeRealTimeService.emit(knalledge.MapLayout.KnRealTimeNodeSelectedEventName, d.kNode._id);
 		}
 
 		this.clientApi.positionToDatum(d);

@@ -58,7 +58,7 @@ MapLayoutGraph.prototype.init = function(mapSize, scales){
 		events: {
 		}
 	};
-	mapLayoutPluginOptions.events[MapLayoutGraph.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
+	mapLayoutPluginOptions.events[MapLayout.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
 	this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions);
 };
 
@@ -318,7 +318,7 @@ MapLayoutGraph.prototype.printTree = function(nodes) {
 			if(node.y - width/2 < minY) minY = node.y - width/2;
 			if(node.y + width/2 > maxY) maxY = node.y + width/2;
 		}
-		console.log("Dimensions: (minX: %s, maxX: %s, minY: %s, maxY: %s)", minX, maxX, minY, maxY);		
+		console.log("Dimensions: (minX: %s, maxX: %s, minY: %s, maxY: %s)", minX, maxX, minY, maxY);
 	}
 };
 
