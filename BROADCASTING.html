@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>BROADCASTING.html</title>
+<style>
+* {
+    overflow: visible !important;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    box-decoration-break: clone;
+}
+
+html, body {
+    background: #FFF;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+    word-wrap: break-word;
+	hyphens: auto;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 4px solid #EEE;
+}
+
+code {
+    padding: .1em .4em .2em;
+    display: inline-block;
+    background-color: #f9f2f4;
+    color: #c7254e;
+    border-radius: 3px;
+    border: 0 none;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    hyphens: manual;
+}
+
+pre code {
+    padding: 16px;
+    display: block;
+    background-color: #F9F9F9;
+    color: #333;
+    box-shadow: inset -1px -1px 0 rgba(0, 0, 0, .08);
+    word-wrap: normal;
+}
+
+/* replace light background for some hljs themes */
+code.github-css,
+code.github-gist-css,
+code.tomorrow-css,
+code.default-css,
+code.googlecode-css,
+code.ascetic-css,
+code.color-brewer-css,
+code.grayscale-css,
+code.idea-css,
+code.vs-css,
+code.xcode-css {
+    background-color: #F9F9F9 !important;
+}
+
+blockquote {
+    padding: 10px 20px;
+    margin: 10px 0 20px;
+    color: #777;
+    border: 0 none;
+    border-left: 4px solid #EEE;
+}
+
+blockquote p:last-child,
+blockquote ul:last-child,
+blockquote ol:last-child {
+    margin-bottom: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: #FFF;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #DDD;
+}
+
+table div {
+    page-break-inside: avoid;
+}
+
+th, td {
+    text-align: left;
+}
+
+table > thead > tr > th,
+table > tbody > tr > th,
+table > tfoot > tr > th,
+table > thead > tr > td,
+table > tbody > tr > td,
+table > tfoot > tr > td {
+    padding: 8px 14px;
+    vertical-align: top;
+    border-top: 1px solid #DDD;
+}
+
+table > caption + thead > tr:first-child > th,
+table > colgroup + thead > tr:first-child > th,
+table > thead:first-child > tr:first-child > th,
+table > caption + thead > tr:first-child > td,
+table > colgroup + thead > tr:first-child > td,
+table > thead:first-child > tr:first-child > td {
+    border-top: 0;
+}
+
+table > tbody + tbody {
+    border-top: 2px solid #DDD;
+}
+
+table table {
+    background-color: #FFF;
+}
+
+table > thead > tr > th,
+table > tbody > tr > th,
+table > tfoot > tr > th,
+table > thead > tr > td,
+table > tbody > tr > td,
+table > tfoot > tr > td {
+    border: 1px solid #DDD;
+}
+
+table > thead > tr > th,
+table > thead > tr > td {
+    border-bottom-width: 2px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+table > tbody > tr:nth-of-type(odd) {
+    background-color: #F9F9F9;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+#pageContent{
+    width: 60%;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    padding: 3em;
+    padding-top: 1em;
+    position: relative;
+    left: 50%;
+    margin-left: -30%;
+    margin-top: 3em;
+    margin-bottom: 3em;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    text-align: justify;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    page-break-after: avoid;
+    text-align: center;
+    color: #555;
+}
+
+h1, h2 {
+    border-bottom: 1px solid #ccc;
+}
+
+h1, h2, h3 {
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 16px;
+}
+
+h6 {
+    font-size: 14px;
+    color: #555;
+}
+
+p {
+    margin: 0 0 10px;
+}
+
+input[type="checkbox"] {
+    margin-right: 6px;
+    position: relative;
+    bottom: 1px;
+}
+
+ul,
+ol {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+ul li,
+ol li {
+    margin-bottom: 2px;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+    margin-bottom: 0;
+}
+
+dl {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+dt,
+dd {
+    line-height: 1.42857143;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-left: 0;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+a[href]:after {
+    content: " " attr(href);
+    color: #337AB7;
+}
+
+.ir a:after,
+a[href^="javascript:"]:after,
+a[href^="#"]:after {
+    content: "";
+    text-decoration: none;
+    margin-left: 0;
+}
+
+.new-page,
+.page-break,
+.next-page,
+.page-end {
+    page-break-before: always;
+}
+
+#pageHeader {
+    color: #888;
+}
+
+#pageHeader span {
+    vertical-align: middle;
+}
+
+#pageFooter {
+    border-top: 2px solid #EEE;
+    padding-top: 10px;
+    color: #888;
+    font-size: 80%;
+}
+
+/**
+ * Your markdown-themeable-pdf custom styles
+ *
+ * The default file can be found in the folder ~/.atom/packages/markdown-themeable-pdf/templates
+ * The base css file can be found in the folder ~/.atom/packages/markdown-themeable-pdf/css
+ * The current highlight.js css file can be found in the folder ~/.atom/packages/markdown-themeable-pdf/node_modules/highlight.js/styles
+ */
+
+/*
+html, body {
+	color: red;
+}
+*/
+
+/**
+ * GitHub Gist Theme
+ * Author : Louis Barranqueiro - https://github.com/LouisBarranqueiro
+ */
+
+.hljs {
+  display: block;
+  background: white;
+  padding: 0.5em;
+  color: #333333;
+  overflow-x: auto;
+}
+
+.hljs-comment,
+.hljs-meta {
+  color: #969896;
+}
+
+.hljs-string,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-strong,
+.hljs-emphasis,
+.hljs-quote {
+  color: #df5000;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-type {
+  color: #a71d5d;
+}
+
+.hljs-literal,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-attribute {
+  color: #0086b3;
+}
+
+.hljs-section,
+.hljs-name {
+  color: #63a35c;
+}
+
+.hljs-tag {
+  color: #333333;
+}
+
+.hljs-title,
+.hljs-attr,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #795da3;
+}
+
+.hljs-addition {
+  color: #55a532;
+  background-color: #eaffea;
+}
+
+.hljs-deletion {
+  color: #bd2c00;
+  background-color: #ffecec;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+pre { white-space: pre-wrap !important; word-break: break-word !important; overflow: hidden !important;}
+</style>
+</head>
+<body>
+<div id="pageContent">
+<h1>BROADCASTING</h1>
+<h2>TopiChatService</h2>
+<p>registered in <code>components/topiChat/topiChatService.ts</code></p>
+<p>TopiChatService is part of the <code>topiChat</code> component. It uses underlying communication layer to provide real time messaging. Currently it uses <code>socket.io</code> library with tendency to migrate to another one or to support multiple providers.</p>
+<p>The service supports plugins that can be registered with info (name, …) and set of events they consume, either send or receive messages through them.</p>
+<p>For every event that plugin reported interest the service will register the plugin’s interest and any time message arrives through that event it will be dispatched to all interested plugins.</p>
+<p>NOTE: underlying real-time layer requires knowledge of every event TopiChatService is interested in in order to propagete messages/packages up to TopiChatService. Therefore TopiChatService registeres every new event interest received from plugin to the underlying provider.</p>
+<p><strong>TODO</strong>: should we rename events into pipes or streams?</p>
+<p><strong>Hiererachy</strong>:</p>
+<ul>
+<li>Plugins with events of interest</li>
+<li>TopiChatService with list of plugins and events</li>
+<li>Underlying real-time provider (currently <a href="http://socket.io">socket.io</a>) with list of events</li>
+</ul>
+<h2>Reports/Sniffing</h2>
+<p>Directive <code>topichat-reports</code> provides insight in registered plugins, events, and messages that are passing through the topiChat system.</p>
+<p>NOTE: system can register path to the topichat report:</p>
+<pre><code class="hljs github-gist-css js">.when(<span class="hljs-string">'/topichat-report'</span>, {
+    templateUrl: <span class="hljs-string">'components/topiChat/partials/report-index.tpl.html'</span>
+})
+</code></pre>
+<p>and provide access to users.</p>
+<h2>TopiChat Plugin: KnAllEdgeRealTimeService</h2>
+<ul>
+<li>registered in: <code>components/knalledgeMap/services.js</code></li>
+<li>topiChat plugin:
+<ul>
+<li>name: <code>knalledgeRealTimeService</code></li>
+<li>events:
+<ul>
+<li><code>kn:realtime</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>KnAllEdgeRealTimeService registers plugin with TopiChatService and uses event <code>kn:realtime</code> for communication.</p>
+<p>KnAllEdgeRealTimeService mimics TopiChatService behaviour but on KnAllEdge related space. It also provides registering different plugins and emitting and receiving messages.</p>
+<p>KnAllEdge (real-time) plugins are registered throuh call to <code>KnAllEdgeRealTimeService.registerPlugin</code></p>
+<h2>KnAllEdge Plugin: mapView</h2>
+<ul>
+<li>registered in: <code>knalledgeMapDirectives</code> (<code>components/knalledgeMap/js/directives.js</code>) &gt; knalledgeMap</li>
+<li>knalledgeRealTime plugin:
+<ul>
+<li>name: <code>mapView</code></li>
+<li>events:
+<ul>
+<li><code>map-styling-change</code></li>
+<li><code>map-viewspec-change</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>KnAllEdge Plugin: KnalledgeMapVOsService</h2>
+<ul>
+<li>registered in: <code>KnalledgeMapVOsService</code> (<code>components/knalledgeMap/js/services.js</code>) &gt; knalledgeMap</li>
+<li>knalledgeRealTime plugin:
+<ul>
+<li>name: <code>KnalledgeMapVOsService</code></li>
+<li>events (nodes):
+<ul>
+<li><code>node-created</code></li>
+<li><code>node-updated</code></li>
+<li><code>node-deleted</code></li>
+<li><code>nodes-deleted</code></li>
+</ul>
+</li>
+<li>events (edges):
+<ul>
+<li><code>edge-created</code></li>
+<li><code>edge-updated</code></li>
+<li><code>edge-deleted</code></li>
+<li><code>edges-deleted</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Usage - emitting</h3>
+<p>KnalledgeNodeService service for example emits the <code>node-created</code> event inside the <code>resource.execute</code> method for the case <code>request.method == 'create'</code>:</p>
+<pre><code class="hljs github-gist-css js"><span class="hljs-comment">// realtime distribution</span>
+<span class="hljs-keyword">if</span>(KnAllEdgeRealTimeService){
+    KnAllEdgeRealTimeService.emit(KnRealTimeNodeCreatedEventName, kNodeReturn.toServerCopy());
+}
+</code></pre>
+<h3>Usage - receiving</h3>
+<p>KnalledgeNodeService receives all of the messages through all events and dispatches them to all interested parties in the KnaAllEdge ecosystem. It uses GlobalEmitterServicesArray Pub/Sub service to achieve that. Similarly all interested parties registered through the same pub/sub service to receive messages.</p>
+<p>After the <code>KnalledgeMapVOsService</code> plugin receives event from the knalledgeRealTime service, it handles and transforms message and broadcasts it through the GlobalEmitterServicesArray:</p>
+<pre><code class="hljs github-gist-css js"><span class="hljs-keyword">if</span>(shouldBroadcast){
+    GlobalEmitterServicesArray.register(eventName);
+    GlobalEmitterServicesArray.get(eventName).broadcast(<span class="hljs-string">'KnalledgeMapVOsService'</span>, changes);
+}
+</code></pre>
+<p>The broadcasted name of the event it uses to broadcast is the same as the knalledgeRealTime name with addiional <code>-to-visual</code> sufix which makes provides the following: <code>node-created</code> -&gt; <code>node-created-to-visual</code>.</p>
+<p>Later, this particular event is subscribed in the <code>knalledgeMap</code> directive  (<code>components/knalledgeMap/js/directives.js</code>) for:</p>
+<pre><code class="hljs github-gist-css js"><span class="hljs-keyword">var</span> KnRealTimeNodeCreatedEventName = <span class="hljs-string">"node-created-to-visual"</span>;
+GlobalEmitterServicesArray.register(KnRealTimeNodeCreatedEventName);
+</code></pre>
+<p>Finally we are responding to it:</p>
+<pre><code class="hljs github-gist-css js">GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe(<span class="hljs-string">'knalledgeMap'</span>, knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+</code></pre>
+<p>which calls <code>knalledge.Map.prototype.processExternalChangesInMap</code> method.</p>
+<p>TODO: 'node-deleted', … responses are still not implemented although it is being emitted:</p>
+<pre><code class="hljs github-gist-css js">KnAllEdgeRealTimeService.emit(KnRealTimeNodeDeletedEventName, id);
+</code></pre>
+<p>in the <code>destroy</code> method of the <code>KnalledgeNodeService</code> service.</p>
+<h2>GlobalEmitterServicesArray - Global Pub/Sub services in KnAllEdge system</h2>
+<ul>
+<li>GlobalEmitterServicesArray: <code>components/collaboPlugins/globalEmitterServicesArray.ts</code></li>
+<li>GlobalEmitterService: <code>components/collaboPlugins/globalEmitterService.ts</code></li>
+</ul>
+<p>After KnAllEdge migrated from ng1 to ng2 (hybrid state at the moment) we have created standard pub/sub mechanism that is developed on the top of the Angular 2 <code>EventEmitter</code>.</p>
+<p>KnAllEdge provides <code>GlobalEmitterServicesArray</code> service that relies on <code>GlobalEmitterService</code> to provide a named set of events. This means that a producer can <code>register</code> particular named event and then <code>broadcast</code> through that event, while a consumer can <code>subscribe</code> to the same named event and listen for messages broadcasted.</p>
+
+</div></body>
+</html>

@@ -4,6 +4,7 @@
 
 var topiChatServices = angular.module('topiChatServices', ['ngResource', 'Config']);
 
+// MIGRATED TO EXTERNAL CLASSES
 /*
 topiChatServices.service('TopiChatService', ['socketFactory', '$rootScope', 'ENV',
 	function TopiChatServiceProvider(socketFactory, $rootScope, ENV){

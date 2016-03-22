@@ -77,7 +77,7 @@ $large: 1400px;
     height: 100%;
     min-height: 100%;
     overflow-x: visible;
-    overflow-y: visible;
+    overflow-y: scroll;
     /* temporary replacement for scroll; */
     /* neccessery to both dimensions be visible, to make dragging visible outside the dom borders */
     /*overflow: visible;*/

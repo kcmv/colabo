@@ -138,7 +138,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
 					RimaService.selectActiveUser(item);
 				};
-				$scope.switchClicked = function($el){
+				$scope.showToggleSwitchClicked = function($el){
 					var elSwitch = $element.find('.content');
 					$(elSwitch).slideToggle();
 					// console.log("Switching: ", $el);
