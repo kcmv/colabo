@@ -393,6 +393,7 @@ pre { white-space: pre-wrap !important; word-break: break-word !important; overf
 <body>
 <div id="pageContent">
 <h1>BROADCASTING</h1>
+<p><strong>IMPORTANT</strong>: In order to practice/test collaboration we need to enable it (Tools &gt; Moderator: on, Presenter: on)</p>
 <h2>TopiChatService</h2>
 <p>registered in <code>components/topiChat/topiChatService.ts</code></p>
 <p>TopiChatService is part of the <code>topiChat</code> component. It uses underlying communication layer to provide real time messaging. Currently it uses <code>socket.io</code> library with tendency to migrate to another one or to support multiple providers.</p>
@@ -446,6 +447,32 @@ pre { white-space: pre-wrap !important; word-break: break-word !important; overf
 </ul>
 </li>
 </ul>
+<h2>KnAllEdge Plugin: mapLayout</h2>
+<ul>
+<li>registered in: <code>MapLayoutTree</code> (<code>src/frontend/app/js/knalledge/mapLayoutTree.js</code>)</li>
+<li>knalledgeRealTime plugin:
+<ul>
+<li>name: <code>mapLayout</code></li>
+<li>events:
+<ul>
+<li><code>node-selected</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Emmiting the <code>node-selected</code> event</h3>
+<p>Event is emitted on the node change inside the <code>MapLayout.prototype.clickNode</code> (MapLayout is the super class of the MapLayoutTree class). It happens any time user changes node (either clicking or with keyboard navigation (<code>js/interaction/keyboard.js</code>)).</p>
+<pre><code class="hljs github-gist-css js"><span class="hljs-comment">// realtime distribution</span>
+<span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.knAllEdgeRealTimeService &amp;&amp; !doNotBroadcast){   <span class="hljs-comment">// do not broadcast back :)</span>
+    <span class="hljs-keyword">this</span>.knAllEdgeRealTimeService.emit(MapLayout.KnRealTimeNodeSelectedEventName, d.kNode._id);
+}
+</code></pre>
+<h3>Responding to the <code>node-selected</code> event</h3>
+<p>Listener is registered in MapLayoutTree:</p>
+<pre><code class="hljs github-gist-css js">mapLayoutPluginOptions.events[MapLayoutTree.KnRealTimeNodeSelectedEventName] = <span class="hljs-keyword">this</span>.realTimeNodeSelected.bind(<span class="hljs-keyword">this</span>);
+</code></pre>
+<p>and the method is implemented in the super class: <code>MapLayout.prototype.realTimeNodeSelected</code>. It basically translates the event into an appropriate call for the <code>MapLayout.prototype.clickNode</code> method and then calls it.</p>
 <h2>KnAllEdge Plugin: KnalledgeMapVOsService</h2>
 <ul>
 <li>registered in: <code>KnalledgeMapVOsService</code> (<code>components/knalledgeMap/js/services.js</code>) &gt; knalledgeMap</li>
