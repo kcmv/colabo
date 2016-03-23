@@ -72,7 +72,8 @@ Map.prototype.init = function() {
 };
 
 
-Map.prototype.processExternalChangesInMap = function(e, changes) {
+Map.prototype.processExternalChangesInMap = function(changes) {
+//Map.prototype.processExternalChangesInMap = function(e, changes) {
 	var syncedDataProcessedAndVisualized = function(){
 		this.update(this.mapStructure.getSelectedNode());
 		if(this.mapStructure.getSelectedNode()){

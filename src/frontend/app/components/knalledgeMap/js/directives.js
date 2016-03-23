@@ -436,7 +436,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						console.log("[knalledgeMap.controller::$on] event: %s", mapStylingChangedEventName);
 						knalledgeMap.update();
 						// realtime distribution
-						if(KnAllEdgeRealTimeService){
+						if(KnAllEdgeRealTimeService && msg.path != "policyConfig.broadcasting.enabled"){ //TODO: check this?!
 							KnAllEdgeRealTimeService.emit(KnRealTimeMapStylingChangedEventName, msg);
 						}
 					});

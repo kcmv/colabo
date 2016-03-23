@@ -326,7 +326,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, function(nodeFromServer){
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
-					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
+//REMOVE:					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
 				}
 			});
 
@@ -335,7 +335,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, function(nodeFromServer){
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
-					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
+//REMOVE:					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
 				}
 			});
 		}
@@ -598,7 +598,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			return this.updatePlain({searchParam:id, type:'one'}, kEdgeForServer, function(edgeFromServer){
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
-					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, edgeFromServer);
+//REMOVE:						KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, edgeFromServer);
 				}
 				callback(true);
 			});
@@ -608,7 +608,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			return this.updatePlain({searchParam:id, type:'one'}, kEdgeForServer, function(edgeFromServer){
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
-					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, edgeFromServer);
+//REMOVE:					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, edgeFromServer);
 				}
 				callback(true);
 			});
@@ -659,7 +659,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				KnalledgeMapQueue.executed(request);
 
 				if(KnAllEdgeRealTimeService){
-					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeCreatedEventName, kEdgeReturn.toServerCopy());
+//REMOVE:						KnAllEdgeRealTimeService.emit(KnRealTimeEdgeCreatedEventName, kEdgeReturn.toServerCopy());
 				}
 			});
 
@@ -1326,6 +1326,9 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 		window.nodesById = provider.nodesById;//TODO:remove
 		window.edgesById = provider.edgesById;//TODO:remove
 		return provider;
+
+		// mapLayoutPluginOptions.events[knalledge.MapLayout.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
+		// this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions);
 	}]
 });
 
@@ -2105,6 +2108,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			},
 
 			emit: function(eventName, msg){
+//REMOVE:				if(eventName == "node-selected"){return;}
 				// TODO
 				if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled) return;
 				console.log('[KnAllEdgeRealTimeService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));

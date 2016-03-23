@@ -2,7 +2,7 @@
 'use strict';
 //this function is strict...
 
-var QUEUE = 
+var QUEUE =
 //false;
 true;
 
@@ -42,8 +42,8 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				return serverResponse;
 			}
 		}},
-		
-		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true, 
+
+		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true,
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -57,8 +57,8 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				return serverResponse;
 			}
 		}},
-		
-		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/, 
+
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -76,7 +76,7 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				return serverResponse;
 			}
 		}},
-		
+
 		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -90,11 +90,11 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		},
-		
+
 		destroyPlain: {method:'DELETE', params:{type:'one'},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -108,7 +108,7 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		}
@@ -119,7 +119,7 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 	resource.getById = function(id, callback)
 	{
 		var whoAmI = new knalledge.WhoAmI();
-		var whoAmIFromGet = this.getPlain({ searchParam:id, type:'one' }, 
+		var whoAmIFromGet = this.getPlain({ searchParam:id, type:'one' },
 			function(whoAmIFromServer){
 				whoAmI.fill(whoAmIFromServer);
 				whoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
@@ -129,11 +129,11 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		whoAmI.$resolved = whoAmIFromGet.$resolved;
 		return whoAmI;
 	};
-	
+
 	resource.getByEmail = function(email, callback)
 	{
 		var whoAmI = new knalledge.WhoAmI();
-		var whoAmIFromGet = this.getPlain({ searchParam:email, type:'oneByEmail' }, 
+		var whoAmIFromGet = this.getPlain({ searchParam:email, type:'oneByEmail' },
 			function(whoAmIFromServer){
 				whoAmI.fill(whoAmIFromServer);
 				whoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
@@ -143,7 +143,7 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		whoAmI.$resolved = whoAmIFromGet.$resolved;
 		return whoAmI;
 	};
-	
+
 	resource.getByIds = function(whoAmIsIds, callback){ //TODO: fix not to return all, but only those in the whoAmIsIds list
 		var whoAmIs = this.queryPlain({ searchParam:whoAmIsIds, type:'in_list'},
 			function(whoAmIsFromServer){
@@ -169,11 +169,11 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 			});
 		return whoAmIs;
 	}
-	
+
 	resource.create = function(whoAmI, callback)
 	{
 		console.log("resource.create");
-		
+
 		if(QUEUE){
 			whoAmI.$promise = null;
 			whoAmI.$resolved = false;
@@ -184,30 +184,30 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		}
 		else{
 			var whoAmIForServer = whoAmI.toServerCopy();
-			//we return whoAmI:whoAmI, because 'whoAmI' is of type 'Resource'  
+			//we return whoAmI:whoAmI, because 'whoAmI' is of type 'Resource'
 			var whoAmI = this.createPlain({}, whoAmIForServer, function(whoAmIFromServer){
 				whoAmI.$resolved = whoAmI.$resolved;
 				whoAmI.overrideFromServer(whoAmIFromServer);
 				if(callback) callback(whoAmI);
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'whoAmI', so we need to  set its promise to the value we return
 			whoAmI.$promise = whoAmI.$promise;
 			whoAmI.$resolved = whoAmI.$resolved;
-			
-			if(whoAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(whoAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				whoAmI.overrideFromServer(whoAmI);
 			}
 		}
 		//we return this value to caller as a dirty one, and then set its value to whoAmIFromServer when upper callback is called
-		//TODO: a problem may occur if promise is resolved BEFORE callback is called 
+		//TODO: a problem may occur if promise is resolved BEFORE callback is called
 		return whoAmI;
 	};
-	
+
 	resource.update = function(whoAmI, callback)
 	{
 		console.log("resource.update");
-		if(whoAmI.state == knalledge.WhoAmI.STATE_LOCAL){//TODO: fix it by going throgh queue 
+		if(whoAmI.state == knalledge.WhoAmI.STATE_LOCAL){//TODO: fix it by going throgh queue
 			window.alert("Please, wait while entity is being saved, before updating it:\n"+whoAmI.name);
 			return null;
 		}
@@ -221,12 +221,12 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 			return this.updatePlain({searchParam:id, type:'one'}, whoAmIForServer, callback); //TODO: does it return whoAmI so we should fix it like in create?
 		}
 	};
-	
+
 	resource.destroy = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'one'}, callback);
 	};
-	
+
 	resource.execute = function(request){ //example:: request = {data: whoAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
 		// var whoAmI;
 		switch(request.method){
@@ -235,7 +235,7 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 			var whoAmIForServer = request.data.toServerCopy();
 			var whoAmIReturn = request.data;
 			var callback = request.callback;
-			
+
 			var whoAmI = resource.createPlain({}, whoAmIForServer, function(whoAmIFromServer){
 				whoAmIReturn.$resolved = whoAmI.$resolved;
 				whoAmIReturn.overrideFromServer(whoAmIFromServer);
@@ -243,12 +243,12 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				if(callback) callback(whoAmIReturn);
 				KnalledgeMapQueue.executed(request);
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'whoAmI', so we need to  set its promise to the value we return
 			whoAmIReturn.$promise = whoAmI.$promise;
 			whoAmIReturn.$resolved = whoAmI.$resolved;
-			
-			if(whoAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(whoAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				whoAmIReturn.overrideFromServer(whoAmI);
 			}
 			break;
@@ -257,16 +257,16 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 			break;
 		}
 	}
-	
+
 	/* checks if request can be sent to server */
 	resource.check = function(request){
 		return true;
 	}
-	
+
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
 	return resource;
-	
+
 }]);
 
 /**
@@ -296,8 +296,8 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 				return serverResponse;
 			}
 		}},
-		
-		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true, 
+
+		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true,
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -311,8 +311,8 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 				return serverResponse;
 			}
 		}},
-		
-		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/, 
+
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -330,7 +330,7 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 				return serverResponse;
 			}
 		}},
-		
+
 		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -344,11 +344,11 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		},
-		
+
 		destroyPlain: {method:'DELETE', params:{type:'one'},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -362,7 +362,7 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		}
@@ -375,7 +375,7 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 		var whatAmI = this.getPlain({ searchParam:id, type:'one' }, callback);
 		return whatAmI;
 	};
-	
+
 	resource.getByIds = function(ids, callback){ //TODO: fix not to return all, but only those in the whatAmIsIds list
 		var whatAmIs = this.queryPlain({ searchParam:JSON.stringify(ids), type:'in_list'},
 			function(whatAmIsFromServer){
@@ -404,7 +404,7 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 		});
 		return whatAmIs;
 	}
-	
+
 	resource.getByNameContains = function(namePart, callback){ //TODO: fix not to return all, but only those in the whatAmIsIds list
 		var whatAmIs = this.queryPlain({ searchParam:namePart, type:'name-contains'},
 			function(whatAmIsFromServer){
@@ -417,11 +417,11 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 		});
 		return whatAmIs;
 	};
-	
+
 	resource.create = function(whatAmI, callback)
 	{
 		console.log("resource.create");
-		
+
 		if(QUEUE){
 			whatAmI.$promise = null;
 			whatAmI.$resolved = false;
@@ -432,30 +432,30 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 		}
 		else{
 			var whatAmIForServer = whatAmI.toServerCopy();
-			//we return whatAmI:whatAmI, because 'whatAmI' is of type 'Resource'  
+			//we return whatAmI:whatAmI, because 'whatAmI' is of type 'Resource'
 			var whatAmI = this.createPlain({}, whatAmIForServer, function(whatAmIFromServer){
 				whatAmI.$resolved = whatAmI.$resolved;
 				whatAmI.overrideFromServer(whatAmIFromServer);
 				if(callback) callback(whatAmI);
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'whatAmI', so we need to  set its promise to the value we return
 			whatAmI.$promise = whatAmI.$promise;
 			whatAmI.$resolved = whatAmI.$resolved;
-			
-			if(whatAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(whatAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				whatAmI.overrideFromServer(whatAmI);
 			}
 		}
 		//we return this value to caller as a dirty one, and then set its value to whatAmIFromServer when upper callback is called
-		//TODO: a problem may occur if promise is resolved BEFORE callback is called 
+		//TODO: a problem may occur if promise is resolved BEFORE callback is called
 		return whatAmI;
 	};
-	
+
 	resource.update = function(whatAmI, callback)
 	{
 		console.log("resource.update");
-		if(whatAmI.state == knalledge.WhatAmI.STATE_LOCAL){//TODO: fix it by going throgh queue 
+		if(whatAmI.state == knalledge.WhatAmI.STATE_LOCAL){//TODO: fix it by going throgh queue
 			window.alert("Please, wait while entity is being saved, before updating it:\n"+whatAmI.name);
 			return null;
 		}
@@ -469,12 +469,12 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 			return this.updatePlain({searchParam:id, type:'one'}, whatAmIForServer, callback); //TODO: does it return whatAmI so we should fix it like in create?
 		}
 	};
-	
+
 	resource.destroy = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'one'}, callback);
 	};
-	
+
 	resource.execute = function(request){ //example:: request = {data: whatAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
 		// var whatAmI;
 		switch(request.method){
@@ -483,7 +483,7 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 			var whatAmIForServer = request.data.toServerCopy();
 			var whatAmIReturn = request.data;
 			var callback = request.callback;
-			
+
 			var whatAmI = resource.createPlain({}, whatAmIForServer, function(whatAmIFromServer){
 				whatAmIReturn.$resolved = whatAmI.$resolved;
 				whatAmIReturn.overrideFromServer(whatAmIFromServer);
@@ -491,12 +491,12 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 				if(callback) callback(whatAmIReturn);
 				KnalledgeMapQueue.executed(request);
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'whatAmI', so we need to  set its promise to the value we return
 			whatAmIReturn.$promise = whatAmI.$promise;
 			whatAmIReturn.$resolved = whatAmI.$resolved;
-			
-			if(whatAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(whatAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				whatAmIReturn.overrideFromServer(whatAmI);
 			}
 			break;
@@ -505,16 +505,16 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 			break;
 		}
 	}
-	
+
 	/* checks if request can be sent to server */
 	resource.check = function(request){
 		return true;
 	}
-	
+
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
 	return resource;
-	
+
 }]);
 
 /**
@@ -544,8 +544,8 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				return serverResponse;
 			}
 		}},
-		
-		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true, 
+
+		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true,
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -559,8 +559,8 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				return serverResponse;
 			}
 		}},
-		
-		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/, 
+
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -578,7 +578,7 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				return serverResponse;
 			}
 		}},
-		
+
 		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -592,11 +592,11 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		},
-		
+
 		destroyPlain: {method:'DELETE', params:{type:'one'},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
@@ -610,7 +610,7 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					return serverResponse;					
+					return serverResponse;
 				}
 			}
 		}
@@ -619,7 +619,7 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 	resource.RESOURCE_TYPE = 'HowAmI';
 
 	resource.hows = [
-		{	
+		{
 			id:1,
 			title:'interested in',
 		},
@@ -663,7 +663,7 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		});
 		return howAmIs;
 	}
-	
+
 	resource.getUsersHows = function(id, callback){
 		var howAmIs = this.queryPlain({ searchParam:id, type:'who_am_i'},
 			function(howAmIsFromServer){
@@ -676,11 +676,11 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		});
 		return howAmIs;
 	};
-	
+
 	resource.create = function(howAmI, callback)
 	{
 		console.log("resource.create");
-		
+
 		if(QUEUE){
 			howAmI.$promise = null;
 			howAmI.$resolved = false;
@@ -691,30 +691,30 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		}
 		else{
 			var howAmIForServer = howAmI.toServerCopy();
-			//we return howAmI:howAmI, because 'howAmI' is of type 'Resource'  
+			//we return howAmI:howAmI, because 'howAmI' is of type 'Resource'
 			var howAmI = this.createPlain({}, howAmIForServer, function(howAmIFromServer){
 				howAmI.$resolved = howAmI.$resolved;
 				howAmI.overrideFromServer(howAmIFromServer);
 				if(callback) callback(howAmI);
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'howAmI', so we need to  set its promise to the value we return
 			howAmI.$promise = howAmI.$promise;
 			howAmI.$resolved = howAmI.$resolved;
-			
-			if(howAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(howAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				howAmI.overrideFromServer(howAmI);
 			}
 		}
 		//we return this value to caller as a dirty one, and then set its value to howAmIFromServer when upper callback is called
-		//TODO: a problem may occur if promise is resolved BEFORE callback is called 
+		//TODO: a problem may occur if promise is resolved BEFORE callback is called
 		return howAmI;
 	};
-	
+
 	resource.update = function(howAmI, callback)
 	{
 		console.log("resource.update");
-		if(howAmI.state == knalledge.HowAmI.STATE_LOCAL){//TODO: fix it by going throgh queue 
+		if(howAmI.state == knalledge.HowAmI.STATE_LOCAL){//TODO: fix it by going throgh queue
 			window.alert("Please, wait while entity is being saved, before updating it:\n"+howAmI.name);
 			return null;
 		}
@@ -728,12 +728,12 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 			return this.updatePlain({searchParam:id, type:'one'}, howAmIForServer, callback); //TODO: does it return howAmI so we should fix it like in create?
 		}
 	};
-	
+
 	resource.destroy = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'one'}, callback);
 	};
-	
+
 	resource.execute = function(request){ //example:: request = {data: howAmI, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
 		// var howAmI;
 		switch(request.method){
@@ -742,7 +742,7 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 			var howAmIForServer = request.data.toServerCopy();
 			var howAmIReturn = request.data;
 			var callback = request.callback;
-			
+
 			var howAmI = resource.createPlain({}, howAmIForServer, function(howAmIFromServer){
 				howAmIReturn.$resolved = howAmI.$resolved;
 				howAmIReturn.overrideFromServer(howAmIFromServer);
@@ -750,12 +750,12 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 				if(callback) callback(howAmIReturn);
 				KnalledgeMapQueue.executed(request);
 			});
-			
+
 			//createPlain manages promises for its returning value, in our case 'howAmI', so we need to  set its promise to the value we return
 			howAmIReturn.$promise = howAmI.$promise;
 			howAmIReturn.$resolved = howAmI.$resolved;
-			
-			if(howAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously 
+
+			if(howAmI.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
 				howAmIReturn.overrideFromServer(howAmI);
 			}
 			break;
@@ -764,16 +764,16 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 			break;
 		}
 	}
-	
+
 	/* checks if request can be sent to server */
 	resource.check = function(request){
 		return true;
 	}
-	
+
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
 	return resource;
-	
+
 }]);
 
 rimaServices.provider('RimaService', {
@@ -799,7 +799,7 @@ rimaServices.provider('RimaService', {
 				this.loggedInWhoAmI.displayName = "anonymous";
 				this.selectedWhoAmI = this.loggedInWhoAmI;
 				this.loadRimaDataSets();
-				
+
 				HowAmIService.getAll(function(howAmIsFromServer){
 					for(var i=0; i<howAmIsFromServer.length; i++){
 						var howAmI = howAmIsFromServer[i];
@@ -828,7 +828,7 @@ rimaServices.provider('RimaService', {
 							this.loggedInWhoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
 							this.loggedInWhoAmI = WhoAmIService.getById(this.loggedInWhoAmI._id );
 						}
-						if(this.loginInfo.token) this.loggedInWhoAmI.token = this.loginInfo.token;					
+						if(this.loginInfo.token) this.loggedInWhoAmI.token = this.loginInfo.token;
 					}
 				}
 			},
@@ -852,7 +852,7 @@ rimaServices.provider('RimaService', {
 							if(typeof callback === 'function'){
 								callback(whoAmIFromServer);
 							}
-						}						
+						}
 					});
 					whoAmI.$promise.then(function(whoAmIFromServer){
 						if(whoAmIFromServer && whoAmIFromServer._id){
@@ -886,7 +886,7 @@ rimaServices.provider('RimaService', {
 				if(this.loggedInWhoAmI._id == this.ANONYMOUS_USER_ID){
 					return null;
 				}else{
-					return this.loggedInWhoAmI;					
+					return this.loggedInWhoAmI;
 				}
 			},
 
@@ -901,7 +901,7 @@ rimaServices.provider('RimaService', {
 			getIAmId: function(){
 				return this.loggedInWhoAmI._id;
 			},
-				
+
 			setUserToken: function(token){
 				this.loggedInWhoAmI.token = token;
 				this.loginInfo.token = token;
@@ -912,7 +912,7 @@ rimaServices.provider('RimaService', {
 			getUserToken: function(){
 				return this.loggedInWhoAmI.token;
 			},
-				
+
 			loadUsersFromList: function(usersIds, callback){
 				//TODO: for now we return all users
 				return this.whoAmIs;
@@ -925,10 +925,10 @@ rimaServices.provider('RimaService', {
 				// 	// //console.log("result:" + JSON.stringify(result));
 				// 	// $rootScope.$broadcast(eventName, result);
 				// };
-				
+
 				// this.whoAmIs = this.loadUsersFromList(null);
 				// this.howAmIs = this.getUsersHows(this.getActiveUserId());
-				
+
 				// $q.all([this.whoAmIs.$promise, this.howAmIs.$promise])
 				// 	.then(rimasReceived.bind(this));
 			},
@@ -1069,6 +1069,30 @@ rimaServices.provider('RimaService', {
 					}
 				}
 				return returnedGrids;
+			},
+
+			/*
+			gets all users whose id is in Array @param ids
+			*/
+			getUsersByIds: function(ids){
+				// var idsH = null;
+				// if(Array.isArray(ids){
+				// 	//turn to hash for speed:
+				// 	for(var i in whoAmIs){
+				// 		var grid = whoAmIs[i];
+				// }
+				// else{
+				// 	idsH = ids;
+				// }
+				//
+				// var whoAmIs = this.whoAmIs();
+				// for(var i in whoAmIs){
+				// 	var grid = whoAmIs[i];
+				// 	if(grid.name.indexOf(nameSubStr) > -1){
+				// 		returnedGrids.push(grid);
+				// 	}
+				// }
+				// return returnedGrids;
 			},
 
 			// TODO: Not finished
