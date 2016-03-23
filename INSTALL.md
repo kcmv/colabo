@@ -98,9 +98,6 @@ chmod -R go+rx *
 
 # login/iAmId/556760847125996dc1a4a24f
 
-chmod -R g-s *
-chmod -R go+rx *
-
 cd /var/www/knalledge_frontend
 cp dist/dev/components/collaboPlugins/globalEmitterService.js dist/dev/components/collaboPlugins/GlobalEmitterService.js
 cp dist/dev/components/collaboPlugins/globalEmitterServicesArray.js dist/dev/components/collaboPlugins/GlobalEmitterServicesArray.js
@@ -109,6 +106,8 @@ cp dist/dev/components/collaboPlugins/globalEmitterServicesArray.js dist/dev/com
 joe dist/dev/js/config/config.env.js
 #    //var env = envs.localhost;
 #    var env = envs.server;
+
+# =======================
 
 cp -r dist/dev
 cd ../frontend
