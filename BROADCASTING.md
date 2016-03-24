@@ -2,6 +2,18 @@
 
 **IMPORTANT**: In order to practice/test collaboration we need to enable it (Tools > Moderator: on, Presenter: on)
 
+**IMPORTANT**: Code that is responding to the changes in policy happening in other clients (method  `realTimeMapStylingChanged` in the `knalledgeMap` directive in file `components/knalledgeMap/js/directives.js`) is excluding local broadcasting (`config.broadcasting.enabled`) if another client is broadcasting.
+
+```js
+case 'policyConfig.broadcasting.enabled':
+    if(msg.value){ // Highlander: There can be only one!
+        KnalledgeMapPolicyService.provider.config.broadcasting.enabled = false;
+    }
+    break;
+```
+
+TODO: At the client startup (which is basically switching on) we should broadcast the `config.broadcasting.enabled` to disable other clients.
+
 ## TopiChatService
 
 registered in `components/topiChat/topiChatService.ts`
@@ -60,7 +72,7 @@ KnAllEdge (real-time) plugins are registered throuh call to `KnAllEdgeRealTimeSe
 
 ## KnAllEdge Plugin: mapLayout
 
-+ registered in: `MapLayoutTree` (`src/frontend/app/js/knalledge/mapLayoutTree.js`)
++ registered in: `MapLayoutTree` (`js/knalledge/mapLayoutTree.js`)
 + knalledgeRealTime plugin:
     + name: `mapLayout`
     + events:
@@ -161,3 +173,95 @@ in the `destroy` method of the `KnalledgeNodeService` service.
 After KnAllEdge migrated from ng1 to ng2 (hybrid state at the moment) we have created standard pub/sub mechanism that is developed on the top of the Angular 2 `EventEmitter`.
 
 KnAllEdge provides `GlobalEmitterServicesArray` service that relies on `GlobalEmitterService` to provide a named set of events. This means that a producer can `register` particular named event and then `broadcast` through that event, while a consumer can `subscribe` to the same named event and listen for messages broadcasted.
+
+# Debugging scenario
+
+## Disabling broadcasting of the Presenter switch
+
+We wanted to disable broadcasting of the **Presenter switch** (`policyConfig.broadcasting.enabled`).
+
+We went to the template with the switch: `components/knalledgeMap/partials/tools.tpl.html` and found:
+
+```html
+<md-switch class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled" (checkedChange)="viewConfigChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)">Presenter</md-switch>
+```
+
+in the component class ``
+
+we have found function `viewConfigChanged`:
+
+```js
+viewConfigChanged:Function = function(path, value){
+    // alert("[viewConfigChanged] " + path + ":" + value);
+    let msg = {
+        path: path,
+        value: value
+    };
+
+    this.globalEmitterServicesArray.get(this.mapStylingChangedEventName).broadcast('KnalledgeMapTools', msg);
+};
+```
+
+so in the same class, we have found the name of the event `mapStylingChangedEvent`:
+```js
+export class KnalledgeMapTools {
+    mapStylingChangedEventName:string = "mapStylingChangedEvent";
+```
+
+Now we can search in the `app` folder for any occurence of the `mapStylingChangedEvent` event to see who is listening for it. We find only one place where we are listening for the event, and it is in the `knalledgeMap` directive in file `components/knalledgeMap/js/directives.js`.
+
+```js
+var mapStylingChangedEventName = "mapStylingChangedEvent";
+GlobalEmitterServicesArray.get(mapStylingChangedEventName).subscribe('knalledgeMap', function(msg) {
+    setData(model);
+    console.log("[knalledgeMap.controller::$on] event: %s", mapStylingChangedEventName);
+    knalledgeMap.update();
+    // realtime distribution
+    if(KnAllEdgeRealTimeService && msg.path != "policyConfig.broadcasting.enabled"){ //TODO: check this?!
+        KnAllEdgeRealTimeService.emit(KnRealTimeMapStylingChangedEventName, msg);
+    }
+});
+```
+
+So we see that `map-styling-change` event (the value of var KnRealTimeMapStylingChangedEventName) is emitted through the KnAllEdgeRealTimeService service.
+
+Just next to it we have a code for receiving the event (coming from other client)
+```js
+// realtime listener registration
+if(KnAllEdgeRealTimeService){
+    var realTimeMapStylingChanged = function(eventName, msg){
+        switch(msg.path){
+            case 'config.nodes.showImages':
+                knalledgeMapViewService.provider.config.nodes.showImages = msg.value;
+                break;
+            case 'config.nodes.showTypes':
+                knalledgeMapViewService.provider.config.nodes.showTypes = msg.value;
+                break;
+            case 'config.edges.showNames':
+                knalledgeMapViewService.provider.config.edges.showNames = msg.value;
+                break;
+            case 'config.edges.showTypes':
+                knalledgeMapViewService.provider.config.edges.showTypes = msg.value;
+                break;
+        }
+        knalledgeMap.update();
+    };
+
+    // ...
+    var mapViewPluginOptions = {
+        name: "mapView",
+        events: {
+        }
+    };
+    mapViewPluginOptions.events[KnRealTimeMapStylingChangedEventName] = realTimeMapStylingChanged.bind(this);
+    KnAllEdgeRealTimeService.registerPlugin(mapViewPluginOptions);
+}
+
+# TODO
+
+## Move all registrations from directives into services
+
+In this way we will be able to listen before directive is placed in active view, and we would be able to track them in `topichat-report` even if we are not on the particular page
+
++ `tc:chat-message`
++ 

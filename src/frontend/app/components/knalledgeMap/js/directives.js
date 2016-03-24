@@ -243,14 +243,14 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 						toggleModerator: function(){
 							$scope.$apply(function () {
-								knalledgeMapPolicyService.provider.config.moderating.enabled = !knalledgeMapPolicyService.provider.config.moderating.enabled;
+								KnalledgeMapPolicyService.provider.config.moderating.enabled = !KnalledgeMapPolicyService.provider.config.moderating.enabled;
 							});
 						},
 
 						togglePresenter: function(){
 							$scope.$apply(function () {
-								if(knalledgeMapPolicyService.provider.config.moderating.enabled){
-									knalledgeMapPolicyService.provider.config.broadcasting.enabled = !knalledgeMapPolicyService.provider.config.broadcasting.enabled;
+								if(KnalledgeMapPolicyService.provider.config.moderating.enabled){
+									KnalledgeMapPolicyService.provider.config.broadcasting.enabled = !KnalledgeMapPolicyService.provider.config.broadcasting.enabled;
 								}
 							});
 						},
@@ -436,7 +436,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						console.log("[knalledgeMap.controller::$on] event: %s", mapStylingChangedEventName);
 						knalledgeMap.update();
 						// realtime distribution
-						if(KnAllEdgeRealTimeService && msg.path != "policyConfig.broadcasting.enabled"){ //TODO: check this?!
+						if(KnAllEdgeRealTimeService){
 							KnAllEdgeRealTimeService.emit(KnRealTimeMapStylingChangedEventName, msg);
 						}
 					});
@@ -445,17 +445,22 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					if(KnAllEdgeRealTimeService){
 						var realTimeMapStylingChanged = function(eventName, msg){
 							switch(msg.path){
+								case 'policyConfig.broadcasting.enabled':
+									if(msg.value){ // Highlander: There can be only one!
+										KnalledgeMapPolicyService.provider.config.broadcasting.enabled = false;
+									}
+									break;
 								case 'config.nodes.showImages':
-									knalledgeMapViewService.provider.config.nodes.showImages = msg.value;
+									KnalledgeMapViewService.provider.config.nodes.showImages = msg.value;
 									break;
 								case 'config.nodes.showTypes':
-									knalledgeMapViewService.provider.config.nodes.showTypes = msg.value;
+									KnalledgeMapViewService.provider.config.nodes.showTypes = msg.value;
 									break;
 								case 'config.edges.showNames':
-									knalledgeMapViewService.provider.config.edges.showNames = msg.value;
+									KnalledgeMapViewService.provider.config.edges.showNames = msg.value;
 									break;
 								case 'config.edges.showTypes':
-									knalledgeMapViewService.provider.config.edges.showTypes = msg.value;
+									KnalledgeMapViewService.provider.config.edges.showTypes = msg.value;
 									break;
 							}
 							knalledgeMap.update();

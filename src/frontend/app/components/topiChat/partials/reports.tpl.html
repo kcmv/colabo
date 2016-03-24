@@ -46,7 +46,12 @@
 			                <md-subheader class="">Messages</md-subheader>
 			                <md-list-item class="md-1-line" *ngFor="#message of getMessagesForEvent(event.name)">
 			                    <div class="md-list-item-text" layout="column">
-			                        <span>Message (client-id: {{message.clientId}}): {{ message.msg }}</span>
+			                        <span>client-id: {{message.tcPackage.clientIdSender}}, time: {{message.time}}</span>
+
+                                    <span *ngIf="message.eventName != 'kn:realtime'">, Package: {{ message.tcPackage | json }}</span>
+
+			                        <span *ngIf="message.eventName == 'kn:realtime'">kn-event: {{ message.tcPackage.msg.eventName }}<br/>
+                                    Message: {{ message.tcPackage.msg | json }}</span>
 			                    </div>
 			                </md-list-item>
 			            </md-list>

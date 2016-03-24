@@ -14,6 +14,13 @@ import {TopiChatConfigService} from './topiChatConfigService';
         NgIf, NgFor, FORM_DIRECTIVES,
    ],
     templateUrl: 'components/topiChat/partials/reports.tpl.html',
+    styles: [`
+        .md-list-item-text {
+            border-bottom: 1px solid gray;
+            padding-bottom: 3px;
+            margin-bottom: 2px;
+        }
+    `]
 })
 export class TopiChatReports {
     config:any = {
