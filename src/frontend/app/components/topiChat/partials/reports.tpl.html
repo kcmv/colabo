@@ -44,9 +44,9 @@
                         Plugins: {{event.plugins}}
                         <md-list>
 			                <md-subheader class="">Messages</md-subheader>
-			                <md-list-item class="md-1-line" *ngFor="#message of getMessagesForEvent(event.name)">
+			                <md-list-item class="md-1-line" *ngFor="#message of getMessagesForEvent(event.name) | orderArrayPipe:'-time'">
 			                    <div class="md-list-item-text" layout="column">
-			                        <span>client-id: {{message.tcPackage.clientIdSender}}, time: {{message.time}}</span>
+			                        <span>client-id: {{message.tcPackage.clientIdSender}}, time: {{message.time | date:'HHmmss'}}</span>
 
                                     <span *ngIf="message.eventName != 'kn:realtime'">, Package: {{ message.tcPackage | json }}</span>
 

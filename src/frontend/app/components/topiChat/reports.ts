@@ -5,6 +5,8 @@ import {MdRadioDispatcher, MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {TopiChatService} from '../topiChat/topiChatService';
 import {TopiChatConfigService} from './topiChatConfigService';
+import { DatePipe } from "angular2/common";
+import { OrderArrayPipe } from "../utils/orderArrayPipe";
 
 @Component({
     selector: 'topichat-reports',
@@ -13,6 +15,7 @@ import {TopiChatConfigService} from './topiChatConfigService';
         MATERIAL_DIRECTIVES,
         NgIf, NgFor, FORM_DIRECTIVES,
    ],
+   pipes: [DatePipe, OrderArrayPipe],
     templateUrl: 'components/topiChat/partials/reports.tpl.html',
     styles: [`
         .md-list-item-text {
