@@ -198,7 +198,12 @@ export class TopiChatService {
     _dispatchEvent(eventName, tcPackage) {
         console.log('[TopiChatService:_dispatchEvent] eventName: %s, tcPackage:%s', eventName, tcPackage);
         if(this.topiChatConfigService.get().sniffing.globalEnable) {
-            this.messagesByEvents[eventName].push(tcPackage);
+            var msgInfo = {
+                eventName: eventName,
+                tcPackage: tcPackage,
+                time: new Date()
+            };
+            this.messagesByEvents[eventName].push(msgInfo);
         }
         // dispatching message to all plugins that registered for the event
         var eventByPlugins = this.eventsByPlugins[eventName];

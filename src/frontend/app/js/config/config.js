@@ -3,6 +3,12 @@
 
 /* Configuration */
 
+var components = {
+	halo: {
+		enabled: true
+	}
+};
+
 var map = {
 	nodes: {
 		html: {
@@ -60,6 +66,7 @@ var mapToolset = {
 
 angular.module('Config', [])
 	.constant("ConfigMap", map)
+	.constant("ConfigComponents", map)
 	.constant("ConfigMapToolset", mapToolset);
 
 }()); // end of 'use strict';
