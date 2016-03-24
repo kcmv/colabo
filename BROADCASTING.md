@@ -264,4 +264,4 @@ if(KnAllEdgeRealTimeService){
 In this way we will be able to listen before directive is placed in active view, and we would be able to track them in `topichat-report` even if we are not on the particular page
 
 + `tc:chat-message`
-+ 
++
