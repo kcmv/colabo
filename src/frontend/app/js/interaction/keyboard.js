@@ -369,6 +369,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 		var newEdge = this.clientApi.createEdgeBetweenNodes(that.clientApi.getSelectedNode(), newNode, edgeType);
 		newEdge.kEdge.$promise.then(function(kEdgeFromServer){
+			//REFACTORING_REQUEST: THIS LOGICS SHOULD NOT BE IN KEYBOARD CLASS?!
 			var parentNode = that.clientApi.getSelectedNode();
 			if(!parentNode.isOpen){
 				parentNode.isOpen = true;

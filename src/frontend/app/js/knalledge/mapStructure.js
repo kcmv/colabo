@@ -466,6 +466,9 @@ MapStructure.prototype.updateName = function(vkNode, newName){
 	this.mapService.updateNode(vkNode.kNode, MapStructure.UPDATE_NODE_NAME);
 };
 
+/*
+	take care that this method updates the node on server too! so be careful if it is called upon on SYNCING with a node already created on other client (presenter)
+*/
 MapStructure.prototype.updateNode = function(vkNode, updateType) {
 	if(!this.mapService) return;
 

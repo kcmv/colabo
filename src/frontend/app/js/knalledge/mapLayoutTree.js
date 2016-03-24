@@ -220,6 +220,7 @@ MapLayoutTree.prototype.generateTree = function(source){
 };
 
 MapLayoutTree.prototype.printTree = function(nodes) {
+	//TODO: should have print only in Debug mode (for performance reason)
 	var minX = 0, maxX = 0, minY = 0, maxY = 0;
 	if(nodes){
 		console.log("%d nodes", nodes.length);
