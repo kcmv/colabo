@@ -256,6 +256,7 @@ if(KnAllEdgeRealTimeService){
     mapViewPluginOptions.events[KnRealTimeMapStylingChangedEventName] = realTimeMapStylingChanged.bind(this);
     KnAllEdgeRealTimeService.registerPlugin(mapViewPluginOptions);
 }
+```
 
 # TODO
 
@@ -265,3 +266,25 @@ In this way we will be able to listen before directive is placed in active view,
 
 + `tc:chat-message`
 +
+
+# EXAMPLE
++ at the **broadcaster client**, in the `service`, when specific action is done locally (and on server), we call `KnAllEdgeRealTimeService` to emit it to receivers:
+```js
+KnAllEdgeRealTimeService.emit(KnRealTimeNodeCreatedEventName, kNodeReturn.toServerCopy());
+```
++ at the **receiver client**, in the same `service` we have registered appropriate function (in our case `externalChangesInMap` from the same service) to handle the event received by `KnAllEdgeRealTimeService`
+```js
+KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeCreatedEventName] = provider.externalChangesInMap.bind(provider);
+KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeDeletedEventName] = provider.externalChangesInMap.bind(provider);
+```
++ specific steps:
+  + **'create Node' broadcasting**
+    + we create new kNode based on the received on in `msg` and we add that node in the `service`'s `this.nodesById` and we put that node in `changes.nodes` array
+  + **'delete Node' broadcasting**
+    + we delete kNode from the `service`'s `this.nodesById` found by the received `msg._id` and we put that node in `changes.nodes` array
++ at the end of the receiver function (`externalChangesInMap`) we broadcast appropriate intra-client event (e.g. `node-created-to-visual` or `node-deleted-to-visual`) by using `GlobalEmitterServicesArray` and sending `changes` to receiver (which in this case are upper layers (of the same **receiver client**) that care for visual representation of structural changes)
+```js
+GlobalEmitterServicesArray.register(eventName);
+GlobalEmitterServicesArray.get(eventName).broadcast('KnalledgeMapVOsService', changes);
+```
++ the intra-client event (event not broadcasted to other client but between components of the same client) broadcasted in the previous step is received in the `knalledgeMap directive`
