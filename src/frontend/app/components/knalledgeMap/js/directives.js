@@ -35,14 +35,21 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		GlobalEmitterServicesArray.register(changeKnalledgeRimaEventName);
 		var changeSelectedNodeEventName = "changeSelectedNodeEvent";
 		GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
+		
 		var KnRealTimeNodeCreatedEventName = "node-created-to-visual";
 		GlobalEmitterServicesArray.register(KnRealTimeNodeCreatedEventName);
+		var KnRealTimeNodeDeletedEventName = "node-deleted-to-visual";
+		GlobalEmitterServicesArray.register(KnRealTimeNodeDeletedEventName);
 		var KnRealTimeNodeUpdatedEventName = "node-updated-to-visual";
 		GlobalEmitterServicesArray.register(KnRealTimeNodeUpdatedEventName);
+
 		var KnRealTimeEdgeCreatedEventName = "edge-created-to-visual";
 		GlobalEmitterServicesArray.register(KnRealTimeEdgeCreatedEventName);
 		var KnRealTimeEdgeUpdatedEventName = "edge-updated-to-visual";
 		GlobalEmitterServicesArray.register(KnRealTimeEdgeUpdatedEventName);
+		var KnRealTimeEdgeDeletedEventName = "edge-updated-to-visual";
+		GlobalEmitterServicesArray.register(KnRealTimeEdgeDeletedEventName);
+
 		var modelLoadedEventName = "modelLoadedEvent";
 		GlobalEmitterServicesArray.register(modelLoadedEventName);
 		var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
@@ -323,11 +330,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 					GlobalEmitterServicesArray.get(KnRealTimeNodeUpdatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
-					//GlobalEmitterServicesArray.get(KnRealTimeNodeDeletedEventName).subscribe('knalledgeMap',knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					GlobalEmitterServicesArray.get(KnRealTimeNodeDeletedEventName).subscribe('knalledgeMap',knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 
 					GlobalEmitterServicesArray.get(KnRealTimeEdgeCreatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 					GlobalEmitterServicesArray.get(KnRealTimeEdgeUpdatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
-					//GlobalEmitterServicesArray.get(KnRealTimeEdgeDeletedEventName).subscribe('knalledgeMap',knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					GlobalEmitterServicesArray.get(KnRealTimeEdgeDeletedEventName).subscribe('knalledgeMap',knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 				};
 
 				var checkData = function(data){

@@ -326,7 +326,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, function(nodeFromServer){
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
-//REMOVE:					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
+					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
 				}
 			});
 
@@ -335,7 +335,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, function(nodeFromServer){
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
-//REMOVE:					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
+					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
 				}
 			});
 		}
@@ -346,7 +346,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 		var result = this.destroyPlain({searchParam:id, type:'one'}, function(){
 			// realtime distribution
 			if(KnAllEdgeRealTimeService){
-				KnAllEdgeRealTimeService.emit(KnRealTimeNodeDeletedEventName, id);
+				KnAllEdgeRealTimeService.emit(KnRealTimeNodeDeletedEventName, {'_id':id});
 			}
 			if(callback){callback()};
 		});
@@ -598,7 +598,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			return this.updatePlain({searchParam:id, type:'one'}, kEdgeForServer, function(edgeFromServer){
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
-//REMOVE:						KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, edgeFromServer);
+						KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, edgeFromServer);
 				}
 				callback(true);
 			});
@@ -608,7 +608,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 			return this.updatePlain({searchParam:id, type:'one'}, kEdgeForServer, function(edgeFromServer){
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
-//REMOVE:					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, edgeFromServer);
+					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, edgeFromServer);
 				}
 				callback(true);
 			});
@@ -620,7 +620,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 		var result = this.destroyPlain({searchParam:id, type:'one'}, function(){
 			// realtime distribution
 			if(KnAllEdgeRealTimeService){
-				KnAllEdgeRealTimeService.emit(KnRealTimeEdgeDeletedEventName, id);
+				KnAllEdgeRealTimeService.emit(KnRealTimeEdgeDeletedEventName, {'_id':id});
 			}
 			if(callback){callback()};
 		});
@@ -659,7 +659,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 				KnalledgeMapQueue.executed(request);
 
 				if(KnAllEdgeRealTimeService){
-//REMOVE:						KnAllEdgeRealTimeService.emit(KnRealTimeEdgeCreatedEventName, kEdgeReturn.toServerCopy());
+						KnAllEdgeRealTimeService.emit(KnRealTimeEdgeCreatedEventName, kEdgeReturn.toServerCopy());
 				}
 			});
 
@@ -744,6 +744,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					break;
 					case KnRealTimeNodeDeletedEventName:
 						if(this.nodesById.hasOwnProperty(msg._id)){
+							var knode = this.nodesById[msg._id];
+							changes.nodes.push(kNode);
 							delete this.nodesById[msg._id];
 							var eventName = KnRealTimeNodeDeletedEventName + ToVisualMsg;
 						}
@@ -951,7 +953,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				if(typeof newNode === 'undefined' || newNode === null){
 					newNode = new knalledge.KNode();
 				}
-				newNode.iAmId = RimaService.getActiveUserId();
+				newNode.iAmId = RimaService.getActiveUserId(); //TODO: this is already done in caller (mapStructure), so maybe it should go under upper if. and we could add there another steps done in caller (like decoration)
 				if(typeof kNodeType === 'undefined' || kNodeType === null){
 					kNodeType = knalledge.KNode.TYPE_KNOWLEDGE; //TODO: check about this
 				}
@@ -2108,8 +2110,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			},
 
 			emit: function(eventName, msg){
-//REMOVE:				if(eventName == "node-selected"){return;}
-				// TODO
+				//for testing: if(eventName == "node-selected"){return;}
 				if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled) return;
 				console.log('[KnAllEdgeRealTimeService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));
 				var knPackage = {
