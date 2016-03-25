@@ -786,7 +786,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				}
 				if(shouldBroadcast){
 					GlobalEmitterServicesArray.register(eventName);
-					GlobalEmitterServicesArray.get(eventName).broadcast('KnalledgeMapVOsService', changes);
+					GlobalEmitterServicesArray.get(eventName).broadcast('KnalledgeMapVOsService', {'changes':changes,'event':eventName});
 				}
 
 					// for(id=0; id<changesFromServer.nodes.length; id++){
@@ -1319,9 +1319,9 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 		};
 		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeCreatedEventName] = provider.externalChangesInMap.bind(provider);
 		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeUpdatedEventName] = provider.externalChangesInMap.bind(provider);
+		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeDeletedEventName] = provider.externalChangesInMap.bind(provider);
 		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeCreatedEventName] = provider.externalChangesInMap.bind(provider);
 		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeUpdatedEventName] = provider.externalChangesInMap.bind(provider);
-		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeDeletedEventName] = provider.externalChangesInMap.bind(provider);
 		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeDeletedEventName] = provider.externalChangesInMap.bind(provider);
 		KnAllEdgeRealTimeService.registerPlugin(KnalledgeMapVOsServicePluginOptions);
 

@@ -35,7 +35,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		GlobalEmitterServicesArray.register(changeKnalledgeRimaEventName);
 		var changeSelectedNodeEventName = "changeSelectedNodeEvent";
 		GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
-		
+
 		var KnRealTimeNodeCreatedEventName = "node-created-to-visual";
 		GlobalEmitterServicesArray.register(KnRealTimeNodeCreatedEventName);
 		var KnRealTimeNodeDeletedEventName = "node-deleted-to-visual";
@@ -47,7 +47,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		GlobalEmitterServicesArray.register(KnRealTimeEdgeCreatedEventName);
 		var KnRealTimeEdgeUpdatedEventName = "edge-updated-to-visual";
 		GlobalEmitterServicesArray.register(KnRealTimeEdgeUpdatedEventName);
-		var KnRealTimeEdgeDeletedEventName = "edge-updated-to-visual";
+		var KnRealTimeEdgeDeletedEventName = "edge-deleted-to-visual";
 		GlobalEmitterServicesArray.register(KnRealTimeEdgeDeletedEventName);
 
 		var modelLoadedEventName = "modelLoadedEvent";

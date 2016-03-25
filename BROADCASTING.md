@@ -287,4 +287,15 @@ KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeDeletedEventName] = pro
 GlobalEmitterServicesArray.register(eventName);
 GlobalEmitterServicesArray.get(eventName).broadcast('KnalledgeMapVOsService', changes);
 ```
-+ the intra-client event (event not broadcasted to other client but between components of the same client) broadcasted in the previous step is received in the `knalledgeMap directive`
++ `knalledgeMap directive`, registers the receiver of the **intra-client event** (event not broadcasted to other client but between components of the same client) broadcasted in the previous step:
+```js
+var KnRealTimeNodeCreatedEventName = "node-created-to-visual";
+GlobalEmitterServicesArray.register(KnRealTimeNodeCreatedEventName);
+...
+GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+```
+(`knalledgeMap` is instance of `Map` class, so its method `processExternalChangesInMap` will receive it)
++ based on that, `Map.processExternalChangesInMap` method receives event and calls
+`MapStructure.processSyncedData(changes)`
++ `MapStructure.processSyncedData(changes)` goes through `changes` and for each node and edge in it, if it's a newly created one, it creates new VkNode/VkEdge and adds them to `MapStructure`'s lists `nodesById` and `edgesById`. If it's only updated one, it fills it with the new content
++

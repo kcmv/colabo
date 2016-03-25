@@ -2,7 +2,7 @@ export class KnalledgeMapPolicyService {
     private provider: any = {
         config: {
             broadcasting: {
-                enabled: true, //TEMP:
+                enabled: false
             },
             moderating: {
                 enabled: false

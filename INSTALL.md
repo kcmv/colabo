@@ -84,7 +84,10 @@ ls -al node_modules | grep ng2
 chmod -R g-s node_modules/*
 chmod -R go+rx node_modules/*
 ls -al node_modules | grep ng2
+```
 
+
+```js
 # From here is the local server
 # frontend/dist/dev
 # zip dev.zip
@@ -107,8 +110,11 @@ joe dist/dev/js/config/config.env.js
 #    //var env = envs.localhost;
 #    var env = envs.server;
 
-# =======================
 
+# =======================
+```
+
+```js
 cp -r dist/dev
 cd ../frontend
     npm install --production

@@ -533,7 +533,7 @@ MapStructure.prototype.getVKNodeByKId = function(kId) {
 	}
 	catch(e) {
 	// console.warn((new Error).lineNumber)
-		console.warn('getVKNodeByKId found kNode.'+kId+' without parent vkNode: \n' + e.stack);
+		console.warn('getVKNodeByKId found kNode.'+kId+' without encapsulating vkNode: \n' + e.stack);
 		return null;
 	}
 };
@@ -645,11 +645,12 @@ MapStructure.prototype.getSubChildren = function(vkNode, depth, list) {
 // [21.05.15 11:40:07] Sinisa (лични): MapStructure.prototype.processSyncedData to radi, ona kreira novi node
 // pa samo proveri da li vec ga imamo preko kNode._id
 // [21.05.15 11:40:10] Sinisa (лични): i onda osvezi samo
-MapStructure.prototype.processSyncedData = function(syncedData) {
-	if(syncedData !== undefined){
+MapStructure.prototype.processSyncedData = function(changes) {
+	if(changes !== undefined){
 		var i=0;
 		var kNode = null;
 		var kEdge = null;
+		var syncedData = changes.changes;
 
 		var newestNode = null; //the node that has be changed the last (so that we can focus on it - as selectedNode)
 		for(i=0; i<syncedData.nodes.length; i++){
@@ -663,16 +664,23 @@ MapStructure.prototype.processSyncedData = function(syncedData) {
 			// }
 
 			var vkNode = this.getVKNodeByKId(kNode._id);
-			if(!vkNode){ // it is a new node not an updated one
-				vkNode = new knalledge.VKNode();
-				vkNode.fillWithKNode(kNode, true);
-				this.nodesById[vkNode.id] = vkNode;
-			}else{
-				vkNode.fillWithKNode(kNode);
+			if(changes.event == "node-deleted-to-visual"){
+				if(vkNode){
+					delete this.nodesById[vkNode.id];
+				}
 			}
+			else{
+				if(!vkNode){ // it is a new node not an updated one
+					vkNode = new knalledge.VKNode();
+					vkNode.fillWithKNode(kNode, true);
+					this.nodesById[vkNode.id] = vkNode;
+				}else{
+					vkNode.fillWithKNode(kNode);
+				}
 
-			if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){
-				newestNode = vkNode;
+				if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){
+					newestNode = vkNode;
+				}
 			}
 		}
 
@@ -680,12 +688,19 @@ MapStructure.prototype.processSyncedData = function(syncedData) {
 			kEdge = syncedData.edges[i];
 
 			var vkEdge = this.getVKEdgeByKId(kEdge._id);
-			if(!vkEdge){ // it is a new edge not an updated one
-				vkEdge = new knalledge.VKEdge();
-				vkEdge.fillWithKEdge(kEdge, true);
-				this.edgesById[vkEdge.id] = vkEdge;
-			}else{
-				vkEdge.fillWithKEdge(kEdge);
+			if(changes.event == "edge-deleted-to-visual"){
+				if(vkEdge){
+					delete this.edgesById[vkEdge.id];
+				}
+			}
+			else{
+				if(!vkEdge){ // it is a new edge not an updated one
+					vkEdge = new knalledge.VKEdge();
+					vkEdge.fillWithKEdge(kEdge, true);
+					this.edgesById[vkEdge.id] = vkEdge;
+				}else{
+					vkEdge.fillWithKEdge(kEdge);
+				}
 			}
 		}
 
