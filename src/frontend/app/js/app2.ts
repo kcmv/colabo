@@ -5,11 +5,13 @@ import {KnalledgeMapMain} from '../components/knalledgeMap/main';
 import {KnalledgeMapPolicyService} from '../components/knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../components/knalledgeMap/knalledgeMapViewService';
 import {TopiChatReports} from '../components/topiChat/reports';
-// import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterService';
+import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterService';
 import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmitterServicesArray';
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
+import { MapInteraction } from './interaction/mapInteraction';
 
+import { Injector } from '../components/utils/injector';
 /// <reference path="../../../typings/browser/ambient/angular/angular.d.ts" />
 /// <reference path="../../../typings/browser/ambient/angular-route/angular-route.d.ts" />
 
@@ -69,6 +71,17 @@ upgradeAdapter.upgradeNg1Provider('TopiChatService');
 
 // upgrading ng1 services (written in TS) into ng2 space
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapPolicyService');
+
+
+var injector:Injector = new Injector();
+injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
+injector.addPath("collaboPlugins.globalEmitterService", GlobalEmitterService);
+injector.addPath("utils.globalEmitterService", Injector);
+injector.addPath("interaction.MapInteraction", MapInteraction);
+
+angular.module('Config')
+	.constant("injector", injector)
+;
 
 // bootstrapping app
 upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false});

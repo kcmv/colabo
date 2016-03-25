@@ -98,7 +98,6 @@ SUB_PROJECTS.KNALLEDGE.COMPILATION = {
         PATHS: {
             '': {destDir: APP_SRC, cssDir: 'css'},
             'components/collaboPlugins': {destDir: APP_SRC, cssDir: 'css'},
-            'components/halo': {destDir: APP_SRC, cssDir: 'css'},
             'components/knalledgeMap': {destDir: APP_SRC, cssDir: 'css'},
             'components/login': {destDir: APP_SRC, cssDir: 'css'},
             'components/notify': {destDir: APP_SRC, cssDir: 'css'},
@@ -146,6 +145,8 @@ KNALLEDGE: {
     // LIBS
         { src: join(APP_DEST, 'js/lib/debug.js'), inject: 'libs', noNorm: true},
         { src: join(APP_SRC, '../bower_components/debugpp/index.js'), inject: 'libs', noNorm: true},
+        { src: join(APP_SRC, '../bower_components/halo/index.js'), inject: 'libs', noNorm: true},
+        { src: join(APP_SRC, '../components/utils/index.js'), inject: 'libs', noNorm: true},
 
     // KNALLEDGE APP
         { src: join(APP_DEST, 'js/config/config.js'), inject: true, noNorm: true},
@@ -153,6 +154,7 @@ KNALLEDGE: {
 
 		{ src: join(APP_DEST, 'js/interaction/interaction.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/interaction/moveAndDrag.js'), inject: true, noNorm: true},
+        // { src: join(APP_DEST, 'js/interaction/mapInteraction.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/interaction/keyboard.js'), inject: true, noNorm: true},
 
     // KNALLEDGE CORE
@@ -179,7 +181,6 @@ KNALLEDGE: {
 		{ src: join(APP_DEST, 'js/knalledge/map.js'), inject: true, noNorm: true},
 
     // COMPONENTS
-		{ src: join(APP_DEST, 'components/halo/js/index.js'), inject: true, noNorm: true},
 
 		{ src: join(APP_DEST, 'js/mcm/mcm.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/mcm/mcm.js'), inject: true, noNorm: true},
@@ -229,7 +230,7 @@ KNALLEDGE: {
 		{ src: join(APP_SRC, 'css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
 		{ src: join(APP_SRC, 'components/knalledgeMap/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
 		{ src: join(APP_SRC, 'components/knalledgeMap/css/graph.css'), inject: true, dest: CSS_DEST, noNorm: true },
-		{ src: join(APP_SRC, 'components/halo/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
+        { src: join(APP_SRC, '../bower_components/halo/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true},
 		{ src: join(APP_SRC, 'components/rima/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
 		{ src: join(APP_SRC, 'components/login/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
 		{ src: join(APP_SRC, 'components/notify/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },

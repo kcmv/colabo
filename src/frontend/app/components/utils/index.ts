@@ -1,5 +1,5 @@
 //if we are providing a global variables we need to get them out of use-strict-function pattern
-var interaction;
+export var utils:any;
 
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
@@ -7,9 +7,11 @@ var interaction;
 /**
 * @description
 * ## Info
-* This namespace contains context logic of the interaction part of the CollaboFramework
-* @namespace interaction
+* This namespace contains context logic of the utils part of the CollaboFramework
+* @namespace utils
 */
-if(typeof interaction == 'undefined') interaction = {};
+if(typeof utils === 'undefined') utils = {
+    Injector: null
+};
 
 }()); // end of 'use strict';

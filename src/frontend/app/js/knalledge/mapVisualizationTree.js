@@ -100,6 +100,39 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		})
 		.on("click", function(d){
 			that.mapLayout.clickNode(d, this);
+			var haloOptions = {
+				icons: [
+					{
+						position: "n",
+						iconClass: "fa-bar-chart",
+						action: "analysis"
+					},
+					{
+						position: "s",
+						iconClass: "fa-tasks",
+						action: "params"
+					}
+				]
+			};
+			var dom = this;
+			that.halo.create(dom, haloOptions);
+
+			// if(this.selectedView && (selectedViewOld == this.selectedView)){
+			// 	this.selectedView = null;
+			// 	this.halo.destroy();
+			// }else{
+			// 	if(selectedViewOld){
+			// 		this.halo.destroy();
+			// 	}
+			//
+			// 	var dom = domD3.node();
+			//
+			// 	if(dom){
+			// 		this.halo.create(dom, haloOptions);
+			// 	}else{
+			// 		this.halo.destroy();
+			// 	}
+			// }
 		});
 
 	// position node on enter at the source position

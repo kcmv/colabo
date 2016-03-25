@@ -2,7 +2,7 @@
 'use strict';
 
 var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
-	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService){
+	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService, injector){
 	this.config = config;
 	this.clientApi = clientApi;
 	this.entityStyles = entityStyles;
@@ -19,6 +19,7 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.mapPlugins = mapPlugins;
 	this.syncingService = syncingService;
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
+	this.injector = injector;
 
 	this.knalledgeState = new knalledge.State();
 	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService);
@@ -127,7 +128,7 @@ Map.prototype.initializeKeyboard = function() {
 
 	if(!this.config.keyboardInteraction.enabled) return;
 
-	var keyboardClientInterface = {
+	var mapInterface = {
 		updateNode: this.mapStructure.updateNode.bind(this.mapStructure),
 		getDomFromDatum: this.mapLayout.getDomFromDatum.bind(this.mapLayout),
 		clickNode: this.mapLayout.clickNode.bind(this.mapLayout),
@@ -170,7 +171,10 @@ Map.prototype.initializeKeyboard = function() {
 		}.bind(this)
 	};
 
-	this.keyboardInteraction = new interaction.Keyboard(keyboardClientInterface);
+	var MapInteraction = this.injector.get("interaction.MapInteraction");
+	var mapInteraction = new MapInteraction(mapInterface);
+	mapInteraction.init();
+	this.keyboardInteraction = new interaction.Keyboard(mapInteraction);
 	this.keyboardInteraction.init();
 };
 
