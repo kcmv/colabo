@@ -99,7 +99,7 @@ MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
 
 				// window.alert("Showing analysis");
 				// this.selectedView = null;
-				this.mapInteraction.setEditing();
+				that.mapInteraction.setEditing();
 
 				break;
 			}
