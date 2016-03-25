@@ -22,13 +22,22 @@ MapVisualization.prototype.construct = function(dom, mapStructure, collaboPlugin
 	this.notifyService = notifyService;
 	this.mapPlugins = mapPlugins;
 	this.knalledgeMapViewService = knalledgeMapViewService;
+	this.halo = (interaction && interaction.Halo) ? new interaction.Halo() : null;
+	this.injector = null;
+	this.mapInteraction = null;
 };
 
-MapVisualization.prototype.init = function(mapLayout, mapSize){
+MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
+	var that = this;
+
 	this.mapSize = mapSize;
 	this.scales = this.setScales();
 
 	this.mapLayout = mapLayout;
+
+	this.injector = injector;
+	this.mapInteraction = this.injector.get("mapInteraction");
+
 	this.dom.divMap = this.dom.parentDom.append("div")
 		.attr("class", "div_map");
 
@@ -46,6 +55,56 @@ MapVisualization.prototype.init = function(mapLayout, mapSize){
 		.append("svg")
 			.append("g")
 				.attr("class", "svg_content");
+
+	if(this.halo){
+		var haloOptions = {
+			exclusive: true,
+			createAt: "sibling"
+		};
+
+		this.halo.init(haloOptions, function(event){
+			var d = d3.select(event.source).data();
+			if( Object.prototype.toString.call( d ) === '[object Array]' ) {
+				d = d[0];
+			}
+
+			switch(event.action){
+			case "toggle":
+				that.halo.destroy();
+
+				// window.alert("Showing params");
+				// this.selectedView = null;
+				that.mapInteraction.toggleNode();
+
+				break;
+			case "addNode":
+				that.halo.destroy();
+
+				// window.alert("Showing analysis");
+				// this.selectedView = null;
+				that.mapInteraction.addNode();
+
+				break;
+			case "deleteNode":
+				that.halo.destroy();
+
+				// window.alert("Showing analysis");
+				// this.selectedView = null;
+				that.mapInteraction.deleteNode();
+
+				break;
+
+			case "editNode":
+				that.halo.destroy();
+
+				// window.alert("Showing analysis");
+				// this.selectedView = null;
+				this.mapInteraction.setEditing();
+
+				break;
+			}
+		});
+	}
 };
 
 MapVisualization.prototype.updateName = function(nodeView){
@@ -67,7 +126,7 @@ MapVisualization.prototype.updateNodeDimensions = function(){
 		// Get centroid(this.d)
 		d.width = parseInt(d3.select(this).style("width"));
 		d.height = parseInt(d3.select(this).style("height"));
-		// d3.select(this).style("top", function(d) { 
+		// d3.select(this).style("top", function(d) {
 		// 	return "" + that.mapLayout.getHtmlNodePosition(d) + "px";
 		// })
 	});
@@ -90,7 +149,7 @@ MapVisualization.prototype.setDomSize = function(maxX, maxY){
 
 	this.dom.divMap
 		.style("width", maxX)
-		.style("height", maxY);		
+		.style("height", maxY);
 	if(this.dom.divMapHtml){
 		this.dom.divMapHtml
 			.style("width", maxX)
@@ -197,7 +256,7 @@ MapVisualization.prototype.positionToDatum = function(datum) {
 
 	// TWEEN.remove(tween);
 	// this.shapeView.animations.transition.push(tween);
-	
+
 	console.log("[GameView.rotateShape] starting pushing = %s", tween);
 	tween.start();
 

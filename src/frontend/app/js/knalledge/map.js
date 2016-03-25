@@ -2,7 +2,7 @@
 'use strict';
 
 var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
-	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService){
+	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService, injector){
 	this.config = config;
 	this.clientApi = clientApi;
 	this.entityStyles = entityStyles;
@@ -19,15 +19,65 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.mapPlugins = mapPlugins;
 	this.syncingService = syncingService;
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
+	this.injector = injector;
 
 	this.knalledgeState = new knalledge.State();
 	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService);
 
 	this.clientApi.selectNode	= this.selectNode.bind(this);
-	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService);
+
+	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService, this.injector);
 
 	this.mapVisualization = this.mapManager.getActiveVisualization();
 	this.mapLayout = this.mapManager.getActiveLayout();
+
+	var mapInterface = {
+		updateNode: this.mapStructure.updateNode.bind(this.mapStructure),
+		getDomFromDatum: this.mapLayout.getDomFromDatum.bind(this.mapLayout),
+		clickNode: this.mapLayout.clickNode.bind(this.mapLayout),
+		update: this.mapVisualization.update.bind(this.mapVisualization),
+		createNode: this.mapStructure.createNode.bind(this.mapStructure),
+		deleteNode: this.mapStructure.deleteNode.bind(this.mapStructure),
+		createEdgeBetweenNodes: this.mapStructure.createEdgeBetweenNodes.bind(this.mapStructure),
+		expandNode: this.mapStructure.expandNode.bind(this.mapStructure),
+		knalledgeState: this.knalledgeState,
+		getParentNodes: this.mapStructure.getParentNodes.bind(this.mapStructure),
+		getSelectedNode: function(){
+			return this.mapStructure.getSelectedNode();
+		}.bind(this),
+		selectNode: function(selectedNode){
+			this.selectNode(selectedNode);
+		}.bind(this),
+		updateName: function(nodeView){
+			this.mapVisualization.updateName(nodeView);
+		}.bind(this),
+		addImage: function(node){
+			this.clientApi.addImage(node);
+		}.bind(this),
+		searchNodeByName: function(){
+			this.clientApi.searchNodeByName();
+		}.bind(this),
+		toggleModerator: function(){
+			this.clientApi.toggleModerator();
+		}.bind(this),
+		togglePresenter: function(){
+			this.clientApi.togglePresenter();
+		}.bind(this),
+		removeImage: function(){
+			var vkNode = this.mapStructure.getSelectedNode();
+			this.mapStructure.removeImage(vkNode);
+			this.update(vkNode);
+		}.bind(this),
+		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
+		getActiveIbisType: function(){
+			return this.ibisTypesService.getActiveType().type;
+		}.bind(this)
+	};
+
+	var MapInteraction = this.injector.get("interaction.MapInteraction");
+	this.mapInteraction = new MapInteraction(mapInterface);
+	this.mapInteraction.init();
+	this.injector.addPath("mapInteraction", this.mapInteraction);
 
 	this.keyboardInteraction = null;
 	// this.syncingInterval = 1000;
@@ -49,7 +99,7 @@ Map.prototype.init = function() {
 	// related posts
 	//	http://stackoverflow.com/questions/17847131/generate-multilevel-flare-json-data-format-from-flat-json
 	//	http://stackoverflow.com/questions/20940854/how-to-load-data-from-an-internal-json-array-rather-than-from-an-external-resour
-	this.mapVisualization.init(this.mapLayout, this.mapSize);
+	this.mapVisualization.init(this.mapLayout, this.mapSize, this.injector);
 	this.scales = this.mapVisualization.scales;
 	this.mapLayout.init(this.mapSize, this.scales);
 	this.initializeKeyboard();
@@ -127,50 +177,7 @@ Map.prototype.initializeKeyboard = function() {
 
 	if(!this.config.keyboardInteraction.enabled) return;
 
-	var keyboardClientInterface = {
-		updateNode: this.mapStructure.updateNode.bind(this.mapStructure),
-		getDomFromDatum: this.mapLayout.getDomFromDatum.bind(this.mapLayout),
-		clickNode: this.mapLayout.clickNode.bind(this.mapLayout),
-		update: this.mapVisualization.update.bind(this.mapVisualization),
-		createNode: this.mapStructure.createNode.bind(this.mapStructure),
-		deleteNode: this.mapStructure.deleteNode.bind(this.mapStructure),
-		createEdgeBetweenNodes: this.mapStructure.createEdgeBetweenNodes.bind(this.mapStructure),
-		expandNode: this.mapStructure.expandNode.bind(this.mapStructure),
-		knalledgeState: this.knalledgeState,
-		getParentNodes: this.mapStructure.getParentNodes.bind(this.mapStructure),
-		getSelectedNode: function(){
-			return this.mapStructure.getSelectedNode();
-		}.bind(this),
-		selectNode: function(selectedNode){
-			this.selectNode(selectedNode);
-		}.bind(this),
-		updateName: function(nodeView){
-			this.mapVisualization.updateName(nodeView);
-		}.bind(this),
-		addImage: function(node){
-			this.clientApi.addImage(node);
-		}.bind(this),
-		searchNodeByName: function(){
-			this.clientApi.searchNodeByName();
-		}.bind(this),
-		toggleModerator: function(){
-			this.clientApi.toggleModerator();
-		}.bind(this),
-		togglePresenter: function(){
-			this.clientApi.togglePresenter();
-		}.bind(this),
-		removeImage: function(){
-			var vkNode = this.mapStructure.getSelectedNode();
-			this.mapStructure.removeImage(vkNode);
-			this.update(vkNode);
-		}.bind(this),
-		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
-		getActiveIbisType: function(){
-			return this.ibisTypesService.getActiveType().type;
-		}.bind(this)
-	};
-
-	this.keyboardInteraction = new interaction.Keyboard(keyboardClientInterface);
+	this.keyboardInteraction = new interaction.Keyboard(this.mapInteraction);
 	this.keyboardInteraction.init();
 };
 

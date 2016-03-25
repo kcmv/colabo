@@ -8,12 +8,12 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService',
 		'KnalledgeMapService', 'KnalledgeMapViewService',
 		'KnAllEdgeRealTimeService', 'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService',
-		'CollaboPluginsService', 'SyncingService',
+		'CollaboPluginsService', 'SyncingService', 'injector',
 		function($injector, $rootScope, $compile, $routeParams, $timeout,
 		KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService,
 		KnalledgeMapService, KnalledgeMapViewService,
 		KnAllEdgeRealTimeService, KnAllEdgeSelectItemService, KnalledgeMapPolicyService,
-		CollaboPluginsService, SyncingService){
+		CollaboPluginsService, SyncingService, injector){
 
 		// getting services dinamicaly by injecting
 		// TODO: here we can inject config object/service
@@ -319,7 +319,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						config, kMapClientInterface, null,
 							// if $scope.mapData is set, we do not use KnalledgeMapVOsService.mapStructure but let knalledge.Map to create a new mapStructure and build VKs from Ks
 							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, $scope.mapData ? null : KnalledgeMapVOsService.mapStructure,
-							CollaboPluginsService, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService, KnalledgeMapPolicyService);
+							CollaboPluginsService, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService, KnalledgeMapPolicyService, injector);
 					knalledgeMap.init();
 
 					// providing select item service with the context
