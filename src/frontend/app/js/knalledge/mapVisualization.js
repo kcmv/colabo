@@ -69,7 +69,7 @@ MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
 			}
 
 			switch(event.action){
-			case "params":
+			case "toggle":
 				that.halo.destroy();
 
 				// window.alert("Showing params");
@@ -77,12 +77,29 @@ MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
 				that.mapInteraction.toggleNode();
 
 				break;
-			case "analysis":
+			case "addNode":
 				that.halo.destroy();
 
 				// window.alert("Showing analysis");
 				// this.selectedView = null;
 				that.mapInteraction.addNode();
+
+				break;
+			case "deleteNode":
+				that.halo.destroy();
+
+				// window.alert("Showing analysis");
+				// this.selectedView = null;
+				that.mapInteraction.deleteNode();
+
+				break;
+
+			case "editNode":
+				that.halo.destroy();
+
+				// window.alert("Showing analysis");
+				// this.selectedView = null;
+				this.mapInteraction.setEditing();
 
 				break;
 			}
