@@ -29,7 +29,7 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 		source = this.mapStructure.nodesById[Object.keys(this.mapStructure.nodesById)[0]];
 	}
 	this.mapLayout.generateTree(this.mapStructure.rootNode);
-	this.mapLayout.printTree(this.mapLayout.nodes);
+	// this.mapLayout.printTree(this.mapLayout.nodes);
 	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
 	var that = this;
 	window.setTimeout(function() {
