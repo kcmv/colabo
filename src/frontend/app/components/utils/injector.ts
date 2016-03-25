@@ -88,8 +88,8 @@ export class Injector {
                     return true;
                 }
             }else {
-                let injectant:Injector = <Injector> this.items[i];
-                let result = injectant.has(path);
+                let injector:Injector = <Injector> this.items[i];
+                let result = injector.has(path);
                 if(result) return true;
             }
         }
@@ -103,8 +103,8 @@ export class Injector {
                     return (<Injectant> this.items[i]).value;
                 }
             }else {
-                let injectant:Injector = <Injector> this.items[i];
-                let result = injectant.get(path);
+                let injector:Injector = <Injector> this.items[i];
+                let result = injector.get(path);
                 if(result) return result;
             }
         }

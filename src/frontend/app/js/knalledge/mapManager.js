@@ -1,7 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState, notifyService, mapPlugins, knalledgeMapViewService, knAllEdgeRealTimeService){
+var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState, notifyService, mapPlugins, knalledgeMapViewService, knAllEdgeRealTimeService, injector){
 	this.dom = {
 		parentDom: parentDom,
 		divMap: null,
@@ -27,6 +27,7 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 	this.notifyService = notifyService;
 	this.mapPlugins = mapPlugins;
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
+	this.injector = injector;
 
 	this.visualizations = {
 		'viewspec_tree': null,

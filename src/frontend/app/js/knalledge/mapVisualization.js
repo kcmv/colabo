@@ -23,15 +23,21 @@ MapVisualization.prototype.construct = function(dom, mapStructure, collaboPlugin
 	this.mapPlugins = mapPlugins;
 	this.knalledgeMapViewService = knalledgeMapViewService;
 	this.halo = (interaction && interaction.Halo) ? new interaction.Halo() : null;
+	this.injector = null;
+	this.mapInteraction = null;
 };
 
-MapVisualization.prototype.init = function(mapLayout, mapSize){
+MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
 	var that = this;
 
 	this.mapSize = mapSize;
 	this.scales = this.setScales();
 
 	this.mapLayout = mapLayout;
+
+	this.injector = injector;
+	this.mapInteraction = this.injector.get("mapInteraction");
+
 	this.dom.divMap = this.dom.parentDom.append("div")
 		.attr("class", "div_map");
 
@@ -66,15 +72,17 @@ MapVisualization.prototype.init = function(mapLayout, mapSize){
 			case "params":
 				that.halo.destroy();
 
-				window.alert("Showing params");
+				// window.alert("Showing params");
 				// this.selectedView = null;
+				that.mapInteraction.toggleNode();
 
 				break;
 			case "analysis":
-				window.alert("Showing analysis");
-
-				// this.selectedView = null;
 				that.halo.destroy();
+
+				// window.alert("Showing analysis");
+				// this.selectedView = null;
+				that.mapInteraction.addNode();
 
 				break;
 			}
