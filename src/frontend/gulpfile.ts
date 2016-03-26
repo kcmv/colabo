@@ -48,15 +48,24 @@ gulp.task('build.prod', done =>
               'tslint', // ts linting
               'build.compass', // compiles COMPASS files -> APP_DEST
               'build.assets.prod',  // copies set of asset files to APP_DEST
+                                    // (not *.ts, *.js, *.html, *.css)
                                     // dependencies assets -> d.dest
               'build.html_css.prod',    // project css and html (templates) -> TMP_DIR,
                                         // external css -> CSS_DEST
               'build.js.prod', // ng2/Lo-Dash/Underscore templates, compiles typescript -> TMP_DIR
-              'build.bundles', // minify all js dependencies -> JS_DEST/JS_PROD_SHIMS_BUNDLE
+              'build.bundles', // JS: minify all js dependencies -> JS_DEST/JS_PROD_SHIMS_BUNDLE
               'build.bundles.app',  // builds from SYSTEM_BUILDER_CONFIG.paths (all code used in the project)
                                     // a SystemJS bundle into JS_DEST/JS_PROD_APP_BUNDLE
               'build.index.prod', // injects css/js shims/bundles -> APP_SRC/'index.html'
               done));
+
+// just for testing and accessing directly to a task
+// it is ok to rename build.html_css.prod to anything
+gulp.task('build.html_css.prod', done =>
+    runSequence(
+        'build.html_css.prod', // ng2/Lo-Dash/Underscore templates, compiles typescript -> TMP_DIR
+        done));
+
 
 // --------------
 // Build test.

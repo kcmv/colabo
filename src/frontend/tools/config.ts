@@ -220,11 +220,11 @@ KNALLEDGE: {
 
     // CSS
     // LIBS
-		{ src: join(APP_DEST, 'css/libs/bootstrap/bootstrap.css'), inject: true, dest: CSS_DEST , noNorm: true},
-		{ src: join(APP_DEST, 'css/libs/textAngular/textAngular.css'), inject: true, dest: CSS_DEST , noNorm: true},
+		{ src: join(APP_SRC, 'css/libs/bootstrap/bootstrap.css'), inject: true, dest: CSS_DEST , noNorm: true},
+		{ src: join(APP_SRC, 'css/libs/textAngular/textAngular.css'), inject: true, dest: CSS_DEST , noNorm: true},
 
     // KNALLEDGE CORE
-		{ src: join(APP_DEST, 'css/libs/wizard/ngWizard.css'), inject: true, dest: CSS_DEST , noNorm: true},
+		{ src: join(APP_SRC, 'css/libs/wizard/ngWizard.css'), inject: true, dest: CSS_DEST , noNorm: true},
 
         { src: join(APP_SRC, 'css/default app.css'), inject: true, dest: CSS_DEST, noNorm: true },
 		{ src: join(APP_SRC, 'css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },

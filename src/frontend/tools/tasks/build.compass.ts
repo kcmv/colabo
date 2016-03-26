@@ -6,6 +6,7 @@ import {APP_SRC, APP_DEST, COMPASS_CONFIG} from '../config';
 // compiles all ts files (except tests/template ones) and type definitions,
 // replace templates in them and adds sourcemaps and copies into APP_DEST
 export = function buildCss(gulp, plugins) {
+  let debug = false;
   return function() {
     //   if(!COMPASS_CONFIG) return noop();
     //   gulp.src(APP_SRC)
@@ -26,13 +27,13 @@ export = function buildCss(gulp, plugins) {
       })
     };
 
-    console.log('__dirname: ', __dirname);
-    console.log('COMPASS_CONFIG.GENERIC: ', COMPASS_CONFIG.GENERIC);
+    if(debug) plugins.util.log('__dirname: ', __dirname);
+    if(debug) plugins.util.log('COMPASS_CONFIG.GENERIC: ', COMPASS_CONFIG.GENERIC);
 
     var compassTask = function (scssFiles, distPathCss, projectPath){
-        console.log('[compassTask] projectPath: ', projectPath);
-        console.log('[compassTask] scssFiles: ', scssFiles);
-        console.log('[compassTask] distPathCss: ', distPathCss);
+        if(debug) plugins.util.log('[compassTask] projectPath: ', projectPath);
+        if(debug) plugins.util.log('[compassTask] scssFiles: ', scssFiles);
+        if(debug) plugins.util.log('[compassTask] distPathCss: ', distPathCss);
 
         // https://www.npmjs.com/package/gulp-compass
         // https://www.npmjs.com/package/gulp-compass#sass
@@ -59,7 +60,7 @@ export = function buildCss(gulp, plugins) {
           // doesn't have any effect
             .pipe(gulp.dest(distPathCss));
 
-        // console.log("[compassTask] compass-sass files:", plugins.filenames.get());
+        // if(debug) plugins.util.log("[compassTask] compass-sass files:", plugins.filenames.get());
         return task;
     };
 
