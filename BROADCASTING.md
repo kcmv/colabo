@@ -299,3 +299,16 @@ GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe('knalle
 `MapStructure.processSyncedData(changes)`
 + `MapStructure.processSyncedData(changes)` goes through `changes` and for each node and edge in it, if it's a newly created one, it creates new VkNode/VkEdge and adds them to `MapStructure`'s lists `nodesById` and `edgesById`. If it's only updated one, it fills it with the new content
 +
+
+# Libraries support
+
+## Socket.io
+
+### reliability
+
++ http://stackoverflow.com/questions/20685208/websocket-transport-reliability-socket-io-data-loss-during-reconnection
++ http://stackoverflow.com/questions/11732837/socket-io-confirmed-delivery
++ https://github.com/share/ShareJS/issues/375
++ https://github.com/capriza/socketgd
++ http://stackoverflow.com/questions/15410267/does-socket-io-garantee-that-broadcasted-events-are-received-in-order-client-sid
++ http://stackoverflow.com/questions/14933868/message-ordering-in-socket-io

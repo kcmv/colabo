@@ -11,17 +11,46 @@ it is used as a prerequisite for the map visualization
 
 var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService){
 	this.rootNode = null;
+
+	/**
+	 * Currently selected node in the map
+	 * @type {knalledge.vkNode}
+	 */
 	this.selectedNode = null;
+	/**
+	 * A top service responsible for managing KnAllEdge map
+	 * @type {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService}
+	 */
 	this.mapService = null;
+
+	/**
+	 * Service that configures visual aspects of the KnAllEdge system
+	 * @type {knalledge.knalledgeMap.KnalledgeMapViewService}
+	 */
 	this.knalledgeMapViewService = knalledgeMapViewService;
+	/**
+	 * Service that configures policy aspects of the KnAllEdge system
+	 * @type {knalledge.knalledgeMap.KnalledgeMapPolicyService}
+	 */
 	this.knalledgeMapPolicyService = knalledgeMapPolicyService;
-	this.nodesById = {}; //VkNode
-	this.edgesById = {}; //VkEdge
+	/**
+	 * Set of nodes (VKNode) that exists in the map
+	 * @type {knalledge.VKNode}
+	 */
+	this.nodesById = {};
+	/**
+	 * Set of edges (VkEdge) that exists in the map
+	 * @type {knalledge.VkEdge}
+	 */
+	this.edgesById = {};
+
 	this.properties = {};
 
+	// TODO: we need to remove that and move it into plugin
 	this.rimaService = rimaService;
 };
 
+// Lists of constants that describes what type of updates are made on node
 MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
 MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT";
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
@@ -34,8 +63,15 @@ MapStructure.UPDATE_NODE_IBIS_VOTING = "UPDATE_NODE_IBIS_VOTING";
 */
 MapStructure.debug = debugpp.debug('knalledge.MapStructure');
 
+/**
+ * Initializes MapStructure
+ * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService} mapService - A top service
+ *          responsible for managing KnAllEdge map
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.init = function(mapService){
 	this.mapService = mapService;
+	return this;
 };
 
 MapStructure.prototype.removeImage = function(vkNode){
@@ -51,10 +87,20 @@ MapStructure.prototype.removeImage = function(vkNode){
 	}
 };
 
+/**
+ * Unselects currently selected node
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.unsetSelectedNode = function(){
 	this.selectedNode = null;
+	return this;
 };
 
+/**
+ * Sets currently selected node
+ * @param  {knalledge.VKNode} selectedNode - newly selected node
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.setSelectedNode = function(selectedNode){
 	this.selectedNode = selectedNode;
 	this.setVisibility(); //TODO: should be called only setVisibilityByDistance(), but we would have problem in finding visibleAsAncestors if not calculating for all
@@ -68,6 +114,7 @@ MapStructure.prototype.setSelectedNode = function(selectedNode){
 //			MapStructure.debug.log('selectedNode.kNode.name: ' + selectedNode.kNode.name);
 //		}
 //	}
+	return this;
 };
 
 MapStructure.prototype.getSelectedNode = function(){
@@ -184,6 +231,10 @@ MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 	return result;
 }
 
+/**
+ * [function description]
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.setVisibility = function(){
 	//hiding all nodes:
 	for(var j in this.nodesById){
@@ -200,24 +251,37 @@ MapStructure.prototype.setVisibility = function(){
 		if(this.isNodeVisibleWOAncestory(node)){
 			this.setAncestorsVisibile(node);
 
-}	}
+		}
+	}
+	return this;
 }
 
+/**
+ * [function description]
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.setAncestorsVisibile = function(node){
 	var ancestors = this.getAncestorsPath(node);
 	for(var j in ancestors){
 		ancestors[j].presentation.visibleAsAncestor = true;
 	}
 	console.log('setVisibility - getAncestorsPath: ' + getNodesNames(ancestors));
+
+	return this;
 }
 
+/**
+ * [function description]
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.setVisibilityByAuthor = function(sourceNode, distance){
-
+	return this;
 }
 
-/*
-	set nodes visibility based on their distance (length of path) from source node
-*/
+/**
+ * set nodes visibility based on their distance (length of path) from source node
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.setVisibilityByDistance = function(sourceNode, distance){
 	if(sourceNode!=null){
 		//console.log('setVisibilityByDistance(sourceNode, distance): ' + sourceNode.kNode.name + ', ' + distance);
@@ -236,8 +300,12 @@ MapStructure.prototype.setVisibilityByDistance = function(sourceNode, distance){
 			}
 		}
 	}
+	return this;
 }
 
+/**
+ * [function description]
+ */
 MapStructure.prototype.getNeghboursInDistance = function(sourceNode, distance){
 	//algorythm is parallel, walk in widenes, not in depth (recursive)
 	console.log('getNeghboursInDistance(sourceNode, distance): ' + sourceNode.kNode.name + ', ' + distance);

@@ -5,15 +5,24 @@
 //	https://github.com/RobertWHurst/KeyboardJS
 
 /**
-@classdesc Provides the API to Collabo plugins
+@classdesc Provides keyboard interaction for the KnAllEdge system
 @class Keyboard
 @memberof interaction
 @constructor
+@param {Object} mapInteraction - interface for interacting with map,
+in this way the Keboard class is merely a action invoker for the business logic
+located in mapInteraction
 */
 var Keyboard =  interaction.Keyboard = function(mapInteraction){
 	this.mapInteraction = mapInteraction;
 };
 
+/**
+ * Prefix for all keyboard commands.
+ * ** NOTE**: this is currently necessary since we do not isolate the Keyboard class
+ * listening for commands while we are typing a regular text inside the node name or content
+ * @type {String}
+ */
 Keyboard.KEY_PREFIX = "ctrl + ";
 
 /**

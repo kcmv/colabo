@@ -7,6 +7,15 @@ import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+/**
+ * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
+ *
+ * Selector: `knalledge-map-main`
+ * @class KnalledgeMapMain
+ * @memberof knalledge.knalledgeMap
+ * @constructor
+*/
+
 @Component({
     selector: 'knalledge-map-main',
     providers: [SidenavService],

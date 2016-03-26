@@ -30,7 +30,8 @@
 	"source": {
 		"include": [
 			"../README.md",
-			"../src/frontend/app"
+			"../src/frontend/app",
+			"../src/frontend/dist/tmp" // precompiled TypeScript
 		],
 		"exclude": [
 			"../src/frontend/app/js/lib",

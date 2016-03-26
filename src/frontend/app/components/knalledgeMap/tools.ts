@@ -7,6 +7,16 @@ import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+
+/**
+ * Directive that holds CollaboFramework tools on the left side of the map
+ *
+ * Selector: `knalledge-map-tools`
+ * @class KnalledgeMapTools
+ * @memberof knalledge.knalledgeMap
+ * @constructor
+*/
+
 @Component({
     selector: 'knalledge-map-tools',
     providers: [SidenavService, MdRadioDispatcher],

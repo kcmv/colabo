@@ -59,6 +59,14 @@ gulp.task('build.prod', done =>
               'build.index.prod', // injects css/js shims/bundles -> APP_SRC/'index.html'
               done));
 
+
+// Exports the build.js.prod task mainly to provide documentation generation
+// for the TypeScript
+gulp.task('build.js.prod', done =>
+    runSequence(
+        'build.js.prod', // ng2/Lo-Dash/Underscore templates, compiles typescript -> TMP_DIR
+        done));
+
 // just for testing and accessing directly to a task
 // it is ok to rename build.html_css.prod to anything
 gulp.task('build.html_css.prod', done =>

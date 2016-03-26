@@ -1,3 +1,13 @@
+/**
+* the namespace for the knalledgeMap part of the KnAllEdge system
+* @namespace knalledge.knalledgeMap
+*/
+
+/**
+* the namespace for core services for the KnAllEdge system
+* @namespace knalledge.knalledgeMap.knalledgeMapServices
+*/
+
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 //this function is strict...
@@ -698,25 +708,54 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 
 }]);
 
+ /**
+ * @class KnalledgeMapVOsService
+ * @memberof knalledge.knalledgeMap.knalledgeMapServices
+ * @param  {Ng1Service} 'KnalledgeNodeService'     - KnAllEdge service for manipulating with kNodes
+ * @param  {Ng1Service} 'KnalledgeEdgeService'     - KnAllEdge service for manipulating with kEdges
+ * @param  {Ng1Service} 'RimaService'              - RIMA service
+ * @param  {Ng1Service} 'KnAllEdgeRealTimeService' - KnAllEdge real-time service using underlying TopiChat service
+ * @param  {Ng1Service} 'CollaboPluginsService'    - Service that provides a mechanism for registering and accessing plugins (CollaboFramework format)
+ */
 knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	// privateData: "privatno",
 	$get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'KnalledgeEdgeService',
 	'RimaService', 'KnAllEdgeRealTimeService', 'CollaboPluginsService',
+	/**
+	* @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService
+	* @constructor
+	* @param  {Ng1Service} 'KnalledgeNodeService'     - KnAllEdge service for manipulating with kNodes
+	* @param  {Ng1Service} 'KnalledgeEdgeService'     - KnAllEdge service for manipulating with kEdges
+	* @param  {Ng1Service} 'RimaService'              - RIMA service
+	* @param  {Ng1Service} 'KnAllEdgeRealTimeService' - KnAllEdge real-time service using underlying TopiChat service
+	* @param  {Ng1Service} 'CollaboPluginsService'    - Service that provides a mechanism for registering and accessing plugins (CollaboFramework format)
+	*/
 	function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, RimaService,
 		KnAllEdgeRealTimeService, CollaboPluginsService) {
 		// var that = this;
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var provider = {
-			mapId: "552678e69ad190a642ad461c",
-			rootNodeId: "55268521fb9a901e442172f9",
-			rootNode: null,
+			mapId: "552678e69ad190a642ad461c", // map id
+			rootNodeId: "55268521fb9a901e442172f9", // root node id in the map
+			rootNode: null, // root node in the map
 			selectedNode: null,
-			nodesById: {},
-			edgesById: {},
+			nodesById: {}, // kNodes that belongs to the map
+			edgesById: {}, // kEdges that belongs to the map
 			properties: {},
+			// TODO remove RimaService
 			mapStructure: new knalledge.MapStructure(RimaService),
 			lastVOUpdateTime: null,
 
+			/**
+			 * Callback function called from KnAllEdgeRealTimeService
+			 * when change broadcated events (like `node-created`, etc)
+			 * are broadcasted.
+			 *
+			 * It wraps changes into a unified structure `changes` that is published
+			 * (through the GlobalEmitterServicesArray) to upper interested layers translated into events (like `node-created-to-visual`)
+			 * @param  {string} eventName - event name that is sent by other client
+			 * @param  {Object} msg
+			 */
 			externalChangesInMap: function(eventName, msg){
 				console.log("externalChangesInMap(%s,%s)",eventName, JSON.stringify(msg));
 				var changes = {nodes:[], edges:[]};

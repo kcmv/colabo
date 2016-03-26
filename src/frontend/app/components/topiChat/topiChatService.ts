@@ -1,4 +1,15 @@
+/**
+* the namespace for the TopiChat communication system
+* @namespace topiChat
+*/
+
 import {TopiChatConfigService} from './topiChatConfigService';
+/**
+* TopiChatService service responsible for communication at the topiChat communication layer
+* It supports different streams that communicates across different events that plugins can register to listen for
+* @class TopiChatService
+* @memberof topiChat
+*/
 export class TopiChatService {
     /**
      * Registered Plugins
@@ -35,11 +46,12 @@ export class TopiChatService {
 
     /**
      * Service constructor
+     * @constructor
+     * @memberof topiChat.TopiChatService
      * @param  socketFactory         [description]
      * @param  $rootScope            [description]
      * @param  {Object} ENV                   [description]
      * @param  {Service} TopiChatConfigService - TopiChat Config service
-     * @return
      */
     constructor(socketFactory, $rootScope, ENV, _TopiChatConfigService_) {
         console.log("[TopiChatService] ENV: ", ENV);
@@ -53,8 +65,7 @@ export class TopiChatService {
     };
 
     /**
-     * Initialize service
-     * @return
+     * Initializes service
      */
     init() {
         if(!this._isActive) return;
@@ -168,8 +179,8 @@ export class TopiChatService {
      * Every new type has to be registered at the lower layer
      * in order for topiChat to get messages for that event
      * NOTE: it is necessary to register event only for the first plugin that uses it
-     * @param  {[type]} eventName [description]
-     * @return {[type]}           [description]
+     * @param  {string} eventName - name of the event we are registering
+     * @return {TopiChatService}
      */
     registerNewEventType(eventName) {
         this.eventsByPlugins[eventName] = [];
@@ -178,6 +189,7 @@ export class TopiChatService {
         // for(var eventName in this.eventsByPlugins){
             this._socket.on(eventName, this._dispatchEvent.bind(this, eventName));
         // }
+        return this;
     };
 
     /**
@@ -185,7 +197,7 @@ export class TopiChatService {
      * to the higher layer listeners (plugins)
      * @param  {string} eventName - name of the event the message/package
      *                            is sent to/through
-     * @param  {[type]} tcPackage - topic-chat-type of package received
+     * @param  {Object} tcPackage - topic-chat-type of package received
      *                            from other peer
      * it looks like:
      * ```js

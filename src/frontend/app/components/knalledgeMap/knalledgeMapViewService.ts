@@ -1,3 +1,9 @@
+/**
+* Service that configures visual aspects of the KnAllEdge system
+* @class KnalledgeMapViewService
+* @memberof knalledge.knalledgeMap
+*/
+
 export class KnalledgeMapViewService {
     private provider: any = {
         config: {

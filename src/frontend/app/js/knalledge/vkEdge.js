@@ -1,6 +1,15 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+/**
+ * @classdesc VKEdge is right now a local object, it does not exist on server, in database, but is packed into "visual" property of kEdge
+ * and upon retrieving from server it recreated from there.
+ * BUT! //	NOTE: in the future, each user will have its one or more visual representations of kEdge,
+ * so accordingly this object is going to be an independent object in server storage, related to iAmId (user ID) and kEdge!
+ * @class VKEdge
+ * @memberof knalledge
+ */
+
 var VKEdge =  knalledge.VKEdge = function(){
 	this.id = VKEdge.MaxId++; //Unique id
 	this.kEdge = null; // reference to the related kEdge object
