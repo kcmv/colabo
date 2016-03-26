@@ -16,7 +16,9 @@ import { OrderArrayPipe } from "../utils/orderArrayPipe";
         NgIf, NgFor, FORM_DIRECTIVES,
    ],
    pipes: [DatePipe, OrderArrayPipe],
-    templateUrl: 'components/topiChat/partials/reports.tpl.html',
+   moduleId: module.id, // necessary for having relative paths for templateUrl
+   templateUrl: 'partials/reports.tpl.html',
+    // t_emplateUrl: 'components/topiChat/partials/reports.tpl.html',
     styles: [`
         .md-list-item-text {
             border-bottom: 1px solid gray;

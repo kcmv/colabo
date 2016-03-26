@@ -18,8 +18,9 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
         upgradeAdapter.upgradeNg1Component('rimaUsersList'),
         upgradeAdapter.upgradeNg1Component('ibisTypesList')
    ],
-    templateUrl: 'components/knalledgeMap/partials/tools.tpl.html',
-    // templateUrl: 'partials/tools.tpl.html',
+   moduleId: module.id, // necessary for having relative paths for templateUrl
+   templateUrl: 'partials/tools.tpl.html',
+    // t_emplateUrl: 'components/knalledgeMap/partials/tools.tpl.html',
     styles: [`
         .msg {
             font-size: 0.5em;

@@ -75,7 +75,7 @@ export class TopiChatService {
 
         this.registerPlugin(systemPluginOptions);
         var msg:any = {
-            timestamp: Math.floor(new Date())
+            timestamp: Math.floor(new Date().getTime() / 1000)
         };
         this.emit('tc:client-hello', msg);
     };

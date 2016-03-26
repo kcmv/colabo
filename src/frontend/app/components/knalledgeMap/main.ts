@@ -22,8 +22,11 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
     //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
      KnalledgeMapTools
    ],
-    templateUrl: 'components/knalledgeMap/partials/main.tpl.html',
-    // templateUrl: 'partials/main.tpl.html',
+   // necessary for having relative paths for templateUrl
+   // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
+   moduleId: module.id,
+   templateUrl: 'partials/main.tpl.html',
+    // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
     styles: [`
         .msg {
             font-size: 0.5em;
