@@ -267,6 +267,41 @@ In this way we will be able to listen before directive is placed in active view,
 + `tc:chat-message`
 +
 
+# BROADCAST participants
+
+should broadcast be sent or received is controlled by specific switches in
+```js
+KnalledgeMapPolicyService. config: {
+            broadcasting: {
+              enabled: false, //broaadcasting toward receviers
+              receiveNavigation: true, //going through map (changing selected nodes), ...
+              receiveStructural: true, //knawledge management (creation, delete, ....)
+              receiveVisualization: true, //changes in view settings (showIMages, showNodes, limit range of visible nodes, IBIS, etc)
+              receiveBehaviours: true, //receive changes in behaviours/modes (broadcasting, etc)
+          }
+```
+
+**TODO**: we should probably introduce an independent `BroadcastingManager`
+
++ **Structural changes** in map
+  + sent by and received (`externalChangesInMap`) by `KnalledgeMapVOsService`<BR/>
+  + Controlled by `receiveStructural`
+  + _Events_:
+    + `node-created`
+    + `node-updated`
+    + `node-deleted`
++ **Navigations**
+  + Controlled by `receiveNavigation`
+  + sent by received by
+  + _Events_:
+    +  `node-selected`
++ **Visualization** changes (changes in Display)
+  + Controlled by `receiveVisualization`
+  + sent and received by `knalledgeMap` directive
+  + _Events_:
+    +  `map-viewspec-change`<BR/>
+    (specific visual settings are differentiated by msg.path)<BR/>
+    `var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";`
 # EXAMPLE
 + at the **broadcaster client**, in the `service`, when specific action is done locally (and on server), we call `KnAllEdgeRealTimeService` to emit it to receivers:
 ```js

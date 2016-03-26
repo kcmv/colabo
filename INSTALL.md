@@ -88,18 +88,23 @@ ls -al node_modules | grep ng2
 
 
 ```js
-# From here is the local server
-# frontend/dist/dev
-# zip dev.zip
+# From here are tasks on the local server:
+# go to the folder `frontend/dist/dev`
+# and zip it
+# `zip dev.zip`
+# rename it to show date `dev-YYYY.MM.DD.zip` (e.g `dev-2016.03.18.zip`)
 
+# use SFTP to put this zip at destination `/var/www/knalledge_frontend/dist`
+
+# now, login to server:
+# > `ssh user@server`
 cd /var/www/knalledge_frontend/dist
-# drwxrwxr-x  9 mprinc developers    4096 Mar 17 12:39 dev
-rm -r dev
-unzip dev.zip
-chmod -R g-s *
-chmod -R go+rx *
-
-# login/iAmId/556760847125996dc1a4a24f
+ls -al
+    resulting in: # drwxrwxr-x  9 mprinc developers    4096 Mar 17 12:39 dev
+rm -rf dev
+unzip <name_of_the_zip> (e.g. `unzip dev-2016.03.18.zip`)
+# check about this, but probably should not do it: `chmod -R g-s dev`
+chmod -R go+rx dev
 
 cd /var/www/knalledge_frontend
 cp dist/dev/components/collaboPlugins/globalEmitterService.js dist/dev/components/collaboPlugins/GlobalEmitterService.js
@@ -107,8 +112,8 @@ cp dist/dev/components/collaboPlugins/globalEmitterServicesArray.js dist/dev/com
 
 
 joe dist/dev/js/config/config.env.js
-#    //var env = envs.localhost;
-#    var env = envs.server;
+#uncomment:    `//var env = envs.localhost;`
+#comment:    `var env = envs.server;`
 
 
 # =======================
