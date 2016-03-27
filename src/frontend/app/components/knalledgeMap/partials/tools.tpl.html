@@ -103,7 +103,7 @@
         <md-radio-button value="4" class="md-primary" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">4</md-radio-button>
     </md-radio-group>
 
-    <h4>Syncing:</h4>
+    <h4>Broadcasting:</h4>
     <div class="btn-group">
         <!-- <md-switch class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-switch> -->
         <md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled" (checkedChange)="viewConfigChanged('policyConfig.moderating.enabled', policyConfig.moderating.enabled)">Moderator</md-switch>
@@ -118,8 +118,10 @@
     <div *ngIf="policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
     <!-- <div template="ngIf:policyConfig.moderating.enabled" class="tool_info">Moderator</div>
     <div template="ngIf:policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
-    <p>
-        <a href="#/maps">Maps</a>
-        <a href="#/plugins">Plugins</a>
-    </p>
+
 </div>
+
+<p>
+    <a href="#/maps">Maps</a>
+    <a href="#/plugins">Plugins</a>
+</p>

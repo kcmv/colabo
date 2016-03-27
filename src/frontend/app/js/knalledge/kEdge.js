@@ -4,6 +4,13 @@
 // node support (import)
 var knalledge = (typeof global !== 'undefined' && global.knalledge) || (typeof window !== 'undefined' && window.knalledge);
 
+/**
+ * @classdesc KEdge is data representation of the knowledge (KnAllEdge) edge.
+ * It is stored on the serverver and it connects other nodes (kNode)
+ * @class KEdge
+ * @memberof knalledge
+ */
+
 var KEdge =  knalledge.KEdge = function(){
 	this._id = KEdge.MaxId++; //Unique id. Here it is locally set, but is overriden by unique value, when object is saved in DB
 	this.name = ""; //name that is displayed, when edge is visualized

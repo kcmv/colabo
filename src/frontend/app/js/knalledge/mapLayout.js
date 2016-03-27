@@ -1,6 +1,12 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+/**
+@classdesc Deals with layout of the KnAllEdge map
+@class MapLayout
+@memberof knalledge
+*/
+
 var MapLayout =  knalledge.MapLayout = function(){
 }
 
@@ -42,6 +48,7 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
 };
 
 // realtime distribution
+// TODO: distinguish click, select, unselect events
 MapLayout.KnRealTimeNodeSelectedEventName = "node-selected";
 
 MapLayout.prototype.realTimeNodeSelected = function(eventName, msg){
@@ -51,6 +58,7 @@ MapLayout.prototype.realTimeNodeSelected = function(eventName, msg){
 		this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
 	var kNode = this.mapStructure.getVKNodeByKId(kId);
 	// do not broadcast back :)
+	// TODO: distinguish click, select, unselect events
 	this.clickNode(kNode, null, true, false, true);
 };
 
@@ -95,7 +103,15 @@ MapLayout.prototype.getDomFromDatum = function(d) {
 	else return dom;
 };
 
-MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback, commingFromAngular, doNotBubleUp, doNotBroadcast) {
+/**
+ * Sets the coordinates of the rootNode and select the root node.
+ * It calls update method of the clientApi interface (currently it is the `update()` method of the `knalledge.MapVisualization` specialized class)
+ * @param  {number}   rootNodeX - X coordinate of the root node
+ * @param  {number}   rootNodeY - Y coordinate of the root node
+ * @param  {Function} callback - called after the map data are processed
+ * @return {knalledge.MapLayout}
+ */
+MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback) {
 	if(typeof rootNodeX !== 'undefined' && typeof rootNodeX !== 'function' &&
 		typeof rootNodeY !== 'undefined' && typeof rootNodeY !== 'function'){
 		if(this.mapStructure.rootNode){
@@ -104,8 +120,10 @@ MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback, commi
 		}
 	}
 	if(this.mapStructure.rootNode){
-		this.clickNode(this.mapStructure.rootNode, null, commingFromAngular, doNotBubleUp, doNotBroadcast);
+		this.selectNode(this.mapStructure.rootNode, null, true, true, true);
 	}
+	// TODO: (mprinc) I think we should get this out of here and handle it
+	// inside the callback of the invoker
 	this.clientApi.update(this.mapStructure.rootNode,
 		(typeof callback === 'function') ? callback : undefined);
 };
@@ -137,6 +155,7 @@ MapLayout.prototype.distribute = function() {
 
 MapLayout.prototype.processSyncedData = function(callback) {
 	this.clickNode(this.mapStructure.getSelectedNode(), null, true, undefined, true);
+	//TODO bilo je valjda sasino: this.selectNode(this.mapStructure.getSelectedNode(), null, true);
 	this.clientApi.update(this.mapStructure.getSelectedNode(),
 		(typeof callback === 'function') ? callback : undefined);
 };
@@ -148,12 +167,48 @@ MapLayout.prototype.viewspecChanged = function(target){
 };
 
 
-// Select node on node click
+/**
+ * @function clickNode
+ * @memberof knalledge.MapLayout#
+ * @param  {knalledge.VKNode} d - clicked node
+ * @param  {DOM} dom - dom of the node
+ * @param  {boolean}   commingFromAngular - if the call is comming from the ng1 world or wildness
+ * @param  {boolean}   doNotBubleUp - should we avoid bubbling up the event
+ * @param  {boolean}   doNotBroadcast     [description]
+ * @return {knalledge.MapLayout}
+ */
 MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
 	if(!this.nodes || d == null) return;
 
+	var isSelected = d.isSelected; //nodes previous state
+
+	if(isSelected){
+		this.unselectNode(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast);
+	}else{
+		this.selectNode(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast);
+	}
+	return this;
+};
+
+/**
+ * Selects node in the map
+* @function selectNode
+* @memberof knalledge.MapLayout#
+* @param  {knalledge.VKNode} d - selecting node
+* @param  {DOM} dom - dom of the node
+* @param  {boolean}   commingFromAngular - if the call is comming from the ng1 world or wildness
+* @param  {boolean}   doNotBubleUp - should we avoid bubbling up the event
+* @param  {boolean}   doNotBroadcast     [description]
+ */
+MapLayout.prototype.selectNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
+	if(!this.nodes) return;
+
 	// select clicked
 	var isSelected = d.isSelected; //nodes previous state. THIS is NOT related (same as) `this.clientApi.selectNode(d)`
+	// we want it idempotent, and even if it is isSelected === true,
+	// still the visual representation of the node might represent unselected state
+	// due to rerendering, etc
+	// if(isSelected) return;
 	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
 		return;
 	}
@@ -169,46 +224,80 @@ MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleU
 	}
 	this.nodes.forEach(function(d){d.isSelected = false;});
 
-	if(isSelected){//it was selected, and with this click it becomes unselected:
-		d.isSelected = false;
-		this.mapStructure.unsetSelectedNode();
-	}else{//it was unselected, and with this click it becomes selected:
-		// var nodeHtml = nodesHtml[0];
-		if(nodesHtmlSelected){
-			nodesHtmlSelected.classed({
-				"node_selected": true,
-				"node_unselected": false
-			});
-		}
-		d.isSelected = true;
-		// this.mapStructure.setSelectedNode(d);
-		this.clientApi.selectNode(d);
-
-		// realtime distribution
-		if(this.knAllEdgeRealTimeService && !doNotBroadcast){ 	// do not broadcast back :)
-			this.knAllEdgeRealTimeService.emit(knalledge.MapLayout.KnRealTimeNodeSelectedEventName, d.kNode._id);
-		}
-
-		this.clientApi.positionToDatum(d);
-
-		if(this.knalledgeState.addingLinkFrom !== null){ //this is called when we add new parent to the node
-			this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d);
-			this.knalledgeState.addingLinkFrom = null;
-			//TODO: UPDATE SHOUL BE CALLED IN THE CALLBACK
-			this.clientApi.update(this.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.createEdge?
-		}
-
-		if(this.knalledgeState.relinkingFrom !== null){ //this is called when we relink this node from old to new parent
-			var that = this;
-			this.mapStructure.relinkNode(this.knalledgeState.relinkingFrom, d, function(result, error){
-				that.knalledgeState.relinkingFrom = null;
-				d.isOpen = true;
-				that.clientApi.update(that.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.relinkNode?
-			}
-			);
-		}
+	if(nodesHtmlSelected){
+		nodesHtmlSelected.classed({
+			"node_selected": true,
+			"node_unselected": false
+		});
 	}
-	if(!doNotBubleUp) this.clientApi.nodeClicked(this.mapStructure.getSelectedNode(), dom, commingFromAngular);
+
+	d.isSelected = true;
+	// this.mapStructure.setSelectedNode(d);
+	this.clientApi.selectNode(d);
+
+	// realtime distribution
+	if(this.knAllEdgeRealTimeService && !doNotBroadcast){ 	// do not broadcast back :)
+		this.knAllEdgeRealTimeService.emit(knalledge.MapLayout.KnRealTimeNodeSelectedEventName, d.kNode._id);
+	}
+
+	this.clientApi.positionToDatum(d);
+
+	if(this.knalledgeState.addingLinkFrom !== null){
+		this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d); //this is called when we add new parent to the node
+		this.knalledgeState.addingLinkFrom = null;
+		//TODO: UPDATE SHOUL BE CALLED IN THE CALLBACK
+		this.clientApi.update(this.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.createEdge?
+	}
+
+	if(this.knalledgeState.relinkingFrom !== null){ //this is called when we relink this node from old to new parent
+		var that = this;
+		this.mapStructure.relinkNode(this.knalledgeState.relinkingFrom, d, function(result, error){
+			that.knalledgeState.relinkingFrom = null;
+			d.isOpen = true;
+			that.clientApi.update(that.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.relinkNode?
+		}
+		);
+	}
+
+	if(!doNotBubleUp) this.clientApi.nodeSelected(this.mapStructure.getSelectedNode(), dom, commingFromAngular);
+	//this.clientApi.update(this.mapStructure.rootNode);
+};
+
+/**
+ * Unselects selected node on the map
+* @function selectNode
+* @memberof knalledge.MapLayout#
+* @param  {knalledge.VKNode} d - unselecting node
+* @param  {DOM} dom - dom of the node
+* @param  {boolean}   commingFromAngular - if the call is comming from the ng1 world or wildness
+* @param  {boolean}   doNotBubleUp - should we avoid bubbling up the event
+* @param  {boolean}   doNotBroadcast     [description]
+ */
+MapLayout.prototype.unselectNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
+	if(!this.nodes) return;
+
+	// select clicked
+	var isSelected = d.isSelected; //nodes previous state
+	// if(!isSelected) return;
+	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
+		return;
+	}
+	var nodesHtmlSelected = this.getDomFromDatum(d);
+
+	// unselect all nodes
+	var nodesHtml = this.getAllNodesHtml();
+	if(nodesHtml){
+		nodesHtml.classed({
+			"node_selected": false,
+			"node_unselected": true
+		});
+	}
+	this.nodes.forEach(function(d){d.isSelected = false;});
+
+	d.isSelected = false;
+	this.mapStructure.unsetSelectedNode();
+
+	if(!doNotBubleUp) this.clientApi.nodeUnselected(this.mapStructure.getSelectedNode(), dom, commingFromAngular);
 	//this.clientApi.update(this.mapStructure.rootNode);
 };
 

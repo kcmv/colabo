@@ -13,6 +13,7 @@ import {
 // process external css files and stores them into CSS_DEST
 export = function buildJSDev(gulp, plugins) {
   return function () {
+    let debug = false;
 
     // https://www.npmjs.com/package/merge-stream
     return merge(minifyComponentCss(), prepareTemplates(), processExternalCss());
@@ -43,20 +44,28 @@ export = function buildJSDev(gulp, plugins) {
     // minifies them into CSS_PROD_BUNDLE and stores in CSS_DEST (config.ts file)
     function processExternalCss() {
       var externalCssFiles = getExternalCss().map(r => r.src);
-      // console.log('[processExternalCss] externalCssFiles: ', externalCssFiles);
-      // console.log('[processExternalCss] CSS_PROD_BUNDLE: ', CSS_PROD_BUNDLE);
-      // console.log('[processExternalCss] CSS_DEST: ', CSS_DEST);
-      return gulp.src(externalCssFiles)
+      if(debug) plugins.util.log('[processExternalCss] externalCssFiles: ', externalCssFiles);
+      // if(debug) plugins.util.log('[processExternalCss] CSS_PROD_BUNDLE: ', CSS_PROD_BUNDLE);
+      // if(debug) plugins.util.log('[processExternalCss] CSS_DEST: ', CSS_DEST);
+      let stream = gulp.src(externalCssFiles)
+        .pipe(plugins.sniff('processExternalCss', {detailed: true}))
         .pipe(plugins.cssnano())
         .pipe(plugins.concat(CSS_PROD_BUNDLE))
         .pipe(gulp.dest(CSS_DEST));
+
+        stream.on('end', function() {
+            if(debug) plugins.util.log(plugins.util.colors.blue("[build.js.prod:processExternalCss]"),
+                plugins.sniff.get("processExternalCss"));
+        });
+
+    return stream;
     }
 
     // get css files from external dependencies listed in
     // config.ts file under PROD_DEPENDENCIES
     function getExternalCss() {
         var externalCssFiles = PROD_DEPENDENCIES.filter(d => /\.css$/.test(d.src));
-        // console.log('[getExternalCss] externalCssFiles: ', externalCssFiles);
+        // if(debug) plugins.util.log('[getExternalCss] externalCssFiles: ', externalCssFiles);
       return externalCssFiles;
     }
   };

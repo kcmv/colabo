@@ -1,8 +1,14 @@
+/**
+* the namespace for the notify part of the KnAllEdge system
+* @namespace knalledge.notify
+*/
+
+
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 //this function is strict...
 
-var QUEUE = 
+var QUEUE =
 //false;
 true;
 
@@ -16,9 +22,15 @@ var removeJsonProtected = function(ENV, jsonStr){
 var notifyServices = angular.module('notifyServices', ['ngResource', 'Config']);
 
 /**
-* 	factory 'NotificationService'
+* the namespace for core services for the Notify system
+* @namespace knalledge.notify.notifyServices
 */
 
+/**
+* Service that retrieves and provides notifications
+* @class NotifyService
+* @memberof knalledge.notify.notifyServices
+*/
 notifyServices.provider('NotifyService', {
 	// privateData: "privatno",
 	$get: ['$q', 'ENV', /*'$rootScope', */
@@ -68,7 +80,7 @@ notifyServices.provider('NotifyService', {
 			],
 			init: function(){
 			},
-				
+
 			loadNotificationsFromList: function(usersIds, callback){
 				var that = this;
 				var notifications = WhoAmIService.getByIds(usersIds,
@@ -98,6 +110,11 @@ notifyServices.provider('NotifyService', {
 	}]
 });
 
+/**
+* Service that is a plugin into knalledge.MapVisualization
+* @class NotifyNodeService
+* @memberof knalledge.notify.notifyServices
+*/
 notifyServices.provider('NotifyNodeService', {
 	// privateData: "privatno",
 	$get: ['NotifyService', /*'$rootScope', */
@@ -115,7 +132,7 @@ notifyServices.provider('NotifyNodeService', {
 						// d3.select(this).style("display", "none");
 					})
 			},
-				
+
 			nodeHtmlUpdate: function(nodeHtmlUpdate){
 				nodeHtmlUpdate.select(".notification")
 					.style("display", function(d){

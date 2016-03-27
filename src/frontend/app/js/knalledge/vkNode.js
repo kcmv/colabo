@@ -1,11 +1,14 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
-/**
-VKNode is right now a local object, it does not exist on server, in databese, but is packed into "visual" property of kNode
-and upon retrieving from server it recreated from there.
-BUT! //	NOTE: in the future, each user will have its one or more visual representations of kNode, so accordingly this object is going to be an independent object in server storage, related to iAmId (user ID) and kNode!
-**/
 
+/**
+ * @classdesc VKNode is right now a local object, it does not exist on server, in database, but is packed into "visual" property of kNode
+ * and upon retrieving from server it recreated from there.
+ * BUT! //	NOTE: in the future, each user will have its one or more visual representations of kNode,
+ * so accordingly this object is going to be an independent object in server storage, related to iAmId (user ID) and kNode!
+ * @class VKNode
+ * @memberof knalledge
+ */
 var VKNode =  knalledge.VKNode = function(){
 	this.id = VKNode.MaxId++; //Unique id
 	this.kNode = null; // reference to the related kNode object
@@ -21,6 +24,7 @@ var VKNode =  knalledge.VKNode = function(){
 };
 
 VKNode.MaxId = 0;
+
 VKNode.prototype.init = function(){
 };
 

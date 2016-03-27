@@ -1,6 +1,12 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+/**
+@classdesc Deals with visualization of the KnAllEdge map. It is a specialization of the `knalledge.MapVisualization` class
+@class MapVisualizationTree
+@memberof knalledge
+*/
+
 var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
 	this.construct(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService);
 };
@@ -15,9 +21,15 @@ MapVisualizationTree.prototype._super = function(){
 	return parentP;
 };
 
-/** @function update
- * 	@param {vkNode} source - root node
- *  @callback callback
+/**
+ * Updates map visualization
+ * First tries few ways to resolve the starting node of the map. Then it generates visualization structure calling `knalledge.MapLayout.generateTree()` and then visualizas it.
+ *
+ * @function update
+ * @memberof knalledge.MapVisualizationTree
+ * 	@param {vkNode} source - node that will be used as a source of animation
+ * 	(for example nodes will expand from the source node)
+ *  @param  {Function} callback - called when map visualization finished updating
  * */
 MapVisualizationTree.prototype.update = function(source, callback) {
 	// If source is missing try with rootNode
@@ -29,8 +41,9 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 		source = this.mapStructure.nodesById[Object.keys(this.mapStructure.nodesById)[0]];
 	}
 	this.mapLayout.generateTree(this.mapStructure.rootNode);
-	this.mapLayout.printTree(this.mapLayout.nodes);
-	var nodeHtmlDatasets = this.updateHtml(source); // we need to update html nodes to calculate node heights in order to center them verticaly
+	// this.mapLayout.printTree(this.mapLayout.nodes);
+	// we need to update html nodes to calculate node heights in order to center them verticaly
+	var nodeHtmlDatasets = this.updateHtml(source);
 	var that = this;
 	window.setTimeout(function() {
 		that.updateNodeDimensions();
@@ -43,7 +56,7 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 		that.updateSvgNodes(source);
 		that.updateLinks(source);
 		that.updateLinkLabels(source);
-		if(callback){
+		if(typeof callback === 'function'){
 			callback();
 		}
 	}, 25);
@@ -73,7 +86,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	});
 
 	// Enter the nodes
-	// we create a div that will contain both visual representation of a node (circle) and text
+	// we create a div that will contain both visual representation of a node
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", function(d){
 				var userHows = that.rimaService.howAmIs;

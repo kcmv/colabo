@@ -124,8 +124,15 @@ cp -r dist/dev
 cd ../frontend
     npm install --production
 
-joe dist/dev/index.html
+joe /var/www/knalledge_frontend/dist/dev/index.html
 # var disableLog = true;
+
+joe /var/www/knalledge_frontend/dist/dev/components/knalledgeMap/css/default.css
+
+# .knalledge_map_middle_bottom{
+#     display: none;
+#     ...
+# }
 
 stop knalledge-b
 start knalledge-b

@@ -5,7 +5,7 @@ import {
   JS_DEST
 } from '../config';
 
-// minify all shims/libs/inject==true dependencies into JS_DEST/JS_PROD_SHIMS_BUNDLE
+// JS: minify all shims/libs/inject==true dependencies into JS_DEST/JS_PROD_SHIMS_BUNDLE
 export = function bundles(gulp, plugins) {
   return function () {
 

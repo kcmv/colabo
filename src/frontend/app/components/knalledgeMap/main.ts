@@ -7,6 +7,15 @@ import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+/**
+ * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
+ *
+ * Selector: `knalledge-map-main`
+ * @class KnalledgeMapMain
+ * @memberof knalledge.knalledgeMap
+ * @constructor
+*/
+
 @Component({
     selector: 'knalledge-map-main',
     providers: [SidenavService],
@@ -22,8 +31,11 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
     //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
      KnalledgeMapTools
    ],
-    templateUrl: 'components/knalledgeMap/partials/main.tpl.html',
-    // templateUrl: 'partials/main.tpl.html',
+   // necessary for having relative paths for templateUrl
+   // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
+   moduleId: module.id,
+   templateUrl: 'partials/main.tpl.html',
+    // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
     styles: [`
         .msg {
             font-size: 0.5em;

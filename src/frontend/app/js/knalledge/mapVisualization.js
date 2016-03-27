@@ -1,6 +1,12 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+/**
+@classdesc Deals with visualization of the KnAllEdge map. It hes few specialized classes responsible for different type of map visualizations
+@class MapVisualization
+@memberof knalledge
+*/
+
 var MapVisualization =  knalledge.MapVisualization = function(){
 };
 
@@ -99,7 +105,7 @@ MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
 
 				// window.alert("Showing analysis");
 				// this.selectedView = null;
-				this.mapInteraction.setEditing();
+				that.mapInteraction.setEditing();
 
 				break;
 			}

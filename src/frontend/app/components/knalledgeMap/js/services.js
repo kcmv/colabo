@@ -1,3 +1,8 @@
+/**
+* the namespace for the knalledgeMap part of the KnAllEdge system
+* @namespace knalledge.knalledgeMap
+*/
+
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 //this function is strict...
@@ -23,8 +28,16 @@ var removeJsonProtected = function(ENV, jsonStr){
 	return jsonStr;
 };
 
+/**
+* the namespace for core services for the KnAllEdge system
+* @namespace knalledge.knalledgeMap.knalledgeMapServices
+*/
 var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config', 'collaboPluginsServices']);
 
+/**
+* @class KnalledgeMapQueue
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
+*/
 knalledgeMapServices.provider('KnalledgeMapQueue', {
 	//KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
 	// privateData: "privatno",
@@ -103,6 +116,11 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 		return provider;
 	}]
 });
+
+/**
+* @class KnalledgeNodeService
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
+*/
 
 knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', 'KnAllEdgeRealTimeService', function($resource, $q, ENV, KnalledgeMapQueue, KnAllEdgeRealTimeService){
 	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
@@ -412,6 +430,11 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 
 }]);
 
+/**
+* @class KnalledgeEdgeService
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
+*/
+
 knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', 'KnAllEdgeRealTimeService', function($resource, $q, ENV, KnalledgeMapQueue, KnAllEdgeRealTimeService){
 	console.log("[atGsServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
@@ -698,28 +721,116 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 
 
 }]);
 
+/**
+Contains the content of the map
+@memberof knalledge.knalledgeMap.knalledgeMapServices
+@typedef {Object} MapData
+@property {Object} properties - map properties
+@property {string} properties.rootNodeId - id of the root node of the map
+@property {Array.<knalledge.KNode>} nodes - an array of nodes
+@property {Array.<knalledge.KEdge>} edges - an array of edges
+*/
+
+/**
+Contains the changes happened in the currently active map
+@memberof knalledge.knalledgeMap.knalledgeMapServices
+@typedef {Object} MapChanges
+@property {Array.<knalledge.KNode>} nodes - array of changed nodes
+@property {Array.<knalledge.KEdge>} nodes - array of changed edges
+*/
+
+/**
+Contains the changes (together with the event name) happened in the currently active map
+@memberof knalledge.knalledgeMap.knalledgeMapServices
+@typedef {Object} MapChangesWithEvent
+@property {knalledge.knalledgeMap.knalledgeMapServices.MapChanges} changes - array of changed nodes
+@property {string} event - an event that happened as an source of the changes.
+**NOTE**: This parameter is not present from the beginning but injected at the higher layers
+*/
+
+/**
+* @class KnalledgeMapVOsService
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
+*/
 knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	// privateData: "privatno",
 	$get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'KnalledgeEdgeService',
-	'RimaService', 'KnAllEdgeRealTimeService', 'CollaboPluginsService', 'KnalledgeMapPolicyService',
+	'RimaService', 'KnAllEdgeRealTimeService', 'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService',
+	/**
+	* @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+	* @constructor
+	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeNodeService} KnalledgeNodeService
+	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeEdgeService} KnalledgeEdgeService
+	* @param  {rima.rimaServices.RimaService}  RimaService
+	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
+	* @param  {knalledge.collaboPluginsServices.CollaboPluginsService} CollaboPluginsService
+	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapViewService} KnalledgeMapViewService
+	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
+	*/
 	function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, RimaService,
-		KnAllEdgeRealTimeService, CollaboPluginsService, KnalledgeMapPolicyService) {
+		KnAllEdgeRealTimeService, CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService) {
 		// var that = this;
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var provider = {
-			mapId: "552678e69ad190a642ad461c",
-			rootNodeId: "55268521fb9a901e442172f9",
+			/**
+			 * The id of the currently loaded map
+			 * @type {string}
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+			 */
+			mapId: "552678e69ad190a642ad461c", // map id
+			/**
+			 * The id of root node of the currently loaded map
+			 * @type {string}
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+			 */
+			rootNodeId: "55268521fb9a901e442172f9", // root node id in the map
+			/**
+			 * The root node of the currently loaded map
+			 * @type {knalledge.KNode}
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+			 */
 			rootNode: null,
-			selectedNode: null,
+			/**
+			 * Hash array of nodes in the currently loaded map
+			 * The key in the hash array is the id of the node
+			 * @type {Array.<string, knalledge.KNode>}
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+			 */
 			nodesById: {},
+			/**
+			 * Hash array of edges in the currently loaded map
+			 * The key in the hash array is the id of the edge
+			 * @type {Array.<string, knalledge.KEdge>}
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+			 */
 			edgesById: {},
+			/**
+			 * Map properties
+			 * @type {Object}
+			 */
 			properties: {},
-			mapStructure: new knalledge.MapStructure(RimaService),
+			// TODO: remove RimaService
+			mapStructure: new knalledge.MapStructure(RimaService, KnalledgeMapViewService, KnalledgeMapPolicyService),
+			// TODO: remove, not used any more?!
 			lastVOUpdateTime: null,
 
 			/**
 				called by KnAllEdgeRealTimeService when a broadcasted message regarding changes in the map (nodes, edges) structure is received from another client
-			*/
+
+			 * Callback function called from KnAllEdgeRealTimeService
+			 * when change broadcated events (like `node-created`, etc)
+			 * are broadcasted.
+			 *
+			 * It wraps changes into a unified structure `changes` that is published
+			 * (through the GlobalEmitterServicesArray) to upper interested layers translated into events (like `node-created-to-visual`)
+			 * @function externalChangesInMap
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+			 * @param  {string} eventName - event name that is sent by other client
+			 * @param  {Object} msg
+
+			 * OLD COMMENT?: Chnages that are broadcasted from the presented
+			 * OLD COMMENT?: @type {knalledge.knalledgeMap.knalledgeMapServices.MapChanges}
+			 */
 			externalChangesInMap: function(eventName, msg){
 				console.log("externalChangesInMap(%s,%s)",eventName, JSON.stringify(msg));
 				if(!KnalledgeMapPolicyService.provider.config.broadcasting.receiveStructural) return; //this could be at KnAllEdgeRealTimeService but it should not differentiate (know about) different types of messages on upper layer (e.g. structural vs navigation)
@@ -848,19 +959,6 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					nodesList.push(this.nodesById[i]);
 				}
 				return nodesList;
-			},
-
-
-			unsetSelectedNode: function(){
-				this.selectedNode = null;
-			},
-
-			setSelectedNode: function(selectedNode){
-				this.selectedNode = selectedNode;
-			},
-
-			getSelectedNode: function(){
-				return this.selectedNode;
 			},
 
 			hasChildren: function(d){
@@ -1107,12 +1205,24 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				return KnalledgeEdgeService.update(kEdge, updateType, callback); //updating on server service
 			},
 
+			/**
+			 * Loads and processes map based on the KMap object
+			 * It publishes the `modelLoadedEvent` event after the process is finished
+			 * @function loadAndProcessData
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+			 * @param  {knalledge.KMap} map - map object
+			 * @return {knalledge.knalledgeMap.knalledgeMapServices.MapData}
+			 */
 			loadAndProcessData: function(map){
 				var that = this;
 				if(typeof map !== 'undefined'){
 					this.mapId = map._id;
 					this.rootNodeId = map.rootNodeId;
 				}
+				/**
+				 * Map data
+				 * @type  {knalledge.knalledgeMap.knalledgeMapServices.MapData}
+				 */
 				var result = this.loadData(map);
 				result.$promise.then(function(results){
 					console.log("[KnalledgeMapVOsService::loadData] nodesEdgesReceived");
@@ -1148,6 +1258,16 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				});
 				return result;
 			},
+
+			/**
+			 * Loads data associated with the map (represented with the KMap object)
+			 * @function loadData
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+			 * @param  {knalledge.KMap} map - Map data object
+			 * @param  {boolean} [setAsDefaultMap] - should it set to internal params (true),
+			 * or just load the map (false/undefined)
+			 * @return {knalledge.knalledgeMap.knalledgeMapServices.MapData} map - map data
+			 */
 			loadData: function(map, setAsDefaultMap){
 				var that = this;
 
@@ -1157,6 +1277,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				}
 
 				if(typeof map == 'undefined'){
+					// create default map
+					// TODO: should we remove that, doesn't make too much sense anymore
 					var mapObj = {
 						name: "TNC (Tesla - The Nature of Creativty) (DR Model)",
 						createdAt: "2015.03.22.",
@@ -1204,22 +1326,28 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				return this.lastVOUpdateTime;
 			},
 
+			/**
+			 * Processes map data and populates internal structure in the service
+			 * @function processData
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+			 * @param  {knalledge.knalledgeMap.knalledgeMapServices.MapData} mapData - map data
+			 */
 			processData: function(mapData) {
 				this.properties = mapData.map.properties;
 				var i=0;
-				var node = null;
-				var edge = null;
+				var kNode = null;
+				var kEdge = null;
 				for(i=0; i<mapData.map.nodes.length; i++){
-					node = mapData.map.nodes[i];
-					if(!("isOpen" in node)){
-						node.isOpen = false;
+					kNode = mapData.map.nodes[i];
+					if(!("isOpen" in kNode)){
+						kNode.isOpen = false;
 					}
-					this.nodesById[node._id] = node;
+					this.nodesById[kNode._id] = kNode;
 				}
 
 				for(i=0; i<mapData.map.edges.length; i++){
-					edge = mapData.map.edges[i];
-					this.edgesById[edge._id] = edge;
+					kEdge = mapData.map.edges[i];
+					this.edgesById[kEdge._id] = kEdge;
 				}
 
 				this.rootNode = this.nodesById[mapData.properties.rootNodeId];
@@ -1331,6 +1459,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeDeletedEventName] = provider.externalChangesInMap.bind(provider);
 		KnAllEdgeRealTimeService.registerPlugin(KnalledgeMapVOsServicePluginOptions);
 
+		// TODO: just for debugging
 		window.nodesById = provider.nodesById;//TODO:remove
 		window.edgesById = provider.edgesById;//TODO:remove
 		return provider;
@@ -1340,7 +1469,18 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	}]
 });
 
+/**
+* The knalledge service for dealing with KMap entities and saving them to the server
+* @class KnalledgeMapService
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
+*/
 knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue',
+/**
+* @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapService
+* @constructor
+* @param  {Ng1Service} KnalledgeMapQueue - service responsible for queuing requests to the server
+* @param  {Ng1Constant} ENV              - system environment config
+*/
 function($resource, $q, ENV, KnalledgeMapQueue){
 	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
@@ -1454,6 +1594,12 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 
 	resource.RESOURCE_TYPE = 'KMap';
 
+	/**
+	 * Loads map object (KMap) by id
+	 * @param  {string}   id       - map id
+	 * @param  {Function} callback - called after map object is loaded
+	 * @return {knalledge.KMap}
+	 */
 	resource.getById = function(id, callback)
 	{
 		var map = this.getPlain({ searchParam:id, type:'one' }, function(mapFromServer){
@@ -1598,6 +1744,10 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 	return resource;
 }]);
 
+/**
+* @class SyncingService
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
+*/
 
 knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', 'KnalledgeMapVOsService',
 	function($resource, $q, ENV, KnalledgeMapQueue, KnalledgeMapVOsService){
@@ -1900,6 +2050,11 @@ knalledgeMapServices.provider('KnalledgeMapPolicyService', {
 });
  */
 
+ /**
+ * @class IbisTypesService
+ * @memberof knalledge.knalledgeMap.knalledgeMapServices
+ */
+
 knalledgeMapServices.provider('IbisTypesService', {
 	// privateData: "privatno",
 	$get: [/*'$q', 'ENV', '$rootScope', */
@@ -1999,6 +2154,10 @@ knalledgeMapServices.provider('IbisTypesService', {
 	}]
 })
 
+/**
+* @class KnAllEdgeSelectItemService
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
+*/
 knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 	$get: ['$compile', /*'$q', 'ENV', '$rootScope', */
 	function($compile /*$q , ENV, $rootScope*/) {
@@ -2090,31 +2249,70 @@ knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 	}]
 })
 
+/**
+* @class KnAllEdgeRealTimeService
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
+*/
 knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 	$get: ['TopiChatService', 'KnalledgeMapPolicyService', /*'$q', 'ENV', '$rootScope', */
+
+	/**
+	* @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
+	* @constructor
+	 * @param  {topiChat.TopiChatService} TopiChatService - lower level topiChat real-time communication service
+	 * @param  {knalledge.knalledgeMap.KnalledgeMapPolicyService} KnalledgeMapPolicyService - Service that configures policy aspects of the KnAllEdge system
+	 */
 	function(TopiChatService, KnalledgeMapPolicyService/*$q , ENV, $rootScope*/) {
 
 		// privateData: "privatno",
 
 		var provider = {
+			/**
+			 * hash array of plugins, where key is the plugin name
+			 * @type {Array.<string, Object>}
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
+			 */
 			plugins: {},
+			/**
+			 * hash array of plugins organized by events, where key is the event name and value is an array of plugins (options) that have registered for the event
+			 * @type {Array.<string, Array.<Object>>}
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
+			 */
 			eventsByPlugins: {},
 
+			/**
+			 * Initializes the service.
+			 * It registeres itself with bottom topiChat layer to communicate on
+			 * 'kn:realtime' stream/event
+			 * @function init
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
+			 * @return {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService}
+			 */
 			init: function(){
 				// registering chat plugin
 				var knalledgeRealTimeServicePluginOptions = {
 					name: "knalledgeRealTimeService",
 					events: {
-						'kn:realtime': this.dispatchEvent.bind(this)
+						'kn:realtime': this._dispatchEvent.bind(this)
 					}
 				};
 				TopiChatService.registerPlugin(knalledgeRealTimeServicePluginOptions);
+				return this;
 			},
 
 			getClientInfo: function(){
 				return TopiChatService.clientInfo;
 			},
 
+			/**
+			 * Emits message from higher layer (plugin) to lower layer (topiChat)
+			 * to be sent to other knalledge clients
+			 * @function emit
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
+			 * @param  {string} eventName
+			 * @param  {Object} msg - message to be sent
+			 * @return {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService}
+			 */
 			emit: function(eventName, msg){
 				//for testing: if(eventName == "node-selected"){return;}
 				if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled) return;
@@ -2127,8 +2325,16 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				// socket.emit('tc:chat-message', msg);
 				// topiChatSocket.emit('tc:chat-message', msg);
 				TopiChatService.emit('kn:realtime', knPackage);
+				return this;
 			},
 
+			/**
+			 * It registers a new plugin
+			 * @function registerPlugin
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
+			 * @param  {Object} pluginOptions - plugin options
+			 * @return {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService}
+			 */
 			registerPlugin: function(pluginOptions) {
 				var pluginName = pluginOptions.name;
 				console.log('[KnAllEdgeRealTimeService:registerPlugin] Registering plugin: %s', pluginName);
@@ -2140,13 +2346,23 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					var eventByPlugins = this.eventsByPlugins[eventName];
 					eventByPlugins.push(pluginOptions);
 				}
+				return this;
 			},
 
 			/**
-				called by TopiChatService when a broadcasted message is received from another client
-			*/
-			dispatchEvent: function(tcEventName, knPackage) {
-				console.log('[KnAllEdgeRealTimeService:dispatchEvent] tcEventName: %s, knPackage:%s', tcEventName, JSON.stringify(knPackage));
+			 *called by TopiChatService when a broadcasted message is received from another client
+
+			 * This method dispatches to the higher layers (plugins)
+			 * a message that was received from the bottom layer (topiChat)
+			 * @function _dispatchEvent
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
+			 * @param  {string} tcEventName - event name that message received at
+			 * @param  {Object} knPackage - knalledge realtime package
+			 * @return {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService}
+			 */
+			_dispatchEvent: function(tcEventName, knPackage) {
+				console.log('[KnAllEdgeRealTimeService:_dispatchEvent] tcEventName: %s, knPackage:%s', tcEventName, JSON.stringify(knPackage));
+
 				var msg = knPackage.msg;
 				var eventName = knPackage.eventName;
 

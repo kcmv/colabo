@@ -1,6 +1,14 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+/**
+ * @classdesc KMap is a map, a data representation of the claster of related knowledge
+ * It is stored on the server and **CURRENTLY** each node (KNode) or edge (KEdge)
+ * can belong only to a single map (KMap)
+ * @class KMap
+ * @memberof knalledge
+ */
+
 var KMap =  knalledge.KMap = function(){
 	this._id = KMap.MaxId++; //TODO: maxId logic should be migrated here
 	this.name = "";

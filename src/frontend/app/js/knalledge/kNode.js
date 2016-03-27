@@ -4,6 +4,14 @@
 // node support (import)
 var knalledge = (typeof global !== 'undefined' && global.knalledge) || (typeof window !== 'undefined' && window.knalledge);
 
+/**
+ * @classdesc VKNode is data representation of the knowledge (KnAllEdge) node.
+ * It is stored on the server and it connects with other nodes through edges
+ * represented with kEdges
+ * @class KNode
+ * @memberof knalledge
+ */
+
 var KNode =  knalledge.KNode = function(){
 	this._id = KNode.MaxId++; //TODO: maxId logic should be migrated here. Unique id. Here it is locally set, but is overriden by unique value, when object is saved in DB
 	this.name = ""; //name that is displayed, when node is visualized
@@ -17,6 +25,7 @@ var KNode =  knalledge.KNode = function(){
 	this.createdAt = null; //when the object is created
 	this.updatedAt = null; //when the obect is updated
 	// this.dataContent = null; //additional data is stored in this object
+	// this.dataContent.property = null; // value of node content (Additional Info)
 
 	this.decorations = {
 

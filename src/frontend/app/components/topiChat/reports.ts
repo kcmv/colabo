@@ -8,6 +8,18 @@ import {TopiChatConfigService} from './topiChatConfigService';
 import { DatePipe } from "angular2/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
 
+/**
+ * Directive that
+ * 1. reports all plugins registered to the topiChat communication service
+ * 1. reports all messages that marshals through the topiChat communication layer
+ *
+ * Selector: `topichat-reports`
+ * @class KnalledgeMapTools
+ * @memberof topiChat
+ * @constructor
+*/
+
+
 @Component({
     selector: 'topichat-reports',
     providers: [MdRadioDispatcher],
@@ -16,7 +28,9 @@ import { OrderArrayPipe } from "../utils/orderArrayPipe";
         NgIf, NgFor, FORM_DIRECTIVES,
    ],
    pipes: [DatePipe, OrderArrayPipe],
-    templateUrl: 'components/topiChat/partials/reports.tpl.html',
+   moduleId: module.id, // necessary for having relative paths for templateUrl
+   templateUrl: 'partials/reports.tpl.html',
+    // t_emplateUrl: 'components/topiChat/partials/reports.tpl.html',
     styles: [`
         .md-list-item-text {
             border-bottom: 1px solid gray;

@@ -218,7 +218,7 @@ MapLayoutTree.prototype.generateTree = function(source){
 		this.nodes = [];
 		this.links = [];
 	}
-	this.printTree(this.nodes);
+	// this.printTree(this.nodes);
 };
 
 MapLayoutTree.prototype.printTree = function(nodes) {
