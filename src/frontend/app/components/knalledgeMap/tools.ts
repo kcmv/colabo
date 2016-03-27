@@ -7,6 +7,9 @@ import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+// TODO: probable remove later, this is just to trigger starting the service
+import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
+
 
 /**
  * Directive that holds CollaboFramework tools on the left side of the map
@@ -50,7 +53,9 @@ export class KnalledgeMapTools {
         sidenavService:SidenavService,
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
-        @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
+        @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
+        @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
+
         // globalEmitterServicesArray:GlobalEmitterServicesArray
     ) {
         console.log('[KnalledgeMapTools]');
@@ -62,6 +67,7 @@ export class KnalledgeMapTools {
         globalEmitterServicesArray.register(this.mapStylingChangedEventName);
         globalEmitterServicesArray.register(this.viewspecChangedEventName);
         globalEmitterServicesArray.register(this.broadcastingChangedEventName);
+        this.broadcastManagerService = broadcastManagerService;
     };
     bindings:Object = {
         viewspec: 'viewspec_manual'
@@ -74,6 +80,7 @@ export class KnalledgeMapTools {
     policyConfig:Object;
 
     private globalEmitterServicesArray:GlobalEmitterServicesArray;
+    private broadcastManagerService:BroadcastManagerService;
     private sidenavService:SidenavService;
     toggleList:Function = function(user:Object){
         // this.sidenavService('left').toggle();

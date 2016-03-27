@@ -92,6 +92,17 @@ This callback eventually pops up all the way back to the `knalledgeMap` directiv
 
 # CLICKING-ON / CHANGING-SELECTED node in a map
 
++ **RULE**:
+    + On any node click anywhere, or selection change, we should identify which node is affected and notify MapStructure about it
+    + MapStructure will update local selectedNode and broadcast event about the change
+    + anyone interested should listen to it
+    + there should not be too many listeners at many levels (`knalledge.Map`, &amp; `knalledge.MapLayout` &amp; `knalledge.MapVisualization`, ...) because it will produce rat-race and probable more refreshing than necessary
+
+(Currently) only `knalledge.Map` listens only for the change and updates all important components:
++ notify back the `knalledge.Map` container (`knalledgeMap` directive)
++ `knalledge.MapVisualization` (which will in turn notify/update (`knalledge.MapLayout`))
++ 
+
 ## TODO:
 + MapStructure should be the one that accepts notification of node click/select/unselect
 + MapStructure then should broadcast info about change of a selectedNode (if any)
