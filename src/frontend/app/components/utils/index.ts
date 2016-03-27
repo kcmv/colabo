@@ -1,3 +1,8 @@
+/**
+* the root namespace for the whole KnAllEdge system
+* @namespace utils
+*/
+
 //if we are providing a global variables we need to get them out of use-strict-function pattern
 export var utils:any;
 

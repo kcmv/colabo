@@ -25,6 +25,7 @@ var KNode =  knalledge.KNode = function(){
 	this.createdAt = null; //when the object is created
 	this.updatedAt = null; //when the obect is updated
 	// this.dataContent = null; //additional data is stored in this object
+	// this.dataContent.property = null; // value of node content (Additional Info)
 
 	this.decorations = {
 

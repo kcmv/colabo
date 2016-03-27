@@ -24,6 +24,7 @@ var VKNode =  knalledge.VKNode = function(){
 };
 
 VKNode.MaxId = 0;
+
 VKNode.prototype.init = function(){
 };
 

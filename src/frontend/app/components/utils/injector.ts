@@ -1,6 +1,14 @@
 import {utils} from './index';
 
+
+
 // TODO: requires more testing, usage, still beta
+
+/**
+ * @classdesc An array of Injectant instances
+ * @class Injectants
+ * @memberof utils
+ */
 export class Injectants extends Array<Injectant> {
     get(path:string):any {
         for(let i=0; i<this.length; i++) {
@@ -19,6 +27,11 @@ export class Injectants extends Array<Injectant> {
     }
 };
 
+/**
+ * @classdesc a value that is possible to be injected. It contains uniquely addressable path and value that stands behind the path
+ * @class Injectant
+ * @memberof utils
+ */
 export class Injectant {
     path:string;
     value:any;
@@ -34,6 +47,15 @@ export class Injectant {
     };
 };
 
+/**
+ * @classdesc It holds a set(s) of Injectant(s) that can be asked for or injected new ones
+ * The scenario is that an encapsulation parent creates an Injector instance and
+ * populates it with injectants. The injector instance is then provided to
+ * an encapsulated object and the encapsulated object can ask the injector
+ * for any needed item it has by asking through its path (name)
+ * @class Injector
+ * @memberof utils
+ */
 export class Injector {
     private items:Array<Injector|Injectant> = [];
 

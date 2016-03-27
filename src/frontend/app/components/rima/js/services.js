@@ -1,3 +1,8 @@
+/**
+* the namespace for the RIMA system
+* @namespace rima
+*/
+
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 //this function is strict...
@@ -16,9 +21,14 @@ var removeJsonProtected = function(ENV, jsonStr){
 var rimaServices = angular.module('rimaServices', ['ngResource', 'Config']);
 
 /**
-* 	factory 'WhoAmIService'
+* the namespace for core services for the RIMA system
+* @namespace rima.rimaServices
 */
 
+/**
+* @class WhoAmIService
+* @memberof rima.rimaServices
+*/
 rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
 	console.log("[WhoAmIService] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
@@ -270,9 +280,9 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 }]);
 
 /**
-* 	factory 'WhatAmIService'
+* @class WhatAmIService
+* @memberof rima.rimaServices
 */
-
 rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
 	console.log("[WhatAmIService] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
@@ -518,9 +528,9 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 }]);
 
 /**
-* 	factory 'HowAmIService'
+* @class HowAmIService
+* @memberof rima.rimaServices
 */
-
 rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
 	console.log("[HowAmIService] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
@@ -776,6 +786,10 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 
 }]);
 
+/**
+* @class RimaService
+* @memberof rima.rimaServices
+*/
 rimaServices.provider('RimaService', {
 	// privateData: "privatno",
 	$get: ['$q', '$window', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', /*'$rootScope', */
