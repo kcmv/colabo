@@ -68,6 +68,7 @@ upgradeAdapter.upgradeNg1Provider('TopiChatService');
 
 // upgradeAdapter.addProvider(GlobalEmitterService);
 // upgradeAdapter.upgradeNg1Provider(GlobalEmitterService);
+// upgradeAdapter.addProvider(GlobalEmitterService);
 
 // knalledgeMapServicesModule
 //     .service('GlobalEmitterServicesArray', upgradeAdapter.downgradeNg2Provider(GlobalEmitterServicesArray));
