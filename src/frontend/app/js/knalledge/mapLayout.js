@@ -154,8 +154,7 @@ MapLayout.prototype.distribute = function() {
 };
 
 MapLayout.prototype.processSyncedData = function(callback) {
-	this.clickNode(this.mapStructure.getSelectedNode(), null, true, undefined, true);
-	//TODO bilo je valjda sasino: this.selectNode(this.mapStructure.getSelectedNode(), null, true);
+	this.selectNode(this.mapStructure.getSelectedNode(), null, true, undefined, true);
 	this.clientApi.update(this.mapStructure.getSelectedNode(),
 		(typeof callback === 'function') ? callback : undefined);
 };
