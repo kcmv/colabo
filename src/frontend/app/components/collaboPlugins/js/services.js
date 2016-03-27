@@ -1,3 +1,8 @@
+/**
+* the namespace for the knalledgeMap part of the KnAllEdge system
+* @namespace collaboframework.plugins
+*/
+
 (function () { // This prcomponents problems when concatenating scripts that aren't strict.
 'use strict';
 //this function is strict...

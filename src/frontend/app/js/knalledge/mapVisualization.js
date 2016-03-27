@@ -28,9 +28,9 @@ MapVisualization.prototype.construct = function(dom, mapStructure, collaboPlugin
 	this.notifyService = notifyService;
 	this.mapPlugins = mapPlugins;
 	this.knalledgeMapViewService = knalledgeMapViewService;
-	this.halo = (interaction && interaction.Halo) ? new interaction.Halo() : null;
 	this.injector = null;
 	this.mapInteraction = null;
+	this.halo = null;
 };
 
 MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
@@ -61,6 +61,10 @@ MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
 		.append("svg")
 			.append("g")
 				.attr("class", "svg_content");
+};
+
+MapVisualization.prototype._initHalo = function(){
+	this.halo = (interaction && interaction.Halo) ? new interaction.Halo() : null;
 
 	if(this.halo){
 		var haloOptions = {

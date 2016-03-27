@@ -23,6 +23,12 @@ interface NameToService {
     [name: string]: GlobalEmitterService;
 }
 
+/**
+ * Global emitter services array
+ * @class GlobalEmitterServicesArray
+ * @memberof collaboframework.plugins
+*/
+
 export class GlobalEmitterServicesArray {
     services:NameToService = {};
 

@@ -10,6 +10,12 @@ interface StringToString {
 
 type StringAnyTuple = [string, any];
 
+/**
+ * Global emitter service
+ * @class GlobalEmitterService
+ * @memberof collaboframework.plugins
+*/
+
 export class GlobalEmitterService {
     /**
      * queue of messages
