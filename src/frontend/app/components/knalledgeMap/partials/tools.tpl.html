@@ -105,23 +105,21 @@
 
     <h4>Syncing:</h4>
     <div class="btn-group">
-        <md-switch class="md-primary" aria-label="Edge Names" [(checked)]="viewConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-switch>
+        <!-- <md-switch class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-switch> -->
+        <md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled" (checkedChange)="viewConfigChanged('policyConfig.moderating.enabled', policyConfig.moderating.enabled)">Moderator</md-switch>
+        <md-switch class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)">Presenter</md-switch>
+        <md-switch class="md-primary" aria-label="Navigation" [(checked)]="policyConfig.broadcasting.receiveNavigation" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveNavigation', policyConfig.broadcasting.receiveNavigation)">Navigations</md-switch>
+        <md-switch class="md-primary" aria-label="Structural" [(checked)]="policyConfig.broadcasting.receiveStructural" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveStructural', policyConfig.broadcasting.receiveStructural)">Structural</md-switch>
+        <md-switch class="md-primary" aria-label="Visualization" [(checked)]="policyConfig.broadcasting.receiveVisualization" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveVisualization', policyConfig.broadcasting.receiveVisualization)">Visualization</md-switch>
+        <md-switch class="md-primary" aria-label="Behaviours" [(checked)]="policyConfig.broadcasting.receiveBehaviours" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveBehaviours', policyConfig.broadcasting.receiveBehaviours)">Behaviours</md-switch>
     </div>
 
-</div>
-
-<p>
-    <a href="#/maps">Maps</a>
-    <a href="#/plugins">Plugins</a>
-</p>
-
-<!-- <div *ngIf="policyConfig.moderating.enabled" class="tool_info">Moderator</div>
-<div *ngIf="policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
-<!-- <div template="ngIf:policyConfig.moderating.enabled" class="tool_info">Moderator</div>
-<div template="ngIf:policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
-
-<div class="btn-group">
-    <md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled" (checkedChange)="viewConfigChanged('policyConfig.moderating.enabled', policyConfig.moderating.enabled)">Moderator</md-switch>
-
-    <md-switch class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled" (checkedChange)="viewConfigChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)">Presenter</md-switch>
+    <!-- <div *ngIf="policyConfig.moderating.enabled" class="tool_info">Moderator</div>
+    <div *ngIf="policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
+    <!-- <div template="ngIf:policyConfig.moderating.enabled" class="tool_info">Moderator</div>
+    <div template="ngIf:policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
+    <p>
+        <a href="#/maps">Maps</a>
+        <a href="#/plugins">Plugins</a>
+    </p>
 </div>

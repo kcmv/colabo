@@ -136,7 +136,7 @@ MapLayout.prototype.distribute = function() {
 };
 
 MapLayout.prototype.processSyncedData = function(callback) {
-	this.clickNode(this.mapStructure.getSelectedNode(), null, true);
+	this.clickNode(this.mapStructure.getSelectedNode(), null, true, undefined, true);
 	this.clientApi.update(this.mapStructure.getSelectedNode(),
 		(typeof callback === 'function') ? callback : undefined);
 };
@@ -150,10 +150,10 @@ MapLayout.prototype.viewspecChanged = function(target){
 
 // Select node on node click
 MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
-	if(!this.nodes) return;
+	if(!this.nodes || d == null) return;
 
 	// select clicked
-	var isSelected = d.isSelected; //nodes previous state
+	var isSelected = d.isSelected; //nodes previous state. THIS is NOT related (same as) `this.clientApi.selectNode(d)`
 	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
 		return;
 	}
@@ -191,14 +191,14 @@ MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleU
 
 		this.clientApi.positionToDatum(d);
 
-		if(this.knalledgeState.addingLinkFrom !== null){
+		if(this.knalledgeState.addingLinkFrom !== null){ //this is called when we add new parent to the node
 			this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d);
 			this.knalledgeState.addingLinkFrom = null;
 			//TODO: UPDATE SHOUL BE CALLED IN THE CALLBACK
 			this.clientApi.update(this.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.createEdge?
 		}
 
-		if(this.knalledgeState.relinkingFrom !== null){
+		if(this.knalledgeState.relinkingFrom !== null){ //this is called when we relink this node from old to new parent
 			var that = this;
 			this.mapStructure.relinkNode(this.knalledgeState.relinkingFrom, d, function(result, error){
 				that.knalledgeState.relinkingFrom = null;

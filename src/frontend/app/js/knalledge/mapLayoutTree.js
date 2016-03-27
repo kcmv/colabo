@@ -30,10 +30,12 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 		if(vkEdge.visible === false) continue;
 		if(vkEdge.kEdge.sourceId === d.kNode._id){
 			var vkNode = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
-			// if defined and set to false the vkNode should not be presented
-			if(vkNode.visible === false) continue;
-			if(this.mapStructure.isNodeVisible(vkNode)){
-				children.push(vkNode);
+			if(vkNode){ //vkNode can be null - e.g. when deleting node (e.g. when deleted from other client 'Presenter') and edge is still not deleted
+				// if defined and set to false the vkNode should not be presented
+				if(vkNode.visible === false) continue;
+				if(this.mapStructure.isNodeVisible(vkNode)){
+					children.push(vkNode);
+				}
 			}
 			// else{
 			// 	console.warn('getChildren reached by edge.targetId a node that cannot be found');

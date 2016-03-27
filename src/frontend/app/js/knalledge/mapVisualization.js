@@ -221,6 +221,9 @@ MapVisualization.prototype.setScales = function(){
 	return scales;
 };
 
+/*
+	positions map to specific 'datum'
+*/
 MapVisualization.prototype.positionToDatum = function(datum) {
 	// TODO: Add support for scales
 	var y = datum.x - this.dom.parentDom.node().getBoundingClientRect().height/2;

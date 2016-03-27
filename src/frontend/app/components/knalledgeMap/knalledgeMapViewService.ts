@@ -1,9 +1,6 @@
 export class KnalledgeMapViewService {
     private provider: any = {
         config: {
-            syncing: {
-                poolChanges: false,
-            },
             nodes: {
                 showImages: true,
                 showTypes: true

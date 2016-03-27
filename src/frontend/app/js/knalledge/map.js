@@ -121,7 +121,9 @@ Map.prototype.init = function() {
 	});
 };
 
-
+/**
+called by service when any change comes from broadcasting client:
+*/
 Map.prototype.processExternalChangesInMap = function(changes) {
 //Map.prototype.processExternalChangesInMap = function(e, changes) {
 	var syncedDataProcessedAndVisualized = function(){
