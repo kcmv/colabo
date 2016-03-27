@@ -292,9 +292,10 @@ KnalledgeMapPolicyService. config: {
     + `node-deleted`
 + **Navigations**
   + Controlled by `receiveNavigation`
-  + sent by received by
+  + sent by ?.
+  + Received by `MapLayout.prototype.realTimeNodeSelected`
   + _Events_:
-    +  `node-selected`
+    +  `MapLayout.KnRealTimeNodeSelectedEventName = "node-selected"`
 + **Visualization** changes (changes in Display)
   + Controlled by `receiveVisualization`
   + sent and received by `knalledgeMap` directive

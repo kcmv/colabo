@@ -55,7 +55,10 @@ MapLayout.prototype.realTimeNodeSelected = function(eventName, msg){
 	var kId = msg;
 	// alert("[MapLayout:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
 	console.log("[MapLayout:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s",
-		this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
+	this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
+	//TODO: if(!KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
+	// 	return;
+	// }
 	var kNode = this.mapStructure.getVKNodeByKId(kId);
 	// do not broadcast back :)
 	// TODO: distinguish click, select, unselect events
