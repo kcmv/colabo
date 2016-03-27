@@ -201,6 +201,7 @@ KNALLEDGE: {
 		{ src: join(APP_DEST, 'components/topiChat/js/services.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'components/login/js/directives.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'components/login/js/services.js'), inject: true, noNorm: true},
+        { src: join(APP_DEST, 'components/collaboBroadcasting/js/services.js'), inject: true, noNorm: true},
 
 	// PLUGINS: TODO: We want to avoid hardoced registering plugins here!
 		// { src: join(APP_DEST, 'components/ontov/js/vendor/jquery-1.8.3.js'), inject: true, noNorm: true},
