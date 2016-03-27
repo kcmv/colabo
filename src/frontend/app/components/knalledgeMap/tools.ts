@@ -44,7 +44,7 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 export class KnalledgeMapTools {
     mapStylingChangedEventName:string = "mapStylingChangedEvent";
     viewspecChangedEventName:string = "viewspecChangedEvent";
-    syncingChangedEventName:string = "syncingChangedEvent";
+    broadcastingChangedEventName:string = "broadcastingChangedEvent";
 
     constructor(
         sidenavService:SidenavService,
@@ -61,7 +61,7 @@ export class KnalledgeMapTools {
         this.globalEmitterServicesArray = globalEmitterServicesArray;
         globalEmitterServicesArray.register(this.mapStylingChangedEventName);
         globalEmitterServicesArray.register(this.viewspecChangedEventName);
-        globalEmitterServicesArray.register(this.syncingChangedEventName);
+        globalEmitterServicesArray.register(this.broadcastingChangedEventName);
     };
     bindings:Object = {
         viewspec: 'viewspec_manual'
@@ -122,8 +122,12 @@ export class KnalledgeMapTools {
         this.globalEmitterServicesArray.get(this.mapStylingChangedEventName).broadcast('KnalledgeMapTools', msg);
     };
 
-    syncingChanged = function(){
-        // console.log("result:" + JSON.stringify(result));
-        this.globalEmitterServicesArray.get(this.syncingChangedEventName).broadcast('KnalledgeMapTools');
+    broadcastingChanged: Function = function(path, value){
+        console.log("path:" + value);
+        let msg = {
+            path: path,
+            value: value
+        };
+        this.globalEmitterServicesArray.get(this.broadcastingChangedEventName).broadcast('KnalledgeMapTools', msg);
     };
 }

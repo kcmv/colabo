@@ -815,6 +815,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			lastVOUpdateTime: null,
 
 			/**
+				called by KnAllEdgeRealTimeService when a broadcasted message regarding changes in the map (nodes, edges) structure is received from another client
+
 			 * Callback function called from KnAllEdgeRealTimeService
 			 * when change broadcated events (like `node-created`, etc)
 			 * are broadcasted.
@@ -825,13 +827,13 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
 			 * @param  {string} eventName - event name that is sent by other client
 			 * @param  {Object} msg
+
+			 * OLD COMMENT?: Chnages that are broadcasted from the presented
+			 * OLD COMMENT?: @type {knalledge.knalledgeMap.knalledgeMapServices.MapChanges}
 			 */
 			externalChangesInMap: function(eventName, msg){
 				console.log("externalChangesInMap(%s,%s)",eventName, JSON.stringify(msg));
-				/**
-				 * Chnages that are broadcasted from the presented
-				 * @type {knalledge.knalledgeMap.knalledgeMapServices.MapChanges}
-				 */
+				if(!KnalledgeMapPolicyService.provider.config.broadcasting.receiveStructural) return; //this could be at KnAllEdgeRealTimeService but it should not differentiate (know about) different types of messages on upper layer (e.g. structural vs navigation)
 				var changes = {nodes:[], edges:[]};
 				var shouldBroadcast = true;
 				var ToVisualMsg = "-to-visual";
@@ -857,7 +859,7 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					break;
 					case KnRealTimeNodeDeletedEventName:
 						if(this.nodesById.hasOwnProperty(msg._id)){
-							var knode = this.nodesById[msg._id];
+							var kNode = this.nodesById[msg._id];
 							changes.nodes.push(kNode);
 							delete this.nodesById[msg._id];
 							var eventName = KnRealTimeNodeDeletedEventName + ToVisualMsg;
@@ -888,6 +890,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					break;
 					case KnRealTimeEdgeDeletedEventName:
 						if(this.edgesById.hasOwnProperty(msg._id)){
+							var kEdge = this.edgesById[msg._id];
+							changes.edges.push(kEdge);
 							delete this.edgesById[msg._id];
 							var eventName = KnRealTimeEdgeDeletedEventName + ToVisualMsg;
 						}
@@ -2346,6 +2350,8 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			},
 
 			/**
+			 *called by TopiChatService when a broadcasted message is received from another client
+
 			 * This method dispatches to the higher layers (plugins)
 			 * a message that was received from the bottom layer (topiChat)
 			 * @function _dispatchEvent
@@ -2356,6 +2362,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			 */
 			_dispatchEvent: function(tcEventName, knPackage) {
 				console.log('[KnAllEdgeRealTimeService:_dispatchEvent] tcEventName: %s, knPackage:%s', tcEventName, JSON.stringify(knPackage));
+
 				var msg = knPackage.msg;
 				var eventName = knPackage.eventName;
 

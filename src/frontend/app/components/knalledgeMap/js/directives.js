@@ -574,12 +574,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					// realtime listener registration
 					if(KnAllEdgeRealTimeService){
 						var realTimeMapStylingChanged = function(eventName, msg){
+
+							if(msg.path == 'policyConfig.broadcasting.enabled' && msg.value){ // Highlander: There can be only one!
+								KnalledgeMapPolicyService.provider.config.broadcasting.enabled = false;
+							}
+
+							if(!KnalledgeMapPolicyService.provider.config.broadcasting.receiveVisualization){return;}
 							switch(msg.path){
-								case 'policyConfig.broadcasting.enabled':
-									if(msg.value){ // Highlander: There can be only one!
-										KnalledgeMapPolicyService.provider.config.broadcasting.enabled = false;
-									}
-									break;
 								case 'config.nodes.showImages':
 									KnalledgeMapViewService.provider.config.nodes.showImages = msg.value;
 									break;
@@ -612,12 +613,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						KnAllEdgeRealTimeService.registerPlugin(mapViewPluginOptions);
 					}
 
-					var syncingChangedEventName = "syncingChangedEvent"
-					GlobalEmitterServicesArray.get(syncingChangedEventName).subscribe('knalledgeMap', function() {
-						console.log("[knalledgeMap.controller::$on] event: %s", syncingChangedEventName);
-						// TODO: not existing anymore, old code?
-						// knalledgeMap.syncingChanged();
-					});
+					var broadcastingChangedEventName = "broadcastingChangedEvent"
+					// GlobalEmitterServicesArray.get(broadcastingChangedEventName).subscribe('knalledgeMap', function() {
+					// 	console.log("[knalledgeMap.controller::$on] event: %s", broadcastingChangedEventName);
+					// 	// knalledgeMap.syncingChanged(); NOT USED ANY MORE
+					// });
 
 					GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).subscribe('knalledgeMap', function(vkNode) {
 						console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);

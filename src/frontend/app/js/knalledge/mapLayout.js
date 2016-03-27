@@ -154,7 +154,8 @@ MapLayout.prototype.distribute = function() {
 };
 
 MapLayout.prototype.processSyncedData = function(callback) {
-	this.selectNode(this.mapStructure.getSelectedNode(), null, true);
+	this.clickNode(this.mapStructure.getSelectedNode(), null, true, undefined, true);
+	//TODO bilo je valjda sasino: this.selectNode(this.mapStructure.getSelectedNode(), null, true);
 	this.clientApi.update(this.mapStructure.getSelectedNode(),
 		(typeof callback === 'function') ? callback : undefined);
 };
@@ -177,7 +178,7 @@ MapLayout.prototype.viewspecChanged = function(target){
  * @return {knalledge.MapLayout}
  */
 MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
-	if(!this.nodes) return;
+	if(!this.nodes || d == null) return;
 
 	var isSelected = d.isSelected; //nodes previous state
 
@@ -203,12 +204,11 @@ MapLayout.prototype.selectNode = function(d, dom, commingFromAngular, doNotBuble
 	if(!this.nodes) return;
 
 	// select clicked
-	var isSelected = d.isSelected; //nodes previous state
+	var isSelected = d.isSelected; //nodes previous state. THIS is NOT related (same as) `this.clientApi.selectNode(d)`
 	// we want it idempotent, and even if it is isSelected === true,
 	// still the visual representation of the node might represent unselected state
 	// due to rerendering, etc
 	// if(isSelected) return;
-
 	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
 		return;
 	}
@@ -243,13 +243,13 @@ MapLayout.prototype.selectNode = function(d, dom, commingFromAngular, doNotBuble
 	this.clientApi.positionToDatum(d);
 
 	if(this.knalledgeState.addingLinkFrom !== null){
-		this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d);
+		this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d); //this is called when we add new parent to the node
 		this.knalledgeState.addingLinkFrom = null;
 		//TODO: UPDATE SHOUL BE CALLED IN THE CALLBACK
 		this.clientApi.update(this.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.createEdge?
 	}
 
-	if(this.knalledgeState.relinkingFrom !== null){
+	if(this.knalledgeState.relinkingFrom !== null){ //this is called when we relink this node from old to new parent
 		var that = this;
 		this.mapStructure.relinkNode(this.knalledgeState.relinkingFrom, d, function(result, error){
 			that.knalledgeState.relinkingFrom = null;
