@@ -68,10 +68,24 @@ gulp.task('build.js.prod', done =>
         done));
 
 // just for testing and accessing directly to a task
-// it is ok to rename build.html_css.prod to anything
-gulp.task('build.html_css.prod', done =>
+// it is ok to rename build.bundles to anything
+gulp.task('build.bundles', done =>
     runSequence(
-        'build.html_css.prod', // ng2/Lo-Dash/Underscore templates, compiles typescript -> TMP_DIR
+        'build.bundles', // ng2/Lo-Dash/Underscore templates, compiles typescript -> TMP_DIR
+        done));
+
+// just for testing and accessing directly to a task
+// it is ok to rename build.bundles.app to anything
+gulp.task('build.bundles.app', done =>
+    runSequence(
+        'build.bundles.app', // ng2/Lo-Dash/Underscore templates, compiles typescript -> TMP_DIR
+        done));
+
+// just for testing and accessing directly to a task
+// it is ok to rename build.index.prod to anything
+gulp.task('build.index.prod', done =>
+    runSequence(
+        'build.index.prod', // ng2/Lo-Dash/Underscore templates, compiles typescript -> TMP_DIR
         done));
 
 

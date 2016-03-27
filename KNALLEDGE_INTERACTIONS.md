@@ -98,3 +98,4 @@ This callback eventually pops up all the way back to the `knalledgeMap` directiv
 + other entities (like knalledgeMap, Map, MapLayout, MapVisualization, ...) should registered to notification and react according to the change (i.e. visualize another selected node, update graph, reduce visible nodes, ...)
 + Halo should update accordingly as a part of MapVisualization reaction to the selectedNode change, not in the `.on("click", function(d){` callback
     + In this case Halo will react to keyboard navigation, or even broadcasted navigation, since it will allways affect change in the selectedNode in MapStructure, and therefore it will broadcast the change to all interested parties
++ refactor broadcasting node-selected into node-selected/unselected/clicked

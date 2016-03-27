@@ -154,7 +154,9 @@ MapStructure.prototype.hasChildren = function(d){
 	return false;
 };
 
-/*
+/**
+* @function getEdgesBetweenNodes
+* @memberof knalledge.MapStructure#
  * @returns Array - their may be several edges connecting 2 nodes:
  */
 MapStructure.prototype.getEdgesBetweenNodes = function(source, target){ //TODO: improve this for Big data by 2-dimensional array
@@ -781,7 +783,7 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	// and creates corresponding vkNodes
 	// pulling vkNodes' parameters from kNode.visual
 	// it puts vkNodes into this.nodesById
-	for(let i=0; i<kMapData.map.nodes.length; i++){
+	for(var i=0; i<kMapData.map.nodes.length; i++){
 		kNode = kMapData.map.nodes[i];
 		if(!("isOpen" in kNode.visual)){
 			kNode.visual.isOpen = false;
@@ -826,10 +828,12 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	return this;
 };
 
+
 MapStructure.prototype.getSubChildren = function(vkNode, depth, list) {
-	if(typeof list == 'undefined'){
+	if(typeof list === 'undefined'){
 		list = [];
 	}
+	// this crashes uglification
 	getSubChildren(vkNode, depth, list);
 	return list;
 };
