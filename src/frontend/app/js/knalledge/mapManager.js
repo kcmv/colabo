@@ -55,6 +55,8 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 		setDomSize: this.visualizations.viewspec_tree.setDomSize.bind(this.visualizations.viewspec_tree),
 		positionToDatum: this.visualizations.viewspec_tree.positionToDatum.bind(this.visualizations.viewspec_tree),
 		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi),
+		nodeSelected: this.clientApi.nodeSelected.bind(this.clientApi),
+		nodeUnselected: this.clientApi.nodeUnselected.bind(this.clientApi),
 		selectNode: this.clientApi.selectNode
 	};
 	this.layouts.viewspec_tree = this.layouts.viewspec_manual = new knalledge.MapLayoutTree(this.mapStructure, this.collaboPluginsService, this.configNodes, this.configTree, this.layoutApis.viewspec_tree, this.knalledgeState, this.knAllEdgeRealTimeService);
@@ -66,6 +68,8 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 		setDomSize: this.visualizations.viewspec_flat.setDomSize.bind(this.visualizations.viewspec_flat),
 		positionToDatum: this.visualizations.viewspec_flat.positionToDatum.bind(this.visualizations.viewspec_flat),
 		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi),
+		nodeSelected: this.clientApi.nodeSelected.bind(this.clientApi),
+		nodeUnselected: this.clientApi.nodeUnselected.bind(this.clientApi),
 		selectNode: this.clientApi.selectNode
 	};
 	this.layouts.viewspec_flat = new knalledge.MapLayoutTree(this.mapStructure, this.collaboPluginsService, this.configNodes, this.configTree, this.layoutApis.viewspec_flat, this.knalledgeState, this.knAllEdgeRealTimeService);
@@ -77,6 +81,8 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 		setDomSize: this.visualizations.viewspec_graph.setDomSize.bind(this.visualizations.viewspec_graph),
 		positionToDatum: this.visualizations.viewspec_graph.positionToDatum.bind(this.visualizations.viewspec_graph),
 		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi),
+		nodeSelected: this.clientApi.nodeSelected.bind(this.clientApi),
+		nodeUnselected: this.clientApi.nodeUnselected.bind(this.clientApi),
 		selectNode: this.clientApi.selectNode
 	};
 	this.layouts.viewspec_graph = new knalledge.MapLayoutGraph(this.mapStructure, this.collaboPluginsService, this.configNodes, this.configTree, this.layoutApis.viewspec_graph, this.knalledgeState, this.knAllEdgeRealTimeService);

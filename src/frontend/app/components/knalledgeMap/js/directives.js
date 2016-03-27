@@ -1,14 +1,40 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+/**
+* the namespace for core services for the KnAllEdge system
+* @namespace knalledge.knalledgeMap.knalledgeMapDirectives
+*/
+
 var KnRealTimeMapStylingChangedEventName = "map-styling-change";
 var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
 angular.module('knalledgeMapDirectives', ['Config'])
+
+	/**
+	* @class knalledgeMap
+	* @memberof knalledge.knalledgeMap.knalledgeMapDirectives
+	*/
 	.directive('knalledgeMap', ['$injector', '$rootScope', '$compile', '$routeParams', '$timeout',
 		'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService',
 		'KnalledgeMapService', 'KnalledgeMapViewService',
 		'KnAllEdgeRealTimeService', 'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService',
 		'CollaboPluginsService', 'SyncingService', 'injector',
+		/**
+	 	* @memberof knalledge.knalledgeMap.knalledgeMapDirectives.knalledgeMap#
+	 	* @constructor
+	 	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeNodeService} KnalledgeNodeService
+	 	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeEdgeService} KnalledgeEdgeService
+		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService} KnalledgeMapVOsService
+		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapService} KnalledgeMapService
+		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapViewService} KnalledgeMapViewService
+		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
+		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeSelectItemService} KnAllEdgeSelectItemService
+		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
+		* @param  {knalledge.collaboPluginsServices.CollaboPluginsService} CollaboPluginsService
+		* @param  {knalledge.knalledgeMap.knalledgeMapServices.SyncingService} SyncingService
+		* @param  {utils.Injector} injector
+	 	*/
+
 		function($injector, $rootScope, $compile, $routeParams, $timeout,
 		KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService,
 		KnalledgeMapService, KnalledgeMapViewService,
@@ -196,19 +222,55 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					if($scope.mapConfig) overwriteConfig($scope.mapConfig, config);
 
+					/**
+					 * API Interface for the knalledge.Map object and sub objects
+					 * @interface kMapClientInterface
+					 * @memberof knalledge.knalledgeMap.knalledgeMapDirectives.knalledgeMap
+					 */
 					var kMapClientInterface = {
+						/**
+						 * Propagates clicked node to parent directive and
+						 * broadcasts node's property (content)
+						 * @function nodeClicked
+						 * @name kMapClientInterface#nodeClicked
+						 * **TODO**: make nodeUnselected and nodeSelected (instead)
+						 * @param  {knalledge.VKNode} vkNode - clicked node
+						 * @param  {DOM} dom - dom of the clicked node
+						 * @param  {boolean} commingFromAngular - if the call comes from the ng world or from wildness
+						 */
 						nodeClicked: function(vkNode, dom, commingFromAngular){
-							var processNodeClick = function(){
+							if(vkNode) kMapClientInterface.nodeSelected(vkNode, dom, commingFromAngular);
+							else kMapClientInterface.nodeUnselected(vkNode, dom, commingFromAngular);
+						},
+						/**
+						 * Propagates selected node to parent directive and
+						 * broadcasts node's property (content)
+						 * @function nodeSelected
+						 * @name kMapClientInterface#nodeSelected
+						 * @param  {knalledge.VKNode} vkNode - clicked node
+						 * @param  {DOM} dom - dom of the clicked node
+						 * @param  {boolean} commingFromAngular - if the call comes from the ng world or from wildness
+						 */
+						nodeSelected: function(vkNode, dom, commingFromAngular){
+							var processNodeSelected = function(){
 								// Referencing DOM nodes in Angular expressions is disallowed!
 								dom = null;
+
+								// here we call a parent directive listener interested
+								// in clicking the node
+								// This is mostly used in the case when top directive provides map data and listens for response from the this (knalledgeMap) directive
 								$scope.nodeSelected({"vkNode": vkNode, "dom": dom});
-								var property = "";
+								var property = undefined;
+
+								// get property and broadcast it
+								// at the moment `knalledgeMapList` directive listens for this event
+								// and presents the property inside the editor
 								if(vkNode){
 									// http://www.historyrundown.com/did-galileo-really-say-and-yet-it-moves/
 									if(vkNode.kNode.dataContent) property = vkNode.kNode.dataContent.property;
 									console.log("[knalledgeMap::kMapClientInterface::nodeClicked'] vkNode[%s](%s): property: %s", vkNode.id, vkNode.kNode._id, property);
 								}else{
-									console.log("[knalledgeMap::kMapClientInterface::nodeClicked'] node is not selected. property: %s", property);
+									console.log("[knalledgeMap::kMapClientInterface::nodeClicked'] node is not provided. property: %s", property);
 								}
 
 								var nodeContent = {
@@ -219,9 +281,45 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								GlobalEmitterServicesArray.get(changeKnalledgePropertyEventName).broadcast('knalledgeMap', nodeContent);
 							}
 
-							if(commingFromAngular) processNodeClick();
+							if(commingFromAngular) processNodeSelected();
 							else{
-								$scope.$apply(processNodeClick);
+								$scope.$apply(processNodeSelected);
+							}
+						},
+						/**
+						 * Propagates unselected node to parent directive and
+						 * broadcasts node's property (content)
+						 * @function nodeUnselected
+						 * @name kMapClientInterface#nodeUnselected
+						 * @param  {knalledge.VKNode} vkNode - clicked node
+						 * @param  {DOM} dom - dom of the clicked node
+						 * @param  {boolean} commingFromAngular - if the call comes from the ng world or from wildness
+						 */
+						nodeUnselected: function(vkNode, dom, commingFromAngular){
+							var processNodeUnselected = function(){
+								// Referencing DOM nodes in Angular expressions is disallowed!
+								dom = null;
+
+								// here we call a parent directive listener interested
+								// in clicking the node
+								// This is mostly used in the case when top directive provides map data and listens for response from the this (knalledgeMap) directive
+								$scope.nodeSelected({"vkNode": null, "dom": dom});
+								var property = "";
+
+								// get property and broadcast it
+								// at the moment `knalledgeMapList` directive listens for this event
+								// and presents the property inside the editor
+								var nodeContent = {
+									node: null,
+									property: undefined
+								};
+
+								GlobalEmitterServicesArray.get(changeKnalledgePropertyEventName).broadcast('knalledgeMap', nodeContent);
+							}
+
+							if(commingFromAngular) processNodeUnselected();
+							else{
+								$scope.$apply(processNodeUnselected);
 							}
 						},
 						searchNodeByName: function(){
@@ -308,6 +406,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						}
 					};
 
+					/**
+					 * Plugins that are provided to the knalledge.Map
+					 * @type {Object}
+					 */
 					var mapPlugins = {
 						mapVisualizePlugins: {
 							'NotifyNodeService': NotifyNodeService
@@ -317,8 +419,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null,
+							config.tree.mapService.enabled ? KnalledgeMapVOsService : null,
 							// if $scope.mapData is set, we do not use KnalledgeMapVOsService.mapStructure but let knalledge.Map to create a new mapStructure and build VKs from Ks
-							config.tree.mapService.enabled ? KnalledgeMapVOsService : null, $scope.mapData ? null : KnalledgeMapVOsService.mapStructure,
+							checkData($scope.mapData) ? null : KnalledgeMapVOsService.mapStructure,
 							CollaboPluginsService, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService, KnalledgeMapPolicyService, injector);
 					knalledgeMap.init();
 
@@ -337,6 +440,14 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					GlobalEmitterServicesArray.get(KnRealTimeEdgeDeletedEventName).subscribe('knalledgeMap',knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
 				};
 
+				/**
+				 * This is necessary since ng2 injects some object into $scope.mapData
+				 * even if parent directive do not provide any mapData
+				 * Returns true if data exist and are healthy (structurarly) map data
+				 * @function checkData
+				 * @param  {knalledge.knalledgeMap.knalledgeMapServices.MapData} data - map data
+				 * @return {boolean}
+				 */
 				var checkData = function(data){
 					if(!model) return false;
 					if(!('map' in model)){
@@ -350,12 +461,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					//knalledgeMap.load("treeData.json");
 					knalledgeMap.processData(model, function(){
 						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
+						// TODO: we need to avoid this and reduce map processing
 						knalledgeMap.update();
 						if($scope.mapData && $scope.mapData.selectedNode){
 							var vkNode = knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
-							knalledgeMap.mapLayout.clickNode(vkNode, null, true, true, true);
+							knalledgeMap.mapLayout.selectNode(vkNode, null, true, true, true);
 						}
-					}, true, true, true);
+					});
 				};
 
 				$timeout(function(){
@@ -368,12 +480,23 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						// console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
 						setData($scope.mapData);
 					}else{
-						var gotMap = function(map){
-							console.log('gotMap:'+JSON.stringify(map));
-							KnalledgeMapVOsService.loadAndProcessData(map); //broadcasts 'modelLoadedEvent'
+						/**
+						 * Callback after loading map object from the KnalledgeMapService
+						 * @param  {knalledge.KMap} map - map object
+						 */
+						var gotMap = function(kMap){
+							console.log('gotMap:'+JSON.stringify(kMap));
+							// this method broadcasts the 'modelLoadedEvent' event after loading and processing kMap
+							// this event is subscribed bellow for
+							KnalledgeMapVOsService.loadAndProcessData(kMap);
 						};
+
+						/**
+						 * the id of the map to get loaded
+						 * @type {string}
+						 */
 						var mapId = $routeParams.id;
-						console.warn("loading map by mcmMapDirectives::mapId: " + mapId);
+						console.warn("loading map by mcmMapDirectives: mapId: " + mapId);
 
 						KnalledgeMapService.getById(mapId).$promise.then(gotMap);
 					}

@@ -3,10 +3,12 @@
 
 /**
 @classdesc Provides the interface for manipulating with the knalledge map structure,
-it is used as a prerequisite for the map visualization
+it is used as a prerequisite for the map visualization.
+
+**NOTE**: It handles VKNodes and VKEdges,
+not KNodes nor KEdges
 @class MapStructure
 @memberof knalledge
-@constructor
 */
 
 var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService){
@@ -35,15 +37,23 @@ var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapV
 	this.knalledgeMapPolicyService = knalledgeMapPolicyService;
 	/**
 	 * Set of nodes (VKNode) that exists in the map
-	 * @type {knalledge.VKNode}
+	 *
+	 * Key in the hash is the VKNode's id
+	 * @type {Array<integer,knalledge.VKNode>}
 	 */
 	this.nodesById = {};
 	/**
-	 * Set of edges (VkEdge) that exists in the map
-	 * @type {knalledge.VkEdge}
+	 * Set of edges (VKEdge) that exists in the map
+	 *
+	 * Key in the hash is the VKEdge's id
+	 * @type {Array<integer,knalledge.VKEdge>}
 	 */
 	this.edgesById = {};
 
+	/**
+	 * Map properties
+	 * @type {Object}
+	 */
 	this.properties = {};
 
 	// TODO: we need to remove that and move it into plugin
@@ -59,12 +69,14 @@ MapStructure.UPDATE_NODE_IBIS_VOTING = "UPDATE_NODE_IBIS_VOTING";
 
 /**
 * @var {debugPP} debug - namespaced debug for the class
-* @memberof knalledge.MapStructure
+* @memberof knalledge.MapStructure#
 */
 MapStructure.debug = debugpp.debug('knalledge.MapStructure');
 
 /**
  * Initializes MapStructure
+ * @function init
+ * @memberof knalledge.MapStructure#
  * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService} mapService - A top service
  *          responsible for managing KnAllEdge map
  * @return {knalledge.MapStructure}
@@ -89,6 +101,8 @@ MapStructure.prototype.removeImage = function(vkNode){
 
 /**
  * Unselects currently selected node
+ * @function unsetSelectedNode
+ * @memberof knalledge.MapStructure#
  * @return {knalledge.MapStructure}
  */
 MapStructure.prototype.unsetSelectedNode = function(){
@@ -99,10 +113,14 @@ MapStructure.prototype.unsetSelectedNode = function(){
 /**
  * Sets currently selected node
  * @param  {knalledge.VKNode} selectedNode - newly selected node
+ * @function setSelectedNode
+* @memberof knalledge.MapStructure#
  * @return {knalledge.MapStructure}
  */
 MapStructure.prototype.setSelectedNode = function(selectedNode){
 	this.selectedNode = selectedNode;
+	// sets what nodes are visible relatively to the currently selected node
+	// TODO: it should be migrated into plugin
 	this.setVisibility(); //TODO: should be called only setVisibilityByDistance(), but we would have problem in finding visibleAsAncestors if not calculating for all
 //	try {
 //		throw new Error('DebugStack');
@@ -117,6 +135,12 @@ MapStructure.prototype.setSelectedNode = function(selectedNode){
 	return this;
 };
 
+/**
+ * Returns currently selected node
+ * @function getSelectedNode
+* @memberof knalledge.MapStructure#
+ * @return {knalledge.VKNode}
+ */
 MapStructure.prototype.getSelectedNode = function(){
 	return this.selectedNode;
 };
@@ -201,10 +225,20 @@ MapStructure.prototype.getNeighbours = function(sourceNode){
 	return neighbours;
 }
 
+/**
+ * Returns if the node is visible
+ *
+ * It returns true if it should be visible by itself or because it is on ancestors path to some other visible node
+ * @function isNodeVisible
+ * @memberof knalledge.MapStructure#
+ * @param  {knalledge.VKNode} node - node we are interested for
+ * @return {boolean}
+ */
 MapStructure.prototype.isNodeVisible = function(node){
 	 var result =
 	 this.isNodeVisibleWOAncestory(node) ||
 	 node.presentation.visibleAsAncestor;
+
 	 return result;
 }
 
@@ -232,7 +266,10 @@ MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 }
 
 /**
- * [function description]
+ * calculate/sets visibility of all nodes based on different visibility switches
+ * (like `limit Range`) or by publicity/autorship of node
+ * @function setVisibility
+ * @memberof knalledge.MapStructure#
  * @return {knalledge.MapStructure}
  */
 MapStructure.prototype.setVisibility = function(){
@@ -258,6 +295,8 @@ MapStructure.prototype.setVisibility = function(){
 
 /**
  * [function description]
+ * @function setAncestorsVisibile
+ * @memberof knalledge.MapStructure#
  * @return {knalledge.MapStructure}
  */
 MapStructure.prototype.setAncestorsVisibile = function(node){
@@ -272,6 +311,8 @@ MapStructure.prototype.setAncestorsVisibile = function(node){
 
 /**
  * [function description]
+ * @function setVisibilityByAuthor
+ * @memberof knalledge.MapStructure#
  * @return {knalledge.MapStructure}
  */
 MapStructure.prototype.setVisibilityByAuthor = function(sourceNode, distance){
@@ -280,6 +321,8 @@ MapStructure.prototype.setVisibilityByAuthor = function(sourceNode, distance){
 
 /**
  * set nodes visibility based on their distance (length of path) from source node
+ * @function setVisibilityByDistance
+ * @memberof knalledge.MapStructure#
  * @return {knalledge.MapStructure}
  */
 MapStructure.prototype.setVisibilityByDistance = function(sourceNode, distance){
@@ -407,6 +450,12 @@ MapStructure.prototype.getAncestorsPath = function(node){
 	return ancestors;
 }
 
+/**
+ * Returns max id among all vknodes in the map
+ * @function getMaxNodeId
+ * @memberof knalledge.MapStructure#
+ * @return {integer}
+ */
 MapStructure.prototype.getMaxNodeId = function(){
 	var maxId = -1;
 	for(var i in this.nodesById){
@@ -415,6 +464,12 @@ MapStructure.prototype.getMaxNodeId = function(){
 	return maxId;
 };
 
+/**
+ * Returns max id among all vkedges in the map
+ * @function getMaxEdgeId
+ * @memberof knalledge.MapStructure#
+ * @return {integer}
+ */
 MapStructure.prototype.getMaxEdgeId = function(){
 	var id = -1;
 	for(var i in this.edgesById){
@@ -436,25 +491,44 @@ Map.prototype.addChildNode = function(nodeParent, nodeChild, edge){
 	this.edgesById.push(edge);
 };
 
-// collapses children of the provided node
+
+/**
+ * collapses the provided node (sets node's isOpen to false)
+ * @function collapse
+ * @memberof knalledge.MapStructure#
+ * @param {knalledge.VKNode} vkNode - node to collapse
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.collapse = function(vkNode) {
 	vkNode.isOpen = false;
 	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
 };
 
-// collapses children of the provided node
+/**
+ * Expands the provided node (sets node's isOpen to true)
+ * @function expandNode
+ * @memberof knalledge.MapStructure#
+ * @param {knalledge.VKNode} vkNode - node to expand
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.expandNode = function(vkNode) {
 	vkNode.isOpen = true;
 	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
 };
 
-// toggle children of the provided node
+/**
+ * Toggles expansion of the provided node (sets node's isOpen to !isOpen)
+ * @function toggle
+ * @memberof knalledge.MapStructure#
+ * @param {knalledge.VKNode} vkNode - node to toggle
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.toggle = function(vkNode) {
 	vkNode.isOpen = !vkNode.isOpen;
 	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
 };
 
-//should be migrated to some util .js file:
+// TODO: should be migrated to some util .js file:
 MapStructure.prototype.cloneObject = function(obj){
 	return (JSON.parse(JSON.stringify(obj)));
 };
@@ -534,9 +608,22 @@ MapStructure.prototype.updateName = function(vkNode, newName){
 	this.mapService.updateNode(vkNode.kNode, MapStructure.UPDATE_NODE_NAME);
 };
 
-/*
-	take care that this method updates the node on server too! so be careful if it is called upon on SYNCING with a node already created on other client (presenter)
-*/
+/**
+ * Updates node and propagates changes to the server
+ *
+ * **NOTE**: Since currently VKNode doesn't exist in a permanent sturage,
+ * we need to migrate all relevant VKNode changes into KNode structure
+ *
+ * **NOTE**: Take care that this method updates the node on server too!
+ * So be careful if it is called upon on SYNCING with a node already created
+ * on other client (presenter)
+ *
+ * @function updateNode
+ * @memberof knalledge.MapStructure#
+ * @param {knalledge.VKNode} vkNode - node to update
+ * @param {string} updateType - type of the update
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.updateNode = function(vkNode, updateType) {
 	if(!this.mapService) return;
 
@@ -557,7 +644,11 @@ MapStructure.prototype.updateNode = function(vkNode, updateType) {
 		case MapStructure.UPDATE_DATA_CONTENT:
 			break;
 	}
-	this.mapService.updateNode(vkNode.kNode, updateType); //updating on server service
+	// calling the KnalledgeMapVOsService service
+	// to update the node on the server
+	this.mapService.updateNode(vkNode.kNode, updateType);
+
+	return this;
 };
 
 MapStructure.prototype.deleteNode = function(vnode) {
@@ -633,6 +724,13 @@ MapStructure.prototype.getVKEdgeByKIds = function(sourceKId, targetKId) {
 	return null;
 };
 
+/**
+ * Returns the list of nodes in the map
+ *
+ * @function getNodesList
+ * @memberof knalledge.MapStructure#
+ * @return {Array.<knalledge.VKNode>}
+ */
 MapStructure.prototype.getNodesList = function() {
 	var nodes = [];
 	for(var i in this.nodesById){
@@ -641,6 +739,13 @@ MapStructure.prototype.getNodesList = function() {
 	return nodes;
 };
 
+/**
+ * Returns the list of edges in the map
+ *
+ * @function getEdgesList
+ * @memberof knalledge.MapStructure#
+ * @return {Array.<knalledge.VKEdge>}
+ */
 MapStructure.prototype.getEdgesList = function() {
 	var edges = [];
 	for(var i in this.edgesById){
@@ -649,11 +754,22 @@ MapStructure.prototype.getEdgesList = function() {
 	return edges;
 };
 
+/**
+ * Process map data and populates internal structures (`nodesById`, `edgesById`, ...)
+ *
+ * @function processData
+ * @memberof knalledge.MapStructure#
+ * @param  {knalledge.knalledgeMap.knalledgeMapServices.MapData} kMapData - map data
+ * @param  {number} [rootNodeX] - X coordinate of the root node
+ * @param  {number} [rootNodeY] - Y coordinate of the root node
+ * @return {knalledge.MapStructure}
+ */
 MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	this.properties = kMapData.properties;
 	var i=0;
 	var kNode = null;
 	var kEdge = null;
+	// TODO: This doesn't smell well!?
 	MapStructure.id = 0;
 
 	// deleting all previous data
@@ -661,8 +777,11 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 	this.nodesById = {};
 	this.edgesById = {};
 
-	//var id;
-	for(i=0; i<kMapData.map.nodes.length; i++){
+	// Iterates through all kNodes in the map data
+	// and creates corresponding vkNodes
+	// pulling vkNodes' parameters from kNode.visual
+	// it puts vkNodes into this.nodesById
+	for(let i=0; i<kMapData.map.nodes.length; i++){
 		kNode = kMapData.map.nodes[i];
 		if(!("isOpen" in kNode.visual)){
 			kNode.visual.isOpen = false;
@@ -680,6 +799,9 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 		this.nodesById[vkNode.id] = vkNode;
 	}
 
+	// Iterates through all kEdges in the map data
+	// and creates corresponding vkEdges
+	// it puts vkNodes into this.edgesById
 	for(i=0; i<kMapData.map.edges.length; i++){
 		kEdge = kMapData.map.edges[i];
 		var vkEdge = new knalledge.VKEdge();
@@ -689,17 +811,19 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 
 	// this.rootNode = this.nodesById[this.properties.rootNodeId];
 	this.rootNode = this.getVKNodeByKId(
-		this.mapService ? this.mapService.rootNodeId :
-			(kMapData.properties ? kMapData.properties.rootNodeId : null)
+		kMapData.properties ? kMapData.properties.rootNodeId : null
 	);
 	if(this.rootNode !== null){
 		if(typeof rootNodeX !== 'undefined') this.rootNode.x0 = rootNodeX;
 		if(typeof rootNodeY !== 'undefined') this.rootNode.y0 = rootNodeY;
 	}
+	// sets the selectedNode to the root node
 	this.selectedNode = this.rootNode;
 
 	// this.clickNode(this.rootNode);
 	// this.update(this.rootNode);
+
+	return this;
 };
 
 MapStructure.prototype.getSubChildren = function(vkNode, depth, list) {
@@ -709,6 +833,17 @@ MapStructure.prototype.getSubChildren = function(vkNode, depth, list) {
 	getSubChildren(vkNode, depth, list);
 	return list;
 };
+
+/**
+ * Processes synced data broadcasted from other the KnAllEdge client
+ *
+ * Based on the changes received it updates internal structures. For example in the case of deleting the node (`changes.event == 'node-deleted-to-visual'`), it deletes the node from the internal list of nodes.
+ *
+ * @function processSyncedData
+ * @memberof knalledge.MapStructure#
+ * @param {knalledge.knalledgeMap.knalledgeMapServices.MapChangesWithEvent} changes - changes that are received
+ * @return {knalledge.MapStructure}
+ */
 
 // [21.05.15 11:40:07] Sinisa (лични): MapStructure.prototype.processSyncedData to radi, ona kreira novi node
 // pa samo proveri da li vec ga imamo preko kNode._id
@@ -772,8 +907,11 @@ MapStructure.prototype.processSyncedData = function(changes) {
 			}
 		}
 
-		this.selectedNode = newestNode; //we focus on the last changed node. It is used for next functions in calls
+		//we focus on the last changed node. It is used for next functions in calls
+		this.selectedNode = newestNode;
 	}
+
+	return this;
 };
 
 }()); // end of 'use strict';

@@ -1,6 +1,34 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+/**
+@classdesc Top class for dealing with visualizing and interacting knalledge maps
+
+@class Map
+@memberof knalledge
+*/
+
+/**
+* @memberof knalledge.knalledgeMap.knalledgeMapDirectives.knalledgeMap#
+* @constructor
+* @param  {DOM}  parentDom - parent dom where map should be created
+* @param  {Object}  config - config object
+* @param  {knalledge.knalledgeMap.knalledgeMapDirectives.knalledgeMap.kMapClientInterface}  clientApi
+* @param  {Object}  entityStyles - entity styles (not used?)
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService}  mapService
+* @param  {knalledge.MapStructure}  [mapStructureExternal=null] - map structure containing map data
+* @param  {knalledge.collaboPluginsServices.CollaboPluginsService}  collaboPluginsService
+* @param  {rima.rimaServices.RimaService}  rimaService
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.IbisTypesService} ibisTypesService
+* @param  {knalledge.notify.notifyServices.NotifyService}  notifyService
+* @param  {Object}  mapPlugins - set of plugins (with subplugins `mapVisualizePlugins`, etc)
+* TODO: This needs to be migrated to plugin space
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapViewService}  knalledgeMapViewService
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.SyncingService}  syncingService
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService}  knAllEdgeRealTimeService
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService}  knalledgeMapPolicyService
+* @param  {utils.Injector}  injector
+*/
 var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
 	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService, injector){
 	this.config = config;
@@ -121,7 +149,6 @@ Map.prototype.init = function() {
 	});
 };
 
-
 Map.prototype.processExternalChangesInMap = function(changes) {
 //Map.prototype.processExternalChangesInMap = function(e, changes) {
 	var syncedDataProcessedAndVisualized = function(){
@@ -135,7 +162,6 @@ Map.prototype.processExternalChangesInMap = function(changes) {
 	this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
 };
 
-
 // Map.prototype.processSyncedData = function(changes) {
 // 	var syncedDataProcessedAndVisualized = function(){
 // 		this.update(this.mapStructure.getSelectedNode());
@@ -148,17 +174,41 @@ Map.prototype.processExternalChangesInMap = function(changes) {
 // 	this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
 // };
 
-Map.prototype.update = function(node, shouldGenerateGraph) {
+/**
+ * Updates map visualization
+ * It is just a proxy to the `knalledge.MapVisualization.update()` method
+ * @param  {knalledge.VKNode} [node=this.mapStructure.rootNode] - node that will be used as a source of
+ * @param  {Function} callback - called when map visualization finished updating
+ * @param  {boolean} [shouldGenerateGraph] [description]
+ * @return {knalledge.Map}
+ */
+Map.prototype.update = function(node, callback, shouldGenerateGraph) {
 	if(!node) node = this.mapStructure.rootNode;
-	this.mapVisualization.update(node, null, shouldGenerateGraph);
+	this.mapVisualization.update(node, callback, shouldGenerateGraph);
+
+	return this;
 };
 
-Map.prototype.processData = function(mapData, callback, commingFromAngular, doNotBubleUp, doNotBroadcast) {
+/**
+ * [function description]
+ * @param  {knalledge.knalledgeMap.knalledgeMapServices.MapData}   mapData - map data
+ * @param  {Function} callback - called after map data are processed
+ * @param  {boolean}   commingFromAngular - if the call is comming from the ng1 world or wildness
+ * @param  {boolean}   doNotBubleUp - should we avoid bubbling up the event
+ * @param  {boolean}   doNotBroadcast     [description]
+ * @return {knalledge.Map}
+ */
+Map.prototype.processData = function(mapData, callback) {
 	// we do this only if we created an mapStructure in our class
 	if(!this.mapStructureExternal) this.mapStructure.processData(mapData);
-	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, callback, commingFromAngular, doNotBubleUp, doNotBroadcast);
+	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, function(){
+		// ...
+		if(typeof callback === 'function') callback();
+	});
 
 	//this.syncingChanged();
+
+	return this;
 };
 
 // Map.prototype.syncingChanged = function() {
