@@ -6,6 +6,9 @@ import {MdList, MdListItem, MdContent, MdButton} from 'ng2-material/all';
 import {KnalledgeMapTools} from './tools';
 // import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+// TODO: probable remove later, this is just to trigger starting the service
+import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
+
 @Component({
     selector: 'knalledge-map-main',
     directives: [
@@ -32,11 +35,15 @@ import {KnalledgeMapTools} from './tools';
     `]
 })
 export class KnalledgeMapMain {
+    private broadcastManagerService:BroadcastManagerService;
+
     constructor(
+        @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
         // globalEmitterServicesArray:GlobalEmitterServicesArray
         // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
     ) {
         console.log('[KnalledgeMapMain]');
+        this.broadcastManagerService = broadcastManagerService;
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
         // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");
