@@ -10,7 +10,7 @@
 var MapVisualization =  knalledge.MapVisualization = function(){
 };
 
-MapVisualization.prototype.construct = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
+MapVisualization.prototype.construct = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService, upperAPI){
 	this.dom = dom;
 	this.mapStructure = mapStructure;
 	this.collaboPluginsService = collaboPluginsService;
@@ -30,6 +30,7 @@ MapVisualization.prototype.construct = function(dom, mapStructure, collaboPlugin
 	this.knalledgeMapViewService = knalledgeMapViewService;
 	this.injector = null;
 	this.mapInteraction = null;
+	this.upperAPI = upperAPI;
 	this.halo = null;
 };
 

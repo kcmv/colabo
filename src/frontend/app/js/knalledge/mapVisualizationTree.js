@@ -7,8 +7,8 @@
 @memberof knalledge
 */
 
-var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
-	this.construct(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService);
+var MapVisualizationTree =  knalledge.MapVisualizationTree = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService, upperAPI){
+	this.construct(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService, upperAPI);
 };
 
 // TODO: the quickest solution until find the best and the most performance optimal solution
