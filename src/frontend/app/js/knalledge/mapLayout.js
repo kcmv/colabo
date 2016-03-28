@@ -10,12 +10,12 @@
 var MapLayout =  knalledge.MapLayout = function(){
 }
 
-MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
+MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
 	this.mapStructure = mapStructure;
 	this.collaboPluginsService = collaboPluginsService;
 	this.configNodes = configNodes;
 	this.configTree = configTree;
-	this.clientApi = clientApi;
+	this.upperApi = upperApi;
 	this.knalledgeState = knalledgeState;
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
 	this.nodes = null;
@@ -23,8 +23,6 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
 	this.nodeWeightSumMin = 0;
 	this.nodeWeightSumMax = 0;
 	this.nodesToAvoid = [];
-
-	this.dom = null;
 
 	this.collaboPluginsService.provideApi("mapLayout", {
 		name: "mapLayout",
@@ -45,24 +43,6 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
 			updateNodesToAvoid: this.updateNodesToAvoid.bind(this)
 		}
 	});
-};
-
-// realtime distribution
-// TODO: distinguish click, select, unselect events
-MapLayout.KnRealTimeNodeSelectedEventName = "node-selected";
-
-MapLayout.prototype.realTimeNodeSelected = function(eventName, msg){
-	var kId = msg;
-	// alert("[MapLayout:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
-	console.log("[MapLayout:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s",
-	this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
-	//TODO: if(!KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
-	// 	return;
-	// }
-	var kNode = this.mapStructure.getVKNodeByKId(kId);
-	// do not broadcast back :)
-	// TODO: distinguish click, select, unselect events
-	this.clickNode(kNode, null, true, false, true);
 };
 
 MapLayout.prototype.getNodes = function(){
@@ -91,24 +71,9 @@ MapLayout.prototype.updateNodesToAvoid = function(nodesToAvoidNonParsed){
 	}
 };
 
-MapLayout.prototype.getAllNodesHtml = function(){
-	var result = this.dom.divMapHtml ? this.dom.divMapHtml.selectAll("div.node_html") : null;
-	return result;
-};
-
-// Returns view representation (dom) from datum d
-MapLayout.prototype.getDomFromDatum = function(d) {
-	var htmlNodes = this.getAllNodesHtml();
-	if(!htmlNodes) return null;
-	var dom = htmlNodes
-		.data([d], function(d){return d.id;});
-	if(dom.size() != 1) return null;
-	else return dom;
-};
-
 /**
  * Sets the coordinates of the rootNode and select the root node.
- * It calls update method of the clientApi interface (currently it is the `update()` method of the `knalledge.MapVisualization` specialized class)
+ * It calls update method of the upperApi interface (currently it is the `update()` method of the `knalledge.MapVisualization` specialized class)
  * @param  {number}   rootNodeX - X coordinate of the root node
  * @param  {number}   rootNodeY - Y coordinate of the root node
  * @param  {Function} callback - called after the map data are processed
@@ -122,13 +87,14 @@ MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback) {
 			this.mapStructure.rootNode.y0 = rootNodeY;
 		}
 	}
+	// TODO: should we eliminate this?
 	if(this.mapStructure.rootNode){
-		this.selectNode(this.mapStructure.rootNode, null, true, true, true);
+		this.upperApi.nodeSelected(this.mapStructure.rootNode);
 	}
-	// TODO: (mprinc) I think we should get this out of here and handle it
-	// inside the callback of the invoker
-	this.clientApi.update(this.mapStructure.rootNode,
-		(typeof callback === 'function') ? callback : undefined);
+	// // TODO: (mprinc) I think we should get this out of here and handle it
+	// // inside the callback of the invoker
+	// this.upperApi.update(this.mapStructure.rootNode,
+	// 	(typeof callback === 'function') ? callback : undefined);
 };
 
 MapLayout.prototype.filterGraph = function(options){
@@ -156,173 +122,16 @@ MapLayout.prototype.filterGraph = function(options){
 MapLayout.prototype.distribute = function() {
 };
 
-MapLayout.prototype.processSyncedData = function(callback) {
-	this.selectNode(this.mapStructure.getSelectedNode(), null, true, undefined, true);
-	this.clientApi.update(this.mapStructure.getSelectedNode(),
-		(typeof callback === 'function') ? callback : undefined);
-};
-
+// MapLayout.prototype.processSyncedData = function(callback) {
+// 	this.upperApi.nodeSelected(this.mapStructure.getSelectedNode(), null, true, undefined, true);
+// 	this.upperApi.update(this.mapStructure.getSelectedNode(),
+// 		(typeof callback === 'function') ? callback : undefined);
+// };
+//
 MapLayout.prototype.viewspecChanged = function(target){
 	if (target.value === "viewspec_tree") this.configTree.viewspec = "viewspec_tree";
 	else if (target.value === "viewspec_manual") this.configTree.viewspec = "viewspec_manual";
-	this.clientApi.update(this.mapStructure.rootNode);
-};
-
-
-/**
- * @function clickNode
- * @memberof knalledge.MapLayout#
- * @param  {knalledge.VKNode} d - clicked node
- * @param  {DOM} dom - dom of the node
- * @param  {boolean}   commingFromAngular - if the call is comming from the ng1 world or wildness
- * @param  {boolean}   doNotBubleUp - should we avoid bubbling up the event
- * @param  {boolean}   doNotBroadcast     [description]
- * @return {knalledge.MapLayout}
- */
-MapLayout.prototype.clickNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
-	if(!this.nodes || d == null) return;
-
-	var isSelected = d.isSelected; //nodes previous state
-
-	if(isSelected){
-		this.unselectNode(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast);
-	}else{
-		this.selectNode(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast);
-	}
-	return this;
-};
-
-/**
- * Selects node in the map
-* @function selectNode
-* @memberof knalledge.MapLayout#
-* @param  {knalledge.VKNode} d - selecting node
-* @param  {DOM} dom - dom of the node
-* @param  {boolean}   commingFromAngular - if the call is comming from the ng1 world or wildness
-* @param  {boolean}   doNotBubleUp - should we avoid bubbling up the event
-* @param  {boolean}   doNotBroadcast     [description]
- */
-MapLayout.prototype.selectNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
-	if(!this.nodes) return;
-
-	// select clicked
-	var isSelected = d.isSelected; //nodes previous state. THIS is NOT related (same as) `this.clientApi.selectNode(d)`
-	// we want it idempotent, and even if it is isSelected === true,
-	// still the visual representation of the node might represent unselected state
-	// due to rerendering, etc
-	// if(isSelected) return;
-	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
-		return;
-	}
-	var nodesHtmlSelected = this.getDomFromDatum(d);
-
-	// unselect all nodes
-	var nodesHtml = this.getAllNodesHtml();
-	if(nodesHtml){
-		nodesHtml.classed({
-			"node_selected": false,
-			"node_unselected": true
-		});
-	}
-	this.nodes.forEach(function(d){d.isSelected = false;});
-
-	if(nodesHtmlSelected){
-		nodesHtmlSelected.classed({
-			"node_selected": true,
-			"node_unselected": false
-		});
-	}
-
-	d.isSelected = true;
-	// this.mapStructure.setSelectedNode(d);
-	this.clientApi.selectNode(d);
-
-	// realtime distribution
-	if(this.knAllEdgeRealTimeService && !doNotBroadcast){ 	// do not broadcast back :)
-		this.knAllEdgeRealTimeService.emit(knalledge.MapLayout.KnRealTimeNodeSelectedEventName, d.kNode._id);
-	}
-
-	this.clientApi.positionToDatum(d);
-
-	if(this.knalledgeState.addingLinkFrom !== null){
-		this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, d); //this is called when we add new parent to the node
-		this.knalledgeState.addingLinkFrom = null;
-		//TODO: UPDATE SHOUL BE CALLED IN THE CALLBACK
-		this.clientApi.update(this.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.createEdge?
-	}
-
-	if(this.knalledgeState.relinkingFrom !== null){ //this is called when we relink this node from old to new parent
-		var that = this;
-		this.mapStructure.relinkNode(this.knalledgeState.relinkingFrom, d, function(result, error){
-			that.knalledgeState.relinkingFrom = null;
-			d.isOpen = true;
-			that.clientApi.update(that.mapStructure.rootNode); //TODO: should we move it into this.mapStructure.relinkNode?
-		}
-		);
-	}
-
-	if(!doNotBubleUp) this.clientApi.nodeSelected(this.mapStructure.getSelectedNode(), dom, commingFromAngular);
-	//this.clientApi.update(this.mapStructure.rootNode);
-};
-
-/**
- * Unselects selected node on the map
-* @function selectNode
-* @memberof knalledge.MapLayout#
-* @param  {knalledge.VKNode} d - unselecting node
-* @param  {DOM} dom - dom of the node
-* @param  {boolean}   commingFromAngular - if the call is comming from the ng1 world or wildness
-* @param  {boolean}   doNotBubleUp - should we avoid bubbling up the event
-* @param  {boolean}   doNotBroadcast     [description]
- */
-MapLayout.prototype.unselectNode = function(d, dom, commingFromAngular, doNotBubleUp, doNotBroadcast) {
-	if(!this.nodes) return;
-
-	// select clicked
-	var isSelected = d.isSelected; //nodes previous state
-	// if(!isSelected) return;
-	if(this.configTree.selectableEnabled && d.kNode.visual && !d.kNode.visual.selectable){
-		return;
-	}
-	var nodesHtmlSelected = this.getDomFromDatum(d);
-
-	// unselect all nodes
-	var nodesHtml = this.getAllNodesHtml();
-	if(nodesHtml){
-		nodesHtml.classed({
-			"node_selected": false,
-			"node_unselected": true
-		});
-	}
-	this.nodes.forEach(function(d){d.isSelected = false;});
-
-	d.isSelected = false;
-	this.mapStructure.unsetSelectedNode();
-
-	if(!doNotBubleUp) this.clientApi.nodeUnselected(this.mapStructure.getSelectedNode(), dom, commingFromAngular);
-	//this.clientApi.update(this.mapStructure.rootNode);
-};
-
-// Toggle children on node double-click
-MapLayout.prototype.clickDoubleNode = function(d) {
-	this.mapStructure.toggle(d);
-	this.clientApi.update(d);
-};
-
-// react on label click.
-MapLayout.prototype.clickLinkLabel = function(d) {
-	// console.log("Label clicked: " + JSON.stringify(d.target.name));
-
-	// just as a click indicator
-	console.log('link clicked:'+d);
-
-	// TODO: This code causes error:
-	//if(d3.select(this).style("opacity") < 0.75){
-	// 	d3.select(this).style("opacity", 1.0);
-	// }else{
-	// 	d3.select(this).style("opacity", 0.5);
-	// }
-
+	this.upperApi.update(this.mapStructure.rootNode);
 };
 
 MapLayout.prototype.getHtmlNodePosition = function(d) {

@@ -105,7 +105,7 @@ MapStructure.prototype.removeImage = function(vkNode){
  * @memberof knalledge.MapStructure#
  * @return {knalledge.MapStructure}
  */
-MapStructure.prototype.unsetSelectedNode = function(){
+MapStructure.prototype.unsetSelectedNode = function(vkNode){
 	this.selectedNode = null;
 	return this;
 };

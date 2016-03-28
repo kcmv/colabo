@@ -336,7 +336,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									if(itemType == 'kNode'){
 										knalledgeMap.mapStructure.getVKNodeByKId(item._id);
 									}
-									knalledgeMap.mapManager.getActiveLayout().clickNode(vkNode, undefined, true);
+									knalledgeMap.nodeSelected(vkNode);
 								};
 
 								// var items = KnalledgeMapVOsService.getNodesList();
@@ -627,7 +627,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					GlobalEmitterServicesArray.get(changeSelectedNodeEventName).subscribe('knalledgeMap', function(vkNode) {
 						console.log("[knalledgeMap.controller::$on] event: %s", changeSelectedNodeEventName);
-						knalledgeMap.mapManager.getActiveLayout().clickNode(vkNode, undefined, true);
+						knalledgeMap.nodeSelected(vkNode);
 					});
 
 					$scope.$watch(function () {

@@ -196,11 +196,11 @@ export class MapInteraction {
             var parentNodes = this.clientApi.getParentNodes(this.clientApi.getSelectedNode());
             this.clientApi.deleteNode(this.clientApi.getSelectedNode());
             if(parentNodes.length > 0 && parentNodes[0]) {
-                this.clientApi.clickNode(parentNodes[0]);
+                this.clientApi.nodeSelected(parentNodes[0]);
             }
 
             this.clientApi.update(this.clientApi.getSelectedNode(), function() {
-                // that.clientApi.selectNode(null); //TODO: set to parent
+                // that.clientApi.nodeSelected(null); //TODO: set to parent
             });
         //}
     };
@@ -268,7 +268,7 @@ export class MapInteraction {
     		nodeSpan.node().blur();
     		this.editingNodeHtml = null;
     		this.clientApi.update(this.clientApi.getSelectedNode(), function() {
-    			// that.clientApi.selectNode(null); //TODO: set to parent
+    			// that.clientApi.nodeSelected(null); //TODO: set to parent
     		});
     	}
     };
@@ -278,7 +278,7 @@ export class MapInteraction {
 		if(!this.isStatusMap()) return;
 
         if(this.clientApi.getSelectedNode().parent) {
-			this.clientApi.clickNode(this.clientApi.getSelectedNode().parent);
+			this.clientApi.nodeSelected(this.clientApi.getSelectedNode().parent);
 		}
     };
 
@@ -287,7 +287,7 @@ export class MapInteraction {
 		if(!this.isStatusMap()) return;
 
         if(this.clientApi.getSelectedNode().children) {
-			this.clientApi.clickNode(this.clientApi.getSelectedNode().children[0]);
+			this.clientApi.nodeSelected(this.clientApi.getSelectedNode().children[0]);
 		}
     };
 
@@ -299,7 +299,7 @@ export class MapInteraction {
             for(var i=0; i<this.clientApi.getSelectedNode().parent.children.length; i++) {
                 if(this.clientApi.getSelectedNode().parent.children[i] === this.clientApi.getSelectedNode()) {
                     if(i+1<this.clientApi.getSelectedNode().parent.children.length) {
-                        this.clientApi.clickNode(this.clientApi.getSelectedNode().parent.children[i+1]);
+                        this.clientApi.nodeSelected(this.clientApi.getSelectedNode().parent.children[i+1]);
                     }
                 }
             }
@@ -314,7 +314,7 @@ export class MapInteraction {
 			for(var i=0; i<this.clientApi.getSelectedNode().parent.children.length; i++) {
 				if(this.clientApi.getSelectedNode().parent.children[i] === this.clientApi.getSelectedNode()) {
 					if(i-1>=0) {
-						this.clientApi.clickNode(this.clientApi.getSelectedNode().parent.children[i-1]);
+						this.clientApi.nodeSelected(this.clientApi.getSelectedNode().parent.children[i-1]);
 					}
 				}
 			}
@@ -359,11 +359,10 @@ export class MapInteraction {
 			}
 
 			that.clientApi.update(parentNode, function() {
-				that.clientApi.selectNode(newNode); // TODO: that is not defined?
-				that.clientApi.clickNode(newNode);
+				that.clientApi.nodeSelected(newNode);
 				that.clientApi.update(parentNode, function() {
 					that._setEditing(newNode);
-					// we need to position explicitly here again even though that.clientApi.clickNode(newNode) is doing it
+					// we need to position explicitly here again even though that.clientApi.nodeSelected(newNode) is doing it
 					// since that._setEditing(newNode); is destroying positioning
 					that.clientApi.positionToDatum(newNode);
 				});
@@ -380,7 +379,7 @@ export class MapInteraction {
 		// 	}
 
 		// 	that.clientApi.update(that.clientApi.getSelectedNode(), function() {
-		// 		that.clientApi.selectNode(newNode);//TODO: that is not defined?
+		// 		that.clientApi.nodeSelected(newNode);//TODO: that is not defined?
 		// 		that._setEditing(newNode);
 		// 	});
 		// });

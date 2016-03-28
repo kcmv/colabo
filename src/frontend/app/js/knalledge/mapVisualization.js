@@ -10,7 +10,7 @@
 var MapVisualization =  knalledge.MapVisualization = function(){
 };
 
-MapVisualization.prototype.construct = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
+MapVisualization.prototype.construct = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService, upperAPI){
 	this.dom = dom;
 	this.mapStructure = mapStructure;
 	this.collaboPluginsService = collaboPluginsService;
@@ -28,9 +28,10 @@ MapVisualization.prototype.construct = function(dom, mapStructure, collaboPlugin
 	this.notifyService = notifyService;
 	this.mapPlugins = mapPlugins;
 	this.knalledgeMapViewService = knalledgeMapViewService;
-	this.halo = (interaction && interaction.Halo) ? new interaction.Halo() : null;
 	this.injector = null;
 	this.mapInteraction = null;
+	this.upperAPI = upperAPI;
+	this.halo = null;
 };
 
 MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
@@ -61,6 +62,14 @@ MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
 		.append("svg")
 			.append("g")
 				.attr("class", "svg_content");
+
+	this._initHalo();
+};
+
+MapVisualization.prototype._initHalo = function(){
+	var that = this;
+
+	this.halo = (interaction && interaction.Halo) ? new interaction.Halo() : null;
 
 	if(this.halo){
 		var haloOptions = {
@@ -140,6 +149,21 @@ MapVisualization.prototype.updateNodeDimensions = function(){
 
 MapVisualization.prototype.getDom = function(){
 	return this.dom;
+};
+
+MapVisualization.prototype.getAllNodesHtml = function(){
+	var result = this.dom.divMapHtml ? this.dom.divMapHtml.selectAll("div.node_html") : null;
+	return result;
+};
+
+// Returns view representation (dom) from datum d
+MapVisualization.prototype.getDomFromDatum = function(d) {
+	var htmlNodes = this.getAllNodesHtml();
+	if(!htmlNodes) return null;
+	var dom = htmlNodes
+		.data([d], function(d){return d.id;});
+	if(dom.size() != 1) return null;
+	else return dom;
 };
 
 MapVisualization.prototype.setDomSize = function(maxX, maxY){
@@ -225,6 +249,78 @@ MapVisualization.prototype.setScales = function(){
 			.range([0, scaling]);
 	}
 	return scales;
+};
+
+MapVisualization.prototype.nodeSelected = function(d) {
+	var nodesHtmlSelected = this.getDomFromDatum(d);
+
+	// unselect all nodes
+	var nodesHtml = this.getAllNodesHtml();
+	if(nodesHtml){
+		nodesHtml.classed({
+			"node_selected": false,
+			"node_unselected": true
+		});
+	}
+
+	if(nodesHtmlSelected){
+		nodesHtmlSelected.classed({
+			"node_selected": true,
+			"node_unselected": false
+		});
+	}
+
+	// TODO: it might be too early, it should be after update?
+	this.positionToDatum(d);
+
+	// halo
+	if(this.halo){
+		var haloOptions = {
+			icons: [
+				{
+					position: "e",
+					iconClass: "fa-plus-circle",
+					action: "addNode"
+				},
+				{
+					position: "n",
+					iconClass: "fa-folder-open",
+					action: "toggle"
+				},
+				{
+					position: "s",
+					iconClass: "fa-pencil",
+					action: "editNode"
+				},
+				{
+					position: "w",
+					iconClass: "fa-minus-circle",
+					action: "deleteNode"
+				}
+			]
+		};
+		this.halo.create(nodesHtmlSelected.node(), haloOptions);
+	}
+
+	return this;
+};
+
+MapVisualization.prototype.nodeUnselected = function(d) {
+	var nodesHtmlSelected = this.getDomFromDatum(d);
+
+	// unselect all nodes
+	var nodesHtml = this.getAllNodesHtml();
+	if(nodesHtml){
+		nodesHtml.classed({
+			"node_selected": false,
+			"node_unselected": true
+		});
+	}
+
+	// halo
+	if(this.halo){
+		this.halo.destroy();
+	}
 };
 
 /*

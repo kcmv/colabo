@@ -1,5 +1,11 @@
 import {KnalledgeMapPolicyService} from  '../knalledgeMap/knalledgeMapPolicyService';
 
+/**
+ * Broadcasting manager service
+ * @class BroadcastManagerService
+ * @memberof collaboframework.broadcasting
+*/
+
 export class BroadcastManagerService {
     private knalledgeMapPolicyService:KnalledgeMapPolicyService;
     private knAllEdgeRealTimeService;
