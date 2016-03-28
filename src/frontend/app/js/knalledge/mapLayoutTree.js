@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
+var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
+	this.construct(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService);
 	this.tree = null;
 };
 
@@ -46,7 +46,6 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 };
 
 MapLayoutTree.prototype.init = function(mapSize, scales){
-	this.dom = this.clientApi.getDom();
 	this.scales = scales;
 
 	this.tree = d3.layout.tree();
@@ -61,15 +60,6 @@ MapLayoutTree.prototype.init = function(mapSize, scales){
 	}
 
 	this.tree.children(this.getChildren.bind(this));
-
-	// realtime listener registration
-	var mapLayoutPluginOptions = {
-		name: "mapLayout",
-		events: {
-		}
-	};
-	mapLayoutPluginOptions.events[knalledge.MapLayout.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
-	this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions);
 };
 
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
@@ -266,7 +256,7 @@ MapLayoutTree.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	}
 	maxX += -minX + this.configTree.margin.bottom;
 	maxY += -minY + this.configTree.margin.right;
-	this.clientApi.setDomSize(maxY, maxX);
+	this.upperApi.setDomSize(maxY, maxX);
 };
 
 }()); // end of 'use strict';

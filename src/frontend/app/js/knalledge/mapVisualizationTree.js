@@ -109,57 +109,11 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 				return classes;
 			})
 		.on("dblclick", function(d){
-			that.mapLayout.clickDoubleNode(d, this);
+			that.upperAPI.nodeDblClicked(d);
 		})
 		.on("click", function(d){
-			that.mapLayout.clickNode(d, this);
-			if(d.isSelected){
-				var haloOptions = {
-					icons: [
-						{
-							position: "e",
-							iconClass: "fa-plus-circle",
-							action: "addNode"
-						},
-						{
-							position: "n",
-							iconClass: "fa-folder-open",
-							action: "toggle"
-						},
-						{
-							position: "s",
-							iconClass: "fa-pencil",
-							action: "editNode"
-						},
-						{
-							position: "w",
-							iconClass: "fa-minus-circle",
-							action: "deleteNode"
-						}
-					]
-				};
-				var dom = this;
-				that.halo.create(dom, haloOptions);
-			}else{
-				that.halo.destroy();
-			}
-
-			// if(this.selectedView && (selectedViewOld == this.selectedView)){
-			// 	this.selectedView = null;
-			// 	this.halo.destroy();
-			// }else{
-			// 	if(selectedViewOld){
-			// 		this.halo.destroy();
-			// 	}
-			//
-			// 	var dom = domD3.node();
-			//
-			// 	if(dom){
-			// 		this.halo.create(dom, haloOptions);
-			// 	}else{
-			// 		this.halo.destroy();
-			// 	}
-			// }
+			that.upperAPI.nodeClicked(d);
+			// that.mapLayout.clickNode(d, this);
 		});
 
 	// position node on enter at the source position
@@ -636,10 +590,10 @@ MapVisualizationTree.prototype.updateSvgNodes = function(source) {
 		})
 
 		.on("click", function(d){
-			that.mapLayout.clickNode(d, this);
+			that.upperAPI.nodeClicked(d);
 		})
 		.on("dblclick", function(d){
-			that.clickDoubleNode.clickNode(d, this);
+			that.upperAPI.nodeDblClicked(d);
 		})
 		// Enter any new nodes at the parent's previous position.
 		.attr("transform", function(d) {
@@ -761,7 +715,7 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 		// position node on enter at the source position
 		// (it is either parent or another precessor)
 		.on("click", function(d){
-			that.mapLayout.clickLinkLabel(d, this);
+			that.upperAPI.edgeClicked(d);
 		})
 		.style("left", function(d) {
 			var y;

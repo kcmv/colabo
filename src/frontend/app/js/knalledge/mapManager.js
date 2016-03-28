@@ -7,7 +7,7 @@
 @memberof knalledge
 */
 
-var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState, notifyService, mapPlugins, knalledgeMapViewService, knAllEdgeRealTimeService, injector){
+var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState, notifyService, mapPlugins, knalledgeMapViewService, knAllEdgeRealTimeService, injector){
 	/**
 	 * References to map DOM elements
 	 * @type {Object}
@@ -24,7 +24,7 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 	 * API to upper map layers (usually comming from `knalledge.Map` or even higher (like `knalledgeMap` directive))
 	 * @type {Object}
 	 */
-	this.clientApi = clientApi;
+	this.upperApi = upperApi;
 
 	/**
 	 * Map structure that holds map data
@@ -107,9 +107,11 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 
 	// Visualization API
 	this.visualizationApis.viewspec_tree = this.visualizationApis.viewspec_manual = {
-		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi),
-		nodeSelected: this.clientApi.nodeSelected.bind(this.clientApi),
-		nodeUnselected: this.clientApi.nodeUnselected.bind(this.clientApi)
+		nodeClicked: this.upperApi.nodeClicked.bind(this.upperApi),
+		nodeSelected: this.upperApi.nodeSelected.bind(this.upperApi),
+		nodeUnselected: this.upperApi.nodeUnselected.bind(this.upperApi),
+		nodeDblClicked: this.upperApi.nodeDblClicked.bind(this.upperApi),
+		edgeClicked: this.upperApi.edgeClicked.bind(this.upperApi)
 	};
 
 	// Visualization
@@ -120,13 +122,8 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 	// Layout API
 	this.layoutApis.viewspec_tree = this.layoutApis.viewspec_manual = {
 		update: this.visualizations.viewspec_tree.update.bind(this.visualizations.viewspec_tree),
-		getDom: this.visualizations.viewspec_tree.getDom.bind(this.visualizations.viewspec_tree),
 		setDomSize: this.visualizations.viewspec_tree.setDomSize.bind(this.visualizations.viewspec_tree),
-		positionToDatum: this.visualizations.viewspec_tree.positionToDatum.bind(this.visualizations.viewspec_tree),
-		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi),
-		nodeSelected: this.clientApi.nodeSelected.bind(this.clientApi),
-		nodeUnselected: this.clientApi.nodeUnselected.bind(this.clientApi),
-		selectNode: this.clientApi.selectNode
+		nodeSelected: this.upperApi.nodeSelected.bind(this.upperApi)
 	};
 
 	// Layout
@@ -140,9 +137,11 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 
 	// Visualization API
 	this.visualizationApis.viewspec_flat = {
-		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi),
-		nodeSelected: this.clientApi.nodeSelected.bind(this.clientApi),
-		nodeUnselected: this.clientApi.nodeUnselected.bind(this.clientApi)
+		nodeClicked: this.upperApi.nodeClicked.bind(this.upperApi),
+		nodeSelected: this.upperApi.nodeSelected.bind(this.upperApi),
+		nodeUnselected: this.upperApi.nodeUnselected.bind(this.upperApi),
+		nodeDblClicked: this.upperApi.nodeDblClicked.bind(this.upperApi),
+		edgeClicked: this.upperApi.edgeClicked.bind(this.upperApi)
 	};
 
 	// Visualization
@@ -153,13 +152,8 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 	// Layout API
 	this.layoutApis.viewspec_flat = {
 		update: this.visualizations.viewspec_flat.update.bind(this.visualizations.viewspec_flat),
-		getDom: this.visualizations.viewspec_flat.getDom.bind(this.visualizations.viewspec_flat),
 		setDomSize: this.visualizations.viewspec_flat.setDomSize.bind(this.visualizations.viewspec_flat),
-		positionToDatum: this.visualizations.viewspec_flat.positionToDatum.bind(this.visualizations.viewspec_flat),
-		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi),
-		nodeSelected: this.clientApi.nodeSelected.bind(this.clientApi),
-		nodeUnselected: this.clientApi.nodeUnselected.bind(this.clientApi),
-		selectNode: this.clientApi.selectNode
+		nodeSelected: this.upperApi.nodeSelected.bind(this.upperApi)
 	};
 
 	// Layout
@@ -172,9 +166,11 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 
 	// Visualization API
 	this.visualizationApis.viewspec_graph = {
-		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi),
-		nodeSelected: this.clientApi.nodeSelected.bind(this.clientApi),
-		nodeUnselected: this.clientApi.nodeUnselected.bind(this.clientApi)
+		nodeClicked: this.upperApi.nodeClicked.bind(this.upperApi),
+		nodeSelected: this.upperApi.nodeSelected.bind(this.upperApi),
+		nodeUnselected: this.upperApi.nodeUnselected.bind(this.upperApi),
+		nodeDblClicked: this.upperApi.nodeDblClicked.bind(this.upperApi),
+		edgeClicked: this.upperApi.edgeClicked.bind(this.upperApi)
 	};
 
 	// Visualization
@@ -185,13 +181,8 @@ var MapManager =  knalledge.MapManager = function(clientApi, parentDom, mapStruc
 	// Layout API
 	this.layoutApis.viewspec_graph = {
 		update: this.visualizations.viewspec_graph.update.bind(this.visualizations.viewspec_graph),
-		getDom: this.visualizations.viewspec_graph.getDom.bind(this.visualizations.viewspec_graph),
 		setDomSize: this.visualizations.viewspec_graph.setDomSize.bind(this.visualizations.viewspec_graph),
-		positionToDatum: this.visualizations.viewspec_graph.positionToDatum.bind(this.visualizations.viewspec_graph),
-		nodeClicked: this.clientApi.nodeClicked.bind(this.clientApi),
-		nodeSelected: this.clientApi.nodeSelected.bind(this.clientApi),
-		nodeUnselected: this.clientApi.nodeUnselected.bind(this.clientApi),
-		selectNode: this.clientApi.selectNode
+		nodeSelected: this.upperApi.nodeSelected.bind(this.upperApi)
 	};
 
 	// Layout

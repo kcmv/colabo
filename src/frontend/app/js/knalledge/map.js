@@ -13,7 +13,7 @@
 * @constructor
 * @param  {DOM}  parentDom - parent dom where map should be created
 * @param  {Object}  config - config object
-* @param  {knalledge.knalledgeMap.knalledgeMapDirectives.knalledgeMap.kMapClientInterface}  clientApi
+* @param  {knalledge.knalledgeMap.knalledgeMapDirectives.knalledgeMap.kMapClientInterface}  upperApi
 * @param  {Object}  entityStyles - entity styles (not used?)
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService}  mapService
 * @param  {knalledge.MapStructure}  [mapStructureExternal=null] - map structure containing map data
@@ -29,10 +29,10 @@
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService}  knalledgeMapPolicyService
 * @param  {utils.Injector}  injector
 */
-var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
+var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
 	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService, injector){
 	this.config = config;
-	this.clientApi = clientApi;
+	this.upperApi = upperApi;
 	this.entityStyles = entityStyles;
 	this.parentDom = parentDom;
 	this.mapService = mapService;
@@ -52,17 +52,22 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 	this.knalledgeState = new knalledge.State();
 	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService);
 
-	this.clientApi.selectNode	= this.selectNode.bind(this);
+	this.mapManagerApi = {};
+	this.mapManagerApi.nodeSelected	= this.nodeSelected.bind(this);
+	this.mapManagerApi.nodeUnselected = this.nodeUnselected.bind(this);
+	this.mapManagerApi.nodeClicked = this.nodeClicked.bind(this);
+	this.mapManagerApi.nodeDblClicked = this.nodeDblClicked.bind(this);
+	this.mapManagerApi.edgeClicked	= this.edgeClicked.bind(this);
 
-	this.mapManager = new knalledge.MapManager(this.clientApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService, this.injector);
+	this.mapManager = new knalledge.MapManager(this.mapManagerApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService, this.injector);
 
 	this.mapVisualization = this.mapManager.getActiveVisualization();
 	this.mapLayout = this.mapManager.getActiveLayout();
 
 	var mapInterface = {
 		updateNode: this.mapStructure.updateNode.bind(this.mapStructure),
-		getDomFromDatum: this.mapLayout.getDomFromDatum.bind(this.mapLayout),
-		clickNode: this.mapLayout.clickNode.bind(this.mapLayout),
+		getDomFromDatum: this.mapVisualization.getDomFromDatum.bind(this.mapVisualization),
+		nodeSelected: this.nodeSelected.bind(this),
 		update: this.mapVisualization.update.bind(this.mapVisualization),
 		createNode: this.mapStructure.createNode.bind(this.mapStructure),
 		deleteNode: this.mapStructure.deleteNode.bind(this.mapStructure),
@@ -72,9 +77,6 @@ var Map =  knalledge.Map = function(parentDom, config, clientApi, entityStyles, 
 		getParentNodes: this.mapStructure.getParentNodes.bind(this.mapStructure),
 		getSelectedNode: function(){
 			return this.mapStructure.getSelectedNode();
-		}.bind(this),
-		selectNode: function(selectedNode){
-			this.selectNode(selectedNode);
 		}.bind(this),
 		updateName: function(nodeView){
 			this.mapVisualization.updateName(nodeView);
@@ -133,6 +135,7 @@ Map.prototype.init = function() {
 	this.initializeKeyboard();
 	this.initializeManipulation();
 
+	// providing references and api to collabo plugins
 	this.collaboPluginsService.provideReferences("map", {
 		name: "map",
 		items: {
@@ -147,6 +150,155 @@ Map.prototype.init = function() {
 			update: this.mapVisualization.update.bind(this.mapVisualization)
 		}
 	});
+
+	// realtime listener registration
+	var NodeChangedPluginOptions = {
+		name: "nodeChangedPlugin",
+		events: {
+		}
+	};
+	NodeChangedPluginOptions.events[Map.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
+	NodeChangedPluginOptions.events[Map.KnRealTimeNodeUnselectedEventName] = this.realTimeNodeUnselected.bind(this);
+	NodeChangedPluginOptions.events[Map.KnRealTimeNodeClickedEventName] = this.realTimeNodeClicked.bind(this);
+	this.knAllEdgeRealTimeService.registerPlugin(NodeChangedPluginOptions);
+};
+
+// realtime distribution
+Map.KnRealTimeNodeSelectedEventName = "node-selected";
+Map.KnRealTimeNodeUnselectedEventName = "node-unselected";
+// NOTE: no good reason to use it, not idempotent neither safe
+Map.KnRealTimeNodeClickedEventName = "node-clicked";
+
+Map.prototype.realTimeNodeSelected = function(eventName, msg){
+	var kId = msg;
+	// alert("[Map:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
+	console.log("[Map:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s",
+	this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
+	//TODO: if(!KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
+	// 	return;
+	// }
+	var kNode = this.mapStructure.getVKNodeByKId(kId);
+	this.nodeSelected_WithoutRTBroadcasting(kNode);
+};
+
+Map.prototype.realTimeNodeUnselected = function(eventName, msg){
+	var kId = msg;
+	console.log("[Map:realTimeNodeUnselected] (clientId:%s) eventName: %s, msg: %s",
+	this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
+	var kNode = this.mapStructure.getVKNodeByKId(kId);
+	this.nodeUnselected_WithoutRTBroadcasting(kNode);
+};
+
+Map.prototype.realTimeNodeClicked = function(eventName, msg){
+	var kId = msg;
+	console.log("[Map:realTimeNodeClicked] (clientId:%s) eventName: %s, msg: %s",
+	this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
+	var kNode = this.mapStructure.getVKNodeByKId(kId);
+	this.nodeClicked_WithoutRTBroadcasting(kNode);
+};
+
+Map.prototype.nodeSelected = function(vkNode) {
+	this.nodeSelected_WithoutRTBroadcasting(vkNode);
+
+	// realtime distribution
+	//  && !doNotBroadcast 	// do not broadcast back :)
+	if(this.knAllEdgeRealTimeService){
+		this.knAllEdgeRealTimeService.emit(knalledge.Map.KnRealTimeNodeSelectedEventName, vkNode.kNode._id);
+	}
+};
+
+Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode) {
+	var that = this;
+
+	if(this.config.tree.selectableEnabled && vkNode.kNode.visual && !vkNode.kNode.visual.selectable){
+		return;
+	}
+
+	this.mapStructure.setSelectedNode(vkNode);
+
+	// adding additional link between 2 nodes
+	// not in use
+	if(this.knalledgeState.addingLinkFrom !== null){
+		//this is called when we add new parent to the node
+		this.mapStructure.createEdgeBetweenNodes(this.knalledgeState.addingLinkFrom, vkNode);
+		this.knalledgeState.addingLinkFrom = null;
+		//TODO: UPDATE SHOUL BE CALLED IN THE CALLBACK
+		//TODO: should we move it into this.mapStructure.createEdge?
+		this.update(this.mapStructure.rootNode);
+	}
+
+	// changing parent node
+	// assuming that there is only one parent
+	if(this.knalledgeState.relinkingFrom !== null){ //this is called when we relink this node from old to new parent
+		this.mapStructure.relinkNode(this.knalledgeState.relinkingFrom, vkNode, function(result, error){
+			that.knalledgeState.relinkingFrom = null;
+			vkNode.isOpen = true;
+			//TODO: should we move it into this.mapStructure.relinkNode?
+			that.update(that.mapStructure.rootNode);
+		});
+	}
+
+	this.update(vkNode, function(){
+		that.mapVisualization.nodeSelected(vkNode);
+	});
+
+	// TODO: add broadcasting for upper layers instead of this:
+	this.upperApi.nodeSelected(vkNode, undefined, false);
+};
+
+Map.prototype.nodeUnselected = function(vkNode) {
+	this.nodeUnselected_WithoutRTBroadcasting(vkNode);
+
+	// realtime distribution
+	//  && !doNotBroadcast 	// do not broadcast back :)
+	if(this.knAllEdgeRealTimeService){
+		this.knAllEdgeRealTimeService.emit(knalledge.Map.KnRealTimeNodeUnselectedEventName, vkNode.kNode._id);
+	}
+};
+
+Map.prototype.nodeUnselected_WithoutRTBroadcasting = function(vkNode) {
+	var that = this;
+
+	this.mapStructure.unsetSelectedNode(vkNode);
+
+	this.update(vkNode, function(){
+		that.mapVisualization.nodeUnselected(vkNode);
+	});
+
+	// TODO: add broadcasting for upper layers instead of this:
+	this.upperApi.nodeUnselected(vkNode, undefined, false);
+};
+
+Map.prototype.nodeClicked = function(vkNode) {
+	// node is not provided or node is same as previousely clicked node
+	if(!vkNode || (this.mapStructure.getSelectedNode() == vkNode)){
+		this.nodeUnselected(vkNode);
+	}else{
+		this.nodeSelected(vkNode);
+	}
+};
+
+Map.prototype.nodeClicked_WithoutRTBroadcasting = function(vkNode) {
+	// node is not provided or node is same as previousely clicked node
+	if(!vkNode || (this.mapStructure.getSelectedNode() == vkNode)){
+		this.nodeUnselected_WithoutRTBroadcasting(vkNode);
+	}else{
+		this.nodeSelected_WithoutRTBroadcasting(vkNode);
+	}
+};
+
+// Toggle children on node double-click
+// TODO: Should we broadcast here?
+// + this.mapStructure.toggle will broadcast node change anyway (right?)
+// + but we still might need to broadcast node-selected or similar?
+Map.prototype.nodeDblClicked = function(vkNode) {
+	this.mapStructure.toggle(vkNode);
+	this.update(vkNode);
+};
+
+// react on label click.
+Map.prototype.edgeClicked = function(vkEdge) {
+	console.log('link clicked:', vkEdge);
 };
 
 /**
@@ -154,15 +306,15 @@ called by service when any change comes from broadcasting client:
 */
 Map.prototype.processExternalChangesInMap = function(changes) {
 //Map.prototype.processExternalChangesInMap = function(e, changes) {
-	var syncedDataProcessedAndVisualized = function(){
-		this.update(this.mapStructure.getSelectedNode());
-		if(this.mapStructure.getSelectedNode()){
-			var vkNode = this.mapStructure.getSelectedNode();
-			this.mapLayout.clickNode(vkNode);
-		}
-	};
+	// var syncedDataProcessedAndVisualized = function(){
+	// 	this.update(this.mapStructure.getSelectedNode());
+	// };
 	this.mapStructure.processSyncedData(changes);
-	this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
+	if(this.mapStructure.getSelectedNode()){
+		var vkNode = this.mapStructure.getSelectedNode();
+		this.nodeSelected_WithoutRTBroadcasting(vkNode);
+	}
+	// this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
 };
 
 // Map.prototype.processSyncedData = function(changes) {
@@ -180,7 +332,7 @@ Map.prototype.processExternalChangesInMap = function(changes) {
 /**
  * Updates map visualization
  * It is just a proxy to the `knalledge.MapVisualization.update()` method
- * @param  {knalledge.VKNode} [node=this.mapStructure.rootNode] - node that will be used as a source of
+ * @param  {knalledge.VKNode} [node=this.mapStructure.rootNode] - node that will be used as a source of animation
  * @param  {Function} callback - called when map visualization finished updating
  * @param  {boolean} [shouldGenerateGraph] [description]
  * @return {knalledge.Map}
@@ -196,9 +348,6 @@ Map.prototype.update = function(node, callback, shouldGenerateGraph) {
  * [function description]
  * @param  {knalledge.knalledgeMap.knalledgeMapServices.MapData}   mapData - map data
  * @param  {Function} callback - called after map data are processed
- * @param  {boolean}   commingFromAngular - if the call is comming from the ng1 world or wildness
- * @param  {boolean}   doNotBubleUp - should we avoid bubbling up the event
- * @param  {boolean}   doNotBroadcast     [description]
  * @return {knalledge.Map}
  */
 Map.prototype.processData = function(mapData, callback) {
@@ -259,10 +408,5 @@ Map.prototype.initializeManipulation = function() {
 
 	interaction.MoveAndDrag.InitializeDragging(this.draggingConfig);
 };
-
-Map.prototype.selectNode = function(selectedNode){
-	this.mapStructure.setSelectedNode(selectedNode);
-	this.update();
-}
 
 }()); // end of 'use strict';
