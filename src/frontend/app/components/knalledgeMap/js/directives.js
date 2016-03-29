@@ -52,7 +52,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		var NotifyNodeService = $injector.get('NotifyNodeService');
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 
-		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+		//duplikat: var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
 		GlobalEmitterServicesArray.register(changeKnalledgePropertyEventName);
 		var mapEntitySelectedEventName = "mapEntitySelectedEvent";
@@ -336,7 +336,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									if(itemType == 'kNode'){
 										knalledgeMap.mapStructure.getVKNodeByKId(item._id);
 									}
-									knalledgeMap.nodeSelected(vkNode);
+									knalledgeMap.mapManager.getActiveLayout().clickNode(vkNode, undefined, true);
 								};
 
 								// var items = KnalledgeMapVOsService.getNodesList();
@@ -627,7 +627,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					GlobalEmitterServicesArray.get(changeSelectedNodeEventName).subscribe('knalledgeMap', function(vkNode) {
 						console.log("[knalledgeMap.controller::$on] event: %s", changeSelectedNodeEventName);
-						knalledgeMap.nodeSelected(vkNode);
+						knalledgeMap.mapManager.getActiveLayout().clickNode(vkNode, undefined, true);
 					});
 
 					$scope.$watch(function () {

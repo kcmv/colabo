@@ -105,6 +105,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	};
 
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
+	this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
 	this.mapInteraction = new MapInteraction(mapInterface);
 	this.mapInteraction.init();
 	this.injector.addPath("mapInteraction", this.mapInteraction);
@@ -151,23 +152,30 @@ Map.prototype.init = function() {
 		}
 	});
 
+this.GlobalEmitterServicesArray.get(BroadcastManagerService.KnRealTimeNodeSelectedEventName).subscribe('knalledgeMap', this.realTimeNodeSelected.bind(this));
+
+/* migrated to BroadcastManagerService:
 	// realtime listener registration
 	var NodeChangedPluginOptions = {
 		name: "nodeChangedPlugin",
 		events: {
 		}
 	};
+
 	NodeChangedPluginOptions.events[Map.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
 	NodeChangedPluginOptions.events[Map.KnRealTimeNodeUnselectedEventName] = this.realTimeNodeUnselected.bind(this);
 	NodeChangedPluginOptions.events[Map.KnRealTimeNodeClickedEventName] = this.realTimeNodeClicked.bind(this);
 	this.knAllEdgeRealTimeService.registerPlugin(NodeChangedPluginOptions);
+	*/
 };
 
+/* migrated to BroadcastManagerService:
 // realtime distribution
 Map.KnRealTimeNodeSelectedEventName = "node-selected";
 Map.KnRealTimeNodeUnselectedEventName = "node-unselected";
 // NOTE: no good reason to use it, not idempotent neither safe
 Map.KnRealTimeNodeClickedEventName = "node-clicked";
+*/
 
 Map.prototype.realTimeNodeSelected = function(eventName, msg){
 	var kId = msg;
