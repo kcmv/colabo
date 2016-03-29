@@ -562,7 +562,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					var mapStylingChangedEventName = "mapStylingChangedEvent";
 					GlobalEmitterServicesArray.get(mapStylingChangedEventName).subscribe('knalledgeMap', function(msg) {
-						setData(model);
+						// setData(model);
 						console.log("[knalledgeMap.controller::$on] event: %s", mapStylingChangedEventName);
 						knalledgeMap.update();
 						// realtime distribution
