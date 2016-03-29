@@ -2305,6 +2305,23 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			},
 
 			/**
+				returns true if broadcasting should be allowed for specific event on this client
+			*/
+			filterBroadcasting: function(direction, eventName){
+				if(direction == 'in'){
+					switch(eventName){
+						case "node-selected":
+							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation;
+							break;
+					}
+					return true;
+				}
+				else{ //direction = 'out'
+					return true;
+				}
+			},
+
+			/**
 			 * Emits message from higher layer (plugin) to lower layer (topiChat)
 			 * to be sent to other knalledge clients
 			 * @function emit
@@ -2314,8 +2331,6 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			 * @return {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService}
 			 */
 			emit: function(eventName, msg){
-				//for testing: if(eventName == "node-selected"){return;}
-				if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled) return;
 				console.log('[KnAllEdgeRealTimeService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));
 				var knPackage = {
 					eventName: eventName,
@@ -2365,15 +2380,16 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 
 				var msg = knPackage.msg;
 				var eventName = knPackage.eventName;
+				if(this.filterBroadcasting('in',eventName)){
+					var eventByPlugins = this.eventsByPlugins[eventName];
+					for(var id in eventByPlugins){
+						var pluginOptions = eventByPlugins[id];
+						var pluginName = pluginOptions.name;
 
-				var eventByPlugins = this.eventsByPlugins[eventName];
-				for(var id in eventByPlugins){
-					var pluginOptions = eventByPlugins[id];
-					var pluginName = pluginOptions.name;
-
-					console.log('\t dispatching to plugin: %s', pluginName);
-					var pluginCallback = pluginOptions.events[eventName];
-					pluginCallback(eventName, msg);
+						console.log('\t dispatching to plugin: %s', pluginName);
+						var pluginCallback = pluginOptions.events[eventName];
+						pluginCallback(eventName, msg);
+					}
 				}
 			}
 		};

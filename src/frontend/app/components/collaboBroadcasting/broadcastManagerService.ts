@@ -2,6 +2,7 @@ import {KnalledgeMapPolicyService} from  '../knalledgeMap/knalledgeMapPolicyServ
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 /**
+ * THIS IS CLASS IS NOT USED FOR NOW - CURRENTLY DEPRICATED
  * Broadcasting manager service
  * @class BroadcastManagerService
  * @memberof collaboframework.broadcasting
