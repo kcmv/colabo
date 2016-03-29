@@ -7,7 +7,7 @@ import {KnalledgeMapTools} from './tools';
 // import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 // TODO: probable remove later, this is just to trigger starting the service
-import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
+// import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
 
 @Component({
     selector: 'knalledge-map-main',
@@ -35,15 +35,15 @@ import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerSe
     `]
 })
 export class KnalledgeMapMain {
-    private broadcastManagerService:BroadcastManagerService;
+    // private broadcastManagerService:BroadcastManagerService;
 
     constructor(
-        @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
+        // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
         // globalEmitterServicesArray:GlobalEmitterServicesArray
         // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
     ) {
         console.log('[KnalledgeMapMain]');
-        this.broadcastManagerService = broadcastManagerService;
+        // this.broadcastManagerService = broadcastManagerService;
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
         // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");

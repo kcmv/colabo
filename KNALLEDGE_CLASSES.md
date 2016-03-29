@@ -1,3 +1,8 @@
+# Introduction
+
+![KnAllEdge-frontend-class-diagram](documents/diagrams/KnAllEdge-frontend-class-diagram.png)
+**Figure 1. KnAllEdge frontend class-diagram** - covering main classes for the KnAllEdge ecosystem
+
 # Storage classes
 
 ## KnalledgeMapService

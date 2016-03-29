@@ -125,6 +125,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				};
 				$scope.config = RimaService.config;
 				$scope.configChanged = function(){
+					// TODO: overlapping with the same name in knalledgeMap
 					GlobalEmitterServicesArray.get(mapStylingChangedEventName).broadcast('rimaUsersList');
 				};
 				$scope.items = null;

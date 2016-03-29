@@ -107,6 +107,7 @@ This callback eventually pops up all the way back to the `knalledgeMap` directiv
 +
 
 ## TODO:
+
 + MapStructure should be the one that accepts notification of node click/select/unselect
 + MapStructure then should broadcast info about change of a selectedNode (if any)
 + other entities (like knalledgeMap, Map, MapLayout, MapVisualization, ...) should registered to notification and react according to the change (i.e. visualize another selected node, update graph, reduce visible nodes, ...)
