@@ -40,6 +40,9 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 	if(!source && Object.keys(this.mapStructure.nodesById).length > 0){
 		source = this.mapStructure.nodesById[Object.keys(this.mapStructure.nodesById)[0]];
 	}
+	// filter out invisible nodes (hideIBIS, limit range, ...)
+	this.mapStructure.setVisibility();
+
 	this.mapLayout.generateTree(this.mapStructure.rootNode);
 	// this.mapLayout.printTree(this.mapLayout.nodes);
 	// we need to update html nodes to calculate node heights in order to center them verticaly
