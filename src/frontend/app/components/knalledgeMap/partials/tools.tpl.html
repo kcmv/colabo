@@ -29,6 +29,11 @@
 
 <div class="controlls">
     <h4><span class="title switch" ng-click="switchClicked($item)"><b>Visualize:</b></span></h4>
+    Components:
+    <div class="btn-group">
+        <md-switch class="md-primary" aria-label="RIMA-Insights" [(checked)]="viewConfig.nodes.showTypes" (checkedChange)="viewConfigChanged('config.nodes.showTypes', viewConfig.nodes.showTypes)">RIMA-Ins</md-switch>
+        <md-switch class="md-primary" aria-label="CollaboStuff-Right" [(checked)]="viewConfig.nodes.showTypes" (checkedChange)="viewConfigChanged('config.nodes.showTypes', viewConfig.nodes.showTypes)">CollaboStuff</md-switch>
+    </div>
     Layout:
     <md-radio-group [(value)]="viewConfig.visualization.viewspec">
         <md-radio-button value="viewspec_manual" class="md-primary" checked="true" (click)="viewConfigChanged('config.visualization.viewspec', 'viewspec_manual')">M</md-radio-button>
