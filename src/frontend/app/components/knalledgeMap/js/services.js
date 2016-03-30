@@ -2315,6 +2315,19 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 						case "node-clicked":
 							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation;
 							break;
+						case "view-config-change":
+							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveVisualization;
+							break;
+						case "node-created":
+						case "node-updated":
+						case "node-deleted":
+						case "nodes-deleted":
+						case "edge-created":
+						case "edge-updated":
+						case "edge-deleted":
+						case "edges-deleted":
+							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveStructural;
+							break;
 					}
 					return true;
 				}

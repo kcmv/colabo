@@ -31,9 +31,9 @@
     <h4><span class="title switch" ng-click="switchClicked($item)"><b>Visualize:</b></span></h4>
     Layout:
     <md-radio-group [(value)]="viewConfig.visualization.viewspec">
-        <md-radio-button value="viewspec_manual" class="md-primary" checked="true" (click)="viewConfigChanged('viewConfig.visualization.viewspec', 'viewspec_manual')">M</md-radio-button>
-        <md-radio-button value="viewspec_tree" class="md-primary" (click)="viewConfigChanged('viewConfig.visualization.viewspec','viewspec_tree')">T</md-radio-button>
-        <md-radio-button value="viewspec_flat" class="md-primary" (click)="viewConfigChanged('viewConfig.visualization.viewspec','viewspec_flat')">F</md-radio-button>
+        <md-radio-button value="viewspec_manual" class="md-primary" checked="true" (click)="viewConfigChanged('config.visualization.viewspec', 'viewspec_manual')">M</md-radio-button>
+        <md-radio-button value="viewspec_tree" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_tree')">T</md-radio-button>
+        <md-radio-button value="viewspec_flat" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_flat')">F</md-radio-button>
     </md-radio-group>
     <div class="btn-group">
         <!-- <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
@@ -46,15 +46,15 @@
     </div>
 
     <div class="btn-group">
-        <md-switch class="md-primary" aria-label="Node Types" [(checked)]="viewConfig.nodes.showTypes" (checkedChange)="viewConfigChanged('viewConfig.nodes.showTypes', viewConfig.nodes.showTypes)">Node Types</md-switch>
+        <md-switch class="md-primary" aria-label="Node Types" [(checked)]="viewConfig.nodes.showTypes" (checkedChange)="viewConfigChanged('config.nodes.showTypes', viewConfig.nodes.showTypes)">Node Types</md-switch>
 
-        <md-switch class="md-primary" aria-label="Images" [(checked)]="viewConfig.nodes.showImages" (checkedChange)="viewConfigChanged('viewConfig.nodes.showImages', viewConfig.nodes.showImages)">Images</md-switch>
+        <md-switch class="md-primary" aria-label="Images" [(checked)]="viewConfig.nodes.showImages" (checkedChange)="viewConfigChanged('config.nodes.showImages', viewConfig.nodes.showImages)">Images</md-switch>
 
-        <md-switch class="md-primary" aria-label="Edge Names" [(checked)]="viewConfig.edges.showTypes" (checkedChange)="viewConfigChanged('viewConfig.edges.showTypes', viewConfig.edges.showTypes)">Edge Names</md-switch>
+        <md-switch class="md-primary" aria-label="Edge Names" [(checked)]="viewConfig.edges.showTypes" (checkedChange)="viewConfigChanged('config.edges.showTypes', viewConfig.edges.showTypes)">Edge Names</md-switch>
 
-        <md-switch class="md-primary" aria-label="Edge Types" [(checked)]="viewConfig.edges.showNames" (checkedChange)="viewConfigChanged('viewConfig.edges.showNames', viewConfig.edges.showNames)">Edge Types</md-switch>
+        <md-switch class="md-primary" aria-label="Edge Types" [(checked)]="viewConfig.edges.showNames" (checkedChange)="viewConfigChanged('config.edges.showNames', viewConfig.edges.showNames)">Edge Types</md-switch>
 
-        <md-switch class="md-primary" aria-label="Limit range" [(checked)]="viewConfig.visualization.limitedRange" (checkedChange)="limitDisplayChanged('viewConfig.visualization.limitedRange', viewConfig.visualization.limitedRange)">Limit range</md-switch>
+        <md-switch class="md-primary" aria-label="Limit range" [(checked)]="viewConfig.visualization.limitedRange" (checkedChange)="limitDisplayChanged('config.visualization.limitedRange', viewConfig.visualization.limitedRange)">Limit range</md-switch>
 
         <!-- <select [(value)]=“viewConfig.filtering.displayDistance”>
         <option [value]="'1'">1</option>
@@ -79,7 +79,7 @@
     </div>
 
     <div class="btn-group">
-        <md-switch class="md-primary" aria-label="show IBIS" [(checked)]="viewConfig.filtering.visbileTypes.ibis" (checkedChange)="viewConfigChanged('viewConfig.filtering.visbileTypes.ibis', viewConfig.filtering.visbileTypes.ibis)">show IBIS</md-switch>
+        <md-switch class="md-primary" aria-label="show IBIS" [(checked)]="viewConfig.filtering.visbileTypes.ibis" (checkedChange)="viewConfigChanged('config.filtering.visbileTypes.ibis', viewConfig.filtering.visbileTypes.ibis)">show IBIS</md-switch>
     </div>
 
     <h4>Behaviours:</h4>
