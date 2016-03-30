@@ -918,7 +918,10 @@ MapStructure.prototype.processSyncedData = function(changes) {
 				}
 			}
 		}
-		this.selectedNode = newestNode; //we focus on the last changed node. It is used for next functions in calls. This is executed even when changes are only upon edges, but is idempotent then, because of setting 'var newestNode = this.selectedNode'
+		//we focus on the last changed node. It is used for next functions in calls. This is executed even when changes
+		// are only upon edges, but is idempotent then, because of setting 'var newestNode = this.selectedNode'
+		this.setSelectedNode(newestNode);
+		// this.selectedNode = newestNode; 
 	}
 
 	return this;
