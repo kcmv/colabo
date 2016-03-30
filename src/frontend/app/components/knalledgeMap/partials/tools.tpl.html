@@ -107,7 +107,7 @@
     <div class="btn-group">
         <!-- <md-switch class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-switch> -->
         <md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled" (checkedChange)="viewConfigChanged('policyConfig.moderating.enabled', policyConfig.moderating.enabled)">Moderator</md-switch>
-        <md-switch class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)">Presenter</md-switch>
+        <md-switch *ngIf="policyConfig.moderating.enabled" class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)">Presenter</md-switch>
 
         <button *ngIf="policyConfig.moderating.enabled" md-raised-button (click)="broadcastUpdateMaps()" class="md-accent md-hue-1">Update Maps</button>
 
