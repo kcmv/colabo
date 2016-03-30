@@ -82,16 +82,16 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 			this.mapVisualization.updateName(nodeView);
 		}.bind(this),
 		addImage: function(node){
-			this.clientApi.addImage(node);
+			this.upperApi.addImage(node);
 		}.bind(this),
 		searchNodeByName: function(){
-			this.clientApi.searchNodeByName();
+			this.upperApi.searchNodeByName();
 		}.bind(this),
 		toggleModerator: function(){
-			this.clientApi.toggleModerator();
+			this.upperApi.toggleModerator();
 		}.bind(this),
 		togglePresenter: function(){
-			this.clientApi.togglePresenter();
+			this.upperApi.togglePresenter();
 		}.bind(this),
 		removeImage: function(){
 			var vkNode = this.mapStructure.getSelectedNode();

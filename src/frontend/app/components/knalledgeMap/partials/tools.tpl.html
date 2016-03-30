@@ -59,7 +59,6 @@
 
         <md-switch class="md-primary" aria-label="Edge Types" [(checked)]="viewConfig.edges.showNames" (checkedChange)="viewConfigChanged('config.edges.showNames', viewConfig.edges.showNames)">Edge Types</md-switch>
 
-        <!-- TODO: `limitedRangeCheckBoxValue` should be changed to `config.filtering.displayDistance` when we change checkBox to some NumberSLide -->
         <md-switch class="md-primary" aria-label="Limit range" [(checked)]="limitedRangeCheckBoxValue" (checkedChange)="limitDisplayChanged('config.filtering.displayDistance', limitedRangeCheckBoxValue)">Limit range</md-switch>
 
         <!-- <select [(value)]=“viewConfig.filtering.displayDistance”>

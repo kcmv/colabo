@@ -26,7 +26,7 @@ export class BroadcastManagerService {
       //var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
   		this.globalEmitterServicesArray.register(this.knRealTimeNodeSelectedEventName);
 
-      var broadcastManagerServicePluginOptions:Object = {
+      var broadcastManagerServicePluginOptions:any = {
   			name: "BroadcastManagerService",
   			events: {
   			}

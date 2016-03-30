@@ -27,10 +27,7 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
         upgradeAdapter.upgradeNg1Component('rimaUsersList'),
         upgradeAdapter.upgradeNg1Component('ibisTypesList')
    ],
-   moduleId: module.id, // necessary for having relative paths for templateUrl
-   templateUrl: 'partials/tools.tpl.html',
-    // t_emplateUrl: 'components/knalledgeMap/partials/tools.tpl.html',
-    styles: [`
+   styles: [`
         .msg {
             font-size: 0.5em;
         }
@@ -38,8 +35,11 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
             margin: 5px;
             border: 1px solid gray;
         }
-    `]
+    `],
+    moduleId: module.id,
+    templateUrl: 'partials/tools.tpl.html',
 })
+
 export class KnalledgeMapTools {
     viewConfigChangedEventName:string = "viewConfigChangedEvent";
     //viewspecChangedEventName:string = "viewspecChangedEvent";
@@ -101,10 +101,10 @@ export class KnalledgeMapTools {
         //this.globalEmitterServicesArray.get(this.viewConfigChangedEventName).broadcast('KnalledgeMapTools', msg);
     };
 
-    switchClicked:Function = function($el){
-      var elSwitch = $element.find('.content');
-      $(elSwitch).slideToggle();
-    };
+    // switchClicked:Function = function($el){
+    //   var elSwitch = $element.find('.content');
+    //   $(elSwitch).slideToggle();
+    // };
 
     viewConfigChanged:Function = function(path, value){
         // alert("[viewConfigChanged] " + path + ":" + value);

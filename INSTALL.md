@@ -149,7 +149,7 @@ nodejs /var/www/knalledge/src/backend/KnAllEdgeBackend.js
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.03.28.zip dist/prod
+zip -r -X prod-2016.03.30.zip dist/prod
 ```
 
 #### Upload on the server
@@ -159,7 +159,8 @@ zip -r -X prod-2016.03.28.zip dist/prod
 ```sh
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
-unzip prod-2016.03.28.zip
+rm -r components/ css/ data/ dist/ fonts/ images/ js/ sass/
+unzip prod-2016.03.30.zip
 mv dist/prod/* .
 rm -r dist/
 
@@ -172,9 +173,9 @@ cp dist/dev/components/collaboPlugins/globalEmitterServicesArray.js dist/dev/com
 
 # replace
 # `env=envs.localhost` -> `env=envs.server`
-sed -i 's/env\=envs\.localhost/env\=envs\.server/g' js/shims_bundle.js
+sed -i 's/env\=envs\.localhost/env\=envs\.server/g' prod/js/shims_bundle.js
 
-joe index.html
+joe prod/index.html
 # var disableLog = true;
 
 ```
