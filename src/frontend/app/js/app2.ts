@@ -65,6 +65,7 @@ upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
 upgradeAdapter.upgradeNg1Provider('BroadcastManagerService');
 upgradeAdapter.upgradeNg1Provider('TopiChatConfigService');
 upgradeAdapter.upgradeNg1Provider('TopiChatService');
+upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
 
 // upgradeAdapter.addProvider(GlobalEmitterService);
 // upgradeAdapter.upgradeNg1Provider(GlobalEmitterService);

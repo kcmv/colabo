@@ -49,7 +49,8 @@ export class KnalledgeMapTools {
         sidenavService:SidenavService,
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
-        @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
+        @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
+        @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_
 
         // globalEmitterServicesArray:GlobalEmitterServicesArray
     ) {
@@ -62,6 +63,7 @@ export class KnalledgeMapTools {
         globalEmitterServicesArray.register(this.mapStylingChangedEventName);
         globalEmitterServicesArray.register(this.viewspecChangedEventName);
         globalEmitterServicesArray.register(this.broadcastingChangedEventName);
+        this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
     };
     bindings:Object = {
         viewspec: 'viewspec_manual'
@@ -73,8 +75,13 @@ export class KnalledgeMapTools {
     viewConfig:Object;
     policyConfig:Object;
 
+    knRealTimeBroadcastUpdateMaps:string = "update-maps";
+    knRealTimeBroadcastReloadMaps:string = "reload-maps";
+
+    private knAllEdgeRealTimeService;
     private globalEmitterServicesArray:GlobalEmitterServicesArray;
     private sidenavService:SidenavService;
+
     toggleList:Function = function(user:Object){
         // this.sidenavService('left').toggle();
         var result = this.sidenavService.hide('left');
@@ -129,5 +136,13 @@ export class KnalledgeMapTools {
             value: value
         };
         this.globalEmitterServicesArray.get(this.broadcastingChangedEventName).broadcast('KnalledgeMapTools', msg);
+    };
+
+    broadcastUpdateMaps: Function = function(){
+        this.knAllEdgeRealTimeService.emit(this.knRealTimeBroadcastUpdateMaps);
+    };
+
+    broadcastReloadMaps: Function = function(){
+        this.knAllEdgeRealTimeService.emit(this.knRealTimeBroadcastReloadMaps);
     };
 }

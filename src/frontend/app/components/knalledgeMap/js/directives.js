@@ -8,6 +8,11 @@
 
 var KnRealTimeMapStylingChangedEventName = "map-styling-change";
 var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
+var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
+var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
+var KnRealTimeBroadcastUpdateMaps = "update-maps";
+var KnRealTimeBroadcastReloadMaps = "reload-maps";
+
 angular.module('knalledgeMapDirectives', ['Config'])
 
 	/**
@@ -610,6 +615,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						};
 						mapViewPluginOptions.events[KnRealTimeMapStylingChangedEventName] = realTimeMapStylingChanged.bind(this);
 						mapViewPluginOptions.events[KnRealTimeMapViewSpecChangedEventName] = realTimeMapViewspecChanged.bind(this);
+
+						mapViewPluginOptions.events[KnRealTimeBroadcastUpdateMaps] = realTimeMapViewspecChanged.bind(this);
+						mapViewPluginOptions.events[KnRealTimeBroadcastReloadMaps] = realTimeMapViewspecChanged.bind(this);
+
 						KnAllEdgeRealTimeService.registerPlugin(mapViewPluginOptions);
 					}
 
