@@ -9,7 +9,7 @@ import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterSe
 import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmitterServicesArray';
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
-import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
+// import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
 import { MapInteraction } from './interaction/mapInteraction';
 
 import { Injector } from '../components/utils/injector';
@@ -57,7 +57,7 @@ knalledgeMapServicesModule
  // .service('GlobalEmitterService', upgradeAdapter.downgradeNg2Provider(GlobalEmitterService))
  // .service('GlobalEmitterService', GlobalEmitterService)
  .service('GlobalEmitterServicesArray', GlobalEmitterServicesArray)
- .service('BroadcastManagerService', BroadcastManagerService)
+ // .service('BroadcastManagerService', BroadcastManagerService)
   ;
 
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');

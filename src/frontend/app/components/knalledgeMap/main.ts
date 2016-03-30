@@ -9,7 +9,7 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
 
 
 // TODO: probable remove later, this is just to trigger starting the service
-import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
+// import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
 
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
@@ -53,15 +53,15 @@ import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerSe
 export class KnalledgeMapMain {
     constructor(
         sidenavService:SidenavService,
-        @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
-        @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
+        @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService
+        // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
         // globalEmitterServicesArray:GlobalEmitterServicesArray
         // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
     ) {
         console.log('[KnalledgeMapMain]');
         this.viewConfig = knalledgeMapViewService.get().config;
         this.sidenavService = sidenavService;
-        this.broadcastManagerService = broadcastManagerService;
+        // this.broadcastManagerService = broadcastManagerService;
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
         // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");
@@ -70,7 +70,7 @@ export class KnalledgeMapMain {
     userUrl: String = "www.CollaboScience.com";
     viewConfig:Object;
     private sidenavService:SidenavService;
-    private broadcastManagerService:BroadcastManagerService;
+    // private broadcastManagerService:BroadcastManagerService;
 
     toggleList:Function = function(user:Object){
         var result = this.sidenavService.hide('left');
