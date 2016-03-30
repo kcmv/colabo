@@ -62,6 +62,7 @@ export class KnalledgeMapTools {
         this.globalEmitterServicesArray = globalEmitterServicesArray;
         globalEmitterServicesArray.register(this.viewConfigChangedEventName);
         //globalEmitterServicesArray.register(this.viewspecChangedEventName);
+        globalEmitterServicesArray.register(this.behaviourChangedEventName);
         globalEmitterServicesArray.register(this.broadcastingChangedEventName);
     };
 
