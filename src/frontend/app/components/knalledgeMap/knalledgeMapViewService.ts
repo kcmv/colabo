@@ -28,6 +28,10 @@ export class KnalledgeMapViewService {
               },
                 displayDistance	: -1, // if we wanna show them all visible we set it to -1
                 byAuthor: [] //array of iAmId. An empty means to see for all authors
+            },
+            visualization: {
+              limitedRange: false,
+              viewspec: 'viewspec_manual'
             }
         }
     };

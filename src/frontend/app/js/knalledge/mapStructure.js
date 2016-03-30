@@ -243,7 +243,11 @@ MapStructure.prototype.isNodeVisible = function(node){
 
 	 return result;
 }
-
+/**
+ * Returns if the node is visible - returns true if it should be visible
+ * @param  {[type]} node [description]
+ * @return {[type]}      [description]
+ */
 MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 	var visibleIBIS = true;
 	if(node.kNode.isIbis()){
@@ -274,7 +278,7 @@ MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
  * @memberof knalledge.MapStructure#
  * @return {knalledge.MapStructure}
  */
-MapStructure.prototype.setVisibility = function(){
+MapStructure.prototype.setVisibility = function(){ //TODO: PERFORMANCE-IMPROVEMENT: make not to be called all specific sub-functions every time
 	//hiding all nodes:
 	for(var j in this.nodesById){
 		this.nodesById[j].presentation.visibleAsAncestor = false;

@@ -6,10 +6,9 @@
 * @namespace knalledge.knalledgeMap.knalledgeMapDirectives
 */
 
-var KnRealTimeMapStylingChangedEventName = "map-styling-change";
-var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
-var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
-var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
+var KnRealTimeviewConfigChangedEventName = "view-config-change";
+//var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
+var KnRealTimeBehaviourChangedEventName = "map-behaviour-change";
 var KnRealTimeBroadcastUpdateMaps = "update-maps";
 var KnRealTimeBroadcastReloadMaps = "reload-maps";
 
@@ -461,6 +460,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					};
 					return true;
 				}
+
 				var setData = function(model){
 					if(!checkData(model)) return;
 					//knalledgeMap.load("treeData.json");
@@ -479,31 +479,34 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					delayedFunc();
 				}, 500);
 
+				/**
+				 * Loads map with specific map id
+				 * @param  {string} mapId the id of the map to be loaded
+				 */
+				var loadMapWithId = function(mapId){
+					/**
+					 * Callback after loading map object from the KnalledgeMapService
+					 * @param  {knalledge.KMap} map - map object
+					 */
+					var gotMap = function(kMap){
+						console.log('gotMap:'+JSON.stringify(kMap));
+						// this method broadcasts the 'modelLoadedEvent' event after loading and processing kMap
+						// this event is subscribed bellow for
+						KnalledgeMapVOsService.loadAndProcessData(kMap);
+					};
+
+					console.warn("loading map by mcmMapDirectives: mapId: " + mapId);
+
+					KnalledgeMapService.getById(mapId).$promise.then(gotMap);
+				};
+
 				var delayedFunc = function(){
 					init();
 					if(checkData(model)){
 						// console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
 						setData($scope.mapData);
 					}else{
-						/**
-						 * Callback after loading map object from the KnalledgeMapService
-						 * @param  {knalledge.KMap} map - map object
-						 */
-						var gotMap = function(kMap){
-							console.log('gotMap:'+JSON.stringify(kMap));
-							// this method broadcasts the 'modelLoadedEvent' event after loading and processing kMap
-							// this event is subscribed bellow for
-							KnalledgeMapVOsService.loadAndProcessData(kMap);
-						};
-
-						/**
-						 * the id of the map to get loaded
-						 * @type {string}
-						 */
-						var mapId = $routeParams.id;
-						console.warn("loading map by mcmMapDirectives: mapId: " + mapId);
-
-						KnalledgeMapService.getById(mapId).$promise.then(gotMap);
+						loadMapWithId($routeParams.id);
 					}
 
 					GlobalEmitterServicesArray.get(modelLoadedEventName).subscribe('knalledgeMap', function(eventModel) {
@@ -553,28 +556,42 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						}
 					});
 
-					var viewspecChangedEventName = "viewspecChangedEvent";
-					GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', function(newViewspec) {
-						console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
-						console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
-						config.tree.viewspec = newViewspec;
-						knalledgeMap.update();
-						// realtime distribution
-						if(KnAllEdgeRealTimeService){
-							KnAllEdgeRealTimeService.emit(KnRealTimeMapViewSpecChangedEventName, newViewspec);
-						}
-					});
+					// var viewspecChanged = function(newViewspec) {
+					// 	console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
+					// 	console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
+					// 	config.tree.viewspec = newViewspec;
+					// 	toolsChange(KnRealTimeMapViewSpecChangedEventName);
+					// };
+					// var viewspecChangedEventName = "viewspecChangedEvent";
+					// GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', viewspecChanged);
 
-					var mapStylingChangedEventName = "mapStylingChangedEvent";
-					GlobalEmitterServicesArray.get(mapStylingChangedEventName).subscribe('knalledgeMap', function(msg) {
-						// setData(model);
-						console.log("[knalledgeMap.controller::$on] event: %s", mapStylingChangedEventName);
+					var viewConfigChanged = function(msg) {
+						//setData(model);
+						console.log("[knalledgeMap.controller::$on] event: %s", viewConfigChangedEventName);
+						if(msg.path == 'viewConfig.visualization.viewspec'){
+								config.tree.viewspec = msg.value;
+						}
+						toolsChange(KnRealTimeviewConfigChangedEventName, msg);
+					};
+					var viewConfigChangedEventName = "viewConfigChangedEvent";
+					GlobalEmitterServicesArray.get(viewConfigChangedEventName).subscribe('knalledgeMap', viewConfigChanged);
+
+					var toolsChange = function(eventName, msg){
 						knalledgeMap.update();
 						// realtime distribution
 						if(KnAllEdgeRealTimeService){
-							KnAllEdgeRealTimeService.emit(KnRealTimeMapStylingChangedEventName, msg);
+							KnAllEdgeRealTimeService.emit(eventName, msg);
 						}
-					});
+					};
+
+					var behaviourChanged = function(newViewspec) {
+						//setData(model);
+						console.log("[knalledgeMap.controller::$on] event: %s", behaviourChangedEventName);
+						toolsChange(KnRealTimeBehaviourChangedEventName);
+					};
+					var behaviourChangedEventName = "behaviourChangedEvent";
+					GlobalEmitterServicesArray.get(behaviourChangedEventName).subscribe('knalledgeMap', behaviourChanged);
+
 
 					// realtime listener registration
 					if(KnAllEdgeRealTimeService){
@@ -613,9 +630,16 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							events: {
 							}
 						};
-						mapViewPluginOptions.events[KnRealTimeMapStylingChangedEventName] = realTimeMapStylingChanged.bind(this);
+						mapViewPluginOptions.events[KnRealTimeviewConfigChangedEventName] = realTimeMapStylingChanged.bind(this);
 						mapViewPluginOptions.events[KnRealTimeMapViewSpecChangedEventName] = realTimeMapViewspecChanged.bind(this);
 
+						mapViewPluginOptions.events[KnRealTimeMapViewSpecChangedEventName] = realTimeMapViewspecChanged.bind(this);
+
+						mapViewPluginOptions.events[KnRealTimeBroadcastUpdateMaps] = knalledgeMap.update.bind(knalledgeMap);
+
+						mapViewPluginOptions.events[KnRealTimeBroadcastReloadMaps] = loadMapWithId.bind(null, $routeParams.id);
+
+						//TODO: NOT USED SO FAR: mapViewPluginOptions.events[KnRealTimeBehaviourChangedEventName] = realTimeBehaviourChanged.bind(this);
 						KnAllEdgeRealTimeService.registerPlugin(mapViewPluginOptions);
 					}
 
