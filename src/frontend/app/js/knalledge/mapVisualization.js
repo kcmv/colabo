@@ -271,10 +271,10 @@ MapVisualization.prototype.nodeSelected = function(d) {
 	}
 
 	// TODO: it might be too early, it should be after update?
-	this.positionToDatum(d);
+	if(nodesHtmlSelected) this.positionToDatum(d);
 
 	// halo
-	if(this.halo){
+	if(this.halo && nodesHtmlSelected){
 		var haloOptions = {
 			icons: [
 				{
