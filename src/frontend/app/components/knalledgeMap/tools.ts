@@ -81,6 +81,8 @@ export class KnalledgeMapTools {
     knRealTimeBroadcastUpdateMaps:string = "update-maps";
     knRealTimeBroadcastReloadMaps:string = "reload-maps";
 
+    //TODO: `limitedRangeCheckBoxValue` should be changed to `config.filtering.displayDistance` when we change checkBox to some NumberSLide
+    public limitedRangeCheckBoxValue:boolean = false;
     private knAllEdgeRealTimeService;
     private globalEmitterServicesArray:GlobalEmitterServicesArray;
     private sidenavService:SidenavService;
@@ -94,8 +96,8 @@ export class KnalledgeMapTools {
 
     //TODO: eliminate this function and use directly `viewConfigChanged` when switch values are set to exact values
     limitDisplayChanged:Function = function(path, value){
-        this.viewConfig.visualization.limitedRange = (value) ? 3 : -1;
-        this.viewConfigChanged(path, this.viewConfig.visualization.limitedRange);
+        this.viewConfig.filtering.displayDistance = (value) ? 3 : -1;
+        this.viewConfigChanged(path, this.viewConfig.filtering.displayDistance);
         //this.globalEmitterServicesArray.get(this.viewConfigChangedEventName).broadcast('KnalledgeMapTools', msg);
     };
 

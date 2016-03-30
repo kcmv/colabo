@@ -624,6 +624,12 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								case 'config.visualization.viewspec':
 									KnalledgeMapViewService.provider.config.visualization.viewspec = config.tree.viewspec = msg.value;
 									break;
+								case 'config.filtering.displayDistance':
+									KnalledgeMapViewService.provider.config.filtering.displayDistance = msg.value;
+									break;
+								case 'config.filtering.visbileTypes.ibis':
+									KnalledgeMapViewService.provider.config.filtering.visbileTypes.ibis = msg.value;
+									break;
 							}
 							knalledgeMap.update();
 						};
