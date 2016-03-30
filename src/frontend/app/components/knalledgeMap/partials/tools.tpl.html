@@ -28,22 +28,21 @@
 <rima-users-list class="rima-users-list"></rima-users-list>
 
 <div class="controlls">
-    View:
-    <md-radio-group [(value)]="bindings.viewspec">
-        <md-radio-button value="viewspec_manual" class="md-primary" checked="true" (click)="viewspecChanged('viewspec_manual')">M</md-radio-button>
-        <md-radio-button value="viewspec_tree" class="md-primary" (click)="viewspecChanged('viewspec_tree')">T</md-radio-button>
-        <md-radio-button value="viewspec_flat" class="md-primary" (click)="viewspecChanged('viewspec_flat')">F</md-radio-button>
+    <h4><span class="title switch" ng-click="switchClicked($item)"><b>Visualize:</b></span></h4>
+    Layout:
+    <md-radio-group [(value)]="viewConfig.visualization.viewspec">
+        <md-radio-button value="viewspec_manual" class="md-primary" checked="true" (click)="viewConfigChanged('viewConfig.visualization.viewspec', 'viewspec_manual')">M</md-radio-button>
+        <md-radio-button value="viewspec_tree" class="md-primary" (click)="viewConfigChanged('viewConfig.visualization.viewspec','viewspec_tree')">T</md-radio-button>
+        <md-radio-button value="viewspec_flat" class="md-primary" (click)="viewConfigChanged('viewConfig.visualization.viewspec','viewspec_flat')">F</md-radio-button>
     </md-radio-group>
-
-    <h4>Visualize:</h4>
     <div class="btn-group">
         <!-- <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
 			{{user.name}}
 		</button> -->
 
-        <!-- <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_manual'" (click)="viewspecChanged('viewspec_manual')">M</label>
-		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_tree'" (click)="viewspecChanged('viewspec_tree')">T</label>
-		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_flat'" (click)="viewspecChanged('viewspec_flat')">F</label> -->
+        <!-- <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_manual'" (click)="viewConfigChanged('viewspec_manual')">M</label>
+		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_tree'" (click)="viewConfigChanged('viewspec_tree')">T</label>
+		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_flat'" (click)="viewConfigChanged('viewspec_flat')">F</label> -->
     </div>
 
     <div class="btn-group">
@@ -55,7 +54,7 @@
 
         <md-switch class="md-primary" aria-label="Edge Types" [(checked)]="viewConfig.edges.showNames" (checkedChange)="viewConfigChanged('viewConfig.edges.showNames', viewConfig.edges.showNames)">Edge Types</md-switch>
 
-        <md-switch class="md-primary" aria-label="Limit range" [(checked)]="visualization.limitedRange" (checkedChange)="limitDisplayChanged('visualization.limitedRange', visualization.limitedRange)">Limit range</md-switch>
+        <md-switch class="md-primary" aria-label="Limit range" [(checked)]="viewConfig.visualization.limitedRange" (checkedChange)="limitDisplayChanged('viewConfig.visualization.limitedRange', viewConfig.visualization.limitedRange)">Limit range</md-switch>
 
         <!-- <select [(value)]=“viewConfig.filtering.displayDistance”>
         <option [value]="'1'">1</option>

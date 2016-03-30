@@ -83,8 +83,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 		function($rootScope, $timeout, $injector, RimaService){
 		console.log("[rimaUsersList] loading directive");
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
-		var mapStylingChangedEventName = "mapStylingChangedEvent";
-		GlobalEmitterServicesArray.register(mapStylingChangedEventName);
+		var viewConfigChangedEventName = "viewConfigChangedEvent";
+		GlobalEmitterServicesArray.register(viewConfigChangedEventName);
 
 		return {
 			restrict: 'AE',
@@ -124,8 +124,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					$scope.howAmIs = RimaService.getAllHows();
 				};
 				$scope.config = RimaService.config;
-				$scope.configChanged = function(){
-					GlobalEmitterServicesArray.get(mapStylingChangedEventName).broadcast('rimaUsersList');
+				$scope.configChanged = function(){ //TODO: started to work on this -
+					//GlobalEmitterServicesArray.get(viewConfigChangedEventName).broadcast('rimaUsersList');
 				};
 				$scope.items = null;
 				$scope.selectedItem = null;

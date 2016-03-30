@@ -6,8 +6,10 @@
 * @namespace knalledge.knalledgeMap.knalledgeMapDirectives
 */
 
-var KnRealTimeMapStylingChangedEventName = "map-styling-change";
-var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
+var KnRealTimeviewConfigChangedEventName = "view-config-change";
+//var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
+var KnRealTimeBehaviourChangedEventName = "map-behaviour-change";
+
 angular.module('knalledgeMapDirectives', ['Config'])
 
 	/**
@@ -456,6 +458,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					};
 					return true;
 				}
+
 				var setData = function(model){
 					if(!checkData(model)) return;
 					//knalledgeMap.load("treeData.json");
@@ -548,28 +551,42 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						}
 					});
 
-					var viewspecChangedEventName = "viewspecChangedEvent";
-					GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', function(newViewspec) {
-						console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
-						console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
-						config.tree.viewspec = newViewspec;
-						knalledgeMap.update();
-						// realtime distribution
-						if(KnAllEdgeRealTimeService){
-							KnAllEdgeRealTimeService.emit(KnRealTimeMapViewSpecChangedEventName, newViewspec);
-						}
-					});
+					// var viewspecChanged = function(newViewspec) {
+					// 	console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
+					// 	console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
+					// 	config.tree.viewspec = newViewspec;
+					// 	toolsChange(KnRealTimeMapViewSpecChangedEventName);
+					// };
+					// var viewspecChangedEventName = "viewspecChangedEvent";
+					// GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', viewspecChanged);
 
-					var mapStylingChangedEventName = "mapStylingChangedEvent";
-					GlobalEmitterServicesArray.get(mapStylingChangedEventName).subscribe('knalledgeMap', function(msg) {
-						setData(model);
-						console.log("[knalledgeMap.controller::$on] event: %s", mapStylingChangedEventName);
+					var viewConfigChanged = function(msg) {
+						//setData(model);
+						console.log("[knalledgeMap.controller::$on] event: %s", viewConfigChangedEventName);
+						if(msg.path == 'viewConfig.visualization.viewspec'){
+								config.tree.viewspec = msg.value;
+						}
+						toolsChange(KnRealTimeviewConfigChangedEventName, msg);
+					};
+					var viewConfigChangedEventName = "viewConfigChangedEvent";
+					GlobalEmitterServicesArray.get(viewConfigChangedEventName).subscribe('knalledgeMap', viewConfigChanged);
+
+					var toolsChange = function(eventName, msg){
 						knalledgeMap.update();
 						// realtime distribution
 						if(KnAllEdgeRealTimeService){
-							KnAllEdgeRealTimeService.emit(KnRealTimeMapStylingChangedEventName, msg);
+							KnAllEdgeRealTimeService.emit(eventName, msg);
 						}
-					});
+					};
+
+					var behaviourChanged = function(newViewspec) {
+						//setData(model);
+						console.log("[knalledgeMap.controller::$on] event: %s", behaviourChangedEventName);
+						toolsChange(KnRealTimeBehaviourChangedEventName);
+					};
+					var behaviourChangedEventName = "behaviourChangedEvent";
+					GlobalEmitterServicesArray.get(behaviourChangedEventName).subscribe('knalledgeMap', behaviourChanged);
+
 
 					// realtime listener registration
 					if(KnAllEdgeRealTimeService){
@@ -608,8 +625,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							events: {
 							}
 						};
-						mapViewPluginOptions.events[KnRealTimeMapStylingChangedEventName] = realTimeMapStylingChanged.bind(this);
+						mapViewPluginOptions.events[KnRealTimeviewConfigChangedEventName] = realTimeMapStylingChanged.bind(this);
 						mapViewPluginOptions.events[KnRealTimeMapViewSpecChangedEventName] = realTimeMapViewspecChanged.bind(this);
+						//TODO: NOT USED SO FAR: mapViewPluginOptions.events[KnRealTimeBehaviourChangedEventName] = realTimeBehaviourChanged.bind(this);
 						KnAllEdgeRealTimeService.registerPlugin(mapViewPluginOptions);
 					}
 

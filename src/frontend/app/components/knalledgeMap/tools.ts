@@ -41,8 +41,9 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
     `]
 })
 export class KnalledgeMapTools {
-    mapStylingChangedEventName:string = "mapStylingChangedEvent";
-    viewspecChangedEventName:string = "viewspecChangedEvent";
+    viewConfigChangedEventName:string = "viewConfigChangedEvent";
+    //viewspecChangedEventName:string = "viewspecChangedEvent";
+    behaviourChangedEventName:string = "behaviourChangedEvent";
     broadcastingChangedEventName:string = "broadcastingChangedEvent";
 
     constructor(
@@ -59,16 +60,17 @@ export class KnalledgeMapTools {
         this.viewConfig = knalledgeMapViewService.get().config;
 
         this.globalEmitterServicesArray = globalEmitterServicesArray;
-        globalEmitterServicesArray.register(this.mapStylingChangedEventName);
-        globalEmitterServicesArray.register(this.viewspecChangedEventName);
+        globalEmitterServicesArray.register(this.viewConfigChangedEventName);
+        //globalEmitterServicesArray.register(this.viewspecChangedEventName);
         globalEmitterServicesArray.register(this.broadcastingChangedEventName);
     };
-    bindings:Object = {
-        viewspec: 'viewspec_manual'
-    };
-    visualization:Object = {
-        limitedRange: false
-    };
+
+    // bindings:Object = {
+    //     viewspec: 'viewspec_manual'
+    // };
+    // visualization:Object = {
+    //     limitedRange: false
+    // };
 
     viewConfig:Object;
     policyConfig:Object;
@@ -82,52 +84,38 @@ export class KnalledgeMapTools {
         return;
     };
 
+    //TODO: eliminate this function and use directly `viewConfigChanged` when switch values are set to exact values
     limitDisplayChanged:Function = function(path, value){
-        var val = (this.visualization.limitedRange) ? 3 : -1;
-        // alert("[viewConfigChanged] " + path + ":" + value);
-        let msg = {
-            path: path,
-            value: val
-        };
-        this.viewConfig.filtering.displayDistance = val;
+        this.viewConfig.visualization.limitedRange = (value) ? 3 : -1;
+        this.viewConfigChanged(path, this.viewConfig.visualization.limitedRange);
+        //this.globalEmitterServicesArray.get(this.viewConfigChangedEventName).broadcast('KnalledgeMapTools', msg);
+    };
 
-        this.globalEmitterServicesArray.get(this.mapStylingChangedEventName).broadcast('KnalledgeMapTools', msg);
+    switchClicked:Function = function($el){
+      var elSwitch = $element.find('.content');
+      $(elSwitch).slideToggle();
     };
 
     viewConfigChanged:Function = function(path, value){
         // alert("[viewConfigChanged] " + path + ":" + value);
-        let msg = {
-            path: path,
-            value: value
-        };
-
-        this.globalEmitterServicesArray.get(this.mapStylingChangedEventName).broadcast('KnalledgeMapTools', msg);
-    };
-
-    viewspecChanged: Function = function(viewSpec){
-        // alert("viewspecChanged: "+viewSpec);
-        console.log("[knalledgeMapTools] viewspec: %s", this.bindings.viewspec);
-        console.log("result:" + JSON.stringify(this.bindings));
-        this.globalEmitterServicesArray.get(this.viewspecChangedEventName).broadcast('KnalledgeMapTools', this.bindings.viewspec);
+      this.sendChange(path, value, this.viewConfigChangedEventName);
+      //this.globalEmitterServicesArray.get(this.viewspecChangedEventName).broadcast('KnalledgeMapTools', this.bindings.viewspec);
     };
 
     brainstormingChanged: Function = function(path, value){
-        // alert("brainstormingChanged: "+brainstormingSpec);
-        //console.log("[knalledgeMapTools] brainstormingSpec: %s", this.bindings.viewspec);
-        //console.log("result:" + JSON.stringify(this.bindings));
-        let msg = {
-            path: path,
-            value: value
-        };
-        this.globalEmitterServicesArray.get(this.mapStylingChangedEventName).broadcast('KnalledgeMapTools', msg);
+        this.sendChange(path, value, this.behaviourChangedEventName);
     };
 
     broadcastingChanged: Function = function(path, value){
-        console.log("path:" + value);
+        this.sendChange(path, value, this.broadcastingChangedEventName);
+    };
+
+    sendChange:Function = function(path, value, eventName){
+        // alert("[sendChange] " + path + ":" + value);
         let msg = {
             path: path,
             value: value
         };
-        this.globalEmitterServicesArray.get(this.broadcastingChangedEventName).broadcast('KnalledgeMapTools', msg);
+        this.globalEmitterServicesArray.get(eventName).broadcast('KnalledgeMapTools', msg);
     };
 }

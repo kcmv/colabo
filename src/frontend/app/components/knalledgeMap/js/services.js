@@ -2311,12 +2311,17 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				if(direction == 'in'){
 					switch(eventName){
 						case "node-selected":
+						case "node-unselected":
+						case "node-clicked":
 							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation;
 							break;
 					}
 					return true;
 				}
 				else{ //direction = 'out'
+					if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled){
+						return false;
+					}
 					return true;
 				}
 			},
@@ -2337,10 +2342,12 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					msg: msg
 				};
 
-				// socket.emit('tc:chat-message', msg);
-				// topiChatSocket.emit('tc:chat-message', msg);
-				TopiChatService.emit('kn:realtime', knPackage);
-				return this;
+				if(this.filterBroadcasting('out',eventName)){
+					// socket.emit('tc:chat-message', msg);
+					// topiChatSocket.emit('tc:chat-message', msg);
+					TopiChatService.emit('kn:realtime', knPackage);
+					return this;
+				}
 			},
 
 			/**
