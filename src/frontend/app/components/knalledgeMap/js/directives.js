@@ -639,6 +639,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							events: {
 							}
 						};
+
 						mapViewPluginOptions.events[KnRealTimeBroadcastUpdateMaps] = knalledgeMap.update.bind(knalledgeMap);
 
 						mapViewPluginOptions.events[KnRealTimeBroadcastReloadMaps] = loadMapWithId.bind(null, $routeParams.id);
