@@ -324,9 +324,10 @@ export class MapInteraction {
     toggleNode() {
         if(this.editingNodeHtml) return;
 		if(!this.isStatusMap()) return;
-
-        this.clientApi.getSelectedNode().isOpen = !this.clientApi.getSelectedNode().isOpen;
-        this.clientApi.update(this.clientApi.getSelectedNode());
+        var node = this.clientApi.getSelectedNode();
+        node.isOpen = !node.isOpen;
+        this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_APPEARENCE);
+        this.clientApi.update(node);
     };
 
     addNode(nodeType?, edgeType?) {
