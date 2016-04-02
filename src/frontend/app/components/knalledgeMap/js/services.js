@@ -2308,6 +2308,8 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				returns true if broadcasting should be allowed for specific event on this client
 			*/
 			filterBroadcasting: function(direction, eventName){
+				var emitStructuralChangesByNonBroadcasters = true;
+				var structuralChanges = {'node-created':1,'node-updated':1,'node-deleted':1,'nodes-deleted':1,'edge-created':1,'edge-updated':1,'edge-deleted':1,'edges-deleted':1,};
 				if(direction == 'in'){
 					switch(eventName){
 						case "node-selected":
@@ -2332,8 +2334,13 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					return true;
 				}
 				else{ //direction = 'out'
-					if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled){
-						return false;
+					if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled){//if broadcasting is disabled
+						if(emitStructuralChangesByNonBroadcasters && structuralChanges[eventName] != undefined){ //we want to send structural changes by all participant, not only by broadcasting moderators
+							return true;
+						}
+						else{
+							return false;
+						}
 					}
 					return true;
 				}
