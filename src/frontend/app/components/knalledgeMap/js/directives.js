@@ -340,7 +340,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									if(itemType == 'kNode'){
 										knalledgeMap.mapStructure.getVKNodeByKId(item._id);
 									}
-									knalledgeMap.mapManager.getActiveLayout().clickNode(vkNode, undefined, true);
+									knalledgeMap.nodeSelected(vkNode);
 								};
 
 								// var items = KnalledgeMapVOsService.getNodesList();

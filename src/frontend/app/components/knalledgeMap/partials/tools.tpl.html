@@ -31,14 +31,14 @@
     <h4><span class="title switch" ng-click="switchClicked($item)"><b>Visualize:</b></span></h4>
     Components:
     <div class="btn-group">
-        <md-switch class="md-primary" aria-label="RIMA-Insights" [(checked)]="viewConfig.nodes.showTypes" (checkedChange)="viewConfigChanged('config.nodes.showTypes', viewConfig.nodes.showTypes)">RIMA-Ins</md-switch>
-        <md-switch class="md-primary" aria-label="CollaboStuff-Right" [(checked)]="viewConfig.nodes.showTypes" (checkedChange)="viewConfigChanged('config.nodes.showTypes', viewConfig.nodes.showTypes)">CollaboStuff</md-switch>
+        <md-switch class="md-primary" aria-label="RIMA-Insights" (checkedChange)="toggleComponentView('rima-insights')">RIMA-Ins</md-switch>
+        <md-switch class="md-primary" aria-label="CollaboStuff-Right" (checkedChange)="toggleComponentView('collabostuf-right')">CollaboStuff</md-switch>
     </div>
     Layout:
     <md-radio-group [(value)]="viewConfig.visualization.viewspec">
-        <md-radio-button value="viewspec_manual" class="md-primary" checked="true" (click)="viewConfigChanged('config.visualization.viewspec', 'viewspec_manual')">M</md-radio-button>
-        <md-radio-button value="viewspec_tree" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_tree')">T</md-radio-button>
-        <md-radio-button value="viewspec_flat" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_flat')">F</md-radio-button>
+        <md-radio-button value="viewspec_manual" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec', 'viewspec_manual')">M</md-radio-button>
+        <md-radio-button value="viewspec_tree" class="md-primary" checked="true" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_tree')">T</md-radio-button>
+        <!-- <md-radio-button value="viewspec_flat" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_flat')">F</md-radio-button> -->
     </md-radio-group>
     <div class="btn-group">
         <!-- <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">

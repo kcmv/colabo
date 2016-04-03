@@ -87,6 +87,13 @@ export class KnalledgeMapTools {
     private globalEmitterServicesArray:GlobalEmitterServicesArray;
     private sidenavService:SidenavService;
 
+    // toggleComponentView:Function = function(componentName){
+    //     // this.sidenavService('left').toggle();
+    //     var result = this.sidenavService.hide('left');
+    //     console.log("[toggleList] result: ", result);
+    //     return;
+    // };
+
     toggleList:Function = function(user:Object){
         // this.sidenavService('left').toggle();
         var result = this.sidenavService.hide('left');
