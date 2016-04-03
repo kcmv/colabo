@@ -170,7 +170,6 @@ cd /var/www/knalledge_frontend
 cp dist/dev/components/collaboPlugins/globalEmitterService.js dist/dev/components/collaboPlugins/GlobalEmitterService.js
 cp dist/dev/components/collaboPlugins/globalEmitterServicesArray.js dist/dev/components/collaboPlugins/GlobalEmitterServicesArray.js
 
-
 # replace
 # `env=envs.localhost` -> `env=envs.server`
 sed -i 's/env\=envs\.localhost/env\=envs\.server/g' prod/js/shims_bundle.js
