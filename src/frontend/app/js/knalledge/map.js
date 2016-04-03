@@ -395,6 +395,11 @@ Map.prototype.initializeManipulation = function() {
 
 	if(!this.config.draggingConfig.enabled) return;
 
+/**
+ * called after dragging a node
+ * @param  {} targetD3 [description]
+ * @return {}          [description]
+ */
 	var manipulationEnded = function(targetD3){
 		var d = targetD3 ? targetD3.datum() : null;
 		//TODO: finish saving after nodes dragging:

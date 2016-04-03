@@ -596,7 +596,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					// realtime listener registration
 					if(KnAllEdgeRealTimeService){
 						/**
-						 * registered to be called by `KnAllEdgeRealTimeService` from `mapStructure.service `
+						 * registered to event `KnRealTimeviewConfigChangedEventName`, to be called by `KnAllEdgeRealTimeService` from `mapStructure.service `
 						 * @param  {string} eventName [description]
 						 * @param  {Object} msg       [description]
 						 * @return {[type]}           [description]
