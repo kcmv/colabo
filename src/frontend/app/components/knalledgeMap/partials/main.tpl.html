@@ -1,74 +1,56 @@
-<div class="knalledge_map_index">
-    <div class="logo_background">
-        <div class="titles">
-            <div template="ngIf:viewConfig.type.name =='collabo_arte'">
-                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Arte</span><span class="title_web">.com</span></h1>
-                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
-            </div>
-            <div template="ngIf:viewConfig.type.name =='collabo_science'">
-                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Science</span><span class="title_web">.com</span></h1>
-                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
-            </div>
-            <div template="ngIf:viewConfig.type.name =='collabo_framework'">
-                <h1><!--<span class="title_web">www.</span>--><span class="title_collabo">Collabo</span><span class="title_science">Framework</span><!--<span class="title_web">.com</span>--></h1>
-                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
-            </div>
-            <div template="ngIf:viewConfig.type.name =='collabo_business'">
-                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Business</span><span class="title_web">.com</span></h1>
-                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
-            </div>
-        </div>
-    </div>
-
-    <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
-    <div class="knalledge_map_middle">
-        <ontov-search></ontov-search>
-        <div class="knalledge_map_middle_bottom">
-            <rima-relevant-list class="rima_relevant_list"></rima-relevant-list>
-        </div>
-        <knalledge-map class="knalledge_map"></knalledge-map>
-    </div>
-    <knalledge-map-list class="knalledge_map_list"></knalledge-map-list>
-</div>
-
-<!-- <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" name="left" hide-st-sm md-is-locked-open="hasMedia('gt-sm')">
-    <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
-</md-sidenav>
-
-
-<div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2" class="main-column">
-    <md-content flex id="content">
-        <md-button class="menu" hide-gt-sm (click)="toggleList()" aria-label="Show menu">
-            MENU
-            <md-icon md-svg-icon="menu"></md-icon>
-        </md-button>
-        <div class="knalledge_map_middle">
-            <ontov-search></ontov-search>
-            <div class="knalledge_map_middle_bottom">
-                <rima-relevant-list class="rima_relevant_list"></rima-relevant-list>
-            </div>
-            <knalledge-map class="knalledge_map"></knalledge-map>
-        </div>
-        <knalledge-map-list class="knalledge_map_list"></knalledge-map-list>
-
+<div layout="column" style="height:500px;">
+  <md-sidenav-container layout="row" flex>
+    <md-sidenav name="left" [style]="hasMedia('gt-sm') ? 'side' : 'over'">
+      <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">Tools</h1>
+      </md-toolbar>
+      <md-content layout-padding>
+        <button md-raised-button (click)="close('left')" class="md-primary" hide-gt-md>
+          Close Sidenav Left
+        </button>
+        <p hide-md show-gt-md>
+          This sidenav is locked open on your device. To go back to the default behavior,
+          narrow your display.
+        </p>
+      </md-content>
+    </md-sidenav>
+    <md-content flex layout-padding>
+        <md-toolbar class="md-theme-indigo">
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <button md-fab class="md-primary" (click)="open('left')" hide-gt-md>
+                    T
+                </button>
+                <button md-fab class="md-primary" (click)="open('right')" [hidden]="rightOpened">
+                    L
+                </button>
+            </section>
+        </md-toolbar>
+      <div layout="column" layout-fill layout-align="top center">
+        <p>
+          The left sidenav will 'lock open' on a medium (>=960px wide) device.
+        </p>
+        <p>
+          The right sidenav will focus on a specific child element.
+        </p>
+      </div>
+      <div flex></div>
     </md-content>
+    <md-sidenav name="right" align="right" layout="column" (onShown)="input.focus()">
+      <md-toolbar class="md-theme-light">
+        <h1 class="md-toolbar-tools">List</h1>
+      </md-toolbar>
+      <md-content layout-padding>
+        <form>
+          <md-input-container class="md-block">
+            <label for="testInput">Test input</label>
+            <input type="text" id="testInput" md-input #input
+                   [(value)]="data" md-autofocus>
+          </md-input-container>
+        </form>
+        <button md-raised-button (click)="close('right')" class="md-primary">
+          Close Sidenav Right
+        </button>
+      </md-content>
+    </md-sidenav>
+  </md-sidenav-container>
 </div>
-
-<div class="knalledge_map_index">
-    <div class="logo_background">
-        <div class="titles">
-            <div template="ngIf:viewConfig.type.name =='collabo_arte'">
-                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Arte</span><span class="title_web">.com</span></h1>
-                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
-            </div>
-            <div template="ngIf:viewConfig.type.name =='collabo_science'">
-                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Science</span><span class="title_web">.com</span></h1>
-                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
-            </div>
-            <div template="ngIf:viewConfig.type.name =='collabo_business'">
-                <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Business</span><span class="title_web">.com</span></h1>
-                <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
-            </div>
-        </div>
-    </div>
-</div> -->
