@@ -2,7 +2,9 @@ import {Component, Inject} from 'angular2/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {LoginStatusComponent} from '../login/login-status-component';
 // import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
-import {SidenavService, MdContent, MdButton} from 'ng2-material/all';
+
+// import {SidenavService, MdContent, MdButton} from 'ng2-material/all';
+import {MATERIAL_DIRECTIVES, Media, SidenavService} from "ng2-material/all";
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
@@ -24,21 +26,21 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
     selector: 'knalledge-map-main',
     providers: [SidenavService],
     directives: [
-        // MATERIAL_DIRECTIVES,
-        MdContent, MdButton,
-    //   LoginStatusComponent,
-     upgradeAdapter.upgradeNg1Component('knalledgeMap'),
-    //  upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
-     upgradeAdapter.upgradeNg1Component('ontovSearch'),
-     upgradeAdapter.upgradeNg1Component('rimaRelevantList'),
-     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
+        MATERIAL_DIRECTIVES,
+        // MdContent, MdButton,
+        //   LoginStatusComponent,
+        upgradeAdapter.upgradeNg1Component('knalledgeMap'),
+        //  upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
+        upgradeAdapter.upgradeNg1Component('ontovSearch'),
+        upgradeAdapter.upgradeNg1Component('rimaRelevantList'),
+        upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
     //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
-     KnalledgeMapTools
-   ],
-   // necessary for having relative paths for templateUrl
-   // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
-   moduleId: module.id,
-   templateUrl: 'partials/main.tpl.html',
+        KnalledgeMapTools
+    ],
+    // necessary for having relative paths for templateUrl
+    // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
+    moduleId: module.id,
+    templateUrl: 'partials/main.tpl.html',
     // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
     styles: [`
         .msg {
@@ -52,15 +54,14 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
 })
 export class KnalledgeMapMain {
     constructor(
-        sidenavService:SidenavService,
-        @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService
-        // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
-        // globalEmitterServicesArray:GlobalEmitterServicesArray
-        // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
-    ) {
+        private sidenavService: SidenavService,
+        @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService
+    // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
+    // globalEmitterServicesArray:GlobalEmitterServicesArray
+    // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
+        ) {
         console.log('[KnalledgeMapMain]');
         this.viewConfig = knalledgeMapViewService.get().config;
-        this.sidenavService = sidenavService;
         // this.broadcastManagerService = broadcastManagerService;
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
@@ -68,18 +69,26 @@ export class KnalledgeMapMain {
     };
 
     userUrl: String = "www.CollaboScience.com";
-    viewConfig:Object;
-    private sidenavService:SidenavService;
-    // private broadcastManagerService:BroadcastManagerService;
+    viewConfig: Object;
 
-    toggleList:Function = function(user:Object){
+    hasMedia(breakSize: string): boolean {
+        return Media.hasMedia(breakSize);
+    }
+    open(name: string) {
+        this.sidenavService.show(name);
+    }
+    close(name: string) {
+        this.sidenavService.hide(name);
+    }
+
+    toggleList: Function = function(user: Object) {
         var result = this.sidenavService.hide('left');
         console.log("[toggleList] result: ", result);
         // this.sidenavService('left').toggle();
         return;
     };
 
-    showContactOptions:Function = function(event){
+    showContactOptions: Function = function(event) {
         return;
     };
 }
