@@ -293,9 +293,10 @@ MapStructure.prototype.setVisibility = function(){ //TODO: PERFORMANCE-IMPROVEME
 		var node = this.nodesById[j];
 		if(this.isNodeVisibleWOAncestory(node)){
 			this.setAncestorsVisibile(node);
-
 		}
 	}
+
+	this.openAncestors(this.selectedNode); //we have to do this if some of the selected node's ancestors is not opened and sel_node is found by example by searching for that node
 	return this;
 }
 
@@ -312,6 +313,20 @@ MapStructure.prototype.setAncestorsVisibile = function(node){
 	}
 	console.log('setVisibility - getAncestorsPath: ' + getNodesNames(ancestors));
 
+	return this;
+}
+
+/**
+ * [function description]
+ * @param  {[type]} node [description]
+ * @return {[type]}      [description]
+ */
+MapStructure.prototype.openAncestors = function(node){
+	var ancestors = this.getAncestorsPath(node);
+	for(var j in ancestors){
+		ancestors[j].isOpen = true;
+	}
+	//console.log('setVisibility - openAncestors: ' + getNodesNames(ancestors));
 	return this;
 }
 
@@ -921,7 +936,7 @@ MapStructure.prototype.processSyncedData = function(changes) {
 		//we focus on the last changed node. It is used for next functions in calls. This is executed even when changes
 		// are only upon edges, but is idempotent then, because of setting 'var newestNode = this.selectedNode'
 		this.setSelectedNode(newestNode);
-		// this.selectedNode = newestNode; 
+		// this.selectedNode = newestNode;
 	}
 
 	return this;
