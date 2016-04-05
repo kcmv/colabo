@@ -12,7 +12,7 @@
 
 $color_tool_border: gray;
 
-$provideLayout: 'show';
+$provideLayout: 'hide';
 
 @if $provideLayout == 'show' {
 	$susy: (
