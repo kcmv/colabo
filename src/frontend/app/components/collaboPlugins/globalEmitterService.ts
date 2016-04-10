@@ -27,7 +27,7 @@ export class GlobalEmitterService {
     serviceName:string;
     private queueMessages:boolean;
 
-    private emitter: EventEmitter<any> = new EventEmitter();
+    private emitter: EventEmitter<any> = EventEmitter ? new EventEmitter() : null;
 
     // private emitters: any = {
     //     config: {
@@ -46,11 +46,17 @@ export class GlobalEmitterService {
     }
 
     broadcast(subscriberName: string, msg?: any) {
-        this.emitter.emit(msg);
+        if(this.emitter) {
+            this.emitter.emit(msg);
+        }else {
+            for(var sI in this.subscribers) {
+                (this.subscribers[sI])(msg);
+            }
+        }
         if(this.queueMessages) this.queue.push([subscriberName, msg]);
     }
     subscribe(subscriberName: string, subscriberFunc: Function) {
-        this.emitter.subscribe(subscriberFunc);
+        if(this.emitter) this.emitter.subscribe(subscriberFunc);
         this.subscribers[subscriberName] = subscriberFunc;
     }
 }

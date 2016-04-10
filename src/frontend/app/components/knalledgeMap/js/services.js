@@ -122,7 +122,13 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 * @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 
-knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', 'KnAllEdgeRealTimeService', function($resource, $q, ENV, KnalledgeMapQueue, KnAllEdgeRealTimeService){
+knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($injector, $resource, $q, ENV, KnalledgeMapQueue){
+	try{
+		var KnAllEdgeRealTimeService = $injector.get('KnAllEdgeRealTimeService');
+	}catch(err){
+		console.warn(err);
+	}
+
 	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/knodes/:type/:searchParam/:searchParam2.json';
@@ -435,7 +441,12 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$resource', '$q', 'ENV', 
 * @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 
-knalledgeMapServices.factory('KnalledgeEdgeService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', 'KnAllEdgeRealTimeService', function($resource, $q, ENV, KnalledgeMapQueue, KnAllEdgeRealTimeService){
+knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($injector, $resource, $q, ENV, KnalledgeMapQueue){
+	try{
+		var KnAllEdgeRealTimeService = $injector.get('KnAllEdgeRealTimeService');
+	}catch(err){
+		console.warn(err);
+	}
 	console.log("[atGsServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/kedges/:type/:searchParam.json';
@@ -755,7 +766,7 @@ Contains the changes (together with the event name) happened in the currently ac
 knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	// privateData: "privatno",
 	$get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'KnalledgeEdgeService',
-	'RimaService', 'KnAllEdgeRealTimeService', 'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService',
+	'RimaService', 'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService',
 	/**
 	* @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
 	* @constructor
@@ -768,8 +779,13 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
 	*/
 	function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, RimaService,
-		KnAllEdgeRealTimeService, CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService) {
+		CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService) {
 		// var that = this;
+		try{
+			var KnAllEdgeRealTimeService = $injector.get('KnAllEdgeRealTimeService');
+		}catch(err){
+			console.warn(err);
+		}
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var provider = {
 			/**
@@ -1445,27 +1461,29 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 		// 	}
 		// });
 
-		// realtime listener registration
-		var KnalledgeMapVOsServicePluginOptions = {
-			name: "KnalledgeMapVOsService",
-			events: {
-			}
-		};
-		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeCreatedEventName] = provider.externalChangesInMap.bind(provider);
-		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeUpdatedEventName] = provider.externalChangesInMap.bind(provider);
-		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeDeletedEventName] = provider.externalChangesInMap.bind(provider);
-		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeCreatedEventName] = provider.externalChangesInMap.bind(provider);
-		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeUpdatedEventName] = provider.externalChangesInMap.bind(provider);
-		KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeDeletedEventName] = provider.externalChangesInMap.bind(provider);
-		KnAllEdgeRealTimeService.registerPlugin(KnalledgeMapVOsServicePluginOptions);
+		if(KnAllEdgeRealTimeService){
+			// realtime listener registration
+			var KnalledgeMapVOsServicePluginOptions = {
+				name: "KnalledgeMapVOsService",
+				events: {
+				}
+			};
+			KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeCreatedEventName] = provider.externalChangesInMap.bind(provider);
+			KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeUpdatedEventName] = provider.externalChangesInMap.bind(provider);
+			KnalledgeMapVOsServicePluginOptions.events[KnRealTimeNodeDeletedEventName] = provider.externalChangesInMap.bind(provider);
+			KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeCreatedEventName] = provider.externalChangesInMap.bind(provider);
+			KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeUpdatedEventName] = provider.externalChangesInMap.bind(provider);
+			KnalledgeMapVOsServicePluginOptions.events[KnRealTimeEdgeDeletedEventName] = provider.externalChangesInMap.bind(provider);
+			KnAllEdgeRealTimeService.registerPlugin(KnalledgeMapVOsServicePluginOptions);
 
-		// TODO: just for debugging
-		window.nodesById = provider.nodesById;//TODO:remove
-		window.edgesById = provider.edgesById;//TODO:remove
-		return provider;
+			// TODO: just for debugging
+			window.nodesById = provider.nodesById;//TODO:remove
+			window.edgesById = provider.edgesById;//TODO:remove
+			return provider;
 
-		// mapLayoutPluginOptions.events[knalledge.MapLayout.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
-		// this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions);
+			// mapLayoutPluginOptions.events[knalledge.MapLayout.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
+			// this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions)
+		}
 	}]
 });
 
