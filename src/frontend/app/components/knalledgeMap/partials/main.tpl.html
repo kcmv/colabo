@@ -1,18 +1,28 @@
-<div layout="column" style="height:100%;">
-    <md-sidenav-container layout="row" flex>
+<div layout="column" layout-fill>
+    <md-toolbar class="md-theme-indigo" style="height: 60px">
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <button md-fab class="md-primary" (click)="open('left')" hide-gt-md>
+                T
+            </button>
+            <button md-fab class="md-primary" (click)="open('right')" [hidden]="rightOpened">
+                L
+            </button>
+        </section>
+    </md-toolbar>
+    <!-- <div style="background-color: red;" layout-fill>
+        aha
+    </div> -->
+    <md-sidenav-container layout="row" style="background-color: red;" flex style="overflow: auto; height: 100%;">
         <md-sidenav name="left" [style]="hasMedia('gt-sm') ? 'side' : 'over'">
-            <md-toolbar class="md-theme-indigo">
-                <h1 class="md-toolbar-tools">Tools</h1>
-            </md-toolbar>
-            <md-content layout-padding>
+            <md-content>
                 <button md-raised-button (click)="close('left')" class="md-primary" hide-gt-md>
-                    Close Sidenav Left
+                    Close
                 </button>
                 <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
             </md-content>
         </md-sidenav>
-        <md-content flex layout-padding>
-            <div class="logo_background">
+        <md-content flex>
+            <!-- <div class="logo_background">
                 <div class="titles">
                     <div template="ngIf:viewConfig.type.name =='collabo_arte'">
                         <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Arte</span><span class="title_web">.com</span></h1>
@@ -27,41 +37,28 @@
                         <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
                     </div>
                 </div>
-            </div>
-            <md-toolbar class="md-theme-indigo">
-                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                    <button md-fab class="md-primary" (click)="open('left')" hide-gt-md>
-                        T
-                    </button>
-                    <button md-fab class="md-primary" (click)="open('right')" [hidden]="rightOpened">
-                        L
-                    </button>
-                </section>
-            </md-toolbar>
-            <div layout="column" layout-fill layout-align="top center">
-                <div class="knalledge_map_middle">
-                    <ontov-search></ontov-search>
-                    <div class="knalledge_map_middle_bottom">
+            </div> -->
+            <div layout-fill layout-align="stretch stretch">
+                <div class="knalledge_map_middle" layout-fill layout="column">
+                    <!-- <ontov-search flex></ontov-search> -->
+                    <div class="knalledge_map_middle_bottom"  style="height: 6em">
                         <rima-relevant-list class="rima_relevant_list"></rima-relevant-list>
                     </div>
-                    <knalledge-map class="knalledge_map"></knalledge-map>
+                    <knalledge-map class="knalledge_map" flex></knalledge-map>
                 </div>
             </div>
-            <div flex></div>
+            <!-- <div flex></div> -->
         </md-content>
-        <md-sidenav name="right" align="right" layout="column" (onShown)="input.focus()">
-            <md-toolbar class="md-theme-light">
-                <h1 class="md-toolbar-tools">List</h1>
-            </md-toolbar>
-            <md-content layout-padding>
-                <form>
-                    <md-input-container class="md-block">
-                        <label for="testInput">Test input</label>
-                        <input type="text" id="testInput" md-input #input [(value)]="data" md-autofocus>
-                    </md-input-container>
-                </form>
+        <md-sidenav name="right" align="right" flex="30" layout="column" (onShown)="input.focus()">
+            <md-content>
+                <!-- <form>
+                <md-input-container class="md-block">
+                    <label for="testInput">Test input</label>
+                    <input type="text" id="testInput" md-input #input [(value)]="data" md-autofocus>
+                </md-input-container>
+                </form> -->
                 <button md-raised-button (click)="close('right')" class="md-primary">
-                    Close Sidenav Right
+                    Close
                 </button>
                 <knalledge-map-list class="knalledge_map_list"></knalledge-map-list>
             </md-content>
