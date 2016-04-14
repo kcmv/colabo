@@ -322,6 +322,7 @@ MapStructure.prototype.setAncestorsVisibile = function(node){
  * @return {[type]}      [description]
  */
 MapStructure.prototype.openAncestors = function(node){
+	if(node == null){return;}
 	var ancestors = this.getAncestorsPath(node);
 	for(var j in ancestors){
 		ancestors[j].isOpen = true;

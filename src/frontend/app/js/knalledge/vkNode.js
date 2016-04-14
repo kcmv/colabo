@@ -21,6 +21,7 @@ var VKNode =  knalledge.VKNode = function(){
 	this.presentation.visibleByDistance = true;
 	this.presentation.visibleAsAncestor = true; //visibile because it is on root to some of visible nodes
 	//TODO: some properties are not shown here, but are explained and used in the function "fill" below
+	//e.g. isOpen
 };
 
 VKNode.MaxId = 0;
