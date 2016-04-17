@@ -8,10 +8,13 @@ $scope.$on
 $rootScope.$broadcast(eventName, changes);
 
 var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
-GlobalEmitterServicesArray.register(viewConfigChangedEventName);
-// $rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
-GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node);
-GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', function(newViewspec) {
+GlobalEmitterServicesArray.register(eventName);
+
+// $rootScope.$broadcast(eventName, $scope.node);
+GlobalEmitterServicesArray.get(eventName).broadcast('rimaWhats', $scope.node);
+
+// $scope.$on(eventName, function(e, eventModel) {
+GlobalEmitterServicesArray.get(eventName).subscribe('knalledgeMap', function(newViewspec) {
     console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
     console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
 });

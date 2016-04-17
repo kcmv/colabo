@@ -149,7 +149,7 @@ nodejs /var/www/knalledge/src/backend/KnAllEdgeBackend.js
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.03.30.zip dist/prod
+zip -r -X prod-2016.04.03.zip dist/prod
 ```
 
 #### Upload on the server
@@ -160,15 +160,13 @@ zip -r -X prod-2016.03.30.zip dist/prod
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -r components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.03.30.zip
+unzip prod-2016.04.03.zip
 mv dist/prod/* .
 rm -r dist/
 
 chmod -R go+rx .
 
 cd /var/www/knalledge_frontend
-cp dist/dev/components/collaboPlugins/globalEmitterService.js dist/dev/components/collaboPlugins/GlobalEmitterService.js
-cp dist/dev/components/collaboPlugins/globalEmitterServicesArray.js dist/dev/components/collaboPlugins/GlobalEmitterServicesArray.js
 
 # replace
 # `env=envs.localhost` -> `env=envs.server`
