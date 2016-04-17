@@ -315,9 +315,14 @@ Map.prototype.processExternalChangesInMap = function(changes) {
 	// 	this.update(this.mapStructure.getSelectedNode());
 	// };
 	this.mapStructure.processSyncedData(changes);
-	if(this.mapStructure.getSelectedNode()){
-		var vkNode = this.mapStructure.getSelectedNode();
-		this.nodeSelected_WithoutRTBroadcasting(vkNode);
+	var selectedVKNode = this.mapStructure.getSelectedNode();
+	// TODO: @mprinc: @sinisarudan, is this the best solution?
+	if(this.knAllEdgeRealTimeService.filterBroadcasting('in', 'node-selected')){
+		if(selectedVKNode){
+			this.nodeSelected_WithoutRTBroadcasting(selectedVKNode);
+		}
+	}else{
+		this.update(selectedVKNode);
 	}
 	// this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
 };

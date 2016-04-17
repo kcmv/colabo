@@ -2267,12 +2267,13 @@ knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 	}]
 })
 
+
 /**
 * @class KnAllEdgeRealTimeService
 * @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
-	$get: ['TopiChatService', 'KnalledgeMapPolicyService', /*'$q', 'ENV', '$rootScope', */
+	$get: ['$injector', 'KnalledgeMapPolicyService', /*'$q', 'ENV', '$rootScope', */
 
 	/**
 	* @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
@@ -2280,9 +2281,13 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 	 * @param  {topiChat.TopiChatService} TopiChatService - lower level topiChat real-time communication service
 	 * @param  {knalledge.knalledgeMap.KnalledgeMapPolicyService} KnalledgeMapPolicyService - Service that configures policy aspects of the KnAllEdge system
 	 */
-	function(TopiChatService, KnalledgeMapPolicyService/*$q , ENV, $rootScope*/) {
+	function($injector, KnalledgeMapPolicyService/*$q , ENV, $rootScope*/) {
 
-		// privateData: "privatno",
+		try{
+			var TopiChatService = $injector.get('TopiChatService');
+		}catch(err){
+			console.warn(err);
+		}
 
 		var provider = {
 			/**
@@ -2308,18 +2313,22 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			 */
 			init: function(){
 				// registering chat plugin
-				var knalledgeRealTimeServicePluginOptions = {
-					name: "knalledgeRealTimeService",
-					events: {
-						'kn:realtime': this._dispatchEvent.bind(this)
-					}
-				};
-				TopiChatService.registerPlugin(knalledgeRealTimeServicePluginOptions);
+				if(TopiChatService){
+					var knalledgeRealTimeServicePluginOptions = {
+						name: "knalledgeRealTimeService",
+						events: {
+							'kn:realtime': this._dispatchEvent.bind(this)
+						}
+					};
+
+					TopiChatService.registerPlugin(knalledgeRealTimeServicePluginOptions);					
+				}
 				return this;
 			},
 
 			getClientInfo: function(){
-				return TopiChatService.clientInfo;
+				if(TopiChatService) return TopiChatService.clientInfo;
+				else return null;
 			},
 
 			/**
@@ -2383,7 +2392,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				if(this.filterBroadcasting('out',eventName)){
 					// socket.emit('tc:chat-message', msg);
 					// topiChatSocket.emit('tc:chat-message', msg);
-					TopiChatService.emit('kn:realtime', knPackage);
+					if(TopiChatService) TopiChatService.emit('kn:realtime', knPackage);
 					return this;
 				}
 			},

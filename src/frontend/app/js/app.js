@@ -3,7 +3,6 @@
 //this function is strict...
 
 /* App Module */
-
 var requiresList = [
 	  'ngRoute'
 	, 'ngSanitize' // necessary for outputing HTML in angular directive
