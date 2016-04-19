@@ -51,7 +51,14 @@ angular.module('KnAllEdgeApp', requiresList)
 		templateUrl: 'components/knalledgeMap/partials/new-index.tpl.html'
 	})
 	.when('/map/id/:id', {
-		templateUrl: 'components/knalledgeMap/partials/new-index.tpl.html'
+		templateUrl: 'components/knalledgeMap/partials/new-index.tpl.html',
+		// https://docs.angularjs.org/api/ngRoute/provider/$routeProvider
+		// http://stackoverflow.com/questions/17981281/change-route-parameters-without-updating-view
+		reloadOnSearch: false
+	})
+	.when('/map/id/:id/node_id/:node_id?', {
+		templateUrl: 'components/knalledgeMap/partials/new-index.tpl.html',
+		reloadOnSearch: false
 	})
 	.when('/maps', {
 		templateUrl: 'components/knalledgeMap/partials/knalledgeMaps-index.tpl.html'

@@ -13,6 +13,7 @@ var MapVisualization =  knalledge.MapVisualization = function(){
 MapVisualization.prototype.construct = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService, upperAPI){
 	this.dom = dom;
 	this.mapStructure = mapStructure;
+	this.previousSelectedNode = null;
 	this.collaboPluginsService = collaboPluginsService;
 
 	this.configTransitions = configTransitions;
@@ -251,27 +252,68 @@ MapVisualization.prototype.setScales = function(){
 	return scales;
 };
 
+/**
+ * Visualizes node selection
+ * @function nodeSelected
+ * @memberof knalledge.MapVisualization
+ * @param  {*} d - data that is associated with node
+ * @return {knalledge.MapVisualization}
+ */
 MapVisualization.prototype.nodeSelected = function(d) {
+	if(this.previousSelectedNode !== d){
+		this.previousSelectedNode = d;
+
+		var nodesHtmlSelected = this.getDomFromDatum(d);
+
+		// unselect all nodes
+		var nodesHtml = this.getAllNodesHtml();
+		if(nodesHtml){
+			nodesHtml.classed({
+				"node_selected": false,
+				"node_unselected": true
+			});
+		}
+
+		if(nodesHtmlSelected){
+			nodesHtmlSelected.classed({
+				"node_selected": true,
+				"node_unselected": false
+			});
+		}
+
+		// TODO: it might be too early, it should be after update?
+		if(nodesHtmlSelected) this.positionToDatum(d);
+	}
+
+	this.nodeFocus(d);
+
+	return this;
+};
+
+/**
+ * Updates Visualization of the selected node
+ * @function nodeSelectionUpdate
+ * @memberof knalledge.MapVisualization
+ * @param  {*} d - data that is associated with node
+ * @return {knalledge.MapVisualization}
+ */
+MapVisualization.prototype.nodeSelectionUpdate = function(d) {
 	var nodesHtmlSelected = this.getDomFromDatum(d);
 
-	// unselect all nodes
-	var nodesHtml = this.getAllNodesHtml();
-	if(nodesHtml){
-		nodesHtml.classed({
-			"node_selected": false,
-			"node_unselected": true
-		});
-	}
+	// TODO: update halo
 
-	if(nodesHtmlSelected){
-		nodesHtmlSelected.classed({
-			"node_selected": true,
-			"node_unselected": false
-		});
-	}
+	return this;
+};
 
-	// TODO: it might be too early, it should be after update?
-	if(nodesHtmlSelected) this.positionToDatum(d);
+/**
+ * Updates Visualization of the selected node
+ * @function nodeFocus
+ * @memberof knalledge.MapVisualization
+ * @param  {*} d - data that is associated with node
+ * @return {knalledge.MapVisualization}
+ */
+MapVisualization.prototype.nodeFocus = function(d) {
+	var nodesHtmlSelected = this.getDomFromDatum(d);
 
 	// halo
 	if(this.halo && nodesHtmlSelected){
@@ -321,6 +363,8 @@ MapVisualization.prototype.nodeUnselected = function(d) {
 	if(this.halo){
 		this.halo.destroy();
 	}
+
+	this.previousSelectedNode = null;
 };
 
 /*
