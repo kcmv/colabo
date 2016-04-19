@@ -330,7 +330,17 @@ export class MapInteraction {
         this.clientApi.update(node);
     };
 
-    addNode(nodeType?, edgeType?) {
+    addSiblingNode(nodeType?, edgeType?) {
+        var parentNode = this.clientApi.getSelectedNode().parent;
+        this.addNode(parentNode, nodeType, edgeType);
+    };
+
+    addChildNode(nodeType?, edgeType?) {
+        var parentNode = this.clientApi.getSelectedNode();
+        this.addNode(parentNode, nodeType, edgeType);
+    };
+
+    addNode(parentNode, nodeType?, edgeType?) {
         if(typeof nodeType === 'undefined') nodeType = this.clientApi.getActiveIbisType();
         if(typeof nodeType === 'undefined') nodeType = knalledge.KNode.TYPE_KNOWLEDGE;
 
@@ -349,9 +359,8 @@ export class MapInteraction {
 	//		KnalledgeMapQueue that will solve these kind of dependencies
 	//			console.log("KeyboardJS.on('tab': in promised fn after createNode");
 
-		var newEdge = this.clientApi.createEdgeBetweenNodes(that.clientApi.getSelectedNode(), newNode, edgeType);
+		var newEdge = this.clientApi.createEdgeBetweenNodes(parentNode, newNode, edgeType);
 		newEdge.kEdge.$promise.then(function(kEdgeFromServer) {
-			var parentNode = that.clientApi.getSelectedNode();
 			if(!parentNode.isOpen) {
 				parentNode.isOpen = true;
 				that.clientApi.expandNode(parentNode, function() {
