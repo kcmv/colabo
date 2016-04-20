@@ -149,7 +149,7 @@ nodejs /var/www/knalledge/src/backend/KnAllEdgeBackend.js
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.04.03.zip dist/prod
+zip -r -X prod-2016.04.19.zip dist/prod
 ```
 
 #### Upload on the server
@@ -160,11 +160,12 @@ zip -r -X prod-2016.04.03.zip dist/prod
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -r components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.04.03.zip
+unzip prod-2016.04.19.zip
 mv dist/prod/* .
 rm -r dist/
 
-chmod -R go+rx .
+chmod -R o+rx .
+chmod -R g+wrx .
 
 cd /var/www/knalledge_frontend
 

@@ -93,12 +93,12 @@ MapVisualization.prototype._initHalo = function(){
 				that.mapInteraction.toggleNode();
 
 				break;
-			case "addNode":
+			case "addChildNode":
 				that.halo.destroy();
 
 				// window.alert("Showing analysis");
 				// this.selectedView = null;
-				that.mapInteraction.addNode();
+				that.mapInteraction.addChildNode();
 
 				break;
 			case "deleteNode":
@@ -322,7 +322,7 @@ MapVisualization.prototype.nodeFocus = function(d) {
 				{
 					position: "e",
 					iconClass: "fa-plus-circle",
-					action: "addNode"
+					action: "addChildNode"
 				},
 				{
 					position: "n",
