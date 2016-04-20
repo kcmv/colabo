@@ -170,12 +170,6 @@ Keyboard.prototype.initializeKeyboard = function() {
 		this.mapInteraction.addChildNode();
 	}.bind(this), function(){}.bind(this));
 
-	// Add new sibling node
-	KeyboardJS.on(Keyboard.KEY_PREFIX + "shift + n", function(){
-		if(!this.mapInteraction.isStatusMap()) return;
-		this.mapInteraction.addSiblingNode();
-	}.bind(this), function(){}.bind(this));
-
 	KeyboardJS.on(Keyboard.KEY_PREFIX + "alt + 1", function(){
 		if(!this.mapInteraction.isStatusMap()) return;
 		this.mapInteraction.addChildNode(knalledge.KNode.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_QUESTION);
@@ -194,6 +188,32 @@ Keyboard.prototype.initializeKeyboard = function() {
 	KeyboardJS.on(Keyboard.KEY_PREFIX + "alt + 4", function(){
 		if(!this.mapInteraction.isStatusMap()) return;
 		this.mapInteraction.addChildNode(knalledge.KNode.TYPE_IBIS_COMMENT, knalledge.KEdge.TYPE_IBIS_COMMENT);
+	}.bind(this), function(){}.bind(this));
+
+	// Add new sibling node
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "shift + n", function(){
+		if(!this.mapInteraction.isStatusMap()) return;
+		this.mapInteraction.addSiblingNode();
+	}.bind(this), function(){}.bind(this));
+
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "shift + alt + 1", function(){
+		if(!this.mapInteraction.isStatusMap()) return;
+		this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_QUESTION);
+	}.bind(this), function(){}.bind(this));
+
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "shift + alt + 2", function(){
+		if(!this.mapInteraction.isStatusMap()) return;
+		this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_IDEA, knalledge.KEdge.TYPE_IBIS_IDEA);
+	}.bind(this), function(){}.bind(this));
+
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "shift + alt + 3", function(){
+		if(!this.mapInteraction.isStatusMap()) return;
+		this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_ARGUMENT, knalledge.KEdge.TYPE_IBIS_ARGUMENT);
+	}.bind(this), function(){}.bind(this));
+
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "shift + alt + 4", function(){
+		if(!this.mapInteraction.isStatusMap()) return;
+		this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_COMMENT, knalledge.KEdge.TYPE_IBIS_COMMENT);
 	}.bind(this), function(){}.bind(this));
 
 	// Relinks the node:
