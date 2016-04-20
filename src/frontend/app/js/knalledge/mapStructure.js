@@ -311,7 +311,7 @@ MapStructure.prototype.setAncestorsVisibile = function(node){
 	for(var j in ancestors){
 		ancestors[j].presentation.visibleAsAncestor = true;
 	}
-	console.log('setVisibility - getAncestorsPath: ' + getNodesNames(ancestors));
+	// console.log('setVisibility - getAncestorsPath: ' + getNodesNames(ancestors));
 
 	return this;
 }

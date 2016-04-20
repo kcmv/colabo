@@ -291,34 +291,82 @@ export class MapInteraction {
 		}
     };
 
-    navigateDown() {
-        if(this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
+    _iterateThroughSiblings(shouldConsiderNodeFunc) {
+        // currently selected node
+        var currentNode = this.clientApi.getSelectedNode();
+        // {x,y} coordinates of the currently selected node
+        var currentNodePos = this.clientApi.getCoordinatesFromDatum(currentNode);
+        if(this.editingNodeHtml || !currentNode) return;
 		if(!this.isStatusMap()) return;
 
-        if(this.clientApi.getSelectedNode().parent && this.clientApi.getSelectedNode().parent.children) {
-            for(var i=0; i<this.clientApi.getSelectedNode().parent.children.length; i++) {
-                if(this.clientApi.getSelectedNode().parent.children[i] === this.clientApi.getSelectedNode()) {
-                    if(i+1<this.clientApi.getSelectedNode().parent.children.length) {
-                        this.clientApi.nodeSelected(this.clientApi.getSelectedNode().parent.children[i+1]);
-                    }
-                }
+        // siblings of the currently selected node
+        var siblings = currentNode.parent ? currentNode.parent.children : null;
+        if(!siblings) return;
+
+        // position of the current node among siblings
+        var currentNodeIndex = null;
+        for(var i=0; i<siblings.length; i++) {
+            if(siblings[i] === currentNode) {
+                currentNodeIndex = i;
             }
         }
+
+        var chosenSibling = null;
+        var chosenSiblingPos = null;
+        var chosenSiblingIndex = null;
+		for(var i=0; i<siblings.length; i++) {
+            var sibling = siblings[i];
+            if(sibling === currentNode) continue;
+
+            var siblingPos = this.clientApi.getCoordinatesFromDatum(sibling);
+            if(shouldConsiderNodeFunc(currentNode, currentNodePos, currentNodeIndex,
+                sibling, siblingPos, i, chosenSibling, chosenSiblingPos, chosenSiblingIndex)
+            ){
+                chosenSibling = siblings[i];
+                chosenSiblingPos = siblingPos;
+                chosenSiblingIndex = i;
+            }
+		}
+
+        if(chosenSibling) this.clientApi.nodeSelected(chosenSibling);
+    };
+
+    navigateDown() {
+        var shouldConsiderNodeFunc:Function = function(currentNode, currentNodePos,
+            currentNodeIndex, sibling, siblingPos, siblingIndex,
+            chosenSiblingBellow, chosenSiblingBellowPos, chosenSiblingBellowIndex
+        ){
+            var consider:boolean = (
+                siblingPos &&
+                // if sibling is bellow (by x) or after (by index) current node
+                (siblingPos.y > currentNodePos.y || siblingIndex >= currentNodeIndex) &&
+                // if sibling is above (by x) or before (by index) of the chosenSiblingBellow
+                (!chosenSiblingBellow ||
+                    (siblingPos.y < chosenSiblingBellowPos.y || siblingIndex < chosenSiblingBellowIndex)
+                )
+            );
+            return consider;
+        };
+        this._iterateThroughSiblings(shouldConsiderNodeFunc);
     };
 
     navigateUp() {
-        if(this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
-		if(!this.isStatusMap()) return;
-
-        if(this.clientApi.getSelectedNode().parent && this.clientApi.getSelectedNode().parent.children) {
-			for(var i=0; i<this.clientApi.getSelectedNode().parent.children.length; i++) {
-				if(this.clientApi.getSelectedNode().parent.children[i] === this.clientApi.getSelectedNode()) {
-					if(i-1>=0) {
-						this.clientApi.nodeSelected(this.clientApi.getSelectedNode().parent.children[i-1]);
-					}
-				}
-			}
-		}
+        var shouldConsiderNodeFunc:Function = function(currentNode, currentNodePos,
+            currentNodeIndex, sibling, siblingPos, siblingIndex,
+            chosenSiblingAbove, chosenSiblingAbovePos, chosenSiblingAboveIndex
+        ){
+            var consider:boolean = (
+                siblingPos &&
+                // if sibling is above (by x) or before (by index) current node
+                (siblingPos.y < currentNodePos.y || siblingIndex < currentNodeIndex) &&
+                // if sibling is bellow (by x) or after (by index) of the chosenSiblingAbove
+                (!chosenSiblingAbove ||
+                    (siblingPos.y > chosenSiblingAbovePos.y || siblingIndex > chosenSiblingAboveIndex)
+                )
+            );
+            return consider;
+        };
+        this._iterateThroughSiblings(shouldConsiderNodeFunc);
     };
 
     toggleNode() {

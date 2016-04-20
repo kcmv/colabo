@@ -157,7 +157,13 @@ MapVisualization.prototype.getAllNodesHtml = function(){
 	return result;
 };
 
-// Returns view representation (dom) from datum d
+/**
+ * Returns DOM representation/visualization of the data (node/edge)
+ * @function getDomFromDatum
+ * @memberof knalledge.MapVisualization
+ * @param  {*} d - data which visualization we are looking for
+ * @return {DOM}
+ */
 MapVisualization.prototype.getDomFromDatum = function(d) {
 	var htmlNodes = this.getAllNodesHtml();
 	if(!htmlNodes) return null;
@@ -165,6 +171,27 @@ MapVisualization.prototype.getDomFromDatum = function(d) {
 		.data([d], function(d){return d.id;});
 	if(dom.size() != 1) return null;
 	else return dom;
+};
+
+/**
+ * Returns coordinates of the representation/visualization of the data (node/edge)
+ * @function getCoordinatesFromDatum
+ * @memberof knalledge.MapVisualization
+ * @param  {*} d - data which visualization we are looking for
+ * @return {{x: number, y: string}}
+ */
+MapVisualization.prototype.getCoordinatesFromDatum = function(d) {
+	var htmlNodes = this.getAllNodesHtml();
+	if(!htmlNodes) return null;
+	var dom = htmlNodes
+		.data([d], function(d){return d.id;});
+	if(dom.size() != 1) return null;
+	else{
+		var coordinates = {};
+		coordinates.x = parseInt(dom.style("left"));
+		coordinates.y = parseInt(dom.style("top"));
+		return coordinates;
+	}
 };
 
 MapVisualization.prototype.setDomSize = function(maxX, maxY){
