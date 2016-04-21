@@ -87,14 +87,7 @@ MapLayout.prototype.processData = function(rootNodeX, rootNodeY, callback) {
 			this.mapStructure.rootNode.y0 = rootNodeY;
 		}
 	}
-	// TODO: should we eliminate this?
-	if(this.mapStructure.rootNode){
-		this.upperApi.nodeSelected(this.mapStructure.rootNode);
-	}
-	// // TODO: (mprinc) I think we should get this out of here and handle it
-	// // inside the callback of the invoker
-	// this.upperApi.update(this.mapStructure.rootNode,
-	// 	(typeof callback === 'function') ? callback : undefined);
+	if(typeof callback === 'function') callback();
 };
 
 MapLayout.prototype.filterGraph = function(options){

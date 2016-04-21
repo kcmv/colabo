@@ -67,6 +67,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	var mapInterface = {
 		updateNode: this.mapStructure.updateNode.bind(this.mapStructure),
 		getDomFromDatum: this.mapVisualization.getDomFromDatum.bind(this.mapVisualization),
+		getCoordinatesFromDatum: this.mapVisualization.getCoordinatesFromDatum.bind(this.mapVisualization),
 		nodeSelected: this.nodeSelected.bind(this),
 		update: this.mapVisualization.update.bind(this.mapVisualization),
 		createNode: this.mapStructure.createNode.bind(this.mapStructure),
@@ -357,15 +358,32 @@ Map.prototype.update = function(node, callback, shouldGenerateGraph) {
 /**
  * [function description]
  * @param  {knalledge.knalledgeMap.knalledgeMapServices.MapData}   mapData - map data
+ * @param  {string} selectedKNodeId - default selected node id
  * @param  {Function} callback - called after map data are processed
  * @return {knalledge.Map}
  */
-Map.prototype.processData = function(mapData, callback) {
+Map.prototype.processData = function(mapData, selectedKNodeId, callback) {
+	var that = this;
+
+	var selectedVKNode = null;
+	if(selectedKNodeId){
+		selectedVKNode = this.mapStructure.getVKNodeByKId(selectedKNodeId);
+	}else{
+		selectedVKNode = this.mapStructure.rootNode;
+	}
 	// we do this only if we created an mapStructure in our class
-	if(!this.mapStructureExternal) this.mapStructure.processData(mapData);
+	if(!this.mapStructureExternal) this.mapStructure.processData(mapData, selectedKNodeId);
+	else{
+		// set default selected node
+		if(selectedVKNode){
+			this.mapStructure.setSelectedNode(selectedVKNode);
+		}
+	}
 	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, function(){
-		// ...
-		if(typeof callback === 'function') callback();
+		that.update(null, function(){
+			if(selectedVKNode) that.mapVisualization.nodeSelected(selectedVKNode);
+			if(typeof callback === 'function') callback();
+		});
 	});
 
 	//this.syncingChanged();

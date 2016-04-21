@@ -311,7 +311,7 @@ MapStructure.prototype.setAncestorsVisibile = function(node){
 	for(var j in ancestors){
 		ancestors[j].presentation.visibleAsAncestor = true;
 	}
-	console.log('setVisibility - getAncestorsPath: ' + getNodesNames(ancestors));
+	// console.log('setVisibility - getAncestorsPath: ' + getNodesNames(ancestors));
 
 	return this;
 }
@@ -784,9 +784,10 @@ MapStructure.prototype.getEdgesList = function() {
  * @param  {knalledge.knalledgeMap.knalledgeMapServices.MapData} kMapData - map data
  * @param  {number} [rootNodeX] - X coordinate of the root node
  * @param  {number} [rootNodeY] - Y coordinate of the root node
+ * @param  {string} selectedKNodeId - default selected node
  * @return {knalledge.MapStructure}
  */
-MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
+MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY, selectedKNodeId) {
 	this.properties = kMapData.properties;
 	var i=0;
 	var kNode = null;
@@ -839,8 +840,14 @@ MapStructure.prototype.processData = function(kMapData, rootNodeX, rootNodeY) {
 		if(typeof rootNodeX !== 'undefined') this.rootNode.x0 = rootNodeX;
 		if(typeof rootNodeY !== 'undefined') this.rootNode.y0 = rootNodeY;
 	}
-	// sets the selectedNode to the root node
-	this.selectedNode = this.rootNode;
+
+	var selectedVKNode = null;
+	if(selectedKNodeId){
+		selectedVKNode = this.getVKNodeByKId(selectedKNodeId);
+	}
+	// sets the selectedNode to either selectedVKNode (if provided) or to the root node
+	if(!selectedVKNode) selectedVKNode = this.rootNode;
+	this.setSelectedNode(selectedVKNode);
 
 	// this.clickNode(this.rootNode);
 	// this.update(this.rootNode);

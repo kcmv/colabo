@@ -13,6 +13,7 @@ var MapVisualization =  knalledge.MapVisualization = function(){
 MapVisualization.prototype.construct = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService, upperAPI){
 	this.dom = dom;
 	this.mapStructure = mapStructure;
+	this.previousSelectedNode = null;
 	this.collaboPluginsService = collaboPluginsService;
 
 	this.configTransitions = configTransitions;
@@ -92,12 +93,12 @@ MapVisualization.prototype._initHalo = function(){
 				that.mapInteraction.toggleNode();
 
 				break;
-			case "addNode":
+			case "addChildNode":
 				that.halo.destroy();
 
 				// window.alert("Showing analysis");
 				// this.selectedView = null;
-				that.mapInteraction.addNode();
+				that.mapInteraction.addChildNode();
 
 				break;
 			case "deleteNode":
@@ -156,7 +157,13 @@ MapVisualization.prototype.getAllNodesHtml = function(){
 	return result;
 };
 
-// Returns view representation (dom) from datum d
+/**
+ * Returns DOM representation/visualization of the data (node/edge)
+ * @function getDomFromDatum
+ * @memberof knalledge.MapVisualization
+ * @param  {*} d - data which visualization we are looking for
+ * @return {DOM}
+ */
 MapVisualization.prototype.getDomFromDatum = function(d) {
 	var htmlNodes = this.getAllNodesHtml();
 	if(!htmlNodes) return null;
@@ -164,6 +171,27 @@ MapVisualization.prototype.getDomFromDatum = function(d) {
 		.data([d], function(d){return d.id;});
 	if(dom.size() != 1) return null;
 	else return dom;
+};
+
+/**
+ * Returns coordinates of the representation/visualization of the data (node/edge)
+ * @function getCoordinatesFromDatum
+ * @memberof knalledge.MapVisualization
+ * @param  {*} d - data which visualization we are looking for
+ * @return {{x: number, y: string}}
+ */
+MapVisualization.prototype.getCoordinatesFromDatum = function(d) {
+	var htmlNodes = this.getAllNodesHtml();
+	if(!htmlNodes) return null;
+	var dom = htmlNodes
+		.data([d], function(d){return d.id;});
+	if(dom.size() != 1) return null;
+	else{
+		var coordinates = {};
+		coordinates.x = parseInt(dom.style("left"));
+		coordinates.y = parseInt(dom.style("top"));
+		return coordinates;
+	}
 };
 
 MapVisualization.prototype.setDomSize = function(maxX, maxY){
@@ -251,27 +279,68 @@ MapVisualization.prototype.setScales = function(){
 	return scales;
 };
 
+/**
+ * Visualizes node selection
+ * @function nodeSelected
+ * @memberof knalledge.MapVisualization
+ * @param  {*} d - data that is associated with node
+ * @return {knalledge.MapVisualization}
+ */
 MapVisualization.prototype.nodeSelected = function(d) {
+	if(this.previousSelectedNode !== d){
+		this.previousSelectedNode = d;
+
+		var nodesHtmlSelected = this.getDomFromDatum(d);
+
+		// unselect all nodes
+		var nodesHtml = this.getAllNodesHtml();
+		if(nodesHtml){
+			nodesHtml.classed({
+				"node_selected": false,
+				"node_unselected": true
+			});
+		}
+
+		if(nodesHtmlSelected){
+			nodesHtmlSelected.classed({
+				"node_selected": true,
+				"node_unselected": false
+			});
+		}
+
+		// TODO: it might be too early, it should be after update?
+		if(nodesHtmlSelected) this.positionToDatum(d);
+	}
+
+	this.nodeFocus(d);
+
+	return this;
+};
+
+/**
+ * Updates Visualization of the selected node
+ * @function nodeSelectionUpdate
+ * @memberof knalledge.MapVisualization
+ * @param  {*} d - data that is associated with node
+ * @return {knalledge.MapVisualization}
+ */
+MapVisualization.prototype.nodeSelectionUpdate = function(d) {
 	var nodesHtmlSelected = this.getDomFromDatum(d);
 
-	// unselect all nodes
-	var nodesHtml = this.getAllNodesHtml();
-	if(nodesHtml){
-		nodesHtml.classed({
-			"node_selected": false,
-			"node_unselected": true
-		});
-	}
+	// TODO: update halo
 
-	if(nodesHtmlSelected){
-		nodesHtmlSelected.classed({
-			"node_selected": true,
-			"node_unselected": false
-		});
-	}
+	return this;
+};
 
-	// TODO: it might be too early, it should be after update?
-	if(nodesHtmlSelected) this.positionToDatum(d);
+/**
+ * Updates Visualization of the selected node
+ * @function nodeFocus
+ * @memberof knalledge.MapVisualization
+ * @param  {*} d - data that is associated with node
+ * @return {knalledge.MapVisualization}
+ */
+MapVisualization.prototype.nodeFocus = function(d) {
+	var nodesHtmlSelected = this.getDomFromDatum(d);
 
 	// halo
 	if(this.halo && nodesHtmlSelected){
@@ -280,7 +349,7 @@ MapVisualization.prototype.nodeSelected = function(d) {
 				{
 					position: "e",
 					iconClass: "fa-plus-circle",
-					action: "addNode"
+					action: "addChildNode"
 				},
 				{
 					position: "n",
@@ -321,6 +390,8 @@ MapVisualization.prototype.nodeUnselected = function(d) {
 	if(this.halo){
 		this.halo.destroy();
 	}
+
+	this.previousSelectedNode = null;
 };
 
 /*

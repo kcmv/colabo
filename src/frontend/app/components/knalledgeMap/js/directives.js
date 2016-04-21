@@ -18,7 +18,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 	* @class knalledgeMap
 	* @memberof knalledge.knalledgeMap.knalledgeMapDirectives
 	*/
-	.directive('knalledgeMap', ['$injector', '$rootScope', '$compile', '$routeParams', '$timeout',
+	.directive('knalledgeMap', ['$injector', '$rootScope', '$compile', '$route', '$routeParams', '$timeout',
 		'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService',
 		'KnalledgeMapService', 'KnalledgeMapViewService',
 		'KnAllEdgeRealTimeService', 'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService',
@@ -39,7 +39,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		* @param  {utils.Injector} injector
 	 	*/
 
-		function($injector, $rootScope, $compile, $routeParams, $timeout,
+		function($injector, $rootScope, $compile, $route, $routeParams, $timeout,
 		KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService,
 		KnalledgeMapService, KnalledgeMapViewService,
 		KnAllEdgeRealTimeService, KnAllEdgeSelectItemService, KnalledgeMapPolicyService,
@@ -270,6 +270,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								// at the moment `knalledgeMapList` directive listens for this event
 								// and presents the property inside the editor
 								if(vkNode){
+									if($routeParams.node_id !== vkNode.kNode._id){
+										$routeParams.node_id = vkNode.kNode._id;
+										$route.updateParams($routeParams);
+									}
 									// http://www.historyrundown.com/did-galileo-really-say-and-yet-it-moves/
 									if(vkNode.kNode.dataContent) property = vkNode.kNode.dataContent.property;
 									console.log("[knalledgeMap::kMapClientInterface::nodeClicked'] vkNode[%s](%s): property: %s", vkNode.id, vkNode.kNode._id, property);
@@ -463,15 +467,22 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				var setData = function(model){
 					if(!checkData(model)) return;
-					//knalledgeMap.load("treeData.json");
-					knalledgeMap.processData(model, function(){
+					var selectedKNodeId = null;
+					if($routeParams.node_id) selectedKNodeId = $routeParams.node_id;
+					if($scope.mapData && $scope.mapData.selectedNode){
+						selectedKNodeId = $scope.mapData.selectedNode;
+					}
+
+					knalledgeMap.processData(model, selectedKNodeId, function(){
 						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
 						// TODO: we need to avoid this and reduce map processing
-						knalledgeMap.update();
-						if($scope.mapData && $scope.mapData.selectedNode){
-							var vkNode = knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
-							knalledgeMap.mapLayout.selectNode(vkNode, null, true, true, true);
-						}
+						// knalledgeMap.update();
+						// if(
+						// 	($scope.mapData && $scope.mapData.selectedNode)
+						// 	|| $routeParams.node_id){
+						// 	var vkNode = knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
+						// 	knalledgeMap.mapLayout.selectNode(vkNode, null, true, true, true);
+						// }
 					});
 				};
 
