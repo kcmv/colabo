@@ -28,6 +28,7 @@ _**Nominal Group Technique**_
   + The facilitator’s task is to ensure that each person is allowed to contribute and that discussion of all ideas is thorough without spending too long on a single idea.
   + It is important to ensure that the process is as **neutral** as possible, **avoiding judgment and criticism (no evaluative comments!)**.
   + The group may suggest **new items for discussion** and combine items into categories, but **no ideas should be eliminated**.
+    + !!! restructuring into groups **could make voting more complicated!!**
   + This stage lasts _30–45 minutes_
 1. **Voting and ranking**
   + This involves prioritizing the recorded ideas in relation to the original question.

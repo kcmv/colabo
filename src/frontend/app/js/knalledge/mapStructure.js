@@ -605,7 +605,17 @@ MapStructure.prototype.createEdgeBetweenNodes = function(sourceNode, targetNode,
 };
 
 MapStructure.prototype.relinkNode = function(sourceNode, newParent, callback) {
-	if(!this.mapService) return null;
+	if(!this.mapService) {callback(false); return null;}
+	var ancestors = this.getAncestorsPath(newParent);
+	//var is_ancestor = false;
+	for(var ancestors_i in ancestors){
+		if(ancestors[ancestors_i] == sourceNode){ //TODO: later when we support multiple parents
+			//is_ancestor = true;
+			callback(false, 'DISRUPTING_PATH');
+			return;
+		}
+	}
+
 	this.mapService.relinkNode(sourceNode.kNode, newParent.kNode, callback);
 };
 

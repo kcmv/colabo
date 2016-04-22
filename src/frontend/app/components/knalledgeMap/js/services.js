@@ -1137,10 +1137,15 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 				var parentId = parents[0]._id; //TODO: by this we are always relinking first parent (when we wil have more parents, this wil need to be resSendJsonProtected)
 				var relinkingEdge = this.getEdge(parentId, relinkingNode._id);
 				if(relinkingEdge){
-					relinkingEdge.sourceId = newParent._id;
-					this.updateEdge(relinkingEdge, "UPDATE_RELINK_EDGE", function(success, error){
-						callback(success, error);
-					});
+					if(relinkingEdge.targetId != newParent._id){
+						relinkingEdge.sourceId = newParent._id;
+						this.updateEdge(relinkingEdge, "UPDATE_RELINK_EDGE", function(success, error){
+							callback(success, error);
+						});
+					}
+					else{
+							callback(false,'TARGET_EQ_SOURCE');
+					}
 				}
 				else{
 					callback(false,'NO_EDGE');
@@ -2321,7 +2326,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 						}
 					};
 
-					TopiChatService.registerPlugin(knalledgeRealTimeServicePluginOptions);					
+					TopiChatService.registerPlugin(knalledgeRealTimeServicePluginOptions);
 				}
 				return this;
 			},

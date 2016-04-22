@@ -8,7 +8,7 @@ var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
 
 function resSendJsonProtected(res, data){
-	// http://tobyho.com/2011/01/28/checking-types-in-javascript/	
+	// http://tobyho.com/2011/01/28/checking-types-in-javascript/
 	if(data !== null && typeof data === 'object'){ // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
 		res.set('Content-Type', 'application/json');
 		// JSON Vulnerability Protection
@@ -49,7 +49,7 @@ exports.index = function(req, res){
 			resSendJsonProtected(res, {data: kEdges, accessId : accessId, success: true});
 		}
 	}
-	
+
 	console.log("[modules/kEdge.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
 	if(mockup && mockup.db && mockup.db.data){
 		var datas_json = [];
@@ -60,20 +60,20 @@ exports.index = function(req, res){
   		datas_json.push({id: 4, name: "Venera"});
 		resSendJsonProtected(res, {data: datas_json, accessId : accessId});
 	}
-	
+
 	//TODO: remove (testing)
 	KEdgeModel.find(function (err, kEdges) {
 		//console.log("all data:\n length: %d.\n", kEdges.length);
 		//console.log(kEdges);
 		//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	});
-	
+
 	switch (req.params.type){
 		case 'one': //by edge id:
 			KEdgeModel.findById(req.params.searchParam, found);
 			break;
 		case 'between':  //all edges between specific nodes:
-			KEdgeModel.find( { $and:[ {'sourceId':req.params.searchParam}, {'targetId':req.params.searchParam2}]}, found);
+				KEdgeModel.find( { $and:[ {'sourceId':req.params.searchParam}, {'targetId':req.params.searchParam2}]}, found);
 			break;
 		case 'connected': //all edges connected to knode.id
 			KEdgeModel.find( { $or:[ {'sourceId':req.params.searchParam}, {'targetId':req.params.searchParam}]},found);
@@ -88,10 +88,10 @@ exports.index = function(req, res){
 // curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Edge 3", "iAmId":6, "type":"contains", "ideaId":0}' http://127.0.0.1:8888/kedges
 exports.create = function(req, res){
 	console.log("[modules/kEdge.js:create] req.body: %s", JSON.stringify(req.body));
-	
+
 	var data = req.body;
 	if(!("iAmId" in data) || data.iAmId == null || data.iAmId == 0) data.iAmId = mongoose.Types.ObjectId(ANONYMOUS_USER_ID);
-	
+
 	var kEdge = new KEdgeModel(data);
 	//TODO: Should we force existence of node ids?
 	if(data.sourceId){
@@ -105,7 +105,7 @@ exports.create = function(req, res){
 		if (err) throw err;
 		console.log("[modules/kEdge.js:create] data (id:%s) created data: %s", kEdge.id, JSON.stringify(kEdge));
 		resSendJsonProtected(res, {success: true, data: kEdge, accessId : accessId});
-	});				
+	});
 }
 
 //curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World E1"}' http://127.0.0.1:8888/kedges/one/551bb2c68f6e4cfc35654f37
@@ -115,10 +115,10 @@ exports.update = function(req, res){
 
 	var data = req.body;
 	var id = req.params.searchParam;
-	
+
 	console.log("[modules/KEdge.js:update] id : %s", id );
 	console.log("[modules/KEdge.js:update] data, : %s", JSON.stringify(data));
-	
+
 	delete data._id;
 	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
 	//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
@@ -126,23 +126,23 @@ exports.update = function(req, res){
 	// 	  if (err) throw err;
 	// 	  console.log('The number of updated documents was %d', numberAffected);
 	// 	  console.log('The raw response from Mongo was ', raw);
-	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
-	// });		
-	
+	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+	// });
+
 	data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
 	KEdgeModel.update({_id:id}, data, function (err, raw) {
 		if (err) throw err;
 		console.log('The raw response from Mongo was ', raw);
 		data._id = id;
 		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
-	});	
+	});
 }
 
 exports.destroy = function(req, res){
 	var type = req.params.type;
 	var dataId = req.params.searchParam;
 	console.log("[modules/kEdge.js::destroy] dataId:%s, type:%s, req.body: %s", dataId, type, JSON.stringify(req.body));
-	
+
 	switch (type){
 		case 'one': //by edge id:
 			console.log("[modules/kEdge.js:destroy] deleting 'one' edge with id = %d", dataId);
@@ -152,7 +152,7 @@ exports.destroy = function(req, res){
 				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 			});
 			break;
-		case 'connected': //all edges connected to knode.id		
+		case 'connected': //all edges connected to knode.id
 			console.log("[modules/kEdge.js:destroy] deleting 'connected' to %s", dataId);
 			KEdgeModel.remove({ $or:[ {'sourceId':dataId}, {'targetId':dataId}]}, function (err) {
 				if (err){

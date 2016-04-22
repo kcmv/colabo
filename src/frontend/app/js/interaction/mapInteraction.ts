@@ -182,7 +182,8 @@ export class MapInteraction {
 		}
     }
 
-    relinkNode() {
+    relinkNode() {//this process is finished by clickint to a new target node afterwards ...
+      //... in `Map.prototype.nodeSelected_WithoutRTBroadcasting`
         if(!this.isStatusMap()) return;
 		if(!this.clientApi.getSelectedNode()) return; // no parent node selected
 		this.clientApi.knalledgeState.relinkingFrom = this.clientApi.getSelectedNode();
