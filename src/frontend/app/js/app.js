@@ -22,6 +22,8 @@ var requiresList = [
 	, 'knalledgeMapDirectives'
 ];
 
+alert("env.server: " + JSON.stringify(window.Config.env.server));
+
 requiresList.push('rimaServices');
 requiresList.push('rimaDirectives');
 requiresList.push('rimaFilters');
