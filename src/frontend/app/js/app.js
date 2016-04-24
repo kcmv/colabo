@@ -114,6 +114,17 @@ angular.module('KnAllEdgeApp', requiresList)
     'show': 'hide'
   });
 }])
+
+.config(['WhoAmIServiceProvider', function(WhoAmIServiceProvider){
+	WhoAmIServiceProvider.$init(
+		window.Config.Plugins.rima.config.whoAmIService);
+}])
+
+.config(['KnalledgeMapVOsServiceProvider', function(KnalledgeMapVOsServiceProvider){
+	KnalledgeMapVOsServiceProvider.$init(
+		window.Config.Plugins.knalledgeMap.config.knalledgeMapVOsService);
+}])
+
 // Disabling Debug Data
 // https://docs.angularjs.org/guide/production#disabling-debug-data
 //.config(['$compileProvider', function ($compileProvider) {

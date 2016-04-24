@@ -36,7 +36,7 @@ var env = envs.localhost;
 // var env = envs.server;
 
 if(typeof window.Config === 'undefined') window.Config = {};
-window.Config.env = env;
+window.Config.ENV = env;
 
 angular.module('Config')
 	.constant("ENV", env);

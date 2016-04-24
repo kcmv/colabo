@@ -14,6 +14,8 @@ _**Nominal Group Technique**_
   + Each participant creates as much as possible `%IBIS% : Idea`-s that come to his mind when considering the question.
   + All ideas are **private** at this phase.
   + This phase lasts approximately _10 minutes_.
+  + _**Notes. Open?**_
+    + Active user or Logged In?
 1. **Sharing ideas**
   + Participants one by one present (make public) one by one of their ideas
   + There is **no debate about items** at this stage
@@ -24,15 +26,16 @@ _**Nominal Group Technique**_
     + Will new ideas be public or private?
     + :warning: There may be hundred(s) of sibling ideas!! How to manage them? Visual map is going to be disturbed!?! Participants will be lost in finding their ideas to present
 1. **Group discussion**
-  + Participants are invited to seek verbal explanation or further details about any of the ideas that colleagues have produced that may not be clear to them.
+  + `IBIS Dialog` - Participants are invited to seek verbal explanation or further details about any of the ideas that colleagues have produced that may not be clear to them.
   + The facilitator’s task is to ensure that each person is allowed to contribute and that discussion of all ideas is thorough without spending too long on a single idea.
   + It is important to ensure that the process is as **neutral** as possible, **avoiding judgment and criticism (no evaluative comments!)**.
   + The group may suggest **new items for discussion** and combine items into categories, but **no ideas should be eliminated**.
+    + !!! restructuring into groups **could make voting more complicated!!**
   + This stage lasts _30–45 minutes_
 1. **Voting and ranking**
   + This involves prioritizing the recorded ideas in relation to the original question.
   + Following the voting and ranking process, immediate results in response to the question is available to participants so the meeting concludes having reached a specific outcome.
-  + Voting is done by **secret ballot**
+  + Voting can be done by **secret ballot**
   + _**Notes. Open?**_
     + How to vote? Ranking or giving several thumbs up? How to know which votes are yours?
     + UNDO voting?

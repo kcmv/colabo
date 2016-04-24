@@ -238,9 +238,21 @@ Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode) {
 	if(this.knalledgeState.relinkingFrom !== null){ //this is called when we relink this node from old to new parent
 		this.mapStructure.relinkNode(this.knalledgeState.relinkingFrom, vkNode, function(result, error){
 			that.knalledgeState.relinkingFrom = null;
-			vkNode.isOpen = true;
-			//TODO: should we move it into this.mapStructure.relinkNode?
-			that.update(that.mapStructure.rootNode);
+			if(result){
+				vkNode.isOpen = true;
+				//TODO: should we move it into this.mapStructure.relinkNode?
+				that.update(that.mapStructure.rootNode);
+			}
+			else{
+				switch(error){
+					case 'TARGET_EQ_SOURCE':
+						window.alert('You tried to relink the node to itself');
+					break;
+					case 'DISRUPTING_PATH':
+						window.alert('You tried disconnect the path by relinking a node to its descendant');
+					break;
+				}
+			}
 		});
 	}
 
