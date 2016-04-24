@@ -606,19 +606,31 @@ MapStructure.prototype.createEdgeBetweenNodes = function(sourceNode, targetNode,
 	return newVKEdge;
 };
 
-MapStructure.prototype.relinkNode = function(sourceNode, newParent, callback) {
-	if(!this.mapService) {callback(false); return null;}
-	var ancestors = this.getAncestorsPath(newParent);
+/**
+ * [isOnAncestorsPath description]
+ * @param  {[type]}  nodeDescendant [description]
+ * @param  {[type]}  nodeAncestor   [description]
+ * @return {Boolean}                [description]
+ */
+MapStructure.prototype.isOnAncestorsPath = function(nodDescendant, nodeAncestor){
+	var ancestors = this.getAncestorsPath(nodDescendant);
 	//var is_ancestor = false;
 	for(var ancestors_i in ancestors){
-		if(ancestors[ancestors_i] == sourceNode){ //TODO: later when we support multiple parents
+		if(ancestors[ancestors_i] == nodeAncestor){ //TODO: later when we support multiple parents we will have to extend this
 			//is_ancestor = true;
-			callback(false, 'DISRUPTING_PATH');
-			return;
+			return true;
 		}
 	}
+	return false;
+};
 
-	this.mapService.relinkNode(sourceNode.kNode, newParent.kNode, callback);
+MapStructure.prototype.relinkNode = function(sourceNode, newParent, callback) {
+	if(!this.mapService) {callback(false); return null;}
+	if(this.isOnAncestorsPath(newParent,sourceNode)){
+		callback(false, 'DISRUPTING_PATH');
+	} else {
+		this.mapService.relinkNode(sourceNode.kNode, newParent.kNode, callback);
+	}
 };
 
 MapStructure.prototype.sendRequest = function(request, callback) {
