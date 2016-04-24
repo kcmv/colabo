@@ -29,15 +29,25 @@ var rimaServices = angular.module('rimaServices', ['ngResource', 'Config']);
 * @class WhoAmIService
 * @memberof rima.rimaServices
 */
-rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
+rimaServices.provider('WhoAmIService', {
+
+// service config data
+$configData: {},
+
+// init service
+$init: function(configData){
+	this.$configData = configData;
+},
+
+// get (instantiate) service
+$get: ['$resource', '$q', '$injector', 'ENV', 'KnalledgeMapQueue', function($resource, $q, $injector, ENV, KnalledgeMapQueue){
+
+	var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
 	console.log("[WhoAmIService] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/whoAmIs/:type/:searchParam/:searchParam2.json';
 	var resource = $resource(url, {}, {
-		// extending the query action
-		// method has to be defined
-		// we are setting creationId as a pre-bound parameter. in that way url for the query action is equal to: data/creations/creations.json
-		// we also need to set isArray to true, since that is the main difference with get action that also uses GET method
 		getPlain: {method:'GET', params:{type:'one', searchParam:''}, isArray:false,
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
@@ -126,6 +136,8 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 
 	resource.RESOURCE_TYPE = 'WhoAmI';
 
+	resource.configData = this.$configData;
+
 	resource.getById = function(id, callback)
 	{
 		var whoAmI = new knalledge.WhoAmI();
@@ -167,16 +179,25 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		return whoAmIs;
 	};
 
+	resource._processWhoAmIs = function(whoAmIsFromServer){
+		for(var id=0; id<whoAmIsFromServer.length; id++){
+			var whoAmI = knalledge.WhoAmI.whoAmIFactory(whoAmIsFromServer[id]);
+			whoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
+			whoAmIsFromServer[id] = whoAmI;
+		}
+	};
+
 	resource.getAll = function(callback){
-		var whoAmIs = this.queryPlain({type:'all'},
+		var that = this;
+		var whoAmIs = {};
+
+		if (!this.configData.waitToReceiveRimaList){
+			whoAmIs = this.queryPlain({type:'all'},
 			function(whoAmIsFromServer){
-				for(var id=0; id<whoAmIsFromServer.length; id++){
-					var whoAmI = knalledge.WhoAmI.whoAmIFactory(whoAmIsFromServer[id]);
-					whoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
-					whoAmIsFromServer[id] = whoAmI;
-				}
+				that._processWhoAmIs(whoAmIsFromServer);
 				if(callback) callback(whoAmIsFromServer);
 			});
+		}
 		return whoAmIs;
 	}
 
@@ -278,11 +299,18 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		return true;
 	}
 
+	var whoIamIdsUpdatedEventName = "whoIamIdsUpdatedEvent";
+	GlobalEmitterServicesArray.register(whoIamIdsUpdatedEventName);
+	GlobalEmitterServicesArray.get(whoIamIdsUpdatedEventName).subscribe('WhoAmIService', function(whoIamIds) {
+	    console.log("[WhoAmIService::%s] whoIamIds: %s", whoIamIdsUpdatedEventName, whoIamIds);
+	});
+
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
 	return resource;
+}]
 
-}]);
+});
 
 /**
 * @class WhatAmIService

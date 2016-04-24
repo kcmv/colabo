@@ -151,6 +151,7 @@ KNALLEDGE: {
     // KNALLEDGE APP
         { src: join(APP_DEST, 'js/config/config.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/config/config.env.js'), inject: true, noNorm: true},
+        { src: join(APP_DEST, 'js/config/config.plugins.js'), inject: true, noNorm: true},
 
 		{ src: join(APP_DEST, 'js/interaction/interaction.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/interaction/moveAndDrag.js'), inject: true, noNorm: true},

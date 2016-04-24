@@ -764,22 +764,30 @@ Contains the changes (together with the event name) happened in the currently ac
 * @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 knalledgeMapServices.provider('KnalledgeMapVOsService', {
-	// privateData: "privatno",
-	$get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'KnalledgeEdgeService',
-	'RimaService', 'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService',
-	/**
-	* @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
-	* @constructor
-	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeNodeService} KnalledgeNodeService
-	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeEdgeService} KnalledgeEdgeService
-	* @param  {rima.rimaServices.RimaService}  RimaService
-	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
-	* @param  {knalledge.collaboPluginsServices.CollaboPluginsService} CollaboPluginsService
-	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapViewService} KnalledgeMapViewService
-	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
-	*/
-	function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, RimaService,
-		CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService) {
+// service config data
+$configData: {},
+
+// init service
+$init: function(configData){
+	this.$configData = configData;
+},
+
+// get (instantiate) service
+$get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'KnalledgeEdgeService',
+'RimaService', 'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService',
+/**
+* @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
+* @constructor
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeNodeService} KnalledgeNodeService
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeEdgeService} KnalledgeEdgeService
+* @param  {rima.rimaServices.RimaService}  RimaService
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
+* @param  {knalledge.collaboPluginsServices.CollaboPluginsService} CollaboPluginsService
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapViewService} KnalledgeMapViewService
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
+*/
+function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, RimaService,
+	CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService) {
 		// var that = this;
 		try{
 			var KnAllEdgeRealTimeService = $injector.get('KnAllEdgeRealTimeService');
@@ -829,6 +837,8 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			mapStructure: new knalledge.MapStructure(RimaService, KnalledgeMapViewService, KnalledgeMapPolicyService),
 			// TODO: remove, not used any more?!
 			lastVOUpdateTime: null,
+
+			configData: this.$configData,
 
 			/**
 				called by KnAllEdgeRealTimeService when a broadcasted message regarding changes in the map (nodes, edges) structure is received from another client
@@ -1252,17 +1262,17 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 			 * @param  {knalledge.KMap} map - map object
 			 * @return {knalledge.knalledgeMap.knalledgeMapServices.MapData}
 			 */
-			loadAndProcessData: function(map){
+			loadAndProcessData: function(kMap){
 				var that = this;
-				if(typeof map !== 'undefined'){
-					this.mapId = map._id;
-					this.rootNodeId = map.rootNodeId;
+				if(typeof kMap !== 'undefined'){
+					this.mapId = kMap._id;
+					this.rootNodeId = kMap.rootNodeId;
 				}
 				/**
 				 * Map data
 				 * @type  {knalledge.knalledgeMap.knalledgeMapServices.MapData}
 				 */
-				var result = this.loadData(map);
+				var result = this.loadData(kMap);
 				result.$promise.then(function(results){
 					console.log("[KnalledgeMapVOsService::loadData] nodesEdgesReceived");
 
@@ -1294,6 +1304,12 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 					//console.log("result:" + JSON.stringify(result));
 					GlobalEmitterServicesArray.register(modelLoadedEventName);
 					GlobalEmitterServicesArray.get(modelLoadedEventName).broadcast('KnalledgeMapVOsService', result);
+
+					if(that.configData.broadcastMapUsers){
+						var whoIamIdsUpdatedEventName = "whoIamIdsUpdatedEvent";
+						GlobalEmitterServicesArray.register(whoIamIdsUpdatedEventName);
+						GlobalEmitterServicesArray.get(whoIamIdsUpdatedEventName).broadcast('KnalledgeMapVOsService', kMap.participants);
+					}
 				});
 				return result;
 			},
