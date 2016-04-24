@@ -21,7 +21,7 @@ var envs = {
 			"jsonPrefixed": ")]}',\n"
 		},
 	},
-	"json": {		
+	"json": {
 		"server": {
 			"frontend": "http://localhost:8410/app",
 			"backend": "http://localhost:8410/app/data",
@@ -34,6 +34,9 @@ var envs = {
 // var env = envs.json;
 var env = envs.localhost;
 // var env = envs.server;
+
+if(typeof window.Config === 'undefined') window.Config = {};
+window.Config.ENV = env;
 
 angular.module('Config')
 	.constant("ENV", env);

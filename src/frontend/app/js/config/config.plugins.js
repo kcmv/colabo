@@ -6,17 +6,17 @@ var plugins = {
 	"rima": {
         active: true,
         config: {
-            rimaService: {
-                waitToReceiveRimaList: true
+            whoAmIService: {
+                waitToReceiveRimaList: false
             }
         }
 	}
 };
 
 if(typeof window.Config === 'undefined') window.Config = {};
-window.Config.plugins = plugins;
+window.Config.Plugins = plugins;
 
 angular.module('Config')
-	.constant("ENV", env);
+	.constant("Plugins", plugins);
 
 }()); // end of 'use strict';
