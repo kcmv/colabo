@@ -114,7 +114,13 @@ angular.module('KnAllEdgeApp', requiresList)
 }])
 
 .config(['WhoAmIServiceProvider', function(WhoAmIServiceProvider){
-	WhoAmIServiceProvider.$init(window.Config.Plugins.rima.config.whoAmIService);
+	WhoAmIServiceProvider.$init(
+		window.Config.Plugins.rima.config.whoAmIService);
+}])
+
+.config(['KnalledgeMapVOsServiceProvider', function(KnalledgeMapVOsServiceProvider){
+	KnalledgeMapVOsServiceProvider.$init(
+		window.Config.Plugins.knalledgeMap.config.knalledgeMapVOsService);
 }])
 
 // Disabling Debug Data

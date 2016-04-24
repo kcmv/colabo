@@ -3,6 +3,14 @@
 
 /* Configuration */
 var plugins = {
+	"knalledgeMap": {
+        active: true,
+        config: {
+            knalledgeMapVOsService: {
+                broadcastMapUsers: true
+            }
+        }
+	},
 	"rima": {
         active: true,
         config: {

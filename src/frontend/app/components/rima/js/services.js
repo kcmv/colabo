@@ -39,8 +39,11 @@ $init: function(configData){
 	this.$configData = configData;
 },
 
-// get service
-$get: ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
+// get (instantiate) service
+$get: ['$resource', '$q', '$injector', 'ENV', 'KnalledgeMapQueue', function($resource, $q, $injector, ENV, KnalledgeMapQueue){
+
+	var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
 	console.log("[WhoAmIService] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
 	var url = ENV.server.backend + '/whoAmIs/:type/:searchParam/:searchParam2.json';
@@ -290,6 +293,12 @@ $get: ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, EN
 	resource.check = function(request){
 		return true;
 	}
+
+	var whoIamIdsUpdatedEventName = "whoIamIdsUpdatedEvent";
+	GlobalEmitterServicesArray.register(whoIamIdsUpdatedEventName);
+	GlobalEmitterServicesArray.get(whoIamIdsUpdatedEventName).subscribe('WhoAmIService', function(whoIamIds) {
+	    console.log("[WhoAmIService::%s] whoIamIds: %s", whoIamIdsUpdatedEventName, whoIamIds);
+	});
 
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
