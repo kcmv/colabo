@@ -381,6 +381,10 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		.style("display", function(d){
 			return that.mapStructure.hasChildren(d) ? "block" : "none";
 		})
+		.on("click", function(d){
+			d3.event.stopPropagation();
+			that.upperAPI.nodeDblClicked(d);
+		})
 		.html(function(d){
 			return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "+" : "-";
 		});
