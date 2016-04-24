@@ -180,6 +180,11 @@ rimaServices.factory('WhoAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 		return whoAmIs;
 	}
 
+	resource.getWhoAmisFromIdList = function(usersIds, callback){
+		return this.queryPlain({type:'in_list', searchParam: usersIds},
+		function(whoAmIsFromServer){if(callback){callback(whoAmIsFromServer);}});
+	}
+
 	resource.create = function(whoAmI, callback)
 	{
 		console.log("resource.create");
@@ -927,8 +932,22 @@ rimaServices.provider('RimaService', {
 				return this.loggedInWhoAmI.token;
 			},
 
-			loadUsersFromList: function(usersIds, callback){
+			loadUsersFromIDsList: function(usersIds, callback){
 				//TODO: for now we return all users
+				var that = this;
+				this.whoAmIs = WhoAmIService.getWhoAmisFromIdList(usersIds,
+				function(whoAmIsFromServer){
+					//we don't want to loose the old reference by doing 'that.whoAmIs = {}', because directives on upper layer will get unbinded, but instead:
+					for(var prop in that.whoAmIs){
+						if (that.whoAmIs.hasOwnProperty(prop)) { delete that.whoAmIs[prop]; }
+					}
+					//for (var prop in obj) { if (obj.hasOwnProperty(prop)) { delete obj[prop]; } }
+
+					for(var i in whoAmIsFromServer){
+						that.whoAmIs[i] = whoAmIsFromServer[i];
+					}
+					if(callback){callback(that.whoAmIs);}
+				});
 				return this.whoAmIs;
 			},
 
@@ -940,7 +959,7 @@ rimaServices.provider('RimaService', {
 				// 	// $rootScope.$broadcast(eventName, result);
 				// };
 
-				// this.whoAmIs = this.loadUsersFromList(null);
+				// this.whoAmIs = this.loadUsersFromIDsList(null);
 				// this.howAmIs = this.getUsersHows(this.getActiveUserId());
 
 				// $q.all([this.whoAmIs.$promise, this.howAmIs.$promise])
@@ -1085,8 +1104,9 @@ rimaServices.provider('RimaService', {
 				return returnedGrids;
 			},
 
-			/*
-			gets all users whose id is in Array @param ids
+			/**
+			* gets all users whose id is in Array @param ids
+			* TODO: not finished:
 			*/
 			getUsersByIds: function(ids){
 				// var idsH = null;
@@ -1094,6 +1114,8 @@ rimaServices.provider('RimaService', {
 				// 	//turn to hash for speed:
 				// 	for(var i in whoAmIs){
 				// 		var grid = whoAmIs[i];
+				// 		...
+				// 	}
 				// }
 				// else{
 				// 	idsH = ids;

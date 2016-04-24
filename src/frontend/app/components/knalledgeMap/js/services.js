@@ -1153,6 +1153,24 @@ knalledgeMapServices.provider('KnalledgeMapVOsService', {
 
 			},
 
+			sendRequest: function(request, callback){
+				request.mapId = this.mapId;
+				request.iAmId = RimaService.getWhoAmI()._id;
+				var users = RimaService.loadUsersFromIDsList(['556760847125996dc1a4a24f', '556760847125996dc1a4a241']);
+				users.$promise.then(function(results){
+					console.log('result from loadUsersFromIDsList', JSON.stringify(results));
+				});
+				if(KnAllEdgeRealTimeService){
+					KnAllEdgeRealTimeService.sendRequest(request, callback);
+				} else {
+					callback(false, 'SERVICE_UNAVAILABLE');
+				}
+			},
+
+			receivedRequest: function(request){
+
+			},
+
 			createEdge: function(kEdge, callback) {
 				var edgeCreated = function(edgeFromServer) {
 					console.log("[KnalledgeMapVOsService::createEdge] edgeCreated" + JSON.stringify(edgeFromServer));
@@ -2286,6 +2304,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 	 * @param  {topiChat.TopiChatService} TopiChatService - lower level topiChat real-time communication service
 	 * @param  {knalledge.knalledgeMap.KnalledgeMapPolicyService} KnalledgeMapPolicyService - Service that configures policy aspects of the KnAllEdge system
 	 */
+
 	function($injector, KnalledgeMapPolicyService/*$q , ENV, $rootScope*/) {
 
 		try{
@@ -2295,6 +2314,9 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 		}
 
 		var provider = {
+			EVENT_NAME_REQUEST : 'REQUEST',
+			EVENT_NAME_PARTICIPANT_REPLICA : 'PARTICIPANT_REPLICA_REQUEST',
+			GlobalEmitterServicesArray: null,
 			/**
 			 * hash array of plugins, where key is the plugin name
 			 * @type {Array.<string, Object>}
@@ -2318,6 +2340,9 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			 */
 			init: function(){
 				// registering chat plugin
+
+				this.GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
 				if(TopiChatService){
 					var knalledgeRealTimeServicePluginOptions = {
 						name: "knalledgeRealTimeService",
@@ -2327,6 +2352,15 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					};
 
 					TopiChatService.registerPlugin(knalledgeRealTimeServicePluginOptions);
+
+					var RequestPluginOptions = {
+						name: "KnAllEdgeRealTimeService",
+						events: {
+						}
+					};
+					RequestPluginOptions.events[this.EVENT_NAME_REQUEST] = this.receivedRequest.bind(this);
+					this.registerPlugin(RequestPluginOptions);
+
 				}
 				return this;
 			},
@@ -2366,6 +2400,11 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					return true;
 				}
 				else{ //direction = 'out'
+					switch(eventName){
+						case this.EVENT_NAME_REQUEST:
+							return KnalledgeMapPolicyService.provider.config.mediation.sendRequest;
+						break;
+					}
 					if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled){//if broadcasting is disabled
 						if(emitStructuralChangesByNonBroadcasters && structuralChanges[eventName] != undefined){ //we want to send structural changes by all participant, not only by broadcasting moderators
 							return true;
@@ -2450,6 +2489,17 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 						pluginCallback(eventName, msg);
 					}
 				}
+			},
+
+			sendRequest: function(request, callback){
+					console.log('[KnAllEdgeRealTimeService:request] sendRequest:', JSON.stringify(request));
+					this.emit(this.EVENT_NAME_REQUEST, request);
+			},
+
+			receivedRequest: function(eventName, request){
+					console.log('[KnAllEdgeRealTimeService:receivedRequest] request:', JSON.stringify(request));
+					this.GlobalEmitterServicesArray.register(this.EVENT_NAME_PARTICIPANT_REPLICA);
+					this.GlobalEmitterServicesArray.get(this.EVENT_NAME_PARTICIPANT_REPLICA).broadcast('KnalledgeMapVOsService', {'request':request,'event':this.EVENT_NAME_PARTICIPANT_REPLICA});
 			}
 		};
 
@@ -2459,6 +2509,88 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 	}]
 })
 ;
+
+// /** RIGHT NEO INTEGRATED IN `KnAllEdgeRealTimeService`. To see if we want an independent service
+// * @class RequestsService
+// * @memberof knalledge.knalledgeMap.knalledgeMapServices
+// */
+// knalledgeMapServices.provider('RequestsService', {
+// 	$get: ['KnalledgeMapPolicyService', /*'$q', 'ENV', '$rootScope', */
+//
+// 	/**
+// 	* @memberof knalledge.knalledgeMap.knalledgeMapServices.RequestsService#
+// 	* @constructor
+// 	 * @param  {topiChat.TopiChatService} TopiChatService - lower level topiChat real-time communication service
+// 	 * @param  {knalledge.knalledgeMap.KnalledgeMapPolicyService} KnalledgeMapPolicyService - Service that configures policy aspects of the KnAllEdge system
+// 	 */
+// 	function(KnalledgeMapPolicyService/*$q , ENV, $rootScope*/) {
+//
+// 		var provider = {
+// 			/**
+// 			 * Initializes the service.
+// 			 * It registeres itself with bottom topiChat layer to communicate on
+// 			 * 'kn:realtime' stream/event
+// 			 * @function init
+// 			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.RequestsService#
+// 			 * @return {knalledge.knalledgeMap.knalledgeMapServices.RequestsService}
+// 			 */
+// 			init: function(){
+// 				// registering chat plugin
+// 				return this;
+// 			},
+//
+// 			/**
+// 			 * sends requests
+// 			 * @function sendRequest
+// 			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.RequestsService#
+// 			 * @param  {Object} request
+// 			 * @return {knalledge.knalledgeMap.knalledgeMapServices.RequestsService}
+// 			 */
+// 			sendRequest: function(request){
+// 				console.log('[RequestsService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));
+// 				var knPackage = {
+// 					eventName: eventName,
+// 					msg: msg
+// 				};
+// 			},
+//
+// 			/**
+// 			 *called by TopiChatService when a broadcasted message is received from another client
+//
+// 			 * This method dispatches to the higher layers (plugins)
+// 			 * a message that was received from the bottom layer (topiChat)
+// 			 * @function _dispatchEvent
+// 			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.RequestsService#
+// 			 * @param  {string} tcEventName - event name that message received at
+// 			 * @param  {Object} knPackage - knalledge realtime package
+// 			 * @return {knalledge.knalledgeMap.knalledgeMapServices.RequestsService}
+// 			 */
+// 			receivedRequest: function(request) {
+// 				console.log('[RequestsService:receivedRequest] request', JSON.stringify(request));
+//
+// 				var msg = knPackage.msg;
+// 				var eventName = knPackage.eventName;
+// 				if(this.filterBroadcasting('in',eventName)){
+// 					var eventByPlugins = this.eventsByPlugins[eventName];
+// 					for(var id in eventByPlugins){
+// 						var pluginOptions = eventByPlugins[id];
+// 						var pluginName = pluginOptions.name;
+//
+// 						console.log('\t dispatching to plugin: %s', pluginName);
+// 						var pluginCallback = pluginOptions.events[eventName];
+// 						pluginCallback(eventName, msg);
+// 					}
+// 				}
+// 			}
+// 		};
+//
+// 		provider.init();
+//
+// 		return provider;
+// 	}]
+// })
+// ;
+
 
 
 }()); // end of 'use strict';

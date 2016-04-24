@@ -1,6 +1,6 @@
 <div class="mapsList">
 	<h1>KnAllEdge Maps</h1>
-	<div class='creatingNewMap' ng-class="{ 'displayNone': modeCreating == false }">
+	<div class='creatingNewMap' ng-class="{ 'displayNone': modeCreating == false && modeEditing == false}">
 		<form>
 			<fieldset>
 				<legend>New Map</legend>
@@ -13,7 +13,12 @@
 				<div><label>Authors</label><input type="text" ng-model="mapToCreate.dataContent.mcm.authors" /></div>
 		 		<p class="buttons">
 					<button class="btn btn-warning" ng-click="cancelled()">Cancel</button>
-					<button class="btn btn-primary" type="submit" ng-click="createNew()">Create Map</button>
+					<span class='showCreateNewMap' ng-class="{ 'displayNone': modeCreating == false }">
+						<button class="btn btn-primary" type="submit" ng-click="createNew()">Create Map</button>
+					</span>
+					<span class='showCreateNewMap' ng-class="{ 'displayNone': modeEditing == false }">
+						<button class="btn btn-primary" type="submit" ng-click="updateMap()">Save</button>
+					</span>
 				</p>
 			</fieldset>
 		</form>
@@ -36,7 +41,8 @@
 	</div>
 	<p class="buttons">
 		<button class="btn btn-primary" type="submit" ng-click="openMap()">Open Map</button>
-		<span class='showCreateNewMap' ng-class="{ 'displayNone': modeCreating == true }">
+		<button class="btn btn-primary" type="submit" ng-click="editMap()">Edit Map</button>
+		<span class='showCreateNewMap' ng-class="{ 'displayNone': modeCreating == true || modeEditing == true}">
 			<button class="btn btn-primary" ng-click="showCreateNewMap()">Create a New Map</button>
 		</span>
 	</p>

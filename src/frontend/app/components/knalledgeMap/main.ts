@@ -7,6 +7,7 @@ import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MATERIAL_DIRECTIVES, Media, SidenavService} from "ng2-material/all";
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
+import {TopPanel} from '../topPanel/topPanel';
 // import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 
@@ -35,7 +36,8 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
         upgradeAdapter.upgradeNg1Component('rimaRelevantList'),
         upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
     //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
-        KnalledgeMapTools
+        KnalledgeMapTools,
+        TopPanel
     ],
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
