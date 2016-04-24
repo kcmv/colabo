@@ -163,6 +163,7 @@ KNALLEDGE: {
 		{ src: join(APP_DEST, 'js/knalledge/kNode.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/knalledge/kEdge.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/knalledge/kMap.js'), inject: true, noNorm: true},
+    { src: join(APP_DEST, 'js/knalledge/request.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/knalledge/WhoAmI.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/knalledge/HowAmI.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/knalledge/WhatAmI.js'), inject: true, noNorm: true},

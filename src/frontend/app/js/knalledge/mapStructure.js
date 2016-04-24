@@ -325,7 +325,9 @@ MapStructure.prototype.openAncestors = function(node){
 	if(node == null){return;}
 	var ancestors = this.getAncestorsPath(node);
 	for(var j in ancestors){
-		ancestors[j].isOpen = true;
+		if(ancestors[j] != node){ // becasue getAncestorsPath returns the `node` too
+			ancestors[j].isOpen = true;
+		}
 	}
 	//console.log('setVisibility - openAncestors: ' + getNodesNames(ancestors));
 	return this;
@@ -618,6 +620,11 @@ MapStructure.prototype.relinkNode = function(sourceNode, newParent, callback) {
 
 	this.mapService.relinkNode(sourceNode.kNode, newParent.kNode, callback);
 };
+
+MapStructure.prototype.sendRequest = function(request, callback) {
+	if(!this.mapService) {callback(false, 'SERVICE_UNAVAILABLE'); return null;}
+	this.mapService.sendRequest(request, callback);
+}
 
 MapStructure.prototype.createNodeWithEdge = function(sourceVKNode, vkEdge, targetVKNode, callback) {
 	if(!(sourceVKNode.id in this.nodesById)){

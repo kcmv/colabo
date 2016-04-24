@@ -10,7 +10,7 @@ var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
 
 function resSendJsonProtected(res, data){
-	// http://tobyho.com/2011/01/28/checking-types-in-javascript/	
+	// http://tobyho.com/2011/01/28/checking-types-in-javascript/
 	if(data !== null && typeof data === 'object'){ // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
 		res.set('Content-Type', 'application/json');
 		// JSON Vulnerability Protection
@@ -38,6 +38,13 @@ db.on('error', console.error.bind(console, 'connection error:'));
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/whoAmIs/one/5544aedea7592efb3e3c561d
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/whoAmIs/in_map/552678e69ad190a642ad461c
 exports.index = function(req, res){
+
+	/**
+	 * [function called as a find callback]
+	 * @param  {[type]} err     [description]
+	 * @param  {[type]} whoAmIs [description]
+	 * @return {[type]}         [description]
+	 */
 	var found = function(err,whoAmIs){
 		console.log("[modules/whoAmI.js:index] in 'found'");
 		if (err){
@@ -45,11 +52,11 @@ exports.index = function(req, res){
 			var msg = JSON.stringify(err);
 			resSendJsonProtected(res, {data: whoAmIs, accessId : accessId, message: msg, success: false});
 		}else{
-			//console.log("[modules/whoAmI.js:index] Data:\n%s", JSON.stringify(whoAmIs));
+			console.log("[modules/whoAmI.js:index] Data:\n%s", JSON.stringify(whoAmIs));
 			resSendJsonProtected(res, {data: whoAmIs, accessId : accessId, success: true});
 		}
 	}
-	
+
 	var id = req.params.searchParam;
 	var id2 = req.params.searchParam2;
 	if(mockup && mockup.db && mockup.db.data){
@@ -66,7 +73,7 @@ exports.index = function(req, res){
 	// 	console.log(whoAmIs);
 	// 	//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	// });
-	
+
 	console.log("[modules/whoAmI.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
 	switch (req.params.type){
 		case 'one': //by id:
@@ -79,7 +86,12 @@ exports.index = function(req, res){
 			break;
 		case 'in_list': //by id:
 			console.log("in_list:\n list: %s.\n", req.params.searchParam);
-			WhoAmIModel.find({}, found);
+			var ids = []
+			if(req.params.searchParam != undefined){
+				var ids = req.params.searchParam.split(',');
+			}
+			console.log('isArray:', Array.isArray(ids),ids.length);
+			WhoAmIModel.find({_id: {$in: ids}}, found);
 			break;
 		case 'all':
 			console.log("all", req.params.searchParam);
@@ -100,9 +112,9 @@ exports.index = function(req, res){
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/whoAmIs
 exports.create = function(req, res){
 	console.log("[modules/whoAmI.js:create] req.body: %s", JSON.stringify(req.body));
-	
+
 	var data = req.body;
-	
+
 	console.log(data);
 	var whoAmI = new WhoAmIModel(data);
 
@@ -110,7 +122,7 @@ exports.create = function(req, res){
 		if (err) throw err;
 		console.log("[modules/WhoAmI.js:create] id:%s, whoAmI data: %s", whoAmI._id, JSON.stringify(whoAmI));
 		resSendJsonProtected(res, {success: true, data: whoAmI, accessId : accessId});
-	});				
+	});
 }
 
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/whoAmIs/one/55266618cce5af993fe8675f
@@ -119,11 +131,11 @@ exports.update = function(req, res){
 
 	var data = req.body;
 	var id = req.params.searchParam;
-	
+
 	/* this is wrong because it creates default-values populated object (including id) first and then populate it with paremeter object:
 	 * var whoAmI = new WhoAmIModel(req.body);
 	 */
-	
+
 	console.log("[modules/WhoAmI.js:update] id : %s", id );
 	console.log("[modules/WhoAmI.js:update] data, : %s", JSON.stringify(data));
 	// console.log("[modules/WhoAmI.js:update] whoAmI.toObject(), : %s", JSON.stringify(whoAmI.toObject());
@@ -143,8 +155,8 @@ exports.update = function(req, res){
 	// 	  if (err) throw err;
 	// 	  console.log('The number of updated documents was %d', numberAffected);
 	// 	  console.log('The raw response from Mongo was ', raw);
-	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
-	// });			
+	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+	// });
 }
 
 // curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8888/whoAmIs/one/551bdcda1763e3f0eb749bd4

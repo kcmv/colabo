@@ -69,6 +69,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		getDomFromDatum: this.mapVisualization.getDomFromDatum.bind(this.mapVisualization),
 		getCoordinatesFromDatum: this.mapVisualization.getCoordinatesFromDatum.bind(this.mapVisualization),
 		nodeSelected: this.nodeSelected.bind(this),
+		sendRequest: this.mapStructure.sendRequest.bind(this.mapStructure),
 		update: this.mapVisualization.update.bind(this.mapVisualization),
 		createNode: this.mapStructure.createNode.bind(this.mapStructure),
 		deleteNode: this.mapStructure.deleteNode.bind(this.mapStructure),

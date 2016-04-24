@@ -1,0 +1,6 @@
+<div class="controlls">
+    <div class="btn-group">
+        <md-switch class="md-primary" aria-label="Sniff communication" [(checked)]="config.sniff" (checkedChange)="configChanged('sniff', sniff)">Sniff communication</md-switch>
+		<button md-raised-button class="md-raised" (click)="addPlugin()">Add Plugin</button>
+    </div>
+</div>
