@@ -1,10 +1,11 @@
 import {Injectable
- , Inject
+ // , Inject
 } from 'angular2/core';
 
 import {Request} from './request';
 import {RequestType} from './request';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {RequestVisibility} from './request';
+// import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 @Injectable()
 export class RequestService {
@@ -13,6 +14,7 @@ export class RequestService {
   private rimaService:any;
   private knalledgeMapVOsService:any;
   private knAllEdgeRealTimeService:any;
+  private knalledgeMapPolicyService:any;
 
   /**
    * Service constructor
@@ -23,13 +25,13 @@ export class RequestService {
    * @param  {Object} ENV                   [description]
    * @param  {Service} TopiChatConfigService - TopiChat Config service
    */
-  constructor(RimaService, KnalledgeMapVOsService, KnAllEdgeRealTimeService
-    , @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+  constructor(RimaService, KnalledgeMapVOsService, KnAllEdgeRealTimeService, KnalledgeMapPolicyService
+    // , @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
   ) {
       this.rimaService = RimaService;
       this.knalledgeMapVOsService = KnalledgeMapVOsService;
       this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
-
+      this.knalledgeMapPolicyService = KnalledgeMapPolicyService;
 
       let requestPluginOptions: any = {
         name: "RequestService",
@@ -55,20 +57,43 @@ export class RequestService {
   }
 
   filterRequest(request){
-    return true;
+    switch(request.visibility){
+      case RequestVisibility.ALL:
+        return true;
+      //break;
+      case RequestVisibility.MAP_PARTICIPANTS:
+        return request.mapId === this.knalledgeMapVOsService.getMapId(); //TODO: can be ckecked further for map participants
+      //break;
+      case RequestVisibility.MAP_MEDIATORS:
+        if(this.knalledgeMapPolicyService.moderating.enabled){
+          return true;
+        } else {
+          return false;
+        }
+      //break;
+      case RequestVisibility.USER:
+        if(request.dataContent && request.dataContent.toWhom && request.dataContent.toWhom === this.rimaService.getWhoAmI()._id){
+          return true;
+        } else {
+          return false;
+        }
+      //break;
+      default:
+        return true;
+    }
   }
 
   receivedRequest(eventName:string, request:Request){
       if(this.filterRequest(request)){
         request.who = this.rimaService.getUserById(request.who); //can be null!
-        request.reference = this.knalledgeMapVOsService.getNodeById(request.reference);
+        request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!
         console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
         if(request.type === RequestType.REPLICA){
           console.log(' requested REPLICA for ');
         }
-        this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
-        this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
-        'RequestService', {'request':request,'event':this.EMITTER_NAME_REQUEST});
+        // this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
+        // this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
+        // 'RequestService', {'request':request,'event':this.EMITTER_NAME_REQUEST});
       }
   }
 }
