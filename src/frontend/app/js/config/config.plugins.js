@@ -18,7 +18,7 @@ var plugins = {
             whoAmIService: {
 				// should the service wait for users be broadcasted from other components
 				// (like KnalledgeMapVOsService) or request loading all of them?
-                waitToReceiveRimaList: false
+                waitToReceiveRimaList: true
             }
         }
 	}
