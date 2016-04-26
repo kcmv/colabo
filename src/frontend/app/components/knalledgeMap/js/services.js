@@ -1102,6 +1102,10 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 				return KnalledgeNodeService.update(node, callback); //TODO: ? updateType); //updating on server service
 			},
 
+			getMapId: function(){
+				return this.mapId;
+			},
+
 			deleteNode: function(node) {
 				var result = KnalledgeNodeService.destroy(node._id); //deleteNode on server service
 				delete this.nodesById[node._id]; //TODO: see if we should do it only upon server deleting success
@@ -1160,24 +1164,6 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 				else{
 					callback(false,'NO_EDGE');
 				}
-
-			},
-
-			sendRequest: function(request, callback){
-				request.mapId = this.mapId;
-				request.iAmId = RimaService.getWhoAmI()._id;
-				var users = RimaService.loadUsersFromIDsList(['556760847125996dc1a4a24f', '556760847125996dc1a4a241']);
-				users.$promise.then(function(results){
-					console.log('result from loadUsersFromIDsList', JSON.stringify(results));
-				});
-				if(KnAllEdgeRealTimeService){
-					KnAllEdgeRealTimeService.sendRequest(request, callback);
-				} else {
-					callback(false, 'SERVICE_UNAVAILABLE');
-				}
-			},
-
-			receivedRequest: function(request){
 
 			},
 
@@ -2330,7 +2316,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 		}
 
 		var provider = {
-			EVENT_NAME_REQUEST : 'REQUEST',
+			EVENT_NAME_REQUEST : 'EVENT_NAME_REQUEST',
 			EVENT_NAME_PARTICIPANT_REPLICA : 'PARTICIPANT_REPLICA_REQUEST',
 			GlobalEmitterServicesArray: null,
 			/**
@@ -2357,7 +2343,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			init: function(){
 				// registering chat plugin
 
-				this.GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+				//this.GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 
 				if(TopiChatService){
 					var knalledgeRealTimeServicePluginOptions = {
@@ -2368,15 +2354,6 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					};
 
 					TopiChatService.registerPlugin(knalledgeRealTimeServicePluginOptions);
-
-					var RequestPluginOptions = {
-						name: "KnAllEdgeRealTimeService",
-						events: {
-						}
-					};
-					RequestPluginOptions.events[this.EVENT_NAME_REQUEST] = this.receivedRequest.bind(this);
-					this.registerPlugin(RequestPluginOptions);
-
 				}
 				return this;
 			},
@@ -2505,17 +2482,6 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 						pluginCallback(eventName, msg);
 					}
 				}
-			},
-
-			sendRequest: function(request, callback){
-					console.log('[KnAllEdgeRealTimeService:request] sendRequest:', JSON.stringify(request));
-					this.emit(this.EVENT_NAME_REQUEST, request);
-			},
-
-			receivedRequest: function(eventName, request){
-					console.log('[KnAllEdgeRealTimeService:receivedRequest] request:', JSON.stringify(request));
-					this.GlobalEmitterServicesArray.register(this.EVENT_NAME_PARTICIPANT_REPLICA);
-					this.GlobalEmitterServicesArray.get(this.EVENT_NAME_PARTICIPANT_REPLICA).broadcast('KnalledgeMapVOsService', {'request':request,'event':this.EVENT_NAME_PARTICIPANT_REPLICA});
 			}
 		};
 

@@ -55,6 +55,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		var NotifyService = $injector.get('NotifyService');
 		var NotifyNodeService = $injector.get('NotifyNodeService');
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+	 	var RequestService = $injector.get('RequestService');
 
 		//duplikat: var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
@@ -423,6 +424,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							'NotifyNodeService': NotifyNodeService
 						}
 					};
+					injector.addPath("RequestService", RequestService);
 
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),

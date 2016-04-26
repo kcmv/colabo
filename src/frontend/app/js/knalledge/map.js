@@ -106,9 +106,10 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		}.bind(this)
 	};
 
+	var RequestService = this.injector.get('RequestService');
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
 	//this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
-	this.mapInteraction = new MapInteraction(mapInterface);
+	this.mapInteraction = new MapInteraction(mapInterface, RequestService);
 	this.mapInteraction.init();
 	this.injector.addPath("mapInteraction", this.mapInteraction);
 

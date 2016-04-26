@@ -8,6 +8,7 @@ import {MATERIAL_DIRECTIVES, Media, SidenavService} from "ng2-material/all";
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {TopPanel} from '../topPanel/topPanel';
+// import {RequestService} from '../request/request.service';
 // import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 
@@ -25,7 +26,11 @@ import {TopPanel} from '../topPanel/topPanel';
 
 @Component({
     selector: 'knalledge-map-main',
-    providers: [SidenavService],
+    providers: [
+      SidenavService
+      // ,
+      // RequestService
+    ],
     directives: [
         MATERIAL_DIRECTIVES,
         // MdContent, MdButton,

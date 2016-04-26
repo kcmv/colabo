@@ -1,3 +1,7 @@
+import {RequestService} from "../../components/request/request.service";
+import {Request} from "../../components/request/request";
+import {RequestType} from "../../components/request/request";
+
 // external from the JS world
 declare var interaction;
 declare var knalledge;
@@ -19,7 +23,10 @@ export class MapInteraction {
     */
     private debug;
 
-    constructor(clientApi) {
+    constructor(
+      clientApi,
+      private _requestService:RequestService
+    ) {
         this.clientApi = clientApi;
         this.debug = debugpp.debug('interaction.MapInteraction');
     };
@@ -198,10 +205,10 @@ export class MapInteraction {
       //window.confirm('Are you sure you want to send request for REPLICA on the node\n"'+reference.kNode.name+'"')){
         window.alert('You are sending request for REPLICA on the node\n"'+reference.kNode.name+'"');
         if(!this.isStatusMap()) {return;}
-        var request = new knalledge.Request();
-        request.type = knalledge.Request.TYPE_REPLICA;
+        let request:Request = new Request();
+        request.type = RequestType.REPLICA;
         request.reference = reference.kNode._id;
-        this.clientApi.sendRequest(request, function(result, error){
+        this._requestService.sendRequest(request, function(result, error){
     			if(result){
     				//TODO: update participant's requests panel
     			} else{

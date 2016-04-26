@@ -1,11 +1,11 @@
-import {Component, Inject} from 'angular2/core';
-import {NgIf, NgFor, FORM_DIRECTIVES} from 'angular2/common';
+import {Component} from 'angular2/core';
+//import {NgIf, NgFor, FORM_DIRECTIVES} from 'angular2/common';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MdRadioDispatcher, MATERIAL_DIRECTIVES} from 'ng2-material/all';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
+// import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import { DatePipe } from "angular2/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
-
+import {RequestComponent} from '../request/request.component';
 /**
  * Directive that
  * 1. reports all plugins registered to the topiChat communication service
@@ -20,10 +20,10 @@ import { OrderArrayPipe } from "../utils/orderArrayPipe";
 
 @Component({
     selector: 'top-panel', //'topichat-reports',
-    providers: [MdRadioDispatcher],
+    providers: [],
     directives: [
         MATERIAL_DIRECTIVES,
-        NgIf, NgFor, FORM_DIRECTIVES,
+        RequestComponent
    ],
    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
@@ -38,26 +38,14 @@ import { OrderArrayPipe } from "../utils/orderArrayPipe";
     `]
 })
 export class TopPanel {
-    config:any = {
-        sniff: true
-    };
-    plugins:any;
 
     constructor(
-        @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
+        // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
         // globalEmitterServicesArray:GlobalEmitterServicesArray
     ) {
         console.log('[TopPanel]');
 
         // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
         // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
-
-        this.globalEmitterServicesArray = globalEmitterServicesArray;
     };
-    private globalEmitterServicesArray:GlobalEmitterServicesArray;
-
-    configChanged(path, value) {
-        return;
-    };
-
 }
