@@ -115,9 +115,9 @@ angular.module('KnAllEdgeApp', requiresList)
   });
 }])
 
-.config(['WhoAmIServiceProvider', function(WhoAmIServiceProvider){
-	WhoAmIServiceProvider.$init(
-		window.Config.Plugins.rima.config.whoAmIService);
+.config(['RimaServiceProvider', function(RimaServiceProvider){
+	RimaServiceProvider.$init(
+		window.Config.Plugins.rima.config.rimaService);
 }])
 
 .config(['KnalledgeMapVOsServiceProvider', function(KnalledgeMapVOsServiceProvider){

@@ -132,6 +132,8 @@ $get: ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, EN
 		}
 	});
 
+	resource.configData = this.$configData;
+
 	resource.RESOURCE_TYPE = 'WhoAmI';
 
 	resource.getById = function(id, callback)
@@ -812,8 +814,16 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 * @memberof rima.rimaServices
 */
 rimaServices.provider('RimaService', {
-	// privateData: "privatno",
-	$get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', /*'$rootScope', */
+// service config data
+$configData: {},
+
+// init service
+$init: function(configData){
+	this.$configData = configData;
+},
+
+// get (instantiate) service
+$get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', /*'$rootScope', */
 	function($q, $window, $injector, ENV, WhoAmIService, WhatAmIService, HowAmIService /*, $rootScope*/) {
 
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
@@ -833,6 +843,8 @@ rimaServices.provider('RimaService', {
 				showUsers: true
 			},
 
+			configData: this.$configData,
+
 			init: function(){
 				this.loggedInWhoAmI._id = this.ANONYMOUS_USER_ID;
 				this.loggedInWhoAmI.displayName = "anonymous";
@@ -848,7 +860,7 @@ rimaServices.provider('RimaService', {
 					console.log("this.howAmIs:"+this.howAmIs);
 				}.bind(this));
 
-				if (false && !this.configData.waitToReceiveRimaList){
+				if (!this.configData.waitToReceiveRimaList){
 					WhoAmIService.getAll(function(whoAmIsFromServer){
 						for(var i=0; i<whoAmIsFromServer.length; i++){
 							var whoAmI = whoAmIsFromServer[i];
