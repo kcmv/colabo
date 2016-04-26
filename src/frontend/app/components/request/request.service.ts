@@ -1,11 +1,10 @@
 import {Injectable
- // , Inject
 } from 'angular2/core';
 
 import {Request} from './request';
 import {RequestType} from './request';
 import {RequestVisibility} from './request';
-// import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 @Injectable()
 export class RequestService {
@@ -15,6 +14,7 @@ export class RequestService {
   private knalledgeMapVOsService:any;
   private knAllEdgeRealTimeService:any;
   private knalledgeMapPolicyService:any;
+  private globalEmitterServicesArray:GlobalEmitterServicesArray;
 
   /**
    * Service constructor
@@ -25,13 +25,14 @@ export class RequestService {
    * @param  {Object} ENV                   [description]
    * @param  {Service} TopiChatConfigService - TopiChat Config service
    */
-  constructor(RimaService, KnalledgeMapVOsService, KnAllEdgeRealTimeService, KnalledgeMapPolicyService
-    // , @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+  constructor(RimaService, KnalledgeMapVOsService, KnalledgeMapPolicyService,
+      KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_
   ) {
       this.rimaService = RimaService;
       this.knalledgeMapVOsService = KnalledgeMapVOsService;
       this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
       this.knalledgeMapPolicyService = KnalledgeMapPolicyService;
+      this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
 
       let requestPluginOptions: any = {
         name: "RequestService",
@@ -65,7 +66,7 @@ export class RequestService {
         return request.mapId === this.knalledgeMapVOsService.getMapId(); //TODO: can be ckecked further for map participants
       //break;
       case RequestVisibility.MAP_MEDIATORS:
-        if(this.knalledgeMapPolicyService.moderating.enabled){
+        if(this.knalledgeMapPolicyService.provider.config.moderating.enabled){
           return true;
         } else {
           return false;
@@ -91,9 +92,9 @@ export class RequestService {
         if(request.type === RequestType.REPLICA){
           console.log(' requested REPLICA for ');
         }
-        // this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
-        // this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
-        // 'RequestService', {'request':request,'event':this.EMITTER_NAME_REQUEST});
+        this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
+        this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
+        'RequestService', {'request':request,'event':this.EMITTER_NAME_REQUEST});
       }
   }
 }

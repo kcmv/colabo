@@ -38,7 +38,8 @@ export class RequestComponent{
       // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
 
       this.globalEmitterServicesArray.register(_requestService.EMITTER_NAME_REQUEST);
-    	this.globalEmitterServicesArray.get(_requestService.EMITTER_NAME_REQUEST).subscribe('RequestComponent', this.requestReceived);
+    	this.globalEmitterServicesArray.get(_requestService.EMITTER_NAME_REQUEST).subscribe(
+        'RequestComponent', this.requestReceived.bind(this));
 
       this.getMockupRequests();
   }
