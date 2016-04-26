@@ -1,5 +1,4 @@
 import {Injectable
- , Inject
 } from 'angular2/core';
 
 import {Request} from './request';
@@ -13,6 +12,7 @@ export class RequestService {
   private rimaService:any;
   private knalledgeMapVOsService:any;
   private knAllEdgeRealTimeService:any;
+  private globalEmitterServicesArray:GlobalEmitterServicesArray;
 
   /**
    * Service constructor
@@ -23,12 +23,13 @@ export class RequestService {
    * @param  {Object} ENV                   [description]
    * @param  {Service} TopiChatConfigService - TopiChat Config service
    */
-  constructor(RimaService, KnalledgeMapVOsService, KnAllEdgeRealTimeService
-    , @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+  constructor(RimaService, KnalledgeMapVOsService,
+      KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_
   ) {
       this.rimaService = RimaService;
       this.knalledgeMapVOsService = KnalledgeMapVOsService;
       this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
+      this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
 
 
       let requestPluginOptions: any = {
