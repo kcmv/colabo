@@ -25,10 +25,12 @@ export class Request {
 	public static MaxId: number = 0;
 
 	public id: number;
-	public reference: any; //reference to a node or other object regarding which participant has a request
+	public reference: any; //it is id or an reference ...//
+	//(depending in which layer we are) to a node or other object regarding which participant has a request
 	public type: number; //coressponding to enum `Type`
 	public mapId: number; // id of map this object belongs to
-	public iAmId: number;	//id of object creator (whoAmi/RIMA user)
+	public who: any;	// it is iAmId or an reference ...//
+	//(depending in which layer we are) to the object creator (whoAmi/RIMA user)
 	public visibility: number; //coressponding to enum `Visibility`
 	public createdAt: any; //when the object is created
 	public updatedAt: any; //when the obect is updated
@@ -41,7 +43,7 @@ export class Request {
 		this.reference = null;
 		this.type = RequestType.UNDEFINED;
 		this.mapId = null;
-		this.iAmId = 0;
+		this.who = 0;
 		this.visibility = RequestVisibility.MapMediators;
 		this.createdAt = null;
 		this.updatedAt = null;

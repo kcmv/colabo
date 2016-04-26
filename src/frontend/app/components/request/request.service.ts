@@ -1,10 +1,10 @@
 import {Injectable
-//  , Inject
+ , Inject
 } from 'angular2/core';
 
 import {Request} from './request';
 import {RequestType} from './request';
-//import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 @Injectable()
 export class RequestService {
@@ -24,7 +24,7 @@ export class RequestService {
    * @param  {Service} TopiChatConfigService - TopiChat Config service
    */
   constructor(RimaService, KnalledgeMapVOsService, KnAllEdgeRealTimeService
-    //, @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+    , @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
   ) {
       this.rimaService = RimaService;
       this.knalledgeMapVOsService = KnalledgeMapVOsService;
@@ -43,7 +43,7 @@ export class RequestService {
   sendRequest(request: Request, callback: Function){
     //let req:Request = new Request();
     request.mapId = this.knalledgeMapVOsService.getMapId();
-    request.iAmId = this.rimaService.getWhoAmI()._id;
+    request.who = this.rimaService.getWhoAmI()._id;
     console.log(request);
 
     if(this.knAllEdgeRealTimeService){
@@ -54,13 +54,21 @@ export class RequestService {
     }
   }
 
+  filterRequest(request){
+    return true;
+  }
+
   receivedRequest(eventName:string, request:Request){
-      console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
-      if(request.type === RequestType.REPLICA){
-        console.log(' requested REPLICA for ');
+      if(this.filterRequest(request)){
+        request.who = this.rimaService.getUserById(request.who); //can be null!
+        request.reference = this.knalledgeMapVOsService.getNodeById(request.reference);
+        console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
+        if(request.type === RequestType.REPLICA){
+          console.log(' requested REPLICA for ');
+        }
+        this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
+        this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
+        'RequestService', {'request':request,'event':this.EMITTER_NAME_REQUEST});
       }
-      // this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
-      // this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
-      // 'RequestService', {'request':request,'event':this.EMITTER_NAME_REQUEST});
   }
 }
