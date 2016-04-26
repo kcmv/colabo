@@ -15,6 +15,7 @@ export class RequestService {
   private knAllEdgeRealTimeService:any;
   private knalledgeMapPolicyService:any;
   private globalEmitterServicesArray:GlobalEmitterServicesArray;
+  private requests: Request[] = [];
 
   /**
    * Service constructor
@@ -41,7 +42,27 @@ export class RequestService {
       };
       requestPluginOptions.events[this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST] = this.receivedRequest.bind(this);
       this.knAllEdgeRealTimeService.registerPlugin(requestPluginOptions);
-  };
+
+      this.getMockupRequests();
+  }
+
+  getMockupRequests(){
+    var r1:Request = new Request();
+      r1.who = null;
+      r1.reference = null;
+      r1.type = RequestType.REPLICA;
+    var r2:Request = new Request();
+      r2.who = {displayName:'Dino'};
+      r2.reference = {name:'Collective Mind'};
+      r2.type = RequestType.REPLICA;
+    var r3:Request = new Request();
+      r3.who = {displayName:'TestUser'};
+      r3.reference = {name:'Eco-Problems'};
+      r3.type = RequestType.CLARIFICATION;
+    this.requests.push(r1);
+    this.requests.push(r2);
+    this.requests.push(r3);
+  }
 
   sendRequest(request: Request, callback: Function){
     //let req:Request = new Request();
@@ -84,7 +105,12 @@ export class RequestService {
     }
   }
 
+  getRequestsRef(){
+    return this.requests;
+  }
+
   receivedRequest(eventName:string, request:Request){
+      this.requests.push(request);
       if(this.filterRequest(request)){
         request.who = this.rimaService.getUserById(request.who); //can be null!
         request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!

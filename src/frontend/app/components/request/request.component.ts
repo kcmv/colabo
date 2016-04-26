@@ -1,11 +1,11 @@
-import {Component, Inject} from 'angular2/core';
+import {Component, Inject, OnInit} from 'angular2/core';
 //import {NgIf, NgFor, FORM_DIRECTIVES} from 'angular2/common';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import { DatePipe } from "angular2/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
-import {Request, RequestType, RequestState} from "./request";
+import {Request, RequestState} from "./request";
 import {RequestService} from "./request.service";
 
 @Component({
@@ -22,7 +22,7 @@ import {RequestService} from "./request.service";
    templateUrl: 'request.component.html',
    styleUrls: ['request.component.css']
 })
-export class RequestComponent{
+export class RequestComponent implements OnInit {
   requests: Request[] = [];
 
   constructor(
@@ -40,30 +40,15 @@ export class RequestComponent{
       this.globalEmitterServicesArray.register(_requestService.EMITTER_NAME_REQUEST);
     	this.globalEmitterServicesArray.get(_requestService.EMITTER_NAME_REQUEST).subscribe(
         'RequestComponent', this.requestReceived.bind(this));
-
-      this.getMockupRequests();
   }
 
-  getMockupRequests(){
-    var r1:Request = new Request();
-      r1.who = null;
-      r1.reference = null;
-      r1.type = RequestType.REPLICA;
-    var r2:Request = new Request();
-      r2.who = {displayName:'Dino'};
-      r2.reference = {name:'Collective Mind'};
-      r2.type = RequestType.REPLICA;
-    var r3:Request = new Request();
-      r3.who = {displayName:'TestUser'};
-      r3.reference = {name:'Eco-Problems'};
-      r3.type = RequestType.CLARIFICATION;
-    this.requests = [r1,r2,r3];
+  ngOnInit() {
+    this.requests = this._requestService.getRequestsRef();
   }
 
   requestReceived(received:any) {
     let request:Request = received.request;
     console.log("[requestReceived] request", JSON.stringify(request));
-    this.requests.push(request);
   }
 
   grant(request){
