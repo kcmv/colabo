@@ -130,12 +130,12 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				$scope.items = null;
 				$scope.selectedItem = null;
 				 //TODO: select from map.dataContent.mcm.authors list
-				//RimaService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
+				//RimaService.loadUsersFromIDsList().$promise.then(init); //TODO: change to load from MAP
 
 				init();
 				$scope.selectItem = function(item) {
 					$scope.selectedItem = item;
-					console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
+					//console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
 					RimaService.selectActiveUser(item);
 				};
 				$scope.showToggleSwitchClicked = function($el){
@@ -1064,7 +1064,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				};
 
 				 //TODO: select from map.dataContent.mcm.authors list
-				//RimaService.loadUsersFromList().$promise.then(init); //TODO: change to load from MAP
+				//RimaService.loadUsersFromIDsList().$promise.then(init); //TODO: change to load from MAP
 				init();
 				$scope.selectItem = function(item) {
 					$scope.selectedItem = item;

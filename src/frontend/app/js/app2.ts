@@ -9,6 +9,8 @@ import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterSe
 import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmitterServicesArray';
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
+import {RequestService} from '../components/request/request.service';
+
 // import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
 import { MapInteraction } from './interaction/mapInteraction';
 
@@ -27,10 +29,17 @@ angular.module('knalledgeMapDirectives')
         //     upgradeAdapter.downgradeNg2Component(KnalledgeMapMain)
     })
     ;
+
 var topiChatServices = angular.module('topiChatServices');
 topiChatServices
     .service('TopiChatConfigService', TopiChatConfigService)
     .service('TopiChatService', TopiChatService)
+    ;
+
+// injecting NG1 TS service into NG1 space
+var requestServices = angular.module('requestServices');
+requestServices
+    .service('RequestService', RequestService)
     ;
 
 angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives'])
@@ -60,12 +69,14 @@ knalledgeMapServicesModule
  // .service('BroadcastManagerService', BroadcastManagerService)
   ;
 
+// upgrading ng1 services into ng2 space
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
-upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
-upgradeAdapter.upgradeNg1Provider('BroadcastManagerService');
+upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
+// upgradeAdapter.upgradeNg1Provider('BroadcastManagerService');
 upgradeAdapter.upgradeNg1Provider('TopiChatConfigService');
 upgradeAdapter.upgradeNg1Provider('TopiChatService');
-upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
+upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
+upgradeAdapter.upgradeNg1Provider('RequestService');
 
 // upgradeAdapter.addProvider(GlobalEmitterService);
 // upgradeAdapter.upgradeNg1Provider(GlobalEmitterService);

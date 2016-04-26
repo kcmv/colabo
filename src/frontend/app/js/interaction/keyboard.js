@@ -224,6 +224,15 @@ Keyboard.prototype.initializeKeyboard = function() {
 		this.mapInteraction.relinkNode();
 	}.bind(this), function(){}.bind(this));
 
+	/**
+	 *  Activates Request console for participant:
+	* PreAction: ...
+	* PostAction: ...
+	*/
+	KeyboardJS.on(Keyboard.KEY_PREFIX + "r", function(){
+		this.mapInteraction.participantRequest();
+	}.bind(this), function(){}.bind(this));
+
 	// Delete node:
 	KeyboardJS.on(Keyboard.KEY_PREFIX + "delete", function(){
 		console.log("ctrl + delete");

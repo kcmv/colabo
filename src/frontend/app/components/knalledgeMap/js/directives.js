@@ -55,6 +55,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		var NotifyService = $injector.get('NotifyService');
 		var NotifyNodeService = $injector.get('NotifyNodeService');
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+	 	var RequestService = $injector.get('RequestService');
 
 		//duplikat: var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
@@ -423,6 +424,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							'NotifyNodeService': NotifyNodeService
 						}
 					};
+					injector.addPath("RequestService", RequestService);
 
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
@@ -863,13 +865,14 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			controller: function ( $scope, $element) {
 				$scope.mapToCreate = null;
 				$scope.modeCreating = false;
+				$scope.modeEditing = false;
 				$scope.items = null;
 				$scope.selectedItem = null;
 
 				KnalledgeMapService.query().$promise.then(function(maps){
 					$scope.items = maps;
 					console.log('maps:'+JSON.stringify($scope.maps));
-					//RimaService.loadUsersFromList(); //TODO remove, after centralized loading is done
+					//RimaService.loadUsersFromIDsList(); //TODO remove, after centralized loading is done
 				});
 
 				$scope.showCreateNewMap = function(){
@@ -882,6 +885,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.cancelled = function(){
 					console.log("Canceled");
 					$scope.modeCreating = false;
+					$scope.modeEditing = false;
 				};
 
 				$scope.getParticipantsNames = function(ids){
@@ -933,6 +937,48 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					rootNode.$promise.then(rootNodeCreated);
 				};
 
+				$scope.updateMap = function(){
+					$scope.modeEditing = false;
+					window.alert('Editing is disabled');
+					return;
+					var mapUpdated = function(mapFromServer) {
+						console.log("mapUpdated:");//+ JSON.stringify(mapFromServer));
+						$scope.items.push(mapFromServer);
+						$scope.selectedItem = mapFromServer;
+						rootNode.mapId = mapFromServer._id;
+						KnalledgeMapVOsService.updateNode(rootNode);
+					};
+
+					var rootNodeUpdated = function(rootNode){
+						$scope.mapToCreate.rootNodeId = rootNode._id;
+						$scope.mapToCreate.iAmId = RimaService.getActiveUserId();
+
+						//TODO: so far this is string of comma-separated iAmIds:
+						$scope.mapToCreate.participants = $scope.mapToCreate.participants.replace(/\s/g, '');
+						$scope.mapToCreate.participants = $scope.mapToCreate.participants.split(',');
+
+						var map = KnalledgeMapService.create($scope.mapToCreate);
+						map.$promise.then(mapUpdated);
+					};
+
+
+					var rootNode = KnalledgeMapVOsService.getNodeById($scope.mapToCreate.rootNodeId);
+
+					rootNode.name = $scope.mapToCreate.name;
+					//rootNode.mapId = $scope.mapToCreate._id;
+					//rootNode.iAmId = RimaService.getActiveUserId();
+					rootNode.type = $scope.mapToCreate.rootNodeType ?
+						$scope.mapToCreate.rootNodeType : "model_component";
+					// rootNode.visual = {
+					// 		isOpen: true,
+					// 		xM: 0,
+					// 		yM: 0
+					// };
+
+					rootNode = KnalledgeMapVOsService.updateNode(rootNode);
+					rootNode.$promise.then(rootNodeUpdated);
+				};
+
 				$scope.selectItem = function(item) {
 				    $scope.selectedItem = item;
 				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
@@ -948,7 +994,32 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						// $element.remove();
 					}
 					else{
-						window.alert('Please, select a Model');
+						window.alert('Please, select a Map');
+					}
+				};
+
+				$scope.editMap = function() {
+					$scope.modeEditing = true;
+					var mapReceived = function(mapFromServer) {
+						console.log("mapReceived:");//+ JSON.stringify(mapFromServer));
+						$scope.items.push(mapFromServer);
+						$scope.selectedItem = mapFromServer;
+						rootNode.mapId = mapFromServer._id;
+						KnalledgeMapVOsService.updateNode(rootNode);
+					};
+
+				    //console.log("openMap");
+					if($scope.selectedItem !== null && $scope.selectedItem !== undefined){
+						console.log("editMap Model:" + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
+						console.log("/map/id/" + $scope.selectedItem._id);
+						$scope.mapToCreate = KnalledgeMapService.getById($scope.selectedItem._id);
+						$scope.mapToCreate.$promise.then(mapReceived);
+						//$scope.mapToCreate.participants = RimaService.getActiveUserId();
+						//openMap($scope.selectedItem);
+						// $element.remove();
+					}
+					else{
+						window.alert('Please, select a Map');
 					}
 				};
     		}

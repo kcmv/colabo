@@ -40,6 +40,8 @@ requiresList.push('collaboBroadcastingServices');
 // we want to avoid hardoced registering plugins here
 requiresList.push('ontovServices');
 
+requiresList.push('requestServices');
+
 // a module that contains ng2 directives and services downgraded for ng1 space
 requiresList.push('KnAllEdgeNg2');
 

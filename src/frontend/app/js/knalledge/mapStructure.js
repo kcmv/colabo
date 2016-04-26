@@ -325,7 +325,9 @@ MapStructure.prototype.openAncestors = function(node){
 	if(node == null){return;}
 	var ancestors = this.getAncestorsPath(node);
 	for(var j in ancestors){
-		ancestors[j].isOpen = true;
+		if(ancestors[j] != node){ // becasue getAncestorsPath returns the `node` too
+			ancestors[j].isOpen = true;
+		}
 	}
 	//console.log('setVisibility - openAncestors: ' + getNodesNames(ancestors));
 	return this;
@@ -604,20 +606,37 @@ MapStructure.prototype.createEdgeBetweenNodes = function(sourceNode, targetNode,
 	return newVKEdge;
 };
 
-MapStructure.prototype.relinkNode = function(sourceNode, newParent, callback) {
-	if(!this.mapService) {callback(false); return null;}
-	var ancestors = this.getAncestorsPath(newParent);
+/**
+ * [isOnAncestorsPath description]
+ * @param  {[type]}  nodeDescendant [description]
+ * @param  {[type]}  nodeAncestor   [description]
+ * @return {Boolean}                [description]
+ */
+MapStructure.prototype.isOnAncestorsPath = function(nodDescendant, nodeAncestor){
+	var ancestors = this.getAncestorsPath(nodDescendant);
 	//var is_ancestor = false;
 	for(var ancestors_i in ancestors){
-		if(ancestors[ancestors_i] == sourceNode){ //TODO: later when we support multiple parents
+		if(ancestors[ancestors_i] == nodeAncestor){ //TODO: later when we support multiple parents we will have to extend this
 			//is_ancestor = true;
-			callback(false, 'DISRUPTING_PATH');
-			return;
+			return true;
 		}
 	}
-
-	this.mapService.relinkNode(sourceNode.kNode, newParent.kNode, callback);
+	return false;
 };
+
+MapStructure.prototype.relinkNode = function(sourceNode, newParent, callback) {
+	if(!this.mapService) {callback(false); return null;}
+	if(this.isOnAncestorsPath(newParent,sourceNode)){
+		callback(false, 'DISRUPTING_PATH');
+	} else {
+		this.mapService.relinkNode(sourceNode.kNode, newParent.kNode, callback);
+	}
+};
+
+MapStructure.prototype.sendRequest = function(request, callback) {
+	if(!this.mapService) {callback(false, 'SERVICE_UNAVAILABLE'); return null;}
+	this.mapService.sendRequest(request, callback);
+}
 
 MapStructure.prototype.createNodeWithEdge = function(sourceVKNode, vkEdge, targetVKNode, callback) {
 	if(!(sourceVKNode.id in this.nodesById)){
