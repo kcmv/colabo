@@ -1,9 +1,9 @@
 export const enum RequestVisibility {
-	All,
-	MapMembers,
-	MapMediators,
-	MapSameGroupMembers,
-	MapParticipant
+	ALL,
+	MAP_PARTICIPANTS,
+	MAP_MEDIATORS,
+	MAP_SAME_GROUP_MEMBERS,
+	USER
 }
 
 export const enum RequestType {
@@ -44,7 +44,7 @@ export class Request {
 		this.type = RequestType.UNDEFINED;
 		this.mapId = null;
 		this.who = 0;
-		this.visibility = RequestVisibility.MapMediators;
+		this.visibility = RequestVisibility.MAP_MEDIATORS;
 		this.createdAt = null;
 		this.updatedAt = null;
 		this.dataContent = {};
