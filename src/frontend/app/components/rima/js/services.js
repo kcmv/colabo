@@ -40,9 +40,7 @@ $init: function(configData){
 },
 
 // get (instantiate) service
-$get: ['$resource', '$q', '$injector', 'ENV', 'KnalledgeMapQueue', function($resource, $q, $injector, ENV, KnalledgeMapQueue){
-
-	var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+$get: ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, ENV, KnalledgeMapQueue){
 
 	console.log("[WhoAmIService] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
@@ -136,8 +134,6 @@ $get: ['$resource', '$q', '$injector', 'ENV', 'KnalledgeMapQueue', function($res
 
 	resource.RESOURCE_TYPE = 'WhoAmI';
 
-	resource.configData = this.$configData;
-
 	resource.getById = function(id, callback)
 	{
 		var whoAmI = new knalledge.WhoAmI();
@@ -191,13 +187,11 @@ $get: ['$resource', '$q', '$injector', 'ENV', 'KnalledgeMapQueue', function($res
 		var that = this;
 		var whoAmIs = {};
 
-		if (!this.configData.waitToReceiveRimaList){
-			whoAmIs = this.queryPlain({type:'all'},
-			function(whoAmIsFromServer){
-				that._processWhoAmIs(whoAmIsFromServer);
-				if(callback) callback(whoAmIsFromServer);
-			});
-		}
+		whoAmIs = this.queryPlain({type:'all'},
+		function(whoAmIsFromServer){
+			that._processWhoAmIs(whoAmIsFromServer);
+			if(callback) callback(whoAmIsFromServer);
+		});
 		return whoAmIs;
 	}
 
@@ -298,12 +292,6 @@ $get: ['$resource', '$q', '$injector', 'ENV', 'KnalledgeMapQueue', function($res
 	resource.check = function(request){
 		return true;
 	}
-
-	var whoIamIdsUpdatedEventName = "whoIamIdsUpdatedEvent";
-	GlobalEmitterServicesArray.register(whoIamIdsUpdatedEventName);
-	GlobalEmitterServicesArray.get(whoIamIdsUpdatedEventName).subscribe('WhoAmIService', function(whoIamIds) {
-	    console.log("[WhoAmIService::%s] whoIamIds: %s", whoIamIdsUpdatedEventName, whoIamIds);
-	});
 
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
@@ -825,8 +813,12 @@ rimaServices.factory('HowAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQu
 */
 rimaServices.provider('RimaService', {
 	// privateData: "privatno",
-	$get: ['$q', '$window', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', /*'$rootScope', */
-	function($q, $window, ENV, WhoAmIService, WhatAmIService, HowAmIService /*, $rootScope*/) {
+	$get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', /*'$rootScope', */
+	function($q, $window, $injector, ENV, WhoAmIService, WhatAmIService, HowAmIService /*, $rootScope*/) {
+
+		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
+		//this.configData = this.$configData;
 		var provider = {
 			ANONYMOUS_USER_ID: "55268521fb9a901e442172f8",
 			iAmId: null,
@@ -856,13 +848,15 @@ rimaServices.provider('RimaService', {
 					console.log("this.howAmIs:"+this.howAmIs);
 				}.bind(this));
 
-				WhoAmIService.getAll(function(whoAmIsFromServer){
-					for(var i=0; i<whoAmIsFromServer.length; i++){
-						var whoAmI = whoAmIsFromServer[i];
-						this.whoAmIs.push(whoAmI);
-					}
-					console.log("this.whoAmIs:"+this.whoAmIs);
-				}.bind(this));
+				if (false && !this.configData.waitToReceiveRimaList){
+					WhoAmIService.getAll(function(whoAmIsFromServer){
+						for(var i=0; i<whoAmIsFromServer.length; i++){
+							var whoAmI = whoAmIsFromServer[i];
+							this.whoAmIs.push(whoAmI);
+						}
+						console.log("this.whoAmIs:"+this.whoAmIs);
+					}.bind(this));
+				}
 
 				if($window.localStorage){
 					console.info("[RimaService:init] There is a localstorage!");
@@ -878,6 +872,14 @@ rimaServices.provider('RimaService', {
 						if(this.loginInfo.token) this.loggedInWhoAmI.token = this.loginInfo.token;
 					}
 				}
+
+				var that = this;
+				var whoIamIdsUpdatedEventName = "whoIamIdsUpdatedEvent";
+				GlobalEmitterServicesArray.register(whoIamIdsUpdatedEventName);
+				GlobalEmitterServicesArray.get(whoIamIdsUpdatedEventName).subscribe('RimaService', function(whoIamIds) {
+				    console.log("[WhoAmIService::%s] whoIamIds: %s", whoIamIdsUpdatedEventName, whoIamIds);
+						that.loadUsersFromIDsList(whoIamIds);
+				});
 			},
 
 			updateWhoAmI: function(callback){
@@ -963,19 +965,29 @@ rimaServices.provider('RimaService', {
 			loadUsersFromIDsList: function(usersIds, callback){
 				//TODO: for now we return all users
 				var that = this;
-				this.whoAmIs = WhoAmIService.getWhoAmisFromIdList(usersIds,
-				function(whoAmIsFromServer){
+				function usersFromIDsListLoaded(whoAmIsFromServer){
 					//we don't want to loose the old reference by doing 'that.whoAmIs = {}', because directives on upper layer will get unbinded, but instead:
-					for(var prop in that.whoAmIs){
-						if (that.whoAmIs.hasOwnProperty(prop)) { delete that.whoAmIs[prop]; }
-					}
+					// for(var prop in that.whoAmIs){
+					// 	if (that.whoAmIs.hasOwnProperty(prop)) { delete that.whoAmIs[prop]; }
+					// }
 					//for (var prop in obj) { if (obj.hasOwnProperty(prop)) { delete obj[prop]; } }
 
-					for(var i in whoAmIsFromServer){
-						that.whoAmIs[i] = whoAmIsFromServer[i];
+					that.whoAmIs.length = 0;
+
+					for(var i=0;i < whoAmIsFromServer.length;i++){
+						that.whoAmIs.push(whoAmIsFromServer[i]);
 					}
+
 					if(callback){callback(that.whoAmIs);}
+				}
+
+				var whoAmIsFromService = WhoAmIService.getWhoAmisFromIdList(usersIds,usersFromIDsListLoaded);
+				this.whoAmIs.$promise = whoAmIsFromService.$promise;
+				this.whoAmIs.$resolved = whoAmIsFromService.$resolved;
+				this.whoAmIs.$promise.then(function(whoAmIsFromServer){ //required because uponr resolving of whoAmIsFromService by service, this.whoAmIs.$resolved won't be updated, because of copying by value
+					that.whoAmIs.$resolved = whoAmIsFromServer.$resolved;
 				});
+
 				return this.whoAmIs;
 			},
 
@@ -1202,6 +1214,8 @@ rimaServices.provider('RimaService', {
 				this.whatAmIs.$resloved = serverWhatAmIs.$resloved;
 				return this.whatAmIs;
 			}
+
+
 
 			/*
 			loadWhatsFromList: function(usersIds, callback){
