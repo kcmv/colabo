@@ -87,25 +87,27 @@
         <md-switch class="md-primary" aria-label="show IBIS" [(checked)]="viewConfig.filtering.visbileTypes.ibis" (checkedChange)="viewConfigChanged('config.filtering.visbileTypes.ibis', viewConfig.filtering.visbileTypes.ibis)">show IBIS</md-switch>
     </div>
 
-    <h4>Behaviours:</h4>
-    <!-- <div class="btn-group">
-        <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
-			{{user.name}}
-		</button>
+    <div *ngIf="policyConfig.moderating.enabled">
+      <h4>Behaviours:</h4>
+      <!-- <div class="btn-group">
+          <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
+  			{{user.name}}
+  		</button>
 
-        <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_manual'" (click)="viewspecChanged('viewspec_manual')">M</label>
-		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_tree'" (click)="viewspecChanged('viewspec_tree')">T</label>
-		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_flat'" (click)="viewspecChanged('viewspec_flat')">F</label>
-    </div>
-    -->
-    Brainstorming
-    <md-radio-group [(value)]="policyConfig.behaviour.brainstorming">
-        <md-radio-button value="0" class="md-primary" checked="true" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">Off</md-radio-button>
-        <md-radio-button value="1" class="md-primary" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">1</md-radio-button>
-        <md-radio-button value="2" class="md-primary" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">2</md-radio-button>
-        <md-radio-button value="3" class="md-primary" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">3</md-radio-button>
-        <md-radio-button value="4" class="md-primary" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">4</md-radio-button>
-    </md-radio-group>
+          <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_manual'" (click)="viewspecChanged('viewspec_manual')">M</label>
+  		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_tree'" (click)="viewspecChanged('viewspec_tree')">T</label>
+  		<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_flat'" (click)="viewspecChanged('viewspec_flat')">F</label>
+      </div>
+      -->
+      Brainstorming
+      <md-radio-group [(value)]="policyConfig.behaviour.brainstorming">
+          <md-radio-button value="0" class="md-primary" checked="true" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">Off</md-radio-button>
+          <md-radio-button value="1" class="md-primary" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">1</md-radio-button>
+          <md-radio-button value="2" class="md-primary" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">2</md-radio-button>
+          <md-radio-button value="3" class="md-primary" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">3</md-radio-button>
+          <md-radio-button value="4" class="md-primary" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">4</md-radio-button>
+      </md-radio-group>
+  </div>
 
     <h4>Broadcasting:</h4>
     <div class="btn-group">
@@ -120,7 +122,7 @@
         <md-switch class="md-primary" aria-label="Navigation" [(checked)]="policyConfig.broadcasting.receiveNavigation" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveNavigation', policyConfig.broadcasting.receiveNavigation)">Navigations</md-switch>
         <md-switch class="md-primary" aria-label="Structural" [(checked)]="policyConfig.broadcasting.receiveStructural" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveStructural', policyConfig.broadcasting.receiveStructural)">Structural</md-switch>
         <md-switch class="md-primary" aria-label="Visualization" [(checked)]="policyConfig.broadcasting.receiveVisualization" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveVisualization', policyConfig.broadcasting.receiveVisualization)">Visualization</md-switch>
-        <md-switch class="md-primary" aria-label="Behaviours" [(checked)]="policyConfig.broadcasting.receiveBehaviours" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveBehaviours', policyConfig.broadcasting.receiveBehaviours)">Behaviours</md-switch>
+        <md-switch class="md-primary" *ngIf="policyConfig.moderating.enabled" aria-label="Behaviours" [(checked)]="policyConfig.broadcasting.receiveBehaviours" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveBehaviours', policyConfig.broadcasting.receiveBehaviours)">Behaviours</md-switch>
     </div>
 
     <!-- <div *ngIf="policyConfig.moderating.enabled" class="tool_info">Moderator</div>
