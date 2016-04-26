@@ -994,6 +994,10 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 				}
 
 				var whoAmIsFromService = WhoAmIService.getWhoAmisFromIdList(usersIds,usersFromIDsListLoaded);
+				//we cannot directly override this.whoAmIs with `WhoAmIService.getWhoAmisFromIdList` returned value,
+				//because angular directives, like `rimaUsersList` are setting watches over `RimaService.whoAmIs`
+				// << as: ` $scope.$watch(function () {return RimaService.whoAmIs;}, function(newValue){ ...} `>>
+				// so we watches would be broken after losing original reference
 				this.whoAmIs.$promise = whoAmIsFromService.$promise;
 				this.whoAmIs.$resolved = whoAmIsFromService.$resolved;
 				this.whoAmIs.$promise.then(function(whoAmIsFromServer){ //required because uponr resolving of whoAmIsFromService by service, this.whoAmIs.$resolved won't be updated, because of copying by value
