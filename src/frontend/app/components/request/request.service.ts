@@ -1,10 +1,9 @@
 import {Injectable
-//  , Inject
 } from 'angular2/core';
 
 import {Request} from './request';
 import {RequestType} from './request';
-//import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 @Injectable()
 export class RequestService {
@@ -13,6 +12,7 @@ export class RequestService {
   private rimaService:any;
   private knalledgeMapVOsService:any;
   private knAllEdgeRealTimeService:any;
+  private globalEmitterServicesArray:GlobalEmitterServicesArray;
 
   /**
    * Service constructor
@@ -23,12 +23,13 @@ export class RequestService {
    * @param  {Object} ENV                   [description]
    * @param  {Service} TopiChatConfigService - TopiChat Config service
    */
-  constructor(RimaService, KnalledgeMapVOsService, KnAllEdgeRealTimeService
-    //, @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+  constructor(RimaService, KnalledgeMapVOsService,
+      KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_
   ) {
       this.rimaService = RimaService;
       this.knalledgeMapVOsService = KnalledgeMapVOsService;
       this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
+      this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
 
 
       let requestPluginOptions: any = {
@@ -43,7 +44,7 @@ export class RequestService {
   sendRequest(request: Request, callback: Function){
     //let req:Request = new Request();
     request.mapId = this.knalledgeMapVOsService.getMapId();
-    request.iAmId = this.rimaService.getWhoAmI()._id;
+    request.who = this.rimaService.getWhoAmI()._id;
     console.log(request);
 
     if(this.knAllEdgeRealTimeService){
@@ -54,13 +55,21 @@ export class RequestService {
     }
   }
 
+  filterRequest(request){
+    return true;
+  }
+
   receivedRequest(eventName:string, request:Request){
-      console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
-      if(request.type === RequestType.REPLICA){
-        console.log(' requested REPLICA for ');
+      if(this.filterRequest(request)){
+        request.who = this.rimaService.getUserById(request.who); //can be null!
+        request.reference = this.knalledgeMapVOsService.getNodeById(request.reference);
+        console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
+        if(request.type === RequestType.REPLICA){
+          console.log(' requested REPLICA for ');
+        }
+        this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
+        this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
+        'RequestService', {'request':request,'event':this.EMITTER_NAME_REQUEST});
       }
-      // this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
-      // this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
-      // 'RequestService', {'request':request,'event':this.EMITTER_NAME_REQUEST});
   }
 }
