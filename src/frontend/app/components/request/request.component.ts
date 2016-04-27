@@ -24,6 +24,7 @@ import {RequestService} from "./request.service";
 })
 export class RequestComponent implements OnInit {
   requests: Request[] = [];
+  private changeSelectedNodeEventName = "changeSelectedNodeEvent";
 
   constructor(
       @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
@@ -54,6 +55,10 @@ export class RequestComponent implements OnInit {
   grant(request){
     request.state = RequestState.GRANTED;
     //TODO: inform user that it is granted
+  }
+
+  topicClicked(topic){
+    this.globalEmitterServicesArray.get(this.changeSelectedNodeEventName).broadcast('RequestComponent', topic._id);
   }
 
   revoke(request){

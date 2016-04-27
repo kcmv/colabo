@@ -130,7 +130,6 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				$scope.items = null;
 				$scope.selectedItem = null;
 				 //TODO: select from map.dataContent.mcm.authors list
-				//RimaService.loadUsersFromIDsList().$promise.then(init); //TODO: change to load from MAP
 
 				init();
 				$scope.selectItem = function(item) {
@@ -1064,7 +1063,6 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				};
 
 				 //TODO: select from map.dataContent.mcm.authors list
-				//RimaService.loadUsersFromIDsList().$promise.then(init); //TODO: change to load from MAP
 				init();
 				$scope.selectItem = function(item) {
 					$scope.selectedItem = item;
