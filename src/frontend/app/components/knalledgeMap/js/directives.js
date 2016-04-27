@@ -872,7 +872,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				KnalledgeMapService.query().$promise.then(function(maps){
 					$scope.items = maps;
 					console.log('maps:'+JSON.stringify($scope.maps));
-					//RimaService.loadUsersFromIDsList(); //TODO remove, after centralized loading is done
 				});
 
 				$scope.showCreateNewMap = function(){
