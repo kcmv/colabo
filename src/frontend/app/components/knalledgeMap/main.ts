@@ -37,8 +37,6 @@ import {TopPanel} from '../topPanel/topPanel';
         //   LoginStatusComponent,
         upgradeAdapter.upgradeNg1Component('knalledgeMap'),
         //  upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
-        upgradeAdapter.upgradeNg1Component('ontovSearch'),
-        upgradeAdapter.upgradeNg1Component('rimaRelevantList'),
         upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
     //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
         KnalledgeMapTools,

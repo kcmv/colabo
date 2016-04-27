@@ -6,6 +6,8 @@ import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import { DatePipe } from "angular2/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
 import {RequestComponent} from '../request/request.component';
+import {upgradeAdapter} from '../../js/upgrade_adapter';
+
 /**
  * Directive that
  * 1. reports all plugins registered to the topiChat communication service
@@ -23,7 +25,9 @@ import {RequestComponent} from '../request/request.component';
     providers: [],
     directives: [
         MATERIAL_DIRECTIVES,
-        RequestComponent
+        RequestComponent,
+        upgradeAdapter.upgradeNg1Component('ontovSearch'),
+        upgradeAdapter.upgradeNg1Component('rimaRelevantList')
    ],
    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
