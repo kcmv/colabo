@@ -50,12 +50,15 @@ import {TopPanel} from '../topPanel/topPanel';
     templateUrl: 'partials/main.tpl.html',
     // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
     styles: [`
-        .msg {
-            font-size: 0.5em;
+        .md-sidenav-push-in .md-sidenav-push-in-target {
+          transform: translate(0px);
+          transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .container{
-            margin: 5px;
-            border: 1px solid gray;
+        .md-sidenav-push-in.md-sidenav-left-open .md-sidenav-push-in-target {
+          transform: translate(304px);
+        }
+        .md-sidenav-push-in.md-sidenav-right-open .md-sidenav-push-in-target {
+          transform: translate(-304px);
         }
     `]
 })
