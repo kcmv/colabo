@@ -1,22 +1,10 @@
 <!-- main container -->
 <div layout="column" layout-fill>
-    <!-- toolbar -->
-    <md-toolbar class="md-theme-indigo" style="height: 60px">
-        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-            <button md-fab class="md-primary" aria-label="Configuration" (click)="open('left')" [hidden]="leftOpened">
-                <i md-icon>settings</i>
-            </button>
-            <!-- <button md-fab class="md-primary" (click)="open('right')" hide-gt-md> -->
-            <button md-fab class="md-primary" aria-label="Configuration" (click)="open('right')" hide-gt-md>
-                <i md-icon>chrome_reader_mode</i>
-            </button>
-        </section>
-    </md-toolbar>
     <!-- content -->
     <md-sidenav-container layout="row" flex style="overflow: auto; height: 100%;">
         <!-- Right panel -->
         <!-- <md-sidenav name="right" align="right"  [style]="hasMedia('gt-sm') ? 'side' : 'over'" flex="30" layout="column" (onShown)="input.focus()"> -->
-        <md-sidenav name="right" align="left" flex="30" layout="column" [style]="hasMedia('gt-sm') ? 'side' : 'over'">
+        <md-sidenav name="right" align="left" layout="column" [style]="hasMedia('gt-sm') ? 'side' : 'over'">
             <md-content>
                 <!-- <form>
                 <md-input-container class="md-block">
@@ -24,24 +12,28 @@
                     <input type="text" id="testInput" md-input #input [(value)]="data" md-autofocus>
                 </md-input-container>
                 </form> -->
-                <button md-raised-button (click)="close('right')" class="md-primary" hide-gt-md>
-                    Close
-                </button>
+                <div style="text-align: right;">
+                    <button md-raised-button (click)="close('right')" align="right" class="md-primary" hide-gt-md>
+                        Close
+                    </button>
+                </div>
                 <knalledge-map-list class="knalledge_map_list"></knalledge-map-list>
             </md-content>
         </md-sidenav>
         <!-- Tools -->
-        <md-sidenav name="left" align="left" flex="30" class="md-sidenav-left md-whiteframe-z2">
+        <md-sidenav name="left" align="left" class="md-sidenav-left md-whiteframe-z2">
             <md-content>
-                <button md-raised-button (click)="close('left')" class="md-primary">
-                    Close
-                </button>
+                <div style="text-align: right;">
+                    <button md-raised-button (click)="close('left')" align="right" class="md-primary">
+                        Close
+                    </button>
+                </div>
                 <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
             </md-content>
         </md-sidenav>
 
         <!-- Main content -->
-        <md-content class="md-sidenav-push-in-target" flex>
+        <md-content flex>
 
             <!-- Bacground logos/trade-marks -->
             <!-- <div class="logo_background">
@@ -62,6 +54,19 @@
             </div> -->
             <div layout-fill layout-align="stretch stretch">
                 <div class="knalledge_map_middle" layout-fill layout="column">
+                    <!-- toolbar -->
+                    <md-toolbar class="md-theme-indigo" style="height: 60px">
+                        <section layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+                            <button md-fab class="md-primary" aria-label="Configuration" (click)="open('left')" [hidden]="leftOpened">
+                                <i md-icon>settings</i>
+                            </button>
+                            <!-- <button md-fab class="md-primary" (click)="open('right')" hide-gt-md> -->
+                            <button md-fab class="md-primary" aria-label="Configuration" (click)="open('right')" hide-gt-md>
+                                <i md-icon>chrome_reader_mode</i>
+                            </button>
+                        </section>
+                    </md-toolbar>
+
                     <!-- <ontov-search flex></ontov-search> -->
                     <!-- top panel -->
                     <div class="knalledge_map_middle_bottom"  style="height: 10em">
