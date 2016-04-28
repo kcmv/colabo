@@ -205,7 +205,25 @@ Map.prototype.realTimeNodeClicked = function(eventName, msg){
 	this.nodeClicked_WithoutRTBroadcasting(kNode);
 };
 
-Map.prototype.nodeSelected = function(vkNode) {
+
+/**
+ * Selects node
+ * @function nodeSelected
+ * @memberof knalledge.Map#
+ * @param  {(knalledge.VKNode|string)} nodeIdentifier - node (id) to be selected.
+ * It could be either `id` of the `knalledge.KNode` or whole `knalledge.VKNode`
+ * @return {DOM}
+ */
+Map.prototype.nodeSelected = function(nodeIdentifier) {
+	var vkNode = null;
+	if(typeof nodeIdentifier === 'string'){
+		vkNode = this.mapStructure.getVKNodeByKId(nodeIdentifier);
+	}else{
+		vkNode = nodeIdentifier;
+	}
+
+	if(!vkNode) return;
+
 	this.nodeSelected_WithoutRTBroadcasting(vkNode);
 
 	// realtime distribution
