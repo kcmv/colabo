@@ -525,10 +525,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					GlobalEmitterServicesArray.get(modelLoadedEventName).subscribe('knalledgeMap', function(eventModel) {
 						// there is only one listener so we can stop further propagation of the event
 						// e.stopPropagation();
-						console.log("[knalledgeMap.controller::$on] ModelMap  nodes(len: %d): %s",
-							eventModel.map.nodes, JSON.stringify(eventModel.map.nodes));
-						console.log("[knalledgeMap.controller::$on] ModelMap  edges(len: %d): %s",
-							eventModel.map.edges.length, JSON.stringify(eventModel.map.edges));
+
+						console.log("[knalledgeMap.controller::$on] ModelMap  nodes(len: %d): ",
+							eventModel.map.nodes.length, eventModel.map.nodes);
+						console.log("[knalledgeMap.controller::$on] ModelMap  edges(len: %d): ",
+							eventModel.map.edges.length, eventModel.map.edges);
 
 						// knalledgeMap.placeModels(eventModel);
 						model = eventModel;

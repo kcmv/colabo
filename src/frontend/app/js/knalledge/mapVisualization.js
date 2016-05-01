@@ -160,7 +160,7 @@ MapVisualization.prototype.getAllNodesHtml = function(){
 /**
  * Returns DOM representation/visualization of the data (node/edge)
  * @function getDomFromDatum
- * @memberof knalledge.MapVisualization
+ * @memberof knalledge.MapVisualization#
  * @param  {*} d - data which visualization we are looking for
  * @return {DOM}
  */

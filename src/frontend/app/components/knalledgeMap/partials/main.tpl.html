@@ -64,10 +64,19 @@
                             <button md-fab class="md-primary" aria-label="Configuration" (click)="open('right')" hide-gt-md>
                                 <i md-icon>chrome_reader_mode</i>
                             </button>
+
+                            <button md-fab class="md-primary" aria-label="Maps" (click)="go('maps')">
+                                <i md-icon>map</i>
+                            </button>
+
+                            <button md-fab class="md-primary" aria-label="Plugins" (click)="go('plugins')">
+                                <i md-icon>extension</i>
+                            </button>
+
                         </section>
                     </md-toolbar>
 
-                    <!-- <ontov-search flex></ontov-search> -->
+                    <ontov-search style="height: 2em"></ontov-search>
                     <!-- top panel -->
                     <div class="knalledge_map_middle_bottom"  style="height: 10em">
                         <!--<rima-relevant-list class="rima_relevant_list"></rima-relevant-list>-->

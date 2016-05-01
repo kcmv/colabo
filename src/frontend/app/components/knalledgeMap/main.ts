@@ -1,4 +1,5 @@
 import {Component, Inject} from 'angular2/core';
+import {ROUTER_PROVIDERS, Location} from 'angular2/router';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {LoginStatusComponent} from '../login/login-status-component';
 // import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
@@ -27,7 +28,8 @@ import {TopPanel} from '../topPanel/topPanel';
 @Component({
     selector: 'knalledge-map-main',
     providers: [
-      SidenavService
+      SidenavService,
+      ROUTER_PROVIDERS
       // ,
       // RequestService
     ],
@@ -35,6 +37,7 @@ import {TopPanel} from '../topPanel/topPanel';
         MATERIAL_DIRECTIVES,
         // MdContent, MdButton,
         //   LoginStatusComponent,
+        upgradeAdapter.upgradeNg1Component('ontovSearch'),
         upgradeAdapter.upgradeNg1Component('knalledgeMap'),
         //  upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
         upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
@@ -62,6 +65,7 @@ import {TopPanel} from '../topPanel/topPanel';
 })
 export class KnalledgeMapMain {
     constructor(
+        private location: Location,
         private sidenavService: SidenavService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService
     // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
@@ -98,5 +102,9 @@ export class KnalledgeMapMain {
 
     showContactOptions: Function = function(event) {
         return;
+    };
+
+    public go(path:string){
+        this.location.go('#/'+path);
     };
 }
