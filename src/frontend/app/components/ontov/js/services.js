@@ -2,7 +2,7 @@
     'use strict';
     //this function is strict...
 
-    var enableOntov = false;
+    var enableOntov = true;
     var ontovServices = angular.module('ontovServices', ['ontovDirectives', 'collaboPluginsServices']);
 
     /**
@@ -249,6 +249,8 @@
                         var edgeObj = ontovPluginInfo.references.map.items.mapStructure.edgesById,
                             nodeObj = ontovPluginInfo.references.map.items.mapStructure.nodesById;
                         if (Object.keys(edgeObj).length != knalledgeMap.kedges.length && Object.keys(nodeObj).length != knalledgeMap.knodes.length){
+                            // http://underscorejs.org/#pluck
+                            // making an array of extracted list of property values.
                             knalledgeMap.kedges = _.pluck(edgeObj, 'kEdge');
                             knalledgeMap.knodes = _.pluck(nodeObj, 'kNode');
                             updateDataModel();
@@ -270,6 +272,8 @@
 
 
                     //Create our project collection from an array of models
+                    // queryEngine - coming from Backbone?
+
                     projectCollection = queryEngine.createLiveCollection(topSort);
                     projectSearchCollection = projectCollection.createLiveChildCollection()
                         .setPill('name', {

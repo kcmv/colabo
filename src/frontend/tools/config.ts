@@ -243,7 +243,7 @@ KNALLEDGE: {
 
 	// KNALLEDGE PLUGINS, TODO: we want to avoid hardoced registering plugins here
 		{ src: join(APP_SRC, 'components/ontov/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
-		{ src: join(APP_SRC, 'components/ontov/css/visualsearch/visualsearch.css'), inject: true, dest: CSS_DEST, noNorm: true },
+		{ src: join(APP_SRC, 'components/ontov/css/visualsearch/visualsearch-datauri.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
     // (NG2-) MATERIAL
         { src: 'ng2-material/dist/ng2-material.css', inject: true, dest: CSS_DEST },

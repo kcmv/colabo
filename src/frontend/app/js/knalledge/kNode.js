@@ -131,7 +131,9 @@ KNode.prototype.toServerCopy = function(){
 	}
 	/* copying all non-system and non-function properties */
 	for(var id in this){
-		if(id[0] == '$') continue;
+		if(id[0] === '$') continue;
+		if(id === 'parents') continue;
+		if(id === 'children') continue;
 		if (typeof this[id] == 'function') continue;
 		//console.log("cloning: %s", id);
 		if(this[id] !== undefined){ //JSON.parse breaks at "undefined"
