@@ -31,7 +31,6 @@ export class RequestComponent implements OnInit {
 
       // since it is comming from ng1 space we need to use explicit injection decorator
       @Inject('RequestService') private _requestService:RequestService
-      // private _requestService: RequestService
   ) {
       console.log('[RequestComponent]');
 

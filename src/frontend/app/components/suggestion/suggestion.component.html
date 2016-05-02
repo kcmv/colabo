@@ -1,0 +1,18 @@
+<div>
+  Experts for node <span>node</span>
+  <ul class="requests">
+  <li *ngFor="#request of requests"
+    [class.selected]="request === selectedrequest"
+  >
+    <span class="username" [class.unknown]="request.who == null">{{request.who != null ? request.who.displayName : 'unknown user'}}</span>
+    <!-- TODO: RequestType.REPLICA could note be used, because this enum is not accessable in html template-->
+    requested a <span class="req_type">{{request.type == 1 ? "replica" : "clarification"}}</span>
+    on <span (click)="topicClicked(request.reference)" class="topic" [class.unknown]="request.reference == null">"{{request.reference != null ? request.reference.name : 'unknown'}}"</span> topic
+    <!-- TODO: RequestState.GRANTED could note be used, because this enum is not accessable in html template-->
+    <span *ngIf="request.state == 0" class="actions">
+        <button (click)="grant(request)">Grant</button>
+        <button (click)="revoke(request)">Revoke</button>
+    </span>
+  </li>
+</ul>
+</div>
