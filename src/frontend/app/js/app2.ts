@@ -10,6 +10,8 @@ import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmi
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
 import {RequestService} from '../components/request/request.service';
+import {SuggestionService} from '../components/suggestion/suggestion.service';
+
 
 // import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
 import { MapInteraction } from './interaction/mapInteraction';
@@ -40,6 +42,12 @@ topiChatServices
 var requestServices = angular.module('requestServices');
 requestServices
     .service('RequestService', RequestService)
+    ;
+
+// injecting NG1 TS service into NG1 space
+var suggestionServices = angular.module('suggestionServices');
+suggestionServices
+    .service('SuggestionService', SuggestionService)
     ;
 
 angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives'])
@@ -77,6 +85,7 @@ upgradeAdapter.upgradeNg1Provider('TopiChatConfigService');
 upgradeAdapter.upgradeNg1Provider('TopiChatService');
 upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
 upgradeAdapter.upgradeNg1Provider('RequestService');
+upgradeAdapter.upgradeNg1Provider('SuggestionService');
 
 // upgradeAdapter.addProvider(GlobalEmitterService);
 // upgradeAdapter.upgradeNg1Provider(GlobalEmitterService);

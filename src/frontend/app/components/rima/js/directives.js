@@ -171,16 +171,16 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					$scope.items.length = 0;
 
 					var userHows = RimaService.howAmIs[RimaService.getActiveUserId()]; // TODO: Sasa want logged in user also [RimaService.loggedInWhoAmI._id];
-					for (var i in KnalledgeMapVOsService.mapStructure.nodesById){
+					for (var i in KnalledgeMapVOsService.mapStructure.nodesById){ //for all nodes in the map
 						var vkNode = KnalledgeMapVOsService.mapStructure.nodesById[i];
 						var nodeWhats = (vkNode && vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats) ?
-							vkNode.kNode.dataContent.rima.whats : [];
+							vkNode.kNode.dataContent.rima.whats : []; //getting all whats from the node
 
-						var relevantWhats = [];
+						var relevantWhats = []; //here are kept all found relevant whats
 						// TODO: can be optimized by hash of userHows
-						for(var i=0;i<nodeWhats.length;i++){
+						for(var i=0;i<nodeWhats.length;i++){ //through all the whats of the node
 							var nodeWhat = nodeWhats[i];
-							for(var j in userHows){
+							for(var j in userHows){ //for each how of the user:
 								var userHow = userHows[j];
 								if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name))
 								{

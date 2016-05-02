@@ -41,6 +41,8 @@ requiresList.push('collaboBroadcastingServices');
 requiresList.push('ontovServices');
 
 requiresList.push('requestServices');
+requiresList.push('suggestionServices');
+
 
 // a module that contains ng2 directives and services downgraded for ng1 space
 requiresList.push('KnAllEdgeNg2');

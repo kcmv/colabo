@@ -6,6 +6,7 @@ import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import { DatePipe } from "angular2/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
 import {RequestComponent} from '../request/request.component';
+import {SuggestionComponent} from '../suggestion/suggestion.component';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 
 /**
@@ -26,6 +27,7 @@ import {upgradeAdapter} from '../../js/upgrade_adapter';
     directives: [
         MATERIAL_DIRECTIVES,
         RequestComponent,
+        SuggestionComponent,
         upgradeAdapter.upgradeNg1Component('ontovSearch'),
         upgradeAdapter.upgradeNg1Component('rimaRelevantList')
    ],
