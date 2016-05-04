@@ -48,6 +48,9 @@ export class MapInteraction {
     	});
     };
 
+    getMapDom():any{
+        return this.clientApi.getMapDom();
+    }
     isEditingNode():boolean {
         return this.editingNodeHtml !== null;
     }

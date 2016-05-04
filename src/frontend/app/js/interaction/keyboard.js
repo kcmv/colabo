@@ -47,6 +47,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	var keyboardCommandUp;
 	var keyboardCommandDown;
 	var keyboardSequenceKey;
+	var mapDom = this.mapInteraction.getMapDom();
 
 	switch(keyboardLibType){
 		case 'KeyboardJS':
@@ -55,6 +56,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 			keyboardSequenceKey = " + ";
 		break;
 		case 'Kibo':
+			// keyboardLib = new Kibo(mapDom[0][0]);
 			keyboardLib = new Kibo();
 			keyboardCommand = 'down';
 			keyboardCommandUp = 'up';

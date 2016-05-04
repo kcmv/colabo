@@ -31,6 +31,7 @@
 */
 var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
 	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService, injector){
+	var that = this;
 	this.config = config;
 	this.upperApi = upperApi;
 	this.entityStyles = entityStyles;
@@ -66,6 +67,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 
 	var mapInterface = {
 		updateNode: this.mapStructure.updateNode.bind(this.mapStructure),
+		getMapDom: function(){return that.parentDom},
 		getDomFromDatum: this.mapVisualization.getDomFromDatum.bind(this.mapVisualization),
 		getCoordinatesFromDatum: this.mapVisualization.getCoordinatesFromDatum.bind(this.mapVisualization),
 		nodeSelected: this.nodeSelected.bind(this),
