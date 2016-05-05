@@ -68,9 +68,18 @@ angular.module('KnAllEdgeApp', requiresList)
 		templateUrl: 'components/knalledgeMap/partials/knalledgeMaps-index.tpl.html'
 	})
 	// http://localhost:8410/app/index-dev.html#/login/iAmId
+	.when('/login', {
+		templateUrl: 'components/login/partials/index.tpl.html'
+	})
+	// http://localhost:8410/app/index-dev.html#/login/iAmId
 	.when('/login/iAmId/:iAmId?', {
 		templateUrl: 'components/login/partials/index.tpl.html'
 	})
+	// http://localhost:8410/app/index-dev.html#/register
+	.when('/register', {
+		templateUrl: 'components/login/partials/register-index.tpl.html'
+	})
+
 	// https://docs.angularjs.org/api/ngRoute/provider/$routeProvider
 	// http://stackoverflow.com/questions/17510962/can-angularjs-routes-have-optional-parameter-values
 	// http://localhost:8410/app/index-dev.html#/login/iAmId/55268521fb9a901e442172f8/token/1/route/whoAmI

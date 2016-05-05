@@ -56,29 +56,48 @@
                 <div class="knalledge_map_middle" layout-fill layout="column">
                     <!-- toolbar -->
                     <md-toolbar class="md-theme-indigo" style="height: 60px">
-                        <section layout="row" layout-sm="column" layout-align="left center" layout-wrap>
-                            <button md-fab class="md-primary" aria-label="Configuration" (click)="open('left')" [hidden]="leftOpened">
-                                <i md-icon>settings</i>
-                            </button>
-                            <!-- <button md-fab class="md-primary" (click)="open('right')" hide-gt-md> -->
-                            <button md-fab class="md-primary" aria-label="Configuration" (click)="open('right')" hide-gt-md>
-                                <i md-icon>chrome_reader_mode</i>
-                            </button>
+                        <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap>
+                            <section layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+                                <button md-fab class="md-primary" aria-label="Configuration" (click)="open('left')" [hidden]="leftOpened">
+                                    <i md-icon>settings</i>
+                                </button>
+                                <!-- <button md-fab class="md-primary" (click)="open('right')" hide-gt-md> -->
+                                <button md-fab class="md-primary" aria-label="Configuration" (click)="open('right')" hide-gt-md>
+                                    <i md-icon>chrome_reader_mode</i>
+                                </button>
+                                <button md-fab class="md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
+                                    <i md-icon>view_agenda</i>
+                                </button>
 
-                            <button md-fab class="md-primary" aria-label="Maps" (click)="go('maps')">
-                                <i md-icon>map</i>
-                            </button>
+                                <button md-fab class="md-primary" aria-label="Maps" (click)="go('maps')">
+                                    <i md-icon>map</i>
+                                </button>
 
-                            <button md-fab class="md-primary" aria-label="Plugins" (click)="go('plugins')">
-                                <i md-icon>extension</i>
-                            </button>
+                                <button md-fab class="md-primary" aria-label="Plugins" (click)="go('plugins')">
+                                    <i md-icon>extension</i>
+                                </button>
+                            </section>
 
+                            <section layout="row" layout-sm="column" layout-align="right center" layout-wrap>
+                                <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
+                                    <i md-icon>person</i>
+                                </button>
+
+                                <div style="display: flex; align-items: center; font-weight: bold;">
+                                    {{getLoggedInUser().firstname}} {{getLoggedInUser().familyname}}
+                                </div>
+
+                                <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
+                                    <i md-icon>directions run</i>
+                                </button>
+
+                            </section>
                         </section>
                     </md-toolbar>
 
                     <ontov-search style="height: 2em"></ontov-search>
                     <!-- top panel -->
-                    <div class="knalledge_map_middle_bottom"  style="height: 10em">
+                    <div class="knalledge_map_middle_bottom" *ngIf="topPanelVisible" style="height: 10em">
                         <!--<rima-relevant-list class="rima_relevant_list"></rima-relevant-list>-->
                         <top-panel></top-panel>
                     </div>

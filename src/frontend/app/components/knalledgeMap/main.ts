@@ -67,13 +67,15 @@ export class KnalledgeMapMain {
     constructor(
         private location: Location,
         private sidenavService: SidenavService,
-        @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService
+        @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
+        @Inject('RimaService') _RimaService_
     // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
     // globalEmitterServicesArray:GlobalEmitterServicesArray
     // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
         ) {
         console.log('[KnalledgeMapMain]');
         this.viewConfig = knalledgeMapViewService.get().config;
+        this.rimaService = _RimaService_;
         // this.broadcastManagerService = broadcastManagerService;
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
@@ -82,7 +84,15 @@ export class KnalledgeMapMain {
 
     userUrl: String = "www.CollaboScience.com";
     viewConfig: Object;
+    topPanelVisible: boolean = true;
+    private rimaService;
 
+    toggleTopPanel(): any {
+        this.topPanelVisible = !this.topPanelVisible;
+    }
+    getLoggedInUser(): any {
+        return this.rimaService.getWhoAmI();
+    }
     hasMedia(breakSize: string): boolean {
         return Media.hasMedia(breakSize);
     }
