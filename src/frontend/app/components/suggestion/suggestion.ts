@@ -8,14 +8,13 @@ export const enum SuggestionVisibility {
 
 export const enum SuggestionType {
 	UNDEFINED,
-	REPLICA,
-	CLARIFICATION
+	EXPERT
 }
 
 export const enum SuggestionState {
-	REQUESTED,
-	GRANTED,
-	REVOKED
+	SUGGESTED,
+	SEEN,
+	ACCEPTED
 }
 
 /**
@@ -25,7 +24,7 @@ export class Suggestion {
 	public static MaxId: number = 0;
 
 	public id: number;
-	public reference: any; //it is id or an reference ...//
+	public reference: any; //it is id or an reference, e.g. to the node ...//
 	//(depending in which layer we are) to a node or other object regarding which participant has a suggestion
 	public type: number; //coressponding to enum `Type`
 	public mapId: number; // id of map this object belongs to
@@ -34,7 +33,7 @@ export class Suggestion {
 	public visibility: number; //coressponding to enum `Visibility`
 	public createdAt: any; //when the object is created
 	public updatedAt: any; //when the obect is updated
-	public dataContent: Object;
+	public dataContent: any;
 	public decorations: Object;
 	public state: number; //coressponding to enum `State`
 
@@ -49,6 +48,6 @@ export class Suggestion {
 		this.updatedAt = null;
 		this.dataContent = {};
 		this.decorations = {};
-		this.state = SuggestionState.REQUESTED;
+		this.state = SuggestionState.SUGGESTED;
 	}
 }

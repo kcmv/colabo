@@ -5,7 +5,7 @@ var HowAmI =  knalledge.HowAmI = function(){
 	this._id = HowAmI.MaxId++; //TODO: maxId logic should be migrated here
 	this.whoAmI = "";
 	this.whatAmI = "";
-	this.how = 1;	
+	this.how = 1;
 	this.negation = "";
 	this.level = "";
 	this.importance = 0;
@@ -20,7 +20,7 @@ var HowAmI =  knalledge.HowAmI = function(){
 	// 		widthM: undefined,
 	// 		heightM: undefined
 	// };
-	
+
 	/* local-to-frontend */
 	this.state = HowAmI.STATE_LOCAL;
 };
@@ -31,7 +31,7 @@ HowAmI.STATE_NON_SYNCED = "STATE_NON_SYNCED";
 HowAmI.STATE_SYNCED = "STATE_SYNCED";
 
 HowAmI.prototype.init = function(){
-	
+
 };
 
 HowAmI.howAmIFactory = function(obj){
@@ -66,7 +66,7 @@ HowAmI.prototype.overrideFromServer = function(obj){
 
 HowAmI.prototype.toServerCopy = function(){
 	var howAmI = {};
-	
+
 	/* copying all non-system and non-function properties */
 	for(var id in this){
 		if(id[0] == '$') continue;
@@ -76,18 +76,18 @@ HowAmI.prototype.toServerCopy = function(){
 			howAmI[id] = (JSON.parse(JSON.stringify(this[id])));
 		}
 	}
-	
+
 	/* deleting properties that should be set created to default value on server */
 	if(howAmI.createdAt === undefined || howAmI.createdAt === null) {delete howAmI.createdAt;}
 	if(howAmI.updatedAt === undefined || howAmI.updatedAt === null) {delete howAmI.updatedAt;}
-	
+
 	if(howAmI.state == HowAmI.STATE_LOCAL){
 		delete howAmI._id;
 	}
-	
+
 	/* deleting local-frontend parameters */
 	delete howAmI.state;
-	
+
 	return howAmI;
 };
 
