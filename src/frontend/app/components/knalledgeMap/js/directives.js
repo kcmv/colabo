@@ -290,6 +290,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								};
 
 								GlobalEmitterServicesArray.get(changeKnalledgePropertyEventName).broadcast('knalledgeMap', nodeContent);
+								//GlobalEmitterServicesArray.get('changeSelectedNodeEvent').broadcast('knalledgeMap', vkNode);
 							}
 
 							if(commingFromAngular) processNodeSelected();
