@@ -11,6 +11,7 @@
     "bluebird": "latest",
     "bson": "^0.4.22",
     "connect-flash": "latest",
+    "deep-assign": "^2.0.0",
     "express": "3.x",
     "express-resource": "1.x",
     "ink-docstrap": "^1.1.0",
