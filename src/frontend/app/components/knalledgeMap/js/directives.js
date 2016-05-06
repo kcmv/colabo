@@ -87,6 +87,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		GlobalEmitterServicesArray.register(modelLoadedEventName);
 		var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
 		GlobalEmitterServicesArray.register(knalledgePropertyChangedEventName);
+		var behaviourChangedEventName = "behaviourChangedEvent";
+		GlobalEmitterServicesArray.register(behaviourChangedEventName);
 
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
@@ -607,7 +609,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						console.log("[knalledgeMap.controller::$on] event: %s", behaviourChangedEventName);
 						toolsChange(KnRealTimeBehaviourChangedEventName);
 					};
-					var behaviourChangedEventName = "behaviourChangedEvent";
 					GlobalEmitterServicesArray.get(behaviourChangedEventName).subscribe('knalledgeMap', behaviourChanged);
 
 
