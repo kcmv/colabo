@@ -84,41 +84,52 @@ MapVisualization.prototype._initHalo = function(){
 				d = d[0];
 			}
 
-			switch(event.action){
-			case "toggle":
-				that.halo.destroy();
+			var actions = {
+				toggle: function(){
+					that.halo.destroy();
 
-				// window.alert("Showing params");
-				// this.selectedView = null;
-				that.mapInteraction.toggleNode();
+					// window.alert("Showing params");
+					// this.selectedView = null;
+					that.mapInteraction.toggleNode();
 
-				break;
-			case "addChildNode":
-				that.halo.destroy();
+				},
+				addChildNode: function(){
+					that.halo.destroy();
 
-				// window.alert("Showing analysis");
-				// this.selectedView = null;
-				that.mapInteraction.addChildNode();
+					// window.alert("Showing analysis");
+					// this.selectedView = null;
+					that.mapInteraction.addChildNode();
 
-				break;
-			case "deleteNode":
-				that.halo.destroy();
+				},
+				deleteNode: function(){
+					that.halo.destroy();
 
-				// window.alert("Showing analysis");
-				// this.selectedView = null;
-				that.mapInteraction.deleteNode();
+					// window.alert("Showing analysis");
+					// this.selectedView = null;
+					that.mapInteraction.deleteNode();
 
-				break;
+				},
+				editNode: function(){
+					that.halo.destroy();
 
-			case "editNode":
-				that.halo.destroy();
-
-				// window.alert("Showing analysis");
-				// this.selectedView = null;
-				that.mapInteraction.setEditing();
-
-				break;
+					// window.alert("Showing analysis");
+					// this.selectedView = null;
+					that.mapInteraction.setEditing();
+				}
 			}
+
+			if(that.mapPlugins && that.mapPlugins.mapVisualizeHaloPlugins){
+				for(var pluginName in that.mapPlugins.mapVisualizeHaloPlugins){
+					var plugin = that.mapPlugins.mapVisualizeHaloPlugins[pluginName];
+					if(typeof plugin.init === 'function'){
+						plugin.init(that.halo, actions, that.mapInteraction);
+					}
+				}
+			}
+
+			var action = actions[event.action];
+			if(typeof action === 'function') action();
+			else console.error('Missing action for action name: ', event.action);
 		});
 	}
 };
@@ -368,6 +379,16 @@ MapVisualization.prototype.nodeFocus = function(d) {
 				}
 			]
 		};
+
+		if(this.mapPlugins && this.mapPlugins.mapVisualizeHaloPlugins){
+			for(var pluginName in this.mapPlugins.mapVisualizeHaloPlugins){
+				var plugin = this.mapPlugins.mapVisualizeHaloPlugins[pluginName];
+				if(plugin.create){
+					plugin.create(haloOptions);
+				}
+			}
+		}
+
 		this.halo.create(nodesHtmlSelected.node(), haloOptions);
 	}
 

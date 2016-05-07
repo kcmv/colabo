@@ -19,6 +19,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 	* @memberof knalledge.knalledgeMap.knalledgeMapDirectives
 	*/
 	.directive('knalledgeMap', ['$injector', '$rootScope', '$compile', '$route', '$routeParams', '$timeout',
+		'Plugins',
 		'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService',
 		'KnalledgeMapService', 'KnalledgeMapViewService',
 		'KnAllEdgeRealTimeService', 'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService',
@@ -26,7 +27,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		/**
 	 	* @memberof knalledge.knalledgeMap.knalledgeMapDirectives.knalledgeMap#
 	 	* @constructor
-	 	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeNodeService} KnalledgeNodeService
+		* @param {Config.Plugins} Plugins
+	 	* @param {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeNodeService} KnalledgeNodeService
 	 	* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeEdgeService} KnalledgeEdgeService
 		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService} KnalledgeMapVOsService
 		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapService} KnalledgeMapService
@@ -40,6 +42,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 	 	*/
 
 		function($injector, $rootScope, $compile, $route, $routeParams, $timeout,
+		Plugins,
 		KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService,
 		KnalledgeMapService, KnalledgeMapViewService,
 		KnAllEdgeRealTimeService, KnAllEdgeSelectItemService, KnalledgeMapPolicyService,
@@ -53,9 +56,62 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		var RimaService = $injector.get('RimaService');
 		var IbisTypesService = $injector.get('IbisTypesService');
 		var NotifyService = $injector.get('NotifyService');
-		var NotifyNodeService = $injector.get('NotifyNodeService');
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
-	 	var RequestService = $injector.get('RequestService');
+
+		// loading component plugins' serbices
+
+		// references to loaded services
+		var componentServiceRefs = {};
+		// plugins that we care for inside the directive
+		var pluginsOfInterest = {
+			mapVisualizePlugins: true,
+			mapVisualizeHaloPlugins: true,
+			mapInteractionPlugins: true,
+			keboardPlugins: true
+		};
+
+		// iterating through components
+		for(var componentName in Config.Plugins){
+			var component = Config.Plugins[componentName];
+			// if disabled skip
+			if(!component.active) continue;
+
+			// list of services that we have to load
+			var serviceIds = [];
+
+			componentServiceRefs[componentName] = {};
+
+			// iterating through all plugins we care for in this directive
+			if(!component.plugins) continue;
+			for(var pluginId in component.plugins){
+				if(!pluginsOfInterest[pluginId]) continue;
+
+				var plugins = component.plugins[pluginId];
+				for(var pId in plugins){
+					var serviceId = plugins[pId];
+					serviceIds.push(serviceId);
+				}
+			}
+
+			// injecting reuqired services
+			for(var sId in serviceIds){
+				var serviceId = serviceIds[sId];
+				if(componentServiceRefs[componentName][serviceId]) continue;
+				var serviceConfig = component.services[serviceId];
+				// injecting
+				var serviceRef =
+					$injector.get(serviceConfig.name || serviceId);
+				componentServiceRefs[componentName][serviceId] =
+					serviceRef;
+				// path to the service
+				var servicePath = serviceConfig.path ||
+					(componentName + "." + (serviceConfig.name || serviceId));
+
+				if(!injector.has(servicePath))
+					injector.addPath(servicePath, serviceRef);
+			}
+		}
+
 		var SuggestionService = $injector.get('SuggestionService');
 
 
@@ -425,11 +481,44 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					 * @type {Object}
 					 */
 					var mapPlugins = {
-						mapVisualizePlugins: {
-							'NotifyNodeService': NotifyNodeService
-						}
 					};
-					injector.addPath("RequestService", RequestService);
+
+					// this function iterates through components' plugins
+					// and injects them into mapPlugins structure
+					// that will be used in sub components
+					function injectPlugins(pluginsName){
+						if(!mapPlugins[pluginsName]){
+							mapPlugins[pluginsName] = {};
+						}
+
+						for(var componentName in Config.Plugins){
+							var component = Config.Plugins[componentName];
+							if(component.plugins &&
+								component.plugins[pluginsName]
+							){
+								for(var sId in component.plugins[pluginsName]){
+									var serviceId = component.plugins[pluginsName][sId];
+									var serviceConfig = component.services[serviceId];
+									var serviceName = serviceConfig.name || serviceId;
+
+									if(!componentServiceRefs[componentName][serviceId].plugins) continue;
+
+									// path to the service
+									var servicePath = serviceConfig.path ||
+										(componentName + "." + (serviceConfig.name || serviceId));
+
+									mapPlugins[pluginsName][servicePath] =
+										componentServiceRefs[componentName][serviceId].plugins[pluginsName];
+								}
+							}
+						}
+					}
+
+					// injecting plugins
+					for(var pluginName in pluginsOfInterest){
+						injectPlugins(pluginName);
+					}
+
 					injector.addPath("SuggestionService", SuggestionService);
 
 					knalledgeMap = new knalledge.Map(

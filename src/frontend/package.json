@@ -52,7 +52,7 @@
     "es6-shim": "^0.34.4",
     "highlightjs": "^8.7.0",
     "jquery": "^2.2.1",
-    "ng2-material": "^0.3.8",
+    "ng2-material": "^0.2.13",
     "ngstorage": "^0.3.10",
     "object-assign": "^4.0.1",
     "reflect-metadata": "0.1.2",

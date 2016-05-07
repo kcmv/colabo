@@ -108,11 +108,10 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		}.bind(this)
 	};
 
-	var RequestService = this.injector.get('RequestService');
 	var SuggestionService = this.injector.get('SuggestionService');
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
 	//this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
-	this.mapInteraction = new MapInteraction(mapInterface, RequestService);
+	this.mapInteraction = new MapInteraction(mapInterface, this.mapPlugins);
 	this.mapInteraction.init();
 	this.injector.addPath("mapInteraction", this.mapInteraction);
 
@@ -442,7 +441,7 @@ Map.prototype.initializeKeyboard = function() {
 
 	if(!this.config.keyboardInteraction.enabled) return;
 
-	this.keyboardInteraction = new interaction.Keyboard(this.mapInteraction);
+	this.keyboardInteraction = new interaction.Keyboard(this.mapInteraction, this.mapPlugins);
 	this.keyboardInteraction.init();
 };
 
