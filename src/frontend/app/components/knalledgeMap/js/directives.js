@@ -147,10 +147,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		GlobalEmitterServicesArray.register(knalledgePropertyChangedEventName);
 		var behaviourChangedEventName = "behaviourChangedEvent";
 		GlobalEmitterServicesArray.register(behaviourChangedEventName);
-<<<<<<< HEAD
-=======
 
->>>>>>> c0699db662745a14a278131b7cb6fd67e9e948df
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
 		return {

@@ -157,7 +157,8 @@ export class MapInteraction {
       if(node){
         this.clientApi.updateNode(node, knalledge.KNode.UPDATE_TYPE_VOTE,vote);
         this.clientApi.update(this.clientApi.getSelectedNode());
-      };
+      }
+    }
 
     addLink() {
         var node = this.clientApi.getSelectedNode();
