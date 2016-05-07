@@ -5,7 +5,9 @@ import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 
 // import {SidenavService, MdContent, MdButton} from 'ng2-material/all';
+// import {MATERIAL_DIRECTIVES, Media, SidenavService, MdToolbar} from "ng2-material/all";
 import {MATERIAL_DIRECTIVES, Media, SidenavService} from "ng2-material/all";
+// import {MdBackdrop} from "ng2-material/components/backdrop/backdrop";
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {TopPanel} from '../topPanel/topPanel';
@@ -27,11 +29,15 @@ import {TopPanel} from '../topPanel/topPanel';
 
 @Component({
     selector: 'knalledge-map-main',
+    moduleId: module.id,
+    templateUrl: 'partials/main.tpl.html',
     providers: [
-      SidenavService,
-      ROUTER_PROVIDERS
-      // ,
-      // RequestService
+        // MdBackdrop,
+        // MdToolbar,
+        SidenavService,
+        ROUTER_PROVIDERS
+        // ,
+        // RequestService
     ],
     directives: [
         MATERIAL_DIRECTIVES,
@@ -47,8 +53,6 @@ import {TopPanel} from '../topPanel/topPanel';
     ],
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
-    moduleId: module.id,
-    templateUrl: 'partials/main.tpl.html',
     // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
     styles: [`
         .md-sidenav-push-in .md-sidenav-push-in-target {

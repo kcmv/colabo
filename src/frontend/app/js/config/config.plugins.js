@@ -21,6 +21,37 @@ var plugins = {
                 waitToReceiveRimaList: true
             }
         }
+	},
+	"request": {
+        active: true,
+        services: {
+            requestService: {
+				name: 'RequestService',
+				path: 'request.RequestService',
+				icons: {
+					showRequests: {
+						position: "nw",
+						iconClass: "fa-bell",
+						action: "showRequests"
+					}
+				}
+            }
+        },
+		plugins: {
+			mapVisualizeHaloPlugins: ['requestService'],
+			// mapInteractionPlugins: ['requestService'],
+			keboardPlugins: ['requestService']
+		}
+	},
+	notify: {
+		active: true,
+		services: {
+			NotifyNodeService: {
+			}
+		},
+		plugins: {
+			mapVisualizePlugins: ['NotifyNodeService']
+		}
 	}
 };
 

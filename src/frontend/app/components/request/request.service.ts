@@ -6,121 +6,215 @@ import {RequestType} from './request';
 import {RequestVisibility} from './request';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+declare var interaction:any;
+
 @Injectable()
 export class RequestService {
-  public EMITTER_NAME_REQUEST:string = 'EMITTER_NAME_REQUEST';
-  //private static EVENT_NAME_REQUEST: string = 'EVENT_NAME_REQUEST';
-  private rimaService:any;
-  private knalledgeMapVOsService:any;
-  private knAllEdgeRealTimeService:any;
-  private knalledgeMapPolicyService:any;
-  private globalEmitterServicesArray:GlobalEmitterServicesArray;
-  private requests: Request[] = [];
+    public EMITTER_NAME_REQUEST: string = 'EMITTER_NAME_REQUEST';
 
-  /**
-   * Service constructor
-   * @constructor
-   * @memberof topiChat.TopiChatService
-   * @param  socketFactory         [description]
-   * @param  $rootScope            [description]
-   * @param  {Object} ENV                   [description]
-   * @param  {Service} TopiChatConfigService - TopiChat Config service
-   */
-  constructor(RimaService, KnalledgeMapVOsService, KnalledgeMapPolicyService,
-      KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_
-  ) {
-      this.rimaService = RimaService;
-      this.knalledgeMapVOsService = KnalledgeMapVOsService;
-      this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
-      this.knalledgeMapPolicyService = KnalledgeMapPolicyService;
-      this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
+    plugins:any = {
+        mapVisualizeHaloPlugins: {
+            service: this,
+            init: function init(halo:any, actions:any, mapInteraction:any) {
+                let that = this;
 
-      let requestPluginOptions: any = {
-        name: "RequestService",
-        events: {
+                this.halo = halo;
+                this.mapInteraction = mapInteraction;
+
+                actions.showRequests = function(){
+                    that.halo.destroy();
+
+                    // window.alert("show requests");
+                    // that.mapInteraction.toggleNode();
+                    this.service._participantRequest(this);
+                }.bind(this);
+            },
+
+            create: function create(haloOptions:any) {
+                haloOptions.icons.push(
+                    {
+                        position: "nw",
+                        iconClass: "fa-bell",
+                        action: "showRequests"
+                    }
+                );
+            }
+        },
+
+/*        mapInteractionPlugins: {
+            service: this,
+            init: function init(){
+
+            },
+
+            participantRequest: function participantRequest(){
+                this.service._participantRequest(this);
+            }
+        },
+*/
+
+        keboardPlugins: {
+            service: this,
+            init: function init(keyboard:any, mapInteraction:any) {
+                let that = this;
+
+                this.keyboard = keyboard;
+                this.mapInteraction = mapInteraction;
+
+                /**
+            	 *  Activates Request console for participant:
+            	* PreAction: ...
+            	* PostAction: ...
+            	*/
+            	this.keyboard.registerKey(interaction.Keyboard.KEY_PREFIX+"r", 'down',
+                function(){
+            		// that.mapInteraction.invokePluginMethod('request.RequestService', 'participantRequest');
+            		that.service._participantRequest(this);
+            	}.bind(this));
+            }
         }
-      };
-      requestPluginOptions.events[this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST] = this.receivedRequest.bind(this);
-      this.knAllEdgeRealTimeService.registerPlugin(requestPluginOptions);
+    };
 
-      this.getMockupRequests();
-  }
+    //private static EVENT_NAME_REQUEST: string = 'EVENT_NAME_REQUEST';
+    private rimaService: any;
+    private knalledgeMapVOsService: any;
+    private knAllEdgeRealTimeService: any;
+    private knalledgeMapPolicyService: any;
+    private globalEmitterServicesArray: GlobalEmitterServicesArray;
+    private requests: Request[] = [];
 
-  getMockupRequests(){
-    var r1:Request = new Request();
-      r1.who = null;
-      r1.reference = null;
-      r1.type = RequestType.REPLICA;
-    var r2:Request = new Request();
-      r2.who = {displayName:'Dino'};
-      r2.reference = {name:'Collective Mind'};
-      r2.type = RequestType.REPLICA;
-    var r3:Request = new Request();
-      r3.who = {displayName:'TestUser'};
-      r3.reference = {name:'Eco-Problems'};
-      r3.type = RequestType.CLARIFICATION;
-    this.requests.push(r1);
-    this.requests.push(r2);
-    this.requests.push(r3);
-  }
+    /**
+     * Service constructor
+     * @constructor
+     * @memberof topiChat.TopiChatService
+     * @param  socketFactory         [description]
+     * @param  $rootScope            [description]
+     * @param  {Object} ENV                   [description]
+     * @param  {Service} TopiChatConfigService - TopiChat Config service
+     */
+    constructor(RimaService, KnalledgeMapVOsService, KnalledgeMapPolicyService,
+        KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_
+        ) {
+        this.rimaService = RimaService;
+        this.knalledgeMapVOsService = KnalledgeMapVOsService;
+        this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
+        this.knalledgeMapPolicyService = KnalledgeMapPolicyService;
+        this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
 
-  sendRequest(request: Request, callback: Function){
-    //let req:Request = new Request();
-    request.mapId = this.knalledgeMapVOsService.getMapId();
-    request.who = this.rimaService.getWhoAmI()._id;
-    console.log(request);
+        let requestPluginOptions: any = {
+            name: "RequestService",
+            events: {
+            }
+        };
+        requestPluginOptions.events[this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST] = this.receivedRequest.bind(this);
+        this.knAllEdgeRealTimeService.registerPlugin(requestPluginOptions);
 
-    if(this.knAllEdgeRealTimeService){
-      this.knAllEdgeRealTimeService.emit(this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST, request);
-      callback(true);
-    } else {
-      callback(false, 'SERVICE_UNAVAILABLE');
+        this.getMockupRequests();
     }
-  }
 
-  filterRequest(request){
-    switch(request.visibility){
-      case RequestVisibility.ALL:
-        return true;
-      //break;
-      case RequestVisibility.MAP_PARTICIPANTS:
-        return request.mapId === this.knalledgeMapVOsService.getMapId(); //TODO: can be ckecked further for map participants
-      //break;
-      case RequestVisibility.MAP_MEDIATORS:
-        if(this.knalledgeMapPolicyService.provider.config.moderating.enabled){
-          return true;
-        } else {
-          return false;
-        }
-      //break;
-      case RequestVisibility.USER:
-        if(request.dataContent && request.dataContent.toWhom && request.dataContent.toWhom === this.rimaService.getWhoAmI()._id){
-          return true;
-        } else {
-          return false;
-        }
-      //break;
-      default:
-        return true;
+    getMockupRequests() {
+        var r1: Request = new Request();
+        r1.who = null;
+        r1.reference = null;
+        r1.type = RequestType.REPLICA;
+        var r2: Request = new Request();
+        r2.who = { displayName: 'Dino' };
+        r2.reference = { name: 'Collective Mind' };
+        r2.type = RequestType.REPLICA;
+        var r3: Request = new Request();
+        r3.who = { displayName: 'TestUser' };
+        r3.reference = { name: 'Eco-Problems' };
+        r3.type = RequestType.CLARIFICATION;
+        this.requests.push(r1);
+        this.requests.push(r2);
+        this.requests.push(r3);
     }
-  }
 
-  getRequestsRef(){
-    return this.requests;
-  }
+    sendRequest(request: Request, callback: Function) {
+        //let req:Request = new Request();
+        request.mapId = this.knalledgeMapVOsService.getMapId();
+        request.who = this.rimaService.getWhoAmI()._id;
+        console.log(request);
 
-  receivedRequest(eventName:string, request:Request){
-      this.requests.push(request);
-      if(this.filterRequest(request)){
-        request.who = this.rimaService.getUserById(request.who); //can be null!
-        request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!
-        console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
-        if(request.type === RequestType.REPLICA){
-          console.log(' requested REPLICA for ');
+        if (this.knAllEdgeRealTimeService) {
+            this.knAllEdgeRealTimeService.emit(this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST, request);
+            callback(true);
+        } else {
+            callback(false, 'SERVICE_UNAVAILABLE');
         }
-        this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
-        this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
-        'RequestService', {'request':request,'event':this.EMITTER_NAME_REQUEST});
-      }
-  }
+    }
+
+    filterRequest(request) {
+        switch (request.visibility) {
+            case RequestVisibility.ALL:
+                return true;
+            //break;
+            case RequestVisibility.MAP_PARTICIPANTS:
+                return request.mapId === this.knalledgeMapVOsService.getMapId(); //TODO: can be ckecked further for map participants
+            //break;
+            case RequestVisibility.MAP_MEDIATORS:
+                if (this.knalledgeMapPolicyService.provider.config.moderating.enabled) {
+                    return true;
+                } else {
+                    return false;
+                }
+            //break;
+            case RequestVisibility.USER:
+                if (request.dataContent && request.dataContent.toWhom && request.dataContent.toWhom === this.rimaService.getWhoAmI()._id) {
+                    return true;
+                } else {
+                    return false;
+                }
+            //break;
+            default:
+                return true;
+        }
+    }
+
+    getRequestsRef() {
+        return this.requests;
+    }
+
+    receivedRequest(eventName: string, request: Request) {
+        this.requests.push(request);
+        if (this.filterRequest(request)) {
+            request.who = this.rimaService.getUserById(request.who); //can be null!
+            request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!
+            console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
+            if (request.type === RequestType.REPLICA) {
+                console.log(' requested REPLICA for ');
+            }
+            this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
+            this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
+                'RequestService', { 'request': request, 'event': this.EMITTER_NAME_REQUEST });
+        }
+    }
+
+    _participantRequest(plugin){
+        var reference = plugin.mapInteraction.clientApi.getSelectedNode();
+        if (!reference) {
+            //TODO: enable later node selection
+            window.alert('You have to select a topic (node) before requesting REPLICA on it');
+            return; // no parent node selected
+        }
+        if (true) { //TODO: because of keyboard multiple 'firing' we canot use this:
+            //window.confirm('Are you sure you want to send request for REPLICA on the node\n"'+reference.kNode.name+'"')){
+            window.alert('You are sending request for REPLICA on the node\n"' + reference.kNode.name + '"');
+            if (!plugin.mapInteraction.isStatusMap()) { return; }
+            let request: Request = new Request();
+            request.type = RequestType.REPLICA;
+            request.reference = reference.kNode._id;
+            this.sendRequest(request, function(result, error) {
+                if (result) {
+                    //TODO: update participant's requests panel
+                } else {
+                    switch (error) {
+                        case 'SERVICE_UNAVAILABLE':
+                            window.alert('Service is unavailable at the moment. Try later');
+                            break;
+                    }
+                }
+            });
+        }
+    }
 }

@@ -61,6 +61,87 @@ Map Visualization plugins
 
 Passive plugins (filters) that get knalledge data and transform it adds new
 
+## procedure with example of request
+We want to create a Halo plugin (which is placed in knalledge.mapVisualization) for Request. In this way we will be able to add a specific request icon in halo arround a selected node.
+
+### Create request interaction service
+
+```js
+import {Injectable
+} from 'angular2/core';
+
+/**
+* the namespace for the Request Interaction component (keyboard, halo, ...)
+* @namespace request.RequestInteractionService
+*/
+
+@Injectable()
+export class RequestInteractionService {
+
+    /**
+     * Service constructor
+     * @constructor
+     * @memberof topiChat.RequestInteractionService
+     */
+    constructor() {
+    }
+
+    init() {
+        return this.requests;
+    }
+}
+```
+
+In app2.ts add code for registering the service:
+
+```js
+// ...
+import {RequestInteractionService} from '../components/request/request.interaction.service';
+// ...
+
+// injecting NG1 TS service into NG1 space
+var requestServices = angular.module('requestServices');
+requestServices
+    .service('RequestInteractionService', RequestInteractionService)
+    ;
+
+// ...
+// upgrading ng1 services into ng2 space
+upgradeAdapter.upgradeNg1Provider('RequestInteractionService');
+```
+### Passing service to Halo initialization
+
+We need to pass service as a plugin to the MapVisualization where Halo is iniitialized.
+
+In `components/knalledgeMap/js/directives.js` inject the `RequestInteractionService`
+
+```js
+var RequestInteractionService = $injector.get('RequestInteractionService');
+```
+
+Place the service with other map plugins:
+
+```js
+/**
+ * Plugins that are provided to the knalledge.Map
+ * @type {Object}
+ */
+var mapPlugins = {
+    // ...
+    mapVisualizeHaloPlugins: {
+        'RequestInteractionService': RequestInteractionService
+    }
+};
+```
+
+### Implementing halo interaction
+
+Inside the `knalledge.MapVisualization` the halo is interacted with twice. First time we initialize halo in `MapVisualization.prototype._initHalo`. Here we provide a set of available actions and how halo should behave.
+
+Second time in `MapVisualization.prototype.nodeFocus` we create halo with specific icons; which icons are available, where they are placed, and what action should be called when the icon is clicked.
+
+
+
 ## example
 
 ### Notofy
