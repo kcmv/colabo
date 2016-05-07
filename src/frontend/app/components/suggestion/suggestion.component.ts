@@ -38,9 +38,9 @@ export class SuggestionComponent implements OnInit {
 
       // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
       // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
-      let changeSelectedNodeEvent = "changeSelectedNodeEvent";
-      this.globalEmitterServicesArray.register(changeSelectedNodeEvent);
-    	this.globalEmitterServicesArray.get(changeSelectedNodeEvent).subscribe(
+      let selectedNodeChangedEventName = "selectedNodeChangedEvent";
+      this.globalEmitterServicesArray.register(selectedNodeChangedEventName);
+    	this.globalEmitterServicesArray.get(selectedNodeChangedEventName).subscribe(
        'SuggestionComponent', this.selectedNodeChanged.bind(this));
   }
 

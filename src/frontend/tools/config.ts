@@ -303,6 +303,7 @@ const NPM_DEPENDENCIES: IDependency[] = [
     { src: join(APP_DEST, 'js/lib/d3/d3.js'), inject: 'libs', noNorm: true},
     { src: join(APP_DEST, 'js/lib/interact-1.2.4.js'), inject: 'libs', noNorm: true},
     { src: join(APP_DEST, 'js/lib/keyboard.js'), inject: 'libs', noNorm: true},
+    { src: join(APP_DEST, 'js/lib/deepAssign.js'), inject: 'libs', noNorm: true},
     { src: join(APP_DEST, 'js/lib/tween/tween.js'), inject: 'libs', noNorm: true},
     { src: join(APP_DEST, 'js/lib/socket.io/socket.io.js'), inject: 'libs', noNorm: true},
     { src: join(APP_DEST, 'js/lib/ui-bootstrap/ui-bootstrap-tpls-0.12.1.js'), inject: 'libs', noNorm: true},

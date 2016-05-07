@@ -68,6 +68,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		GlobalEmitterServicesArray.register(changeKnalledgeRimaEventName);
 		var changeSelectedNodeEventName = "changeSelectedNodeEvent";
 		GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
+		var selectedNodeChangedEventName = "selectedNodeChangedEvent";
+		GlobalEmitterServicesArray.register(selectedNodeChangedEventName);
 
 		var KnRealTimeNodeCreatedEventName = "node-created-to-visual";
 		GlobalEmitterServicesArray.register(KnRealTimeNodeCreatedEventName);
@@ -87,7 +89,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		GlobalEmitterServicesArray.register(modelLoadedEventName);
 		var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
 		GlobalEmitterServicesArray.register(knalledgePropertyChangedEventName);
-
+		var behaviourChangedEventName = "behaviourChangedEvent";
+		GlobalEmitterServicesArray.register(behaviourChangedEventName);
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
 		return {
@@ -290,7 +293,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								};
 
 								GlobalEmitterServicesArray.get(changeKnalledgePropertyEventName).broadcast('knalledgeMap', nodeContent);
-								//GlobalEmitterServicesArray.get('changeSelectedNodeEvent').broadcast('knalledgeMap', vkNode);
+								GlobalEmitterServicesArray.get(selectedNodeChangedEventName).broadcast('knalledgeMap', vkNode);
 							}
 
 							if(commingFromAngular) processNodeSelected();
@@ -409,7 +412,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 											if(callback){callback(vkNode);}
 											knalledgeMap.update(vkNode);
 										};
-										KnalledgeNodeService.update(vkNode.kNode).$promise
+										KnalledgeMapVOsService.updateNode(vkNode.kNode,knalledge.KNode.UPDATE_TYPE_IMAGE).$promise
 											.then(updated);
 									}.bind(this);
 
@@ -607,7 +610,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						console.log("[knalledgeMap.controller::$on] event: %s", behaviourChangedEventName);
 						toolsChange(KnRealTimeBehaviourChangedEventName);
 					};
-					var behaviourChangedEventName = "behaviourChangedEvent";
 					GlobalEmitterServicesArray.get(behaviourChangedEventName).subscribe('knalledgeMap', behaviourChanged);
 
 

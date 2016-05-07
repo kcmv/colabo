@@ -167,14 +167,14 @@ Keyboard.prototype.initializeKeyboard = function() {
 	keyboardLib[keyboardCommand](Keyboard.KEY_PREFIX+"command" + keyboardSequenceKey + "up", function(){
 		if(this.mapInteraction.isEditingNode()) return;
 
-		this.mapInteraction.nodeVoteUp();
+		this.mapInteraction.nodeVote(1);
 	}.bind(this));
 
 	// Vote up
 	keyboardLib[keyboardCommand](Keyboard.KEY_PREFIX+"command" + keyboardSequenceKey + "down", function(){
 		if(this.mapInteraction.isEditingNode()) return;
 
-		this.mapInteraction.nodeVoteDown();
+		this.mapInteraction.nodeVote(-1);
 	}.bind(this));
 
 	// Add Image

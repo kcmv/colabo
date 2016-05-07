@@ -10,7 +10,7 @@ var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
 
 function resSendJsonProtected(res, data){
-	// http://tobyho.com/2011/01/28/checking-types-in-javascript/	
+	// http://tobyho.com/2011/01/28/checking-types-in-javascript/
 	if(data !== null && typeof data === 'object'){ // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
 		res.set('Content-Type', 'application/json');
 		// JSON Vulnerability Protection
@@ -49,7 +49,7 @@ exports.index = function(req, res){
 			resSendJsonProtected(res, {data: kNodes, accessId : accessId, success: true});
 		}
 	}
-	
+
 	var id = req.params.searchParam;
 	var id2 = req.params.searchParam2;
 	if(mockup && mockup.db && mockup.db.data){
@@ -66,7 +66,7 @@ exports.index = function(req, res){
 	// 	console.log(knodes);
 	// 	//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	// });
-	
+
 	console.log("[modules/kNode.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
 	switch (req.params.type){
 		case 'one': //by id:
@@ -89,9 +89,9 @@ exports.index = function(req, res){
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/knodes
 exports.create = function(req, res){
 	console.log("[modules/kNode.js:create] req.body: %s", JSON.stringify(req.body));
-	
+
 	var data = req.body;
-	
+
 	console.log(data);
 	var knode = new KNodeModel(data);
 
@@ -99,7 +99,7 @@ exports.create = function(req, res){
 		if (err) throw err;
 		console.log("[modules/KNode.js:create] id:%s, knode data: %s", knode._id, JSON.stringify(knode));
 		resSendJsonProtected(res, {success: true, data: knode, accessId : accessId});
-	});				
+	});
 }
 
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/knodes/one/55266618cce5af993fe8675f
@@ -108,7 +108,7 @@ exports.update = function(req, res){
 
 	var data = req.body;
 	var id = req.params.searchParam;
-
+	var actionType = req.params.actionType;
 
 	/* here, we started logics if RIMA-whats are integrated in kNode.dataContent.rima.whats and
 	some of them are newly created on frontend so should be first created in whatAmI collection.
@@ -150,12 +150,12 @@ exports.update = function(req, res){
 	$q.all([nodes.$promise, edges.$promise])
 					.then(nodesEdgesReceived.bind(this));
 	*/
-	
+
 	/* this is wrong because it creates default-values populated object (including id) first and then populate it with paremeter object:
 	 * var knode = new KNodeModel(req.body);
 	 */
-	
-	console.log("[modules/KNode.js:update] id : %s", id );
+	console.log("[modules/KNode.js:update/%s/] id : %s", actionType, id );
+	console.log("[modules/KNode.js] actionType = ", actionType);
 	console.log("[modules/KNode.js:update] data, : %s", JSON.stringify(data));
 	// console.log("[modules/KNode.js:update] knode.toObject(), : %s", JSON.stringify(knode.toObject());
 	delete data._id;
@@ -165,9 +165,9 @@ exports.update = function(req, res){
 	// 	  if (err) throw err;
 	// 	  console.log('The number of updated documents was %d', numberAffected);
 	// 	  console.log('The raw response from Mongo was ', raw);
-	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
-	// });			
-	
+	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+	// });
+
 	data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
 	KNodeModel.update({_id:id}, data, function (err, raw) {
 		if (err) throw err;

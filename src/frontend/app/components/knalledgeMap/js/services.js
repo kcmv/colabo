@@ -131,7 +131,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 
 	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
-	var url = ENV.server.backend + '/knodes/:type/:searchParam/:searchParam2.json';
+	var url = ENV.server.backend + '/knodes/:type/:actionType/:searchParam/:searchParam2.json';
 	var resource = $resource(url, {}, {
 		// extending the query action
 		// method has to be defined
@@ -202,7 +202,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 			}
 		}},
 
-		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
+		updatePlain: {method:'PUT', params:{type:'one', actionType:knalledge.KNode.UPDATE_TYPE_ALL, searchParam:''},
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 				var serverResponse;
 				if(ENV.server.parseResponse){
@@ -265,13 +265,13 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 
 	resource.getById = function(id, callback)
 	{
-		var node = this.getPlain({ searchParam:id, type:'one' }, callback);
+		var node = this.getPlain({actionType:'default', searchParam:id, type:'one' }, callback);
 		return node;
 	};
 
 	resource.queryInMap = function(id, callback)
 	{
-		var nodes = this.queryPlain({ searchParam:id, type:'in_map' }, function(nodesFromServer){
+		var nodes = this.queryPlain({ actionType:'default', searchParam:id, type:'in_map' }, function(nodesFromServer){
 			for(var id=0; id<nodesFromServer.length; id++){
 				var kNode = knalledge.KNode.nodeFactory(nodesFromServer[id]);
 				kNode.state = knalledge.KNode.STATE_SYNCED;
@@ -287,7 +287,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 	};
 
 	resource.getInMapNodesOfType = function(mapId, kNodeType, callback){
-		var nodes = this.queryPlain({ searchParam:mapId, type:'in_map', searchParam2:kNodeType  }, function(nodesFromServer){
+		var nodes = this.queryPlain({ actionType:'default', searchParam:mapId, type:'in_map', searchParam2:kNodeType  }, function(nodesFromServer){
 			for(var id=0; id<nodesFromServer.length; id++){
 				var kNode = knalledge.KNode.nodeFactory(nodesFromServer[id]);
 				kNode.state = knalledge.KNode.STATE_SYNCED;
@@ -317,7 +317,9 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 		else{
 			var kNodeForServer = kNode.toServerCopy();
 			//we return kNode:kNode, because 'node' is of type 'Resource'
-			var node = this.createPlain({}, kNodeForServer, function(nodeFromServer){
+			var node = this.createPlain({
+				//actionType:'default'
+				}, kNodeForServer, function(nodeFromServer){
 				kNode.$resolved = node.$resolved;
 				kNode.overrideFromServer(nodeFromServer);
 				if(callback) callback(kNode);
@@ -336,38 +338,56 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 		return kNode;
 	};
 
-	resource.update = function(kNode, callback)
+	resource.update = function(kNode, actionType, patch, callback)
 	{
+
 		console.log("resource.update");
 		if(kNode.state == knalledge.KNode.STATE_LOCAL){//TODO: fix it by going throgh queue
 			window.alert("Please, wait while entity is being saved, before updating it:\n"+kNode.name);
 			return null;
 		}
 		var id = kNode._id;
-		var kNodeForServer = kNode.toServerCopy();
+		var kNodeForServer = patch ? patch : kNode.toServerCopy();
 		if(QUEUE && false){
-			KnalledgeMapQueue.execute({data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"});
-			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, function(nodeFromServer){
+			KnalledgeMapQueue.execute({data: kNode, patch: patch, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"}); //TODO: support 'patch' in Queue
+			//updatePlain: {method:'PUT', params:{type:'one', actionType:knalledge.KNode.UPDATE_TYPE_ALL, searchParam:''},
+			return this.updatePlain({searchParam:id, type:'one', actionType:actionType}, kNodeForServer, function(nodeFromServer){
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
-					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
+					var emitObject = {
+						id: nodeFromServer._id,
+						actionType: actionType,
+						data: nodeFromServer,
+						actionTime: nodeFromServer.updatedAt
+					}
+					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, emitObject);
 				}
+				if(callback){callback(nodeFromServer);}
 			});
 
 		}
 		else{
-			return this.updatePlain({searchParam:id, type:'one'}, kNodeForServer, function(nodeFromServer){
-				// realtime distribution
-				if(KnAllEdgeRealTimeService){
-					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, nodeFromServer);
+			return this.updatePlain({searchParam:id, type:'one', actionType:actionType}, kNodeForServer,
+				function(nodeFromServer){
+					// realtime distribution
+					if(KnAllEdgeRealTimeService){
+						var emitObject = {
+							id: nodeFromServer._id,
+							actionType: actionType,
+							data: nodeFromServer,
+							actionTime: nodeFromServer.updatedAt
+						}
+						KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, emitObject);
+					}
+					if(callback){callback(nodeFromServer);}
 				}
-			});
+			);
 		}
 	};
 
 	resource.destroy = function(id, callback)
 	{
-		var result = this.destroyPlain({searchParam:id, type:'one'}, function(){
+		var result = this.destroyPlain({actionType:'default', searchParam:id, type:'one'}, function(){
 			// realtime distribution
 			if(KnAllEdgeRealTimeService){
 				KnAllEdgeRealTimeService.emit(KnRealTimeNodeDeletedEventName, {'_id':id});
@@ -379,7 +399,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 
 	resource.destroyByModificationSource = function(mapId, modificationSource, callback)
 	{
-		var result = this.destroyPlain({searchParam:mapId, type:'by-modification-source'}, function(){
+		var result = this.destroyPlain({actionType:'default', searchParam:mapId, type:'by-modification-source'}, function(){
 			// realtime distribution
 			if(KnAllEdgeRealTimeService){
 				KnAllEdgeRealTimeService.emit(KnRealTimeNodesDeletedEventName, {mapId: mapId});
@@ -398,7 +418,9 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 			var kNodeReturn = request.data;
 			var callback = request.callback;
 
-			var node = resource.createPlain({}, kNodeForServer, function(nodeFromServer){
+			var node = resource.createPlain({
+				//actionType:'default'
+				}, kNodeForServer, function(nodeFromServer){
 				kNodeReturn.$resolved = node.$resolved;
 				kNodeReturn.overrideFromServer(nodeFromServer);
 				request.processing.RESOLVE(kNodeReturn);//kNodeReturn.resolve()
@@ -838,6 +860,13 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 			// TODO: remove, not used any more?!
 			lastVOUpdateTime: null,
 
+			//list of all `actionType`-s that are differential instead over all object
+			differentialActions: (function(){
+				var obj = {};
+				obj[knalledge.KNode.UPDATE_TYPE_VOTE] =1;
+				return obj;
+			})(),
+
 			configData: this.$configData,
 
 			/**
@@ -873,12 +902,26 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 						changes.nodes.push(kNode);
 					break;
 					case KnRealTimeNodeUpdatedEventName:
-						var kNode = this.nodesById[msg._id];
+							// var msg = {
+							// 	id: nodeFromServer._id,
+							// 	actionType: actionType,
+							// 	data: nodeFromServer,
+							// 	actionTime: nodeFromServer.updatedAt
+							// }
+						var kNode = this.nodesById[msg.id];
 						if(typeof kNode === 'undefined'){
 							console.error("externalChangesInMap:Node update received for a node that we don't have");
-							this.nodesById[msg._id] = knalledge.KNode.nodeFactory(msg);
+							this.nodesById[msg._id] = knalledge.KNode.nodeFactory(msg.data);
 						}
-						kNode.fill(msg);
+
+						//`actionType` is a differential, and under `else` we cover thost that work over all object:
+						if(differentialActions[actionType]){
+							deepAssign(kNode, data); //patching
+							kNode.updatedAt = actionTime;
+						}
+						else{
+							kNode.fill(msg);
+						}
 						kNode.state = knalledge.KNode.STATE_SYNCED;
 						var eventName = KnRealTimeNodeUpdatedEventName + ToVisualMsg;
 						changes.nodes.push(kNode);
@@ -1098,8 +1141,23 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 				return newNode;
 			},
 
-			updateNode: function(node, updateType, callback) {
-				return KnalledgeNodeService.update(node, callback); //TODO: ? updateType); //updating on server service
+			updateNode: function(node, actionType, patch, callback) {
+				if(patch){ //other way is to check if actionType is in the list of differential ones
+					deepAssign(node, patch); //patching
+				}
+				return KnalledgeNodeService.update(node, actionType, patch,
+					function(nodeFromServer){
+						var localNode = this.nodesById[nodeFromServer._id];
+						if(patch){//if we had a differential update and not whole one
+							if(localNode.updatedAt < nodeFromServer.updatedAt){
+								//TODO: warn that ealier update has come after the later one
+								localNode.updatedAt = nodeFromServer.updatedAt;
+							}
+						}else{
+							this.nodesById[nodeFromServer._id].overrideFromServer(nodeFromServer);
+						}
+						if(callback){callback(this.nodesById[nodeFromServer._id]);}
+					}); //updating on server service
 			},
 
 			getMapId: function(){

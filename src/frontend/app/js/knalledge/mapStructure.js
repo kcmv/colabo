@@ -65,7 +65,6 @@ MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
 MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT";
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
 MapStructure.UPDATE_NODE_APPEARENCE = "UPDATE_NODE_APPEARENCE";
-MapStructure.UPDATE_NODE_IBIS_VOTING = "UPDATE_NODE_IBIS_VOTING";
 
 /**
 * @var {debugPP} debug - namespaced debug for the class
@@ -675,9 +674,9 @@ MapStructure.prototype.updateName = function(vkNode, newName){
  * @param {string} updateType - type of the update
  * @return {knalledge.MapStructure}
  */
-MapStructure.prototype.updateNode = function(vkNode, updateType) {
+MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 	if(!this.mapService) return;
-
+	var patch = null;
 	switch(updateType){
 		case MapStructure.UPDATE_NODE_DIMENSIONS:
 			if(! vkNode.kNode.visual) vkNode.kNode.visual = {};
@@ -690,14 +689,25 @@ MapStructure.prototype.updateNode = function(vkNode, updateType) {
 			if(! vkNode.kNode.visual) vkNode.kNode.visual = {};
 			if('isOpen' in vkNode) vkNode.kNode.visual.isOpen = vkNode.isOpen;
 			break;
-		case MapStructure.UPDATE_NODE_IBIS_VOTING:
-			break;
+		case knalledge.KNode.UPDATE_TYPE_VOTE:
+			var iAmId = this.rimaService.getActiveUserId();
+			if(iAmId === undefined){return this;}
+
+			if(node.kNode.dataContent && node.kNode.dataContent.ibis &&
+				node.kNode.dataContent.ibis.votes && AmId in node.kNode.dataContent.ibis.votes){
+				//this user already had a vote so we're patching node with accumulated vote
+				vote += node.kNode.dataContent.ibis.votes[AmId];
+			}
+			patch = {dataContent:{ibis:{votes:{}}}};
+			patch.dataContent.ibis.votes[iAmId] = vote;
+		break;
 		case MapStructure.UPDATE_DATA_CONTENT:
 			break;
 	}
 	// calling the KnalledgeMapVOsService service
 	// to update the node on the server
-	this.mapService.updateNode(vkNode.kNode, updateType);
+	// if patch === null, then we're doing complete update and not an differential one (patching)
+	this.mapService.updateNode(vkNode.kNode, updateType, patch);
 
 	return this;
 };

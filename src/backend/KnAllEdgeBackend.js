@@ -12,7 +12,7 @@ var config = require('./config/global')
   , TopiChat = require('./modules/topiChat')
   , TopiChatKnAllEdge = require('./modules/topiChat-knalledge')
   ;
- 
+
 console.log("[KnAllEdgeBackend.js:index] config.paths: %s", JSON.stringify(config.paths));
 console.log("[KnAllEdgeBackend.js:index] config.mockups: %s", JSON.stringify(config.mockups));
 console.log("[KnAllEdgeBackend.js:index] config.services: %s", JSON.stringify(config.services));
@@ -64,7 +64,7 @@ app.configure(function(){
     app.use(app.router);
 });
 /* Knalledge Maps */
-var knodes = app.resource('knodes', require('./modules/kNode'), {id: 'type?/:searchParam?/:searchParam2?'});
+var knodes = app.resource('knodes', require('./modules/kNode'), {id: 'type?/:actionType?/:searchParam?/:searchParam2?'});
 var kedges = app.resource('kedges', require('./modules/kEdge'), {id: 'type?/:searchParam?/:searchParam2?'});
 var kmaps = app.resource('kmaps', require('./modules/kMap'), {id: 'type?/:searchParam?'});
 

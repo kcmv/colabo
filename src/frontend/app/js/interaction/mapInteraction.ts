@@ -155,32 +155,13 @@ export class MapInteraction {
       this.clientApi.togglePresenter();
     };
 
-    nodeVoteUp() {
+    nodeVote(vote) {
       if(!this.isStatusMap()) return;
-  		var node = this.clientApi.getSelectedNode();
-  		if(!('dataContent' in node.kNode) || !node.kNode.dataContent) node.kNode.dataContent = {};
-  		if(!('ibis' in node.kNode.dataContent) || !node.kNode.dataContent.ibis) node.kNode.dataContent.ibis = {};
-  		if(!('voteUp' in node.kNode.dataContent.ibis)) {
-              node.kNode.dataContent.ibis.voteUp = 1;
-          }else {
-              node.kNode.dataContent.ibis.voteUp += 1;
-          }
-  		this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_IBIS_VOTING);
-  		this.clientApi.update(this.clientApi.getSelectedNode());
-    };
-
-    nodeVoteDown() {
-      if(!this.isStatusMap()) return;
-  		var node = this.clientApi.getSelectedNode();
-  		if(!('dataContent' in node.kNode) || !node.kNode.dataContent) node.kNode.dataContent = {};
-  		if(!('ibis' in node.kNode.dataContent) || !node.kNode.dataContent.ibis) node.kNode.dataContent.ibis = {};
-  		if(!('voteDown' in node.kNode.dataContent.ibis)) {
-              node.kNode.dataContent.ibis.voteDown = 1;
-          }else {
-              node.kNode.dataContent.ibis.voteDown += 1;
-          }
-  		this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_IBIS_VOTING);
-  		this.clientApi.update(this.clientApi.getSelectedNode());
+      var node = this.clientApi.getSelectedNode();
+      if(node){
+        this.clientApi.updateNode(node, knalledge.KNode.UPDATE_TYPE_VOTE,vote);
+        this.clientApi.update(this.clientApi.getSelectedNode());
+      }
     };
 
     addLink() {

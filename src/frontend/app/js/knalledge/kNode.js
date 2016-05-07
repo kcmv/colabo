@@ -67,6 +67,11 @@ KNode.TYPE_IBIS_IDEA = "type_ibis_idea";
 KNode.TYPE_IBIS_ARGUMENT = "type_ibis_argument";
 KNode.TYPE_IBIS_COMMENT = "type_ibis_comment";
 
+KNode.UPDATE_TYPE_ALL = 'UPDATE_TYPE_ALL';
+KNode.UPDATE_TYPE_IMAGE = 'UPDATE_TYPE_IMAGE';
+KNode.UPDATE_TYPE_VOTE = 'UPDATE_TYPE_VOTE';
+KNode.UPDATE_TYPE_WHAT = 'UPDATE_TYPE_WHAT';
+
 KNode.prototype.init = function(){
 
 };
