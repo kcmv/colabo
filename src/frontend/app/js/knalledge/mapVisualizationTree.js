@@ -356,25 +356,46 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 
 	nodeHtmlUpdate.select(".vote_up")
 		.style("opacity", function(d){
-			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ?
+			var iAmId = that.rimaService.getActiveUserId();
+			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.votes && d.kNode.dataContent.ibis.votes[iAmId]) ?
 				1.0 : 0.1;
+			// return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ?
+			// 	1.0 : 0.1;
 		})
 		.html(function(d){
 			// if(!('dataContent' in d.kNode) || !d.kNode.dataContent) d.kNode.dataContent = {};
 			// if(!('ibis' in d.kNode.dataContent) || !d.kNode.dataContent.ibis) d.kNode.dataContent.ibis = {};
 			// if(!('voteUp' in d.kNode.dataContent.ibis)) d.kNode.dataContent.ibis.voteUp = 1;
-			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ?
-				d.kNode.dataContent.ibis.voteUp : "&nbsp";
+			var iAmId = that.rimaService.getActiveUserId();
+			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.votes && d.kNode.dataContent.ibis.votes[iAmId]) ?
+				d.kNode.dataContent.ibis.votes[iAmId] : "&nbsp";
+			//return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ?
+			//	d.kNode.dataContent.ibis.voteUp : "&nbsp";
 		});
 
 	nodeHtmlUpdate.select(".vote_down")
 		.style("opacity", function(d){
-			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ?
-				1.0 : 0.1;
+			var sum = 0;
+			if(d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.votes){
+				for(var vote in d.kNode.dataContent.ibis.votes){
+					sum+=d.kNode.dataContent.ibis.votes[vote];
+				}
+			}
+			return sum != 0 ? 1.0 : 0.1;
+			// return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ?
+			// 	1.0 : 0.1;
 		})
 		.html(function(d){
-			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ?
-				d.kNode.dataContent.ibis.voteDown : "&nbsp";
+			var sum = 0;
+			if(d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.votes){
+				for(var vote in d.kNode.dataContent.ibis.votes){
+					sum+=d.kNode.dataContent.ibis.votes[vote];
+				}
+				return sum;
+			}
+			else{
+				return "&nbsp";
+			}
 		});
 
 	nodeHtmlUpdate.select(".open_close_status")

@@ -438,6 +438,7 @@ rimaServices.factory('WhatAmIService', ['$resource', '$q', 'ENV', 'KnalledgeMapQ
 		return whatAmIs;
 	}
 
+
 	resource.getByNameContains = function(namePart, callback){ //TODO: fix not to return all, but only those in the whatAmIsIds list
 		var whatAmIs = this.queryPlain({ searchParam:namePart, type:'name-contains'},
 			function(whatAmIsFromServer){

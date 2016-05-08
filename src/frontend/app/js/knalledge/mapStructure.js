@@ -693,13 +693,13 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 			var iAmId = this.rimaService.getActiveUserId();
 			if(iAmId === undefined){return this;}
 
-			if(node.kNode.dataContent && node.kNode.dataContent.ibis &&
-				node.kNode.dataContent.ibis.votes && AmId in node.kNode.dataContent.ibis.votes){
+			if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.ibis &&
+				vkNode.kNode.dataContent.ibis.votes && iAmId in vkNode.kNode.dataContent.ibis.votes){
 				//this user already had a vote so we're patching node with accumulated vote
-				vote += node.kNode.dataContent.ibis.votes[AmId];
+				change += vkNode.kNode.dataContent.ibis.votes[iAmId];
 			}
 			patch = {dataContent:{ibis:{votes:{}}}};
-			patch.dataContent.ibis.votes[iAmId] = vote;
+			patch.dataContent.ibis.votes[iAmId] = change;
 		break;
 		case MapStructure.UPDATE_DATA_CONTENT:
 			break;

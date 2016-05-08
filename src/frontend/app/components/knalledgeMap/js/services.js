@@ -1145,18 +1145,19 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 				if(patch){ //other way is to check if actionType is in the list of differential ones
 					deepAssign(node, patch); //patching
 				}
+				var that = this;
 				return KnalledgeNodeService.update(node, actionType, patch,
 					function(nodeFromServer){
-						var localNode = this.nodesById[nodeFromServer._id];
+						var localNode = that.nodesById[nodeFromServer._id];
 						if(patch){//if we had a differential update and not whole one
 							if(localNode.updatedAt < nodeFromServer.updatedAt){
 								//TODO: warn that ealier update has come after the later one
 								localNode.updatedAt = nodeFromServer.updatedAt;
 							}
 						}else{
-							this.nodesById[nodeFromServer._id].overrideFromServer(nodeFromServer);
+							that.nodesById[nodeFromServer._id].overrideFromServer(nodeFromServer);
 						}
-						if(callback){callback(this.nodesById[nodeFromServer._id]);}
+						if(callback){callback(that.nodesById[nodeFromServer._id]);}
 					}); //updating on server service
 			},
 
