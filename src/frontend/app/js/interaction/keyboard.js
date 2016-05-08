@@ -176,6 +176,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(this.mapInteraction.isEditingNode()) return;
 
 		this.mapInteraction.nodeVote(1);
+		return false;
 	}.bind(this));
 
 	// Vote up
@@ -183,6 +184,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 		if(this.mapInteraction.isEditingNode()) return;
 
 		this.mapInteraction.nodeVote(-1);
+		return false;
 	}.bind(this));
 
 	// Add Image
