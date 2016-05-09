@@ -22,6 +22,7 @@ var KnRealTimeEdgeDeletedEventName = "edge-deleted";
 var KnRealTimeEdgesDeletedEventName = "edges-deleted";
 
 var removeJsonProtected = function(ENV, jsonStr){
+	if(jsonStr === null){return null;}
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
 		jsonStr = jsonStr.substring(ENV.server.jsonPrefixed.length);
 	}
@@ -208,10 +209,14 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 				if(ENV.server.parseResponse){
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
-					//console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[KnalledgeNodeService:create] accessId: %s", serverResponse.accessId);
-					var data = serverResponse.data;
-					return data;
+					if(serverResponse != null){
+						//console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
+						console.log("[KnalledgeNodeService:create] accessId: %s", serverResponse.accessId);
+						var data = serverResponse.data;
+						return data;
+					} else {
+						return null;
+					}
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
@@ -915,9 +920,10 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 						}
 
 						//`actionType` is a differential, and under `else` we cover thost that work over all object:
-						if(differentialActions[actionType]){
-							deepAssign(kNode, data); //patching
-							kNode.updatedAt = actionTime;
+						if(this.differentialActions[msg.actionType]){
+							//delete msg.data.
+							deepAssign(kNode, msg.data); //patching
+							kNode.updatedAt = Date(msg.actionTime); //tiempo existe en msg.data tambien, pero los ambos son de tipo 'string'
 						}
 						else{
 							kNode.fill(msg);
