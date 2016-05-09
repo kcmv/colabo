@@ -9,6 +9,7 @@ import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MATERIAL_DIRECTIVES, Media, SidenavService} from "ng2-material/all";
 // import {MdBackdrop} from "ng2-material/components/backdrop/backdrop";
 import {KnalledgeMapTools} from './tools';
+import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {TopPanel} from '../topPanel/topPanel';
 // import {RequestService} from '../request/request.service';
@@ -72,6 +73,7 @@ export class KnalledgeMapMain {
         private location: Location,
         private sidenavService: SidenavService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
+        @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService:KnalledgeMapPolicyService,
         @Inject('RimaService') _RimaService_
     // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
     // globalEmitterServicesArray:GlobalEmitterServicesArray
@@ -79,6 +81,7 @@ export class KnalledgeMapMain {
         ) {
         console.log('[KnalledgeMapMain]');
         this.viewConfig = knalledgeMapViewService.get().config;
+        this.policyConfig = knalledgeMapPolicyService.get().config;
         this.rimaService = _RimaService_;
         // this.broadcastManagerService = broadcastManagerService;
         // globalEmitterServicesArray.register('KnalledgeMapMain');
@@ -87,6 +90,7 @@ export class KnalledgeMapMain {
     };
 
     userUrl: String = "www.CollaboScience.com";
+    policyConfig: Object;
     viewConfig: Object;
     topPanelVisible: boolean = true;
     private rimaService;
@@ -94,8 +98,15 @@ export class KnalledgeMapMain {
     toggleTopPanel(): any {
         this.topPanelVisible = !this.topPanelVisible;
     }
-    getLoggedInUser(): any {
-        return this.rimaService.getWhoAmI();
+    getLoggedInUserName(): any {
+        var whoAmI = this.rimaService.getWhoAmI();
+        var name = this.rimaService.getNameFromUser(whoAmI);
+        return name;
+    }
+    getActiveUserName(): any {
+        var whoAmI = this.rimaService.getActiveUser();
+        var name = this.rimaService.getNameFromUser(whoAmI);
+        return name;
     }
     hasMedia(breakSize: string): boolean {
         return Media.hasMedia(breakSize);

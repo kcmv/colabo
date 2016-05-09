@@ -203,6 +203,14 @@ $large: 1400px;
 /* ------------------------
  knalledge_map_middle
 ------------------------ */
+.knalledge_map_middle .toolbar .names {
+  display: flex;
+  align-items: center; }
+  .knalledge_map_middle .toolbar .names .loggedIn {
+    font-weight: bold; }
+  .knalledge_map_middle .toolbar .names .active {
+    font-size: 0.8em; }
+
 /* ------------------------
  knalledge_map
 ------------------------ */
@@ -645,7 +653,7 @@ $large: 1400px;
     .knalledge-map-image-editing ul li {
       list-style-type: none;
       display: block;
-      background-color: #a1a1ff;
+      background-color: #a2a2ff;
       border: 1px solid #8888FF;
       margin: 25px 10px;
       padding: 10px;
@@ -655,7 +663,7 @@ $large: 1400px;
       border-radius: 10px / 10px;
       cursor: pointer;
       text-align: center;
-      color: #d4d4ff;
+      color: #d5d5ff;
       /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
       /* color h-shadow v-shadow blur spread color inset*/
       -moz-box-shadow: 3px 2px 3px 1px rgba(150, 150, 255, 0.75);
@@ -679,7 +687,7 @@ $large: 1400px;
       transition-timing-function: ease-in; }
       .knalledge-map-image-editing ul li:hover {
         background-color: #bbbbff;
-        color: #6e6eff; }
+        color: #6f6fff; }
   .knalledge-map-image-editing form {
     padding: 5px;
     padding-top: 10px; }
@@ -935,7 +943,7 @@ Knalledge Maps
     .knalledge_map_select_item ul li {
       list-style-type: none;
       display: block;
-      background-color: #a1a1ff;
+      background-color: #a2a2ff;
       border: 1px solid #8888FF;
       margin: 25px 10px;
       padding: 10px;
@@ -945,7 +953,7 @@ Knalledge Maps
       border-radius: 10px / 10px;
       cursor: pointer;
       text-align: center;
-      color: #d4d4ff;
+      color: #d5d5ff;
       /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
       /* color h-shadow v-shadow blur spread color inset*/
       -moz-box-shadow: 3px 2px 3px 1px rgba(150, 150, 255, 0.75);
@@ -969,7 +977,7 @@ Knalledge Maps
       transition-timing-function: ease-in; }
       .knalledge_map_select_item ul li:hover {
         background-color: #bbbbff;
-        color: #6e6eff; }
+        color: #6f6fff; }
   .knalledge_map_select_item .buttons {
     text-align: center; }
 

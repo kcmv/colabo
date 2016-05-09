@@ -1,6 +1,17 @@
 <form>
 	<fieldset>
 		<div ng-if="whoAmI">
+			<div ng-if="route" class="route-div">
+				<p class="message">
+					Continue to the specified page (route):
+				</p>
+				<p>
+					<span class="route">'{{route}}'</span>
+				</p>
+				<p>
+					<button class="btn btn-primary" type="submit" ng-click="followRoute()">Continue</button>
+				</p>
+			</div>
 			<legend class="table_title">Logged in user info</legend>
 			<div><label>Name:</label>{{whoAmI.firstname}}</div>
 			<div><label>Surname:</label>{{whoAmI.familyname}}</div>

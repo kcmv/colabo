@@ -64,30 +64,28 @@ Passive plugins (filters) that get knalledge data and transform it adds new
 ## procedure with example of request
 We want to create a Halo plugin (which is placed in knalledge.mapVisualization) for Request. In this way we will be able to add a specific request icon in halo arround a selected node.
 
-### Create request interaction service
+### Create request service
 
 ```js
 import {Injectable
 } from 'angular2/core';
 
 /**
-* the namespace for the Request Interaction component (keyboard, halo, ...)
-* @namespace request.RequestInteractionService
+* the namespace for the Request service
+* @namespace request.RequestService
 */
 
 @Injectable()
-export class RequestInteractionService {
+export class RequestService {
 
     /**
      * Service constructor
      * @constructor
-     * @memberof topiChat.RequestInteractionService
      */
     constructor() {
     }
 
     init() {
-        return this.requests;
     }
 }
 ```
@@ -96,30 +94,61 @@ In app2.ts add code for registering the service:
 
 ```js
 // ...
-import {RequestInteractionService} from '../components/request/request.interaction.service';
+import {RequestService} from '../components/request/request.interaction.service';
 // ...
 
 // injecting NG1 TS service into NG1 space
 var requestServices = angular.module('requestServices');
 requestServices
-    .service('RequestInteractionService', RequestInteractionService)
+    .service('RequestService', RequestService)
     ;
 
 // ...
 // upgrading ng1 services into ng2 space
-upgradeAdapter.upgradeNg1Provider('RequestInteractionService');
+upgradeAdapter.upgradeNg1Provider('RequestService');
 ```
-### Passing service to Halo initialization
 
-We need to pass service as a plugin to the MapVisualization where Halo is iniitialized.
-
-In `components/knalledgeMap/js/directives.js` inject the `RequestInteractionService`
+### Adding plugin in config.plugins.js
 
 ```js
-var RequestInteractionService = $injector.get('RequestInteractionService');
+"request": {
+    active: true,
+    services: {
+        requestService: {
+            name: 'RequestService',
+            path: 'request.RequestService'
+        }
+    },
+    plugins: {
+        mapVisualizeHaloPlugins: ['requestService'],
+        keboardPlugins: ['requestService']
+    }
+},
 ```
 
-Place the service with other map plugins:
+Here we declared module request that is active and has `requestService` service. It implements two plugins `mapVisualizeHaloPlugins` and `keboardPlugins` both with the `requestService` service.
+
+__NOTE__: If service name is omitted the service id (`requestService` in this case will be used). If service path is omitted it will be constructed from module name concatenated with service name (or service id), in our case it would be `request.requestService`.
+
+### Injecting services
+
+KnalledgeMap directive will load all services that are needed for the relevant plugins:
+
+```js
+// references to loaded services
+var componentServiceRefs = {};
+// plugins that we care for inside the directive
+var pluginsOfInterest = {
+    mapVisualizePlugins: true,
+    mapVisualizeHaloPlugins: true,
+    mapInteractionPlugins: true,
+    keboardPlugins: true
+};
+
+loadPluginsServices(Config.Plugins, componentServiceRefs, pluginsOfInterest, $injector, injector);
+```
+
+Finally, it will load and inject plugins into `mapPlugins` :
 
 ```js
 /**
@@ -127,19 +156,31 @@ Place the service with other map plugins:
  * @type {Object}
  */
 var mapPlugins = {
-    // ...
-    mapVisualizeHaloPlugins: {
-        'RequestInteractionService': RequestInteractionService
-    }
 };
+
+// injecting plugins
+for(var pluginName in pluginsOfInterest){
+    injectPlugins(pluginName);
+}
 ```
+
+And provide it to all relevant subcomponents, like knalledge.Map:
+
+```js
+knalledgeMap = new knalledge.Map(
+    // ...
+    mapPlugins,
+    // ...
+);
+```
+
+### Using Halo plugin
 
 ### Implementing halo interaction
 
-Inside the `knalledge.MapVisualization` the halo is interacted with twice. First time we initialize halo in `MapVisualization.prototype._initHalo`. Here we provide a set of available actions and how halo should behave.
+Inside the `knalledge.MapVisualization` the halo is twice interacted with. First time, we initialize the halo in `MapVisualization.prototype._initHalo`. Here we provide a set of available actions and how halo should behave.
 
 Second time in `MapVisualization.prototype.nodeFocus` we create halo with specific icons; which icons are available, where they are placed, and what action should be called when the icon is clicked.
-
 
 
 ## example

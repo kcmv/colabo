@@ -58,7 +58,53 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		var NotifyService = $injector.get('NotifyService');
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 
-		// loading component plugins' serbices
+		// loading component plugins' services
+
+		var loadPluginsServices = function loadPluginsServices(
+			configPlugins, serviceRefs, pluginsToLoad, injectorAngular, injectorPartial
+		){
+			// iterating through components
+			for(var componentName in configPlugins){
+				var component = configPlugins[componentName];
+				// if disabled skip
+				if(!component.active) continue;
+
+				// list of services that we have to load
+				var serviceIds = [];
+
+				serviceRefs[componentName] = {};
+
+				// iterating through all plugins we care for in this directive
+				if(!component.plugins) continue;
+				for(var pluginId in component.plugins){
+					if(!pluginsToLoad[pluginId]) continue;
+
+					var plugins = component.plugins[pluginId];
+					for(var pId in plugins){
+						var serviceId = plugins[pId];
+						serviceIds.push(serviceId);
+					}
+				}
+
+				// injecting reuqired services
+				for(var sId in serviceIds){
+					var serviceId = serviceIds[sId];
+					if(serviceRefs[componentName][serviceId]) continue;
+					var serviceConfig = component.services[serviceId];
+					// injecting
+					var serviceRef =
+						injectorAngular.get(serviceConfig.name || serviceId);
+					serviceRefs[componentName][serviceId] =
+						serviceRef;
+					// path to the service
+					var servicePath = serviceConfig.path ||
+						(componentName + "." + (serviceConfig.name || serviceId));
+
+					if(!injectorPartial.has(servicePath))
+						injectorPartial.addPath(servicePath, serviceRef);
+				}
+			}
+		};
 
 		// references to loaded services
 		var componentServiceRefs = {};
@@ -70,47 +116,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			keboardPlugins: true
 		};
 
-		// iterating through components
-		for(var componentName in Config.Plugins){
-			var component = Config.Plugins[componentName];
-			// if disabled skip
-			if(!component.active) continue;
-
-			// list of services that we have to load
-			var serviceIds = [];
-
-			componentServiceRefs[componentName] = {};
-
-			// iterating through all plugins we care for in this directive
-			if(!component.plugins) continue;
-			for(var pluginId in component.plugins){
-				if(!pluginsOfInterest[pluginId]) continue;
-
-				var plugins = component.plugins[pluginId];
-				for(var pId in plugins){
-					var serviceId = plugins[pId];
-					serviceIds.push(serviceId);
-				}
-			}
-
-			// injecting reuqired services
-			for(var sId in serviceIds){
-				var serviceId = serviceIds[sId];
-				if(componentServiceRefs[componentName][serviceId]) continue;
-				var serviceConfig = component.services[serviceId];
-				// injecting
-				var serviceRef =
-					$injector.get(serviceConfig.name || serviceId);
-				componentServiceRefs[componentName][serviceId] =
-					serviceRef;
-				// path to the service
-				var servicePath = serviceConfig.path ||
-					(componentName + "." + (serviceConfig.name || serviceId));
-
-				if(!injector.has(servicePath))
-					injector.addPath(servicePath, serviceRef);
-			}
-		}
+		loadPluginsServices(Config.Plugins, componentServiceRefs, pluginsOfInterest, $injector, injector);
 
 		var SuggestionService = $injector.get('SuggestionService');
 
@@ -478,13 +484,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						}
 					};
 
-					/**
-					 * Plugins that are provided to the knalledge.Map
-					 * @type {Object}
-					 */
-					var mapPlugins = {
-					};
-
 					// this function iterates through components' plugins
 					// and injects them into mapPlugins structure
 					// that will be used in sub components
@@ -515,6 +514,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							}
 						}
 					}
+
+					/**
+					 * Plugins that are provided to the knalledge.Map
+					 * @type {Object}
+					 */
+					var mapPlugins = {
+					};
 
 					// injecting plugins
 					for(var pluginName in pluginsOfInterest){
@@ -607,7 +613,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					console.warn("loading map by mcmMapDirectives: mapId: " + mapId);
 
-					KnalledgeMapService.getById(mapId).$promise.then(gotMap);
+					// TODO: FIX: promise doesn't work well, we need callback
+					// KnalledgeMapService.getById(mapId).$promise.then(gotMap);
+					KnalledgeMapService.getById(mapId, gotMap);
 				};
 
 				var delayedFunc = function(){

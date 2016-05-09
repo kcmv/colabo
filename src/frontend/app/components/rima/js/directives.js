@@ -948,7 +948,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 							$scope.whoAmI = RimaService.loggedInWhoAmI;
 						break;
 						case 'active':
-							$scope.whoAmI = RimaService.selectedWhoAmI;
+							$scope.whoAmI = RimaService.getActiveUser();
 							$scope.$watch(function () {
 								return RimaService.getActiveUser();
 							},
@@ -965,7 +965,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				}
 
 				var initUserSpecific = function(){
-					$scope.whoAmI = RimaService.selectedWhoAmI;
+					$scope.whoAmI = RimaService.getActiveUser();
 					$scope.items = RimaService.getUsersHows($scope.whoAmI._id);
 					$scope.displayName = $scope.whoAmI.displayName;
 				}

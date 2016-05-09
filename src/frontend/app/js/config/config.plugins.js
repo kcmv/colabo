@@ -27,14 +27,14 @@ var plugins = {
         services: {
             requestService: {
 				name: 'RequestService',
-				path: 'request.RequestService',
-				icons: {
-					showRequests: {
-						position: "nw",
-						iconClass: "fa-bell",
-						action: "showRequests"
-					}
-				}
+				path: 'request.RequestService'
+				// icons: {
+				// 	showRequests: {
+				// 		position: "nw",
+				// 		iconClass: "fa-bell",
+				// 		action: "showRequests"
+				// 	}
+				// }
             }
         },
 		plugins: {

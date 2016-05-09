@@ -2,8 +2,6 @@
 
 @import "../../../sass/include";
 
-
-
 .login_index{
 	background-image: url("../../../../app/img/ESB_Logo_small.png");
 	background-repeat: no-repeat;
@@ -14,6 +12,23 @@
 		width:60%;
 		margin-left:20%;
 		margin-right:20%;
+
+		.route-div{
+			text-align: center;
+			.message{
+				font-size: 1.2em;
+			}
+			.route{
+				@include border-radius(10px, 10px);
+				background-color: #ccf;
+				border: 1px solid #aaf;
+				padding: 3px;
+				padding-left: 10px;
+				padding-right: 10px;
+				margin: 3px;
+				font-size: 0.8em;
+			}
+		}
 
 		label{
 			width: 20em;
