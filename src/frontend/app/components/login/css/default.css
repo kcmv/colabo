@@ -25,6 +25,21 @@ $large: 1400px;
     width: 60%;
     margin-left: 20%;
     margin-right: 20%; }
+    .login_index .login_authentication .route-div {
+      text-align: center; }
+      .login_index .login_authentication .route-div .message {
+        font-size: 1.2em; }
+      .login_index .login_authentication .route-div .route {
+        -moz-border-radius: 10px / 10px;
+        -webkit-border-radius: 10px 10px;
+        border-radius: 10px / 10px;
+        background-color: #ccf;
+        border: 1px solid #aaf;
+        padding: 3px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 3px;
+        font-size: 0.8em; }
     .login_index .login_authentication label {
       width: 20em; }
 

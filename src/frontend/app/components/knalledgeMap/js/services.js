@@ -795,20 +795,21 @@ $init: function(configData){
 },
 
 // get (instantiate) service
-$get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'KnalledgeEdgeService',
+$get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapService',
 'RimaService', 'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService',
 /**
 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
 * @constructor
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeNodeService} KnalledgeNodeService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeEdgeService} KnalledgeEdgeService
+* @param  {knalledge.knalledgeMap.knalledgeMapServices..KnalledgeMapService}  KnalledgeMapService
 * @param  {rima.rimaServices.RimaService}  RimaService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
 * @param  {knalledge.collaboPluginsServices.CollaboPluginsService} CollaboPluginsService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapViewService} KnalledgeMapViewService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
 */
-function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, RimaService,
+function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapService, RimaService,
 	CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService) {
 		// var that = this;
 		try{
@@ -1350,6 +1351,20 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 					GlobalEmitterServicesArray.register(modelLoadedEventName);
 					GlobalEmitterServicesArray.get(modelLoadedEventName).broadcast('KnalledgeMapVOsService', result);
 
+					// Add active user to the map
+					// ToDo: this is
+					if(RimaService){
+						var activeUserId = RimaService.getActiveUserId();
+						if(activeUserId &&
+							kMap.participants.indexOf(activeUserId) <= 0
+						){
+							kMap.participants.push(activeUserId);
+							KnalledgeMapService.update(kMap, function callback(){
+
+							});
+						}
+					}
+
 					if(that.configData.broadcastMapUsers){
 						var whoIamIdsUpdatedEventName = "whoIamIdsUpdatedEvent";
 						GlobalEmitterServicesArray.register(whoIamIdsUpdatedEventName);
@@ -1704,11 +1719,16 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 	 */
 	resource.getById = function(id, callback)
 	{
+		// TODO: we need to fix promise so returned map object will be of the
+		// knalledge.KMap type rather than the angular Resource type
 		var map = this.getPlain({ searchParam:id, type:'one' }, function(mapFromServer){
 			mapFromServer = knalledge.KMap.mapFactory(mapFromServer);
 			mapFromServer.state = knalledge.KMap.STATE_SYNCED;
 			if(callback) callback(mapFromServer);
+
+			return mapFromServer;
 		});
+
 		return map;
 	};
 

@@ -1,6 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+var SLASH_ENCODING = '___';
+
 angular.module('loginDirectives', ['Config'])
 	.directive('loginAuthentication', ['$rootScope', '$routeParams', '$window', '$location', 'RimaService',
 		function($rootScope, $routeParams, $window, $location, RimaService){
@@ -34,13 +36,20 @@ angular.module('loginDirectives', ['Config'])
 
 				$scope.iAmId = $routeParams.iAmId;
 				$scope.token = $routeParams.token;
-				$scope.route = $routeParams.route;
+				if($routeParams.route){
+					$scope.route = decodeURI($routeParams.route);
+					var rx = new RegExp(SLASH_ENCODING, 'gi');
+					$scope.route = $scope.route.replace(rx, '/');
+				}
 
 				$scope.whoAmI = RimaService.getWhoAmI();
 
-				if($scope.route){
-					$location.path($scope.route);
-				}
+				$scope.followRoute = function(){
+					if($scope.route){
+						// alert("redirecting to: " + $scope.route);
+						$location.path($scope.route);
+					}
+				};
 
 				$scope.login = function(){
 					RimaService.login($scope.user, "by_email", function(whoAmI){
@@ -154,6 +163,19 @@ angular.module('loginDirectives', ['Config'])
 
 				// $scope.iAmId = RimaService.getIAmId();
 
+				if($routeParams.route){
+					$scope.route = decodeURI($routeParams.route);
+					var rx = new RegExp(SLASH_ENCODING, 'gi');
+					$scope.route = $scope.route.replace(rx, '/');
+				}
+
+				$scope.followRoute = function(){
+					if($scope.route){
+						// alert("redirecting to: " + $scope.route);
+						$location.path($scope.route);
+					}
+				};
+
 				$scope.cancelled = function(){
 
 				};
@@ -161,7 +183,13 @@ angular.module('loginDirectives', ['Config'])
 				$scope.createNew = function(){
 					var user = RimaService.createWhoAmI($scope.user);
 					user.$promise.then(function(userFromServer){
-						$location.path('/login');
+						var path = '/login';
+						// forward route
+						if($routeParams.route){
+							path += '/route/'
+								+ $routeParams.route;
+						}
+						$location.path(path);
 					});
 				};
 

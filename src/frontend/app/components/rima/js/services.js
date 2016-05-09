@@ -835,7 +835,7 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 			iAmId: null,
 			whoAmIs: [], //ToDo: check about syncing with loggedInWhoAmI
 			loggedInWhoAmI: new knalledge.WhoAmI(),
-			selectedWhoAmI: null,
+			activeUser: null,
 			howAmIs: {},
 			whatAmIs: [],
 			loginInfo: {},
@@ -849,7 +849,6 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 			init: function(){
 				this.loggedInWhoAmI._id = this.ANONYMOUS_USER_ID;
 				this.loggedInWhoAmI.displayName = "anonymous";
-				this.selectedWhoAmI = this.loggedInWhoAmI;
 				this.loadRimaDataSets();
 
 				HowAmIService.getAll(function(howAmIsFromServer){
@@ -885,6 +884,7 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 						if(this.loginInfo.token) this.loggedInWhoAmI.token = this.loginInfo.token;
 					}
 				}
+				this.activeUser = this.loggedInWhoAmI;
 
 				var that = this;
 				var whoIamIdsUpdatedEventName = "whoIamIdsUpdatedEvent";
@@ -1037,15 +1037,27 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 			},
 
 			selectActiveUser: function(whoAmI){
-				this.selectedWhoAmI = whoAmI;
+				this.activeUser = whoAmI;
+			},
+
+			getNameFromUser: function(whoAmI){
+				var name = whoAmI.displayName;
+		        if(!name || name.length <= 0){
+		            name = whoAmI.firstname + " " + whoAmI.familyname;
+					name = name.trim();
+		        }
+		        if(!name || name.length <= 0){
+		            name = whoAmI._id;
+		        }
+				return name;
 			},
 
 			getActiveUser: function(){
-				return this.selectedWhoAmI;
+				return this.activeUser;
 			},
 
 			getActiveUserId: function(){
-				return this.selectedWhoAmI ? this.selectedWhoAmI._id : undefined;
+				return this.activeUser ? this.activeUser._id : undefined;
 			},
 
 			getMaxUserNum: function(){
@@ -1240,7 +1252,7 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 				var whats = WhoAmIService.getByIds(usersIds,
 					function(whatsFromServer){
 						that.whats = whatsFromServer;
-						//that.selectedWhoAmI = (that.whats && that.whats.length) ? that.whats[0] : null; //TODO: set it to logged-in user
+						//that.activeUser = (that.whats && that.whats.length) ? that.whats[0] : null; //TODO: set it to logged-in user
 						if(callback){callback();}
 					});
 				return whats;
@@ -1251,15 +1263,15 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 			},
 
 			selectActiveWhat: function(whoAmI){
-				this.selectedWhoAmI = whoAmI;
+				this.activeUser = whoAmI;
 			},
 
 			getActiveWhat: function(){
-				return this.selectedWhoAmI;
+				return this.activeUser;
 			},
 
 			getActiveWhatId: function(){
-				return this.selectedWhoAmI ? this.selectedWhoAmI._id : undefined;
+				return this.activeUser ? this.activeUser._id : undefined;
 			},
 
 			getMaxWhatNum: function(){

@@ -340,7 +340,28 @@ $provideLayout: 'hide';
  knalledge_map_middle
 ------------------------ */
 .knalledge_map_middle{
+	.toolbar{
+		.commands{
 
+		}
+
+		.whoAmI{
+
+		}
+
+		.names{
+			display: flex;
+			align-items: center;
+
+			.loggedIn{
+				font-weight: bold;
+			}
+
+			.active{
+				font-size: 0.8em;
+			}
+		}
+	}
 }
 
 /* ------------------------
