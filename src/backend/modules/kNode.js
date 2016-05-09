@@ -4,6 +4,7 @@
  * New node file
  */
 var mongoose = require('mongoose');
+var deepAssign = require('deep-assign');
 //var Promise = require("bluebird");
 
 var mockup = {fb: {authenticate: false}, db: {data:false}};
@@ -168,13 +169,46 @@ exports.update = function(req, res){
 	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 	// });
 
+	var found = function found(err, old_data){
+		if (err){
+			throw err;
+			var msg = JSON.stringify(err);
+			resSendJsonProtected(res, {data: kNodes, accessId : accessId, message: msg, success: false});
+		}else{
+			//console.log('old_data', JSON.stringify(old_data));
+
+			//TODO: required because deepAssign could only work on shallow level, so overwriting votes,
+			//when it received a deeper object like `{"dataContent":{"ibis":{"votes":{"556760847125996dc1a4a21c":3}}}};`
+			old_data = JSON.parse(JSON.stringify(old_data));
+
+			//console.log('patch data', JSON.stringify(data));
+			deepAssign(old_data, data);
+			console.log('after patching', JSON.stringify(old_data));
+
+			/* test
+			let a = {"_id":"555d9b8fca6170de0e069f5f","name":"helo 3","type":"type_knowledge",
+			"mapId":"555d9774b53940a00d4e72b7",
+			"iAmId":"55268521fb9a901e442172f8","ideaId":0,"__v":0,
+			"dataContent":{"ibis":{"votes":{"556760847125996dc1a4a241":2}}},
+			"updatedAt":"2016-05-08T23:02:48.125Z","createdAt":"2015-05-21T08:47:11.449Z",
+			"visual":{"yM":518,"xM":251.5,"isOpen":false},"isPublic":true,"version":1,"activeVersion":1};
+			console.log('a before patch', JSON.stringify(a));
+			let d = {"dataContent":{"ibis":{"votes":{"556760847125996dc1a4a21c":3}}}};
+			deepAssign(a,d);
+			console.log('a after patch', JSON.stringify(a)); */
+
+			KNodeModel.update({_id:id}, old_data, function (err, raw) {
+				if (err) throw err;
+				//console.log('The raw response from Mongo was ', raw);
+				data._id = id; //TODO: when we completly transfer to differential updates we won't need this
+				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+				//resSendJsonProtected(res, {data: kNodes, accessId : accessId, success: true});
+			});
+		}
+	}
+
 	data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
-	KNodeModel.update({_id:id}, data, function (err, raw) {
-		if (err) throw err;
-		console.log('The raw response from Mongo was ', raw);
-		data._id = id;
-		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
-	});
+	KNodeModel.findById(id, found);
 }
 
 // curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8888/knodes/one/551bdcda1763e3f0eb749bd4
