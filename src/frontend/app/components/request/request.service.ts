@@ -125,9 +125,14 @@ export class RequestService {
         r3.who = { displayName: 'TestUser' };
         r3.reference = { name: 'Eco-Problems' };
         r3.type = RequestType.CLARIFICATION;
+        var r4: Request = new Request();
+        r4.who = { displayName: 'Dino' };
+        r4.reference = { name: 'Polyscopy' };
+        r4.type = RequestType.CLARIFICATION;
         this.requests.push(r1);
         this.requests.push(r2);
         this.requests.push(r3);
+        this.requests.push(r4);
     }
 
     sendRequest(request: Request, callback: Function) {
