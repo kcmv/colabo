@@ -55,9 +55,9 @@
             <div layout-fill layout-align="stretch stretch">
                 <div class="knalledge_map_middle" layout-fill layout="column">
                     <!-- toolbar -->
-                    <md-toolbar class="md-theme-indigo" style="height: 60px">
+                    <md-toolbar class="toolbar md-theme-indigo" style="height: 60px">
                         <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap>
-                            <section layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+                            <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
                                 <button md-fab class="md-primary" aria-label="Configuration" (click)="open('left')" [hidden]="leftOpened">
                                     <i md-icon>settings</i>
                                 </button>
@@ -73,18 +73,23 @@
                                     <i md-icon>map</i>
                                 </button>
 
-                                <button md-fab class="md-primary" aria-label="Plugins" (click)="go('plugins')">
+                                <button md-fab class="md-primary" aria-label="Plugins" (click)="go('plugins')" *ngIf="policyConfig.moderating.enabled">
                                     <i md-icon>extension</i>
                                 </button>
                             </section>
 
-                            <section layout="row" layout-sm="column" layout-align="right center" layout-wrap>
+                            <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
                                 <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
                                     <i md-icon>person</i>
                                 </button>
 
-                                <div style="display: flex; align-items: center; font-weight: bold;">
-                                    {{getLoggedInUser().firstname}} {{getLoggedInUser().familyname}}
+                                <div class="names" layout="column">
+                                    <div class="loggedIn">
+                                        {{getLoggedInUserName()}}
+                                    </div>
+                                    <div class="active" *ngIf="policyConfig.moderating.enabled">
+                                        Active user: {{getActiveUserName()}}
+                                    </div>
                                 </div>
 
                                 <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
