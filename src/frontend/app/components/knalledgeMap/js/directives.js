@@ -1007,7 +1007,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						$scope.items.push(mapFromServer);
 						$scope.selectedItem = mapFromServer;
 						rootNode.mapId = mapFromServer._id;
-						KnalledgeMapVOsService.updateNode(rootNode);
+						KnalledgeMapVOsService.updateNode(rootNode,knalledge.KNode.UPDATE_TYPE_ALL);
 					};
 
 					var rootNodeCreated = function(rootNode){

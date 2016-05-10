@@ -1,6 +1,7 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+// duplicated at components/rima/directives.js
 var SLASH_ENCODING = '___';
 var decodeRoute = function(routeEncoded){
 	var route = decodeURI(routeEncoded);

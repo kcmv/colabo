@@ -1,6 +1,27 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
+// duplicated at components/login/directives.js
+var SLASH_ENCODING = '___';
+var decodeRoute = function(routeEncoded){
+	var route = decodeURI(routeEncoded);
+	var slashIndex = 0;
+
+	// replace the first level
+	var slash0 = SLASH_ENCODING+"0";
+	var rx = new RegExp(slash0, 'gi');
+	route = route.replace(rx, '/');
+
+	// decrease next levels
+	for(var i=1; i<10; i++){
+		var slashCurrent = SLASH_ENCODING+i;
+		var rx = new RegExp(slashCurrent, 'gi');
+		var slashLess = SLASH_ENCODING+(i-1);
+		route = route.replace(rx, slashLess);
+	}
+	return route;
+};
+
 var guidanceCurrentStep = 0;
 var guidanceSteps = [
 	{
@@ -913,8 +934,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 		};
 	}])
 
-	.directive('rimaHows', ["$rootScope", "$timeout", "$location", "RimaService",
-		function($rootScope, $timeout, $location, RimaService){
+	.directive('rimaHows', ["$rootScope", "$timeout", "$location", "$routeParams", "RimaService",
+		function($rootScope, $timeout, $location, $routeParams, RimaService){
 		console.log("[rimaHows] loading directive");
 
 		return {
@@ -933,13 +954,17 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 			controller: function ( $scope, $element) {
 				// triggerPopup($timeout, $element, "#testing_input");
 
+				if($routeParams.route){
+					$scope.route = decodeRoute($routeParams.route);
+				}
+
 				$scope.$watch("isActive", function(value){
 					if(value == true){
 						guidanceStart($timeout, $element);
 					}
 				});
 
-				var whatsLimit = 70;
+				//var whatsLimit = 70; //TODO: later we should filter somehow to a limited number of selections in rima-what, but should not limit it here
 				var init = function(){
 
 					console.log("whoAmIType:"+$scope.whoAmIType);
@@ -961,7 +986,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					//$scope.modal.formData.contentTypeId= option.contentTypes[0].id;
 					$scope.selectedHowOption = $scope.hows[0].id;
 					//$scope.selectedItem = RimaService.getActiveUser();
-					$scope.whats = RimaService.getAllWhats(whatsLimit);
+					$scope.whats = RimaService.getAllWhats();//whatsLimit);
 				}
 
 				var initUserSpecific = function(){
@@ -1095,10 +1120,15 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 
 				$scope.finished = function(){
 					var finishIt = function(){
+
+						/*
 						//TODO: should be this, but for simplicity of TNC online event we directed to its map: $location.path("/maps");
 						var mapID = "5566f25867a6d01e65beddde"; 'TNC-Online';// old for RTS: 5552c2c87ffdccd74096d0ca
 						$location.path("/map/id/" + mapID);
-
+						*/
+						if($scope.route){
+							$location.path($scope.route);
+						}
 					};
 
 					if($scope.items.length == 0){
@@ -1350,8 +1380,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 		return tooltip;
 	}])
 
-	.directive('rimaWizard', ['$rootScope', '$timeout', 'RimaService',
-		function($rootScope, $timeout, RimaService){
+	.directive('rimaWizard', ['$rootScope', '$timeout', '$routeParams', 'RimaService',
+		function($rootScope, $timeout, $routeParams, RimaService){
 		console.log("[rimaWizard] loading directive");
 		return {
 			restrict: 'AE',
@@ -1369,6 +1399,10 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				$scope.bindings = {
 					noSkype: false//$scope.whoAmI.extensions.contacts.skype
 				};
+
+				if($routeParams.route){
+					$scope.route = decodeRoute($routeParams.route);
+				}
 
 				$scope.showPopup = function(){
 					triggerPopup($timeout, $element, "#testing_tooltip_what", "openTrigger");

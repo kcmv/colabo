@@ -1,3 +1,4 @@
+//https://www.npmjs.com/package/deep-assign
 var deepAssign;
 
 (function () { // This prevents problems when concatenating scripts that aren't strict.
