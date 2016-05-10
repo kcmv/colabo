@@ -53,7 +53,7 @@ export class RequestComponent implements OnInit {
 
   grant(request){
     request.state = RequestState.GRANTED;
-    //TODO: inform user that it is granted
+    this._requestService.grant(request);
   }
 
   topicClicked(topic){

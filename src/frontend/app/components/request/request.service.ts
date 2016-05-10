@@ -181,18 +181,18 @@ export class RequestService {
     }
 
     receivedRequest(eventName: string, request: Request) {
-        if (this.filterRequest(request)) {
-          this.requests.push(request);
-          request.who = this.rimaService.getUserById(request.who); //can be null!
-          request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!
-          console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
-          if (request.type === RequestType.REPLICA) {
-              console.log(' requested REPLICA for ');
-          }
-          this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
-          this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
-              'RequestService', { 'request': request, 'event': this.EMITTER_NAME_REQUEST });
+      if (this.filterRequest(request)) {
+        this.requests.push(request);
+        request.who = this.rimaService.getUserById(request.who); //can be null!
+        request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!
+        console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
+        if (request.type === RequestType.REPLICA) {
+            console.log(' requested REPLICA for ');
         }
+        this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
+        this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
+            'RequestService', { 'request': request, 'event': this.EMITTER_NAME_REQUEST });
+      }
     }
 
     _participantRequest(plugin){
@@ -220,5 +220,20 @@ export class RequestService {
               }
           });
         }
+    }
+
+    grant(request){
+      /*TODO:finish granting
+      request.mapId = this.knalledgeMapVOsService.getMapId();
+      request.who = this.rimaService.getWhoAmI()._id;
+      console.log(request);
+
+      if (this.knAllEdgeRealTimeService) {
+          this.knAllEdgeRealTimeService.emit(this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST, request);
+          callback(true);
+      } else {
+          callback(false, 'SERVICE_UNAVAILABLE');
+      }
+      */
     }
 }
