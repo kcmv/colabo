@@ -279,10 +279,10 @@
                             var kNode = knalledgeMap.knodes[kI];
                             var whoAmI =
                                 RimaService.getUserById(kNode.iAmId);
-                            kNode.userName =
+                            kNode.user =
                                 RimaService.getNameFromUser(whoAmI);
-                            if(!kNode.userName){
-                                kNode.userName = "[unknown]"
+                            if(!kNode.user){
+                                kNode.user = "[unknown]"
                             }
                         }
 
@@ -325,10 +325,10 @@
                                 return (model.get('iAmId') === value);
                             }
                         })
-                        .setPill('userName', {
-                            prefixes: ['userName:'],
+                        .setPill('user', {
+                            prefixes: ['user:'],
                             callback: function(model, value) {
-                                return (model.get('userName') === value);
+                                return (model.get('user') === value);
                             }
                         })
 

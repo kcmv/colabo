@@ -944,6 +944,8 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 				this.setIAmId(whoAmI._id);
 			},
 
+			// logged in user
+			// TODO: refactor into getLoggedInWhoAmI
 			getWhoAmI: function(){
 				if(this.loggedInWhoAmI._id == this.ANONYMOUS_USER_ID){
 					return null;
