@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Inject} from 'angular2/core';
 //import {NgIf, NgFor, FORM_DIRECTIVES} from 'angular2/common';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
@@ -8,6 +8,7 @@ import { OrderArrayPipe } from "../utils/orderArrayPipe";
 import {RequestComponent} from '../request/request.component';
 import {SuggestionComponent} from '../suggestion/suggestion.component';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
+import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 
 /**
  * Directive that
@@ -48,10 +49,13 @@ export class TopPanel {
     constructor(
         // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
         // globalEmitterServicesArray:GlobalEmitterServicesArray
+        @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService
     ) {
         console.log('[TopPanel]');
-
+        this.policyConfig = knalledgeMapPolicyService.get().config;
         // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
         // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
     };
+
+    policyConfig:Object;
 }

@@ -109,7 +109,7 @@ export class RequestService {
         requestPluginOptions.events[this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST] = this.receivedRequest.bind(this);
         this.knAllEdgeRealTimeService.registerPlugin(requestPluginOptions);
 
-        this.getMockupRequests();
+        //this.getMockupRequests();
     }
 
     getMockupRequests() {
@@ -181,17 +181,17 @@ export class RequestService {
     }
 
     receivedRequest(eventName: string, request: Request) {
-        this.requests.push(request);
         if (this.filterRequest(request)) {
-            request.who = this.rimaService.getUserById(request.who); //can be null!
-            request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!
-            console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
-            if (request.type === RequestType.REPLICA) {
-                console.log(' requested REPLICA for ');
-            }
-            this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
-            this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
-                'RequestService', { 'request': request, 'event': this.EMITTER_NAME_REQUEST });
+          this.requests.push(request);
+          request.who = this.rimaService.getUserById(request.who); //can be null!
+          request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!
+          console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
+          if (request.type === RequestType.REPLICA) {
+              console.log(' requested REPLICA for ');
+          }
+          this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
+          this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
+              'RequestService', { 'request': request, 'event': this.EMITTER_NAME_REQUEST });
         }
     }
 
@@ -202,24 +202,23 @@ export class RequestService {
             window.alert('You have to select a topic (node) before requesting REPLICA on it');
             return; // no parent node selected
         }
-        if (true) { //TODO: because of keyboard multiple 'firing' we canot use this:
-            //window.confirm('Are you sure you want to send request for REPLICA on the node\n"'+reference.kNode.name+'"')){
-            window.alert('You are sending request for REPLICA on the node\n"' + reference.kNode.name + '"');
-            if (!plugin.mapInteraction.isStatusMap()) { return; }
-            let request: Request = new Request();
-            request.type = RequestType.REPLICA;
-            request.reference = reference.kNode._id;
-            this.sendRequest(request, function(result, error) {
-                if (result) {
-                    //TODO: update participant's requests panel
-                } else {
-                    switch (error) {
-                        case 'SERVICE_UNAVAILABLE':
-                            window.alert('Service is unavailable at the moment. Try later');
-                            break;
-                    }
-                }
-            });
+        if (window.confirm('Are you sure you want to send request for REPLICA on the node\n"'+reference.kNode.name+'"')){
+          //window.alert('You are sending request for REPLICA on the node\n"' + reference.kNode.name + '"');
+          if (!plugin.mapInteraction.isStatusMap()) { return; }
+          let request: Request = new Request();
+          request.type = RequestType.REPLICA;
+          request.reference = reference.kNode._id;
+          this.sendRequest(request, function(result, error) {
+              if (result) {
+                  //TODO: update participant's requests panel
+              } else {
+                  switch (error) {
+                      case 'SERVICE_UNAVAILABLE':
+                          window.alert('Service is unavailable at the moment. Try later');
+                          break;
+                  }
+              }
+          });
         }
     }
 }
