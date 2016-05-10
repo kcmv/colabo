@@ -46,7 +46,9 @@ export class SuggestionComponent implements OnInit {
 
   ngOnInit() {
     this.selectedNode = this._suggestionService.getSelectedNode();
-    this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode.kNode);
+    if(this.selectedNode){
+      this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode.kNode);
+    }
   //TODO:  check for Selected Node
   //this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode);
   }
