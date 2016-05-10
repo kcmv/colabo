@@ -1,8 +1,8 @@
 <!-- <span>TABS</span> -->
 <md-tabs md-dynamic-height md-border-bottom>
-  <template md-tab label="requests">
+  <template md-tab label="suggestions">
     <md-content class="md-padding">
-      <request></request>
+      <suggestion></suggestion>
     </md-content>
   </template>
   <template md-tab label="whats">
@@ -14,16 +14,16 @@
       </p> -->
     </md-content>
   </template>
-  <template md-tab label="suggestions">
-    <md-content class="md-padding">
-      <suggestion></suggestion>
-    </md-content>
-  </template>
   <template md-tab label="changes">
     <md-content class="md-padding">
       <!-- <h1 class="md-display-2">Tab Three</h1>
       <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum.
       </p> -->
+    </md-content>
+  </template>
+  <template md-tab label="requests" *ngIf="policyConfig.moderating.enabled">
+    <md-content class="md-padding">
+      <request></request>
     </md-content>
   </template>
 </md-tabs>
