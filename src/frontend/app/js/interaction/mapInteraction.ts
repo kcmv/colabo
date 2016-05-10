@@ -9,7 +9,6 @@ const STATUS_MAP: string = "STATUS_MAP";
 const STATUS_EDITOR: string = "STATUS_EDITOR";
 
 export class MapInteraction {
-    private clientApi: any;
     private status: string;
     private editingNodeHtml: any = null;
 

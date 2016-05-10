@@ -1,4 +1,4 @@
-# Building Process
+c# Building Process
 
 The majority of server and client components are built on **MEAN stack** so the environment necessary for starting tool should be straightforward.
 
@@ -14,7 +14,6 @@ npm install -g bower
 ```
 
 ### NPM privileges problem
-
 
 ```sh
 cd /usr/local/lib/node_modules
@@ -141,6 +140,72 @@ nodejs /var/www/knalledge/src/backend/KnAllEdgeBackend.js
 
 ```
 
+### Backend deployment
+
+#### Compress on the local machine
+
+```sh
+cdd
+cd KnAllEdge/src
+cp -r backend backend_archive
+rm -r backend_archive/node_modules
+rm -r backend_archive/modules/topiChat/node_modules
+rm -r backend_archive/modules/topiChat-knalledge/node_modules
+rm -r backend_archive/tools/node_modules
+
+zip -r -X prod-2016.05.10-b.zip backend_archive
+```
+
+#### Upload on the server
+
++ load with a SFTP client and upload the prod zip to a temp folder or `/var/www/knalledge/src/backend/`
+
+```sh
+ssh mprinc@knalledge.org
+
+cd /var/www/knalledge/src/backend
+npm install --production
+
+cd /var/www/knalledge/src/
+rm -r node_modules_backup
+mkdir -p node_modules_backup node_modules_backup/tC node_modules_backup/tCK node_modules_backup/tools
+
+cp -r backend/node_modules node_modules_backup
+cp -r backend/modules/topiChat/node_modules node_modules_backup/tC
+cp -r backend/modules/topiChat-knalledge/node_modules node_modules_backup/tCK
+cp -r backend/tools/node_modules node_modules_backup/tools
+
+ls node_modules_backup
+ls node_modules_backup/tC
+
+cd /var/www/knalledge/src/backend/
+unzip prod-2016.05.10-b.zip
+rm -r config/ continuousServer.sh info.txt KnAllEdgeBackend.js models/ modules/ package.json tools/
+
+mv backend_archive/* .
+rm -r backend_archive/
+
+chmod -R o+rx .
+chmod -R g+wrx .
+
+cp -r ../node_modules_backup/tC/* modules/topiChat
+cp -r ../node_modules_backup/tCK/* modules/topiChat-knalledge
+cp -r ../node_modules_backup/tools/* tools
+
+nodejs KnAllEdgeBackend.js 8888
+
+su
+status knalledge-b
+stop knalledge-b
+status knalledge-b
+
+start knalledge-b
+status knalledge-b
+
+restart knalledge-b
+status knalledge-b
+```
+
 ### Production deployment
 
 #### Build system on the local machine:
@@ -149,7 +214,7 @@ nodejs /var/www/knalledge/src/backend/KnAllEdgeBackend.js
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.04.20.zip dist/prod
+zip -r -X prod-2016.05.10.zip dist/prod
 ```
 
 #### Upload on the server
@@ -160,7 +225,7 @@ zip -r -X prod-2016.04.20.zip dist/prod
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -r components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.04.20.zip
+unzip prod-2016.05.10.zip
 mv dist/prod/* .
 rm -r dist/
 
@@ -172,6 +237,7 @@ cd /var/www/knalledge_frontend
 # replace
 # `env=envs.localhost` -> `env=envs.server`
 sed -i 's/env\=envs\.localhost/env\=envs\.server/g' prod/js/shims_bundle.js
+sed -i 's/base\ href\=\"\/\"/base\ href\=\"\/prod\/\"/' prod/index.html
 
 joe prod/index.html
 # var disableLog = true;

@@ -71,7 +71,6 @@
             CollaboPluginsService.registerPlugin(ontovPluginInfo);
         }])
         .provider('OntovService', {
-            // privateData: "privatno",
             $get: ['CollaboPluginsService' /*, '$rootScope', */ , function(CollaboPluginsService /*, $rootScope*/ ) {
 
                 var provider = {
@@ -116,8 +115,11 @@
                 provider.init();
                 return provider;
             }]
-        }).service('ontovDataModel', ['$rootScope', '$timeout', '$q', '$http', function($rootScope, $timeout, $q, $http) {
+        }).service('ontovDataModel', ['$rootScope', '$timeout', '$q', '$http', '$injector', function($rootScope, $timeout, $q, $http, $injector) {
                 //http://joelhooks.com/blog/2013/04/24/modeling-data-and-state-in-your-angularjs-application/
+
+                var RimaService = $injector.get('RimaService');
+                var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 
                 var performSearch = function() {},
                     projectCollection = {},
@@ -131,7 +133,10 @@
                         "nodes": [],
                         "links": []
                     },
-                    knalledgeMap = { kedges: [], knodes:[]};
+                    knalledgeMap = {
+                        kedges: [],
+                        knodes: []
+                    };
 
                 //Sort graph in topological order
                 var topologicalSort = (function() {
@@ -229,7 +234,7 @@
                                 console.log("dataModel::shortPathDAG:: No source node, source set to root.");
                             }
                         }
-                        for(var i in subgraph){
+                        for (var i in subgraph) {
                             subgraph[i].visible = true;
                         }
 
@@ -238,7 +243,7 @@
                 }());
 
                 //Listen for map data
-                if(enableOntov){ // false avoids error: angular.js:13236 RangeError: Maximum call stack size exceeded
+                if (enableOntov) { // false avoids error: angular.js:13236 RangeError: Maximum call stack size exceeded
                     $rootScope.$watchGroup([function() {
                         // return Object.keys(ontovPluginInfo.references.map.items.mapStructure.edgesById).length;
                         return Object.keys(ontovPluginInfo.references.mapVOsService.items.edgesById).length;
@@ -246,17 +251,43 @@
                         // return Object.keys(ontovPluginInfo.references.map.items.mapStructure.nodesById).length;
                         return Object.keys(ontovPluginInfo.references.mapVOsService.items.nodesById).length;
                     }], function(oldVal, newVal, scope) {
-                        var edgeObj = ontovPluginInfo.references.map.items.mapStructure.edgesById,
-                            nodeObj = ontovPluginInfo.references.map.items.mapStructure.nodesById;
-                        if (Object.keys(edgeObj).length != knalledgeMap.kedges.length && Object.keys(nodeObj).length != knalledgeMap.knodes.length){
-                            // http://underscorejs.org/#pluck
-                            // making an array of extracted list of property values.
-                            knalledgeMap.kedges = _.pluck(edgeObj, 'kEdge');
-                            knalledgeMap.knodes = _.pluck(nodeObj, 'kNode');
-                            updateDataModel();
+                        prepareDataForUpdating();
+                    });
+                }
+
+                var whoIamIsUpdatedEventName = "whoIamIsUpdatedEvent";
+				GlobalEmitterServicesArray.register(whoIamIsUpdatedEventName);
+				GlobalEmitterServicesArray.get(whoIamIsUpdatedEventName)
+                    .subscribe('ontovDataModel', function(whoAmIs)
+                {
+				    console.log("[ontovDataModel::%s] whoAmIs: %s", whoIamIsUpdatedEventName, whoAmIs);
+                    prepareDataForUpdating();
+				});
+
+                function prepareDataForUpdating(){
+                    var edgeObj = ontovPluginInfo.references.map.items.mapStructure.edgesById,
+                        nodeObj = ontovPluginInfo.references.map.items.mapStructure.nodesById;
+                    // we cannot rely on this anymore,
+                    // since whoAmIs can also change in RimaService
+                    if (true || Object.keys(edgeObj).length != knalledgeMap.kedges.length && Object.keys(nodeObj).length != knalledgeMap.knodes.length) {
+                        // http://underscorejs.org/#pluck
+                        // making an array of extracted list of property values
+                        knalledgeMap.kedges = _.pluck(edgeObj, 'kEdge');
+                        knalledgeMap.knodes = _.pluck(nodeObj, 'kNode');
+
+                        for(var kI in knalledgeMap.knodes){
+                            var kNode = knalledgeMap.knodes[kI];
+                            var whoAmI =
+                                RimaService.getUserById(kNode.iAmId);
+                            kNode.userName =
+                                RimaService.getNameFromUser(whoAmI);
+                            if(!kNode.userName){
+                                kNode.userName = "[unknown]"
+                            }
                         }
 
-                    });
+                        updateDataModel();
+                    }
                 }
 
                 //Update model with new data
@@ -272,7 +303,7 @@
 
 
                     //Create our project collection from an array of models
-                    // queryEngine - coming from Backbone?
+                    // queryEngine - using Backbone?
 
                     projectCollection = queryEngine.createLiveCollection(topSort);
                     projectSearchCollection = projectCollection.createLiveChildCollection()
@@ -294,16 +325,22 @@
                                 return (model.get('iAmId') === value);
                             }
                         })
+                        .setPill('userName', {
+                            prefixes: ['userName:'],
+                            callback: function(model, value) {
+                                return (model.get('userName') === value);
+                            }
+                        })
 
-                    .setFilter('search', function(model, searchString) {
-                        if (!searchString) {
-                            return true;
-                        } else {
-                            var searchRegex = queryEngine.createSafeRegex(searchString);
-                            var pass = searchRegex.test(model.get("description"));
-                            return pass;
-                        }
-                    });
+                        .setFilter('search', function(model, searchString) {
+                            if (!searchString) {
+                                return true;
+                            } else {
+                                var searchRegex = queryEngine.createSafeRegex(searchString);
+                                var pass = searchRegex.test(model.get("description"));
+                                return pass;
+                            }
+                        });
 
                     var nodes = [];
                     var startIndex = 0;
@@ -493,7 +530,9 @@
                         //Update viewmodel with search results
                         var _queryNodes = searchCollection(searchString);
                         //Set node visibility - KnAllEdge requirement
-                        _.each(_queryNodes, function(node){console.log(node);});
+                        _.each(_queryNodes, function(node) {
+                            console.log(node);
+                        });
                         var _pathNodes = searchQueryPaths(projectCollection.toJSON(), _queryNodes);
                         var _graph = mergePaths(_pathNodes);
 

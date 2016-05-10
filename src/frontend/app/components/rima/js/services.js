@@ -991,10 +991,15 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 						that.whoAmIs.push(whoAmIsFromServer[i]);
 					}
 
+					var whoIamIsUpdatedEventName = "whoIamIsUpdatedEvent";
+					GlobalEmitterServicesArray.register(whoIamIsUpdatedEventName);
+					GlobalEmitterServicesArray.get(whoIamIsUpdatedEventName).broadcast('RimaService', that.whoAmIs);
+
 					if(callback){callback(that.whoAmIs);}
 				}
 
-				var whoAmIsFromService = WhoAmIService.getWhoAmisFromIdList(usersIds,usersFromIDsListLoaded);
+				var whoAmIsFromService = WhoAmIService.getWhoAmisFromIdList(usersIds,
+					usersFromIDsListLoaded);
 				//we cannot directly override this.whoAmIs with `WhoAmIService.getWhoAmisFromIdList` returned value,
 				//because angular directives, like `rimaUsersList` are setting watches over `RimaService.whoAmIs`
 				// << as: ` $scope.$watch(function () {return RimaService.whoAmIs;}, function(newValue){ ...} `>>
@@ -1041,6 +1046,8 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 			},
 
 			getNameFromUser: function(whoAmI){
+				if(!whoAmI) return null;
+
 				var name = whoAmI.displayName;
 		        if(!name || name.length <= 0){
 		            name = whoAmI.firstname + " " + whoAmI.familyname;

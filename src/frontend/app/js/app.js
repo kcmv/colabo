@@ -99,6 +99,9 @@ angular.module('KnAllEdgeApp', requiresList)
 	.when('/whoAmI', {
 		templateUrl: 'components/rima/partials/rima-whoAmI.tpl.html'
 	})
+	.when('/whoAmI/route/:route?', {
+		templateUrl: 'components/rima/partials/rima-whoAmI.tpl.html'
+	})
 	.when('/rima-insights', {
 		templateUrl: 'components/rima/partials/rima-insights.tpl.html'
 	})

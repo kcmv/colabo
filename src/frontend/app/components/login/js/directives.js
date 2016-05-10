@@ -2,6 +2,24 @@
 'use strict';
 
 var SLASH_ENCODING = '___';
+var decodeRoute = function(routeEncoded){
+	var route = decodeURI(routeEncoded);
+	var slashIndex = 0;
+
+	// replace the first level
+	var slash0 = SLASH_ENCODING+"0";
+	var rx = new RegExp(slash0, 'gi');
+	route = route.replace(rx, '/');
+
+	// decrease next levels
+	for(var i=1; i<10; i++){
+		var slashCurrent = SLASH_ENCODING+i;
+		var rx = new RegExp(slashCurrent, 'gi');
+		var slashLess = SLASH_ENCODING+(i-1);
+		route = route.replace(rx, slashLess);
+	}
+	return route;
+};
 
 angular.module('loginDirectives', ['Config'])
 	.directive('loginAuthentication', ['$rootScope', '$routeParams', '$window', '$location', 'RimaService',
@@ -37,9 +55,7 @@ angular.module('loginDirectives', ['Config'])
 				$scope.iAmId = $routeParams.iAmId;
 				$scope.token = $routeParams.token;
 				if($routeParams.route){
-					$scope.route = decodeURI($routeParams.route);
-					var rx = new RegExp(SLASH_ENCODING, 'gi');
-					$scope.route = $scope.route.replace(rx, '/');
+					$scope.route = decodeRoute($routeParams.route);
 				}
 
 				$scope.whoAmI = RimaService.getWhoAmI();
@@ -164,9 +180,7 @@ angular.module('loginDirectives', ['Config'])
 				// $scope.iAmId = RimaService.getIAmId();
 
 				if($routeParams.route){
-					$scope.route = decodeURI($routeParams.route);
-					var rx = new RegExp(SLASH_ENCODING, 'gi');
-					$scope.route = $scope.route.replace(rx, '/');
+					$scope.route = decodeRoute($routeParams.route);
 				}
 
 				$scope.followRoute = function(){
