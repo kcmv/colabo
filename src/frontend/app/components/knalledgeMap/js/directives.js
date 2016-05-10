@@ -802,8 +802,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			}
     	};
 	}])
-	.directive('knalledgeMapList', ['$rootScope', '$injector', /*, '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', */
-	function($rootScope, $injector/*, $window, KnalledgeNodeService, KnalledgeEdgeService, $q*/){
+	.directive('knalledgeMapList', ['$rootScope', '$injector', 'KnalledgeMapPolicyService', /*, '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', */
+	function($rootScope, $injector, KnalledgeMapPolicyService /*, $window, KnalledgeNodeService, KnalledgeEdgeService, $q*/){
 		// http://docs.angularjs.org/guide/directive
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
@@ -823,6 +823,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					editing: false
 				};
 
+				$scope.policyConfig = KnalledgeMapPolicyService.provider.config;
 				$scope.enableEditing = function(){
 					$scope.nodeContent.editing = true;
 				};

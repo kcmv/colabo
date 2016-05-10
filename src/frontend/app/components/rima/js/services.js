@@ -157,6 +157,7 @@ $get: ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, EN
 			function(whoAmIFromServer){
 				whoAmI.fill(whoAmIFromServer);
 				whoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
+				whoAmI._id = whoAmIFromServer._id;
 				if(callback) callback(whoAmI);
 			});
 		whoAmI.$promise = whoAmIFromGet.$promise;
@@ -914,13 +915,9 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 							if(typeof callback === 'function'){
 								callback(whoAmIFromServer);
 							}
-						}
-					});
-					whoAmI.$promise.then(function(whoAmIFromServer){
-						if(whoAmIFromServer && whoAmIFromServer._id){
-							that.setWhoAmI(whoAmIFromServer);
+						}else{
 							if(typeof callback === 'function'){
-								callback(whoAmIFromServer);
+								callback(null);
 							}
 						}
 					});

@@ -69,9 +69,15 @@ angular.module('loginDirectives', ['Config'])
 				};
 
 				$scope.login = function(){
+					if(!$scope.user.e_mail){
+						window.alert("Please provide your e-mail");
+						return;
+					}
 					RimaService.login($scope.user, "by_email", function(whoAmI){
 						if(whoAmI && whoAmI._id){
 							$location.path('/maps');
+						}else{
+							window.alert("Login unsuccessful. Please verify your credentials and try again!");
 						}
 					});
 				};
@@ -196,6 +202,23 @@ angular.module('loginDirectives', ['Config'])
 				};
 
 				$scope.createNew = function(){
+					if(!$scope.user.firstname){
+						window.alert("Please provide your name");
+						return;
+					}
+					if(!$scope.user.familyname){
+						window.alert("Please provide your surname");
+						return;
+					}
+					if(!$scope.user.displayName){
+						window.alert("Please provide your display name");
+						return;
+					}
+					if(!$scope.user.e_mail){
+						window.alert("Please provide your e-mail");
+						return;
+					}
+
 					var user = RimaService.createWhoAmI($scope.user);
 					user.$promise.then(function(userFromServer){
 						var path = '/login';

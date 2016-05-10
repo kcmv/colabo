@@ -32,7 +32,7 @@ http://nontroppo.org/test/tab1.html
 
 	    <div rima-hows class="rima-hows" who-am-i-type="'logged_in'"></div>
 	</tab>
-	<tab select="alertMe()">
+	<tab ng-if="policyConfig.moderating.enabled" select="alertMe()">
 		<tab-heading>
 			<i style="margin:0.2em;" class="fa fa-suitcase"></i> Active
 		</tab-heading>

@@ -2,6 +2,14 @@
 
 @import "../../../sass/include";
 
+.missing{
+	background-color: #fbb;
+	border: 1px dashed #a00;
+}
+.info{
+	color: #66f;
+	padding-left: 5em;
+}
 .login_index{
 	background-image: url("../../../../app/img/ESB_Logo_small.png");
 	background-repeat: no-repeat;

@@ -1,11 +1,13 @@
 <form>
 	<fieldset>
 		<legend class="table_title">New User</legend>
-		<div><label>Name:</label><input type="text" ng-model="user.firstname" /></div>
-		<div><label>Surname:</label><input type="text" ng-model="user.familyname" /></div>
-		<div><label>Display name:</label><input type="text" ng-model="user.displayName" /></div>
+		<div><label>Name:</label><input type="text" ng-class="{missing: !user.firstname}" ng-model="user.firstname" /></div>
+		<div><label>Surname:</label><input type="text" ng-class="{missing: !user.familyname}" ng-model="user.familyname" /></div>
+		<div><label>Display name:</label><input type="text" ng-class="{missing: !user.displayName}" ng-model="user.displayName" />
+			<div class="info">(shorter - preferrably, up to 10 characters, no spaces)</div>
+		</div>
 		<div><label>Affiliation:</label><input type="text" ng-model="user.affiliation" /></div>
-		<div><label>email:</label><input type="text" ng-model="user.e_mail" /></div>
+		<div><label>email:</label><input type="text" ng-class="{missing: !user.e_mail}" ng-model="user.e_mail" /></div>
  		<p class="buttons">
 			<button class="btn btn-warning" ng-click="cancelled()">Cancel</button>
 			<button class="btn btn-primary" type="submit" ng-click="createNew()">Register User</button>
