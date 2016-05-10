@@ -1208,7 +1208,7 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 			},
 
 			getWhatById: function(id){
-				for(var i in this.whatAmIs){
+				for(var i = 0; i<this.whatAmIs.length; i++){
 					if(this.whatAmIs[i]._id == id){
 						return this.whatAmIs[i];
 					}

@@ -879,7 +879,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					var saveNodeWIthNewWhat = function(what){ // TODO: it should be just _id;
 						kNode.dataContent.rima.whats.push(what);
 						$scope.asyncSelected = "";
-						GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node);
+						GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node); 
 					}
 
 					if(typeof what === 'string'){ //new what
@@ -939,7 +939,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					}
 				});
 
-				var whatsLimit = 70;
+				//var whatsLimit = 70; //TODO: later we should filter somehow to a limited number of selections in rima-what, but should not limit it here
 				var init = function(){
 
 					console.log("whoAmIType:"+$scope.whoAmIType);
@@ -961,7 +961,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					//$scope.modal.formData.contentTypeId= option.contentTypes[0].id;
 					$scope.selectedHowOption = $scope.hows[0].id;
 					//$scope.selectedItem = RimaService.getActiveUser();
-					$scope.whats = RimaService.getAllWhats(whatsLimit);
+					$scope.whats = RimaService.getAllWhats();//whatsLimit);
 				}
 
 				var initUserSpecific = function(){
