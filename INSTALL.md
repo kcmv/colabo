@@ -153,7 +153,8 @@ rm -r backend_archive/modules/topiChat/node_modules
 rm -r backend_archive/modules/topiChat-knalledge/node_modules
 rm -r backend_archive/tools/node_modules
 
-zip -r -X prod-2016.05.10-b.zip backend_archive
+zip -r -X prod-2016.05.10-c.zip backend_archive
+open .
 ```
 
 #### Upload on the server
@@ -162,10 +163,14 @@ zip -r -X prod-2016.05.10-b.zip backend_archive
 
 ```sh
 ssh mprinc@knalledge.org
+```
 
+If there is a new module required you need to install them and backup node_modules folders:
+
+```js
 cd /var/www/knalledge/src/backend
-npm install --production
 
+npm install --production
 cd /var/www/knalledge/src/
 rm -r node_modules_backup
 mkdir -p node_modules_backup node_modules_backup/tC node_modules_backup/tCK node_modules_backup/tools
@@ -177,9 +182,11 @@ cp -r backend/tools/node_modules node_modules_backup/tools
 
 ls node_modules_backup
 ls node_modules_backup/tC
+```
 
+```
 cd /var/www/knalledge/src/backend/
-unzip prod-2016.05.10-b.zip
+unzip prod-2016.05.10-c.zip
 rm -r config/ continuousServer.sh info.txt KnAllEdgeBackend.js models/ modules/ package.json tools/
 
 mv backend_archive/* .
@@ -214,18 +221,19 @@ status knalledge-b
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.05.10.zip dist/prod
+zip -r -X prod-2016.05.10a.zip dist/prod
 ```
 
 #### Upload on the server
 
++ open .
 + load with a SFTP client and upload the prod zip to a temp folder or `/var/www/knalledge_frontend/prod`
 
 ```sh
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -r components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.05.10.zip
+unzip prod-2016.05.10a.zip
 mv dist/prod/* .
 rm -r dist/
 
@@ -243,6 +251,8 @@ joe prod/index.html
 # var disableLog = true;
 
 ```
+
+Upload `src/frontend/node_modules/ng2-material/font` fonts to the `/var/www/knalledge_frontend/prod/app/css`
 
 # TypeScript
 
