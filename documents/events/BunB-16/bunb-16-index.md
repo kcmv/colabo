@@ -3,6 +3,11 @@
 
 [Register for the BunB'16 workshop](http://knalledge.org/prod/#/register/route/whoAmI___0route___0map___1id___15732ba0d051e2f6f47c6558f___1route___1http%3A___2___2knalledge.org___2bunb-registered.html)
 
+[BunB'16 Map with login](http://knalledge.org/prod/#/login/route/map___0id___05732ba0d051e2f6f47c6558f)
+
+[BunB'16 Map](http://knalledge.org/prod/#/map/id/5732ba0d051e2f6f47c6558f)
+
+
 ![BunB'16 logo](../../../documents/images/BunB2015data-science-300x290.jpg)
 
 This workshop is a **real-time practice** of collaboration between scientists and artists addressing the ecologycal problems of drilling oil in the [Yasuni National Park](https://en.wikipedia.org/wiki/Yasuni_National_Park), Ecuador. The workshop is supported by collaborative augmenting platform CollaboFramework, a collaborative system with unobtrusive and continuous **knowledge-dialogue-decision-action-learn** loop:

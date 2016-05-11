@@ -90,11 +90,17 @@ export class KnalledgeMapMain {
     };
 
     userUrl: String = "www.CollaboScience.com";
-    policyConfig: Object;
-    viewConfig: Object;
+    policyConfig: any;
+    viewConfig: any;
     topPanelVisible: boolean = true;
     private rimaService;
 
+    stopFollowing(): any {
+        this.policyConfig.broadcasting.receiveNavigation = false;
+    }
+    continueFollowing(): any {
+        this.policyConfig.broadcasting.receiveNavigation = true;
+    }
     toggleTopPanel(): any {
         this.topPanelVisible = !this.topPanelVisible;
     }

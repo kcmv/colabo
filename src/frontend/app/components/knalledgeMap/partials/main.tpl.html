@@ -92,6 +92,10 @@
                                 <div class="name" layout="column">
                                         {{policyConfig.state.name}} ({{policyConfig.state.id}})
                                 </div>
+                                <div>
+                                    <button *ngIf="policyConfig.broadcasting.receiveNavigation" md-raised-button (click)="stopFollowing()" class="md-accent md-hue-1">Stop Following</button>
+                                    <button *ngIf="!policyConfig.broadcasting.receiveNavigation" md-raised-button (click)="continueFollowing()" class="md-accent md-hue-1">Continue Following</button>
+                                </div>
                             </section>
                             <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
                                 <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
