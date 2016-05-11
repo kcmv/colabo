@@ -898,6 +898,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					}
 
 					var saveNodeWIthNewWhat = function(what){ // TODO: it should be just _id;
+						// whatPatch = {dataContent:{ibis:{votes:{}}}};
+						// deepAssign(kNode,)
 						kNode.dataContent.rima.whats.push(what);
 						$scope.asyncSelected = "";
 						GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node);

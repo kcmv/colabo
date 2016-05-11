@@ -21,6 +21,8 @@ var KnRealTimeEdgeUpdatedEventName = "edge-updated";
 var KnRealTimeEdgeDeletedEventName = "edge-deleted";
 var KnRealTimeEdgesDeletedEventName = "edges-deleted";
 
+var structuralChangeEventName = "structuralChangeEvent";
+
 var removeJsonProtected = function(ENV, jsonStr){
 	if(jsonStr === null){return null;}
 	if(ENV.server.jsonPrefixed && jsonStr.indexOf(ENV.server.jsonPrefixed) === 0){
@@ -366,6 +368,8 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 						actionTime: nodeFromServer.updatedAt
 					}
 					KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, emitObject);
+					// var change = new
+					// GlobalEmitterServicesArray.get(structuralChangeEventName).broadcast('KnalledgeMapVOsService', {'change_typ':changes,'event':eventName});
 				}
 				if(callback){callback(nodeFromServer);}
 			});
@@ -927,7 +931,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 							kNode.updatedAt = Date(msg.actionTime); //tiempo existe en msg.data tambien, pero los ambos son de tipo 'string'
 						}
 						else{
-							kNode.fill(msg);
+							kNode.fill(msg.data);
 						}
 						kNode.state = knalledge.KNode.STATE_SYNCED;
 						var eventName = KnRealTimeNodeUpdatedEventName + ToVisualMsg;
@@ -1160,6 +1164,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 							if(localNode.updatedAt < nodeFromServer.updatedAt){
 								//TODO: warn that ealier update has come after the later one
 								localNode.updatedAt = nodeFromServer.updatedAt;
+
 							}
 						}else{
 							that.nodesById[nodeFromServer._id].overrideFromServer(nodeFromServer);

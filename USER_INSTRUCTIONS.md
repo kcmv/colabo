@@ -17,12 +17,19 @@ _**Nominal Group Technique**_
     + All ideas are **private** at this phase.
     + This phase lasts approximately _10 minutes_.
     + _**Notes. Open?**_
-        + Active user or Logged In?
+      + Active user or Logged In?
+    + **Current procedure**
+      + users switch to %IBIS% Idea
+      + we limit nodes to Question and ideas 'by limit range' (it is broadcasted)
 1. **Sharing ideas**
     + Participants one by one present (make public) one by one of their ideas
     + There is **no debate about items** at this stage
     + Participants are encouraged to write down any **new ideas** that may arise from what others share.
     + This stage may take _15–30 minutes_
+    + **Current procedure**
+      + users turn off navigation to be able to add ideas
+      + we turn on Ontov filter for the current user to show ideas on screen
+      + user can use Ontov filter to hide others ideas on their computers
     + _**Notes. Open?**_
         + we can support round robin (token) guidance.
         + Will new ideas be public or private?
@@ -33,16 +40,15 @@ _**Nominal Group Technique**_
     + The facilitator’s task is to ensure that each person is allowed to contribute and that discussion of all ideas is thorough without spending too long on a single idea.
     + It is important to ensure that the process is as **neutral** as possible, **avoiding judgment and criticism (no evaluative comments!)**.
     + The group may suggest **new items/ideas**  for discussion and combine items/ideas into **`categories`**, but **no ideas should be eliminated**.
-        + !!! restructuring ideas into categories **could make voting more complicated!!**
     + This stage lasts _30–45 minutes_
+    + _**Notes. Open?**_
+        + !!! restructuring ideas into categories **could make voting more complicated!!**
 1. **Voting and ranking**
     + This involves **prioritizing** the recorded ideas in relation to the original question.
     + Following the voting and ranking process, immediate results in the response to the question is available to participants so the meeting concludes having reached a specific outcome.
     + Voting can be done by **secret ballot**
-    + _**Notes. Open?**_
-        + How to vote? Ranking or giving several thumbs up? How to know which votes are yours?
-        + UNDO voting?
-        + Knowing your votes?
+    + **Current procedure**
+      + participants give 3, 2, 1 votes for 1st, 2nd and 3rd rated idea
 
 ## NGT in Details
 
