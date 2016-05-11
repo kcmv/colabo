@@ -1365,7 +1365,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 							kMap.participants.indexOf(activeUserId) <= 0
 						){
 							kMap.participants.push(activeUserId);
-							KnalledgeMapService.update(kMap, function callback(){
+							KnalledgeMapService.update(kMap, function(){
 								if(typeof callback === 'function') callback();
 							});
 						}else{
