@@ -75,7 +75,8 @@ angular.module('loginDirectives', ['Config'])
 					}
 					RimaService.login($scope.user, "by_email", function(whoAmI){
 						if(whoAmI && whoAmI._id){
-							$location.path('/maps');
+							$scope.whoAmI = RimaService.getWhoAmI();
+							// $location.path('/maps');
 						}else{
 							window.alert("Login unsuccessful. Please verify your credentials and try again!");
 						}
