@@ -221,7 +221,7 @@ status knalledge-b
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.05.10a.zip dist/prod
+zip -r -X prod-2016.05.11.zip dist/prod
 ```
 
 #### Upload on the server
@@ -233,7 +233,7 @@ zip -r -X prod-2016.05.10a.zip dist/prod
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -r components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.05.10a.zip
+unzip prod-2016.05.11.zip
 mv dist/prod/* .
 rm -r dist/
 
@@ -252,6 +252,7 @@ joe prod/index.html
 
 ```
 
+open ./node_modules/ng2-material/font
 Upload `src/frontend/node_modules/ng2-material/font` fonts to the `/var/www/knalledge_frontend/prod/app/css`
 
 # TypeScript

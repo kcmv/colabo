@@ -59,6 +59,9 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.mapManagerApi.nodeClicked = this.nodeClicked.bind(this);
 	this.mapManagerApi.nodeDblClicked = this.nodeDblClicked.bind(this);
 	this.mapManagerApi.edgeClicked	= this.edgeClicked.bind(this);
+	this.mapManagerApi.nodeVote = function nodeVote(vote, node){
+		this.mapInteraction.nodeVote(vote, node);
+	}.bind(this);
 
 	this.mapManager = new knalledge.MapManager(this.mapManagerApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService, this.injector);
 

@@ -358,9 +358,13 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		.style("opacity", function(d){
 			var iAmId = that.rimaService.getActiveUserId();
 			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.votes && d.kNode.dataContent.ibis.votes[iAmId]) ?
-				1.0 : 0.1;
+				1.0 : 0.5;
 			// return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ?
 			// 	1.0 : 0.1;
+		})
+		.on("click", function(d){
+			d3.event.stopPropagation();
+			that.upperAPI.nodeVote(1, d);
 		})
 		.html(function(d){
 			// if(!('dataContent' in d.kNode) || !d.kNode.dataContent) d.kNode.dataContent = {};
@@ -381,9 +385,13 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 					sum+=d.kNode.dataContent.ibis.votes[vote];
 				}
 			}
-			return sum != 0 ? 1.0 : 0.1;
+			return sum != 0 ? 1.0 : 0.5;
 			// return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteDown) ?
 			// 	1.0 : 0.1;
+		})
+		.on("click", function(d){
+			d3.event.stopPropagation();
+			that.upperAPI.nodeVote(-1, d);
 		})
 		.html(function(d){
 			var sum = 0;
