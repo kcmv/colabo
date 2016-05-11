@@ -69,7 +69,7 @@
                                     <i md-icon>view_agenda</i>
                                 </button>
 
-                                <button md-fab class="md-primary" aria-label="Maps" (click)="go('maps')">
+                                <button md-fab class="md-primary" aria-label="Maps" (click)="go('maps')" *ngIf="policyConfig.moderating.enabled">
                                     <i md-icon>map</i>
                                 </button>
 
