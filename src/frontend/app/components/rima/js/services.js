@@ -912,6 +912,7 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 					var whoAmI = WhoAmIService.getByEmail(user.e_mail, function(whoAmIFromServer){
 						if(whoAmIFromServer && whoAmIFromServer._id){
 							that.setWhoAmI(whoAmIFromServer);
+							that.selectActiveUser(whoAmIFromServer);
 							if(typeof callback === 'function'){
 								callback(whoAmIFromServer);
 							}
@@ -936,6 +937,7 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 					$window.localStorage.loginInfo = JSON.stringify(this.loginInfo);
 				}
 			},
+			// sets logged in user
 			setWhoAmI: function(whoAmI){
 				this.loggedInWhoAmI = whoAmI;
 				this.setIAmId(whoAmI._id);
@@ -1138,6 +1140,8 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 				}.bind(this));
 				whoAmI.$promise.then(function(whoAmIFromServer){
 					that.setWhoAmI(whoAmIFromServer);
+					that.selectActiveUser(whoAmIFromServer);
+
 				});
 				return whoAmI;
 			},
