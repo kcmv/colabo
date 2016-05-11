@@ -20,6 +20,10 @@ export class KnalledgeMapPolicyService {
       behaviour: {
           brainstorming: 0 //0:off, 1:phase 1; ... 4:phase 4
       },
+      state: {
+          id: 1,
+          name: "CollaboArthon"
+      },
       mediation: {
         sendRequest: true
       }

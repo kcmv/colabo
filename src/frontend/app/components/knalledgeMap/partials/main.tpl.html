@@ -42,6 +42,11 @@
                         <h1><span class="title_web"></span><span class="title_collabo">Collabo</span><span class="title_science">Framework</span><span class="title_web"></span></h1>
                         <h2><span class="title_web">www.</span><span class="title_kn">Collabo</span><span class="title_all">Science</span><span class="title_web">.com</span></h2>
                         <h2><span class="title_web">www.</span><span class="title_kn">Collabo</span><span class="title_edge">Arte</span><span class="title_web">.com</span></h2>
+                        <h2><span class="title_web"></span>
+                        <span class="title_kn">KF</span>
+                        <span class="title_all">/</span>
+                        <span class="title_edge">ChaOS</span>
+                        <span class="title_web"></span></h2>
                     </div>
                     <div template="ngIf:viewConfig.type.name =='collabo_arte'">
                         <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Arte</span><span class="title_web">.com</span></h1>
@@ -83,6 +88,11 @@
                                 </button>
                             </section>
 
+                            <section class="status" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
+                                <div class="name" layout="column">
+                                        {{policyConfig.state.name}} ({{policyConfig.state.id}})
+                                </div>
+                            </section>
                             <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
                                 <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
                                     <i md-icon>person</i>
