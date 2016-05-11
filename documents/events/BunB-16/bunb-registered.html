@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>bunb-registered.html</title>
+<style>
+* {
+    overflow: visible !important;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    box-decoration-break: clone;
+}
+
+html, body {
+    background: #FFF;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+    word-wrap: break-word;
+	hyphens: auto;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 4px solid #EEE;
+}
+
+code {
+    padding: .1em .4em .2em;
+    display: inline-block;
+    background-color: #f9f2f4;
+    color: #c7254e;
+    border-radius: 3px;
+    border: 0 none;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    hyphens: manual;
+}
+
+pre code {
+    padding: 16px;
+    display: block;
+    background-color: #F9F9F9;
+    color: #333;
+    box-shadow: inset -1px -1px 0 rgba(0, 0, 0, .08);
+    word-wrap: normal;
+}
+
+/* replace light background for some hljs themes */
+code.github-css,
+code.github-gist-css,
+code.tomorrow-css,
+code.default-css,
+code.googlecode-css,
+code.ascetic-css,
+code.color-brewer-css,
+code.grayscale-css,
+code.idea-css,
+code.vs-css,
+code.xcode-css {
+    background-color: #F9F9F9 !important;
+}
+
+blockquote {
+    padding: 10px 20px;
+    margin: 10px 0 20px;
+    color: #777;
+    border: 0 none;
+    border-left: 4px solid #EEE;
+}
+
+blockquote p:last-child,
+blockquote ul:last-child,
+blockquote ol:last-child {
+    margin-bottom: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: #FFF;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #DDD;
+}
+
+table div {
+    page-break-inside: avoid;
+}
+
+th, td {
+    text-align: left;
+}
+
+table > thead > tr > th,
+table > tbody > tr > th,
+table > tfoot > tr > th,
+table > thead > tr > td,
+table > tbody > tr > td,
+table > tfoot > tr > td {
+    padding: 8px 14px;
+    vertical-align: top;
+    border-top: 1px solid #DDD;
+}
+
+table > caption + thead > tr:first-child > th,
+table > colgroup + thead > tr:first-child > th,
+table > thead:first-child > tr:first-child > th,
+table > caption + thead > tr:first-child > td,
+table > colgroup + thead > tr:first-child > td,
+table > thead:first-child > tr:first-child > td {
+    border-top: 0;
+}
+
+table > tbody + tbody {
+    border-top: 2px solid #DDD;
+}
+
+table table {
+    background-color: #FFF;
+}
+
+table > thead > tr > th,
+table > tbody > tr > th,
+table > tfoot > tr > th,
+table > thead > tr > td,
+table > tbody > tr > td,
+table > tfoot > tr > td {
+    border: 1px solid #DDD;
+}
+
+table > thead > tr > th,
+table > thead > tr > td {
+    border-bottom-width: 2px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+table > tbody > tr:nth-of-type(odd) {
+    background-color: #F9F9F9;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+#pageContent{
+    width: 60%;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    padding: 3em;
+    padding-top: 1em;
+    position: relative;
+    left: 50%;
+    margin-left: -30%;
+    margin-top: 3em;
+    margin-bottom: 3em;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    text-align: justify;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    page-break-after: avoid;
+    text-align: center;
+    color: #555;
+}
+
+h1, h2 {
+    border-bottom: 1px solid #ccc;
+}
+
+h1, h2, h3 {
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 16px;
+}
+
+h6 {
+    font-size: 14px;
+    color: #555;
+}
+
+p {
+    margin: 0 0 10px;
+}
+
+input[type="checkbox"] {
+    margin-right: 6px;
+    position: relative;
+    bottom: 1px;
+}
+
+ul,
+ol {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+ul li,
+ol li {
+    margin-bottom: 2px;
+}
+
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+    margin-bottom: 0;
+}
+
+dl {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+dt,
+dd {
+    line-height: 1.42857143;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-left: 0;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+a[href]:after {
+    content: " " attr(href);
+    color: #337AB7;
+}
+
+.ir a:after,
+a[href^="javascript:"]:after,
+a[href^="#"]:after {
+    content: "";
+    text-decoration: none;
+    margin-left: 0;
+}
+
+.new-page,
+.page-break,
+.next-page,
+.page-end {
+    page-break-before: always;
+}
+
+#pageHeader {
+    color: #888;
+}
+
+#pageHeader span {
+    vertical-align: middle;
+}
+
+#pageFooter {
+    border-top: 2px solid #EEE;
+    padding-top: 10px;
+    color: #888;
+    font-size: 80%;
+}
+
+/**
+ * Your markdown-themeable-pdf custom styles
+ *
+ * The default file can be found in the folder ~/.atom/packages/markdown-themeable-pdf/templates
+ * The base css file can be found in the folder ~/.atom/packages/markdown-themeable-pdf/css
+ * The current highlight.js css file can be found in the folder ~/.atom/packages/markdown-themeable-pdf/node_modules/highlight.js/styles
+ */
+
+/*
+html, body {
+	color: red;
+}
+*/
+
+/*
+
+Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #F0F0F0;
+}
+
+.hljs,
+.hljs-subst {
+  color: #444;
+}
+
+.hljs-keyword,
+.hljs-attribute,
+.hljs-selector-tag,
+.hljs-meta-keyword,
+.hljs-doctag,
+.hljs-name {
+  font-weight: bold;
+}
+
+.hljs-built_in,
+.hljs-literal,
+.hljs-bullet,
+.hljs-code,
+.hljs-addition {
+  color: #1F811F;
+}
+
+.hljs-regexp,
+.hljs-symbol,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-link,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #BC6060;
+}
+
+.hljs-type,
+.hljs-string,
+.hljs-number,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-quote,
+.hljs-template-tag,
+.hljs-deletion {
+  color: #880000;
+}
+
+.hljs-title,
+.hljs-section {
+  color: #880000;
+  font-weight: bold;
+}
+
+.hljs-comment {
+  color: #888888;
+}
+
+.hljs-meta {
+  color: #2B6EA1;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+pre { white-space: pre-wrap !important; word-break: break-word !important; overflow: hidden !important;}
+</style>
+</head>
+<body>
+<div id="pageContent">
+<h1><span style='font-weight:bold'><span style='color: #550000'>Collabo</span><span style='color: #bb0000'>Framework</span></h1>
+<h2>(<span style='color: #550000'>Collabo</span><span style='color: #8888ff; font-style: italic;'>Science</span> + <span style='color: #550000'>Collabo</span><span style='color: #bb0000'>Arte</span>)</span></h2>
+<p>Thanks for the registration!</p>
+<p><strong><span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span></strong> is a general knowledge layer, that can serve as a separate knowledge mapping service (please @see [KnAllEdge Homepage]{@link <a href="http://www.knalledge.org">http://www.knalledge.org</a>}), but it also serves as an underlying layer for the <strong><span style='color: gray; font-style: italic;'>Collabo</span><span style='color: black'>Science</span></strong> ecosystem (@see [CollaboSceince Homepage]{@link <a href="http://www.collaboscience.com">http://www.collaboscience.com</a>}).</p>
+<p><img src="http://www.worldlisteningproject.org/wp-content/uploads/2015/09/BunB2015data-science-300x290.jpg" alt="BunB-Logo" /></p>
+<p><strong>Figure 1</strong>: KnAllEdge example - Modeling the open table dialogue on the topic of the Tesla’s Nature of Creativity at the Tesla Conference (2015)</p>
+<p>Some of the main motivations behind developing <span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span> are the following:</p>
+<ul>
+<li>support of collective &quot;knowledge-gardening&quot; (thanks to Jack Park for the term)</li>
+<li>create a semantic-agnostic knowledge model</li>
+<li>create a universal knowledge layer with zero-friction between SoA system components</li>
+<li>create extendable knowledge semantics</li>
+<li>support dialogical process of knowledge creation</li>
+<li>support multi-truth knowledge</li>
+<li>support fuzzy-knowledge</li>
+<li>support personalized knowledge</li>
+</ul>
+<p>An outmost goal was succeeding in development of the collaborative-system with unobtrusive and continuous <strong>knowledge-dialogue-decision-action-learn</strong> cycle:</p>
+<p><img src="documents/diagrams/CollaboScience-spiral.png" alt="CollaboScience spiral" /></p>
+<p><strong>Figure 2</strong>: CollaboScience spiral</p>
+<p>KnAllEdge is inspired with <strong>ISO</strong> standard (ISO/IEC 13250:2003) of Mind-maps: <strong>Topic maps</strong> (@see on [Wikipedia]{@link <a href="https://en.wikipedia.org/wiki/Topic_Maps">https://en.wikipedia.org/wiki/Topic_Maps</a>}) and <strong>SocioTM</strong> (please @see [abstract]{@link <a href="http://tmra.de/2008/talks/socioTM-relevancies-collaboration-and-socio-knowledge-in-topic-maps.html">http://tmra.de/2008/talks/socioTM-relevancies-collaboration-and-socio-knowledge-in-topic-maps.html</a>} and [paper]{@link <a href="http://tmra.de/2008/talks/pdf/309-323.pdf">http://tmra.de/2008/talks/pdf/309-323.pdf</a>}).</p>
+<h2>Product</h2>
+<p>[www.<strong><span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span></strong>.org]{@link <a href="http://www.KnAllEdge.org">http://www.KnAllEdge.org</a>} is a product running on the top of the KnAllEdge service, and provides intuitive interface to the KnAllEdge.</p>
+<h1>Semantic plugins</h1>
+<h2>RIMA</h2>
+<p>[RIMA service] (<a href="http://rima.collaboscience.com">rima.collaboscience.com</a>)<br />
+[RIMA draft discussion] (<a href="https://docs.google.com/document/d/1krMfz7G0iFgNc538tzblAwOov2w2JXvoit_UPhndL1Q/edit?usp=sharing">https://docs.google.com/document/d/1krMfz7G0iFgNc538tzblAwOov2w2JXvoit_UPhndL1Q/edit?usp=sharing</a>)</p>
+<h2>Multi-truth</h2>
+<p><img src="documents/diagrams/KnAllEdge-cooncepts-topics.png" alt="KnAllEdge-cooncepts-topics" /></p>
+<p><strong>Figure 3</strong>: KnAllEdge - a set of related topics</p>
+<h3>Poliscopy</h3>
+<p><img src="documents/diagrams/KnAllEdge-cooncepts-poliscopy.png" alt="KnAllEdge-cooncepts-poliscopy" /></p>
+<p><strong>Figure 4</strong>: Poloscopy - multiple alternatives/perspectives/views</p>
+<ul>
+<li>Some facts/truths have multiple alternatives/perspectives/views
+<ul>
+<li>religion</li>
+<li>morality</li>
+<li>duality of matter and light</li>
+<li>…</li>
+</ul>
+</li>
+<li>We need to support providing multiple &quot;dimensions&quot; or knowledge representations of the same fact/topic/node.</li>
+<li>We also need to provide multiple projections of the <strong><em>&quot;truth-branch&quot;</em></strong>
+<ul>
+<li>all nodes that polyscopic or do exist only in some scope, must transform / appear / disappear according to chosen scope of the truth</li>
+</ul>
+</li>
+</ul>
+<p><img src="documents/diagrams/KnAllEdge-cooncepts-poliscopy-view-1.png" alt="KnAllEdge-cooncepts-poliscopy-view-1" /></p>
+<p><strong>Figure 5</strong>: Poloscopy - multiple alternatives/perspectives/views</p>
+<h3>Truth-evolution</h3>
+<ul>
+<li>truth might not be known, and we might let community to provide multiple truths until it evolves into the right one</li>
+<li>we need to provide discussion before merging into one truth
+<ul>
+<li>discussion should be ortogonal to knowledge</li>
+</ul>
+</li>
+</ul>
+<h2>Boundary-objects</h2>
+<ul>
+<li>How to talk across discipliness</li>
+</ul>
+<p><img src="documents/diagrams/KnAllEdge-cooncepts-transdisciplinarity.png" alt="KnAllEdge-cooncepts-transdisciplinarity" /></p>
+<p><strong>Figure 6</strong>: Transdisciplinarity</p>
+<ul>
+<li>trans-disciplinarity</li>
+<li>multi-definitions</li>
+<li>connecting different topics and unites them</li>
+<li>long- and trans-disciplinary- leaps for discovering topics, ideas, …</li>
+</ul>
+<p><img src="documents/diagrams/KnAllEdge-cooncepts-boundary-objects.png" alt="KnAllEdge-cooncepts-boundary-objects" /></p>
+<p><strong>Figure 6</strong>: Boundary objects</p>
+<h2>Fuzziness</h2>
+<ul>
+<li>Support distance between topics</li>
+<li>Support bidirectionality, different distances between topics</li>
+</ul>
+<h2>SocioTM / Personalization</h2>
+<ul>
+<li>How each person can <strong><em>&quot;see&quot;</em></strong> her/his own truth?</li>
+</ul>
+<h2>Hierarchy</h2>
+<ul>
+<li>Support relationship between entities
+<ul>
+<li>TopicMap’s support generalization</li>
+</ul>
+</li>
+</ul>
+<h2>Semantical sugger</h2>
+<ul>
+<li>TopicMap’s support specialized semantic</li>
+<li>some standards provide as well</li>
+</ul>
+<h2>IBIS</h2>
+<p>@see [IBIS plugin] (<a href="http://ibis.collaboscience.com">ibis.collaboscience.com</a>)</p>
+<h3>Conceptual difference from standard implementations of IBIS</h3>
+<p><strong>IBIS module</strong> implemented on the top of KnAllEdge differs from the standard implementation of IBIS (please @see for the reference: )[reference to IBIS] ).</p>
+<p>The main reason for diverging from the original IBIS implementation is that original IBIS system(s) are designed as an independent systems that provides dialogue mapping. CollaboScience promotes frictionless services integration and knowledge sharing among the services.</p>
+<p>The fundamental problem with the most of standards IBIS implementation is that although if they were intended to support <strong><em>dialogue mapping</em></strong> around different topic of interests of a community, naturally the process of argumentative dialogue necessarily introduce new knowledge artifacts which transforms semantically clean IBIS space into space cognitively polluted with knowledge. This in addition to confusion at information level brings confusion at the level of community procedures (i.e. where to search for knowledge, or what is the consensus status regarding some topic, etc.). It also introduce additional <strong><em>articulation work</em></strong> of managing knowledge products and migrating it into a knowledge repository, or updating the repository based on the agreed census.</p>
+<p>Obviously, this is not the wanted scenario, which brings us to integrate IBIS differently in the CollaboScience ecosystem.</p>
+<p>First of all, IBIS (Issue Based Information System) loses its status of an information system, and it becomes a <em>component</em> that deals with particular knowledge-transformation procedures.</p>
+<p>Secondly, IBIS is integrated with regular knowledge, and represented with regular KnAllEdge artifacts. However, IBIS is still both <strong><em>semantically and procedurally isolated</em></strong> from the regular knowledge.</p>
+<h3>Practices of using IBIS in the KnAllEdge / CollaboScience</h3>
+<p>Here we present some of more structured practices of using IBIS plugin inside the CollaboScience ecosystem.</p>
+<h4>IBIS as a knowledge consensus mechanism</h4>
+<p>The most clear example is a scenario where knowledge workers do not have a consensus on a particular topic or are lacking enough insights on the topic.</p>
+<p>In this scenario, a member of the community that recognizes a problem will &quot;<strong><em>burst</em></strong>&quot; an instance of a dialogue mapped through the IBIS component addressing particular topic of knowledge.</p>
+<p>In that sense, discussion is orthogonal (isolated with unique semantic <strong><em>&quot;%IBIS.</em>&quot; namespace</strong>*) to the regular knowledge space. After consensus or required level of insights are collected in the IBIS space, the insights/consensus is &quot;<strong><em>contracted back</em></strong>&quot; to (it updates back to) the knowledge-space.</p>
+<h4>IBIS as knowledge multi(-truth/-opinion) polarization and argumentation</h4>
+<p>It is very often the case that some pieces of knowledge cannot be expressed either factually or uniquely, either due to the <em>the very nature of the konwledge domain</em> (take for example religious-related questions, or even art, morality, etc) or simply due to the conflicting opinions/attitudes of knowledge workers (take the list of controversial issues on Wikipedia, a largest online encyclopedia, as an example: <a href="https://en.wikipedia.org/wiki/Wikipedia:List_of_controversial_issues">Wikipedia:List of controversial issues</a>).</p>
+<p>In these cases IBIS serves as <em>a mechanism for polarizing and argumenting polarized knowledge(-workers) attitudes</em>. Through the IBIS constructs, community express their opinions and attitudes regarding mutiple knowledge truths and offer foundation for future knowledge explorers and consumers as stands behind their own interests, or as a semantic footprint usable for smart-filtering, matching and personalization of knowledge for knowledge explores.</p>
+<p>In this scenario it is obviousely benefitial to leave the IBIS constructs coexisting with coresponding knowledge (otherwise, <strong><em>edit-war</em></strong> could occur - please @see <a href="http://dl.acm.org/citation.cfm?id=1240698">He says, she says: conflict and coordination in Wikipedia</a>, <a href="http://arxiv.org/abs/1107.3689">Edit wars in Wikipedia</a>).</p>
+<h4>Dialogical-process of knowledge production</h4>
+<p>Finally, we are addressing scenarios where knowledge evolves and gets produced through dialogical prorocess, inside the IBIS scope.</p>
+<p>In this scenario knowledge workers are discussing issues through the IBIS system and through ideas and arguments they are building knowledge which gets encoded inside the IBIS space.</p>
+<p>Therefore, <span style='font-weight:bold'><span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span> is putting an effort to &quot;<strong><em>extract</em></strong>&quot; the knowledge from IBIS space, but in addition span style='font-weight:bold'&gt;<span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span> restricts rules and allow interlacing IBIS and regular knowledge space.</p>
+<p>In the practical sense, this means that IBIS artifacts (nodes) can be be supported with regular KnAllEdge nodes, but it also means that IBIS ontology is relaxed as well:</p>
+<ol>
+<li><strong><em>IBIS questions</em></strong> can contain additional question nodes either in order to
+<ol>
+<li>specialize or fine grain the original question and help to answer it partially</li>
+<li>generalize the original question (which means that question-question realtionship are directed)</li>
+<li>question previos question (i.e. meta-dialogue about the need for the question at the first place)</li>
+</ol>
+</li>
+<li><strong><em>IBIS ideas</em></strong> can generalize or specialize other Ideas, which is claimed in a same way as for IBIS questions.</li>
+<li>Questions <strong><em>may question</em></strong> other Ideas and Arguments, providing <strong><em>recursion</em></strong> to the original IBIS model. This also helps avoiding <strong><em>negative socio-technical translation</em></strong> - for example if users’ needs to question an IBIS Idea and system forbids them that by semantic, users might be tempted to still &quot;<em>encode</em>&quot; that social need in wrong technical implementation (for example prefixing IBIS Argument with text: &quot;question&quot;, etc)</li>
+<li><strong><em>IBIS Arguments</em></strong> can generalize or specialize other Arguments (the same reason as IBIS Questions and Ideas can do similar)</li>
+</ol>
+<p><strong><em>[TODO]</em></strong>: provide additional ilustrations of IBIS extensions or IBIS scenarios in general.</p>
+<p>Still, other aspects of the IBIS grammar like &quot;<em>Ideas can only respond to Questions</em>&quot; &quot;<em>Arguments can only support or object to Ideas</em>&quot; are still in the place to support structured dialogue and healthy progress of discussion.</p>
+<p>At this moment we do not rely strongly on automatic reasoning and therefore we benefit more from relaxing IBIS ontology and making users easier expressing their statements and letting us understand their needs, while trying to keep the basic structure necessary for the <strong><em>structured dialogue mapping</em></strong>.</p>
+<h1><span style='color: gray; font-style: italic;'>Collabo</span><span style='color: black'>Science</span> Manifesto</h1>
+<p><strong><em>TBD</em></strong></p>
+<p>@see the <a href="http://www.collaboscience.com">CollaboSceince Homepage</a>.</p>
+<ol>
+<li>ecosystem should be frictionless
+<ol>
+<li>activities can be seemingly performed across different services</li>
+<li>data and produced knowledge should be available in any service</li>
+</ol>
+</li>
+<li>knowledge produced should be cultivated across the time to avoid saturation and information glut</li>
+<li>Artificial Intelligence should explain claims behind decision</li>
+<li>Domain experts should be able to change processes</li>
+<li>It should be highly modular and based on socio-technical processes</li>
+</ol>
+<h2>Structure</h2>
+<p>KnAllEdge structure is implemented as a <strong><em>directed graph</em></strong> which <strong>data representation</strong> is consisting of the set of:</p>
+<ul>
+<li><strong>kNode</strong> - representing a graph node and</li>
+<li><strong>kEdge</strong> - representing a graph edge</li>
+</ul>
+<p>Currently, nodes and edges are explicitly organized into containers, called <strong>kMaps</strong> which represent a third construct. We recognize maps as a temporal solution for more advanced and real-time filtering, cropping and domain isolation.</p>
+<p>Finally, we have a separate <strong>visual representation</strong> of knowledge that provides both visual isolation of knowledge, supporting multiple visual representation, both multi-perspective and personalized:</p>
+<ul>
+<li><strong>vkNode</strong> - representing a visual representation of the graph node and</li>
+<li><strong>vkEdge</strong> - representing a visual representation of the graph edge</li>
+</ul>
+<h3>NOTE:</h3>
+<p>Backend needs a special <strong>express-resource</strong> package on steroids. You can download it as a separate package [here]{@link <a href="http://magicheads.info/downloads/express-resource.zip">http://magicheads.info/downloads/express-resource.zip</a>}. After or even before issuing &quot;<strong>npm install</strong>&quot; you should (re)place the content of the archive into your  backend/node_modules folder.</p>
+<h2>Service</h2>
+<p>KnAllEdge service is implemented as a full JSON <strong><em>RESTful</em></strong> web service. It relies on and it is integrated with <strong><em>WhoAmI</em></strong> service for user authentication and authorization, but it is fairly easy to integrate it with other user management components.</p>
+<h2>Team</h2>
+<ul>
+<li>Sasha Mile Rudan</li>
+<li>Sinisha Rudan</li>
+<li>Jack Park</li>
+<li>Dino Karabeg</li>
+<li>Knowledge Federation</li>
+</ul>
+<h2>Documents</h2>
+<ul>
+<li>[KnAllEdge - User Guide] (<a href="https://docs.google.com/document/d/1hEVIKLQqV_cEnZgHZUGFiqa20XmbhDmmOMvi6iGnGR8/edit?usp=sharing">https://docs.google.com/document/d/1hEVIKLQqV_cEnZgHZUGFiqa20XmbhDmmOMvi6iGnGR8/edit?usp=sharing</a>)</li>
+<li><a href="https://docs.google.com/document/d/1MluIPyw9eRz3rBM4eXysrs1WX_IIrGkaHLgmGON-s6E/edit?usp=sharing">KnAllEdge - Technical Guide</a></li>
+</ul>
+
+</div></body>
+</html>

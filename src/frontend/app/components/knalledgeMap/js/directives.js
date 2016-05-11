@@ -6,6 +6,27 @@
 * @namespace knalledge.knalledgeMap.knalledgeMapDirectives
 */
 
+// duplicated at components/rima/directives.js
+var SLASH_ENCODING = '___';
+var decodeRoute = function(routeEncoded){
+	var route = decodeURI(routeEncoded);
+	var slashIndex = 0;
+
+	// replace the first level
+	var slash0 = SLASH_ENCODING+"0";
+	var rx = new RegExp(slash0, 'gi');
+	route = route.replace(rx, '/');
+
+	// decrease next levels
+	for(var i=1; i<10; i++){
+		var slashCurrent = SLASH_ENCODING+i;
+		var rx = new RegExp(slashCurrent, 'gi');
+		var slashLess = SLASH_ENCODING+(i-1);
+		route = route.replace(rx, slashLess);
+	}
+	return route;
+};
+
 var KnRealTimeviewConfigChangedEventName = "view-config-change";
 //var KnRealTimeMapViewSpecChangedEventName = "map-viewspec-change";
 var KnRealTimeBehaviourChangedEventName = "map-behaviour-change";
@@ -18,7 +39,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 	* @class knalledgeMap
 	* @memberof knalledge.knalledgeMap.knalledgeMapDirectives
 	*/
-	.directive('knalledgeMap', ['$injector', '$rootScope', '$compile', '$route', '$routeParams', '$timeout',
+	.directive('knalledgeMap', ['$injector', '$rootScope', '$compile', '$route', '$routeParams', '$timeout', '$location', '$window',
 		'Plugins',
 		'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService',
 		'KnalledgeMapService', 'KnalledgeMapViewService',
@@ -41,7 +62,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		* @param  {utils.Injector} injector
 	 	*/
 
-		function($injector, $rootScope, $compile, $route, $routeParams, $timeout,
+		function($injector, $rootScope, $compile, $route, $routeParams, $timeout, $location, $window,
 		Plugins,
 		KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService,
 		KnalledgeMapService, KnalledgeMapViewService,
@@ -167,6 +188,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: 'components/knalledgeMap/partials/knalledgeMap.tpl.html',
 			controller: function ( $scope, $element) {
+
+				if($routeParams.route){
+					$scope.route = decodeRoute($routeParams.route);
+				}
 
 				var model = null;
 				// var knalledgeMap = new mcm.Map(ConfigMap, knalledgeMapClientInterface, entityStyles);
@@ -608,7 +633,16 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						console.log('gotMap:'+JSON.stringify(kMap));
 						// this method broadcasts the 'modelLoadedEvent' event after loading and processing kMap
 						// this event is subscribed bellow for
-						KnalledgeMapVOsService.loadAndProcessData(kMap);
+						KnalledgeMapVOsService.loadAndProcessData(kMap, function(){
+							if($scope.route){
+								// alert("redirecting to: " + $scope.route);
+								if($scope.route.indexOf("http") < 0){
+									$location.path($scope.route);
+								}else{
+									$window.location.href = $scope.route;
+								}
+							}
+						});
 					};
 
 					console.warn("loading map by mcmMapDirectives: mapId: " + mapId);

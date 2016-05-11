@@ -1314,7 +1314,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 			 * @param  {knalledge.KMap} map - map object
 			 * @return {knalledge.knalledgeMap.knalledgeMapServices.MapData}
 			 */
-			loadAndProcessData: function(kMap){
+			loadAndProcessData: function(kMap, callback){
 				var that = this;
 				if(typeof kMap !== 'undefined'){
 					this.mapId = kMap._id;
@@ -1366,9 +1366,13 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 						){
 							kMap.participants.push(activeUserId);
 							KnalledgeMapService.update(kMap, function callback(){
-
+								if(typeof callback === 'function') callback();
 							});
+						}else{
+							if(typeof callback === 'function') callback();
 						}
+					}else{
+						if(typeof callback === 'function') callback();
 					}
 
 					if(that.configData.broadcastMapUsers){
