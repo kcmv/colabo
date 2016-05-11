@@ -350,6 +350,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						 * @param  {boolean} commingFromAngular - if the call comes from the ng world or from wildness
 						 */
 						nodeSelected: function(vkNode, dom, commingFromAngular){
+							// KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation = false;
+
 							var processNodeSelected = function(){
 								// Referencing DOM nodes in Angular expressions is disallowed!
 								dom = null;
