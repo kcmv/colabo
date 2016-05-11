@@ -942,7 +942,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 			restrict: 'AE',
 			scope: {
 				isActive: "=",
-				whoAmIType: "="
+				whoAmIType: "=",
+				isWizard: "="
 			},
 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 			// expression: http://docs.angularjs.org/guide/expression
@@ -978,6 +979,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 								return RimaService.getActiveUser();
 							},
 							function(newValue){
+								$scope.whoAmI = RimaService.getActiveUser();
 								initUserSpecific();
 							}, true);
 						break;
@@ -990,7 +992,6 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				}
 
 				var initUserSpecific = function(){
-					$scope.whoAmI = RimaService.getActiveUser();
 					$scope.items = RimaService.getUsersHows($scope.whoAmI._id);
 					$scope.displayName = $scope.whoAmI.displayName;
 				}

@@ -1,4 +1,4 @@
-<div ng-show="isMe()" class="title"><!-- {{displayName}}, describe --> Describe yourself. Add interests, expertises, topics related to you</div>
+<div ng-show="isMe()" class="title"><!-- {{displayName}}, describe --> Describe yourself {{whoAmI.displayName}}. Add interests, expertises, topics related to you</div>
 <hr/>
 <div ng-show="haveHows()" class="hows_container">
 	<div class="subtitle" ng-show="isMe()">This is how <span class='user'>you</class> <b>described</b> yourself so far</div>
@@ -13,7 +13,8 @@
 	<hr/>
 </div>
 <div ng-hide="haveHows()" class="subtitle important">
-	<p>You have not described yourself yet.</p>
+	<p ng-show="isMe()">{{whoAmI.displayName}}, you have not described yourself yet.</p>
+	<p ng-show="!isMe()">{{whoAmI.displayName}} has not described himself yet.</p>
 </div>
 <div>
 	<a href="javascript::void(0);" class="info">Why should I describe myself?<span class="help_text">Add more about you so that CollaboScience can improve <B>your experience</B><br/>and guide collaboration based on your interests and expertises!<BR/><BR/><b>It's simple</b> and is <b>changeable</b>: you can <B>delete</B> your descriptions whenever you like, by clicking 'delete' ('trash') button that appears when you move your mouse over the list of your descriptions</span></a>
@@ -42,7 +43,7 @@
 		<td></td>
 		</tr>
 	</table>
-	<div class="finish" align="right"><button class="btn btn-primary" type="button" ng-click="finished()">Finish</button></div>
+	<div class="finish" ng-if="isWizard === true" align="right"><button class="btn btn-primary" type="button" ng-click="finished()">Finish</button></div>
 	<div class="whats">
 		<div class="subtitle">Or choose from some of the existing topics</div>
 		<div class="note guidance_enter_what_2"

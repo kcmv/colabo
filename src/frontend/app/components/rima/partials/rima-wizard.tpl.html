@@ -19,10 +19,10 @@
 <div wizard current-step-number="currentStepNumber" submit="submit()" class="whatami_wizard">
 	<div wizard-step title="step 0" entered="stepEntered()" animation="slide">
 		<div class="general-data">
-			<p class="title">Welcome to CollaboScience!</p>
+			<p class="title">Welcome to CollaboFramework!</p>
 			<form>
 				<fieldset>
-					<legend>General data</legend>
+					<legend>Check and Edit your General data</legend>
 					<div><label>First name</label><input type="text" required ng-model="whoAmI.firstname" /></div>
 					<div><label>Last name</label><input type="text" required ng-model="whoAmI.familyname" /></div>
 					<div><label>Display name</label><input type="text" required ng-model="whoAmI.displayName" /><span class='note'>(shorter - preferrably, up to 10 characters, no spaces)</span></div>
@@ -77,6 +77,6 @@
 -->
 	<div wizard-step title="step 2" required-step-number="1" entered="stepEntered()" animation="slide">
 		<p>step 3</p>
-		<div rima-hows class="rima-hows" who-am-i-type="'logged_in'"></div>
+		<div rima-hows class="rima-hows" who-am-i-type="'logged_in'" is-wizard="true"></div>
 	</div>
 </div>
