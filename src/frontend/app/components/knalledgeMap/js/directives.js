@@ -347,10 +347,14 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						 * @name kMapClientInterface#nodeSelected
 						 * @param  {knalledge.VKNode} vkNode - clicked node
 						 * @param  {DOM} dom - dom of the clicked node
+						 * @param  {string} selectionSource - source of node selection (internal, external)
 						 * @param  {boolean} commingFromAngular - if the call comes from the ng world or from wildness
 						 */
-						nodeSelected: function(vkNode, dom, commingFromAngular){
-							// KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation = false;
+						nodeSelected: function(vkNode, dom, selectionSource, commingFromAngular){
+							if(selectionSource === knalledge.Map.INTERNAL_SOURCE
+							){
+								KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation = false;
+							}
 
 							var processNodeSelected = function(){
 								// Referencing DOM nodes in Angular expressions is disallowed!
@@ -400,7 +404,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						 * @param  {DOM} dom - dom of the clicked node
 						 * @param  {boolean} commingFromAngular - if the call comes from the ng world or from wildness
 						 */
-						nodeUnselected: function(vkNode, dom, commingFromAngular){
+						nodeUnselected: function(vkNode, dom, selectionSource, commingFromAngular){
 							var processNodeUnselected = function(){
 								// Referencing DOM nodes in Angular expressions is disallowed!
 								dom = null;

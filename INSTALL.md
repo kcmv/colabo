@@ -221,7 +221,8 @@ status knalledge-b
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.05.11.zip dist/prod
+zip -r -X prod-2016.05.11b.zip dist/prod
++ open .
 ```
 
 #### Upload on the server
@@ -233,7 +234,7 @@ zip -r -X prod-2016.05.11.zip dist/prod
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -r components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.05.11.zip
+unzip prod-2016.05.11b.zip
 mv dist/prod/* .
 rm -r dist/
 

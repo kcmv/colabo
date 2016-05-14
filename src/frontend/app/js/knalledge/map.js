@@ -113,7 +113,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 
 	var SuggestionService = this.injector.get('SuggestionService');
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
-	//this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
+	this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
 	this.mapInteraction = new MapInteraction(mapInterface, this.mapPlugins);
 	this.mapInteraction.init();
 	this.injector.addPath("mapInteraction", this.mapInteraction);
@@ -160,9 +160,6 @@ Map.prototype.init = function() {
 		}
 	});
 
-//this.GlobalEmitterServicesArray.get(BroadcastManagerService.KnRealTimeNodeSelectedEventName).subscribe('knalledgeMap', this.realTimeNodeSelected.bind(this));
-
-
 	// realtime listener registration
 	var NodeChangedPluginOptions = {
 		name: "nodeChangedPlugin",
@@ -182,6 +179,12 @@ Map.KnRealTimeNodeUnselectedEventName = "node-unselected";
 // NOTE: no good reason to use it, not idempotent neither safe
 Map.KnRealTimeNodeClickedEventName = "node-clicked";
 
+/**
+ * The function that is called when node selection is sent from other client
+ * @function realTimeNodeSelected
+ * @param  {string} eventName - the name of event
+ * @param  {string} msg       kNode id of the selected node
+ */
 Map.prototype.realTimeNodeSelected = function(eventName, msg){
 	var kId = msg;
 	// alert("[Map:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
@@ -191,9 +194,15 @@ Map.prototype.realTimeNodeSelected = function(eventName, msg){
 	// 	return;
 	// }
 	var kNode = this.mapStructure.getVKNodeByKId(kId);
-	this.nodeSelected_WithoutRTBroadcasting(kNode);
+	this.nodeSelected_WithoutRTBroadcasting(kNode, Map.EXTERNAL_SOURCE);
 };
 
+/**
+ * The function that is called when node unselection is sent from other client
+ * @function realTimeNodeUnselected
+ * @param  {string} eventName - the name of event
+ * @param  {string} msg       kNode id of the unselected node
+ */
 Map.prototype.realTimeNodeUnselected = function(eventName, msg){
 	var kId = msg;
 	console.log("[Map:realTimeNodeUnselected] (clientId:%s) eventName: %s, msg: %s",
@@ -202,17 +211,28 @@ Map.prototype.realTimeNodeUnselected = function(eventName, msg){
 	this.nodeUnselected_WithoutRTBroadcasting(kNode);
 };
 
+/**
+ * The function that is called when node click is sent from other client
+ * @function realTimeNodeClicked
+ * @param  {string} eventName - the name of event
+ * @param  {string} msg       kNode id of the clicked node
+ */
 Map.prototype.realTimeNodeClicked = function(eventName, msg){
 	var kId = msg;
 	console.log("[Map:realTimeNodeClicked] (clientId:%s) eventName: %s, msg: %s",
 	this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
 	var kNode = this.mapStructure.getVKNodeByKId(kId);
-	this.nodeClicked_WithoutRTBroadcasting(kNode);
+	this.nodeClicked_WithoutRTBroadcasting(kNode, Map.EXTERNAL_SOURCE);
 };
 
-
 /**
- * Selects node
+ * This function is called from different local sources
+ * (keyboard, mouse, other components (like RIMA, ...))
+ * that wants to change the selected node
+ * (the selection will be broadcasted through
+ * the KN realtime service (if available))
+ * NOTE: this method is not called for
+ * the node selection request coming from other clients
  * @function nodeSelected
  * @memberof knalledge.Map#
  * @param  {(knalledge.VKNode|string)} nodeIdentifier - node (id) to be selected.
@@ -229,7 +249,7 @@ Map.prototype.nodeSelected = function(nodeIdentifier) {
 
 	if(!vkNode) return;
 
-	this.nodeSelected_WithoutRTBroadcasting(vkNode);
+	this.nodeSelected_WithoutRTBroadcasting(vkNode, Map.INTERNAL_SOURCE);
 
 	// realtime distribution
 	//  && !doNotBroadcast 	// do not broadcast back :)
@@ -238,7 +258,26 @@ Map.prototype.nodeSelected = function(nodeIdentifier) {
 	}
 };
 
-Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode) {
+/**
+ * Internal source of the interaction event
+ * @type {String}
+ */
+Map.INTERNAL_SOURCE = "INTERNAL_SOURCE";
+/**
+ * External source of the interaction event
+ * @type {String}
+ */
+Map.EXTERNAL_SOURCE = "EXTERNAL_SOURCE";
+
+/**
+ * Function is called for any selection of a node
+ * that is coming either internaly or externaly
+ * (from other client)
+ * @function nodeSelected_WithoutRTBroadcasting
+ * @param  {knaledge.VKNode} vkNode - node that is clicked
+ * @param  {string} selectionSource - source of node selection (internal, external)
+ */
+Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode, selectionSource) {
 	var that = this;
 
 	if(this.config.tree.selectableEnabled && vkNode.kNode.visual && !vkNode.kNode.visual.selectable){
@@ -286,7 +325,7 @@ Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode) {
 	});
 
 	// TODO: add broadcasting for upper layers instead of this:
-	this.upperApi.nodeSelected(vkNode, undefined, false);
+	this.upperApi.nodeSelected(vkNode, undefined, selectionSource, false);
 };
 
 Map.prototype.nodeUnselected = function(vkNode) {
@@ -299,7 +338,15 @@ Map.prototype.nodeUnselected = function(vkNode) {
 	}
 };
 
-Map.prototype.nodeUnselected_WithoutRTBroadcasting = function(vkNode) {
+/**
+ * Function is called for any unselection of a node
+ * that is coming either internaly or externaly
+ * (from other client)
+ * @function nodeUnselected_WithoutRTBroadcasting
+ * @param  {knaledge.VKNode} vkNode - node that is clicked
+ * @param  {string} selectionSource - source of node unselection (internal, external)
+ */
+Map.prototype.nodeUnselected_WithoutRTBroadcasting = function(vkNode, selectionSource) {
 	var that = this;
 
 	this.mapStructure.unsetSelectedNode(vkNode);
@@ -309,7 +356,7 @@ Map.prototype.nodeUnselected_WithoutRTBroadcasting = function(vkNode) {
 	});
 
 	// TODO: add broadcasting for upper layers instead of this:
-	this.upperApi.nodeUnselected(vkNode, undefined, false);
+	this.upperApi.nodeUnselected(vkNode, undefined, selectionSource, false);
 };
 
 Map.prototype.nodeClicked = function(vkNode) {
@@ -321,12 +368,20 @@ Map.prototype.nodeClicked = function(vkNode) {
 	}
 };
 
-Map.prototype.nodeClicked_WithoutRTBroadcasting = function(vkNode) {
+/**
+ * Function is called for any click on a node
+ * that is coming either internaly or externaly
+ * (from other client)
+ * @function nodeClicked_WithoutRTBroadcasting
+ * @param  {knaledge.VKNode} vkNode - node that is clicked
+ * @param  {string} selectionSource - source of node click (internal, external)
+ */
+Map.prototype.nodeClicked_WithoutRTBroadcasting = function(vkNode, selectionSource) {
 	// node is not provided or node is same as previousely clicked node
 	if(!vkNode || (this.mapStructure.getSelectedNode() == vkNode)){
-		this.nodeUnselected_WithoutRTBroadcasting(vkNode);
+		this.nodeUnselected_WithoutRTBroadcasting(vkNode, selectionSource);
 	}else{
-		this.nodeSelected_WithoutRTBroadcasting(vkNode);
+		this.nodeSelected_WithoutRTBroadcasting(vkNode, selectionSource);
 	}
 };
 
@@ -357,7 +412,7 @@ Map.prototype.processExternalChangesInMap = function(changes) {
 	// TODO: @mprinc: @sinisarudan, is this the best solution?
 	if(this.knAllEdgeRealTimeService.filterBroadcasting('in', 'node-selected')){
 		if(selectedVKNode){
-			this.nodeSelected_WithoutRTBroadcasting(selectedVKNode);
+			this.nodeSelected_WithoutRTBroadcasting(selectedVKNode, Map.EXTERNAL_SOURCE);
 		}
 	}else{
 		this.update(selectedVKNode);
