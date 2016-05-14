@@ -284,6 +284,19 @@
                             if(!kNode.user){
                                 kNode.user = "[unknown]"
                             }
+
+                            var whats = kNode.dataContent && kNode.dataContent.rima && kNode.dataContent.rima.whats;
+                            kNode.what = [];
+                            if(whats && whats.length > 0){
+                                // kNode.what = whats[0].name;
+                                for(var wI in whats){
+                                    kNode.what.push(whats[wI].name);
+                                }
+                            }
+                            // model.get('dataContent').rima.whats;
+                            // for(var wI in whats){
+                            //     if(whats[wI].name === value) return true;
+                            // }
                         }
 
                         updateDataModel();
@@ -329,6 +342,17 @@
                             prefixes: ['user:'],
                             callback: function(model, value) {
                                 return (model.get('user') === value);
+                            }
+                        })
+
+                        .setPill('what', {
+                            prefixes: ['what:'],
+                            callback: function(model, value) {
+                                var whats = model.get('what');
+                                if(whats && whats.length > 0){
+                                    return whats.indexOf(value) >= 0;
+                                }
+                                return false;
                             }
                         })
 
