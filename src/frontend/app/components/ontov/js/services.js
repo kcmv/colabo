@@ -456,9 +456,10 @@
 
                 //Perform search on collection - return querynodes
                 function searchOnCollection(searchString, searchCollection) {
+                    var queryNodes = [];
                     for(var mI in searchCollection.models){
                         var modelAttributes =
-                            searchCollection.models[mI];
+                            searchCollection.models[mI].attributes;
                         var category = modelAttributes.category;
                         var value = modelAttributes.value.trim();
                         //Check that search string contains at least 1 character
@@ -599,7 +600,7 @@
                 return {
                     search: function(searchString, searchCollection) {
                         //Update viewmodel with search results
-                        var _queryNodes = searchOnCollection(searchString);
+                        var _queryNodes = searchOnCollection(searchString, searchCollection);
                         //Set node visibility - KnAllEdge requirement
                         _.each(_queryNodes, function(node) {
                             console.log(node);
