@@ -54,7 +54,7 @@ app.configure(function(){
     app.use(express.logger());
 	app.use(express.cookieParser()); // cookie parser is used before the session
 	console.log("process.argv: %s", JSON.stringify(process.argv));
-	app.set('port', process.env.PORT || process.argv[2] || 8888);
+	app.set('port', process.argv[2] || process.env.PORT || 8888);
 
 	// this is enough
 	app.use(supportCrossOriginScript);
