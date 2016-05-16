@@ -277,6 +277,8 @@
 
                         for(var kI in knalledgeMap.knodes){
                             var kNode = knalledgeMap.knodes[kI];
+
+                            // adding support for searching through users
                             var whoAmI =
                                 RimaService.getUserById(kNode.iAmId);
                             kNode.user =
@@ -285,6 +287,7 @@
                                 kNode.user = "[unknown]"
                             }
 
+                            // adding support for searching through whats
                             var whats = kNode.dataContent && kNode.dataContent.rima && kNode.dataContent.rima.whats;
                             kNode.what = [];
                             if(whats && whats.length > 0){
@@ -297,6 +300,9 @@
                             // for(var wI in whats){
                             //     if(whats[wI].name === value) return true;
                             // }
+
+                            // adding support for filtering subtrees
+                            kNode.tree = kNode.name;
                         }
 
                         updateDataModel();
@@ -353,6 +359,40 @@
                                     return whats.indexOf(value) >= 0;
                                 }
                                 return false;
+                            }
+                        })
+
+                        .setPill('tree', {
+                            prefixes: ['tree:'],
+                            callback: function(model, value) {
+                                function isParent(parents, name){
+                                    if(!parents || parents.length <= 0){
+                                        return false;
+                                    }
+
+                                    var thereIsParent = false;
+                                    for(var pI in parents){
+                                        if(parents[pI].name === value){
+                                            return true;
+                                        }
+
+                                        var newParents =
+                                        (typeof parents[pI].get === 'function') ?
+                                            parents[pI].get('parents') :
+                                            parents[pI].parents;
+
+                                        thereIsParent = thereIsParent ||
+                                            isParent(newParents, name);
+                                    }
+                                    return thereIsParent;
+                                };
+
+                                var name = model.get('name');
+                                if(name == value) return true;
+                                var thereIsParent =
+                                    isParent(model.get('parents'), value);
+                                return thereIsParent;
+
                             }
                         })
 
