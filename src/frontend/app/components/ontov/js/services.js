@@ -455,24 +455,31 @@
                 }
 
                 //Perform search on collection - return querynodes
-                function searchCollection(searchString) {
-                    var queries = searchString.split(",");
-                    var queryNodes = [];
-                    _.each(queries, function(searchTerm, index, list) {
-                        if (/\S/.test(searchTerm) && searchTerm !== null) { //Check that search string contains at least 1 character
-                            var queryNode = projectSearchCollection
-                                .setSearchString(searchTerm)
-                                .query()
-                                .toJSON();
+                function searchOnCollection(searchString, searchCollection) {
+                    for(var mI in searchCollection.models){
+                        var modelAttributes =
+                            searchCollection.models[mI];
+                        var category = modelAttributes.category;
+                        var value = modelAttributes.value.trim();
+                        //Check that search string contains at least 1 character
+                        if(!category || category.length<=0 || !value || value.length<=0) continue;
 
-                            queryNodes.push({
-                                "type": "queryNode",
-                                "queryString": searchTerm,
-                                "label": searchTerm,
-                                nodes: queryNode
-                            });
-                        }
-                    });
+                        var searchTerm
+                            = category + ':"' + value + '"';
+
+                        var queryNode = projectSearchCollection
+                            .setSearchString(searchTerm)
+                            .query()
+                            .toJSON();
+
+                        queryNodes.push({
+                            "type": "queryNode",
+                            "queryString": searchTerm,
+                            "label": searchTerm,
+                            nodes: queryNode
+                        });
+                    }
+
                     return queryNodes;
                 }
 
@@ -590,9 +597,9 @@
                 }
 
                 return {
-                    search: function(searchString) {
+                    search: function(searchString, searchCollection) {
                         //Update viewmodel with search results
-                        var _queryNodes = searchCollection(searchString);
+                        var _queryNodes = searchOnCollection(searchString);
                         //Set node visibility - KnAllEdge requirement
                         _.each(_queryNodes, function(node) {
                             console.log(node);

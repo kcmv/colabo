@@ -44,7 +44,7 @@
                                             // retrieving nodes that fits the search criteria
                                             // (including also context nodes - like parent nodes
                                             // all the way to the root node)
-                                            var viewNodes = dataModel.search(searchString).nodes;
+                                            var viewNodes = dataModel.search(searchString, searchCollection).nodes;
 
                                             // hide all non-relevant nodes
                                             if (viewNodes.length > 0) {
