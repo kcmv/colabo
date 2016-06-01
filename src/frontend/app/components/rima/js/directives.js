@@ -242,13 +242,18 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 
 				$scope.$watch(function () {
 					// return KnalledgeMapVOsService.mapStructure.nodesById;
-					return KnalledgeMapVOsService.nodesById;
+					var nodes = KnalledgeMapVOsService.nodesById;
+					return nodes;
 				},
 				function(newValue){
 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
 					console.log("[KnalledgeMapVOsService.mapStructure.nodesById watch]: elements no: %d", Object.keys(newValue).length);
 					updateList();
-				}, true);
+				}, false); //TODO: CHANGED FROM `TRUE` TO `false`;
+				//The third parameter of $watch function tells how to compare the watched object. False to reference comparing only.
+				//True to recursive equality comparing, if an object contains circular references, then over maximum stack size.
+				//Namely nodes have children reference and children-nodes have parent back-reference, causing circular reference
+
 				$scope.$watch(function () {
 					// return KnalledgeMapVOsService.mapStructure.nodesById;
 					return RimaService.getActiveUser();
