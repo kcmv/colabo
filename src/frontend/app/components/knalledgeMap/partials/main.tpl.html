@@ -90,7 +90,7 @@
 
                             <section class="status" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
                                 <div class="name" layout="column">
-                                        {{policyConfig.state.name}} ({{policyConfig.state.id}})
+                                        {{policyConfig.state.name}} <!-- ({{policyConfig.state.id}}) -->
                                 </div>
                                 <div *ngIf="!policyConfig.moderating.enabled">
                                     Presentation:

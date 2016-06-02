@@ -747,19 +747,28 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						//setData(model);
 						console.log("[knalledgeMap.controller::$on] event: %s", behaviourChangedEventName);
 						toolsChange(KnRealTimeBehaviourChangedEventName, msg);
+						updateState(msg.value);
 					};
 					GlobalEmitterServicesArray.get(behaviourChangedEventName).subscribe('knalledgeMap', behaviourChanged);
 
 					var realTimeBehaviourChanged = function(eventName, msg){
 						console.log('realTimeBehaviourChanged:', eventName,'msg:', msg);
 
-						if(!KnalledgeMapPolicyService.provider.config.broadcasting.receiveBehaviours){return;}
 						switch(msg.path){
 							case 'policyConfig.behaviour.brainstorming':
 								KnalledgeMapPolicyService.provider.config.behaviour.brainstorming = msg.value;
 								break;
 						}
+						updateState(msg.value);
 						knalledgeMap.update();
+					}
+
+					var updateState = function(value){
+						if(value===0){
+		          KnalledgeMapPolicyService.provider.config.state = {id:0, name:''};
+		        }else{
+		            KnalledgeMapPolicyService.provider.config.state = {id:value, name:'Brainstorming ('+value +')'};
+		        }
 					}
 
 
@@ -773,7 +782,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						 */
 						var realTimeviewConfigChanged = function(eventName, msg){
 
-							//TODO: this should not be treated as viewConfig change but as other type 
+							//TODO: this should not be treated as viewConfig change but as other type
 							if(msg.path == 'policyConfig.broadcasting.enabled' && msg.value){ // Highlander: There can be only one!
 								KnalledgeMapPolicyService.provider.config.broadcasting.enabled = false;
 							}

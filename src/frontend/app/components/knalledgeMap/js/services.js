@@ -2483,6 +2483,8 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 						case "edges-deleted":
 							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveStructural;
 							break;
+						case "map-behaviour-change":
+							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveBehaviours;
 					}
 					return true;
 				}
