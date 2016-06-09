@@ -878,6 +878,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					// not clicked on any item, but just type a string
 					if(!$scope.node){
 						console.log("Node is not selected");
+						window.alert('You should select a node before this action');
 						return;
 					}
 					$scope.asyncSelected = "";

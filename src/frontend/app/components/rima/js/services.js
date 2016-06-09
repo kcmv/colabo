@@ -1163,6 +1163,7 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 				//var that = this;
 				var whatAmI = WhatAmIService.create(whatAmI, function(whatAmIFromServer){
 					this.whatAmIs.push(whatAmIFromServer);
+					//KnAllEdgeRealTimeService
 					if(callback){callback(whatAmIFromServer);}
 				}.bind(this));
 				return whatAmI;
