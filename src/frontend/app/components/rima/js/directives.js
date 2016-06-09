@@ -171,8 +171,23 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 		function($rootScope, $injector, KnalledgeMapVOsService, RimaService){
 		console.log("[rimaRelevantWhatsList] loading directive");
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
 		var changeSelectedNodeEventName = "changeSelectedNodeEvent";
 		GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
+
+		var nodeUpdatedEventName = "node-updated-to-visual";
+		GlobalEmitterServicesArray.register(nodeUpdatedEventName);
+		GlobalEmitterServicesArray.get(nodeUpdatedEventName).subscribe('rimaWhats',
+		//checking if the node change is relevant to the logged_in user:
+		function(ch){
+			if(KnalledgeMapVOsService.mapStructure.isStructuralChange(ch.changes.nodes[0].actionType)){
+				var kNode = ch.changes.nodes[0].node;
+				console.log('nodeUpdatedEventName detected for node "',kNode.name,'". id: ' + kNode._id);
+				var vkNode = KnalledgeMapVOsService.mapStructure.getVKNodeByKId(kNode._id);
+				var ancestors = KnalledgeMapVOsService.mapStructure.getAncestorsPath(vkNode);
+			}
+		});
+
 		return {
 			restrict: 'AE',
 			scope: {
@@ -242,13 +257,18 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 
 				$scope.$watch(function () {
 					// return KnalledgeMapVOsService.mapStructure.nodesById;
-					return KnalledgeMapVOsService.nodesById;
+					var nodes = KnalledgeMapVOsService.nodesById;
+					return nodes;
 				},
 				function(newValue){
 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
 					console.log("[KnalledgeMapVOsService.mapStructure.nodesById watch]: elements no: %d", Object.keys(newValue).length);
 					updateList();
-				}, true);
+				}, false); //TODO: CHANGED FROM `TRUE` TO `false`;
+				//The third parameter of $watch function tells how to compare the watched object. False to reference comparing only.
+				//True to recursive equality comparing, if an object contains circular references, then over maximum stack size.
+				//Namely nodes have children reference and children-nodes have parent back-reference, causing circular reference
+
 				$scope.$watch(function () {
 					// return KnalledgeMapVOsService.mapStructure.nodesById;
 					return RimaService.getActiveUser();

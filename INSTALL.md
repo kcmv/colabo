@@ -214,7 +214,7 @@ status knalledge-b
 ```
 
 ### Production deployment
-
+There are two groups of actions to be done. First on local machine, then on the server
 #### Build system on the local machine:
 
 ```sh
@@ -235,7 +235,7 @@ open .
 ```sh
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
-rm -r components/ css/ data/ dist/ fonts/ images/ js/ sass/
+rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
 unzip prod-2016.05.11b.zip
 mv dist/prod/* .
 rm -r dist/
@@ -250,16 +250,18 @@ cd /var/www/knalledge_frontend
 sed -i 's/env\=envs\.localhost/env\=envs\.server/g' prod/js/shims_bundle.js
 sed -i 's/base\ href\=\"\/\"/base\ href\=\"\/prod\/\"/' prod/index.html
 
+#optional commenting:
 joe prod/index.html
 # var disableLog = true;
 
 ```
 
+Back on the local machine:
 ```sh
 open ./node_modules/ng2-material/font
 ```
 
-Upload `src/frontend/node_modules/ng2-material/font` fonts to the `/var/www/knalledge_frontend/prod/app/css`
+Upload all the 'font files' (MaterialIcons-Regular...) from the folder `src/frontend/node_modules/ng2-material/font` to the `/var/www/knalledge_frontend/prod/css`
 
 # TypeScript
 

@@ -743,12 +743,33 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						}
 					};
 
-					var behaviourChanged = function(newViewspec) {
+					var behaviourChanged = function(msg) {
 						//setData(model);
 						console.log("[knalledgeMap.controller::$on] event: %s", behaviourChangedEventName);
-						toolsChange(KnRealTimeBehaviourChangedEventName);
+						toolsChange(KnRealTimeBehaviourChangedEventName, msg);
+						updateState(msg.value);
 					};
 					GlobalEmitterServicesArray.get(behaviourChangedEventName).subscribe('knalledgeMap', behaviourChanged);
+
+					var realTimeBehaviourChanged = function(eventName, msg){
+						console.log('realTimeBehaviourChanged:', eventName,'msg:', msg);
+
+						switch(msg.path){
+							case 'policyConfig.behaviour.brainstorming':
+								KnalledgeMapPolicyService.provider.config.behaviour.brainstorming = msg.value;
+								break;
+						}
+						updateState(msg.value);
+						knalledgeMap.update();
+					}
+
+					var updateState = function(value){
+						if(value===0){
+		          KnalledgeMapPolicyService.provider.config.state = {id:0, name:''};
+		        }else{
+		            KnalledgeMapPolicyService.provider.config.state = {id:value, name:'Brainstorming ('+value +')'};
+		        }
+					}
 
 
 					// realtime listener registration
@@ -761,6 +782,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						 */
 						var realTimeviewConfigChanged = function(eventName, msg){
 
+							//TODO: this should not be treated as viewConfig change but as other type
 							if(msg.path == 'policyConfig.broadcasting.enabled' && msg.value){ // Highlander: There can be only one!
 								KnalledgeMapPolicyService.provider.config.broadcasting.enabled = false;
 							}
@@ -810,7 +832,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 						mapViewPluginOptions.events[KnRealTimeviewConfigChangedEventName] = realTimeviewConfigChanged.bind(this);
 
-						//TODO: NOT USED SO FAR: mapViewPluginOptions.events[KnRealTimeBehaviourChangedEventName] = realTimeBehaviourChanged.bind(this);
+						mapViewPluginOptions.events[KnRealTimeBehaviourChangedEventName] = realTimeBehaviourChanged.bind(this);
+
 						KnAllEdgeRealTimeService.registerPlugin(mapViewPluginOptions);
 					}
 

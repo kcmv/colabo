@@ -909,7 +909,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 						this.nodesById[kNode._id] = kNode;
 						kNode.state = knalledge.KNode.STATE_SYNCED;
 						var eventName = KnRealTimeNodeCreatedEventName + ToVisualMsg;
-						changes.nodes.push(kNode);
+						changes.nodes.push({node:kNode,	actionType: null});
 					break;
 					case KnRealTimeNodeUpdatedEventName:
 							// var msg = {
@@ -935,12 +935,13 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 						}
 						kNode.state = knalledge.KNode.STATE_SYNCED;
 						var eventName = KnRealTimeNodeUpdatedEventName + ToVisualMsg;
-						changes.nodes.push(kNode);
+						//changes.nodes.push(kNode);
+						changes.nodes.push({node:kNode,	actionType: msg.actionType});
 					break;
 					case KnRealTimeNodeDeletedEventName:
 						if(this.nodesById.hasOwnProperty(msg._id)){
 							var kNode = this.nodesById[msg._id];
-							changes.nodes.push(kNode);
+							changes.nodes.push({node:kNode,	actionType: null});
 							delete this.nodesById[msg._id];
 							var eventName = KnRealTimeNodeDeletedEventName + ToVisualMsg;
 						}
@@ -955,7 +956,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 						this.edgesById[kEdge._id] = kEdge;
 						kEdge.state = knalledge.KEdge.STATE_SYNCED;
 						var eventName = KnRealTimeEdgeCreatedEventName + ToVisualMsg;
-						changes.edges.push(kEdge);
+						changes.edges.push({edge:kEdge,	actionType: null});
 					break;
 					case KnRealTimeEdgeUpdatedEventName:
 						var kEdge = this.edgesById[msg._id];
@@ -966,12 +967,12 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 						kEdge.fill(msg);
 						kEdge.state = knalledge.KEdge.STATE_SYNCED;
 						var eventName = KnRealTimeEdgeUpdatedEventName + ToVisualMsg;
-						changes.edges.push(kEdge);
+						changes.edges.push({edge:kEdge,	actionType: msg.actionType});
 					break;
 					case KnRealTimeEdgeDeletedEventName:
 						if(this.edgesById.hasOwnProperty(msg._id)){
 							var kEdge = this.edgesById[msg._id];
-							changes.edges.push(kEdge);
+							changes.edges.push({edge:kEdge,	actionType: msg.actionType});
 							delete this.edgesById[msg._id];
 							var eventName = KnRealTimeEdgeDeletedEventName + ToVisualMsg;
 						}
@@ -2483,6 +2484,8 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 						case "edges-deleted":
 							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveStructural;
 							break;
+						case "map-behaviour-change":
+							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveBehaviours;
 					}
 					return true;
 				}
