@@ -85,6 +85,10 @@ MapStructure.prototype.init = function(mapService){
 	return this;
 };
 
+MapStructure.prototype.isStructuralChange = function(actionType){
+	return actionType === MapStructure.UPDATE_NODE_NAME || actionType === MapStructure.UPDATE_DATA_CONTENT;
+}
+
 MapStructure.prototype.removeImage = function(vkNode){
 	if(!this.mapService) return;
 
@@ -437,6 +441,7 @@ MapStructure.prototype.getChildrenNodes = function(vkNode, edgeType){
 
 /*
 	get all nodes that are parent (immediate ancestors) of @vkNode
+	we are looking at map as an graph and not a tree, thus meaning a node
 */
 MapStructure.prototype.getParentNodes = function(vkNode, edgeType){
 	var parents = [];
@@ -927,7 +932,7 @@ MapStructure.prototype.processSyncedData = function(changes) {
 
 		var newestNode = this.selectedNode; //the node that has be changed the last (so that we can focus on it - as selectedNode)
 		for(i=0; i<syncedData.nodes.length; i++){
-			kNode = syncedData.nodes[i];
+			kNode = syncedData.nodes[i].node;
 			// TODO: not necessart since we do it on the level of kNode already
 			// resource.getChangesFromServer
 			//		...
@@ -962,8 +967,7 @@ MapStructure.prototype.processSyncedData = function(changes) {
 		}
 
 		for(i=0; i<syncedData.edges.length; i++){
-			kEdge = syncedData.edges[i];
-
+			kEdge = syncedData.edges[i].edge;
 			var vkEdge = this.getVKEdgeByKId(kEdge._id);
 			if(changes.event == "edge-deleted-to-visual"){
 				if(vkEdge){

@@ -214,7 +214,7 @@ status knalledge-b
 ```
 
 ### Production deployment
-
+There are two groups of actions to be done. First on local machine, then on the server
 #### Build system on the local machine:
 
 ```sh
@@ -222,7 +222,7 @@ cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
 zip -r -X prod-2016.05.11b.zip dist/prod
-+ open .
+open .
 ```
 
 #### Upload on the server
@@ -252,10 +252,11 @@ joe prod/index.html
 # var disableLog = true;
 
 ```
-
+Back on the local machine:
+```sh
 open ./node_modules/ng2-material/font
-Upload `src/frontend/node_modules/ng2-material/font` fonts to the `/var/www/knalledge_frontend/prod/app/css`
-
+# Upload all the 'font files' (MaterialIcons-Regular...) from the folder src/frontend/node_modules/ng2-material/font to the /var/www/knalledge_frontend/prod/css
+```
 # TypeScript
 
 sudo npm install -g ts-node

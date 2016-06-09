@@ -11,7 +11,8 @@ export const enum ChangeType {
 }
 
 export const enum ChangeState {
-	SHOWN,
+	UNDISPLAYED,
+	DISPLAYED,
 	SEEN
 }
 
@@ -46,6 +47,6 @@ export class Change {
 		this.updatedAt = null;
 		this.dataContent = {};
 		this.decorations = {};
-		this.state = ChangeState.REQUESTED;
+		this.state = ChangeState.UNDISPLAYED;
 	}
 }

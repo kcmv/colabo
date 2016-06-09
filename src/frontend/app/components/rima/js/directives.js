@@ -171,8 +171,23 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 		function($rootScope, $injector, KnalledgeMapVOsService, RimaService){
 		console.log("[rimaRelevantWhatsList] loading directive");
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
 		var changeSelectedNodeEventName = "changeSelectedNodeEvent";
 		GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
+
+		var nodeUpdatedEventName = "node-updated-to-visual";
+		GlobalEmitterServicesArray.register(nodeUpdatedEventName);
+		GlobalEmitterServicesArray.get(nodeUpdatedEventName).subscribe('rimaWhats',
+		//checking if the node change is relevant to the logged_in user:
+		function(ch){
+			if(KnalledgeMapVOsService.mapStructure.isStructuralChange(ch.changes.nodes[0].actionType)){
+				var kNode = ch.changes.nodes[0].node;
+				console.log('nodeUpdatedEventName detected for node "',kNode.name,'". id: ' + kNode._id);
+				var vkNode = KnalledgeMapVOsService.mapStructure.getVKNodeByKId(kNode._id);
+				var ancestors = KnalledgeMapVOsService.mapStructure.getAncestorsPath(vkNode);
+			}
+		});
+
 		return {
 			restrict: 'AE',
 			scope: {

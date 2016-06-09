@@ -46,6 +46,11 @@ import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyServi
 })
 export class TopPanel {
 
+    relevants:number;
+    changes:number;
+    suggestions:number;
+    requests:number;
+
     constructor(
         // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
         // globalEmitterServicesArray:GlobalEmitterServicesArray
@@ -53,9 +58,14 @@ export class TopPanel {
     ) {
         console.log('[TopPanel]');
         this.policyConfig = knalledgeMapPolicyService.get().config;
+        this.relevants = 0;
         // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
         // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
     };
 
     policyConfig:Object;
+
+    opened() {
+      console.log("top panel is opened");
+    }
 }
