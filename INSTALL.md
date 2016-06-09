@@ -215,28 +215,32 @@ status knalledge-b
 
 ### Production deployment
 There are two groups of actions to be done. First on local machine, then on the server
+
 #### Build system on the local machine:
 
 ```sh
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.05.11b.zip dist/prod
-open .
+zip -r -X prod-2016.06.09.zip dist/prod
 ```
 
 #### Upload on the server
 
+Open the folder with zip file at your local machine:
+
 ```sh
 open .
 ```
-+ load with a SFTP client and upload the prod zip to a temp folder or `/var/www/knalledge_frontend/prod`
+Start a SFTP client and upload the zip file to a production folder on server:  `/var/www/knalledge_frontend/prod`
+
+Login to the server and unpack CF system and configure it:
 
 ```sh
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.05.11b.zip
+unzip prod-2016.06.09.zip
 mv dist/prod/* .
 rm -r dist/
 
@@ -256,7 +260,10 @@ joe prod/index.html
 
 ```
 
+Copy angular-material fonts from the local machine to the server.
+
 Back on the local machine:
+
 ```sh
 open ./node_modules/ng2-material/font
 ```
