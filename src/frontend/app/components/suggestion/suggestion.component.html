@@ -1,4 +1,5 @@
 <div>
+  <span>Suggestions by expertise</span>
   <div *ngIf="suggestionsByExpertise.length !== 0">
     <span *ngIf="selectedNode !== null">
       Experts for node "<span class="topic">{{selectedNode.kNode.name}}</span>"
@@ -8,12 +9,12 @@
         [class.selected]="suggestion === selectedSuggestion"
       >
         <span class="username" [class.unknown]="suggestion.who == null">
-          {{suggestion.who != null ? suggestion.who.displayName : 'unknown user'}}
+          <b>{{suggestion.who != null ? suggestion.who.displayName : 'unknown user'}}</b>
         </span>
         <ul class="experise">
           <li *ngFor="#experise of suggestion.dataContent.relevantWhats">
             <span>
-              {{experise.name}}
+              &nbsp;&nbsp;&nbsp;{{experise.name}}
             </span>
           </li>
         </ul>
