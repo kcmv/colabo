@@ -233,7 +233,7 @@ open .
 ```sh
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
-rm -r components/ css/ data/ dist/ fonts/ images/ js/ sass/
+rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
 unzip prod-2016.05.11b.zip
 mv dist/prod/* .
 rm -r dist/
@@ -248,6 +248,7 @@ cd /var/www/knalledge_frontend
 sed -i 's/env\=envs\.localhost/env\=envs\.server/g' prod/js/shims_bundle.js
 sed -i 's/base\ href\=\"\/\"/base\ href\=\"\/prod\/\"/' prod/index.html
 
+#optional commenting:
 joe prod/index.html
 # var disableLog = true;
 
