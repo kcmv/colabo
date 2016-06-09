@@ -222,12 +222,14 @@ cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
 zip -r -X prod-2016.05.11b.zip dist/prod
-+ open .
+open .
 ```
 
 #### Upload on the server
 
-+ open .
+```sh
+open .
+```
 + load with a SFTP client and upload the prod zip to a temp folder or `/var/www/knalledge_frontend/prod`
 
 ```sh
@@ -253,7 +255,10 @@ joe prod/index.html
 
 ```
 
+```sh
 open ./node_modules/ng2-material/font
+```
+
 Upload `src/frontend/node_modules/ng2-material/font` fonts to the `/var/www/knalledge_frontend/prod/app/css`
 
 # TypeScript

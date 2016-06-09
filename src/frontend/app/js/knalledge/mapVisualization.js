@@ -374,7 +374,7 @@ MapVisualization.prototype.nodeFocus = function(d) {
 				},
 				{
 					position: "w",
-					iconClass: "fa-minus-circle",
+					iconClass: "fa-trash",
 					action: "deleteNode"
 				}
 			]
