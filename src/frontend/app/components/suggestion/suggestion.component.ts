@@ -56,7 +56,9 @@ export class SuggestionComponent implements OnInit {
   selectedNodeChanged(vkNode:any){
     console.log('selectedNodeChanged');
     this.selectedNode = vkNode;
-    this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode.kNode);
+    if(this.selectedNode){
+      this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode.kNode);
+    }
   }
 
   // suggestionReceived(received:any) {

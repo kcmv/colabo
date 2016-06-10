@@ -178,11 +178,14 @@ MapVisualization.prototype.getAllNodesHtml = function(){
  */
 MapVisualization.prototype.getDomFromDatum = function(d) {
 	var htmlNodes = this.getAllNodesHtml();
-	if(!htmlNodes) return null;
+	if(!htmlNodes || d===null) return null;
 	var dom = htmlNodes
 		.data([d], function(d){return d.id;});
-	if(dom.size() != 1) return null;
-	else return dom;
+	if(dom.size() != 1){
+		return null;
+	}else{
+		return dom;
+	}
 };
 
 /**
@@ -302,7 +305,10 @@ MapVisualization.prototype.nodeSelected = function(d) {
 	if(this.previousSelectedNode !== d){
 		this.previousSelectedNode = d;
 
-		var nodesHtmlSelected = this.getDomFromDatum(d);
+		var nodesHtmlSelected = null;
+		if(d!==null){
+			nodesHtmlSelected = this.getDomFromDatum(d);
+		}
 
 		// unselect all nodes
 		var nodesHtml = this.getAllNodesHtml();
@@ -318,10 +324,9 @@ MapVisualization.prototype.nodeSelected = function(d) {
 				"node_selected": true,
 				"node_unselected": false
 			});
+			// TODO: it might be too early, it should be after update?
+			this.positionToDatum(d);
 		}
-
-		// TODO: it might be too early, it should be after update?
-		if(nodesHtmlSelected) this.positionToDatum(d);
 	}
 
 	this.nodeFocus(d);

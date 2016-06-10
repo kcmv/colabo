@@ -986,7 +986,10 @@ MapStructure.prototype.processSyncedData = function(changes) {
 		}
 		//we focus on the last changed node. It is used for next functions in calls. This is executed even when changes
 		// are only upon edges, but is idempotent then, because of setting 'var newestNode = this.selectedNode'
-		this.setSelectedNode(newestNode);
+		//TODO:
+		//if(this.knalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
+			this.setSelectedNode(newestNode);
+		//}
 		// this.selectedNode = newestNode;
 	}
 
