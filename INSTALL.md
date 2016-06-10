@@ -268,10 +268,9 @@ Back on the local machine:
 open ./node_modules/ng2-material/font
 ```
 
-Upload all the 'font files' (MaterialIcons-Regular...) from the folder `src/frontend/node_modules/ng2-material/font` to the `/var/www/knalledge_frontend/prod/css`
+Upload all the 'font files' (MaterialIcons-Regular...) from the folder `src/frontend/node_modules/ng2-material/font` to the `/var/www/knalledge_frontend/prod/css/`
 
-
-Upload `KnAllEdge/src/frontend/dist/prod/css/all.css` to the `/var/www/knalledge_frontend/prod/css` folder
+Upload `KnAllEdge/src/frontend/dist/prod/css/all.css` to the `/var/www/knalledge_frontend/prod/css/` folder
 
 # TypeScript
 

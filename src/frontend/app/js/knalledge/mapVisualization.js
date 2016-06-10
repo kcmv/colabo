@@ -102,12 +102,13 @@ MapVisualization.prototype._initHalo = function(){
 
 				},
 				deleteNode: function(){
-					that.halo.destroy();
+					if(window.confirm("Are you sure you want to delete this node?")){
+						that.halo.destroy();
 
-					// window.alert("Showing analysis");
-					// this.selectedView = null;
-					that.mapInteraction.deleteNode();
-
+						// window.alert("Showing analysis");
+						// this.selectedView = null;
+						that.mapInteraction.deleteNode();
+					}
 				},
 				editNode: function(){
 					that.halo.destroy();
