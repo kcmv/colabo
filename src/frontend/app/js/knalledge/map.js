@@ -249,7 +249,7 @@ Map.prototype.nodeSelected = function(nodeIdentifier) {
 
 	if(!vkNode) return;
 
-	this.nodeSelected_WithoutRTBroadcasting(vkNode, Map.INTERNAL_SOURCE);
+	this.nodeSelected_WithoutRTBroadcasting(vkNode, Map.INTERNAL_SOURCE, true);
 
 	// realtime distribution
 	//  && !doNotBroadcast 	// do not broadcast back :)
@@ -277,8 +277,11 @@ Map.EXTERNAL_SOURCE = "EXTERNAL_SOURCE";
  * @param  {knaledge.VKNode} vkNode - node that is clicked
  * @param  {string} selectionSource - source of node selection (internal, external)
  */
-Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode, selectionSource) {
+Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode, selectionSource, commingFromAngular) {
 	var that = this;
+	if(typeof commingFromAngular === undefined){
+		commingFromAngular = false;
+	}
 
 	if(this.config.tree.selectableEnabled && vkNode.kNode.visual && !vkNode.kNode.visual.selectable){
 		return;
@@ -325,7 +328,7 @@ Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode, selectionSou
 	});
 
 	// TODO: add broadcasting for upper layers instead of this:
-	this.upperApi.nodeSelected(vkNode, undefined, selectionSource, false);
+	this.upperApi.nodeSelected(vkNode, undefined, selectionSource, commingFromAngular);
 };
 
 Map.prototype.nodeUnselected = function(vkNode) {
