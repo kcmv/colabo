@@ -11,7 +11,7 @@ export class KnalledgeMapPolicyService {
           enabled: false, //broaadcasting toward receviers
           receiveNavigation: true, //going through map (changing selected nodes), ...
           receiveStructural: true, //knawledge management (creation, delete, ....)
-          receiveVisualization: true, //changes in view settings (showIMages, showNodes, limit range of visible nodes, IBIS, etc)
+          receiveVisualization: true, //changes in view settings (showInages, showNodes, limit range of visible nodes, IBIS, etc)
           receiveBehaviours: true, //receive changes in behaviours/modes (broadcasting, etc)
       },
       moderating: {

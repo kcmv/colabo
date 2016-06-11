@@ -21,6 +21,8 @@ var KnRealTimeEdgeUpdatedEventName = "edge-updated";
 var KnRealTimeEdgeDeletedEventName = "edge-deleted";
 var KnRealTimeEdgesDeletedEventName = "edges-deleted";
 
+var KnRealTimeNodeSelectedEventName = "node-selected";
+
 var structuralChangeEventName = "structuralChangeEvent";
 
 var removeJsonProtected = function(ENV, jsonStr){
@@ -439,6 +441,9 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
 					KnAllEdgeRealTimeService.emit(KnRealTimeNodeCreatedEventName, kNodeReturn.toServerCopy());
+					// if(KnalledgeMapPolicyService.provider.config.broadcasting.enabled){
+					// 		KnAllEdgeRealTimeService.emit(KnRealTimeNodeSelectedEventName, kNodeReturn._id);
+					// }
 				}
 			});
 

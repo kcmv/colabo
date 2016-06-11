@@ -930,7 +930,7 @@ MapStructure.prototype.processSyncedData = function(changes) {
 		var kEdge = null;
 		var syncedData = changes.changes;
 
-		var newestNode = this.selectedNode; //the node that has be changed the last (so that we can focus on it - as selectedNode)
+		//var newestNode = this.selectedNode; //the node that has be changed the last (so that we can focus on it - as selectedNode)
 		for(i=0; i<syncedData.nodes.length; i++){
 			kNode = syncedData.nodes[i].node;
 			// TODO: not necessart since we do it on the level of kNode already
@@ -943,10 +943,13 @@ MapStructure.prototype.processSyncedData = function(changes) {
 
 			var vkNode = this.getVKNodeByKId(kNode._id);
 			if(changes.event == "node-deleted-to-visual"){
-				var parent = this.getParentNodes(vkNode)[0]; //TODO see later when we have more parents, which to chose
-				if(parent){
-					newestNode = parent;
-				}
+				/* this is delegated to broadcaster to send navigation message upon delete:
+				//  var parent = this.getParentNodes(vkNode)[0]; //TODO see later when we have more parents, which to chose
+				// if(parent){
+				// 	newestNode = parent;
+				// }
+				*/
+
 				if(vkNode){
 					delete this.nodesById[vkNode.id];
 				}
@@ -960,9 +963,9 @@ MapStructure.prototype.processSyncedData = function(changes) {
 					vkNode.fillWithKNode(kNode);
 				}
 
-				if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){
-					newestNode = vkNode;
-				}
+				// if(newestNode === null || kNode.updatedAt > newestNode.kNode.updatedAt){
+				// 	newestNode = vkNode;
+				// }
 			}
 		}
 
@@ -984,13 +987,14 @@ MapStructure.prototype.processSyncedData = function(changes) {
 				}
 			}
 		}
+		/* this is delegated to broadcaster to send navigation message upon delete:
 		//we focus on the last changed node. It is used for next functions in calls. This is executed even when changes
 		// are only upon edges, but is idempotent then, because of setting 'var newestNode = this.selectedNode'
-		//TODO:
-		//if(this.knalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
-			this.setSelectedNode(newestNode);
-		//}
+		// if(this.knalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
+		// 	this.setSelectedNode(newestNode);
+		// }
 		// this.selectedNode = newestNode;
+		*/
 	}
 
 	return this;

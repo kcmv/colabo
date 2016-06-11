@@ -393,20 +393,19 @@ export class MapInteraction {
         if (typeof edgeType === 'undefined') edgeType = this.clientApi.getActiveIbisType();
         if (typeof edgeType === 'undefined') edgeType = knalledge.KEdge.TYPE_KNOWLEDGE;
 
+        console.log("exitEditingNode");
         this.debug.log("on('tab'): this.editingNodeHtml: ", this.editingNodeHtml);
         if (this.editingNodeHtml) return; // in typing mode
         this.debug.log("on('tab'): this.clientApi.getSelectedNode(): ", this.clientApi.getSelectedNode());
 
         if (!this.clientApi.getSelectedNode()) return; // no parent node selected
         var that = this;
-
         var newNode = this.clientApi.createNode(null, nodeType);
         //		newNode.kNode.$promise.then(function(kNodeFromServer) { // TODO: we should remove this promise when we implement
         //		KnalledgeMapQueue that will solve these kind of dependencies
         //			console.log("KeyboardJS.on('tab': in promised fn after createNode");
 
         var newEdge = this.clientApi.createEdgeBetweenNodes(parentNode, newNode, edgeType);
-
         newEdge.kEdge.$promise.then(function(kEdgeFromServer) {
             if (!parentNode.isOpen) {
                 parentNode.isOpen = true;
@@ -417,7 +416,6 @@ export class MapInteraction {
 
             that.clientApi.update(parentNode, function() {
                 that.clientApi.nodeSelected(newNode);
-
                 that.clientApi.update(parentNode, function() {
                     that._setEditing(newNode);
                     // we need to position explicitly here again even though that.clientApi.nodeSelected(newNode) is doing it
@@ -426,6 +424,23 @@ export class MapInteraction {
                 });
             });
         });
+
+        // var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
+        // newEdge.kEdge.$promise.then(function(kEdgeFromServer) {
+        // 	if(!that.clientApi.getSelectedNode().isOpen) {
+        // 		that.clientApi.getSelectedNode().isOpen = true;
+        // 		that.clientApi.update(that.clientApi.getSelectedNode(), function() {
+
+        // 		});
+        // 	}
+
+        // 	that.clientApi.update(that.clientApi.getSelectedNode(), function() {
+        // 		that.clientApi.nodeSelected(newNode);//TODO: that is not defined?
+        // 		that._setEditing(newNode);
+        // 	});
+        // });
+
+        //});
     };
 
     newNode() {

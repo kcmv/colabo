@@ -271,8 +271,8 @@ Map.EXTERNAL_SOURCE = "EXTERNAL_SOURCE";
 
 /**
  * Function is called for any selection of a node
- * that is coming either internaly or externaly
- * (from other client)
+ * that is coming either internaly or
+ * externaly (from other client)
  * @function nodeSelected_WithoutRTBroadcasting
  * @param  {knaledge.VKNode} vkNode - node that is clicked
  * @param  {string} selectionSource - source of node selection (internal, external)
@@ -406,20 +406,12 @@ Map.prototype.edgeClicked = function(vkEdge) {
 called by service when any change comes from broadcasting client:
 */
 Map.prototype.processExternalChangesInMap = function(changes) {
-//Map.prototype.processExternalChangesInMap = function(e, changes) {
 	// var syncedDataProcessedAndVisualized = function(){
 	// 	this.update(this.mapStructure.getSelectedNode());
 	// };
 	this.mapStructure.processSyncedData(changes);
 	var selectedVKNode = this.mapStructure.getSelectedNode();
-	// TODO: @mprinc: @sinisarudan, is this the best solution?
-	if(this.knAllEdgeRealTimeService.filterBroadcasting('in', 'node-selected')){
-		if(selectedVKNode){
-			this.nodeSelected_WithoutRTBroadcasting(selectedVKNode, Map.EXTERNAL_SOURCE);
-		}
-	}else{
-		this.update(selectedVKNode);
-	}
+	this.update(selectedVKNode);
 	// this.mapLayout.processSyncedData(syncedDataProcessedAndVisualized.bind(this));
 };
 
