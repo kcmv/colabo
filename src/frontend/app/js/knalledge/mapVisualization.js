@@ -33,6 +33,7 @@ MapVisualization.prototype.construct = function(dom, mapStructure, collaboPlugin
 	this.mapInteraction = null;
 	this.upperAPI = upperAPI;
 	this.halo = null;
+	this.updateInProgress = false;
 };
 
 MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
@@ -135,7 +136,25 @@ MapVisualization.prototype._initHalo = function(){
 	}
 };
 
+/**
+ * access the inner html content and retrieves the typed in text as a name representation of provided node
+ * @function getNodeName
+ * @memberof knalledge.MapVisualization
+ * @param  {HTML_DOM} nodeView - dom representative of the node we asking the name
+ * @return {string}
+ */
+
+MapVisualization.prototype.getNodeName = function(nodeView){
+	if(!nodeView) return;
+
+	var nodeSpan = nodeView.select("span");
+	var newName = nodeSpan.text();
+	return newName;
+};
+
 MapVisualization.prototype.updateName = function(nodeView){
+	if(!nodeView) return;
+
 	var nodeSpan = nodeView.select("span");
 	var newName = nodeSpan.text();
 	if(newName === ""){

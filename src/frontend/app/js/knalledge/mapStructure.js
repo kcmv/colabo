@@ -19,6 +19,14 @@ var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapV
 	 * @type {knalledge.vkNode}
 	 */
 	this.selectedNode = null;
+
+	/**
+	 * Currently editing node in the map
+	 * undefined/null if none is in the editing mode
+	 * @type {knalledge.vkNode}
+	 */
+	this.editingNode = null;
+
 	/**
 	 * A top service responsible for managing KnAllEdge map
 	 * @type {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService}
@@ -146,6 +154,26 @@ MapStructure.prototype.setSelectedNode = function(selectedNode){
  */
 MapStructure.prototype.getSelectedNode = function(){
 	return this.selectedNode;
+};
+
+/**
+ * Sets currently editing node
+ * @function setEditingNode
+* @memberof knalledge.MapStructure#
+ * @param {knalledge.VKNode} vkNode
+ */
+MapStructure.prototype.setEditingNode = function(vkNode){
+	this.editingNode = vkNode;
+};
+
+/**
+ * Returns currently editing node
+ * @function getEditingNode
+* @memberof knalledge.MapStructure#
+ * @return {knalledge.VKNode}
+ */
+MapStructure.prototype.getEditingNode = function(){
+	return this.editingNode;
 };
 
 MapStructure.prototype.hasChildren = function(d){

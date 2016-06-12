@@ -88,6 +88,12 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		updateName: function(nodeView){
 			this.mapVisualization.updateName(nodeView);
 		}.bind(this),
+		getNodeName: function(nodeView){
+			return this.mapVisualization.getNodeName(nodeView);
+		}.bind(this),
+		setEditingNode: function(vkNode){
+			this.mapStructure.setEditingNode(vkNode);
+		}.bind(this),
 		addImage: function(node){
 			this.upperApi.addImage(node);
 		}.bind(this),
@@ -279,7 +285,7 @@ Map.EXTERNAL_SOURCE = "EXTERNAL_SOURCE";
  */
 Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode, selectionSource, commingFromAngular) {
 	var that = this;
-	if(typeof commingFromAngular === undefined){
+	if(typeof commingFromAngular === 'undefined'){
 		commingFromAngular = false;
 	}
 

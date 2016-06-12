@@ -1,4 +1,4 @@
-c# Building Process
+# Building Process
 
 The majority of server and client components are built on **MEAN stack** so the environment necessary for starting tool should be straightforward.
 
@@ -222,7 +222,7 @@ There are two groups of actions to be done. First on local machine, then on the 
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.06.09.zip dist/prod
+zip -r -X prod-2016.06.12.zip dist/prod
 ```
 
 #### Upload on the server
@@ -240,7 +240,7 @@ Login to the server and unpack CF system and configure it:
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.06.09.zip
+unzip prod-2016.06.12.zip
 mv dist/prod/* .
 rm -r dist/
 

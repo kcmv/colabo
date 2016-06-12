@@ -32,6 +32,13 @@ MapVisualizationTree.prototype._super = function(){
  *  @param  {Function} callback - called when map visualization finished updating
  * */
 MapVisualizationTree.prototype.update = function(source, callback) {
+	if(this.updateInProgress){
+		return;
+	}
+
+	// currently updates can be in the parallel
+	// this.updateInProgress = true;
+
 	// If source is missing try with rootNode
 	if(!source){
 		source = this.mapStructure.rootNode;
@@ -62,6 +69,8 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 		if(typeof callback === 'function'){
 			callback();
 		}
+
+		that.updateInProgress = false;
 	}, 25);
 };
 
@@ -324,7 +333,11 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 				}
 				return margin;
 		});
-		nodeHtmlUpdate.select(".node_inner_html span")
+		nodeHtmlUpdate.filter(function(d) {
+			var isEditingNode = (that.mapStructure.getEditingNode() == d);
+			return !isEditingNode;
+		})
+		.select(".node_inner_html span")
 			.html(function(d) {
 				return d.kNode.name;
 			});

@@ -235,6 +235,7 @@ export class MapInteraction {
 
         console.log("editing starting");
         this.editingNodeHtml = this.clientApi.getDomFromDatum(this.clientApi.getSelectedNode());
+        this.clientApi.setEditingNode(node);
         var nodeSpan = this.editingNodeHtml.select("span");
 
         // http://www.w3.org/TR/html5/editing.html#editing-0
@@ -244,8 +245,7 @@ export class MapInteraction {
 
         this.createCaretPlacer(nodeSpan.node(), false);
 
-        // http://www.w3schools.com/js/js_htmldom_eventlistener.asp
-        nodeSpan.node().addEventListener("blur", function onblur() {
+        function onblur() {
             console.log("editing bluring");
             // http://www.w3schools.com/jsref/met_element_removeeventlistener.asp
             if (nodeSpan.node().removeEventListener) {// For all major browsers, except IE 8 and earlier
@@ -254,7 +254,26 @@ export class MapInteraction {
                 nodeSpan.node().detachEvent("blur", onblur);
             }
             that._exitEditingNode();
-        });
+        }
+
+        // http://www.w3schools.com/js/js_htmldom_eventlistener.asp
+        nodeSpan.node().addEventListener("blur", onblur);
+
+        // var counter = 3; // testing
+        function onInput() {
+            // var nodeName = that.clientApi.getNodeName(that.editingNodeHtml);
+            // alert("input event fired. nodeName = " + nodeName);
+
+            that.clientApi.updateName(that.editingNodeHtml);
+
+            // testing
+            // if(--counter <= 0){
+            //     that.clientApi.update(that.editingNodeHtml);
+            //     counter = 3;
+            // }
+        }
+
+        nodeSpan.node().addEventListener("input", onInput, false);
     };
 
     _exitEditingNode() {
@@ -265,6 +284,7 @@ export class MapInteraction {
             this.clientApi.updateName(this.editingNodeHtml);
             nodeSpan.node().blur();
             this.editingNodeHtml = null;
+            this.clientApi.setEditingNode(null);
             this.clientApi.update(this.clientApi.getSelectedNode(), function() {
                 // that.clientApi.nodeSelected(null); //TODO: set to parent
             });
