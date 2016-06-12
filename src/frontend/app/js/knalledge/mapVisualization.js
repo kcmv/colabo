@@ -318,9 +318,12 @@ MapVisualization.prototype.setScales = function(){
  * @function nodeSelected
  * @memberof knalledge.MapVisualization
  * @param  {*} d - data that is associated with node
- * @return {knalledge.MapVisualization}
+ * @return {boolean} returns true if the visual representation of node
+ * is found in the map and successfully selected
  */
 MapVisualization.prototype.nodeSelected = function(d) {
+	var success = true;
+
 	if(this.previousSelectedNode !== d){
 		this.previousSelectedNode = d;
 
@@ -345,12 +348,14 @@ MapVisualization.prototype.nodeSelected = function(d) {
 			});
 			// TODO: it might be too early, it should be after update?
 			this.positionToDatum(d);
+		}else{
+			success = false;
 		}
 	}
 
 	this.nodeFocus(d);
 
-	return this;
+	return success;
 };
 
 /**

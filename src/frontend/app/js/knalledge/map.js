@@ -192,6 +192,7 @@ Map.KnRealTimeNodeClickedEventName = "node-clicked";
  * @param  {string} msg       kNode id of the selected node
  */
 Map.prototype.realTimeNodeSelected = function(eventName, msg){
+	var that = this;
 	var kId = msg;
 	// alert("[Map:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
 	console.log("[Map:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s",
@@ -199,8 +200,19 @@ Map.prototype.realTimeNodeSelected = function(eventName, msg){
 	//TODO: if(!KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
 	// 	return;
 	// }
-	var kNode = this.mapStructure.getVKNodeByKId(kId);
-	this.nodeSelected_WithoutRTBroadcasting(kNode, Map.EXTERNAL_SOURCE);
+
+	var repeatNum = 3;
+	var timeout = this.injector.get('timeout');
+
+	(function realTimeNodeSelectedInner(){
+		var kNode = that.mapStructure.getVKNodeByKId(kId);
+		if(kNode){
+			that.nodeSelected_WithoutRTBroadcasting(kNode, Map.EXTERNAL_SOURCE, repeatNum);
+		}else if(repeatNum>0){
+			repeatNum--;
+			timeout(realTimeNodeSelectedInner, 50);
+		}
+	})();
 };
 
 /**
@@ -283,10 +295,13 @@ Map.EXTERNAL_SOURCE = "EXTERNAL_SOURCE";
  * @param  {knaledge.VKNode} vkNode - node that is clicked
  * @param  {string} selectionSource - source of node selection (internal, external)
  */
-Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode, selectionSource, commingFromAngular) {
+Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode, selectionSource, commingFromAngular, repeatNum) {
 	var that = this;
 	if(typeof commingFromAngular === 'undefined'){
 		commingFromAngular = false;
+	}
+	if(typeof repeatNum === 'undefined'){
+		repeatNum = 0;
 	}
 
 	if(this.config.tree.selectableEnabled && vkNode.kNode.visual && !vkNode.kNode.visual.selectable){
@@ -330,7 +345,16 @@ Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode, selectionSou
 	}
 
 	this.update(vkNode, function(){
-		that.mapVisualization.nodeSelected(vkNode);
+		var timeout = that.injector.get('timeout');
+		var success = true;
+
+		(function selectNodeInner(){
+			success = that.mapVisualization.nodeSelected(vkNode);
+			if(!success && repeatNum>0){
+				repeatNum--;
+				timeout(selectNodeInner, 50);
+			}
+		})();
 	});
 
 	// TODO: add broadcasting for upper layers instead of this:
