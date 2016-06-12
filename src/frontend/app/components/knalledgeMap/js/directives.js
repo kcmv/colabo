@@ -559,6 +559,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					}
 
 					injector.addPath("SuggestionService", SuggestionService);
+					injector.addPath("timeout", $timeout);
 
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
