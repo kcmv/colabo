@@ -93,14 +93,12 @@
                                         {{policyConfig.state.name}} <!-- ({{policyConfig.state.id}}) -->
                                 </div>
                                 <div *ngIf="!policyConfig.moderating.enabled">
-                                    Presentation:
-                                    <button *ngIf="policyConfig.broadcasting.receiveNavigation" md-raised-button (click)="stopFollowing()" class="md-accent md-hue-1">Detach</button>
-                                    <button *ngIf="!policyConfig.broadcasting.receiveNavigation" md-raised-button (click)="continueFollowing()" class="md-accent md-hue-1">Follow</button>
+                                    <span *ngIf="policyConfig.broadcasting.receiveNavigation">You are following the presentation<button md-raised-button (click)="stopFollowing()" class="md-accent md-hue-1">Stop following</button></span>
+                                    <span *ngIf="!policyConfig.broadcasting.receiveNavigation"><span class="warning">You are not following a presentation!</span><button md-raised-button (click)="continueFollowing()" class="md-accent md-hue-1">Start following</button></span>
                                 </div>
                                 <div *ngIf="policyConfig.moderating.enabled">
-                                    Presentation:
-                                    <button *ngIf="policyConfig.broadcasting.enabled" md-raised-button (click)="stopFollowing()" class="md-accent md-hue-1">Stop</button>
-                                    <button *ngIf="!policyConfig.broadcasting.enabled" md-raised-button (click)="continueFollowing()" class="md-accent md-hue-1">Start</button>
+                                    <span *ngIf="policyConfig.broadcasting.enabled">You are presenting<button md-raised-button (click)="stopFollowing()" class="md-accent md-hue-1">Stop</button></span>
+                                    <span *ngIf="!policyConfig.broadcasting.enabled">You are not presenting<button md-raised-button (click)="continueFollowing()" class="md-accent md-hue-1">Start</button></span>
                                 </div>
                             </section>
                             <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
