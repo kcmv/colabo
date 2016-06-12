@@ -810,7 +810,7 @@ $init: function(configData){
 
 // get (instantiate) service
 $get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapService',
-'RimaService', 'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService',
+'RimaService', 'KnAllEdgeRealTimeService', 'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService',
 /**
 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
 * @constructor
@@ -823,8 +823,7 @@ $get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'Knal
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapViewService} KnalledgeMapViewService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
 */
-function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapService, RimaService,
-	CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService) {
+function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapService, RimaService, KnAllEdgeRealTimeService, CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService) {
 		// var that = this;
 		try{
 			var KnAllEdgeRealTimeService = $injector.get('KnAllEdgeRealTimeService');
@@ -1330,6 +1329,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 				if(typeof kMap !== 'undefined'){
 					this.mapId = kMap._id;
 					this.rootNodeId = kMap.rootNodeId;
+					KnAllEdgeRealTimeService.setSessionId('mapId', this.mapId);
 				}
 				/**
 				 * Map data
@@ -2419,6 +2419,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			EVENT_NAME_REQUEST : 'EVENT_NAME_REQUEST',
 			EVENT_NAME_PARTICIPANT_REPLICA : 'PARTICIPANT_REPLICA_REQUEST',
 			GlobalEmitterServicesArray: null,
+			sessionId: null,
 			/**
 			 * hash array of plugins, where key is the plugin name
 			 * @type {Array.<string, Object>}
@@ -2431,6 +2432,14 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
 			 */
 			eventsByPlugins: {},
+
+			setSessionId: function(part, value){
+				switch(part){
+						case 'mapId':
+							this.sessionId = 'mapId:'+value;
+							break;
+				}
+			},
 
 			/**
 			 * Initializes the service.
@@ -2525,7 +2534,8 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				console.log('[KnAllEdgeRealTimeService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));
 				var knPackage = {
 					eventName: eventName,
-					msg: msg
+					msg: msg,
+					sessionId: this.sessionId
 				};
 
 				if(this.filterBroadcasting('out',eventName)){
@@ -2572,17 +2582,22 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				console.log('[KnAllEdgeRealTimeService:_dispatchEvent] tcEventName: %s, knPackage:%s', tcEventName, JSON.stringify(knPackage));
 
 				var msg = knPackage.msg;
-				var eventName = knPackage.eventName;
-				if(this.filterBroadcasting('in',eventName)){
-					var eventByPlugins = this.eventsByPlugins[eventName];
-					for(var id in eventByPlugins){
-						var pluginOptions = eventByPlugins[id];
-						var pluginName = pluginOptions.name;
+				if(knPackage.sessionId === this.sessionId){ //if both are equal null, the message will pass, but those we probably want, because they are then general ones
+					var eventName = knPackage.eventName;
+					if(this.filterBroadcasting('in',eventName)){
+						var eventByPlugins = this.eventsByPlugins[eventName];
+						for(var id in eventByPlugins){
+							var pluginOptions = eventByPlugins[id];
+							var pluginName = pluginOptions.name;
 
-						console.log('\t dispatching to plugin: %s', pluginName);
-						var pluginCallback = pluginOptions.events[eventName];
-						pluginCallback(eventName, msg);
+							console.log('\t dispatching to plugin: %s', pluginName);
+							var pluginCallback = pluginOptions.events[eventName];
+							pluginCallback(eventName, msg);
+						}
 					}
+				}
+				else{
+					console.log('received KnAllEdgeRealTimeService message from a different session `' + knPackage.sessionId + '`, while our session is `' + this.sessionId + '`');
 				}
 			}
 		};

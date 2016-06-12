@@ -472,7 +472,7 @@ MapStructure.prototype.getAncestorsPath = function(node){
 	for (var i = 0; i < parents.length; i++) {
 		ancestorsNew = this.getAncestorsPath(parents[i]);
 		for(var ancestors_i in ancestorsNew){
-			ancestors[ancestors_i] = ancestorsNew[ancestors_i]; //IMPORTANT: by this algorythm the same ancestor can be found and added if he is on multiple paths (by using hash-object we override it, but by using array we sould duplicate it)
+			ancestors[ancestors_i] = ancestorsNew[ancestors_i]; //IMPORTANT: by this algorythm the same ancestor can be found and added if he is on multiple paths (by using hash-object we override it, but by using array we should duplicate it)
 		}
 	}
 	return ancestors;

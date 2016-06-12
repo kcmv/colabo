@@ -180,12 +180,19 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 		GlobalEmitterServicesArray.get(nodeUpdatedEventName).subscribe('rimaWhats',
 		//checking if the node change is relevant to the logged_in user:
 		function(ch){
-			if(KnalledgeMapVOsService.mapStructure.isStructuralChange(ch.changes.nodes[0].actionType)){
+			//if(ch.changes.nodes[0].actionType === MapStructure.UPDATE_NODE_NAME){
+			//if(KnalledgeMapVOsService.mapStructure.isStructuralChange(ch.changes.nodes[0].actionType)){
 				var kNode = ch.changes.nodes[0].node;
 				console.log('nodeUpdatedEventName detected for node "',kNode.name,'". id: ' + kNode._id);
 				var vkNode = KnalledgeMapVOsService.mapStructure.getVKNodeByKId(kNode._id);
 				var ancestors = KnalledgeMapVOsService.mapStructure.getAncestorsPath(vkNode);
-			}
+				var userHows = RimaService.howAmIs[RimaService.loggedInWhoAmI._id]; //RimaService.getActiveUserId()
+				for(var ancestorI in ancestors){
+					var ancestor = ancestors[ancestorI];
+					var nodeWhats = ancestor.kNode.dataContent.rima.whats;
+					//if()
+				}
+			//}
 		});
 
 		return {
