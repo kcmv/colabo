@@ -187,10 +187,19 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				var vkNode = KnalledgeMapVOsService.mapStructure.getVKNodeByKId(kNode._id);
 				var ancestors = KnalledgeMapVOsService.mapStructure.getAncestorsPath(vkNode);
 				var userHows = RimaService.howAmIs[RimaService.loggedInWhoAmI._id]; //RimaService.getActiveUserId()
+				var found = false;
 				for(var ancestorI in ancestors){
 					var ancestor = ancestors[ancestorI];
-					var nodeWhats = ancestor.kNode.dataContent.rima.whats;
-					//if()
+					if(ancestor.kNode.dataContent && ancestor.kNode.dataContent.rima){
+						var nodeWhats = ancestor.kNode.dataContent.rima.whats;
+						if(RimaService.doHowsWhatsOverlap(userHows,nodeWhats)){
+							found = true;
+							break;
+						}
+					}
+				}
+				if(found){
+					console.log('found change in descendants of a node relevant to the logged_in user ');
 				}
 			//}
 		});

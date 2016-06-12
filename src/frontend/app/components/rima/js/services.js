@@ -1227,6 +1227,17 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 				return null;
 			},
 
+			doHowsWhatsOverlap: function(hows,whats){
+				for(var h=0;h<hows.length;h++){
+					for(var w=0;w<whats.length;w++){
+						if(hows[h].whatAmI._id === whats[w]._id){
+							return true;
+						}
+					}
+				}
+				return false;
+			},
+
 			getByNameContains: function(namePart, callback){
 				return WhatAmIService.getByNameContains(namePart, callback);
 			},
