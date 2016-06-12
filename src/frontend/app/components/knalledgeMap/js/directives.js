@@ -638,6 +638,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					 */
 					var gotMap = function(kMap){
 						console.log('gotMap:'+JSON.stringify(kMap));
+						console.log('KnalledgeMapService.map:',KnalledgeMapService.map);
 						// this method broadcasts the 'modelLoadedEvent' event after loading and processing kMap
 						// this event is subscribed bellow for
 						KnalledgeMapVOsService.loadAndProcessData(kMap, function(){

@@ -1731,6 +1731,7 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 	});
 
 	resource.RESOURCE_TYPE = 'KMap';
+	resource.map = null;
 
 	/**
 	 * Loads map object (KMap) by id
@@ -1742,9 +1743,11 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 	{
 		// TODO: we need to fix promise so returned map object will be of the
 		// knalledge.KMap type rather than the angular Resource type
+		var that = this;
 		var map = this.getPlain({ searchParam:id, type:'one' }, function(mapFromServer){
 			mapFromServer = knalledge.KMap.mapFactory(mapFromServer);
 			mapFromServer.state = knalledge.KMap.STATE_SYNCED;
+			that.map = mapFromServer;
 			if(callback) callback(mapFromServer);
 
 			return mapFromServer;
