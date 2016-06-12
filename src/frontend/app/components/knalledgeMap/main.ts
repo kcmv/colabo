@@ -101,6 +101,12 @@ export class KnalledgeMapMain {
     continueFollowing(): any {
         this.policyConfig.broadcasting.receiveNavigation = true;
     }
+    disableBroadcasting(): any {
+        this.policyConfig.broadcasting.enabled = false;
+    }
+    enableBroadcasting(): any {
+        this.policyConfig.broadcasting.enabled = true;
+    }
     toggleTopPanel(): any {
         this.topPanelVisible = !this.topPanelVisible;
     }
