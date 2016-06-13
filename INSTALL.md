@@ -272,6 +272,65 @@ Upload all the 'font files' (MaterialIcons-Regular...) from the folder `src/fron
 
 Upload `KnAllEdge/src/frontend/dist/prod/css/all.css` to the `/var/www/knalledge_frontend/prod/css/` folder
 
+### TestProduction deployment
+There are two groups of actions to be done. First on local machine, then on the server
+
+#### Build system on the local machine:
+
+```sh
+cdd
+cd KnAllEdge/src/frontend
+npm run build.prod
+zip -r -X prod-2016.06.12.zip dist/prod
+```
+
+#### Upload on the server
+
+Open the folder with zip file at your local machine:
+
+```sh
+open .
+```
+Start a SFTP client and upload the zip file to a production folder on server:  `/var/www/knalledge_frontend/prod`
+
+Login to the server and unpack CF system and configure it:
+
+```sh
+ssh mprinc@knalledge.org
+cd /var/www/knalledge_frontend/prod
+rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
+unzip prod-2016.06.12.zip
+mv dist/prod/* .
+rm -r dist/
+
+chmod -R o+rx .
+chmod -R g+wrx .
+
+cd /var/www/knalledge_frontend
+
+# replace
+# `env=envs.localhost` -> `env=envs.server`
+sed -i 's/env\=envs\.localhost/env\=envs\.server/g' prod/js/shims_bundle.js
+sed -i 's/base\ href\=\"\/\"/base\ href\=\"\/prod\/\"/' prod/index.html
+
+#optional commenting:
+joe prod/index.html
+# var disableLog = true;
+
+```
+
+Copy angular-material fonts from the local machine to the server.
+
+Back on the local machine:
+
+```sh
+open ./node_modules/ng2-material/font
+```
+
+Upload all the 'font files' (MaterialIcons-Regular...) from the folder `src/frontend/node_modules/ng2-material/font` to the `/var/www/knalledge_frontend/prod/css/`
+
+Upload `KnAllEdge/src/frontend/dist/prod/css/all.css` to the `/var/www/knalledge_frontend/prod/css/` folder
+
 # TypeScript
 
 sudo npm install -g ts-node

@@ -43,6 +43,7 @@ export class TopiChatService {
     private $rootScope;
     private ENV;
     private topiChatConfigService:TopiChatConfigService;
+    private whoAmI;
 
     /**
      * Service constructor
@@ -91,6 +92,10 @@ export class TopiChatService {
         this.emit('tc:client-hello', msg);
     };
 
+    setWhoAmI(whoAmI){
+      this.whoAmI = whoAmI;
+    }
+
     clientInit(eventName, msg, tcPackage) {
         console.log('[TopiChatService:clientInit] Client id: %s', tcPackage.clientId);
         this.clientInfo.clientId = tcPackage.clientId;
@@ -103,6 +108,9 @@ export class TopiChatService {
      * @return {TopiChatService}
      */
     emit(eventName, msg) {
+        if(eventName === "tc:chat-message" && this.whoAmI){
+          msg+=this.whoAmI.displayName+": "+msg;
+        }
         var tcPackage = {
             clientId: this.clientInfo.clientId,
             msg: msg
