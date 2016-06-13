@@ -837,7 +837,8 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 			 * @type {string}
 			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
 			 */
-			mapId: "552678e69ad190a642ad461c", // map id
+			//mapId: "552678e69ad190a642ad461c", // map id
+			map: null,
 			/**
 			 * The id of root node of the currently loaded map
 			 * @type {string}
@@ -1150,7 +1151,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 				newNode.type = kNodeType;
 
 				var localNodeId = newNode._id;// = maxId+1;
-				if(!('mapId' in newNode) || !newNode.mapId) newNode.mapId = this.mapId;
+				if(!('mapId' in newNode) || !newNode.mapId) newNode.mapId = this.map._id;
 
 				newNode = KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
 				this.nodesById[localNodeId] = newNode;
@@ -1179,7 +1180,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 			},
 
 			getMapId: function(){
-				return this.mapId;
+				return this.map._id;
 			},
 
 			deleteNode: function(node) {
@@ -1256,7 +1257,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 					if(callback) callback(edgeFromServer);
 				};
 
-				if(!('mapId' in kEdge) || !kEdge.mapId) kEdge.mapId = this.mapId;
+				if(!('mapId' in kEdge) || !kEdge.mapId) kEdge.mapId = this.map._id;
 				window.edgeETest = kEdge;//TODO:remove this
 				var localEdgeId = kEdge._id;
 				kEdge = KnalledgeEdgeService.create(kEdge, edgeCreated.bind(this));
@@ -1327,9 +1328,9 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 			loadAndProcessData: function(kMap, callback){
 				var that = this;
 				if(typeof kMap !== 'undefined'){
-					this.mapId = kMap._id;
+					this.map = kMap;
 					this.rootNodeId = kMap.rootNodeId;
-					KnAllEdgeRealTimeService.setSessionId('mapId', this.mapId);
+					KnAllEdgeRealTimeService.setSessionId('mapId', this.map._id);
 				}
 				/**
 				 * Map data
@@ -1408,7 +1409,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 				var that = this;
 
 				if(setAsDefaultMap && typeof map !== 'undefined'){
-					this.mapId = map._id;
+					this.map = map;
 					this.rootNodeId = map.rootNodeId;
 				}
 
@@ -1424,7 +1425,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
                                   authors: "S. Rudan, D. Karabeg"
                            }
                        	},
-						_id: this.mapId,
+						_id: this.map._id,
 						rootNodeId: this.rootNodeId
 					};
 					map = new knalledge.KMap();
@@ -1747,7 +1748,7 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 		var map = this.getPlain({ searchParam:id, type:'one' }, function(mapFromServer){
 			mapFromServer = knalledge.KMap.mapFactory(mapFromServer);
 			mapFromServer.state = knalledge.KMap.STATE_SYNCED;
-			that.map = mapFromServer;
+			//that.map = mapFromServer;
 			if(callback) callback(mapFromServer);
 
 			return mapFromServer;
@@ -2063,7 +2064,7 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 			this.lastChange = KnalledgeMapVOsService.getLastVOUpdateTime();
 		}
 
-		var updates = this.getPlain({type:'in_map_after', searchParam: KnalledgeMapVOsService.mapId, searchParam2:this.lastChange.getTime()}, function(changesFromServer){
+		var updates = this.getPlain({type:'in_map_after', searchParam: KnalledgeMapVOsService.map._id, searchParam2:this.lastChange.getTime()}, function(changesFromServer){
 			this.lastChange = changesFromServer.last_change = new Date(changesFromServer.last_change);
 			var id=0;
 			var newChanges = false;

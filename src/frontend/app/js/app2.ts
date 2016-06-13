@@ -81,6 +81,7 @@ knalledgeMapServicesModule
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
 upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
 upgradeAdapter.upgradeNg1Provider('RimaService');
+upgradeAdapter.upgradeNg1Provider('KnalledgeMapVOsService');
 // upgradeAdapter.upgradeNg1Provider('BroadcastManagerService');
 upgradeAdapter.upgradeNg1Provider('TopiChatConfigService');
 upgradeAdapter.upgradeNg1Provider('TopiChatService');
