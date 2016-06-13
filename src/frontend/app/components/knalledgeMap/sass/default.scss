@@ -349,6 +349,16 @@ $provideLayout: 'hide';
 
 		}
 
+		.warning{
+			color: red;
+		}
+
+		.map{
+			.mapName{
+				font-weight: bold;
+			}
+		}
+
 		.names{
 			display: flex;
 			align-items: center;

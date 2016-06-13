@@ -74,7 +74,8 @@ export class KnalledgeMapMain {
         private sidenavService: SidenavService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
         @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService:KnalledgeMapPolicyService,
-        @Inject('RimaService') _RimaService_
+        @Inject('RimaService') _RimaService_,
+        @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_
     // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
     // globalEmitterServicesArray:GlobalEmitterServicesArray
     // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
@@ -83,6 +84,7 @@ export class KnalledgeMapMain {
         this.viewConfig = knalledgeMapViewService.get().config;
         this.policyConfig = knalledgeMapPolicyService.get().config;
         this.rimaService = _RimaService_;
+        this.knalledgeMapVOsService = _KnalledgeMapVOsService_;
         // this.broadcastManagerService = broadcastManagerService;
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
@@ -94,6 +96,11 @@ export class KnalledgeMapMain {
     viewConfig: any;
     topPanelVisible: boolean = true;
     private rimaService;
+    private knalledgeMapVOsService;
+
+    getMapName(): any{
+      return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
+    }
 
     stopFollowing(): any {
         this.policyConfig.broadcasting.receiveNavigation = false;
