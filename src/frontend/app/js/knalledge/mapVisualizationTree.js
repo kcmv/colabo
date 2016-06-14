@@ -74,6 +74,80 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 	}, 25);
 };
 
+/**
+ * calculates width of a node
+ * @function getNodeWidth
+ * 	@param {vkNode} d node that we are calculating width for
+ * */
+function getNodeWidth(d){
+// .style("min-width", function(d){
+		var width = null;
+		if(this.knalledgeMapViewService.provider.config.nodes.showImages){
+			var width = (!this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				d.kNode.dataContent.image.width : this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth;
+		}
+		// if width is not set or if it is narrower than
+		// this.configNodes.html.dimensions.sizes.width
+		if(this.configNodes.html.dimensions &&  this.configNodes.html.dimensions.sizes &&  this.configNodes.html.dimensions.sizes.width && (width === null || width < this.configNodes.html.dimensions.sizes.width)) {
+			width = this.configNodes.html.dimensions.sizes.width;
+		}
+		return this.scales.width(width) + "px";
+}
+
+/**
+* Calculates left margin of a node
+* @function getNodeMarginLeft
+ * 	@param {vkNode} d node that we are calculating
+ * 	the left margin for
+ * */
+function getNodeMarginLeft(d){
+		// centering the node (set margin to half the width of the node)
+		var width = null;
+		if(this.knalledgeMapViewService.provider.config.nodes.showImages){
+			var width = (!this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				d.kNode.dataContent.image.width : this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth;
+		}
+
+		// if width is not set or if it is narrower than
+		// this.configNodes.html.dimensions.sizes.width
+		if(this.configNodes.html.dimensions &&  this.configNodes.html.dimensions.sizes &&  this.configNodes.html.dimensions.sizes.width && (width === null || width < this.configNodes.html.dimensions.sizes.width)) {
+			width = this.configNodes.html.dimensions.sizes.width;
+		}
+
+		var margin = null;
+		// set margin only if width is set
+		if(width !== null) {
+			margin = this.scales.width(-width/2) + "px";
+		}
+		return margin;
+}
+
+/**
+* Calculates the width of the image inside the node
+* if user has chosen to show only thumbnail,
+* the fixed width of thumbnail will be returned
+* @function getImageWidthForNode
+ * 	@param {vkNode} d node that we are calculating
+ * 	the image width for
+ * */
+function getImageWidthForNode(d){
+	var width = this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails ? this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth : d.kNode.dataContent.image.width;
+	return this.scales.width(width) + "px";
+}
+
+/**
+* Calculates the height of the image inside the node
+* if user has chosen to show only thumbnail,
+* the fixed height of thumbnail will be returned
+* @function getImageHeightForNode
+ * 	@param {vkNode} d node that we are calculating
+ * 	the image height for
+ * */
+ function getImageHeightForNode(d){
+ 	var height = this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails ? this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsHeight : d.kNode.dataContent.image.height;
+ 	return this.scales.height(height) + "px";
+ }
+
 /** @function updateHtml
  * 	@param {vkNode} source - root node
  * joins data and view
@@ -165,31 +239,8 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 			}
 		})
 		/* TODO FIxing expandable nodes */
-		.style("width", function(d){
-		// .style("min-width", function(d){
-				var width = (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width : width;
-				if(width === null) {
-					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
-					 that.configNodes.html.dimensions.sizes.width : null;
-				}
-				return that.scales.width(width) + "px";
-		})
-		.style("margin-left", function(d){
-				// centering the node (set margin to half the width of the node)
-				var width = (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width : null;
-				if(width === null) {
-					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
-					 that.configNodes.html.dimensions.sizes.width : null;
-				}
-
-				var margin = null;
-				if(width !== null) {
-					margin = that.scales.width(-width/2) + "px";
-				}
-				return margin;
-		});
+		.style("width", getNodeWidth.bind(this))
+		.style("margin-left", getNodeMarginLeft.bind(this));
 		// .style("background-color", function(d) {
 		// 	var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
 		// 	if(image) return null; // no bacground
@@ -201,15 +252,17 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 			.attr("src", function(d){
 				return d.kNode.dataContent.image.url;
 			})
-			.attr("width", function(d){
-				return that.scales.width(d.kNode.dataContent.image.width) + "px";
-			})
-			.attr("height", function(d){
-				return that.scales.height(d.kNode.dataContent.image.height) + "px";
-			})
+			.attr("width", getImageWidthForNode.bind(this))
+			.attr("height", getImageHeightForNode.bind(this))
 			.attr("alt", function(d){
 				return d.kNode.name;
-			});
+			})
+			.on("click", function(d){
+				d3.event.stopPropagation();
+				alert("Image clicked");
+				// that.upperAPI.nodeVote(1, d);
+			})
+			;
 
 	nodeHtmlEnter
 		.append("div")
@@ -303,36 +356,13 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 	nodeHtmlUpdate
 		.classed({
 			"node_html_fixed": function(d){
-				return (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				return (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image) ?
 					false : true;
 			}
 		})
 		/* TODO FIxing expandable nodes */
-		.style("width", function(d){
-		// .style("min-width", function(d){
-				var width = (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width : null;
-				if(width === null) {
-					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
-					 that.configNodes.html.dimensions.sizes.width : null;
-				}
-				return that.scales.width(width) + "px";
-		})
-		.style("margin-left", function(d){
-				// centering the node (set margin to half the width of the node)
-				var width = (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					d.kNode.dataContent.image.width : width;
-				if(width === null) {
-					width = ( that.configNodes.html.dimensions &&  that.configNodes.html.dimensions.sizes &&  that.configNodes.html.dimensions.sizes.width) ?
-					 that.configNodes.html.dimensions.sizes.width : null;
-				}
-
-				var margin = null;
-				if(width !== null) {
-					margin = that.scales.width(-width/2) + "px";
-				}
-				return margin;
-		});
+		.style("width", getNodeWidth.bind(this))
+		.style("margin-left", getNodeMarginLeft.bind(this));
 		nodeHtmlUpdate.filter(function(d) {
 			var isEditingNode = (that.mapStructure.getEditingNode() == d);
 			return !isEditingNode;
@@ -351,15 +381,22 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 			.attr("src", function(d){
 				return d.kNode.dataContent.image.url;
 			})
-			.attr("width", function(d){
-				return that.scales.width(d.kNode.dataContent.image.width) + "px";
-			})
-			.attr("height", function(d){
-				return that.scales.height(d.kNode.dataContent.image.height) + "px";
-			})
+			.attr("width", getImageWidthForNode.bind(this))
+			.attr("height", getImageHeightForNode.bind(this))
 			.attr("alt", function(d){
 				return d.kNode.name;
 			});
+
+	// updating images' properties
+	nodeHtmlUpdate.select("img")
+		.attr("src", function(d){
+			return d.kNode.dataContent.image.url;
+		})
+		.attr("width", getImageWidthForNode.bind(this))
+		.attr("height", getImageHeightForNode.bind(this))
+		.attr("alt", function(d){
+			return d.kNode.name;
+		});
 
 	// image does not exist in data but does exist in the view
 	nodeHtmlUpdate.select("img").filter(function(d) {
