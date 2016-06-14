@@ -2,18 +2,16 @@ import {Component, Inject} from 'angular2/core';
 import {ROUTER_PROVIDERS, Location} from 'angular2/router';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {LoginStatusComponent} from '../login/login-status-component';
-// import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 
-// import {SidenavService, MdContent, MdButton} from 'ng2-material/all';
-// import {MATERIAL_DIRECTIVES, Media, SidenavService, MdToolbar} from "ng2-material/all";
-import {MATERIAL_DIRECTIVES, Media, SidenavService} from "ng2-material/all";
+// import {SidenavService, Media, MdContent, MdButton, MdToolbar} from 'ng2-material/all';
+import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media, SidenavService} from "ng2-material/all";
+import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // import {MdBackdrop} from "ng2-material/components/backdrop/backdrop";
+
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {TopPanel} from '../topPanel/topPanel';
-// import {RequestService} from '../request/request.service';
-// import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 
 // TODO: probable remove later, this is just to trigger starting the service
@@ -33,10 +31,12 @@ import {TopPanel} from '../topPanel/topPanel';
     moduleId: module.id,
     templateUrl: 'partials/main.tpl.html',
     providers: [
+        MATERIAL_PROVIDERS,
         // MdBackdrop,
         // MdToolbar,
         SidenavService,
-        ROUTER_PROVIDERS
+        ROUTER_PROVIDERS,
+        OVERLAY_PROVIDERS
         // ,
         // RequestService
     ],
@@ -95,8 +95,17 @@ export class KnalledgeMapMain {
     policyConfig: any;
     viewConfig: any;
     topPanelVisible: boolean = true;
+    status:String;
     private rimaService;
     private knalledgeMapVOsService;
+
+    customClose(interesting: boolean) {
+        if (interesting) {
+          this.status = 'That article was interesting.';
+        } else {
+          this.status = 'Look for something else.';
+        }
+      }
 
     getMapName(): any{
       return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
