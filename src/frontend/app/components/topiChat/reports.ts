@@ -1,7 +1,7 @@
 import {Component, Inject} from 'angular2/core';
 import {NgIf, NgFor, FORM_DIRECTIVES} from 'angular2/common';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MdRadioDispatcher, MATERIAL_DIRECTIVES} from 'ng2-material/all';
+import {MdRadioDispatcher, MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {TopiChatService} from '../topiChat/topiChatService';
 import {TopiChatConfigService} from './topiChatConfigService';

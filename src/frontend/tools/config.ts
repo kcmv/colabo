@@ -139,7 +139,7 @@ const SUB_PROJECTS_FILES = {
 KNALLEDGE: {
     APP_ASSETS: [
     // (NG2-) MATERIAL
-        { src: 'ng2-material/dist/MaterialIcons-Regular.*', asset: true, dest: CSS_DEST }
+        { src: 'ng2-material/font/MaterialIcons-Regular.*', asset: true, dest: CSS_DEST }
     ],
     NPM_DEPENDENCIES: [
     // LIBS
@@ -248,8 +248,8 @@ KNALLEDGE: {
 		{ src: join(APP_SRC, 'components/ontov/css/visualsearch/visualsearch-datauri.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
     // (NG2-) MATERIAL
-        { src: 'ng2-material/dist/ng2-material.css', inject: true, dest: CSS_DEST },
-        { src: 'ng2-material/dist/font.css', inject: true, dest: CSS_DEST }
+        { src: 'ng2-material/ng2-material.css', inject: true, dest: CSS_DEST },
+        { src: 'ng2-material/font/font.css', inject: true, dest: CSS_DEST }
     ],
     DEV_NPM_DEPENDENCIES: [
     ],
@@ -260,17 +260,17 @@ KNALLEDGE: {
 },
 BUTTONS: {
     APP_ASSETS: [
-        { src: 'ng2-material/dist/MaterialIcons-Regular.*', asset: true, dest: CSS_DEST }
+        { src: 'ng2-material/font/MaterialIcons-Regular.*', asset: true, dest: CSS_DEST }
     ],
     NPM_DEPENDENCIES: [
     ],
     DEV_NPM_DEPENDENCIES: [
-        { src: 'ng2-material/dist/ng2-material.css', inject: true, dest: CSS_DEST },
-        { src: 'ng2-material/dist/font.css', inject: true, dest: CSS_DEST }
+        { src: 'ng2-material/ng2-material.css', inject: true, dest: CSS_DEST },
+        { src: 'ng2-material/font/font.css', inject: true, dest: CSS_DEST }
     ],
     PROD_NPM_DEPENDENCIES: [
-        { src: 'ng2-material/dist/ng2-material.css', inject: true, dest: CSS_DEST },
-        { src: 'ng2-material/dist/font.css', inject: true, dest: CSS_DEST }
+        { src: 'ng2-material/ng2-material.css', inject: true, dest: CSS_DEST },
+        { src: 'ng2-material/font/font.css', inject: true, dest: CSS_DEST }
     ]
 }
 };

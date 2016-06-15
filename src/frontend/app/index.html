@@ -61,6 +61,12 @@
 	    <% if (ENV === 'dev') { %>
 	    <script>System.config({
 			"defaultJSExtensions":true,
+			"defaultExtension": "js",
+			"map": {
+				"@angular": "angular2",
+				"@angular/core/src/facade": "angular2/src/facade",
+				"ng2-material": "ng2-material/index.js"
+			},
 			"paths":{
 				"bootstrap":"/bootstrap",
 				"*":"../../node_modules/*"

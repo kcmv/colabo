@@ -3,9 +3,9 @@ import {ROUTER_PROVIDERS, Location} from 'angular2/router';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {LoginStatusComponent} from '../login/login-status-component';
 
-// import {SidenavService, Media, MdContent, MdButton, MdToolbar} from 'ng2-material/all';
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media, SidenavService} from "ng2-material/all";
-import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
+// import {SidenavService, Media, MdContent, MdButton, MdToolbar} from 'ng2-material';
+import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media, SidenavService} from "ng2-material";
+// import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // import {MdBackdrop} from "ng2-material/components/backdrop/backdrop";
 
 import {KnalledgeMapTools} from './tools';
@@ -35,8 +35,9 @@ import {TopPanel} from '../topPanel/topPanel';
         // MdBackdrop,
         // MdToolbar,
         SidenavService,
-        ROUTER_PROVIDERS,
-        OVERLAY_PROVIDERS
+        ROUTER_PROVIDERS
+        // ,
+        // OVERLAY_PROVIDERS
         // ,
         // RequestService
     ],

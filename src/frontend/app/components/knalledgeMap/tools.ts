@@ -1,8 +1,8 @@
 import {Component, Inject} from 'angular2/core';
 import {NgIf, FORM_DIRECTIVES} from 'angular2/common';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {SidenavService, MdRadioDispatcher, MATERIAL_DIRECTIVES} from 'ng2-material/all';
-// import {SidenavService, MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material/all';
+import {SidenavService, MdRadioDispatcher, MATERIAL_DIRECTIVES} from 'ng2-material';
+// import {SidenavService, MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';

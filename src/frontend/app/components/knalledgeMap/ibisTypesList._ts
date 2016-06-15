@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-// import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
-import {MdList, MdListItem, MdContent, MdButton} from 'ng2-material/all';
+// import {MATERIAL_DIRECTIVES} from 'ng2-material';
+import {MdList, MdListItem, MdContent, MdButton} from 'ng2-material';
 
 @Component({
     selector: 'ibis-types-list',
