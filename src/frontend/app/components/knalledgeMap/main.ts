@@ -1,4 +1,5 @@
 import {Component, Inject} from 'angular2/core';
+import {NgClass} from 'angular2/common';
 import {ROUTER_PROVIDERS, Location} from 'angular2/router';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {LoginStatusComponent} from '../login/login-status-component';
@@ -42,6 +43,7 @@ import {TopPanel} from '../topPanel/topPanel';
     ],
     directives: [
         MATERIAL_DIRECTIVES,
+        NgClass,
         // MdContent, MdButton,
         //   LoginStatusComponent,
         upgradeAdapter.upgradeNg1Component('ontovSearch'),
@@ -95,8 +97,28 @@ export class KnalledgeMapMain {
     policyConfig: any;
     viewConfig: any;
     topPanelVisible: boolean = true;
+
+    nodeImageDialog = {
+        visible: false as boolean,
+        /* knalledge.VKNode */
+        node: {
+            kNode: {
+                name: "Здраво!"
+            }
+        }
+    };
+
     private rimaService;
     private knalledgeMapVOsService;
+
+    nodeImageDialogClose() {
+        this.nodeImageDialog.visible = false;
+    }
+
+    nodeImageDialogOpen() {
+        // this.nodeImageDialog.node = vkNode;
+        this.nodeImageDialog.visible = true;
+    }
 
     getMapName(): any{
       return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';

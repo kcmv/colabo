@@ -16,6 +16,9 @@
                     <button md-raised-button (click)="close('right')" align="right" class="md-primary" hide-gt-md>
                         Close
                     </button>
+                    <button md-raised-button class="md-primary" flex="auto" (click)="nodeImageDialogOpen()">
+                        Show node image
+                    </button>
                 </div>
                 <knalledge-map-list class="knalledge_map_list"></knalledge-map-list>
             </md-content>
@@ -91,11 +94,14 @@
 
                             <section class="status" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
                                 <div class="name" layout="column">
-                                        {{policyConfig.state.name}} <!-- ({{policyConfig.state.id}}) -->
+                                    {{policyConfig.state.name}}
+                                    <!-- ({{policyConfig.state.id}}) -->
                                 </div>
                                 <div *ngIf="!policyConfig.moderating.enabled">
                                     <span *ngIf="policyConfig.broadcasting.receiveNavigation">You are following the presentation<button md-raised-button (click)="stopFollowing()" class="md-accent md-hue-1">Stop following</button></span>
-                                    <span *ngIf="!policyConfig.broadcasting.receiveNavigation"><span class="warning">You are not following a presentation!</span><button md-raised-button (click)="continueFollowing()" class="md-accent md-hue-1">Start following</button></span>
+                                    <span *ngIf="!policyConfig.broadcasting.receiveNavigation"><span class="warning">You are not following a presentation!</span>
+                                    <button md-raised-button (click)="continueFollowing()" class="md-accent md-hue-1">Start following</button>
+                                    </span>
                                 </div>
                                 <div *ngIf="policyConfig.moderating.enabled">
                                     <span *ngIf="policyConfig.broadcasting.enabled">You are presenting<button md-raised-button (click)="disableBroadcasting()" class="md-accent md-hue-1">Stop</button></span>
@@ -136,4 +142,19 @@
             </div>
         </md-content>
     </md-sidenav-container>
+</div>
+
+<div class="md-padding" id="popupContainer">
+    <div id="nodeImageDialog" class="cfDialog" [ngClass]="{visible: nodeImageDialog.visible}">
+        <h2 class="md-title">{{nodeImageDialog.node.kNode.name}} (Fruit)</h2>
+        <div>
+            <p>
+                The mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting trees, cultivated mostly for edible fruit.
+            </p>
+        </div>
+
+        <button md-button (click)="nodeImageDialogClose()">
+            <span>Close</span>
+        </button>
+    </div>
 </div>
