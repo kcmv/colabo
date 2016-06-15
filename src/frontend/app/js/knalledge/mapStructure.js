@@ -70,7 +70,7 @@ var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapV
 
 // Lists of constants that describes what type of updates are made on node
 MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
-MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT";
+MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT"; //depricated, should be more specialized
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
 MapStructure.UPDATE_NODE_APPEARENCE = "UPDATE_NODE_APPEARENCE";
 
@@ -734,6 +734,13 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 			patch = {dataContent:{ibis:{votes:{}}}};
 			patch.dataContent.ibis.votes[iAmId] = change;
 		break;
+		case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING:
+			patch = {dataContent:{rima:{whats:{'_id':change}}}};
+			//'dataContent.rima.whats'
+		break;
+		case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING:
+			//TODO: still using old non-differential change
+		break;
 		case MapStructure.UPDATE_DATA_CONTENT:
 			break;
 	}
@@ -744,6 +751,26 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 
 	return this;
 };
+
+//TODO: should this be in the RIMA component or here?
+/**
+ * [function description]
+ * @param  {[type]} vnode [description]
+ * @return {[type]}       [description]
+ */
+MapStructure.prototype.nodeWhatsManagement = function(msg) {
+	//{actionType:'what_deleted',node:$scope.node,what:whatId}
+	//var actionType = '';
+	switch (msg.actionType) {
+		case 'what_deleted':
+				this.updateNode(msg.node, knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING, msg.what);
+		break;
+		case 'what_added':
+			//TODO: still using old non-differential change
+			this.updateNode(msg.node, knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING, msg.what);
+		break;
+	}
+}
 
 MapStructure.prototype.deleteNode = function(vnode) {
 	if(!this.mapService) return;

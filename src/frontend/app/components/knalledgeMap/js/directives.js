@@ -845,9 +845,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					// 	// knalledgeMap.syncingChanged(); NOT USED ANY MORE
 					// });
 
-					GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).subscribe('knalledgeMap', function(vkNode) {
+					GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).subscribe('knalledgeMap',
+					function(msg) {
 						console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
-						knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
+						//msg is of type: {actionType:'what_deleted',node:$scope.node,what:whatId}
+						knalledgeMap.mapStructure.nodeWhatsManagement(msg);
 						knalledgeMap.update();
 					});
 
