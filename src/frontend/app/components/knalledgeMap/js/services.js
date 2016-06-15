@@ -2152,63 +2152,12 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 	return resource;
 }]);
 
-
-
 /*
 Migrated into separate TypeScript service class: KnalledgeMapViewService
-knalledgeMapServices.provider('KnalledgeMapViewService', {
-	// privateData: "privatno",
-	$get: [
-	function() {
-
-				// var that = this;
-		var provider = {
-			config: {
-				syncing: {
-					poolChanges: false,
-				},
-				nodes: {
-					showImages: true,
-					showTypes: true
-				},
-				edges: {
-					showNames: true,
-					showTypes: true
-				},
-				filtering: {
-					displayDistance	: 3,
-					byAuthor: [] //array of iAmId. An empty means to see for all authors
-				}
-			}
-		};
-
-		return provider;
-	}]
-});
 */
 
 /*
 Migrated into separate TypeScript service class: KnalledgeMapPolicyService
-knalledgeMapServices.provider('KnalledgeMapPolicyService', {
-	// privateData: "privatno",
-	$get: [
-	function() {
-
-				// var that = this;
-		var provider = {
-			config: {
-				broadcasting: {
-					enabled: false,
-				},
-				moderating: {
-					enabled: false
-				}
-			}
-		};
-
-		return provider;
-	}]
-});
  */
 
  /**
