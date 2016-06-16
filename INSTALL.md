@@ -163,7 +163,7 @@ rm -r backend_archive/modules/topiChat/node_modules
 rm -r backend_archive/modules/topiChat-knalledge/node_modules
 rm -r backend_archive/tools/node_modules
 
-zip -r -X prod-2016.06.16-a.zip backend_archive
+zip -r -X prod-2016.06.16-b.zip backend_archive
 open .
 ```
 
@@ -196,7 +196,7 @@ ls node_modules_backup/tC
 
 ```
 cd /var/www/knalledge/src/backend/
-unzip prod-2016.06.16-a.zip
+unzip prod-2016.06.16-b.zip
 rm -r config/ continuousServer.sh info.txt KnAllEdgeBackend.js models/ modules/ package.json tools/
 
 mv backend_archive/* .
@@ -232,7 +232,7 @@ There are two groups of actions to be done. First on local machine, then on the 
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.06.16-a.zip dist/prod
+zip -r -X prod-2016.06.16-b.zip dist/prod
 ```
 
 #### Upload on the server
@@ -250,7 +250,7 @@ Login to the server and unpack CF system and configure it:
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.06.16-a.zip
+unzip prod-2016.06.16-b.zip
 mv dist/prod/* .
 rm -r dist/
 
@@ -291,7 +291,7 @@ There are two groups of actions to be done. First on local machine, then on the 
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.06.16-a.zip dist/prod
+zip -r -X prod-2016.06.16-b.zip dist/prod
 ```
 
 #### Upload on the server
@@ -309,7 +309,7 @@ Login to the server and unpack CF system and configure it:
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.06.16-a.zip
+unzip prod-2016.06.16-b.zip
 mv dist/prod/* .
 rm -r dist/
 

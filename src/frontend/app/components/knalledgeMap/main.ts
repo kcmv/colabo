@@ -74,8 +74,6 @@ export class KnalledgeMapMain {
     policyConfig: any;
     viewConfig: any;
     topPanelVisible: boolean = true;
-    private rimaService;
-    private knalledgeMapVOsService;
     nodeImageDialog = {
         visible: false as boolean,
         /* knalledge.VKNode */
@@ -85,7 +83,8 @@ export class KnalledgeMapMain {
             }
         }
     };
-
+    private rimaService;
+    private knalledgeMapVOsService;
 
     constructor(
         private location: Location,
@@ -112,15 +111,16 @@ export class KnalledgeMapMain {
 
         this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function (vkNode){
             console.log("media clicked: ", vkNode.kNode.name);
-        });
+            this.nodeImageDialogOpen(vkNode);
+        }.bind(this));
     };
 
     nodeImageDialogClose() {
         this.nodeImageDialog.visible = false;
     }
 
-    nodeImageDialogOpen() {
-        // this.nodeImageDialog.node = vkNode;
+    nodeImageDialogOpen(vkNode) {
+        this.nodeImageDialog.node = vkNode;
         this.nodeImageDialog.visible = true;
     }
 

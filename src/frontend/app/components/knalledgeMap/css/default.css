@@ -84,6 +84,7 @@ $large: 1400px;
 ------------------------ */
 #popupContainer {
   position: absolute;
+  visibility: hidden;
   top: 0px;
   left: 0px;
   width: 100%;
