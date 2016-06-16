@@ -13,8 +13,7 @@ import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {TopPanel} from '../topPanel/topPanel';
 // import {RequestService} from '../request/request.service';
-// import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-
+import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 // TODO: probable remove later, this is just to trigger starting the service
 // import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
@@ -75,6 +74,7 @@ export class KnalledgeMapMain {
     topPanelVisible: boolean = true;
     private rimaService;
     private knalledgeMapVOsService;
+    private globalEmitterServicesArray:GlobalEmitterServicesArray;
 
     constructor(
         private location: Location,
@@ -82,10 +82,9 @@ export class KnalledgeMapMain {
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
         @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService:KnalledgeMapPolicyService,
         @Inject('RimaService') _RimaService_,
-        @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_
-    // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
-    // globalEmitterServicesArray:GlobalEmitterServicesArray
-    // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
+        @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+        // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
         ) {
         console.log('[KnalledgeMapMain]');
         this.viewConfig = knalledgeMapViewService.get().config;
@@ -96,6 +95,13 @@ export class KnalledgeMapMain {
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
         // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");
+
+        var nodeMediaClickedEventName = "nodeMediaClickedEvent";
+        this.globalEmitterServicesArray.register(nodeMediaClickedEventName);
+
+        this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function (vkNode){
+            console.log("media clicked: ", vkNode.kNode.name);
+        });
     };
 
     getMapName(): any{

@@ -175,6 +175,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		var behaviourChangedEventName = "behaviourChangedEvent";
 		GlobalEmitterServicesArray.register(behaviourChangedEventName);
 
+		var nodeMediaClickedEventName = "nodeMediaClickedEvent";
+		GlobalEmitterServicesArray.register(nodeMediaClickedEventName);
+
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
 		return {
@@ -339,6 +342,17 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						nodeClicked: function(vkNode, dom, commingFromAngular){
 							if(vkNode) kMapClientInterface.nodeSelected(vkNode, dom, commingFromAngular);
 							else kMapClientInterface.nodeUnselected(vkNode, dom, commingFromAngular);
+						},
+						/**
+						 * Reacts to clicking media content inside the node
+						 * @function nodeMediaClicked
+						 * @name kMapClientInterface#nodeMediaClicked
+						 * @param  {knalledge.VKNode} vkNode - clicked node
+						 */
+						nodeMediaClicked: function(vkNode){
+							if(vkNode){
+								GlobalEmitterServicesArray.get(nodeMediaClickedEventName).broadcast('knalledgeMap', vkNode);
+							}
 						},
 						/**
 						 * Propagates selected node to parent directive and
