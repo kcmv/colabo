@@ -952,6 +952,12 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 								}
 						}
 
+						if(msg.actionType === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING || msg.actionType === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING){
+							var rimaWhatsChangedEvent = "rimaWhatsChangedEvent";
+							GlobalEmitterServicesArray.register(rimaWhatsChangedEvent);
+							GlobalEmitterServicesArray.get(rimaWhatsChangedEvent).broadcast('mapService', {node:kNode, actionType:msg.actionType, change:msg.data});
+						}
+
 						kNode.state = knalledge.KNode.STATE_SYNCED;
 						var eventName = KnRealTimeNodeUpdatedEventName + ToVisualMsg;
 						//changes.nodes.push(kNode);
@@ -1184,10 +1190,14 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 							if(localNode.updatedAt < nodeFromServer.updatedAt){
 								//TODO: warn that ealier update has come after the later one
 								localNode.updatedAt = nodeFromServer.updatedAt;
-
 							}
 						}else{
 							that.nodesById[nodeFromServer._id].overrideFromServer(nodeFromServer);
+						}
+						if(actionType === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING || actionType === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING){
+							var rimaWhatsChangedEvent = "rimaWhatsChangedEvent";
+							GlobalEmitterServicesArray.register(rimaWhatsChangedEvent);
+							GlobalEmitterServicesArray.get(rimaWhatsChangedEvent).broadcast('mapService', {node:node, actionType:actionType, change:patch});
 						}
 						if(callback){callback(that.nodesById[nodeFromServer._id]);}
 					}); //updating on server service
