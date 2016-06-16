@@ -136,8 +136,18 @@ stop knalledge-b
 start knalledge-b
 restart knalledge-b
 
-nodejs /var/www/knalledge/src/backend/KnAllEdgeBackend.js
+```
 
+Test as a script:
+
+```sh
+nodejs /var/www/knalledge/src/backend/KnAllEdgeBackend.js
+```
+
+Test in the service context:
+
+```sh
+sudo -u www-data /usr/bin/nodejs /var/www/knalledge/src/backend/KnAllEdgeBackend.js 8888
 ```
 
 ### Backend deployment
@@ -153,7 +163,7 @@ rm -r backend_archive/modules/topiChat/node_modules
 rm -r backend_archive/modules/topiChat-knalledge/node_modules
 rm -r backend_archive/tools/node_modules
 
-zip -r -X prod-2016.05.10-c.zip backend_archive
+zip -r -X prod-2016.06.16-a.zip backend_archive
 open .
 ```
 
@@ -186,7 +196,7 @@ ls node_modules_backup/tC
 
 ```
 cd /var/www/knalledge/src/backend/
-unzip prod-2016.05.10-c.zip
+unzip prod-2016.06.16-a.zip
 rm -r config/ continuousServer.sh info.txt KnAllEdgeBackend.js models/ modules/ package.json tools/
 
 mv backend_archive/* .
@@ -222,7 +232,7 @@ There are two groups of actions to be done. First on local machine, then on the 
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.06.12.zip dist/prod
+zip -r -X prod-2016.06.16-a.zip dist/prod
 ```
 
 #### Upload on the server
@@ -240,7 +250,7 @@ Login to the server and unpack CF system and configure it:
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.06.12.zip
+unzip prod-2016.06.16-a.zip
 mv dist/prod/* .
 rm -r dist/
 
@@ -281,7 +291,7 @@ There are two groups of actions to be done. First on local machine, then on the 
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.06.12.zip dist/prod
+zip -r -X prod-2016.06.16-a.zip dist/prod
 ```
 
 #### Upload on the server
@@ -299,7 +309,7 @@ Login to the server and unpack CF system and configure it:
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.06.12.zip
+unzip prod-2016.06.16-a.zip
 mv dist/prod/* .
 rm -r dist/
 
@@ -413,6 +423,8 @@ npm ERR! enoent
 **NOTE**: Backend needs a special ```express-resource``` package on steroids. You can download it as a separate package [here](http://magicheads.info/downloads/express-resource.zip). After or even before issuing ```npm install``` you should (re)place the content of the archive:
 
 in your ```backend/node_modules``` folder
+
+It is similar with deep-assign package which you can find [here](http://magicheads.info/downloads/deep-assign.zip).
 
 then you should go to 2. in ```backend/modules/topiChat```
 and do npm install there

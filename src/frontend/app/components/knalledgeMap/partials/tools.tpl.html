@@ -55,6 +55,8 @@
 
         <md-switch class="md-primary" aria-label="Images" [(checked)]="viewConfig.nodes.showImages" (checkedChange)="viewConfigChanged('config.nodes.showImages', viewConfig.nodes.showImages)">Images</md-switch>
 
+        <md-switch class="md-primary" aria-label="Thumbnails" [(checked)]="viewConfig.nodes.showImagesAsThumbnails" (checkedChange)="viewConfigChanged('config.nodes.showImagesAsThumbnails', viewConfig.nodes.showImagesAsThumbnails)">Thumbnails</md-switch>
+
         <md-switch class="md-primary" aria-label="Edge Names" [(checked)]="viewConfig.edges.showTypes" (checkedChange)="viewConfigChanged('config.edges.showTypes', viewConfig.edges.showTypes)">Edge Names</md-switch>
 
         <md-switch class="md-primary" aria-label="Edge Types" [(checked)]="viewConfig.edges.showNames" (checkedChange)="viewConfigChanged('config.edges.showNames', viewConfig.edges.showNames)">Edge Types</md-switch>

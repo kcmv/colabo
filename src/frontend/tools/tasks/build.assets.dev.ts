@@ -43,4 +43,4 @@ export = function buildAssetsDev(gulp, plugins) {
       return stream;
     }
   };
-}
+};

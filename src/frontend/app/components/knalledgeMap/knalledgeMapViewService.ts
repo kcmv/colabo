@@ -9,6 +9,9 @@ export class KnalledgeMapViewService {
         config: {
             nodes: {
                 showImages: true,
+                showImagesAsThumbnails: true,
+                imagesThumbnailsWidth: 50,
+                imagesThumbnailsHeight: 50,
                 showTypes: true
             },
             edges: {
@@ -32,6 +35,11 @@ export class KnalledgeMapViewService {
             visualization: {
               limitedRange: false,
               viewspec: 'viewspec_tree'
+            },
+            panels: {
+                topPanel: {
+                    visible: false
+                }
             }
         }
     };

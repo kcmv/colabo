@@ -4,7 +4,7 @@ import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {LoginStatusComponent} from '../login/login-status-component';
 
 // import {SidenavService, Media, MdContent, MdButton, MdToolbar} from 'ng2-material';
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media, SidenavService} from "ng2-material";
+import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media, SidenavService} from "ng2-material/all";
 // import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // import {MdBackdrop} from "ng2-material/components/backdrop/backdrop";
 
@@ -12,7 +12,8 @@ import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {TopPanel} from '../topPanel/topPanel';
-
+// import {RequestService} from '../request/request.service';
+import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 // TODO: probable remove later, this is just to trigger starting the service
 // import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
@@ -70,16 +71,23 @@ import {TopPanel} from '../topPanel/topPanel';
     `]
 })
 export class KnalledgeMapMain {
+    userUrl: String = "www.CollaboScience.com";
+    policyConfig: any;
+    viewConfig: any;
+    topPanelVisible: boolean = true;
+    status:String;
+    private rimaService;
+    private knalledgeMapVOsService;
+
     constructor(
         private location: Location,
         private sidenavService: SidenavService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
         @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService:KnalledgeMapPolicyService,
         @Inject('RimaService') _RimaService_,
-        @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_
-    // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
-    // globalEmitterServicesArray:GlobalEmitterServicesArray
-    // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
+        @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+        // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
         ) {
         console.log('[KnalledgeMapMain]');
         this.viewConfig = knalledgeMapViewService.get().config;
@@ -90,15 +98,14 @@ export class KnalledgeMapMain {
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
         // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");
-    };
 
-    userUrl: String = "www.CollaboScience.com";
-    policyConfig: any;
-    viewConfig: any;
-    topPanelVisible: boolean = true;
-    status:String;
-    private rimaService;
-    private knalledgeMapVOsService;
+        var nodeMediaClickedEventName = "nodeMediaClickedEvent";
+        this.globalEmitterServicesArray.register(nodeMediaClickedEventName);
+
+        this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function (vkNode){
+            console.log("media clicked: ", vkNode.kNode.name);
+        });
+    };
 
     customClose(interesting: boolean) {
         if (interesting) {
@@ -125,7 +132,7 @@ export class KnalledgeMapMain {
         this.policyConfig.broadcasting.enabled = true;
     }
     toggleTopPanel(): any {
-        this.topPanelVisible = !this.topPanelVisible;
+        this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
     }
     getLoggedInUserName(): any {
         var whoAmI = this.rimaService.getWhoAmI();

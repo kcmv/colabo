@@ -175,6 +175,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		var behaviourChangedEventName = "behaviourChangedEvent";
 		GlobalEmitterServicesArray.register(behaviourChangedEventName);
 
+		var nodeMediaClickedEventName = "nodeMediaClickedEvent";
+		GlobalEmitterServicesArray.register(nodeMediaClickedEventName);
+
 		// http://docs.angularjs.org/guide/directive
 		console.log("[knalledgeMap] loading directive");
 		return {
@@ -339,6 +342,17 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						nodeClicked: function(vkNode, dom, commingFromAngular){
 							if(vkNode) kMapClientInterface.nodeSelected(vkNode, dom, commingFromAngular);
 							else kMapClientInterface.nodeUnselected(vkNode, dom, commingFromAngular);
+						},
+						/**
+						 * Reacts to clicking media content inside the node
+						 * @function nodeMediaClicked
+						 * @name kMapClientInterface#nodeMediaClicked
+						 * @param  {knalledge.VKNode} vkNode - clicked node
+						 */
+						nodeMediaClicked: function(vkNode){
+							if(vkNode){
+								GlobalEmitterServicesArray.get(nodeMediaClickedEventName).broadcast('knalledgeMap', vkNode);
+							}
 						},
 						/**
 						 * Propagates selected node to parent directive and
@@ -845,9 +859,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					// 	// knalledgeMap.syncingChanged(); NOT USED ANY MORE
 					// });
 
-					GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).subscribe('knalledgeMap', function(vkNode) {
+					GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).subscribe('knalledgeMap',
+					function(msg) {
 						console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
-						knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
+						//msg is of type: {actionType:'what_deleted',node:$scope.node,what:whatId}
+						knalledgeMap.mapStructure.nodeWhatsManagement(msg);
 						knalledgeMap.update();
 					});
 

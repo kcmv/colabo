@@ -39,9 +39,13 @@ export class SuggestionComponent implements OnInit {
       // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
       // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
       let selectedNodeChangedEventName = "selectedNodeChangedEvent";
+      let rimaWhatsChangedEvent = "rimaWhatsChangedEvent";
       this.globalEmitterServicesArray.register(selectedNodeChangedEventName);
     	this.globalEmitterServicesArray.get(selectedNodeChangedEventName).subscribe(
        'SuggestionComponent', this.selectedNodeChanged.bind(this));
+      this.globalEmitterServicesArray.register(rimaWhatsChangedEvent);
+     	this.globalEmitterServicesArray.get(rimaWhatsChangedEvent).subscribe(
+        'SuggestionComponent', this.rimaWhatsChanged.bind(this));
   }
 
   ngOnInit() {
@@ -56,6 +60,13 @@ export class SuggestionComponent implements OnInit {
   selectedNodeChanged(vkNode:any){
     console.log('selectedNodeChanged');
     this.selectedNode = vkNode;
+    if(this.selectedNode){
+      this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode.kNode);
+    }
+  }
+
+  rimaWhatsChanged(msg:any){
+    console.log('rimaWhatsChanged');
     if(this.selectedNode){
       this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode.kNode);
     }

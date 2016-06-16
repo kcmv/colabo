@@ -161,6 +161,16 @@ export class MapInteraction {
       }
     }
 
+    nodeMediaClicked(node) {
+      if(!this.isStatusMap()) return;
+      if(!node){
+          node = this.clientApi.getSelectedNode();
+      }
+      if(node){
+        this.clientApi.nodeMediaClicked(node);
+      }
+    }
+
     addLink() {
         var node = this.clientApi.getSelectedNode();
         if (node) { // if source node is selected

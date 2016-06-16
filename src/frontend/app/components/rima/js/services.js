@@ -825,8 +825,8 @@ $init: function(configData){
 },
 
 // get (instantiate) service
-$get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', /*'$rootScope', */
-	function($q, $window, $injector, ENV, WhoAmIService, WhatAmIService, HowAmIService /*, $rootScope*/) {
+$get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', 'KnAllEdgeRealTimeService', /*'$rootScope', */
+	function($q, $window, $injector, ENV, WhoAmIService, WhatAmIService, HowAmIService, KnAllEdgeRealTimeService /*, $rootScope*/) {
 
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 
@@ -937,10 +937,14 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 					$window.localStorage.loginInfo = JSON.stringify(this.loginInfo);
 				}
 			},
+
 			// sets logged in user
 			setWhoAmI: function(whoAmI){
 				this.loggedInWhoAmI = whoAmI;
 				this.setIAmId(whoAmI._id);
+				if(KnAllEdgeRealTimeService && KnAllEdgeRealTimeService.setWhoAmI){
+					KnAllEdgeRealTimeService.setWhoAmI(whoAmI);
+				}
 			},
 
 			// logged in user
