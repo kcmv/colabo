@@ -259,7 +259,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 			})
 			.on("click", function(d){
 				d3.event.stopPropagation();
-				alert("Image clicked");
+				// alert("Image clicked");
 				// that.upperAPI.nodeVote(1, d);
 			})
 			;
