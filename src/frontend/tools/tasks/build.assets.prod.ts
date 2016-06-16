@@ -52,4 +52,4 @@ export = function buildAssetsProd(gulp, plugins) {
         .pipe(gulp.dest(APP_DEST));
     }
   };
-}
+};

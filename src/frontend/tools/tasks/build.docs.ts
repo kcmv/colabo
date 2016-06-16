@@ -26,4 +26,4 @@ export = function buildDocs(gulp, plugins, option) {
         version: true
       }));
     };
-}
+};

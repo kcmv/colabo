@@ -44,6 +44,9 @@ export class TopiChatReports {
         sniff: true
     };
     plugins:any;
+    private globalEmitterServicesArray:GlobalEmitterServicesArray;
+    private topiChatService:TopiChatService;
+    private topiChatConfigService:TopiChatConfigService;
 
     constructor(
         @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
@@ -61,9 +64,6 @@ export class TopiChatReports {
         this.topiChatConfigService = topiChatConfigService;
         this.plugins = this.getPlugins();
     };
-    private globalEmitterServicesArray:GlobalEmitterServicesArray;
-    private topiChatService:TopiChatService;
-    private topiChatConfigService:TopiChatConfigService;
 
     configChanged(path, value) {
         return;

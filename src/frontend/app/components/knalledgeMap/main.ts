@@ -5,7 +5,7 @@ import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 
 // import {SidenavService, MdContent, MdButton} from 'ng2-material/all';
-// import {MATERIAL_DIRECTIVES, Media, SidenavService, MdToolbar} from "ng2-material/all";
+// import {MATERIAL_DIRECTIVES, Media, SidenavService, MdTo.olbar} from "ng2-material/all";
 import {MATERIAL_DIRECTIVES, Media, SidenavService} from "ng2-material/all";
 // import {MdBackdrop} from "ng2-material/components/backdrop/backdrop";
 import {KnalledgeMapTools} from './tools';
@@ -69,6 +69,13 @@ import {TopPanel} from '../topPanel/topPanel';
     `]
 })
 export class KnalledgeMapMain {
+    userUrl: String = "www.CollaboScience.com";
+    policyConfig: any;
+    viewConfig: any;
+    topPanelVisible: boolean = true;
+    private rimaService;
+    private knalledgeMapVOsService;
+
     constructor(
         private location: Location,
         private sidenavService: SidenavService,
@@ -91,13 +98,6 @@ export class KnalledgeMapMain {
         // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");
     };
 
-    userUrl: String = "www.CollaboScience.com";
-    policyConfig: any;
-    viewConfig: any;
-    topPanelVisible: boolean = true;
-    private rimaService;
-    private knalledgeMapVOsService;
-
     getMapName(): any{
       return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
     }
@@ -115,7 +115,7 @@ export class KnalledgeMapMain {
         this.policyConfig.broadcasting.enabled = true;
     }
     toggleTopPanel(): any {
-        this.topPanelVisible = !this.topPanelVisible;
+        this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
     }
     getLoggedInUserName(): any {
         var whoAmI = this.rimaService.getWhoAmI();

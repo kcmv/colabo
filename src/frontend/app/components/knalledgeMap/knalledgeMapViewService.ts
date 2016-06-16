@@ -35,6 +35,11 @@ export class KnalledgeMapViewService {
             visualization: {
               limitedRange: false,
               viewspec: 'viewspec_tree'
+            },
+            panels: {
+                topPanel: {
+                    visible: false
+                }
             }
         }
     };
