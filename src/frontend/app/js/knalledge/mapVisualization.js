@@ -158,7 +158,7 @@ MapVisualization.prototype.updateName = function(nodeView){
 	var nodeSpan = nodeView.select("span");
 	var newName = nodeSpan.text();
 	if(newName === ""){
-		newName = "name...";
+		newName = "";
 		nodeSpan.text(newName);
 	}
 	var d = nodeView.datum();

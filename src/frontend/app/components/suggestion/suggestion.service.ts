@@ -6,8 +6,6 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 
 @Injectable()
 export class SuggestionService {
-  public EMITTER_NAME_REQUEST:string = 'EMITTER_NAME_REQUEST';
-  //private static EVENT_NAME_REQUEST: string = 'EVENT_NAME_REQUEST';
   private rimaService:any;
   private knalledgeMapVOsService:any;
   private knAllEdgeRealTimeService:any;

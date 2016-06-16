@@ -1,7 +1,7 @@
 # Creating map
 
-+ name: choose the one you want
-+ map type: `CollaboArte/CollaboScience`
++ name: <choose the one you want> CF-SandBox
++ map type: `CollaboArte/CollaboScience/CollaboBusiness`
 + root node type: `type_knowledge`
 + parent map ID: empty
 + map version: 1

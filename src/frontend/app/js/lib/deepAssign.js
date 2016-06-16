@@ -29,7 +29,14 @@ function assignKey(to, from, key) {
 	}
 
 	if (hasOwnProperty.call(to, key)) {
-		if (to[key] === undefined || to[key] === null) {
+		if ((to[key] === undefined || to[key] === null) && isObj(val)) {
+
+		/* CollaboFramework (ChaOS / Knowlede Federation : Sinisa Rudan) fix
+		//original version was: `if (to[key] === undefined || to[key] === null) {`
+		//but we want to be able to set non-obj values from obje to object, no matter if
+		//they wer in `to` object 'null' or 'undefined'
+		*/
+
 			throw new TypeError('Cannot convert undefined or null to object (' + key + ')');
 		}
 	}

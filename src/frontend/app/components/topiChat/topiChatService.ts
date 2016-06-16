@@ -109,7 +109,7 @@ export class TopiChatService {
      */
     emit(eventName, msg) {
         if(eventName === "tc:chat-message" && this.whoAmI){
-          msg+=this.whoAmI.displayName+": "+msg;
+          msg = this.whoAmI.displayName+": "+msg;
         }
         var tcPackage = {
             clientId: this.clientInfo.clientId,

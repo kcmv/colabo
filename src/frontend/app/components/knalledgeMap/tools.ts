@@ -46,6 +46,18 @@ export class KnalledgeMapTools {
     behaviourChangedEventName:string = "behaviourChangedEvent";
     broadcastingChangedEventName:string = "broadcastingChangedEvent";
 
+    viewConfig:Object;
+    policyConfig:Object;
+
+    knRealTimeBroadcastUpdateMaps:string = "update-maps";
+    knRealTimeBroadcastReloadMaps:string = "reload-maps";
+
+    //TODO: `limitedRangeCheckBoxValue` should be changed to `config.filtering.displayDistance` when we change checkBox to some NumberSLide
+    public limitedRangeCheckBoxValue:boolean = false;
+    private knAllEdgeRealTimeService;
+    private globalEmitterServicesArray:GlobalEmitterServicesArray;
+    private sidenavService:SidenavService;
+
     constructor(
         sidenavService:SidenavService,
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
@@ -74,18 +86,6 @@ export class KnalledgeMapTools {
     // visualization:Object = {
     //     limitedRange: false
     // };
-
-    viewConfig:Object;
-    policyConfig:Object;
-
-    knRealTimeBroadcastUpdateMaps:string = "update-maps";
-    knRealTimeBroadcastReloadMaps:string = "reload-maps";
-
-    //TODO: `limitedRangeCheckBoxValue` should be changed to `config.filtering.displayDistance` when we change checkBox to some NumberSLide
-    public limitedRangeCheckBoxValue:boolean = false;
-    private knAllEdgeRealTimeService;
-    private globalEmitterServicesArray:GlobalEmitterServicesArray;
-    private sidenavService:SidenavService;
 
     // toggleComponentView:Function = function(componentName){
     //     // this.sidenavService('left').toggle();

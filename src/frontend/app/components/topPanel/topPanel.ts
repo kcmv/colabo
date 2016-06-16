@@ -50,6 +50,7 @@ export class TopPanel {
     changes:number;
     suggestions:number;
     requests:number;
+    policyConfig:Object;
 
     constructor(
         // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
@@ -62,8 +63,6 @@ export class TopPanel {
         // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
         // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
     };
-
-    policyConfig:Object;
 
     opened() {
       console.log("top panel is opened");

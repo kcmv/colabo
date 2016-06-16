@@ -180,9 +180,25 @@ exports.update = function(req, res){
 			//TODO: required because deepAssign could only work on shallow level, so overwriting votes,
 			//when it received a deeper object like `{"dataContent":{"ibis":{"votes":{"556760847125996dc1a4a21c":3}}}};`
 			old_data = JSON.parse(JSON.stringify(old_data));
+			// console.log('old_data', JSON.stringify(old_data));
+			// console.log('patch data', JSON.stringify(data));
+			switch(actionType){
+				case 'DATA_CONTENT_RIMA_WHATS_DELETING':
+					//TODO: this is very specific treatment (almost a HACK) - we need more general action:
+					// this could be other approach: http://stackoverflow.com/questions/5059951/deleting-js-object-properties-a-few-levels-deep
+					var whatId = data.dataContent.rima.whats._id;
+					//console.log('whatId: ', whatId);
+					var whats = old_data.dataContent.rima.whats;
+					for(var i=0; i<whats.length; i++){
+						if(whats[i]._id === whatId){
+							whats.splice(i, 1);
+						}
+					}
+				break;
+				default:
+					deepAssign(old_data, data);
+			}
 
-			//console.log('patch data', JSON.stringify(data));
-			deepAssign(old_data, data);
 			console.log('after patching', JSON.stringify(old_data));
 
 			/* test
