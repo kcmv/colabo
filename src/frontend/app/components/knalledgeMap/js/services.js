@@ -930,14 +930,28 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 						}
 
 						//`actionType` is a differential, and under `else` we cover thost that work over all object:
-						if(this.differentialActions[msg.actionType]){
-							//delete msg.data.
-							deepAssign(kNode, msg.data); //patching
-							kNode.updatedAt = Date(msg.actionTime); //tiempo existe en msg.data tambien, pero los ambos son de tipo 'string'
+						switch (msg.actionType) {
+							case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING:
+								var whatId = msg.data.dataContent.rima.whats._id;
+								//console.log('whatId: ', whatId);
+								var whats = kNode.dataContent.rima.whats;
+								for(var i=0; i<whats.length; i++){
+									if(whats[i]._id === whatId){
+										whats.splice(i, 1);
+									}
+								}
+							break;
+							default:
+								if(this.differentialActions[msg.actionType]){
+									//delete msg.data.
+									deepAssign(kNode, msg.data); //patching
+									kNode.updatedAt = Date(msg.actionTime); //tiempo existe en msg.data tambien, pero los ambos son de tipo 'string'
+								}
+								else{
+									kNode.fill(msg.data);
+								}
 						}
-						else{
-							kNode.fill(msg.data);
-						}
+
 						kNode.state = knalledge.KNode.STATE_SYNCED;
 						var eventName = KnRealTimeNodeUpdatedEventName + ToVisualMsg;
 						//changes.nodes.push(kNode);
@@ -1151,7 +1165,7 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 				newNode.type = kNodeType;
 
 				var localNodeId = newNode._id;// = maxId+1;
-				if(!('mapId' in newNode) || !newNode.mapId) newNode.mapId = this.map._id;
+				if(!('mapId' in newNode) || !newNode.mapId) {newNode.mapId = this.map ? this.map._id : null;} //'575ffc2cfe15024a16d456c6';}
 
 				newNode = KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
 				this.nodesById[localNodeId] = newNode;
@@ -2386,6 +2400,8 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			 */
 			eventsByPlugins: {},
 
+			whoAmI: null,
+
 			setSessionId: function(part, value){
 				switch(part){
 						case 'mapId':
@@ -2488,7 +2504,8 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				var knPackage = {
 					eventName: eventName,
 					msg: msg,
-					sessionId: this.sessionId
+					sessionId: this.sessionId,
+					sender: this.whoAmI ? this.whoAmI._id : 'undefined'
 				};
 
 				if(this.filterBroadcasting('out',eventName)){
@@ -2518,6 +2535,13 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					eventByPlugins.push(pluginOptions);
 				}
 				return this;
+			},
+
+			setWhoAmI: function(whoAmI){
+				this.whoAmI = whoAmI;
+				if(TopiChatService && TopiChatService.setWhoAmI){
+					TopiChatService.setWhoAmI(whoAmI);
+				}
 			},
 
 			/**

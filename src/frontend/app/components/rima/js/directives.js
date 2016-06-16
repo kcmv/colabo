@@ -157,6 +157,9 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					$scope.selectedItem = item;
 					//console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
 					RimaService.selectActiveUser(item);
+					// if(){
+					// 	RimaService.selectActiveUser(item);
+					// }
 				};
 				$scope.showToggleSwitchClicked = function($el){
 					var elSwitch = $element.find('.content');
@@ -900,6 +903,9 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					$scope.asyncSelected = "";
 					var kNode = $scope.node.kNode;
 					console.log("Adding new what to the node: %s", kNode._id);
+
+					//TODO: add here differential update, only a what to be added through deepAssign
+
 					if(!kNode.dataContent) kNode.dataContent = {};
 					if(!kNode.dataContent.rima) kNode.dataContent.rima = {};
 					if(!kNode.dataContent.rima.whats){
@@ -939,7 +945,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 						// deepAssign(kNode,)
 						kNode.dataContent.rima.whats.push(what);
 						$scope.asyncSelected = "";
-						GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node);
+						GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats',
+						{actionType:'what_added',node:$scope.node,what:what._id});
 					}
 
 					if(typeof what === 'string'){ //new what
@@ -962,10 +969,12 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 
 				$scope.itemRemove = function(item){
 					console.log("itemRemove: %s", item.name);
+					var whatId = item._id;
 					for(var i=0; i<$scope.items.length; i++){
-						if($scope.items[i]._id == item._id){
+						if($scope.items[i]._id === whatId){
 							$scope.items.splice(i, 1);
-							GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats', $scope.node);
+							GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats',
+							{actionType:'what_deleted',node:$scope.node,what:whatId});
 						}
 					}
 				};
