@@ -1,14 +1,14 @@
 import {Component, Inject} from '@angular/core';
-// import {ROUTER_PROVIDERS, Location} from '@angular/router';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 // import {LoginStatusComponent} from '../login/login-status-component';
 // import {Media, MdContent, MdButton} from 'ng2-material';
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media} from "ng2-material";
 import {MdToolbar} from '@angular2-material/toolbar';
-// import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
-// import {MdBackdrop} from "ng2-material/components/backdrop/backdrop";
-
+import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
+// http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
+import {ROUTER_DIRECTIVES, Router} from '@angular/router';
+import {Location} from '@angular/common';
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
@@ -34,16 +34,14 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
     templateUrl: 'partials/main.tpl.html',
     providers: [
         MATERIAL_PROVIDERS,
-        // MdBackdrop,
-        // MdToolbar,
-        // ,
-        // OVERLAY_PROVIDERS
-        // ,
+        // Router,
+        OVERLAY_PROVIDERS
         // RequestService
     ],
     directives: [
         MATERIAL_DIRECTIVES,
         MD_SIDENAV_DIRECTIVES,
+        ROUTER_DIRECTIVES,
         MdToolbar,
         // MdContent, MdButton,
         //   LoginStatusComponent,
@@ -81,6 +79,7 @@ export class KnalledgeMapMain {
     private knalledgeMapVOsService;
 
     constructor(
+        public router: Router,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
         @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService:KnalledgeMapPolicyService,
         @Inject('RimaService') _RimaService_,
@@ -153,6 +152,11 @@ export class KnalledgeMapMain {
     public go(path:string){
         // TODO: not implemented
         alert("Not implemented");
-        // this.location.go('#/'+path);
+        // this.router.navigate(['/hero', hero.id]);
+        //I assumed your `/home` route name is `Home`
+        // this._router.navigate([path]); //this will navigate to Home state.
+        //below way is to navigate by URL
+        //this.router.navigateByUrl('/home')
+       // this.location.go('#/'+path);
     };
 }
