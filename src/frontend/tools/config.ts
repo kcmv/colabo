@@ -317,6 +317,7 @@ const NPM_DEPENDENCIES: IDependency[] = [
 
 const DEV_NPM_DEPENDENCIES: IDependency[] = [
     // { src: 'angular2/es6/dev/src/testing/shims_for_IE.js', inject: 'shims' },
+    { src: 'zone.js/dist/zone.js', inject: 'shims' },
 ];
 
 const PROD_NPM_DEPENDENCIES: IDependency[] = [
