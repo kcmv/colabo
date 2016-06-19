@@ -7,8 +7,9 @@ import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media} from "ng2-material";
 import {MdToolbar} from '@angular2-material/toolbar';
 import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
-import {ROUTER_DIRECTIVES, Router} from '@angular/router';
-import {Location} from '@angular/common';
+
+import { Router, Routes, ROUTER_DIRECTIVES} from '@angular/router';
+
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
@@ -28,15 +29,34 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
  * @constructor
 */
 
+// @RouteConfig([
+//     {
+//         path: "/",
+//         name: "root",
+//         redirectTo: ["/Home"]
+//     },
+//
+//     {
+//         path: "/maps",
+//         name: "Maps",
+//         // component: HomeComponent,
+//         redirectTo: ["/maps"]
+//      useAsDefault: true
+//  },
+//     {path: '/disaster', name: 'Asteroid', redirectTo: ['CrisisCenter', 'CrisisDetail', {id:3}]}
+// ])
+//
+
 @Component({
     selector: 'knalledge-map-main',
     moduleId: module.id,
     templateUrl: 'partials/main.tpl.html',
     providers: [
         MATERIAL_PROVIDERS,
-        // Router,
         OVERLAY_PROVIDERS
+        // provideRouter
         // RequestService
+        // ROUTER_PROVIDERS
     ],
     directives: [
         MATERIAL_DIRECTIVES,
@@ -69,23 +89,24 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
         }
     `]
 })
+
 export class KnalledgeMapMain {
     userUrl: String = "www.CollaboScience.com";
     policyConfig: any;
     viewConfig: any;
     topPanelVisible: boolean = true;
-    status:String;
+    status: String;
     private rimaService;
     private knalledgeMapVOsService;
 
     constructor(
-        public router: Router,
+        // public router: Router,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
-        @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService:KnalledgeMapPolicyService,
+        @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService,
         @Inject('RimaService') _RimaService_,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
-        // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
+    // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
         ) {
         console.log('[KnalledgeMapMain]');
         this.viewConfig = knalledgeMapViewService.get().config;
@@ -100,21 +121,21 @@ export class KnalledgeMapMain {
         var nodeMediaClickedEventName = "nodeMediaClickedEvent";
         this.globalEmitterServicesArray.register(nodeMediaClickedEventName);
 
-        this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function (vkNode){
+        this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function(vkNode) {
             console.log("media clicked: ", vkNode.kNode.name);
         });
     };
 
     customClose(interesting: boolean) {
         if (interesting) {
-          this.status = 'That article was interesting.';
+            this.status = 'That article was interesting.';
         } else {
-          this.status = 'Look for something else.';
+            this.status = 'Look for something else.';
         }
-      }
+    }
 
-    getMapName(): any{
-      return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
+    getMapName(): any {
+        return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
     }
 
     stopFollowing(): any {
@@ -149,14 +170,16 @@ export class KnalledgeMapMain {
         return;
     };
 
-    public go(path:string){
+    public go(path: string) {
         // TODO: not implemented
-        alert("Not implemented");
+        // alert("Not implemented");
         // this.router.navigate(['/hero', hero.id]);
         //I assumed your `/home` route name is `Home`
         // this._router.navigate([path]); //this will navigate to Home state.
         //below way is to navigate by URL
         //this.router.navigateByUrl('/home')
-       // this.location.go('#/'+path);
+        // https://angular.io/docs/ts/latest/api/common/index/Location-class.html
+        // this.location.go('#/' + path);
+        window.location = '#/' + path;
     };
 }

@@ -20,51 +20,49 @@
             </md-content>
         </md-sidenav>
         <!-- Tools -->
-        <md-sidenav #settings align="start" class="md-sidenav-left md-whiteframe-z2">
+        <md-sidenav #settings align="start" style="min-width: 200px; max-width: 300px; width: 30%;" class="md-sidenav-left md-whiteframe-z2">
             <md-content>
                 <div style="text-align: right;">
                     <button md-raised-button (click)="settings.close()" align="right" class="md-primary">
                         Close
                     </button>
                 </div>
-                <div class="md-padding" id="popupContainer" style="position: relative;">
+                <!-- <div class="md-padding" id="popupContainer" style="position: relative;">
                     <md-dialog #custom (onClose)="customClose($event)">
-                      <form>
-                        <h2 class="md-title">{{fruit}} (Fruit)</h2>
-                        <div>
-                          <p>
-                            The mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous
-                            tropical fruiting trees, cultivated mostly for edible fruit.
-                          </p>
-                          <p>
-                            The highest concentration of Mangifera genus is in the western part of Malesia (Sumatra,
-                            Java and Borneo) and in Burma and India.
-                          </p>
-                        </div>
-                      </form>
-                      <md-dialog-actions>
-                        <a md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank">
-                          <span>More on Wikipedia</span>
-                        </a>
-                        <span flex></span>
-                        <button md-button (click)="custom.close(false)">
-                          <span>Ignore</span>
-                        </button>
-                        <button md-button class="md-primary" (click)="custom.close(true)">
-                          <span>Interesting...</span>
-                        </button>
-                      </md-dialog-actions>
+                        <form>
+                            <h2 class="md-title">{{fruit}} (Fruit)</h2>
+                            <div>
+                                <p>
+                                    The mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting trees, cultivated mostly for edible fruit.
+                                </p>
+                                <p>
+                                    The highest concentration of Mangifera genus is in the western part of Malesia (Sumatra, Java and Borneo) and in Burma and India.
+                                </p>
+                            </div>
+                        </form>
+                        <md-dialog-actions>
+                            <a md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank">
+                                <span>More on Wikipedia</span>
+                            </a>
+                            <span flex></span>
+                            <button md-button (click)="custom.close(false)">
+                                <span>Ignore</span>
+                            </button>
+                            <button md-button class="md-primary" (click)="custom.close(true)">
+                                <span>Interesting...</span>
+                            </button>
+                        </md-dialog-actions>
                     </md-dialog>
                     <button md-raised-button class="md-primary" flex="auto" (click)="custom.show()">
-                      Custom Dialog
+                        Custom Dialog
                     </button>
                     <div *ngIf="status">
-                    <br/>
-                    <b layout="row" layout-align="center center" class="md-padding">
+                        <br/>
+                        <b layout="row" layout-align="center center" class="md-padding">
                       {{status}}
                     </b>
-                  </div>
-                </div>
+                    </div>
+                </div> -->
                 <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
             </md-content>
         </md-sidenav>
@@ -128,11 +126,14 @@
 
                             <section class="status" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
                                 <div class="name" layout="column">
-                                        {{policyConfig.state.name}} <!-- ({{policyConfig.state.id}}) -->
+                                    {{policyConfig.state.name}}
+                                    <!-- ({{policyConfig.state.id}}) -->
                                 </div>
                                 <div *ngIf="!policyConfig.moderating.enabled">
                                     <span *ngIf="policyConfig.broadcasting.receiveNavigation">You are following the presentation<button md-raised-button (click)="stopFollowing()" class="md-accent md-hue-1">Stop following</button></span>
-                                    <span *ngIf="!policyConfig.broadcasting.receiveNavigation"><span class="warning">You are not following a presentation!</span><button md-raised-button (click)="continueFollowing()" class="md-accent md-hue-1">Start following</button></span>
+                                    <span *ngIf="!policyConfig.broadcasting.receiveNavigation"><span class="warning">You are not following a presentation!</span>
+                                    <button md-raised-button (click)="continueFollowing()" class="md-accent md-hue-1">Start following</button>
+                                    </span>
                                 </div>
                                 <div *ngIf="policyConfig.moderating.enabled">
                                     <span *ngIf="policyConfig.broadcasting.enabled">You are presenting<button md-raised-button (click)="disableBroadcasting()" class="md-accent md-hue-1">Stop</button></span>
