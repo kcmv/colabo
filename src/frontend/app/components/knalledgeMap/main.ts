@@ -8,7 +8,7 @@ import {MdToolbar} from '@angular2-material/toolbar';
 import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
-import { Router, Routes, ROUTER_DIRECTIVES} from '@angular/router';
+import { Router, ROUTER_DIRECTIVES} from '@angular/router';
 
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';

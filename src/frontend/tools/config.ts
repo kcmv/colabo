@@ -321,6 +321,15 @@ const DEV_NPM_DEPENDENCIES: IDependency[] = [
 
 const PROD_NPM_DEPENDENCIES: IDependency[] = [
     // { src: 'angular2/bundles/angular2.min.js', inject: 'libs' },
+    // { src: '@angular/common/index.js', inject: 'libs' },
+    // { src: '@angular/compiler/index.js', inject: 'libs' },
+    // { src: '@angular/core/index.js', inject: 'libs' },
+    // { src: '@angular/http/index.js', inject: 'libs' },
+    // { src: '@angular/platform-browser/index.js', inject: 'libs' },
+    // { src: '@angular/platform-browser-dynamic/index.js', inject: 'libs' },
+    // { src: '@angular/router/index.js', inject: 'libs' },
+    // { src: '@angular/router-deprecated/index.js', inject: 'libs' },
+    // { src: '@angular/upgrade/index.js', inject: 'libs' }
 ];
 
 export const DEV_DEPENDENCIES = normalizeDependencies(NPM_DEPENDENCIES.
@@ -338,18 +347,57 @@ export const DEPENDENCIES = ENV === 'dev' ? DEV_DEPENDENCIES : PROD_DEPENDENCIES
 
 // ----------------
 // SystemsJS Configuration.
-const SYSTEM_CONFIG_DEV = {
-    defaultJSExtensions: true,
-    paths: {
-        [BOOTSTRAP_MODULE]: `${APP_BASE}${BOOTSTRAP_MODULE}`,
-        'rxjs/*': `${APP_BASE}rxjs/*`,
-        '*': `${APP_BASE}node_modules/*`
-    },
-    packages: {
-        angular2: { defaultExtension: false },
-        rxjs: { defaultExtension: false }
-    }
-};
+
+    var config = {
+        "defaultJSExtensions":true,
+        "defaultExtension": "js",
+        "map": {
+            "ng2-material": "ng2-material/index.js",
+            // "symbol-observable": "symbol-observable/index.js"
+        },
+        packageConfigPaths: ['./node_modules/*/package.json',
+         './node_modules/@angular/*/package.json',
+         './node_modules/@angular2-material/*/package.json'
+        ],
+        packages: {
+            rxjs: { defaultExtension: 'js' },
+            "symbol-observable": {main: "index.js"}
+        },
+        paths:{
+            [BOOTSTRAP_MODULE]: `${APP_BASE}${BOOTSTRAP_MODULE}`,
+            // 'rxjs/*': `${APP_BASE}rxjs/*`,
+            '*': `./node_modules/*`,
+        }
+    };
+
+    // put the names of any of your Material components here
+    var materialPkgs = [
+      'core',
+      'checkbox',
+      'sidenav',
+      'checkbox',
+      'input',
+      'progress-bar',
+      'progress-circle',
+      'radio',
+      'tabs',
+      'toolbar'
+    ];
+
+    // for(var pI in materialPkgs){
+    //     var pkg = materialPkgs[pI];
+    //     config.packages['@angular2-material/'+pkg] = {main: pkg+'.js'};
+    // }
+
+    // put the names of any of your Angular components here
+    var angularPkgs = [
+        'common', 'compiler', 'core', 'http', 'platform-browser', 'platform-browser-dynamic', 'router', 'router-deprecated', 'upgrade'
+    ];
+    // for(var pI in angularPkgs){
+    //     var pkg = angularPkgs[pI];
+    //     config.packages['@angular/'+pkg] = {main: 'index.js', defaultExtension: 'js'};
+    // }
+    const SYSTEM_CONFIG_DEV = config;
 
 // TODO: Fix
 // const SYSTEM_CONFIG_PROD = {
@@ -364,14 +412,20 @@ const SYSTEM_CONFIG_DEV = {
 export const SYSTEM_CONFIG = SYSTEM_CONFIG_DEV;
 
 // https://github.com/systemjs/systemjs/blob/master/docs/config-api.md
-export const SYSTEM_BUILDER_CONFIG = {
-    defaultJSExtensions: true,
-    // https://github.com/ModuleLoader/es6-module-loader/blob/master/docs/loader-config.md#paths-implementation
-    paths: {
-        [`${TMP_DIR}/*`]: `${TMP_DIR}/*`,
-        '*': 'node_modules/*'
-    }
-};
+// https://github.com/ModuleLoader/es6-module-loader/blob/master/docs/loader-config.md#paths-implementation
+config.paths[`${TMP_DIR}/*`] = `${TMP_DIR}/*`;
+// config.paths['*'] = 'node_modules/*';
+
+export const SYSTEM_BUILDER_CONFIG = config;
+
+// export const SYSTEM_BUILDER_CONFIG = {
+//     defaultJSExtensions: true,
+//     // https://github.com/ModuleLoader/es6-module-loader/blob/master/docs/loader-config.md#paths-implementation
+//     paths: {
+//         [`${TMP_DIR}/*`]: `${TMP_DIR}/*`,
+//         '*': 'node_modules/*'
+//     }
+// };
 
 // --------------
 // Private.
