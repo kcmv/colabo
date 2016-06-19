@@ -1,10 +1,11 @@
-import {Component, Inject} from 'angular2/core';
-import {ROUTER_PROVIDERS, Location} from 'angular2/router';
+import {Component, Inject} from '@angular/core';
+// import {ROUTER_PROVIDERS, Location} from '@angular/router';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
+import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 // import {LoginStatusComponent} from '../login/login-status-component';
-
-// import {SidenavService, Media, MdContent, MdButton, MdToolbar} from 'ng2-material';
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media, SidenavService} from "ng2-material/all";
+// import {Media, MdContent, MdButton} from 'ng2-material';
+import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media} from "ng2-material";
+import {MdToolbar} from '@angular2-material/toolbar';
 // import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // import {MdBackdrop} from "ng2-material/components/backdrop/backdrop";
 
@@ -35,8 +36,6 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
         MATERIAL_PROVIDERS,
         // MdBackdrop,
         // MdToolbar,
-        SidenavService,
-        ROUTER_PROVIDERS
         // ,
         // OVERLAY_PROVIDERS
         // ,
@@ -44,6 +43,8 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
     ],
     directives: [
         MATERIAL_DIRECTIVES,
+        MD_SIDENAV_DIRECTIVES,
+        MdToolbar,
         // MdContent, MdButton,
         //   LoginStatusComponent,
         upgradeAdapter.upgradeNg1Component('ontovSearch'),
@@ -80,8 +81,6 @@ export class KnalledgeMapMain {
     private knalledgeMapVOsService;
 
     constructor(
-        private location: Location,
-        private sidenavService: SidenavService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
         @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService:KnalledgeMapPolicyService,
         @Inject('RimaService') _RimaService_,
@@ -144,28 +143,16 @@ export class KnalledgeMapMain {
         var name = this.rimaService.getNameFromUser(whoAmI);
         return name;
     }
-    hasMedia(breakSize: string): boolean {
-        return Media.hasMedia(breakSize);
-    }
-    open(name: string) {
-        this.sidenavService.show(name);
-    }
-    close(name: string) {
-        this.sidenavService.hide(name);
-    }
-
-    toggleList: Function = function(user: Object) {
-        var result = this.sidenavService.hide('left');
-        console.log("[toggleList] result: ", result);
-        // this.sidenavService('left').toggle();
-        return;
-    };
-
+    // hasMedia(breakSize: string): boolean {
+    //     return Media.hasMedia(breakSize);
+    // }
     showContactOptions: Function = function(event) {
         return;
     };
 
     public go(path:string){
-        this.location.go('#/'+path);
+        // TODO: not implemented
+        alert("Not implemented");
+        // this.location.go('#/'+path);
     };
 }

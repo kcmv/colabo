@@ -11,12 +11,12 @@
         <md-content>
             <md-list>
                 <md-subheader class="">Standard</md-subheader>
-                <md-list-item class="md-1-line" *ngFor="#plugin of getPlugins()">
+                <md-list-item class="md-1-line" *ngFor="let plugin of getPlugins()">
                     <div class="md-list-item-text" layout="column">
                         <h1>Plugin: {{ plugin.name }}</h1>
 						<md-list>
 			                <md-subheader class="">Events</md-subheader>
-			                <md-list-item class="md-1-line" *ngFor="#event of plugin.events">
+			                <md-list-item class="md-1-line" *ngFor="let event of plugin.events">
 			                    <div class="md-list-item-text" layout="column">
 			                        <h2>Event: {{ event.name }}</h2>
 			                    </div>
@@ -38,13 +38,13 @@
         <md-content>
             <md-list>
                 <md-subheader class="">Standard</md-subheader>
-                <md-list-item class="md-1-line" *ngFor="#event of getEvents()">
+                <md-list-item class="md-1-line" *ngFor="let event of getEvents()">
                     <div class="md-list-item-text" layout="column">
                         <h1>Event: {{ event.name }}</h1>
                         Plugins: {{event.plugins}}
                         <md-list>
 			                <md-subheader class="">Messages</md-subheader>
-			                <md-list-item class="md-1-line" *ngFor="#message of getMessagesForEvent(event.name) | orderArrayPipe:'-time'">
+			                <md-list-item class="md-1-line" *ngFor="let message of getMessagesForEvent(event.name) | orderArrayPipe:'-time'">
 			                    <div class="md-list-item-text" layout="column">
 			                        <span>client-id: {{message.tcPackage.clientIdSender}}, time: {{message.time | date:'HHmmss'}}</span>
 

@@ -110,5 +110,9 @@ angular.module('Config')
 	.constant("injector", injector)
 ;
 
+// console.log('GOTOVO ng2 a');
+
 // bootstrapping app
 upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false});
+
+// console.log('GOTOVO ng2 b');

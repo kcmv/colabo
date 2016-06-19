@@ -1,8 +1,9 @@
-import {Component, Inject} from 'angular2/core';
-import {NgIf, FORM_DIRECTIVES} from 'angular2/common';
+import {Component, Inject} from '@angular/core';
+import {NgIf, FORM_DIRECTIVES} from '@angular/common';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {SidenavService, MdRadioDispatcher, MATERIAL_DIRECTIVES} from 'ng2-material';
-// import {SidenavService, MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
+import {MdRadioButton, MdRadioGroup, MdRadioDispatcher} from '@angular2-material/radio';
+import {MATERIAL_DIRECTIVES} from 'ng2-material';
+// import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
@@ -18,12 +19,12 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 
 @Component({
     selector: 'knalledge-map-tools',
-    providers: [SidenavService, MdRadioDispatcher],
+    providers: [MdRadioDispatcher],
     directives: [
         MATERIAL_DIRECTIVES,
-        // , MdRadioDispatcher, SidenavService
         // MdList, MdListItem, MdContent, MdButton, MdSwitch,
         NgIf, FORM_DIRECTIVES,
+        MdRadioButton, MdRadioGroup,
         upgradeAdapter.upgradeNg1Component('rimaUsersList'),
         upgradeAdapter.upgradeNg1Component('ibisTypesList')
    ],
@@ -56,10 +57,8 @@ export class KnalledgeMapTools {
     public limitedRangeCheckBoxValue:boolean = false;
     private knAllEdgeRealTimeService;
     private globalEmitterServicesArray:GlobalEmitterServicesArray;
-    private sidenavService:SidenavService;
 
     constructor(
-        sidenavService:SidenavService,
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
         @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
@@ -68,7 +67,6 @@ export class KnalledgeMapTools {
         // globalEmitterServicesArray:GlobalEmitterServicesArray
     ) {
         console.log('[KnalledgeMapTools]');
-        this.sidenavService = sidenavService;
         this.policyConfig = knalledgeMapPolicyService.get().config;
         this.viewConfig = knalledgeMapViewService.get().config;
 
@@ -86,20 +84,6 @@ export class KnalledgeMapTools {
     // visualization:Object = {
     //     limitedRange: false
     // };
-
-    // toggleComponentView:Function = function(componentName){
-    //     // this.sidenavService('left').toggle();
-    //     var result = this.sidenavService.hide('left');
-    //     console.log("[toggleList] result: ", result);
-    //     return;
-    // };
-
-    toggleList:Function = function(user:Object){
-        // this.sidenavService('left').toggle();
-        var result = this.sidenavService.hide('left');
-        console.log("[toggleList] result: ", result);
-        return;
-    };
 
     //TODO: eliminate this function and use directly `viewConfigChanged` when switch values are set to exact values
     limitDisplayChanged:Function = function(path, value){

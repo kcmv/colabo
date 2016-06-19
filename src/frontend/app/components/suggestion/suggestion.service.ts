@@ -1,5 +1,5 @@
 import {Injectable
-} from 'angular2/core';
+} from '@angular/core';
 
 import {Suggestion, SuggestionVisibility, SuggestionType, SuggestionState} from './suggestion';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';

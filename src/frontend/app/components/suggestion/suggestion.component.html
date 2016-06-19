@@ -5,14 +5,14 @@
       Experts for node "<span class="topic">{{selectedNode.kNode.name}}</span>"
     </span>
     <ul class="suggestion">
-      <li *ngFor="#suggestion of suggestionsByExpertise"
+      <li *ngFor="let suggestion of suggestionsByExpertise"
         [class.selected]="suggestion === selectedSuggestion"
       >
         <span class="username" [class.unknown]="suggestion.who == null">
           <b>{{suggestion.who != null ? suggestion.who.displayName : 'unknown user'}}</b>
         </span>
         <ul class="experise">
-          <li *ngFor="#experise of suggestion.dataContent.relevantWhats">
+          <li *ngFor="let experise of suggestion.dataContent.relevantWhats">
             <span>
               &nbsp;&nbsp;&nbsp;{{experise.name}}
             </span>

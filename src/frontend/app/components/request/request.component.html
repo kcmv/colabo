@@ -1,6 +1,6 @@
 <div>
   <ul class="requests">
-    <li *ngFor="#request of requests"
+    <li *ngFor="let request of requests"
       [class.selected]="request === selectedrequest"
     >
       <span class="username" [class.unknown]="request.who == null">{{request.who != null ? request.who.displayName : 'unknown user'}}</span>

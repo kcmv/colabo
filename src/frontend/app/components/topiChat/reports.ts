@@ -1,11 +1,10 @@
-import {Component, Inject} from 'angular2/core';
-import {NgIf, NgFor, FORM_DIRECTIVES} from 'angular2/common';
-// import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MdRadioDispatcher, MATERIAL_DIRECTIVES} from 'ng2-material';
+import {Component, Inject} from '@angular/core';
+import {NgIf, NgFor, FORM_DIRECTIVES} from '@angular/common';
+import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {TopiChatService} from '../topiChat/topiChatService';
 import {TopiChatConfigService} from './topiChatConfigService';
-import { DatePipe } from "angular2/common";
+import { DatePipe } from "@angular/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
 
 /**
@@ -22,10 +21,10 @@ import { OrderArrayPipe } from "../utils/orderArrayPipe";
 
 @Component({
     selector: 'topichat-reports',
-    providers: [MdRadioDispatcher],
+    providers: [],
     directives: [
         MATERIAL_DIRECTIVES,
-        NgIf, NgFor, FORM_DIRECTIVES,
+        NgIf, NgFor, FORM_DIRECTIVES
    ],
    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl

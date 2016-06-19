@@ -1,5 +1,5 @@
 import {Injectable
-} from 'angular2/core';
+} from '@angular/core';
 
 import {Request} from './request';
 import {RequestType} from './request';

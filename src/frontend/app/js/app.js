@@ -47,6 +47,8 @@ requiresList.push('suggestionServices');
 // a module that contains ng2 directives and services downgraded for ng1 space
 requiresList.push('KnAllEdgeNg2');
 
+// console.log('GOTOVO b');
+
 angular.module('KnAllEdgeApp', requiresList)
 // routes
 .config(['$routeProvider', function($routeProvider) {

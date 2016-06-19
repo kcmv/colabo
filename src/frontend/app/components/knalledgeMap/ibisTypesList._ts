@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {MdList, MdListItem, MdContent, MdButton} from 'ng2-material';

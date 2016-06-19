@@ -1,10 +1,9 @@
 <!-- main container -->
 <div layout="column" layout-fill>
     <!-- content -->
-    <md-sidenav-container layout="row" flex style="overflow: auto; height: 100%;">
-        <!-- Right panel -->
-        <!-- <md-sidenav name="right" align="right"  [style]="hasMedia('gt-sm') ? 'side' : 'over'" flex="30" layout="column" (onShown)="input.focus()"> -->
-        <md-sidenav name="right" align="left" layout="column" [style]="hasMedia('gt-sm') ? 'side' : 'over'">
+    <md-sidenav-layout layout="row" flex style="overflow: auto; height: 100%;">
+        <!-- <md-sidenav #options align="left" layout="column" [style]="hasMedia('gt-sm') ? 'side' : 'over'"> -->
+        <md-sidenav #options [opened]="true" align="end" mode="side" layout="column">
             <md-content>
                 <!-- <form>
                 <md-input-container class="md-block">
@@ -13,7 +12,7 @@
                 </md-input-container>
                 </form> -->
                 <div style="text-align: right;">
-                    <button md-raised-button (click)="close('right')" align="right" class="md-primary" hide-gt-md>
+                    <button md-raised-button (click)="options.close()" align="right" class="md-primary" hide-gt-md>
                         Close
                     </button>
                 </div>
@@ -21,10 +20,10 @@
             </md-content>
         </md-sidenav>
         <!-- Tools -->
-        <md-sidenav name="left" align="left" class="md-sidenav-left md-whiteframe-z2">
+        <md-sidenav #settings align="start" class="md-sidenav-left md-whiteframe-z2">
             <md-content>
                 <div style="text-align: right;">
-                    <button md-raised-button (click)="close('left')" align="right" class="md-primary">
+                    <button md-raised-button (click)="settings.close()" align="right" class="md-primary">
                         Close
                     </button>
                 </div>
@@ -103,14 +102,14 @@
             <div layout-fill layout-align="stretch stretch">
                 <div class="knalledge_map_middle" layout-fill layout="column">
                     <!-- toolbar -->
-                    <md-toolbar class="toolbar md-theme-indigo" style="height: 60px">
-                        <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap>
+                    <md-toolbar class="toolbar md-theme-indigo" color="primary" style="height: 60px; width: 100%;">
+                        <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
                             <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
-                                <button md-fab class="md-primary" aria-label="Configuration" (click)="open('left')" [hidden]="leftOpened">
+                                <button md-fab class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
                                     <i md-icon>settings</i>
                                 </button>
-                                <!-- <button md-fab class="md-primary" (click)="open('right')" hide-gt-md> -->
-                                <button md-fab class="md-primary" aria-label="Configuration" (click)="open('right')" hide-gt-md>
+                                <!-- <button md-fab class="md-primary" aria-label="Configuration" (click)="options.open()" hide-gt-md> -->
+                                <button md-fab class="md-primary" aria-label="Configuration" (click)="options.open()">
                                     <i md-icon>chrome_reader_mode</i>
                                 </button>
                                 <button md-fab class="md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
@@ -173,5 +172,5 @@
                 </div>
             </div>
         </md-content>
-    </md-sidenav-container>
+    </md-sidenav-layout>
 </div>

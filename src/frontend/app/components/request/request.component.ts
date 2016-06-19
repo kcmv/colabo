@@ -1,9 +1,9 @@
-import {Component, Inject, OnInit} from 'angular2/core';
-//import {NgIf, NgFor, FORM_DIRECTIVES} from 'angular2/common';
+import {Component, Inject, OnInit} from '@angular/core';
+//import {NgIf, NgFor, FORM_DIRECTIVES} from '@angular/common';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-import { DatePipe } from "angular2/common";
+import { DatePipe } from "@angular/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
 import {Request, RequestState} from "./request";
 import {RequestService} from "./request.service";

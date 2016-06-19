@@ -1,9 +1,10 @@
-import {Component, Inject} from 'angular2/core';
-//import {NgIf, NgFor, FORM_DIRECTIVES} from 'angular2/common';
+import {Component, Inject} from '@angular/core';
+//import {NgIf, NgFor, FORM_DIRECTIVES} from '@angular/common';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
+import {MD_TABS_DIRECTIVES} from '@angular2-material/tabs';
 // import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-import { DatePipe } from "angular2/common";
+import { DatePipe } from "@angular/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
 import {RequestComponent} from '../request/request.component';
 import {SuggestionComponent} from '../suggestion/suggestion.component';
@@ -26,6 +27,7 @@ import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyServi
     selector: 'top-panel', //'topichat-reports',
     providers: [],
     directives: [
+        MD_TABS_DIRECTIVES,
         MATERIAL_DIRECTIVES,
         RequestComponent,
         SuggestionComponent,

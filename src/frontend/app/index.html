@@ -25,6 +25,10 @@
 		<script src="js/lib/textAngular/textAngular-sanitize.js"></script>
 		<script src="js/lib/textAngular/textAngularSetup.js"></script>
 -->
+		<!-- http://stackoverflow.com/questions/34359303/zone-is-not-defined-for-ngzone-angular22-0-0-beta-0
+		TODO: move to config.ts
+		-->
+		<script src="node_modules/zone.js/dist/zone.js"></script>
 
 		<script>
 		// function.name (all IE)
@@ -59,12 +63,11 @@
 	    <!-- endinject -->
 
 	    <% if (ENV === 'dev') { %>
-	    <script>System.config({
+	    <script>
+		var config = {
 			"defaultJSExtensions":true,
 			"defaultExtension": "js",
 			"map": {
-				"@angular": "angular2",
-				"@angular/core/src/facade": "angular2/src/facade",
 				"ng2-material": "ng2-material/index.js"
 			},
 			"paths":{
@@ -73,7 +76,38 @@
 			},
 			"packages":{
 			}
-		})</script>
+		}
+
+		// put the names of any of your Material components here
+		var materialPkgs = [
+		  'core',
+		  'checkbox',
+		  'sidenav',
+		  'checkbox',
+		  'input',
+		  'progress-bar',
+		  'progress-circle',
+		  'radio',
+		  'tabs',
+		  'toolbar'
+		];
+
+		for(var pI in materialPkgs){
+			var pkg = materialPkgs[pI];
+			config.packages['@angular2-material/'+pkg] = {main: pkg+'.js'};
+		}
+
+		// put the names of any of your Angular components here
+		var angularPkgs = [
+			'common', 'compiler', 'core', 'http', 'platform-browser', 'platform-browser-dynamic', 'router', 'router-deprecated', 'upgrade'
+		];
+		for(var pI in angularPkgs){
+			var pkg = angularPkgs[pI];
+			config.packages['@angular/'+pkg] = {main: 'index.js', defaultExtension: 'js'};
+		}
+
+
+		System.config(config)</script>
 	    <% } %>
 
 	    <!-- libs:js -->

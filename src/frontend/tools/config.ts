@@ -288,7 +288,6 @@ const NPM_DEPENDENCIES: IDependency[] = [
     { src: 'reflect-metadata/Reflect.js', inject: 'shims' },
     { src: 'es6-shim/es6-shim.js', inject: 'shims' },
     { src: 'systemjs/dist/system.src.js', inject: 'shims' },
-    { src: 'angular2/bundles/angular2-polyfills.js', inject: 'shims' },
 
     { src: join(APP_DEST, 'js/lib/jquery/jquery.js'), inject: 'libs', noNorm: true},
     { src: join(APP_DEST, 'js/lib/bootstrap/bootstrap.js'), inject: 'libs', noNorm: true},
@@ -317,19 +316,11 @@ const NPM_DEPENDENCIES: IDependency[] = [
 ];
 
 const DEV_NPM_DEPENDENCIES: IDependency[] = [
-    { src: 'angular2/es6/dev/src/testing/shims_for_IE.js', inject: 'shims' },
-    // { src: 'angular2/bundles/angular2.dev.js', inject: 'libs' },
-    // { src: 'angular2/bundles/router.dev.js', inject: 'libs' },
-    // { src: 'angular2/bundles/http.dev.js', inject: 'libs' },
-    { src: 'angular2/bundles/angular2.js', inject: 'libs' },
-    { src: 'angular2/bundles/router.js', inject: 'libs' },
-    { src: 'angular2/bundles/http.js', inject: 'libs' }
+    // { src: 'angular2/es6/dev/src/testing/shims_for_IE.js', inject: 'shims' },
 ];
 
 const PROD_NPM_DEPENDENCIES: IDependency[] = [
-    { src: 'angular2/bundles/angular2.min.js', inject: 'libs' },
-    { src: 'angular2/bundles/router.min.js', inject: 'libs' },
-    { src: 'angular2/bundles/http.min.js', inject: 'libs' },
+    // { src: 'angular2/bundles/angular2.min.js', inject: 'libs' },
 ];
 
 export const DEV_DEPENDENCIES = normalizeDependencies(NPM_DEPENDENCIES.
@@ -351,7 +342,6 @@ const SYSTEM_CONFIG_DEV = {
     defaultJSExtensions: true,
     paths: {
         [BOOTSTRAP_MODULE]: `${APP_BASE}${BOOTSTRAP_MODULE}`,
-        'angular2/*': `${APP_BASE}angular2/*`,
         'rxjs/*': `${APP_BASE}rxjs/*`,
         '*': `${APP_BASE}node_modules/*`
     },

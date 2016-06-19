@@ -1,4 +1,4 @@
-import {EventEmitter} from 'angular2/core';
+import {EventEmitter} from '@angular/core';
 
 interface StringToFunction {
     [name: string]: Function;
