@@ -1,0 +1,28 @@
+<div>
+  <span>Changes by expertise</span>
+  <div *ngIf="changesByExpertise.length !== 0">
+    <span *ngIf="selectedNode !== null">
+      Experts for node "<span class="topic">{{selectedNode.kNode.name}}</span>"
+    </span>
+    <ul class="change">
+      <li *ngFor="#change of changesByExpertise"
+        [class.selected]="change === selectedChange"
+      >
+        <span class="username" [class.unknown]="change.who == null">
+          <b>{{change.who != null ? change.who.displayName : 'unknown user'}}</b>
+        </span>
+        <ul class="experise">
+          <li *ngFor="#experise of change.dataContent.relevantWhats">
+            <span>
+              &nbsp;&nbsp;&nbsp;{{experise.name}}
+            </span>
+          </li>
+        </ul>
+      </li>
+  </ul>
+</div>
+<div *ngIf="changesByExpertise.length === 0">
+  <span *ngIf="selectedNode !== null">
+    No experts found for the selected node "<span class="topic">{{selectedNode.kNode.name}}</span>"
+  </span>
+</div>

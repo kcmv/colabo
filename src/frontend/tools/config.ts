@@ -165,6 +165,7 @@ KNALLEDGE: {
 		{ src: join(APP_DEST, 'js/knalledge/kMap.js'), inject: true, noNorm: true},
     { src: join(APP_DEST, 'js/knalledge/request.js'), inject: true, noNorm: true}, // from TS
     { src: join(APP_DEST, 'js/knalledge/suggestion.js'), inject: true, noNorm: true}, // from TS
+    { src: join(APP_DEST, 'js/knalledge/change.js'), inject: true, noNorm: true}, // from TS
 		{ src: join(APP_DEST, 'js/knalledge/WhoAmI.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/knalledge/HowAmI.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'js/knalledge/WhatAmI.js'), inject: true, noNorm: true},
@@ -204,6 +205,7 @@ KNALLEDGE: {
 		{ src: join(APP_DEST, 'components/topiChat/js/services.js'), inject: true, noNorm: true},
     { src: join(APP_DEST, 'components/request/services.js'), inject: true, noNorm: true},
     { src: join(APP_DEST, 'components/suggestion/services.js'), inject: true, noNorm: true},
+    { src: join(APP_DEST, 'components/change/services.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'components/login/js/directives.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'components/login/js/services.js'), inject: true, noNorm: true},
         { src: join(APP_DEST, 'components/collaboBroadcasting/js/services.js'), inject: true, noNorm: true},

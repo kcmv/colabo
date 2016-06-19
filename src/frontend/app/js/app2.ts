@@ -14,6 +14,7 @@ import {TopiChatConfigService} from '../components/topiChat/topiChatConfigServic
 import {TopiChatService} from '../components/topiChat/topiChatService';
 import {RequestService} from '../components/request/request.service';
 import {SuggestionService} from '../components/suggestion/suggestion.service';
+import {ChangeService} from '../components/change/change.service';
 
 
 // import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
@@ -51,6 +52,12 @@ requestServices
 var suggestionServices = angular.module('suggestionServices');
 suggestionServices
     .service('SuggestionService', SuggestionService)
+    ;
+
+// injecting NG1 TS service into NG1 space
+var changeServices = angular.module('changeServices');
+changeServices
+    .service('ChangeService', ChangeService)
     ;
 
 angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives'])
@@ -91,6 +98,7 @@ upgradeAdapter.upgradeNg1Provider('TopiChatService');
 upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
 upgradeAdapter.upgradeNg1Provider('RequestService');
 upgradeAdapter.upgradeNg1Provider('SuggestionService');
+upgradeAdapter.upgradeNg1Provider('ChangeService');
 
 // upgradeAdapter.addProvider(GlobalEmitterService);
 // upgradeAdapter.upgradeNg1Provider(GlobalEmitterService);

@@ -42,6 +42,7 @@ requiresList.push('ontovServices');
 
 requiresList.push('requestServices');
 requiresList.push('suggestionServices');
+requiresList.push('changeServices');
 
 
 // a module that contains ng2 directives and services downgraded for ng1 space
