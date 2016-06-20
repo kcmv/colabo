@@ -24,17 +24,40 @@
 		</form>
 
 	</div>
+	<div>TESTING
+		<span *ngIf="policyConfig.moderating.enabled">
+		<!-- <span *ngIf="false"> -->
+			policyConfig.moderating.enabled = {{policyConfig.moderating.enabled}} = true
+		</span>
+		||
+		<span *ngIf="!policyConfig.moderating.enabled">
+			policyConfig.moderating.enabled = {{policyConfig.moderating.enabled}} = false
+		</span>
+	</div>
 	<div>
 		<br/>
 		<span>Existing maps:</span>
 		<table class="list">
-			<tr><th class="mcm_name">Id</th><th class="mcm_name">Name</th><th class="mcm_type">Type</th><th>Participants</th><th class="mcm_authors">Authors</th><th class="creation_date">Creation Date</th></tr>
+			<tr><th *ngShow="policyConfig.moderating.enabled" class="mcm_name">Id</th>
+				<th class="mcm_name">Name</th>
+				<th *ngIf="policyConfig.moderating.enabled" class="mcm_name">Actions</th>
+				<th class="mcm_authors">Authors</th>
+				<th class="mcm_type">Type</th>
+				<th>Participants</th>
+				<th class="creation_date">Creation Date</th></tr>
 			<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{'active-selection': item._id == selectedItem._id}">
-				<td>{{item._id}}</td>
+				<td *ngShow="policyConfig.moderating.enabled">{{item._id}}</td>
 				<td>{{item.name}}</td>
-				<td>{{item.type}}</td>
-				<td>{{getParticipantsNames(item.participants)}}</td>
+				<td *ngIf="policyConfig.moderating.enabled">
+					<button md-fab class="md-primary" aria-label="delete" (click)="delete(item)">
+							<i md-icon>view_agenda</i>
+					</button>
+					<a ng-click="delete(item)" href='javascript:void(0);'>del</a>
+					<span *ngIf="!policyConfig.moderating.enabled"> regular actions ....{{policyConfig.moderating.enabled}}</span> | <span *ngIf="policyConfig.moderating.enabled"> moderator actions ....{{policyConfig.moderating.enabled}}</span></td>
 				<td>{{item.dataContent.mcm.authors}}</td>
+				<td>{{item.type}}</td>
+				<td><a href='javascript:void(0);'>participants</a></td>
+				<!-- {{getParticipantsNames(item.participants)}} -->
 				<td>{{item.createdAt}}</td>
 			</tr>
 		</table>

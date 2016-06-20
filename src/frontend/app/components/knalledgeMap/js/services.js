@@ -1581,6 +1581,13 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 					}
 				}
 				return parents;
+			},
+
+			mapDelete: function(mapId){
+				var mapDeleted = function(result,result2){
+					console.log('[mapDeleted]; result: ', result,', result2: ', result2);
+				}
+				KnalledgeMapService.deleteMapAndContent(mapId, mapDeleted)
 			}
 		};
 
@@ -1872,6 +1879,11 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 	resource.destroy = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'one'}, callback);
+	};
+
+	resource.deleteMapAndContent = function(id, callback)
+	{
+		return this.destroyPlain({searchParam:id, type:'map-and-content'}, callback);
 	};
 
 	resource.execute = function(request){ //example:: request = {data: kMap, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};

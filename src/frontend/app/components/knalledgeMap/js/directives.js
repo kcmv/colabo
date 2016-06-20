@@ -1039,8 +1039,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
     		}
     	};
 	}])
-	.directive('knalledgeMapsList', ["$rootScope", "$timeout", "$location", 'KnalledgeMapService', 'KnalledgeMapVOsService', 'RimaService',
-		function($rootScope, $timeout, $location, KnalledgeMapService, KnalledgeMapVOsService, RimaService){
+	.directive('knalledgeMapsList', ["$rootScope", "$timeout", "$location", 'KnalledgeMapService', 'KnalledgeMapVOsService', 'RimaService', 'KnalledgeMapPolicyService'
+,		function($rootScope, $timeout, $location, KnalledgeMapService, KnalledgeMapVOsService, RimaService, KnalledgeMapPolicyService){
 		console.log("[mcmMapsList] loading directive");
 		return {
 			restrict: 'AE',
@@ -1055,6 +1055,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.modeEditing = false;
 				$scope.items = null;
 				$scope.selectedItem = null;
+				$scope.policyConfig = KnalledgeMapPolicyService.provider.config;
 
 				KnalledgeMapService.query().$promise.then(function(maps){
 					$scope.items = maps;
@@ -1072,6 +1073,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					console.log("Canceled");
 					$scope.modeCreating = false;
 					$scope.modeEditing = false;
+				};
+
+				$scope.delete = function(map){
+					//console.log("mapDelete:", map));
+					if(window.confirm('Are you sure you want to delete map "'+map.name+'"?')){
+						KnalledgeMapVOsService.mapDelete(map._id);
+					}
 				};
 
 				$scope.getParticipantsNames = function(ids){

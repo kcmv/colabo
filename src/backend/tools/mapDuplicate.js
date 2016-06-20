@@ -73,12 +73,13 @@ db.on('open', function (callback) {
 			//console.log('oldMap has _id:', oldMap.hasOwnProperty('_id'));
 
 			//console.log('oldMap:', oldMap);
-			mapData.map = new KMapModel();
+			mapData.map = new KMapModel(oldMap);
 			mapData.map.name = mapNewName;
 			//delete mapData.map['_id'];
-			console.log('mapData.map to be saved:',mapData.map);
+			console.log('mapData.map for saving:',mapData.map);
 			//console.log('mapSaved:',mapSaved);
 			mapData.map.save(function(err) {
+			//KMapModel.create(mapData.map, function(err) {
 				if (err) throw err;
 				console.log('saved');
 			});
