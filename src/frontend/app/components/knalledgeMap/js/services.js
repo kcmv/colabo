@@ -188,7 +188,7 @@ knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', 
 			}
 		}},
 
-		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
+		createPlain: {method:'POST', path:'dupllicate', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -1583,11 +1583,21 @@ function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdge
 				return parents;
 			},
 
-			mapDelete: function(mapId){
+			mapDelete: function(mapId, callback){
 				var mapDeleted = function(result,result2){
 					console.log('[mapDeleted]; result: ', result,', result2: ', result2);
+					if(callback){callback(result);}
 				}
 				KnalledgeMapService.deleteMapAndContent(mapId, mapDeleted)
+			},
+
+			mapDuplicate: function(map, mapNewName, callback){
+				console.log('duplicateMap');
+				var mapDuplicated = function(result,result2){
+					console.log('[mapDuplicated]; result: ', result,', result2: ', result2);
+					if(callback){callback(result);}
+				}
+				KnalledgeMapService.duplicate(map._id, mapNewName, mapDuplicated);
 			}
 		};
 
@@ -1884,6 +1894,13 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 	resource.deleteMapAndContent = function(id, callback)
 	{
 		return this.destroyPlain({searchParam:id, type:'map-and-content'}, callback);
+	};
+
+	resource.duplicate = function(mapId, newName, callback)
+	{
+		//return this.createPlain({}, {mapId:mapId,newName:newName, type:'duplicate'}, callback);
+		return this.updatePlain({type:'duplicate',searchParam:mapId}, {newMapName:newName}, callback);
+		//return this.createPlain({searchParam:mapId, searchParam2:newName, type:'duplicate'}, callback);
 	};
 
 	resource.execute = function(request){ //example:: request = {data: kMap, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};

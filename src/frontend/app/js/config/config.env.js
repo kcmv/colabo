@@ -15,6 +15,7 @@ var envs = {
 	"localhost": {
 		"server": {
 			"frontend": "http://localhost:8410/app",
+			//"backend": "http://localhost:5858",
 			"backend": "http://localhost:8888",
 			"topichat": "http://localhost:8060",
 			"parseResponse": true,

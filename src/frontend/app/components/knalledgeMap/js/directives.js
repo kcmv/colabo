@@ -1078,7 +1078,25 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.delete = function(map){
 					//console.log("mapDelete:", map));
 					if(window.confirm('Are you sure you want to delete map "'+map.name+'"?')){
-						KnalledgeMapVOsService.mapDelete(map._id);
+						var mapDeleted = function(result){
+							console.log('mapDeleted:result:'+result);
+							for(let i=0;i<$scope.items.length;i++){
+					      if($scope.items[i]._id === map._id){
+					        $scope.items.splice(i, 1);
+					      }
+					    }
+						}
+						KnalledgeMapVOsService.mapDelete(map._id, mapDeleted);
+					}
+				};
+
+				$scope.duplicate = function(map){
+					//console.log("mapDelete:", map));
+					if(window.confirm('Are you sure you want to duplicate map "'+map.name+'"?')){
+						var mapDuplicated = function(result){
+							console.log('mapDuplicated:result:'+result);
+						}
+						KnalledgeMapVOsService.mapDuplicate(map, 'duplicatedMap', mapDuplicated);
 					}
 				};
 

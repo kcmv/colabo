@@ -90,17 +90,20 @@ console.log("dbName: %s", dbName);
 // curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Map", "iAmId":5, "visual": {}}' http://127.0.0.1:8042/kmaps
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8042/kmaps
 exports.create = function(req, res){
-	console.log("[modules/kMap.js:create] req.body: %s", JSON.stringify(req.body));
 
 	var data = req.body;
 
-	console.log(data);
-	var kmap = new KMapModel(data);
+	console.log("[modules/kMap.js:create] req.body: %s", JSON.stringify(data));
 
+	var finished = function(){
+		resSendJsonProtected(res, {success: true, data: kmap, accessId : accessId});
+	}
+
+	var kmap = new KMapModel(data);
 	kmap.save(function(err) {
 		if (err) throw err;
 		console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
-		resSendJsonProtected(res, {success: true, data: kmap, accessId : accessId});
+		finished();
 	});
 }
 
@@ -110,32 +113,121 @@ exports.update = function(req, res){
 
 	var data = req.body;
 	var id = req.params.searchParam;
+	var type = req.params.type;
+	var kmap = {};
+	//var type = data.hasOwnProperty('type') ?  data.type : 'one';
+	//var type = 'type' in data ? data.type : 'one';
 
-	/* this is wrong because it creates default-values populated object (including id) first and then populate it with paremeter object:
-	 * var kmap = new KMapModel(req.body);
-	 */
+	console.log("[modules/kMap.js:update] type:%s, data: %s", type, JSON.stringify(data));
 
-	console.log("[modules/KMap.js:update] id : %s", id );
-	console.log("[modules/KMap.js:update] data, : %s", JSON.stringify(data));
-	// console.log("[modules/KMap.js:update] kmap.toObject(), : %s", JSON.stringify(kmap.toObject());
-	delete data._id;
+	var finished = function(){
+		resSendJsonProtected(res, {success: true, data: kmap, accessId : accessId});
+	}
 
-	data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
-	KMapModel.update({_id:id}, data, function (err, raw) {
-		if (err) throw err;
-		console.log('The raw response from Mongo was ', raw);
-		data._id = id;
-		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
-	});
+	switch (type) {
+		case 'one':
+			console.log("[modules/KMap.js:index/one]");
 
-	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
-	//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
-	// KMapModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
-	// 	  if (err) throw err;
-	// 	  console.log('The number of updated documents was %d', numberAffected);
-	// 	  console.log('The raw response from Mongo was ', raw);
-	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
-	// });
+			/* this is wrong because it creates default-values populated object (including id) first and then populate it with paremeter object:
+			 * var kmap = new KMapModel(req.body);
+			 */
+
+			console.log("[modules/KMap.js:update] id : %s", id );
+			console.log("[modules/KMap.js:update] data, : %s", JSON.stringify(data));
+			// console.log("[modules/KMap.js:update] kmap.toObject(), : %s", JSON.stringify(kmap.toObject());
+			delete data._id;
+
+			data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
+			KMapModel.update({_id:id}, data, function (err, raw) {
+				if (err) throw err;
+				console.log('The raw response from Mongo was ', raw);
+				data._id = id;
+				finished();
+			});
+
+			//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
+			//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
+			// KMapModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
+			// 	  if (err) throw err;
+			// 	  console.log('The number of updated documents was %d', numberAffected);
+			// 	  console.log('The raw response from Mongo was ', raw);
+			// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+			// });
+		break;
+		case 'duplicate':
+			var found = function(err,kMap){
+				var mapSaved = function(err, mapFromServer) {
+					var nodesEdgesReceived = function(nodes,edges){
+						console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);
+						console.log(JSON.stringify(nodes));
+						console.log("[nodesEdgesReceived] %d edges **************** :", edges.length);
+						console.log(JSON.stringify(edges));
+
+						//TODO: !! make a new copy of nodes and edges and then change them and push to array
+
+						// mapData.nodes = nodes;
+						// mapData.edges = edges;
+						// var i;
+						// for(i=0; i<nodes.length; i++){
+						// 	//console.log("nodes[i]:"+nodes[i]);
+						// 	nodes[i].mapId = map._id;
+						// }
+						// for(i=0; i<edges.length; i++){
+						// 	edges[i].mapId = map._id;
+						// }
+						// console.log("map to duplicate: " + JSON.stringify(mapData));
+						//
+						// var dataStr = JSON.stringify(mapData, null, 4);
+
+						finished();
+					}
+
+					if (err) throw err;
+					console.log("[mapSaved] mapFromServer:",mapFromServer);
+					var nodes = KNodeModel.find({ 'mapId': id}).exec();
+					var edges = KEdgeModel.find({ 'mapId': id}).exec();
+					Promise.join(nodes,edges, nodesEdgesReceived);
+				}
+				if (err) throw err;
+				if(kMap === null){
+					//TODO: return status not found
+					console.log('No map found');
+				}else{
+					console.log('found:map:',kMap);
+					var oldMap = kMap.toObject();
+					delete oldMap['_id'];
+					//console.log('oldMap has _id:', oldMap.hasOwnProperty('_id'));
+
+					//console.log('oldMap:', oldMap);
+					mapData.map = new KMapModel(oldMap);
+					mapData.map.name = newMapName;
+
+					//TODO: map has ID before adding?! because of  new KMapModel?!
+					//TODO: fix rootNodeId, createdAt(?)
+
+					//delete mapData.map['_id'];
+					console.log('mapData.map for saving:',mapData.map);
+					//console.log('mapSaved:',mapSaved);
+					mapData.map.save(mapSaved);
+				}
+			}
+
+			var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
+			var KNodeModel = mongoose.model('kNode', global.db.kNode.Schema);
+
+			var mapData = {
+				"map": null,
+				"nodes": [],
+				"edges": []
+			};;
+
+			var newMapName = req.body.newMapName;
+			console.log("[modules/KMap.js:update/duplicate] mapId:%s, newMapName:%s", id, newMapName);
+
+			KMapModel.findById(id, found);
+			//finished();
+		break;
+	}
 }
 
 // curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8042/kmaps/one/553fa6ed4f05fdb0311a10cb

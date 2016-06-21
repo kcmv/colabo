@@ -52,7 +52,7 @@
 					<button md-fab class="md-primary" aria-label="delete" (click)="delete(item)">
 							<i md-icon>view_agenda</i>
 					</button>
-					<a ng-click="delete(item)" href='javascript:void(0);'>del</a>
+					<a ng-click="delete(item)" href='javascript:void(0);'>del</a> <a ng-click="duplicate(item)" href='javascript:void(0);'>dupl</a>
 					<span *ngIf="!policyConfig.moderating.enabled"> regular actions ....{{policyConfig.moderating.enabled}}</span> | <span *ngIf="policyConfig.moderating.enabled"> moderator actions ....{{policyConfig.moderating.enabled}}</span></td>
 				<td>{{item.dataContent.mcm.authors}}</td>
 				<td>{{item.type}}</td>
