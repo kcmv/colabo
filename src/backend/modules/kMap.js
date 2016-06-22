@@ -120,8 +120,8 @@ exports.update = function(req, res){
 
 	console.log("[modules/kMap.js:update] type:%s, data: %s", type, JSON.stringify(data));
 
-	var finished = function(){
-		resSendJsonProtected(res, {success: true, data: kmap, accessId : accessId});
+	var finished = function(map){
+		resSendJsonProtected(res, {success: true, data: map, accessId : accessId});
 	}
 
 	switch (type) {
@@ -142,7 +142,7 @@ exports.update = function(req, res){
 				if (err) throw err;
 				console.log('The raw response from Mongo was ', raw);
 				data._id = id;
-				finished();
+				finished(raw);
 			});
 
 			//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
@@ -156,46 +156,121 @@ exports.update = function(req, res){
 		break;
 		case 'duplicate':
 			var found = function(err,kMap){
-				var mapSaved = function(err, mapFromServer) {
-					var nodesEdgesReceived = function(nodes,edges){
-						console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);
-						console.log(JSON.stringify(nodes));
-						console.log("[nodesEdgesReceived] %d edges **************** :", edges.length);
-						console.log(JSON.stringify(edges));
+				var nodesEdgesReceived = function(nodes,edges){
+					var mapSaved = function(err, mapFromServer) {
+						console.log('err,mapFromServer',err,mapFromServer);
+						var nodesEdgesSaved = function(){
+							console.log("nodesEdgesSaved");
+							// if (err) {
+							// 	throw err;
+					    // 	// console.log('[nodesEdgesSaved] err %s', err);
+					    // 	// errorOccured = true;
+					    // 	// reject();
+					    // } else {
+							// 	console.log("nodesEdgesSaved");
+					    //   //   console.info('[kNode::populateDemo::onInsert] %d NODES were successfully stored.', docs.length);
+					    //   //   console.log("kNode::populateDemo::docs: %s", JSON.stringify(docs));
+					    // 	// entriesNo -= docs.length;
+					    //   //   console.info('\t[kNode::populateDemo::onInsert] finishedinserting:%s, errorOccured:%s, entriesNo:%s',
+					    //   //   	finishedinserting, errorOccured, entriesNo);
+					    //   //   if(finishedinserting && !errorOccured && entriesNo == 0){
+						  //   // 	console.log('[kNode::populateDemo::onInsert] last insertion finished. resolving');
+					    //   //   	resolve();
+					    //   //   }
+					    // }
+							finished(mapData.map);
+						}
+						var insertsLeft = 2;
+						var onInsert = function(err){
+							console.log("[onInsert]:insertsLeft:", insertsLeft,",err:",err);
+							if (err) {
+								throw err;
+							}else{
+								if(--insertsLeft == 0){
+									nodesEdgesSaved();
+								}
+							}
+						}
+						if (err) throw err;
+						console.log("[mapSaved] mapFromServer:",mapFromServer);
+						//var nodesSaved =
+						KNodeModel.collection.insert(mapData.nodes, onInsert);//.exec();// onInsert); // call to underlying MongoDb driver
+						//var edgesSaved =
+						KEdgeModel.collection.insert(mapData.edges, onInsert);//.exec();// onInsert); // call to underlying MongoDb driver
+						//Promise.join(nodes,edges, nodesEdgesSaved);
+					}
+					console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);
+					console.log(JSON.stringify(nodes));
+					console.log("[nodesEdgesReceived] %d edges **************** :", edges.length);
+					console.log(JSON.stringify(edges));
 
-						//TODO: !! make a new copy of nodes and edges and then change them and push to array
-
-						// mapData.nodes = nodes;
-						// mapData.edges = edges;
-						// var i;
-						// for(i=0; i<nodes.length; i++){
-						// 	//console.log("nodes[i]:"+nodes[i]);
-						// 	nodes[i].mapId = map._id;
-						// }
-						// for(i=0; i<edges.length; i++){
-						// 	edges[i].mapId = map._id;
-						// }
-						// console.log("map to duplicate: " + JSON.stringify(mapData));
-						//
-						// var dataStr = JSON.stringify(mapData, null, 4);
-
-						finished();
+					// mapData.nodes = nodes;
+					// mapData.edges = edges;
+					var i;
+					var oldRootNodeId = rootNodeId;
+					console.log('rootNodeId:',rootNodeId);
+					var old2NewNodeIds = {};
+					for(i=0; i<nodes.length; i++){
+						var node = nodes[i].toObject();
+						console.log('node._id: vs rootNodeId', node._id, ' ',rootNodeId);
+						if(rootNodeId !== null && node._id.toString() === rootNodeId.toString()){
+							console.log("[nodesEdgesReceived] found rootNode: ", rootNodeId);
+							rootNodeId = null;
+						}
+						var oldId = node['_id'];
+						delete node['_id'];
+						delete node['createdAt'];
+						node.mapId = mapData.map._id;
+						//calling of `toObject()` required because of later bulk insert which is Mongo function that throws error `[RangeError: Maximum call stack size exceeded]`
+						//(http://stackoverflow.com/questions/10678156/node-js-mongoose-rangeerror-maximum-call-stack-size-exceeded)
+						//if we give it array of mongoose objects. With `toObject` we turn these mongoose objects into plain JSON (Mongo-fit) objects
+						var newNode = new KNodeModel(node).toObject();
+						mapData.nodes.push(newNode);
+						old2NewNodeIds[oldId.toString()] = newNode._id;
+						if(rootNodeId === null){
+							rootNodeId = mapData.map.rootNodeId = newNode._id;
+							console.log("[nodesEdgesReceived] setting rootNodeId to: ", mapData.nodes[mapData.nodes.length-1]._id);
+							console.log("[nodesEdgesReceived] NEW mapData.map.rootNodeId: ", mapData.map.rootNodeId);
+						}
+						//console.log("nodes[i]:"+nodes[i]);
+					}
+					if(oldRootNodeId === rootNodeId){
+						throw new Error('no rootNodeId found');
+					}
+					for(i=0; i<edges.length; i++){
+						var edge = edges[i].toObject();
+						delete edge['_id'];
+						delete edge['createdAt'];
+						edge.sourceId = old2NewNodeIds[edge.sourceId.toString()];
+						edge.targetId = old2NewNodeIds[edge.targetId.toString()];
+						edge.mapId = mapData.map._id;
+						mapData.edges.push(new KEdgeModel(edge).toObject());
 					}
 
-					if (err) throw err;
-					console.log("[mapSaved] mapFromServer:",mapFromServer);
-					var nodes = KNodeModel.find({ 'mapId': id}).exec();
-					var edges = KEdgeModel.find({ 'mapId': id}).exec();
-					Promise.join(nodes,edges, nodesEdgesReceived);
+					console.log('duplicated map - ready for saving:', mapData);
+					//console.log('mapSaved:',mapSaved);
+
+					mapData.map.save(mapSaved);
 				}
+
 				if (err) throw err;
+				console.log('[found]kMap:',kMap);
+
 				if(kMap === null){
 					//TODO: return status not found
-					console.log('No map found');
+					console.log('[found] No map found');
+					finished(null);
 				}else{
-					console.log('found:map:',kMap);
+					var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
+					var KNodeModel = mongoose.model('kNode', global.db.kNode.Schema);
+					var rootNodeId = kMap.rootNodeId;
+					if(rootNodeId === null){
+						console.log('[found] ERROR: map.rootNodeId === null!!');
+						//TODO: return with error
+					}
 					var oldMap = kMap.toObject();
 					delete oldMap['_id'];
+					delete oldMap['createdAt'];
 					//console.log('oldMap has _id:', oldMap.hasOwnProperty('_id'));
 
 					//console.log('oldMap:', oldMap);
@@ -206,20 +281,18 @@ exports.update = function(req, res){
 					//TODO: fix rootNodeId, createdAt(?)
 
 					//delete mapData.map['_id'];
-					console.log('mapData.map for saving:',mapData.map);
-					//console.log('mapSaved:',mapSaved);
-					mapData.map.save(mapSaved);
+
+					var nodes = KNodeModel.find({ 'mapId': id}).exec();
+					var edges = KEdgeModel.find({ 'mapId': id}).exec();
+					Promise.join(nodes,edges, nodesEdgesReceived);
 				}
 			}
-
-			var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
-			var KNodeModel = mongoose.model('kNode', global.db.kNode.Schema);
 
 			var mapData = {
 				"map": null,
 				"nodes": [],
 				"edges": []
-			};;
+			};
 
 			var newMapName = req.body.newMapName;
 			console.log("[modules/KMap.js:update/duplicate] mapId:%s, newMapName:%s", id, newMapName);
