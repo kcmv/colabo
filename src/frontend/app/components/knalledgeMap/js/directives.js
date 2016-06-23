@@ -1057,7 +1057,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.selectedItem = null;
 				$scope.policyConfig = KnalledgeMapPolicyService.provider.config;
 
-				KnalledgeMapService.query().$promise.then(function(maps){
+				KnalledgeMapService.queryByParticipant(RimaService.getActiveUserId()).$promise.then(function(maps){
 					$scope.items = maps;
 					console.log('maps:'+JSON.stringify($scope.maps));
 				});

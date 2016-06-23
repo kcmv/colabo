@@ -84,6 +84,10 @@ console.log("dbName: %s", dbName);
 			console.log("find:\n by-type: \n");
 			KMapModel.find({"type": id}, found);
 			break;
+		case 'by-participant': //by map type
+			console.log("find:\n by-participant:", id);
+			KMapModel.find({"participants": id}, found);
+			break;
 	}
 }
 

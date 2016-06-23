@@ -1834,6 +1834,23 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 		return maps;
 	};
 
+	resource.queryByParticipant = function(participantId, callback){
+		console.log("[queryByParticipant] participantId:", participantId);
+		var maps = this.queryPlain({type:'by-participant', searchParam: participantId}, function(mapsFromServer){
+			for(var id=0; id<mapsFromServer.length; id++){
+				var kMap = knalledge.KMap.mapFactory(mapsFromServer[id]);
+				kMap.state = knalledge.KMap.STATE_SYNCED;
+				mapsFromServer[id] = kMap;
+			}
+
+			if(callback) callback(mapsFromServer);
+		});
+		// for(var i in maps){
+		// 	//TODO fix maps.state, etc
+		// }
+		return maps;
+	};
+
 	resource.create = function(kMap, callback)
 	{
 		console.log("resource.create");
