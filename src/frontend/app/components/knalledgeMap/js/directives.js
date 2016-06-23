@@ -1093,8 +1093,12 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.duplicate = function(map){
 					//console.log("mapDelete:", map));
 					if(window.confirm('Are you sure you want to duplicate map "'+map.name+'"?')){
-						var mapDuplicated = function(result){
-							console.log('mapDuplicated:result:'+result);
+						var mapDuplicated = function(map){
+							console.log('mapDuplicated:map:'+map);
+							if(map !== null){
+								$scope.items.push(map);
+								$scope.selectedItem = map;
+							}
 						}
 						KnalledgeMapVOsService.mapDuplicate(map, 'duplicatedMap', mapDuplicated);
 					}
