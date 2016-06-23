@@ -22,7 +22,6 @@
     "serve.e2e": "gulp serve.e2e",
     "serve.prod": "gulp serve.prod",
     "start": "gulp serve.dev",
-    "start.fast": "gulp serve.dev.fast",
     "tasks.list": "gulp --tasks-simple",
     "test": "gulp test",
     "webdriver-start": "webdriver-manager start",
@@ -79,7 +78,6 @@
     "reflect-metadata": "^0.1.3",
     "rxjs": "^5.0.0-beta.6",
     "systemjs": "^0.19.27",
-    "vinyl-fs": "^2.4.3",
     "zone.js": "^0.6.12"
   },
   "devDependencies": {

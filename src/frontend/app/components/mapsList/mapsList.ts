@@ -16,6 +16,9 @@ import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+//TODO: import {KMap} from '../../js/knalledge/kMap';
+//TODO: import {KNode} from '../../js/knalledge/kNode';
+
 // TODO: probable remove later, this is just to trigger starting the service
 // import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
 
@@ -83,9 +86,16 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 })
 
 export class MapsList {
+    public mapToCreate = null;
+    public modeCreating = false;
+    public modeEditing = false;
+    public items = null;
+    public selectedItem = null;
+
     policyConfig: any;
     viewConfig: any;
     private rimaService;
+    private knalledgeMapService;
     private knalledgeMapVOsService;
 
     constructor(
@@ -93,6 +103,7 @@ export class MapsList {
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
         @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService,
         @Inject('RimaService') _RimaService_,
+        @Inject('KnalledgeMapService') _KnalledgeMapService_,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
     // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
@@ -101,6 +112,7 @@ export class MapsList {
         this.viewConfig = knalledgeMapViewService.get().config;
         this.policyConfig = knalledgeMapPolicyService.get().config;
         this.rimaService = _RimaService_;
+        this.knalledgeMapService = _KnalledgeMapService_;
         this.knalledgeMapVOsService = _KnalledgeMapVOsService_;
         // this.broadcastManagerService = broadcastManagerService;
         // globalEmitterServicesArray.register('KnalledgeMapMain');
@@ -113,54 +125,187 @@ export class MapsList {
         // this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function(vkNode) {
         //     console.log("media clicked: ", vkNode.kNode.name);
         // });
+        this.init();
     };
 
-    // getMapName(): any {
-    //     return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
-    // }
+    init(){
+      this.knalledgeMapService.queryByParticipant(this.rimaService.getActiveUserId()).$promise.then(function(maps){
+        this.items = maps;
+        console.log('maps:'+JSON.stringify(this.maps));
+      });
+    }
+
+
+    showCreateNewMap(){
+			console.log("showCreateNewMap");
+			this.mapToCreate = new KMap(); //knalledge.KMap();
+			this.mapToCreate.participants = this.rimaService.getActiveUserId();
+			this.modeCreating = true;
+		};
+
+		cancelled(){
+			console.log("Canceled");
+			this.modeCreating = false;
+			this.modeEditing = false;
+		};
+
+		delete(map){
+			//console.log("mapDelete:", map));
+			if(window.confirm('Are you sure you want to delete map "'+map.name+'"?')){
+				var mapDeleted = function(result){
+					console.log('mapDeleted:result:'+result);
+					for(let i=0;i<this.items.length;i++){
+			      if(this.items[i]._id === map._id){
+			        this.items.splice(i, 1);
+			      }
+			    }
+				};
+				this.knalledgeMapVOsService.mapDelete(map._id, mapDeleted);
+			}
+		};
+
+		duplicate(map){
+			//console.log("mapDelete:", map));
+			if(window.confirm('Are you sure you want to duplicate map "'+map.name+'"?')){
+				var mapDuplicated = function(map){
+					console.log('mapDuplicated:map:'+map);
+					if(map !== null){
+						this.items.push(map);
+						this.selectedItem = map;
+					}
+				};
+				this.knalledgeMapVOsService.mapDuplicate(map, 'duplicatedMap', mapDuplicated);
+			}
+		}
+
+		getParticipantsNames(ids){
+				var names = '';
+				for(var i=0; i<ids.length;i++){
+					var user = this.rimaService.getUserById(ids[i]);
+					names+=user === null ? 'unknown' : user.displayName + ', ';
+				}
+				return names;
+		}
+
+    createNew(){
+      var rootNode = new KNode();
+			rootNode.name = this.mapToCreate.name;
+			rootNode.mapId = null;
+			rootNode.iAmId = this.rimaService.getActiveUserId();
+			rootNode.type = this.mapToCreate.rootNodeType ?
+				this.mapToCreate.rootNodeType : "model_component";
+			rootNode.visual = {
+			    isOpen: true,
+			    xM: 0,
+			    yM: 0
+			};
+
+			var mapCreated = function(mapFromServer) {
+				console.log("mapCreated:");//+ JSON.stringify(mapFromServer));
+				this.items.push(mapFromServer);
+				this.selectedItem = mapFromServer;
+				rootNode.mapId = mapFromServer._id;
+				this.knalledgeMapVOsService.updateNode(rootNode,KNode.UPDATE_TYPE_ALL);
+			};
+
+			var rootNodeCreated = function(rootNode){
+				this.mapToCreate.rootNodeId = rootNode._id;
+				this.mapToCreate.iAmId = this.rimaService.getActiveUserId();
+
+				//TODO: so far this is string of comma-separated iAmIds:
+				this.mapToCreate.participants = this.mapToCreate.participants.replace(/\s/g, '');
+				this.mapToCreate.participants = this.mapToCreate.participants.split(',');
+
+				var map = this.knalledgeMapService.create(this.mapToCreate);
+				map.$promise.then(mapCreated);
+			};
+
+			console.log("createNew");
+			this.modeCreating = false;
+
+			rootNode = this.knalledgeMapVOsService.createNode(rootNode);
+			rootNode.$promise.then(rootNodeCreated);
+		}
+
+		updateMap(){
+			this.modeEditing = false;
+			window.alert('Editing is disabled');
+			return;
+      /* Editing is disabled until finished:
+			var mapUpdated = function(mapFromServer) {
+				console.log("mapUpdated:");//+ JSON.stringify(mapFromServer));
+				this.items.push(mapFromServer);
+				this.selectedItem = mapFromServer;
+				rootNode.mapId = mapFromServer._id;
+				this.knalledgeMapVOsService.updateNode(rootNode);
+			};
+
+			var rootNodeUpdated = function(rootNode){
+				this.mapToCreate.rootNodeId = rootNode._id;
+				this.mapToCreate.iAmId = RimaService.getActiveUserId();
+
+				//TODO: so far this is string of comma-separated iAmIds:
+				this.mapToCreate.participants = this.mapToCreate.participants.replace(/\s/g, '');
+				this.mapToCreate.participants = this.mapToCreate.participants.split(',');
+
+				var map = KnalledgeMapService.create(this.mapToCreate);
+				map.$promise.then(mapUpdated);
+			};
+
+
+			var rootNode = this.knalledgeMapVOsService.getNodeById(this.mapToCreate.rootNodeId);
+
+			rootNode.name = this.mapToCreate.name;
+
+			rootNode.type = this.mapToCreate.rootNodeType ?
+				this.mapToCreate.rootNodeType : "model_component";
+
+
+			rootNode = this.knalledgeMapVOsService.updateNode(rootNode);
+			rootNode.$promise.then(rootNodeUpdated);
+      */
+		}
+
+		selectItem(item) {
+		    this.selectedItem = item;
+		    console.log("this.selectedItem = " + this.selectedItem.name + ": " + this.selectedItem._id);
+		}
+
+		openMap() {
+		    console.log("openMap");
+			if(this.selectedItem !== null && this.selectedItem !== undefined){
+				console.log("openning Model:" + this.selectedItem.name + ": " + this.selectedItem._id);
+				console.log("/map/id/" + this.selectedItem._id);
+				$location.path("/map/id/" + this.selectedItem._id);
+				//openMap(this.selectedItem);
+				// $element.remove();
+			}else{
+				window.alert('Please, select a Map');
+			}
+		};
+
+		// editMap() {
+		// 	this.modeEditing = true;
+		// 	var mapReceived = function(mapFromServer) {
+		// 		console.log("mapReceived:");//+ JSON.stringify(mapFromServer));
+		// 		this.items.push(mapFromServer);
+		// 		this.selectedItem = mapFromServer;
+		// 		rootNode.mapId = mapFromServer._id;
+		// 		this.knalledgeMapVOsService.updateNode(rootNode);
+		// 	};
     //
-    // stopFollowing(): any {
-    //     this.policyConfig.broadcasting.receiveNavigation = false;
-    // }
-    // continueFollowing(): any {
-    //     this.policyConfig.broadcasting.receiveNavigation = true;
-    // }
-    // disableBroadcasting(): any {
-    //     this.policyConfig.broadcasting.enabled = false;
-    // }
-    // enableBroadcasting(): any {
-    //     this.policyConfig.broadcasting.enabled = true;
-    // }
-    // toggleTopPanel(): any {
-    //     this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
-    // }
-    // getLoggedInUserName(): any {
-    //     var whoAmI = this.rimaService.getWhoAmI();
-    //     var name = this.rimaService.getNameFromUser(whoAmI);
-    //     return name;
-    // }
-    // getActiveUserName(): any {
-    //     var whoAmI = this.rimaService.getActiveUser();
-    //     var name = this.rimaService.getNameFromUser(whoAmI);
-    //     return name;
-    // }
-    // // hasMedia(breakSize: string): boolean {
-    // //     return Media.hasMedia(breakSize);
-    // // }
-    // showContactOptions: Function = function(event) {
-    //     return;
-    // };
-    //
-    // public go(path: string) {
-    //     // TODO: not implemented
-    //     // alert("Not implemented");
-    //     // this.router.navigate(['/hero', hero.id]);
-    //     //I assumed your `/home` route name is `Home`
-    //     // this._router.navigate([path]); //this will navigate to Home state.
-    //     //below way is to navigate by URL
-    //     //this.router.navigateByUrl('/home')
-    //     // https://angular.io/docs/ts/latest/api/common/index/Location-class.html
-    //     // this.location.go('#/' + path);
-    //     window.location = '#/' + path;
-    // };
+		//     //console.log("openMap");
+		// 	if(this.selectedItem !== null && this.selectedItem !== undefined){
+		// 		console.log("editMap Model:" + this.selectedItem.name + ": " + this.selectedItem._id);
+		// 		console.log("/map/id/" + this.selectedItem._id);
+		// 		this.mapToCreate = KnalledgeMapService.getById(this.selectedItem._id);
+		// 		this.mapToCreate.$promise.then(mapReceived);
+		// 		//this.mapToCreate.participants = RimaService.getActiveUserId();
+		// 		//openMap(this.selectedItem);
+		// 		// $element.remove();
+		// 	}
+		// 	else{
+		// 		window.alert('Please, select a Map');
+		// 	}
+		// }
 }

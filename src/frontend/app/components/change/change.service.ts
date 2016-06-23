@@ -1,5 +1,5 @@
 import {Injectable
-} from '@angular/core';
+} from 'angular2/core';
 
 import {Change, ChangeVisibility, ChangeType, ChangeState} from './change';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';

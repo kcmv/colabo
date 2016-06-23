@@ -75,7 +75,7 @@ angular.module('KnAllEdgeApp', requiresList)
 	})
 	.when('/maps', {
 		templateUrl: 'components/mapsList/partials/maps-list.tpl.html'
-							// 'components/knalledgeMap/partials/knalledgeMaps-index.tpl.html'
+		, controller: mapsList
 	})
 	// http://localhost:8410/app/index-dev.html#/register
 	.when('/register', {

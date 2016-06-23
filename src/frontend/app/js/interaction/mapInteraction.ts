@@ -172,10 +172,12 @@ export class MapInteraction {
     }
 
     addLink() {
-        var node = this.clientApi.getSelectedNode();
-        if (node) { // if source node is selected
-            this.clientApi.knalledgeState.addingLinkFrom = node;
-        }
+        window.alert("This funcionality is not supported yet");
+        return;
+        // var node = this.clientApi.getSelectedNode();
+        // if (node) { // if source node is selected
+        //     this.clientApi.knalledgeState.addingLinkFrom = node;
+        // }
     };
 
     relinkNode() {//this process is finished by clickint to a new target node afterwards ...

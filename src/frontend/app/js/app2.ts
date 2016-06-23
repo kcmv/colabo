@@ -61,7 +61,7 @@ changeServices
     .service('ChangeService', ChangeService)
     ;
 
-angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives'])
+angular.module('knalledgeMapDirectives')
      .directive({
         'knalledgeMapMain':
             upgradeAdapter.downgradeNg2Component(KnalledgeMapMain)

@@ -1039,208 +1039,210 @@ angular.module('knalledgeMapDirectives', ['Config'])
     		}
     	};
 	}])
-	.directive('knalledgeMapsList', ["$rootScope", "$timeout", "$location", 'KnalledgeMapService', 'KnalledgeMapVOsService', 'RimaService', 'KnalledgeMapPolicyService'
-,		function($rootScope, $timeout, $location, KnalledgeMapService, KnalledgeMapVOsService, RimaService, KnalledgeMapPolicyService){
-		console.log("[mcmMapsList] loading directive");
-		return {
-			restrict: 'AE',
-			scope: {
-			},
-			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
-			// expression: http://docs.angularjs.org/guide/expression
-			templateUrl: 'components/knalledgeMap/partials/knalledgeMaps-list.tpl.html',
-			controller: function ( $scope, $element) {
-				$scope.mapToCreate = null;
-				$scope.modeCreating = false;
-				$scope.modeEditing = false;
-				$scope.items = null;
-				$scope.selectedItem = null;
-				$scope.policyConfig = KnalledgeMapPolicyService.provider.config;
 
-				KnalledgeMapService.queryByParticipant(RimaService.getActiveUserId()).$promise.then(function(maps){
-					$scope.items = maps;
-					console.log('maps:'+JSON.stringify($scope.maps));
-				});
-
-				$scope.showCreateNewMap = function(){
-					console.log("showCreateNewMap");
-					$scope.mapToCreate = new knalledge.KMap();
-					$scope.mapToCreate.participants = RimaService.getActiveUserId();
-					$scope.modeCreating = true;
-				};
-
-				$scope.cancelled = function(){
-					console.log("Canceled");
-					$scope.modeCreating = false;
-					$scope.modeEditing = false;
-				};
-
-				$scope.delete = function(map){
-					//console.log("mapDelete:", map));
-					if(window.confirm('Are you sure you want to delete map "'+map.name+'"?')){
-						var mapDeleted = function(result){
-							console.log('mapDeleted:result:'+result);
-							for(let i=0;i<$scope.items.length;i++){
-					      if($scope.items[i]._id === map._id){
-					        $scope.items.splice(i, 1);
-					      }
-					    }
-						}
-						KnalledgeMapVOsService.mapDelete(map._id, mapDeleted);
-					}
-				};
-
-				$scope.duplicate = function(map){
-					//console.log("mapDelete:", map));
-					if(window.confirm('Are you sure you want to duplicate map "'+map.name+'"?')){
-						var mapDuplicated = function(map){
-							console.log('mapDuplicated:map:'+map);
-							if(map !== null){
-								$scope.items.push(map);
-								$scope.selectedItem = map;
-							}
-						}
-						KnalledgeMapVOsService.mapDuplicate(map, 'duplicatedMap', mapDuplicated);
-					}
-				};
-
-				$scope.getParticipantsNames = function(ids){
-						var names = '';
-						for(var i=0; i<ids.length;i++){
-							var user = RimaService.getUserById(ids[i]);
-							names+=user == null ? 'unknown' : user.displayName + ', ';
-						}
-						return names;
-				};
-
-				$scope.createNew = function(){
-					var mapCreated = function(mapFromServer) {
-						console.log("mapCreated:");//+ JSON.stringify(mapFromServer));
-						$scope.items.push(mapFromServer);
-						$scope.selectedItem = mapFromServer;
-						rootNode.mapId = mapFromServer._id;
-						KnalledgeMapVOsService.updateNode(rootNode,knalledge.KNode.UPDATE_TYPE_ALL);
-					};
-
-					var rootNodeCreated = function(rootNode){
-						$scope.mapToCreate.rootNodeId = rootNode._id;
-						$scope.mapToCreate.iAmId = RimaService.getActiveUserId();
-
-						//TODO: so far this is string of comma-separated iAmIds:
-						$scope.mapToCreate.participants = $scope.mapToCreate.participants.replace(/\s/g, '');
-						$scope.mapToCreate.participants = $scope.mapToCreate.participants.split(',');
-
-						var map = KnalledgeMapService.create($scope.mapToCreate);
-						map.$promise.then(mapCreated);
-					};
-
-					console.log("createNew");
-					$scope.modeCreating = false;
-
-					var rootNode = new knalledge.KNode();
-					rootNode.name = $scope.mapToCreate.name;
-					rootNode.mapId = null;
-					rootNode.iAmId = RimaService.getActiveUserId();
-					rootNode.type = $scope.mapToCreate.rootNodeType ?
-						$scope.mapToCreate.rootNodeType : "model_component";
-					rootNode.visual = {
-					    isOpen: true,
-					    xM: 0,
-					    yM: 0
-					};
-
-					rootNode = KnalledgeMapVOsService.createNode(rootNode);
-					rootNode.$promise.then(rootNodeCreated);
-				};
-
-				$scope.updateMap = function(){
-					$scope.modeEditing = false;
-					window.alert('Editing is disabled');
-					return;
-					var mapUpdated = function(mapFromServer) {
-						console.log("mapUpdated:");//+ JSON.stringify(mapFromServer));
-						$scope.items.push(mapFromServer);
-						$scope.selectedItem = mapFromServer;
-						rootNode.mapId = mapFromServer._id;
-						KnalledgeMapVOsService.updateNode(rootNode);
-					};
-
-					var rootNodeUpdated = function(rootNode){
-						$scope.mapToCreate.rootNodeId = rootNode._id;
-						$scope.mapToCreate.iAmId = RimaService.getActiveUserId();
-
-						//TODO: so far this is string of comma-separated iAmIds:
-						$scope.mapToCreate.participants = $scope.mapToCreate.participants.replace(/\s/g, '');
-						$scope.mapToCreate.participants = $scope.mapToCreate.participants.split(',');
-
-						var map = KnalledgeMapService.create($scope.mapToCreate);
-						map.$promise.then(mapUpdated);
-					};
-
-
-					var rootNode = KnalledgeMapVOsService.getNodeById($scope.mapToCreate.rootNodeId);
-
-					rootNode.name = $scope.mapToCreate.name;
-					//rootNode.mapId = $scope.mapToCreate._id;
-					//rootNode.iAmId = RimaService.getActiveUserId();
-					rootNode.type = $scope.mapToCreate.rootNodeType ?
-						$scope.mapToCreate.rootNodeType : "model_component";
-					// rootNode.visual = {
-					// 		isOpen: true,
-					// 		xM: 0,
-					// 		yM: 0
-					// };
-
-					rootNode = KnalledgeMapVOsService.updateNode(rootNode);
-					rootNode.$promise.then(rootNodeUpdated);
-				};
-
-				$scope.selectItem = function(item) {
-				    $scope.selectedItem = item;
-				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
-				};
-
-				$scope.openMap = function() {
-				    console.log("openMap");
-					if($scope.selectedItem !== null && $scope.selectedItem !== undefined){
-						console.log("openning Model:" + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
-						console.log("/map/id/" + $scope.selectedItem._id);
-						$location.path("/map/id/" + $scope.selectedItem._id);
-						//openMap($scope.selectedItem);
-						// $element.remove();
-					}
-					else{
-						window.alert('Please, select a Map');
-					}
-				};
-
-				$scope.editMap = function() {
-					$scope.modeEditing = true;
-					var mapReceived = function(mapFromServer) {
-						console.log("mapReceived:");//+ JSON.stringify(mapFromServer));
-						$scope.items.push(mapFromServer);
-						$scope.selectedItem = mapFromServer;
-						rootNode.mapId = mapFromServer._id;
-						KnalledgeMapVOsService.updateNode(rootNode);
-					};
-
-				    //console.log("openMap");
-					if($scope.selectedItem !== null && $scope.selectedItem !== undefined){
-						console.log("editMap Model:" + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
-						console.log("/map/id/" + $scope.selectedItem._id);
-						$scope.mapToCreate = KnalledgeMapService.getById($scope.selectedItem._id);
-						$scope.mapToCreate.$promise.then(mapReceived);
-						//$scope.mapToCreate.participants = RimaService.getActiveUserId();
-						//openMap($scope.selectedItem);
-						// $element.remove();
-					}
-					else{
-						window.alert('Please, select a Map');
-					}
-				};
-    		}
-    	};
-	}])
+//	migrated to NG1 component `mapsList.ts`
+// 	 	.directive('knalledgeMapsList', ["$rootScope", "$timeout", "$location", 'KnalledgeMapService', 'KnalledgeMapVOsService', 'RimaService', 'KnalledgeMapPolicyService'
+// ,		function($rootScope, $timeout, $location, KnalledgeMapService, KnalledgeMapVOsService, RimaService, KnalledgeMapPolicyService){
+// 		console.log("[mcmMapsList] loading directive");
+// 		return {
+// 			restrict: 'AE',
+// 			scope: {
+// 			},
+// 			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+// 			// expression: http://docs.angularjs.org/guide/expression
+// 			templateUrl: 'components/knalledgeMap/partials/knalledgeMaps-list.tpl.html',
+// 			controller: function ( $scope, $element) {
+// 				$scope.mapToCreate = null;
+// 				$scope.modeCreating = false;
+// 				$scope.modeEditing = false;
+// 				$scope.items = null;
+// 				$scope.selectedItem = null;
+// 				$scope.policyConfig = KnalledgeMapPolicyService.provider.config;
+//
+// 				KnalledgeMapService.queryByParticipant(RimaService.getActiveUserId()).$promise.then(function(maps){
+// 					$scope.items = maps;
+// 					console.log('maps:'+JSON.stringify($scope.maps));
+// 				});
+//
+// 				$scope.showCreateNewMap = function(){
+// 					console.log("showCreateNewMap");
+// 					$scope.mapToCreate = new knalledge.KMap();
+// 					$scope.mapToCreate.participants = RimaService.getActiveUserId();
+// 					$scope.modeCreating = true;
+// 				};
+//
+// 				$scope.cancelled = function(){
+// 					console.log("Canceled");
+// 					$scope.modeCreating = false;
+// 					$scope.modeEditing = false;
+// 				};
+//
+// 				$scope.delete = function(map){
+// 					//console.log("mapDelete:", map));
+// 					if(window.confirm('Are you sure you want to delete map "'+map.name+'"?')){
+// 						var mapDeleted = function(result){
+// 							console.log('mapDeleted:result:'+result);
+// 							for(let i=0;i<$scope.items.length;i++){
+// 					      if($scope.items[i]._id === map._id){
+// 					        $scope.items.splice(i, 1);
+// 					      }
+// 					    }
+// 						}
+// 						KnalledgeMapVOsService.mapDelete(map._id, mapDeleted);
+// 					}
+// 				};
+//
+// 				$scope.duplicate = function(map){
+// 					//console.log("mapDelete:", map));
+// 					if(window.confirm('Are you sure you want to duplicate map "'+map.name+'"?')){
+// 						var mapDuplicated = function(map){
+// 							console.log('mapDuplicated:map:'+map);
+// 							if(map !== null){
+// 								$scope.items.push(map);
+// 								$scope.selectedItem = map;
+// 							}
+// 						}
+// 						KnalledgeMapVOsService.mapDuplicate(map, 'duplicatedMap', mapDuplicated);
+// 					}
+// 				};
+//
+// 				$scope.getParticipantsNames = function(ids){
+// 						var names = '';
+// 						for(var i=0; i<ids.length;i++){
+// 							var user = RimaService.getUserById(ids[i]);
+// 							names+=user == null ? 'unknown' : user.displayName + ', ';
+// 						}
+// 						return names;
+// 				};
+//
+// 				$scope.createNew = function(){
+// 					var mapCreated = function(mapFromServer) {
+// 						console.log("mapCreated:");//+ JSON.stringify(mapFromServer));
+// 						$scope.items.push(mapFromServer);
+// 						$scope.selectedItem = mapFromServer;
+// 						rootNode.mapId = mapFromServer._id;
+// 						KnalledgeMapVOsService.updateNode(rootNode,knalledge.KNode.UPDATE_TYPE_ALL);
+// 					};
+//
+// 					var rootNodeCreated = function(rootNode){
+// 						$scope.mapToCreate.rootNodeId = rootNode._id;
+// 						$scope.mapToCreate.iAmId = RimaService.getActiveUserId();
+//
+// 						//TODO: so far this is string of comma-separated iAmIds:
+// 						$scope.mapToCreate.participants = $scope.mapToCreate.participants.replace(/\s/g, '');
+// 						$scope.mapToCreate.participants = $scope.mapToCreate.participants.split(',');
+//
+// 						var map = KnalledgeMapService.create($scope.mapToCreate);
+// 						map.$promise.then(mapCreated);
+// 					};
+//
+// 					console.log("createNew");
+// 					$scope.modeCreating = false;
+//
+// 					var rootNode = new knalledge.KNode();
+// 					rootNode.name = $scope.mapToCreate.name;
+// 					rootNode.mapId = null;
+// 					rootNode.iAmId = RimaService.getActiveUserId();
+// 					rootNode.type = $scope.mapToCreate.rootNodeType ?
+// 						$scope.mapToCreate.rootNodeType : "model_component";
+// 					rootNode.visual = {
+// 					    isOpen: true,
+// 					    xM: 0,
+// 					    yM: 0
+// 					};
+//
+// 					rootNode = KnalledgeMapVOsService.createNode(rootNode);
+// 					rootNode.$promise.then(rootNodeCreated);
+// 				};
+//
+// 				$scope.updateMap = function(){
+// 					$scope.modeEditing = false;
+// 					window.alert('Editing is disabled');
+// 					return;
+// 					var mapUpdated = function(mapFromServer) {
+// 						console.log("mapUpdated:");//+ JSON.stringify(mapFromServer));
+// 						$scope.items.push(mapFromServer);
+// 						$scope.selectedItem = mapFromServer;
+// 						rootNode.mapId = mapFromServer._id;
+// 						KnalledgeMapVOsService.updateNode(rootNode);
+// 					};
+//
+// 					var rootNodeUpdated = function(rootNode){
+// 						$scope.mapToCreate.rootNodeId = rootNode._id;
+// 						$scope.mapToCreate.iAmId = RimaService.getActiveUserId();
+//
+// 						//TODO: so far this is string of comma-separated iAmIds:
+// 						$scope.mapToCreate.participants = $scope.mapToCreate.participants.replace(/\s/g, '');
+// 						$scope.mapToCreate.participants = $scope.mapToCreate.participants.split(',');
+//
+// 						var map = KnalledgeMapService.create($scope.mapToCreate);
+// 						map.$promise.then(mapUpdated);
+// 					};
+//
+//
+// 					var rootNode = KnalledgeMapVOsService.getNodeById($scope.mapToCreate.rootNodeId);
+//
+// 					rootNode.name = $scope.mapToCreate.name;
+// 					//rootNode.mapId = $scope.mapToCreate._id;
+// 					//rootNode.iAmId = RimaService.getActiveUserId();
+// 					rootNode.type = $scope.mapToCreate.rootNodeType ?
+// 						$scope.mapToCreate.rootNodeType : "model_component";
+// 					// rootNode.visual = {
+// 					// 		isOpen: true,
+// 					// 		xM: 0,
+// 					// 		yM: 0
+// 					// };
+//
+// 					rootNode = KnalledgeMapVOsService.updateNode(rootNode);
+// 					rootNode.$promise.then(rootNodeUpdated);
+// 				};
+//
+// 				$scope.selectItem = function(item) {
+// 				    $scope.selectedItem = item;
+// 				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
+// 				};
+//
+// 				$scope.openMap = function() {
+// 				    console.log("openMap");
+// 					if($scope.selectedItem !== null && $scope.selectedItem !== undefined){
+// 						console.log("openning Model:" + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
+// 						console.log("/map/id/" + $scope.selectedItem._id);
+// 						$location.path("/map/id/" + $scope.selectedItem._id);
+// 						//openMap($scope.selectedItem);
+// 						// $element.remove();
+// 					}
+// 					else{
+// 						window.alert('Please, select a Map');
+// 					}
+// 				};
+//
+// 				$scope.editMap = function() {
+// 					$scope.modeEditing = true;
+// 					var mapReceived = function(mapFromServer) {
+// 						console.log("mapReceived:");//+ JSON.stringify(mapFromServer));
+// 						$scope.items.push(mapFromServer);
+// 						$scope.selectedItem = mapFromServer;
+// 						rootNode.mapId = mapFromServer._id;
+// 						KnalledgeMapVOsService.updateNode(rootNode);
+// 					};
+//
+// 				    //console.log("openMap");
+// 					if($scope.selectedItem !== null && $scope.selectedItem !== undefined){
+// 						console.log("editMap Model:" + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
+// 						console.log("/map/id/" + $scope.selectedItem._id);
+// 						$scope.mapToCreate = KnalledgeMapService.getById($scope.selectedItem._id);
+// 						$scope.mapToCreate.$promise.then(mapReceived);
+// 						//$scope.mapToCreate.participants = RimaService.getActiveUserId();
+// 						//openMap($scope.selectedItem);
+// 						// $element.remove();
+// 					}
+// 					else{
+// 						window.alert('Please, select a Map');
+// 					}
+// 				};
+//     		}
+//     	};
+// 	}])
 
 	.directive('ibisTypesList', ["$rootScope", "$timeout"/*, "$location"*/, "IbisTypesService",
 		function($rootScope, $timeout/*, $location*/, IbisTypesService){

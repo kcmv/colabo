@@ -20,8 +20,7 @@
     "passport-facebook": "latest",
     "passport-google-oauth": "latest",
     "passport-local": "latest",
-    "passport-twitter": "latest",
-    "vinyl-fs": "^2.4.3"
+    "passport-twitter": "latest"
   },
   "devDependencies": {
     "ghooks": "^1.0.3",
