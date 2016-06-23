@@ -5,6 +5,7 @@ import {ROUTER_PROVIDERS} from '@angular/router-deprecated';
 
 import {LoginStatusComponent} from '../components/login/login-status-component';
 import {KnalledgeMapMain} from '../components/knalledgeMap/main';
+import {MapsList} from '../components/mapsList/mapsList';
 import {KnalledgeMapPolicyService} from '../components/knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../components/knalledgeMap/knalledgeMapViewService';
 import {TopiChatReports} from '../components/topiChat/reports';
@@ -69,6 +70,10 @@ angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives'])
        'topichatReports':
            upgradeAdapter.downgradeNg2Component(TopiChatReports)
    })
+   .directive({
+      'mapsList':
+          upgradeAdapter.downgradeNg2Component(MapsList)
+  })
     ;
 
 // In Angular 2, we have to add a provider configuration for the component’s injector,

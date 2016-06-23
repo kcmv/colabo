@@ -193,6 +193,11 @@ MCM: {
 		{ src: join(APP_DEST, 'components/notify/js/services.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'components/topiChat/js/directives.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'components/topiChat/js/services.js'), inject: true, noNorm: true},
+
+    { src: join(APP_DEST, 'components/request/services.js'), inject: true, noNorm: true},
+    { src: join(APP_DEST, 'components/suggestion/services.js'), inject: true, noNorm: true},
+    { src: join(APP_DEST, 'components/change/services.js'), inject: true, noNorm: true},
+
 		{ src: join(APP_DEST, 'components/login/js/directives.js'), inject: true, noNorm: true},
 		{ src: join(APP_DEST, 'components/login/js/services.js'), inject: true, noNorm: true},
 
