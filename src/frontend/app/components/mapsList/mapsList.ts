@@ -16,6 +16,8 @@ import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+declare var knalledge;
+
 //TODO: import {KMap} from '../../js/knalledge/kMap';
 //TODO: import {KNode} from '../../js/knalledge/kNode';
 
@@ -139,7 +141,7 @@ export class MapsList {
 
     showCreateNewMap(){
 			console.log("showCreateNewMap");
-			this.mapToCreate = new KMap(); //knalledge.KMap();
+			this.mapToCreate = new knalledge.KMap();
 			this.mapToCreate.participants = this.rimaService.getActiveUserId();
 			this.modeCreating = true;
 		};
