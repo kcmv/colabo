@@ -307,8 +307,10 @@ export class MapsList {
 			if(this.selectedItem !== null && this.selectedItem !== undefined){
 				console.log("openning Model:" + this.selectedItem.name + ": " + this.selectedItem._id);
 				console.log("/map/id/" + this.selectedItem._id);
-        //this.router.url = "/map/id/" + this.selectedItem._id; //navigate(['HeroDetail', { id: this.selectedHero.id }]);
 				//$location.path("/map/id/" + this.selectedItem._id);
+				//TODO: using ng2 Route mechanism:
+				//this.router.url = "/map/id/" + this.selectedItem._id; //navigate(['HeroDetail', { id: this.selectedHero.id }]);
+				window.location.href = "/#map/id/" + this.selectedItem._id;
 				//openMap(this.selectedItem);
 				// $element.remove();
 			}else{
