@@ -129,9 +129,10 @@ export class MapsList {
     };
 
     init(){
+        var that = this;
       this.knalledgeMapService.queryByParticipant(this.rimaService.getActiveUserId()).$promise.then(function(maps){
-        this.items = maps;
-        console.log('maps:'+JSON.stringify(this.maps));
+        that.items = maps;
+        console.log('maps:'+JSON.stringify(maps));
       });
     }
 
