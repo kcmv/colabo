@@ -24,6 +24,18 @@ gulp.task('build.dev', done =>
               done));
 
 // --------------
+// Build dev.
+gulp.task('build.dev.fast', done =>
+runSequence(// 'clean.dev', // cleans prod (folder, ...)
+            // 'tslint', // ts linting
+            // 'build.compass', // compiles COMPASS files -> APP_DEST
+            'build.assets.dev',   // copies asset files (not *.ts) from APP_SRC -> APP_DEST
+                                  // (and dependencies assets -> d.dest)
+            'build.js.dev', // compiles ts files, replace templates and adds sourcemaps -> APP_DEST
+            // 'build.index.dev', // inject all dependencies under coresponding placeholders
+            done));
+
+// --------------
 // Build dev watch.
 gulp.task('build.dev.watch', done =>
   runSequence('build.dev',
@@ -69,9 +81,9 @@ gulp.task('build.js.prod', done =>
 
 // just for testing and accessing directly to a task
 // it is ok to rename build.bundles to anything
-gulp.task('build.bundles', done =>
+gulp.task('temp', done =>
     runSequence(
-        'build.bundles', // ng2/Lo-Dash/Underscore templates, compiles typescript -> TMP_DIR
+        'build.compass', // ng2/Lo-Dash/Underscore templates, compiles typescript -> TMP_DIR
         done));
 
 // just for testing and accessing directly to a task
@@ -121,6 +133,15 @@ gulp.task('serve.dev', done =>
   runSequence('build.dev', // builds dev version of project
             'server.start', // starts server
             'watch.serve', // watch on the project changes
+                        // (if any file in APP_SRC is changed it runs 'build.dev' again)
+            done));
+
+// --------------
+// Serve dev
+gulp.task('serve.dev.fast', done =>
+  runSequence('build.dev.fast', // builds dev version of project
+            'server.start', // starts server
+            'watch.serve.fast', // watch on the project changes
                         // (if any file in APP_SRC is changed it runs 'build.dev' again)
             done));
 

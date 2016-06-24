@@ -1,4 +1,4 @@
-// https://github.com/angular/angular/blob/master/modules/angular2/src/upgrade/upgrade_adapter.ts
+// https://github.com/angular/angular/blob/master/modules/@angular/src/upgrade/upgrade_adapter.ts
 import {upgradeAdapter} from './upgrade_adapter';
 
 import {ROUTER_PROVIDERS} from '@angular/router-deprecated';
@@ -17,7 +17,6 @@ import {RequestService} from '../components/request/request.service';
 import {SuggestionService} from '../components/suggestion/suggestion.service';
 import {ChangeService} from '../components/change/change.service';
 
-
 // import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
 import { MapInteraction } from './interaction/mapInteraction';
 
@@ -25,17 +24,6 @@ import { Injector } from '../components/utils/injector';
 /// <reference path="../../../typings/browser/ambient/angular/angular.d.ts" />
 /// <reference path="../../../typings/browser/ambient/angular-route/angular-route.d.ts" />
 
-
-// registering ng2 directives in ng1 space
-angular.module('knalledgeMapDirectives')
-    .directive({
-        'loginStatus':
-            upgradeAdapter.downgradeNg2Component(LoginStatusComponent)
-        // ,
-        // 'knalledgeMapMain':
-        //     upgradeAdapter.downgradeNg2Component(KnalledgeMapMain)
-    })
-    ;
 
 var topiChatServices = angular.module('topiChatServices');
 topiChatServices
@@ -61,6 +49,9 @@ changeServices
     .service('ChangeService', ChangeService)
     ;
 
+// registering ng2 directives in ng1 space
+angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives']);
+
 angular.module('knalledgeMapDirectives')
      .directive({
         'knalledgeMapMain':
@@ -69,6 +60,10 @@ angular.module('knalledgeMapDirectives')
     .directive({
        'topichatReports':
            upgradeAdapter.downgradeNg2Component(TopiChatReports)
+   })
+   .directive({
+       'loginStatus':
+           upgradeAdapter.downgradeNg2Component(LoginStatusComponent)
    })
    .directive({
       'mapsList':
