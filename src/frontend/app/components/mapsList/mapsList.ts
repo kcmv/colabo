@@ -16,6 +16,8 @@ import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+declare var knalledge;
+
 //TODO: import {KMap} from '../../js/knalledge/kMap';
 //TODO: import {KNode} from '../../js/knalledge/kNode';
 
@@ -99,7 +101,7 @@ export class MapsList {
     private knalledgeMapVOsService;
 
     constructor(
-        // public router: Router,
+        //private router: Router,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
         @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService,
         @Inject('RimaService') _RimaService_,
@@ -129,18 +131,40 @@ export class MapsList {
         this.init();
     };
 
+    sortByName(a, b) {
+     if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+     if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+     return 0;
+   }
+
     init(){
         var that = this;
       this.knalledgeMapService.queryByParticipant(this.rimaService.getActiveUserId()).$promise.then(function(maps){
         that.items = maps;
         console.log('maps:'+JSON.stringify(maps));
+        that.items = that.items.sort(that.sortByName);
       });
+      this.policyConfig.moderating.enabled = true;
     }
 
+    formatDateTime(date){
+      return date.toLocaleTimeString(['en-GB'],
+        {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false});
+    //   options = {
+    // year: 'numeric', month: 'numeric', day: 'numeric',
+    // hour: 'numeric', minute: 'numeric', second: 'numeric',
+    // hour12: false}
+    //   date = new Intl.DateTimeFormat('en-GB').format(date);
+
+    };
+
+    itemsLength(){
+      return false ? this.items.length : '<i class="fa fa-refresh fa-spin"></i><span class="sr-only">Loading...</span>';
+    }
 
     showCreateNewMap(){
 			console.log("showCreateNewMap");
-			this.mapToCreate = new KMap(); //knalledge.KMap();
+			this.mapToCreate = new knalledge.KMap();
 			this.mapToCreate.participants = this.rimaService.getActiveUserId();
 			this.modeCreating = true;
 		};
@@ -190,7 +214,7 @@ export class MapsList {
 		}
 
     createNew(){
-      var rootNode = new KNode();
+      var rootNode = new knalledge.KNode();
 			rootNode.name = this.mapToCreate.name;
 			rootNode.mapId = null;
 			rootNode.iAmId = this.rimaService.getActiveUserId();
@@ -207,7 +231,7 @@ export class MapsList {
 				this.items.push(mapFromServer);
 				this.selectedItem = mapFromServer;
 				rootNode.mapId = mapFromServer._id;
-				this.knalledgeMapVOsService.updateNode(rootNode,KNode.UPDATE_TYPE_ALL);
+				this.knalledgeMapVOsService.updateNode(rootNode,knalledge.KNode.UPDATE_TYPE_ALL);
 			};
 
 			var rootNodeCreated = function(rootNode){
@@ -273,12 +297,18 @@ export class MapsList {
 		    console.log("this.selectedItem = " + this.selectedItem.name + ": " + this.selectedItem._id);
 		}
 
+    showParticipants(item){
+      console.log('showParticipants');
+      //TEST: this.policyConfig.moderating.enabled = !this.policyConfig.moderating.enabled;
+    }
+
 		openMap() {
 		    console.log("openMap");
 			if(this.selectedItem !== null && this.selectedItem !== undefined){
 				console.log("openning Model:" + this.selectedItem.name + ": " + this.selectedItem._id);
 				console.log("/map/id/" + this.selectedItem._id);
-				$location.path("/map/id/" + this.selectedItem._id);
+        //this.router.url = "/map/id/" + this.selectedItem._id; //navigate(['HeroDetail', { id: this.selectedHero.id }]);
+				//$location.path("/map/id/" + this.selectedItem._id);
 				//openMap(this.selectedItem);
 				// $element.remove();
 			}else{
