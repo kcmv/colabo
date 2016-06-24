@@ -114,6 +114,7 @@ export class MapsList {
         this.rimaService = _RimaService_;
         this.knalledgeMapService = _KnalledgeMapService_;
         this.knalledgeMapVOsService = _KnalledgeMapVOsService_;
+        console.log('this.knalledgeMapVOsService: ', this.knalledgeMapVOsService);
         // this.broadcastManagerService = broadcastManagerService;
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));

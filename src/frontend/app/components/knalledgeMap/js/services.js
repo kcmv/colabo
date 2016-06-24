@@ -190,7 +190,7 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 			}
 		}},
 
-		createPlain: {method:'POST', path:'dupllicate', params:{}/*{type:'', searchParam: '', extension:""}*/,
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -1663,7 +1663,7 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 /**
 * The knalledge service for dealing with KMap entities and saving them to the server
 * @class KnalledgeMapService
-* @memberof knalledge.knalledgeMap.13knalledgeMapServices
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 knalledgeMapServices.factory('KnalledgeMapService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue',
 /**
