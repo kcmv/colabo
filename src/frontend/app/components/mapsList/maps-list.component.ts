@@ -139,7 +139,7 @@ export class MapsList {
    }
 
     init(){
-        var that = this;
+      var that = this;
       this.knalledgeMapService.queryByParticipant(this.rimaService.getActiveUserId()).$promise.then(function(maps){
         that.items = maps;
         console.log('maps:'+JSON.stringify(maps));
@@ -179,11 +179,12 @@ export class MapsList {
 		delete(map){
 			//console.log("mapDelete:", map));
 			if(window.confirm('Are you sure you want to delete map "'+map.name+'"?')){
+        var that = this;
 				var mapDeleted = function(result){
 					console.log('mapDeleted:result:'+result);
-					for(let i=0;i<this.items.length;i++){
-			      if(this.items[i]._id === map._id){
-			        this.items.splice(i, 1);
+					for(let i=0;i<that.items.length;i++){
+			      if(that.items[i]._id === map._id){
+			        that.items.splice(i, 1);
 			      }
 			    }
 				};
@@ -194,11 +195,12 @@ export class MapsList {
 		duplicate(map){
 			//console.log("mapDelete:", map));
 			if(window.confirm('Are you sure you want to duplicate map "'+map.name+'"?')){
+        var that = this;
 				var mapDuplicated = function(map){
 					console.log('mapDuplicated:map:'+map);
 					if(map !== null){
-						this.items.push(map);
-						this.selectedItem = map;
+						that.items.push(map);
+						that.selectedItem = map;
 					}
 				};
 				this.knalledgeMapVOsService.mapDuplicate(map, 'duplicatedMap', mapDuplicated);
