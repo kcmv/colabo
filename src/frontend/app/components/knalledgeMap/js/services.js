@@ -127,13 +127,11 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 * @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 
-knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', '$q', 'Plugins', 'ENV', 'KnalledgeMapQueue',
-function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
+knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($injector, $resource, $q, ENV, KnalledgeMapQueue){
 	try{
-		var KnAllEdgeRealTimeService = Plugins.knalledgeMap.config.knAllEdgeRealTimeService.available ?
-			$injector.get('KnAllEdgeRealTimeService') : null;
+		var KnAllEdgeRealTimeService = $injector.get('KnAllEdgeRealTimeService');
 	}catch(err){
-		console.warn("Error while trying to retrieve the KnAllEdgeRealTimeService service:", err);
+		console.warn(err);
 	}
 
 	console.log("[knalledgeMapServices] server backend: %s", ENV.server.backend);
@@ -190,7 +188,7 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 			}
 		}},
 
-		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
+		createPlain: {method:'POST', path:'dupllicate', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -479,12 +477,11 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 * @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 
-knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', '$q', 'Plugins', 'ENV', 'KnalledgeMapQueue', function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
+knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($injector, $resource, $q, ENV, KnalledgeMapQueue){
 	try{
-		var KnAllEdgeRealTimeService = Plugins.knalledgeMap.config.knAllEdgeRealTimeService.available ?
-			$injector.get('KnAllEdgeRealTimeService') : null;
+		var KnAllEdgeRealTimeService = $injector.get('KnAllEdgeRealTimeService');
 	}catch(err){
-		console.warn("Error while trying to retrieve the KnAllEdgeRealTimeService service:", err);
+		console.warn(err);
 	}
 	console.log("[atGsServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
@@ -812,32 +809,24 @@ $init: function(configData){
 },
 
 // get (instantiate) service
-$get: ['$q', '$rootScope', '$window', '$injector', 'Plugins', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapService',
-'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService',
+$get: ['$q', '$rootScope', '$window', '$injector', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapService',
+'RimaService', 'KnAllEdgeRealTimeService', 'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService',
 /**
 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
 * @constructor
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeNodeService} KnalledgeNodeService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeEdgeService} KnalledgeEdgeService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices..KnalledgeMapService}  KnalledgeMapService
+* @param  {rima.rimaServices.RimaService}  RimaService
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
 * @param  {knalledge.collaboPluginsServices.CollaboPluginsService} CollaboPluginsService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapViewService} KnalledgeMapViewService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
 */
-function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapService, CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService) {
+function($q, $rootScope, $window, $injector, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapService, RimaService, KnAllEdgeRealTimeService, CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService) {
 		// var that = this;
 		try{
-		// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
-			var KnAllEdgeRealTimeService =
-			Plugins.knalledgeMap.config.knAllEdgeRealTimeService.available
-			? $injector.get('KnAllEdgeRealTimeService') : null;
-		}catch(err){
-			console.warn(err);
-		}
-		try{
-		// * @param  {rima.rimaServices.RimaService}  RimaService
-			var RimaService = Plugins.rima.config.rimaService.available ?
-			$injector.get('RimaService') : null;
+			var KnAllEdgeRealTimeService = $injector.get('KnAllEdgeRealTimeService');
 		}catch(err){
 			console.warn(err);
 		}
