@@ -1040,7 +1040,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
     	};
 	}])
 
-//	migrated to NG1 component `mapsList.ts`
+//	migrated to NG1 component `maps-list.component.ts`
 // 	 	.directive('knalledgeMapsList', ["$rootScope", "$timeout", "$location", 'KnalledgeMapService', 'KnalledgeMapVOsService', 'RimaService', 'KnalledgeMapPolicyService'
 // ,		function($rootScope, $timeout, $location, KnalledgeMapService, KnalledgeMapVOsService, RimaService, KnalledgeMapPolicyService){
 // 		console.log("[mcmMapsList] loading directive");

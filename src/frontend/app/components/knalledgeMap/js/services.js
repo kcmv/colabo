@@ -1409,8 +1409,8 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 					if(RimaService){
 						var activeUserId = RimaService.getActiveUserId();
 						if(activeUserId &&
-							kMap.participants.indexOf(activeUserId) <= 0
-						){
+							kMap.participants.indexOf(activeUserId) === -1
+						){ // add it if not found among participants
 							kMap.participants.push(activeUserId);
 							KnalledgeMapService.update(kMap, function(){
 								if(typeof callback === 'function') callback();

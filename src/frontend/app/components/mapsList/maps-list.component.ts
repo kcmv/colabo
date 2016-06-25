@@ -54,7 +54,8 @@ declare var knalledge;
 @Component({
     selector: 'maps-list',
     moduleId: module.id,
-    templateUrl: 'partials/maps-list.tpl.html',
+    templateUrl: 'maps-list.tpl.html',
+    styleUrls: ['maps-list.component.css'],
     providers: [
         MATERIAL_PROVIDERS,
         OVERLAY_PROVIDERS
