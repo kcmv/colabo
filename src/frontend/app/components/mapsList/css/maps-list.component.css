@@ -1,0 +1,66 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+/* @import "normalize"; */
+/*
+$medium: 800px;
+$large: 1400px;
+*/
+/*
+	http://compass-style.org/examples/compass/css3/box_sizing/
+	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
+	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
+*/
+* {
+  margin: 0px;
+  padding: 0px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+h1 {
+  padding-bottom: 5px;
+  border-bottom: solid gray 2px; }
+
+.heading {
+  border-bottom: 1px solid #494949;
+  padding: 5px;
+  margin: 5px;
+  font-weight: bold;
+  width: 98%; }
+
+.list {
+  margin: 5px;
+  margin-bottom: 3px;
+  padding: 3px;
+  width: 98%;
+  border-bottom: 1px solid #494949; }
+  .list .item {
+    background-color: #a2a2a2; }
+    .list .item:nth-child(even) {
+      background-color: #888888; }
+    .list .item:hover {
+      cursor: pointer;
+      background-color: #e1e1e1; }
+    .list .item.active-selection {
+      background-color: #c8c8c8; }
+    .list .item .item_property {
+      border: 1px solid #494949;
+      padding: 3px; }
+
+.buttons {
+  text-align: left; }
+
+/*
+Label the data
+td:nth-of-type(1):before { content: "First Name"; }
+td:nth-of-type(2):before { content: "Last Name"; }
+td:nth-of-type(3):before { content: "Job Title"; }
+td:nth-of-type(4):before { content: "Favorite Color"; }
+td:nth-of-type(5):before { content: "Wars of Trek?"; }
+td:nth-of-type(6):before { content: "Porn Name"; }
+td:nth-of-type(7):before { content: "Date of Birth"; }
+td:nth-of-type(8):before { content: "Dream Vacation City"; }
+td:nth-of-type(9):before { content: "GPA"; }
+td:nth-of-type(10):before { content: "Arbitrary Data"; }
+*/
+
+/*# sourceMappingURL=maps-list.component.css.map */

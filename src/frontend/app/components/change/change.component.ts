@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 //import {NgIf, NgFor, FORM_DIRECTIVES} from '@angular/common';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
+import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import { DatePipe } from "@angular/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
@@ -47,7 +47,7 @@ export class ChangeComponent implements OnInit {
   ngOnInit() {
     this.selectedNode = this._changeService.getSelectedNode();
     if(this.selectedNode){
-      this.changesByExpertise = this._changeService.setSuggestedExpertsForNode(this.selectedNode.kNode);
+      //this.changesByExpertise = this._changeService.setSuggestedExpertsForNode(this.selectedNode.kNode);
     }
   //TODO:  check for Selected Node
   //this.changesByExpertise = this._changeService.setSuggestedExpertsForNode(this.selectedNode);
@@ -57,7 +57,7 @@ export class ChangeComponent implements OnInit {
     console.log('selectedNodeChanged');
     this.selectedNode = vkNode;
     if(this.selectedNode){
-      this.changesByExpertise = this._changeService.setSuggestedExpertsForNode(this.selectedNode.kNode);
+      //this.changesByExpertise = this._changeService.setSuggestedExpertsForNode(this.selectedNode.kNode);
     }
   }
 
@@ -65,12 +65,6 @@ export class ChangeComponent implements OnInit {
   //   let change:Change = received.change;
   //   console.log("[changeReceived] change", JSON.stringify(change));
   // }
-
-
-  accept(change){
-    change.state = ChangeState.ACCEPTED;
-    //TODO: inform user that he is summoned
-  }
 
   // topicClicked(topic){
   //   this.globalEmitterServicesArray.get(this.changeSelectedNodeEventName).broadcast('ChangeComponent', topic._id);

@@ -55,7 +55,7 @@ declare var knalledge;
     selector: 'maps-list',
     moduleId: module.id,
     templateUrl: 'maps-list.tpl.html',
-    styleUrls: ['maps-list.component.css'],
+    styleUrls: ['css/maps-list.component.css'],
     providers: [
         MATERIAL_PROVIDERS,
         OVERLAY_PROVIDERS

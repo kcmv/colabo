@@ -7,7 +7,9 @@ export const enum ChangeVisibility {
 }
 
 export const enum ChangeType {
-	UNDEFINED
+	UNDEFINED,
+	STRUCTURAL,
+	VIEW
 }
 
 export const enum ChangeState {

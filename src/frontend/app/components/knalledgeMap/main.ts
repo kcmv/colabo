@@ -100,68 +100,68 @@ export class KnalledgeMapMain {
     private knalledgeMapVOsService;
 
     constructor(
-        // public router: Router,
-        @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
-        @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService,
-        @Inject('RimaService') _RimaService_,
-        @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
-    // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
-        ) {
-        console.log('[KnalledgeMapMain]');
-        this.viewConfig = knalledgeMapViewService.get().config;
-        this.policyConfig = knalledgeMapPolicyService.get().config;
-        this.rimaService = _RimaService_;
-        this.knalledgeMapVOsService = _KnalledgeMapVOsService_;
-        // this.broadcastManagerService = broadcastManagerService;
-        // globalEmitterServicesArray.register('KnalledgeMapMain');
-        // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
-        // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");
+      // public router: Router,
+      @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
+      @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService,
+      @Inject('RimaService') _RimaService_,
+      @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
+      @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
+  // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
+      ) {
+      console.log('[KnalledgeMapMain]');
+      this.viewConfig = knalledgeMapViewService.get().config;
+      this.policyConfig = knalledgeMapPolicyService.get().config;
+      this.rimaService = _RimaService_;
+      this.knalledgeMapVOsService = _KnalledgeMapVOsService_;
+      // this.broadcastManagerService = broadcastManagerService;
+      // globalEmitterServicesArray.register('KnalledgeMapMain');
+      // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
+      // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");
 
-        var nodeMediaClickedEventName = "nodeMediaClickedEvent";
-        this.globalEmitterServicesArray.register(nodeMediaClickedEventName);
+      var nodeMediaClickedEventName = "nodeMediaClickedEvent";
+      this.globalEmitterServicesArray.register(nodeMediaClickedEventName);
 
-        this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function(vkNode) {
-            console.log("media clicked: ", vkNode.kNode.name);
-        });
+      this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function(vkNode) {
+          console.log("media clicked: ", vkNode.kNode.name);
+      });
     };
 
     customClose(interesting: boolean) {
-        if (interesting) {
-            this.status = 'That article was interesting.';
-        } else {
-            this.status = 'Look for something else.';
-        }
+      if (interesting) {
+          this.status = 'That article was interesting.';
+      } else {
+          this.status = 'Look for something else.';
+      }
     }
 
     getMapName(): any {
-        return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
+      return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
     }
 
     stopFollowing(): any {
-        this.policyConfig.broadcasting.receiveNavigation = false;
+      this.policyConfig.broadcasting.receiveNavigation = false;
     }
     continueFollowing(): any {
-        this.policyConfig.broadcasting.receiveNavigation = true;
+      this.policyConfig.broadcasting.receiveNavigation = true;
     }
     disableBroadcasting(): any {
-        this.policyConfig.broadcasting.enabled = false;
+      this.policyConfig.broadcasting.enabled = false;
     }
     enableBroadcasting(): any {
-        this.policyConfig.broadcasting.enabled = true;
+      this.policyConfig.broadcasting.enabled = true;
     }
     toggleTopPanel(): any {
-        this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
+      this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
     }
     getLoggedInUserName(): any {
-        var whoAmI = this.rimaService.getWhoAmI();
-        var name = this.rimaService.getNameFromUser(whoAmI);
-        return name;
+      var whoAmI = this.rimaService.getWhoAmI();
+      var name = this.rimaService.getNameFromUser(whoAmI);
+      return name;
     }
     getActiveUserName(): any {
-        var whoAmI = this.rimaService.getActiveUser();
-        var name = this.rimaService.getNameFromUser(whoAmI);
-        return name;
+      var whoAmI = this.rimaService.getActiveUser();
+      var name = this.rimaService.getNameFromUser(whoAmI);
+      return name;
     }
     // hasMedia(breakSize: string): boolean {
     //     return Media.hasMedia(breakSize);
@@ -180,6 +180,6 @@ export class KnalledgeMapMain {
         //this.router.navigateByUrl('/home')
         // https://angular.io/docs/ts/latest/api/common/index/Location-class.html
         // this.location.go('#/' + path);
-        window.location = '#/' + path;
+        window.location.href = '#/' + path;
     };
 }

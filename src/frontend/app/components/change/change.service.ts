@@ -53,15 +53,15 @@ export class ChangeService {
     var r1:Change = new Change();
       r1.who = null;
       r1.reference = null;
-      r1.type = ChangeType.EXPERT;
+      r1.type = ChangeType.STRUCTURAL;
     var r2:Change = new Change();
       r2.who = {displayName:'Dino'};
       r2.reference = {name:'Collective Mind'};
-      r2.type = ChangeType.EXPERT;
+      r2.type = ChangeType.STRUCTURAL;
     var r3:Change = new Change();
       r3.who = {displayName:'TestUser'};
       r3.reference = {name:'Eco-Problems'};
-      r3.type = ChangeType.EXPERT;
+      r3.type = ChangeType.STRUCTURAL;
     this.changesByExpertise.push(r1);
     this.changesByExpertise.push(r2);
     this.changesByExpertise.push(r3);
@@ -82,57 +82,6 @@ export class ChangeService {
       case 4:
         return true;
     }
-  }
-
-  setSuggestedExpertsForNode(node: any){
-    console.log('setSuggestedExpertsForNode');
-    this.changesByExpertise.length = 0;
-    if(node !== null){
-      //for each user:
-      //for each how of the user:
-      for(var i in this.users){
-        let user = this.users[i];
-        let userHows = this.rimaService.howAmIs[user._id];
-      // TODO: Sasa want logged in user also [this.rimaService.loggedInWhoAmI._id];
-        //getting all whats from the node:
-        let nodeWhats = (node && node.dataContent && node.dataContent.rima && node.dataContent.rima.whats) ?
-          node.dataContent.rima.whats : [];
-
-        var relevantWhats = []; //here are kept all found relevant whats
-        // TODO: can be optimized by hash of userHows
-        for(let wi=0;wi<nodeWhats.length;wi++){ //through all the whats of the node
-          var nodeWhat = nodeWhats[wi];
-          for(var hi in userHows){
-            var userHow = userHows[hi];
-            if (userHow && userHow.whatAmI && (userHow.whatAmI.name === nodeWhat.name &&
-              this.isExpertHow(userHow.how) //avoiding 'INTERESTED IN' (THOSE ARE NOT experts)
-            )){
-              let alreadyAdded = false;
-              //same whats can be associated to a user by different hows
-              for(let rwi=0;rwi<relevantWhats.length;rwi++){
-                if(relevantWhats[rwi].name === userHow.whatAmI.name){
-                  alreadyAdded = true;
-                }
-              }
-              if(!alreadyAdded){relevantWhats.push(userHow.whatAmI);}
-            }
-          }
-        }
-        if(relevantWhats.length!==0){
-          let change:Change = new Change();
-          change.reference = node;
-          change.type = ChangeType.EXPERT;
-          change.mapId = this.knalledgeMapVOsService.getMapId();
-          change.who = user;
-          change.visibility = ChangeVisibility.MAP_MEDIATORS;
-          change.state = ChangeState.SUGGESTED;
-          change.dataContent.relevantWhats = relevantWhats;
-
-          this.changesByExpertise.push(change);
-        }
-      }
-    }
-    return this.changesByExpertise;
   }
 
   // sendChange(change: Change, callback: Function){
