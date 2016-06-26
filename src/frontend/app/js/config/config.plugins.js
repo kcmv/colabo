@@ -9,6 +9,9 @@ var plugins = {
             knalledgeMapVOsService: {
 				// should map participants be broadcasted after loading map
                 broadcastMapUsers: true
+            },
+			knAllEdgeRealTimeService: {
+                available: true
             }
         }
 	},
@@ -16,6 +19,8 @@ var plugins = {
         active: true,
         config: {
             rimaService: {
+				available: true,
+				ANONYMOUS_USER_ID: "55268521fb9a901e442172f8",
 				// should the service wait for users be broadcasted from other components
 				// (like KnalledgeMapVOsService) or request loading all of them?
                 waitToReceiveRimaList: true

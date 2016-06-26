@@ -28,9 +28,10 @@
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService}  knAllEdgeRealTimeService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService}  knalledgeMapPolicyService
 * @param  {utils.Injector}  injector
+* @param  {config.Plugins}  Plugins
 */
 var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
-	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService, injector){
+	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService, injector, Plugins){
 	var that = this;
 	this.config = config;
 	this.upperApi = upperApi;
@@ -51,7 +52,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.injector = injector;
 
 	this.knalledgeState = new knalledge.State();
-	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService);
+	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins);
 
 	this.mapManagerApi = {};
 	this.mapManagerApi.nodeSelected	= this.nodeSelected.bind(this);

@@ -11,7 +11,7 @@ not KNodes nor KEdges
 @memberof knalledge
 */
 
-var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService){
+var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins){
 	this.rootNode = null;
 
 	/**
@@ -43,6 +43,12 @@ var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapV
 	 * @type {knalledge.knalledgeMap.KnalledgeMapPolicyService}
 	 */
 	this.knalledgeMapPolicyService = knalledgeMapPolicyService;
+
+	/**
+	 * Plugins configuration object
+	 * @type {config.Plugins}
+	 */
+	 this.Plugins = Plugins;
 	/**
 	 * Set of nodes (VKNode) that exists in the map
 	 *
@@ -281,6 +287,10 @@ MapStructure.prototype.isNodeVisible = function(node){
  */
 MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 	var visibleIBIS = true;
+	var activeUserId = this.rimaService ?
+		this.rimaService.getActiveUserId() :
+		Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
+
 	if(node.kNode.isIbis()){
 		var parents = this.getParentNodes(node);
 		var parentIsKn = false;
@@ -293,7 +303,7 @@ MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 	}
 
 	var visibleBrainstorming = true;
-	if((node.kNode.decorations.brainstorming != undefined || node.kNode.decorations.brainstorming>=1) && this.knalledgeMapPolicyService.provider.config.behaviour.brainstorming == 1 && node.kNode.iAmId != this.rimaService.getActiveUserId()){ // brainstorming node && behaviour brainstorming
+	if((node.kNode.decorations.brainstorming != undefined || node.kNode.decorations.brainstorming>=1) && this.knalledgeMapPolicyService.provider.config.behaviour.brainstorming == 1 && node.kNode.iAmId != activeUserId){ // brainstorming node && behaviour brainstorming
 		visibleBrainstorming = false;
 	}
 
@@ -590,6 +600,10 @@ MapStructure.prototype.cloneObject = function(obj){
 };
 
 MapStructure.prototype.createNode = function(vkNode, nodeType) {
+	var activeUserId = this.rimaService ?
+		this.rimaService.getActiveUserId() :
+		Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
+
 	if(!this.mapService) return null;
 
 	// var nodeCreated = function(nodeFromServer) {
@@ -600,7 +614,7 @@ MapStructure.prototype.createNode = function(vkNode, nodeType) {
 	var newVKNode = vkNode;
 	if(!newVKNode) newVKNode = new knalledge.VKNode();
 	if(!newVKNode.kNode) newVKNode.kNode = new knalledge.KNode();
-	newVKNode.kNode.iAmId = this.rimaService.getActiveUserId();
+	newVKNode.kNode.iAmId = activeUserId;
 
 	newVKNode = this.nodeDecoration(newVKNode);
 	newVKNode.kNode = this.mapService.createNode(newVKNode.kNode, nodeType);
@@ -708,6 +722,10 @@ MapStructure.prototype.updateName = function(vkNode, newName){
  * @return {knalledge.MapStructure}
  */
 MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
+	var activeUserId = this.rimaService ?
+		this.rimaService.getActiveUserId() :
+		Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
+
 	if(!this.mapService) return;
 	var patch = null;
 	switch(updateType){
@@ -723,7 +741,7 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 			if('isOpen' in vkNode) vkNode.kNode.visual.isOpen = vkNode.isOpen;
 			break;
 		case knalledge.KNode.UPDATE_TYPE_VOTE:
-			var iAmId = this.rimaService.getActiveUserId();
+			var iAmId = activeUserId;
 			if(iAmId === undefined){return this;}
 
 			if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.ibis &&
