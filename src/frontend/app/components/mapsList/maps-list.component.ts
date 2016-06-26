@@ -89,7 +89,7 @@ declare var knalledge;
 })
 
 export class MapsList {
-    public mapToCreate = null;
+    public mapToCreate = new knalledge.KMap();
     public modeCreating = false;
     public modeEditing = false;
     public items = null;
@@ -129,6 +129,7 @@ export class MapsList {
         // this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function(vkNode) {
         //     console.log("media clicked: ", vkNode.kNode.name);
         // });
+        this.mapToCreate = new knalledge.KMap();
         this.init();
     };
 
@@ -167,6 +168,7 @@ export class MapsList {
 			console.log("showCreateNewMap");
 			this.mapToCreate = new knalledge.KMap();
 			this.mapToCreate.participants = this.rimaService.getActiveUserId();
+			//this.mapToCreate.participants = this.rimaService.getActiveUser().displayName;
 			this.modeCreating = true;
 		};
 
@@ -217,6 +219,7 @@ export class MapsList {
 		}
 
     createNew(){
+      var that = this;
       var rootNode = new knalledge.KNode();
 			rootNode.name = this.mapToCreate.name;
 			rootNode.mapId = null;
@@ -231,21 +234,21 @@ export class MapsList {
 
 			var mapCreated = function(mapFromServer) {
 				console.log("mapCreated:");//+ JSON.stringify(mapFromServer));
-				this.items.push(mapFromServer);
-				this.selectedItem = mapFromServer;
+				that.items.push(mapFromServer);
+				that.selectedItem = mapFromServer;
 				rootNode.mapId = mapFromServer._id;
-				this.knalledgeMapVOsService.updateNode(rootNode,knalledge.KNode.UPDATE_TYPE_ALL);
+				that.knalledgeMapVOsService.updateNode(rootNode,knalledge.KNode.UPDATE_TYPE_ALL);
 			};
 
 			var rootNodeCreated = function(rootNode){
-				this.mapToCreate.rootNodeId = rootNode._id;
-				this.mapToCreate.iAmId = this.rimaService.getActiveUserId();
+				that.mapToCreate.rootNodeId = rootNode._id;
+				that.mapToCreate.iAmId = that.rimaService.getActiveUserId();
 
 				//TODO: so far this is string of comma-separated iAmIds:
-				this.mapToCreate.participants = this.mapToCreate.participants.replace(/\s/g, '');
-				this.mapToCreate.participants = this.mapToCreate.participants.split(',');
+				that.mapToCreate.participants = that.mapToCreate.participants.replace(/\s/g, '');
+				that.mapToCreate.participants = that.mapToCreate.participants.split(',');
 
-				var map = this.knalledgeMapService.create(this.mapToCreate);
+				var map = that.knalledgeMapService.create(that.mapToCreate);
 				map.$promise.then(mapCreated);
 			};
 
