@@ -190,7 +190,7 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 			}
 		}},
 
-		createPlain: {method:'POST', path:'dupllicate', params:{}/*{type:'', searchParam: '', extension:""}*/,
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
 			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -484,7 +484,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 		var KnAllEdgeRealTimeService = Plugins.knalledgeMap.config.knAllEdgeRealTimeService.available ?
 			$injector.get('KnAllEdgeRealTimeService') : null;
 	}catch(err){
-		console.warn(err);
+		console.warn("Error while trying to retrieve the KnAllEdgeRealTimeService service:", err);
 	}
 	console.log("[atGsServices] server backend: %s", ENV.server.backend);
 	// creationId is parameter that will be replaced with real value during the service call from controller
@@ -1412,8 +1412,8 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 					if(RimaService){
 						var activeUserId = RimaService.getActiveUserId();
 						if(activeUserId &&
-							kMap.participants.indexOf(activeUserId) <= 0
-						){
+							kMap.participants.indexOf(activeUserId) === -1
+						){ // add it if not found among participants
 							kMap.participants.push(activeUserId);
 							KnalledgeMapService.update(kMap, function(){
 								if(typeof callback === 'function') callback();

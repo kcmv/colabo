@@ -2,6 +2,10 @@
   <h1>CollaboFramework/KnAllEdge Maps</h1>
 	<div class='creatingNewMap' [ngClass]="{ 'displayNone': !modeCreating && !modeEditing}">
 		<form>
+    <!-- TODO: using of the form causes warning;
+    *It looks like you're using the old forms module. This will be opt-in in the next RC, and
+     will eventually be removed in favor of the new forms module. For more information, see:
+     https://docs.google.com/document/u/1/d/1RIezQqE4aEhBRmArIAS1mRIZtWFf6JxN_7B4meyWK0Y/pub -->
 			<fieldset>
 				<legend>New Map</legend>
 				<div><label>Name</label><input type="text" ng-model="mapToCreate.name" /></div>
@@ -31,10 +35,10 @@
 		<br/>
 		<span>There are
       <span [ngSwitch]="items === null">
-        <span *ngSwitchWhen="true">
+        <span *ngSwitchCase="true">
           <i class="fa fa-refresh fa-spin"></i><span class="sr-only">Loading...</span>
         </span>
-        <span *ngSwitchWhen="false">
+        <span *ngSwitchCase="false">
           {{items.length}}
         </span>
       </span>

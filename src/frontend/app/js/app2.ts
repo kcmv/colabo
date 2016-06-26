@@ -5,7 +5,7 @@ import {ROUTER_PROVIDERS} from '@angular/router-deprecated';
 
 import {LoginStatusComponent} from '../components/login/login-status-component';
 import {KnalledgeMapMain} from '../components/knalledgeMap/main';
-import {MapsList} from '../components/mapsList/mapsList';
+import {MapsList} from '../components/mapsList/maps-list.component';
 import {KnalledgeMapPolicyService} from '../components/knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../components/knalledgeMap/knalledgeMapViewService';
 import {TopiChatReports} from '../components/topiChat/reports';

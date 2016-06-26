@@ -2,7 +2,7 @@
 import {upgradeAdapter} from './upgrade_adapter';
 import {LoginStatusComponent} from '../components/login/login-status-component';
 import {KnalledgeMapMain} from '../components/knalledgeMap/main';
-import {MapsList} from '../components/mapsList/mapsList';
+import {MapsList} from '../components/mapsList/maps-list.component';
 
 /// <reference path="../../../typings/browser/ambient/angular/angular.d.ts" />
 /// <reference path="../../../typings/browser/ambient/angular-route/angular-route.d.ts" />
