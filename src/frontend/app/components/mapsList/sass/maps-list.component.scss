@@ -1,11 +1,13 @@
 /*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
 @import "../../../sass/include";
+// @import "bourbon/bourbon";
 
 h1{
 	padding-bottom: 5px;
 	border-bottom: solid gray 2px;
 }
 
+$heading_background_color: #aaaaff;
 $item_background_color: #a2a2a2;
 $item_even_background_color: #888888;
 $item_selected_background_color: #c8c8c8;
@@ -13,37 +15,82 @@ $item_over_background_color: #e1e1e1;
 
 // font-size: 1em;
 
-.heading{
-	border-bottom: 1px solid darken($item_background_color, 35%);
-	padding: 5px;
-	margin: 5px;
-	font-weight: bold;
-	width: 98%;
-}
+// .heading{
+// 	border-bottom: 1px solid darken($item_background_color, 35%);
+// 	padding: 5px;
+// 	margin: 5px;
+// 	font-weight: bold;
+// 	width: 98%;
+// 	flex-basis: 0;
+// }
 
 .list{
 	margin: 5px;
 	margin-bottom: 3px;
 	padding: 3px;
 	width: 98%;
-	border-bottom: 1px solid darken($item_background_color, 35%);
+	border-bottom: 1px solid darken($item_background_color, 15%);
+	justify-content: space-between;
+
+	.heading{
+		font-weight: bolder;
+		background-color: $heading_background_color;
+		border-bottom: 2px solid darken($heading_background_color, 10%);
+	}
 
 	.item{
+		width: 100%;
 		// border: 1px solid black;
-		background-color: $item_background_color;
-		&:nth-child(even) {background-color: $item_even_background_color;}
-		&:hover{
-		 cursor: pointer;
-		 background-color: $item_over_background_color;
-	 	}
-		&.active-selection{
-			background-color: $item_selected_background_color;
+		&.data_item{
+			background-color: $item_background_color;
+			&:nth-child(even) {background-color: $item_even_background_color;}
+
+			&:hover{
+			 cursor: pointer;
+			 background-color: $item_over_background_color;
+		 	}
+			&.active-selection{
+				background-color: $item_selected_background_color;
+			}
 		}
 		.item_property{
+			/* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN */
+
+			// flex-basis: 15%;
+
+		  /* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN - without it equal column width is  disturbed when columns become narrower than a word */
+		  word-wrap: break-word;
+		  overflow-wrap: break-word;
+		  word-break: break-all;
+		  word-break: break-word;
+
 			border: 1px solid darken($item_background_color, 35%);
 			// margin: 0.5px;
 			padding: 3px;
+
+			// flex-grow: 1;
+
 			// &:nth-child(even) {background-color: $item_even_background_color;}
+			// @include flex-grow(1);
+	    // @include flex-basis(0);
+	    // @include word-wrap;
+			// word-break: break-word;
+
+			// &.l{
+			// 	flex-grow: 1.5;
+			// }
+			// &.xl{
+			// 	flex-grow: 2;
+			// }
+			// &.s{
+			// 	flex-grow: 0.5;
+			// }
+			// &.xs{
+			// 	flex-grow: 0.25;
+			// }
+
+			/* NECESSARRY for cases when we hide some columns so that sum of thei `flex` paramethers (widths) is not === 100 */
+			max-width: 100%;
 		}
 	}
 }
