@@ -316,7 +316,11 @@ export class MapsList {
 				//$location.path("/map/id/" + this.selectedItem._id);
 				//TODO: using ng2 Route mechanism:
 				//this.router.url = "/map/id/" + this.selectedItem._id; //navigate(['HeroDetail', { id: this.selectedHero.id }]);
-				window.location.href = "/#map/id/" + this.selectedItem._id;
+
+        //TODO-remove:
+        this.policyConfig.moderating.enabled = false;
+
+        window.location.href = "/#map/id/" + this.selectedItem._id;
 				//openMap(this.selectedItem);
 				// $element.remove();
 			}else{

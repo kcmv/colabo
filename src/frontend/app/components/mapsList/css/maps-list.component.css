@@ -20,6 +20,9 @@ h1 {
   padding-bottom: 5px;
   border-bottom: solid gray 2px; }
 
+.fa:hover {
+  color: #ffffb0; }
+
 .list {
   margin: 5px;
   margin-bottom: 3px;
@@ -77,8 +80,8 @@ h1 {
       */
       /* NECESSARRY for cases when we hide some columns so that sum of thei `flex` paramethers (widths) is not === 100 */
       max-width: 100%;
-      /* NECESSARRY for filling up whole cell so that border is not shown in the middle of the cell for low cells */
-      max-height: 100%;
+      /* NECESSARRY for filling up whole cell so that border is not shown in the middle of the cell for low cells
+      turned off so far for action Font Awesome icon doubling in height */
       min-height: 1em; }
       .list .item .item_property .item_header {
         padding-right: 10px;

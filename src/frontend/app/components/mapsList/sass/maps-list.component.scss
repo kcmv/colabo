@@ -12,6 +12,7 @@ $item_background_color: #a2a2a2;
 $item_even_background_color: #888888;
 $active_color: #000080;
 $over_color: #0000ff;
+$icon_over_color: #ffffb0;
 // $item_selected_background_color: #c8c8c8;
 // $item_over_background_color: #e1e1e1;
 
@@ -25,6 +26,10 @@ $over_color: #0000ff;
 // 	width: 98%;
 // 	flex-basis: 0;
 // }
+//
+.fa:hover {
+  color: $icon_over_color;
+}
 
 .list{
 	margin: 5px;
@@ -102,10 +107,11 @@ $over_color: #0000ff;
 			/* NECESSARRY for cases when we hide some columns so that sum of thei `flex` paramethers (widths) is not === 100 */
 			max-width: 100%;
 
-			/* NECESSARRY for filling up whole cell so that border is not shown in the middle of the cell for low cells */
-			max-height: 100%;
+			/* NECESSARRY for filling up whole cell so that border is not shown in the middle of the cell for low cells
+			turned off so far for action Font Awesome icon doubling in height */
+			// max-height: 100%;
 
-			min-height: 1em;
+			// min-height: 1em;
 
 			.item_header{
 				padding-right: 10px;

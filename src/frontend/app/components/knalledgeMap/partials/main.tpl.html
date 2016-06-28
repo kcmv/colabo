@@ -104,22 +104,22 @@
                         <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
                             <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
                                 <button md-fab class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
-                                    <i md-icon>settings</i>
+                                    <i title="Settings" md-icon>settings</i>
                                 </button>
                                 <!-- <button md-fab class="md-primary" aria-label="Configuration" (click)="options.open()" hide-gt-md> -->
                                 <button md-fab class="md-primary" aria-label="Configuration" (click)="options.toggle()">
-                                    <i md-icon>chrome_reader_mode</i>
+                                    <i title="Configuration" md-icon>chrome_reader_mode</i>
                                 </button>
                                 <button md-fab class="md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
-                                    <i md-icon>view_agenda</i>
+                                    <i title="Top Panel" md-icon>view_agenda</i>
                                 </button>
 
                                 <button md-fab class="md-primary" aria-label="Maps" (click)="go('maps')" *ngIf="policyConfig.moderating.enabled">
-                                    <i md-icon>map</i>
+                                    <i title="Maps List" md-icon>map</i>
                                 </button>
 
                                 <button md-fab class="md-primary" aria-label="Plugins" (click)="go('plugins')" *ngIf="policyConfig.moderating.enabled">
-                                    <i md-icon>extension</i>
+                                    <i title="Plugins" md-icon>extension</i>
                                 </button>
                             </section>
                             <span class="map">Map <span class="mapName">{{getMapName()}}</span></span>
@@ -142,7 +142,7 @@
                             </section>
                             <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
                                 <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
-                                    <i md-icon>person</i>
+                                    <i title="Login" md-icon>person</i>
                                 </button>
 
                                 <div class="names" layout="column">
@@ -155,7 +155,7 @@
                                 </div>
 
                                 <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
-                                    <i md-icon>directions run</i>
+                                    <i title="Logout" md-icon>directions run</i>
                                 </button>
                                 <!-- <div>TESTING
                                   <span *ngIf="policyConfig.moderating.enabled">
