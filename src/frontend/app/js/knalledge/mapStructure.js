@@ -289,7 +289,7 @@ MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 	var visibleIBIS = true;
 	var activeUserId = this.rimaService ?
 		this.rimaService.getActiveUserId() :
-		Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
+		this.Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
 
 	if(node.kNode.isIbis()){
 		var parents = this.getParentNodes(node);
@@ -602,7 +602,7 @@ MapStructure.prototype.cloneObject = function(obj){
 MapStructure.prototype.createNode = function(vkNode, nodeType) {
 	var activeUserId = this.rimaService ?
 		this.rimaService.getActiveUserId() :
-		Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
+		this.Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
 
 	if(!this.mapService) return null;
 
@@ -724,7 +724,7 @@ MapStructure.prototype.updateName = function(vkNode, newName){
 MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 	var activeUserId = this.rimaService ?
 		this.rimaService.getActiveUserId() :
-		Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
+		this.Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
 
 	if(!this.mapService) return;
 	var patch = null;

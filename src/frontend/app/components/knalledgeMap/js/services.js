@@ -884,7 +884,7 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 			 */
 			properties: {},
 			// TODO: remove RimaService
-			mapStructure: new knalledge.MapStructure(RimaService, KnalledgeMapViewService, KnalledgeMapPolicyService),
+			mapStructure: new knalledge.MapStructure(RimaService, KnalledgeMapViewService, KnalledgeMapPolicyService, Plugins),
 			// TODO: remove, not used any more?!
 			lastVOUpdateTime: null,
 
