@@ -76,30 +76,27 @@
         <div flex='30' class="item_property">Name</div>
         <div flex='20' *ngIf="policyConfig.moderating.enabled" class="item_property">Id</div>
         <div flex='5' *ngIf="policyConfig.moderating.enabled" class="item_property">Actions</div>
-        <div flex='15' class="item_property">Authors</div>
+        <div flex='20' class="item_property">Authors</div>
         <div flex='15' class="item_property">Type</div>
-        <div flex='5' class="item_property">Participants</div>
-        <div flex='10' class="item_property creation_date">Creation Date</div>
+        <div flex='10' class="item_property creation_date">Created</div>
       </div>
       <div class='item data_item' *ngFor="let item of items" layout-gt-md="row" layout="column"
       (click)="selectItem(item)" [ngClass]="{'active-selection': (selectedItem && item._id === selectedItem._id)}">
        <!-- [ngClass]="{'sm': $mdMedia('sm'), 'md': $mdMedia('md'), 'lg': $mdMedia('lg')}" -->
         <div flex-gt-md='30' class='item_property'>{{item.name}}</div>
-        <div flex-gt-md='20' class='item_property' *ngIf="policyConfig.moderating.enabled">{{item._id}}</div>
-        <div flex-gt-md='5' class='item_property' *ngIf="policyConfig.moderating.enabled">
-					<span *ngIf="policyConfig.moderating.enabled">
+        <div flex-gt-md='20' class='item_property' *ngIf="policyConfig.moderating.enabled" layout="row"><div flex='15' hide-gt-md class="item_header">Id</div><div class='item_data'>{{item._id}}</div></div>
+        <div flex-gt-md='5' class='item_property' *ngIf="policyConfig.moderating.enabled" layout="row"><div flex='15' hide-gt-md class="item_header">Actions</div>
+					<div class='item_data' *ngIf="policyConfig.moderating.enabled">
             <button class="btn btn-primary" aria-label="delete" type="button" (click)="delete(item)"><i class="fa fa-trash" aria-hidden="true"></i></button>
             <button class="btn btn-primary" aria-label="duplicate" type="button" (click)="duplicate(item)"><i class="fa fa-clone" aria-hidden="true"></i></button>
-					</span>
-          <span *ngIf="!policyConfig.moderating.enabled"><!--non-moderators actions--></span>
+            <button class="btn btn-primary" aria-label="show participants" type="button" (click)="showParticipants(item)"><i class="fa fa-users" aria-hidden="true"></i></button>
+					</div>
+          <div *ngIf="!policyConfig.moderating.enabled"><!--non-moderators actions--></div>
         </div>
-				<div flex-gt-md='15' class='item_property'>{{item.dataContent && item.dataContent.mcm ? item.dataContent.mcm.authors : 'n/a'}}</div>
-				<div flex-gt-md='15' class='item_property'>{{item.type !== "" && item.type ? item.type : 'n/a'}}</div>
-				<div flex-gt-md='5' class='item_property'>
-          <button class="btn btn-primary" aria-label="show participants" type="button" (click)="showParticipants(item)"><i class="fa fa-users" aria-hidden="true"></i></button>
-        </div>
+				<div flex-gt-md='20' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Authors</div><div class='item_data'>{{item.dataContent && item.dataContent.mcm ? item.dataContent.mcm.authors : 'n/a'}}</div></div>
+				<div flex-gt-md='15' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Type</div><div class='item_data'>{{item.type !== "" && item.type ? item.type : 'n/a'}}</div></div>
 				<!-- {{getParticipantsNames(item.participants)}} -->
-				<div flex-gt-md='10' class='item_property'>{{formatDateTime(item.createdAt)}}</div>
+				<div flex-gt-md='10' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Created</div><div class='item_data'>{{formatDateTime(item.createdAt)}}</div></div>
       </div>
     </div>
 
