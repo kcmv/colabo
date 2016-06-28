@@ -46,14 +46,13 @@ $over_color: #0000ff;
 		&.data_item{
 			background-color: $item_background_color;
 			&:nth-child(even) {background-color: $item_even_background_color;}
-
+			&.active-selection{
+				background-color: mix($item_even_background_color, $active_color, 85%);
+			}
 			&:hover{
 			 cursor: pointer;
 			 background-color: mix($item_even_background_color, $over_color, 85%);
 		 	}
-			&.active-selection{
-				background-color: mix($item_even_background_color, $active_color, 85%);
-			}
 		}
 		@media (max-width: 960px) { /* adding straps in column view (small-screens)*/
 			.item_property:nth-of-type(even) {

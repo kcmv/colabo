@@ -37,11 +37,11 @@ h1 {
       background-color: #a2a2a2; }
       .list .item.data_item:nth-child(even) {
         background-color: #888888; }
+      .list .item.data_item.active-selection {
+        background-color: #747487; }
       .list .item.data_item:hover {
         cursor: pointer;
         background-color: #74749a; }
-      .list .item.data_item.active-selection {
-        background-color: #747487; }
     @media (max-width: 960px) {
       .list .item {
         /* adding straps in column view (small-screens)*/
