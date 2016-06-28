@@ -42,6 +42,16 @@ h1 {
         background-color: #e1e1e1; }
       .list .item.data_item.active-selection {
         background-color: #c8c8c8; }
+    @media (max-width: 960px) {
+      .list .item {
+        /* adding straps in column view (small-screens)*/ }
+        .list .item .item_property:nth-of-type(even) {
+          background-color: #888888; }
+        .list .item .item_property:nth-of-type(odd) {
+          background-color: #a2a2a2; }
+        .list .item .item_property:first-of-type {
+          background-color: #aaaaff;
+          font-weight: bold; } }
     .list .item .item_property {
       /* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN */
       /* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN - without it equal column width is  disturbed when columns become narrower than a word */
@@ -52,7 +62,8 @@ h1 {
       border: 1px solid #494949;
       padding: 3px;
       /* NECESSARRY for cases when we hide some columns so that sum of thei `flex` paramethers (widths) is not === 100 */
-      max-width: 100%; }
+      max-width: 100%;
+      min-height: 1em; }
 
 .buttons {
   text-align: left; }
