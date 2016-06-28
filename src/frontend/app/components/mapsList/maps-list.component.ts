@@ -328,6 +328,16 @@ export class MapsList {
 			}
 		};
 
+    /* *** TOOLBAR **** */
+
+    getLoggedInUserName(): any {
+      var whoAmI = this.rimaService.getWhoAmI();
+      var name = this.rimaService.getNameFromUser(whoAmI);
+      return name;
+    }
+
+    /* *** TOOLBAR - END **** */
+
 		// editMap() {
 		// 	this.modeEditing = true;
 		// 	var mapReceived = function(mapFromServer) {

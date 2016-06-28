@@ -20,8 +20,30 @@ h1 {
   padding-bottom: 5px;
   border-bottom: solid gray 2px; }
 
-.fa:hover {
-  color: #ffffb0; }
+.fa{
+  &:hover {
+    color: #ffffb0;
+  }
+}
+
+.btn{
+  /*padding-right: 15px;*/
+}
+
+.toolbar{
+}
+
+.selectedMap{
+  border: solid 1px black;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.mapsActions{
+  border: solid 1px black;
+  border-radius: 3px;
+  padding: 5px;
+}
 
 .list {
   margin: 5px;
@@ -81,8 +103,7 @@ h1 {
       /* NECESSARRY for cases when we hide some columns so that sum of thei `flex` paramethers (widths) is not === 100 */
       max-width: 100%;
       /* NECESSARRY for filling up whole cell so that border is not shown in the middle of the cell for low cells
-      turned off so far for action Font Awesome icon doubling in height */
-      min-height: 1em; }
+      turned off so far for action Font Awesome icon doubling in height */ }
       .list .item .item_property .item_header {
         padding-right: 10px;
         white-space: nowrap;
