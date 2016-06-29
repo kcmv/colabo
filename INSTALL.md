@@ -134,6 +134,7 @@ joe /var/www/knalledge_frontend/dist/dev/components/knalledgeMap/css/default.css
 
 stop knalledge-b
 start knalledge-b
+status knalledge-b
 restart knalledge-b
 
 ```
