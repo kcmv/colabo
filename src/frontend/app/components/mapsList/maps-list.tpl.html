@@ -144,7 +144,7 @@
               </span> maps
               <!-- maps you are participating in:</span> -->
               <span>
-                <button (click)="showCreateNewMap()" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary" aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                <button (click)="showCreateNewMap()" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary" aria-label="Create New Map" type="button"><span class="button_icon last"><i title="Create New Map" class="fa fa-plus-square" aria-hidden="true"></i></span></button>
               </span>
             </div>
               <!-- TODO: maybe show these long textual buttons in wider mode
@@ -177,7 +177,7 @@
 
 
 <div class="md-padding" id="popupContainer">
-  <md-dialog #cloneDialog (onClose)="duplicate($event, 'duplicatedMap')">
+  <md-dialog #cloneDialog (onClose)="duplicate($event)">
     <div layout="column" class="md-inline-form">
       <form>
           <h2 class="md-title">Cloning map <span class="highlighted_name">{{mapForAction?.name}}</span></h2>

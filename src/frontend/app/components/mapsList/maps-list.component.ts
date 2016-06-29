@@ -8,6 +8,7 @@ import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 // import {Media, MdContent, MdButton} from 'ng2-material';
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media} from "ng2-material";
 import {MdToolbar} from '@angular2-material/toolbar';
+// import {MdDialog} from '@angular2-material/dialog';
 import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
@@ -71,6 +72,7 @@ declare var knalledge;
         MD_SIDENAV_DIRECTIVES,
         ROUTER_DIRECTIVES,
         MdToolbar,
+        // MdDialog,
         MD_INPUT_DIRECTIVES, FORM_DIRECTIVES
         // MdContent, MdButton,
         //   LoginStatusComponent,
@@ -101,6 +103,7 @@ export class MapsList {
     public mapForAction = null;
     public alertMsg = "";
     public nameOfDuplicatedMap = "";
+    //public cloneDialog = @ViewChild('cloneDialog');
 
     policyConfig: any;
     viewConfig: any;
@@ -147,6 +150,7 @@ export class MapsList {
    }
 
     init(){
+      //@ViewChild('cloneDialog') input;
       var that = this;
       this.knalledgeMapService.queryByParticipant(this.rimaService.getActiveUserId()).$promise.then(function(maps){
         that.items = maps;
@@ -154,6 +158,7 @@ export class MapsList {
         that.items = that.items.sort(that.sortByName);
       });
       this.policyConfig.moderating.enabled = true;
+      //this.cloneDialog = @ViewChild('cloneDialog');
     }
 
     formatDateTime(date){
@@ -211,9 +216,10 @@ export class MapsList {
     prepareForCloning(map){
       this.mapForAction = map;
       this.nameOfDuplicatedMap = "";
+      //console.log("this.cloneDialog:"+this.cloneDialog);
     }
 
-		duplicate(confirm, newName){
+		duplicate(confirm){
 			//console.log("mapDelete:", map));
 			if (confirm && this.mapForAction) {
         var that = this;
@@ -359,7 +365,7 @@ export class MapsList {
       return str.length <= ln ? str : str.substr(0,ln-3) + '...';
     }
 
-    public go(path: string) {
+    go(path: string) {
         // TODO: not implemented
         // alert("Not implemented");
         // this.router.navigate(['/hero', hero.id]);
@@ -374,14 +380,9 @@ export class MapsList {
 
     /* *** TOOLBAR - END **** */
 
-    customClose(interesting: boolean) {
-      if (interesting) {
-          console.log('cloning ...');
-          this.duplicate(this.selectedItem);
-      } else {
-          console.log('not cloning ...');
-      }
-    }
+    // cloneDialogOpened(){
+    //   console.log("cloneDialogOpened");
+    // }
 
 		// editMap() {
 		// 	this.modeEditing = true;

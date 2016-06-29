@@ -29,14 +29,18 @@ h1 {
 .highlighted_name {
   font-style: italic; }
 
-.fa :hover {
-  color: #ffffa0; }
+.fa {
+  font-size: 18px; }
+  .fa:hover {
+    color: #ffffa0; }
 
 .btn {
   /*padding-right: 15px;*/ }
 
 .button_icon {
   padding-right: 10px; }
+  .button_icon.last {
+    padding-right: 0px; }
 
 .mapsToolbar {
   position: fixed;

@@ -43,7 +43,8 @@ $toolbar_height: 60px;
 }
 
 .fa{
-  :hover {
+	font-size: 18px;
+  &:hover {
     color: #ffffa0;
   }
 }
@@ -54,9 +55,9 @@ $toolbar_height: 60px;
 
 .button_icon{
 	padding-right: 10px;
-	// &.last{
-	// 	padding-right: 0px;
-	// }
+	&.last{
+		padding-right: 0px;
+	}
 }
 
 .mapsToolbar{
