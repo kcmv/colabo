@@ -20,9 +20,6 @@ h1 {
   padding-bottom: 5px;
   border-bottom: solid gray 2px; }
 
-.mapsList {
-  height: 100%; }
-
 .md-inline-form {
   margin: 24px; }
 
@@ -38,43 +35,45 @@ h1 {
   /*padding-right: 15px;*/ }
 
 .button_icon {
-  padding-right: 10px; }
+  margin-right: 3px; }
   .button_icon.last {
-    padding-right: 0px; }
+    margin-right: 0px; }
 
-.mapsToolbar {
-  position: fixed;
-  height: 60px;
+.mapsList .mapsToolbar {
+  /* for toolbar hovering */
+  /* for toolbar hovering - end */
   width: 100%;
-  top: 0px; }
-  .mapsToolbar .borderGroup {
+  border-bottom: solid 2px #507050; }
+  .mapsList .mapsToolbar .borderGroup {
     border: solid 1px black;
     border-radius: 3px;
     padding: 8px; }
-
-.list {
-  top: 90px;
+.mapsList .list {
+  /* for toolbar hovering */
+  -webkit-flex: 1 1 auto;
+  overflow-y: auto;
+  /* for toolbar hovering - end */
   margin-bottom: 3px;
   width: 100%;
   border-bottom: 1px solid #7c7c7c;
   justify-content: space-between; }
-  .list .heading {
+  .mapsList .list .heading {
     font-weight: bolder;
     background-color: #aaaaff;
     border-bottom: 2px solid #7777ff; }
-  .list .item {
+  .mapsList .list .item {
     width: 100%; }
-    .list .item.data_item {
+    .mapsList .list .item.data_item {
       background-color: #a2a2a2; }
-      .list .item.data_item:nth-child(even) {
+      .mapsList .list .item.data_item:nth-child(even) {
         background-color: #888888; }
-      .list .item.data_item.active-selection {
+      .mapsList .list .item.data_item.active-selection {
         background-color: #747487; }
-      .list .item.data_item:hover {
+      .mapsList .list .item.data_item:hover {
         cursor: pointer;
         background-color: #74749a; }
     @media (max-width: 960px) {
-      .list .item {
+      .mapsList .list .item {
         /* adding straps in column view (small-screens)*/
         /* another approach for headers in mobile-version
         .item_property:nth-of-type(2):before { content: "Id"; }
@@ -83,14 +82,14 @@ h1 {
         .item_property:nth-of-type(5):before { content: "Type"; }
         .item_property:nth-of-type(7):before { content: "Created"; }
         */ }
-        .list .item .item_property:nth-of-type(even) {
+        .mapsList .list .item .item_property:nth-of-type(even) {
           background-color: #888888; }
-        .list .item .item_property:nth-of-type(odd) {
+        .mapsList .list .item .item_property:nth-of-type(odd) {
           background-color: #a2a2a2; }
-        .list .item .item_property:first-of-type {
+        .mapsList .list .item .item_property:first-of-type {
           background-color: #aaaaff;
           font-weight: bold; } }
-    .list .item .item_property {
+    .mapsList .list .item .item_property {
       /* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN */
       /* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN - without it equal column width is  disturbed when columns become narrower than a word */
       word-wrap: break-word;
@@ -110,7 +109,7 @@ h1 {
       max-width: 100%;
       /* NECESSARRY for filling up whole cell so that border is not shown in the middle of the cell for low cells
       turned off so far for action Font Awesome icon doubling in height */ }
-      .list .item .item_property .item_header {
+      .mapsList .list .item .item_property .item_header {
         padding-right: 10px;
         white-space: nowrap;
         border-right: 1px solid #bcbcbc;
@@ -120,24 +119,24 @@ h1 {
         word-break: break-all;
         word-break: break-word; }
       @media (max-width: 960px) {
-        .list .item .item_property .item_data {
+        .mapsList .list .item .item_property .item_data {
           padding-left: 10px; } }
   @media (max-width: 960px) {
-    .list {
+    .mapsList .list {
       /* adding  hover and selectd for mobile-view*/ }
-      .list .item.active-selection .item_property:nth-of-type(even) {
+      .mapsList .list .item.active-selection .item_property:nth-of-type(even) {
         background-color: #747487; }
-      .list .item.active-selection .item_property:nth-of-type(odd) {
+      .mapsList .list .item.active-selection .item_property:nth-of-type(odd) {
         background-color: #8a8a9d; }
-      .list .item.active-selection .item_property:first-of-type {
+      .mapsList .list .item.active-selection .item_property:first-of-type {
         background-color: #aaaaff; }
-      .list .item:hover {
+      .mapsList .list .item:hover {
         cursor: pointer; }
-        .list .item:hover .item_property:nth-of-type(even) {
+        .mapsList .list .item:hover .item_property:nth-of-type(even) {
           background-color: #74749a; }
-        .list .item:hover .item_property:nth-of-type(odd) {
+        .mapsList .list .item:hover .item_property:nth-of-type(odd) {
           background-color: #8a8ab0; }
-        .list .item:hover .item_property:first-of-type {
+        .mapsList .list .item:hover .item_property:first-of-type {
           background-color: #aaaaff; } }
 
 .buttons {

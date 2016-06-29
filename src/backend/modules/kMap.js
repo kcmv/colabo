@@ -198,9 +198,18 @@ exports.update = function(req, res){
 						if (err) throw err;
 						console.log("[mapSaved] mapFromServer:",mapFromServer);
 						//var nodesSaved =
-						KNodeModel.collection.insert(mapData.nodes, onInsert);//.exec();// onInsert); // call to underlying MongoDb driver
-						//var edgesSaved =
-						KEdgeModel.collection.insert(mapData.edges, onInsert);//.exec();// onInsert); // call to underlying MongoDb driver
+						if(mapData.nodes.length !==0){
+							KNodeModel.collection.insert(mapData.nodes, onInsert);//.exec();// onInsert); // call to underlying MongoDb driver
+						}
+						else{
+							onInsert();
+						}
+						if(mapData.edges.length !==0){
+							KEdgeModel.collection.insert(mapData.edges, onInsert);//.exec();// onInsert); // call to underlying MongoDb driver
+						}
+						else{
+							onInsert();
+						}
 						//Promise.join(nodes,edges, nodesEdgesSaved);
 					}
 					console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);

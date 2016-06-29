@@ -29,10 +29,6 @@ $toolbar_height: 60px;
 // 	flex-basis: 0;
 // }
 
-.mapsList{
-	height: 100%;
-}
-
 .md-inline-form {
   margin: 24px;
 }
@@ -54,153 +50,167 @@ $toolbar_height: 60px;
 }
 
 .button_icon{
-	padding-right: 10px;
+	margin-right: 3px;
 	&.last{
-		padding-right: 0px;
+		margin-right: 0px;
 	}
 }
 
-.mapsToolbar{
-  position: fixed;
-  height: $toolbar_height;
-  width: 100%;
-  top: 0px;
-  .borderGroup{
-    border: solid 1px black;
-    border-radius: 3px;
-    padding: 8px;
-  }
-}
+.mapsList{
+	// height: 100%;
 
-.list{
-	top: $toolbar_height+30px;
-	// margin: 5px;
-	margin-bottom: 3px;
-	// padding: 3px;
-	width: 100%;
-	border-bottom: 1px solid darken($item_background_color, 15%);
-	justify-content: space-between;
+	.mapsToolbar{
+		/* for toolbar hovering */
+		//position: fixed;
+	  //height: $toolbar_height;
+		//top: 0px;
+		/* for toolbar hovering - end */
 
-	.heading{
-		font-weight: bolder;
-		background-color: $heading_background_color;
-		border-bottom: 2px solid darken($heading_background_color, 10%);
+	  width: 100%;
+		border-bottom: solid 2px #507050;
+	  .borderGroup{
+	    border: solid 1px black;
+	    border-radius: 3px;
+	    padding: 8px;
+	  }
 	}
 
-	.item{
+	.list{
+		/* for toolbar hovering */
+		-webkit-flex: 1 1 auto; //approach from: http://jsfiddle.net/ch7n6/4/
+	  overflow-y: auto; //approach from: http://jsfiddle.net/ch7n6/4/
+		/* for toolbar hovering - end */
+
+	  // height: 100%;
+
+		// margin: 5px;
+		margin-bottom: 3px;
+		// padding: 3px;
 		width: 100%;
-		// border-bottom: 1px solid darken($item_background_color, 35%);
-		// border: 1px solid black;
-		&.data_item{
-			background-color: $item_background_color;
-			&:nth-child(even) {background-color: $item_even_background_color;}
-			&.active-selection{
-				background-color: mix($item_even_background_color, $active_color, 85%);
-			}
-			&:hover{
-			 cursor: pointer;
-			 background-color: mix($item_even_background_color, $over_color, 85%);
-		 	}
+		border-bottom: 1px solid darken($item_background_color, 15%);
+		justify-content: space-between;
+
+		.heading{
+			font-weight: bolder;
+			background-color: $heading_background_color;
+			border-bottom: 2px solid darken($heading_background_color, 10%);
 		}
-		@media (max-width: 960px) { /* adding straps in column view (small-screens)*/
-			.item_property:nth-of-type(even) {
-				background-color: $item_even_background_color;
-			}
-			.item_property:nth-of-type(odd) {
-				background-color: $item_background_color;
-			}
-			.item_property:first-of-type {
-			  background-color: $heading_background_color;
-				font-weight: bold;
-			}
-			/* another approach for headers in mobile-version
-			.item_property:nth-of-type(2):before { content: "Id"; }
-			.item_property:nth-of-type(3):before { content: "Actions"; }
-			.item_property:nth-of-type(4):before { content: "Authors"; }
-			.item_property:nth-of-type(5):before { content: "Type"; }
-			.item_property:nth-of-type(7):before { content: "Created"; }
-			*/
-		}
-		.item_property{
-			/* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN */
 
-			// flex-basis: 15%;
-
-		  /* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN - without it equal column width is  disturbed when columns become narrower than a word */
-		  word-wrap: break-word;
-		  overflow-wrap: break-word;
-		  word-break: break-all;
-		  word-break: break-word;
-
-			// border: 1px solid darken($item_background_color, 35%);
-
-			// margin: 0.5px;
-			padding: 3px;
-
-			/* another approach for headers in mobile-version
-			&:before {
-				width: 100px; //35%;
-				padding-right: 10px;
-				white-space: nowrap;
-				border-right: 1px solid darken($item_background_color, 35%);
-			}
-			*/
-
-			/* NECESSARRY for cases when we hide some columns so that sum of thei `flex` paramethers (widths) is not === 100 */
-			max-width: 100%;
-
-			/* NECESSARRY for filling up whole cell so that border is not shown in the middle of the cell for low cells
-			turned off so far for action Font Awesome icon doubling in height */
-			// max-height: 100%;
-
-			// min-height: 1em;
-
-			.item_header{
-				padding-right: 10px;
-				white-space: nowrap;
-				border-right: 1px solid lighten($item_background_color, 10%);
-				// &:nth-of-type(odd) {
-				// 	border-right: 1px solid lighten($item_background_color, 15%);
-				// }
-				// &:nth-of-type(even) {
-				// 	border-right: 1px solid lighten($item_even_background_color, 5%);
-				// }
-				/* TODO still not breaking words */
-				word-wrap: break-word;
-			  overflow-wrap: break-word;
-			  word-break: break-all;
-			  word-break: break-word;
-			}
-			@media (max-width: 960px) {
-				.item_data{
-					padding-left: 10px;
-				}
-			}
-		}
-	}
-	@media (max-width: 960px) { /* adding  hover and selectd for mobile-view*/
 		.item{
-			&.active-selection{
-				.item_property:nth-of-type(even) {
+			width: 100%;
+			// border-bottom: 1px solid darken($item_background_color, 35%);
+			// border: 1px solid black;
+			&.data_item{
+				background-color: $item_background_color;
+				&:nth-child(even) {background-color: $item_even_background_color;}
+				&.active-selection{
 					background-color: mix($item_even_background_color, $active_color, 85%);
 				}
-				.item_property:nth-of-type(odd) {
-					background-color:mix($item_background_color, $active_color, 85%);
-				}
-				.item_property:first-of-type {
-					background-color: $heading_background_color;
-				}
+				&:hover{
+				 cursor: pointer;
+				 background-color: mix($item_even_background_color, $over_color, 85%);
+			 	}
 			}
-			&:hover{
-				cursor: pointer;
+			@media (max-width: 960px) { /* adding straps in column view (small-screens)*/
 				.item_property:nth-of-type(even) {
-					background-color: mix($item_even_background_color, $over_color, 85%);
+					background-color: $item_even_background_color;
 				}
 				.item_property:nth-of-type(odd) {
-					background-color: mix($item_background_color, $over_color, 85%);
+					background-color: $item_background_color;
 				}
 				.item_property:first-of-type {
 				  background-color: $heading_background_color;
+					font-weight: bold;
+				}
+				/* another approach for headers in mobile-version
+				.item_property:nth-of-type(2):before { content: "Id"; }
+				.item_property:nth-of-type(3):before { content: "Actions"; }
+				.item_property:nth-of-type(4):before { content: "Authors"; }
+				.item_property:nth-of-type(5):before { content: "Type"; }
+				.item_property:nth-of-type(7):before { content: "Created"; }
+				*/
+			}
+			.item_property{
+				/* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN */
+
+				// flex-basis: 15%;
+
+			  /* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN - without it equal column width is  disturbed when columns become narrower than a word */
+			  word-wrap: break-word;
+			  overflow-wrap: break-word;
+			  word-break: break-all;
+			  word-break: break-word;
+
+				// border: 1px solid darken($item_background_color, 35%);
+
+				// margin: 0.5px;
+				padding: 3px;
+
+				/* another approach for headers in mobile-version
+				&:before {
+					width: 100px; //35%;
+					padding-right: 10px;
+					white-space: nowrap;
+					border-right: 1px solid darken($item_background_color, 35%);
+				}
+				*/
+
+				/* NECESSARRY for cases when we hide some columns so that sum of thei `flex` paramethers (widths) is not === 100 */
+				max-width: 100%;
+
+				/* NECESSARRY for filling up whole cell so that border is not shown in the middle of the cell for low cells
+				turned off so far for action Font Awesome icon doubling in height */
+				// max-height: 100%;
+
+				// min-height: 1em;
+
+				.item_header{
+					padding-right: 10px;
+					white-space: nowrap;
+					border-right: 1px solid lighten($item_background_color, 10%);
+					// &:nth-of-type(odd) {
+					// 	border-right: 1px solid lighten($item_background_color, 15%);
+					// }
+					// &:nth-of-type(even) {
+					// 	border-right: 1px solid lighten($item_even_background_color, 5%);
+					// }
+					/* TODO still not breaking words */
+					word-wrap: break-word;
+				  overflow-wrap: break-word;
+				  word-break: break-all;
+				  word-break: break-word;
+				}
+				@media (max-width: 960px) {
+					.item_data{
+						padding-left: 10px;
+					}
+				}
+			}
+		}
+		@media (max-width: 960px) { /* adding  hover and selectd for mobile-view*/
+			.item{
+				&.active-selection{
+					.item_property:nth-of-type(even) {
+						background-color: mix($item_even_background_color, $active_color, 85%);
+					}
+					.item_property:nth-of-type(odd) {
+						background-color:mix($item_background_color, $active_color, 85%);
+					}
+					.item_property:first-of-type {
+						background-color: $heading_background_color;
+					}
+				}
+				&:hover{
+					cursor: pointer;
+					.item_property:nth-of-type(even) {
+						background-color: mix($item_even_background_color, $over_color, 85%);
+					}
+					.item_property:nth-of-type(odd) {
+						background-color: mix($item_background_color, $over_color, 85%);
+					}
+					.item_property:first-of-type {
+					  background-color: $heading_background_color;
+					}
 				}
 			}
 		}
@@ -214,4 +224,8 @@ $toolbar_height: 60px;
 
 .popupContainer{
 	position: relative;
+
+	.creatingNewMap{
+
+	}
 }

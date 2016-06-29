@@ -1,65 +1,57 @@
 <div class="mapsList" flex layout="column">
+  <md-toolbar class="mapsToolbar md-theme-indigo" color="primary">
+      <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
+          <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+              <!-- <button md-fab class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
+                  <i title="Settings" md-icon>settings</i>
+              </button>
+              <button md-fab class="md-primary" aria-label="Configuration" (click)="options.toggle()">
+                  <i title="Configuration" md-icon>chrome_reader_mode</i>
+              </button> -->
+          </section>
+            <!-- <span>There are -->
+          <div class="borderGroup">
+            <span [ngSwitch]="items === null">
+              <span *ngSwitchCase="true">
+                <i class="fa fa-refresh fa-spin"></i><span class="sr-only">Loading...</span>
+              </span>
+              <span *ngSwitchCase="false">
+                {{items.length}}
+              </span>
+            </span> maps
+            <!-- maps you are participating in:</span> -->
+            <span>
+              <button (click)="prepareCreating(); mapDialog.show()" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary button_icon last" aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-square" aria-hidden="true"></i></button>
+            </span>
+        </div>
+        <!-- TODO: maybe show these long textual buttons in wider mode
+          <button class="btn btn-primary" type="submit" (click)="openMap()">Open Map</button>
+          <button class="btn btn-primary" type="submit" (click)="updateMap()">Edit Map</button>
+          <span class='showCreateNewMap' [ngClass]="{ 'displayNone': modeCreating || modeEditing}">
+            <button class="btn btn-primary" >Create a New Map</button>
+          </span>
+        -->
+        <span *ngIf="selectedItem" class="borderGroup">
+          <span class="mapName">{{selectedItem?.name}}</span>
+          <button (click)="openMap()" class="btn btn-primary button_icon" aria-label="Open the Map" type="button"><i title="Open the map" class="fa fa-folder-open" aria-hidden="true"></i></button>
+          <button (click)="alertMsg = 'Editing maps is disabled for now ...'; alert.show();" class="btn btn-primary button_icon last" aria-label="Edit the Map" type="button"><i title="Edit the map" class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+        </span>
+        <button (click)="go('login')" class="whoAmI" layout-gt-md="row" layout="column" layout-align="right center" layout-wrap class="btn btn-primary borderGroup" aria-label="User management" type="button">
+          <i title="User management" class="fa fa-user button_icon" aria-hidden="true"></i>
+          <!-- <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
+              <i title="Login" md-icon>person</i>
+          </button> -->
+          <div class="loggedIn">
+              <span hide show-gt-md>{{getLoggedInUserName()}}</span><span hide-gt-md>{{shorten(getLoggedInUserName(),10)}}</span>
+          </div>
+        </button>
+          <!-- <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
+              <i title="Logout" md-icon>directions run</i>
+          </button> -->
+      </section>
+  </md-toolbar>
+
   <!-- TODO : maybe add in wider mode <h1>CollaboFramework/KnAllEdge Maps</h1> -->
-  <div class='creatingNewMap' [ngClass]="{ 'displayNone': !modeCreating && !modeEditing}">
-  	<form>
-    <!-- TODO: using of the form causes warning;
-    *It looks like you're using the old forms module. This will be opt-in in the next RC, and
-     will eventually be removed in favor of the new forms module. For more information, see:
-     https://docs.google.com/document/u/1/d/1RIezQqE4aEhBRmArIAS1mRIZtWFf6JxN_7B4meyWK0Y/pub -->
-  		<fieldset>
-  			<legend>New Map</legend>
-  			<div><label>Name</label><input type="text" [(ngModel)]="mapToCreate.name" /></div>
-  			<div><label>Map Type</label><input type="text" [(ngModel)]="mapToCreate.type" /></div>
-  			<div><label>Root NodeType</label><input type="text" [(ngModel)]="mapToCreate.rootNodeType" /></div>
-  			<div><label>Parent map ID</label><input type="text" [(ngModel)]="mapToCreate.parentMapId" /></div>
-  			<div><label>Map Version</label><input type="text" [(ngModel)]="mapToCreate.version" /></div>
-  			<!-- <div><label>Participants</label><input type="text" [(ngModel)]="mapToCreate.participants" /></div> -->
-  			<!--<div><label>Authors</label><input type="text" [(ngModel)]="mapToCreate.dataContent?.mcm.authors" /></div>-->
-  	 		<p class="buttons">
-  				<button class="btn btn-warning" (click)="cancelled()">Cancel</button>
-  				<span class='showCreateNewMap' [ngClass]="{ 'displayNone': !modeCreating }">
-  					<button class="btn btn-primary" type="submit" (click)="createNew()">Create Map</button>
-  				</span>
-  				<span class='showCreateNewMap' [ngClass]="{ 'displayNone': !modeEditing }">
-  					<button class="btn btn-primary" type="submit" (click)="updateMap()">Save</button>
-  				</span>
-  			</p>
-  		</fieldset>
-  	</form>
-  </div>
-
-  <!-- <DIV>
-    TEST</BR>
-    <div layout-gt-sm="row" layout="column">
-      <div flex>
-        I'm above on mobile, and to the left on larger devices.
-      </div>
-      <div flex>
-        I'm below on mobile, and to the right on larger devices.
-      </div>
-    </div>
-    <div layout-gt-md="row" layout="column">
-      <div flex>
-        I'm above on mobile, and to the left on larger devices.
-      </div>
-      <div flex>
-        I'm below on mobile, and to the right on larger devices.
-      </div>
-    </div>
-  </DIV> -->
-
-  <!-- <div layout="row" layout-fill layout-sm="column">
-    <div flex>
-      I'm above on mobile, and to the left on larger devices.
-    </div>
-    <div flex>
-      I'm below on mobile, and to the right on larger devices.
-    </div>
-  </div> -->
-  <!-- <div>TESTING
-  	<span>policyConfig.moderating.enabled = {{policyConfig.moderating.enabled}}</span>
-  </div> -->
-  <div>
     <div layout="column" class="list">
       <div class="heading item" hide show-gt-md layout="row"> <!--layout-align="center center"-->
         <div flex='30' class="item_property">Name</div>
@@ -76,11 +68,11 @@
         <div flex-gt-md='20' class='item_property' *ngIf="policyConfig.moderating.enabled" layout="row"><div flex='15' hide-gt-md class="item_header">Id</div><div class='item_data'>{{item._id}}</div></div>
         <div flex-gt-md='5' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Actions</div>
   				<span class='item_data' *ngIf="policyConfig.moderating.enabled">
-            <button class="btn btn-primary" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><span class="button_icon"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></span></button>
+            <button class="btn btn-primary button_icon" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></button>
   				</span>
-          <button class="btn btn-primary" aria-label="Clone the map" type="button"
-          (click)="prepareForCloning(item); cloneDialog.show();"><span class="button_icon"><i title="Clone the map" class="fa fa-files-o" aria-hidden="true"></i></span></button>
-          <button class="btn btn-primary" aria-label="Map Participants" type="button" (click)="showParticipants(item)"><span class="button_icon last"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></span></button>
+          <button class="btn btn-primary button_icon" aria-label="Clone the map" type="button"
+          (click)="prepareForCloning(item); cloneDialog.show();"><i title="Clone the map" class="fa fa-files-o" aria-hidden="true"></i></button>
+          <button class="btn btn-primary button_icon last" aria-label="Map Participants" type="button" (click)="showParticipants(item)"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button>
         </div>
   			<div flex-gt-md='20' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Authors</div><div class='item_data'>{{item.dataContent && item.dataContent.mcm ? item.dataContent.mcm.authors : 'n/a'}}</div></div>
   			<div flex-gt-md='15' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Type</div><div class='item_data'>{{item.type !== "" && item.type ? item.type : 'n/a'}}</div></div>
@@ -88,99 +80,26 @@
   			<div flex-gt-md='10' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Created</div><div class='item_data'>{{formatDateTime(item.createdAt)}}</div></div>
       </div>
     </div>
-
-
-    <!-- <span>old maps list</span>
-
-  	<table class="list">
-  		<tr><th *ngIf="policyConfig.moderating.enabled" class="mcm_name">Id</th>
-  			<th class="mcm_name">Name</th>
-  			<th *ngIf="policyConfig.moderating.enabled" class="mcm_name">Actions</th>
-  			<th class="mcm_authors">Authors</th>
-  			<th class="mcm_type">Type</th>
-  			<th>Participants</th>
-  			<th class="creation_date">Creation Date</th>
-      </tr>
-  		<tr (click)="selectItem(item)" *ngFor="let item of items" [ngClass]="{'active-selection': (selectedItem && item._id === selectedItem._id)}">
-  			<td *ngIf="policyConfig.moderating.enabled">{{item._id}}</td>
-  			<td>{{item.name}}</td>
-  			<td *ngIf="policyConfig.moderating.enabled">
-  				<span *ngIf="policyConfig.moderating.enabled">
-            <button class="btn btn-primary" aria-label="delete" type="button" (click)="delete(item)"><i class="fa fa-trash"></i></button>
-            <button class="btn btn-primary" aria-label="duplicate" type="button" (click)="duplicate(item)"><i class="fa fa-clone"></i></button>
-  				</span>
-          <span *ngIf="!policyConfig.moderating.enabled"></span>
-        </td>
-  			<td>{{item.dataContent && item.dataContent.mcm ? item.dataContent.mcm.authors : ''}}</td>
-  			<td>{{item.type}}</td>
-  			<td>
-          <button class="btn btn-primary" aria-label="show participants" type="button" (click)="showParticipants(item)"><i class="fa fa-clone"></i></button>
-        </td>
-  			<td>{{formatDateTime(item.createdAt)}}</td>
-  		</tr>
-  	</table> -->
-
-  </div>
-
-  <md-toolbar class="mapsToolbar md-theme-indigo" color="primary">
-      <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
-          <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
-              <!-- <button md-fab class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
-                  <i title="Settings" md-icon>settings</i>
-              </button>
-              <button md-fab class="md-primary" aria-label="Configuration" (click)="options.toggle()">
-                  <i title="Configuration" md-icon>chrome_reader_mode</i>
-              </button> -->
-          </section>
-            <!-- <span>There are -->
-            <div class="borderGroup">
-              <span [ngSwitch]="items === null">
-                <span *ngSwitchCase="true">
-                  <i class="fa fa-refresh fa-spin"></i><span class="sr-only">Loading...</span>
-                </span>
-                <span *ngSwitchCase="false">
-                  {{items.length}}
-                </span>
-              </span> maps
-              <!-- maps you are participating in:</span> -->
-              <span>
-                <button (click)="showCreateNewMap()" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary" aria-label="Create New Map" type="button"><span class="button_icon last"><i title="Create New Map" class="fa fa-plus-square" aria-hidden="true"></i></span></button>
-              </span>
-            </div>
-              <!-- TODO: maybe show these long textual buttons in wider mode
-                <button class="btn btn-primary" type="submit" (click)="openMap()">Open Map</button>
-                <button class="btn btn-primary" type="submit" (click)="updateMap()">Edit Map</button>
-                <span class='showCreateNewMap' [ngClass]="{ 'displayNone': modeCreating || modeEditing}">
-                  <button class="btn btn-primary" >Create a New Map</button>
-                </span>
-              -->
-          <span *ngIf="selectedItem" class="borderGroup">
-            <span class="mapName">{{selectedItem?.name}}</span>
-            <button (click)="openMap()" class="btn btn-primary" aria-label="Open the Map" type="button"><span class="button_icon"><i title="Open the map" class="fa fa-folder-open" aria-hidden="true"></i></span></button>
-            <button (click)="alertMsg = 'Editing maps is disabled for now ...'; alert.show();" class="btn btn-primary" aria-label="Edit the Map" type="button"><span class="button_icon last"><i title="Edit the map" class="fa fa-pencil-square-o" aria-hidden="true"></i></span></button>
-          </span>
-            <button (click)="go('login')" class="whoAmI" layout-gt-md="row" layout="column" layout-align="right center" layout-wrap class="btn btn-primary borderGroup" aria-label="User management" type="button">
-              <span class="button_icon"><i title="User management" class="fa fa-user" aria-hidden="true"></i></span>
-              <!-- <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
-                  <i title="Login" md-icon>person</i>
-              </button> -->
-              <div class="loggedIn">
-                  <span hide show-gt-md>{{getLoggedInUserName()}}</span><span hide-gt-md>{{shorten(getLoggedInUserName(),10)}}</span>
-              </div>
-            </button>
-              <!-- <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
-                  <i title="Logout" md-icon>directions run</i>
-              </button> -->
-      </section>
-  </md-toolbar>
 </div>
 
 
 <div class="md-padding" id="popupContainer">
+  <md-dialog #deleteConfirm (onClose)="delete($event)">
+    <md-dialog-title>Delete map</md-dialog-title>
+     {{mapForAction?.name}}?
+    <md-dialog-actions ok="Yes" cancel="No"></md-dialog-actions>
+  </md-dialog>
+
+  <md-dialog #alert>
+    <md-dialog-title>Alert</md-dialog-title>
+    {{alertMsg}}
+    <md-dialog-actions ok="Got It"></md-dialog-actions>
+  </md-dialog>
+
   <md-dialog #cloneDialog (onClose)="duplicate($event)">
+    <md-dialog-title>Cloning map <span class="highlighted_name">{{mapForAction?.name}}</span></md-dialog-title>
     <div layout="column" class="md-inline-form">
       <form>
-          <h2 class="md-title">Cloning map <span class="highlighted_name">{{mapForAction?.name}}</span></h2>
           <div>
               <md-input placeholder="New map name" style="width: 100%" [(ngModel)]="nameOfDuplicatedMap"></md-input>
           </div>
@@ -196,15 +115,30 @@
     </md-dialog-actions>
   </md-dialog>
 
-  <md-dialog #deleteConfirm (onClose)="delete($event)">
-    <md-dialog-title>Delete</md-dialog-title>
-     {{mapForAction?.name}}?
-    <md-dialog-actions ok="Yes" cancel="No"></md-dialog-actions>
-  </md-dialog>
+  <md-dialog #mapDialog class="creatingNewMap" (onClose)="mapDialogClosed($event)">
+    <md-dialog-title>Map Creation</md-dialog-title>
+      <form layout="column" class="md-inline-form">
+      <!-- TODO: using of the form causes warning;
+      *It looks like you're using the old forms module. This will be opt-in in the next RC, and
+       will eventually be removed in favor of the new forms module. For more information, see:
+       https://docs.google.com/document/u/1/d/1RIezQqE4aEhBRmArIAS1mRIZtWFf6JxN_7B4meyWK0Y/pub -->
+         <!-- <h2 class="md-title">Map Creation</h2> -->
+          <md-input placeholder="Name" [(ngModel)]="mapToCreate.name"></md-input>
+          <md-input placeholder="Map Type" [(ngModel)]="mapToCreate.type"></md-input>
+          <md-input placeholder="Root NodeType" [(ngModel)]="mapToCreate.rootNodeType"></md-input>
+          <md-input placeholder="Parent map ID" [(ngModel)]="mapToCreate.parentMapId"></md-input>
+          <md-input placeholder="Map Version" [(ngModel)]="mapToCreate.version"></md-input>
 
-  <md-dialog #alert>
-    <md-dialog-title>Alert</md-dialog-title>
-    {{alertMsg}}
-    <md-dialog-actions ok="Got It"></md-dialog-actions>
+          <!-- <md-input placeholder="Participants" [(ngModel)]="mapToCreate.participants"></md-input>
+          <md-input placeholder="Authors" [(ngModel)]="mapToCreate.dataContent?.mcm.authors"></md-input> -->
+        </form>
+      <md-dialog-actions>
+          <button md-button (click)="mapDialog.close(false)">
+              <span>Cancel</span>
+          </button>
+          <button md-button class="md-primary" (click)="mapDialog.close(true)">
+              <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
+          </button>
+      </md-dialog-actions>
   </md-dialog>
 </div>
