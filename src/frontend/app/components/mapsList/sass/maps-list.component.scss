@@ -13,6 +13,8 @@ $item_even_background_color: #888888;
 $active_color: #000080;
 $over_color: #0000ff;
 $icon_over_color: #ffffb0;
+$toolbar_height: 60px;
+
 // $item_selected_background_color: #c8c8c8;
 // $item_over_background_color: #e1e1e1;
 
@@ -26,12 +28,38 @@ $icon_over_color: #ffffb0;
 // 	width: 98%;
 // 	flex-basis: 0;
 // }
-//
-.fa:hover {
-  color: $icon_over_color;
+
+.fa{
+  :hover {
+    color: #ffffa0;
+  }
+}
+
+.btn{
+  /*padding-right: 15px;*/
+}
+
+.button_icon{
+	padding-right: 10px;
+	// &.last{
+	// 	padding-right: 0px;
+	// }
+}
+
+.mapsToolbar{
+  position: fixed;
+  height: $toolbar_height;
+  width: 100%;
+  top: 0px;
+  .borderGroup{
+    border: solid 1px black;
+    border-radius: 3px;
+    padding: 8px;
+  }
 }
 
 .list{
+	top: $toolbar_height+30px;
 	margin: 5px;
 	margin-bottom: 3px;
 	padding: 3px;

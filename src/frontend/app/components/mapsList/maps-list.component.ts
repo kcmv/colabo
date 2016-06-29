@@ -333,8 +333,25 @@ export class MapsList {
     getLoggedInUserName(): any {
       var whoAmI = this.rimaService.getWhoAmI();
       var name = this.rimaService.getNameFromUser(whoAmI);
-      return name;
+      return name; // TEST: 'jednodugackoime';
     }
+
+    shorten(str,ln){
+      return str.length <= ln ? str : str.substr(0,ln-3) + '...';
+    }
+
+    public go(path: string) {
+        // TODO: not implemented
+        // alert("Not implemented");
+        // this.router.navigate(['/hero', hero.id]);
+        //I assumed your `/home` route name is `Home`
+        // this._router.navigate([path]); //this will navigate to Home state.
+        //below way is to navigate by URL
+        //this.router.navigateByUrl('/home')
+        // https://angular.io/docs/ts/latest/api/common/index/Location-class.html
+        // this.location.go('#/' + path);
+        window.location.href = '#/' + path;
+    };
 
     /* *** TOOLBAR - END **** */
 
