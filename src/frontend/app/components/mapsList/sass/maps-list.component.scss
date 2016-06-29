@@ -29,6 +29,19 @@ $toolbar_height: 60px;
 // 	flex-basis: 0;
 // }
 
+.mapsList{
+	height: 100%;
+}
+
+.md-inline-form {
+  margin: 24px;
+}
+
+.highlighted_name{
+	// text-decoration: underline;
+	font-style: italic;
+}
+
 .fa{
   :hover {
     color: #ffffa0;
@@ -60,10 +73,10 @@ $toolbar_height: 60px;
 
 .list{
 	top: $toolbar_height+30px;
-	margin: 5px;
+	// margin: 5px;
 	margin-bottom: 3px;
-	padding: 3px;
-	width: 98%;
+	// padding: 3px;
+	width: 100%;
 	border-bottom: 1px solid darken($item_background_color, 15%);
 	justify-content: space-between;
 
@@ -195,4 +208,9 @@ $toolbar_height: 60px;
 
 .buttons{
 	text-align: left;
+}
+
+
+.popupContainer{
+	position: relative;
 }

@@ -1,3 +1,6 @@
+import {FORM_DIRECTIVES} from '@angular/common';
+import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
+
 import {Component, Inject} from '@angular/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
@@ -68,6 +71,7 @@ declare var knalledge;
         MD_SIDENAV_DIRECTIVES,
         ROUTER_DIRECTIVES,
         MdToolbar,
+        MD_INPUT_DIRECTIVES, FORM_DIRECTIVES
         // MdContent, MdButton,
         //   LoginStatusComponent,
     ],
@@ -94,6 +98,9 @@ export class MapsList {
     public modeEditing = false;
     public items = null;
     public selectedItem = null;
+    public mapForAction = null;
+    public alertMsg = "";
+    public nameOfDuplicatedMap = "";
 
     policyConfig: any;
     viewConfig: any;
@@ -178,25 +185,37 @@ export class MapsList {
 			this.modeEditing = false;
 		};
 
-		delete(map){
-			//console.log("mapDelete:", map));
-			if(window.confirm('Are you sure you want to delete map "'+map.name+'"?')){
-        var that = this;
-				var mapDeleted = function(result){
-					console.log('mapDeleted:result:'+result);
-					for(let i=0;i<that.items.length;i++){
-			      if(that.items[i]._id === map._id){
-			        that.items.splice(i, 1);
-			      }
-			    }
-				};
-				this.knalledgeMapVOsService.mapDelete(map._id, mapDeleted);
-			}
-		};
+    // deleteShow(map){
+    //   this.mapForAction = map;
+    //   deleteConfirm.show();
+    // }
 
-		duplicate(map){
+		delete(confirm){
+      if (confirm && this.mapForAction) {
+        var that = this;
+        var mapDeleted = function(result){
+          console.log('mapDeleted:result:'+result);
+          for(let i=0;i<that.items.length;i++){
+            if(that.items[i]._id === that.mapForAction._id){
+              that.items.splice(i, 1);
+            }
+          }
+          that.selectedItem = null;
+        };
+        this.knalledgeMapVOsService.mapDelete(this.mapForAction._id, mapDeleted);
+      } else {
+          console.log('not deleting ...');
+			}
+		}
+
+    prepareForCloning(map){
+      this.mapForAction = map;
+      this.nameOfDuplicatedMap = "";
+    }
+
+		duplicate(confirm, newName){
 			//console.log("mapDelete:", map));
-			if(window.confirm('Are you sure you want to duplicate map "'+map.name+'"?')){
+			if (confirm && this.mapForAction) {
         var that = this;
 				var mapDuplicated = function(map){
 					console.log('mapDuplicated:map:'+map);
@@ -205,7 +224,7 @@ export class MapsList {
 						that.selectedItem = map;
 					}
 				};
-				this.knalledgeMapVOsService.mapDuplicate(map, 'duplicatedMap', mapDuplicated);
+				this.knalledgeMapVOsService.mapDuplicate(this.mapForAction, this.nameOfDuplicatedMap, mapDuplicated);
 			}
 		}
 
@@ -354,6 +373,15 @@ export class MapsList {
     };
 
     /* *** TOOLBAR - END **** */
+
+    customClose(interesting: boolean) {
+      if (interesting) {
+          console.log('cloning ...');
+          this.duplicate(this.selectedItem);
+      } else {
+          console.log('not cloning ...');
+      }
+    }
 
 		// editMap() {
 		// 	this.modeEditing = true;

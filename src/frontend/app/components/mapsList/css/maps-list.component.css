@@ -20,6 +20,15 @@ h1 {
   padding-bottom: 5px;
   border-bottom: solid gray 2px; }
 
+.mapsList {
+  height: 100%; }
+
+.md-inline-form {
+  margin: 24px; }
+
+.highlighted_name {
+  font-style: italic; }
+
 .fa :hover {
   color: #ffffa0; }
 
@@ -41,10 +50,8 @@ h1 {
 
 .list {
   top: 90px;
-  margin: 5px;
   margin-bottom: 3px;
-  padding: 3px;
-  width: 98%;
+  width: 100%;
   border-bottom: 1px solid #7c7c7c;
   justify-content: space-between; }
   .list .heading {
@@ -131,5 +138,8 @@ h1 {
 
 .buttons {
   text-align: left; }
+
+.popupContainer {
+  position: relative; }
 
 /*# sourceMappingURL=maps-list.component.css.map */

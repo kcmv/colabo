@@ -1607,9 +1607,11 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 
 			mapDuplicate: function(map, mapNewName, callback){
 				console.log('duplicateMap');
-				var mapDuplicated = function(result,result2){
-					console.log('[mapDuplicated]; result: ', result,', result2: ', result2);
-					if(callback){callback(result);}
+				var mapDuplicated = function(map,result2){
+					map.createdAt = new Date(map.createdAt);
+					map.updatedAt = new Date(map.updatedAt);
+					console.log('[mapDuplicated]; map: ', map,', result2: ', result2);
+					if(callback){callback(map);}
 				}
 				KnalledgeMapService.duplicate(map._id, mapNewName, mapDuplicated);
 			}
