@@ -7,8 +7,6 @@ declare var d3:any;
 
 @Injectable()
 export class ApprovalNodeService {
-    public EMITTER_NAME_REQUEST: string = 'EMITTER_NAME_REQUEST';
-
     plugins:any = {
         mapVisualizePlugins: {
             service: this,
@@ -17,6 +15,8 @@ export class ApprovalNodeService {
             },
 
             nodeHtmlEnter: function(nodeHtmlEnter){
+                var service = this; // keeping reference on the service
+
                 // .filter(function(d) { return d.kNode.dataContent && d.kNode.dataContent.image; })
                 nodeHtmlEnter.append("div")
                     .attr("class", "approval")
@@ -27,10 +27,11 @@ export class ApprovalNodeService {
                                 state: 1
                             }
                         };
+                        service.globalEmitterServicesArray.get(service.knalledgeMapUpdateEventName).broadcast('ApprovalNodeService');
                         // d3.select(this).remove();
                         // d3.select(this).style("display", "none");
                     });
-            },
+            }.bind(this), // necessary for keeping reference on service
 
             nodeHtmlUpdate: function(nodeHtmlUpdate){
                 nodeHtmlUpdate.select(".approval")
@@ -71,11 +72,10 @@ export class ApprovalNodeService {
         }
     };
 
-    //private static EVENT_NAME_REQUEST: string = 'EVENT_NAME_REQUEST';
     private knalledgeMapVOsService: any;
     private knAllEdgeRealTimeService: any;
     private globalEmitterServicesArray: GlobalEmitterServicesArray;
-    private requests: Request[] = [];
+    private knalledgeMapUpdateEventName:String = "knalledgeMapUpdateEvent";
 
     /**
     * the namespace for core services for the Notify system
@@ -92,6 +92,8 @@ export class ApprovalNodeService {
         this.knalledgeMapVOsService = KnalledgeMapVOsService;
         this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
         this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
+
+		this.globalEmitterServicesArray.register(this.knalledgeMapUpdateEventName);
 
         //this.getMockupRequests();
     }

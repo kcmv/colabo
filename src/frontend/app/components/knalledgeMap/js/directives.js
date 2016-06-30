@@ -140,6 +140,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		//duplikat: var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
 		GlobalEmitterServicesArray.register(changeKnalledgePropertyEventName);
+		var knalledgeMapUpdateEventName = "knalledgeMapUpdateEvent";
+		GlobalEmitterServicesArray.register(knalledgeMapUpdateEventName);
 		var mapEntitySelectedEventName = "mapEntitySelectedEvent";
 		GlobalEmitterServicesArray.register(mapEntitySelectedEventName);
 		var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
@@ -700,26 +702,26 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					}, true);
 
 
-					GlobalEmitterServicesArray.get(knalledgePropertyChangedEventName).subscribe('knalledgeMap', function(knalledgePropery) {
+					GlobalEmitterServicesArray.get(knalledgePropertyChangedEventName).subscribe('knalledgeMap', function(knalledgeProperty) {
 						var vkNode = knalledgeMap.mapStructure.getSelectedNode();
 
-						var knalledgeProperyBefore = null;
+						var knalledgePropertyBefore = null;
 						if(vkNode){
-							console.log("[knalledgeMap.controller::$on:%s] vkNode[%s](%s): (old knalledgePropery: %s), knalledgePropery: %s", knalledgePropertyChangedEventName, vkNode.id, vkNode.kNode._id,
+							console.log("[knalledgeMap.controller::$on:%s] vkNode[%s](%s): (old knalledgeProperty: %s), knalledgeProperty: %s", knalledgePropertyChangedEventName, vkNode.id, vkNode.kNode._id,
 								(vkNode.kNode.dataContent ? vkNode.kNode.dataContent.property : null),
-								knalledgePropery);
+								knalledgeProperty);
 
 							if(!vkNode.kNode.dataContent) vkNode.kNode.dataContent = {};
-							if(vkNode.kNode.dataContent.property) knalledgeProperyBefore = vkNode.kNode.dataContent.property;
-							//var nowExist = (knalledgePropery !== null) && (knalledgePropery.length > 0);
+							if(vkNode.kNode.dataContent.property) knalledgePropertyBefore = vkNode.kNode.dataContent.property;
+							//var nowExist = (knalledgeProperty !== null) && (knalledgeProperty.length > 0);
 							//var beforeExisted = (vkNode.kNode.dataContent.property !== null) && (vkNode.kNode.dataContent.property.length > 0);
-							if(knalledgeProperyBefore == knalledgePropery) return;
-							if(!knalledgeProperyBefore && !knalledgePropery) return;
+							if(knalledgePropertyBefore == knalledgeProperty) return;
+							if(!knalledgePropertyBefore && !knalledgeProperty) return;
 
-							vkNode.kNode.dataContent.property = knalledgePropery;
+							vkNode.kNode.dataContent.property = knalledgeProperty;
 							knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
 						}else{
-						console.log("[knalledgeMap.controller::$on:%s] node not selected. knalledgePropery: %s", knalledgePropertyChangedEventName, knalledgePropery);
+						console.log("[knalledgeMap.controller::$on:%s] node not selected. knalledgeProperty: %s", knalledgePropertyChangedEventName, knalledgeProperty);
 
 
 						}
@@ -742,6 +744,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						}
 						toolsChange(KnRealTimeviewConfigChangedEventName, msg);
 					};
+
+					function knalledgeMapUpdate(){
+						knalledgeMap.update();						
+					}
+
+					GlobalEmitterServicesArray.get(knalledgeMapUpdateEventName).subscribe('knalledgeMap', knalledgeMapUpdate);
+
 					var viewConfigChangedEventName = "viewConfigChangedEvent";
 					GlobalEmitterServicesArray.get(viewConfigChangedEventName).subscribe('knalledgeMap', viewConfigChanged);
 
