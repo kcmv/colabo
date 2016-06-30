@@ -137,9 +137,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 		loadPluginsServices(Config.Plugins, componentServiceRefs, pluginsOfInterest, $injector, injector);
 
-		var SuggestionService = $injector.get('SuggestionService');
-
-
 		//duplikat: var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
 		GlobalEmitterServicesArray.register(changeKnalledgePropertyEventName);
@@ -537,7 +534,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 						for(var componentName in Config.Plugins){
 							var component = Config.Plugins[componentName];
-							if(component.plugins &&
+							if(component.active && component.plugins &&
 								component.plugins[pluginsName]
 							){
 								for(var sId in component.plugins[pluginsName]){
@@ -570,7 +567,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						injectPlugins(pluginName);
 					}
 
-					injector.addPath("SuggestionService", SuggestionService);
 					injector.addPath("timeout", $timeout);
 
 					knalledgeMap = new knalledge.Map(
