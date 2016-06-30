@@ -33,8 +33,7 @@
           </span>
         -->
         <span *ngIf="selectedItem" class="borderGroup">
-          <span class="mapName">{{selectedItem?.name}}</span>
-          <button (click)="openMap()" class="btn btn-primary button_icon" aria-label="Open the Map" type="button"><i title="Open the map" class="fa fa-folder-open" aria-hidden="true"></i></button>
+          <button (click)="openMap()" class="btn btn-primary button_icon" aria-label="Open the Map" type="button"><span class="mapName">{{selectedItem?.name}}</span>&nbsp;<i title="Open the map" class="fa fa-folder-open" aria-hidden="true"></i></button>
           <button (click)="alertMsg = 'Editing maps is disabled for now ...'; alert.show();" class="btn btn-primary button_icon last" aria-label="Edit the Map" type="button"><i title="Edit the map" class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
         </span>
         <button (click)="go('login')" class="whoAmI" layout-gt-md="row" layout="column" layout-align="right center" layout-wrap class="btn btn-primary borderGroup" aria-label="User management" type="button">
