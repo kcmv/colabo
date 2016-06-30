@@ -32,6 +32,8 @@ requiresList.push('loginDirectives');
 requiresList.push('notifyServices');
 requiresList.push('notifyDirectives');
 
+requiresList.push('gardeningServices');
+
 requiresList.push('topiChatServices');
 requiresList.push('topiChatDirectives');
 
@@ -46,7 +48,7 @@ requiresList.push('changeServices');
 
 
 // a module that contains ng2 directives and services downgraded for ng1 space
-requiresList.push('KnAllEdgeNg2');
+// requiresList.push('KnAllEdgeNg2');
 
 // console.log('GOTOVO b');
 

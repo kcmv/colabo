@@ -14,6 +14,7 @@ import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmi
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
 import {RequestService} from '../components/request/request.service';
+import {ApprovalNodeService} from '../components/gardening/approval.node.service';
 import {SuggestionService} from '../components/suggestion/suggestion.service';
 import {ChangeService} from '../components/change/change.service';
 
@@ -37,7 +38,11 @@ requestServices
     .service('RequestService', RequestService)
     ;
 
-// injecting NG1 TS service into NG1 space
+var gardeningServices = angular.module('gardeningServices');
+gardeningServices
+    .service('ApprovalNodeService', ApprovalNodeService)
+    ;
+
 var suggestionServices = angular.module('suggestionServices');
 suggestionServices
     .service('SuggestionService', SuggestionService)
@@ -50,7 +55,7 @@ changeServices
     ;
 
 // registering ng2 directives in ng1 space
-angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives']);
+// angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives']);
 
 angular.module('knalledgeMapDirectives')
      .directive({
@@ -88,7 +93,6 @@ knalledgeMapServicesModule
   ;
 
 // upgrading ng1 services into ng2 space
-upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
 upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
 upgradeAdapter.upgradeNg1Provider('RimaService');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapService');
@@ -98,6 +102,7 @@ upgradeAdapter.upgradeNg1Provider('TopiChatConfigService');
 upgradeAdapter.upgradeNg1Provider('TopiChatService');
 upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
 upgradeAdapter.upgradeNg1Provider('RequestService');
+upgradeAdapter.upgradeNg1Provider('ApprovalNodeService');
 upgradeAdapter.upgradeNg1Provider('SuggestionService');
 upgradeAdapter.upgradeNg1Provider('ChangeService');
 
@@ -110,6 +115,7 @@ upgradeAdapter.upgradeNg1Provider('ChangeService');
 
 // upgrading ng1 services (written in TS) into ng2 space
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapPolicyService');
+upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
 
 
 var injector:Injector = new Injector();

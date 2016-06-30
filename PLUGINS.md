@@ -460,3 +460,46 @@ angular.module('knalledgeMapDirectives', ['Config'])
         var RimaService = $injector.get('RimaService');
     }])
 ```
+
+# Example of Gardening > Approval
+
+1. Create new component `gardening`
+2. create services module in `gardening/js/services.js`
+3. create ApprovalNodeService TS service
+4. add it to app2.ts
+
+```js
+import {ApprovalNodeService} from '../components/gardening/approval.node.service';
+
+// ...
+
+var gardeningServices = angular.module('gardeningServices');
+gardeningServices
+    .service('ApprovalNodeService', ApprovalNodeService)
+    ;
+
+    // ...
+
+upgradeAdapter.upgradeNg1Provider('ApprovalNodeService');
+```
+
+3. add gardeningServices to app.js - this is temoprarly necessary, later will be retrieved from config.plugins
+```js
+requiresList.push('gardeningServices');
+```
+2. add it to config.plugins.js and register mapVisualizePlugins plugin as implemented through ApprovalNodeService service
+4. add
+
+```js
+{ src: join(APP_DEST, 'components/gardening/js/services.js'), inject: true, noNorm: true},
+```
+
+```js
+{ src: join(APP_SRC, 'components/gardening/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
+```
+
+```js
+'components/gardening': {destDir: APP_SRC, cssDir: 'css'},
+```
+
+to config.ts

@@ -57,6 +57,16 @@ var plugins = {
 		plugins: {
 			mapVisualizePlugins: ['NotifyNodeService']
 		}
+	},
+	gardening: {
+		active: true,
+		services: {
+			ApprovalNodeService: {
+			}
+		},
+		plugins: {
+			mapVisualizePlugins: ['ApprovalNodeService']
+		}
 	}
 };
 
