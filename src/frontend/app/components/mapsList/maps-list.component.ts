@@ -108,6 +108,7 @@ export class MapsList {
   public mapForAction = null;
   public alertMsg = "";
   public nameOfDuplicatedMap = "";
+  public mapParticipants = null;
   //public cloneDialog = @ViewChild('cloneDialog');
 
   policyConfig: any;
@@ -181,11 +182,11 @@ export class MapsList {
     return false ? this.items.length : '<i class="fa fa-refresh fa-spin"></i><span class="sr-only">Loading...</span>';
   }
 
-	canceled(){
-		console.log("Canceled");
-		this.modeCreating = false;
-		this.modeEditing = false;
-	};
+	// canceled(){
+	// 	console.log("Canceled");
+	// 	this.modeCreating = false;
+	// 	this.modeEditing = false;
+	// };
 
   // deleteShow(map){
   //   this.mapForAction = map;
@@ -347,6 +348,11 @@ export class MapsList {
 		}
 	};
 
+  getUser(userID){
+    var user = this.rimaService.getUserById(userID);
+    return user ? user.displayName : 'unknown user';
+  }
+
   /* *** TOOLBAR **** */
 
   getLoggedInUserName(): any {
@@ -365,6 +371,21 @@ export class MapsList {
 		this.mapToCreate.participants = this.rimaService.getActiveUserId();
 		//this.mapToCreate.participants = this.rimaService.getActiveUser().displayName;
 		this.modeCreating = true;
+  }
+
+  prepareForParticipants(map){
+    if(this.mapParticipants === null || this.mapForAction !== map){
+      this.mapParticipants = null;
+      this.mapForAction = map;
+      var that = this;
+      this.rimaService.loadUsersFromIDsList(map.participants).$promise.then(
+        function(participants){
+          that.mapParticipants = participants;
+        }
+      );
+    }else{
+      //these participants already loaded because this map's participants are the last one seen
+    }
   }
 
   mapDialogClosed(confirm){

@@ -761,6 +761,10 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 		break;
 		case MapStructure.UPDATE_DATA_CONTENT:
 			break;
+		default:
+			//unknown event, i.e. from a plugin, which has done already everything so we have just to forward the update call to mapService
+			patch = change;
+			break;
 	}
 	// calling the KnalledgeMapVOsService service
 	// to update the node on the server

@@ -50,7 +50,6 @@ h1 {
     padding: 8px; }
 .mapsList .list {
   /* for toolbar hovering */
-  -webkit-flex: 1 1 auto;
   overflow-y: auto;
   /* for toolbar hovering - end */
   margin-bottom: 3px;

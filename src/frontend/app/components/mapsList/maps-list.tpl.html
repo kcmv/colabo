@@ -1,4 +1,5 @@
-<div class="mapsList" flex layout="column">
+<div class="mapsList" layout="column">
+<!-- <div class="mapsList" layout-fill layout="column"> -->
   <md-toolbar class="mapsToolbar md-theme-indigo" color="primary">
       <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
           <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
@@ -52,6 +53,7 @@
   </md-toolbar>
 
   <!-- TODO : maybe add in wider mode <h1>CollaboFramework/KnAllEdge Maps</h1> -->
+    <!-- <div flex layout="column" class="list"> -->
     <div layout="column" class="list">
       <div class="heading item" hide show-gt-md layout="row"> <!--layout-align="center center"-->
         <div flex='30' class="item_property">Name</div>
@@ -72,7 +74,7 @@
   				</span>
           <button class="btn btn-primary button_icon" aria-label="Clone the map" type="button"
           (click)="prepareForCloning(item); cloneDialog.show();"><i title="Clone the map" class="fa fa-files-o" aria-hidden="true"></i></button>
-          <button class="btn btn-primary button_icon last" aria-label="Map Participants" type="button" (click)="showParticipants(item)"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button>
+          <button class="btn btn-primary button_icon last" aria-label="Map Participants" type="button" (click)="prepareForParticipants(item); participantsList.show()"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button>
         </div>
   			<div flex-gt-md='20' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Authors</div><div class='item_data'>{{item.dataContent && item.dataContent.mcm ? item.dataContent.mcm.authors : 'n/a'}}</div></div>
   			<div flex-gt-md='15' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Type</div><div class='item_data'>{{item.type !== "" && item.type ? item.type : 'n/a'}}</div></div>
@@ -140,5 +142,20 @@
               <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
           </button>
       </md-dialog-actions>
+  </md-dialog>
+
+  <md-dialog #participantsList>
+    <md-dialog-title>Map <span class="highlighted_name">{{mapForAction?.name}}</span> Participants</md-dialog-title>
+    <div [ngSwitch]="mapParticipants === null">
+      <span *ngSwitchCase="true">
+        <i class="fa fa-refresh fa-spin"></i><span class="sr-only">Loading...</span>
+      </span>
+      <div *ngSwitchCase="false">
+        <div  *ngFor="let participantID of mapForAction?.participants" layout="column">
+         <div>{{getUser(participantID)}}</div>
+       </div>
+     </div>
+   </div>
+    <md-dialog-actions ok="Close"></md-dialog-actions>
   </md-dialog>
 </div>
