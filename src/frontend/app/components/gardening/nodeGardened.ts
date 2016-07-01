@@ -60,8 +60,8 @@ export class NodeGardened {
     }
     kNode.up.gardening.approval.state = state;
   }
-  static createApprovalStatePatch(state:number){
-    return {up:{gardening:{approval:{state:state}}}};
+  static createApprovalStatePatch(state:number,whoAmi:string){
+    return {up:{gardening:{approval:{state:state,changeBy:whoAmi}}}};
   }
 
   static getApprovalLabel(node:any){

@@ -69,6 +69,7 @@ export class ApprovalNodeService {
     private knAllEdgeRealTimeService: any;
     private globalEmitterServicesArray: GlobalEmitterServicesArray;
     private knalledgeMapUpdateEventName:string = "knalledgeMapUpdateEvent";
+    private rimaService: any;
 
     /**
     * the namespace for core services for the Notify system
@@ -80,11 +81,12 @@ export class ApprovalNodeService {
     * @class ApprovalNodeService
     * @memberof knalledge.gardening.gardeningServices
     */
-    constructor(KnalledgeMapVOsService, KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_
+    constructor(KnalledgeMapVOsService, KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_, RimaService
         ) {
         this.knalledgeMapVOsService = KnalledgeMapVOsService;
         this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
         this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
+        this.rimaService = RimaService;
 
 		    this.globalEmitterServicesArray.register(this.knalledgeMapUpdateEventName);
 
@@ -93,7 +95,8 @@ export class ApprovalNodeService {
 
     changeApproval(node){
       var state = NodeGardened.nextState(node.kNode);
-      var patch = NodeGardened.createApprovalStatePatch(state);
+      var whoAmi = this.rimaService.getActiveUserId();
+      var patch = NodeGardened.createApprovalStatePatch(state, whoAmi);
       this.globalEmitterServicesArray.get(this.knalledgeMapUpdateEventName).broadcast('ApprovalNodeService');
       if(this.knAllEdgeRealTimeService){
         this.knalledgeMapVOsService.mapStructure.updateNode(node, APPROVAL_CHANGE_EVENT, patch);
