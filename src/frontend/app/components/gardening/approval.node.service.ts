@@ -2,8 +2,7 @@ import {Injectable
 } from '@angular/core';
 
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-import {Gardening} from './gardening';
-import {ApprovalState} from './gardening';
+import {NodeGardened, ApprovalState} from './NodeGardened';
 
 declare var d3:any;
 
@@ -30,6 +29,10 @@ export class ApprovalNodeService {
                         service.changeApproval(d);
                         // d3.select(this).remove();
                         // d3.select(this).style("display", "none");
+                    })
+                    .html(function(d){
+                        var label = NodeGardened.getApprovalLabel(d.kNode);
+                        return label;
                     });
             }.bind(this), // necessary for keeping reference on service
 
@@ -46,19 +49,7 @@ export class ApprovalNodeService {
                     .style("width", '2em')
                     .style("height", '2em')
                     .html(function(d){
-                        var label = "?";
-                        switch(Gardening.getApprovalState(d.kNode)){
-                          case ApprovalState.APPROVED:
-                            label = "A";
-                          break;
-                          case ApprovalState.DISAPPROVED:
-                            label = "D";
-                          break;
-                          default:
-                          case ApprovalState.NOT_AUDITED:
-                            label = "?";
-                          break;
-                        }
+                        var label = NodeGardened.getApprovalLabel(d.kNode);
                         return label;
                     })
                     .style("opacity", 1e-6);
@@ -101,20 +92,8 @@ export class ApprovalNodeService {
     }
 
     changeApproval(node){
-      var oldState = Gardening.getApprovalState(node.kNode);
-      var state;
-      switch(oldState){
-        case ApprovalState.NOT_AUDITED:
-          state = ApprovalState.APPROVED;
-          break;
-        case ApprovalState.APPROVED:
-          state = ApprovalState.DISAPPROVED;
-          break;
-        case ApprovalState.DISAPPROVED:
-          state = ApprovalState.NOT_AUDITED;
-          break;
-      }
-      var patch = {gardening:{approval:{state:state}}};
+      var state = NodeGardened.nextState(node.kNode);
+      var patch = NodeGardened.createApprovalStatePatch(state);
       this.globalEmitterServicesArray.get(this.knalledgeMapUpdateEventName).broadcast('ApprovalNodeService');
       if(this.knAllEdgeRealTimeService){
         this.knalledgeMapVOsService.mapStructure.updateNode(node, APPROVAL_CHANGE_EVENT, patch);

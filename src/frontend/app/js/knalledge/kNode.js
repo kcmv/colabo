@@ -21,6 +21,7 @@ var KNode =  knalledge.KNode = function(){
 	this.version = 1; //each object can have several versions, so after creating new verisons, old are saved for auditing
 	this.activeVersion = 1; //saying which version of this object is active
 	this.ideaId = 0;
+	//this.status = ; //
 	this.isPublic = true; //is the object public or visible/accessible only to the author
 	this.createdAt = null; //when the object is created
 	this.updatedAt = null; //when the obect is updated
@@ -52,7 +53,7 @@ var KNode =  knalledge.KNode = function(){
 	// 		heightM: undefined //manual set height, set by user
 	// };
 
-	/* local-to-frontend */
+	/* THIS PROPERTY IS local-to-frontend */
 	this.state = KNode.STATE_LOCAL; //state of the object, responding to some of the KNode.STATE_... constants
 };
 
@@ -104,6 +105,7 @@ KNode.prototype.fill = function(obj){
 		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 		if("dataContent" in obj){this.dataContent = obj.dataContent;} //TODO: deep copy?
 		if("decorations" in obj){this.decorations = obj.decorations;} //TODO: deep copy?
+		if("up" in obj){this.up = obj.up;} //TODO: deep copy?
 		if("visual" in obj){
 			if(!('visual' in this)) this.visual = {};
 

@@ -8,7 +8,7 @@ export const enum ApprovalState {
 /**
  * class for Knowledge Gardening Plugin
  */
-export class Gardening {
+export class NodeGardened {
 	// public static MaxId: number = 0;
   //
 	// public id: number;
@@ -45,13 +45,46 @@ export class Gardening {
 	 * @return {[type]}       [description]
 	 */
 	static getApprovalState(kNode:any){
-    return (kNode.gardening && kNode.gardening.approval && kNode.gardening.approval.state) ? kNode.gardening.approval.state :
+    return (kNode.up.gardening && kNode.up.gardening && kNode.up.gardening.approval && kNode.up.gardening.approval.state) ?
+    kNode.up.gardening.approval.state :
     ApprovalState.NOT_AUDITED;
   }
 
   static setApprovalState(kNode:any, state:number){
-    if(!kNode.gardening){kNode.gardening = {};}
-    if(!kNode.gardening.approval){kNode.gardening.approval = {};}
-    kNode.gardening.approval.state = state;
+    if(!kNode.up){kNode.up = {gardening:{approval:{}}};
+    }else{
+      if(!kNode.up.gardening){kNode.up.gardening = {approval:{}};
+      }else{
+        if(!kNode.up.gardening.approval){kNode.up.gardening.approval = {};}
+      }
+    }
+    kNode.up.gardening.approval.state = state;
+  }
+  static createApprovalStatePatch(state:number){
+    return {up:{gardening:{approval:{state:state}}}};
+  }
+
+  static getApprovalLabel(node:any){
+    switch(NodeGardened.getApprovalState(node)){
+      case ApprovalState.APPROVED:
+        return "A";
+      case ApprovalState.DISAPPROVED:
+        return  "D";
+      default:
+      case ApprovalState.NOT_AUDITED:
+        return  "?";
+    }
+  }
+
+  static nextState(node:any){
+    var oldState = NodeGardened.getApprovalState(node);
+    switch(oldState){
+      case ApprovalState.NOT_AUDITED:
+        return  ApprovalState.APPROVED;
+      case ApprovalState.APPROVED:
+        return ApprovalState.DISAPPROVED;
+      case ApprovalState.DISAPPROVED:
+        return ApprovalState.NOT_AUDITED;
+    }
   }
 }
