@@ -519,12 +519,12 @@ $large: 1400px;
       border-radius: 5px; }
     .knalledge_map_container .node_html .rima_user {
       position: absolute;
-      right: -10px;
+      /*right: -10px;*/
       font-style: italic;
       bottom: -20px;
       color: #aa55aa;
       background-color: #ddffdd;
-      padding-left: 4px;
+      /*padding-left: 4px;*/
       padding-right: 4px;
       padding-top: 0px;
       padding-bottom: 0px;

@@ -46,8 +46,8 @@ export class ApprovalNodeService {
                         display = "block";
                         return display;
                     })
-                    .style("width", '2em')
-                    .style("height", '2em')
+                    // .style("width", '2em')
+                    // .style("height", '2em')
                     .html(function(d){
                         var label = NodeGardened.getApprovalLabel(d.kNode);
                         return label;

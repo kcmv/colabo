@@ -18,6 +18,15 @@ $large: 1400px;
 
 .gardening_approval {
   font-style: italic;
-  text-decoration: underline; }
+  border-radius: 4px;
+  padding-right: 2px;
+  width: 1.4em;
+  height: 1.4em;
+  position: absolute;
+  right: 10px;
+  bottom: -22px;
+  background-color: #ffff88;
+  border: 2px solid #bfbf48;
+  text-align: center; }
 
 /*# sourceMappingURL=default.css.map */
