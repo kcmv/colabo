@@ -13,7 +13,6 @@ import { Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
-import {TopPanel} from '../topPanel/topPanel';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
@@ -47,6 +46,35 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 // ])
 //
 
+import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
+
+var componentDirectives = [
+    MATERIAL_DIRECTIVES,
+    MD_SIDENAV_DIRECTIVES,
+    ROUTER_DIRECTIVES,
+    MdToolbar,
+    // MdContent, MdButton,
+    //   LoginStatusComponent,
+    upgradeAdapter.upgradeNg1Component('knalledgeMap'),
+    //  upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
+    upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
+//  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
+    KnalledgeMapTools
+];
+
+declare var Config:any;
+
+if(Config.Plugins.topPanel.active && PluginsPreloader.components.TopPanel){
+    console.warn("[KnalledgeMapMain] Loading TopPanel");
+    componentDirectives.push(PluginsPreloader.components.TopPanel);
+}else{
+    console.warn("[KnalledgeMapMain] Not loading TopPanel");
+}
+
+if(Config.Plugins.ontov.active){
+    componentDirectives.push(upgradeAdapter.upgradeNg1Component('ontovSearch'));
+}
+
 @Component({
     selector: 'knalledge-map-main',
     moduleId: module.id,
@@ -58,35 +86,12 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
         // RequestService
         // ROUTER_PROVIDERS
     ],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        MD_SIDENAV_DIRECTIVES,
-        ROUTER_DIRECTIVES,
-        MdToolbar,
-        // MdContent, MdButton,
-        //   LoginStatusComponent,
-        upgradeAdapter.upgradeNg1Component('ontovSearch'),
-        upgradeAdapter.upgradeNg1Component('knalledgeMap'),
-        //  upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
-        upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
-    //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
-        KnalledgeMapTools,
-        TopPanel
-    ],
+    directives: componentDirectives,
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
     // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
     styles: [`
-        .md-sidenav-push-in .md-sidenav-push-in-target {
-          transform: translate(0px);
-          transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .md-sidenav-push-in.md-sidenav-left-open .md-sidenav-push-in-target {
-          transform: translate(304px);
-        }
-        .md-sidenav-push-in.md-sidenav-right-open .md-sidenav-push-in-target {
-          transform: translate(-304px);
-        }
+
     `]
 })
 
@@ -108,7 +113,7 @@ export class KnalledgeMapMain {
       @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
   // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
       ) {
-      console.log('[KnalledgeMapMain]');
+      console.log('[KnalledgeMapMain] loaded');
       this.viewConfig = knalledgeMapViewService.get().config;
       this.policyConfig = knalledgeMapPolicyService.get().config;
       this.rimaService = _RimaService_;

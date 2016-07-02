@@ -8,7 +8,6 @@ import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {RimaUsersList} from '../rima/rimaUsersList';
-import {GardeningControls} from '../gardening/gardening-controls.component';
 /**
  * Directive that holds CollaboFramework tools on the left side of the map
  *
@@ -18,19 +17,31 @@ import {GardeningControls} from '../gardening/gardening-controls.component';
  * @constructor
 */
 
+import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
+
+var componentDirectives = [
+    MATERIAL_DIRECTIVES,
+    // MdList, MdListItem, MdContent, MdButton, MdSwitch,
+    NgIf, FORM_DIRECTIVES,
+    MdRadioButton, MdRadioGroup,
+    //upgradeAdapter.upgradeNg1Component('rimaUsersList'),
+    RimaUsersList,
+    upgradeAdapter.upgradeNg1Component('ibisTypesList')
+];
+
+declare var Config:any;
+
+if(Config.Plugins.gardening.active && PluginsPreloader.components.GardeningControls){
+    console.warn("[KnalledgeMapTools] Loading GardeningControls");
+    componentDirectives.push(PluginsPreloader.components.GardeningControls);
+}else{
+    console.warn("[KnalledgeMapTools] Not loading GardeningControls");
+}
+
 @Component({
     selector: 'knalledge-map-tools',
     providers: [MdRadioDispatcher],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        // MdList, MdListItem, MdContent, MdButton, MdSwitch,
-        NgIf, FORM_DIRECTIVES,
-        MdRadioButton, MdRadioGroup,
-        //upgradeAdapter.upgradeNg1Component('rimaUsersList'),
-        RimaUsersList,
-        upgradeAdapter.upgradeNg1Component('ibisTypesList'),
-        GardeningControls
-   ],
+    directives: componentDirectives,
    styles: [`
         .msg {
             font-size: 0.5em;

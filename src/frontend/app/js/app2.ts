@@ -26,6 +26,9 @@ import { Injector } from '../components/utils/injector';
 /// <reference path="../../../typings/browser/ambient/angular-route/angular-route.d.ts" />
 
 
+// Loading plugins' dependencies
+import './pluginDependencies';
+
 var topiChatServices = angular.module('topiChatServices');
 topiChatServices
     .service('TopiChatConfigService', TopiChatConfigService)

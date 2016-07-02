@@ -1,5 +1,24 @@
 # Plugins
 
+## Support for puzzlebility of view compnents
+
++ added collaboPlugins/pluginsPreloader.ts that loads all necessary components BEFORE the main app is bootstrapped
++ main app is bootstrapped AFTER all components are loaded with pluginsPreloader
++ each view component that has plugged-in view components do not load them explicitlely but gets them from pluginsPreloader and adds them to the list of children directives (@Component(directives))
++ however currently we didn't manage to tell SystemJS to load view component files and inject them in build, so we are explicltelly enlisting all of them in src/frontend/app/js/pluginDependencies.ts that is loaded by app2.ts and it is unique for each project
+
+## IMPORTANT
+
+**IMPORTANT**: If you adding new plugins, you need to add them to the `tools/config.ts` in order to build them in the app_bundle.js file, otherwise, development environment will work but production will NOT! Ask @mprinc more about that.
+
+**TODO**: At the moment we need to add plugin dependencies in the `src/frontend/app/js/pluginDependencies.ts` file. For example:
+
+```js
+import {TopPanel} from '../components/topPanel/topPanel';
+```
+
+# General
+
 KnAllEdge is aiming with to fulfill the following paradigm:
 
 <div style='border: 1px solid gray; padding: 5px; margin: 5%'>
