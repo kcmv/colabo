@@ -3,6 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR, CORE_DIRECTIVES} from "@angular
 
 import {NgIf, FORM_DIRECTIVES} from '@angular/common';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
+import {MdCheckbox} from '@angular2-material/checkbox';
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from 'ng2-material';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 
@@ -55,7 +56,7 @@ export class SortUsersByDisplayNamePipe implements PipeTransform {
         NgIf, FORM_DIRECTIVES,
         // MdRadioButton, MdRadioGroup,
         //
-        MD_INPUT_DIRECTIVES
+        MD_INPUT_DIRECTIVES, MdCheckbox
    ],
    pipes: [SortUsersByDisplayNamePipe],
    styles: [`
@@ -81,7 +82,9 @@ export class RimaUsersList implements OnInit{
 
     public items:Array<any> = [];
     public selectedItem:any = null;
+    public assignedE_mail:boolean = true;
     public newParticipant;
+    public automaticEmailDomain:string = "knalledge.org";
     private policyConfig:any;
     private componentShown:boolean = true;
 
@@ -151,8 +154,17 @@ export class RimaUsersList implements OnInit{
     }
 
     addParticipantQuickDialogClosed(confirm){
+      var userCreated = function(user:any){
+        console.log("[userCreated]: ",user);
+        //add to the map:
+        //
+      };
       if(confirm){
+        if(this.assignedE_mail){
+          this.newParticipant.e_mail = this.newParticipant.displayName + '@' + this.automaticEmailDomain;
+        }
         console.log("[newParticipant]",this.newParticipant);
+        this.rimaService.createWhoAmI(this.newParticipant,userCreated);
       }
     }
 
@@ -164,5 +176,12 @@ export class RimaUsersList implements OnInit{
       //TODO: started to work on this -
       //GlobalEmitterServicesArray.get(viewConfigChangedEventName).broadcast('rimaUsersList');
       this.globalEmitterServicesArray.get(this.knalledgeMapUpdateEventName).broadcast('RimUsersList');
+    }
+
+    displayNameChanged(event){
+      console.log("[displayNameChanged]event:",event);
+      if(this.assignedE_mail){
+        this.newParticipant.e_mail = this.newParticipant.displayName + '@' + this.automaticEmailDomain;
+      }
     }
 }
