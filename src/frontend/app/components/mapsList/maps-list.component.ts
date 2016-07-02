@@ -1,25 +1,26 @@
 import {FORM_DIRECTIVES} from '@angular/common';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 
-import {Component, Inject, ViewChild, ViewChildren} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
-// import {LoginStatusComponent} from '../login/login-status-component';
-// import {Media, MdContent, MdButton} from 'ng2-material';
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media} from "ng2-material";
 import {MdToolbar} from '@angular2-material/toolbar';
-// import {MdDialog} from '@angular2-material/dialog';
+
 import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
-// http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
 import { Router, ROUTER_DIRECTIVES} from '@angular/router';
 
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
-
-// import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+
+// import {ViewChild, ViewChildren} from '@angular/core';
+// import {Media, MdContent, MdButton} from 'ng2-material';
+// import {MdDialog} from '@angular2-material/dialog';
+
+// http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
 declare var knalledge;
 
@@ -153,7 +154,7 @@ export class MapsList {
    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
    return 0;
- }
+  }
 
   init(){
     //@ViewChild('cloneDialog') input;
@@ -161,7 +162,7 @@ export class MapsList {
     this.knalledgeMapService.queryByParticipant(this.rimaService.getActiveUserId()).$promise.then(function(maps){
       that.items = maps;
       console.log('maps:'+JSON.stringify(maps));
-      that.items = that.items.sort(that.sortByName);
+      that.items.sort(that.sortByName);
     });
     this.policyConfig.moderating.enabled = true;
     //this.cloneDialog = @ViewChild('cloneDialog');

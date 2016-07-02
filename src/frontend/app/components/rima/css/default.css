@@ -518,7 +518,11 @@ wizard {
   display: none; }
 
 .rima-users-list {
-  margin-top: 3em; }
+  border: 1px solid #c0c0c0;
+  margin-top: 3px;
+  margin-right: 2px; }
+  .rima-users-list .panel-title {
+    font-weight: bold; }
   .rima-users-list .list {
     margin: 5px;
     font-size: 18px;

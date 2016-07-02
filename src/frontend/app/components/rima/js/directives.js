@@ -100,75 +100,79 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 		};
 	}])
 
-	.directive('rimaUsersList', ["$rootScope", "$timeout", '$injector', "RimaService",
-		function($rootScope, $timeout, $injector, RimaService){
-		console.log("[rimaUsersList] loading directive");
-		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
-		var viewConfigChangedEventName = "viewConfigChangedEvent";
-		GlobalEmitterServicesArray.register(viewConfigChangedEventName);
-
-		return {
-			restrict: 'AE',
-			scope: {
-			},
-			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
-			// expression: http://docs.angularjs.org/guide/expression
-			templateUrl: 'components/rima/partials/rimaUsers-list.tpl.html',
-			controller: function ( $scope, $element) {
-				var init = function(){
-					$scope.items = [];
-
-					$scope.$watch(function () {
-						return RimaService.whoAmIs;
-					},
-					function(newValue){
-						$scope.items.length = 0;
-						//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
-						for(var i=0; i<RimaService.whoAmIs.length; i++){
-							var item = RimaService.whoAmIs[i];
-							// @TODO: Fix to filter by authors that belong to the map
-							//TODO: ??? @SASHA dodao ovo??: if(item.origin === 'TTT'){
-								$scope.items.push(item);
-							//}
-						}
-					}, true);
-
-					// var compare = function(a,b) {
-					//   if (a.displayName < b.displayName)
-					//     return 1;
-					//   if (a.displayName > b.displayName)
-					//     return -1;
-					//   return 0;
-					// }
-					// $scope.items.sort(compare);
-					$scope.selectedItem = RimaService.getActiveUser();
-					$scope.howAmIs = RimaService.getAllHows();
-				};
-				$scope.config = RimaService.config;
-				$scope.configChanged = function(){ //TODO: started to work on this -
-					//GlobalEmitterServicesArray.get(viewConfigChangedEventName).broadcast('rimaUsersList');
-				};
-				$scope.items = null;
-				$scope.selectedItem = null;
-				 //TODO: select from map.dataContent.mcm.authors list
-
-				init();
-				$scope.selectItem = function(item) {
-					$scope.selectedItem = item;
-					//console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
-					RimaService.selectActiveUser(item);
-					// if(){
-					// 	RimaService.selectActiveUser(item);
-					// }
-				};
-				$scope.showToggleSwitchClicked = function($el){
-					var elSwitch = $element.find('.content');
-					$(elSwitch).slideToggle();
-					// console.log("Switching: ", $el);
-				}
-			}
-		};
-	}])
+	/* migrated to ng2 component */
+	// .directive('rimaUsersList', ["$rootScope", "$timeout", '$injector', "RimaService",
+	// 	function($rootScope, $timeout, $injector, RimaService){
+	// 	console.log("[rimaUsersList] loading directive");
+	// 	var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+	// 	var viewConfigChangedEventName = "viewConfigChangedEvent";
+	// 	GlobalEmitterServicesArray.register(viewConfigChangedEventName);
+	//
+	// 	return {
+	// 		restrict: 'AE',
+	// 		scope: {
+	// 		},
+	// 		// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
+	// 		// expression: http://docs.angularjs.org/guide/expression
+	// 		templateUrl: 'components/rima/partials/rimaUsers-list.tpl.html',
+	// 		controller: function ( $scope, $element) {
+	// 			var init = function(){
+	// 				$scope.items = [];
+	//
+	// 				$scope.$watch(function () {
+	// 					return RimaService.whoAmIs;
+	// 				},
+	// 				function(newValue){
+	// 					$scope.items.length = 0;
+	// 					//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+	// 					for(var i=0; i<RimaService.whoAmIs.length; i++){
+	// 						var item = RimaService.whoAmIs[i];
+	// 						// @TODO: Fix to filter by authors that belong to the map
+	// 						//TODO: ??? @SASHA dodao ovo??: if(item.origin === 'TTT'){
+	// 							$scope.items.push(item);
+	// 						//}
+	// 					}
+	// 				}, true);
+	//
+	// 				// var compare = function(a,b) {
+	// 				//   if (a.displayName < b.displayName)
+	// 				//     return 1;
+	// 				//   if (a.displayName > b.displayName)
+	// 				//     return -1;
+	// 				//   return 0;
+	// 				// }
+	// 				// $scope.items.sort(compare);
+	// 				$scope.selectedItem = RimaService.getActiveUser();
+	// 				$scope.howAmIs = RimaService.getAllHows();
+	// 			};
+	// 			$scope.config = RimaService.config;
+	// 			$scope.configChanged = function(){ //TODO: started to work on this -
+	// 				//GlobalEmitterServicesArray.get(viewConfigChangedEventName).broadcast('rimaUsersList');
+	// 			};
+	// 			$scope.items = null;
+	// 			$scope.selectedItem = null;
+	// 			 //TODO: select from map.dataContent.mcm.authors list
+	//
+	// 			init();
+	// 			$scope.selectItem = function(item) {
+	// 				$scope.selectedItem = item;
+	// 				//console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
+	// 				RimaService.selectActiveUser(item);
+	// 				// if(){
+	// 				// 	RimaService.selectActiveUser(item);
+	// 				// }
+	// 			};
+	// 			$scope.showToggleSwitchClicked = function($el){
+	// 				var elSwitch = $element.find('.content');
+	// 				$(elSwitch).slideToggle();
+	// 				// console.log("Switching: ", $el);
+	// 			};
+	// 			$scope.addParticipantQuick = function(){
+	// 				console.log("[addParticipantQuick]");
+	// 			};
+	// 		}
+	// 	};
+	// }])
 
 	.directive('rimaRelevantWhatsList', ['$rootScope', '$injector', 'KnalledgeMapVOsService', 'RimaService',
 		function($rootScope, $injector, KnalledgeMapVOsService, RimaService){

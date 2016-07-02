@@ -746,7 +746,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					};
 
 					function knalledgeMapUpdate(){
-						knalledgeMap.update();						
+						knalledgeMap.update();
 					}
 
 					GlobalEmitterServicesArray.get(knalledgeMapUpdateEventName).subscribe('knalledgeMap', knalledgeMapUpdate);
@@ -1262,6 +1262,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.modeCreating = false;
 				$scope.items = null;
 				$scope.selectedItem = null;
+				$scope.componentShown = true;
 
 				$scope.items = IbisTypesService.getTypes();
 
@@ -1271,10 +1272,11 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
 				    IbisTypesService.selectActiveType	(item);
 				};
-				$scope.switchClicked = function($el){
-					var elSwitch = $element.find('.content');
-					$(elSwitch).slideToggle();
+				$scope.hideShowComponent = function($el){
+					// var elSwitch = $element.find('.content');
+					// $(elSwitch).slideToggle();
 					// console.log("Switching: ", $el);
+					$scope.componentShown = !$scope.componentShown;
 				}
     		}
     	};

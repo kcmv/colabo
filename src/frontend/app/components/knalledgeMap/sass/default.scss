@@ -181,7 +181,7 @@ $provideLayout: 'hide';
 ------------------------ */
 
 .knalledge_map_tools{
-	padding: 5px;
+	// padding: 5px;
 	h4 {
 		border-bottom: 1px solid #660000;
 		margin-bottom: 5px;
@@ -1002,7 +1002,12 @@ CollaboFramework/Knalledge Maps
 ------------------------- */
 
 .ibis-types-list{
-	margin-top: 3em;
+	border: 1px solid #c0c0c0;
+	margin-top: 3px;
+	margin-right: 2px;
+	.panel-title{
+		font-weight: bold;
+	}
 	.list{
 		margin: 5px;
 		font-size: 18px;

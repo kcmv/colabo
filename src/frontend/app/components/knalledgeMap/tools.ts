@@ -7,7 +7,7 @@ import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-
+import {RimaUsersList} from '../rima/rimaUsersList';
 /**
  * Directive that holds CollaboFramework tools on the left side of the map
  *
@@ -25,7 +25,8 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
         // MdList, MdListItem, MdContent, MdButton, MdSwitch,
         NgIf, FORM_DIRECTIVES,
         MdRadioButton, MdRadioGroup,
-        upgradeAdapter.upgradeNg1Component('rimaUsersList'),
+        //upgradeAdapter.upgradeNg1Component('rimaUsersList'),
+        RimaUsersList,
         upgradeAdapter.upgradeNg1Component('ibisTypesList')
    ],
    styles: [`

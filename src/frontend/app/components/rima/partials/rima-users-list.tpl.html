@@ -1,0 +1,40 @@
+<div class="rima-users-list">
+	<div class="switch" (click)="hideShowComponent()"><span class="panel-title">Map participants</span>
+		<span [hidden]="!componentShown"><i title="hide panel" class="fa fa-chevron-up" aria-hidden="true"></i></span>
+		<span [hidden]="componentShown"><i title="show panel" class="fa fa-chevron-down" aria-hidden="true"></i></span>
+	</div>
+	<div class="content" [hidden]="!componentShown">
+		<div class="btn-group">
+			<md-switch class="md-primary" aria-label="show creators" [(checked)]="showUsers">show creators</md-switch>
+		</div>
+		<button *ngIf="policyConfig.moderating.enabled" (click)="prepareForParticipants(); addParticipantQuickDialog.show()" class="btn btn-primary button_icon last" aria-label="Add Participant"
+		type="button"><i title="Add Participant" class="fa fa-plus-square" aria-hidden="true"></i></button>
+
+		<table class="list">
+			<!-- <tr (click)="selectItem(item)" *ngFor="let item of (items | sortUsersByDisplayName)" [ngClass]="{'row': true, 'active-selection': item._id === selectedItem._id}"> -->
+			<tr (click)="selectItem(item)" *ngFor="let item of items" [ngClass]="{'row': true, 'active-selection': item._id === selectedItem._id}">
+				<!-- TODO: *ngFor="let item of items | definedDisplayNames | orderBy:'displayName'"  -->
+				<!-- we don't need any  more definedDisplayNames filter -->
+				<td>{{item.displayName}}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="md-padding" id="popupContainer">
+	<md-dialog #addParticipantQuickDialog class="addParticipantQuickDialog" (onClose)="addParticipantQuickDialogClosed($event)">
+		<md-dialog-title>Add Participant to the Map</md-dialog-title>
+			<form layout="column" class="md-inline-form">
+					<md-input placeholder="Display Name" [(ngModel)]="newParticipant.displayName"></md-input>
+					<md-input placeholder="E-mail" [(ngModel)]="newParticipant.e_mail"></md-input>
+				</form>
+			<md-dialog-actions>
+					<button md-button (click)="addParticipantQuickDialog.close(false)">
+							<span>Cancel</span>
+					</button>
+					<button md-button class="md-primary" (click)="addParticipantQuickDialog.close(true)">
+							<span>Add</span>
+					</button>
+			</md-dialog-actions>
+	</md-dialog>
+</div>

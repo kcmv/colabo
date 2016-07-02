@@ -83,7 +83,6 @@ $large: 1400px;
  knalledge_map_tools
 ------------------------ */
 .knalledge_map_tools {
-  padding: 5px;
   z-index: 10;
   position: relative;
   height: 100%; }
@@ -519,12 +518,12 @@ $large: 1400px;
       border-radius: 5px; }
     .knalledge_map_container .node_html .rima_user {
       position: absolute;
-      /*right: -10px;*/
+      right: -10px;
       font-style: italic;
       bottom: -20px;
       color: #aa55aa;
       background-color: #ddffdd;
-      /*padding-left: 4px;*/
+      padding-left: 4px;
       padding-right: 4px;
       padding-top: 0px;
       padding-bottom: 0px;
@@ -764,7 +763,11 @@ CollaboFramework/Knalledge Maps
 	ibis-types-list
 ------------------------- */
 .ibis-types-list {
-  margin-top: 3em; }
+  border: 1px solid #c0c0c0;
+  margin-top: 3px;
+  margin-right: 2px; }
+  .ibis-types-list .panel-title {
+    font-weight: bold; }
   .ibis-types-list .list {
     margin: 5px;
     font-size: 18px;

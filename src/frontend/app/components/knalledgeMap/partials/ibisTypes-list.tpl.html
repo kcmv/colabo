@@ -1,9 +1,16 @@
-<span class="title switch" ng-click="switchClicked($item)"><b>IBIS/Kn</b></span><br/>
-<div class="content">
-	<table class="list">
-		<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{row: true, 'active-selection': item._id == selectedItem._id}">
-			<td>{{item.name}}</td>
-		</tr>
+<div class="ibis-types-list">
+	<!-- <span class="title switch" ng-click="switchClicked($item)"><b>IBIS/Kn</b></span><br/> -->
+	<div class="switch" ng-click="hideShowComponent()"><span class="panel-title">IBIS/Kn</span>
+		<span ng-hide="!componentShown"><i title="hide panel" class="fa fa-chevron-up" aria-hidden="true"></i></span>
+		<span ng-hide="componentShown"><i title="show panel" class="fa fa-chevron-down" aria-hidden="true"></i></span>
+	</div>
 
-	</table>
+	<div ng-hide="!componentShown" class="content">
+		<table class="list">
+			<tr ng-click="selectItem(item)" ng-repeat="item in items" data-ng-class="{row: true, 'active-selection': item._id == selectedItem._id}">
+				<td>{{item.name}}</td>
+			</tr>
+
+		</table>
+	</div>
 </div>
