@@ -65,6 +65,7 @@ export class ApprovalNodeService {
         }
     };
 
+    public interfaceConfig:Object = {showInterface:false, showNonAudited:true, showApproved:true, showDissaproved:true};
     private knalledgeMapVOsService: any;
     private knAllEdgeRealTimeService: any;
     private globalEmitterServicesArray: GlobalEmitterServicesArray;

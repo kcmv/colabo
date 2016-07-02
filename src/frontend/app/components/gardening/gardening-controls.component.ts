@@ -5,6 +5,7 @@ import {NgIf} from '@angular/common';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from 'ng2-material';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
+import {ApprovalNodeService} from './approval.node.service';
 
 // import {MdRadioButton, MdRadioGroup, MdRadioDispatcher} from '@angular2-material/radio';
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
@@ -67,7 +68,8 @@ export class GardeningControls implements OnInit{
     // private globalEmitterServicesArray:GlobalEmitterServicesArray;
 
     constructor(
-        @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService
+        @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
+        @Inject('ApprovalNodeService') private approvalNodeService:ApprovalNodeService
         // @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
         // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
         // @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_,
@@ -104,6 +106,10 @@ export class GardeningControls implements OnInit{
 
     ngOnInit() {
 
+    }
+
+    get interfaceConfig(){
+      return this.approvalNodeService.interfaceConfig;
     }
 
     hideShowComponent (){
