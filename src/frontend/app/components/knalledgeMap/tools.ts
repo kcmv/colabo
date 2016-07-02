@@ -8,6 +8,7 @@ import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {RimaUsersList} from '../rima/rimaUsersList';
+import {GardeningControls} from '../gardening/gardening-controls.component';
 /**
  * Directive that holds CollaboFramework tools on the left side of the map
  *
@@ -27,7 +28,8 @@ import {RimaUsersList} from '../rima/rimaUsersList';
         MdRadioButton, MdRadioGroup,
         //upgradeAdapter.upgradeNg1Component('rimaUsersList'),
         RimaUsersList,
-        upgradeAdapter.upgradeNg1Component('ibisTypesList')
+        upgradeAdapter.upgradeNg1Component('ibisTypesList'),
+        GardeningControls
    ],
    styles: [`
         .msg {

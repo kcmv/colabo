@@ -11,7 +11,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 // import {MdRadioButton, MdRadioGroup, MdRadioDispatcher} from '@angular2-material/radio';
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 // import {KnalledgeMapViewService} from './knalledgeMapViewService';
-// import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 declare var knalledge;
 
@@ -91,29 +91,24 @@ export class RimaUsersList implements OnInit{
     private knAllEdgeRealTimeService;
     private rimaService;
 
-    // private globalEmitterServicesArray:GlobalEmitterServicesArray;
+    private globalEmitterServicesArray:GlobalEmitterServicesArray;
+    private knalledgeMapUpdateEventName:string = "knalledgeMapUpdateEvent";
 
     constructor(
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
         // @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
-        // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
+        @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
         @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_,
         @Inject('RimaService') _RimaService_
-
-        // globalEmitterServicesArray:GlobalEmitterServicesArray
     ) {
         console.log('[RimaUsersList]');
         this.policyConfig = knalledgeMapPolicyService.get().config;
         // this.viewConfig = knalledgeMapViewService.get().config;
 
-        // this.globalEmitterServicesArray = globalEmitterServicesArray;
-        // globalEmitterServicesArray.register(this.viewConfigChangedEventName);
-        //globalEmitterServicesArray.register(this.viewspecChangedEventName);
-        // globalEmitterServicesArray.register(this.behaviourChangedEventName);
-        // globalEmitterServicesArray.register(this.broadcastingChangedEventName);
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
+        this.globalEmitterServicesArray = globalEmitterServicesArray;
         this.rimaService = _RimaService_;
-
+        this.globalEmitterServicesArray.register(this.knalledgeMapUpdateEventName);
         // $scope.items.sort(compare);
 
         this.selectedItem = this.rimaService.getActiveUser();
@@ -165,8 +160,9 @@ export class RimaUsersList implements OnInit{
       this.newParticipant = new knalledge.WhoAmI();
     }
 
-    // toggleShowCreators(){
-    //   //TODO: started to work on this -
-    //   //GlobalEmitterServicesArray.get(viewConfigChangedEventName).broadcast('rimaUsersList');
-    // }
+    changedShowCreators(){
+      //TODO: started to work on this -
+      //GlobalEmitterServicesArray.get(viewConfigChangedEventName).broadcast('rimaUsersList');
+      this.globalEmitterServicesArray.get(this.knalledgeMapUpdateEventName).broadcast('RimUsersList');
+    }
 }

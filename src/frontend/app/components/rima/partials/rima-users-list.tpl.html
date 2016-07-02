@@ -5,7 +5,7 @@
 	</div>
 	<div class="content" [hidden]="!componentShown">
 		<div class="btn-group">
-			<md-switch class="md-primary" aria-label="show creators" [(checked)]="showUsers">show creators</md-switch>
+			<md-switch class="md-primary" aria-label="show creators" (checkedChange)="changedShowCreators()" [(checked)]="showUsers">show creators</md-switch>
 		</div>
 		<button *ngIf="policyConfig.moderating.enabled" (click)="prepareForParticipants(); addParticipantQuickDialog.show()" class="btn btn-primary button_icon last" aria-label="Add Participant"
 		type="button"><i title="Add Participant" class="fa fa-plus-square" aria-hidden="true"></i></button>

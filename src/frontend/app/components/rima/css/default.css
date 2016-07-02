@@ -20,7 +20,8 @@ $large: 1400px;
  bootstrap wizard
 ------------------------ */
 .switch {
-  cursor: pointer; }
+  cursor: pointer;
+  background-color: #009688; }
 
 .title {
   padding-bottom: 3px;

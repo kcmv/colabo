@@ -1,0 +1,11 @@
+<div class="gardening_controls">
+	<div class="switch" (click)="hideShowComponent()"><span class="panel-title">Knowledge Gardening</span>
+		<span [hidden]="!componentShown"><i title="hide panel" class="fa fa-chevron-up" aria-hidden="true"></i></span>
+		<span [hidden]="componentShown"><i title="show panel" class="fa fa-chevron-down" aria-hidden="true"></i></span>
+	</div>
+	<div class="content" [hidden]="!componentShown">
+		<div class="btn-group">
+			<md-switch class="md-primary" aria-label="show creators" [(checked)]="show">show gardening interface</md-switch>
+		</div>
+	</div>
+</div>

@@ -127,6 +127,8 @@
         <md-switch class="md-primary" *ngIf="policyConfig.moderating.enabled" aria-label="Behaviours" [(checked)]="policyConfig.broadcasting.receiveBehaviours" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveBehaviours', policyConfig.broadcasting.receiveBehaviours)">Behaviours</md-switch>
     </div>
 
+    <gardening-controls class="gardening_controls"></gardening-controls>
+
     <!-- <div *ngIf="policyConfig.moderating.enabled" class="tool_info">Moderator</div>
     <div *ngIf="policyConfig.broadcasting.enabled" class="tool_info">Presenter</div> -->
     <!-- <div template="ngIf:policyConfig.moderating.enabled" class="tool_info">Moderator</div>
