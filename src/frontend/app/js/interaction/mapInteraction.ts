@@ -2,7 +2,7 @@
 declare var interaction;
 declare var knalledge;
 declare var d3;
-declare var window;
+declare var window:Window;
 declare var debugpp;
 
 const STATUS_MAP: string = "STATUS_MAP";

@@ -79,22 +79,10 @@ declare var knalledge;
         MD_INPUT_DIRECTIVES, FORM_DIRECTIVES
         // MdContent, MdButton,
         //   LoginStatusComponent,
-    ],
+    ]
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
     // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
-    styles: [`
-        .md-sidenav-push-in .md-sidenav-push-in-target {
-          transform: translate(0px);
-          transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .md-sidenav-push-in.md-sidenav-left-open .md-sidenav-push-in-target {
-          transform: translate(304px);
-        }
-        .md-sidenav-push-in.md-sidenav-right-open .md-sidenav-push-in-target {
-          transform: translate(-304px);
-        }
-    `]
 })
 
 export class MapsList {
