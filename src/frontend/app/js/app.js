@@ -56,9 +56,6 @@ angular.module('KnAllEdgeApp', requiresList)
 // routes
 .config(['$routeProvider', function($routeProvider) {
 	$routeProvider
-	.when('/map', {
-		templateUrl: 'components/knalledgeMap/partials/new-index.tpl.html'
-	})
 	.when('/map/id/:id', {
 		templateUrl: 'components/knalledgeMap/partials/new-index.tpl.html',
 		// https://docs.angularjs.org/api/ngRoute/provider/$routeProvider
