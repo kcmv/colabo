@@ -7,6 +7,8 @@ import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from 'ng2-material';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {ApprovalNodeService} from './approval.node.service';
 
+import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+
 // import {MdRadioButton, MdRadioGroup, MdRadioDispatcher} from '@angular2-material/radio';
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 // import {KnalledgeMapViewService} from './knalledgeMapViewService';
@@ -65,13 +67,13 @@ export class GardeningControls implements OnInit{
 
     //private knAllEdgeRealTimeService;
 
-    // private globalEmitterServicesArray:GlobalEmitterServicesArray;
+    private knalledgeMapUpdateEventName:string = "knalledgeMapUpdateEvent";
 
     constructor(
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
-        @Inject('ApprovalNodeService') private approvalNodeService:ApprovalNodeService
+        @Inject('ApprovalNodeService') private approvalNodeService:ApprovalNodeService,
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
         // @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
-        // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
         // @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_,
         // @Inject('RimaService') _RimaService_
 
@@ -81,11 +83,7 @@ export class GardeningControls implements OnInit{
         this.policyConfig = knalledgeMapPolicyService.get().config;
         // this.viewConfig = knalledgeMapViewService.get().config;
 
-        // this.globalEmitterServicesArray = globalEmitterServicesArray;
-        // globalEmitterServicesArray.register(this.viewConfigChangedEventName);
-        //globalEmitterServicesArray.register(this.viewspecChangedEventName);
-        // globalEmitterServicesArray.register(this.behaviourChangedEventName);
-        // globalEmitterServicesArray.register(this.broadcastingChangedEventName);
+        this.globalEmitterServicesArray.register(this.knalledgeMapUpdateEventName);
         // this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
         // this.rimaService = _RimaService_;
 
@@ -114,5 +112,9 @@ export class GardeningControls implements OnInit{
 
     hideShowComponent (){
       this.componentShown = !this.componentShown;
+    }
+
+    configChanged(){
+      this.globalEmitterServicesArray.get(this.knalledgeMapUpdateEventName).broadcast('RimUsersList');
     }
 }

@@ -5,10 +5,10 @@
 	</div>
 	<div class="content" [hidden]="!componentShown">
 		<div class="btn-group">
-			<md-switch class="md-primary" aria-label="show creators" [(checked)]="interfaceConfig.showInterface">show gardening interface</md-switch>
-			<md-switch class="md-primary" aria-label="show non-audited topics" [(checked)]="interfaceConfig.showNonAudited">show non-audited topics</md-switch>
-			<md-switch class="md-primary" aria-label="show approved topics" [(checked)]="interfaceConfig.showApproved">show approved topics</md-switch>
-			<md-switch class="md-primary" aria-label="show disapproved topics" [(checked)]="interfaceConfig.showDissaproved">show disapproved topics</md-switch>
+			<md-switch class="md-primary" aria-label="show creators" (click)="configChanged()" [(checked)]="interfaceConfig.showInterface">show gardening interface</md-switch>
+			<md-switch class="md-primary" aria-label="show non-audited topics" (click)="configChanged()" [(checked)]="interfaceConfig.showNonAudited">show non-audited topics</md-switch>
+			<md-switch class="md-primary" aria-label="show approved topics" (click)="configChanged()" [(checked)]="interfaceConfig.showApproved">show approved topics</md-switch>
+			<md-switch class="md-primary" aria-label="show disapproved topics" (click)="configChanged()" [(checked)]="interfaceConfig.showDissaproved">show disapproved topics</md-switch>
 		</div>
 	</div>
 </div>
