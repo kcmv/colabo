@@ -94,13 +94,12 @@ export class RimaUsersList implements OnInit{
     private knAllEdgeRealTimeService;
     private rimaService;
 
-    private globalEmitterServicesArray:GlobalEmitterServicesArray;
     private knalledgeMapUpdateEventName:string = "knalledgeMapUpdateEvent";
 
     constructor(
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
         // @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
-        @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
         @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_,
         @Inject('RimaService') _RimaService_
     ) {
@@ -109,7 +108,6 @@ export class RimaUsersList implements OnInit{
         // this.viewConfig = knalledgeMapViewService.get().config;
 
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
-        this.globalEmitterServicesArray = globalEmitterServicesArray;
         this.rimaService = _RimaService_;
         this.globalEmitterServicesArray.register(this.knalledgeMapUpdateEventName);
         // $scope.items.sort(compare);

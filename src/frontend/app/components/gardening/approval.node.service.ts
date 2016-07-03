@@ -37,13 +37,16 @@ export class ApprovalNodeService {
             }.bind(this), // necessary for keeping reference on service
 
             nodeHtmlUpdate: function(nodeHtmlUpdate){
+              var that = this;
                 nodeHtmlUpdate.select(".gardening_approval")
                     .style("display", function(d){
                         var display = "none";
                         // if((d.kNode.gardening && d.kNode.gardening.approval && d.kNode.gardening.approval.state)){
                         // 	display = "block";
                         // }
-                        display = "block";
+                        if(that.service.interfaceConfig.showInterface){
+                          display = "block";
+                        }
                         return display;
                     })
                     // .style("width", '2em')
@@ -65,6 +68,7 @@ export class ApprovalNodeService {
         }
     };
 
+    public interfaceConfig:Object = {showInterface:false, showNonAudited:true, showApproved:true, showDissaproved:true};
     private knalledgeMapVOsService: any;
     private knAllEdgeRealTimeService: any;
     private globalEmitterServicesArray: GlobalEmitterServicesArray;
