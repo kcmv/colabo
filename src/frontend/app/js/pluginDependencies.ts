@@ -7,3 +7,6 @@ var cTopPanel = TopPanel;
 
 import {GardeningControls} from '../components/gardening/gardening-controls.component';
 var cGardeningControls = GardeningControls;
+
+import {RimaUsersList} from '../components/rima/rimaUsersList';
+var cRimaUsersList = RimaUsersList;

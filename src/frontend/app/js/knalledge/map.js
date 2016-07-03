@@ -182,7 +182,8 @@ Map.prototype.init = function() {
 	NodeChangedPluginOptions.events[Map.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
 	NodeChangedPluginOptions.events[Map.KnRealTimeNodeUnselectedEventName] = this.realTimeNodeUnselected.bind(this);
 	NodeChangedPluginOptions.events[Map.KnRealTimeNodeClickedEventName] = this.realTimeNodeClicked.bind(this);
-	this.knAllEdgeRealTimeService.registerPlugin(NodeChangedPluginOptions);
+	if(this.knAllEdgeRealTimeService)
+		this.knAllEdgeRealTimeService.registerPlugin(NodeChangedPluginOptions);
 };
 
 // realtime distribution
@@ -202,7 +203,7 @@ Map.prototype.realTimeNodeSelected = function(eventName, msg){
 	var kId = msg;
 	// alert("[Map:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
 	console.log("[Map:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s",
-	this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
+	(this.knAllEdgeRealTimeService) ? this.knAllEdgeRealTimeService.getClientInfo().clientId : 'unknown', eventName, JSON.stringify(kId));
 	//TODO: if(!KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
 	// 	return;
 	// }
@@ -230,7 +231,7 @@ Map.prototype.realTimeNodeSelected = function(eventName, msg){
 Map.prototype.realTimeNodeUnselected = function(eventName, msg){
 	var kId = msg;
 	console.log("[Map:realTimeNodeUnselected] (clientId:%s) eventName: %s, msg: %s",
-	this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
+	(this.knAllEdgeRealTimeService) ? this.knAllEdgeRealTimeService.getClientInfo().clientId : 'unknown', eventName, JSON.stringify(kId));
 	var kNode = this.mapStructure.getVKNodeByKId(kId);
 	this.nodeUnselected_WithoutRTBroadcasting(kNode);
 };
@@ -244,7 +245,7 @@ Map.prototype.realTimeNodeUnselected = function(eventName, msg){
 Map.prototype.realTimeNodeClicked = function(eventName, msg){
 	var kId = msg;
 	console.log("[Map:realTimeNodeClicked] (clientId:%s) eventName: %s, msg: %s",
-	this.knAllEdgeRealTimeService.getClientInfo().clientId, eventName, JSON.stringify(kId));
+	(this.knAllEdgeRealTimeService) ? this.knAllEdgeRealTimeService.getClientInfo().clientId : 'unknown', eventName, JSON.stringify(kId));
 	var kNode = this.mapStructure.getVKNodeByKId(kId);
 	this.nodeClicked_WithoutRTBroadcasting(kNode, Map.EXTERNAL_SOURCE);
 };

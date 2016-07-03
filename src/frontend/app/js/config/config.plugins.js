@@ -17,6 +17,10 @@ var plugins = {
 				GardeningControls: {
 					active: true,
 					path: "/components/gardening/gardening-controls.component"
+				},
+				RimaUsersList: {
+					active: true,
+					path: "/components/rima/rimaUsersList"
 				}
 			}
 		}

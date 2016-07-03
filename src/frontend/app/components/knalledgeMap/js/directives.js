@@ -42,7 +42,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 	.directive('knalledgeMap', ['$injector', '$rootScope', '$compile', '$route', '$routeParams', '$timeout', '$location', '$window',
 		'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService',
 		'KnalledgeMapService', 'KnalledgeMapViewService',
-		'KnAllEdgeRealTimeService', 'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService',
+		'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService',
 		'CollaboPluginsService', 'SyncingService', 'injector', 'Plugins',
 		/**
 	 	* @memberof knalledge.knalledgeMap.knalledgeMapDirectives.knalledgeMap#
@@ -52,7 +52,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService} KnalledgeMapVOsService
 		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapService} KnalledgeMapService
 		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapViewService} KnalledgeMapViewService
-		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
 		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeSelectItemService} KnAllEdgeSelectItemService
 		* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
 		* @param  {knalledge.collaboPluginsServices.CollaboPluginsService} CollaboPluginsService
@@ -64,7 +63,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		function($injector, $rootScope, $compile, $route, $routeParams, $timeout, $location, $window,
 		KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService,
 		KnalledgeMapService, KnalledgeMapViewService,
-		KnAllEdgeRealTimeService, KnAllEdgeSelectItemService, KnalledgeMapPolicyService,
+		KnAllEdgeSelectItemService, KnalledgeMapPolicyService,
 		CollaboPluginsService, SyncingService, injector, Plugins){
 
 		// getting services dinamicaly by injecting
@@ -72,10 +71,24 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		// that will pull/provide services across the system
 		// depending on available (which is configurabe) components/plugins
 		// and services
-		var RimaService = $injector.get('RimaService');
 		var IbisTypesService = $injector.get('IbisTypesService');
 		var NotifyService = $injector.get('NotifyService');
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
+		try{
+			// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
+			var KnAllEdgeRealTimeService = Plugins.knalledgeMap.config.knAllEdgeRealTimeService.available ?
+				$injector.get('KnAllEdgeRealTimeService') : null;
+		}catch(err){
+			console.warn("Error while trying to retrieve the KnAllEdgeRealTimeService service:", err);
+		}
+		try{
+			// * @param  {rima.rimaServices.RimaService}  RimaService
+			var RimaService = Plugins.rima.config.rimaService.available ?
+				$injector.get('RimaService') : null;
+		}catch(err){
+			console.warn(err);
+		}
 
 		// loading component plugins' services
 
@@ -875,13 +888,15 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						knalledgeMap.nodeSelected(vkNode);
 					});
 
-					$scope.$watch(function () {
-						return RimaService.howAmIs;
-					},
-					function(newValue){
-						//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
-						if(knalledgeMap) knalledgeMap.update();
-					}, true);
+					if(RimaService){
+						$scope.$watch(function () {
+							return RimaService.howAmIs;
+						},
+						function(newValue){
+							//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
+							if(knalledgeMap) knalledgeMap.update();
+						}, true);
+					}
 				};
 			}
     	};

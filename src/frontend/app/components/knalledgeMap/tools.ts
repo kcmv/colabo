@@ -7,7 +7,6 @@ import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-import {RimaUsersList} from '../rima/rimaUsersList';
 /**
  * Directive that holds CollaboFramework tools on the left side of the map
  *
@@ -25,24 +24,30 @@ var componentDirectives = [
     NgIf, FORM_DIRECTIVES,
     MdRadioButton, MdRadioGroup,
     //upgradeAdapter.upgradeNg1Component('rimaUsersList'),
-    RimaUsersList,
     upgradeAdapter.upgradeNg1Component('ibisTypesList')
 ];
 
-declare var Config:any;
+declare var Config: any;
 
-if(Config.Plugins.gardening.active && PluginsPreloader.components.GardeningControls){
+if (Config.Plugins.gardening.active && PluginsPreloader.components.GardeningControls) {
     console.warn("[KnalledgeMapTools] Loading GardeningControls");
     componentDirectives.push(PluginsPreloader.components.GardeningControls);
-}else{
+} else {
     console.warn("[KnalledgeMapTools] Not loading GardeningControls");
+}
+
+if (Config.Plugins.rima.active && PluginsPreloader.components.RimaUsersList) {
+    console.warn("[KnalledgeMapTools] Loading RimaUsersList");
+    componentDirectives.push(PluginsPreloader.components.RimaUsersList);
+} else {
+    console.warn("[KnalledgeMapTools] Not loading RimaUsersList");
 }
 
 @Component({
     selector: 'knalledge-map-tools',
     providers: [MdRadioDispatcher],
     directives: componentDirectives,
-   styles: [`
+    styles: [`
         .msg {
             font-size: 0.5em;
         }
@@ -56,26 +61,26 @@ if(Config.Plugins.gardening.active && PluginsPreloader.components.GardeningContr
 })
 
 export class KnalledgeMapTools {
-    viewConfigChangedEventName:string = "viewConfigChangedEvent";
+    viewConfigChangedEventName: string = "viewConfigChangedEvent";
     //viewspecChangedEventName:string = "viewspecChangedEvent";
-    behaviourChangedEventName:string = "behaviourChangedEvent";
-    broadcastingChangedEventName:string = "broadcastingChangedEvent";
+    behaviourChangedEventName: string = "behaviourChangedEvent";
+    broadcastingChangedEventName: string = "broadcastingChangedEvent";
 
-    viewConfig:Object;
-    policyConfig:Object;
+    viewConfig: Object;
+    policyConfig: Object;
 
-    knRealTimeBroadcastUpdateMaps:string = "update-maps";
-    knRealTimeBroadcastReloadMaps:string = "reload-maps";
+    knRealTimeBroadcastUpdateMaps: string = "update-maps";
+    knRealTimeBroadcastReloadMaps: string = "reload-maps";
 
     //TODO: `limitedRangeCheckBoxValue` should be changed to `config.filtering.displayDistance` when we change checkBox to some NumberSLide
-    public limitedRangeCheckBoxValue:boolean = false;
+    public limitedRangeCheckBoxValue: boolean = false;
     private knAllEdgeRealTimeService;
-    private globalEmitterServicesArray:GlobalEmitterServicesArray;
+    private globalEmitterServicesArray: GlobalEmitterServicesArray;
 
     constructor(
-        @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
-        @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
-        @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray,
+        @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService: KnalledgeMapPolicyService,
+        @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
+        @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray: GlobalEmitterServicesArray,
         @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_
 
         // globalEmitterServicesArray:GlobalEmitterServicesArray
@@ -100,7 +105,7 @@ export class KnalledgeMapTools {
     // };
 
     //TODO: eliminate this function and use directly `viewConfigChanged` when switch values are set to exact values
-    limitDisplayChanged:Function = function(path, value){
+    limitDisplayChanged: Function = function(path, value) {
         this.viewConfig.filtering.displayDistance = (value) ? 3 : -1;
         this.viewConfigChanged(path, this.viewConfig.filtering.displayDistance);
         //this.globalEmitterServicesArray.get(this.viewConfigChangedEventName).broadcast('KnalledgeMapTools', msg);
@@ -111,21 +116,21 @@ export class KnalledgeMapTools {
     //   $(elSwitch).slideToggle();
     // };
 
-    viewConfigChanged:Function = function(path, value){
+    viewConfigChanged: Function = function(path, value) {
         // alert("[viewConfigChanged] " + path + ":" + value);
-      this.sendChange(path, value, this.viewConfigChangedEventName);
-      //this.globalEmitterServicesArray.get(this.viewspecChangedEventName).broadcast('KnalledgeMapTools', this.bindings.viewspec);
+        this.sendChange(path, value, this.viewConfigChangedEventName);
+        //this.globalEmitterServicesArray.get(this.viewspecChangedEventName).broadcast('KnalledgeMapTools', this.bindings.viewspec);
     };
 
-    brainstormingChanged: Function = function(path, value){
+    brainstormingChanged: Function = function(path, value) {
         this.sendChange(path, value, this.behaviourChangedEventName);
     };
 
-    broadcastingChanged: Function = function(path, value){
+    broadcastingChanged: Function = function(path, value) {
         this.sendChange(path, value, this.broadcastingChangedEventName);
     };
 
-    sendChange:Function = function(path, value, eventName){
+    sendChange: Function = function(path, value, eventName) {
         // alert("[sendChange] " + path + ":" + value);
         let msg = {
             path: path,
@@ -134,11 +139,11 @@ export class KnalledgeMapTools {
         this.globalEmitterServicesArray.get(eventName).broadcast('KnalledgeMapTools', msg);
     };
 
-    broadcastUpdateMaps: Function = function(){
+    broadcastUpdateMaps: Function = function() {
         this.knAllEdgeRealTimeService.emit(this.knRealTimeBroadcastUpdateMaps);
     };
 
-    broadcastReloadMaps: Function = function(){
+    broadcastReloadMaps: Function = function() {
         this.knAllEdgeRealTimeService.emit(this.knRealTimeBroadcastReloadMaps);
     };
 }

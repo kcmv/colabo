@@ -98,6 +98,8 @@ knalledgeMapServicesModule
 // upgrading ng1 services into ng2 space
 upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
 upgradeAdapter.upgradeNg1Provider('RimaService');
+upgradeAdapter.upgradeNg1Provider('Plugins');
+// upgradeAdapter.upgradeNg1Provider('$injector');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapService');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapVOsService');
 // upgradeAdapter.upgradeNg1Provider('BroadcastManagerService');
