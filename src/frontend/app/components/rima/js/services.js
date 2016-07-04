@@ -992,6 +992,7 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 
 					that.whoAmIs.length = 0;
 
+					WhoAmIService._processWhoAmIs(whoAmIsFromServer);
 					for(var i=0;i < whoAmIsFromServer.length;i++){
 						that.whoAmIs.push(whoAmIsFromServer[i]);
 					}
@@ -1069,7 +1070,7 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 			},
 
 			getActiveUserId: function(){
-				return this.activeUser ? this.activeUser._id : undefined;
+				return (this.activeUser && this.activeUser.state !== knalledge.WhoAmI.STATE_LOCAL) ? this.activeUser._id : undefined;
 			},
 
 			getMaxUserNum: function(){
@@ -1137,13 +1138,18 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 				return data;
 			},
 
-			createWhoAmI: function(whoAmI, callback){
+			createWhoAmI: function(whoAmI, login, addToWhAmIs, callback){
 				var that = this;
 				var whoAmI = WhoAmIService.create(whoAmI, function(whoAmIFromServer){
 					if(callback){callback(whoAmIFromServer);}
 				}.bind(this));
 				whoAmI.$promise.then(function(whoAmIFromServer){
-					that.setWhoAmI(whoAmIFromServer);
+					if(login){
+						that.setWhoAmI(whoAmIFromServer);
+					}
+					if(addToWhAmIs){
+						that.whoAmIs.push(whoAmIFromServer);
+					}
 					that.selectActiveUser(whoAmIFromServer);
 
 				});

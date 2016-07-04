@@ -1221,6 +1221,13 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 				return this.map._id;
 			},
 
+			addParticipantToMap(userId, callback){
+				this.map.participants.push(userId);
+				KnalledgeMapService.update(this.map, function(){
+					if(typeof callback === 'function') callback();
+				});
+			},
+
 			deleteNode: function(node) {
 				var result = KnalledgeNodeService.destroy(node._id); //deleteNode on server service
 				delete this.nodesById[node._id]; //TODO: see if we should do it only upon server deleting success
@@ -1414,10 +1421,7 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 						if(activeUserId &&
 							kMap.participants.indexOf(activeUserId) === -1
 						){ // add it if not found among participants
-							kMap.participants.push(activeUserId);
-							KnalledgeMapService.update(kMap, function(){
-								if(typeof callback === 'function') callback();
-							});
+							that.addParticipantToMap(activeUserId,callback);
 						}else{
 							if(typeof callback === 'function') callback();
 						}

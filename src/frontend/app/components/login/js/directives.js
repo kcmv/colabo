@@ -220,7 +220,7 @@ angular.module('loginDirectives', ['Config'])
 						return;
 					}
 
-					var user = RimaService.createWhoAmI($scope.user);
+					var user = RimaService.createWhoAmI($scope.user,true, false);
 					user.$promise.then(function(userFromServer){
 						var path = '/login';
 						// forward route
