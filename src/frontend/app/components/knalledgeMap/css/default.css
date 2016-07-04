@@ -25,6 +25,16 @@ $large: 1400px;
   border-bottom: 1px solid black;
   margin-bottom: 7px; }
 
+.tools-controls-group {
+  border: 1px solid #c0c0c0;
+  margin-top: 3px;
+  margin-right: 2px;
+  padding: 2px; }
+  .tools-controls-group .panel-title {
+    font-weight: bold; }
+  .tools-controls-group .arrows {
+    float: right; }
+
 /* @if */
 .main-column {
   height: 100%; }
@@ -762,41 +772,35 @@ CollaboFramework/Knalledge Maps
 	IBIS
 	ibis-types-list
 ------------------------- */
-.ibis-types-list {
-  border: 1px solid #c0c0c0;
-  margin-top: 3px;
-  margin-right: 2px; }
-  .ibis-types-list .panel-title {
-    font-weight: bold; }
-  .ibis-types-list .list {
-    margin: 5px;
-    font-size: 18px;
-    border: 1px solid #aaaaaa;
-    -moz-border-radius: 15px / 15px;
-    -webkit-border-radius: 15px 15px;
-    border-radius: 15px / 15px; }
-    .ibis-types-list .list .active-selection {
-      background-color: #eee; }
-    .ibis-types-list .list tr {
-      margin-bottom: 3px;
-      border-bottom: solid 2px #aaaaaa;
-      margin-bottom: 3px;
-      -moz-border-radius: 5px / 5px;
-      -webkit-border-radius: 5px 5px;
-      border-radius: 5px / 5px; }
-      .ibis-types-list .list tr:hover {
-        cursor: pointer;
-        background-color: #cccccc; }
-    .ibis-types-list .list th {
-      background-color: #aaf;
-      /*border: 1px solid black;*/
-      padding: 5px; }
-    .ibis-types-list .list td {
-      /*border: 1px solid black;*/
-      padding: 5px;
-      font-size: 0.75em; }
-    .ibis-types-list .list .active-selection {
-      background-color: #aaf; }
+.ibis-types-list .list {
+  margin: 5px;
+  font-size: 18px;
+  border: 1px solid #aaaaaa;
+  -moz-border-radius: 15px / 15px;
+  -webkit-border-radius: 15px 15px;
+  border-radius: 15px / 15px; }
+  .ibis-types-list .list .active-selection {
+    background-color: #eee; }
+  .ibis-types-list .list tr {
+    margin-bottom: 3px;
+    border-bottom: solid 2px #aaaaaa;
+    margin-bottom: 3px;
+    -moz-border-radius: 5px / 5px;
+    -webkit-border-radius: 5px 5px;
+    border-radius: 5px / 5px; }
+    .ibis-types-list .list tr:hover {
+      cursor: pointer;
+      background-color: #cccccc; }
+  .ibis-types-list .list th {
+    background-color: #aaf;
+    /*border: 1px solid black;*/
+    padding: 5px; }
+  .ibis-types-list .list td {
+    /*border: 1px solid black;*/
+    padding: 5px;
+    font-size: 0.75em; }
+  .ibis-types-list .list .active-selection {
+    background-color: #aaf; }
 
 /* -------------------------
 	Select item

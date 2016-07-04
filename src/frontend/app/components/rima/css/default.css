@@ -518,41 +518,35 @@ wizard {
 .rima-wizard .submit {
   display: none; }
 
-.rima-users-list {
-  border: 1px solid #c0c0c0;
-  margin-top: 3px;
-  margin-right: 2px; }
-  .rima-users-list .panel-title {
-    font-weight: bold; }
-  .rima-users-list .list {
-    margin: 5px;
-    font-size: 18px;
-    border: 1px solid #aaaaaa;
-    -moz-border-radius: 15px / 15px;
-    -webkit-border-radius: 15px 15px;
-    border-radius: 15px / 15px; }
-    .rima-users-list .list .active-selection {
-      background-color: #eee; }
-    .rima-users-list .list tr {
-      margin-bottom: 3px;
-      border-bottom: solid 2px #aaaaaa;
-      margin-bottom: 3px;
-      -moz-border-radius: 5px / 5px;
-      -webkit-border-radius: 5px 5px;
-      border-radius: 5px / 5px; }
-      .rima-users-list .list tr:hover {
-        cursor: pointer;
-        background-color: #cccccc; }
-    .rima-users-list .list th {
-      background-color: #aaf;
-      /*border: 1px solid black;*/
-      padding: 5px; }
-    .rima-users-list .list td {
-      /*border: 1px solid black;*/
-      padding: 5px;
-      font-size: 0.75em; }
-    .rima-users-list .list .active-selection {
-      background-color: #aaf; }
+.rima-users-list .list {
+  margin: 5px;
+  font-size: 18px;
+  border: 1px solid #aaaaaa;
+  -moz-border-radius: 15px / 15px;
+  -webkit-border-radius: 15px 15px;
+  border-radius: 15px / 15px; }
+  .rima-users-list .list .active-selection {
+    background-color: #eee; }
+  .rima-users-list .list tr {
+    margin-bottom: 3px;
+    border-bottom: solid 2px #aaaaaa;
+    margin-bottom: 3px;
+    -moz-border-radius: 5px / 5px;
+    -webkit-border-radius: 5px 5px;
+    border-radius: 5px / 5px; }
+    .rima-users-list .list tr:hover {
+      cursor: pointer;
+      background-color: #cccccc; }
+  .rima-users-list .list th {
+    background-color: #aaf;
+    /*border: 1px solid black;*/
+    padding: 5px; }
+  .rima-users-list .list td {
+    /*border: 1px solid black;*/
+    padding: 5px;
+    font-size: 0.75em; }
+  .rima-users-list .list .active-selection {
+    background-color: #aaf; }
 
 .rima-users-connections path.link {
   fill: none;

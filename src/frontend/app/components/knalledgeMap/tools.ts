@@ -74,6 +74,7 @@ export class KnalledgeMapTools {
 
     //TODO: `limitedRangeCheckBoxValue` should be changed to `config.filtering.displayDistance` when we change checkBox to some NumberSLide
     public limitedRangeCheckBoxValue: boolean = false;
+    public visualizationControlsShown: boolean = true;
     private knAllEdgeRealTimeService;
     private globalEmitterServicesArray: GlobalEmitterServicesArray;
 
@@ -129,6 +130,10 @@ export class KnalledgeMapTools {
     broadcastingChanged: Function = function(path, value) {
         this.sendChange(path, value, this.broadcastingChangedEventName);
     };
+
+    hideShowVisualizationControls(){
+      this.visualizationControlsShown = !this.visualizationControlsShown;
+    }
 
     sendChange: Function = function(path, value, eventName) {
         // alert("[sendChange] " + path + ":" + value);
