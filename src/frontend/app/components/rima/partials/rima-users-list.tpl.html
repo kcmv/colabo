@@ -1,7 +1,10 @@
-<div class="rima-users-list">
-	<div class="switch" (click)="hideShowComponent()"><span class="panel-title">Map participants</span>
-		<span [hidden]="!componentShown"><i title="hide panel" class="fa fa-chevron-up" aria-hidden="true"></i></span>
-		<span [hidden]="componentShown"><i title="show panel" class="fa fa-chevron-down" aria-hidden="true"></i></span>
+<div class="rima-users-list tools-controls-group">
+	<div class="switch" (click)="hideShowComponent()">
+		<span class="panel-title">Map participants</span>
+		<span class='arrows'>
+			<span [hidden]="!componentShown"><i title="hide panel" class="fa fa-chevron-up" aria-hidden="true"></i></span>
+			<span [hidden]="componentShown"><i title="show panel" class="fa fa-chevron-down" aria-hidden="true"></i></span>
+		</span>
 	</div>
 	<div class="content" [hidden]="!componentShown">
 		<div class="btn-group">
@@ -41,4 +44,10 @@
 					</button>
 			</md-dialog-actions>
 	</md-dialog>
+
+	<md-dialog #alert>
+    <md-dialog-title>Alert</md-dialog-title>
+    {{alertMsg}}
+    <md-dialog-actions ok="Ok"></md-dialog-actions>
+  </md-dialog>
 </div>

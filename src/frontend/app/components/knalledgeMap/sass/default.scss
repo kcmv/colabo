@@ -34,6 +34,23 @@ $provideLayout: 'hide';
 	$map: layout(12 1/4 fluid float inside);
 }
 
+.tools-controls-group{
+	border: 1px solid #c0c0c0;
+	margin-top: 3px;
+	margin-right: 2px;
+	padding: 2px;
+	.panel-title{
+		font-weight: bold;
+	}
+	.arrows{
+		float:right;
+	}
+	.subgroup{
+		border-top: 1px solid #c0c0c0;
+		padding-top: 3px;
+	}
+}
+
 @if $provideLayout == 'show' {
 	@include breakpoint($small) {
 		.knalledge_map_tools{
@@ -1003,12 +1020,6 @@ CollaboFramework/Knalledge Maps
 ------------------------- */
 
 .ibis-types-list{
-	border: 1px solid #c0c0c0;
-	margin-top: 3px;
-	margin-right: 2px;
-	.panel-title{
-		font-weight: bold;
-	}
 	.list{
 		margin: 5px;
 		font-size: 18px;

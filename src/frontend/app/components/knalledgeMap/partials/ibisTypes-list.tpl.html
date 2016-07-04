@@ -1,8 +1,11 @@
-<div class="ibis-types-list">
+<div class="ibis-types-list tools-controls-group">
 	<!-- <span class="title switch" ng-click="switchClicked($item)"><b>IBIS/Kn</b></span><br/> -->
-	<div class="switch" ng-click="hideShowComponent()"><span class="panel-title">IBIS/Kn</span>
-		<span ng-hide="!componentShown"><i title="hide panel" class="fa fa-chevron-up" aria-hidden="true"></i></span>
-		<span ng-hide="componentShown"><i title="show panel" class="fa fa-chevron-down" aria-hidden="true"></i></span>
+	<div class="switch" ng-click="hideShowComponent()">
+		<span class="panel-title">IBIS/Kn</span>
+		<span class='arrows'>
+			<span ng-hide="!componentShown"><i title="hide panel" class="fa fa-chevron-up" aria-hidden="true"></i></span>
+			<span ng-hide="componentShown"><i title="show panel" class="fa fa-chevron-down" aria-hidden="true"></i></span>
+		</span>
 	</div>
 
 	<div ng-hide="!componentShown" class="content">

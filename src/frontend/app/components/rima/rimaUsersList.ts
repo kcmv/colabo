@@ -80,6 +80,7 @@ export class RimaUsersList implements OnInit{
     //
     // viewConfig:Object;
 
+    public alertMsg:string;
     public items:Array<any> = [];
     public selectedItem:any = null;
     public assignedE_mail:boolean = true;
@@ -93,6 +94,7 @@ export class RimaUsersList implements OnInit{
 
     private knAllEdgeRealTimeService;
     private rimaService;
+    private knalledgeMapVOsService;
 
     private knalledgeMapUpdateEventName:string = "knalledgeMapUpdateEvent";
 
@@ -101,7 +103,8 @@ export class RimaUsersList implements OnInit{
         // @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
         @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_,
-        @Inject('RimaService') _RimaService_
+        @Inject('RimaService') _RimaService_,
+        @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_
     ) {
         console.log('[RimaUsersList]');
         this.policyConfig = knalledgeMapPolicyService.get().config;
@@ -109,6 +112,7 @@ export class RimaUsersList implements OnInit{
 
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
         this.rimaService = _RimaService_;
+        this.knalledgeMapVOsService = _KnalledgeMapVOsService_;
         this.globalEmitterServicesArray.register(this.knalledgeMapUpdateEventName);
         // $scope.items.sort(compare);
 
@@ -152,17 +156,20 @@ export class RimaUsersList implements OnInit{
     }
 
     addParticipantQuickDialogClosed(confirm){
+      var that = this;
       var userCreated = function(user:any){
         console.log("[userCreated]: ",user);
-        //add to the map:
-        //
+        that.knalledgeMapVOsService.addParticipantToMap(user._id,function(){
+          window.alert(user.displayName + " added to the map");
+          that.selectedItem = user;
+        });
       };
       if(confirm){
         if(this.assignedE_mail){
           this.newParticipant.e_mail = this.newParticipant.displayName + '@' + this.automaticEmailDomain;
         }
         console.log("[newParticipant]",this.newParticipant);
-        this.rimaService.createWhoAmI(this.newParticipant,userCreated);
+        this.rimaService.createWhoAmI(this.newParticipant, false, true, userCreated);
       }
     }
 
