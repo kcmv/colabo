@@ -45,6 +45,10 @@ $provideLayout: 'hide';
 	.arrows{
 		float:right;
 	}
+	.subgroup{
+		border-top: 1px solid #c0c0c0;
+		padding-top: 3px;
+	}
 }
 
 @if $provideLayout == 'show' {
