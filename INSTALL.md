@@ -134,7 +134,6 @@ joe /var/www/knalledge_frontend/dist/dev/components/knalledgeMap/css/default.css
 
 stop knalledge-b
 start knalledge-b
-status knalledge-b
 restart knalledge-b
 
 ```
@@ -361,7 +360,7 @@ Precompile tools at one machine
 copy them to Sinisha's machine
 
 ## Typings
-  typings install open --ambient --save
+  typings install open --global --save
   typings install merge-stream --ambient --save
 
   typings install
@@ -465,6 +464,28 @@ sudo apt-get install -y nodejs
 ## MongoDB
 
 Default MongoDB installation should be good enough. The mongo database must be running before starting the server.
+
+# Installing mongodb server
+
+[MongoDB for OSX](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
+
+installing [brew](http://brew.sh/):
+
+```sh
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+install mongodb:
+
+```sh
+brew update
+brew install mongodb
+brew install mongodb --with-openssl
+```
+
+To have launchd start mongodb now and restart at login: `brew services start mongodb`
+
+Or, if you don't want/need a background service you can just run: `mongod --config /usr/local/etc/mongod.conf`
 
 # Running the backend
 
