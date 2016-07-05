@@ -517,6 +517,10 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 				label = "%" + type;
 			}
 			return label;
+		})
+		.on("click", function(d){
+			console.log('type clicked for node ',d.kNode.name);
+			d3.event.stopPropagation();
 		});
 	nodeHtmlUpdate.select(".rima_user")
 		.style("display", function(d){
@@ -530,7 +534,14 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 				label = "@" + user.displayName;
 			}
 			return label;
-		});
+		})
+		.on("click", function(d){
+			console.log('@creator clicked for node ',d.kNode.name);
+			d3.event.stopPropagation();
+			//this.append("div").html("users list");
+			that.upperAPI.nodeCreatorClicked(d);
+		})
+		;
 
 	if(this.mapPlugins && this.mapPlugins.mapVisualizePlugins){
 		for(var pluginName in this.mapPlugins.mapVisualizePlugins){

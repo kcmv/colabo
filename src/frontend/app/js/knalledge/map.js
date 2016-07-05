@@ -66,6 +66,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.mapManagerApi.nodeMediaClicked = function nodeMediaClicked(vkNode){
 		this.mapInteraction.nodeMediaClicked(vkNode);
 	}.bind(this);
+	this.mapManagerApi.nodeCreatorClicked	= this.nodeCreatorClicked.bind(this);
 
 	this.mapManager = new knalledge.MapManager(this.mapManagerApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService, this.injector);
 
@@ -433,6 +434,10 @@ Map.prototype.nodeDblClicked = function(vkNode) {
 	this.mapStructure.toggle(vkNode);
 	this.update(vkNode);
 };
+
+Map.prototype.nodeCreatorClicked = function(vkNode){
+	//console.log("[Map.prototype.nodeCreatorClicked]", vkNode.kNode.name);
+}
 
 // react on label click.
 Map.prototype.edgeClicked = function(vkEdge) {

@@ -1262,8 +1262,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 //     	};
 // 	}])
 
-	.directive('ibisTypesList', ["$rootScope", "$timeout"/*, "$location"*/, "IbisTypesService",
-		function($rootScope, $timeout/*, $location*/, IbisTypesService){
+	/* migrated to ng2 IbisTYpesList component
+	.directive('ibisTypesList', ["$rootScope", "$timeout", "IbisTypesService",
+		function($rootScope, $timeout, IbisTypesService){
 		console.log("[ibisTypesList] loading directive");
 		return {
 			restrict: 'AE',
@@ -1281,7 +1282,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				$scope.items = IbisTypesService.getTypes();
 
-			    $scope.selectedItem = IbisTypesService.getActiveType();
+			  $scope.selectedItem = IbisTypesService.getActiveType();
 				$scope.selectItem = function(item) {
 				    $scope.selectedItem = item;
 				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
@@ -1296,6 +1297,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
     		}
     	};
 	}])
+	*/
 
 	.directive('knalledgeMapSelectItem', ['KnAllEdgeSelectItemService', function(KnAllEdgeSelectItemService){ // mcm_map_select_sub_entity
 		return {

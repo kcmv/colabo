@@ -307,6 +307,7 @@ export class MapInteraction {
         if (this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
         if (!this.isStatusMap()) return;
 
+        // TODO: TOFIX: BUG: This will work only for a map that injects parent property in node
         if (this.clientApi.getSelectedNode().parent) {
             this.clientApi.nodeSelected(this.clientApi.getSelectedNode().parent);
         }
