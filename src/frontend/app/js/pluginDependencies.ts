@@ -10,3 +10,6 @@ var cGardeningControls = GardeningControls;
 
 import {RimaUsersList} from '../components/rima/rimaUsersList';
 var cRimaUsersList = RimaUsersList;
+
+import {IbisTypesList} from '../components/knalledgeMap/ibisTypesList';
+var cIbisTypesList = IbisTypesList;

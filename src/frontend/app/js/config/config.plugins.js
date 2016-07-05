@@ -21,6 +21,10 @@ var plugins = {
 				RimaUsersList: {
 					active: true,
 					path: "/components/rima/rimaUsersList"
+				},
+				IbisTypesList: {
+					active: true,
+					path: "/components/knalledgeMap/ibisTypesList"
 				}
 			}
 		}

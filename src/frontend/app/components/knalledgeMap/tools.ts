@@ -7,6 +7,7 @@ import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+//import {IbisTypesList} from './ibisTypesList';
 /**
  * Directive that holds CollaboFramework tools on the left side of the map
  *
@@ -24,7 +25,7 @@ var componentDirectives = [
     NgIf, FORM_DIRECTIVES,
     MdRadioButton, MdRadioGroup,
     //upgradeAdapter.upgradeNg1Component('rimaUsersList'),
-    upgradeAdapter.upgradeNg1Component('ibisTypesList')
+    // upgradeAdapter.upgradeNg1Component('ibisTypesList')
 ];
 
 declare var Config: any;
@@ -43,10 +44,20 @@ if (Config.Plugins.rima.active && PluginsPreloader.components.RimaUsersList) {
     console.warn("[KnalledgeMapTools] Not loading RimaUsersList");
 }
 
+if (PluginsPreloader.components.IbisTypesList) {
+    console.warn("[KnalledgeMapTools] Loading IbisTypesList");
+    componentDirectives.push(PluginsPreloader.components.IbisTypesList);
+} else {
+    console.warn("[KnalledgeMapTools] Not loading IbisTypesList");
+}
+
 @Component({
     selector: 'knalledge-map-tools',
     providers: [MdRadioDispatcher],
-    directives: componentDirectives,
+    directives: [
+      componentDirectives
+      //, IbisTypesList
+    ],
     styles: [`
         .msg {
             font-size: 0.5em;
