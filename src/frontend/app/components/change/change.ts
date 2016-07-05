@@ -1,4 +1,4 @@
-declare var changes;
+declare var puzzles;
 
 export const enum ChangeVisibility {
 	ALL,
@@ -164,4 +164,5 @@ export class Change {
 	};
 }
 
-if (typeof changes !== 'undefined') changes.Change = Change;
+if (typeof puzzles.changes !== 'undefined')
+	puzzles.changes.Change = Change;
