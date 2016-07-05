@@ -49,21 +49,27 @@ export class Change {
 	public valueBeforeChange: any;
 	public reference: any; //it is id or an reference to the object over which the change is done//
 	//(depending in which layer we are) to a change or other object regarding which participant has a request
-	public type: number; //coressponding to enum `Type`
+	public type: ChangeType; //coressponding to enum `Type`
 	public action: any; //may be String or enum number
-	public domain: number; //object type the change is done on; corresponding to enum Domain
+	public domain: Domain; //object type the change is done on; corresponding to enum Domain
 	public mapId: string; // id of map this object belongs to
 	public iAmId: any;	// it is iAmId or an reference ...//
 	//(depending in which layer we are) to the object creator (whoAmi/RIMA user)
-	public visibility: number; //coressponding to enum `Visibility`
+	public visibility: ChangeVisibility; //coressponding to enum `Visibility`
 	public createdAt: any; //when the object is created
 	public updatedAt: any; //when the obect is updated
 	// public dataContent: Object;
 	// public decorations: Object;
-	public phase: number; //local - coressponding to enum `Phase`
+	public phase: ChangePhase; //local - coressponding to enum `Phase`
 
 	/* THIS PROPERTY IS local-to-frontend */
-	public state: number = State.LOCAL; //state of the object, responding to some of the enum STATE
+	public state: State = State.LOCAL; //state of the object, responding to some of the enum STATE
+
+	public static changeFactory (obj){
+		var change = new Change();
+		change.fill(obj);
+		return change;
+	}
 
 	constructor(){
 		this.id = Change.MaxId++;
@@ -79,12 +85,6 @@ export class Change {
 		// this.createdAt = new Date();
 		// this.updatedAt = new Date();
 		this.phase = ChangePhase.UNDISPLAYED;
-	}
-
-	public static changeFactory (obj){
-		var change = new Change();
-		change.fill(obj);
-		return change;
 	}
 
 	// public isIbis(){
