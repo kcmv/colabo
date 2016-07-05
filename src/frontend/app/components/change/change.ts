@@ -50,6 +50,7 @@ export class Change {
 	public reference: any; //it is id or an reference to the object over which the change is done//
 	//(depending in which layer we are) to a change or other object regarding which participant has a request
 	public type: number; //coressponding to enum `Type`
+	public action: any; //may be String or enum number
 	public domain: number; //object type the change is done on; corresponding to enum Domain
 	public mapId: string; // id of map this object belongs to
 	public iAmId: any;	// it is iAmId or an reference ...//
@@ -70,6 +71,7 @@ export class Change {
 		this.valueBeforeChange = null;
 		this.reference = null;
 		this.type = ChangeType.UNDEFINED;
+		this.action = null;
 		this.domain = Domain.UNDEFINED;
 		this.mapId = null;
 		this.iAmId = null;
@@ -97,6 +99,7 @@ export class Change {
 			if("valueBeforeChange" in obj){this.valueBeforeChange = obj.valueBeforeChange;}
 			if("reference" in obj){this.reference = obj.reference;}
 			if("type" in obj){this.type = obj.type;}
+			if("action" in obj){this.action = obj.action;}
 			if("domain" in obj){this.domain = obj.domain;}
 			if("mapId" in obj){this.mapId = obj.mapId;}
 			if("iAmId" in obj){this.iAmId = obj.iAmId;}
@@ -106,7 +109,6 @@ export class Change {
 			if("phase" in obj){this.phase = obj.phase;}
 		}
 	};
-
 
 	/** when object is updated on server we override local object by server version using this function **/
 	public overrideFromServer(obj){

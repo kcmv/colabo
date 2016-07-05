@@ -37,6 +37,7 @@ var dbAuditSchema = mongoose.Schema({
 	valueBeforeChange: {type: mongoose.Schema.Types.Mixed},
 	reference: {type: mongoose.Schema.Types.ObjectId}, //reference to the object over which the change is done//
 	type: Number, //coressponding to enum `Type`
+	action: {type: mongoose.Schema.Types.Mixed}, //may be String or enum number
 	domain: Number, //object type the change is done on, corresponding to enum Domain
 	mapId: {type: mongoose.Schema.Types.ObjectId, ref: 'KMap'}, // id of map this object belongs to
 	iAmId: {type: mongoose.Schema.Types.ObjectId, ref: 'WhoAmI'}, // it is iAmId or an reference ...//

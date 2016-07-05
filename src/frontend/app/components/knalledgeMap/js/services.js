@@ -2442,7 +2442,7 @@ knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 * @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
-	$get: ['$injector', 'KnalledgeMapPolicyService', /*'$q', 'ENV', '$rootScope', */
+	$get: ['$injector', 'KnalledgeMapPolicyService', 'DbAuditService', /*'$q', 'ENV', '$rootScope', */
 
 	/**
 	* @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
@@ -2451,7 +2451,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 	 * @param  {knalledge.knalledgeMap.KnalledgeMapPolicyService} KnalledgeMapPolicyService - Service that configures policy aspects of the KnAllEdge system
 	 */
 
-	function($injector, KnalledgeMapPolicyService/*$q , ENV, $rootScope*/) {
+	function($injector, KnalledgeMapPolicyService, DbAuditService /*$q , ENV, $rootScope*/) {
 
 		try{
 			var TopiChatService = $injector.get('TopiChatService');
@@ -2526,14 +2526,18 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				var structuralChanges = {'node-created':1,'node-updated':1,'node-deleted':1,'nodes-deleted':1,'edge-created':1,'edge-updated':1,'edge-deleted':1,'edges-deleted':1,};
 				if(direction == 'in'){
 					switch(eventName){
+						//navigationalChanges:
 						case "node-selected":
 						case "node-unselected":
 						case "node-clicked":
 							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation;
 							break;
+
 						case "view-config-change":
 							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveVisualization;
 							break;
+
+						//structuralChanges:
 						case "node-created":
 						case "node-updated":
 						case "node-deleted":
@@ -2544,6 +2548,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 						case "edges-deleted":
 							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveStructural;
 							break;
+
 						case "map-behaviour-change":
 							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveBehaviours;
 					}
