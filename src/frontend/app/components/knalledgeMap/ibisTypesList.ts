@@ -23,27 +23,28 @@ import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
     `]
 })
 export class IbisTypesList {
-    constructor(
-      @Inject('IbisTypesService') _IbisTypesService_
-    ) {
-        // console.log('[IbisTypesList]');
-        this.ibisTypesService = _IbisTypesService_;
+  public items:Array<any> = [];
+  public selectedItem:any = null;
+  private componentShown:boolean = true;
+  private ibisTypesService;
 
-        this.items = this.ibisTypesService.getTypes();
-        this.selectedItem = this.ibisTypesService.getActiveType();
-    }
 
-    public items:Array<any> = [];
-    public selectedItem:any = null;
-    private componentShown:boolean = true;
-    private ibisTypesService;
+  constructor(
+    @Inject('IbisTypesService') _IbisTypesService_
+  ) {
+      // console.log('[IbisTypesList]');
+      this.ibisTypesService = _IbisTypesService_;
 
-    selectItem (item) {
-      this.selectedItem = item;
-      this.ibisTypesService.selectActiveType(item);
-    }
+      this.items = this.ibisTypesService.getTypes();
+      this.selectedItem = this.ibisTypesService.getActiveType();
+  }
 
-    hideShowComponent (){
-      this.componentShown = !this.componentShown;
-    }
+  selectItem (item) {
+    this.selectedItem = item;
+    this.ibisTypesService.selectActiveType(item);
+  }
+
+  hideShowComponent (){
+    this.componentShown = !this.componentShown;
+  }
 }
