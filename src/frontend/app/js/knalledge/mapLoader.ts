@@ -89,59 +89,59 @@ export class MapLoader {
      * @return {boolean}
      */
     checkData(data){
-        if(!model) return false;
-        if(!('map' in model)){
-            console.warn("[directive:knalledgeMap:checkData] strange data: ", data);
-            return false;
-        };
-        return true;
+        // if(!model) return false;
+        // if(!('map' in model)){
+        //     console.warn("[directive:knalledgeMap:checkData] strange data: ", data);
+        //     return false;
+        // };
+        // return true;
     }
 
     setData(model){
-        if(!checkData(model)) return;
-        var selectedKNodeId = null;
-        if($routeParams.node_id) selectedKNodeId = $routeParams.node_id;
-        if($scope.mapData && $scope.mapData.selectedNode){
-            selectedKNodeId = $scope.mapData.selectedNode;
-        }
-
-        var knalledgeMap = new knalledge.Map(
-            d3.select($element.find(".knalledge_map_container").get(0)),
-            config, kMapClientInterface, null,
-                config.tree.mapService.enabled ? KnalledgeMapVOsService : null,
-                // if $scope.mapData is set, we do not use
-                // KnalledgeMapVOsService.mapStructure,
-                // but let knalledge.Map to create a new mapStructure and build VKs from Ks
-                checkData($scope.mapData) ? null :
-                    KnalledgeMapVOsService.mapStructure,
-                CollaboPluginsService, RimaService,
-                IbisTypesService, NotifyService, mapPlugins,
-                KnalledgeMapViewService, SyncingService,
-                KnAllEdgeRealTimeService,
-                KnalledgeMapPolicyService, injector, Plugins);
-        knalledgeMap.init();
-
-        knalledgeMap.processData(model, selectedKNodeId, function(){
-            // we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
-            // TODO: we need to avoid this and reduce map processing
-            // knalledgeMap.update();
-            // if(
-            // 	($scope.mapData && $scope.mapData.selectedNode)
-            // 	|| $routeParams.node_id){
-            // 	var vkNode = knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
-            // 	knalledgeMap.mapLayout.selectNode(vkNode, null, true, true, true);
-            // }
-        });
+        // if(!checkData(model)) return;
+        // var selectedKNodeId = null;
+        // if($routeParams.node_id) selectedKNodeId = $routeParams.node_id;
+        // if($scope.mapData && $scope.mapData.selectedNode){
+        //     selectedKNodeId = $scope.mapData.selectedNode;
+        // }
+        //
+        // var knalledgeMap = new knalledge.Map(
+        //     d3.select($element.find(".knalledge_map_container").get(0)),
+        //     config, kMapClientInterface, null,
+        //         config.tree.mapService.enabled ? KnalledgeMapVOsService : null,
+        //         // if $scope.mapData is set, we do not use
+        //         // KnalledgeMapVOsService.mapStructure,
+        //         // but let knalledge.Map to create a new mapStructure and build VKs from Ks
+        //         checkData($scope.mapData) ? null :
+        //             KnalledgeMapVOsService.mapStructure,
+        //         CollaboPluginsService, RimaService,
+        //         IbisTypesService, NotifyService, mapPlugins,
+        //         KnalledgeMapViewService, SyncingService,
+        //         KnAllEdgeRealTimeService,
+        //         KnalledgeMapPolicyService, injector, Plugins);
+        // knalledgeMap.init();
+        //
+        // knalledgeMap.processData(model, selectedKNodeId, function(){
+        //     // we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
+        //     // TODO: we need to avoid this and reduce map processing
+        //     // knalledgeMap.update();
+        //     // if(
+        //     // 	($scope.mapData && $scope.mapData.selectedNode)
+        //     // 	|| $routeParams.node_id){
+        //     // 	var vkNode = knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
+        //     // 	knalledgeMap.mapLayout.selectNode(vkNode, null, true, true, true);
+        //     // }
+        // });
     };
 
     delayedFunc(){
-        this.init();
-        if(this.checkData(model)){
-            // console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
-            this.setData($scope.mapData);
-        }else{
-            this.loadMapWithId($routeParams.id);
-        }
+        // this.init();
+        // if(this.checkData(model)){
+        //     // console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
+        //     this.setData($scope.mapData);
+        // }else{
+        //     this.loadMapWithId($routeParams.id);
+        // }
     };
 }
 
