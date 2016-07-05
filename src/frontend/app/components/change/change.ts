@@ -62,6 +62,7 @@ export class Change {
 	// public dataContent: Object;
 	// public decorations: Object;
 	public phase: ChangePhase; //local - coressponding to enum `Phase`
+	public session: string = null;
 
 	/* THIS PROPERTY IS local-to-frontend */
 	public state: State = State.LOCAL; //state of the object, responding to some of the enum STATE
@@ -110,6 +111,7 @@ export class Change {
 			if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
 			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 			if("phase" in obj){this.phase = obj.phase;}
+			if("session" in obj){this.session = obj.session;}
 		}
 	};
 

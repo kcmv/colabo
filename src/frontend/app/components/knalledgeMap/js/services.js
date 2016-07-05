@@ -365,6 +365,20 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 			return this.updatePlain({searchParam:id, type:'one', actionType:actionType}, kNodeForServer, function(nodeFromServer){
 				// realtime distribution
 				if(KnAllEdgeRealTimeService){
+
+					// var change = new change.Change();
+					// change.value = nodeFromServer;
+					// change.valueBeforeChange = nodeFromServer;
+					// change.reference = nodeFromServer._id;
+					// change.type = puzzles.changes.ChangeType.STRUCTURAL;
+					// change.action = actionType;
+					// change.domain = puzzles.changes.Domain.NODE;
+					// //TODO:
+					// // change.mapId = null;
+					// // change.iAmId = null;
+					// change.visibility = ChangeVisibility.ALL;
+					// change.phase = ChangePhase.UNDISPLAYED;
+
 					var emitObject = {
 						id: nodeFromServer._id,
 						actionType: actionType,
@@ -384,13 +398,26 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 				function(nodeFromServer){
 					// realtime distribution
 					if(KnAllEdgeRealTimeService){
+						var change = new puzzles.changes.Change();
+						change.value = kNodeForServer;
+						change.valueBeforeChange = nodeFromServer; //TODO
+						change.reference = nodeFromServer._id;
+						change.type = puzzles.changes.ChangeType.STRUCTURAL;
+						change.action = actionType;
+						change.domain = puzzles.changes.Domain.NODE;
+						//TODO:
+						// change.mapId = null;
+						// change.iAmId = null;
+						change.visibility = ChangeVisibility.ALL;
+						change.phase = ChangePhase.UNDISPLAYED;
+
 						var emitObject = {
 							id: nodeFromServer._id,
 							actionType: actionType,
 							data: nodeFromServer,
 							actionTime: nodeFromServer.updatedAt
 						}
-						KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, emitObject);
+						KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, change);
 					}
 					if(callback){callback(nodeFromServer);}
 				}
@@ -2583,6 +2610,11 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			 */
 			emit: function(eventName, msg){
 				console.log('[KnAllEdgeRealTimeService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));
+
+				if(typeof msg === 'puzzles.changes.Change'){
+					DbAuditService.sendChange(change);
+				}
+
 				var knPackage = {
 					eventName: eventName,
 					msg: msg,
@@ -2596,9 +2628,6 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					if(TopiChatService) TopiChatService.emit('kn:realtime', knPackage);
 					return this;
 				}
-
-				// var change = new change.Change();
-				// DbAuditService.sendChange(change);
 			},
 
 			/**

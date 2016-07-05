@@ -47,6 +47,7 @@ var dbAuditSchema = mongoose.Schema({
 	// dataContent: Object,
 	// decorations: Object,
 	// phase: Number, //coressponding to enum `ChangePhase`
+	session: String
 });
 
 
