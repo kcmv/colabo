@@ -50,7 +50,8 @@ export class Change {
 	public reference: any; //it is id or an reference to the object over which the change is done//
 	//(depending in which layer we are) to a change or other object regarding which participant has a request
 	public type: ChangeType; //coressponding to enum `Type`
-	public action: any; //may be String or enum number
+	public event: any; //event is on higher level; may be String or enum number
+	public action: any; //action is on lower level, depicting the change event; may be String or enum number
 	public domain: Domain; //object type the change is done on; corresponding to enum Domain
 	public mapId: string; // id of map this object belongs to
 	public iAmId: any;	// it is iAmId or an reference ...//
@@ -77,6 +78,7 @@ export class Change {
 		this.valueBeforeChange = null;
 		this.reference = null;
 		this.type = ChangeType.UNDEFINED;
+		this.event = null;
 		this.action = null;
 		this.domain = Domain.UNDEFINED;
 		this.mapId = null;
@@ -99,6 +101,7 @@ export class Change {
 			if("valueBeforeChange" in obj){this.valueBeforeChange = obj.valueBeforeChange;}
 			if("reference" in obj){this.reference = obj.reference;}
 			if("type" in obj){this.type = obj.type;}
+			if("event" in obj){this.event = obj.event;}
 			if("action" in obj){this.action = obj.action;}
 			if("domain" in obj){this.domain = obj.domain;}
 			if("mapId" in obj){this.mapId = obj.mapId;}

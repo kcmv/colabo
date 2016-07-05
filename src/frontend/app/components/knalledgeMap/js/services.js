@@ -2596,6 +2596,9 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					if(TopiChatService) TopiChatService.emit('kn:realtime', knPackage);
 					return this;
 				}
+
+				// var change = new change.Change();
+				// DbAuditService.sendChange(change);
 			},
 
 			/**
@@ -2951,6 +2954,10 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 	resource.check = function(request){
 		return true;
 	};
+
+	resource.sendChange = function(change){
+		resource.create(change).$promise.then(function(changeFromServer){console.log('changeFromServer: ',changeFromServer);});
+	}
 
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
 
