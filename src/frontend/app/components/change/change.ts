@@ -1,4 +1,4 @@
-declare var change;
+declare var changes;
 
 export const enum ChangeVisibility {
 	ALL,
@@ -164,4 +164,4 @@ export class Change {
 	};
 }
 
-if (typeof change !== 'undefined') change.Change = Change;
+if (typeof changes !== 'undefined') changes.Change = Change;

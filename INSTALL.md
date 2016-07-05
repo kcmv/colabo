@@ -497,7 +497,6 @@ sudo gem install susy
 sudo gem install breakpoint
 sudo gem install normalize-scss
 sudo gem install font-awesome-sass -v 4.3.2.1
-
 ```
 
 if different version is installed you can uninstall it with:
