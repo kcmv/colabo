@@ -110,6 +110,7 @@ upgradeAdapter.upgradeNg1Provider('RequestService');
 upgradeAdapter.upgradeNg1Provider('ApprovalNodeService');
 upgradeAdapter.upgradeNg1Provider('SuggestionService');
 upgradeAdapter.upgradeNg1Provider('ChangeService');
+upgradeAdapter.upgradeNg1Provider('IbisTypesService');
 
 // upgradeAdapter.addProvider(GlobalEmitterService);
 // upgradeAdapter.upgradeNg1Provider(GlobalEmitterService);
