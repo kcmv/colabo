@@ -487,6 +487,24 @@ To have launchd start mongodb now and restart at login: `brew services start mon
 
 Or, if you don't want/need a background service you can just run: `mongod --config /usr/local/etc/mongod.conf`
 
+## Installing SASS support
+
+```sh
+ruby -v
+sudo gem install sass
+sudo gem install compass
+sudo gem install susy
+sudo gem install breakpoint
+sudo gem install normalize-scss
+sudo gem install font-awesome-sass -v 4.3.2.1
+
+```
+
+if different version is installed you can uninstall it with:
+```sh
+sudo gem uninstall font-awesome-sass -v 4.6.2
+```
+
 # Running the backend
 
 When you want to run the server you need to run specific ```package.json``` command: start. You do it by running:
