@@ -187,6 +187,7 @@ const SUB_PROJECTS_FILES = {
             { src: join(APP_DEST, 'js/knalledge/map.js'), inject: true, noNorm: true },
 
             // COMPONENTS
+            { src: join(APP_DEST, 'components/puzzles.js'), inject: true, noNorm: true },
 
             { src: join(APP_DEST, 'js/mcm/mcm.js'), inject: true, noNorm: true },
             { src: join(APP_DEST, 'js/mcm/mcm.js'), inject: true, noNorm: true },
@@ -208,6 +209,7 @@ const SUB_PROJECTS_FILES = {
             { src: join(APP_DEST, 'components/topiChat/js/services.js'), inject: true, noNorm: true },
             { src: join(APP_DEST, 'components/request/services.js'), inject: true, noNorm: true },
             { src: join(APP_DEST, 'components/suggestion/services.js'), inject: true, noNorm: true },
+            { src: join(APP_DEST, 'components/change/changes.js'), inject: true, noNorm: true },
             { src: join(APP_DEST, 'components/change/services.js'), inject: true, noNorm: true },
             { src: join(APP_DEST, 'components/login/js/directives.js'), inject: true, noNorm: true },
             { src: join(APP_DEST, 'components/login/js/services.js'), inject: true, noNorm: true },
