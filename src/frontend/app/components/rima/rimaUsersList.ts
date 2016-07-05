@@ -160,7 +160,7 @@ export class RimaUsersList implements OnInit{
       var userCreated = function(user:any){
         console.log("[userCreated]: ",user);
         that.knalledgeMapVOsService.addParticipantToMap(user._id,function(){
-          window.alert(user.displayName + " added to the map");
+          //window.alert(user.displayName + " added to the map");
           that.selectedItem = user;
         });
       };

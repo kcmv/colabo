@@ -2663,6 +2663,296 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 })
 ;
 
+
+/**
+* @class DbAuditService
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
+*/
+/**
+* The knalledge service for dealing with KMap entities and saving them to the server
+* @class KnalledgeMapService
+* @memberof knalledge.knalledgeMap.knalledgeMapServices
+*/
+knalledgeMapServices.factory('DbAuditService', ['$resource', '$q', 'ENV', 'KnalledgeMapQueue',
+/**
+* @memberof knalledge.knalledgeMap.knalledgeMapServices.DbAuditService
+* @constructor
+* @param  {Ng1Service} KnalledgeMapQueue - service responsible for queuing requests to the server
+* @param  {Ng1Constant} ENV              - system environment config
+*/
+function($resource, $q, ENV, KnalledgeMapQueue){
+	console.log("[DbAuditService] server backend: %s", ENV.server.backend);
+	// creationId is parameter that will be replaced with real value during the service call from controller
+	var url = ENV.server.backend + '/dbAudits/:type/:searchParam.json';
+	var resource = $resource(url, {}, {
+		// extending the query action
+		// method has to be defined
+		// we are setting creationId as a pre-bound parameter. in that way url for the query action is equal to: data/creations/creations.json
+		// we also need to set isArray to true, since that is the main difference with get action that also uses GET method
+		getPlain: {method:'GET', params:{type:'one', searchParam:''}, isArray:false,
+			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
+			var serverResponse;
+			if(ENV.server.parseResponse){
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				// console.log("[DbAuditService] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[DbAuditService] accessId: %s", serverResponse.accessId);
+				return serverResponse.data;//TODO: data[0];
+			}else{
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				return serverResponse;
+			}
+		}},
+
+		queryPlain: {method:'GET', params:{type:'', searchParam:''}, isArray:true,
+			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
+			var serverResponse;
+			if(ENV.server.parseResponse){
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				console.log("[DbAuditService] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[DbAuditService] accessId: %s", serverResponse.accessId);
+				return serverResponse.data;
+			}else{
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				return serverResponse;
+			}
+		}},
+
+		createPlain: {method:'POST', params:{}/*{type:'', searchParam: '', extension:""}*/,
+			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
+			var serverResponse;
+			if(ENV.server.parseResponse){
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				//console.log("[DbAuditService] serverResponse: %s", JSON.stringify(serverResponse));
+				console.log("[ng-DbAuditService::createPlain] accessId: %s", serverResponse.accessId);
+				var data = serverResponse.data;
+				console.log("ng-[DbAuditService::createPlain] data: %s", JSON.stringify(data));
+				return data;
+			}else{
+				//console.log("ENV.server.parseResponse = false");
+				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+				serverResponse = JSON.parse(serverResponseNonParsed);
+				return serverResponse;
+			}
+		}},
+
+		updatePlain: {method:'PUT', params:{type:'one', searchParam:''},
+			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
+				var serverResponse;
+				if(ENV.server.parseResponse){
+					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+					serverResponse = JSON.parse(serverResponseNonParsed);
+					//console.log("[DbAuditService] serverResponse: %s", JSON.stringify(serverResponse));
+					console.log("[DbAuditService:create] accessId: %s", serverResponse.accessId);
+					var data = serverResponse.data;
+					return data;
+				}else{
+					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+					serverResponse = JSON.parse(serverResponseNonParsed);
+					return serverResponse;
+				}
+			}
+		},
+
+		destroyPlain: {method:'DELETE', params:{type:'one'},
+			transformResponse: function(serverResponseNonParsed/*, headersGetter*/){
+				var serverResponse;
+				if(ENV.server.parseResponse){
+					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+					serverResponse = JSON.parse(serverResponseNonParsed);
+					//console.log("[DbAuditService] serverResponse: %s", JSON.stringify(serverResponse));
+					console.log("[DbAuditService:create] accessId: %s", serverResponse.accessId);
+					var data = serverResponse.data;
+					return data;
+				}else{
+					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
+					serverResponse = JSON.parse(serverResponseNonParsed);
+					return serverResponse;
+				}
+			}
+		}
+	});
+
+	resource.RESOURCE_TYPE = 'Change';
+	// resource.map = null;
+
+	/**
+	 * Loads change object (Change) by id
+	 * @param  {string}   id       - change id
+	 * @param  {Function} callback - called after change object is loaded
+	 * @return {Change}
+	 */
+	resource.getById = function(id, callback)
+	{
+		// TODO: we need to fix promise so returned change object will be of the
+		// Change type rather than the angular Resource type
+		var that = this;
+		var change = this.getPlain({ searchParam:id, type:'one' }, function(changeFromServer){
+			changeFromServer = change.Change.changeFactory(changeFromServer);
+			changeFromServer.state = change.Change.STATE_SYNCED;
+			//that.change = changeFromServer;
+			if(callback) callback(changeFromServer);
+
+			return changeFromServer;
+		});
+
+		return change;
+	};
+
+	resource.query = function(callback)
+	{
+		console.log('query');
+		var changes = this.queryPlain({type:'all' }, function(changesFromServer){
+			for(var id=0; id<changesFromServer.length; id++){
+				var change = change.Change.changeFactory(changesFromServer[id]);
+				change.state = change.Change.STATE_SYNCED;
+				changesFromServer[id] = change;
+			}
+
+			if(callback) callback(changesFromServer);
+		});
+		// for(var i in changes){
+		// 	//TODO fix changes.state, etc
+		// }
+		return changes;
+	};
+
+	resource.queryByType = function(changeType, callback)
+	{
+		console.log('query');
+		var changes = this.queryPlain({type:'by-type', searchParam: changeType}, function(changesFromServer){
+			for(var id=0; id<changesFromServer.length; id++){
+				var change = change.Change.changeFactory(changesFromServer[id]);
+				change.state = change.Change.STATE_SYNCED;
+				changesFromServer[id] = change;
+			}
+
+			if(callback) callback(changesFromServer);
+		});
+		// for(var i in changes){
+		// 	//TODO fix changes.state, etc
+		// }
+		return changes;
+	};
+
+	resource.queryByParticipant = function(participantId, callback){
+		console.log("[queryByParticipant] participantId:", participantId);
+		var changes = this.queryPlain({type:'by-participant', searchParam: participantId}, function(changesFromServer){
+			for(var id=0; id<changesFromServer.length; id++){
+				var change = change.Change.changeFactory(changesFromServer[id]);
+				change.state = change.Change.STATE_SYNCED;
+				changesFromServer[id] = change;
+			}
+
+			if(callback) callback(changesFromServer);
+		});
+		// for(var i in changes){
+		// 	//TODO fix changes.state, etc
+		// }
+		return changes;
+	};
+
+	resource.create = function(change, callback)
+	{
+		console.log("resource.create");
+
+		if(QUEUE){
+			change.$promise = null;
+			change.$resolved = false;
+
+			change.$promise = $q(function(resolve, reject) {
+				KnalledgeMapQueue.execute({data: change, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
+			});
+		}
+		else{
+			var changeForServer = change.toServerCopy();
+			//we return change:change, because 'change' is of type 'Resource'
+			var change = this.createPlain({}, changeForServer, function(changeFromServer){
+				change.$resolved = change.$resolved;
+				change.overrideFromServer(changeFromServer);
+				if(callback) callback(change);
+			});
+
+			//createPlain manages promises for its returning value, in our case 'change', so we need to  set its promise to the value we return
+			change.$promise = change.$promise;
+			change.$resolved = change.$resolved;
+
+			if(change.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
+				change.overrideFromServer(change);
+			}
+		}
+		//we return this value to caller as a dirty one, and then set its value to changeFromServer when upper callback is called
+		//TODO: a problem may occur if promise is resolved BEFORE callback is called
+		return change;
+	};
+
+	resource.update = function(change, callback)
+	{
+		console.log("resource.update");
+		if(change.state == change.Change.STATE_LOCAL){//TODO: fix it by going throgh queue
+			window.alert("Please, wait while entity is being saved, before updating it:\n"+change.name);
+			return null;
+		}
+		var id = change._id;
+		var changeForServer = change.toServerCopy(); //TODO: move it to transformRequest ?
+		if(QUEUE && false){
+			KnalledgeMapQueue.execute({data: change, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"});
+			return this.updatePlain({searchParam:id, type:'one'}, changeForServer, callback); //TODO: does it return change so we should fix it like in create?
+		}
+		else{
+			return this.updatePlain({searchParam:id, type:'one'}, changeForServer, callback); //TODO: does it return change so we should fix it like in create?
+		}
+	};
+
+	resource.destroy = function(id, callback)
+	{
+		return this.destroyPlain({searchParam:id, type:'one'}, callback);
+	};
+
+	resource.execute = function(request){ //example:: request = {data: change, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
+		// var change;
+		switch(request.method){
+		case 'create':
+			//window.alert('create skipped ;)'); break;
+			var changeForServer = request.data.toServerCopy();
+			var changeReturn = request.data;
+			var callback = request.callback;
+
+			var change = resource.createPlain({}, changeForServer, function(changeFromServer){
+				changeReturn.$resolved = change.$resolved;
+				changeReturn.overrideFromServer(changeFromServer);
+				request.processing.RESOLVE(changeReturn);//changeReturn.resolve()
+				if(callback) callback(changeReturn);
+				KnalledgeMapQueue.executed(request);
+			});
+
+			//createPlain manages promises for its returning value, in our case 'change', so we need to  set its promise to the value we return
+			changeReturn.$promise = change.$promise;
+			changeReturn.$resolved = change.$resolved;
+
+			if(change.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
+				changeReturn.overrideFromServer(change);
+			}
+			break;
+		case 'update':
+			//this.update;
+			break;
+		}
+	};
+
+	/* checks if request can be sent to server */
+	resource.check = function(request){
+		return true;
+	};
+
+	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});
+
+	return resource;
+}]);
+
+
 // /** RIGHT NEO INTEGRATED IN `KnAllEdgeRealTimeService`. To see if we want an independent service
 // * @class RequestsService
 // * @memberof knalledge.knalledgeMap.knalledgeMapServices
