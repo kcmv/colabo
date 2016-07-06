@@ -147,7 +147,7 @@ export class KnalledgeMapMain {
         }
     }
 
-    turnOffEditingNode(){
+    turnOffEditingNode(event){
       this.viewConfig.states.editingNode = null;
     }
 

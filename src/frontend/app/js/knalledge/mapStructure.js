@@ -723,7 +723,7 @@ MapStructure.prototype.updateName = function(vkNode, newName){
  * @param {string} updateType - type of the update
  * @return {knalledge.MapStructure}
  */
-MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
+MapStructure.prototype.updateNode = function(vkNode, updateType, change, callback) {
 	var activeUserId = this.rimaService ?
 		this.rimaService.getActiveUserId() :
 		this.Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
@@ -754,6 +754,9 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 			patch = {dataContent:{ibis:{votes:{}}}};
 			patch.dataContent.ibis.votes[iAmId] = change;
 		break;
+		case MapStructure.UPDATE_NODE_TYPE:
+			patch = {type:change};
+		break;
 		case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING:
 			patch = {dataContent:{rima:{whats:{'_id':change}}}};
 			//'dataContent.rima.whats'
@@ -773,7 +776,7 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 	// calling the KnalledgeMapVOsService service
 	// to update the node on the server
 	// if patch === null, then we're doing complete update and not an differential one (patching)
-	this.mapService.updateNode(vkNode.kNode, updateType, patch);
+	this.mapService.updateNode(vkNode.kNode, updateType, patch, callback);
 
 	return this;
 };

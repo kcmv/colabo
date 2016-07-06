@@ -131,7 +131,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
 	this.knalledgeNodeTypeChanged = "knalledgeNodeTypeChanged";
 	this.GlobalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
-	this.GlobalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('Map', this.nodeTypeChanged);
+	this.GlobalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('Map', this.nodeTypeChanged.bind(this));
 
 	this.mapInteraction = new MapInteraction(mapInterface, this.mapPlugins);
 	this.mapInteraction.init();
@@ -301,12 +301,13 @@ Map.prototype.nodeSelected = function(nodeIdentifier) {
 	}
 };
 
-Map.prototype.nodeTypeChanged = function(node, type){
-	//node.kNode.type = type;
-	this.mapStructure.updateNode(node, knalledge.MapStructure.UPDATE_NODE_TYPE, type);
-	//and callback?
-	this.update(node);
-}
+Map.prototype.nodeTypeChanged = function(change){
+	var that = this;
+	this.mapStructure.updateNode(change.node, knalledge.MapStructure.UPDATE_NODE_TYPE, change.type, function(node){
+			//that.knalledgeMapViewService.provider.config.states.editingNode = null;
+			that.update(node);
+	});
+};
 
 /**
  * Internal source of the interaction event

@@ -45,9 +45,9 @@ export class IbisTypesList {
       this.selectedItem = this.ibisTypesService.getActiveType();
       this.viewConfig = knalledgeMapViewService.get().config;
       this.globalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
-      this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('IbisTypesList', function(vkNode,type) {
-          console.log("knalledgeNodeTypeChanged: ", vkNode.kNode.name, type);
-      });
+      // this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('IbisTypesList', function(vkNode,type) {
+      //     console.log("knalledgeNodeTypeChanged: ", vkNode.kNode.name, type);
+      // });
   }
 
   selectItem (item) {
