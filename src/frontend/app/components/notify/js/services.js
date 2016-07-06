@@ -86,7 +86,7 @@ notifyServices.provider('NotifyService', {
 				var notifications = WhoAmIService.getByIds(usersIds,
 					function(notificationsFromServer){
 						that.notifications = notificationsFromServer;
-						//that.activeUser = (that.notifications && that.notifications.length) ? that.notifications[0] : null; //TODO: set it to logged-in user
+						//that.setActiveUser((that.notifications && that.notifications.length) ? that.notifications[0] : null); //TODO: set it to logged-in user
 						if(callback){callback();}
 					});
 				return notifications;

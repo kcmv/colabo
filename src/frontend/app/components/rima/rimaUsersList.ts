@@ -147,7 +147,7 @@ export class RimaUsersList implements OnInit{
       //console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
       if(this.policyConfig.moderating.enabled){
         this.selectedItem = item;
-        this.rimaService.selectActiveUser(item);
+        this.rimaService.setActiveUser(item);
       }
     }
 

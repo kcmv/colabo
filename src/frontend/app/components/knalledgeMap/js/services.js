@@ -400,23 +400,24 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 					if(KnAllEdgeRealTimeService){
 						var change = new puzzles.changes.Change();
 						change.value = kNodeForServer;
-						change.valueBeforeChange = nodeFromServer; //TODO
+						change.valueBeforeChange = null; //TODO
 						change.reference = nodeFromServer._id;
 						change.type = puzzles.changes.ChangeType.STRUCTURAL;
+						change.event = KnRealTimeNodeUpdatedEventName;
 						change.action = actionType;
 						change.domain = puzzles.changes.Domain.NODE;
 						//TODO:
 						// change.mapId = null;
 						// change.iAmId = null;
-						change.visibility = ChangeVisibility.ALL;
-						change.phase = ChangePhase.UNDISPLAYED;
+						change.visibility = puzzles.changes.ChangeVisibility.ALL;
+						change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
 
-						var emitObject = {
-							id: nodeFromServer._id,
-							actionType: actionType,
-							data: nodeFromServer,
-							actionTime: nodeFromServer.updatedAt
-						}
+						// var emitObject = {
+						// 	id: nodeFromServer._id,
+						// 	actionType: actionType,
+						// 	data: nodeFromServer,
+						// 	actionTime: nodeFromServer.updatedAt
+						// }
 						KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, change);
 					}
 					if(callback){callback(nodeFromServer);}
@@ -957,22 +958,23 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 						changes.nodes.push({node:kNode,	actionType: null});
 					break;
 					case KnRealTimeNodeUpdatedEventName:
+						var change = msg; //puzzles.changes.Change
 							// var msg = {
 							// 	id: nodeFromServer._id,
 							// 	actionType: actionType,
 							// 	data: nodeFromServer,
 							// 	actionTime: nodeFromServer.updatedAt
 							// }
-						var kNode = this.nodesById[msg.id];
+						var kNode = this.nodesById[change.reference];
 						if(typeof kNode === 'undefined'){
 							console.error("externalChangesInMap:Node update received for a node that we don't have");
-							this.nodesById[msg._id] = knalledge.KNode.nodeFactory(msg.data);
+							this.nodesById[change.reference] = knalledge.KNode.nodeFactory(change.value);
 						}
 
 						//`actionType` is a differential, and under `else` we cover thost that work over all object:
-						switch (msg.actionType) {
+						switch (change.action) {
 							case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING:
-								var whatId = msg.data.dataContent.rima.whats._id;
+								var whatId = change.value.dataContent.rima.whats._id;
 								//console.log('whatId: ', whatId);
 								var whats = kNode.dataContent.rima.whats;
 								for(var i=0; i<whats.length; i++){
@@ -982,26 +984,26 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 								}
 							break;
 							default:
-								if(this.differentialActions[msg.actionType]){
-									//delete msg.data.
-									deepAssign(kNode, msg.data); //patching
-									kNode.updatedAt = Date(msg.actionTime); //tiempo existe en msg.data tambien, pero los ambos son de tipo 'string'
+								if(this.differentialActions[change.action]){
+									//delete change.data.
+									deepAssign(kNode, change.value); //patching
+									kNode.updatedAt = Date(msg.updatedAt); //tiempo existe en change.value tambien, pero los ambos son de tipo 'string'
 								}
 								else{
-									kNode.fill(msg.data);
+									kNode.fill(change.value);
 								}
 						}
 
-						if(msg.actionType === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING || msg.actionType === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING){
+						if(change.action === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING || change.action === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING){
 							var rimaWhatsChangedEvent = "rimaWhatsChangedEvent";
 							GlobalEmitterServicesArray.register(rimaWhatsChangedEvent);
-							GlobalEmitterServicesArray.get(rimaWhatsChangedEvent).broadcast('mapService', {node:kNode, actionType:msg.actionType, change:msg.data});
+							GlobalEmitterServicesArray.get(rimaWhatsChangedEvent).broadcast('mapService', {node:kNode, actionType:change.action, change:change.value});
 						}
 
 						kNode.state = knalledge.KNode.STATE_SYNCED;
 						var eventName = KnRealTimeNodeUpdatedEventName + ToVisualMsg;
 						//changes.nodes.push(kNode);
-						changes.nodes.push({node:kNode,	actionType: msg.actionType});
+						changes.nodes.push({node:kNode,	actionType: change.action});
 					break;
 					case KnRealTimeNodeDeletedEventName:
 						if(this.nodesById.hasOwnProperty(msg._id)){
@@ -1402,7 +1404,10 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 				if(typeof kMap !== 'undefined'){
 					this.map = kMap;
 					this.rootNodeId = kMap.rootNodeId;
-					if(KnAllEdgeRealTimeService) KnAllEdgeRealTimeService.setSessionId('mapId', this.map._id);
+					if(KnAllEdgeRealTimeService){
+						KnAllEdgeRealTimeService.setSessionId('mapId', this.map._id);
+						KnAllEdgeRealTimeService.setMapId(this.map._id);
+					}
 				}
 				/**
 				 * Map data
@@ -2505,6 +2510,8 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			eventsByPlugins: {},
 
 			whoAmI: null,
+			mapId: null,
+			activeUser: null,
 
 			setSessionId: function(part, value){
 				switch(part){
@@ -2512,6 +2519,10 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 							this.sessionId = 'mapId:'+value;
 							break;
 				}
+			},
+
+			setMapId: function(id){
+				this.mapId = id;
 			},
 
 			/**
@@ -2611,16 +2622,29 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			emit: function(eventName, msg){
 				console.log('[KnAllEdgeRealTimeService:emit] eventName: %s, msg:%s', eventName, JSON.stringify(msg));
 
-				if(typeof msg === 'puzzles.changes.Change'){
-					DbAuditService.sendChange(change);
-				}
+				if(msg instanceof puzzles.changes.Change){
+					msg.iAmId = this.activeUser ? this.activeUser._id : null;
+					msg.sender = this.whoAmI ? this.whoAmI._id : null;
+					msg.mapId = this.mapId;
+					msg.sessionId = this.sessionId;
 
-				var knPackage = {
-					eventName: eventName,
-					msg: msg,
-					sessionId: this.sessionId,
-					sender: this.whoAmI ? this.whoAmI._id : 'undefined'
-				};
+					// id->reference
+					// actionType -> action
+					// data -> value
+					// actionTime -> updatedAt
+
+					var knPackage = msg;
+
+					DbAuditService.sendChange(msg);
+				}
+				else{
+					var knPackage = {
+						eventName: eventName,
+						msg: msg,
+						sessionId: this.sessionId,
+						sender: this.whoAmI ? this.whoAmI._id : null
+					};
+				}
 
 				if(this.filterBroadcasting('out',eventName)){
 					// socket.emit('tc:chat-message', msg);
@@ -2658,6 +2682,10 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				}
 			},
 
+			setActiveUser: function(user){
+				this.activeUser = user;
+			},
+
 			/**
 			 *called by TopiChatService when a broadcasted message is received from another client
 
@@ -2672,9 +2700,18 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			_dispatchEvent: function(tcEventName, knPackage) {
 				console.log('[KnAllEdgeRealTimeService:_dispatchEvent] tcEventName: %s, knPackage:%s', tcEventName, JSON.stringify(knPackage));
 
-				var msg = knPackage.msg;
 				if(knPackage.sessionId === this.sessionId){ //if both are equal null, the message will pass, but those we probably want, because they are then general ones
-					var eventName = knPackage.eventName;
+					var eventName;
+					var msg;
+					if(knPackage.hasOwnProperty('valueBeforeChange')){ //this means that this is puzzles.changes.Change
+						 msg = knPackage;
+						 eventName = knPackage.event;
+					}else{
+						msg = knPackage.msg;
+						eventName = knPackage.eventName;
+					}
+
+
 					if(this.filterBroadcasting('in',eventName)){
 						var eventByPlugins = this.eventsByPlugins[eventName];
 						for(var id in eventByPlugins){
@@ -2688,7 +2725,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					}
 				}
 				else{
-					console.log('received KnAllEdgeRealTimeService message from a different session `' + knPackage.sessionId + '`, while our session is `' + this.sessionId + '`');
+					console.log('received KnAllEdgeRealTimeService message from a different session `' + sessionId + '`, while our session is `' + this.sessionId + '`');
 				}
 			}
 		};
@@ -2985,7 +3022,9 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 	};
 
 	resource.sendChange = function(change){
-		resource.create(change).$promise.then(function(changeFromServer){console.log('changeFromServer: ',changeFromServer);});
+		resource.create(change).$promise.then(function(changeFromServer){
+			console.log('changeFromServer: ',changeFromServer);}
+		);
 	}
 
 	//KnalledgeMapQueue.link(resource.RESOURCE_TYPE, {"EXECUTE": resource.execute, "CHECK": resource.check});

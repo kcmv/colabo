@@ -1,41 +1,44 @@
-declare var changes;
+declare var puzzles;
 
-export const enum ChangeVisibility {
-	ALL,
-	MAP_PARTICIPANTS,
-	MAP_MEDIATORS,
-	MAP_SAME_GROUP_MEMBERS,
-	USER
-}
+export const ChangeVisibility:any = {
+//TODO: we could not use `export const enum ChangeVisibility {`
+//because it could not be exported by `puzzles.changes.ChangeVisibility = ChangeVisibility;` for usage in .js files
+	ALL:0,
+	MAP_PARTICIPANTS:1,
+	MAP_MEDIATORS:2,
+	MAP_SAME_GROUP_MEMBERS:3,
+	USER:4
+};
 
-export const enum ChangeType {
-	UNDEFINED,
-	STRUCTURAL,
-	NAVIGATIONAL,
-	VIEW
-}
+export const ChangeType:any = {
+//export const enum ChangeType {
+	UNDEFINED:0,
+	STRUCTURAL:1,
+	NAVIGATIONAL:2,
+	VIEW:3
+};
 
-export const enum ChangePhase {
-	UNDISPLAYED,
-	DISPLAYED,
-	SEEN
-}
+export const ChangePhase:any = {
+	UNDISPLAYED:0,
+	DISPLAYED:1,
+	SEEN:2
+};
 
-export const enum Domain {
-	UNDEFINED,
-	EDGE,
-	MAP,
-	NODE,
-	HOW_AM_I,
-	WHAT_AM_I,
-	WHO_AM_I
-}
+export const Domain:any = {
+	UNDEFINED:0,
+	EDGE:1,
+	MAP:2,
+	NODE:3,
+	HOW_AM_I:4,
+	WHAT_AM_I:5,
+	WHO_AM_I:6
+};
 
-export const enum State {
-	LOCAL, 			// object is created locally and is still not created on server, so its _id is just local
-	NON_SYNCED, // object is created already on server but is in meantime updated, so it is not synced
-	SYNCED 			//all object's changes are synced on server
-}
+export const State:any = {
+	LOCAL:0, 			// object is created locally and is still not created on server, so its _id is just local
+	NON_SYNCED:1, // object is created already on server but is in meantime updated, so it is not synced
+	SYNCED:2 			//all object's changes are synced on server
+};
 
 
 /**
@@ -49,23 +52,24 @@ export class Change {
 	public valueBeforeChange: any;
 	public reference: any; //it is id or an reference to the object over which the change is done//
 	//(depending in which layer we are) to a change or other object regarding which participant has a request
-	public type: ChangeType; //coressponding to enum `Type`
+	public type: number; //TODO: change type to `ChangeType` when it is changed back to enum; //coressponding to enum `Type`
 	public event: any; //event is on higher level; may be String or enum number
 	public action: any; //action is on lower level, depicting the change event; may be String or enum number
-	public domain: Domain; //object type the change is done on; corresponding to enum Domain
+	public domain: number; //object type the change is done on; corresponding to enum Domain
 	public mapId: string; // id of map this object belongs to
-	public iAmId: any;	// it is iAmId or an reference ...//
+	public iAmId: any;	// it is iAmId or an reference to the user who owns the object (activeUser)
+	public sender: any;	// it is iAmId or an reference to the user who sent the change (loggedInUser) - may be same to .iAmId
 	//(depending in which layer we are) to the object creator (whoAmi/RIMA user)
-	public visibility: ChangeVisibility; //coressponding to enum `Visibility`
+	public visibility: number; //coressponding to enum `Visibility`
 	public createdAt: any; //when the object is created
 	public updatedAt: any; //when the obect is updated
 	// public dataContent: Object;
 	// public decorations: Object;
-	public phase: ChangePhase; //local - coressponding to enum `Phase`
-	public session: string = null;
+	public phase: number; //local - coressponding to enum `Phase`
+	public sessionId: string = null;
 
 	/* THIS PROPERTY IS local-to-frontend */
-	public state: State = State.LOCAL; //state of the object, responding to some of the enum STATE
+	public state: number = State.LOCAL; //state of the object, responding to some of the enum STATE
 
 	public static changeFactory (obj){
 		var change = new Change();
@@ -84,6 +88,7 @@ export class Change {
 		this.domain = Domain.UNDEFINED;
 		this.mapId = null;
 		this.iAmId = null;
+		this.sender = null;
 		this.visibility = ChangeVisibility.ALL;
 		// this.createdAt = new Date();
 		// this.updatedAt = new Date();
@@ -107,11 +112,12 @@ export class Change {
 			if("domain" in obj){this.domain = obj.domain;}
 			if("mapId" in obj){this.mapId = obj.mapId;}
 			if("iAmId" in obj){this.iAmId = obj.iAmId;}
+			if("sender" in obj){this.sender = obj.sender;}
 			if("visibility" in obj){this.visibility = obj.visibility;}
 			if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
 			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 			if("phase" in obj){this.phase = obj.phase;}
-			if("session" in obj){this.session = obj.session;}
+			if("sessionId" in obj){this.sessionId = obj.sessionId;}
 		}
 	};
 
@@ -166,4 +172,10 @@ export class Change {
 	};
 }
 
-if (typeof changes !== 'undefined') changes.Change = Change;
+if (typeof puzzles.changes !== 'undefined')
+	puzzles.changes.ChangeVisibility = ChangeVisibility;
+	puzzles.changes.ChangeType = ChangeType;
+	puzzles.changes.ChangePhase = ChangePhase;
+	puzzles.changes.Domain = Domain;
+	puzzles.changes.State = State;
+	puzzles.changes.Change = Change;

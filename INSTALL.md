@@ -504,6 +504,12 @@ if different version is installed you can uninstall it with:
 sudo gem uninstall font-awesome-sass -v 4.6.2
 ```
 
+On some machines it might be necessary to do:
+```sh
+sudo chmod -R og+rx /Library/Ruby/Gems/2.0.0/
+```
+in order to provide reading access.
+
 # Running the backend
 
 When you want to run the server you need to run specific ```package.json``` command: start. You do it by running:
