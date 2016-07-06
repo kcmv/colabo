@@ -194,6 +194,14 @@ $provideLayout: 'hide';
 	}
 }
 
+md-sidenav{
+	&.options{
+		max-width: 25%;
+	}
+	&.settings{
+
+	}
+}
 /* ------------------------
  knalledge_map_tools
 ------------------------ */
