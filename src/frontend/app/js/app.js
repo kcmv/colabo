@@ -71,8 +71,7 @@ angular.module('KnAllEdgeApp', requiresList)
 		reloadOnSearch: false
 	})
 	.when('/maps', {
-		templateUrl: 'components/mapsList/maps-list-index.tpl.html',
-		reloadOnSearch: false
+		templateUrl: 'components/mapsList/maps-list-index.tpl.html'
 	})
 	// http://localhost:8410/app/index-dev.html#/register
 	.when('/register', {
