@@ -1,7 +1,7 @@
 import {Injectable
 } from '@angular/core';
 
-import {Change, ChangeVisibility, ChangeType, ChangeState} from './change';
+import {Change, ChangeVisibility, ChangeType, State} from './change';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 /*
@@ -51,15 +51,15 @@ export class ChangeService {
 
   getMockupChanges(){
     var r1:Change = new Change();
-      r1.who = null;
+      r1.iAmId = null;
       r1.reference = null;
       r1.type = ChangeType.STRUCTURAL;
     var r2:Change = new Change();
-      r2.who = {displayName:'Dino'};
+      r2.iAmId = {displayName:'Dino'};
       r2.reference = {name:'Collective Mind'};
       r2.type = ChangeType.STRUCTURAL;
     var r3:Change = new Change();
-      r3.who = {displayName:'TestUser'};
+      r3.iAmId = {displayName:'TestUser'};
       r3.reference = {name:'Eco-Problems'};
       r3.type = ChangeType.STRUCTURAL;
     this.changesByExpertise.push(r1);
@@ -87,7 +87,7 @@ export class ChangeService {
   // sendChange(change: Change, callback: Function){
   //   //let req:Change = new Change();
   //   change.mapId = this.knalledgeMapVOsService.getMapId();
-  //   change.who = this.rimaService.getWhoAmI()._id;
+  //   change.iAmId = this.rimaService.getWhoAmI()._id;
   //   console.log(change);
   //
   //   if(this.knAllEdgeRealTimeService){
@@ -132,7 +132,7 @@ export class ChangeService {
   // receivedChange(eventName:string, change:Change){
   //     this.changesByExpertise.push(change);
   //     if(this.filterChange(change)){
-  //       change.who = this.rimaService.getUserById(change.who); //can be null!
+  //       change.iAmId = this.rimaService.getUserById(change.iAmId); //can be null!
   //       change.reference = this.knalledgeMapVOsService.getNodeById(change.reference); //can be null!
   //       console.log('[ChangeService:receivedChange] change:', JSON.stringify(change));
   //       if(change.type === ChangeType.REPLICA){

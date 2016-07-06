@@ -201,7 +201,7 @@ Map.KnRealTimeNodeClickedEventName = "node-clicked";
  */
 Map.prototype.realTimeNodeSelected = function(eventName, msg){
 	var that = this;
-	var kId = msg;
+	var kId = msg.reference;
 	// alert("[Map:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
 	console.log("[Map:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s",
 	(this.knAllEdgeRealTimeService) ? this.knAllEdgeRealTimeService.getClientInfo().clientId : 'unknown', eventName, JSON.stringify(kId));
@@ -280,7 +280,18 @@ Map.prototype.nodeSelected = function(nodeIdentifier) {
 	// realtime distribution
 	//  && !doNotBroadcast 	// do not broadcast back :)
 	if(this.knAllEdgeRealTimeService){
-		this.knAllEdgeRealTimeService.emit(knalledge.Map.KnRealTimeNodeSelectedEventName, vkNode.kNode._id);
+		var change = new puzzles.changes.Change();
+		change.value = null;
+		change.valueBeforeChange = null; //TODO
+		change.reference = vkNode.kNode._id;
+		change.type = puzzles.changes.ChangeType.NAVIGATIONAL;
+		change.event = knalledge.Map.KnRealTimeNodeSelectedEventName;
+		change.action = null;
+		change.domain = puzzles.changes.Domain.NODE;
+		change.visibility = puzzles.changes.ChangeVisibility.ALL;
+		change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
+
+		this.knAllEdgeRealTimeService.emit(knalledge.Map.KnRealTimeNodeSelectedEventName, change); //vkNode.kNode._id);
 	}
 };
 

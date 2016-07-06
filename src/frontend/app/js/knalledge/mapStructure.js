@@ -702,7 +702,8 @@ MapStructure.prototype.updateName = function(vkNode, newName){
 	if(!this.mapService) return;
 
 	vkNode.kNode.name = newName;
-	this.mapService.updateNode(vkNode.kNode, MapStructure.UPDATE_NODE_NAME);
+	var patch = {name:newName};
+	this.updateNode(vkNode, MapStructure.UPDATE_NODE_NAME, patch);
 };
 
 /**
@@ -761,8 +762,10 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 		break;
 		case MapStructure.UPDATE_DATA_CONTENT:
 			break;
+		case MapStructure.UPDATE_NODE_NAME:
 		default:
-			//unknown event, i.e. from a plugin, which has done already everything so we have just to forward the update call to mapService
+			//everything is done already
+			//or we have an unknown event, i.e. from a plugin, which has done already everything so we have just to forward the update call to mapService
 			patch = change;
 			break;
 	}
