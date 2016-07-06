@@ -23,7 +23,7 @@
         <md-sidenav #settings align="start" style="min-width: 200px; max-width: 300px; width: 30%;" class="md-sidenav-left md-whiteframe-z2">
             <md-content>
                 <div style="text-align: right;">
-                    <button md-raised-button (click)="settings.close()" align="right" class="md-primary">
+                    <button md-raised-button (click)="settings.close(); turnOffEditingNode();" align="right" class="md-primary">
                         Close
                     </button>
                 </div>

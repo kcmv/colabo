@@ -3,6 +3,8 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR, CORE_DIRECTIVES} from "@angular
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from 'ng2-material';
 import {NgIf, FORM_DIRECTIVES} from '@angular/common';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
+import {KnalledgeMapViewService} from './knalledgeMapViewService';
+import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 @Component({
     selector: 'ibis-types-list',
@@ -27,21 +29,35 @@ export class IbisTypesList {
   public selectedItem:any = null;
   private componentShown:boolean = true;
   private ibisTypesService;
+  private viewConfig:any;
+  private knalledgeNodeTypeChanged: string = "knalledgeNodeTypeChanged";
 
 
   constructor(
-    @Inject('IbisTypesService') _IbisTypesService_
+    @Inject('IbisTypesService') _IbisTypesService_,
+    @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
+    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
   ) {
       // console.log('[IbisTypesList]');
       this.ibisTypesService = _IbisTypesService_;
 
       this.items = this.ibisTypesService.getTypes();
       this.selectedItem = this.ibisTypesService.getActiveType();
+      this.viewConfig = knalledgeMapViewService.get().config;
+      this.globalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
+      this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('IbisTypesList', function(vkNode,type) {
+          console.log("knalledgeNodeTypeChanged: ", vkNode.kNode.name, type);
+      });
   }
 
   selectItem (item) {
     this.selectedItem = item;
     this.ibisTypesService.selectActiveType(item);
+    if(this.viewConfig.states.editingNode){
+      this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged)
+      .broadcast('IbisTypesList',{node:this.viewConfig.states.editingNode,type:item.type});
+      //, this.selectedItem
+    }
   }
 
   hideShowComponent (){

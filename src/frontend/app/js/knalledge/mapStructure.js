@@ -79,6 +79,7 @@ MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
 MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT"; //depricated, should be more specialized
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
 MapStructure.UPDATE_NODE_APPEARENCE = "UPDATE_NODE_APPEARENCE";
+MapStructure.UPDATE_NODE_TYPE = "UPDATE_NODE_TYPE";
 
 /**
 * @var {debugPP} debug - namespaced debug for the class

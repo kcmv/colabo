@@ -147,6 +147,10 @@ export class KnalledgeMapMain {
         }
     }
 
+    turnOffEditingNode(){
+      this.viewConfig.states.editingNode = null;
+    }
+
     getMapName(): any {
         return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
     }

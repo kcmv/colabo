@@ -115,6 +115,7 @@ var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStruct
 		nodeVote: this.upperApi.nodeVote.bind(this.upperApi),
 		nodeMediaClicked: this.upperApi.nodeMediaClicked.bind(this.upperApi),
 		nodeCreatorClicked: this.upperApi.nodeCreatorClicked.bind(this.upperApi),
+		nodeTypeClicked: this.upperApi.nodeTypeClicked.bind(this.upperApi)
 	};
 
 	// Visualization

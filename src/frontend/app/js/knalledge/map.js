@@ -67,6 +67,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		this.mapInteraction.nodeMediaClicked(vkNode);
 	}.bind(this);
 	this.mapManagerApi.nodeCreatorClicked	= this.nodeCreatorClicked.bind(this);
+	this.mapManagerApi.nodeTypeClicked	= this.nodeTypeClicked.bind(this);
 
 	this.mapManager = new knalledge.MapManager(this.mapManagerApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService, this.injector);
 
@@ -126,7 +127,12 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	};
 
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
+
 	this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
+	this.knalledgeNodeTypeChanged = "knalledgeNodeTypeChanged";
+	this.GlobalEmitterServicesArray.prototype.register(this.knalledgeNodeTypeChanged);
+	this.GlobalEmitterServicesArray.prototype.get(this.knalledgeNodeTypeChanged).subscribe('Map', this.nodeTypeChanged);
+
 	this.mapInteraction = new MapInteraction(mapInterface, this.mapPlugins);
 	this.mapInteraction.init();
 	this.injector.addPath("mapInteraction", this.mapInteraction);
@@ -295,6 +301,13 @@ Map.prototype.nodeSelected = function(nodeIdentifier) {
 	}
 };
 
+Map.prototype.nodeTypeChanged = function(node, type){
+	//node.kNode.type = type;
+	this.mapStructure.updateNode(node, knalledge.MapStructure.UPDATE_NODE_TYPE, type);
+	//and callback?
+	this.update(node);
+}
+
 /**
  * Internal source of the interaction event
  * @type {String}
@@ -448,6 +461,11 @@ Map.prototype.nodeDblClicked = function(vkNode) {
 
 Map.prototype.nodeCreatorClicked = function(vkNode){
 	//console.log("[Map.prototype.nodeCreatorClicked]", vkNode.kNode.name);
+}
+
+Map.prototype.nodeTypeClicked = function(vkNode){
+	//console.log("[Map.prototype.nodeCreatorClicked]", vkNode.kNode.name);
+	this.knalledgeMapViewService.provider.config.states.editingNode = vkNode;
 }
 
 // react on label click.
