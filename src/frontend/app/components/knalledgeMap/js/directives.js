@@ -584,6 +584,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					injector.addPath("timeout", $timeout);
 
+					injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
+
 					knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null,

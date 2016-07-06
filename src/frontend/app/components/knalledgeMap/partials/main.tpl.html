@@ -3,7 +3,7 @@
     <!-- content -->
     <md-sidenav-layout layout="row" flex style="overflow: auto; height: 100%;">
         <!-- <md-sidenav #options align="left" layout="column" [style]="hasMedia('gt-sm') ? 'side' : 'over'"> -->
-        <md-sidenav #options [opened]="true" align="end" mode="side" layout="column">
+        <md-sidenav #options class="options" [opened]="true" align="end" mode="side" layout="column">
             <md-content>
                 <!-- <form>
                 <md-input-container class="md-block">
@@ -20,7 +20,7 @@
             </md-content>
         </md-sidenav>
         <!-- Tools -->
-        <md-sidenav #settings align="start" style="min-width: 200px; max-width: 300px; width: 30%;" class="md-sidenav-left md-whiteframe-z2">
+        <md-sidenav #settings class="settings" align="start" style="min-width: 200px; max-width: 300px; width: 30%;" class="md-sidenav-left md-whiteframe-z2">
             <md-content>
                 <div style="text-align: right;">
                     <button md-raised-button (click)="settings.close(); turnOffEditingNode();" align="right" class="md-primary">
@@ -77,12 +77,12 @@
                         <h1><span class="title_web"></span><span class="title_collabo">Collabo</span><span class="title_science">Framework</span><span class="title_web"></span></h1>
                         <!-- <h2><span class="title_web">www.</span><span class="title_kn">Collabo</span><span class="title_all">Science</span><span class="title_web">.com</span></h2>
                         <h2><span class="title_web">www.</span><span class="title_kn">Collabo</span><span class="title_edge">Arte</span><span class="title_web">.com</span></h2>-->
-                        <h2>
+                        <!-- <h2>
                           <span class="title_kn">KF</span>
                           <span class="title_all">/</span>
                           <span class="title_edge">ChaOS</span>
                           <span class="title_web"></span>
-                        </h2>
+                        </h2> -->
                     </div>
                     <div template="ngIf:viewConfig.type.name =='collabo_arte'">
                         <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Arte</span><span class="title_web">.com</span></h1>
