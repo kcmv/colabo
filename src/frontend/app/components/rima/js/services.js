@@ -938,22 +938,6 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 				}
 			},
 
-			// sets logged in user
-			setWhoAmI: function(whoAmI){
-				this.loggedInWhoAmI = whoAmI;
-				this.setIAmId(whoAmI._id);
-				if(KnAllEdgeRealTimeService && KnAllEdgeRealTimeService.setWhoAmI){
-					KnAllEdgeRealTimeService.setWhoAmI(whoAmI);
-				}
-			},
-
-			setActiveUser: function(user){
-				this.activeUser = user;
-				if(KnAllEdgeRealTimeService && KnAllEdgeRealTimeService.setActiveUser){
-					KnAllEdgeRealTimeService.setActiveUser(user);
-				}
-			},
-
 			// logged in user
 			// TODO: refactor into getLoggedInWhoAmI
 			getWhoAmI: function(){
@@ -974,6 +958,22 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 			},
 			getIAmId: function(){
 				return this.loggedInWhoAmI._id;
+			},
+
+			// sets logged in user
+			setWhoAmI: function(whoAmI){
+				this.loggedInWhoAmI = whoAmI;
+				this.setIAmId(whoAmI._id);
+				if(KnAllEdgeRealTimeService && KnAllEdgeRealTimeService.setWhoAmI){
+					KnAllEdgeRealTimeService.setWhoAmI(whoAmI);
+				}
+			},
+
+			setActiveUser: function(user){
+				this.activeUser = user;
+				if(KnAllEdgeRealTimeService && KnAllEdgeRealTimeService.setActiveUser){
+					KnAllEdgeRealTimeService.setActiveUser(user);
+				}
 			},
 
 			setUserToken: function(token){

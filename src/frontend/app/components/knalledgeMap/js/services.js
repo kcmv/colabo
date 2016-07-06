@@ -406,9 +406,6 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 						change.event = KnRealTimeNodeUpdatedEventName;
 						change.action = actionType;
 						change.domain = puzzles.changes.Domain.NODE;
-						//TODO:
-						// change.mapId = null;
-						// change.iAmId = null;
 						change.visibility = puzzles.changes.ChangeVisibility.ALL;
 						change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
 
@@ -428,10 +425,22 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 
 	resource.destroy = function(id, callback)
 	{
-		var result = this.destroyPlain({actionType:'default', searchParam:id, type:'one'}, function(){
+		var result = this.destroyPlain({actionType:'default', searchParam:id, type:'one'},
+			function(){ //TODO: add error check
 			// realtime distribution
 			if(KnAllEdgeRealTimeService){
-				KnAllEdgeRealTimeService.emit(KnRealTimeNodeDeletedEventName, {'_id':id});
+				var change = new puzzles.changes.Change();
+				change.value = null;
+				change.valueBeforeChange = null; //TODO
+				change.reference = id;
+				change.type = puzzles.changes.ChangeType.STRUCTURAL;
+				change.event = KnRealTimeNodeDeletedEventName;
+				// change.action = null;
+				change.domain = puzzles.changes.Domain.NODE;
+				change.visibility = puzzles.changes.ChangeVisibility.ALL;
+				change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
+
+				KnAllEdgeRealTimeService.emit(KnRealTimeNodeDeletedEventName, change);//{'_id':id});
 			}
 			if(callback){callback()};
 		});
@@ -948,6 +957,7 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 				var changes = {nodes:[], edges:[]};
 				var shouldBroadcast = true;
 				var ToVisualMsg = "-to-visual";
+				var change = msg; //puzzles.changes.Change
 
 				switch(eventName){
 					case KnRealTimeNodeCreatedEventName:
@@ -958,7 +968,6 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 						changes.nodes.push({node:kNode,	actionType: null});
 					break;
 					case KnRealTimeNodeUpdatedEventName:
-						var change = msg; //puzzles.changes.Change
 							// var msg = {
 							// 	id: nodeFromServer._id,
 							// 	actionType: actionType,
@@ -1006,10 +1015,10 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 						changes.nodes.push({node:kNode,	actionType: change.action});
 					break;
 					case KnRealTimeNodeDeletedEventName:
-						if(this.nodesById.hasOwnProperty(msg._id)){
-							var kNode = this.nodesById[msg._id];
+						if(this.nodesById.hasOwnProperty(change.reference)){
+							var kNode = this.nodesById[change.reference];
 							changes.nodes.push({node:kNode,	actionType: null});
-							delete this.nodesById[msg._id];
+							delete this.nodesById[change.reference];
 							var eventName = KnRealTimeNodeDeletedEventName + ToVisualMsg;
 						}
 						else{
