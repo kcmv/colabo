@@ -130,8 +130,8 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 
 	this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
 	this.knalledgeNodeTypeChanged = "knalledgeNodeTypeChanged";
-	this.GlobalEmitterServicesArray.prototype.register(this.knalledgeNodeTypeChanged);
-	this.GlobalEmitterServicesArray.prototype.get(this.knalledgeNodeTypeChanged).subscribe('Map', this.nodeTypeChanged);
+	this.GlobalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
+	this.GlobalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('Map', this.nodeTypeChanged);
 
 	this.mapInteraction = new MapInteraction(mapInterface, this.mapPlugins);
 	this.mapInteraction.init();
