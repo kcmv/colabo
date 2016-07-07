@@ -43,7 +43,14 @@
               <i title="Login" md-icon>person</i>
           </button> -->
           <div class="loggedIn">
-              <span hide show-gt-md>{{getLoggedInUserName()}}</span><span hide-gt-md>{{shorten(getLoggedInUserName(),10)}}</span>
+            <span [ngSwitch]="getLoggedInUserName() === null">
+              <span *ngSwitchCase="true">
+                Login ...
+              </span>
+              <span *ngSwitchCase="false">
+                <span hide show-gt-md>{{getLoggedInUserName()}}</span><span hide-gt-md>{{shorten(getLoggedInUserName(),10)}}</span>
+              </span>
+            </span>
           </div>
         </button>
           <!-- <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
@@ -118,6 +125,7 @@
   </md-dialog>
 
   <md-dialog #mapDialog class="creatingNewMap" (onClose)="mapDialogClosed($event)">
+    <!-- <map-form></map-form> -->
     <md-dialog-title>Map Creation</md-dialog-title>
       <form layout="column" class="md-inline-form">
       <!-- TODO: using of the form causes warning;
@@ -125,7 +133,7 @@
        will eventually be removed in favor of the new forms module. For more information, see:
        https://docs.google.com/document/u/1/d/1RIezQqE4aEhBRmArIAS1mRIZtWFf6JxN_7B4meyWK0Y/pub -->
          <!-- <h2 class="md-title">Map Creation</h2> -->
-          <md-input placeholder="Name" [(ngModel)]="mapToCreate.name"></md-input>
+          <md-input placeholder="Name" [(ngModel)]="mapToCreate.name" required></md-input>
           <md-input placeholder="Map Type" [(ngModel)]="mapToCreate.type"></md-input>
           <md-input placeholder="Root NodeType" [(ngModel)]="mapToCreate.rootNodeType"></md-input>
           <md-input placeholder="Parent map ID" [(ngModel)]="mapToCreate.parentMapId"></md-input>
