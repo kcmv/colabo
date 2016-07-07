@@ -28,7 +28,7 @@ var componentDirectives = [
     // upgradeAdapter.upgradeNg1Component('ibisTypesList')
 ];
 
-declare var Config: any;
+declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 
 if (Config.Plugins.gardening.active && PluginsPreloader.components.GardeningControls) {
     console.warn("[KnalledgeMapTools] Loading GardeningControls");

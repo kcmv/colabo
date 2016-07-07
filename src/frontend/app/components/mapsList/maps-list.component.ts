@@ -24,7 +24,7 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 
 declare var knalledge;
 
-declare var Config: any;
+declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 
 //TODO: import {KMap} from '../../js/knalledge/kMap';
 //TODO: import {KNode} from '../../js/knalledge/kNode';
@@ -336,8 +336,8 @@ export class MapsList implements OnInit{
 
       //TODO-remove:
       this.policyConfig.moderating.enabled = false;
-
-      window.location.href = "/#map/id/" + this.selectedItem._id;
+      var mapRoute = Config.Plugins.mapsList.config.openMap.routes[0].route;
+      window.location.href = "/#"+ mapRoute +"/id/" + this.selectedItem._id;
 			//openMap(this.selectedItem);
 			// $element.remove();
 		}else{
