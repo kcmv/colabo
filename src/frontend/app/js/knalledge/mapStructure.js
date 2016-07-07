@@ -128,6 +128,18 @@ MapStructure.prototype.unsetSelectedNode = function(vkNode){
 	return this;
 };
 
+MapStructure.prototype.debugNode = function(node){
+	if(this.knalledgeMapPolicyService.provider.config.moderating.enabled){
+		console.log("DEBUG-NODE:",node);
+		for(var i in this.edgesById){
+			if(this.edgesById[i].kEdge.targetId === node.kNode._id){
+				console.log("DEBUG-PARENT-EDGE:",this.edgesById[i]);
+				break;
+			}
+		}
+	}
+};
+
 /**
  * Sets currently selected node
  * @param  {knalledge.VKNode} selectedNode - newly selected node
@@ -136,6 +148,7 @@ MapStructure.prototype.unsetSelectedNode = function(vkNode){
  * @return {knalledge.MapStructure}
  */
 MapStructure.prototype.setSelectedNode = function(selectedNode){
+	this.debugNode(selectedNode);
 	this.selectedNode = selectedNode;
 	// sets what nodes are visible relatively to the currently selected node
 	// TODO: it should be migrated into plugin
