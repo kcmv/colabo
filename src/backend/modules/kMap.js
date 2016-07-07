@@ -86,7 +86,8 @@ console.log("dbName: %s", dbName);
 			break;
 		case 'by-participant': //by map type
 			console.log("find:\n by-participant:", id);
-			KMapModel.find({"participants": id}, found);
+			//KMapModel.find({"participants": id}, found);
+			KMapModel.find({ $or : [{"participants": id}, {"isPublic": true}]}, found);
 			break;
 	}
 }

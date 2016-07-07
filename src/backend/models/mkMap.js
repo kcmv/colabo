@@ -11,7 +11,7 @@ var kMapSchema = mongoose.Schema({
 	version: { type: Number, default: 1 },
 	parentMapId: String,
 	participants: [{type: mongoose.Schema.Types.ObjectId, ref: 'WhoAmI'}],
-	isPublic: { type: Boolean, default: true },
+	isPublic: { type: Boolean, default: false },
 	dataContent: {type: mongoose.Schema.Types.Mixed}, //dataContent.mcm.authors
 	visual: {
 	}
