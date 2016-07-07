@@ -80,6 +80,7 @@ MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT"; //depricated, should b
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
 MapStructure.UPDATE_NODE_APPEARENCE = "UPDATE_NODE_APPEARENCE";
 MapStructure.UPDATE_NODE_TYPE = "UPDATE_NODE_TYPE";
+MapStructure.UPDATE_NODE_CREATOR = "UPDATE_NODE_CREATOR";
 
 /**
 * @var {debugPP} debug - namespaced debug for the class
@@ -769,6 +770,9 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change, callbac
 		break;
 		case MapStructure.UPDATE_NODE_TYPE:
 			patch = {type:change};
+		break;
+		case MapStructure.UPDATE_NODE_CREATOR:
+			patch = {iAmId:change};
 		break;
 		case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING:
 			patch = {dataContent:{rima:{whats:{'_id':change}}}};

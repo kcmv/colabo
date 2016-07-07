@@ -963,7 +963,8 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 				var obj = {};
 				obj[knalledge.KNode.UPDATE_TYPE_VOTE] =1;
 				obj[knalledge.KNode.UPDATE_NODE_NAME] =1;
-				obj[knalledge.KNode.UPDATE_NODE_TYPE] =1;
+				obj[knalledge.MapStructure.UPDATE_NODE_TYPE] =1;
+				obj[knalledge.MapStructure.UPDATE_NODE_CREATOR] =1;
 
 				return obj;
 			})(),

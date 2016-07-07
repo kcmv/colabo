@@ -129,9 +129,14 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
 
 	this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
+
 	this.knalledgeNodeTypeChanged = "knalledgeNodeTypeChanged";
 	this.GlobalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
 	this.GlobalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('Map', this.nodeTypeChanged.bind(this));
+
+	this.knalledgeNodeCreatorChanged = "knalledgeNodeCreatorChanged";
+	this.GlobalEmitterServicesArray.register(this.knalledgeNodeCreatorChanged);
+	this.GlobalEmitterServicesArray.get(this.knalledgeNodeCreatorChanged).subscribe('Map', this.nodeCreatorChanged.bind(this));
 
 	this.mapInteraction = new MapInteraction(mapInterface, this.mapPlugins);
 	this.mapInteraction.init();
@@ -309,6 +314,14 @@ Map.prototype.nodeTypeChanged = function(change){
 	});
 };
 
+Map.prototype.nodeCreatorChanged = function(change){
+	var that = this;
+	this.mapStructure.updateNode(change.node, knalledge.MapStructure.UPDATE_NODE_CREATOR, change.creator, function(node){
+			//that.knalledgeMapViewService.provider.config.states.editingNode = null;
+			that.update(node);
+	});
+};
+
 /**
  * Internal source of the interaction event
  * @type {String}
@@ -462,6 +475,7 @@ Map.prototype.nodeDblClicked = function(vkNode) {
 
 Map.prototype.nodeCreatorClicked = function(vkNode){
 	//console.log("[Map.prototype.nodeCreatorClicked]", vkNode.kNode.name);
+	this.knalledgeMapViewService.provider.config.states.editingNode = vkNode;
 }
 
 Map.prototype.nodeTypeClicked = function(vkNode){
