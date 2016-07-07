@@ -328,24 +328,27 @@ export class MapsList implements OnInit{
     //TEST: this.policyConfig.moderating.enabled = !this.policyConfig.moderating.enabled;
   }
 
-	openMap() {
+	openMap(item) {
 	    console.log("openMap");
-		if(this.selectedItem !== null && this.selectedItem !== undefined){
-			console.log("openning Model:" + this.selectedItem.name + ": " + this.selectedItem._id);
-			console.log("/map/id/" + this.selectedItem._id);
-			//$location.path("/map/id/" + this.selectedItem._id);
-			//TODO: using ng2 Route mechanism:
-			//this.router.url = "/map/id/" + this.selectedItem._id; //navigate(['HeroDetail', { id: this.selectedHero.id }]);
+      if(!item){ // && this.selectedItem !== null && this.selectedItem !== undefined
+        item = this.selectedItem;
+      }
+      if(item){
+        console.log("openning Model:" + item.name + ": " + item._id);
+  			console.log("/map/id/" + item._id);
+  			//$location.path("/map/id/" + item._id);
+  			//TODO: using ng2 Route mechanism:
+  			//this.router.url = "/map/id/" + item._id; //navigate(['HeroDetail', { id: this.selectedHero.id }]);
 
-      //TODO-remove:
-      this.policyConfig.moderating.enabled = false;
-      var mapRoute = Config.Plugins.mapsList.config.openMap.routes[0].route;
-      window.location.href = "/#"+ mapRoute +"/id/" + this.selectedItem._id;
-			//openMap(this.selectedItem);
-			// $element.remove();
-		}else{
-			window.alert('Please, select a Map');
-		}
+        //TODO-remove:
+        this.policyConfig.moderating.enabled = false;
+        var mapRoute = Config.Plugins.mapsList.config.openMap.routes[0].route;
+        window.location.href = "#"+ mapRoute +"/id/" + item._id;
+  			//openMap(item);
+  			// $element.remove();
+  		}else{
+  			window.alert('Please, select a Map');
+  		}
 	};
 
   getUser(userID){

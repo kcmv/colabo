@@ -33,10 +33,10 @@
             <button class="btn btn-primary" >Create a New Map</button>
           </span>
         -->
-        <span *ngIf="selectedItem" class="borderGroup">
+        <!-- <span *ngIf="selectedItem" class="borderGroup">
           <button (click)="openMap()" class="btn btn-primary button_icon" aria-label="Open the Map" type="button"><span class="mapName">{{selectedItem?.name}}</span>&nbsp;<i title="Open the map" class="fa fa-folder-open" aria-hidden="true"></i></button>
           <button (click)="alertMsg = 'Maps editing is disabled for now ...'; alert.show();" class="btn btn-primary button_icon last" aria-label="Edit the Map" type="button"><i title="Edit the map" class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-        </span>
+        </span> -->
         <button (click)="go('login')" class="whoAmI" layout-gt-md="row" layout="column" layout-align="right center" layout-wrap class="btn btn-primary borderGroup" aria-label="User management" type="button">
           <i title="User management" class="fa fa-user button_icon" aria-hidden="true"></i>
           <!-- <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
@@ -64,27 +64,29 @@
     <div layout="column" class="list">
       <div class="heading item" hide show-gt-md layout="row"> <!--layout-align="center center"-->
         <div flex='30' class="item_property">Name</div>
-        <div flex='20' *ngIf="policyConfig.moderating.enabled" class="item_property">Id</div>
+        <!-- <div flex='20' *ngIf="policyConfig.moderating.enabled" class="item_property">Id</div> -->
         <div flex='5' class="item_property">Actions</div>
         <div flex='20' class="item_property">Authors</div>
-        <div flex='15' class="item_property">Type</div>
+        <!-- <div flex='15' class="item_property">Type</div> -->
         <div flex='10' class="item_property creation_date">Created</div>
       </div>
       <div class='item data_item' *ngFor="let item of items" layout-gt-md="row" layout="column"
       (click)="selectItem(item)" [ngClass]="{'active-selection': (selectedItem && item._id === selectedItem._id)}">
        <!-- [ngClass]="{'sm': $mdMedia('sm'), 'md': $mdMedia('md'), 'lg': $mdMedia('lg')}" -->
         <div flex-gt-md='30' class='item_property'>{{item.name}}</div>
-        <div flex-gt-md='20' class='item_property' *ngIf="policyConfig.moderating.enabled" layout="row"><div flex='15' hide-gt-md class="item_header">Id</div><div class='item_data'>{{item._id}}</div></div>
+        <!-- <div flex-gt-md='20' class='item_property' *ngIf="policyConfig.moderating.enabled" layout="row"><div flex='15' hide-gt-md class="item_header">Id</div><div class='item_data'>{{item._id}}</div></div> -->
         <div flex-gt-md='5' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Actions</div>
-  				<span class='item_data' *ngIf="policyConfig.moderating.enabled">
-            <button class="btn btn-primary button_icon" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></button>
-  				</span>
+          <button (click)="openMap(item)" class="btn btn-primary button_icon" aria-label="Open the Map" type="button"><i title="Open the map" class="fa fa-folder-open" aria-hidden="true"></i></button>
+          <!-- <button (click)="alertMsg = 'Maps editing is disabled for now ...'; alert.show();" class="btn btn-primary button_icon last" aria-label="Edit the Map" type="button"><i title="Edit the map" class="fa fa-pencil-square-o" aria-hidden="true"></i></button> -->
           <button class="btn btn-primary button_icon" aria-label="Clone the map" type="button"
           (click)="prepareForCloning(item); cloneDialog.show();"><i title="Clone the map" class="fa fa-files-o" aria-hidden="true"></i></button>
           <button class="btn btn-primary button_icon last" aria-label="Map Participants" type="button" (click)="prepareForParticipants(item); participantsList.show()"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button>
+          <span class='item_data' *ngIf="policyConfig.moderating.enabled">
+            <button class="btn btn-primary button_icon" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></button>
+  				</span>
         </div>
   			<div flex-gt-md='20' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Authors</div><div class='item_data'>{{item.dataContent && item.dataContent.mcm ? item.dataContent.mcm.authors : 'n/a'}}</div></div>
-  			<div flex-gt-md='15' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Type</div><div class='item_data'>{{item.type !== "" && item.type ? item.type : 'n/a'}}</div></div>
+  			<!-- <div flex-gt-md='15' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Type</div><div class='item_data'>{{item.type !== "" && item.type ? item.type : 'n/a'}}</div></div> -->
   			<!-- {{getParticipantsNames(item.participants)}} -->
   			<div flex-gt-md='10' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Created</div><div class='item_data'>{{formatDateTime(item.createdAt)}}</div></div>
       </div>
