@@ -454,6 +454,7 @@ md-sidenav.options {
     .knalledge_map_container .node_html .node_inner_html {
       position: relative;
       padding: 3px;
+      word-break: break-word;
       /*background-color: yellow;*/ }
     .knalledge_map_container .node_html .node_status {
       position: absolute;

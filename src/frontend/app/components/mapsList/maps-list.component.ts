@@ -364,6 +364,10 @@ export class MapsList implements OnInit{
     return name; // TEST: 'jednodugackoime';
   }
 
+  isRegularUserName(){
+    return this.getLoggedInUserName() !== null && (typeof this.getLoggedInUserName() === 'string');
+  }
+
   shorten(str,ln){
     console.log("[shorten]str:", str);
     console.log("[shorten]str.substr:", str.substr);

@@ -43,7 +43,8 @@
               <i title="Login" md-icon>person</i>
           </button> -->
           <div class="loggedIn">
-            <span [ngSwitch]="getLoggedInUserName() === null">
+            <span [ngSwitch]="!isRegularUserName()">
+              <!-- typeof getLoggedInUserName() !== 'string'> is needed for some specific 'bug' when username is = 1 (number) so substr() in 'shorten' breaks -->
               <span *ngSwitchCase="true">
                 Login ...
               </span>
