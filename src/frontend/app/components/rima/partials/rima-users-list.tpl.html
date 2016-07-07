@@ -28,7 +28,7 @@
 	<md-dialog #addParticipantQuickDialog class="addParticipantQuickDialog" (onClose)="addParticipantQuickDialogClosed($event)">
 		<md-dialog-title>Add Participant to the Map</md-dialog-title>
 			<form layout="column" class="md-inline-form">
-					<md-input placeholder="Display Name" [(ngModel)]="newParticipant.displayName" (change)="displayNameChanged($event)"></md-input>
+					<md-input placeholder="Display Name" [(ngModel)]="newParticipant.displayName" (change)="displayNameChanged($event)" required></md-input>
 					<!-- <span> -->
 						<md-switch #assigned [(checked)]="assignedE_mail" aria-label="assigned">automatically assign email:<BR/><i>displayName@{{automaticEmailDomain}}</i></md-switch>
 						<span [hidden]="assignedE_mail"><md-input placeholder="E-mail" [(ngModel)]="newParticipant.e_mail"></md-input></span>

@@ -16,6 +16,8 @@ import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyServi
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+// import {MapFormComponent} from '../knalledgeMap/map-form.component';
+
 // import {ViewChild, ViewChildren} from '@angular/core';
 // import {Media, MdContent, MdButton} from 'ng2-material';
 // import {MdDialog} from '@angular2-material/dialog';
@@ -63,7 +65,7 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
     selector: 'maps-list',
     moduleId: module.id,
     templateUrl: 'maps-list.tpl.html',
-    styleUrls: ['css/maps-list.component.css'],
+    // styleUrls: ['css/maps-list.component.css'],
     providers: [
         MATERIAL_PROVIDERS,
         OVERLAY_PROVIDERS
@@ -81,6 +83,7 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
         MD_INPUT_DIRECTIVES, FORM_DIRECTIVES
         // MdContent, MdButton,
         //   LoginStatusComponent,
+        // MapFormComponent
     ]
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
@@ -359,7 +362,7 @@ export class MapsList implements OnInit{
   }
 
   shorten(str,ln){
-    return str.length <= ln ? str : str.substr(0,ln-3) + '...';
+    return str ? (str.length <= ln ? str : str.substr(0,ln-3) + '...') : '';
   }
 
   prepareCreating(){
