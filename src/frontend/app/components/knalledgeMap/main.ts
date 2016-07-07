@@ -147,6 +147,15 @@ export class KnalledgeMapMain {
         }
     }
 
+    navigateBack(){
+      //http://localhost:5556/#/map/id/577e948861ab114d16732cb9?node_id=577e948861ab114d16732cda
+      //->
+      //http://localhost:5556/#/mcmap/id/577e948861ab114d16732cb9
+      var mapRoute: string = 'mcmap'; //Config.Plugins.mapsList.config.openMap.routes[0].route;
+      var mapId: string = this.knalledgeMapVOsService.map._id;
+      window.location.href = "#/"+ mapRoute +"/id/" + mapId;
+    }
+
     turnOffEditingNode(event){
       this.viewConfig.states.editingNode = null;
     }
