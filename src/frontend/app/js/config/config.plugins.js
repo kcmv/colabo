@@ -52,6 +52,25 @@ var plugins = {
             },
         }
 	},
+	"mapsList": {
+		active: true,
+		config: {
+			title: 'CollaboFramework',
+			//map_path,
+			//
+			openMap: {
+				routes: [{
+					route: '/mcmap',
+					name: 'McM-map',
+					icon: ''
+				}, {
+					route: '/map',
+					name: 'map',
+					icon: ''
+				}]
+			}
+		}
+	},
 	"ontov": {
         active: true
 	},

@@ -1,7 +1,8 @@
 <div class="mapsList" layout="column">
 <!-- <div class="mapsList" layout-fill layout="column"> -->
   <md-toolbar class="mapsToolbar md-theme-indigo" color="primary">
-      <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
+      <span class="map-title">{{title}}</span>
+      <section class="toolbar-front" layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
           <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
               <!-- <button md-fab class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
                   <i title="Settings" md-icon>settings</i>

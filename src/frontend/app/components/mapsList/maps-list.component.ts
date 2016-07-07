@@ -1,7 +1,7 @@
 import {FORM_DIRECTIVES} from '@angular/common';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
@@ -23,6 +23,8 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
 declare var knalledge;
+
+declare var Config: any;
 
 //TODO: import {KMap} from '../../js/knalledge/kMap';
 //TODO: import {KNode} from '../../js/knalledge/kNode';
@@ -85,7 +87,7 @@ declare var knalledge;
     // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
 })
 
-export class MapsList {
+export class MapsList implements OnInit{
   // @ViewChild(cloneDialog);
   // _cloneDialog: cloneDialog;
 
@@ -98,6 +100,7 @@ export class MapsList {
   public alertMsg = "";
   public nameOfDuplicatedMap = "";
   public mapParticipants = null;
+  public title: string = "";
   //public cloneDialog = @ViewChild('cloneDialog');
 
   policyConfig: any;
@@ -137,6 +140,11 @@ export class MapsList {
       this.mapToCreate = new knalledge.KMap();
       this.init();
   };
+
+  ngOnInit() {
+    console.log("Config.Plugins.mapsList.config.title:",Config.Plugins.mapsList.config.title);
+    this.title = Config.Plugins.mapsList.config && Config.Plugins.mapsList.config.title ? Config.Plugins.mapsList.config.title : "";
+  }
 
   sortByName(a, b) {
    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
