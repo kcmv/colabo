@@ -163,7 +163,7 @@ rm -r backend_archive/modules/topiChat/node_modules
 rm -r backend_archive/modules/topiChat-knalledge/node_modules
 rm -r backend_archive/tools/node_modules
 
-zip -r -X prod-backend-2016.07.06-2.zip backend_archive
+zip -r -X prod-backend-2016.07.07-1.zip backend_archive
 open .
 ```
 
@@ -199,7 +199,7 @@ if not, continue straight here:
 
 ```
 cd /var/www/knalledge/src/backend/
-unzip prod-backend-2016.07.06-2.zip
+unzip prod-backend-2016.07.07-1.zip
 rm -r config/ continuousServer.sh info.txt KnAllEdgeBackend.js models/ modules/ package.json tools/
 
 mv backend_archive/* .
