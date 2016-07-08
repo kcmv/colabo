@@ -37,10 +37,12 @@ Keyboard.prototype.init = function(){
 	this.initializeKeyboard();
 };
 
+Keyboard.MaxId = 0;
+
 // http://robertwhurst.github.io/keyboardJS/
 Keyboard.prototype.initializeKeyboard = function() {
 	var that = this;
-
+	this.keyboardId = ++Keyboard.MaxId;
 	// var this.keyboardLibType = 'KeyboardJS';
 	this.keyboardLibType = 'Kibo';
 

@@ -28,6 +28,9 @@ export class KnalledgeMapPolicyService {
       },
       mediation: {
         sendRequest: true
+      },
+      knalledgeMap: {
+        nextNodeType: null
       }
     }
   };

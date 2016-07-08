@@ -122,7 +122,12 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		}.bind(this),
 		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
 		getActiveIbisType: function(){
-			return this.ibisTypesService.getActiveType().type;
+			if(knalledgeMapPolicyService && knalledgeMapPolicyService.provider && knalledgeMapPolicyService.provider.config &&
+			knalledgeMapPolicyService.provider.config.knalledgeMap && knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType){
+						return knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType;
+			}else{
+				return this.ibisTypesService.getActiveType().type;
+			}
 		}.bind(this)
 	};
 

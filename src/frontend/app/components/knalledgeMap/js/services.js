@@ -971,6 +971,8 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 
 			configData: this.$configData,
 
+			serviceId: new Date(),
+
 			/**
 				called by KnAllEdgeRealTimeService when a broadcasted message regarding changes in the map (nodes, edges) structure is received from another client
 
