@@ -33,6 +33,7 @@
 var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
 	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService, injector, Plugins){
 	var that = this;
+
 	this.config = config;
 	this.upperApi = upperApi;
 	this.entityStyles = entityStyles;
@@ -208,6 +209,43 @@ Map.KnRealTimeNodeSelectedEventName = "node-selected";
 Map.KnRealTimeNodeUnselectedEventName = "node-unselected";
 // NOTE: no good reason to use it, not idempotent neither safe
 Map.KnRealTimeNodeClickedEventName = "node-clicked";
+
+/**
+ * The function that is called when we are destroying parent.
+ * It has to destroy, or at worst disable any subcomponent from working
+ * @function destroy
+ */
+Map.prototype.destroy = function(){
+	this.knalledgeState.destroyed = true;
+
+	this.config = null;
+	this.upperApi = null;
+	this.entityStyles = null;
+	this.parentDom = null;
+	this.mapService = null;
+	this.scales = null;
+	this.mapSize = null;
+	this.mapStructureExternal = null;
+	this.collaboPluginsService = null;
+	this.rimaService = null;
+	this.ibisTypesService = null;
+	this.notifyService = null;
+	this.knalledgeMapViewService = null;
+	this.mapPlugins = null;
+	this.syncingService = null;
+	this.knAllEdgeRealTimeService = null;
+	this.injector = null;
+	this.mapManagerApi = null;
+
+	if(!this.mapStructureExternal){
+		this.mapStructure.destroy();
+	}
+	this.mapManager.destroy();
+	this.mapVisualization.destroy();
+	this.mapLayout.destroy();
+	this.mapInteraction.destroy();
+	this.keyboardInteraction.destroy();
+}
 
 /**
  * The function that is called when node selection is sent from other client

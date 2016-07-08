@@ -13,6 +13,7 @@ not KNodes nor KEdges
 
 var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins){
 	this.rootNode = null;
+	this.destroyed = false;
 
 	/**
 	 * Currently selected node in the map
@@ -98,7 +99,17 @@ MapStructure.debug = debugpp.debug('knalledge.MapStructure');
  */
 MapStructure.prototype.init = function(mapService){
 	this.mapService = mapService;
+	this.destroyed = false;
 	return this;
+};
+
+/**
+ * The function that is called when we are destroying parent.
+ * It has to destroy, or at worst disable any subcomponent from working
+ * @function destroy
+ */
+MapStructure.prototype.destroy = function(){
+	this.destroyed = true;
 };
 
 MapStructure.prototype.isStructuralChange = function(actionType){

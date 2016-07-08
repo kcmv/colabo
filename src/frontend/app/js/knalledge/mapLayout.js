@@ -11,6 +11,8 @@ var MapLayout =  knalledge.MapLayout = function(){
 }
 
 MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
+	this.destroyed = false;
+
 	this.mapStructure = mapStructure;
 	this.collaboPluginsService = collaboPluginsService;
 	this.configNodes = configNodes;
@@ -44,6 +46,17 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
 		}
 	});
 };
+
+/**
+ * The function that is called when we are destroying parent.
+ * It has to destroy, or at worst disable any subcomponent from working
+ * @function destroy
+ * @memberof knalledge.MapLayout#
+ */
+MapLayout.prototype.destroy = function(){
+	this.destroyed = true;
+};
+
 
 MapLayout.prototype.getNodes = function(){
 	return this.nodes;
