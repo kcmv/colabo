@@ -1,21 +1,5 @@
 /*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
 /* @import "normalize"; */
-/*
-$medium: 800px;
-$large: 1400px;
-*/
-/*
-	http://compass-style.org/examples/compass/css3/box_sizing/
-	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
-	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
-*/
-* {
-  margin: 0px;
-  padding: 0px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
-
 .switch {
   cursor: pointer;
   background-color: #009688; }
@@ -60,7 +44,7 @@ $large: 1400px;
     right: 50%;
     bottom: 25%;
     position: absolute;
-    opacity: 0.85;
+    opacity: 0.25;
     text-align: right; }
     .knalledge_map_index .logo_background h1 {
       font-size: 100px;
@@ -573,7 +557,9 @@ md-sidenav.options {
     border-width: 1px;
     -moz-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
     -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
-    box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75); }
+    box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+    background-color: white;
+    padding: 3px; }
   .knalledge_map_container .node_unselected {
     border-style: dashed;
     border-color: #0000ff;
