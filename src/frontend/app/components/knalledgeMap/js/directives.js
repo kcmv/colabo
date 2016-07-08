@@ -206,6 +206,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 				$scope.$on('$destroy', function(){
 					// alert("knalledge.knalledgeMap directive is about to be destroyed!");
 					for(var i in $scope.subscriptions){
+						// http://stackoverflow.com/questions/36494509/how-to-unsubscribe-from-eventemitter-in-angular-2
 						$scope.subscriptions[i].unsubscribe();
 					}
 					$scope.knalledgeMap.destroy();
