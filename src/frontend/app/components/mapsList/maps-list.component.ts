@@ -370,8 +370,8 @@ export class MapsList implements OnInit{
   }
 
   shorten(str,ln){
-    console.log("[shorten]str:", str);
-    console.log("[shorten]str.substr:", str.substr);
+    // console.log("[shorten]str:", str);
+    // console.log("[shorten]str.substr:", str.substr);
     return str ? (str.length <= ln ? str : str.substr(0,ln-3) + '...') : '';
   }
 

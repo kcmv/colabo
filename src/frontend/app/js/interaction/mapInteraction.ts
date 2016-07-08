@@ -429,11 +429,15 @@ export class MapInteraction {
     };
 
     addChildNode(nodeType?, edgeType?) {
+        if (!this.isStatusMap()) return;
+
         var parentNode = this.clientApi.getSelectedNode();
         this.addNode(parentNode, nodeType, edgeType);
     };
 
     addNode(parentNode, nodeType?, edgeType?) {
+        if (!this.isStatusMap()) return;
+
         if (typeof nodeType === 'undefined') nodeType = this.clientApi.getActiveIbisType();
         if (typeof nodeType === 'undefined') nodeType = knalledge.KNode.TYPE_KNOWLEDGE;
 

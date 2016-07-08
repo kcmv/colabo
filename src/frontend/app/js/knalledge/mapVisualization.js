@@ -72,7 +72,7 @@ MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
 
 MapVisualization.prototype.destroy = function(){
 	this.destroyed = true;
-	this.dom = dom;
+	this.dom = null;
 	this.mapStructure = null;
 	this.previousSelectedNode = null;
 	this.collaboPluginsService = null;
@@ -94,7 +94,6 @@ MapVisualization.prototype.destroy = function(){
 	this.mapInteraction = null;
 	this.upperAPI = null;
 	this.halo = null;
-	this.updateInProgress = false;
 };
 
 MapVisualization.prototype._initHalo = function(){

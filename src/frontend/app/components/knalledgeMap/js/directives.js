@@ -201,9 +201,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: 'components/knalledgeMap/partials/knalledgeMap.tpl.html',
 			controller: function ( $scope, $element) {
+				$scope.subscriptions = [];
 
 				$scope.$on('$destroy', function(){
-					alert("knalledge.knalledgeMap directive is about to be destroyed!");
+					// alert("knalledge.knalledgeMap directive is about to be destroyed!");
+					for(var i in $scope.subscriptions){
+						$scope.subscriptions[i].unsubscribe();
+					}
 					$scope.knalledgeMap.destroy();
 				})
 
@@ -606,13 +610,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					var el = angular.element('.knalledge_map_middle');
 					KnAllEdgeSelectItemService.init(knalledgeMap, $scope, el);
 
-					GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
-					GlobalEmitterServicesArray.get(KnRealTimeNodeUpdatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
-					GlobalEmitterServicesArray.get(KnRealTimeNodeDeletedEventName).subscribe('knalledgeMap',$scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeUpdatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeDeletedEventName).subscribe('knalledgeMap',$scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
 
-					GlobalEmitterServicesArray.get(KnRealTimeEdgeCreatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
-					GlobalEmitterServicesArray.get(KnRealTimeEdgeUpdatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
-					GlobalEmitterServicesArray.get(KnRealTimeEdgeDeletedEventName).subscribe('knalledgeMap',$scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeCreatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeUpdatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeDeletedEventName).subscribe('knalledgeMap',$scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
 				};
 
 				/**
@@ -699,7 +703,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						loadMapWithId($routeParams.id);
 					}
 
-					GlobalEmitterServicesArray.get(modelLoadedEventName).subscribe('knalledgeMap', function(eventModel) {
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(modelLoadedEventName).subscribe('knalledgeMap', function(eventModel) {
 						// there is only one listener so we can stop further propagation of the event
 						// e.stopPropagation();
 
@@ -711,7 +715,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						// $scope.knalledgeMap.placeModels(eventModel);
 						model = eventModel;
 						setData(model);
-					});
+					}));
 
 					$scope.$watch(function () {
 						return $scope.mapData;
@@ -722,7 +726,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					}, true);
 
 
-					GlobalEmitterServicesArray.get(knalledgePropertyChangedEventName).subscribe('knalledgeMap', function(knalledgeProperty) {
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(knalledgePropertyChangedEventName).subscribe('knalledgeMap', function(knalledgeProperty) {
 						var vkNode = $scope.knalledgeMap.mapStructure.getSelectedNode();
 
 						var knalledgePropertyBefore = null;
@@ -745,7 +749,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 
 						}
-					});
+					}));
 
 					// var viewspecChanged = function(newViewspec) {
 					// 	console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
@@ -754,7 +758,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					// 	toolsChange(KnRealTimeMapViewSpecChangedEventName);
 					// };
 					// var viewspecChangedEventName = "viewspecChangedEvent";
-					// GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', viewspecChanged);
+					// $scope.subscriptions.push(GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', viewspecChanged));
 
 					var viewConfigChanged = function(msg) {
 						//setData(model);
@@ -769,10 +773,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						$scope.knalledgeMap.update();
 					}
 
-					GlobalEmitterServicesArray.get(knalledgeMapUpdateEventName).subscribe('knalledgeMap', knalledgeMapUpdate);
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(knalledgeMapUpdateEventName).subscribe('knalledgeMap', knalledgeMapUpdate));
 
 					var viewConfigChangedEventName = "viewConfigChangedEvent";
-					GlobalEmitterServicesArray.get(viewConfigChangedEventName).subscribe('knalledgeMap', viewConfigChanged);
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(viewConfigChangedEventName).subscribe('knalledgeMap', viewConfigChanged));
 
 					var toolsChange = function(eventName, msg){
 						$scope.knalledgeMap.update();
@@ -788,7 +792,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						toolsChange(KnRealTimeBehaviourChangedEventName, msg);
 						updateState(msg.value);
 					};
-					GlobalEmitterServicesArray.get(behaviourChangedEventName).subscribe('knalledgeMap', behaviourChanged);
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(behaviourChangedEventName).subscribe('knalledgeMap', behaviourChanged));
 
 					var realTimeBehaviourChanged = function(eventName, msg){
 						console.log('realTimeBehaviourChanged:', eventName,'msg:', msg);
@@ -877,23 +881,23 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					}
 
 					var broadcastingChangedEventName = "broadcastingChangedEvent"
-					// GlobalEmitterServicesArray.get(broadcastingChangedEventName).subscribe('knalledgeMap', function() {
+					// $scope.subscriptions.push(GlobalEmitterServicesArray.get(broadcastingChangedEventName).subscribe('knalledgeMap', function() {
 					// 	console.log("[knalledgeMap.controller::$on] event: %s", broadcastingChangedEventName);
 					// 	// $scope.knalledgeMap.syncingChanged(); NOT USED ANY MORE
-					// });
+					// }));
 
-					GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).subscribe('knalledgeMap',
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).subscribe('knalledgeMap',
 					function(msg) {
 						console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
 						//msg is of type: {actionType:'what_deleted',node:$scope.node,what:whatId}
 						$scope.knalledgeMap.mapStructure.nodeWhatsManagement(msg);
 						$scope.knalledgeMap.update();
-					});
+					}));
 
-					GlobalEmitterServicesArray.get(changeSelectedNodeEventName).subscribe('knalledgeMap', function(vkNode) {
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(changeSelectedNodeEventName).subscribe('knalledgeMap', function(vkNode) {
 						console.log("[knalledgeMap.controller::$on] event: %s", changeSelectedNodeEventName);
 						$scope.knalledgeMap.nodeSelected(vkNode);
-					});
+					}));
 
 					if(RimaService){
 						$scope.$watch(function () {

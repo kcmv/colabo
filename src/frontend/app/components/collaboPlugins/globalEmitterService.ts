@@ -56,7 +56,11 @@ export class GlobalEmitterService {
         if(this.queueMessages) this.queue.push([subscriberName, msg]);
     }
     subscribe(subscriberName: string, subscriberFunc: Function) {
-        if(this.emitter) this.emitter.subscribe(subscriberFunc);
+        var subscription;
+        if(this.emitter){
+            subscription = this.emitter.subscribe(subscriberFunc);
+        }
         this.subscribers[subscriberName] = subscriberFunc;
+        return subscription;
     }
 }
