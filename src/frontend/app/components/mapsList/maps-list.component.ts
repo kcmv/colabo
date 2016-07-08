@@ -104,6 +104,7 @@ export class MapsList implements OnInit{
   public nameOfDuplicatedMap = "";
   public mapParticipants = null;
   public title: string = "";
+  public mapRoutes: string[];
   //public cloneDialog = @ViewChild('cloneDialog');
 
   policyConfig: any;
@@ -142,6 +143,7 @@ export class MapsList implements OnInit{
       // });
       this.mapToCreate = new knalledge.KMap();
       this.init();
+      this.mapRoutes = Config.Plugins.mapsList.config.openMap.routes;
   };
 
   ngOnInit() {
@@ -328,7 +330,7 @@ export class MapsList implements OnInit{
     //TEST: this.policyConfig.moderating.enabled = !this.policyConfig.moderating.enabled;
   }
 
-	openMap(item) {
+	openMap(item, mapRoute) {
 	    console.log("openMap");
       if(!item){ // && this.selectedItem !== null && this.selectedItem !== undefined
         item = this.selectedItem;
@@ -342,8 +344,7 @@ export class MapsList implements OnInit{
 
         //TODO-remove:
         this.policyConfig.moderating.enabled = false;
-        var mapRoute = Config.Plugins.mapsList.config.openMap.routes[0].route;
-        window.location.href = "#"+ mapRoute +"/id/" + item._id;
+        window.location.href = "#"+ mapRoute.route +"/id/" + item._id;
   			//openMap(item);
   			// $element.remove();
   		}else{
