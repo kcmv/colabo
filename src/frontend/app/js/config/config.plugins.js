@@ -63,11 +63,6 @@ var plugins = {
 					route: 'map',
 					name: 'map',
 					icon: ''
-				},
-				{
-					route: 'mcmap',
-					name: 'McM-map',
-					icon: ''
 				}]
 			}
 		}
