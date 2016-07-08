@@ -97,13 +97,20 @@ export class ApprovalNodeService {
         //this.getMockupRequests();
     }
 
-    changeApproval(node){
-      var state = NodeGardened.nextState(node.kNode);
+    disapproveNode(node){
+      this.setApproval(node, ApprovalState.DISAPPROVED);
+    }
+
+    setApproval(node, state){
       var whoAmi = this.rimaService.getActiveUserId();
       var patch = NodeGardened.createApprovalStatePatch(state, whoAmi);
       this.globalEmitterServicesArray.get(this.knalledgeMapUpdateEventName).broadcast('ApprovalNodeService');
       if(this.knAllEdgeRealTimeService){
         this.knalledgeMapVOsService.mapStructure.updateNode(node, APPROVAL_CHANGE_EVENT, patch);
       }
+    }
+
+    changeApproval(node){
+      this.setApproval(node, NodeGardened.nextState(node.kNode));
     }
 }
