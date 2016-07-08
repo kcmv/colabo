@@ -68,23 +68,27 @@ export class KnalledgeCreateNodeComponent implements AfterViewInit{
     ngAfterViewInit() {
     }
 
-    show(knalledgeNodeType, knalledgeEdgeType, callback){
+    show(knalledgeNodeType, knalledgeEdgeType, title: string = null, callback:any = null){
         this.showKnalledgeNodeType = knalledgeNodeType;
         this.showKnalledgeEdgeType = knalledgeEdgeType;
         this.showCallback = callback;
 
         this.nodeName = "";
 
-        switch(knalledgeNodeType){
-            case "type_ibis_comment":
-                this.createNodeTitle = "Create Comment";
-                break;
-            case "type_ibis_question":
-                this.createNodeTitle = "Create Question";
-                break;
-            default:
-                this.createNodeTitle = "Create Node";
-                break;
+        if(title !==null){
+          this.createNodeTitle = title;
+        }else{
+          switch(knalledgeNodeType){
+              case "type_ibis_comment":
+                  this.createNodeTitle = "Create Comment";
+                  break;
+              case "type_ibis_question":
+                  this.createNodeTitle = "Create Question";
+                  break;
+              default:
+                  this.createNodeTitle = "Create Node";
+                  break;
+          }
         }
 
         this.mdDialog.show();
