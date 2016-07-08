@@ -396,6 +396,13 @@
                             }
                         })
 
+                        .setPill('approvals', {
+                            prefixes: ['approvals:'],
+                            callback: function(model, value) {
+                                null;//return (model.get('approvals') === value);
+                            }
+                        })
+
                         .setFilter('search', function(model, searchString) {
                             if (!searchString) {
                                 return true;

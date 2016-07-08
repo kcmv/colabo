@@ -99,6 +99,7 @@ export class KnalledgeMapMain {
     userUrl: String = "www.CollaboScience.com";
     policyConfig: any;
     viewConfig: any;
+    public pluginsConfig:any;
     topPanelVisible: boolean = true;
     status: String;
     private rimaService;
@@ -116,6 +117,7 @@ export class KnalledgeMapMain {
         console.log('[KnalledgeMapMain] loaded');
         this.viewConfig = knalledgeMapViewService.get().config;
         this.policyConfig = knalledgeMapPolicyService.get().config;
+        this.pluginsConfig = Config.Plugins;
         try {
             this.rimaService = RimaService;
             // * @param  {rima.rimaServices.RimaService}  RimaService
