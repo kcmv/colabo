@@ -163,7 +163,7 @@ rm -r backend_archive/modules/topiChat/node_modules
 rm -r backend_archive/modules/topiChat-knalledge/node_modules
 rm -r backend_archive/tools/node_modules
 
-zip -r -X prod-2016.06.19.zip backend_archive
+zip -r -X prod-backend-2016.07.07-1.zip backend_archive
 open .
 ```
 
@@ -180,7 +180,8 @@ If there is a new module required you need to install them and backup node_modul
 ```js
 cd /var/www/knalledge/src/backend
 
-npm install --production
+// this is dangerous:
+    npm install --production
 cd /var/www/knalledge/src/
 rm -r node_modules_backup
 mkdir -p node_modules_backup node_modules_backup/tC node_modules_backup/tCK node_modules_backup/tools
@@ -194,9 +195,11 @@ ls node_modules_backup
 ls node_modules_backup/tC
 ```
 
+if not, continue straight here:
+
 ```
 cd /var/www/knalledge/src/backend/
-unzip prod-2016.06.19.zip
+unzip prod-backend-2016.07.07-1.zip
 rm -r config/ continuousServer.sh info.txt KnAllEdgeBackend.js models/ modules/ package.json tools/
 
 mv backend_archive/* .
@@ -209,18 +212,17 @@ cp -r ../node_modules_backup/tC/* modules/topiChat
 cp -r ../node_modules_backup/tCK/* modules/topiChat-knalledge
 cp -r ../node_modules_backup/tools/* tools
 
-nodejs KnAllEdgeBackend.js 8888
 
 su
 status knalledge-b
+
 stop knalledge-b
-status knalledge-b
-
+nodejs KnAllEdgeBackend.js 8888
 start knalledge-b
-status knalledge-b
 
-restart knalledge-b
 status knalledge-b
+restart knalledge-b
+exit
 ```
 
 ### Production deployment
@@ -232,7 +234,7 @@ There are two groups of actions to be done. First on local machine, then on the 
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.06.19.zip dist/prod
+zip -r -X prod-frontend-2016.07.06-2.zip dist/prod
 ```
 
 #### Upload on the server
@@ -242,7 +244,8 @@ Open the folder with zip file at your local machine:
 ```sh
 open .
 ```
-Start a SFTP client and upload the zip file to a production folder on server:  `/var/www/knalledge_frontend/prod`
+Start a SFTP client and upload the zip file to a production folder on server:
+`/var/www/knalledge_frontend/prod`
 
 Login to the server and unpack CF system and configure it:
 
@@ -250,7 +253,7 @@ Login to the server and unpack CF system and configure it:
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.06.19.zip
+unzip prod-frontend-2016.07.06-2.zip
 mv dist/prod/* .
 rm -r dist/
 
@@ -261,7 +264,7 @@ cd /var/www/knalledge_frontend
 
 # replace
 # `env=envs.localhost` -> `env=envs.server`
-sed -i 's/env\=envs\.localhost/env\=envs\.server/g' prod/js/shims_bundle.js
+sed -i 's/env\s*\=\s*envs\.localhost/env\=envs\.server/g' prod/js/shims_bundle.js
 sed -i 's/base\ href\=\"\/\"/base\ href\=\"\/prod\/\"/' prod/index.html
 
 #optional commenting:
@@ -278,7 +281,8 @@ Back on the local machine:
 open ./node_modules/ng2-material/font
 ```
 
-Upload all the 'font files' (MaterialIcons-Regular...) from the folder `src/frontend/node_modules/ng2-material/font` to the `/var/www/knalledge_frontend/prod/css/`
+Upload all the 'font files' (MaterialIcons-Regular...) from the folder `src/frontend/node_modules/ng2-material/font` to the
+`/var/www/knalledge_frontend/prod/css/`
 
 Upload `KnAllEdge/src/frontend/dist/prod/css/all.css` to the `/var/www/knalledge_frontend/prod/css/` folder
 
@@ -298,7 +302,7 @@ There are two groups of actions to be done. First on local machine, then on the 
 cdd
 cd KnAllEdge/src/frontend
 npm run build.prod
-zip -r -X prod-2016.06.19.zip dist/prod
+zip -r -X prod-frontend-2016.07.06-2.zip dist/prod
 ```
 
 #### Upload on the server
@@ -316,7 +320,7 @@ Login to the server and unpack CF system and configure it:
 ssh mprinc@knalledge.org
 cd /var/www/knalledge_frontend/prod
 rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
-unzip prod-2016.06.19.zip
+unzip prod-frontend-2016.07.06-2.zip
 mv dist/prod/* .
 rm -r dist/
 
@@ -497,13 +501,18 @@ sudo gem install susy
 sudo gem install breakpoint
 sudo gem install normalize-scss
 sudo gem install font-awesome-sass -v 4.3.2.1
-
 ```
 
 if different version is installed you can uninstall it with:
 ```sh
 sudo gem uninstall font-awesome-sass -v 4.6.2
 ```
+
+On some machines it might be necessary to do:
+```sh
+sudo chmod -R og+rx /Library/Ruby/Gems/2.0.0/
+```
+in order to provide reading access.
 
 # Running the backend
 
@@ -566,3 +575,28 @@ At the moment there is no simple solution except remove it from some of the tool
 We did remove it manually:
 
 Here are
+
+# Installing new machine (problems)
+
++ get backup of working machine
++ git clone ...
++ copy/overwrite folders/files
+    + frontend
+        + bower_components
+        + node_modules
+        + tools/manual_typings
+        + typings
+        + typings.json
+    + backend
+        + it should work fine so just
+            + cd backend
+            + npm install
+                + cd modules/topiChat
+                + npm install
+                + cd modules/topiChat-knalledge
+                + npm install
+        + or do it faster by copying/overwriting folders/files
+            + node_modules
+            + modules/topiChat/node_modules
+            + modules/topiChat-knalledge/node_modules
++ now you can do symbolic linking

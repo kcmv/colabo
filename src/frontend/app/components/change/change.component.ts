@@ -5,7 +5,7 @@ import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import { DatePipe } from "@angular/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
-import {Change, ChangeState} from "./change";
+import {Change, State} from "./change";
 import {ChangeService} from "./change.service";
 //import {KNode} from "KNode";
 
@@ -71,7 +71,7 @@ export class ChangeComponent implements OnInit {
   // }
 
   // revoke(change){
-  //   change.state = ChangeState.REVOKED;
+  //   change.state = State.REVOKED;
   //   //TODO: inform user that it is revoked
   //   for(let i=0;i<this.changes.length;i++){
   //     if(this.changes[i] === change){

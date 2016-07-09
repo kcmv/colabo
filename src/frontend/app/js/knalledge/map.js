@@ -33,6 +33,7 @@
 var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
 	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService, injector, Plugins){
 	var that = this;
+
 	this.config = config;
 	this.upperApi = upperApi;
 	this.entityStyles = entityStyles;
@@ -67,6 +68,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		this.mapInteraction.nodeMediaClicked(vkNode);
 	}.bind(this);
 	this.mapManagerApi.nodeCreatorClicked	= this.nodeCreatorClicked.bind(this);
+	this.mapManagerApi.nodeTypeClicked	= this.nodeTypeClicked.bind(this);
 
 	this.mapManager = new knalledge.MapManager(this.mapManagerApi, this.parentDom, this.mapStructure, this.collaboPluginsService, this.config.transitions, this.config.tree, this.config.nodes, this.config.edges, rimaService, this.knalledgeState, this.notifyService, mapPlugins, this.knalledgeMapViewService, this.knAllEdgeRealTimeService, this.injector);
 
@@ -121,12 +123,27 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		}.bind(this),
 		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
 		getActiveIbisType: function(){
-			return this.ibisTypesService.getActiveType().type;
+			if(knalledgeMapPolicyService && knalledgeMapPolicyService.provider && knalledgeMapPolicyService.provider.config &&
+			knalledgeMapPolicyService.provider.config.knalledgeMap && knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType){
+						return knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType;
+			}else{
+				return this.ibisTypesService.getActiveType().type;
+			}
 		}.bind(this)
 	};
 
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
+
 	this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
+
+	this.knalledgeNodeTypeChanged = "knalledgeNodeTypeChanged";
+	this.GlobalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
+	this.GlobalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('Map', this.nodeTypeChanged.bind(this));
+
+	this.knalledgeNodeCreatorChanged = "knalledgeNodeCreatorChanged";
+	this.GlobalEmitterServicesArray.register(this.knalledgeNodeCreatorChanged);
+	this.GlobalEmitterServicesArray.get(this.knalledgeNodeCreatorChanged).subscribe('Map', this.nodeCreatorChanged.bind(this));
+
 	this.mapInteraction = new MapInteraction(mapInterface, this.mapPlugins);
 	this.mapInteraction.init();
 	this.injector.addPath("mapInteraction", this.mapInteraction);
@@ -194,6 +211,43 @@ Map.KnRealTimeNodeUnselectedEventName = "node-unselected";
 Map.KnRealTimeNodeClickedEventName = "node-clicked";
 
 /**
+ * The function that is called when we are destroying parent.
+ * It has to destroy, or at worst disable any subcomponent from working
+ * @function destroy
+ */
+Map.prototype.destroy = function(){
+	this.knalledgeState.destroyed = true;
+
+	this.config = null;
+	this.upperApi = null;
+	this.entityStyles = null;
+	this.parentDom = null;
+	this.mapService = null;
+	this.scales = null;
+	this.mapSize = null;
+	this.mapStructureExternal = null;
+	this.collaboPluginsService = null;
+	this.rimaService = null;
+	this.ibisTypesService = null;
+	this.notifyService = null;
+	this.knalledgeMapViewService = null;
+	this.mapPlugins = null;
+	this.syncingService = null;
+	this.knAllEdgeRealTimeService = null;
+	this.injector = null;
+	this.mapManagerApi = null;
+
+	if(!this.mapStructureExternal){
+		this.mapStructure.destroy();
+	}
+	this.mapManager.destroy();
+	this.mapVisualization.destroy();
+	this.mapLayout.destroy();
+	this.mapInteraction.destroy();
+	this.keyboardInteraction.destroy();
+}
+
+/**
  * The function that is called when node selection is sent from other client
  * @function realTimeNodeSelected
  * @param  {string} eventName - the name of event
@@ -201,7 +255,7 @@ Map.KnRealTimeNodeClickedEventName = "node-clicked";
  */
 Map.prototype.realTimeNodeSelected = function(eventName, msg){
 	var that = this;
-	var kId = msg;
+	var kId = msg.reference;
 	// alert("[Map:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
 	console.log("[Map:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s",
 	(this.knAllEdgeRealTimeService) ? this.knAllEdgeRealTimeService.getClientInfo().clientId : 'unknown', eventName, JSON.stringify(kId));
@@ -280,8 +334,35 @@ Map.prototype.nodeSelected = function(nodeIdentifier) {
 	// realtime distribution
 	//  && !doNotBroadcast 	// do not broadcast back :)
 	if(this.knAllEdgeRealTimeService){
-		this.knAllEdgeRealTimeService.emit(knalledge.Map.KnRealTimeNodeSelectedEventName, vkNode.kNode._id);
+		var change = new puzzles.changes.Change();
+		change.value = null;
+		change.valueBeforeChange = null; //TODO
+		change.reference = vkNode.kNode._id;
+		change.type = puzzles.changes.ChangeType.NAVIGATIONAL;
+		change.event = knalledge.Map.KnRealTimeNodeSelectedEventName;
+		change.action = null;
+		change.domain = puzzles.changes.Domain.NODE;
+		change.visibility = puzzles.changes.ChangeVisibility.ALL;
+		change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
+
+		this.knAllEdgeRealTimeService.emit(knalledge.Map.KnRealTimeNodeSelectedEventName, change); //vkNode.kNode._id);
 	}
+};
+
+Map.prototype.nodeTypeChanged = function(change){
+	var that = this;
+	this.mapStructure.updateNode(change.node, knalledge.MapStructure.UPDATE_NODE_TYPE, change.type, function(node){
+			//that.knalledgeMapViewService.provider.config.states.editingNode = null;
+			that.update(node);
+	});
+};
+
+Map.prototype.nodeCreatorChanged = function(change){
+	var that = this;
+	this.mapStructure.updateNode(change.node, knalledge.MapStructure.UPDATE_NODE_CREATOR, change.creator, function(node){
+			//that.knalledgeMapViewService.provider.config.states.editingNode = null;
+			that.update(node);
+	});
 };
 
 /**
@@ -437,6 +518,12 @@ Map.prototype.nodeDblClicked = function(vkNode) {
 
 Map.prototype.nodeCreatorClicked = function(vkNode){
 	//console.log("[Map.prototype.nodeCreatorClicked]", vkNode.kNode.name);
+	this.knalledgeMapViewService.provider.config.states.editingNode = vkNode;
+}
+
+Map.prototype.nodeTypeClicked = function(vkNode){
+	//console.log("[Map.prototype.nodeCreatorClicked]", vkNode.kNode.name);
+	this.knalledgeMapViewService.provider.config.states.editingNode = vkNode;
 }
 
 // react on label click.

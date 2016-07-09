@@ -40,6 +40,9 @@ export class KnalledgeMapViewService {
                 topPanel: {
                     visible: false
                 }
+            },
+            states: { //TODO: temp solution
+              editingNode: null
             }
         }
     };

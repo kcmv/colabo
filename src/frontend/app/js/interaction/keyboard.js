@@ -17,6 +17,7 @@ located in mapInteraction
 var Keyboard =  interaction.Keyboard = function(mapInteraction, mapPlugins){
 	this.mapInteraction = mapInteraction;
 	this.mapPlugins = mapPlugins;
+	this.destroyed = false;
 };
 
 /**
@@ -37,10 +38,22 @@ Keyboard.prototype.init = function(){
 	this.initializeKeyboard();
 };
 
+/**
+ * The function that is called when we are destroying parent.
+ * It has to destroy, or at worst disable any subcomponent from working
+ * @function destroy
+ * @memberof interaction.Keyboard#
+ */
+Keyboard.prototype.destroy = function(){
+	this.destroyed = true;
+};
+
+Keyboard.MaxId = 0;
+
 // http://robertwhurst.github.io/keyboardJS/
 Keyboard.prototype.initializeKeyboard = function() {
 	var that = this;
-
+	this.keyboardId = ++Keyboard.MaxId;
 	// var this.keyboardLibType = 'KeyboardJS';
 	this.keyboardLibType = 'Kibo';
 

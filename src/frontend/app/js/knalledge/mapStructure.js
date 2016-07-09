@@ -13,6 +13,7 @@ not KNodes nor KEdges
 
 var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins){
 	this.rootNode = null;
+	this.destroyed = false;
 
 	/**
 	 * Currently selected node in the map
@@ -79,6 +80,8 @@ MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
 MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT"; //depricated, should be more specialized
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
 MapStructure.UPDATE_NODE_APPEARENCE = "UPDATE_NODE_APPEARENCE";
+MapStructure.UPDATE_NODE_TYPE = "UPDATE_NODE_TYPE";
+MapStructure.UPDATE_NODE_CREATOR = "UPDATE_NODE_CREATOR";
 
 /**
 * @var {debugPP} debug - namespaced debug for the class
@@ -96,7 +99,17 @@ MapStructure.debug = debugpp.debug('knalledge.MapStructure');
  */
 MapStructure.prototype.init = function(mapService){
 	this.mapService = mapService;
+	this.destroyed = false;
 	return this;
+};
+
+/**
+ * The function that is called when we are destroying parent.
+ * It has to destroy, or at worst disable any subcomponent from working
+ * @function destroy
+ */
+MapStructure.prototype.destroy = function(){
+	this.destroyed = true;
 };
 
 MapStructure.prototype.isStructuralChange = function(actionType){
@@ -127,6 +140,18 @@ MapStructure.prototype.unsetSelectedNode = function(vkNode){
 	return this;
 };
 
+MapStructure.prototype.debugNode = function(node){
+	if(this.knalledgeMapPolicyService.provider.config.moderating.enabled){
+		console.log("DEBUG-NODE:",node);
+		for(var i in this.edgesById){
+			if(this.edgesById[i].kEdge.targetId === node.kNode._id){
+				console.log("DEBUG-PARENT-EDGE:",this.edgesById[i]);
+				break;
+			}
+		}
+	}
+};
+
 /**
  * Sets currently selected node
  * @param  {knalledge.VKNode} selectedNode - newly selected node
@@ -135,6 +160,7 @@ MapStructure.prototype.unsetSelectedNode = function(vkNode){
  * @return {knalledge.MapStructure}
  */
 MapStructure.prototype.setSelectedNode = function(selectedNode){
+	this.debugNode(selectedNode);
 	this.selectedNode = selectedNode;
 	// sets what nodes are visible relatively to the currently selected node
 	// TODO: it should be migrated into plugin
@@ -702,7 +728,8 @@ MapStructure.prototype.updateName = function(vkNode, newName){
 	if(!this.mapService) return;
 
 	vkNode.kNode.name = newName;
-	this.mapService.updateNode(vkNode.kNode, MapStructure.UPDATE_NODE_NAME);
+	var patch = {name:newName};
+	this.updateNode(vkNode, MapStructure.UPDATE_NODE_NAME, patch);
 };
 
 /**
@@ -721,7 +748,7 @@ MapStructure.prototype.updateName = function(vkNode, newName){
  * @param {string} updateType - type of the update
  * @return {knalledge.MapStructure}
  */
-MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
+MapStructure.prototype.updateNode = function(vkNode, updateType, change, callback) {
 	var activeUserId = this.rimaService ?
 		this.rimaService.getActiveUserId() :
 		this.Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
@@ -752,6 +779,12 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 			patch = {dataContent:{ibis:{votes:{}}}};
 			patch.dataContent.ibis.votes[iAmId] = change;
 		break;
+		case MapStructure.UPDATE_NODE_TYPE:
+			patch = {type:change};
+		break;
+		case MapStructure.UPDATE_NODE_CREATOR:
+			patch = {iAmId:change};
+		break;
 		case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING:
 			patch = {dataContent:{rima:{whats:{'_id':change}}}};
 			//'dataContent.rima.whats'
@@ -761,15 +794,17 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change) {
 		break;
 		case MapStructure.UPDATE_DATA_CONTENT:
 			break;
+		case MapStructure.UPDATE_NODE_NAME:
 		default:
-			//unknown event, i.e. from a plugin, which has done already everything so we have just to forward the update call to mapService
+			//everything is done already
+			//or we have an unknown event, i.e. from a plugin, which has done already everything so we have just to forward the update call to mapService
 			patch = change;
 			break;
 	}
 	// calling the KnalledgeMapVOsService service
 	// to update the node on the server
 	// if patch === null, then we're doing complete update and not an differential one (patching)
-	this.mapService.updateNode(vkNode.kNode, updateType, patch);
+	this.mapService.updateNode(vkNode.kNode, updateType, patch, callback);
 
 	return this;
 };

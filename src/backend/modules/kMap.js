@@ -86,7 +86,8 @@ console.log("dbName: %s", dbName);
 			break;
 		case 'by-participant': //by map type
 			console.log("find:\n by-participant:", id);
-			KMapModel.find({"participants": id}, found);
+			//KMapModel.find({"participants": id}, found);
+			KMapModel.find({ $or : [{"participants": id}, {"isPublic": true}]}, found);
 			break;
 	}
 }
@@ -242,6 +243,7 @@ exports.update = function(req, res){
 						old2NewNodeIds[oldId.toString()] = newNode._id;
 						if(rootNodeId === null){
 							rootNodeId = mapData.map.rootNodeId = newNode._id;
+							newNode.name = newMapName; //root node should have the name same as the map
 							console.log("[nodesEdgesReceived] setting rootNodeId to: ", mapData.nodes[mapData.nodes.length-1]._id);
 							console.log("[nodesEdgesReceived] NEW mapData.map.rootNodeId: ", mapData.map.rootNodeId);
 						}

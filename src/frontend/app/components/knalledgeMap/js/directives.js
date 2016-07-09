@@ -201,6 +201,16 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			// expression: http://docs.angularjs.org/guide/expression
 			templateUrl: 'components/knalledgeMap/partials/knalledgeMap.tpl.html',
 			controller: function ( $scope, $element) {
+				$scope.subscriptions = [];
+
+				$scope.$on('$destroy', function(){
+					// alert("knalledge.knalledgeMap directive is about to be destroyed!");
+					for(var i in $scope.subscriptions){
+						// http://stackoverflow.com/questions/36494509/how-to-unsubscribe-from-eventemitter-in-angular-2
+						$scope.subscriptions[i].unsubscribe();
+					}
+					$scope.knalledgeMap.destroy();
+				})
 
 				if($routeParams.route){
 					$scope.route = decodeRoute($routeParams.route);
@@ -208,7 +218,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				var model = null;
 				// var knalledgeMap = new mcm.Map(ConfigMap, knalledgeMapClientInterface, entityStyles);
-				// knalledgeMap.init();
+				// $scope.knalledgeMap.init();
 
 				var knalledgeMap = null;
 				var config = null;
@@ -467,13 +477,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								var selectionOfItemFinished = function(item){
 									var vkNode = item;
 									if(itemType == 'kNode'){
-										knalledgeMap.mapStructure.getVKNodeByKId(item._id);
+										$scope.knalledgeMap.mapStructure.getVKNodeByKId(item._id);
 									}
-									knalledgeMap.nodeSelected(vkNode);
+									$scope.knalledgeMap.nodeSelected(vkNode);
 								};
 
 								// var items = KnalledgeMapVOsService.getNodesList();
-								var items = knalledgeMap.mapStructure.getNodesList();
+								var items = $scope.knalledgeMap.mapStructure.getNodesList();
 
 								KnAllEdgeSelectItemService.openSelectItem(items, labels, selectionOfItemFinished, itemType);
 							});
@@ -528,7 +538,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 										var updated = function(kNodeFromServer){
 											console.log("[knalledgeMap::kMapClientInterface::addImage::addedImage::updated'] updateKNode: " + kNodeFromServer);
 											if(callback){callback(vkNode);}
-											knalledgeMap.update(vkNode);
+											$scope.knalledgeMap.update(vkNode);
 										};
 										KnalledgeMapVOsService.updateNode(vkNode.kNode,knalledge.KNode.UPDATE_TYPE_IMAGE).$promise
 											.then(updated);
@@ -584,14 +594,16 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 					injector.addPath("timeout", $timeout);
 
-					knalledgeMap = new knalledge.Map(
+					injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
+
+					$scope.knalledgeMap = new knalledge.Map(
 						d3.select($element.find(".knalledge_map_container").get(0)),
 						config, kMapClientInterface, null,
 							config.tree.mapService.enabled ? KnalledgeMapVOsService : null,
 							// if $scope.mapData is set, we do not use KnalledgeMapVOsService.mapStructure but let knalledge.Map to create a new mapStructure and build VKs from Ks
 							checkData($scope.mapData) ? null : KnalledgeMapVOsService.mapStructure,
 							CollaboPluginsService, RimaService, IbisTypesService, NotifyService, mapPlugins, KnalledgeMapViewService, SyncingService, KnAllEdgeRealTimeService, KnalledgeMapPolicyService, injector, Plugins);
-					knalledgeMap.init();
+					$scope.knalledgeMap.init();
 
 					// providing select item service with the context
 					// var el = $element;
@@ -599,13 +611,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					var el = angular.element('.knalledge_map_middle');
 					KnAllEdgeSelectItemService.init(knalledgeMap, $scope, el);
 
-					GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
-					GlobalEmitterServicesArray.get(KnRealTimeNodeUpdatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
-					GlobalEmitterServicesArray.get(KnRealTimeNodeDeletedEventName).subscribe('knalledgeMap',knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeUpdatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeDeletedEventName).subscribe('knalledgeMap',$scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
 
-					GlobalEmitterServicesArray.get(KnRealTimeEdgeCreatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
-					GlobalEmitterServicesArray.get(KnRealTimeEdgeUpdatedEventName).subscribe('knalledgeMap', knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
-					GlobalEmitterServicesArray.get(KnRealTimeEdgeDeletedEventName).subscribe('knalledgeMap',knalledgeMap.processExternalChangesInMap.bind(knalledgeMap));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeCreatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeUpdatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeDeletedEventName).subscribe('knalledgeMap',$scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
 				};
 
 				/**
@@ -633,15 +645,15 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						selectedKNodeId = $scope.mapData.selectedNode;
 					}
 
-					knalledgeMap.processData(model, selectedKNodeId, function(){
+					$scope.knalledgeMap.processData(model, selectedKNodeId, function(){
 						// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
 						// TODO: we need to avoid this and reduce map processing
-						// knalledgeMap.update();
+						// $scope.knalledgeMap.update();
 						// if(
 						// 	($scope.mapData && $scope.mapData.selectedNode)
 						// 	|| $routeParams.node_id){
-						// 	var vkNode = knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
-						// 	knalledgeMap.mapLayout.selectNode(vkNode, null, true, true, true);
+						// 	var vkNode = $scope.knalledgeMap.mapStructure.getVKNodeByKId($scope.mapData.selectedNode._id);
+						// 	$scope.knalledgeMap.mapLayout.selectNode(vkNode, null, true, true, true);
 						// }
 					});
 				};
@@ -692,7 +704,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						loadMapWithId($routeParams.id);
 					}
 
-					GlobalEmitterServicesArray.get(modelLoadedEventName).subscribe('knalledgeMap', function(eventModel) {
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(modelLoadedEventName).subscribe('knalledgeMap', function(eventModel) {
 						// there is only one listener so we can stop further propagation of the event
 						// e.stopPropagation();
 
@@ -701,10 +713,10 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						console.log("[knalledgeMap.controller::$on] ModelMap  edges(len: %d): ",
 							eventModel.map.edges.length, eventModel.map.edges);
 
-						// knalledgeMap.placeModels(eventModel);
+						// $scope.knalledgeMap.placeModels(eventModel);
 						model = eventModel;
 						setData(model);
-					});
+					}));
 
 					$scope.$watch(function () {
 						return $scope.mapData;
@@ -715,8 +727,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					}, true);
 
 
-					GlobalEmitterServicesArray.get(knalledgePropertyChangedEventName).subscribe('knalledgeMap', function(knalledgeProperty) {
-						var vkNode = knalledgeMap.mapStructure.getSelectedNode();
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(knalledgePropertyChangedEventName).subscribe('knalledgeMap', function(knalledgeProperty) {
+						var vkNode = $scope.knalledgeMap.mapStructure.getSelectedNode();
 
 						var knalledgePropertyBefore = null;
 						if(vkNode){
@@ -732,13 +744,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							if(!knalledgePropertyBefore && !knalledgeProperty) return;
 
 							vkNode.kNode.dataContent.property = knalledgeProperty;
-							knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
+							$scope.knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
 						}else{
 						console.log("[knalledgeMap.controller::$on:%s] node not selected. knalledgeProperty: %s", knalledgePropertyChangedEventName, knalledgeProperty);
 
 
 						}
-					});
+					}));
 
 					// var viewspecChanged = function(newViewspec) {
 					// 	console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
@@ -747,7 +759,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					// 	toolsChange(KnRealTimeMapViewSpecChangedEventName);
 					// };
 					// var viewspecChangedEventName = "viewspecChangedEvent";
-					// GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', viewspecChanged);
+					// $scope.subscriptions.push(GlobalEmitterServicesArray.get(viewspecChangedEventName).subscribe('knalledgeMap', viewspecChanged));
 
 					var viewConfigChanged = function(msg) {
 						//setData(model);
@@ -759,16 +771,16 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					};
 
 					function knalledgeMapUpdate(){
-						knalledgeMap.update();
+						$scope.knalledgeMap.update();
 					}
 
-					GlobalEmitterServicesArray.get(knalledgeMapUpdateEventName).subscribe('knalledgeMap', knalledgeMapUpdate);
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(knalledgeMapUpdateEventName).subscribe('knalledgeMap', knalledgeMapUpdate));
 
 					var viewConfigChangedEventName = "viewConfigChangedEvent";
-					GlobalEmitterServicesArray.get(viewConfigChangedEventName).subscribe('knalledgeMap', viewConfigChanged);
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(viewConfigChangedEventName).subscribe('knalledgeMap', viewConfigChanged));
 
 					var toolsChange = function(eventName, msg){
-						knalledgeMap.update();
+						$scope.knalledgeMap.update();
 						// realtime distribution
 						if(KnAllEdgeRealTimeService){
 							KnAllEdgeRealTimeService.emit(eventName, msg);
@@ -781,7 +793,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						toolsChange(KnRealTimeBehaviourChangedEventName, msg);
 						updateState(msg.value);
 					};
-					GlobalEmitterServicesArray.get(behaviourChangedEventName).subscribe('knalledgeMap', behaviourChanged);
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(behaviourChangedEventName).subscribe('knalledgeMap', behaviourChanged));
 
 					var realTimeBehaviourChanged = function(eventName, msg){
 						console.log('realTimeBehaviourChanged:', eventName,'msg:', msg);
@@ -792,7 +804,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 								break;
 						}
 						updateState(msg.value);
-						knalledgeMap.update();
+						$scope.knalledgeMap.update();
 					}
 
 					var updateState = function(value){
@@ -843,13 +855,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 									KnalledgeMapViewService.provider.config.filtering.visbileTypes.ibis = msg.value;
 									break;
 							}
-							knalledgeMap.update();
+							$scope.knalledgeMap.update();
 						};
 
 						// var realTimeMapViewspecChanged = function(eventName, newViewspec){
 						// 	console.log("[knalledgeMap.controller::realTimeMapViewspecChanged] newViewspec: %s", newViewspec);
 						// 	config.tree.viewspec = newViewspec;
-						// 	knalledgeMap.update();
+						// 	$scope.knalledgeMap.update();
 						// };
 
 						var mapViewPluginOptions = {
@@ -858,7 +870,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							}
 						};
 
-						mapViewPluginOptions.events[KnRealTimeBroadcastUpdateMaps] = knalledgeMap.update.bind(knalledgeMap);
+						mapViewPluginOptions.events[KnRealTimeBroadcastUpdateMaps] = $scope.knalledgeMap.update.bind(knalledgeMap);
 
 						mapViewPluginOptions.events[KnRealTimeBroadcastReloadMaps] = loadMapWithId.bind(null, $routeParams.id);
 
@@ -870,23 +882,23 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					}
 
 					var broadcastingChangedEventName = "broadcastingChangedEvent"
-					// GlobalEmitterServicesArray.get(broadcastingChangedEventName).subscribe('knalledgeMap', function() {
+					// $scope.subscriptions.push(GlobalEmitterServicesArray.get(broadcastingChangedEventName).subscribe('knalledgeMap', function() {
 					// 	console.log("[knalledgeMap.controller::$on] event: %s", broadcastingChangedEventName);
-					// 	// knalledgeMap.syncingChanged(); NOT USED ANY MORE
-					// });
+					// 	// $scope.knalledgeMap.syncingChanged(); NOT USED ANY MORE
+					// }));
 
-					GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).subscribe('knalledgeMap',
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).subscribe('knalledgeMap',
 					function(msg) {
 						console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
 						//msg is of type: {actionType:'what_deleted',node:$scope.node,what:whatId}
-						knalledgeMap.mapStructure.nodeWhatsManagement(msg);
-						knalledgeMap.update();
-					});
+						$scope.knalledgeMap.mapStructure.nodeWhatsManagement(msg);
+						$scope.knalledgeMap.update();
+					}));
 
-					GlobalEmitterServicesArray.get(changeSelectedNodeEventName).subscribe('knalledgeMap', function(vkNode) {
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(changeSelectedNodeEventName).subscribe('knalledgeMap', function(vkNode) {
 						console.log("[knalledgeMap.controller::$on] event: %s", changeSelectedNodeEventName);
-						knalledgeMap.nodeSelected(vkNode);
-					});
+						$scope.knalledgeMap.nodeSelected(vkNode);
+					}));
 
 					if(RimaService){
 						$scope.$watch(function () {
@@ -894,7 +906,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						},
 						function(newValue){
 							//alert("RimaService.howAmIs changed: " + JSON.stringify(newValue));
-							if(knalledgeMap) knalledgeMap.update();
+							if(knalledgeMap) $scope.knalledgeMap.update();
 						}, true);
 					}
 				};
@@ -929,8 +941,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 				// $scope.nodeState = {
 				//     selected: function() {
-				//     	//console.warn('knalledgeMap.mapStructure.getSelectedNode():'+knalledgeMap.mapStructure.getSelectedNode());
-				//     	return 1;//nodeContent.node;//return knalledgeMap.mapStructure.getSelectedNode();
+				//     	//console.warn('$scope.knalledgeMap.mapStructure.getSelectedNode():'+$scope.knalledgeMap.mapStructure.getSelectedNode());
+				//     	return 1;//nodeContent.node;//return $scope.knalledgeMap.mapStructure.getSelectedNode();
 				//     }
 				//  };
 

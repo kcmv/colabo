@@ -34,6 +34,11 @@ $provideLayout: 'hide';
 	$map: layout(12 1/4 fluid float inside);
 }
 
+.ediging-node{
+	color: red;
+	font-weight: bold;
+}
+
 .tools-controls-group{
 	border: 1px solid #c0c0c0;
 	margin-top: 3px;
@@ -140,7 +145,7 @@ $provideLayout: 'hide';
 		right: 50%;
 		bottom: 25%;
 		position: absolute;
-		opacity: 0.85;
+		opacity: 0.25;
 		text-align: right;
 
 		h1 {
@@ -194,6 +199,14 @@ $provideLayout: 'hide';
 	}
 }
 
+md-sidenav{
+	&.options{
+		max-width: 25%;
+	}
+	&.settings{
+
+	}
+}
 /* ------------------------
  knalledge_map_tools
 ------------------------ */
@@ -677,6 +690,7 @@ $provideLayout: 'hide';
 		.node_inner_html {
 			position: relative;
 			padding: 3px;
+			word-break: break-word;
 			/*background-color: yellow;*/
 		}
 
@@ -796,6 +810,8 @@ $provideLayout: 'hide';
 		@include border-radius(10px, 10px);
 		border-width: 1px;
 		@include box-shadow(4px 3px 7px 2px rgba(150, 150, 255, 0.75));
+		background-color: white;
+		padding: 3px;
 	}
 
 	.node_unselected{

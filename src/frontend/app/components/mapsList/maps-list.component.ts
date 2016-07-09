@@ -1,7 +1,7 @@
 import {FORM_DIRECTIVES} from '@angular/common';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
@@ -16,6 +16,8 @@ import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyServi
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+// import {MapFormComponent} from '../knalledgeMap/map-form.component';
+
 // import {ViewChild, ViewChildren} from '@angular/core';
 // import {Media, MdContent, MdButton} from 'ng2-material';
 // import {MdDialog} from '@angular2-material/dialog';
@@ -23,6 +25,8 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
 declare var knalledge;
+
+declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 
 //TODO: import {KMap} from '../../js/knalledge/kMap';
 //TODO: import {KNode} from '../../js/knalledge/kNode';
@@ -61,7 +65,7 @@ declare var knalledge;
     selector: 'maps-list',
     moduleId: module.id,
     templateUrl: 'maps-list.tpl.html',
-    styleUrls: ['css/maps-list.component.css'],
+    // styleUrls: ['css/maps-list.component.css'],
     providers: [
         MATERIAL_PROVIDERS,
         OVERLAY_PROVIDERS
@@ -79,13 +83,14 @@ declare var knalledge;
         MD_INPUT_DIRECTIVES, FORM_DIRECTIVES
         // MdContent, MdButton,
         //   LoginStatusComponent,
+        // MapFormComponent
     ]
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
     // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
 })
 
-export class MapsList {
+export class MapsList implements OnInit{
   // @ViewChild(cloneDialog);
   // _cloneDialog: cloneDialog;
 
@@ -98,6 +103,8 @@ export class MapsList {
   public alertMsg = "";
   public nameOfDuplicatedMap = "";
   public mapParticipants = null;
+  public title: string = "";
+  public mapRoutes: string[];
   //public cloneDialog = @ViewChild('cloneDialog');
 
   policyConfig: any;
@@ -136,7 +143,13 @@ export class MapsList {
       // });
       this.mapToCreate = new knalledge.KMap();
       this.init();
+      this.mapRoutes = Config.Plugins.mapsList.config.openMap.routes;
   };
+
+  ngOnInit() {
+    console.log("Config.Plugins.mapsList.config.title:",Config.Plugins.mapsList.config.title);
+    this.title = Config.Plugins.mapsList.config && Config.Plugins.mapsList.config.title ? Config.Plugins.mapsList.config.title : "";
+  }
 
   sortByName(a, b) {
    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
@@ -317,24 +330,26 @@ export class MapsList {
     //TEST: this.policyConfig.moderating.enabled = !this.policyConfig.moderating.enabled;
   }
 
-	openMap() {
+	openMap(item, mapRoute) {
 	    console.log("openMap");
-		if(this.selectedItem !== null && this.selectedItem !== undefined){
-			console.log("openning Model:" + this.selectedItem.name + ": " + this.selectedItem._id);
-			console.log("/map/id/" + this.selectedItem._id);
-			//$location.path("/map/id/" + this.selectedItem._id);
-			//TODO: using ng2 Route mechanism:
-			//this.router.url = "/map/id/" + this.selectedItem._id; //navigate(['HeroDetail', { id: this.selectedHero.id }]);
+      if(!item){ // && this.selectedItem !== null && this.selectedItem !== undefined
+        item = this.selectedItem;
+      }
+      if(item){
+        console.log("openning Model:" + item.name + ": " + item._id);
+  			console.log("/map/id/" + item._id);
+  			//$location.path("/map/id/" + item._id);
+  			//TODO: using ng2 Route mechanism:
+  			//this.router.url = "/map/id/" + item._id; //navigate(['HeroDetail', { id: this.selectedHero.id }]);
 
-      //TODO-remove:
-      this.policyConfig.moderating.enabled = false;
-
-      window.location.href = "/#map/id/" + this.selectedItem._id;
-			//openMap(this.selectedItem);
-			// $element.remove();
-		}else{
-			window.alert('Please, select a Map');
-		}
+        //TODO-remove:
+        this.policyConfig.moderating.enabled = false;
+        window.location.href = "#"+ mapRoute.route +"/id/" + item._id;
+  			//openMap(item);
+  			// $element.remove();
+  		}else{
+  			window.alert('Please, select a Map');
+  		}
 	};
 
   getUser(userID){
@@ -350,8 +365,14 @@ export class MapsList {
     return name; // TEST: 'jednodugackoime';
   }
 
+  isRegularUserName(){
+    return this.getLoggedInUserName() !== null && (typeof this.getLoggedInUserName() === 'string');
+  }
+
   shorten(str,ln){
-    return str.length <= ln ? str : str.substr(0,ln-3) + '...';
+    // console.log("[shorten]str:", str);
+    // console.log("[shorten]str.substr:", str.substr);
+    return str ? (str.length <= ln ? str : str.substr(0,ln-3) + '...') : '';
   }
 
   prepareCreating(){

@@ -8,6 +8,7 @@
 */
 
 var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState, notifyService, mapPlugins, knalledgeMapViewService, knAllEdgeRealTimeService, injector){
+	this.destroyed = false;
 	/**
 	 * References to map DOM elements
 	 * @type {Object}
@@ -115,6 +116,7 @@ var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStruct
 		nodeVote: this.upperApi.nodeVote.bind(this.upperApi),
 		nodeMediaClicked: this.upperApi.nodeMediaClicked.bind(this.upperApi),
 		nodeCreatorClicked: this.upperApi.nodeCreatorClicked.bind(this.upperApi),
+		nodeTypeClicked: this.upperApi.nodeTypeClicked.bind(this.upperApi)
 	};
 
 	// Visualization
@@ -230,6 +232,16 @@ MapManager.prototype.init = function(mapLayout, mapSize){
 				.attr("class", "svg_content");
 
 	return this;
+};
+
+/**
+ * The function that is called when we are destroying parent.
+ * It has to destroy, or at worst disable any subcomponent from working
+ * @function destroy
+ * @memberof knalledge.MapManager#
+ */
+MapManager.prototype.destroy = function(){
+	this.destroyed = true;
 };
 
 /**

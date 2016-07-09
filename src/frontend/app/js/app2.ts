@@ -125,8 +125,8 @@ upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
 
 
 var injector:Injector = new Injector();
-injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
-injector.addPath("collaboPlugins.globalEmitterService", GlobalEmitterService);
+// injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
+// injector.addPath("collaboPlugins.globalEmitterService", GlobalEmitterService);
 injector.addPath("utils.globalEmitterService", Injector);
 injector.addPath("interaction.MapInteraction", MapInteraction);
 

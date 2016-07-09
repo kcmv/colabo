@@ -9,6 +9,10 @@
   border-bottom: 1px solid black;
   margin-bottom: 7px; }
 
+.ediging-node {
+  color: red;
+  font-weight: bold; }
+
 .tools-controls-group {
   border: 1px solid #c0c0c0;
   margin-top: 3px;
@@ -40,7 +44,7 @@
     right: 50%;
     bottom: 25%;
     position: absolute;
-    opacity: 0.85;
+    opacity: 0.25;
     text-align: right; }
     .knalledge_map_index .logo_background h1 {
       font-size: 100px;
@@ -76,6 +80,9 @@
         color: #000055; }
       .knalledge_map_index .logo_background h2 .title_edge {
         color: #880000; }
+
+md-sidenav.options {
+  max-width: 25%; }
 
 /* ------------------------
  knalledge_map_tools
@@ -431,6 +438,7 @@
     .knalledge_map_container .node_html .node_inner_html {
       position: relative;
       padding: 3px;
+      word-break: break-word;
       /*background-color: yellow;*/ }
     .knalledge_map_container .node_html .node_status {
       position: absolute;
@@ -549,7 +557,9 @@
     border-width: 1px;
     -moz-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
     -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
-    box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75); }
+    box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+    background-color: white;
+    padding: 3px; }
   .knalledge_map_container .node_unselected {
     border-style: dashed;
     border-color: #0000ff;

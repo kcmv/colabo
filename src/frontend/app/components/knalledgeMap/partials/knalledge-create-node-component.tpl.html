@@ -1,0 +1,21 @@
+<div class="md-padding" id="popupContainer">
+    <md-dialog #createNodeDialog class="createNodeDialog" (onClose)="onCreateNodeDialogClosed($event)">
+        <md-dialog-title>{{createNodeTitle}}</md-dialog-title>
+        <div layout="column" class="md-inline-form">
+          <form>
+              <div>
+                  <md-input placeholder="Write here ..." style="width: 100%" [(ngModel)]="nodeName"  (keyup)="onNodeNameChanged($event)"></md-input>
+              </div>
+          </form>
+        </div>
+
+        <md-dialog-actions>
+            <button md-button (click)="createNodeDialog.close(false)">
+                <span>Cancel</span>
+            </button>
+            <button md-button class="md-primary" (click)="onCreateNodeClicked()">
+                <span>Create</span>
+            </button>
+        </md-dialog-actions>
+    </md-dialog>
+</div>

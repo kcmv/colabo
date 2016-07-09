@@ -6,6 +6,7 @@ import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {MdCheckbox} from '@angular2-material/checkbox';
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from 'ng2-material';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
+import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 
 import { Pipe, PipeTransform } from '@angular/core';
 
@@ -77,8 +78,7 @@ export class RimaUsersList implements OnInit{
     // //viewspecChangedEventName:string = "viewspecChangedEvent";
     // behaviourChangedEventName:string = "behaviourChangedEvent";
     // broadcastingChangedEventName:string = "broadcastingChangedEvent";
-    //
-    // viewConfig:Object;
+
 
     public alertMsg:string;
     public items:Array<any> = [];
@@ -87,7 +87,9 @@ export class RimaUsersList implements OnInit{
     public newParticipant;
     public automaticEmailDomain:string = "knalledge.org";
     private policyConfig:any;
+    private viewConfig:any;
     private componentShown:boolean = true;
+    private knalledgeNodeCreatorChanged: string = "knalledgeNodeCreatorChanged";
 
     // knRealTimeBroadcastUpdateMaps:string = "update-maps";
     // knRealTimeBroadcastReloadMaps:string = "reload-maps";
@@ -100,7 +102,7 @@ export class RimaUsersList implements OnInit{
 
     constructor(
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
-        // @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
+        @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
         @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_,
         @Inject('RimaService') _RimaService_,
@@ -108,7 +110,7 @@ export class RimaUsersList implements OnInit{
     ) {
         console.log('[RimaUsersList]');
         this.policyConfig = knalledgeMapPolicyService.get().config;
-        // this.viewConfig = knalledgeMapViewService.get().config;
+        this.viewConfig = knalledgeMapViewService.get().config;
 
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
         this.rimaService = _RimaService_;
@@ -147,7 +149,13 @@ export class RimaUsersList implements OnInit{
       //console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
       if(this.policyConfig.moderating.enabled){
         this.selectedItem = item;
-        this.rimaService.selectActiveUser(item);
+        this.rimaService.setActiveUser(item);
+
+        if(this.viewConfig.states.editingNode){
+          this.globalEmitterServicesArray.get(this.knalledgeNodeCreatorChanged)
+          .broadcast('IbisTypesList',{node:this.viewConfig.states.editingNode,creator:item._id});
+          //, this.selectedItem
+        }
       }
     }
 

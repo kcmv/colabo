@@ -521,6 +521,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		.on("click", function(d){
 			console.log('type clicked for node ',d.kNode.name);
 			d3.event.stopPropagation();
+			that.upperAPI.nodeTypeClicked(d);
 		});
 	nodeHtmlUpdate.select(".rima_user")
 		.style("display", function(d){

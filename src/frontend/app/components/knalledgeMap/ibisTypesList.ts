@@ -1,8 +1,11 @@
-import {Component, OnInit, Inject} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, CORE_DIRECTIVES} from "@angular/common";
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from 'ng2-material';
 import {NgIf, FORM_DIRECTIVES} from '@angular/common';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
+import {KnalledgeMapViewService} from './knalledgeMapViewService';
+import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
+import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 @Component({
     selector: 'ibis-types-list',
@@ -27,21 +30,43 @@ export class IbisTypesList {
   public selectedItem:any = null;
   private componentShown:boolean = true;
   private ibisTypesService;
+  private viewConfig:any;
+  private policyConfig:any;
+  private knalledgeNodeTypeChanged: string = "knalledgeNodeTypeChanged";
 
 
   constructor(
-    @Inject('IbisTypesService') _IbisTypesService_
+    @Inject('IbisTypesService') _IbisTypesService_,
+    @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
+    @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
+    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
   ) {
       // console.log('[IbisTypesList]');
       this.ibisTypesService = _IbisTypesService_;
 
       this.items = this.ibisTypesService.getTypes();
       this.selectedItem = this.ibisTypesService.getActiveType();
+      this.viewConfig = knalledgeMapViewService.get().config;
+      this.policyConfig = knalledgeMapPolicyService.get().config;
+      this.globalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
+      // this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('IbisTypesList', function(vkNode,type) {
+      //     console.log("knalledgeNodeTypeChanged: ", vkNode.kNode.name, type);
+      // });
   }
 
   selectItem (item) {
     this.selectedItem = item;
     this.ibisTypesService.selectActiveType(item);
+
+    if(this.policyConfig.knalledgeMap){
+      this.policyConfig.knalledgeMap.nextNodeType = null;
+    }
+
+    if(this.viewConfig.states.editingNode){
+      this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged)
+      .broadcast('IbisTypesList',{node:this.viewConfig.states.editingNode,type:item.type});
+      //, this.selectedItem
+    }
   }
 
   hideShowComponent (){

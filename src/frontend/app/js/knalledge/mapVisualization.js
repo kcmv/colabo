@@ -11,6 +11,8 @@ var MapVisualization =  knalledge.MapVisualization = function(){
 };
 
 MapVisualization.prototype.construct = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService, upperAPI){
+	this.destroyed = true;
+
 	this.dom = dom;
 	this.mapStructure = mapStructure;
 	this.previousSelectedNode = null;
@@ -66,6 +68,32 @@ MapVisualization.prototype.init = function(mapLayout, mapSize, injector){
 				.attr("class", "svg_content");
 
 	this._initHalo();
+};
+
+MapVisualization.prototype.destroy = function(){
+	this.destroyed = true;
+	this.dom = null;
+	this.mapStructure = null;
+	this.previousSelectedNode = null;
+	this.collaboPluginsService = null;
+
+	this.configTransitions = null;
+	this.configTree = null;
+	this.configNodes = null;
+	this.configEdges = null;
+	this.editingNodeHtml = null;
+	// size of visualizing DOM element
+	this.mapSize = null;
+	// scales used for transformation of knalledge from informational to visual domain
+	this.scales = null;
+	this.rimaService = null;
+	this.notifyService = null;
+	this.mapPlugins = null;
+	this.knalledgeMapViewService = null;
+	this.injector = null;
+	this.mapInteraction = null;
+	this.upperAPI = null;
+	this.halo = null;
 };
 
 MapVisualization.prototype._initHalo = function(){

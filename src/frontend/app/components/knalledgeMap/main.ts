@@ -99,6 +99,7 @@ export class KnalledgeMapMain {
     userUrl: String = "www.CollaboScience.com";
     policyConfig: any;
     viewConfig: any;
+    public pluginsConfig:any;
     topPanelVisible: boolean = true;
     status: String;
     private rimaService;
@@ -116,6 +117,7 @@ export class KnalledgeMapMain {
         console.log('[KnalledgeMapMain] loaded');
         this.viewConfig = knalledgeMapViewService.get().config;
         this.policyConfig = knalledgeMapPolicyService.get().config;
+        this.pluginsConfig = Config.Plugins;
         try {
             this.rimaService = RimaService;
             // * @param  {rima.rimaServices.RimaService}  RimaService
@@ -145,6 +147,19 @@ export class KnalledgeMapMain {
         } else {
             this.status = 'Look for something else.';
         }
+    }
+
+    navigateBack(){
+      //http://localhost:5556/#/map/id/577e948861ab114d16732cb9?node_id=577e948861ab114d16732cda
+      //->
+      //http://localhost:5556/#/mcmap/id/577e948861ab114d16732cb9
+      var mapRoute: string = 'mcmap'; //Config.Plugins.mapsList.config.openMap.routes[0].route;
+      var mapId: string = this.knalledgeMapVOsService.map._id;
+      window.location.href = "#/"+ mapRoute +"/id/" + mapId;
+    }
+
+    turnOffEditingNode(event){
+      this.viewConfig.states.editingNode = null;
     }
 
     getMapName(): any {

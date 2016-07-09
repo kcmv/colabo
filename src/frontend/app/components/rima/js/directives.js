@@ -157,9 +157,9 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 	// 			$scope.selectItem = function(item) {
 	// 				$scope.selectedItem = item;
 	// 				//console.log("$scope.selectedItem = " + $scope.selectedItem.displayName + ": " + $scope.selectedItem._id);
-	// 				RimaService.selectActiveUser(item);
+	// 				RimaService.setActiveUser(item);
 	// 				// if(){
-	// 				// 	RimaService.selectActiveUser(item);
+	// 				// 	RimaService.setActiveUser(item);
 	// 				// }
 	// 			};
 	// 			$scope.showToggleSwitchClicked = function($el){

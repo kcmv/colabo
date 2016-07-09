@@ -5,10 +5,12 @@ declare var d3;
 declare var window:Window;
 declare var debugpp;
 
+const STATUS_DESTROYED: string = "STATUS_DESTROYED";
 const STATUS_MAP: string = "STATUS_MAP";
 const STATUS_EDITOR: string = "STATUS_EDITOR";
 
 export class MapInteraction {
+    public destroyed;
     private status: string;
     private editingNodeHtml: any = null;
 
@@ -24,6 +26,7 @@ export class MapInteraction {
     ) {
         this.clientApi = clientApi;
         this.debug = debugpp.debug('interaction.MapInteraction');
+        this.destroyed = false;
     };
 
     init() {
@@ -41,6 +44,17 @@ export class MapInteraction {
             that.setStatus(STATUS_MAP);
             console.info("Switching to the map");
         });
+    };
+
+    /**
+     * The function that is called when we are destroying parent.
+     * It has to destroy, or at worst disable any subcomponent from working
+     * @function destroy
+     * @memberof interaction.Map#
+     */
+    destroy = function(){
+    	this.destroyed = true;
+        this.setStatus(STATUS_DESTROYED);
     };
 
     getMapDom(): any {
@@ -415,11 +429,15 @@ export class MapInteraction {
     };
 
     addChildNode(nodeType?, edgeType?) {
+        if (!this.isStatusMap()) return;
+
         var parentNode = this.clientApi.getSelectedNode();
         this.addNode(parentNode, nodeType, edgeType);
     };
 
     addNode(parentNode, nodeType?, edgeType?) {
+        if (!this.isStatusMap()) return;
+
         if (typeof nodeType === 'undefined') nodeType = this.clientApi.getActiveIbisType();
         if (typeof nodeType === 'undefined') nodeType = knalledge.KNode.TYPE_KNOWLEDGE;
 

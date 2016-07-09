@@ -28,7 +28,7 @@ var componentDirectives = [
     // upgradeAdapter.upgradeNg1Component('ibisTypesList')
 ];
 
-declare var Config: any;
+declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 
 if (Config.Plugins.gardening.active && PluginsPreloader.components.GardeningControls) {
     console.warn("[KnalledgeMapTools] Loading GardeningControls");
@@ -77,8 +77,8 @@ export class KnalledgeMapTools {
     behaviourChangedEventName: string = "behaviourChangedEvent";
     broadcastingChangedEventName: string = "broadcastingChangedEvent";
 
-    viewConfig: Object;
-    policyConfig: Object;
+    viewConfig: any;
+    policyConfig: any;
 
     knRealTimeBroadcastUpdateMaps: string = "update-maps";
     knRealTimeBroadcastReloadMaps: string = "reload-maps";
@@ -127,6 +127,14 @@ export class KnalledgeMapTools {
     //   var elSwitch = $element.find('.content');
     //   $(elSwitch).slideToggle();
     // };
+
+    getEditingNodeMsg(){
+      var msg: string = "";
+      if(this.viewConfig.states.editingNode){
+        msg = "Changing node:" + this.viewConfig.states.editingNode.kNode.name;
+      }
+      return msg;
+    }
 
     viewConfigChanged: Function = function(path, value) {
         // alert("[viewConfigChanged] " + path + ":" + value);

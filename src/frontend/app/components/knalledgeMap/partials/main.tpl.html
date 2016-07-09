@@ -3,7 +3,7 @@
     <!-- content -->
     <md-sidenav-layout layout="row" flex style="overflow: auto; height: 100%;">
         <!-- <md-sidenav #options align="left" layout="column" [style]="hasMedia('gt-sm') ? 'side' : 'over'"> -->
-        <md-sidenav #options [opened]="true" align="end" mode="side" layout="column">
+        <md-sidenav #options class="options" [opened]="true" align="end" mode="side" layout="column">
             <md-content>
                 <!-- <form>
                 <md-input-container class="md-block">
@@ -20,7 +20,7 @@
             </md-content>
         </md-sidenav>
         <!-- Tools -->
-        <md-sidenav #settings align="start" style="min-width: 200px; max-width: 300px; width: 30%;" class="md-sidenav-left md-whiteframe-z2">
+        <md-sidenav #settings (close)="turnOffEditingNode($event)" class="settings" align="start" style="min-width: 200px; max-width: 300px; width: 30%;" class="md-sidenav-left md-whiteframe-z2">
             <md-content>
                 <div style="text-align: right;">
                     <button md-raised-button (click)="settings.close()" align="right" class="md-primary">
@@ -74,15 +74,15 @@
             <div class="logo_background">
                 <div class="titles">
                     <div template="ngIf:viewConfig.type.name =='collabo_framework'">
-                        <h1><span class="title_web"></span><span class="title_collabo">Collabo</span><span class="title_science">Framework</span><span class="title_web"></span></h1>
+                        <h1><span class="title_web" style="opacity: 0.3;"></span><span class="title_collabo">Collabo</span><span class="title_science">Framework</span><span class="title_web"></span></h1>
                         <!-- <h2><span class="title_web">www.</span><span class="title_kn">Collabo</span><span class="title_all">Science</span><span class="title_web">.com</span></h2>
                         <h2><span class="title_web">www.</span><span class="title_kn">Collabo</span><span class="title_edge">Arte</span><span class="title_web">.com</span></h2>-->
-                        <h2>
+                        <!-- <h2>
                           <span class="title_kn">KF</span>
                           <span class="title_all">/</span>
                           <span class="title_edge">ChaOS</span>
                           <span class="title_web"></span>
-                        </h2>
+                        </h2> -->
                     </div>
                     <div template="ngIf:viewConfig.type.name =='collabo_arte'">
                         <h1><span class="title_web">www.</span><span class="title_collabo">Collabo</span><span class="title_science">Arte</span><span class="title_web">.com</span></h1>
@@ -115,13 +115,18 @@
                                     <i title="Top Panel" md-icon>view_agenda</i>
                                 </button>
 
-                                <button md-fab class="md-primary" aria-label="Maps" (click)="go('maps')" *ngIf="policyConfig.moderating.enabled">
+                                <button md-fab class="md-primary" aria-label="Maps" (click)="go('maps')">
                                     <i title="Maps List" md-icon>map</i>
                                 </button>
 
                                 <button md-fab class="md-primary" aria-label="Plugins" (click)="go('plugins')" *ngIf="policyConfig.moderating.enabled">
                                     <i title="Plugins" md-icon>extension</i>
                                 </button>
+
+                                <button *ngIf="pluginsConfig?.knalledgeMap?.config?.externalInterface?.backFromMap" md-fab class="md-primary" aria-label="Navigate Back" (click)="navigateBack()">
+                                  <i title="Back" md-icon>navigate_before</i>
+                                </button>
+
                             </section>
                             <span class="map">Map <span class="mapName">{{getMapName()}}</span></span>
 

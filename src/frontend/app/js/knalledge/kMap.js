@@ -20,7 +20,7 @@ var KMap =  knalledge.KMap = function(){
 	this.version = 1;
 	this.parentMapId = "";
 	this.participants = [];
-	this.isPublic = true;
+	this.isPublic = false;
 	this.createdAt = null;
 	this.updatedAt = null;
 	this.dataContent = null; //dataContent.mcm.authors

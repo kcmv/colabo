@@ -1,7 +1,8 @@
 <div class="mapsList" layout="column">
 <!-- <div class="mapsList" layout-fill layout="column"> -->
   <md-toolbar class="mapsToolbar md-theme-indigo" color="primary">
-      <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
+      <span class="map-title">{{title}}</span>
+      <section class="toolbar-front" layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
           <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
               <!-- <button md-fab class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
                   <i title="Settings" md-icon>settings</i>
@@ -32,17 +33,25 @@
             <button class="btn btn-primary" >Create a New Map</button>
           </span>
         -->
-        <span *ngIf="selectedItem" class="borderGroup">
+        <!-- <span *ngIf="selectedItem" class="borderGroup">
           <button (click)="openMap()" class="btn btn-primary button_icon" aria-label="Open the Map" type="button"><span class="mapName">{{selectedItem?.name}}</span>&nbsp;<i title="Open the map" class="fa fa-folder-open" aria-hidden="true"></i></button>
-          <button (click)="alertMsg = 'Editing maps is disabled for now ...'; alert.show();" class="btn btn-primary button_icon last" aria-label="Edit the Map" type="button"><i title="Edit the map" class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-        </span>
+          <button (click)="alertMsg = 'Maps editing is disabled for now ...'; alert.show();" class="btn btn-primary button_icon last" aria-label="Edit the Map" type="button"><i title="Edit the map" class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+        </span> -->
         <button (click)="go('login')" class="whoAmI" layout-gt-md="row" layout="column" layout-align="right center" layout-wrap class="btn btn-primary borderGroup" aria-label="User management" type="button">
           <i title="User management" class="fa fa-user button_icon" aria-hidden="true"></i>
           <!-- <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
               <i title="Login" md-icon>person</i>
           </button> -->
           <div class="loggedIn">
-              <span hide show-gt-md>{{getLoggedInUserName()}}</span><span hide-gt-md>{{shorten(getLoggedInUserName(),10)}}</span>
+            <span [ngSwitch]="!isRegularUserName()">
+              <!-- typeof getLoggedInUserName() !== 'string'> is needed for some specific 'bug' when username is = 1 (number) so substr() in 'shorten' breaks -->
+              <span *ngSwitchCase="true">
+                Login ...
+              </span>
+              <span *ngSwitchCase="false">
+                <span hide show-gt-md>{{getLoggedInUserName()}}</span><span hide-gt-md>{{shorten(getLoggedInUserName(),10)}}</span>
+              </span>
+            </span>
           </div>
         </button>
           <!-- <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
@@ -56,27 +65,29 @@
     <div layout="column" class="list">
       <div class="heading item" hide show-gt-md layout="row"> <!--layout-align="center center"-->
         <div flex='30' class="item_property">Name</div>
-        <div flex='20' *ngIf="policyConfig.moderating.enabled" class="item_property">Id</div>
+        <!-- <div flex='20' *ngIf="policyConfig.moderating.enabled" class="item_property">Id</div> -->
         <div flex='5' class="item_property">Actions</div>
         <div flex='20' class="item_property">Authors</div>
-        <div flex='15' class="item_property">Type</div>
+        <!-- <div flex='15' class="item_property">Type</div> -->
         <div flex='10' class="item_property creation_date">Created</div>
       </div>
       <div class='item data_item' *ngFor="let item of items" layout-gt-md="row" layout="column"
       (click)="selectItem(item)" [ngClass]="{'active-selection': (selectedItem && item._id === selectedItem._id)}">
        <!-- [ngClass]="{'sm': $mdMedia('sm'), 'md': $mdMedia('md'), 'lg': $mdMedia('lg')}" -->
         <div flex-gt-md='30' class='item_property'>{{item.name}}</div>
-        <div flex-gt-md='20' class='item_property' *ngIf="policyConfig.moderating.enabled" layout="row"><div flex='15' hide-gt-md class="item_header">Id</div><div class='item_data'>{{item._id}}</div></div>
+        <!-- <div flex-gt-md='20' class='item_property' *ngIf="policyConfig.moderating.enabled" layout="row"><div flex='15' hide-gt-md class="item_header">Id</div><div class='item_data'>{{item._id}}</div></div> -->
         <div flex-gt-md='5' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Actions</div>
-  				<span class='item_data' *ngIf="policyConfig.moderating.enabled">
-            <button class="btn btn-primary button_icon" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></button>
-  				</span>
+          <button  *ngFor="let route of mapRoutes" (click)="openMap(item, route)" class="btn btn-primary button_icon" aria-label="Open the map" type="button"><i title="Open the {{route.name}}" class="fa fa-folder-open" aria-hidden="true"></i></button>
+          <!-- <button (click)="alertMsg = 'Maps editing is disabled for now ...'; alert.show();" class="btn btn-primary button_icon last" aria-label="Edit the Map" type="button"><i title="Edit the map" class="fa fa-pencil-square-o" aria-hidden="true"></i></button> -->
           <button class="btn btn-primary button_icon" aria-label="Clone the map" type="button"
           (click)="prepareForCloning(item); cloneDialog.show();"><i title="Clone the map" class="fa fa-files-o" aria-hidden="true"></i></button>
           <button class="btn btn-primary button_icon last" aria-label="Map Participants" type="button" (click)="prepareForParticipants(item); participantsList.show()"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button>
+          <span class='item_data' *ngIf="policyConfig.moderating.enabled">
+            <button class="btn btn-primary button_icon" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></button>
+  				</span>
         </div>
   			<div flex-gt-md='20' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Authors</div><div class='item_data'>{{item.dataContent && item.dataContent.mcm ? item.dataContent.mcm.authors : 'n/a'}}</div></div>
-  			<div flex-gt-md='15' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Type</div><div class='item_data'>{{item.type !== "" && item.type ? item.type : 'n/a'}}</div></div>
+  			<!-- <div flex-gt-md='15' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Type</div><div class='item_data'>{{item.type !== "" && item.type ? item.type : 'n/a'}}</div></div> -->
   			<!-- {{getParticipantsNames(item.participants)}} -->
   			<div flex-gt-md='10' class='item_property' layout="row"><div flex='15' hide-gt-md class="item_header">Created</div><div class='item_data'>{{formatDateTime(item.createdAt)}}</div></div>
       </div>
@@ -117,6 +128,7 @@
   </md-dialog>
 
   <md-dialog #mapDialog class="creatingNewMap" (onClose)="mapDialogClosed($event)">
+    <!-- <map-form></map-form> -->
     <md-dialog-title>Map Creation</md-dialog-title>
       <form layout="column" class="md-inline-form">
       <!-- TODO: using of the form causes warning;
@@ -124,7 +136,7 @@
        will eventually be removed in favor of the new forms module. For more information, see:
        https://docs.google.com/document/u/1/d/1RIezQqE4aEhBRmArIAS1mRIZtWFf6JxN_7B4meyWK0Y/pub -->
          <!-- <h2 class="md-title">Map Creation</h2> -->
-          <md-input placeholder="Name" [(ngModel)]="mapToCreate.name"></md-input>
+          <md-input placeholder="Name" [(ngModel)]="mapToCreate.name" required></md-input>
           <md-input placeholder="Map Type" [(ngModel)]="mapToCreate.type"></md-input>
           <md-input placeholder="Root NodeType" [(ngModel)]="mapToCreate.rootNodeType"></md-input>
           <md-input placeholder="Parent map ID" [(ngModel)]="mapToCreate.parentMapId"></md-input>
