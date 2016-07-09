@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,mFAAmF;ACAnF,0BAA0B;AAM1B;;;EAGE;AAOF;;;;EAIE;AACF,CAAE;EACD,MAAM,EAAE,GAAG;EACX,OAAO,EAAE,GAAG;ECqUX,eAAwC,EC1U5B,UAAmB;ED0U/B,kBAAwC,EC1U5B,UAAmB;ED0U/B,UAAwC,EC1U5B,UAAmB;;AHdjC,MAAM;EACJ,WAAW,EAAE,IAAI;EACjB,MAAM,EAAE,OAAO;;AAGjB,SAAS;EACP,WAAW,EAAE,IAAI;EACjB,MAAM,EAAE,OAAO;;AAGjB,6BAA6B;EACzB,gBAAgB,EAAE,SAAS;;AAG/B,QAAQ;EACN,MAAM,EAAE,WAAW;EACnB,KAAK,EAAE,QAAQ;;AAGjB,QAAQ;EACN,gBAAgB,EAAE,SAAS;EAC3B,aAAa,EAAE,GAAG;EAClB,YAAY,EAAE,IAAI;EAClB,aAAa,EAAE,IAAI;EACnB,WAAW,EAAE,IAAI;EACjB,cAAc,EAAE,IAAI",
+"sources": ["../sass/suggestion.component.scss","../../../sass/_include.scss","../../../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/_support.scss","../../../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/css3/_box-sizing.scss"],
+"names": [],
+"file": "suggestion.component.css"
+}

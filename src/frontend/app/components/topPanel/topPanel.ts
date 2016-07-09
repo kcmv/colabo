@@ -8,6 +8,7 @@ import { DatePipe } from "@angular/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
 import {RequestComponent} from '../request/request.component';
 import {SuggestionComponent} from '../suggestion/suggestion.component';
+import {ChangeComponent} from '../change/change.component';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 
@@ -31,6 +32,7 @@ import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyServi
         MATERIAL_DIRECTIVES,
         RequestComponent,
         SuggestionComponent,
+        ChangeComponent,
         upgradeAdapter.upgradeNg1Component('ontovSearch'),
         upgradeAdapter.upgradeNg1Component('rimaRelevantList')
    ],

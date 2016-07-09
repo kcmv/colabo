@@ -15,8 +15,7 @@ export class ChangeService {
   private knAllEdgeRealTimeService:any;
   private knalledgeMapPolicyService:any;
   private globalEmitterServicesArray:GlobalEmitterServicesArray;
-  private changesByExpertise: Change[] = [];
-  private users:any[] = [];
+  private changes: Change[] = [];
 
   /**
    * Service constructor
@@ -46,87 +45,34 @@ export class ChangeService {
       // this.knAllEdgeRealTimeService.registerPlugin(changePluginOptions);
 
       this.getMockupChanges();
-      this.users = this.rimaService.getUsers(); //TODO: should we later add that CF suggests only logged in users?!
   }
 
   getMockupChanges(){
     var r1:Change = new Change();
-      r1.iAmId = null;
-      r1.reference = null;
+      r1.iAmId = "556760847125996dc1a4a24f";
+      r1.reference = "57816d593212be5142d1de20";
       r1.type = ChangeType.STRUCTURAL;
     var r2:Change = new Change();
-      r2.iAmId = {displayName:'Dino'};
-      r2.reference = {name:'Collective Mind'};
+      r2.iAmId = "556760847125996dc1a4a241";
+      r2.reference = "57816da83212be5142d1de34";
       r2.type = ChangeType.STRUCTURAL;
     var r3:Change = new Change();
-      r3.iAmId = {displayName:'TestUser'};
-      r3.reference = {name:'Eco-Problems'};
+      r3.iAmId = "556760847125996dc1a4a241";
+      r3.reference = "57816de13212be5142d1de6d";
       r3.type = ChangeType.STRUCTURAL;
-    this.changesByExpertise.push(r1);
-    this.changesByExpertise.push(r2);
-    this.changesByExpertise.push(r3);
+    this.changes.push(this.processReferences(r1));
+    this.changes.push(this.processReferences(r2));
+    this.changes.push(this.processReferences(r3));
   }
 
-  getSelectedNode(){
-    return this.knalledgeMapVOsService.mapStructure.getSelectedNode();
-  }
-
-  isExpertHow(how:number){
-    switch(how){
-      case 1:
-        return false;
-      case 2:
-        return true;
-      case 3:
-        return true;
-      case 4:
-        return true;
-    }
-  }
-
-  // sendChange(change: Change, callback: Function){
-  //   //let req:Change = new Change();
-  //   change.mapId = this.knalledgeMapVOsService.getMapId();
-  //   change.iAmId = this.rimaService.getWhoAmI()._id;
-  //   console.log(change);
-  //
-  //   if(this.knAllEdgeRealTimeService){
-  //     this.knAllEdgeRealTimeService.emit(this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST, change);
-  //     callback(true);
-  //   } else {
-  //     callback(false, 'SERVICE_UNAVAILABLE');
-  //   }
-  // }
-
-  filterChange(change){
-    switch(change.visibility){
-      case ChangeVisibility.ALL:
-        return true;
-      //break;
-      case ChangeVisibility.MAP_PARTICIPANTS:
-        return change.mapId === this.knalledgeMapVOsService.getMapId(); //TODO: can be ckecked further for map participants
-      //break;
-      case ChangeVisibility.MAP_MEDIATORS:
-        if(this.knalledgeMapPolicyService.provider.config.moderating.enabled){
-          return true;
-        } else {
-          return false;
-        }
-      //break;
-      case ChangeVisibility.USER:
-        if(change.dataContent && change.dataContent.toWhom && change.dataContent.toWhom === this.rimaService.getWhoAmI()._id){
-          return true;
-        } else {
-          return false;
-        }
-      //break;
-      default:
-        return true;
-    }
+  processReferences(change: Change){
+    change.iAmId = this.rimaService.getUserById(change.iAmId);
+    change.reference = this.knalledgeMapVOsService.getNodeById(change.reference);
+    return change;
   }
 
   getChangesRef(){
-    return this.changesByExpertise;
+    return this.changes;
   }
 
   // receivedChange(eventName:string, change:Change){

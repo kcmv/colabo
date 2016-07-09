@@ -10,7 +10,7 @@ import {SuggestionService} from "./suggestion.service";
 //import {KNode} from "KNode";
 
 @Component({
-    selector: 'suggestion',
+    selector: 'suggestion-component',
     // since it is comming from ng1 space we need to use explicit injection decorator
     // so we cannot put it here
     providers: [],
@@ -21,7 +21,7 @@ import {SuggestionService} from "./suggestion.service";
    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
    templateUrl: 'suggestion.component.html',
-   styleUrls: ['suggestion.component.css']
+  //  styleUrls: ['suggestion.component.css']
 })
 export class SuggestionComponent implements OnInit {
   suggestionsByExpertise: Suggestion[] = [];

@@ -68,7 +68,7 @@ export class KnalledgeCreateNodeComponent implements AfterViewInit{
     ngAfterViewInit() {
     }
 
-    show(knalledgeNodeType, knalledgeEdgeType, title: string = null, callback:any = null){
+    show(knalledgeNodeType, knalledgeEdgeType, title: string = null, callback:Function = null){
         this.showKnalledgeNodeType = knalledgeNodeType;
         this.showKnalledgeEdgeType = knalledgeEdgeType;
         this.showCallback = callback;

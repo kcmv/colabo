@@ -10,7 +10,7 @@ import {ChangeService} from "./change.service";
 //import {KNode} from "KNode";
 
 @Component({
-    selector: 'change',
+    selector: 'change-component',
     // since it is comming from ng1 space we need to use explicit injection decorator
     // so we cannot put it here
     providers: [],
@@ -20,12 +20,11 @@ import {ChangeService} from "./change.service";
    ],
    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
-   templateUrl: 'change.component.html',
-   styleUrls: ['change.component.css']
+   templateUrl: 'change.component.html'
+  //  styleUrls: ['change.component.css']
 })
 export class ChangeComponent implements OnInit {
-  changesByExpertise: Change[] = [];
-  selectedNode:any; //KNode;
+  changes: Change[] = [];
 
   constructor(
       @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
@@ -38,27 +37,14 @@ export class ChangeComponent implements OnInit {
 
       // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
       // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
-      let selectedNodeChangedEventName = "selectedNodeChangedEvent";
-      this.globalEmitterServicesArray.register(selectedNodeChangedEventName);
-    	this.globalEmitterServicesArray.get(selectedNodeChangedEventName).subscribe(
-       'ChangeComponent', this.selectedNodeChanged.bind(this));
+      // let selectedNodeChangedEventName = "selectedNodeChangedEvent";
+      // this.globalEmitterServicesArray.register(selectedNodeChangedEventName);
+    	// this.globalEmitterServicesArray.get(selectedNodeChangedEventName).subscribe(
+      //  'ChangeComponent', this.selectedNodeChanged.bind(this));
   }
 
   ngOnInit() {
-    this.selectedNode = this._changeService.getSelectedNode();
-    if(this.selectedNode){
-      //this.changesByExpertise = this._changeService.setSuggestedExpertsForNode(this.selectedNode.kNode);
-    }
-  //TODO:  check for Selected Node
-  //this.changesByExpertise = this._changeService.setSuggestedExpertsForNode(this.selectedNode);
-  }
-
-  selectedNodeChanged(vkNode:any){
-    console.log('selectedNodeChanged');
-    this.selectedNode = vkNode;
-    if(this.selectedNode){
-      //this.changesByExpertise = this._changeService.setSuggestedExpertsForNode(this.selectedNode.kNode);
-    }
+    this.changes = this._changeService.getChangesRef();
   }
 
   // changeReceived(received:any) {
