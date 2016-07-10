@@ -11,6 +11,7 @@ import {SuggestionComponent} from '../suggestion/suggestion.component';
 import {ChangeComponent} from '../change/change.component';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
+import { HTTP_PROVIDERS } from '@angular/http';
 
 /**
  * Directive that
@@ -26,7 +27,9 @@ import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyServi
 
 @Component({
     selector: 'top-panel', //'topichat-reports',
-    providers: [],
+    providers: [
+      HTTP_PROVIDERS
+    ],
     directives: [
         MD_TABS_DIRECTIVES,
         MATERIAL_DIRECTIVES,
@@ -34,7 +37,7 @@ import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyServi
         SuggestionComponent,
         ChangeComponent,
         upgradeAdapter.upgradeNg1Component('ontovSearch'),
-        upgradeAdapter.upgradeNg1Component('rimaRelevantList')
+        upgradeAdapter.upgradeNg1Component('rimaRelevantList'),
    ],
    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl

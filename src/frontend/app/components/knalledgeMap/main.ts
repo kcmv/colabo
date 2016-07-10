@@ -17,6 +17,7 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 import {DbAuditService} from './dbAudit.service';
+import {Change} from '../change/change';
 
 // TODO: probable remove later, this is just to trigger starting the service
 // import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
@@ -146,14 +147,25 @@ export class KnalledgeMapMain {
     };
 
     testMain() {
-        this.dbAuditService.hello();
-        this.dbAuditService.getOne('577d5cb55be86321489aacaa')
-            .subscribe(
-            audit => alert("audit: " +
-                JSON.stringify(audit)),
-            error => alert("error: " +
-                JSON.stringify(error))
-            );
+      // this.dbAuditService.hello();
+      this.dbAuditService.getOne('577d5cb55be86321489aacaa')
+          .subscribe(
+          audit => alert("audit: " +
+              JSON.stringify(audit)),
+          error => alert("error: " +
+              JSON.stringify(error))
+          );
+
+      //POST:
+      var change = new Change();
+      change.value = {name:'from NG2 TS service'};
+      this.dbAuditService.create(change)
+          .subscribe(
+          result => alert("result: " +
+              JSON.stringify(result)),
+          error => alert("error: " +
+              JSON.stringify(error))
+          );
     }
 
     customClose(interesting: boolean) {

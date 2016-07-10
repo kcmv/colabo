@@ -77,14 +77,19 @@ exports.index = function(req, res){
 			console.log("findBy e-mail:\n e-mail: %s.\n", id);
 			DbAuditModel.findOne({e_mail: id}, found);
 			break;
-		case 'in_list': //by id:
-			console.log("in_list:\n list: %s.\n", req.params.searchParam);
-			var ids = []
-			if(req.params.searchParam != undefined){
-				var ids = req.params.searchParam.split(',');
-			}
-			console.log('isArray:', Array.isArray(ids),ids.length);
-			DbAuditModel.find({_id: {$in: ids}}, found);
+		// case 'in_list': //by id:
+		// 	console.log("in_list:\n list: %s.\n", req.params.searchParam);
+		// 	var ids = []
+		// 	if(req.params.searchParam != undefined){
+		// 		var ids = req.params.searchParam.split(',');
+		// 	}
+		// 	console.log('isArray:', Array.isArray(ids),ids.length);
+		// 	DbAuditModel.find({_id: {$in: ids}}, found);
+		// 	break;
+		case 'in_map':
+			var mapId = req.params.searchParam;
+			console.log("in_map:\n mapId: %s.\n", mapId);
+			DbAuditModel.find({mapId: mapId}, found);
 			break;
 		case 'all':
 			console.log("all", req.params.searchParam);

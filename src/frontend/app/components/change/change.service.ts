@@ -1,8 +1,27 @@
-import {Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Http, HTTP_PROVIDERS, Response } from '@angular/http';
+import { Observable }     from 'rxjs/Observable';
+import { Headers, RequestOptions } from '@angular/http';
 
 import {Change, ChangeVisibility, ChangeType, State} from './change';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+
+
+// operators
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+
+// statics
+import 'rxjs/add/observable/throw';
+
+/*
+* HTTP
+* https://angular.io/docs/ts/latest/guide/server-communication.html
+* https://angular.io/docs/ts/latest/api/http/index/Http-class.html
+*
+* Services
+* https://angular.io/docs/ts/latest/tutorial/toh-pt4.html
+*/
 
 /*
 for showing structural changes, reacting on node-created, node-updated, node-deleted
@@ -16,6 +35,7 @@ export class ChangeService {
   private knalledgeMapPolicyService:any;
   private globalEmitterServicesArray:GlobalEmitterServicesArray;
   private changes: Change[] = [];
+  private apiUrl: string = "http://127.0.0.1:8888/dbAudits/";
 
   /**
    * Service constructor
@@ -27,7 +47,8 @@ export class ChangeService {
    * @param  {Service} TopiChatConfigService - TopiChat Config service
    */
   constructor(RimaService, KnalledgeMapVOsService, KnalledgeMapPolicyService,
-      KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_
+      KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_,
+      private http: Http
   ) {
       //console.log('RequestService:constructor');
       this.rimaService = RimaService;
@@ -45,6 +66,36 @@ export class ChangeService {
       // this.knAllEdgeRealTimeService.registerPlugin(changePluginOptions);
 
       this.getMockupChanges();
+      console.log("[ChangeService]: this.http: ", this.http);
+  }
+
+  getOne(id: string): Observable<any> {
+      return this.http.get(this.apiUrl + "one/" + id)
+          .map(this.extractData)
+          .catch(this.handleError);
+  }
+
+  createPlain(change: Change): Observable<any> {
+      // /return this.http.get(this.apiUrl + id)
+      //     .map(this.extractData)
+      //     .catch(this.handleError);
+      return null;
+  }
+
+  create(change: Change): Observable<Change> {
+    let body = JSON.stringify(change);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(this.apiUrl, body, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getChangesInMap(mapId: string): Observable<any> {
+    return this.http.get(this.apiUrl + "in_map/" + mapId)
+        .map(this.extractData)
+        .catch(this.handleError);
   }
 
   getMockupChanges(){
@@ -75,18 +126,17 @@ export class ChangeService {
     return this.changes;
   }
 
-  // receivedChange(eventName:string, change:Change){
-  //     this.changesByExpertise.push(change);
-  //     if(this.filterChange(change)){
-  //       change.iAmId = this.rimaService.getUserById(change.iAmId); //can be null!
-  //       change.reference = this.knalledgeMapVOsService.getNodeById(change.reference); //can be null!
-  //       console.log('[ChangeService:receivedChange] change:', JSON.stringify(change));
-  //       if(change.type === ChangeType.REPLICA){
-  //         console.log(' changeed REPLICA for ');
-  //       }
-  //       this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
-  //       this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
-  //       'ChangeService', {'change':change,'event':this.EMITTER_NAME_REQUEST});
-  //     }
-  // }
+  private extractData(res: Response) {
+      let body = res.json();
+      return body.data || {};
+  }
+
+  private handleError(error: any) {
+      // In a real world app, we might use a remote logging infrastructure
+      // We'd also dig deeper into the error to get a better message
+      let errMsg = (error.message) ? error.message :
+          error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+      console.error(errMsg); // log to console instead
+      return Observable.throw(errMsg);
+  }
 }
