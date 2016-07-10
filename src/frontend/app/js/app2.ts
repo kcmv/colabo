@@ -51,12 +51,6 @@ suggestionServices
     .service('SuggestionService', SuggestionService)
     ;
 
-// injecting NG1 TS service into NG1 space
-var changeServices = angular.module('changeServices');
-changeServices
-    .service('ChangeService', ChangeService)
-    ;
-
 // registering ng2 directives in ng1 space
 // angular.module('KnAllEdgeNg2', ['knalledgeMapDirectives']);
 
@@ -109,7 +103,6 @@ upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
 upgradeAdapter.upgradeNg1Provider('RequestService');
 upgradeAdapter.upgradeNg1Provider('ApprovalNodeService');
 upgradeAdapter.upgradeNg1Provider('SuggestionService');
-upgradeAdapter.upgradeNg1Provider('ChangeService');
 upgradeAdapter.upgradeNg1Provider('IbisTypesService');
 
 // upgradeAdapter.addProvider(GlobalEmitterService);
@@ -140,6 +133,13 @@ angular.module('Config')
 // http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html
 import { HTTP_PROVIDERS } from '@angular/http';
 upgradeAdapter.addProvider(HTTP_PROVIDERS);
+upgradeAdapter.addProvider(ChangeService);
+
+var changeServices =
+    angular.module('changeServices');
+
+changeServices.
+    service('ChangeService', upgradeAdapter.downgradeNg2Provider(ChangeService));
 
 // bootstrapping app
 upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false});

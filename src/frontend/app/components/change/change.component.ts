@@ -13,7 +13,9 @@ import {ChangeService} from "./change.service";
     selector: 'change-component',
     // since it is comming from ng1 space we need to use explicit injection decorator
     // so we cannot put it here
-    providers: [],
+    providers: [
+        // ChangeService
+    ],
     directives: [
         MATERIAL_DIRECTIVES,
         //NgIf, NgFor, FORM_DIRECTIVES,
@@ -31,7 +33,7 @@ export class ChangeComponent implements OnInit {
       // @Inject('RimaService') private rimaService:RimaService
 
       // since it is comming from ng1 space we need to use explicit injection decorator
-   , @Inject('ChangeService') private _changeService:ChangeService
+   , private changeService:ChangeService
   ) {
       console.log('[ChangeComponent]');
 
@@ -44,7 +46,7 @@ export class ChangeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.changes = this._changeService.getChangesRef();
+    this.changes = this.changeService.getChangesRef();
   }
 
   // changeReceived(received:any) {

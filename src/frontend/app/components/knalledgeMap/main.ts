@@ -18,6 +18,7 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 
 import {DbAuditService} from './dbAudit.service';
 import {Change} from '../change/change';
+// import {ChangeService} from "../change/change.service";
 
 // TODO: probable remove later, this is just to trigger starting the service
 // import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
@@ -85,7 +86,8 @@ if (Config.Plugins.ontov.active) {
     providers: [
         MATERIAL_PROVIDERS,
         OVERLAY_PROVIDERS,
-        DbAuditService
+        DbAuditService,
+        // ChangeService
         // provideRouter
         // RequestService
         // ROUTER_PROVIDERS

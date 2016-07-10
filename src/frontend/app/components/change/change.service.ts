@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http, HTTP_PROVIDERS, Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import { Headers, RequestOptions } from '@angular/http';
@@ -29,11 +29,6 @@ for showing structural changes, reacting on node-created, node-updated, node-del
  */
 @Injectable()
 export class ChangeService {
-  private rimaService:any;
-  private knalledgeMapVOsService:any;
-  private knAllEdgeRealTimeService:any;
-  private knalledgeMapPolicyService:any;
-  private globalEmitterServicesArray:GlobalEmitterServicesArray;
   private changes: Change[] = [];
   private apiUrl: string = "http://127.0.0.1:8888/dbAudits/";
 
@@ -46,16 +41,13 @@ export class ChangeService {
    * @param  {Object} ENV                   [description]
    * @param  {Service} TopiChatConfigService - TopiChat Config service
    */
-  constructor(RimaService, KnalledgeMapVOsService, KnalledgeMapPolicyService,
-      KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_,
+  constructor(
+      @Inject('RimaService') private rimaService,
+      @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
+      @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
       private http: Http
   ) {
       //console.log('RequestService:constructor');
-      this.rimaService = RimaService;
-      this.knalledgeMapVOsService = KnalledgeMapVOsService;
-      this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
-      this.knalledgeMapPolicyService = KnalledgeMapPolicyService;
-      this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
 
       // let changePluginOptions: any = {
       //   name: "ChangeService",
