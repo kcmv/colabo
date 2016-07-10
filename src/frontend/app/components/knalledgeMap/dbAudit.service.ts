@@ -13,6 +13,7 @@ import 'rxjs/add/observable/throw';
 /*
 * HTTP
 * https://angular.io/docs/ts/latest/guide/server-communication.html
+* https://angular.io/docs/ts/latest/api/http/index/Http-class.html
 *
 * Services
 * https://angular.io/docs/ts/latest/tutorial/toh-pt4.html
