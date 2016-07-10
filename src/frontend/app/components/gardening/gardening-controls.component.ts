@@ -38,13 +38,6 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
         MD_INPUT_DIRECTIVES
    ],
    styles: [`
-        // .msg {
-        //     font-size: 0.5em;
-        // }
-        // .container{
-        //     margin: 5px;
-        //     border: 1px solid gray;
-        // }
     `],
     moduleId: module.id,
     templateUrl: 'partials/gardening-controls.tpl.html'
