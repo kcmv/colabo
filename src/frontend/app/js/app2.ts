@@ -136,6 +136,11 @@ angular.module('Config')
 
 // console.log('GOTOVO ng2 a');
 
+// provide provider necessary in the DbAuditService service
+// http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html
+import { HTTP_PROVIDERS } from '@angular/http';
+upgradeAdapter.addProvider(HTTP_PROVIDERS);
+
 // bootstrapping app
 upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false});
 

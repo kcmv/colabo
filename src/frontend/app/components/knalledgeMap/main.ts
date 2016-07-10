@@ -16,6 +16,8 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+import {DbAuditService} from './dbAudit.service';
+
 // TODO: probable remove later, this is just to trigger starting the service
 // import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
 
@@ -81,7 +83,8 @@ if (Config.Plugins.ontov.active) {
     templateUrl: 'partials/main.tpl.html',
     providers: [
         MATERIAL_PROVIDERS,
-        OVERLAY_PROVIDERS
+        OVERLAY_PROVIDERS,
+        DbAuditService
         // provideRouter
         // RequestService
         // ROUTER_PROVIDERS
@@ -99,7 +102,7 @@ export class KnalledgeMapMain {
     userUrl: String = "www.CollaboScience.com";
     policyConfig: any;
     viewConfig: any;
-    public pluginsConfig:any;
+    public pluginsConfig: any;
     topPanelVisible: boolean = true;
     status: String;
     private rimaService;
@@ -112,8 +115,9 @@ export class KnalledgeMapMain {
         @Inject('Plugins') private Plugins,
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
-    ) {
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+        public dbAuditService: DbAuditService
+        ) {
         console.log('[KnalledgeMapMain] loaded');
         this.viewConfig = knalledgeMapViewService.get().config;
         this.policyConfig = knalledgeMapPolicyService.get().config;
@@ -141,6 +145,17 @@ export class KnalledgeMapMain {
         });
     };
 
+    testMain() {
+        this.dbAuditService.hello();
+        this.dbAuditService.getOne('577d5cb55be86321489aacaa')
+            .subscribe(
+            audit => alert("audit: " +
+                JSON.stringify(audit)),
+            error => alert("error: " +
+                JSON.stringify(error))
+            );
+    }
+
     customClose(interesting: boolean) {
         if (interesting) {
             this.status = 'That article was interesting.';
@@ -149,17 +164,17 @@ export class KnalledgeMapMain {
         }
     }
 
-    navigateBack(){
-      //http://localhost:5556/#/map/id/577e948861ab114d16732cb9?node_id=577e948861ab114d16732cda
-      //->
-      //http://localhost:5556/#/mcmap/id/577e948861ab114d16732cb9
-      var mapRoute: string = 'mcmap'; //Config.Plugins.mapsList.config.openMap.routes[0].route;
-      var mapId: string = this.knalledgeMapVOsService.map._id;
-      window.location.href = "#/"+ mapRoute +"/id/" + mapId;
+    navigateBack() {
+        //http://localhost:5556/#/map/id/577e948861ab114d16732cb9?node_id=577e948861ab114d16732cda
+        //->
+        //http://localhost:5556/#/mcmap/id/577e948861ab114d16732cb9
+        var mapRoute: string = 'mcmap'; //Config.Plugins.mapsList.config.openMap.routes[0].route;
+        var mapId: string = this.knalledgeMapVOsService.map._id;
+        window.location.href = "#/" + mapRoute + "/id/" + mapId;
     }
 
-    turnOffEditingNode(event){
-      this.viewConfig.states.editingNode = null;
+    turnOffEditingNode(event) {
+        this.viewConfig.states.editingNode = null;
     }
 
     getMapName(): any {
