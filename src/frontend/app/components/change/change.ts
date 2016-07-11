@@ -40,6 +40,24 @@ export const State:any = {
 	SYNCED:2 			//all object's changes are synced on server
 };
 
+export const Event:any = {
+	NODE_CREATED: "node-created",
+	NODE_SELECTED: "node-selected",
+	NODE_UPDATED: "node-updated",
+	NODE_DELETED: "node-deleted",
+	EDGE_UPDATED: "edge-updated"
+};
+
+export const Actions:any = {
+	DATA_CONTENT_RIMA_WHATS_ADDING: "DATA_CONTENT_RIMA_WHATS_ADDING",
+	DATA_CONTENT_RIMA_WHATS_DELETING: "DATA_CONTENT_RIMA_WHATS_DELETING",
+	UPDATE_NODE_APPEARENCE: "UPDATE_NODE_APPEARENCE",
+	UPDATE_NODE_CREATOR: "UPDATE_NODE_CREATOR",
+	UPDATE_NODE_NAME: "UPDATE_NODE_NAME",
+	UPDATE_NODE_TYPE_VOTE: "UPDATE_NODE_TYPE_VOTE",
+	UPDATE_NODE_TYPE: "UPDATE_NODE_TYPE"
+};
+
 
 /**
  * class for mediation Changes
@@ -169,7 +187,41 @@ export class Change {
 		delete change.phase;
 
 		return change;
-	};
+	}
+
+	public getEventText():string {
+		switch (this.event){
+			case Event.NODE_CREATED:
+				return "created";
+			case Event.NODE_SELECTED:
+				return "selected";
+			case Event.NODE_UPDATED:
+				return "updated";
+			case Event.NODE_DELETED:
+				return "deleted";
+			case Event.EDGE_UPDATED:
+				return "updated";
+			default:
+				return "unknown action";
+		}
+	}
+
+	public getEventIcon():string {
+		switch (this.event){
+			case Event.NODE_CREATED:
+				return "fa-plus-circle";
+			case Event.NODE_SELECTED:
+				return "fa-arrows";
+			case Event.NODE_UPDATED:
+				return "fa-pencil-square-o";
+			case Event.NODE_DELETED:
+				return "fa-trash";
+			case Event.EDGE_UPDATED:
+				return "fa-link";
+			default:
+				return "fa-question-circle"; //"fa-question-circle-o";
+		}
+	}
 }
 
 if (typeof puzzles.changes !== 'undefined')

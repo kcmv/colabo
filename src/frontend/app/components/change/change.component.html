@@ -1,16 +1,39 @@
 <div class="change-component">
   <div layout="column" class="list">
-    <md-card *ngFor="let change of changes">
-      <md-card-title>
-        <md-card-title-text>
-          <span class="md-headline">{{change.iAmId?.displayName}}</span><i class="fa fa-user" aria-hidden="true"></i>
-          <span class="md-subhead"><i class="fa fa-plus-circle" aria-hidden="true"></i> added</span>
-        </md-card-title-text>
-        <!-- <md-card-title-media>
-          <img class="card-media md-media-sm" src="images/avatars/avatar13.svg">
-        </md-card-title-media> -->
-        {{change.reference?.name}}
-      </md-card-title>
+    <md-card class="change_card" *ngFor="let change of changes">
+        <md-card-subtitle>
+          <!-- class="md-headline" -->
+          <span class="user">
+            <span>{{change.iAmId?.displayName}}</span><span class="user-avatar"><i class="fa fa-user" aria-hidden="true"></i></span>
+          </span>
+        </md-card-subtitle>
+        <md-card-title>
+          <!-- <span class="md-subhead"> -->
+            <!-- This could not be done (because "...attribute values to match against cannot be expressions. They are interpreted as literal string values to match against... ")
+            <span class='event-icon' ng-switch="change.event">
+              <i class="fa fa-plus-circle" aria-hidden="true" ng-switch-when="{{Event.NODE_CREATED}}"></i>
+              <i class="fa fa-arrows" aria-hidden="true" ng-switch-when="{{Event.NODE_SELECTED}}"></i>
+            </span> -->
+            <span class='event-icon'>
+              <i class="fa {{change.getEventIcon()}}" aria-hidden="true"></i>
+              <!-- <i *ngIf="change.event === 'node-created'" class="fa fa-plus-circle" aria-hidden="true"></i>
+              <i *ngIf="change.event === 'node-selected'" class="fa fa-arrows" aria-hidden="true"></i>
+              <i *ngIf="change.event === 'node-updated'" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <i *ngIf="change.event === Event.NODE_DELETED" class="fa fa-trash" aria-hidden="true"></i>
+              <i *ngIf="change.event === Event.EDGE_UPDATED" class="fa fa-link" aria-hidden="true"></i> -->
+            </span>
+            <span class="event-text">{{change.getEventText()}}</span>
+        </md-card-title>
+        <md-card-content>
+          <!-- <md-card-title-media>
+            <img class="card-media md-media-sm" src="images/avatars/avatar13.svg">
+          </md-card-title-media> -->
+          <span class="value_object"[ngSwitch]="change.reference === null">
+            <span class="non-existing" *ngSwitchCase="true">object-not-existing</span>
+            <span class="existing" *ngSwitchCase="false">{{change.reference.name}}</span>
+          </span>
+
+        </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
         <button md-button>Swype to hide</button>
         <!-- <button md-button>Action 2</button> -->

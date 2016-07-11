@@ -111,7 +111,8 @@ SUB_PROJECTS.KNALLEDGE.COMPILATION = {
             'components/rima': { destDir: APP_SRC, cssDir: 'css' },
             'components/topiChat': { destDir: APP_SRC, cssDir: 'css' },
             'components/mapsList': { destDir: APP_SRC, cssDir: 'css' },
-            'components/suggestion': { destDir: APP_SRC, cssDir: 'css' }
+            'components/suggestion': { destDir: APP_SRC, cssDir: 'css' },
+            'components/change': { destDir: APP_SRC, cssDir: 'css' }
         }
     }
 };
@@ -257,7 +258,8 @@ const SUB_PROJECTS_FILES = {
             { src: join(APP_SRC, 'components/topiChat/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
             { src: join(APP_SRC, 'components/collaboPlugins/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
             { src: join(APP_SRC, 'components/mapsList/css/maps-list.component.css'), inject: true, dest: CSS_DEST, noNorm: true },
-            // { src: join(APP_SRC, 'components/suggestion/css/suggestion.component.css'), inject: true, dest: CSS_DEST, noNorm: true },
+            { src: join(APP_SRC, 'components/suggestion/css/suggestion.component.css'), inject: true, dest: CSS_DEST, noNorm: true },
+            { src: join(APP_SRC, 'components/change/css/change.component.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
             // KNALLEDGE PLUGINS, TODO: we want to avoid hardoced registering plugins here
             { src: join(APP_SRC, 'components/ontov/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },

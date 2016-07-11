@@ -1,0 +1,35 @@
+@import "../../../sass/include";
+
+.change_card{
+  padding: 3px;
+
+  md-card-content{
+    padding: 2px;
+    margin: 3px;
+  }
+
+  .user{
+    font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      background-color: LightBlue;
+    }
+  }
+
+  .value_object{
+    font-weight: bold;
+    border: solid gray 1px;
+    padding: 2px;
+    margin: 2px;
+    .existing{
+      cursor: pointer;
+      &:hover {
+        background-color: LightBlue;
+      }
+    }
+    .non-existing{
+      cursor: not-allowed;
+      color: DarkGray;
+    }
+  }
+}

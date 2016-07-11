@@ -72,6 +72,7 @@ exports.index = function(req, res){
 		case 'one': //by id:
 
 			DbAuditModel.findById(id, found);
+		console.log("[byId] Id: %s.\n", id);
 			break;
 		case 'oneByEmail': // by email
 			console.log("findBy e-mail:\n e-mail: %s.\n", id);

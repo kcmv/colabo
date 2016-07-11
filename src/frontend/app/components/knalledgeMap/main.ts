@@ -16,8 +16,8 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
-import {DbAuditService} from './dbAudit.service';
-import {Change} from '../change/change';
+// import {DbAuditService} from './dbAudit.service';
+// import {Change} from '../change/change';
 // import {ChangeService} from "../change/change.service";
 
 // TODO: probable remove later, this is just to trigger starting the service
@@ -86,7 +86,7 @@ if (Config.Plugins.ontov.active) {
     providers: [
         MATERIAL_PROVIDERS,
         OVERLAY_PROVIDERS,
-        DbAuditService,
+        // DbAuditService,
         // ChangeService
         // provideRouter
         // RequestService
@@ -118,8 +118,8 @@ export class KnalledgeMapMain {
         @Inject('Plugins') private Plugins,
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
-        public dbAuditService: DbAuditService
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray//,
+        // public dbAuditService: DbAuditService
         ) {
         console.log('[KnalledgeMapMain] loaded');
         this.viewConfig = knalledgeMapViewService.get().config;
@@ -148,27 +148,27 @@ export class KnalledgeMapMain {
         });
     };
 
-    testMain() {
+    // testMain() {
       // this.dbAuditService.hello();
-      this.dbAuditService.getOne('577d5cb55be86321489aacaa')
-          .subscribe(
-          audit => alert("audit: " +
-              JSON.stringify(audit)),
-          error => alert("error: " +
-              JSON.stringify(error))
-          );
-
-      //POST:
-      var change = new Change();
-      change.value = {name:'from NG2 TS service'};
-      this.dbAuditService.create(change)
-          .subscribe(
-          result => alert("result: " +
-              JSON.stringify(result)),
-          error => alert("error: " +
-              JSON.stringify(error))
-          );
-    }
+      // this.dbAuditService.getOne('577d5cb55be86321489aacaa')
+      //     .subscribe(
+      //     audit => alert("audit: " +
+      //         JSON.stringify(audit)),
+      //     error => alert("error: " +
+      //         JSON.stringify(error))
+      //     );
+      //
+      // //POST:
+      // var change = new Change();
+      // change.value = {name:'from NG2 TS service'};
+      // this.dbAuditService.create(change)
+      //     .subscribe(
+      //     result => alert("result: " +
+      //         JSON.stringify(result)),
+      //     error => alert("error: " +
+      //         JSON.stringify(error))
+      //     );
+    // }
 
     customClose(interesting: boolean) {
         if (interesting) {

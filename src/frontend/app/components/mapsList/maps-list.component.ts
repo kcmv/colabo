@@ -330,7 +330,7 @@ export class MapsList implements OnInit{
     //TEST: this.policyConfig.moderating.enabled = !this.policyConfig.moderating.enabled;
   }
 
-	openMap(item, mapRoute) {
+	openMap(item: any, mapRoute?: string) {
 	    console.log("openMap");
       if(!item){ // && this.selectedItem !== null && this.selectedItem !== undefined
         item = this.selectedItem;
@@ -344,7 +344,9 @@ export class MapsList implements OnInit{
 
         //TODO-remove:
         this.policyConfig.moderating.enabled = false;
-        window.location.href = "#"+ mapRoute.route +"/id/" + item._id;
+        var location = "#"+ (mapRoute ? mapRoute.route : this.mapRoutes[0].route) +"/id/" + item._id;
+        console.log("location: ", location);
+        window.location.href = location;
   			//openMap(item);
   			// $element.remove();
   		}else{

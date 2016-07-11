@@ -53,10 +53,10 @@ import { HTTP_PROVIDERS } from '@angular/http';
 })
 export class TopPanel {
 
-    relevants:number;
-    changes:number;
-    suggestions:number;
-    requests:number;
+    public newRelevantsNo:number = 0;
+    public newChangesNo:number = 0;
+    public newSuggestionssNo:number = 0;
+    public newRequestsNo:number = 0;
     policyConfig:Object;
 
     constructor(
@@ -66,12 +66,17 @@ export class TopPanel {
     ) {
         console.log('[TopPanel]');
         this.policyConfig = knalledgeMapPolicyService.get().config;
-        this.relevants = 0;
         // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
         // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
     };
 
     opened() {
       console.log("top panel is opened");
+    }
+
+    updateChangesNo(no){
+      console.log("[updateChangesNo] event:", no);
+      this.newChangesNo = no;
+      //this.changesTitle = (no > 0) ? (ChangeComponent.TITLE + " (" + no + ")") : ChangeComponent.TITLE;
     }
 }

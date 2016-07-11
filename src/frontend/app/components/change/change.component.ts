@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, EventEmitter, Output, Input} from '@angular/core';
 //import {NgIf, NgFor, FORM_DIRECTIVES} from '@angular/common';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
@@ -26,7 +26,10 @@ import {ChangeService} from "./change.service";
   //  styleUrls: ['change.component.css']
 })
 export class ChangeComponent implements OnInit {
-  changes: Change[] = [];
+  public changes: Change[] = [];
+  @Input() initializeWithChangesFromServer: boolean = false;
+  // @Input() followChanges: boolean = false;
+  @Output() newChange = new EventEmitter<any>();
 
   constructor(
       @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
@@ -43,28 +46,33 @@ export class ChangeComponent implements OnInit {
       // this.globalEmitterServicesArray.register(selectedNodeChangedEventName);
     	// this.globalEmitterServicesArray.get(selectedNodeChangedEventName).subscribe(
       //  'ChangeComponent', this.selectedNodeChanged.bind(this));
+
+      // this.changeService.getOne('577d5cb55be86321489aacaa')
+      //     .subscribe(
+      //     audit => alert("audit: " +
+      //         JSON.stringify(audit)),
+      //     error => alert("error: " +
+      //         JSON.stringify(error))
+      //     );
+
+  }
+
+  changesReceived(changes){
+    this.changes = changes;
+    this.updateNewChangesNo(this.changes.length);
   }
 
   ngOnInit() {
+    this.changeService.init();
     this.changes = this.changeService.getChangesRef();
+    if(this.initializeWithChangesFromServer){
+      this.changeService.getChangesFromServer();//this.changesReceived.bind(this));
+    }
+    this.updateNewChangesNo(this.changes.length);
+    this.changeService.onChangeHandler = this.changesReceived.bind(this);
   }
 
-  // changeReceived(received:any) {
-  //   let change:Change = received.change;
-  //   console.log("[changeReceived] change", JSON.stringify(change));
-  // }
-
-  // topicClicked(topic){
-  //   this.globalEmitterServicesArray.get(this.changeSelectedNodeEventName).broadcast('ChangeComponent', topic._id);
-  // }
-
-  // revoke(change){
-  //   change.state = State.REVOKED;
-  //   //TODO: inform user that it is revoked
-  //   for(let i=0;i<this.changes.length;i++){
-  //     if(this.changes[i] === change){
-  //       this.changes.splice(i, 1);
-  //     }
-  //   }
-  // }
+  private updateNewChangesNo(no:number):void{
+    this.newChange.emit(no);
+  }
 }

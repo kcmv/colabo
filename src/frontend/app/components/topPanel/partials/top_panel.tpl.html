@@ -1,7 +1,7 @@
 <!-- <span>TABS</span> -->
 <md-tab-group md-dynamic-height md-border-bottom>
     <md-tab>
-        <template md-tab-label>suggestions</template>
+        <template md-tab-label>suggestions<span *ngIf="newSuggestionssNo!==0">&nbsp;({{newSuggestionssNo}})</span></template>
         <template md-tab-content>
             <md-content class="md-padding">
                 <suggestion-component></suggestion-component>
@@ -10,7 +10,7 @@
     </md-tab>
 
     <md-tab>
-        <template md-tab-label>{{'relevant'+' ('+relevants+')'}}</template>
+        <template md-tab-label>relevants<span *ngIf="newRelevantsNo!==0">&nbsp;({{newRelevantsNo}})</span></template>
         <template md-tab-content md-on-select="opened(tab)">
             <md-content class="md-padding">
                 <rima-relevant-list class="rima_relevant_list"></rima-relevant-list>
@@ -19,16 +19,17 @@
     </md-tab>
 
     <md-tab>
-        <template md-tab-label>changes</template>
+        <template md-tab-label>changes<span *ngIf="newChangesNo!==0">&nbsp;({{newChangesNo}})</span></template>
+        <!-- changes.newChangesNo -->
         <template md-tab-content>
             <md-content class="md-padding">
-              <change-component></change-component>
+              <change-component (newChange)="updateChangesNo($event)" [initializeWithChangesFromServer]="true" [followChanges]="true"></change-component>
             </md-content>
         </template>
     </md-tab>
 
     <md-tab *ngIf="policyConfig.moderating.enabled">
-        <template md-tab-label>requests</template>
+        <template md-tab-label>requests<span *ngIf="newRequestsNo!==0">&nbsp;({{newRequestsNo}})</span></template>
         <template md-tab-content>
             <md-content class="md-padding">
                 <request></request>

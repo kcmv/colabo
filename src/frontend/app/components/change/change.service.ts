@@ -21,6 +21,11 @@ import 'rxjs/add/observable/throw';
 *
 * Services
 * https://angular.io/docs/ts/latest/tutorial/toh-pt4.html
+*
+* Promises vs Observables:
+* https://angular.io/docs/ts/latest/guide/server-communication.html#!#promises
+* 	"While promises may be more familiar, observables have many advantages. Don't rush to promises until you give observables a chance."
+* http://blog.thoughtram.io/angular/2016/01/06/taking-advantage-of-observables-in-angular2.html
 */
 
 /*
@@ -29,9 +34,12 @@ for showing structural changes, reacting on node-created, node-updated, node-del
  */
 @Injectable()
 export class ChangeService {
+    private _onChangeHandler: Function = null;
     private changes: Change[] = [];
     private apiUrl: string = "http://127.0.0.1:8888/dbAudits/";
-    private rimaService;
+    private rimaService:any = null;
+    private mapVOsService:any = null;
+    private mapId: string = null;
 
     /**
      * Service constructor
@@ -43,9 +51,9 @@ export class ChangeService {
      * @param  {Service} TopiChatConfigService - TopiChat Config service
      */
     constructor(
-        //   @Inject('RimaService') private rimaService,
+      //  @Inject('RimaService') private rimaService,
         @Inject('$injector') private $injector,
-        @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
+        // @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
         private http: Http
         ) {
@@ -60,40 +68,58 @@ export class ChangeService {
         // this.knAllEdgeRealTimeService.registerPlugin(changePluginOptions);
 
         // this.getMockupChanges();
-        console.log("[ChangeService]: this.http: ", this.http);
+        //console.log("[ChangeService]: this.http: ", this.http);
     }
 
-    getOne(id: string): Observable<any> {
-        return this.http.get(this.apiUrl + "one/" + id)
-            .map(this.extractData)
-            .catch(this.handleError);
+    set onChangeHandler(h: Function){
+      this._onChangeHandler = h;
     }
 
-    createPlain(change: Change): Observable<any> {
-        // /return this.http.get(this.apiUrl + id)
-        //     .map(this.extractData)
-        //     .catch(this.handleError);
-        return null;
+    init():void{
+      this.rimaService = this.$injector.get('RimaService');
+      this.mapVOsService = this.$injector.get('KnalledgeMapVOsService');
+      this.mapId = this.mapVOsService.getMapId();
     }
 
-    create(change: Change): Observable<Change> {
-        let body = JSON.stringify(change);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.post(this.apiUrl, body, options)
-            .map(this.extractData)
-            .catch(this.handleError);
+    getChangesFromServer(callback?: Function){
+      if(!this.mapId){
+        console.error('[getChangesFromServer]:mapId == null');
+        return;
+      }
+      this.getChangesInMap(this.mapId)
+          .subscribe(
+      audit => this.changesForMapReceived(audit, callback),
+      error => alert("error: " +
+          JSON.stringify(error))
+      );
     }
 
-    getChangesInMap(mapId: string): Observable<any> {
-        return this.http.get(this.apiUrl + "in_map/" + mapId)
-            .map(this.extractData)
-            .catch(this.handleError);
+    processReferences(change: Change) {
+      //MOCKUP: {_id: change.iAmId, displayName:'user:'+change.iAmId.substr(19)};
+      change.iAmId = this.rimaService.getUserById(change.iAmId);
+      //MOCKUP: {_id: change.reference, name:'object:'+change.reference.substr(19)};
+      change.reference = this.mapVOsService.getNodeById(change.reference);
+        return change;
+    }
+
+    processChangeFromServer(changeFromServer: any): Change {
+      var change = Change.changeFactory(changeFromServer);
+      change.state = State.SYNCED;
+      change = this.processReferences(change);
+      return change;
+    }
+
+    changesForMapReceived(changes:any[], callback?: Function){
+      //alert("audit: " +JSON.stringify(changes));
+      for(var i = 0; i< changes.length; i++){
+        changes[i] = this.processChangeFromServer(changes[i]);
+      }
+      this.changes = changes;
+      if(this._onChangeHandler){this._onChangeHandler(this.changes);}
+      if(typeof callback === 'function'){callback(this.changes);}
     }
 
     getMockupChanges() {
-        this.rimaService = this.$injector.get('RimaService');
         var r1: Change = new Change();
         r1.iAmId = "556760847125996dc1a4a24f";
         r1.reference = "57816d593212be5142d1de20";
@@ -112,15 +138,26 @@ export class ChangeService {
         this.changes.push(this.processReferences(r3));
     }
 
-    processReferences(change: Change) {
-        change.iAmId = this.rimaService.getUserById(change.iAmId);
-        change.reference = this.knalledgeMapVOsService.getNodeById(change.reference);
-        return change;
+    getChangesRef() {
+        //this.getMockupChanges();
+        return this.changes;
     }
 
-    getChangesRef() {
-        this.getMockupChanges();
-        return this.changes;
+    create(change:Change, callback?: Function): void{
+        this.post(change)
+            .subscribe(
+        changeFromServer => this.changeCreated(changeFromServer, callback),
+        error => console.error("error: " +
+            JSON.stringify(error))
+        );
+      ;
+    }
+
+    private changeCreated(changeFromServer, callback?: Function):void{
+      var change:Change = this.processChangeFromServer(changeFromServer);
+      this.changes.push(change);
+      if(this._onChangeHandler){this._onChangeHandler(this.changes);}
+      if(typeof callback === 'function'){callback(change);}
     }
 
     private extractData(res: Response) {
@@ -135,5 +172,27 @@ export class ChangeService {
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error(errMsg); // log to console instead
         return Observable.throw(errMsg);
+    }
+
+    private getOne(id: string): Observable<any> {
+        return this.http.get(this.apiUrl + "one/" + id)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    private post(change: Change): Observable<Change> {
+        let body = JSON.stringify(change);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.apiUrl, body, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    private getChangesInMap(mapId: string): Observable<any> {
+        return this.http.get(this.apiUrl + "in_map/" + mapId)
+            .map(this.extractData)
+            .catch(this.handleError);
     }
 }
