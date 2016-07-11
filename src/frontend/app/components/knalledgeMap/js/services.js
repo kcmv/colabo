@@ -2684,16 +2684,16 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					var knPackage = msg;
 
 					DbAuditService.sendChange(msg);
-					ChangeService.getOne('577d5cb55be86321489aacaa').subscribe(
-						function(audit){
-							// alert("audit: " +
-		                JSON.stringify(audit))
-						},
-		            	function(error){
-							// alert("error: " +
-		                JSON.stringify(error))
-						}
-		            );
+					ChangeService.getOne('577d5cb55be86321489aacaa').subscribe(function(audit){
+						// alert("audit: " +
+		                // JSON.stringify(audit));
+							console.log("audit: " +
+					JSON.stringify(audit));
+					},
+	            	function(error){
+						alert("error: " +
+		                	JSON.stringify(error));
+					});
 				}
 				else{
 					var knPackage = {
