@@ -323,11 +323,12 @@ Map.prototype.nodeSelected = function(nodeIdentifier) {
 	var vkNode = null;
 	if(typeof nodeIdentifier === 'string'){//"id":
 		vkNode = this.mapStructure.getVKNodeByKId(nodeIdentifier);
-	}else
-	if(nodeIdentifier instanceof knalledge.KNode){//kNode:
-		vkNode = this.mapStructure.getVKNodeByKId(nodeIdentifier._id);
-	}else{//vkNode:
-		vkNode = nodeIdentifier;
+	}else{
+		if(nodeIdentifier instanceof knalledge.KNode){//kNode:
+			vkNode = this.mapStructure.getVKNodeByKId(nodeIdentifier._id);
+		}else{//vkNode:
+			vkNode = nodeIdentifier;
+		}
 	}
 
 	if(!vkNode) return;

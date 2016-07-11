@@ -611,13 +611,13 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					var el = angular.element('.knalledge_map_middle');
 					KnAllEdgeSelectItemService.init(knalledgeMap, $scope, el);
 
-					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
-					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeUpdatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
-					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeDeletedEventName).subscribe('knalledgeMap',$scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeCreatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind($scope.knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeUpdatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind($scope.knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeNodeDeletedEventName).subscribe('knalledgeMap',$scope.knalledgeMap.processExternalChangesInMap.bind($scope.knalledgeMap)));
 
-					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeCreatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
-					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeUpdatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
-					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeDeletedEventName).subscribe('knalledgeMap',$scope.knalledgeMap.processExternalChangesInMap.bind(knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeCreatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind($scope.knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeUpdatedEventName).subscribe('knalledgeMap', $scope.knalledgeMap.processExternalChangesInMap.bind($scope.knalledgeMap)));
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(KnRealTimeEdgeDeletedEventName).subscribe('knalledgeMap',$scope.knalledgeMap.processExternalChangesInMap.bind($scope.knalledgeMap)));
 				};
 
 				/**

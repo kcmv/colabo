@@ -96,11 +96,11 @@ export class ChangeService {
 
     processReferences(change: Change) {
       //MOCKUP: {_id: change.iAmId, displayName:'user:'+change.iAmId.substr(19)};
-      change.iAmId = this.rimaService.getUserById(change.iAmId);
+      if(this.rimaService){change.iAmId = this.rimaService.getUserById(change.iAmId);}
       //MOCKUP: {_id: change.reference, name:'object:'+change.reference.substr(19)};
       switch(change.domain){
         case Domain.NODE:
-          change.reference = this.mapVOsService.getNodeById(change.reference);
+          if(this.mapVOsService){change.reference = this.mapVOsService.getNodeById(change.reference);}
         break;
         case Domain.EDGE:
           //TODO: var edge = this.mapVOsService.getEdgeById(change.reference);
