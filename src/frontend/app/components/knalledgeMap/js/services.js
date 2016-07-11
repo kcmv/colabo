@@ -37,7 +37,7 @@ var removeJsonProtected = function(ENV, jsonStr){
 * the namespace for core services for the KnAllEdge system
 * @namespace knalledge.knalledgeMap.knalledgeMapServices
 */
-var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config', 'collaboPluginsServices']);
+var knalledgeMapServices = angular.module('knalledgeMapServices', ['ngResource', 'Config', 'collaboPluginsServices', 'changeServices']);
 
 /**
 * @class KnalledgeMapQueue
@@ -2522,7 +2522,7 @@ knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 * @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
-	$get: ['$injector', 'KnalledgeMapPolicyService', 'DbAuditService', /*'$q', 'ENV', '$rootScope', */
+	$get: ['$injector', 'KnalledgeMapPolicyService', 'DbAuditService', 'ChangeService',
 
 	/**
 	* @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
@@ -2531,7 +2531,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 	 * @param  {knalledge.knalledgeMap.KnalledgeMapPolicyService} KnalledgeMapPolicyService - Service that configures policy aspects of the KnAllEdge system
 	 */
 
-	function($injector, KnalledgeMapPolicyService, DbAuditService /*$q , ENV, $rootScope*/) {
+	function($injector, KnalledgeMapPolicyService, DbAuditService, ChangeService) {
 
 		try{
 			var TopiChatService = $injector.get('TopiChatService');
@@ -2684,6 +2684,16 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					var knPackage = msg;
 
 					DbAuditService.sendChange(msg);
+					ChangeService.getOne('577d5cb55be86321489aacaa').subscribe(
+						function(audit){
+							// alert("audit: " +
+		                JSON.stringify(audit))
+						},
+		            	function(error){
+							// alert("error: " +
+		                JSON.stringify(error))
+						}
+		            );
 				}
 				else{
 					var knPackage = {
