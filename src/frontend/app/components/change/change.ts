@@ -222,6 +222,14 @@ export class Change {
 				return "fa-question-circle"; //"fa-question-circle-o";
 		}
 	}
+
+	public isNode(): boolean{
+		return this.domain === Domain.NODE;
+	}
+
+	public isEdge(): boolean{
+		return this.domain === Domain.EDGE;
+	}
 }
 
 if (typeof puzzles.changes !== 'undefined')

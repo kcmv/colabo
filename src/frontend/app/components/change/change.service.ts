@@ -3,7 +3,7 @@ import { Http, HTTP_PROVIDERS, Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import { Headers, RequestOptions } from '@angular/http';
 
-import {Change, ChangeVisibility, ChangeType, State} from './change';
+import {Change, ChangeVisibility, ChangeType, State, Domain} from './change';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 
@@ -98,8 +98,17 @@ export class ChangeService {
       //MOCKUP: {_id: change.iAmId, displayName:'user:'+change.iAmId.substr(19)};
       change.iAmId = this.rimaService.getUserById(change.iAmId);
       //MOCKUP: {_id: change.reference, name:'object:'+change.reference.substr(19)};
-      change.reference = this.mapVOsService.getNodeById(change.reference);
-        return change;
+      switch(change.domain){
+        case Domain.NODE:
+          change.reference = this.mapVOsService.getNodeById(change.reference);
+        break;
+        case Domain.EDGE:
+          //TODO: var edge = this.mapVOsService.getEdgeById(change.reference);
+          //change.reference = this.mapVOsService.getNodeById(edge.sourceId);
+          change.reference = null;
+        break;
+      }
+      return change;
     }
 
     processChangeFromServer(changeFromServer: any): Change {

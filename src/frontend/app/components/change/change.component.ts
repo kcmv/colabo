@@ -31,6 +31,7 @@ export class ChangeComponent implements OnInit {
   // @Input() followChanges: boolean = false;
   @Output() newChange = new EventEmitter<any>();
 
+  private changeSelectedNodeEventName: string = "changeSelectedNodeEvent";
   constructor(
       @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
       // @Inject('RimaService') private rimaService:RimaService
@@ -39,6 +40,7 @@ export class ChangeComponent implements OnInit {
    , private changeService:ChangeService
   ) {
       console.log('[ChangeComponent]');
+  		this.globalEmitterServicesArray.register(this.changeSelectedNodeEventName);
 
       // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
       // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
@@ -70,6 +72,10 @@ export class ChangeComponent implements OnInit {
     }
     this.updateNewChangesNo(this.changes.length);
     this.changeService.onChangeHandler = this.changesReceived.bind(this);
+  }
+
+  public valueObjectClicked(vo){
+    this.globalEmitterServicesArray.get(this.changeSelectedNodeEventName).broadcast('ChangeComponent', vo);
   }
 
   private updateNewChangesNo(no:number):void{

@@ -8,6 +8,14 @@
     margin: 3px;
   }
 
+  .event-icon{
+    padding: 5px;
+    margin-left: -3px;
+    margin-top: -3px;
+    margin-right: 6px;
+    background-color: #b0b0b0;
+  }
+
   .user{
     font-weight: bold;
     cursor: pointer;
@@ -19,6 +27,7 @@
   .value_object{
     font-weight: bold;
     border: solid gray 1px;
+    border-radius: 3px;
     padding: 2px;
     margin: 2px;
     .existing{
