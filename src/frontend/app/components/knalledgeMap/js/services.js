@@ -966,6 +966,7 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 				obj[knalledge.KNode.UPDATE_NODE_NAME] =1;
 				obj[knalledge.MapStructure.UPDATE_NODE_TYPE] =1;
 				obj[knalledge.MapStructure.UPDATE_NODE_CREATOR] =1;
+				obj[knalledge.MapStructure.UPDATE_NODE_VISUAL_OPEN] =1;
 
 				return obj;
 			})(),
