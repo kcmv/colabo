@@ -967,6 +967,7 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 				obj[knalledge.MapStructure.UPDATE_NODE_TYPE] =1;
 				obj[knalledge.MapStructure.UPDATE_NODE_CREATOR] =1;
 				obj[knalledge.MapStructure.UPDATE_NODE_VISUAL_OPEN] =1;
+				obj[knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING] =1;
 
 				return obj;
 			})(),
@@ -1032,6 +1033,18 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 										whats.splice(i, 1);
 									}
 								}
+							break;
+							case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING:
+								if (!kNode.dataContent) {
+									kNode.dataContent = { rima : { whats : [] } };
+								} else {
+										if (!kNode.dataContent.rima) {
+											kNode.dataContent.rima = { whats : [] };
+										} else {
+											if (!kNode.dataContent.rima.whats) { kNode.dataContent.rima.whats = []; }
+										}
+								}
+								kNode.dataContent.rima.whats.push(change.value.dataContent.rima.whats[0]);
 							break;
 							default:
 								if(this.differentialActions[change.action]){
@@ -1275,7 +1288,24 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 
 			updateNode: function(node, actionType, patch, callback) {
 				if(patch){ //other way is to check if actionType is in the list of differential ones
-					deepAssign(node, patch); //patching
+					switch(actionType){
+						case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING: //needs to be treaten separatelly because deepAssign cannot handle with arrays elements changes
+						//this 	`case` is not needed actually right now, because what is deleted already in rima component/directive in method `itemRemove` (but actions are idempotent)
+							var whatId = patch.dataContent.rima.whats._id;
+							//console.log('whatId: ', whatId);
+							var whats = node.dataContent.rima.whats;
+							for(var i=0; i<whats.length; i++){
+								if(whats[i]._id === whatId){
+									whats.splice(i, 1);
+								}
+							}
+						break;
+						case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING: //needs to be treaten separatelly because deepAssign cannot handle with arrays elements changes
+							node.dataContent.rima.whats.push(patch.dataContent.rima.whats[0]);
+						break;
+						default:
+							deepAssign(node, patch); //patching
+					}
 				}
 				var that = this;
 				return KnalledgeNodeService.update(node, actionType, patch,

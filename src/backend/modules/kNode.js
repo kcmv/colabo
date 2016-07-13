@@ -188,12 +188,26 @@ exports.update = function(req, res){
 					// this could be other approach: http://stackoverflow.com/questions/5059951/deleting-js-object-properties-a-few-levels-deep
 					var whatId = data.dataContent.rima.whats._id;
 					//console.log('whatId: ', whatId);
-					var whats = old_data.dataContent.rima.whats;
-					for(var i=0; i<whats.length; i++){
-						if(whats[i]._id === whatId){
-							whats.splice(i, 1);
+					if(old_data.dataContent && old_data.dataContent.rima && old_data.dataContent.rima.whats){
+						var whats = old_data.dataContent.rima.whats;
+						for(var i=0; i<whats.length; i++){
+							if(whats[i]._id === whatId){
+								whats.splice(i, 1);
+							}
 						}
 					}
+				break;
+				case 'DATA_CONTENT_RIMA_WHATS_ADDING':
+					if (!old_data.dataContent) {
+						old_data.dataContent = { rima : { whats : [] } };
+					} else {
+							if (!old_data.dataContent.rima) {
+								old_data.dataContent.rima = { whats : [] };
+							} else {
+								if (!old_data.dataContent.rima.whats) { old_data.dataContent.rima.whats = []; }
+							}
+					}
+					old_data.dataContent.rima.whats.push(data.dataContent.rima.whats[0]);
 				break;
 				default:
 					deepAssign(old_data, data);
@@ -217,7 +231,7 @@ exports.update = function(req, res){
 				if (err) throw err;
 				//console.log('The raw response from Mongo was ', raw);
 				data._id = id; //TODO: when we completly transfer to differential updates we won't need this
-				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+				resSendJsonProtected(res, {success: true, data: old_data, accessId : accessId});
 				//resSendJsonProtected(res, {data: kNodes, accessId : accessId, success: true});
 			});
 		}

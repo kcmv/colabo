@@ -190,7 +190,8 @@ export class ChangeService {
     }
 
     private post(change: Change): Observable<Change> {
-        let body = JSON.stringify(change);
+        //let body = JSON.stringify(change);
+        let body = angular.toJson(change);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 

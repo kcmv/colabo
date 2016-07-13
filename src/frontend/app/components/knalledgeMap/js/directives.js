@@ -157,8 +157,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 		GlobalEmitterServicesArray.register(knalledgeMapUpdateEventName);
 		var mapEntitySelectedEventName = "mapEntitySelectedEvent";
 		GlobalEmitterServicesArray.register(mapEntitySelectedEventName);
-		var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
-		GlobalEmitterServicesArray.register(changeKnalledgeRimaEventName);
+		var changeKnalledgeRimaEvent = "changeKnalledgeRimaEvent";
+		GlobalEmitterServicesArray.register(changeKnalledgeRimaEvent);
 		var changeSelectedNodeEventName = "changeSelectedNodeEvent";
 		GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
 		var selectedNodeChangedEventName = "selectedNodeChangedEvent";
@@ -887,9 +887,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 					// 	// $scope.knalledgeMap.syncingChanged(); NOT USED ANY MORE
 					// }));
 
-					$scope.subscriptions.push(GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).subscribe('knalledgeMap',
+					$scope.subscriptions.push(GlobalEmitterServicesArray.get(changeKnalledgeRimaEvent).subscribe('knalledgeMap',
 					function(msg) {
-						console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEventName);
+						console.log("[knalledgeMap.controller::$on] event: %s", changeKnalledgeRimaEvent);
 						//msg is of type: {actionType:'what_deleted',node:$scope.node,what:whatId}
 						$scope.knalledgeMap.mapStructure.nodeWhatsManagement(msg);
 						$scope.knalledgeMap.update();

@@ -795,7 +795,7 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change, callbac
 			//'dataContent.rima.whats'
 		break;
 		case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING:
-			//TODO: still using old non-differential change
+			patch = {dataContent:{rima:{whats:[change]}}};
 		break;
 		case MapStructure.UPDATE_DATA_CONTENT:
 			break;
@@ -828,7 +828,6 @@ MapStructure.prototype.nodeWhatsManagement = function(msg) {
 				this.updateNode(msg.node, knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING, msg.what);
 		break;
 		case 'what_added':
-			//TODO: still using old non-differential change
 			this.updateNode(msg.node, knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING, msg.what);
 		break;
 	}
