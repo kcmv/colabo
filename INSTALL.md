@@ -165,6 +165,11 @@ cd c:/data/development/Knalledge/
 cd src/frontend
 npm install
 npm run typings install
+# or
+typings -v
+node_modules/typings/dist/bin.js -v
+
+node_modules/typings/dist/bin.js install
 ```
 
 #### Typings issues
@@ -533,7 +538,7 @@ copy them to Sinisha's machine
 
 ## Typings
   typings install open --global --save
-  typings install merge-stream --ambient --save
+  typings install merge-stream --ambient --save-dev
 
   typings install
   https://github.com/DefinitelyTyped/DefinitelyTyped/blob/ffceea9dd124d277c4597c7bd12930666ec074c5/open/open.d.ts
