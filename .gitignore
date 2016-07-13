@@ -36,7 +36,7 @@ bower_components
 
 typings/
 dist/
-manual_typings/
+# manual_typings/
 
 /doc/
 
