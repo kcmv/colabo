@@ -116,7 +116,6 @@ export const SUB_PROJECTS_FILE = {
         // LIBS
         { src: join(APP_DEST, 'js/lib/debug.js'), inject: 'libs', noNorm: true },
         { src: join(APP_SRC, '../bower_components/debugpp/index.js'), inject: 'libs', noNorm: true },
-        { src: join(APP_SRC, '../bower_components/halo/index.js'), inject: 'libs', noNorm: true },
 
         // KNALLEDGE APP
         { src: join(APP_DEST, 'js/config/config.js'), inject: true, noNorm: true },
@@ -168,7 +167,6 @@ export const SUB_PROJECTS_FILE = {
         { src: join(APP_SRC, 'css/libs/wizard/ngWizard.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
         { src: join(APP_SRC, 'css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
-        { src: join(APP_SRC, '../bower_components/halo/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
         { src: join(APP_SRC, 'components/collaboPlugins/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
         // KNALLEDGE PLUGINS, TODO: we want to avoid hardoced registering plugins here

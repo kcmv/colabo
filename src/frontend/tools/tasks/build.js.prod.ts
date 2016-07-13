@@ -91,7 +91,7 @@ export = function buildJSProd(gulp, plugins) {
             let tsProject = tsProjectFn(plugins);
             // src files are all ts files (except tests/template ones) and type definitions
             let src = [
-                'typings/browser.d.ts',
+                'typings/index.d.ts',
                 'tools/manual_typings/**/*.d.ts',
                 join(APP_SRC, '**/*.ts'),
                 '!' + join(APP_SRC, '**/*.spec.ts'),
