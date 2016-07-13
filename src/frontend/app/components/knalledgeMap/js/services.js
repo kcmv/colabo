@@ -130,7 +130,7 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', '$q', 'Plugins', 'ENV', 'KnalledgeMapQueue',
 function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 	try{
-		var KnAllEdgeRealTimeService = Plugins.knalledgeMap.config.knAllEdgeRealTimeService.available ?
+		var KnAllEdgeRealTimeService = Plugins.puzzles.knalledgeMap.config.knAllEdgeRealTimeService.available ?
 			$injector.get('KnAllEdgeRealTimeService') : null;
 	}catch(err){
 		console.warn("Error while trying to retrieve the KnAllEdgeRealTimeService service:", err);
@@ -529,7 +529,7 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 
 knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', '$q', 'Plugins', 'ENV', 'KnalledgeMapQueue', function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 	try{
-		var KnAllEdgeRealTimeService = Plugins.knalledgeMap.config.knAllEdgeRealTimeService.available ?
+		var KnAllEdgeRealTimeService = Plugins.puzzles.knalledgeMap.config.knAllEdgeRealTimeService.available ?
 			$injector.get('KnAllEdgeRealTimeService') : null;
 	}catch(err){
 		console.warn("Error while trying to retrieve the KnAllEdgeRealTimeService service:", err);
@@ -902,14 +902,14 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 		// var that = this;
 		try{
 			// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
-			var KnAllEdgeRealTimeService = Plugins.knalledgeMap.config.knAllEdgeRealTimeService.available ?
+			var KnAllEdgeRealTimeService = Plugins.puzzles.knalledgeMap.config.knAllEdgeRealTimeService.available ?
 				$injector.get('KnAllEdgeRealTimeService') : null;
 		}catch(err){
 			console.warn(err);
 		}
 		try{
 			// * @param  {rima.rimaServices.RimaService}  RimaService
-			var RimaService = Plugins.rima.config.rimaService.available ?
+			var RimaService = Plugins.puzzles.rima.config.rimaService.available ?
 				$injector.get('RimaService') : null;
 		}catch(err){
 			console.warn(err);
@@ -1257,7 +1257,7 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 					newNode = new knalledge.KNode();
 				}
 				newNode.iAmId = RimaService ? RimaService.getActiveUserId() :
-				Plugins.rima.config.rimaService.ANONYMOUS_USER_ID; //TODO: this is already done in caller (mapStructure), so maybe it should go under upper if. and we could add there another steps done in caller (like decoration)
+				Plugins.puzzles.rima.config.rimaService.ANONYMOUS_USER_ID; //TODO: this is already done in caller (mapStructure), so maybe it should go under upper if. and we could add there another steps done in caller (like decoration)
 				if(typeof kNodeType === 'undefined' || kNodeType === null){
 					kNodeType = knalledge.KNode.TYPE_KNOWLEDGE; //TODO: check about this
 				}
@@ -1406,7 +1406,7 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 					newEdge = new knalledge.KEdge();
 				}
 				newEdge.iAmId = RimaService ? RimaService.getActiveUserId() :
-				Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
+				Plugins.puzzles.rima.config.rimaService.ANONYMOUS_USER_ID;
 				if(typeof kEdgeType === 'undefined' || kEdgeType === null){
 					kEdgeType = knalledge.KEdge.TYPE_KNOWLEDGE; //TODO: check about this
 				}

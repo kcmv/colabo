@@ -142,12 +142,12 @@ angular.module('KnAllEdgeApp', requiresList)
 
 .config(['RimaServiceProvider', function(RimaServiceProvider){
 	RimaServiceProvider.$init(
-		window.Config.Plugins.rima.config.rimaService);
+		window.Config.Plugins.puzzles.rima.config.rimaService);
 }])
 
 .config(['KnalledgeMapVOsServiceProvider', function(KnalledgeMapVOsServiceProvider){
 	KnalledgeMapVOsServiceProvider.$init(
-		window.Config.Plugins.knalledgeMap.config.knalledgeMapVOsService);
+		window.Config.Plugins.puzzles.knalledgeMap.config.knalledgeMapVOsService);
 }])
 
 // Disabling Debug Data

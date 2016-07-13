@@ -77,14 +77,14 @@ angular.module('knalledgeMapDirectives', ['Config'])
 
 		try{
 			// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
-			var KnAllEdgeRealTimeService = Plugins.knalledgeMap.config.knAllEdgeRealTimeService.available ?
+			var KnAllEdgeRealTimeService = Plugins.puzzles.knalledgeMap.config.knAllEdgeRealTimeService.available ?
 				$injector.get('KnAllEdgeRealTimeService') : null;
 		}catch(err){
 			console.warn("Error while trying to retrieve the KnAllEdgeRealTimeService service:", err);
 		}
 		try{
 			// * @param  {rima.rimaServices.RimaService}  RimaService
-			var RimaService = Plugins.rima.config.rimaService.available ?
+			var RimaService = Plugins.puzzles.rima.config.rimaService.available ?
 				$injector.get('RimaService') : null;
 		}catch(err){
 			console.warn(err);

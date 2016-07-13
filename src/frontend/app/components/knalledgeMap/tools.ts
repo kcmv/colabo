@@ -30,14 +30,14 @@ var componentDirectives = [
 
 declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 
-if (Config.Plugins.gardening.active && PluginsPreloader.components.GardeningControls) {
+if (Config.Plugins.puzzles.gardening.active && PluginsPreloader.components.GardeningControls) {
     console.warn("[KnalledgeMapTools] Loading GardeningControls");
     componentDirectives.push(PluginsPreloader.components.GardeningControls);
 } else {
     console.warn("[KnalledgeMapTools] Not loading GardeningControls");
 }
 
-if (Config.Plugins.rima.active && PluginsPreloader.components.RimaUsersList) {
+if (Config.Plugins.puzzles.rima.active && PluginsPreloader.components.RimaUsersList) {
     console.warn("[KnalledgeMapTools] Loading RimaUsersList");
     componentDirectives.push(PluginsPreloader.components.RimaUsersList);
 } else {

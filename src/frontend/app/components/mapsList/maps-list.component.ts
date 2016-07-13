@@ -143,12 +143,15 @@ export class MapsList implements OnInit{
       // });
       this.mapToCreate = new knalledge.KMap();
       this.init();
-      this.mapRoutes = Config.Plugins.mapsList.config.openMap.routes;
+      this.mapRoutes = Config.Plugins.puzzles.mapsList.config.openMap.routes;
   };
 
   ngOnInit() {
-    console.log("Config.Plugins.mapsList.config.title:",Config.Plugins.mapsList.config.title);
-    this.title = Config.Plugins.mapsList.config && Config.Plugins.mapsList.config.title ? Config.Plugins.mapsList.config.title : "";
+    console.log("Config.Plugins.puzzles.mapsList.config.title:",Config.Plugins.puzzles.mapsList.config.title);
+    this.title =
+        Config.Plugins.puzzles.mapsList.config &&
+        Config.Plugins.puzzles.mapsList.config.title ?
+        Config.Plugins.puzzles.mapsList.config.title : "";
   }
 
   sortByName(a, b) {

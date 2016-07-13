@@ -68,14 +68,14 @@ var componentDirectives = [
 
 declare var Config: any;
 
-if (Config.Plugins.topPanel.active && PluginsPreloader.components.TopPanel) {
+if (Config.Plugins.puzzles.topPanel.active && PluginsPreloader.components.TopPanel) {
     console.warn("[KnalledgeMapMain] Loading TopPanel");
     componentDirectives.push(PluginsPreloader.components.TopPanel);
 } else {
     console.warn("[KnalledgeMapMain] Not loading TopPanel");
 }
 
-if (Config.Plugins.ontov.active) {
+if (Config.Plugins.puzzles.ontov.active) {
     componentDirectives.push(upgradeAdapter.upgradeNg1Component('ontovSearch'));
 }
 
@@ -128,7 +128,7 @@ export class KnalledgeMapMain {
         try {
             this.rimaService = RimaService;
             // * @param  {rima.rimaServices.RimaService}  RimaService
-            //   this.rimaService = this.Plugins.rima.config.rimaService.available ?
+            //   this.rimaService = this.Plugins.puzzles.rima.config.rimaService.available ?
             //   this.$injector.get('RimaService') : null;
         } catch (err) {
             console.warn(err);
@@ -182,7 +182,7 @@ export class KnalledgeMapMain {
         //http://localhost:5556/#/map/id/577e948861ab114d16732cb9?node_id=577e948861ab114d16732cda
         //->
         //http://localhost:5556/#/mcmap/id/577e948861ab114d16732cb9
-        var mapRoute: string = 'mcmap'; //Config.Plugins.mapsList.config.openMap.routes[0].route;
+        var mapRoute: string = 'mcmap'; //Config.Plugins.puzzles.mapsList.config.openMap.routes[0].route;
         var mapId: string = this.knalledgeMapVOsService.map._id;
         window.location.href = "#/" + mapRoute + "/id/" + mapId;
     }
@@ -213,10 +213,10 @@ export class KnalledgeMapMain {
     getLoggedInUserName(): any {
         var whoAmI = this.rimaService ?
             this.rimaService.getWhoAmI() :
-            this.Plugins.rima.config.rimaService.ANONYMOUS_USER_ID;
+            this.Plugins.puzzles.rima.config.rimaService.ANONYMOUS_USER_ID;
         var name = this.rimaService ?
             this.rimaService.getNameFromUser(whoAmI) :
-            this.Plugins.rima.config.rimaService.ANONYMOUS_USER_NAME;
+            this.Plugins.puzzles.rima.config.rimaService.ANONYMOUS_USER_NAME;
         return name;
     }
     getActiveUserName(): any {

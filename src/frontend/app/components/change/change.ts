@@ -232,10 +232,11 @@ export class Change {
 	}
 }
 
-if (typeof puzzles.changes !== 'undefined')
+if (typeof puzzles.changes !== 'undefined'){
 	puzzles.changes.ChangeVisibility = ChangeVisibility;
 	puzzles.changes.ChangeType = ChangeType;
 	puzzles.changes.ChangePhase = ChangePhase;
 	puzzles.changes.Domain = Domain;
 	puzzles.changes.State = State;
 	puzzles.changes.Change = Change;
+}
