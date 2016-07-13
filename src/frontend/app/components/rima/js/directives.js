@@ -840,8 +840,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 
-		var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
-		GlobalEmitterServicesArray.register(changeKnalledgeRimaEventName);
+		var changeKnalledgeRimaEvent = "changeKnalledgeRimaEvent";
+		GlobalEmitterServicesArray.register(changeKnalledgeRimaEvent);
 
 		return {
 			restrict: 'AE',
@@ -935,8 +935,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 
 					// kNode.dataContent.rima.whats.push(newWhat);
 					// $scope.asyncSelected = "";
-					// var changeKnalledgeRimaEventName = "changeKnalledgeRimaEvent";
-					// $rootScope.$broadcast(changeKnalledgeRimaEventName, $scope.node);
+					// var changeKnalledgeRimaEvent = "changeKnalledgeRimaEvent";
+					// $rootScope.$broadcast(changeKnalledgeRimaEvent, $scope.node);
 
 
 					var whatCreated = function(whatFromServer){
@@ -947,10 +947,13 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					var saveNodeWIthNewWhat = function(what){ // TODO: it should be just _id;
 						// whatPatch = {dataContent:{ibis:{votes:{}}}};
 						// deepAssign(kNode,)
-						kNode.dataContent.rima.whats.push(what);
+						//kNode.dataContent.rima.whats.push(what);
 						$scope.asyncSelected = "";
-						GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats',
-						{actionType:'what_added',node:$scope.node,what:what._id});
+						if(what instanceof knalledge.WhatAmI){
+							GlobalEmitterServicesArray.get(changeKnalledgeRimaEvent).broadcast('rimaWhats',
+							{actionType:'what_added',node:$scope.node,what:what.toServerCopy()});
+						}
+						else{window.alert('error in adding');}
 					}
 
 					if(typeof what === 'string'){ //new what
@@ -976,8 +979,8 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 					var whatId = item._id;
 					for(var i=0; i<$scope.items.length; i++){
 						if($scope.items[i]._id === whatId){
-							$scope.items.splice(i, 1);
-							GlobalEmitterServicesArray.get(changeKnalledgeRimaEventName).broadcast('rimaWhats',
+							$scope.items.splice(i, 1); //TODO: this deleting is redundant with the same deleting in service @ `updateNode` (but actions are idempotent)
+							GlobalEmitterServicesArray.get(changeKnalledgeRimaEvent).broadcast('rimaWhats',
 							{actionType:'what_deleted',node:$scope.node,what:whatId});
 						}
 					}

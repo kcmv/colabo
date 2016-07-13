@@ -79,7 +79,7 @@ var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapV
 MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
 MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT"; //depricated, should be more specialized
 MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
-MapStructure.UPDATE_NODE_APPEARENCE = "UPDATE_NODE_APPEARENCE";
+MapStructure.UPDATE_NODE_VISUAL_OPEN = "UPDATE_NODE_VISUAL_OPEN";
 MapStructure.UPDATE_NODE_TYPE = "UPDATE_NODE_TYPE";
 MapStructure.UPDATE_NODE_CREATOR = "UPDATE_NODE_CREATOR";
 
@@ -593,7 +593,7 @@ Map.prototype.addChildNode = function(nodeParent, nodeChild, edge){
  */
 MapStructure.prototype.collapse = function(vkNode) {
 	vkNode.isOpen = false;
-	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
+	this.updateNode(vkNode, MapStructure.UPDATE_NODE_VISUAL_OPEN, false);
 };
 
 /**
@@ -605,7 +605,7 @@ MapStructure.prototype.collapse = function(vkNode) {
  */
 MapStructure.prototype.expandNode = function(vkNode) {
 	vkNode.isOpen = true;
-	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
+	this.updateNode(vkNode, MapStructure.UPDATE_NODE_VISUAL_OPEN, true);
 };
 
 /**
@@ -617,7 +617,7 @@ MapStructure.prototype.expandNode = function(vkNode) {
  */
 MapStructure.prototype.toggle = function(vkNode) {
 	vkNode.isOpen = !vkNode.isOpen;
-	this.updateNode(vkNode, MapStructure.UPDATE_NODE_APPEARENCE);
+	this.updateNode(vkNode, MapStructure.UPDATE_NODE_VISUAL_OPEN, vkNode.isOpen);
 };
 
 // TODO: should be migrated to some util .js file:
@@ -697,11 +697,17 @@ MapStructure.prototype.isOnAncestorsPath = function(nodDescendant, nodeAncestor)
 };
 
 MapStructure.prototype.relinkNode = function(sourceNode, newParent, callback) {
+	var that = this;
 	if(!this.mapService) {callback(false); return null;}
 	if(this.isOnAncestorsPath(newParent,sourceNode)){
 		callback(false, 'DISRUPTING_PATH');
 	} else {
-		this.mapService.relinkNode(sourceNode.kNode, newParent.kNode, callback);
+		this.mapService.relinkNode(sourceNode.kNode, newParent.kNode,
+			function(){
+				that.updateNode(newParent, MapStructure.UPDATE_NODE_VISUAL_OPEN, true, function(){
+						if(callback){callback();}
+				});
+		});
 	}
 };
 
@@ -763,9 +769,8 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change, callbac
 			if('widthM' in vkNode) vkNode.kNode.visual.widthM = vkNode.widthM;
 			if('heightM' in vkNode) vkNode.kNode.visual.heightM = vkNode.heightM;
 			break;
-		case MapStructure.UPDATE_NODE_APPEARENCE:
-			if(! vkNode.kNode.visual) vkNode.kNode.visual = {};
-			if('isOpen' in vkNode) vkNode.kNode.visual.isOpen = vkNode.isOpen;
+		case MapStructure.UPDATE_NODE_VISUAL_OPEN:
+			patch = {'visual':{'isOpen':change}};
 			break;
 		case knalledge.KNode.UPDATE_TYPE_VOTE:
 			var iAmId = activeUserId;
@@ -790,7 +795,7 @@ MapStructure.prototype.updateNode = function(vkNode, updateType, change, callbac
 			//'dataContent.rima.whats'
 		break;
 		case knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING:
-			//TODO: still using old non-differential change
+			patch = {dataContent:{rima:{whats:[change]}}};
 		break;
 		case MapStructure.UPDATE_DATA_CONTENT:
 			break;
@@ -823,7 +828,6 @@ MapStructure.prototype.nodeWhatsManagement = function(msg) {
 				this.updateNode(msg.node, knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING, msg.what);
 		break;
 		case 'what_added':
-			//TODO: still using old non-differential change
 			this.updateNode(msg.node, knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING, msg.what);
 		break;
 	}

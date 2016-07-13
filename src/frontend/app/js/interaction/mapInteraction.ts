@@ -419,7 +419,7 @@ export class MapInteraction {
         if (!this.isStatusMap()) return;
         var node = this.clientApi.getSelectedNode();
         node.isOpen = !node.isOpen;
-        this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_APPEARENCE);
+        this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_VISUAL_OPEN, node.isOpen);
         this.clientApi.update(node);
     };
 
