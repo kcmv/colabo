@@ -42,5 +42,11 @@
     "vinyl-source-stream": "github:DefinitelyTyped/DefinitelyTyped/vinyl-source-stream/vinyl-source-stream.d.ts#ffceea9dd124d277c4597c7bd12930666ec074c5",
     "yargs": "github:DefinitelyTyped/DefinitelyTyped/yargs/yargs.d.ts#6a287502dab374e7d4cbf18ea1ac5dff7f74726a",
     "zone.js": "github:DefinitelyTyped/DefinitelyTyped/zone.js/zone.js.d.ts#b923a5aaf013ac84c566f27ba6b5843211981c7a"
+  },
+  "ambientDependencies": {
+    "bluebird": "github:DefinitelyTyped/DefinitelyTyped/bluebird/bluebird.d.ts#b13fb549b27f069cb40346a4a835dc7c229aba8b",
+    "connect": "github:DefinitelyTyped/DefinitelyTyped/connect/connect.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
+    "log4js": "github:DefinitelyTyped/DefinitelyTyped/log4js/log4js.d.ts#b13fb549b27f069cb40346a4a835dc7c229aba8b",
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#25d46c96646e9838d14aa7405a232fe79b3423e4"
   }
 }
