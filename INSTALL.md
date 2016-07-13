@@ -65,6 +65,15 @@ su
     sudo npm install node-gyp -g
     sudo npm install marked -g
 
+    # it could be necessary to do the following as well
+    cd /usr/local/lib/node_modules
+    sudo chmod -R o+rx .
+    sudo chmod g+s .
+
+    # http://stackoverflow.com/questions/7487793/symbolic-link-not-inheriting-permissions
+    cd /usr/local/bin
+    sudo chmod -h go+rx typings
+
 cd src/backend/
     npm install --production
 
