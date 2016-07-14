@@ -6,4 +6,3 @@ declare module 'open' {
   module open {}
   export = open;
 }
-
