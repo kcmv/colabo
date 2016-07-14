@@ -34,7 +34,7 @@ for showing structural changes, reacting on node-created, node-updated, node-del
  */
 @Injectable()
 export class ChangeService {
-    private _onChangeHandler: Function = null;
+    private _onChangeHandlers: Function[] = [];
     private changes: Change[] = [];
     private apiUrl: string = "http://127.0.0.1:8888/dbAudits/";
     private rimaService:any = null;
@@ -72,7 +72,10 @@ export class ChangeService {
     }
 
     set onChangeHandler(h: Function){
-      this._onChangeHandler = h;
+      for(var i: number = 0; i < this._onChangeHandlers.length; i++){
+        if(this._onChangeHandlers[i] === h) return;
+      }
+      this._onChangeHandlers.push(h);
     }
 
     init():void{
@@ -124,7 +127,7 @@ export class ChangeService {
         changes[i] = this.processChangeFromServer(changes[i]);
       }
       this.changes = changes;
-      if(this._onChangeHandler){this._onChangeHandler(this.changes);}
+      this.callOnChangeHandlers(changes.length);
       if(typeof callback === 'function'){callback(this.changes);}
     }
 
@@ -162,10 +165,16 @@ export class ChangeService {
       ;
     }
 
+    private callOnChangeHandlers(no:number):void {
+      for(var i: number = 0; i < this._onChangeHandlers.length; i++){
+        this._onChangeHandlers[i](no);
+      }
+    }
+
     private changeCreated(changeFromServer, callback?: Function):void{
       var change:Change = this.processChangeFromServer(changeFromServer);
       this.changes.push(change);
-      if(this._onChangeHandler){this._onChangeHandler(this.changes);}
+      this.callOnChangeHandlers(1);
       if(typeof callback === 'function'){callback(change);}
     }
 

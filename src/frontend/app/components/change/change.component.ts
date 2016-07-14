@@ -29,7 +29,7 @@ export class ChangeComponent implements OnInit {
   public changes: Change[] = [];
   @Input() initializeWithChangesFromServer: boolean = false;
   // @Input() followChanges: boolean = false;
-  @Output() newChange = new EventEmitter<any>();
+  //@Output() newChange = new EventEmitter<any>(); used in template as `<change-component (newChange)="updateChangesNo($event)"  ...`
 
   private changeSelectedNodeEventName: string = "changeSelectedNodeEvent";
   constructor(
@@ -61,7 +61,7 @@ export class ChangeComponent implements OnInit {
 
   changesReceived(changes){
     this.changes = changes;
-    this.updateNewChangesNo(this.changes.length);
+    //this.updateNewChangesNo(this.changes.length);
   }
 
   ngOnInit() {
@@ -70,15 +70,15 @@ export class ChangeComponent implements OnInit {
     if(this.initializeWithChangesFromServer){
       this.changeService.getChangesFromServer();//this.changesReceived.bind(this));
     }
-    this.updateNewChangesNo(this.changes.length);
-    this.changeService.onChangeHandler = this.changesReceived.bind(this);
+    //this.updateNewChangesNo(this.changes.length);
+    //this.changeService.onChangeHandler = this.changesReceived.bind(this);
   }
 
   public valueObjectClicked(vo){
     this.globalEmitterServicesArray.get(this.changeSelectedNodeEventName).broadcast('ChangeComponent', vo);
   }
 
-  private updateNewChangesNo(no:number):void{
-    this.newChange.emit(no);
-  }
+  // private updateNewChangesNo(no:number):void{
+  //   this.newChange.emit(no);
+  // }
 }
