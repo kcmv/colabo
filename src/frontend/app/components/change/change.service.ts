@@ -69,6 +69,7 @@ export class ChangeService {
 
         // this.getMockupChanges();
         //console.log("[ChangeService]: this.http: ", this.http);
+        this.changes = [];
     }
 
     set onChangeHandler(h: Function){

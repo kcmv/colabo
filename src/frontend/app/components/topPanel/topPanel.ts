@@ -80,6 +80,7 @@ export class TopPanel {
       {
         title: 'relevant',
         content: '<rima-relevant-list class="rima_relevant_list"></rima-relevant-list>'
+        // content: '<div class="rima-relevant-list" class="rima_relevant_list"></div>'
       }
     ];
     selected = null;

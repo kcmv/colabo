@@ -1,3 +1,182 @@
+# Windows
+
++ create/get-in development folder
++ clone project from github
+
+```sh
+git clone https://github.com/mprinc/Knalledge
+```
+
+## MongoDB
+
+Default MongoDB installation should be good enough. The mongo database must be running before starting the server.
+
+### Installing mongodb server
+
+[MongoDB for Windows](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
+
+Get info about windows:
+
+```sh
+wmic os get caption
+wmic os get osarchitecture
+```
+
+Download the [community version](https://www.mongodb.com/download-center#community).
+
+**NOTE:** These instructions assume that you have installed MongoDB to `C:/mongodb` folder. Therefore you need to choose custom installation and set the installation path to `C:/mongodb`.
+
+### Data folder
+
+MongoDB requires a **data directory** to store all data. MongoDB’s default data directory path is /data/db. Create this folder using the following commands from a Command Prompt:
+
+```sh
+md c:/data/db
+```
+
+### Running
+
+Navigate to `c:/mongodb/bin/`in command prompt and start the server:
+
+```sh
+c:
+cd c:\mongodb\bin\
+mongod
+```
+
+When server starts, windows firewall system will ask you for granting access. Allow full access to the server.
+
+Mongod should start on **27017 port**.
+
+
+### MongoChef
+
+
+[MongoChef](http://3t.io/mongochef/download/) is a great client for Mongo db.
+
+After installing it, you need to connect, and create new connection, it should be stright forward for the local server. Be sure that connection is with host: `localhost`, and port `27017`.
+
+### Creating database and collections
+
++ Start MongoChef
++ Connect to localhost
++ create database `KnAllEdge` (File > Add Database ...).
++ download [KnAllEdge DB samples]()
++ import them in Mongo
+    * select database in MongoChef
+    * import collections (***tables*** in relational DBS are called ***collections*** in Mongod Schemaless DBS)
+        - Database > Import Collections
+        - Click on plus and navigate to your demo KnAllEdge collections
+        - select all collections (each exported as a separate json file)
+        - **If you haven't installed KnAllEdge before and do not have important data** then chose option `Drop collection first if it allready exists`
+        - You can also select `Validate JSON before import`
+        - Import
++ Now you can explore collections through the MongoChef interface
+
+
+## BACKEND
+
+### Install backend
+
+```sh
+cd c:/data/development/Knalledge/
+cd src/backend
+npm install
+cd modules/topiChat
+npm install
+cd ../topiChat-knalledge
+npm install
+```
+
+### Additional packages
+
+**NOTE**: Backend needs a special ```express-resource``` package on steroids. You can download it as a separate package [here](http://magicheads.info/downloads/express-resource.zip). After or even before issuing ```npm install``` you should (re)place the content of the archive:
+
+in your ```backend/node_modules``` folder
+
+It is similar with deep-assign package which you can find [here](http://magicheads.info/downloads/deep-assign.zip).
+
+then you should go to 2. in ```backend/modules/topiChat```
+and do npm install there
+
+and (re)start the server
+
+    npm start
+
+
+### Run backend server
+
+```sh
+cd c:/data/development/Knalledge/
+cd src/backend
+npm start
+```
+
+When server starts, windows firewall system will ask you for granting access. Allow full access to the server.
+
+KnAllEdge backend server should start on **8888 port** and its real-time support (**topiChat**) should start at **8060 port**.
+
+### Testing the server
+
+You can go to broweser and type the following command in order to check the connection and database integration:
+```sh
+http://localhost:8888/kmaps/by-participant.json
+```
+
+You should expect something similar to (just and excerpt):
+```js
+{"data":[{"_id":"5543c546645912db4fee9654","name":"Test Sasha","rootNodeId":"5543c545645912db4fee9653","type":"mcm_map","ideaId":0,"parentMapId":"Test","dataContent":{"mcm":{"authors":"Sasha"}},"__v":0,"updatedAt":"2015-05-01T18:26:14.352Z","createdAt":"2015-05-01T18:26:14.352Z","isPublic":true,"participants":[],"version":1,"activeVersion":1},{"_id":"5543c656645912db4fee9666","name":"SNAC","rootNodeId":"5543c656645912db4fee9665","type":"mcm_map","ideaId":0,"parentMapId":"SNAC","dataContent":{"mcm":{"authors":"Eunseo Choi"}},"__v":0,"updatedAt":"2015-05-01T18:30:46.402Z","createdAt":"2015-05-01T18:30:46.402Z","isPublic":true,"participants":[],"version":1.2,"activeVersion":1},{"_id":"5543cee34a653c345007c839","name":"mcm_changes","rootNodeId":"5543cee34a653c345007c838","type":"mcm_changes","ideaId":0,"parentMapId":"","dataContent":{"mcm":{"authors":"Sasha"}},"__v":0,"updatedAt":"2015-05-01T19:07:15.585Z","createdAt":"2015-05-01T19:07:15.583Z","isPublic":true,"participants":[],"version":1,"activeVersion":1},
+```
+
+and similarly, for:
+```js
+http://localhost:8888/howAmIs/all/.json
+```
+
+**Note**: you will have prefix in the returned json: `)]}',` that helps to avoid browser JS attacks.
+
+This is a positive signal that the backend is installed properly.
+
+## Frontend
+
+### building tools
+
+```sh
+sudo npm install node-gyp -g
+# sudo npm install npm -g
+sudo npm install gulp -g
+sudo npm i typings -g
+sudo npm install -g typescript
+# sudo npm install ts-node -g
+# sudo npm install typescript-node -g
+# sudo npm install node-gyp -g
+sudo npm install marked -g
+
+# it could be necessary to do the following as well
+cd /usr/local/lib/node_modules
+sudo chmod -R o+rx .
+sudo chmod g+s .
+```
+
+### code
+
+```sh
+cd c:/data/development/Knalledge/
+cd src/frontend
+npm install
+npm run typings install
+# or
+typings -v
+node_modules/typings/dist/bin.js -v
+
+node_modules/typings/dist/bin.js install
+```
+
+#### Typings issues
+
++ open `src\frontend\typings\globals\angular-protractor\index.d.ts` and
++ go to the bottom of the file and comment the line `declare var $: cssSelectorHelper;` => `// declare var $: cssSelectorHelper;`
+
 # Building Process
 
 The majority of server and client components are built on **MEAN stack** so the environment necessary for starting tool should be straightforward.
@@ -53,17 +232,11 @@ chmod -R g+ws knalledge
     drwxrwsr-x+  7 mprinc developers
     drwxrwsr-x   7 mprinc developers    4096 Mar 17 09:28 knalledge
 # npm install
-# sudo npm install node-gyp -g
 
-su
-    # sudo npm install npm -g
-    sudo npm install gulp -g
-    sudo npm i typings -g
-    sudo npm install -g typescript
-    sudo npm install ts-node -g
-    # sudo npm install typescript-node -g
-    sudo npm install node-gyp -g
-    sudo npm install marked -g
+
+    # http://stackoverflow.com/questions/7487793/symbolic-link-not-inheriting-permissions
+    cd /usr/local/bin
+    sudo chmod -h go+rx typings
 
 cd src/backend/
     npm install --production
@@ -365,7 +538,7 @@ copy them to Sinisha's machine
 
 ## Typings
   typings install open --global --save
-  typings install merge-stream --ambient --save
+  typings install merge-stream --ambient --save-dev
 
   typings install
   https://github.com/DefinitelyTyped/DefinitelyTyped/blob/ffceea9dd124d277c4597c7bd12930666ec074c5/open/open.d.ts
@@ -430,19 +603,6 @@ npm ERR! enoent This is most likely not a problem with npm itself
 npm ERR! enoent and is related to npm not being able to find a file.
 npm ERR! enoent
 ```
-
-**NOTE**: Backend needs a special ```express-resource``` package on steroids. You can download it as a separate package [here](http://magicheads.info/downloads/express-resource.zip). After or even before issuing ```npm install``` you should (re)place the content of the archive:
-
-in your ```backend/node_modules``` folder
-
-It is similar with deep-assign package which you can find [here](http://magicheads.info/downloads/deep-assign.zip).
-
-then you should go to 2. in ```backend/modules/topiChat```
-and do npm install there
-
-and (re)start the server
-
-    npm start
 
 ## Collabo Server
 
