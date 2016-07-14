@@ -2796,8 +2796,9 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					var eventName;
 					var msg;
 					if(knPackage.hasOwnProperty('valueBeforeChange')){ //this means that this is puzzles.changes.Change
-						 msg = knPackage;
+						 msg = puzzles.changes.Change.factory(knPackage);
 						 eventName = knPackage.event;
+						 ChangeService.received(msg);
 					}else{
 						msg = knPackage.msg;
 						eventName = knPackage.eventName;

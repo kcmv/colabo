@@ -1,5 +1,5 @@
-<md-tab-group>
-  
+<md-tab-group #topPanelTabs (focusChange) = "focusChanged(selectedIndex)" [selectedIndex] = "2" (selectChange) = "selectedChanged(selectedIndex)">
+
 <!--  <md-tab *ngFor="let tab of tabs">
     <template md-tab-label>{{tab.title}}</template>
     <template md-tab-content>

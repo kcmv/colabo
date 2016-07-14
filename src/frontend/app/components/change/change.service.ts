@@ -116,7 +116,7 @@ export class ChangeService {
     }
 
     processChangeFromServer(changeFromServer: any): Change {
-      var change = Change.changeFactory(changeFromServer);
+      var change = Change.factory(changeFromServer);
       change.state = State.SYNCED;
       change = this.processReferences(change);
       return change;
@@ -126,8 +126,9 @@ export class ChangeService {
       //alert("audit: " +JSON.stringify(changes));
       for(var i = 0; i< changes.length; i++){
         changes[i] = this.processChangeFromServer(changes[i]);
+        this.changes.push(changes[i]);
       }
-      this.changes = changes;
+      // this.changes = changes;
       this.callOnChangeHandlers(changes.length);
       if(typeof callback === 'function'){callback(this.changes);}
     }
@@ -164,6 +165,12 @@ export class ChangeService {
             JSON.stringify(error))
         );
       ;
+    }
+
+    received(changeReceived:Change): void{
+      var change:Change = this.processChangeFromServer(changeReceived);
+      this.changes.push(change);
+      this.callOnChangeHandlers(1);
     }
 
     private callOnChangeHandlers(no:number):void {

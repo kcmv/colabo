@@ -60,16 +60,16 @@ export class ChangeComponent implements OnInit {
   }
 
   changesReceived(changes){
-    this.changes = changes;
+    //this.changes = changes;
     //this.updateNewChangesNo(this.changes.length);
   }
 
   ngOnInit() {
     this.changeService.init();
-    this.changes = this.changeService.getChangesRef();
     if(this.initializeWithChangesFromServer){
       this.changeService.getChangesFromServer();//this.changesReceived.bind(this));
     }
+    this.changes = this.changeService.getChangesRef();
     //this.updateNewChangesNo(this.changes.length);
     //this.changeService.onChangeHandler = this.changesReceived.bind(this);
   }

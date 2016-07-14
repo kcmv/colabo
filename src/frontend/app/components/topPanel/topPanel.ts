@@ -55,14 +55,7 @@ export interface ITabData {
    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
    templateUrl: 'partials/top_panel.tpl.html',
-    // t_emplateUrl: 'components/topiChat/partials/reports.tpl.html',
-    styles: [`
-        .md-list-item-text {
-            border-bottom: 1px solid gray;
-            padding-bottom: 3px;
-            margin-bottom: 2px;
-        }
-    `]
+    // t_emplateUrl: 'components/topiChat/partials/reports.tpl.html'
 })
 export class TopPanel {
 
@@ -71,6 +64,7 @@ export class TopPanel {
     public newSuggestionssNo:number = 0;
     public newRequestsNo:number = 0;
     policyConfig:Object;
+    public topPanelTabs:MD_TABS_DIRECTIVES;
 
     selected = null;
     previous = null;
@@ -115,15 +109,25 @@ export class TopPanel {
         }
     };
 
-    @Input()
-    set selectedIndex(value: number) {
-      this.previous = this.selected;
-    //  this.selected = this.tabs[value];
-      this._selectedIndex = value;
-      this.tabData[value].newItems = 0;
+    // @Input()
+    // set selectedIndex(value: number) {
+    //   this.previous = this.selected;
+    // //  this.selected = this.tabs[value];
+    //   this._selectedIndex = value;
+    //   this.tabData[value].newItems = 0;
+    // }
+    //
+    // get selectedIndex(): number {
+    //   return this._selectedIndex;
+    // }
+
+    focusChanged(event){
+      console.log("focusChanged", event, this._selectedIndex);
     }
-    get selectedIndex(): number {
-      return this._selectedIndex;
+
+    selectedChanged(event){
+      console.log("selectedChanged", event, this._selectedIndex);
+      console.log("topPanelTabs", this.topPanelTabs);
     }
 
     // addTab(title, view) {
