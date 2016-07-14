@@ -10,6 +10,8 @@ import {RequestComponent} from '../request/request.component';
 import {SuggestionComponent} from '../suggestion/suggestion.component';
 import {ChangeComponent} from '../change/change.component';
 import {ChangeService} from '../change/change.service';
+import {SuggestionService} from '../suggestion/suggestion.service';
+import {RequestService} from '../request/request.service';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import { HTTP_PROVIDERS } from '@angular/http';
@@ -17,6 +19,7 @@ import { HTTP_PROVIDERS } from '@angular/http';
 export interface ITabData {
   title: string;
   content: string;
+  service: any;
   newItems?: number;
   totalItems?: number;
   disabled?: boolean;
@@ -69,25 +72,30 @@ export class TopPanel {
     public newRequestsNo:number = 0;
     policyConfig:Object;
 
-    public tabs: ITabData[] = [
-      {title: 'suggestions', content: '<suggestion-component></suggestion-component>'},
+    selected = null;
+    previous = null;
+
+    //public tabs: ITabData[] = [
+    private tabData: ITabData[] = [
+      {title: 'suggestions', content: '<suggestion-component></suggestion-component>', service: this.suggestionService},
       {
         title: 'changes',
         content: "<change-component (newChange)='updateChangesNo($event)' [initializeWithChangesFromServer]='true' [followChanges]='true'>"
         +
-        "</change-component>"
+        "</change-component>", service: this.changeService
       },
       {
         title: 'relevant',
-        content: '<rima-relevant-list class="rima_relevant_list"></rima-relevant-list>'
-        // content: '<div class="rima-relevant-list" class="rima_relevant_list"></div>'
+        content: '<rima-relevant-list class="rima_relevant_list"></rima-relevant-list>', service: null
+        // content: '<div class="rima-relevant-list" class="rima_relevant_list"></div>', service: null
       }
     ];
-    selected = null;
-    previous = null;
+
     private _selectedIndex: number = 1;
 
     private changeService: ChangeService;
+    private suggestionService: SuggestionService;
+    private requestService: RequestService;
 
     constructor(
         // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
@@ -99,22 +107,29 @@ export class TopPanel {
         // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
         // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
         //this.changeService.onChangeHandler =
-        // for(var i:number = 0; i< tabs. addTab(title, view)
+        for(var i:number = 0; i< this.tabData.length; i++){
+          var tab = this.tabData[i];
+          if(tab.service && tab.service.onChangeHandler){
+            tab.service.onChangeHandler = this.updateChangesNo;
+          }
+        }
     };
 
     @Input()
     set selectedIndex(value: number) {
       this.previous = this.selected;
-      this.selected = this.tabs[value];
+    //  this.selected = this.tabs[value];
       this._selectedIndex = value;
+      this.tabData[value].newItems = 0;
     }
     get selectedIndex(): number {
       return this._selectedIndex;
     }
-    addTab(title, view) {
-      view = view || title + ' Content View';
-      this.tabs.push({title: title, content: view, disabled: false});
-    }
+
+    // addTab(title, view) {
+    //   view = view || title + ' Content View';
+    //   this.tabs.push({title: title, content: view, disabled: false});
+    // }
 
     // removeTab(tab: ITabData) {
     //   var index = this.tabs.indexOf(tab);
@@ -126,9 +141,9 @@ export class TopPanel {
       console.log("top panel is opened");
     }
 
-    // updateChangesNo(no){
-    //   console.log("[updateChangesNo] event:", no);
-    //   this.newChangesNo = no;
-    //   //this.changesTitle = (no > 0) ? (ChangeComponent.TITLE + " (" + no + ")") : ChangeComponent.TITLE;
-    // }
+    updateChangesNo(no){
+      console.log("[updateChangesNo] event:", no);
+      //this.newChangesNo = no;
+      //this.changesTitle = (no > 0) ? (ChangeComponent.TITLE + " (" + no + ")") : ChangeComponent.TITLE;
+    }
 }
