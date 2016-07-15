@@ -59,52 +59,73 @@ export interface ITabData {
 })
 export class TopPanel {
 
-    public newRelevantsNo:number = 0;
-    public newChangesNo:number = 0;
-    public newSuggestionssNo:number = 0;
-    public newRequestsNo:number = 0;
+    // public newRelevantsNo:number = 0;
+    // public newChangesNo:number = 0;
+    // public newSuggestionssNo:number = 0;
+    // public newRequestsNo:number = 0;
     policyConfig:Object;
-    public topPanelTabs:MD_TABS_DIRECTIVES;
 
     selected = null;
     previous = null;
 
-    //public tabs: ITabData[] = [
+    //public tabs: ITabData[] = [ <-- this version is used for dynamic tabs
+    //but we don't use dynamic tabs until we fix tags injectinon in their content.
     private tabData: ITabData[] = [
-      {title: 'suggestions', content: '<suggestion-component></suggestion-component>', service: this.suggestionService},
       {
-        title: 'changes',
-        content: "<change-component (newChange)='updateChangesNo($event)' [initializeWithChangesFromServer]='true' [followChanges]='true'>"
-        +
-        "</change-component>", service: this.changeService
+        title: 'suggestions',
+        content: '<suggestion-component></suggestion-component>',
+        service: this.suggestionService,
+        newItems: 0,
+        totalItems: 0
       },
       {
         title: 'relevant',
-        content: '<rima-relevant-list class="rima_relevant_list"></rima-relevant-list>', service: null
-        // content: '<div class="rima-relevant-list" class="rima_relevant_list"></div>', service: null
+        content: '<rima-relevant-list class="rima_relevant_list"></rima-relevant-list>',
+        service: null,
+        newItems: 0,
+        totalItems: 0
+      },
+      {
+        title: 'changes',
+        content: "<change-component (newChange)='updateChangesNo($event)' [initializeWithPreviousChanges]='true' [followChanges]='true'>"
+        +
+        "</change-component>",
+        service: this.changeService,
+        newItems: 0,
+        totalItems: 0
+      },
+      {
+        title: 'requests',
+        content: '<request></request>',
+        service: this.requestService,
+        newItems: 0,
+        totalItems: 0
       }
     ];
 
-    private _selectedIndex: number = 1;
-
-    private changeService: ChangeService;
-    private suggestionService: SuggestionService;
-    private requestService: RequestService;
+    //private _selectedIndex: number;
 
     constructor(
-        // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
-        // globalEmitterServicesArray:GlobalEmitterServicesArray
-        @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService
+        @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
+        private changeService: ChangeService,
+        @Inject('SuggestionService') private suggestionService:SuggestionService,
+        @Inject('RequestService') private requestService:RequestService
     ) {
-        console.log('[TopPanel]');
         this.policyConfig = knalledgeMapPolicyService.get().config;
         // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
         // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
         //this.changeService.onChangeHandler =
         for(var i:number = 0; i< this.tabData.length; i++){
           var tab = this.tabData[i];
-          if(tab.service && tab.service.onChangeHandler){
-            tab.service.onChangeHandler = this.updateChangesNo;
+          if(tab.service &&
+          'onChangeHandler' in tab.service //typeof tab.service.onChangeHandler === ‘function’ cannot be used ...
+          //because `typeof tab.service.onChangeHandler` returns 'undefined'
+          ){
+            var that:TopPanel = this;
+            var tabIndex: number = i;
+            tab.service.onChangeHandler = function(no){
+              that.updateChangesNo(no,tabIndex);
+            };
           }
         }
     };
@@ -120,14 +141,21 @@ export class TopPanel {
     // get selectedIndex(): number {
     //   return this._selectedIndex;
     // }
+    //
+    getTitle(tabIndex: number): string {
+      return this.tabData[tabIndex].title + (this.tabData[tabIndex].newItems > 0 ?
+        ' (' + this.tabData[tabIndex].newItems + '/' + this.tabData[tabIndex].totalItems + ')' : '');
+    }
 
-    focusChanged(event){
-      console.log("focusChanged", event, this._selectedIndex);
+    focusChanged(tabIndex){
+      console.log("focusChanged", tabIndex);
+      //this._selectedIndex = tabIndex;
+      this.tabData[tabIndex].newItems = 0;
     }
 
     selectedChanged(event){
-      console.log("selectedChanged", event, this._selectedIndex);
-      console.log("topPanelTabs", this.topPanelTabs);
+      console.log("selectedChanged", event);
+      //this._selectedIndex = event;
     }
 
     // addTab(title, view) {
@@ -145,9 +173,12 @@ export class TopPanel {
       console.log("top panel is opened");
     }
 
-    updateChangesNo(no){
+    updateChangesNo(no: number, tabIndex:number){
       console.log("[updateChangesNo] event:", no);
-      //this.newChangesNo = no;
+      if(tabIndex < this.tabData.length){
+        this.tabData[tabIndex].totalItems +=no;
+        this.tabData[tabIndex].newItems +=no;
+      }
       //this.changesTitle = (no > 0) ? (ChangeComponent.TITLE + " (" + no + ")") : ChangeComponent.TITLE;
     }
 }

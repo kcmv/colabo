@@ -27,7 +27,7 @@ import {ChangeService} from "./change.service";
 })
 export class ChangeComponent implements OnInit {
   public changes: Change[] = [];
-  @Input() initializeWithChangesFromServer: boolean = false;
+  @Input() initializeWithPreviousChanges: boolean = false;
   // @Input() followChanges: boolean = false;
   //@Output() newChange = new EventEmitter<any>(); used in template as `<change-component (newChange)="updateChangesNo($event)"  ...`
 
@@ -66,7 +66,7 @@ export class ChangeComponent implements OnInit {
 
   ngOnInit() {
     this.changeService.init();
-    if(this.initializeWithChangesFromServer){
+    if(this.initializeWithPreviousChanges && !this.changeService.gotChangesFromServer){
       this.changeService.getChangesFromServer();//this.changesReceived.bind(this));
     }
     this.changes = this.changeService.getChangesRef();
