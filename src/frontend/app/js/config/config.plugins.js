@@ -95,7 +95,7 @@ var plugins = {
 				injectCss: ['css/default.css', 'css/graph.css']
 			},
 			interaction: {
-				path: [APP_DEST_STR, 'js/interaction'],
+				path: [APP_SRC_STR, 'js/interaction'],
 				injectJs: ['interaction.js', 'moveAndDrag.js', 'keyboard.js']
 			},
 			knalledge: {

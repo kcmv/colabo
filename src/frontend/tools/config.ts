@@ -122,14 +122,14 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
     ],
     NPM_DEPENDENCIES: [
         // LIBS
-        { src: join(APP_DEST, 'js/lib/debug.js'), inject: 'libs', noNorm: true },
+        { src: join(APP_SRC, 'js/lib/debug.js'), inject: 'libs', noNorm: true },
         { src: join(APP_SRC, '../bower_components/debugpp/index.js'), inject: 'libs', noNorm: true },
         { src: join(APP_SRC, '../bower_components/halo/index.js'), inject: 'libs', noNorm: true },
 
         // KNALLEDGE APP
-        { src: join(APP_DEST, 'js/config/config.js'), inject: true, noNorm: true },
-        { src: join(APP_DEST, 'js/config/config.env.js'), inject: true, noNorm: true },
-        { src: join(APP_DEST, 'js/config/config.plugins.js'), inject: true, noNorm: true },
+        { src: join(APP_SRC, 'js/config/config.js'), inject: true, noNorm: true },
+        { src: join(APP_SRC, 'js/config/config.env.js'), inject: true, noNorm: true },
+        { src: join(APP_SRC, 'js/config/config.plugins.js'), inject: true, noNorm: true },
 
         // KNALLEDGE CORE
         { src: join(APP_SRC, 'js/knalledge/index.js'), inject: true, noNorm: true },
@@ -145,7 +145,7 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         { src: join(APP_SRC, 'js/knalledge/mapStructure.js'), inject: true, noNorm: true },
 
         // COMPONENTS
-        { src: join(APP_DEST, 'components/puzzles.js'), inject: true, noNorm: true },
+        { src: join(APP_SRC, 'components/puzzles.js'), inject: true, noNorm: true },
 
 
         { src: join(APP_SRC, 'components/collaboPlugins/js/services.js'), inject: true, noNorm: true },
@@ -163,8 +163,8 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         // { src: join(APP_SRC, 'components/ontov/js/vendor/jquery-1.8.3.js'), inject: true, noNorm: true},
 
         // ng1 registration and bootstrap
-        // { src: join(APP_DEST, 'components/knalledgeMap/knalledgeMapPolicyService.js'), inject: true, noNorm: true},
-        // { src: join(APP_DEST, 'components/knalledgeMap/knalledgeMapViewService.js'), inject: true, noNorm: true},
+        // { src: join(TMP_DIR, 'components/knalledgeMap/knalledgeMapPolicyService.js'), inject: true, noNorm: true},
+        // { src: join(TMP_DIR, 'components/knalledgeMap/knalledgeMapViewService.js'), inject: true, noNorm: true},
         { src: join(APP_SRC, 'js/app.js'), inject: true, noNorm: true },
 
         // CSS
@@ -293,8 +293,8 @@ const NPM_DEPENDENCIES: IDependency[] = [
     { src: 'es6-shim/es6-shim.js', inject: 'shims' },
     { src: 'systemjs/dist/system.src.js', inject: 'shims' },
 
-    { src: join(APP_DEST, 'js/lib/jquery/jquery.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/bootstrap/bootstrap.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/jquery/jquery.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/bootstrap/bootstrap.js'), inject: 'libs', noNorm: true },
 
     { src: 'angular/angular.js', inject: 'libs' },
     { src: 'angular-route/angular-route.js', inject: 'libs' },
@@ -303,18 +303,18 @@ const NPM_DEPENDENCIES: IDependency[] = [
     { src: 'angular-animate/angular-animate.js', inject: 'libs' },
     { src: 'ngstorage/ngStorage.js', inject: 'libs' },
 
-    { src: join(APP_DEST, 'js/lib/d3/d3.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/interact-1.2.4.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/keyboard.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/deepAssign.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/tween/tween.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/socket.io/socket.io.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/ui-bootstrap/ui-bootstrap-tpls-0.12.1.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/textAngular/textAngular-rangy.min.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/textAngular/textAngular-sanitize.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/textAngular/textAngular.min.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/wizard/ngWizard.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_DEST, 'js/lib/socket.io/angular.socket.io.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/d3/d3.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/interact-1.2.4.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/keyboard.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/deepAssign.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/tween/tween.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/socket.io/socket.io.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/ui-bootstrap/ui-bootstrap-tpls-0.12.1.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/textAngular/textAngular-rangy.min.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/textAngular/textAngular-sanitize.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/textAngular/textAngular.min.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/wizard/ngWizard.js'), inject: 'libs', noNorm: true },
+    { src: join(APP_SRC, 'js/lib/socket.io/angular.socket.io.js'), inject: 'libs', noNorm: true },
 
     { src: 'rxjs/bundles/Rx.js', inject: 'libs' },
 ];
