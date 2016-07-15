@@ -135,21 +135,26 @@
   </div>
 </div>
 
-<h4>Broadcasting:</h4>
+<h4>Receive changes:</h4>
 <div class="btn-group">
     <!-- <md-switch class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-switch> -->
-    <md-switch *ngIf="policyConfig.moderating.enabled" class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled" (checkedChange)="viewConfigChanged('policyConfig.moderating.enabled', policyConfig.moderating.enabled)">Moderator</md-switch>
-    <md-switch *ngIf="policyConfig.moderating.enabled" class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)">Presenter</md-switch>
-
-    <button *ngIf="policyConfig.moderating.enabled" md-raised-button (click)="broadcastUpdateMaps()" class="md-accent md-hue-1">Update Maps</button>
-
-    <button *ngIf="policyConfig.moderating.enabled" md-raised-button (click)="broadcastReloadMaps()" class="md-accent md-hue-1">Reload Maps</button>
-
     <md-switch class="md-primary" aria-label="Navigation" [(checked)]="policyConfig.broadcasting.receiveNavigation" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveNavigation', policyConfig.broadcasting.receiveNavigation)">Navigations</md-switch>
-    <md-switch class="md-primary" aria-label="Structural" [(checked)]="policyConfig.broadcasting.receiveStructural" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveStructural', policyConfig.broadcasting.receiveStructural)">Structural</md-switch>
+    <!-- <md-switch class="md-primary" aria-label="Structural" [(checked)]="policyConfig.broadcasting.receiveStructural" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveStructural', policyConfig.broadcasting.receiveStructural)">Structural</md-switch> -->
     <md-switch class="md-primary" aria-label="Visualization" [(checked)]="policyConfig.broadcasting.receiveVisualization" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveVisualization', policyConfig.broadcasting.receiveVisualization)">Visualization</md-switch>
     <md-switch class="md-primary" *ngIf="policyConfig.moderating.enabled" aria-label="Behaviours" [(checked)]="policyConfig.broadcasting.receiveBehaviours" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveBehaviours', policyConfig.broadcasting.receiveBehaviours)">Behaviours</md-switch>
 </div>
+
+<div *ngIf="policyConfig.moderating.enabled">
+    <h4>Broadcasting:</h4>
+    <!-- <md-switch class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-switch> -->
+    <md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled" (checkedChange)="viewConfigChanged('policyConfig.moderating.enabled', policyConfig.moderating.enabled)">Moderator</md-switch>
+    <md-switch class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)">Presenter</md-switch>
+
+    <button md-raised-button (click)="broadcastUpdateMaps()" class="md-accent md-hue-1">Update Maps</button>
+
+    <button md-raised-button (click)="broadcastReloadMaps()" class="md-accent md-hue-1">Reload Maps</button>
+</div>
+
 
 <gardening-controls class="gardening_controls"></gardening-controls>
 
