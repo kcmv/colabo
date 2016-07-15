@@ -7,3 +7,14 @@
 "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#25d46c96646e9838d14aa7405a232fe79b3423e4",
 "karma": "github:DefinitelyTyped/DefinitelyTyped/karma/karma.d.ts#b13fb549b27f069cb40346a4a835dc7c229aba8b",
 "connect-livereload": "github:DefinitelyTyped/DefinitelyTyped/connect-livereload/connect-livereload.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
+
+
+=====
+
+typings install 'github:DefinitelyTyped/DefinitelyTyped/bluebird/bluebird.d.ts#b13fb549b27f069cb40346a4a835dc7c229aba8b' --save --ambient # From "karma"
+typings install 'github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#b13fb549b27f069cb40346a4a835dc7c229aba8b' --save --ambient # From "karma"
+typings install 'github:DefinitelyTyped/DefinitelyTyped/log4js/log4js.d.ts#b13fb549b27f069cb40346a4a835dc7c229aba8b' --save --ambient # From "karma"
+
+typings install 'github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#25d46c96646e9838d14aa7405a232fe79b3423e4' --save --ambient # From "merge-stream"
+
+typings install 'github:DefinitelyTyped/DefinitelyTyped/connect/connect.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd' --save --ambient # From "connect-livereload"

@@ -100,14 +100,22 @@ export const NG2LINT_RULES = customRules();
 
 interface IDependency {
     src: string;
-    inject: string | boolean;
+    inject?: string | boolean;
     asset?: boolean; // if set to true it will be copied to final destination
     dest?: string;
     noNorm?: boolean; // if true, dependency will not get normalize with normalizeDependencies()
 }
 
+// http://stackoverflow.com/questions/12787781/type-definition-in-object-literal-in-typescript
+interface IDependencyStructure {
+    APP_ASSETS: IDependency[];
+    NPM_DEPENDENCIES: IDependency[];
+    DEV_NPM_DEPENDENCIES: IDependency[];
+    PROD_NPM_DEPENDENCIES: IDependency[];
+};
+
 // Declare local files that needs to be injected
-export const SUB_PROJECTS_FILE = {
+export const SUB_PROJECTS_FILE:IDependencyStructure = {
     APP_ASSETS: [
         // (NG2-) MATERIAL
         { src: 'ng2-material/font/MaterialIcons-Regular.*', asset: true, dest: CSS_DEST }
@@ -116,6 +124,7 @@ export const SUB_PROJECTS_FILE = {
         // LIBS
         { src: join(APP_DEST, 'js/lib/debug.js'), inject: 'libs', noNorm: true },
         { src: join(APP_SRC, '../bower_components/debugpp/index.js'), inject: 'libs', noNorm: true },
+        { src: join(APP_SRC, '../bower_components/halo/index.js'), inject: 'libs', noNorm: true },
 
         // KNALLEDGE APP
         { src: join(APP_DEST, 'js/config/config.js'), inject: true, noNorm: true },
@@ -167,6 +176,7 @@ export const SUB_PROJECTS_FILE = {
         { src: join(APP_SRC, 'css/libs/wizard/ngWizard.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
         { src: join(APP_SRC, 'css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
+        { src: join(APP_SRC, '../bower_components/halo/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
         { src: join(APP_SRC, 'components/collaboPlugins/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
         // KNALLEDGE PLUGINS, TODO: we want to avoid hardoced registering plugins here
@@ -185,7 +195,6 @@ export const SUB_PROJECTS_FILE = {
 
 var npmDependencies = SUB_PROJECTS_FILE.NPM_DEPENDENCIES;
 var puzzlesBuild = PluginsConfig.plugins.puzzlesBuild;
-
 
 // Example
 
@@ -340,15 +349,13 @@ export const DEV_DEPENDENCIES = normalizeDependencies(NPM_DEPENDENCIES.
     SUB_PROJECTS_FILE.DEV_NPM_DEPENDENCIES, SUB_PROJECTS_FILE.APP_ASSETS)
 );
 
-export const PROD_DEPENDENCIES = [];
-
-// export const PROD_DEPENDENCIES = normalizeDependencies(NPM_DEPENDENCIES.
-//     concat(PROD_NPM_DEPENDENCIES, SUB_PROJECTS_FILE.NPM_DEPENDENCIES,
-//     SUB_PROJECTS_FILE.PROD_NPM_DEPENDENCIES, SUB_PROJECTS_FILE.APP_ASSETS)
-// );
+export const PROD_DEPENDENCIES = normalizeDependencies(NPM_DEPENDENCIES.
+    concat(PROD_NPM_DEPENDENCIES, SUB_PROJECTS_FILE.NPM_DEPENDENCIES,
+    SUB_PROJECTS_FILE.PROD_NPM_DEPENDENCIES, SUB_PROJECTS_FILE.APP_ASSETS)
+);
 
 export const DEPENDENCIES = ENV === 'dev' ? DEV_DEPENDENCIES : PROD_DEPENDENCIES;
-// console.log(chalk.bgWhite.blue.bold(' DEPENDENCIES: '), chalk.blue(JSON.stringify(DEPENDENCIES)));
+console.log(chalk.bgWhite.blue.bold(' DEPENDENCIES: '), chalk.blue(JSON.stringify(DEPENDENCIES)));
 
 // ----------------
 // SystemsJS Configuration.
