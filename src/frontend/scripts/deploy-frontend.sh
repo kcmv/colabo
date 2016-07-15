@@ -1,7 +1,7 @@
 #http://linux.die.net/man/1/date
 timestamp=`(date +'%Y.%m.%d-%H.%M')`
 #timestamp='2016.07.07-04.48'
-cd frontend
+# cd frontend
 zipname="prod-frontend-$timestamp.zip"
 echo "Zip name: $zipname"
 
