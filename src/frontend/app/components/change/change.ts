@@ -89,7 +89,7 @@ export class Change {
 	/* THIS PROPERTY IS local-to-frontend */
 	public state: number = State.LOCAL; //state of the object, responding to some of the enum STATE
 
-	public static changeFactory (obj){
+	public static factory (obj){
 		var change = new Change();
 		change.fill(obj);
 		return change;
