@@ -23,7 +23,6 @@ import {ChangeService} from "./change.service";
    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
    templateUrl: 'change.component.html'
-  //  styleUrls: ['change.component.css']
 })
 export class ChangeComponent implements OnInit {
   public changes: Change[] = [];
