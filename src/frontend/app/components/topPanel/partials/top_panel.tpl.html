@@ -1,15 +1,15 @@
-<!-- <span>TABS</span> -->
-<md-tab-group>
-  <md-tab *ngFor="let tab of tabs">
+<md-tab-group #topPanelTabs (focusChange) = "focusChanged(topPanelTabs.selectedIndex)" [selectedIndex] = "2" (selectChange) = "selectedChanged(topPanelTabs.selectedIndex)">
+
+<!--  <md-tab *ngFor="let tab of tabs">
     <template md-tab-label>{{tab.title}}</template>
     <template md-tab-content>
       <md-content class="md-padding">{{tab.content}}</md-content>
     </template>
   </md-tab>
-</md-tab-group>
+ -->
 
-    <!-- <md-tab>
-        <template md-tab-label>suggestions<span *ngIf="newSuggestionssNo!==0">&nbsp;({{newSuggestionssNo}})</span></template>
+    <md-tab>
+        <template md-tab-label>{{getTitle(0)}}</template>
         <template md-tab-content>
             <md-content class="md-padding">
                 <suggestion-component></suggestion-component>
@@ -18,7 +18,7 @@
     </md-tab>
 
     <md-tab>
-        <template md-tab-label>relevants<span *ngIf="newRelevantsNo!==0">&nbsp;({{newRelevantsNo}})</span></template>
+        <template md-tab-label>{{getTitle(1)}}</template>
         <template md-tab-content md-on-select="opened(tab)">
             <md-content class="md-padding">
                 <rima-relevant-list class="rima_relevant_list"></rima-relevant-list>
@@ -27,16 +27,16 @@
     </md-tab>
 
     <md-tab>
-        <template md-tab-label>changes<span *ngIf="newChangesNo!==0">&nbsp;({{newChangesNo}})</span></template>
+        <template md-tab-label>{{getTitle(2)}}</template>
         <template md-tab-content>
             <md-content class="md-padding">
-              <change-component [initializeWithChangesFromServer]="true" [followChanges]="true"></change-component>
+              <change-component [initializeWithPreviousChanges]="true" [followChanges]="true"></change-component>
             </md-content>
         </template>
     </md-tab>
 
     <md-tab *ngIf="policyConfig.moderating.enabled">
-        <template md-tab-label>requests<span *ngIf="newRequestsNo!==0">&nbsp;({{newRequestsNo}})</span></template>
+        <template md-tab-label>{{getTitle(3)}}</template>
         <template md-tab-content>
             <md-content class="md-padding">
                 <request></request>
@@ -44,4 +44,4 @@
         </template>
     </md-tab>
 
-</md-tab-group> -->
+</md-tab-group>

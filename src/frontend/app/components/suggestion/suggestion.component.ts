@@ -20,8 +20,7 @@ import {SuggestionService} from "./suggestion.service";
    ],
    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
-   templateUrl: 'suggestion.component.html',
-  //  styleUrls: ['suggestion.component.css']
+   templateUrl: 'suggestion.component.html'
 })
 export class SuggestionComponent implements OnInit {
   suggestionsByExpertise: Suggestion[] = [];
