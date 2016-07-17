@@ -1,5 +1,7 @@
 'use strict';
 
+// node exportMap.js ECON-map.2016.07.15.json '57817a2163bf546e0ed290bc' '57817a2163bf546e0ed290ba'
+
 require('../models'); // injects DB Schemas in global.db
 
 
@@ -25,7 +27,7 @@ var mapData = null;
 console.log('fileName: ' + fileName);
 
 db.on('open', function (callback) {
-	var data = 
+	var data =
 	{
 		"properties": {
 			"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
@@ -39,7 +41,7 @@ db.on('open', function (callback) {
 			"edges": []
 		}
 	};
-	
+
 	var nodesEdgesReceived = function(nodes,edges){
 		console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);
 		console.log(JSON.stringify(nodes));
@@ -54,15 +56,15 @@ db.on('open', function (callback) {
 			data.map.edges.push(edges[i]);
 		}
 		console.log("data for export: " + JSON.stringify(data));
-		
+
 		var dataStr = JSON.stringify(data, null, 4);
 		writeToFile(fileName, dataStr);
 	};
-	
+
 	var nodes = KNodeModel.find({ 'mapId': mapId}).exec();
 	var edges = KEdgeModel.find({ 'mapId': mapId}).exec();
 	Promise.join(nodes,edges, nodesEdgesReceived);
-	
+
 	//mongoose.connection.close();
 	console.log('mapId: %s', mapId);
 });
