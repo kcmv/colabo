@@ -4,6 +4,9 @@
 
 require('../models'); // injects DB Schemas in global.db
 
+/* examples:
+node exportMap.js testExport.json '5788f9a7925cfce40ba9f21f' '5788f9a7925cfce40ba9f21d'
+*/
 
 var mongoose = require('mongoose');
 var Promise = require("bluebird");

@@ -18,6 +18,13 @@ import {ApprovalNodeService} from '../components/gardening/approval.node.service
 import {SuggestionService} from '../components/suggestion/suggestion.service';
 import {ChangeService} from '../components/change/change.service';
 
+import {MATERIAL_PROVIDERS} from 'ng2-material';
+// import {provide} from '@angular/core';
+// import {OVERLAY_CONTAINER_TOKEN} from '@angular2-material/core/overlay/overlay';
+// import {createOverlayContainer} from '@angular2-material/core/overlay/overlay-container';
+
+import { disableDeprecatedForms, provideForms } from '@angular/forms';
+
 // import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
 import { MapInteraction } from './interaction/mapInteraction';
 
@@ -28,6 +35,26 @@ import { Injector } from '../components/utils/injector';
 
 // Loading plugins' dependencies
 import './pluginDependencies';
+
+/** used instead of
+* import {MATERIAL_PROVIDERS} from 'ng2-material';
+* because of the bug
+* https://github.com/justindujardin/ng2-material/issues/271
+*/
+//upgradeAdapter.addProvider(provide(OVERLAY_CONTAINER_TOKEN, {useValue: createOverlayContainer()}));
+upgradeAdapter.addProvider(MATERIAL_PROVIDERS);
+
+/** for Angular Forms:
+* instead of
+* `bootstrap(AppComponent, [
+* disableDeprecatedForms(),
+* provideForms()
+* ])`
+* that cannot be used until we bootstrap as Angular 2
+*/
+upgradeAdapter.addProvider(disableDeprecatedForms());
+upgradeAdapter.addProvider(provideForms());
+
 
 var topiChatServices = angular.module('topiChatServices');
 topiChatServices

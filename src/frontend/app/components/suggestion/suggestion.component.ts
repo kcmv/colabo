@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-//import {NgIf, NgFor, FORM_DIRECTIVES} from '@angular/common';
+// import {FORM_DIRECTIVES} from '@angular/forms';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';

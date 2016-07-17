@@ -18,6 +18,16 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 	font-style: normal;
 }
 
+form{
+	md-input.ng-valid[required] {
+		border-left: 5px solid #42A948; /* green */
+	}
+
+	md-input.ng-invalid[required] {
+		border-left: 5px solid #a94442; /* red */
+	}
+}
+
 * {
 	margin: 0px;
 	padding: 0px;

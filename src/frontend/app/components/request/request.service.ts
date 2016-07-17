@@ -82,6 +82,7 @@ export class RequestService {
     private knalledgeMapPolicyService: any;
     private globalEmitterServicesArray: GlobalEmitterServicesArray;
     private requests: Request[] = [];
+    private _onChangeHandlers: Function[] = [];
 
     /**
      * Service constructor
@@ -100,6 +101,7 @@ export class RequestService {
         this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
         this.knalledgeMapPolicyService = KnalledgeMapPolicyService;
         this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
+        this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
 
         let requestPluginOptions: any = {
             name: "RequestService",
@@ -133,6 +135,7 @@ export class RequestService {
         this.requests.push(r2);
         this.requests.push(r3);
         this.requests.push(r4);
+        this.callOnChangeHandlers(4);
     }
 
     sendRequest(request: Request, callback: Function) {
@@ -189,7 +192,8 @@ export class RequestService {
         if (request.type === RequestType.REPLICA) {
             console.log(' requested REPLICA for ');
         }
-        this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
+        this.callOnChangeHandlers(1);
+
         this.globalEmitterServicesArray.get(this.EMITTER_NAME_REQUEST).broadcast(
             'RequestService', { 'request': request, 'event': this.EMITTER_NAME_REQUEST });
       }
@@ -235,5 +239,18 @@ export class RequestService {
           callback(false, 'SERVICE_UNAVAILABLE');
       }
       */
+    }
+
+    public set onChangeHandler(h: Function){
+      for(var i: number = 0; i < this._onChangeHandlers.length; i++){
+        if(this._onChangeHandlers[i] === h) return;
+      }
+      this._onChangeHandlers.push(h);
+    }
+
+    private callOnChangeHandlers(no:number):void {
+      for(var i: number = 0; i < this._onChangeHandlers.length; i++){
+        this._onChangeHandlers[i](no);
+      }
     }
 }

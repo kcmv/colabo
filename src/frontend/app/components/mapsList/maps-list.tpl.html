@@ -23,7 +23,9 @@
             </span> maps
             <!-- maps you are participating in:</span> -->
             <span>
-              <button (click)="prepareCreating(); mapDialog.show()" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary button_icon last" aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-square" aria-hidden="true"></i></button>
+              <button (click)="mapFormShowForCreation()" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary button_icon" aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-square" aria-hidden="true"></i></button>
+              <!-- <button (click)="prepareCreating(); mapDialog.show()" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary button_icon" aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-square" aria-hidden="true"></i></button> -->
+              <button (click)="null" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary button_icon last" aria-label="Import Map" type="button"><i title="Import Map" class="fa fa-upload" aria-hidden="true"></i></button>
             </span>
         </div>
         <!-- TODO: maybe show these long textual buttons in wider mode
@@ -81,7 +83,8 @@
           <!-- <button (click)="alertMsg = 'Maps editing is disabled for now ...'; alert.show();" class="btn btn-primary button_icon last" aria-label="Edit the Map" type="button"><i title="Edit the map" class="fa fa-pencil-square-o" aria-hidden="true"></i></button> -->
           <button class="btn btn-primary button_icon" aria-label="Clone the map" type="button"
           (click)="prepareForCloning(item); cloneDialog.show();"><i title="Clone the map" class="fa fa-files-o" aria-hidden="true"></i></button>
-          <button class="btn btn-primary button_icon last" aria-label="Map Participants" type="button" (click)="prepareForParticipants(item); participantsList.show()"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button>
+          <button class="btn btn-primary button_icon" aria-label="Map Participants" type="button" (click)="prepareForParticipants(item); participantsList.show()"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button>
+          <button class="btn btn-primary button_icon last" aria-label="Export" type="button" (click)="null"><i title="Export" class="fa fa-floppy-o" aria-hidden="true"></i></button>
           <span class='item_data' *ngIf="policyConfig.moderating.enabled">
             <button class="btn btn-primary button_icon" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></button>
   				</span>
@@ -95,7 +98,7 @@
 </div>
 
 
-<div class="md-padding" id="popupContainer">
+<div class="md-padding dialogs-front" id="popupContainer">
   <md-dialog #deleteConfirm (onClose)="delete($event)">
     <md-dialog-title>Delete map</md-dialog-title>
      {{mapForAction?.name}}?
@@ -111,48 +114,19 @@
   <md-dialog #cloneDialog (onClose)="duplicate($event)">
     <md-dialog-title>Cloning map <span class="highlighted_name">{{mapForAction?.name}}</span></md-dialog-title>
     <div layout="column" class="md-inline-form">
-      <form>
+      <form #cloneMapForm="ngForm">
           <div>
-              <md-input placeholder="New map name" style="width: 100%" [(ngModel)]="nameOfDuplicatedMap"></md-input>
+            <md-input placeholder="New map name" style="width: 100%" [(ngModel)]="nameOfDuplicatedMap" required name='nameOfDuplicatedMap' #name="ngModel"></md-input>
+              <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+               Map Name is required
+             </div>
+          </div>
+          <div>
+            <button md-button type="button" (click)="cloneDialog.close(false)">Cancel</button>
+            <button md-button type="submit" class="md-primary" [disabled]="!cloneMapForm.form.valid" (click)="cloneDialog.close(true)">Clone</button>
           </div>
       </form>
     </div>
-    <md-dialog-actions>
-        <button md-button (click)="cloneDialog.close(false)">
-            <span>Cancel</span>
-        </button>
-        <button md-button class="md-primary" (click)="cloneDialog.close(true)">
-            <span>Clone</span>
-        </button>
-    </md-dialog-actions>
-  </md-dialog>
-
-  <md-dialog #mapDialog class="creatingNewMap" (onClose)="mapDialogClosed($event)">
-    <!-- <map-form></map-form> -->
-    <md-dialog-title>Map Creation</md-dialog-title>
-      <form layout="column" class="md-inline-form">
-      <!-- TODO: using of the form causes warning;
-      *It looks like you're using the old forms module. This will be opt-in in the next RC, and
-       will eventually be removed in favor of the new forms module. For more information, see:
-       https://docs.google.com/document/u/1/d/1RIezQqE4aEhBRmArIAS1mRIZtWFf6JxN_7B4meyWK0Y/pub -->
-         <!-- <h2 class="md-title">Map Creation</h2> -->
-          <md-input placeholder="Name" [(ngModel)]="mapToCreate.name" required></md-input>
-          <md-input placeholder="Map Type" [(ngModel)]="mapToCreate.type"></md-input>
-          <md-input placeholder="Root NodeType" [(ngModel)]="mapToCreate.rootNodeType"></md-input>
-          <md-input placeholder="Parent map ID" [(ngModel)]="mapToCreate.parentMapId"></md-input>
-          <md-input placeholder="Map Version" [(ngModel)]="mapToCreate.version"></md-input>
-
-          <!-- <md-input placeholder="Participants" [(ngModel)]="mapToCreate.participants"></md-input>
-          <md-input placeholder="Authors" [(ngModel)]="mapToCreate.dataContent?.mcm.authors"></md-input> -->
-        </form>
-      <md-dialog-actions>
-          <button md-button (click)="mapDialog.close(false)">
-              <span>Cancel</span>
-          </button>
-          <button md-button class="md-primary" (click)="mapDialog.close(true)">
-              <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
-          </button>
-      </md-dialog-actions>
   </md-dialog>
 
   <md-dialog #participantsList>
@@ -169,4 +143,6 @@
    </div>
     <md-dialog-actions ok="Close"></md-dialog-actions>
   </md-dialog>
+
+  <map-form #mapFormComponent></map-form>
 </div>
