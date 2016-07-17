@@ -19,11 +19,11 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 }
 
 form{
-	.ng-valid[required] {
+	md-input.ng-valid[required] {
 		border-left: 5px solid #42A948; /* green */
 	}
 
-	.ng-invalid[required] {
+	md-input.ng-invalid[required] {
 		border-left: 5px solid #a94442; /* red */
 	}
 }
