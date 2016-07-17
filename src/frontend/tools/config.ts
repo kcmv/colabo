@@ -422,7 +422,10 @@ var materialPkgs = [
 
 // put the names of any of your Angular components here
 var angularPkgs = [
-    'common', 'compiler', 'core', 'http', 'platform-browser', 'platform-browser-dynamic', 'router', 'router-deprecated', 'upgrade'
+    'common', 'compiler', 'core',
+    'forms', 'http', 'platform-browser',
+    'platform-browser-dynamic', 'router',
+    'router-deprecated', 'upgrade'
 ];
 // for(var pI in angularPkgs){
 //     var pkg = angularPkgs[pI];
