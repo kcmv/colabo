@@ -1,4 +1,4 @@
-import {FORM_DIRECTIVES} from '@angular/forms';
+import {FORM_DIRECTIVES, NgForm} from '@angular/forms';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';

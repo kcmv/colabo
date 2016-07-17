@@ -114,49 +114,20 @@
   <md-dialog #cloneDialog (onClose)="duplicate($event)">
     <md-dialog-title>Cloning map <span class="highlighted_name">{{mapForAction?.name}}</span></md-dialog-title>
     <div layout="column" class="md-inline-form">
-      <form>
+      <form #cloneMapForm="ngForm">
           <div>
-            <md-input placeholder="New map name" style="width: 100%" [(ngModel)]="nameOfDuplicatedMap" name='nameOfDuplicatedMap'></md-input>
+            <md-input placeholder="New map name" style="width: 100%" [(ngModel)]="nameOfDuplicatedMap" required name='nameOfDuplicatedMap' #name="ngModel"></md-input>
+              <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+               Map Name is required
+             </div>
+          </div>
+          <div>
+            <button md-button type="button" (click)="cloneDialog.close(false)">Cancel</button>
+            <button md-button type="submit" class="md-primary" [disabled]="!cloneMapForm.form.valid" (click)="cloneDialog.close(true)">Clone</button>
           </div>
       </form>
     </div>
-    <md-dialog-actions>
-        <button md-button (click)="cloneDialog.close(false)">
-            <span>Cancel</span>
-        </button>
-        <button md-button class="md-primary" (click)="cloneDialog.close(true)">
-            <span>Clone</span>
-        </button>
-    </md-dialog-actions>
   </md-dialog>
-
-<!--
-  <md-dialog #mapDialog class="creatingNewMap" (onClose)="mapDialogClosed($event)">
-    <md-dialog-title>Map Creation</md-dialog-title>
-      <form layout="column" class="md-inline-form">
-      TODO: using of the form causes warning;
-      It looks like you're using the old forms module. This will be opt-in in the next RC, and
-       will eventually be removed in favor of the new forms module. For more information, see:
-       https://docs.google.com/document/u/1/d/1RIezQqE4aEhBRmArIAS1mRIZtWFf6JxN_7B4meyWK0Y/pub
-
-          <md-input placeholder="Name" [(ngModel)]="mapToCreate.name" required></md-input>
-          <md-input placeholder="Map Type" [(ngModel)]="mapToCreate.type"></md-input>
-          <md-input placeholder="Root NodeType" [(ngModel)]="mapToCreate.rootNodeType"></md-input>
-          <md-input placeholder="Parent map ID" [(ngModel)]="mapToCreate.parentMapId"></md-input>
-          <md-input placeholder="Map Version" [(ngModel)]="mapToCreate.version"></md-input>
-
-          <md-input placeholder="Participants" [(ngModel)]="mapToCreate.participants"></md-input>
-          <md-input placeholder="Authors" [(ngModel)]="mapToCreate.dataContent?.mcm.authors"></md-input>
-        </form>
-      <md-dialog-actions>
-          <button md-button (click)="mapDialog.close(false)">
-              <span>Cancel</span>
-          </button>
-          <button md-button class="md-primary" (click)="mapDialog.close(true)">
-              <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
-          </button>
-      </md-dialog-actions>
-  </md-dialog> -->
 
   <md-dialog #participantsList>
     <md-dialog-title>Map <span class="highlighted_name">{{mapForAction?.name}}</span> Participants</md-dialog-title>
