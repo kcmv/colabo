@@ -1,9 +1,9 @@
 import {Component, OnInit, Inject} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR, CORE_DIRECTIVES} from "@angular/common";
+import {CORE_DIRECTIVES} from "@angular/common";
 
 import {NgIf} from '@angular/common';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from 'ng2-material';
+import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {ApprovalNodeService} from './approval.node.service';
 
@@ -27,7 +27,7 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 @Component({
     selector: 'gardening-controls',
     providers: [
-        MATERIAL_PROVIDERS
+        //MATERIAL_PROVIDERS
     ],
     directives: [
         MATERIAL_DIRECTIVES,

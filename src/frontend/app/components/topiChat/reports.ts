@@ -1,5 +1,6 @@
 import {Component, Inject} from '@angular/core';
-import {NgIf, NgFor, FORM_DIRECTIVES} from '@angular/common';
+import {NgIf, NgFor} from '@angular/common';
+import {FORM_DIRECTIVES} from '@angular/forms';
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {TopiChatService} from '../topiChat/topiChatService';

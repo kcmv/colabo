@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR, CORE_DIRECTIVES} from "@angular/common";
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from 'ng2-material';
-import {NgIf, FORM_DIRECTIVES} from '@angular/common';
+import {NgIf, CORE_DIRECTIVES} from "@angular/common";
+import {MATERIAL_DIRECTIVES} from 'ng2-material';
+import {FORM_DIRECTIVES} from '@angular/forms';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
@@ -10,7 +10,7 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 @Component({
     selector: 'ibis-types-list',
     providers: [
-        MATERIAL_PROVIDERS
+        //MATERIAL_PROVIDERS
     ],
     directives: [
       MATERIAL_DIRECTIVES,

@@ -1,11 +1,11 @@
-import {FORM_DIRECTIVES} from '@angular/common';
+import {FORM_DIRECTIVES} from '@angular/forms';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media} from "ng2-material";
+import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
 import {MdToolbar} from '@angular2-material/toolbar';
 
 import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
@@ -16,11 +16,11 @@ import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyServi
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
-// import {MapFormComponent} from '../knalledgeMap/map-form.component';
+import {MapFormComponent} from './map-form.component';
 
 // import {ViewChild, ViewChildren} from '@angular/core';
 // import {Media, MdContent, MdButton} from 'ng2-material';
-// import {MdDialog} from '@angular2-material/dialog';
+//import {MdDialog} from '@angular2-material/dialog';
 
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
@@ -67,7 +67,7 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
     templateUrl: 'maps-list.tpl.html',
     // styleUrls: ['css/maps-list.component.css'],
     providers: [
-        MATERIAL_PROVIDERS,
+        // MATERIAL_PROVIDERS,
         OVERLAY_PROVIDERS
         // provideRouter
         // RequestService
@@ -80,10 +80,11 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
         MdToolbar,
         // cloneDialog,
         // MdDialog,
-        MD_INPUT_DIRECTIVES, FORM_DIRECTIVES
+        MD_INPUT_DIRECTIVES,
+        // FORM_DIRECTIVES,
         // MdContent, MdButton,
         //   LoginStatusComponent,
-        // MapFormComponent
+        MapFormComponent
     ]
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
@@ -112,6 +113,8 @@ export class MapsList implements OnInit{
   private rimaService;
   private knalledgeMapService;
   private knalledgeMapVOsService;
+
+  @ViewChild(MapFormComponent) private mapFormComponent:MapFormComponent;
 
   constructor(
       //private router: Router,
@@ -170,6 +173,15 @@ export class MapsList implements OnInit{
     });
     this.policyConfig.moderating.enabled = true;
     //this.cloneDialog = @ViewChild('cloneDialog');
+  }
+
+  mapFormShowForCreation(){
+    console.log("[mapFormShowForCreation]");
+		this.mapToCreate = new knalledge.KMap();
+		this.mapToCreate.participants = this.rimaService.getActiveUserId();
+		//this.mapToCreate.participants = this.rimaService.getActiveUser().displayName;
+		this.modeCreating = true;
+    this.mapFormShow(this.mapToCreate);
   }
 
   formatDateTime(date){
@@ -333,7 +345,7 @@ export class MapsList implements OnInit{
     //TEST: this.policyConfig.moderating.enabled = !this.policyConfig.moderating.enabled;
   }
 
-	openMap(item: any, mapRoute?: string) {
+	openMap(item: any, mapRoute?: any) {
 	    console.log("openMap");
       if(!item){ // && this.selectedItem !== null && this.selectedItem !== undefined
         item = this.selectedItem;
@@ -355,7 +367,7 @@ export class MapsList implements OnInit{
   		}else{
   			window.alert('Please, select a Map');
   		}
-	};
+	}
 
   getUser(userID){
     var user = this.rimaService.getUserById(userID);
@@ -380,14 +392,6 @@ export class MapsList implements OnInit{
     return str ? (str.length <= ln ? str : str.substr(0,ln-3) + '...') : '';
   }
 
-  prepareCreating(){
-    console.log("showCreateNewMap");
-		this.mapToCreate = new knalledge.KMap();
-		this.mapToCreate.participants = this.rimaService.getActiveUserId();
-		//this.mapToCreate.participants = this.rimaService.getActiveUser().displayName;
-		this.modeCreating = true;
-  }
-
   prepareForParticipants(map){
     if(this.mapParticipants === null || this.mapForAction !== map){
       this.mapParticipants = null;
@@ -403,18 +407,6 @@ export class MapsList implements OnInit{
     }
   }
 
-  mapDialogClosed(confirm){
-    if(confirm){
-      if(this.modeCreating){
-        this.createNew();
-      }else
-      if(this.modeEditing){
-        this.updateMap();
-      }
-    }
-    this.modeEditing = this.modeCreating = false;
-  }
-
   go(path: string) {
       // TODO: not implemented
       // alert("Not implemented");
@@ -426,7 +418,24 @@ export class MapsList implements OnInit{
       // https://angular.io/docs/ts/latest/api/common/index/Location-class.html
       // this.location.go('#/' + path);
       window.location.href = '#/' + path;
-  };
+  }
+
+  private mapFormClosed(submitted:boolean){
+    if(submitted){
+      if(this.modeCreating){
+        this.createNew();
+      }else
+      if(this.modeEditing){
+        this.updateMap();
+      }
+    }
+    this.modeEditing = this.modeCreating = false;
+  }
+
+  private mapFormShow(map){
+    console.log("[mapFormShow]", map);
+    this.mapFormComponent.show(map, this.mapFormClosed.bind(this));
+  }
 
   /* *** TOOLBAR - END **** */
 

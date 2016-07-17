@@ -2,6 +2,9 @@
 
 require('../models'); // injects DB Schemas in global.db
 
+/* examples:
+node exportMap.js testExport.json '5788f9a7925cfce40ba9f21f' '5788f9a7925cfce40ba9f21d'
+*/
 
 var mongoose = require('mongoose');
 var Promise = require("bluebird");
@@ -25,7 +28,7 @@ var mapData = null;
 console.log('fileName: ' + fileName);
 
 db.on('open', function (callback) {
-	var data = 
+	var data =
 	{
 		"properties": {
 			"name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
@@ -39,7 +42,7 @@ db.on('open', function (callback) {
 			"edges": []
 		}
 	};
-	
+
 	var nodesEdgesReceived = function(nodes,edges){
 		console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);
 		console.log(JSON.stringify(nodes));
@@ -54,15 +57,15 @@ db.on('open', function (callback) {
 			data.map.edges.push(edges[i]);
 		}
 		console.log("data for export: " + JSON.stringify(data));
-		
+
 		var dataStr = JSON.stringify(data, null, 4);
 		writeToFile(fileName, dataStr);
 	};
-	
+
 	var nodes = KNodeModel.find({ 'mapId': mapId}).exec();
 	var edges = KEdgeModel.find({ 'mapId': mapId}).exec();
 	Promise.join(nodes,edges, nodesEdgesReceived);
-	
+
 	//mongoose.connection.close();
 	console.log('mapId: %s', mapId);
 });

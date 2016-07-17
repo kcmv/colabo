@@ -1,5 +1,6 @@
 import {Component, Inject} from '@angular/core';
-import {NgIf, FORM_DIRECTIVES} from '@angular/common';
+import {NgIf} from '@angular/common';
+import {FORM_DIRECTIVES} from '@angular/forms';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MdRadioButton, MdRadioGroup, MdRadioDispatcher} from '@angular2-material/radio';
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
@@ -76,6 +77,7 @@ export class KnalledgeMapTools {
     //viewspecChangedEventName:string = "viewspecChangedEvent";
     behaviourChangedEventName: string = "behaviourChangedEvent";
     broadcastingChangedEventName: string = "broadcastingChangedEvent";
+    setUpBroadcastingRequest: string = "setUpBroadcastingRequest";
 
     viewConfig: any;
     policyConfig: any;
@@ -170,4 +172,8 @@ export class KnalledgeMapTools {
     broadcastReloadMaps: Function = function() {
         this.knAllEdgeRealTimeService.emit(this.knRealTimeBroadcastReloadMaps);
     };
+
+    brainstorming(){
+      this.knAllEdgeRealTimeService.emit(this.setUpBroadcastingRequest);
+    }
 }

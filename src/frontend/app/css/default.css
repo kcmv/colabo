@@ -1817,6 +1817,13 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   src: url("../fonts/font-awesome/fontawesome-webfont.eot") format("embedded-opentype"), url("../fonts/font-awesome/fontawesome-webfont.woff") format("woff"), url("../fonts/font-awesome/fontawesome-webfont.ttf") format("truetype"), url("../fonts/font-awesome/fontawesome-webfont.svg") format("svg");
   font-weight: normal;
   font-style: normal; }
+form .ng-valid[required] {
+  border-left: 5px solid #42A948;
+  /* green */ }
+form .ng-invalid[required] {
+  border-left: 5px solid #a94442;
+  /* red */ }
+
 * {
   margin: 0px;
   padding: 0px;

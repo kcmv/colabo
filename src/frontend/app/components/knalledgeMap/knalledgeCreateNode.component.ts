@@ -1,14 +1,14 @@
 import {Component, Inject, EventEmitter, Output, Input} from '@angular/core';
-import { AfterViewInit, ViewChild } from
-'@angular/core';
-import {FORM_DIRECTIVES} from '@angular/common';
+import { AfterViewInit, ViewChild } from '@angular/core';
+import {FORM_DIRECTIVES} from '@angular/forms';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS, Media} from "ng2-material";
+import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
 import {MdDialog} from "ng2-material";
+//import {MdDialog} from "ng2-material/components/dialog/dialog";
 import {MdToolbar} from '@angular2-material/toolbar';
-import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
+//import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
 import { Router, ROUTER_DIRECTIVES} from '@angular/router';
@@ -31,8 +31,8 @@ declare var window;
     moduleId: module.id,
     templateUrl: 'partials/knalledge-create-node-component.tpl.html',
     providers: [
-        MATERIAL_PROVIDERS,
-        OVERLAY_PROVIDERS
+        //MATERIAL_PROVIDERS,
+        //OVERLAY_PROVIDERS
     ],
     directives: [
         MATERIAL_DIRECTIVES,
@@ -91,15 +91,14 @@ export class KnalledgeCreateNodeComponent implements AfterViewInit{
           }
         }
 
-        this.mdDialog.show();
+      this.mdDialog.show();
     }
 
     onCreateNodeClicked(){
         // this.selectItem.emit(item);
         if(typeof this.showCallback === 'function'){
-
-            this.mdDialog.close();
-            this.showCallback(this.showKnalledgeNodeType, this.showKnalledgeEdgeType, this.nodeName);
+          this.mdDialog.close();
+          this.showCallback(this.showKnalledgeNodeType, this.showKnalledgeEdgeType, this.nodeName);
         }
     }
 

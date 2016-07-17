@@ -1,10 +1,9 @@
 import {Component, OnInit, Inject} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR, CORE_DIRECTIVES} from "@angular/common";
-
-import {NgIf, FORM_DIRECTIVES} from '@angular/common';
+import {NgIf, CORE_DIRECTIVES} from "@angular/common";
+import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {MdCheckbox} from '@angular2-material/checkbox';
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from 'ng2-material';
+import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 
@@ -49,7 +48,7 @@ export class SortUsersByDisplayNamePipe implements PipeTransform {
 @Component({
     selector: 'rima-users-list',
     providers: [
-        MATERIAL_PROVIDERS
+        // MATERIAL_PROVIDERS
     ],
     directives: [
         MATERIAL_DIRECTIVES,
@@ -86,6 +85,10 @@ export class RimaUsersList implements OnInit{
     public assignedE_mail:boolean = true;
     public newParticipant;
     public automaticEmailDomain:string = "knalledge.org";
+
+    //This is a temporary workaround while we await a proper form reset feature https://angular.io/docs/ts/latest/guide/forms.html:
+    public active_addParticipantToMapForm: boolean = true;
+
     private policyConfig:any;
     private viewConfig:any;
     private componentShown:boolean = true;
@@ -173,16 +176,17 @@ export class RimaUsersList implements OnInit{
         });
       };
       if(confirm){
-        if(this.assignedE_mail){
-          this.newParticipant.e_mail = this.newParticipant.displayName + '@' + this.automaticEmailDomain;
-        }
+        // this.setEmail(); not needed when we have keyUp event handler
         console.log("[newParticipant]",this.newParticipant);
         this.rimaService.createWhoAmI(this.newParticipant, false, true, userCreated);
       }
     }
 
     prepareForParticipants(map){
+      this.assignedE_mail = true;
       this.newParticipant = new knalledge.WhoAmI();
+      this.active_addParticipantToMapForm = false;
+      setTimeout(() => this.active_addParticipantToMapForm = true, 0);
     }
 
     changedShowCreators(){
@@ -192,7 +196,20 @@ export class RimaUsersList implements OnInit{
     }
 
     displayNameChanged(event){
-      console.log("[displayNameChanged]event:",event);
+      //console.log("[displayNameChanged]event:",event);
+      this.setEmail();
+    }
+
+    assignedE_mailChanged(event){
+      if(event){
+        this.setEmail();
+      }else{
+        this.newParticipant.e_mail = "";
+      }
+      //event.target.value
+    }
+
+    private setEmail():void{
       if(this.assignedE_mail){
         this.newParticipant.e_mail = this.newParticipant.displayName + '@' + this.automaticEmailDomain;
       }
