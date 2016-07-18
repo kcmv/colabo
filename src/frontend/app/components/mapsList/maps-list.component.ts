@@ -234,6 +234,19 @@ export class MapsList implements OnInit{
     //console.log("this.cloneDialog:"+this.cloneDialog);
   }
 
+  // showCallback(event){
+  //   console.log("[showCallback]",event);
+  //   window.alert("[showCallback]: " + event);
+  // }
+
+  onShowDelete(event){
+    console.warn('[onShowDelete]', event);
+  }
+  
+  onCancelDelete(event){
+    console.warn('[onCancelDelete]', event);
+  }
+
 	duplicate(confirm){
 		//console.log("mapDelete:", map));
 		if (confirm && this.mapForAction) {

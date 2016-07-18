@@ -99,7 +99,7 @@
 
 
 <div class="md-padding dialogs-front" id="popupContainer">
-  <md-dialog #deleteConfirm (onClose)="delete($event)">
+  <md-dialog #deleteConfirm (onClose)="delete($event)" (onShow)="onShowDelete($event)" (onCancel)="onCancelDelete($event)">
     <md-dialog-title>Delete map</md-dialog-title>
      {{mapForAction?.name}}?
     <md-dialog-actions ok="Yes" cancel="No"></md-dialog-actions>
@@ -114,7 +114,7 @@
   <md-dialog #cloneDialog (onClose)="duplicate($event)">
     <md-dialog-title>Cloning map <span class="highlighted_name">{{mapForAction?.name}}</span></md-dialog-title>
     <div layout="column" class="md-inline-form">
-      <form #cloneMapForm="ngForm">
+      <form #cloneMapForm="ngForm" (ngSubmit)="onSubmit()" >
           <div>
             <md-input placeholder="New map name" style="width: 100%" [(ngModel)]="nameOfDuplicatedMap" required name='nameOfDuplicatedMap' #name="ngModel"></md-input>
               <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
@@ -122,8 +122,8 @@
              </div>
           </div>
           <div>
-            <button md-button type="button" (click)="cloneDialog.close(false)">Cancel</button>
-            <button md-button type="submit" class="md-primary" [disabled]="!cloneMapForm.form.valid" (click)="cloneDialog.close(true)">Clone</button>
+            <button md-button type="button" class="md-primary" (click)="cloneDialog.close(false)">Cancel</button>
+            <button md-button type="submit" [disabled]="!cloneMapForm.form.valid" (click)="cloneDialog.close(true)">Clone</button>
           </div>
       </form>
     </div>

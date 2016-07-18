@@ -6,12 +6,12 @@ import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
 
-declare var knalledge;
+//declare var knalledge;
 
 @Component({
-  selector: 'map-form',
+  selector: 'brainstorming-form',
   moduleId: module.id,
-  templateUrl: 'partials/map-form.component.tpl.html',
+  templateUrl: 'partials/brainstorming-form.component.tpl.html',
   providers: [
       // MATERIAL_PROVIDERS,
 //      OVERLAY_PROVIDERS
@@ -21,9 +21,9 @@ declare var knalledge;
       MD_INPUT_DIRECTIVES
   ]
 })
-export class MapFormComponent {
-  public mapFormActive = true;
-  model = new knalledge.KMap();
+export class BrainstormingFormComponent {
+  public brainstormingFormActive = true;
+  model;// = new knalledge.KMap();
 
   private creatingFunction:Function=null;
 
@@ -43,17 +43,17 @@ export class MapFormComponent {
   //   return
   // }
 
-  show(map:knalledge.KMap, creatingFunction:Function){
-    console.log("[MapFormComponent].show");
+  show(brainstorming:any, creatingFunction:Function){
+    console.log("[BrainstormingFormComponent].show");
     this.creatingFunction = creatingFunction;
     this.mdDialog.show();
-    this.mapFormActive = false;
-    setTimeout(() => this.mapFormActive = true, 0.1);
-    this.model = map;
+    this.brainstormingFormActive = false;
+    setTimeout(() => this.brainstormingFormActive = true, 0);
+    this.model = brainstorming;
   }
 
   close(confirm){
-    console.log("[MapFormComponent].close:",confirm);
+    console.log("[BrainstormingFormComponent].close:",confirm);
     this.mdDialog.close();
     if(this.creatingFunction){
       this.creatingFunction(false);
