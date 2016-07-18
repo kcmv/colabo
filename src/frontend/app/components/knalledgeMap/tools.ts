@@ -108,6 +108,8 @@ export class KnalledgeMapTools {
         //globalEmitterServicesArray.register(this.viewspecChangedEventName);
         globalEmitterServicesArray.register(this.behaviourChangedEventName);
         globalEmitterServicesArray.register(this.broadcastingChangedEventName);
+        globalEmitterServicesArray.register(this.setUpBroadcastingRequest);
+
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
     };
 
@@ -173,7 +175,8 @@ export class KnalledgeMapTools {
         this.knAllEdgeRealTimeService.emit(this.knRealTimeBroadcastReloadMaps);
     };
 
-    brainstorming(){
-      this.knAllEdgeRealTimeService.emit(this.setUpBroadcastingRequest);
+    showBrainstorming(){
+      this.globalEmitterServicesArray.get(this.setUpBroadcastingRequest).broadcast('KnalledgeMapTools');
+      // this.knAllEdgeRealTimeService.emit(this.setUpBroadcastingRequest);
     }
 }

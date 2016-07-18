@@ -1,10 +1,11 @@
 import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
-import { Component, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
 //import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
+import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 //declare var knalledge;
 
@@ -24,10 +25,18 @@ import {MdDialog} from "ng2-material";
 export class BrainstormingFormComponent {
   public brainstormingFormActive = true;
   model;// = new knalledge.KMap();
+  setUpBroadcastingRequest: string = "setUpBroadcastingRequest";
 
   private creatingFunction:Function=null;
 
   @ViewChild(MdDialog) private mdDialog:MdDialog;
+
+  constructor(
+    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+  ){
+    this.globalEmitterServicesArray.register(this.setUpBroadcastingRequest);
+    this.globalEmitterServicesArray.get(this.setUpBroadcastingRequest).subscribe('BrainstormingFormComponent', this.show);
+  }
 
   onSubmit() {
     console.log('[onSubmit]');
@@ -43,7 +52,7 @@ export class BrainstormingFormComponent {
   //   return
   // }
 
-  show(brainstorming:any, creatingFunction:Function){
+  show(brainstorming?:any, creatingFunction?:Function){
     console.log("[BrainstormingFormComponent].show");
     this.creatingFunction = creatingFunction;
     this.mdDialog.show();
