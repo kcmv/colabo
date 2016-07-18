@@ -173,6 +173,44 @@ var plugins = {
 			injectCss: 'css/default.css'
 		}
 	},
+	puzzlesConfig: {
+		knalledgeMap: {
+			available: true
+		},
+		rima: {
+			available: true
+		},
+		notify: {
+			available: true
+		},
+		topiChat: {
+			available: true
+		},
+		request: {
+			available: true
+		},
+		suggestion: {
+			available: true
+		},
+		change: {
+			available: true
+		},
+		login: {
+			available: true
+		},
+		ontov: {
+			available: true
+		},
+		mcMap: {
+			available: true
+		},
+		mapsList: {
+			available: true
+		},
+		gardening: {
+			available: true
+		}
+	},
 	puzzles: {
 		knalledgeMap: {
 	        active: true,
