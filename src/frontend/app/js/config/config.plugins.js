@@ -130,6 +130,11 @@ var plugins = {
 			injectJs: 'services.js',
 			injectCss: 'css/suggestion.component.css'
 		},
+		brainstorming: {
+			path: [APP_SRC_STR, 'components/brainstorming'],
+			injectJs: [],
+			injectCss: null
+		},
 		change: {
 			path: [APP_SRC_STR, 'components/change'],
 			injectJs: ['changes.js', 'services.js'],
@@ -171,6 +176,47 @@ var plugins = {
 			injectJs: 'js/services.js',
 			// { src: join(APP_SRC, 'components/gardening/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
 			injectCss: 'css/default.css'
+		}
+	},
+	puzzlesConfig: {
+		knalledgeMap: {
+			available: true
+		},
+		rima: {
+			available: true
+		},
+		notify: {
+			available: true
+		},
+		topiChat: {
+			available: true
+		},
+		request: {
+			available: true
+		},
+		suggestion: {
+			available: true
+		},
+		brainstorming: {
+			available: true
+		},
+		change: {
+			available: true
+		},
+		login: {
+			available: true
+		},
+		ontov: {
+			available: true
+		},
+		mcMap: {
+			available: true
+		},
+		mapsList: {
+			available: true
+		},
+		gardening: {
+			available: true
 		}
 	},
 	puzzles: {

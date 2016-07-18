@@ -7,7 +7,11 @@ import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
 import {MdDialog} from "ng2-material";
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+import {BrainstormingService} from "./brainstorming.service";
+
 //declare var knalledge;
+
+declare var window;
 
 @Component({
   selector: 'brainstorming-form',
@@ -16,6 +20,7 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
   providers: [
       // MATERIAL_PROVIDERS,
 //      OVERLAY_PROVIDERS
+     BrainstormingService
   ],
   directives: [
       MATERIAL_DIRECTIVES,
@@ -32,10 +37,12 @@ export class BrainstormingFormComponent {
   @ViewChild(MdDialog) private mdDialog:MdDialog;
 
   constructor(
+    private brainstormingService:BrainstormingService,
     @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
   ){
     this.globalEmitterServicesArray.register(this.setUpBroadcastingRequest);
     this.globalEmitterServicesArray.get(this.setUpBroadcastingRequest).subscribe('BrainstormingFormComponent', this.show);
+    window.alert("[BrainstormingFormComponent] " + this.brainstormingService.test);
   }
 
   onSubmit() {
