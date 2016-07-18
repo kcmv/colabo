@@ -84,7 +84,7 @@
           <button class="btn btn-primary button_icon" aria-label="Clone the map" type="button"
           (click)="prepareForCloning(item); cloneDialog.show();"><i title="Clone the map" class="fa fa-files-o" aria-hidden="true"></i></button>
           <button class="btn btn-primary button_icon" aria-label="Map Participants" type="button" (click)="prepareForParticipants(item); participantsList.show()"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button>
-          <button class="btn btn-primary button_icon last" aria-label="Export" type="button" (click)="null"><i title="Export" class="fa fa-floppy-o" aria-hidden="true"></i></button>
+          <button class="btn btn-primary button_icon last" aria-label="Export" type="button" (click)="export(item)"><i title="Export" class="fa fa-floppy-o" aria-hidden="true"></i></button>
           <span class='item_data' *ngIf="policyConfig.moderating.enabled">
             <button class="btn btn-primary button_icon" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></button>
   				</span>
@@ -111,10 +111,10 @@
     <md-dialog-actions ok="Got It"></md-dialog-actions>
   </md-dialog>
 
-  <md-dialog #cloneDialog (onClose)="duplicate($event)">
+  <md-dialog #cloneDialog>
     <md-dialog-title>Cloning map <span class="highlighted_name">{{mapForAction?.name}}</span></md-dialog-title>
     <div layout="column" class="md-inline-form">
-      <form #cloneMapForm="ngForm" (ngSubmit)="onSubmit()" >
+      <form #cloneMapForm="ngForm" (ngSubmit)="cloneDialog.close(true); onSubmitClone()" class="inline-form">
           <div>
             <md-input placeholder="New map name" style="width: 100%" [(ngModel)]="nameOfDuplicatedMap" required name='nameOfDuplicatedMap' #name="ngModel"></md-input>
               <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
@@ -123,7 +123,7 @@
           </div>
           <div>
             <button md-button type="button" class="md-primary" (click)="cloneDialog.close(false)">Cancel</button>
-            <button md-button type="submit" [disabled]="!cloneMapForm.form.valid" (click)="cloneDialog.close(true)">Clone</button>
+            <button md-button type="submit" [disabled]="!cloneMapForm.form.valid">Clone</button>
           </div>
       </form>
     </div>

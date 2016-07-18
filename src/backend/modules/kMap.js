@@ -24,6 +24,21 @@ function resSendJsonProtected(res, data){
 	}
 };
 
+// function resSendFile(res, data){
+// 	// http://tobyho.com/2011/01/28/checking-types-in-javascript/
+// 	if(data !== null && typeof data === 'object'){ // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
+// 		res.set('Content-Type', 'application/json');
+// 		// JSON Vulnerability Protection
+// 		// http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/
+// 		// https://docs.angularjs.org/api/ng/service/$http#description_security-considerations_cross-site-request-forgery-protection
+// 		res.send(")]}',\n" + JSON.stringify(data));
+// 	}else if(typeof data === 'string'){ // http://stackoverflow.com/questions/4059147/check-if-a-variable-is-a-string
+// 		res.send(data);
+// 	}else{
+// 		res.send(data);
+// 	}
+// };
+
 
 var KMapModel = mongoose.model('kMap', global.db.kMap.Schema);
 
@@ -130,8 +145,9 @@ exports.update = function(req, res){
 	}
 
 	switch (type) {
+
 		case 'one':
-			console.log("[modules/KMap.js:index/one]");
+			console.log("[modules/KMap.js:update/one]");
 
 			/* this is wrong because it creates default-values populated object (including id) first and then populate it with paremeter object:
 			 * var kmap = new KMapModel(req.body);
@@ -159,6 +175,7 @@ exports.update = function(req, res){
 			// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 			// });
 		break;
+
 		case 'duplicate':
 			var found = function(err,kMap){
 				var nodesEdgesReceived = function(nodes,edges){
@@ -281,7 +298,7 @@ exports.update = function(req, res){
 					var rootNodeId = kMap.rootNodeId;
 					if(rootNodeId === null){
 						console.log('[found] ERROR: map.rootNodeId === null!!');
-						//TODO: return with error
+						finished(null);
 					}
 					var oldMap = kMap.toObject();
 					delete oldMap['_id'];
@@ -315,6 +332,61 @@ exports.update = function(req, res){
 			KMapModel.findById(id, found);
 			//finished();
 		break;
+
+		case 'export':
+			console.log("[modules/KMap.js:update/export] mapId:%s", id);
+			var found = function(err,kMap){
+				var nodesEdgesReceived = function(nodes,edges){
+
+					console.log("[nodesEdgesReceived] %d nodes **************** :", nodes.length);
+					console.log(JSON.stringify(nodes));
+					console.log("[nodesEdgesReceived] %d edges **************** :", edges.length);
+					console.log(JSON.stringify(edges));
+
+					mapData.nodes = nodes;
+					mapData.edges = edges;
+					finished(mapData);
+				}
+
+				if (err) throw err;
+				console.log('[found]kMap:',kMap);
+
+				if(kMap === null){
+					//TODO: return status not found
+					console.log('[found] No map found');
+					finished(null);
+				}else{
+					var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
+					var KNodeModel = mongoose.model('kNode', global.db.kNode.Schema);
+
+					// var rootNodeId = kMap.rootNodeId;
+					// if(rootNodeId === null){
+					// 	console.log('[found] ERROR: map.rootNodeId === null!!');
+					// 	finished(null);
+					// }
+
+					mapData.map = kMap;
+					var nodes = KNodeModel.find({ 'mapId': id}).exec();
+					var edges = KEdgeModel.find({ 'mapId': id}).exec();
+					Promise.join(nodes,edges, nodesEdgesReceived);
+				}
+			}
+
+			var mapData = {
+				"map": null,
+				"nodes": [],
+				"edges": []
+			};
+
+			KMapModel.findById(id, found);
+		break;
+
+		case 'import':
+			console.log("[modules/KMap.js:update/import] mapId:%s", id);
+		break;
+
+		default:
+			console.log("[modules/KMap.js:update/??] unrecognized type:", type);
 	}
 }
 

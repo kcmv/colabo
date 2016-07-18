@@ -223,9 +223,7 @@ export class MapsList implements OnInit{
         that.selectedItem = null;
       };
       this.knalledgeMapVOsService.mapDelete(this.mapForAction._id, mapDeleted);
-    } else {
-        console.log('not deleting ...');
-		}
+    }
 	}
 
   prepareForCloning(map){
@@ -242,14 +240,14 @@ export class MapsList implements OnInit{
   onShowDelete(event){
     console.warn('[onShowDelete]', event);
   }
-  
+
   onCancelDelete(event){
     console.warn('[onCancelDelete]', event);
   }
 
-	duplicate(confirm){
+	onSubmitClone(){
 		//console.log("mapDelete:", map));
-		if (confirm && this.mapForAction) {
+		// if (confirm && this.mapForAction) {
       var that = this;
 			var mapDuplicated = function(map){
 				console.log('mapDuplicated:map:'+map);
@@ -259,8 +257,12 @@ export class MapsList implements OnInit{
 				}
 			};
 			this.knalledgeMapVOsService.mapDuplicate(this.mapForAction, this.nameOfDuplicatedMap, mapDuplicated);
-		}
+		// }
 	}
+
+  export(map:knalledge.KMap){
+    this.knalledgeMapVOsService.mapExport(map._id, this.mapExported);
+  }
 
 	getParticipantsNames(ids){
 			var names = '';
@@ -448,6 +450,10 @@ export class MapsList implements OnInit{
   private mapFormShow(map){
     console.log("[mapFormShow]", map);
     this.mapFormComponent.show(map, this.mapFormClosed.bind(this));
+  }
+
+  private mapExported(map:any){
+    console.log("[mapExported] ", map);
   }
 
   /* *** TOOLBAR - END **** */
