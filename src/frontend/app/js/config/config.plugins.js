@@ -130,6 +130,11 @@ var plugins = {
 			injectJs: 'services.js',
 			injectCss: 'css/suggestion.component.css'
 		},
+		brainstorming: {
+			path: [APP_SRC_STR, 'components/brainstorming'],
+			injectJs: [],
+			injectCss: null
+		},
 		change: {
 			path: [APP_SRC_STR, 'components/change'],
 			injectJs: ['changes.js', 'services.js'],
@@ -190,6 +195,9 @@ var plugins = {
 			available: true
 		},
 		suggestion: {
+			available: true
+		},
+		brainstorming: {
 			available: true
 		},
 		change: {

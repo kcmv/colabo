@@ -6,7 +6,11 @@ import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
 
+import {BrainstormingService} from "./brainstorming.service";
+
 //declare var knalledge;
+
+declare var window;
 
 @Component({
   selector: 'brainstorming-form',
@@ -15,6 +19,7 @@ import {MdDialog} from "ng2-material";
   providers: [
       // MATERIAL_PROVIDERS,
 //      OVERLAY_PROVIDERS
+     BrainstormingService
   ],
   directives: [
       MATERIAL_DIRECTIVES,
@@ -28,6 +33,10 @@ export class BrainstormingFormComponent {
   private creatingFunction:Function=null;
 
   @ViewChild(MdDialog) private mdDialog:MdDialog;
+
+  constructor(private brainstormingService:BrainstormingService){
+      window.alert("[BrainstormingFormComponent] " + this.brainstormingService.test);
+  }
 
   onSubmit() {
     console.log('[onSubmit]');
