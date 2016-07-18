@@ -11,7 +11,12 @@ _**Nominal Group Technique**_
 
 # Phases
 
-1. `%IBIS% : Question` to be brainstormed about is created by moderator
+1. Brainstorming Creation `%IBIS% :
+  + Question` to be brainstormed about is created by moderator
+  + the question has to be selected
+  + moderator has to have turned on **Presenter-mode**
+  + moderator clicks on Tool/Brainstorming button
+  + sets up new Brainstorming through the form
 1. **Silent generation of ideas**
     + Each participant creates as much as possible `%IBIS% : Idea`-s that come to his mind when considering the question.
     + All ideas are **private** at this phase.

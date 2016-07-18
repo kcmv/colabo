@@ -22,10 +22,6 @@ _**Nominal Group Technique**_
     + There is **no debate about items** at this stage
     + Participants are encouraged to write down any **new ideas** that may arise from what others share.
     + This stage may take _15–30 minutes_
-    + **Current procedure**
-      + users turn off navigation to be able to add ideas
-      + we turn on Ontov filter for the current user to show ideas on screen
-      + user can use Ontov filter to hide others ideas on their computers
 1. **Group discussion**
     + `IBIS Dialog` - Participants are invited to **seek verbal explanation** or further details about any of the ideas that colleagues have produced that may not be clear to them.
     + The facilitator’s task is to ensure that each person is allowed to contribute and that discussion of all ideas is thorough without spending too long on a single idea.
