@@ -106,7 +106,7 @@
               <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
               <button md-button type="button" (click)="close(false)">Cancel</button>
               <!-- <button md-button type="button" (click)="nextPhase()">Next Phase</button> -->
-              <span *ngIf="showStartPhase(brainstormingFormTabs.selectedIndex)"><button md-button type="submit" [disabled]="!brainstormingForm.form.valid"><span *ngIf="brainstormingFormTabs.selectedIndex + 1 < brainstorming.phase">Restart This Phase</span><span *ngIf="brainstormingFormTabs.selectedIndex + 1 >= brainstorming.phase">Start This Phase</span></button></span>
+              <span *ngIf="showStartPhase(brainstormingFormTabs.selectedIndex)"><button md-button type="submit" [disabled]="!brainstormingForm.form.valid"><span class="warning" *ngIf="brainstormingFormTabs.selectedIndex + 1 < brainstorming.phase">Restart This Phase</span><span *ngIf="brainstormingFormTabs.selectedIndex + 1 >= brainstorming.phase">Start This Phase</span></button></span>
               <button md-button type="button" (click)="restart()">Start New Brainstorming</button>
               <!-- <button md-button class="md-primary" (click)="brainstormingDialog.close(true)">
                   <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
