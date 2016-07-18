@@ -1,4 +1,4 @@
-<div class="md-padding brainstorming-form" id="popupContainer">
+<div class="brainstorming md-padding brainstorming-form" id="popupContainer">
     <md-dialog #brainstormingFormDialog class="brainstormingFormDialog">
         <md-dialog-title>Brainstorming</md-dialog-title>
         <div class="md-inline-form">
@@ -8,11 +8,64 @@
             <!-- {{JSON.stringify(brainstormingForm)}}<br/>
             {{JSON.stringify(brainstormingForm.form)}}<br/> -->
             <!-- {{diagnostic}} -->
-              <!-- <md-input placeholder="Name" [(ngModel)]="model.name" class="form-control" required name="name" #spy #name="ngModel"></md-input>
+
+            <md-tab-group #brainstormingFormTabs (focusChange) = "focusChanged(brainstormingFormTabs.selectedIndex)" [selectedIndex] = "selectedIndex()" (selectChange) = "selectedChanged(brainstormingFormTabs.selectedIndex)">
+                <md-tab [disabled]="isDisabled(0)">
+                    <template md-tab-label>{{getTitle(0)}}</template>
+                    <template md-tab-content>
+                        <md-content class="md-padding">
+                          <div layout="row">
+                            <span>Question</span><span class="node">How we solve the problem of the hungry ones?{{brainstorming.question?.name}}</span>
+                          </div>
+
+                        </md-content>
+                    </template>
+                </md-tab>
+
+                <md-tab ng-disabled="true" [ng-disabled]="true" disabled="true" [disabled]="true">
+                    <template md-tab-label>{{getTitle(1)}}</template>
+                    <template md-tab-content>
+                        <md-content class="md-padding">
+
+                        </md-content>
+                    </template>
+                </md-tab>
+
+                <md-tab [disabled]="isDisabled(2)">
+                    <template md-tab-label>{{getTitle(2)}}</template>
+                    <template md-tab-content>
+                        <md-content class="md-padding">
+
+                        </md-content>
+                    </template>
+                </md-tab>
+
+                <md-tab [disabled]="isDisabled(3)">
+                    <template md-tab-label>{{getTitle(3)}}</template>
+                    <template md-tab-content>
+                        <md-content class="md-padding">
+
+                        </md-content>
+                    </template>
+                </md-tab>
+
+                <md-tab [disabled]="isDisabled(4)">
+                    <template md-tab-label>{{getTitle(4)}}</template>
+                    <template md-tab-content>
+                        <md-content class="md-padding">
+                          <h1>Congratulations! Brainstorming finished!</h1>
+                        </md-content>
+                    </template>
+                </md-tab>
+            </md-tab-group>
+
+              <!--
+
+              <md-input placeholder="Name" [(ngModel)]="model.name" class="form-control" required name="name" #spy #name="ngModel"></md-input>
               <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                Name is required
              </div> -->
-              <md-input placeholder="Name" [(ngModel)]="model.name" name="name" required #spy #name="ngModel"></md-input>
+              <!-- <md-input placeholder="Name" [(ngModel)]="model.name" name="name" required #spy #name="ngModel"></md-input>
                 <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                  Name is required
                </div>
@@ -21,6 +74,9 @@
               <md-input placeholder="Parent brainstorming ID" [(ngModel)]="model.parentbrainstormingId" name="parentbrainstormingId"></md-input>
               <md-input placeholder="brainstorming Version" [(ngModel)]="model.version" name="version"></md-input>
               <md-switch [(checked)]="model.isPublic" aria-label="public">public</md-switch>
+
+            -->
+
               <!-- <label for="name">Name</label>
               <md-input type="text" class="form-control" required
                 [(ngModel)]="model.name"
@@ -46,7 +102,9 @@
             <div layout="row">
               <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
               <button md-button type="button" (click)="close(false)">Cancel</button>
-              <button md-button type="submit" [disabled]="!brainstormingForm.form.valid">Create</button>
+              <!-- <button md-button type="button" (click)="nextPhase()">Next Phase</button> -->
+              <span *ngIf="showStartPhase(brainstormingFormTabs.selectedIndex)"><button md-button type="submit" [disabled]="!brainstormingForm.form.valid">Start This Phase</button></span>
+              <button md-button type="button" (click)="restart()">Start New Brainstorming</button>
               <!-- <button md-button class="md-primary" (click)="brainstormingDialog.close(true)">
                   <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
               </button> -->

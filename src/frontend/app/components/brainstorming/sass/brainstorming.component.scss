@@ -1,0 +1,29 @@
+@import "../../../sass/include";
+
+// .brainstorming{
+  .user{
+    font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      background-color: LightBlue;
+    }
+  }
+
+  .node{
+    font-weight: bold;
+    border: solid gray 1px;
+    border-radius: 3px;
+    padding: 2px;
+    margin: 2px;
+    .existing{
+      cursor: pointer;
+      &:hover {
+        background-color: LightBlue;
+      }
+    }
+    .non-existing{
+      cursor: not-allowed;
+      color: DarkGray;
+    }
+  }
+// }

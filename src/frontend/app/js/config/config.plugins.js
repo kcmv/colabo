@@ -43,13 +43,14 @@ project.subProjects.KNALLEDGE.COMPILATION = {
         PATHS: {
             '': { destDir: APP_SRC, cssDir: 'css' },
             'components/collaboPlugins': { destDir: APP_SRC, cssDir: 'css' },
-			'components/change': { destDir: APP_SRC, cssDir: 'css' },
+						'components/change': { destDir: APP_SRC, cssDir: 'css' },
             'components/knalledgeMap': { destDir: APP_SRC, cssDir: 'css' },
             'components/login': { destDir: APP_SRC, cssDir: 'css' },
             'components/notify': { destDir: APP_SRC, cssDir: 'css' },
             'components/gardening': { destDir: APP_SRC, cssDir: 'css' },
             'components/ontov': { destDir: APP_SRC, cssDir: 'css' },
             'components/rima': { destDir: APP_SRC, cssDir: 'css' },
+						'components/brainstorming': { destDir: APP_SRC, cssDir: 'css' },
             'components/topiChat': { destDir: APP_SRC, cssDir: 'css' },
             'components/mapsList': { destDir: APP_SRC, cssDir: 'css' },
             'components/suggestion': { destDir: APP_SRC, cssDir: 'css' }
@@ -133,7 +134,7 @@ var plugins = {
 		brainstorming: {
 			path: [APP_SRC_STR, 'components/brainstorming'],
 			injectJs: [],
-			injectCss: null
+			injectCss: 'css/brainstorming.component.css'
 		},
 		change: {
 			path: [APP_SRC_STR, 'components/change'],

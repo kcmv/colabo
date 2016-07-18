@@ -15,6 +15,8 @@ import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {BrainstormingFormComponent} from '../brainstorming/brainstorming-form.component';
+import {BrainstormingService} from '../brainstorming/brainstorming.service';
 
 // import {DbAuditService} from './dbAudit.service';
 // import {Change} from '../change/change';
@@ -63,7 +65,8 @@ var componentDirectives = [
     //  upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
 //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
-    KnalledgeMapTools
+    KnalledgeMapTools,
+    BrainstormingFormComponent
 ];
 
 declare var Config: any;
@@ -91,6 +94,7 @@ if (Config.Plugins.puzzles.ontov.active) {
         // provideRouter
         // RequestService
         // ROUTER_PROVIDERS
+        BrainstormingService
     ],
     directives: componentDirectives,
     // necessary for having relative paths for templateUrl
