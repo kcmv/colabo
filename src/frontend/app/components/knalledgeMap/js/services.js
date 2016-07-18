@@ -2574,7 +2574,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 		}
 
 		var provider = {
-			EVENT_NAME_REQUEST : 'EVENT_NAME_REQUEST',
+			REQUEST_EVENT : 'REQUEST_EVENT',
 			EVENT_NAME_PARTICIPANT_REPLICA : 'PARTICIPANT_REPLICA_REQUEST',
 			GlobalEmitterServicesArray: null,
 			sessionId: null,
@@ -2670,13 +2670,14 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 							break;
 
 						case "map-behaviour-change":
+						case puzzles.changes.Event.BRAINSTORMING_CHANGED:
 							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveBehaviours;
 					}
 					return true;
 				}
 				else{ //direction = 'out'
 					switch(eventName){
-						case this.EVENT_NAME_REQUEST:
+						case this.REQUEST_EVENT:
 							return KnalledgeMapPolicyService.provider.config.mediation.sendRequest;
 						break;
 					}

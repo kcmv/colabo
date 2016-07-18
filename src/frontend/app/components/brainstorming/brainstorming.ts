@@ -49,31 +49,26 @@ export const State:any = {
 export class Brainstorming {
 	public static MaxId: number = 0;
 
+/* PROPERTIES */
 	public id: number;
-	public value: any;
-	public question: knalledge.KNode;
-	public valueBeforeBrainstorming: any;
-	public reference: any; //it is id or an reference to the object over which the brainstorming is done//
-	//(depending in which layer we are) to a brainstorming or other object regarding which participant has a request
-	public type: number; //TODO: brainstorming type to `BrainstormingType` when it is brainstormingd back to enum;
-	//coressponding to enum `Type`
-	public event: any; //event is on higher level; may be String or enum number
-	public action: any; //action is on lower level, depicting the brainstorming event; may be String or enum number
-	public domain: number; //object type the brainstorming is done on; corresponding to enum Domain
-	public mapId: string; // id of map this object belongs to
-	public iAmId: any;	// it is iAmId or an reference to the user who owns the object (activeUser)
-	public sender: any;	// it is iAmId or an reference to the user who sent the brainstorming (loggedInUser) - may be same to .iAmId
-	//(depending in which layer we are) to the object creator (whoAmi/RIMA user)
-	public visibility: number; //coressponding to enum `Visibility`
+	public createPrivateIdeas: boolean = true; //create private ideas at the 1st phase
+	//allow only addition of ideas to the brainstorming question node - no free knowlegdge gardening:
+	public onlyIdeasToQuestion: boolean = true;
+	public allowArgumentsToIdeas: boolean = false; //allow adding arguments to ideas
+	public currentPhaseTimeLeft: number;
+	public currentPhaseTimeSpent: number;
+	public question: knalledge.KNode = null;
+	public phase: number = BrainstormingPhase.INACTIVE;
+
 	public createdAt: any; //when the object is created
 	public updatedAt: any; //when the obect is updated
 	// public dataContent: Object;
 	// public decorations: Object;
-	public phase: number; //local - coressponding to enum `Phase`
-	public sessionId: string = null;
 
 	/* THIS PROPERTY IS local-to-frontend */
 	public state: number = State.LOCAL; //state of the object, responding to some of the enum STATE
+/* PROPERTIES - END */
+
 
 	public static factory (obj){
 		var brainstorming = new Brainstorming();
@@ -83,20 +78,6 @@ export class Brainstorming {
 
 	constructor(){
 		this.id = Brainstorming.MaxId++;
-		this.value = null;
-		this.valueBeforeBrainstorming = null;
-		this.reference = null;
-		// this.type = BrainstormingType.UNDEFINED;
-		this.event = null;
-		this.action = null;
-		// this.domain = Domain.UNDEFINED;
-		this.mapId = null;
-		this.iAmId = null;
-		this.sender = null;
-		// this.visibility = BrainstormingVisibility.ALL;
-		// this.createdAt = new Date();
-		// this.updatedAt = new Date();
-		this.phase = BrainstormingPhase.INACTIVE;
 	}
 
 	nextPhase(){
@@ -127,21 +108,16 @@ export class Brainstorming {
 	public fill(obj){
 		if(obj){
 			if("id" in obj){this.id = obj.id;}
-			if("value" in obj){this.value = obj.value;}
-			if("valueBeforeBrainstorming" in obj){this.valueBeforeBrainstorming = obj.valueBeforeBrainstorming;}
-			if("reference" in obj){this.reference = obj.reference;}
-			if("type" in obj){this.type = obj.type;}
-			if("event" in obj){this.event = obj.event;}
-			if("action" in obj){this.action = obj.action;}
-			if("domain" in obj){this.domain = obj.domain;}
-			if("mapId" in obj){this.mapId = obj.mapId;}
-			if("iAmId" in obj){this.iAmId = obj.iAmId;}
-			if("sender" in obj){this.sender = obj.sender;}
-			if("visibility" in obj){this.visibility = obj.visibility;}
+			if("createPrivateIdeas" in obj){this.createPrivateIdeas = obj.createPrivateIdeas;}
+			if("onlyIdeasToQuestion" in obj){this.onlyIdeasToQuestion = obj.onlyIdeasToQuestion;}
+			if("allowArgumentsToIdeas" in obj){this.allowArgumentsToIdeas = obj.allowArgumentsToIdeas;}
+			if("currentPhaseTimeLeft" in obj){this.currentPhaseTimeLeft = obj.currentPhaseTimeLeft;}
+			if("currentPhaseTimeSpent" in obj){this.currentPhaseTimeSpent = obj.currentPhaseTimeSpent;}
+			if("question" in obj){this.question = obj.question;}
+			if("phase" in obj){this.phase = obj.phase;}
 			if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
 			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
-			if("phase" in obj){this.phase = obj.phase;}
-			if("sessionId" in obj){this.sessionId = obj.sessionId;}
+			if("state" in obj){this.state = obj.state;}
 		}
 	};
 
@@ -190,14 +166,16 @@ export class Brainstorming {
 
 		/* deleting local-frontend parameters */
 		delete brainstorming.state;
-		delete brainstorming.phase;
+		//delete brainstorming.phase;
 
 		return brainstorming;
 	}
 }
 
+//FOR USAGE IN OLD-JS parts:
 if (typeof puzzles.brainstormings !== 'undefined'){
 	puzzles.brainstormings.BrainstormingPhase = BrainstormingPhase;
 	puzzles.brainstormings.State = State;
 	puzzles.brainstormings.Brainstorming = Brainstorming;
+	puzzles.brainstormings.BrainstormingPhaseNames = BrainstormingPhaseNames;
 }

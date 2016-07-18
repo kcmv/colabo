@@ -12,6 +12,7 @@ _**Nominal Group Technique**_
 ## Phases
 
 1. `%IBIS% : Question` to be brainstormed about is created by moderator
+    + moderator must be in 'Presenter'-mode to broadcast Brainstorming start / phases changes
 1. **Silent generation of ideas**
     + Each participant creates as much as possible `%IBIS% : Idea`-s that come to his mind when considering the question.
     + All ideas are **private** at this phase.
@@ -35,7 +36,7 @@ _**Nominal Group Technique**_
     + This involves **prioritizing** the recorded ideas in relation to the original question.
     + Following the voting and ranking process, immediate results in the response to the question is available to participants so the meeting concludes having reached a specific outcome.
     + Voting can be done by **secret ballot**
-    
+
 ## NGT in Details
 
 + As compared to interacting groups the NGT groups provide more unique ideas, more balanced participation between group members, increased feelings of accomplishment, and greater satisfaction with idea quality and group efficiency

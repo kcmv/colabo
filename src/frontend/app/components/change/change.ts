@@ -15,7 +15,8 @@ export const ChangeType:any = {
 	UNDEFINED:0,
 	STRUCTURAL:1,
 	NAVIGATIONAL:2,
-	VIEW:3
+	VIEW:3,
+	BEHAVIORAL:4
 };
 
 export const ChangePhase:any = {
@@ -31,7 +32,8 @@ export const Domain:any = {
 	NODE:3,
 	HOW_AM_I:4,
 	WHAT_AM_I:5,
-	WHO_AM_I:6
+	WHO_AM_I:6,
+	GLOBAL:7
 };
 
 export const State:any = {
@@ -45,7 +47,9 @@ export const Event:any = {
 	NODE_SELECTED: "node-selected",
 	NODE_UPDATED: "node-updated",
 	NODE_DELETED: "node-deleted",
-	EDGE_UPDATED: "edge-updated"
+	EDGE_UPDATED: "edge-updated",
+	REQUEST_EVENT: "REQUEST_EVENT",
+	BRAINSTORMING_CHANGED: "BRAINSTORMING_CHANGED"
 };
 
 export const Actions:any = {
@@ -55,7 +59,8 @@ export const Actions:any = {
 	UPDATE_NODE_CREATOR: "UPDATE_NODE_CREATOR",
 	UPDATE_NODE_NAME: "UPDATE_NODE_NAME",
 	UPDATE_NODE_TYPE_VOTE: "UPDATE_NODE_TYPE_VOTE",
-	UPDATE_NODE_TYPE: "UPDATE_NODE_TYPE"
+	UPDATE_NODE_TYPE: "UPDATE_NODE_TYPE",
+	//REQUEST_SPECIFIC: "REQUEST_SPECIFIC",
 };
 
 
@@ -239,4 +244,5 @@ if (typeof puzzles.changes !== 'undefined'){
 	puzzles.changes.Domain = Domain;
 	puzzles.changes.State = State;
 	puzzles.changes.Change = Change;
+	puzzles.changes.Event = Event;
 }

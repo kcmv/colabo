@@ -33,7 +33,7 @@ export interface ITabData {
 })
 export class BrainstormingFormComponent {
   public brainstormingFormActive = true;
-  model;// = new knalledge.KMap();
+  //model = new knalledge.KMap();
   setUpBroadcastingRequest: string = "setUpBroadcastingRequest";
   public brainstorming: Brainstorming;
   public readyForNewPhase:boolean = true;
@@ -72,13 +72,20 @@ export class BrainstormingFormComponent {
     return this.tabData[tabIndex].title;
   }
 
-  onSubmit() {
+  onSubmit(selectedIndex: number) {
     console.log('[onSubmit]');
+    this.changePhase(selectedIndex+1);
     this.mdDialog.close();
     this.readyForNewPhase = true;
+    this.brainstormingService.sendBrainstorming(this.brainstormingSent.bind(this));
   }
-  // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.model); }
+
+  public changePhase(phase){
+    this.brainstorming.phase = phase;
+  }
+
+
+  get diagnostic() { return JSON.stringify(this.brainstorming); }
 
   // get debugging(){
   //   return
@@ -100,12 +107,14 @@ export class BrainstormingFormComponent {
   }
 
   restart(): void {
-    this.brainstorming = new Brainstorming();
-    // this.brainstorming.nextPhase();
-    // this.readyForNewPhase = false;
-    this.readyForNewPhase = true;
-    //this.close(false);
-    this.show();
+    if(confirm('Are you sure?')){
+      this.brainstorming = new Brainstorming();
+      // this.brainstorming.nextPhase();
+      // this.readyForNewPhase = false;
+      this.readyForNewPhase = true;
+      //this.close(false);
+      this.show();
+    }
   }
 
   selectedIndex(): number {
@@ -134,5 +143,9 @@ export class BrainstormingFormComponent {
   close(confirm:boolean = false){
     console.log("[BrainstormingFormComponent].close:",confirm);
     this.mdDialog.close();
+  }
+
+  private brainstormingSent(result:boolean, error?: any): void {
+    console.log("[brainstormingSent]",result,error);
   }
 }

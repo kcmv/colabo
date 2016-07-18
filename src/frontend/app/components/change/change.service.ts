@@ -67,7 +67,7 @@ export class ChangeService {
       //   events: {
       //   }
       // };
-      // changePluginOptions.events[this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST] = this.receivedChange.bind(this);
+      // changePluginOptions.events[this.knAllEdgeRealTimeService.REQUEST_EVENT] = this.receivedChange.bind(this);
       // this.knAllEdgeRealTimeService.registerPlugin(changePluginOptions);
 
       // this.getMockupChanges();

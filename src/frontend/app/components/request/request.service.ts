@@ -75,7 +75,7 @@ export class RequestService {
         }
     };
 
-    //private static EVENT_NAME_REQUEST: string = 'EVENT_NAME_REQUEST';
+    //private static REQUEST_EVENT: string = 'REQUEST_EVENT';
     private rimaService: any;
     private knalledgeMapVOsService: any;
     private knAllEdgeRealTimeService: any;
@@ -108,7 +108,7 @@ export class RequestService {
             events: {
             }
         };
-        requestPluginOptions.events[this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST] = this.receivedRequest.bind(this);
+        requestPluginOptions.events[this.knAllEdgeRealTimeService.REQUEST_EVENT] = this.receivedRequest.bind(this);
         this.knAllEdgeRealTimeService.registerPlugin(requestPluginOptions);
 
         //this.getMockupRequests();
@@ -145,7 +145,7 @@ export class RequestService {
         console.log(request);
 
         if (this.knAllEdgeRealTimeService) {
-            this.knAllEdgeRealTimeService.emit(this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST, request);
+            this.knAllEdgeRealTimeService.emit(this.knAllEdgeRealTimeService.REQUEST_EVENT, request);
             callback(true);
         } else {
             callback(false, 'SERVICE_UNAVAILABLE');
@@ -233,7 +233,7 @@ export class RequestService {
       console.log(request);
 
       if (this.knAllEdgeRealTimeService) {
-          this.knAllEdgeRealTimeService.emit(this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST, request);
+          this.knAllEdgeRealTimeService.emit(this.knAllEdgeRealTimeService.REQUEST_EVENT, request);
           callback(true);
       } else {
           callback(false, 'SERVICE_UNAVAILABLE');

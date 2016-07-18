@@ -38,7 +38,7 @@ export class SuggestionService {
       //   events: {
       //   }
       // };
-      // suggestionPluginOptions.events[this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST] = this.receivedSuggestion.bind(this);
+      // suggestionPluginOptions.events[this.knAllEdgeRealTimeService.REQUEST_EVENT] = this.receivedSuggestion.bind(this);
       // this.knAllEdgeRealTimeService.registerPlugin(suggestionPluginOptions);
 
       this.getMockupSuggestions();
@@ -138,7 +138,7 @@ export class SuggestionService {
   //   console.log(suggestion);
   //
   //   if(this.knAllEdgeRealTimeService){
-  //     this.knAllEdgeRealTimeService.emit(this.knAllEdgeRealTimeService.EVENT_NAME_REQUEST, suggestion);
+  //     this.knAllEdgeRealTimeService.emit(this.knAllEdgeRealTimeService.REQUEST_EVENT, suggestion);
   //     callback(true);
   //   } else {
   //     callback(false, 'SERVICE_UNAVAILABLE');

@@ -2,7 +2,7 @@
     <md-dialog #brainstormingFormDialog class="brainstormingFormDialog">
         <md-dialog-title>Brainstorming</md-dialog-title>
         <div class="md-inline-form">
-          <form *ngIf="brainstormingFormActive" (ngSubmit)="onSubmit()" #brainstormingForm="ngForm" layout="column" class="inline-form">
+          <form *ngIf="brainstormingFormActive" (ngSubmit)="onSubmit(brainstormingFormTabs.selectedIndex)" #brainstormingForm="ngForm" layout="column" class="inline-form">
             <!-- {{brainstormingForm.valid}}<br/>
             {{brainstormingForm.form.valid}}<br/> -->
             <!-- {{JSON.stringify(brainstormingForm)}}<br/>
@@ -14,8 +14,11 @@
                     <template md-tab-label>{{getTitle(0)}}</template>
                     <template md-tab-content>
                         <md-content class="md-padding">
-                          <div layout="row">
-                            <span>Question</span><span class="node">How we solve the problem of the hungry ones?{{brainstorming.question?.name}}</span>
+                          <div layout="column">
+                            <div><span>Question</span><span class="node">How we solve the problem of the hungry ones?{{brainstorming.question?.name}}</span></div>
+                            <md-switch [(checked)]="brainstorming.createPrivateIdeas" aria-label="create private ideas">create private ideas</md-switch>
+                            <md-switch [(checked)]="brainstorming.onlyIdeasToQuestion" aria-label="allow only addition of ideas to the brainstorming question node - no free knowlegdge gardening">allow only addition of ideas to the brainstorming question node - no free knowlegdge gardening</md-switch>
+                            <md-switch [hidden]="!brainstorming.onlyIdeasToQuestion" [(checked)]="brainstorming.allowArgumentsToIdeas" aria-label="allow adding arguments to ideas">allow adding arguments to ideas</md-switch>
                           </div>
 
                         </md-content>
@@ -26,7 +29,7 @@
                     <template md-tab-label>{{getTitle(1)}}</template>
                     <template md-tab-content>
                         <md-content class="md-padding">
-
+                          <div>Presenter</div>
                         </md-content>
                     </template>
                 </md-tab>
@@ -103,7 +106,7 @@
               <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
               <button md-button type="button" (click)="close(false)">Cancel</button>
               <!-- <button md-button type="button" (click)="nextPhase()">Next Phase</button> -->
-              <span *ngIf="showStartPhase(brainstormingFormTabs.selectedIndex)"><button md-button type="submit" [disabled]="!brainstormingForm.form.valid">Start This Phase</button></span>
+              <span *ngIf="showStartPhase(brainstormingFormTabs.selectedIndex)"><button md-button type="submit" [disabled]="!brainstormingForm.form.valid"><span *ngIf="brainstormingFormTabs.selectedIndex + 1 < brainstorming.phase">Restart This Phase</span><span *ngIf="brainstormingFormTabs.selectedIndex + 1 >= brainstorming.phase">Start This Phase</span></button></span>
               <button md-button type="button" (click)="restart()">Start New Brainstorming</button>
               <!-- <button md-button class="md-primary" (click)="brainstormingDialog.close(true)">
                   <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
