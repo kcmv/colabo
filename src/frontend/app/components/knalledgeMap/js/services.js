@@ -1724,7 +1724,7 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 			},
 
 			mapDuplicate: function(map, mapNewName, callback){
-				console.log('duplicateMap');
+				console.log('mapDuplicate');
 				var mapDuplicated = function(map,result2){
 					map.createdAt = new Date(map.createdAt);
 					map.updatedAt = new Date(map.updatedAt);
@@ -1732,6 +1732,15 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 					if(callback){callback(map);}
 				}
 				KnalledgeMapService.duplicate(map._id, mapNewName, mapDuplicated);
+			},
+
+			mapExport: function(mapId, callback){
+				console.log('mapExport');
+				var mapExported = function(map,result){
+					console.log('[mapExport]; map: ', map,', result: ', result);
+					if(callback){callback(map);}
+				}
+				KnalledgeMapService.export(mapId, mapExported);
 			}
 		};
 
@@ -2053,6 +2062,13 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 		//return this.createPlain({}, {mapId:mapId,newName:newName, type:'duplicate'}, callback);
 		return this.updatePlain({type:'duplicate',searchParam:mapId}, {newMapName:newName}, callback);
 		//return this.createPlain({searchParam:mapId, searchParam2:newName, type:'duplicate'}, callback);
+	};
+
+	resource.export = function(mapId, callback)
+	{
+		//return this.createPlain({}, {mapId:mapId,newName:newName, type:'export'}, callback);
+		return this.updatePlain({type:'export', searchParam:mapId}, {}, callback);
+		//return this.createPlain({searchParam:mapId, searchParam2:newName, type:'export'}, callback);
 	};
 
 	resource.execute = function(request){ //example:: request = {data: kMap, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
