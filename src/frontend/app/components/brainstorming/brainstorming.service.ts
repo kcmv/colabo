@@ -4,6 +4,8 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 import {Brainstorming} from './brainstorming';
 import {Change, ChangeType, Domain, Event} from '../change/change';
 
+declare var knalledge;
+
 @Injectable()
 export class BrainstormingService {
     brainstorming: Brainstorming = new Brainstorming();
@@ -92,12 +94,13 @@ export class BrainstormingService {
         this.collaboPluginsService.registerPlugin(this.brainstormingPluginInfo);
     }
 
-    isSelectedNodeIbisQuestion(): boolean {
-        if (!this.brainstormingPluginInfo.references.map.$resolved) return false;
+    checkAndSetupQuestion(): boolean {
+      if (!this.brainstormingPluginInfo.references.map.$resolved) return false;
 
-        var vkNode = this.brainstormingPluginInfo.references.map.items.mapStructure.getSelectedNode();
-        if(!vkNode) return false;
-        return (vkNode.kNode.type === 'type_ibis_question');
+      var node = this.brainstormingPluginInfo.references.map.items.mapStructure.getSelectedNode();
+      if(!node) {return false;}
+      this.brainstorming.question = node.kNode;
+      return (this.brainstorming.question.type === knalledge.KNode.TYPE_IBIS_QUESTION);
     }
 
     sendBrainstorming(callback: Function) {

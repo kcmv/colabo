@@ -94,7 +94,7 @@ export class BrainstormingFormComponent {
 
     show() {
         console.log("[BrainstormingFormComponent].show");
-        if(!this.brainstormingService.isSelectedNodeIbisQuestion()){
+        if(!this.brainstormingService.checkAndSetupQuestion()){
             window.alert("Either node is not selected or it is not of type IBIS question.");
             return;
         }
