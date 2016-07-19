@@ -453,7 +453,15 @@ export class MapsList implements OnInit{
   }
 
   private mapExported(map:any){
+    //http://blog.neilni.com/2016/04/23/download-file-in-angular-js/
     console.log("[mapExported] ", map);
+    var data:String = JSON.stringify(map, null, 1);
+    var url = URL.createObjectURL(new Blob([data]));
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = map.map.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.json';
+    a.target = '_blank';
+    a.click();
   }
 
   /* *** TOOLBAR - END **** */
