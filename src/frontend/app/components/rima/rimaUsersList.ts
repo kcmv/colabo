@@ -156,7 +156,7 @@ export class RimaUsersList implements OnInit{
 
         if(this.viewConfig.states.editingNode){
           this.globalEmitterServicesArray.get(this.knalledgeNodeCreatorChanged)
-          .broadcast('IbisTypesList',{node:this.viewConfig.states.editingNode,creator:item._id});
+          .broadcast('RimaUsersList',{node:this.viewConfig.states.editingNode,creator:item._id});
           //, this.selectedItem
         }
       }

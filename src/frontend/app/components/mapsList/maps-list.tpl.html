@@ -25,7 +25,7 @@
             <span>
               <button (click)="mapFormShowForCreation()" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary button_icon" aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-square" aria-hidden="true"></i></button>
               <!-- <button (click)="prepareCreating(); mapDialog.show()" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary button_icon" aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-square" aria-hidden="true"></i></button> -->
-              <button (click)="null" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary button_icon last" aria-label="Import Map" type="button"><i title="Import Map" class="fa fa-upload" aria-hidden="true"></i></button>
+              <button (click)="importMapFormShow()" *ngIf="!modeCreating && !modeEditing" class="btn btn-primary button_icon last" aria-label="Import Map" type="button"><i title="Import Map" class="fa fa-upload" aria-hidden="true"></i></button>
             </span>
         </div>
         <!-- TODO: maybe show these long textual buttons in wider mode
@@ -145,4 +145,5 @@
   </md-dialog>
 
   <map-form #mapFormComponent></map-form>
+  <import-map-form #importMapFormComponent></import-map-form>
 </div>

@@ -314,6 +314,7 @@ const NPM_DEPENDENCIES: IDependency[] = [
     { src: join(APP_SRC, 'js/lib/textAngular/textAngular-sanitize.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/textAngular/textAngular.min.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/wizard/ngWizard.js'), inject: 'libs', noNorm: true },
+    // { src: join(APP_SRC, 'js/lib/ng2-file-upload/ng2-file-upload.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/socket.io/angular.socket.io.js'), inject: 'libs', noNorm: true },
 
     { src: 'rxjs/bundles/Rx.js', inject: 'libs' },

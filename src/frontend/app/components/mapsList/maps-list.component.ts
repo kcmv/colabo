@@ -17,6 +17,7 @@ import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 import {MapFormComponent} from './map-form.component';
+import {ImportMapFormComponent} from './import-map-form.component';
 
 // import {ViewChild, ViewChildren} from '@angular/core';
 // import {Media, MdContent, MdButton} from 'ng2-material';
@@ -84,7 +85,8 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
         // FORM_DIRECTIVES,
         // MdContent, MdButton,
         //   LoginStatusComponent,
-        MapFormComponent
+        MapFormComponent,
+        ImportMapFormComponent
     ]
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
@@ -114,7 +116,9 @@ export class MapsList implements OnInit{
   private knalledgeMapService;
   private knalledgeMapVOsService;
 
-  @ViewChild(MapFormComponent) private mapFormComponent:MapFormComponent;
+  @ViewChild("mapFormComponent") private mapFormComponent:MapFormComponent;
+  @ViewChild("importMapFormComponent") private importMapFormComponent:ImportMapFormComponent;
+
 
   constructor(
       //private router: Router,
@@ -182,6 +186,15 @@ export class MapsList implements OnInit{
 		//this.mapToCreate.participants = this.rimaService.getActiveUser().displayName;
 		this.modeCreating = true;
     this.mapFormShow(this.mapToCreate);
+  }
+
+  importMapFormShow(){
+    console.log("[importMapFormShow]");
+		// this.mapToCreate = new knalledge.KMap();
+		// this.mapToCreate.participants = this.rimaService.getActiveUserId();
+		// //this.mapToCreate.participants = this.rimaService.getActiveUser().displayName;
+		this.modeCreating = true;
+    this.importMapFormComponent.show(this.importMapFormClosed.bind(this));
   }
 
   formatDateTime(date){
@@ -450,6 +463,11 @@ export class MapsList implements OnInit{
   private mapFormShow(map){
     console.log("[mapFormShow]", map);
     this.mapFormComponent.show(map, this.mapFormClosed.bind(this));
+  }
+
+  private importMapFormClosed(submitted:boolean){
+    console.log("[importMapFormClosed]");
+    this.modeEditing = this.modeCreating = false;
   }
 
   private mapExported(map:any){

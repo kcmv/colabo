@@ -20,6 +20,16 @@ h1 {
   padding-bottom: 5px;
   border-bottom: solid gray 2px; }
 
+.my-drop-zone {
+  border: dotted 3px lightgray; }
+
+.nv-file-over {
+  border: dotted 3px red; }
+
+/* Default class applied to drop zones on over */
+.another-file-over-class {
+  border: dotted 3px green; }
+
 .map-title {
   color: #00a596;
   font-weight: bolder;

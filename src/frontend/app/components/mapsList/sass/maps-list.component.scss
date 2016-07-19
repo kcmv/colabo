@@ -29,6 +29,13 @@ $toolbar_height: 60px;
 // 	width: 98%;
 // 	flex-basis: 0;
 // }
+//
+
+.my-drop-zone { border: dotted 3px lightgray; }
+.nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+.another-file-over-class { border: dotted 3px green; }
+
+
 
 .map-title{
 	color: lighten($toolbar_bg_color, 3%);
