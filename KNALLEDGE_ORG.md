@@ -98,7 +98,7 @@ KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: *
 + Support relationship between entities
 	+ TopicMap's support generalization
 
-## Semantical sugger
+## Semantical suggar
 
 + TopicMap's support specialized semantic
 + some standards provide as well
