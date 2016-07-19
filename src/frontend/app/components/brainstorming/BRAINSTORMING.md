@@ -17,26 +17,35 @@ _**Nominal Group Technique**_
   + moderator has to have turned on **Presenter-mode**
   + moderator clicks on Tool/Brainstorming button
   + sets up new Brainstorming through the form
+
 1. **Silent generation of ideas**
     + Each participant creates as much as possible `%IBIS% : Idea`-s that come to his mind when considering the question.
     + All ideas are **private** at this phase.
     + This phase lasts approximately _10 minutes_.
     + _**Notes. Open?**_
       + Active user or Logged In?
+          + **@mprinc:** not sure for whom is this and what scenario, but best to not hardcode and leave default
       + should we, after user creates an idea, select back the `%IBIS% : Question` for him?
+          + **@mprinc:** no. if user creates through map, she is experienced and no need to intervene, and she might want to add argument, ... on created idea, if user creates through map, then still i would like to keep us in the idea-context and provide maybe buttons: 1) create new idea, 2) provide argument for current idea, 3) ...
       + should we forbid creation of nodes anywhere else but as children of the `%IBIS% : Question`? Or we should allow them to explain their ideas by adding `%IBIS% : Argument` to them? Or should they explain them through Node.property/data-content? Maybe we could allow everything but warn them that it is not direct part of brainstorming what they are doing (i.e. they want to their own notes as some nodes elsewhere, etc)
+          + **@mprinc:** I wouldn't forbid, maybe warning, but they are either expert (map) or guided (brainstorming dialogue)
       + should we preset their nodes to be of type `%IBIS% : Idea`? and forbid changing node types? by hiding IBISTypesList? Or should users switch to %IBIS% Idea by themselves?
+          + **@mprinc:** preseting is ok, hiding not that much, i would rather focus on semantic-grammars that is preset for that brainstorming-moment  or a node
       + what about "follow presenter" button?
+          + **@mprinc:** not sure what is problem here?
       + should we and How limit display of nodes to Question and ideas? By 'limit range' (it is broadcasted)?
+          + **@mprinc:** i would only limit to the question subtree (ontov already supports that, but based on node name, so if there are two nodes with same name, both will be visible), and make it possible to show whole map with switch
       + maybe participant can also have **Broadcasting button**, that leads to the **Broadcasting panel** with:
+        + **@mprinc:** this is already decided upon, right?
         + button for selecting back the `%IBIS% : Question` if we are lost by navigating through the map while brainstorming
         + switch: 'showing only question and ideas' vs 'showing all the map'
         + maybe: button 'Add new idea' (especially useful phase 2)
         + what else? ...
       + should we forbid?
         + voting (at least of the brainstorming ideas)
+            + **@mprinc:** surely nice to support, but not now, if we TELL them not to, it will be fine :), especially because they will not know about it BEFORE we tell them :) We need to focus to user experience and comfort (guidance) now, and not on constraints.
         + filtering: show Ibis -> off
-        +
+            + **@mprinc:** precise your concerns here?
     + **Current procedure**
       + we only see OUR children of the `%IBIS% : Question` (that we have provided through current state and decoration of nodes)
       + Brainstorming can be created only by a moderator
