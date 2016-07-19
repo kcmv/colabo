@@ -141,6 +141,17 @@ export class Brainstorming {
 			if(id[0] === '$') continue;
 			if(id === 'parents') continue;
 			if(id === 'children') continue;
+			if(id === 'children') continue;
+			if(id === 'question'){
+				if(typeof this['question'] !== 'string'){
+					if(this['question'] instanceof knalledge.KNode){
+						brainstorming['question'] = this['question']._id;
+					}else{
+						brainstorming['question'] = this['question'].kNode._id; //VKNode
+					}
+				}
+				continue;
+			}
 			if (typeof this[id] === 'function') continue;
 			//console.log("cloning: %s", id);
 			if(this[id] !== undefined){ //JSON.parse breaks at "undefined"
@@ -154,14 +165,6 @@ export class Brainstorming {
 
 		if(brainstorming.state === State.LOCAL){
 			delete brainstorming._id;
-		}
-
-		//TODO: check this:
-		if(typeof brainstorming['iAmId'] !== 'string'){
-			brainstorming['iAmId'] = brainstorming['iAmId']._id;
-		}
-		if(typeof brainstorming['reference'] !== 'string'){
-			brainstorming['reference'] = brainstorming['reference']._id;
 		}
 
 		/* deleting local-frontend parameters */

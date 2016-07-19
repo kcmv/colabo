@@ -99,8 +99,8 @@ export class BrainstormingService {
 
       var node = this.brainstormingPluginInfo.references.map.items.mapStructure.getSelectedNode();
       if(!node) {return false;}
-      this.brainstorming.question = node.kNode;
-      return (this.brainstorming.question.type === knalledge.KNode.TYPE_IBIS_QUESTION);
+      this.brainstorming.question = node;
+      return (this.brainstorming.question.kNode.type === knalledge.KNode.TYPE_IBIS_QUESTION);
     }
 
     sendBrainstorming(callback: Function) {
@@ -111,8 +111,8 @@ export class BrainstormingService {
 
         if (this.knAllEdgeRealTimeService) {
             let change = new Change();
-            change.value = this.brainstorming;
-            change.reference = this.brainstorming.question;
+            change.value = this.brainstorming.toServerCopy();
+            change.reference = this.brainstorming.question.kNode._id;
             change.type = ChangeType.BEHAVIORAL;
             change.domain = Domain.GLOBAL;
             change.event = Event.BRAINSTORMING_CHANGED;
@@ -123,10 +123,22 @@ export class BrainstormingService {
         }
     }
 
+    private processReferencesInBrainStorming(brainstorming:Brainstorming): Brainstorming{
+      if(typeof brainstorming.question === 'string'){
+        brainstorming.question = this.brainstormingPluginInfo.references.map.items.mapStructure.getVKNodeByKId(brainstorming.question);
+      }
+      return brainstorming;
+    }
+
     private receivedBrainstormingChange(event: string, change: Change) {
         let receivedBrainstorming: Brainstorming = Brainstorming.factory(change.value);
         console.warn("[receivedBrainstormingChange]receivedBrainstorming: ", receivedBrainstorming);
-
+        this.brainstorming = receivedBrainstorming;
+        if(this.brainstorming.question && this.brainstormingPluginInfo.references.map.$resolved){
+          this.brainstorming = this.processReferencesInBrainStorming(this.brainstorming);
+          this.brainstormingPluginInfo.references.map.items.mapStructure.setSelectedNode(this.brainstorming.question);
+          this.brainstormingPluginInfo.apis.map.items.update();
+        }
         // how it was earlier in knalledgeMap/directives.js (TO REMOVE FROM THERE AND FROM OTHER PLACES OLD LOGICS)
         // var realTimeBehaviourChanged = function(eventName, msg){
         //   console.log('realTimeBehaviourChanged:', eventName,'msg:', msg);
