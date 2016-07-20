@@ -31,6 +31,9 @@ _**Nominal Group Technique**_
           + **@mprinc:** I wouldn't forbid, maybe warning, but they are either expert (map) or guided (brainstorming dialogue)
       + should we preset their nodes to be of type `%IBIS% : Idea`? and forbid changing node types? by hiding IBISTypesList? Or should users switch to %IBIS% Idea by themselves?
           + **@mprinc:** preseting is ok, hiding not that much, i would rather focus on semantic-grammars that is preset for that brainstorming-moment  or a node
+          + **@SiR**: I agree about preseting! the best approach is NOT to preset `%IBIS% : Idea`, but develop **semantic-grammar** that says:
+            + when you're on `%IBIS% : Question` + you're in this phase of Brainstorming -> you can create (only) `%IBIS% : Idea`
+            + when you're on `%IBIS% : Idea` + you're in this phase of Brainstorming -> you can create (only) `%IBIS% : Argument`
       + what about "follow presenter" button?
           + **@mprinc:** not sure what is problem here?
       + should we and How limit display of nodes to Question and ideas? By 'limit range' (it is broadcasted)?
@@ -91,9 +94,20 @@ _**Nominal Group Technique**_
 1. **Voting and ranking**
     + This involves **prioritizing** the recorded ideas in relation to the original question.
     + Following the voting and ranking process, immediate results in the response to the question is available to participants so the meeting concludes having reached a specific outcome.
+    + Options:
+      + Order nodes by voting score: 1) overall sum, 2) differences in positive.vs negative
     + Voting can be done by **secret ballot**
+    + **Questions**
+      +  we Should hide global voting score (not to influence voting!)
     + **Current procedure**
-      + participants give 3, 2, 1 votes for 1st, 2nd and 3rd rated idea
+        + participants give 3, 2, 1 votes for 1st, 2nd and 3rd rated idea
+1. **Conclusion**
+    + Statistics
+      + most active authors
+      + author with best voted ideas
+    + results
+      + highest voted ideas
+      + 
 
 # NGT in Details
 
