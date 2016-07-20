@@ -17,6 +17,7 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {BrainstormingFormComponent} from '../brainstorming/brainstorming-form.component';
 import {BrainstormingService} from '../brainstorming/brainstorming.service';
+import {MediaShowComponent} from '../mediaShow/mediaShow.component';
 
 // import {DbAuditService} from './dbAudit.service';
 // import {Change} from '../change/change';
@@ -66,7 +67,8 @@ var componentDirectives = [
     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
 //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
     KnalledgeMapTools,
-    BrainstormingFormComponent
+    BrainstormingFormComponent,
+    MediaShowComponent
 ];
 
 declare var Config: any;
@@ -143,13 +145,6 @@ export class KnalledgeMapMain {
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
         // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");
-
-        var nodeMediaClickedEventName = "nodeMediaClickedEvent";
-        this.globalEmitterServicesArray.register(nodeMediaClickedEventName);
-
-        this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function(vkNode) {
-            console.log("media clicked: ", vkNode.kNode.name);
-        });
     };
 
     // testMain() {

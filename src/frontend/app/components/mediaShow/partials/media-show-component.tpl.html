@@ -1,0 +1,14 @@
+<div id="popupContainer">
+    <md-dialog #mediaShowDialog class="mediaShowDialog" (onClose)="onMediaShowCloseClicked($event)">
+        <md-dialog-title>{{mediaTitle}}</md-dialog-title>
+        <div layout="column">
+            <img [attr.src]="vkNode?.kNode?.dataContent?.image?.url" width="100%" (click)="mediaShowDialog.close(false)" [attr.alt]="mediaTitle"/>
+        </div>
+
+        <md-dialog-actions>
+            <button md-button class="md-primary" (click)="mediaShowDialog.close(false)">
+                <span>OK</span>
+            </button>
+        </md-dialog-actions>
+    </md-dialog>
+</div>
