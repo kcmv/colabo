@@ -1,11 +1,21 @@
+#! /bin/bash -u
+
 # Setting up paremeters
 #http://linux.die.net/man/1/date
-timestamp=`(date +'%Y.%m.%d-%H.%M')`
-#timestamp='2016.07.07-04.48'
-# cd frontend
 deploy_folder_base="/var/www/knalledge_frontend"
 deploy_folder_sub="prod"
-zipname="$deploy_folder_sub-frontend-$timestamp.zip"
+
+echo "Command: $0"
+if [ ! -z ${1+x} ];  then
+    echo "Command parameter 1: $1"
+fi
+
+# http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
+if [ ! -z ${1+x} ];  then
+    zipname=$1
+fi
+echo "Zip file: $zipname"
+
 remote_zip_path="$deploy_folder_base/$deploy_folder_sub/$zipname"
 user="mprinc"
 
@@ -20,4 +30,4 @@ export user
 
 # Loading script
 my_dir="$(dirname "$0")"
-"$my_dir/_deploy-frontend.sh"
+"$my_dir/_push-frontend.sh"

@@ -2,6 +2,9 @@ echo "[push] pushing to server started."
 echo "[push] zip name: $zipname"
 echo "[push] remote_zip_path: $remote_zip_path"
 
+# http://www.gabrielserafini.com/blog/2008/08/19/mac-os-x-voices-for-using-with-the-say-command/
+say -v Whisper "provide password!"
+
 local_zip_path=$zipname
 # http://unix.stackexchange.com/questions/105667/upload-file-to-ftp-server-using-commands-in-shell-script
 # http://stackoverflow.com/questions/11744547/sftp-to-send-file-with-bash-script
@@ -12,6 +15,7 @@ sftp -v "$user@knalledge.org" <<EOF
 put $local_zip_path $remote_zip_path
 EOF
 
+say -v Whisper "project uploaded! provide password!"
 ssh -v "$user@knalledge.org" <<EOF
 cd $deploy_folder_base/$deploy_folder_sub
 rm -f ../done.txt
