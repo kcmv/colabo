@@ -43,8 +43,11 @@ function supportCrossOriginScript(req, res, next) {
 	next();
 }
 
+var portHttp = process.argv[2] || process.env.PORT || 8888;
+var portTC = process.argv[3] || process.env.PORT_TC || 8060;
+
 var app = express();
-var topiChat = new TopiChat(app, 'CollaboScience', 8060);
+var topiChat = new TopiChat(app, 'CollaboScience', portTC);
 var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
 
 topiChat.connect();
@@ -54,7 +57,7 @@ app.configure(function(){
     app.use(express.logger());
 	app.use(express.cookieParser()); // cookie parser is used before the session
 	console.log("process.argv: %s", JSON.stringify(process.argv));
-	app.set('port', process.argv[2] || process.env.PORT || 8888);
+	app.set('port', portHttp);
 
 	// this is enough
 	app.use(supportCrossOriginScript);
