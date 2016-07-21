@@ -12,8 +12,10 @@ not KNodes nor KEdges
 */
 
 var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins, CollaboGrammarService){
+	this.collaboGrammarService = CollaboGrammarService;
+	this.collaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = MapStructure.prototype.nodeDecoration;
+	this.collaboGrammarService.puzzles.knalledgeMap.actions['brainstormingVisibility'] = MapStructure.prototype.brainstormingVisibility;
 
-	CollaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = MapStructure.prototype.nodeDecoration;
 	this.rootNode = null;
 	this.destroyed = false;
 
@@ -330,16 +332,22 @@ MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 		visibleIBIS = this.knalledgeMapViewService.provider.config.filtering.visbileTypes.ibis || parentIsKn;
 	}
 
-	var visibleBrainstorming = true;
-	// if((node.kNode.decorations.brainstorming != undefined || node.kNode.decorations.brainstorming >=1) &&
-	// (this.CollaboGrammarService.provider.config.state.brainstorming.phase == puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION)
-	//  && node.kNode.iAmId != activeUserId){ // brainstorming node && in brainstorming state / phase puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION
-	// 	visibleBrainstorming = false;
-	// }
-
-	var result = node.presentation.visibleByDistance && visibleIBIS && visibleBrainstorming;
+	var result = node.presentation.visibleByDistance && visibleIBIS && this.brainstormingVisibility(node);
  	//TODO: ADD for isPublic, but MIGRATE TO mapStructure FUNC CALL (vkNode.kNode.isPublic || vkNode.kNode.iAmId == this.rimaService.getActiveUserId())
 	return result;
+}
+
+MapStructure.prototype.brainstormingVisibility = function(node) {
+	if(this.collaboGrammarService.puzzles.brainstorming && this.collaboGrammarService.puzzles.brainstorming.state &&
+		(this.collaboGrammarService.puzzles.brainstorming.state.phase === puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION ||
+		this.collaboGrammarService.puzzles.brainstorming.state.phase === puzzles.brainstormings.BrainstormingPhase.SHARING_IDEAS)
+	){
+		return node.kNode.decorations.brainstorming === undefined || !(node.kNode.decorations.brainstorming === puzzles.brainstormings.BrainstrormingDecorations.PRIVATE_BRAINSTORMING &&
+	 node.kNode.iAmId !== activeUserId);
+	}
+	else{
+		return true;
+	}
 }
 
 /**
@@ -656,8 +664,8 @@ MapStructure.prototype.createNode = function(vkNode, nodeType) {
 };
 
 MapStructure.prototype.nodeDecoration = function(node) {
-	if(this.knalledgeMapPolicyService.provider.config.state.brainstorming){// && this.knalledgeMapPolicyService.provider.config.state.brainstorming.phase >= puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION){//we are in Brainstorming mode:
-		node.kNode.decorations.brainstorming = this.knalledgeMapPolicyService.provider.config.state.brainstorming.phase;
+	if(this.knalledgeMapPolicyService.provider.config.state.brainstorming && this.knalledgeMapPolicyService.provider.config.state.brainstorming.createPrivateIdeas){// && this.knalledgeMapPolicyService.provider.config.state.brainstorming.phase >= puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION){//we are in Brainstorming mode:
+		node.kNode.decorations.brainstorming = puzzles.brainstormings.BrainstrormingDecorations.PRIVATE_BRAINSTORMING;
 	}
 	return node;
 };

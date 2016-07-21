@@ -47,6 +47,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.ibisTypesService = ibisTypesService;
 	this.notifyService = notifyService;
 	this.knalledgeMapViewService = knalledgeMapViewService;
+	this.knalledgeMapPolicyService = knalledgeMapPolicyService;
 	this.mapPlugins = mapPlugins;
 	this.syncingService = syncingService;
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
@@ -75,7 +76,8 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.mapVisualization = this.mapManager.getActiveVisualization();
 	this.mapLayout = this.mapManager.getActiveLayout();
 
-	CollaboGrammarService.puzzles.knalledgeMap.actions['getActiveIbisType'] = MapStructure.prototype.getActiveIbisType;
+	this.collaboGrammarService = this.injector.get("collaboPlugins.CollaboGrammarService");
+	this.collaboGrammarService.puzzles.knalledgeMap.actions['getActiveIbisType'] = Map.prototype.getActiveIbisType;
 
 	var mapInterface = {
 		updateNode: this.mapStructure.updateNode.bind(this.mapStructure),
@@ -128,7 +130,6 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	};
 
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
-	var CollaboGrammarService = this.injector.get("collaboPlugins.CollaboGrammarService");
 
 	this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
 
@@ -151,12 +152,18 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 
 
 Map.prototype.getActiveIbisType = function() {
-	if(knalledgeMapPolicyService && knalledgeMapPolicyService.provider && knalledgeMapPolicyService.provider.config &&
-	knalledgeMapPolicyService.provider.config.knalledgeMap && knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType){
-				return knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType;
+	if(this.knalledgeMapPolicyService && this.knalledgeMapPolicyService.provider && this.knalledgeMapPolicyService.provider.config &&
+	this.knalledgeMapPolicyService.provider.config.knalledgeMap && this.knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType){
+				return this.knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType;
 	}else{
-		if(CollaboGrammarService.puzzles.brainstorming && CollaboGrammarService.puzzles.brainstorming.state.phase !==  puzzles.brainstormings.BrainstormingPhase.INACTIVE){
-
+		if(this.collaboGrammarService.puzzles.brainstorming && this.collaboGrammarService.puzzles.brainstorming.state &&
+			this.collaboGrammarService.puzzles.brainstorming.state.phase ===  puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION){
+				if(this.mapStructure.getSelectedNode() === this.collaboGrammarService.puzzles.brainstorming.state.question){
+					return knalledge.KNode.TYPE_IBIS_IDEA;
+				}
+				if(this.mapStructure.getSelectedNode().type === knalledge.KNode.TYPE_IBIS_IDEA){
+					return knalledge.KNode.TYPE_IBIS_ARGUMENT;
+				}
 		}else{
 			return this.ibisTypesService.getActiveType().type;
 		}
@@ -278,7 +285,7 @@ Map.prototype.realTimeNodeSelected = function(eventName, msg){
 	// alert("[Map:realTimeNodeSelected] (clientId:"+this.knAllEdgeRealTimeService.getClientInfo().clientId+") eventName: "+eventName+", msg: "+JSON.stringify(kId));
 	console.log("[Map:realTimeNodeSelected] (clientId:%s) eventName: %s, msg: %s",
 	(this.knAllEdgeRealTimeService) ? this.knAllEdgeRealTimeService.getClientInfo().clientId : 'unknown', eventName, JSON.stringify(kId));
-	//TODO: if(!KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
+	//TODO: if(!this.knalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
 	// 	return;
 	// }
 
