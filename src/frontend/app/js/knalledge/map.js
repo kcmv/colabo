@@ -155,10 +155,11 @@ Map.prototype.getActiveIbisType = function() {
 	knalledgeMapPolicyService.provider.config.knalledgeMap && knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType){
 				return knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType;
 	}else{
-	if(CollaboGrammarService.puzzles.brainstorming && CollaboGrammarService.puzzles.brainstorming.state.phase !==  puzzles.brainstormings.BrainstormingPhase.INACTIVE){
+		if(CollaboGrammarService.puzzles.brainstorming && CollaboGrammarService.puzzles.brainstorming.state.phase !==  puzzles.brainstormings.BrainstormingPhase.INACTIVE){
 
-	}else{
-		return this.ibisTypesService.getActiveType().type;
+		}else{
+			return this.ibisTypesService.getActiveType().type;
+		}
 	}
 }
 
