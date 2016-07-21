@@ -161,7 +161,7 @@ Map.prototype.getActiveIbisType = function() {
 				if(this.mapStructure.getSelectedNode() === this.collaboGrammarService.puzzles.brainstorming.state.question){
 					return knalledge.KNode.TYPE_IBIS_IDEA;
 				}
-				if(this.mapStructure.getSelectedNode().type === knalledge.KNode.TYPE_IBIS_IDEA){
+				if(this.mapStructure.getSelectedNode().kNode.type === knalledge.KNode.TYPE_IBIS_IDEA){
 					return knalledge.KNode.TYPE_IBIS_ARGUMENT;
 				}
 		}else{

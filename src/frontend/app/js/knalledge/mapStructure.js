@@ -317,9 +317,7 @@ MapStructure.prototype.isNodeVisible = function(node){
  */
 MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 	var visibleIBIS = true;
-	var activeUserId = this.rimaService ?
-		this.rimaService.getActiveUserId() :
-		this.Plugins.puzzles.rima.config.rimaService.ANONYMOUS_USER_ID;
+	var activeUserId = this.getActiveUserId();
 
 	if(node.kNode.isIbis()){
 		var parents = this.getParentNodes(node);
@@ -343,7 +341,7 @@ MapStructure.prototype.brainstormingVisibility = function(node) {
 		this.collaboGrammarService.puzzles.brainstorming.state.phase === puzzles.brainstormings.BrainstormingPhase.SHARING_IDEAS)
 	){
 		return node.kNode.decorations.brainstorming === undefined || !(node.kNode.decorations.brainstorming === puzzles.brainstormings.BrainstrormingDecorations.PRIVATE_BRAINSTORMING &&
-	 node.kNode.iAmId !== activeUserId);
+	 node.kNode.iAmId !== this.getActiveUserId());
 	}
 	else{
 		return true;
@@ -637,10 +635,14 @@ MapStructure.prototype.cloneObject = function(obj){
 	return (JSON.parse(JSON.stringify(obj)));
 };
 
-MapStructure.prototype.createNode = function(vkNode, nodeType) {
-	var activeUserId = this.rimaService ?
+MapStructure.prototype.getActiveUserId = function() {
+	return this.rimaService ?
 		this.rimaService.getActiveUserId() :
 		this.Plugins.puzzles.rima.config.rimaService.ANONYMOUS_USER_ID;
+}
+
+MapStructure.prototype.createNode = function(vkNode, nodeType) {
+	var activeUserId = this.getActiveUserId();
 
 	if(!this.mapService) return null;
 
@@ -767,9 +769,7 @@ MapStructure.prototype.updateName = function(vkNode, newName){
  * @return {knalledge.MapStructure}
  */
 MapStructure.prototype.updateNode = function(vkNode, updateType, change, callback) {
-	var activeUserId = this.rimaService ?
-		this.rimaService.getActiveUserId() :
-		this.Plugins.puzzles.rima.config.rimaService.ANONYMOUS_USER_ID;
+	var activeUserId = this.getActiveUserId();
 
 	if(!this.mapService) return;
 	var patch = null;
