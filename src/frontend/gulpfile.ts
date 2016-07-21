@@ -65,8 +65,8 @@ gulp.task('build.prod', done =>
               'build.html_css.prod',    // project css and html (templates) -> TMP_DIR,
                                         // external css -> CSS_DEST
               'build.js.prod', // ng2/Lo-Dash/Underscore templates, compiles typescript -> TMP_DIR
-              'build.bundles', // JS: minify all js dependencies -> JS_DEST/JS_PROD_SHIMS_BUNDLE
-              'build.bundles.app',  // builds from SYSTEM_BUILDER_CONFIG.paths (all code used in the project)
+              'build.bundles', // JS: minify and concatenate all js dependencies -> JS_DEST/JS_PROD_SHIMS_BUNDLE
+              'build.bundles.app',  // builds with SystemJS Builder from SYSTEM_BUILDER_CONFIG.paths (all code used in the project)
                                     // a SystemJS bundle into JS_DEST/JS_PROD_APP_BUNDLE
               'build.index.prod', // injects css/js shims/bundles -> APP_SRC/'index.html'
               done));

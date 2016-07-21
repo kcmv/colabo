@@ -32,31 +32,32 @@
 <rima-users-list class="tools-controls-group"></rima-users-list>
 
 <div class="visualize-controls tools-controls-group">
-  <div class="switch" (click)="hideShowVisualizationControls()">
-    <span class="panel-title">Visualization</span>
-    <span class='arrows'>
+    <div class="switch" (click)="hideShowVisualizationControls()">
+        <span class="panel-title">Visualization</span>
+        <span class='arrows'>
 			<span [hidden]="!visualizationControlsShown"><i title="hide panel" class="fa fa-chevron-up" aria-hidden="true"></i></span>
-			<span [hidden]="visualizationControlsShown"><i title="show panel" class="fa fa-chevron-down" aria-hidden="true"></i></span>
-		</span>
-	</div>
-	<div class="content" [hidden]="!visualizationControlsShown" flex-layout="column">
-    <div class="subgroup"><div><b>Components</b></div>
-      <div class="btn-group">
-          <md-switch class="md-primary" aria-label="RIMA-Insights" (checkedChange)="toggleComponentView('rima-insights')">RIMA-Ins</md-switch>
-          <md-switch class="md-primary" aria-label="CollaboStuff-Right" (checkedChange)="toggleComponentView('collabostuf-right')">CollaboStuff</md-switch>
-      </div>
+        <span [hidden]="visualizationControlsShown"><i title="show panel" class="fa fa-chevron-down" aria-hidden="true"></i></span>
+        </span>
     </div>
+    <div class="content" [hidden]="!visualizationControlsShown" flex-layout="column">
+        <!-- <div class="subgroup">
+            <div><b>Components</b></div>
+            <div class="btn-group">
+                <md-switch class="md-primary" aria-label="RIMA-Insights" (checkedChange)="toggleComponentView('rima-insights')">RIMA-Ins</md-switch>
+                <md-switch class="md-primary" aria-label="CollaboStuff-Right" (checkedChange)="toggleComponentView('collabostuf-right')">CollaboStuff</md-switch>
+            </div>
+        </div> -->
 
-    <div class="subgroup">
-      <div><b>Layout</b></div>
-      <md-radio-group [(value)]="viewConfig.visualization.viewspec">
-          <md-radio-button value="viewspec_manual" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec', 'viewspec_manual')">M</md-radio-button>
-          <md-radio-button value="viewspec_tree" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_tree')">T</md-radio-button>
-          <!-- <md-radio-button value="viewspec_flat" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_flat')">F</md-radio-button> -->
-      </md-radio-group>
-    </div>
+        <div class="subgroup">
+            <div><b>Layout</b></div>
+            <md-radio-group [(value)]="viewConfig.visualization.viewspec">
+                <md-radio-button value="viewspec_manual" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec', 'viewspec_manual')">M</md-radio-button>
+                <md-radio-button value="viewspec_tree" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_tree')">T</md-radio-button>
+                <!-- <md-radio-button value="viewspec_flat" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_flat')">F</md-radio-button> -->
+            </md-radio-group>
+        </div>
 
-    <!-- <div class="btn-group"> -->
+        <!-- <div class="btn-group"> -->
         <!-- <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
   		{{user.name}}
   	</button> -->
@@ -64,23 +65,23 @@
         <!-- <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_manual'" (click)="viewConfigChanged('viewspec_manual')">M</label>
   	<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_tree'" (click)="viewConfigChanged('viewspec_tree')">T</label>
   	<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_flat'" (click)="viewConfigChanged('viewspec_flat')">F</label> -->
-    <!-- </div> -->
-    <div class="subgroup">
-      <div><b>Display</b></div>
-      <div class="btn-group">
-        <md-switch class="md-primary" aria-label="Node Types" [(checked)]="viewConfig.nodes.showTypes" (checkedChange)="viewConfigChanged('config.nodes.showTypes', viewConfig.nodes.showTypes)">Node Types</md-switch>
+        <!-- </div> -->
+        <div class="subgroup">
+            <div><b>Display</b></div>
+            <div class="btn-group">
+                <md-switch class="md-primary" aria-label="Node Types" [(checked)]="viewConfig.nodes.showTypes" (checkedChange)="viewConfigChanged('config.nodes.showTypes', viewConfig.nodes.showTypes)">Node Types</md-switch>
 
-        <md-switch class="md-primary" aria-label="Images" [(checked)]="viewConfig.nodes.showImages" (checkedChange)="viewConfigChanged('config.nodes.showImages', viewConfig.nodes.showImages)">Images</md-switch>
+                <md-switch class="md-primary" aria-label="Images" [(checked)]="viewConfig.nodes.showImages" (checkedChange)="viewConfigChanged('config.nodes.showImages', viewConfig.nodes.showImages)">Images</md-switch>
 
-        <md-switch class="md-primary" aria-label="Thumbnails" [(checked)]="viewConfig.nodes.showImagesAsThumbnails" (checkedChange)="viewConfigChanged('config.nodes.showImagesAsThumbnails', viewConfig.nodes.showImagesAsThumbnails)">Thumbnails</md-switch>
+                <md-switch class="md-primary" aria-label="Thumbnails" [(checked)]="viewConfig.nodes.showImagesAsThumbnails" (checkedChange)="viewConfigChanged('config.nodes.showImagesAsThumbnails', viewConfig.nodes.showImagesAsThumbnails)">Thumbnails</md-switch>
 
-        <!-- <md-switch class="md-primary" aria-label="Edge Names" [(checked)]="viewConfig.edges.showTypes" (checkedChange)="viewConfigChanged('config.edges.showTypes', viewConfig.edges.showTypes)">Edge Names</md-switch>
+                <!-- <md-switch class="md-primary" aria-label="Edge Names" [(checked)]="viewConfig.edges.showTypes" (checkedChange)="viewConfigChanged('config.edges.showTypes', viewConfig.edges.showTypes)">Edge Names</md-switch>
 
         <md-switch class="md-primary" aria-label="Edge Types" [(checked)]="viewConfig.edges.showNames" (checkedChange)="viewConfigChanged('config.edges.showNames', viewConfig.edges.showNames)">Edge Types</md-switch> -->
 
-        <md-switch class="md-primary" aria-label="Limit range" [(checked)]="limitedRangeCheckBoxValue" (checkedChange)="limitDisplayChanged('config.filtering.displayDistance', limitedRangeCheckBoxValue)">Limit range</md-switch>
+                <md-switch class="md-primary" aria-label="Limit range" [(checked)]="limitedRangeCheckBoxValue" (checkedChange)="limitDisplayChanged('config.filtering.displayDistance', limitedRangeCheckBoxValue)">Limit range</md-switch>
 
-        <!-- <select [(value)]=“viewConfig.filtering.displayDistance”>
+                <!-- <select [(value)]=“viewConfig.filtering.displayDistance”>
           <option [value]="'1'">1</option>
     			<option [value]="'2'">2</option>
     			<option [value]="'3'">3</option>
@@ -89,31 +90,31 @@
     			<option [value]="'10'">10</option>
     			<option [value]="'15'">15</option>
   	    </select> -->
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div>
-  <h4>Filtering:</h4>
-  <!-- <div class="btn-group"> -->
-      <!-- <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
+    <h4>Filtering:</h4>
+    <!-- <div class="btn-group"> -->
+    <!-- <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
   	{{user.name}}
   </button> -->
 
-      <!-- <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_manual'" (click)="viewspecChanged('viewspec_manual')">M</label>
+    <!-- <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_manual'" (click)="viewspecChanged('viewspec_manual')">M</label>
   <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_tree'" (click)="viewspecChanged('viewspec_tree')">T</label>
   <label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_flat'" (click)="viewspecChanged('viewspec_flat')">F</label> -->
-  <!-- </div> -->
+    <!-- </div> -->
 
-  <div class="btn-group">
-      <md-switch class="md-primary" aria-label="show IBIS" [(checked)]="viewConfig.filtering.visbileTypes.ibis" (checkedChange)="viewConfigChanged('config.filtering.visbileTypes.ibis', viewConfig.filtering.visbileTypes.ibis)">show IBIS</md-switch>
-  </div>
+    <div class="btn-group">
+        <md-switch class="md-primary" aria-label="show IBIS" [(checked)]="viewConfig.filtering.visbileTypes.ibis" (checkedChange)="viewConfigChanged('config.filtering.visbileTypes.ibis', viewConfig.filtering.visbileTypes.ibis)">show IBIS</md-switch>
+    </div>
 </div>
 
 <div *ngIf="policyConfig.moderating.enabled">
-  <h4>Behaviours:</h4>
-  <!-- <div class="btn-group">
+    <h4>Behaviours:</h4>
+    <!-- <div class="btn-group">
       <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
 		{{user.name}}
 	</button>
@@ -123,8 +124,8 @@
 	<label class="btn btn-sm btn-primary" [(ngModel)]="bindings.viewspec" btn-radio="'viewspec_flat'" (click)="viewspecChanged('viewspec_flat')">F</label>
   </div>
   -->
-  <button md-raised-button (click)="showBrainstorming()" class="md-accent md-hue-1">Brainstorming</button>
-  <!-- <div>
+    <button md-raised-button (click)="showBrainstorming()" class="md-accent md-hue-1">Brainstorming</button>
+    <!-- <div>
   <div>Brainstorming</div>
     <md-radio-group [(value)]="policyConfig.behaviour.brainstorming">
         <md-radio-button value="0" class="md-primary" checked="true" (click)="brainstormingChanged('policyConfig.behaviour.brainstorming', policyConfig.behaviour.brainstorming)">Off</md-radio-button>
