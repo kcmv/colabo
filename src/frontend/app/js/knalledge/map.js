@@ -218,6 +218,14 @@ Map.KnRealTimeNodeClickedEventName = "node-clicked";
 Map.prototype.destroy = function(){
 	this.knalledgeState.destroyed = true;
 
+	// unregistering references and api to collabo plugins
+	this.collaboPluginsService.revokeReferences("map");
+	this.collaboPluginsService.revokeApi("map");
+
+	if(this.knAllEdgeRealTimeService){
+		this.knAllEdgeRealTimeService.revokePlugin("nodeChangedPlugin");
+	}
+
 	this.config = null;
 	this.upperApi = null;
 	this.entityStyles = null;
