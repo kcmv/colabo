@@ -1,0 +1,21 @@
+@import "../../../sass/include";
+
+bottom-panel{
+	position: relative;
+
+	.btn_close{
+		position: absolute;
+		z-index: 1001;
+		right: 5px;
+		top: -28px;
+	}
+
+	.bottom_panel{
+		position: relative;
+		width: 100%;
+		height: 15%;
+		min-height: 5em;
+		max-height: 8em;
+		overflow-y: scroll;
+	}
+}

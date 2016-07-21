@@ -78,6 +78,7 @@ export class KnalledgeMapTools {
     behaviourChangedEventName: string = "behaviourChangedEvent";
     broadcastingChangedEventName: string = "broadcastingChangedEvent";
     setUpBroadcastingRequest: string = "setUpBroadcastingRequest";
+    showSubComponentInBottomPanelEvent: string = "showSubComponentInBottomPanelEvent";
 
     viewConfig: any;
     policyConfig: any;
@@ -109,6 +110,7 @@ export class KnalledgeMapTools {
         globalEmitterServicesArray.register(this.behaviourChangedEventName);
         globalEmitterServicesArray.register(this.broadcastingChangedEventName);
         globalEmitterServicesArray.register(this.setUpBroadcastingRequest);
+        globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
 
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
     };
@@ -178,5 +180,10 @@ export class KnalledgeMapTools {
     showBrainstorming(){
       this.globalEmitterServicesArray.get(this.setUpBroadcastingRequest).broadcast('KnalledgeMapTools');
       // this.knAllEdgeRealTimeService.emit(this.setUpBroadcastingRequest);
+    }
+
+    showBrainstormingPanel(){
+        this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
+          .broadcast('KnalledgeMapTools', 'brainstorming.BrainstormingPanelComponent');
     }
 }
