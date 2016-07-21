@@ -18,6 +18,7 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 import {BrainstormingFormComponent} from '../brainstorming/brainstorming-form.component';
 import {BrainstormingService} from '../brainstorming/brainstorming.service';
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
+import {BottomPanel} from '../bottomPanel/bottomPanel';
 
 // import {DbAuditService} from './dbAudit.service';
 // import {Change} from '../change/change';
@@ -68,7 +69,8 @@ var componentDirectives = [
 //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
     KnalledgeMapTools,
     BrainstormingFormComponent,
-    MediaShowComponent
+    MediaShowComponent,
+    BottomPanel
 ];
 
 declare var Config: any;
