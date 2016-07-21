@@ -4,6 +4,7 @@ import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyServi
 //import {CollaboPluginsService} from 'collabo';
 import {Brainstorming, BrainstormingPhase} from './brainstorming';
 import {Change, ChangeType, Domain, Event} from '../change/change';
+import {CollaboGrammarService} from '../collaboPlugins/CollaboGrammarService';
 
 declare var knalledge;
 
@@ -21,8 +22,9 @@ export class BrainstormingService {
         //  @Inject('RimaService') private rimaService,
         // @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
-        @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService
-        , @Inject('CollaboPluginsService') private collaboPluginsService
+        @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService,
+        @Inject('CollaboPluginsService') private collaboPluginsService,
+        private collaboGrammarService : CollaboGrammarService
         ) {
         let that = this;
         this.knAllEdgeRealTimeService = this.$injector.get('KnAllEdgeRealTimeService');
@@ -96,6 +98,10 @@ export class BrainstormingService {
         this.collaboPluginsService.registerPlugin(this.brainstormingPluginInfo);
     }
 
+    amIPresenter(): boolean {
+      return this.knalledgeMapPolicyService.get().config.broadcasting.enabled;
+    }
+
     checkAndSetupQuestion(): boolean {
       if (!this.brainstormingPluginInfo.references.map.$resolved) return false;
 
@@ -126,9 +132,9 @@ export class BrainstormingService {
     }
 
     public setUpBrainstormingChange(){
-      this.knalledgeMapPolicyService.get().config.state.brainstorming = this.brainstorming;
+      this.collaboGrammarService.puzzles.brainstorming.state = this.brainstorming;
       if(this.brainstorming.phase === BrainstormingPhase.INACTIVE){
-        this.knalledgeMapPolicyService.get().config.state.brainstorming = null;
+        this.collaboGrammarService.puzzles.brainstorming.state = null;
       }
     }
 
