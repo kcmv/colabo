@@ -158,7 +158,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			keboardPlugins: true
 		};
 
-		loadPluginsServices(Config.Plugins, componentServiceRefs, pluginsOfInterest, $injector, injector);
+		loadPluginsServices(Config.Plugins.puzzles, componentServiceRefs, pluginsOfInterest, $injector, injector);
 
 		//duplikat: var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 		var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
@@ -567,8 +567,8 @@ angular.module('knalledgeMapDirectives', ['Config'])
 							mapPlugins[pluginsName] = {};
 						}
 
-						for(var componentName in Config.Plugins){
-							var component = Config.Plugins[componentName];
+						for(var componentName in Config.Plugins.puzzles){
+							var component = Config.Plugins.puzzles[componentName];
 							if(component.active && component.plugins &&
 								component.plugins[pluginsName]
 							){
