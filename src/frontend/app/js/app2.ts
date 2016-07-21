@@ -123,12 +123,6 @@ upgradeAdapter.upgradeNg1Provider('RimaService');
 
 upgradeAdapter.upgradeNg1Provider('CollaboPluginsService');
 
-var collaboServices =
-    angular.module('collaboPluginsServices');
-
-collaboServices.
-    service('CollaboGrammarService', upgradeAdapter.downgradeNg2Provider(CollaboGrammarService));
-
 upgradeAdapter.upgradeNg1Provider('Plugins');
 upgradeAdapter.upgradeNg1Provider('ENV');
 // upgradeAdapter.upgradeNg1Provider('$injector');
@@ -172,7 +166,7 @@ angular.module('Config')
 // provide provider necessary in the DbAuditService service
 // http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html
 import { HTTP_PROVIDERS } from '@angular/http';
-var httpProviders = upgradeAdapter.addProvider(HTTP_PROVIDERS);
+upgradeAdapter.addProvider(HTTP_PROVIDERS);
 upgradeAdapter.addProvider(ChangeService);
 
 var changeServices =
@@ -180,6 +174,14 @@ var changeServices =
 
 changeServices.
     service('ChangeService', upgradeAdapter.downgradeNg2Provider(ChangeService));
+
+upgradeAdapter.addProvider(CollaboGrammarService);
+
+var collaboServices =
+    angular.module('collaboPluginsServices');
+
+collaboServices.
+    service('CollaboGrammarService', upgradeAdapter.downgradeNg2Provider(CollaboGrammarService));
 
 // bootstrapping app
 upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false});
