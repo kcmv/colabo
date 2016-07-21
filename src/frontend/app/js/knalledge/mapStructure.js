@@ -11,9 +11,9 @@ not KNodes nor KEdges
 @memberof knalledge
 */
 
-var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins){
+var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, CollaboGrammarService, Plugins){
 
-	//collaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = MapStructure.prototype.nodeDecoration;
+	CollaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = MapStructure.prototype.nodeDecoration;
 	this.rootNode = null;
 	this.destroyed = false;
 

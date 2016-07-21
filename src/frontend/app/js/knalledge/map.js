@@ -53,7 +53,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.injector = injector;
 
 	this.knalledgeState = new knalledge.State();
-	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins);
+	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, CollaboGrammarService, Plugins);
 
 	this.mapManagerApi = {};
 	this.mapManagerApi.nodeSelected	= this.nodeSelected.bind(this);
@@ -133,6 +133,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	};
 
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
+	var CollaboGrammarService = this.injector.get("collaboPlugins.CollaboGrammarService");
 
 	this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
 
