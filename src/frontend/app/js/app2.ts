@@ -11,6 +11,7 @@ import {KnalledgeMapViewService} from '../components/knalledgeMap/knalledgeMapVi
 import {TopiChatReports} from '../components/topiChat/reports';
 import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterService';
 import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmitterServicesArray';
+//import {CollaboGrammarService} from '../components/collaboPlugins/CollaboGrammarService';
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
 import {RequestService} from '../components/request/request.service';
@@ -119,7 +120,14 @@ knalledgeMapServicesModule
 // upgrading ng1 services into ng2 space
 upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
 upgradeAdapter.upgradeNg1Provider('RimaService');
+
 upgradeAdapter.upgradeNg1Provider('CollaboPluginsService');
+//upgradeAdapter.upgradeNg1Provider('CollaboGrammarService');
+
+// var CollaboServicesModule = angular.module('CollaboServices');
+// CollaboServicesModule
+//   .service('CollaboGrammarService', CollaboGrammarService);
+
 upgradeAdapter.upgradeNg1Provider('Plugins');
 // upgradeAdapter.upgradeNg1Provider('$injector');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapService');
