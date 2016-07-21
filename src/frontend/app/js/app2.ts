@@ -121,6 +121,7 @@ upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
 upgradeAdapter.upgradeNg1Provider('RimaService');
 upgradeAdapter.upgradeNg1Provider('CollaboPluginsService');
 upgradeAdapter.upgradeNg1Provider('Plugins');
+upgradeAdapter.upgradeNg1Provider('ENV');
 // upgradeAdapter.upgradeNg1Provider('$injector');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapService');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapVOsService');

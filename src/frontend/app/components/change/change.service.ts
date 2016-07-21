@@ -38,7 +38,7 @@ export class ChangeService {
 
   private _onChangeHandlers: Function[] = [];
   private changes: Change[] = [];
-  private apiUrl: string = "http://127.0.0.1:8888/dbAudits/";
+  private apiUrl: string = ""; // "http://127.0.0.1:8888/dbAudits/";
   private rimaService:any = null;
   private mapVOsService:any = null;
   private mapId: string = null;
@@ -56,12 +56,16 @@ export class ChangeService {
   constructor(
     //  @Inject('RimaService') private rimaService,
       @Inject('$injector') private $injector,
+      @Inject('ENV') private ENV,
       // @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
       @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
       private http: Http
       ) {
       //console.log('RequestService:constructor');
 
+      console.log("[ChangeService] server backend: %s", this.ENV.server.backend);
+
+      this.apiUrl = this.ENV.server.backend + "/dbAudits/";
       // let changePluginOptions: any = {
       //   name: "ChangeService",
       //   events: {
