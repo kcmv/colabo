@@ -160,7 +160,8 @@ var injector:Injector = new Injector();
 // injector.addPath("collaboPlugins.globalEmitterService", GlobalEmitterService);
 injector.addPath("utils.globalEmitterService", Injector);
 injector.addPath("interaction.MapInteraction", MapInteraction);
-injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
+// not working :( since it injects class not service singletone instance
+// injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
 
 angular.module('Config')
 	.constant("injector", injector)
@@ -171,7 +172,7 @@ angular.module('Config')
 // provide provider necessary in the DbAuditService service
 // http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html
 import { HTTP_PROVIDERS } from '@angular/http';
-upgradeAdapter.addProvider(HTTP_PROVIDERS);
+var httpProviders = upgradeAdapter.addProvider(HTTP_PROVIDERS);
 upgradeAdapter.addProvider(ChangeService);
 
 var changeServices =

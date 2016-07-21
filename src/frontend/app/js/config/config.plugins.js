@@ -305,6 +305,14 @@ var plugins = {
 				mapVisualizePlugins: ['NotifyNodeService']
 			}
 		},
+		collaboGrammar: {
+			active: true,
+			config: {
+	            collaboGrammarService: {
+					available: true
+	            }
+	        }
+		},
 		gardening: {
 			active: true,
 			services: {

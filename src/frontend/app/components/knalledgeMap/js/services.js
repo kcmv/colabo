@@ -917,7 +917,16 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 		}
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 
-		var CollaboGrammarService = injector.get("collaboPlugins.CollaboGrammarService");
+		try{
+			// * @param {knalledge.collaboPluginsServices.CollaboGrammarService} CollaboGrammarService
+			var CollaboGrammarService = Plugins.puzzles.collaboGrammar.config.collaboGrammarService.available ?
+				$injector.get('CollaboGrammarService') : null;
+		}catch(err){
+			console.warn(err);
+		}
+
+		injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
+
 		var provider = {
 			/**
 			 * The id of the currently loaded map

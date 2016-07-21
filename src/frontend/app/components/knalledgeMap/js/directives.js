@@ -90,6 +90,16 @@ angular.module('knalledgeMapDirectives', ['Config'])
 			console.warn(err);
 		}
 
+		try{
+			// * @param {knalledge.collaboPluginsServices.CollaboGrammarService} CollaboGrammarService
+			var CollaboGrammarService = Plugins.puzzles.collaboGrammar.config.collaboGrammarService.available ?
+				$injector.get('CollaboGrammarService') : null;
+		}catch(err){
+			console.warn(err);
+		}
+
+		injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
+
 		// loading component plugins' services
 
 		var loadPluginsServices = function loadPluginsServices(

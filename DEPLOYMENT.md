@@ -208,3 +208,25 @@ open ./node_modules/ng2-material/font
 Upload all the 'font files' (MaterialIcons-Regular...) from the folder `src/frontend/node_modules/ng2-material/font` to the `/var/www/knalledge_frontend/prod/css/`
 
 Upload `KnAllEdge/src/frontend/dist/prod/css/all.css` to the `/var/www/knalledge_frontend/prod/css/` folder
+
+## Host prod build on local server
+
+First be sure you have instaled [local web server](https://www.npmjs.com/package/http-server):
+```sh
+sudo npm install http-server -g
+```
+
+build production:
+```sh
+cdd
+cd EarthCube/McMap/src/frontend
+npm run build.prod
+```
+
+run local server and open it:
+```sh
+cd dist/prod
+http-server
+```
+
+Navigate to [the localhost](http://localhost:8080/)

@@ -69,7 +69,9 @@ export class Injector {
     };
 
     addPath(path:string, value:any):Injector {
-        this.items.push(new Injectant(path, value));
+        if(!this.has(path)){
+            this.items.push(new Injectant(path, value));            
+        }
         return this;
     };
 
