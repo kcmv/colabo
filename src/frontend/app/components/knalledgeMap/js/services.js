@@ -882,13 +882,14 @@ $init: function(configData){
 },
 
 // get (instantiate) service
-$get: ['$q', '$rootScope', '$window', '$injector', 'Plugins', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapService',
+$get: ['$q', '$rootScope', '$window', '$injector', 'injector', 'Plugins', 'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapService',
 'CollaboPluginsService', 'KnalledgeMapViewService', 'KnalledgeMapPolicyService', 'KnAllEdgeRealTimeService',
 
 /**
 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
 * @constructor
-* @param  {config} Plugins
+* @param  {utils.Injector} Injector
+* @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeNodeService} * @param  {config} Plugins
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeNodeService} KnalledgeNodeService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeEdgeService} KnalledgeEdgeService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices..KnalledgeMapService}  KnalledgeMapService
@@ -896,7 +897,7 @@ $get: ['$q', '$rootScope', '$window', '$injector', 'Plugins', 'KnalledgeNodeServ
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapViewService} KnalledgeMapViewService
 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
 */
-function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapService,
+function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapService,
 	CollaboPluginsService, KnalledgeMapViewService, KnalledgeMapPolicyService, KnAllEdgeRealTimeService) {
 
 		// var that = this;
@@ -915,6 +916,8 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 			console.warn(err);
 		}
 		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
+		var CollaboGrammarService = injector.get("collaboPlugins.CollaboGrammarService");
 		var provider = {
 			/**
 			 * The id of the currently loaded map
@@ -955,7 +958,7 @@ function($q, $rootScope, $window, $injector, Plugins, KnalledgeNodeService, Knal
 			 */
 			properties: {},
 			// TODO: remove RimaService
-			mapStructure: new knalledge.MapStructure(RimaService, KnalledgeMapViewService, KnalledgeMapPolicyService, Plugins),
+			mapStructure: new knalledge.MapStructure(RimaService, KnalledgeMapViewService, KnalledgeMapPolicyService, CollaboGrammarService, Plugins),
 			// TODO: remove, not used any more?!
 			lastVOUpdateTime: null,
 

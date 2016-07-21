@@ -354,7 +354,7 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 	*
 	* @function _distributeReferences
 	* @memberof knalledge.collaboPluginsServices.CollaboPluginsService#
-	* @param  {string} referenceName - name of the reference the Collabo system is are ready to distribute to plugins
+	* @param  {string} referenceName - name of the reference the Collabo system is ready to distribute to plugins
 	*/
 	var _distributeReferences = function(referenceName){
 		debug.log("[_distributeReferences] distributing the reference '%s' to plugins", referenceName);
@@ -397,11 +397,61 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 	};
 
 	/**
+	* This function is called with a reference name and then the reference that stands for that name
+	* will be revoked from all plugins that registered requirement for it
+	*
+	* * ***NOTE:*** At the current implementation plugins should be idempotent from the perspective of
+	* the work done in the response to this method since it might be invoked multiple times
+	*
+	* @function _distributeReferencesRevoking
+	* @memberof knalledge.collaboPluginsServices.CollaboPluginsService#
+	* @param  {string} referenceName - name of the reference the Collabo system is about to revoke from plugins
+	*/
+	var _distributeReferencesRevoking = function(referenceName){
+		debug.log("[_distributeReferencesRevoking] distributing the reference '%s' to plugins", referenceName);
+		// get the items that the reference is providing
+		if(!(referenceName in _references)) return;
+		var items = _references[referenceName].items;
+		if(!items) return;
+		// get list of plugins interested in the reference
+		var referenceByPlugins = _referencesByPlugins[referenceName];
+		if (!referenceByPlugins) return;
+
+		// iterate through all plugins that registered for the reference <referenceName>
+		for(var i=0; i<referenceByPlugins.length; i++){
+			// get the original options that plugin registered with and ...
+			var pluginOptions = referenceByPlugins[i];
+			// ... from it get plugin's requirements about the reference
+			var pluginReference = pluginOptions.references[referenceName];
+			if(!pluginReference){
+				debug.error("[_distributeReferencesRevoking] missing reference '%s' for the plugin '%s' that registered for that reference?!", referenceName, pluginOptions.name);
+				continue;
+			}
+
+			// iterate through all items that plugin asked for inside the reference <referenceName>
+			for(var itemName in pluginReference.items){
+				if(!(itemName in items)){ // the item that is requested by plugin should be exported by the reference
+					debug.error("[_distributeReferencesRevoking] plugin '%s' asked for the item '%s' that references provider '%s' doesn't provide?!", pluginOptions.name, itemName, referenceName);
+					continue;
+				}
+
+				// set the proper reference (pointer) to the item inside the reference
+				delete pluginReference.items[itemName];
+			}
+
+			// inform the plugin about $resolved reference
+			pluginReference.$resolved = false;
+			// TODO: see if it is safe to call the same callback
+			// if(pluginReference.callback) pluginReference.callback(referenceName, null);
+		}
+	};
+
+	/**
 	* At the moment of registering a plugin and its requirements for specific apis
 	* it is possible that those apis are not provided to the Collabo plugin system yet.
 	*
 	* Therefore we need to support pushing them back to the all intersted plugins when they are ready.
-	* This function is called with an api name and then the api that stamds for that name
+	* This function is called with an api name and then the api that stands for that name
 	* will be provided to all plugins that registered requirement for it.
 	*
 	* ***NOTE:*** At the current implementation plugins should be idempotent from the perspective of
@@ -451,6 +501,57 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 		}
 	};
 
+	/**
+	* This function is called with an api name and then the api that stands for that name
+	* will be revoked from all plugins that registered requirement for it.
+	*
+	* ***NOTE:*** At the current implementation plugins should be idempotent from the perspective of
+	* the work done in the response to this method since it might be invoked multiple times
+	*
+	* @function _distributeApisRevoking
+	* @memberof knalledge.collaboPluginsServices.CollaboPluginsService#
+	* @param  {string} apiName - name of the api the Collabo system is about to revoke from plugins
+	*/
+	var _distributeApisRevoking = function(apiName){
+		debug.log("[_distributeApisRevoking] distributing the api '%s' to plugins", apiName);
+		// api items
+		if(!(apiName in _apis)) return;
+		var items = _apis[apiName].items;
+		if(!items) return;
+		// get all plugins that are interested in the api
+		var apiByPlugins = _apisByPlugins[apiName];
+		if (!apiByPlugins) return;
+
+		// iterate through all plugins that registered for the api <apiName>
+		for(var i=0; i<apiByPlugins.length; i++){
+			// get the original options that plugin registered with and ...
+			var pluginOptions = apiByPlugins[i];
+			// ... from it get plugin's requirements about the api
+			var pluginApi = pluginOptions.apis[apiName];
+			debug.log("[_distributeApisRevoking] providing the api to the plugin '%s'", pluginOptions.name);
+			if(!pluginApi){
+				debug.error("[_distributeApisRevoking] missing api '%s' for the plugin '%s' that registered for that api?!", apiName, pluginOptions.name);
+				continue;
+			}
+
+			// iterate through the all items that plugin asked for inside the api <apiName>
+			for(var itemName in pluginApi.items){
+				if(!(itemName in items)){ // the item that is requested by plugin should be exported by the api
+					debug.error("[_distributeApisRevoking] plugin '%s' asked for the item '%s' that apis provider '%s' doesn't provide?!", pluginOptions.name, itemName, apiName);
+					continue;
+				}
+
+				// set the proper pointer to the item inside the api
+				pluginApi.items[itemName] = items[itemName];
+			}
+
+			// inform the plugin about $resolved api
+			pluginApi.$resolved = true;
+			// TODO: Add before and trigger the promise here as well
+			if(pluginApi.callback) pluginApi.callback(apiName);
+		}
+	};
+
 	var _provideReferences = function(referenceName, items){
 		debug.log("[provideReferences] providing references from the reference provided '%s'", referenceName);
 		_references[referenceName] = items;
@@ -459,10 +560,24 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 	};
 
 	var _provideApi = function(apiName, api){
-		debug.log("[provideReferences] providing api from the api provider: '%s'", apiName);
+		debug.log("[provideApi] providing api from the api provider: '%s'", apiName);
 		_apis[apiName] = api;
 
 		_distributeApis(apiName);
+	};
+
+	var _revokeReferences = function(referenceName){
+		debug.log("[revokeReferences] revoking references  '%s'", referenceName);
+		delete _references[referenceName];
+
+		_distributeReferencesRevoking(referenceName);
+	};
+
+	var _revokeApi = function(apiName){
+		debug.log("[revokeApi] revoking api from the api revoker: '%s'", apiName);
+		delete _apis[apiName];
+
+		_distributeApisRevoking(apiName);
 	};
 
 	this.provideReferences = _provideReferences;
