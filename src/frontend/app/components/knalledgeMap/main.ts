@@ -108,7 +108,7 @@ if (Config.Plugins.puzzles.ontov.active) {
 })
 
 export class KnalledgeMapMain {
-    userUrl: String = "www.CollaboScience.com";
+    userUrl: String = "www.CollaboScience.com"; //TODO: CF?!
     policyConfig: any;
     viewConfig: any;
     public pluginsConfig: any;

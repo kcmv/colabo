@@ -439,10 +439,16 @@ export class MapInteraction {
         if (!this.isStatusMap()) return;
 
         if (typeof nodeType === 'undefined') nodeType = this.clientApi.getActiveIbisType();
+        //and if getActiveIbisType also returns undefined:
         if (typeof nodeType === 'undefined') nodeType = knalledge.KNode.TYPE_KNOWLEDGE;
 
         if (typeof edgeType === 'undefined') edgeType = this.clientApi.getActiveIbisType();
         if (typeof edgeType === 'undefined') edgeType = knalledge.KEdge.TYPE_KNOWLEDGE;
+
+        //CollaboGrammar:
+        //allow only addition of ideas to the brainstorming question node - no free knowledge gardening
+        //allow adding arguments to ideas
+
 
         console.log("exitEditingNode");
         this.debug.log("on('tab'): this.editingNodeHtml: ", this.editingNodeHtml);
@@ -475,23 +481,6 @@ export class MapInteraction {
                 });
             });
         });
-
-        // var newEdge = that.clientApi.createEdge(that.clientApi.getSelectedNode(), newNode);
-        // newEdge.kEdge.$promise.then(function(kEdgeFromServer) {
-        // 	if(!that.clientApi.getSelectedNode().isOpen) {
-        // 		that.clientApi.getSelectedNode().isOpen = true;
-        // 		that.clientApi.update(that.clientApi.getSelectedNode(), function() {
-
-        // 		});
-        // 	}
-
-        // 	that.clientApi.update(that.clientApi.getSelectedNode(), function() {
-        // 		that.clientApi.nodeSelected(newNode);//TODO: that is not defined?
-        // 		that._setEditing(newNode);
-        // 	});
-        // });
-
-        //});
     };
 
     newNode() {

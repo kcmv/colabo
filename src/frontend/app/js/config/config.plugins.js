@@ -133,7 +133,7 @@ var plugins = {
 		},
 		brainstorming: {
 			path: [APP_SRC_STR, 'components/brainstorming'],
-			injectJs: [],
+			injectJs: ['brainstormings.js'],
 			injectCss: 'css/brainstorming.component.css'
 		},
 		change: {
