@@ -42,6 +42,10 @@ export const State:any = {
 	SYNCED:2 			//all object's changes are synced on server
 };
 
+export const BrainstrormingDecorations:any = {
+	PRIVATE_BRAINSTORMING : "PRIVATE_BRAINSTORMING"
+};
+
 
 /**
  * class for mediation Brainstormings
@@ -59,6 +63,7 @@ export class Brainstorming {
 	public currentPhaseTimeSpent: number;
 	public question: knalledge.KNode = null;
 	public phase: number = BrainstormingPhase.INACTIVE;
+	public presenter: knalledge.WhoAmI;
 
 	public createdAt: any; //when the object is created
 	public updatedAt: any; //when the obect is updated
@@ -118,6 +123,8 @@ export class Brainstorming {
 			if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
 			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 			if("state" in obj){this.state = obj.state;}
+			if("presenter" in obj){this.presenter = obj.presenter;}
+
 		}
 	};
 
@@ -181,4 +188,5 @@ if (typeof puzzles.brainstormings !== 'undefined'){
 	puzzles.brainstormings.State = State;
 	puzzles.brainstormings.Brainstorming = Brainstorming;
 	puzzles.brainstormings.BrainstormingPhaseNames = BrainstormingPhaseNames;
+	puzzles.brainstormings.BrainstrormingDecorations = BrainstrormingDecorations;
 }
