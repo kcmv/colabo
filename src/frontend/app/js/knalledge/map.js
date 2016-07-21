@@ -53,7 +53,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.injector = injector;
 
 	this.knalledgeState = new knalledge.State();
-	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, CollaboGrammarService, Plugins);
+	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins, CollaboGrammarService);
 
 	this.mapManagerApi = {};
 	this.mapManagerApi.nodeSelected	= this.nodeSelected.bind(this);
@@ -74,6 +74,8 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 
 	this.mapVisualization = this.mapManager.getActiveVisualization();
 	this.mapLayout = this.mapManager.getActiveLayout();
+
+	CollaboGrammarService.puzzles.knalledgeMap.actions['getActiveIbisType'] = MapStructure.prototype.getActiveIbisType;
 
 	var mapInterface = {
 		updateNode: this.mapStructure.updateNode.bind(this.mapStructure),
@@ -122,14 +124,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 			this.update(vkNode);
 		}.bind(this),
 		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
-		getActiveIbisType: function(){
-			if(knalledgeMapPolicyService && knalledgeMapPolicyService.provider && knalledgeMapPolicyService.provider.config &&
-			knalledgeMapPolicyService.provider.config.knalledgeMap && knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType){
-						return knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType;
-			}else{
-				return this.ibisTypesService.getActiveType().type;
-			}
-		}.bind(this)
+		getActiveIbisType: this.getActiveIbisType.bind(this),
 	};
 
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
@@ -153,6 +148,20 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	// this.syncingInterval = 1000;
 	// this.syncingTimerId = null;
 };
+
+
+Map.prototype.getActiveIbisType = function() {
+	if(knalledgeMapPolicyService && knalledgeMapPolicyService.provider && knalledgeMapPolicyService.provider.config &&
+	knalledgeMapPolicyService.provider.config.knalledgeMap && knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType){
+				return knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType;
+	}else{
+	if(CollaboGrammarService.puzzles.brainstorming && CollaboGrammarService.puzzles.brainstorming.state.phase !==  puzzles.brainstormings.BrainstormingPhase.INACTIVE){
+
+	}else{
+		return this.ibisTypesService.getActiveType().type;
+	}
+}
+
 
 Map.prototype.init = function() {
 	//var that = this;

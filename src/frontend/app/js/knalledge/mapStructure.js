@@ -11,7 +11,7 @@ not KNodes nor KEdges
 @memberof knalledge
 */
 
-var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, CollaboGrammarService, Plugins){
+var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins, CollaboGrammarService){
 
 	CollaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = MapStructure.prototype.nodeDecoration;
 	this.rootNode = null;
@@ -331,11 +331,11 @@ MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 	}
 
 	var visibleBrainstorming = true;
-	if((node.kNode.decorations.brainstorming != undefined || node.kNode.decorations.brainstorming >=1) &&
-	(this.knalledgeMapPolicyService.provider.config.state.brainstorming && this.knalledgeMapPolicyService.provider.config.state.brainstorming.phase == puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION)
-	 && node.kNode.iAmId != activeUserId){ // brainstorming node && in brainstorming state / phase puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION
-		visibleBrainstorming = false;
-	}
+	// if((node.kNode.decorations.brainstorming != undefined || node.kNode.decorations.brainstorming >=1) &&
+	// (this.CollaboGrammarService.provider.config.state.brainstorming.phase == puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION)
+	//  && node.kNode.iAmId != activeUserId){ // brainstorming node && in brainstorming state / phase puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION
+	// 	visibleBrainstorming = false;
+	// }
 
 	var result = node.presentation.visibleByDistance && visibleIBIS && visibleBrainstorming;
  	//TODO: ADD for isPublic, but MIGRATE TO mapStructure FUNC CALL (vkNode.kNode.isPublic || vkNode.kNode.iAmId == this.rimaService.getActiveUserId())
