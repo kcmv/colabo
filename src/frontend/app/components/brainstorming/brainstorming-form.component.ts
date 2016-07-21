@@ -78,6 +78,7 @@ export class BrainstormingFormComponent {
         this.changePhase(selectedIndex + 1);
         this.mdDialog.close();
         this.readyForNewPhase = true;
+        this.brainstormingService.setUpBrainstormingChange();
         this.brainstormingService.sendBrainstorming(this.brainstormingSent.bind(this));
     }
 
@@ -107,8 +108,8 @@ export class BrainstormingFormComponent {
         }
     }
 
-    showStartPhase(selectedIndex): boolean {
-        return selectedIndex !== BrainstormingPhase.FINISHED;
+    showStartFinish(selectedIndex): boolean {
+        return (selectedIndex+1) !== BrainstormingPhase.FINISHED;
     }
 
     restart(): void {
@@ -143,6 +144,11 @@ export class BrainstormingFormComponent {
     selectedChanged(event) {
         console.log("selectedChanged", event);
         //this._selectedIndex = event;
+    }
+
+    finishBrainstorming(){
+      this.mdDialog.close();
+      this.brainstormingService.finishBrainstorming();
     }
 
     close(confirm: boolean = false) {

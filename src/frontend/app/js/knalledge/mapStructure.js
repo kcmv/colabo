@@ -11,7 +11,9 @@ not KNodes nor KEdges
 @memberof knalledge
 */
 
-var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins){
+var MapStructure =  knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, CollaboGrammarService, Plugins){
+
+	CollaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = MapStructure.prototype.nodeDecoration;
 	this.rootNode = null;
 	this.destroyed = false;
 
@@ -329,7 +331,9 @@ MapStructure.prototype.isNodeVisibleWOAncestory = function(node){
 	}
 
 	var visibleBrainstorming = true;
-	if((node.kNode.decorations.brainstorming != undefined || node.kNode.decorations.brainstorming>=1) && this.knalledgeMapPolicyService.provider.config.behaviour.brainstorming == 1 && node.kNode.iAmId != activeUserId){ // brainstorming node && behaviour brainstorming
+	if((node.kNode.decorations.brainstorming != undefined || node.kNode.decorations.brainstorming >=1) &&
+	(this.knalledgeMapPolicyService.provider.config.state.brainstorming && this.knalledgeMapPolicyService.provider.config.state.brainstorming.phase == puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION)
+	 && node.kNode.iAmId != activeUserId){ // brainstorming node && in brainstorming state / phase puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION
 		visibleBrainstorming = false;
 	}
 
@@ -652,8 +656,8 @@ MapStructure.prototype.createNode = function(vkNode, nodeType) {
 };
 
 MapStructure.prototype.nodeDecoration = function(node) {
-	if(this.knalledgeMapPolicyService.provider.config.behaviour.brainstorming >= 1){//we are in Brainstorming mode:
-		node.kNode.decorations.brainstorming = this.knalledgeMapPolicyService.provider.config.behaviour.brainstorming;
+	if(this.knalledgeMapPolicyService.provider.config.state.brainstorming){// && this.knalledgeMapPolicyService.provider.config.state.brainstorming.phase >= puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION){//we are in Brainstorming mode:
+		node.kNode.decorations.brainstorming = this.knalledgeMapPolicyService.provider.config.state.brainstorming.phase;
 	}
 	return node;
 };

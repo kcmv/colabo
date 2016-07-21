@@ -1,7 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 //import {CollaboPluginsService} from 'collabo';
-import {Brainstorming} from './brainstorming';
+import {Brainstorming, BrainstormingPhase} from './brainstorming';
 import {Change, ChangeType, Domain, Event} from '../change/change';
 
 declare var knalledge;
@@ -19,7 +20,8 @@ export class BrainstormingService {
         @Inject('$injector') private $injector,
         //  @Inject('RimaService') private rimaService,
         // @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray//,
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+        @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService
         , @Inject('CollaboPluginsService') private collaboPluginsService
         ) {
         let that = this;
@@ -123,6 +125,18 @@ export class BrainstormingService {
         }
     }
 
+    public setUpBrainstormingChange(){
+      this.knalledgeMapPolicyService.get().config.state.brainstorming = this.brainstorming;
+      if(this.brainstorming.phase === BrainstormingPhase.INACTIVE){
+        this.knalledgeMapPolicyService.get().config.state.brainstorming = null;
+      }
+    }
+
+    finishBrainstorming(){
+      this.brainstorming.phase = BrainstormingPhase.INACTIVE;
+      this.setUpBrainstormingChange();
+    }
+
     private processReferencesInBrainStorming(brainstorming:Brainstorming): Brainstorming{
       if(typeof brainstorming.question === 'string'){
         brainstorming.question = this.brainstormingPluginInfo.references.map.items.mapStructure.getVKNodeByKId(brainstorming.question);
@@ -138,7 +152,10 @@ export class BrainstormingService {
           this.brainstorming = this.processReferencesInBrainStorming(this.brainstorming);
           this.brainstormingPluginInfo.references.map.items.mapStructure.setSelectedNode(this.brainstorming.question);
           this.brainstormingPluginInfo.apis.map.items.update();
+          // this.brainstormingPluginInfo.references.map.items.mapStructure.setSelectedNode(this.brainstorming.question);
+          // this.brainstormingPluginInfo.apis.map.items.update();
         }
+        this.setUpBrainstormingChange();
         // how it was earlier in knalledgeMap/directives.js (TO REMOVE FROM THERE AND FROM OTHER PLACES OLD LOGICS)
         // var realTimeBehaviourChanged = function(eventName, msg){
         //   console.log('realTimeBehaviourChanged:', eventName,'msg:', msg);
