@@ -1,10 +1,10 @@
-# Frontend building procedures
+# Backend building procedures
 
-You need to be located in the frontend folder
+You need to be located in the backend folder
 
 ```sh
 cdd
-cd KnAllEdge/src/frontend
+cd KnAllEdge/src/backend
 ```
 
 **NOTE**: for scripts to work, deploying folders (described with `$deploy_folder_sub` variable) on server must exist (`prod` and `beta`).

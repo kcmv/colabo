@@ -129,6 +129,7 @@ upgradeAdapter.upgradeNg1Provider('CollaboPluginsService');
 //   .service('CollaboGrammarService', CollaboGrammarService);
 
 upgradeAdapter.upgradeNg1Provider('Plugins');
+upgradeAdapter.upgradeNg1Provider('ENV');
 // upgradeAdapter.upgradeNg1Provider('$injector');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapService');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapVOsService');

@@ -5,16 +5,20 @@
 deploy_folder_base="/var/www/knalledge_frontend"
 deploy_folder_sub="prod"
 
-echo "Command: $0"
-if [ ! -z ${1+x} ];  then
-    echo "Command parameter 1: $1"
+echo "[push] Command: $0"
+if [ ! -z ${1+x} ] && [ $1 == "prod" ];  then
+    echo "[push] Command parameter 1: $1"
+    deploy_folder_sub="prod"
+else
+    deploy_folder_sub="beta"
 fi
 
-# http://stackoverflow.com/questions/3601515/how-to-check-if-a-variable-is-set-in-bash
-if [ ! -z ${1+x} ];  then
-    zipname=$1
+if [ ! -z ${2+x} ];  then
+    echo "[push:$deploy_folder_sub] Command parameter 2: $2"
+    zipname=$2
 fi
-echo "Zip file: $zipname"
+
+echo "[push:$deploy_folder_sub] Zip file: $zipname"
 
 remote_zip_path="$deploy_folder_base/$deploy_folder_sub/$zipname"
 user="mprinc"
@@ -31,3 +35,5 @@ export user
 # Loading script
 my_dir="$(dirname "$0")"
 "$my_dir/_push-frontend.sh"
+
+echo "[push:$deploy_folder_sub] pushing finished"
