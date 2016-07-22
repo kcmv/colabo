@@ -702,8 +702,8 @@
 				if (this.collaboGrammarService.puzzles.brainstorming.state.createPrivateIdeas) {
 					node.kNode.decorations.brainstorming = puzzles.brainstormings.BrainstrormingDecorations.PRIVATE_BRAINSTORMING;
 				}
-				return node;
 			}
+		return node;
 	};
 
 	MapStructure.prototype.createEdge = function(vkEdge, callback) {
