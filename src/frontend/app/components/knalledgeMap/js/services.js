@@ -1282,8 +1282,12 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 				if(typeof newNode === 'undefined' || newNode === null){
 					newNode = new knalledge.KNode();
 				}
-				newNode.iAmId = RimaService ? RimaService.getActiveUserId() :
-				Plugins.puzzles.rima.config.rimaService.ANONYMOUS_USER_ID; //TODO: this is already done in caller (mapStructure), so maybe it should go under upper if. and we could add there another steps done in caller (like decoration)
+				if(!newNode.iAmId){
+					//TODO: this is already done in caller (mapStructure), so maybe it should go under upper if.
+					//and we could add there another steps done in caller (like decoration)
+					newNode.iAmId = RimaService ? RimaService.getActiveUserId() :
+					Plugins.puzzles.rima.config.rimaService.ANONYMOUS_USER_ID;
+				}
 				if(typeof kNodeType === 'undefined' || kNodeType === null){
 					kNodeType = knalledge.KNode.TYPE_KNOWLEDGE; //TODO: check about this
 				}

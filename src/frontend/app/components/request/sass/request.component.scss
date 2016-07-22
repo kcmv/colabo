@@ -1,3 +1,6 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+@import "../../../sass/include";
+
 .requests {
   margin: 0 0 2em 0;
   list-style-type: none;

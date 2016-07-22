@@ -19,8 +19,7 @@ import {RequestService} from "./request.service";
    ],
    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
-   templateUrl: 'request.component.html',
-   styleUrls: ['request.component.css']
+   templateUrl: 'request.component.html'
 })
 export class RequestComponent implements OnInit {
   requests: Request[] = [];

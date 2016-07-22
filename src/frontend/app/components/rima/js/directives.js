@@ -192,7 +192,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				var kNode = ch.changes.nodes[0].node;
 				console.log('nodeUpdatedEventName detected for node "',kNode.name,'". id: ' + kNode._id);
 				var vkNode = KnalledgeMapVOsService.mapStructure.getVKNodeByKId(kNode._id);
-				var ancestors = KnalledgeMapVOsService.mapStructure.getAncestorsPath(vkNode);
+				var ancestors = KnalledgeMapVOsService.mapStructure.getAllAncestorsPaths(vkNode);
 				var userHows = RimaService.howAmIs[RimaService.loggedInWhoAmI._id]; //RimaService.getActiveUserId()
 				var found = false;
 				for(var ancestorI in ancestors){

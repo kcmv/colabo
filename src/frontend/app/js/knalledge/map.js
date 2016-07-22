@@ -53,8 +53,11 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
 	this.injector = injector;
 
+	this.collaboGrammarService = this.injector.get("collaboPlugins.CollaboGrammarService");
+	this.collaboGrammarService.puzzles.knalledgeMap.actions['getActiveIbisType'] = Map.prototype.getActiveIbisType;
+
 	this.knalledgeState = new knalledge.State();
-	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins, CollaboGrammarService);
+	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins, this.collaboGrammarService);
 
 	this.mapManagerApi = {};
 	this.mapManagerApi.nodeSelected	= this.nodeSelected.bind(this);
@@ -75,9 +78,6 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 
 	this.mapVisualization = this.mapManager.getActiveVisualization();
 	this.mapLayout = this.mapManager.getActiveLayout();
-
-	this.collaboGrammarService = this.injector.get("collaboPlugins.CollaboGrammarService");
-	this.collaboGrammarService.puzzles.knalledgeMap.actions['getActiveIbisType'] = Map.prototype.getActiveIbisType;
 
 	var mapInterface = {
 		updateNode: this.mapStructure.updateNode.bind(this.mapStructure),
@@ -127,6 +127,8 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		}.bind(this),
 		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
 		getActiveIbisType: this.getActiveIbisType.bind(this),
+		collaboGrammarService: this.collaboGrammarService,
+		isDescendantInDistance: this.mapStructure.isDescendantInDistance.bind(this.mapStructure)
 	};
 
 	var MapInteraction = this.injector.get("interaction.MapInteraction");

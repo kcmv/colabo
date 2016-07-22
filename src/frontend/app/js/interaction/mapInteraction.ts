@@ -1,3 +1,5 @@
+import {BrainstormingPhase} from '../../components/brainstorming/brainstorming';
+
 // external from the JS world
 declare var interaction;
 declare var knalledge;
@@ -27,6 +29,7 @@ export class MapInteraction {
         this.clientApi = clientApi;
         this.debug = debugpp.debug('interaction.MapInteraction');
         this.destroyed = false;
+        this.clientApi.collaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = this.addNode;
     };
 
     init() {
@@ -217,16 +220,18 @@ export class MapInteraction {
         if (!this.clientApi.getSelectedNode()) return; // no parent node selected
         //var that = this;
         //if(confirm("Are you sure you want to delete this node od KnAllEdge?")) {
-        var parentNodes = this.clientApi.getParentNodes(this.clientApi.getSelectedNode());
-        this.clientApi.deleteNode(this.clientApi.getSelectedNode());
-        if (parentNodes.length > 0 && parentNodes[0]) {
-            this.clientApi.nodeSelected(parentNodes[0]);
-        }
 
-        this.clientApi.update(this.clientApi.getSelectedNode(), function() {
-            // that.clientApi.nodeSelected(null); //TODO: set to parent
+        var parentNodes = this.clientApi.getParentNodes(this.clientApi.getSelectedNode());
+        var that = this;
+        this.clientApi.deleteNode(this.clientApi.getSelectedNode(), function(){
+          if (parentNodes.length > 0 && parentNodes[0]) {
+              that.clientApi.nodeSelected(parentNodes[0]);
+          }
+
+          that.clientApi.update(that.clientApi.getSelectedNode(), function() {
+              // that.clientApi.nodeSelected(null); //TODO: set to parent
+          });
         });
-        //}
     };
 
     addImage() {
@@ -437,6 +442,25 @@ export class MapInteraction {
 
     addNode(parentNode, nodeType?, edgeType?) {
         if (!this.isStatusMap()) return;
+
+        if(this.clientApi.collaboGrammarService.puzzles.brainstorming && this.clientApi.collaboGrammarService.puzzles.brainstorming.state &&
+      		(this.clientApi.collaboGrammarService.puzzles.brainstorming.state.phase ===
+            BrainstormingPhase.IDEAS_GENERATION ||
+      		this.clientApi.collaboGrammarService.puzzles.brainstorming.state.phase === BrainstormingPhase.SHARING_IDEAS)
+          && this.clientApi.collaboGrammarService.puzzles.brainstorming.state.onlyIdeasToQuestion
+      	){
+          var allowedDistance = this.clientApi.collaboGrammarService.puzzles.brainstorming.state.allowArgumentsToIdeas ? 1 : 0;
+          var warningMessage =  this.clientApi.collaboGrammarService.puzzles.brainstorming.state.allowArgumentsToIdeas ?
+          "While brainstorming, you are supposed only to add ideas to the brainstormed question as well as arguments to those ideas. " +
+          "Are you sure you want to continue?!" :
+          "While brainstorming, you are supposed only to add ideas to the brainstormed question. Are you sure you want to continue?!";
+          if(!this.clientApi.isDescendantInDistance(
+            this.clientApi.collaboGrammarService.puzzles.brainstorming.state.question, this.clientApi.getSelectedNode(), allowedDistance)){
+              if(!window.confirm(warningMessage)){
+                return;
+              }
+          }
+        }
 
         if (typeof nodeType === 'undefined') nodeType = this.clientApi.getActiveIbisType();
         //and if getActiveIbisType also returns undefined:

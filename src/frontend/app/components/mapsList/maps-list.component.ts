@@ -65,8 +65,7 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 @Component({
     selector: 'maps-list',
     moduleId: module.id,
-    templateUrl: 'maps-list.tpl.html',
-    // styleUrls: ['css/maps-list.component.css'],
+    templateUrl: 'partials/maps-list.tpl.html',
     providers: [
         // MATERIAL_PROVIDERS,
         OVERLAY_PROVIDERS
@@ -170,20 +169,20 @@ export class MapsList implements OnInit{
   init(){
     //@ViewChild('cloneDialog') input;
     var that = this;
-    this.knalledgeMapService.queryByParticipant(this.rimaService.getActiveUserId()).$promise.then(function(maps){
+    this.knalledgeMapService.queryByParticipant(this.rimaService.getWhoAmI()._id).$promise.then(function(maps){
       that.items = maps;
       console.log('maps:'+JSON.stringify(maps));
       that.items.sort(that.sortByName);
     });
-    this.policyConfig.moderating.enabled = true;
+    //this.policyConfig.moderating.enabled = true;
     //this.cloneDialog = @ViewChild('cloneDialog');
   }
 
   mapFormShowForCreation(){
     console.log("[mapFormShowForCreation]");
 		this.mapToCreate = new knalledge.KMap();
-		this.mapToCreate.participants = this.rimaService.getActiveUserId();
-		//this.mapToCreate.participants = this.rimaService.getActiveUser().displayName;
+		this.mapToCreate.participants = this.rimaService.getWhoAmI()._id;
+		//this.mapToCreate.participants = this.rimaService.getWhoAmI().displayName;
 		this.modeCreating = true;
     this.mapFormShow(this.mapToCreate);
   }
@@ -191,8 +190,8 @@ export class MapsList implements OnInit{
   importMapFormShow(){
     console.log("[importMapFormShow]");
 		// this.mapToCreate = new knalledge.KMap();
-		// this.mapToCreate.participants = this.rimaService.getActiveUserId();
-		// //this.mapToCreate.participants = this.rimaService.getActiveUser().displayName;
+		// this.mapToCreate.participants = this.rimaService.getWhoAmI()._id;
+		// //this.mapToCreate.participants = this.rimaService.getWhoAmI().displayName;
 		this.modeCreating = true;
     this.importMapFormComponent.show(this.importMapFormClosed.bind(this));
   }
@@ -238,6 +237,10 @@ export class MapsList implements OnInit{
       this.knalledgeMapVOsService.mapDelete(this.mapForAction._id, mapDeleted);
     }
 	}
+
+  amImapCreator(map){
+    return map.iAmId === this.rimaService.getWhoAmI()._id;
+  }
 
   prepareForCloning(map){
     this.mapForAction = map;
@@ -291,7 +294,7 @@ export class MapsList implements OnInit{
     var rootNode = new knalledge.KNode();
 		rootNode.name = this.mapToCreate.name;
 		rootNode.mapId = null;
-		rootNode.iAmId = this.rimaService.getActiveUserId();
+		rootNode.iAmId = this.rimaService.getWhoAmI()._id;
 		rootNode.type = this.mapToCreate.rootNodeType ?
 			this.mapToCreate.rootNodeType : "model_component";
 		rootNode.visual = {
@@ -310,7 +313,7 @@ export class MapsList implements OnInit{
 
 		var rootNodeCreated = function(rootNode){
 			that.mapToCreate.rootNodeId = rootNode._id;
-			that.mapToCreate.iAmId = that.rimaService.getActiveUserId();
+			that.mapToCreate.iAmId = that.rimaService.getWhoAmI()._id;
 
 			//TODO: so far this is string of comma-separated iAmIds:
 			that.mapToCreate.participants = that.mapToCreate.participants.replace(/\s/g, '');
@@ -339,7 +342,7 @@ export class MapsList implements OnInit{
 
 		var rootNodeUpdated = function(rootNode){
 			this.mapToCreate.rootNodeId = rootNode._id;
-			this.mapToCreate.iAmId = RimaService.getActiveUserId();
+			this.mapToCreate.iAmId = RimaService.getWhoAmI()._id;
 
 			//TODO: so far this is string of comma-separated iAmIds:
 			this.mapToCreate.participants = this.mapToCreate.participants.replace(/\s/g, '');
@@ -385,8 +388,7 @@ export class MapsList implements OnInit{
   			//TODO: using ng2 Route mechanism:
   			//this.router.url = "/map/id/" + item._id; //navigate(['HeroDetail', { id: this.selectedHero.id }]);
 
-        //TODO-remove:
-        this.policyConfig.moderating.enabled = false;
+        //TODO-remove: this.policyConfig.moderating.enabled = false;
         var location = "#"+ (mapRoute ? mapRoute.route : this.mapRoutes[0].route) +"/id/" + item._id;
         console.log("location: ", location);
         window.location.href = location;
@@ -504,7 +506,7 @@ export class MapsList implements OnInit{
 	// 		console.log("/map/id/" + this.selectedItem._id);
 	// 		this.mapToCreate = KnalledgeMapService.getById(this.selectedItem._id);
 	// 		this.mapToCreate.$promise.then(mapReceived);
-	// 		//this.mapToCreate.participants = RimaService.getActiveUserId();
+	// 		//this.mapToCreate.participants = RimaService.getWhoAmI()._id;
 	// 		//openMap(this.selectedItem);
 	// 		// $element.remove();
 	// 	}

@@ -26,7 +26,7 @@ _**Nominal Group Technique**_
     + This phase lasts approximately _10 minutes_.
     + _**Notes. Open?**_  
       + what about "follow presenter" button? Should we hide it, not to disturb particpants during BS
-        + hmm, maybe not, because they sometimes should be navigated and will have "back to question" button anyway - BUT problem is if they start to create a node, and just before that they are navigated to some other node by a presenter
+        + hmm, maybe not, because they sometimes should be navigated and will have "back to question" button anyway - BUT **problem** may occur if they start to create a node, and just before that they are navigated to some other node by a presenter
       + should we and How limit display of nodes to Question and ideas? By 'limit range' (it is broadcasted)?
           + **@mprinc:** i would only limit to the question subtree (ontov already supports that, but based on node name, so if there are two nodes with same name, both will be visible), and make it possible to show whole map with switch
       + should we forbid?
