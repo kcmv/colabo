@@ -1995,14 +1995,22 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 	};
 
 	resource.queryByParticipant = function(participantId, callback){
-		console.log("[queryByParticipant] participantId:", participantId);
+		if(participantId === null){
+			window.alert("You're not logged in. Until you login, you will only see public maps");
+		}else{
+			if(typeof participantId !== 'string'){
+				console.error("[queryByParticipant] participantId:", participantId);
+				window.alert("Error in acessing your profile. Please try again or re-login");
+				if(callback) callback(null, 'participantId not a string');
+				return;
+			}
+		}
 		var maps = this.queryPlain({type:'by-participant', searchParam: participantId}, function(mapsFromServer){
 			for(var id=0; id<mapsFromServer.length; id++){
 				var kMap = knalledge.KMap.mapFactory(mapsFromServer[id]);
 				kMap.state = knalledge.KMap.STATE_SYNCED;
 				mapsFromServer[id] = kMap;
 			}
-
 			if(callback) callback(mapsFromServer);
 		});
 		// for(var i in maps){

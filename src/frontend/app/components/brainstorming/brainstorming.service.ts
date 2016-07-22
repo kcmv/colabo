@@ -6,10 +6,68 @@ import {Brainstorming, BrainstormingPhase} from './brainstorming';
 import {Change, ChangeType, Domain, Event} from '../change/change';
 import {CollaboGrammarService} from '../collaboPlugins/CollaboGrammarService';
 
+declare var d3:any;
 declare var knalledge;
 
 @Injectable()
 export class BrainstormingService {
+  plugins:any = {
+      mapVisualizePlugins: {
+          service: this,
+          init: function init() {
+              var that = this;
+          },
+
+          nodeHtmlEnter: function(nodeHtmlEnter){
+              var service = this; // keeping reference on the service
+
+              // .filter(function(d) { return d.kNode.dataContent && d.kNode.dataContent.image; })
+              nodeHtmlEnter.append("div")
+                  .attr("class", "gardening_approval")
+                  .on("click", function(d){
+                      d3.event.stopPropagation();
+                      service.changeApproval(d);
+                      // d3.select(this).remove();
+                      // d3.select(this).style("display", "none");
+                  })
+                  .html(function(d){
+                      var label = 'X';//NodeGardened.getApprovalLabel(d.kNode);
+                      return label;
+                  });
+          }.bind(this), // necessary for keeping reference on service
+
+          nodeHtmlUpdate: function(nodeHtmlUpdate){
+            var that = this;
+              nodeHtmlUpdate.select(".gardening_approval")
+                  .style("display", function(d){
+                      var display = "none";
+                      // if((d.kNode.gardening && d.kNode.gardening.approval && d.kNode.gardening.approval.state)){
+                      // 	display = "block";
+                      // }
+                      if(true){//that.service.interfaceConfig.showInterface){
+                        display = "block";
+                      }
+                      return display;
+                  })
+                  // .style("width", '2em')
+                  // .style("height", '2em')
+                  .html(function(d){
+                      var label = "X";//NodeGardened.getApprovalLabel(d.kNode);
+                      return label;
+                  })
+                  .style("opacity", 1e-6);
+
+              var nodeHtmlUpdateTransition = nodeHtmlUpdate.select(".gardening_approval").transition().delay(300).duration(500)
+                  .style("opacity", 0.8);
+          },
+
+          nodeHtmlExit: function(nodeHtmlExit){
+              nodeHtmlExit.select(".gardening_approval")
+                  .on("click", null);
+          }
+      }
+  };
+
     brainstorming: Brainstorming = new Brainstorming();
 
     //brainstorming-panel-settings:
@@ -190,18 +248,6 @@ export class BrainstormingService {
           // this.brainstormingPluginInfo.apis.map.items.update();
         }
         this.setUpBrainstormingChange();
-        // how it was earlier in knalledgeMap/directives.js (TO REMOVE FROM THERE AND FROM OTHER PLACES OLD LOGICS)
-        // var realTimeBehaviourChanged = function(eventName, msg){
-        //   console.log('realTimeBehaviourChanged:', eventName,'msg:', msg);
-        //
-        //   switch(msg.path){
-        //     case 'policyConfig.behaviour.brainstorming':
-        //       KnalledgeMapPolicyService.provider.config.behaviour.brainstorming = msg.value;
-        //       break;
-        //   }
-        //   updateState(msg.value);
-        //   $scope.knalledgeMap.update();
-        // }
     }
 
 

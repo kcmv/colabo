@@ -143,6 +143,7 @@ $get: ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, EN
 			function(whoAmIFromServer){
 				whoAmI.fill(whoAmIFromServer);
 				whoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
+				whoAmI.$resolved = whoAmIFromServer.$resolved;
 				if(callback) callback(whoAmI);
 			});
 		whoAmI.$promise = whoAmIFromGet.$promise;
@@ -157,6 +158,7 @@ $get: ['$resource', '$q', 'ENV', 'KnalledgeMapQueue', function($resource, $q, EN
 			function(whoAmIFromServer){
 				whoAmI.fill(whoAmIFromServer);
 				whoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
+				whoAmI.$resolved = whoAmIFromServer.$resolved;
 				whoAmI._id = whoAmIFromServer._id;
 				if(callback) callback(whoAmI);
 			});

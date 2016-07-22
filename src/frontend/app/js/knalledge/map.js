@@ -551,12 +551,16 @@ Map.prototype.nodeDblClicked = function(vkNode) {
 
 Map.prototype.nodeCreatorClicked = function(vkNode){
 	//console.log("[Map.prototype.nodeCreatorClicked]", vkNode.kNode.name);
-	this.knalledgeMapViewService.provider.config.states.editingNode = vkNode;
+	if(window.confirm("Do you want to change this node type/creator?")){
+		this.knalledgeMapViewService.provider.config.states.editingNode = vkNode;
+	}
 }
 
 Map.prototype.nodeTypeClicked = function(vkNode){
 	//console.log("[Map.prototype.nodeCreatorClicked]", vkNode.kNode.name);
-	this.knalledgeMapViewService.provider.config.states.editingNode = vkNode;
+	if(window.confirm("Do you want to change this node type/creator?")){
+		this.knalledgeMapViewService.provider.config.states.editingNode = vkNode;
+	}
 }
 
 // react on label click.
