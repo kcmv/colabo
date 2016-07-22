@@ -172,21 +172,47 @@ export class MapsList implements OnInit {
 
     init() {
         //@ViewChild('cloneDialog') input;
-        var that = this;
-        var participantId: string = this.rimaService.getWhoAmI() ? this.rimaService.getWhoAmI()._id : null;
-        if(!participantId || typeof participantId !== 'string'){
-    			console.warn("[init] participantId incorrect:", participantId);
-          console.warn("[init] getWhoAmI", this.rimaService.getWhoAmI());
-    		}
-        this.knalledgeMapService.queryByParticipant(participantId, this.queryByParticipantCallback.bind(this))
-        .$promise.then(function(maps) {
-          //console.log("in init -> queryByParticipant promise", maps);
-          that.items = maps;
-          //console.log('maps:' + JSON.stringify(maps));
-          that.items.sort(that.sortByName);
-        });
+        let whoAmI: knalledge.WhoAmI = this.rimaService.getWhoAmI();
+        let that = this;
+        if(whoAmI === null){
+          this.getMapsForParticipant(null);
+        }else{
+          if(!whoAmI.$resolved){
+            console.warn("[init:NOT whoAmI.$resolved] getWhoAmI:Stringified", JSON.stringify(whoAmI));
+            console.warn("[init:NOT whoAmI.$resolved] getWhoAmI", whoAmI);
+            console.warn("[init:NOT whoAmI.$resolved] whoAmI.state", whoAmI.state);
+            whoAmI.$promise.then(function(){
+              that.getMapsForParticipant(whoAmI);
+            });
+          }else{
+            console.warn("[init:IS whoAmI.$resolved] getWhoAmI:Stringified", JSON.stringify(whoAmI));
+            console.log("[init:IS whoAmI.$resolved] getWhoAmI", whoAmI);
+            console.log("[init:IS whoAmI.$resolved] whoAmI.state", whoAmI.state);
+            this.getMapsForParticipant(whoAmI);
+          }
+        }
         //this.policyConfig.moderating.enabled = true;
         //this.cloneDialog = @ViewChild('cloneDialog');
+    }
+
+    getMapsForParticipant(whoAmI: knalledge.WhoAmI){
+      let that = this;
+      let participantId: string = null;
+      if(whoAmI !== null){
+        participantId = whoAmI._id;
+        if(!participantId || typeof participantId !== 'string'){
+          console.warn("[MapLIst::getMapsForParticipant] participantId incorrect:", participantId);
+          console.warn("[MapLIst::getMapsForParticipant] getWhoAmI:Stringified", JSON.stringify(whoAmI));
+          console.warn("[MapLIst::getMapsForParticipant] getWhoAmI", whoAmI);
+        }
+      }
+      this.knalledgeMapService.queryByParticipant(participantId, null)
+      .$promise.then(function(maps) {
+        //console.log("in init -> queryByParticipant promise", maps);
+        that.items = maps;
+        //console.log('maps:' + JSON.stringify(maps));
+        that.items.sort(that.sortByName);
+      });
     }
 
     mapFormShowForCreation() {
@@ -197,6 +223,8 @@ export class MapsList implements OnInit {
             //this.mapToCreate.participants = this.rimaService.getWhoAmI().displayName;
             this.modeCreating = true;
             this.mapFormShow(this.mapToCreate);
+        }else{
+          window.alert("You must be logged in to create a map");
         }
     }
 
@@ -208,6 +236,8 @@ export class MapsList implements OnInit {
             // //this.mapToCreate.participants = this.rimaService.getWhoAmI().displayName;
             this.modeCreating = true;
             this.importMapFormComponent.show(this.importMapFormClosed.bind(this));
+        }else{
+          window.alert("You must be logged in to import a map");
         }
     }
 
