@@ -148,9 +148,9 @@ export class KnalledgeMapTools {
         //this.globalEmitterServicesArray.get(this.viewspecChangedEventName).broadcast('KnalledgeMapTools', this.bindings.viewspec);
     };
 
-    brainstormingChanged: Function = function(path, value) {
-        this.sendChange(path, value, this.behaviourChangedEventName);
-    };
+    // brainstormingChanged: Function = function(path, value) {
+    //     this.sendChange(path, value, this.behaviourChangedEventName);
+    // };
 
     broadcastingChanged: Function = function(path, value) {
         this.sendChange(path, value, this.broadcastingChangedEventName);

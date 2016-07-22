@@ -1995,14 +1995,16 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 	};
 
 	resource.queryByParticipant = function(participantId, callback){
-		console.log("[queryByParticipant] participantId:", participantId);
+		if(!participantId || typeof participantId !== 'string'){
+			console.warn("[queryByParticipant] participantId:", participantId);
+			if(callback) callback(null, 'participantId not a string');
+		}
 		var maps = this.queryPlain({type:'by-participant', searchParam: participantId}, function(mapsFromServer){
 			for(var id=0; id<mapsFromServer.length; id++){
 				var kMap = knalledge.KMap.mapFactory(mapsFromServer[id]);
 				kMap.state = knalledge.KMap.STATE_SYNCED;
 				mapsFromServer[id] = kMap;
 			}
-
 			if(callback) callback(mapsFromServer);
 		});
 		// for(var i in maps){

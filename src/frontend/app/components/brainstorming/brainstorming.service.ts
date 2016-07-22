@@ -190,18 +190,6 @@ export class BrainstormingService {
           // this.brainstormingPluginInfo.apis.map.items.update();
         }
         this.setUpBrainstormingChange();
-        // how it was earlier in knalledgeMap/directives.js (TO REMOVE FROM THERE AND FROM OTHER PLACES OLD LOGICS)
-        // var realTimeBehaviourChanged = function(eventName, msg){
-        //   console.log('realTimeBehaviourChanged:', eventName,'msg:', msg);
-        //
-        //   switch(msg.path){
-        //     case 'policyConfig.behaviour.brainstorming':
-        //       KnalledgeMapPolicyService.provider.config.behaviour.brainstorming = msg.value;
-        //       break;
-        //   }
-        //   updateState(msg.value);
-        //   $scope.knalledgeMap.update();
-        // }
     }
 
 

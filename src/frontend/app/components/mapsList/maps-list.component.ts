@@ -148,11 +148,11 @@ export class MapsList implements OnInit {
         //     console.log("media clicked: ", vkNode.kNode.name);
         // });
         this.mapToCreate = new knalledge.KMap();
-        this.init();
         this.mapRoutes = Config.Plugins.puzzles.mapsList.config.openMap.routes;
     };
 
     ngOnInit() {
+        this.init();
         console.log("Config.Plugins.puzzles.mapsList.config.title:", Config.Plugins.puzzles.mapsList.config.title);
         this.title =
             Config.Plugins.puzzles.mapsList.config &&
@@ -166,14 +166,24 @@ export class MapsList implements OnInit {
         return 0;
     }
 
+    queryByParticipantCallback(maps, error){
+      console.log("queryByParticipantCallback", maps, error);
+    }
+
     init() {
         //@ViewChild('cloneDialog') input;
         var that = this;
-        var id: string = this.rimaService.getWhoAmI() ? this.rimaService.getWhoAmI()._id : null;
-        this.knalledgeMapService.queryByParticipant(id).$promise.then(function(maps) {
-            that.items = maps;
-            console.log('maps:' + JSON.stringify(maps));
-            that.items.sort(that.sortByName);
+        var participantId: string = this.rimaService.getWhoAmI() ? this.rimaService.getWhoAmI()._id : null;
+        if(!participantId || typeof participantId !== 'string'){
+    			console.warn("[init] participantId incorrect:", participantId);
+          console.warn("[init] getWhoAmI", this.rimaService.getWhoAmI());
+    		}
+        this.knalledgeMapService.queryByParticipant(participantId, this.queryByParticipantCallback.bind(this))
+        .$promise.then(function(maps) {
+          //console.log("in init -> queryByParticipant promise", maps);
+          that.items = maps;
+          //console.log('maps:' + JSON.stringify(maps));
+          that.items.sort(that.sortByName);
         });
         //this.policyConfig.moderating.enabled = true;
         //this.cloneDialog = @ViewChild('cloneDialog');

@@ -809,9 +809,9 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						console.log('realTimeBehaviourChanged:', eventName,'msg:', msg);
 
 						switch(msg.path){
-							case 'policyConfig.behaviour.brainstorming':
-								KnalledgeMapPolicyService.provider.config.behaviour.brainstorming = msg.value;
-								break;
+							// case 'policyConfig.behaviour.brainstorming':
+							// 	KnalledgeMapPolicyService.provider.config.behaviour.brainstorming = msg.value;
+							// 	break;
 						}
 						updateState(msg.value);
 						$scope.knalledgeMap.update();
