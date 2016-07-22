@@ -1848,6 +1848,10 @@ body {
   overflow-x: hidden;
   overflow-y: scroll; }
 
+md-toolbar-row {
+  height: auto !important;
+  padding: 3px; }
+
 #container {
   position: relative;
   height: 100%;
