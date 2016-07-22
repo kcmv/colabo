@@ -33,6 +33,7 @@ requiresList.push('notifyServices');
 requiresList.push('notifyDirectives');
 
 requiresList.push('gardeningServices');
+requiresList.push('brainstormingServices');
 
 requiresList.push('topiChatServices');
 requiresList.push('topiChatDirectives');

@@ -75,6 +75,11 @@ gardeningServices
     .service('ApprovalNodeService', ApprovalNodeService)
     ;
 
+var brainstormingServices = angular.module('brainstormingServices');
+brainstormingServices
+    .service('BrainstormingService', BrainstormingService)
+    ;
+
 var suggestionServices = angular.module('suggestionServices');
 suggestionServices
     .service('SuggestionService', SuggestionService)

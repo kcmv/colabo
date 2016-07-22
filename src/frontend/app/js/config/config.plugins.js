@@ -188,11 +188,6 @@ var plugins = {
 			injectJs: 'services.js',
 			injectCss: 'css/suggestion.component.css'
 		},
-		brainstorming: {
-			path: [APP_SRC_STR, 'components/brainstorming'],
-			injectJs: ['brainstormings.js'],
-			injectCss: 'css/brainstorming.component.css'
-		},
 		bottomPanel: {
 			path: [APP_SRC_STR, 'components/bottomPanel'],
 			injectJs: [],
@@ -228,6 +223,12 @@ var plugins = {
 		mapsList: {
 			path: [APP_SRC_STR, 'components/mapsList'],
 			injectJs: 'css/maps-list.component.css'
+		},
+
+		brainstorming: {
+			path: [APP_SRC_STR, 'components/brainstorming'],
+			injectJs: ['brainstormings.js', js/services.js],
+			injectCss: 'css/brainstorming.component.css'
 		},
 
 		gardening: {

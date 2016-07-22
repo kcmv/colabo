@@ -701,6 +701,17 @@ upgradeAdapter.upgradeNg1Provider('ApprovalNodeService');
 requiresList.push('gardeningServices');
 ```
 2. add it to config.plugins.js and register mapVisualizePlugins plugin as implemented through ApprovalNodeService service
+  + **NOTE**: Doing this properly, requires our service to be known in the NG1 world
+    + make js/services.js file
+    + app.js
+      + requiresList.push('gardeningServices');
+```js
+gardening: {
+  // ...
+  injectJs: 'js/services.js',
+}
+
+```
 4. add
 
 ```js
