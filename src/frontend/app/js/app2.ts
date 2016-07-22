@@ -187,7 +187,7 @@ collaboServices.
 
 var brainstormingServices = angular.module('brainstormingServices');
 brainstormingServices
-    .service('BrainstormingService', BrainstormingService)
+    .service('BrainstormingService', upgradeAdapter.downgradeNg2Provider(BrainstormingService))
     ;
 
 
