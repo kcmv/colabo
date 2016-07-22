@@ -1,0 +1,176 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+@import "../../../app/sass/include";
+
+$icon_background: #a0a0ff;
+
+.halo_div_placeholder {
+	border: 3px solid #aaaaaa;
+	opacity: 0.5;
+	background-color: #bbbbbb;
+}
+
+.halo {
+	position: absolute;
+	pointer-events: none;
+
+
+	.handle {
+		cursor: pointer;
+	}
+	.icon {
+		cursor: pointer;
+		position: absolute;
+		padding: 3px;
+		margin: 5px;
+		font-size: 0.75em;
+		border: solid 2px transparentize($icon_background, 0.25); /*rgba(150, 150, 255, 0.25);*/
+		background-color: transparentize(lighten($icon_background, 25%), 0.25); /*rgba(200, 200, 255, 0.25);*/
+		@include box-shadow(2px 1px 3px 1px transparentize(darken($icon_background, 25%), 0.25) /*rgba(100, 100, 255, 0.75)*/);
+		@include border-radius(7px, 7px);
+		color: transparentize(darken($icon_background, 5%), 0.1); /*rgba(150, 150, 255, 0.25);*/
+
+		pointer-events: auto;
+/*		width: 20px;
+		height: 20px;
+		background-size: 20px 20px;
+		background-repeat: no-repeat;
+*/
+		@include user-select(none);
+	}
+
+	.icon-text {
+		font-weight: bold;
+		font-size: 1em;
+	}
+
+	.w{
+		left: -45px;
+		top: 30px;
+	}
+
+	.e{
+		right: -55px;
+		top: 30px;
+	}
+	.n{
+		left: calc(50% - 20px);
+		top: -48px;
+	}
+	.nw{
+		left: -45px;
+		top: -48px;
+	}
+	.ne{
+		right: -55px;
+		top: -48px;
+	}
+
+	.s{
+		left: calc(50% - 20px);
+		bottom: -55;
+	}
+	.sw{
+		left: -45px;
+		bottom: -55;
+	}
+	.se{
+		right: -55px;
+		bottom: -55;
+	}
+}
+
+.halo.animate>div {
+	transition: background-size 80ms, width 80ms, height 80ms, top 150ms,left 150ms, bottom 150ms,right 150ms;
+}
+
+
+.halo .handle.nw {
+	top: -21px;
+	left: -25px;
+}
+.halo .remove {
+	cursor: pointer;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFW…6MVLTj5QOJipFs+VCqYixXsZioWM1GLaf7yK45ZT1/CzAAESidXQn9F/MAAAAASUVORK5CYII=);
+}
+
+.halo .handle.n {
+	top: -22px;
+	left: 50%;
+	margin-left: -10px;
+}
+.halo .clone {
+	cursor: move;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFW…NhXuOkTv/n7hTqwbFwN5DDVGcMHVIsM2fVu7lXt7s7vQQYAIMHB7xhVbHdAAAAAElFTkSuQmCC);
+}
+
+.halo .handle.e {
+	right: -25px;
+	top: -webkit-calc(50% - 10px);
+	top: calc(50% - 10px);
+}
+
+.halo .link {
+	cursor: move;
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFW…dECKF8lVLCWttTuvekx9+MPmzDHut4yzrQsz5hDn+0PQUYAOGQcmTsT0IpAAAAAElFTkSuQmCC);
+}
+
+.halo .handle.ne {
+	top: -21px;
+	right: -25px;
+	}
+	.halo .fork {
+	cursor: move;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR…QCSwmTh+hTEh4YTwUCF+D6DRNPcTuuPpD8/UhWfShtNFQe+d/oVK9MAB0AAAAASUVORK5CYII=);
+}
+
+.halo .handle.w {
+	left: -25px;
+	top: 50%;
+	margin-top: -10px;
+}
+.halo .unlink {
+	cursor: pointer;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFW…4Ss5yCLaiz4S3isyv6W8QXAbHXRaDI1ac+LvSHcC68BRgAHv/CnODh8mEAAAAASUVORK5CYII=);
+}
+
+.halo .handle.sw {
+	bottom: -25px;
+	left: -25px;
+}
+.halo .rotate {
+	cursor: move;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFW…Hrbie1IdNUeRe6UNLVRB72Nh1v9zfQR/+FSbf6afsIMAB0elCwFZfPigAAAABJRU5ErkJggg==);
+}
+
+.halo .handle.s {
+	bottom: -24px;
+	left: 50%;
+	margin-left: -10px;
+}
+
+.halo .handle.se {
+	bottom: -25px;
+	right: -25px;
+}
+
+.halo .box {
+	position: absolute;
+	top: 100%;
+	margin-top: 30px;
+	left: -20px;
+	right: -20px;
+	text-align: center;
+	color: #fff;
+	font-size: 10px;
+	line-height: 14px;
+	background-color: #1ABC9C;
+	border-radius: 6px;
+	padding: 6px;
+}
+label {
+	display: inline-block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
