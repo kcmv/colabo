@@ -403,7 +403,7 @@ nodeHtmlUpdate.select(".rima_user")
 
 ```
 
-## Support for puzzlebility of view compnents
+# Support for puzzlebility of view components
 
 + added collaboPlugins/pluginsPreloader.ts that loads all necessary components BEFORE the main app is bootstrapped
 + main app is bootstrapped AFTER all components are loaded with pluginsPreloader
@@ -412,12 +412,216 @@ nodeHtmlUpdate.select(".rima_user")
 
 ## IMPORTANT
 
-**IMPORTANT**: If you adding new plugins, you need to add them to the `tools/config.ts` in order to build them in the app_bundle.js file, otherwise, development environment will work but production will NOT! Ask @mprinc more about that.
+**IMPORTANT**: If you adding new plugins, you need to add them to the `tools/config.ts` in order to build them in the app_bundle.js file, otherwise, development environment will work but production will NOT! (Ask @mprinc more about that.) To achieve that we need to do:
 
 **TODO**: At the moment we need to add plugin dependencies in the `src/frontend/app/js/pluginDependencies.ts` file. For example:
 
 ```js
 import {TopPanel} from '../components/topPanel/topPanel';
+```
+
+## Adding a new puzzle-hosting view component that can hold pluggable sub components
+
+Let puzzle-hosting view component be the `src/frontend/app/components/bottomPanel/bottomPanel.ts` component.
+
+We need to create a place holder for it in `src/frontend/app/js/config/config.plugins.js`
+
+```js
+var plugins = {
+	"ViewComponents": {
+		"bottomPanel.BottomPanel": {
+			components: {
+			}
+		},
+        // ...
+    },
+    // ...
+};
+```
+
+Inside the components filed we will later add all componets that can exist inside of the puzzle-hosting view component.
+
+## Adding a new pluggable sub components inside the puzzle-hosting view component
+
+Let's have a `src/frontend/app/components/bottomPanel/bottomPanel.ts` component as a pluggable sub components inside the `src/frontend/app/components/bottomPanel/bottomPanel.ts` puzzle-hosting view component.
+
+### Let the puzzle-hosting view component know about new pluggable sub components
+
+We need to add to description of pluggable sub components in `ViewComponents[bottomPanel.BottomPanel].components` container:
+
+```sh
+// ...
+"bottomPanel.BottomPanel": {
+    components: {
+        'brainstorming.BrainstormingPanelComponent': {
+            active: true,
+            path: "/components/brainstorming/brainstorming-panel.component"
+        }
+    }
+},
+// ...
+```
+
+### Let the system know (and preload) the puzzle-hosting view component
+
+Inside the `src/frontend/app/components/collaboPlugins/pluginsPreloader.ts` add the puzzle-hosting view component:
+
+```js
+import {BrainstormingPanelComponent} from '../components/brainstorming/brainstorming-panel.component';
+
+// ...
+
+components['/components/brainstorming/brainstorming-panel.component'] = BrainstormingPanelComponent;
+```
+
+This will help CF system to (pre)load the component and make it available for the puzzle-hosting view component.
+
+The component is accessible through `import {PluginsPreloader} from 'src/frontend/app/components/collaboPlugins/pluginsPreloader.ts';
+
+### Implementing the puzzle-hosting view component
+
+Following our example, create the file `src/frontend/app/components/bottomPanel/bottomPanel.ts`
+
+It should look something like:
+
+```sh
+
+```
+
+`: PluginsPreloader.components.GardeningControls
+
+
+### CSS
+
+Add sass folder with scss file(s), in our case we add `bottomPanel.scss`.
+
+Add config for compiling with compass to `src/frontend/app/js/config/config.plugins.js`:
+
+```js
+COMPASS: {
+// ...
+  PATHS: {
+  // ...
+    'components/bottomPanel': { destDir: APP_SRC, cssDir: 'css' },
+  }
+}
+```
+
+Add config for injecting necessary JS and CSS files to the CF system into`src/frontend/app/js/config/config.plugins.js`:
+
+```js
+puzzlesBuild: {
+  // ...
+  bottomPanel: {
+    path: [APP_SRC_STR, 'components/bottomPanel'],
+    injectJs: [],
+    injectCss: 'css/bottomPanel.css'
+  },
+  // ...
+}
+```
+
+So far we do not have any JS file to inject, since all business logic is writen in TypeScript and it will be automatically included/loaded within the  run-time/building process.
+
+### Adding a new pluggable sub components
+
+We are creating pluggable sub components in a regular way, there is no need to do it in any special way.
+
+In our example, pluggable sub components will be: `src/frontend/app/components/brainstorming/partials/brainstorming-panel.component.tpl.html`.
+
+***NOTE:*** Surely, if we want to interact with other parts of the CF system, since we are puzzle, we have to be **careful**! For example if we are injecting some **service**, we have to load it contidionally if the service is not guaranteed to exist. Similarly, if we need to access some **parts of the system**, like KnAllEdge map, etc, we need to register our reqirements through `CollaboPluginService` and access them in that way, after access is provided and granted.
+
+## Adding a new pluggable sub components inside the puzzle-hosting view component
+
+Our puzzle-hosting view component is `src/frontend/app/components/bottomPanel/bottomPanel.ts`
+
+Here we present the minimal component that dynamically loads pluggable sub components that might or might not exist:
+
+
+```js
+import {Component, ViewEncapsulation} from '@angular/core';
+import {MATERIAL_DIRECTIVES} from 'ng2-material';
+
+/**
+ * Directive that ...
+ * Selector: `bottom-panel`
+ * @class bottomPanel
+ * @memberof CF
+ * @constructor
+*/
+
+var componentDirectives = [
+  MATERIAL_DIRECTIVES
+];
+
+declare var Config: any; // src/frontend/app/js/config/config.plugins.js
+import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
+
+// get the config for ourselves
+var puzzleHostingConfig = Config.Plugins.ViewComponents['bottomPanel.BottomPanel'];
+var pluggableSubComponentsConfig = puzzleHostingConfig.components;
+var pluggableSubComponentName = 'brainstorming.BrainstormingPanelComponent';
+
+if (pluggableSubComponentsConfig[pluggableSubComponentName].active) {
+    console.warn("[KnalledgeMapTools] Loading pluggableSubComponent: ", pluggableSubComponentName);
+    // get reference to the pluggable sub component class
+    var pluggableSubComponent = PluginsPreloader.components[pluggableSubComponentName];
+    if(pluggableSubComponent){
+      // add to other directives that puzzle-hosting view component will contain
+      componentDirectives.push(pluggableSubComponent);
+    }else{
+      console.error("[BottomPanel] Error loading pluggableSubComponent: ", pluggableSubComponentName);
+    }
+} else {
+    console.warn("[KnalledgeMapTools] Not loading pluggableSubComponent: ", pluggableSubComponentName);
+}
+
+@Component({
+    selector: 'bottom-panel',
+    encapsulation: ViewEncapsulation.None,
+    providers: [
+    ],
+    // directives are not explicitly provided but dynamically built and provided
+    directives: componentDirectives,
+    moduleId: module.id, // necessary for having relative paths for templateUrl
+    templateUrl: 'partials/bottom_panel.tpl.html'
+})
+export class BottomPanel {
+    constructor(
+    ) {
+    };
+}
+```
+
+The most important thing here is that we are avoiding explicit importing of pluggable sub component! In other words we avoided:
+
+```js
+import {BrainstormingPanelComponent} from '../components/brainstorming/brainstorming-panel.component';
+```
+
+If we have this, and if the brainstorming puzzle is not added to our CF system instance, building process would crash.
+
+**NOTE**: Sure, this construct we DO have in `src/frontend/app/js/pluginDependencies.ts`, but first of all, that is localized and easier and cleaner to remove, and that is only because our problem of finding descriptive to tell SystemJS to preload non explicitly required TypeScript files.
+
+Even more generic way of loading all pluggable sub components is implemented in final version of our puzzle-hosting view component:
+
+```js
+// go through all pluggable sub components
+for(var pluggableSubComponentName in pluggableSubComponentsConfig){
+  if (pluggableSubComponentsConfig[pluggableSubComponentName].active) {
+      console.warn("[BottomPanel] Loading pluggableSubComponent: ", pluggableSubComponentName);
+      // get reference to the pluggable sub component class
+      var pluggableSubComponent = PluginsPreloader.components[pluggableSubComponentName];
+      if(pluggableSubComponent){
+        // add to other directives that puzzle-hosting view component will contain
+        componentDirectives.push(pluggableSubComponent);
+      }else{
+        console.error("[BottomPanel] Error loading pluggableSubComponent: ", pluggableSubComponentName);
+      }
+  } else {
+      console.warn("[BottomPanel] Not loading pluggableSubComponent: ", pluggableSubComponentName);
+  }
+}
 ```
 
 # Example with RIMA
