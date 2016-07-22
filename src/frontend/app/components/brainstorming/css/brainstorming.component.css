@@ -15,6 +15,10 @@ $large: 1400px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+.phase-title {
+  font-weight: bold;
+  color: #009688; }
+
 .user {
   font-weight: bold;
   cursor: pointer; }

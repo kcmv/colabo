@@ -11,6 +11,7 @@ import {KnalledgeMapViewService} from '../components/knalledgeMap/knalledgeMapVi
 import {TopiChatReports} from '../components/topiChat/reports';
 import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterService';
 import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmitterServicesArray';
+import {BrainstormingService} from '../components/brainstorming/brainstorming.service';
 import {CollaboGrammarService} from '../components/collaboPlugins/CollaboGrammarService';
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
@@ -176,6 +177,7 @@ changeServices.
     service('ChangeService', upgradeAdapter.downgradeNg2Provider(ChangeService));
 
 upgradeAdapter.addProvider(CollaboGrammarService);
+upgradeAdapter.addProvider(BrainstormingService);
 
 var collaboServices =
     angular.module('collaboPluginsServices');

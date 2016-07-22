@@ -24,7 +24,7 @@ export interface ITabData {
     providers: [
     // MATERIAL_PROVIDERS,
     //      OVERLAY_PROVIDERS
-        BrainstormingService
+    //    BrainstormingService
     ],
     directives: [
         MATERIAL_DIRECTIVES,

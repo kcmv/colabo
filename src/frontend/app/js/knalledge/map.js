@@ -206,7 +206,8 @@ Map.prototype.init = function() {
 		name: "map",
 		items: {
 			/* update(source, callback) */
-			update: this.mapVisualization.update.bind(this.mapVisualization)
+			update: this.mapVisualization.update.bind(this.mapVisualization),
+			nodeSelected: this.nodeSelected.bind(this)
 		}
 	});
 

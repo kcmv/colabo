@@ -11,8 +11,14 @@ declare var knalledge;
 @Injectable()
 export class BrainstormingService {
     brainstorming: Brainstorming = new Brainstorming();
+
+    //brainstorming-panel-settings:
+    public showOnlyBrainstorming: boolean = true;
+
     private brainstormingPluginInfo: any;
     private knAllEdgeRealTimeService: any;
+    private showSubComponentInBottomPanelEvent: string = "showSubComponentInBottomPanelEvent";
+
     /**
      * Service constructor
      * @constructor
@@ -27,6 +33,9 @@ export class BrainstormingService {
         private collaboGrammarService : CollaboGrammarService
         ) {
         let that = this;
+
+        globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
+
         this.knAllEdgeRealTimeService = this.$injector.get('KnAllEdgeRealTimeService');
         let requestPluginOptions: any = {
             name: "RequestService",
@@ -69,7 +78,8 @@ export class BrainstormingService {
             apis: {
                 map: {
                     items: {
-                        update: null
+                        update: null,
+                        nodeSelected: null
                     },
                     $resolved: false,
                     callback: null,
@@ -135,12 +145,30 @@ export class BrainstormingService {
       this.collaboGrammarService.puzzles.brainstorming.state = this.brainstorming;
       if(this.brainstorming.phase === BrainstormingPhase.INACTIVE){
         this.collaboGrammarService.puzzles.brainstorming.state = null;
+        //TODO: hide brainstorming Panel or de-inject brainstormingPanel part from the Panel
+      }else{
+        this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
+        .broadcast('KnalledgeMapTools', 'brainstorming.BrainstormingPanelComponent');
       }
     }
 
     finishBrainstorming(){
       this.brainstorming.phase = BrainstormingPhase.INACTIVE;
       this.setUpBrainstormingChange();
+    }
+
+    focusToQuestion(){
+      //console.log("brainstormingService.focusToQuestion()");
+      if(this.brainstorming.question && this.brainstormingPluginInfo.references.map.$resolved){
+        this.brainstormingPluginInfo.apis.map.items.nodeSelected(this.brainstorming.question);
+        this.brainstormingPluginInfo.apis.map.items.update();
+      }
+    }
+
+    addNewIdea(){
+      console.log("brainstormingService.addNewIdea()");
+      this.focusToQuestion();
+
     }
 
     private processReferencesInBrainStorming(brainstorming:Brainstorming): Brainstorming{
@@ -156,7 +184,7 @@ export class BrainstormingService {
         this.brainstorming = receivedBrainstorming;
         if(this.brainstorming.question && this.brainstormingPluginInfo.references.map.$resolved){
           this.brainstorming = this.processReferencesInBrainStorming(this.brainstorming);
-          this.brainstormingPluginInfo.references.map.items.mapStructure.setSelectedNode(this.brainstorming.question);
+          this.brainstormingPluginInfo.apis.map.items.nodeSelected(this.brainstorming.question);
           this.brainstormingPluginInfo.apis.map.items.update();
           // this.brainstormingPluginInfo.references.map.items.mapStructure.setSelectedNode(this.brainstorming.question);
           // this.brainstormingPluginInfo.apis.map.items.update();
