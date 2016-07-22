@@ -384,6 +384,16 @@ var plugins = {
 			plugins: {
 				mapVisualizePlugins: ['ApprovalNodeService']
 			}
+		},
+		brainstorming: {
+			active: true,
+			services: {
+				BrainstormingService: {
+				}
+			},
+			plugins: {
+				mapVisualizePlugins: ['BrainstormingService']
+			}
 		}
 	}
 };
