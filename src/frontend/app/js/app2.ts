@@ -75,11 +75,6 @@ gardeningServices
     .service('ApprovalNodeService', ApprovalNodeService)
     ;
 
-var brainstormingServices = angular.module('brainstormingServices');
-brainstormingServices
-    .service('BrainstormingService', BrainstormingService)
-    ;
-
 var suggestionServices = angular.module('suggestionServices');
 suggestionServices
     .service('SuggestionService', SuggestionService)
@@ -189,6 +184,12 @@ var collaboServices =
 
 collaboServices.
     service('CollaboGrammarService', upgradeAdapter.downgradeNg2Provider(CollaboGrammarService));
+
+var brainstormingServices = angular.module('brainstormingServices');
+brainstormingServices
+    .service('BrainstormingService', BrainstormingService)
+    ;
+
 
 // bootstrapping app
 upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false});
