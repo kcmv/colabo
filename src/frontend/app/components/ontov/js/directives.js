@@ -18,10 +18,11 @@
                             $scope.test = "hello";
 
                             var initVS = function() {
-                                // VS is a visual search component (?)
+                                // VS is a visual search component
                                 // http://documentcloud.github.io/visualsearch/
+                                var container = $('.ontov_visual_search');
                                 var visualSearch = VS.init({
-                                    container: $('.ontov_visual_search'),
+                                    container: container,
                                     query: '',
                                     callbacks: {
                                         // callback after search is is finished by user
@@ -73,13 +74,16 @@
                                             // These are the facets that will be autocompleted in an empty input.
                                             var pills = dataModel.getPills();
                                             var pillNames = _.keys(pills);
-                                            callback(pillNames);
+                                            callback(["name", "type", "iAmId", "user", "what", "tree", "collabo-arte"])
+                                            // callback(pillNames);
                                         },
                                         valueMatches: function(facet, searchTerm, callback) {
                                             // These are the values that match specific categories, autocompleted
                                             // in a category's input field.  searchTerm can be used to filter the
                                             // list on the server-side, prior to providing a list to the widget
-                                            callback(dataModel.getFacetMatches(facet));
+                                            var result = dataModel.getFacetMatches(facet);
+                                            console.log("searchTerm: ", searchTerm, "result: ", result);
+                                            callback(result);
                                         }
 									} // end of callbacks
                                 }); // end of VS.init

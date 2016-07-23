@@ -73,14 +73,7 @@ var componentDirectives = [
     BottomPanel
 ];
 
-declare var Config: any;
-
-if (Config.Plugins.puzzles.topPanel.active && PluginsPreloader.components.TopPanel) {
-    console.warn("[KnalledgeMapMain] Loading TopPanel");
-    componentDirectives.push(PluginsPreloader.components.TopPanel);
-} else {
-    console.warn("[KnalledgeMapMain] Not loading TopPanel");
-}
+PluginsPreloader.loadDirectivesDependenciesForCoponent('knalledgeMap.Main', componentDirectives);
 
 if (Config.Plugins.puzzles.ontov.active) {
     componentDirectives.push(upgradeAdapter.upgradeNg1Component('ontovSearch'));
