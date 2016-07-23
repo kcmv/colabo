@@ -1160,7 +1160,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				};
 
 				$scope.delete = function(how) {
-					if(confirm("Are you sure you want to delete you relation to '"+ how.whatAmI.name +"'?")){
+					if(confirm("Are you sure you want to delete your relation to '"+ how.whatAmI.name +"'?")){
 						RimaService.deleteHow(how._id, function(){
 							var index = -1;
 							for(var i=0;i<$scope.items.length;i++){
@@ -1333,7 +1333,7 @@ angular.module('rimaDirectives', ['Config', 'knalledgeMapServices'])
 				};
 
 				$scope.delete = function(how) {
-					if(confirm("Are you sure you want to delete you relation to '"+ how.whatAmI.name +"'?")){
+					if(confirm("Are you sure you want to delete your relation to '"+ how.whatAmI.name +"'?")){
 						RimaService.deleteHow(how._id, function(){
 							var index = -1;
 							for(var i=0;i<$scope.items.length;i++){

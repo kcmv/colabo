@@ -194,9 +194,9 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 				if(relevant) classes += " rima_relevant"
 				return classes;
 			})
-		.on("dblclick", function(d){
-			that.upperAPI.nodeDblClicked(d);
-		})
+		// .on("dblclick", function(d){
+		// 	that.upperAPI.nodeDblClicked(d);
+		// })
 		.on("click", function(d){
 			that.upperAPI.nodeClicked(d);
 			// that.mapLayout.clickNode(d, this);
@@ -690,9 +690,9 @@ MapVisualizationTree.prototype.updateSvgNodes = function(source) {
 		.on("click", function(d){
 			that.upperAPI.nodeClicked(d);
 		})
-		.on("dblclick", function(d){
-			that.upperAPI.nodeDblClicked(d);
-		})
+		// .on("dblclick", function(d){
+		// 	that.upperAPI.nodeDblClicked(d);
+		// })
 		// Enter any new nodes at the parent's previous position.
 		.attr("transform", function(d) {
 			var x = null, y = null;
