@@ -147,7 +147,7 @@
                                     <span *ngIf="policyConfig.broadcasting.receiveNavigation">
                                       <button md-fab class="md-primary" (click)="followBroadcast(false)">
                                         <span class="fa-stack fa-lg">
-                                          <i class="fa fa-phone fa-stack-1x"></i>
+                                          <i class="fa fa-volume-control-phone fa-stack-1x"></i>
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
                                         </span>
                                       </button>
@@ -157,7 +157,7 @@
                                       <button md-fab class="md-primary" (click)="followBroadcast(true)">
                                         <span class="warning fa-stack fa-lg">
                                           <i class="fa fa-phone fa-stack-1x"></i>
-                                          <i class="fa fa-times" aria-hidden="true"></i>
+                                          <i style="margin-top: -0.3em" class="fa fa-times" aria-hidden="true"></i>
                                           <!-- <i class="fa fa-ban fa-stack-2x text-danger"></i> -->
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
                                         </span>
@@ -198,9 +198,9 @@
                                     </div>
                                 </div>
 
-                                <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
+                                <!-- <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
                                     <i title="Logout" md-icon>directions run</i>
-                                </button>
+                                </button> -->
                                 <!-- <div>TESTING
                                   <span *ngIf="policyConfig.moderating.enabled">
                                     policyConfig.moderating.enabled = {{policyConfig.moderating.enabled}} = true
