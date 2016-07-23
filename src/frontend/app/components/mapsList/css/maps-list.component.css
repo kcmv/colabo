@@ -52,11 +52,6 @@ h1 {
 .highlighted_name {
   font-style: italic; }
 
-.fa {
-  font-size: 18px; }
-  .fa:hover {
-    color: #ffffa0; }
-
 .btn {
   /*padding-right: 15px;*/ }
 

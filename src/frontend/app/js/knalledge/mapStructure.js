@@ -923,6 +923,10 @@
 		return vnode.kNode.iAmId === this.rimaService.getWhoAmI()._id;
 	}
 
+	MapStructure.prototype.isNodeOfActiveUser = function(vnode) {
+		return vnode.kNode.iAmId === this.rimaService.getActiveUserId();
+	}
+
 	MapStructure.prototype.deleteNode = function(vnode, callback) {
 		console.log("this.rimaService.getWhoAmI():",this.rimaService.getWhoAmI());
 		if(!this.isMyNode(vnode) &&	!this.knalledgeMapPolicyService.provider.config.moderating.enabled){

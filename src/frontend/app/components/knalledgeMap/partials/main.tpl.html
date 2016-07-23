@@ -133,20 +133,55 @@
                             </section>
                             <span class="map">Map <span class="mapName">{{getMapName()}}</span></span>
 
+                            <!-- <span class="fa-stack fa-lg">
+                              <i class="fa fa-camera fa-stack-1x"></i>
+                              <i class="fa fa-ban fa-stack-2x text-danger"></i>
+                            </span> -->
+
                             <section class="status" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
                                 <div class="name" layout="column">
                                     {{policyConfig.state.name}}
                                     <!-- ({{policyConfig.state.id}}) -->
                                 </div>
                                 <div *ngIf="!policyConfig.moderating.enabled">
-                                    <span *ngIf="policyConfig.broadcasting.receiveNavigation">You are following the presentation<button md-raised-button (click)="stopFollowing()" class="md-accent md-hue-1">Stop following</button></span>
-                                    <span *ngIf="!policyConfig.broadcasting.receiveNavigation"><span class="warning">You are not following a presentation!</span>
-                                    <button md-raised-button (click)="continueFollowing()" class="md-accent md-hue-1">Start following</button>
+                                    <span *ngIf="policyConfig.broadcasting.receiveNavigation">
+                                      <button md-fab class="md-primary" (click)="followBroadcast(false)">
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-phone fa-stack-1x"></i>
+                                          <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
+                                        </span>
+                                      </button>
+                                    </span>
+                                    <span *ngIf="!policyConfig.broadcasting.receiveNavigation">
+                                      <!-- <span class="warning">You are not following a presentation!</span> -->
+                                      <button md-fab class="md-primary" (click)="followBroadcast(true)">
+                                        <span class="warning fa-stack fa-lg">
+                                          <i class="fa fa-phone fa-stack-1x"></i>
+                                          <i class="fa fa-times" aria-hidden="true"></i>
+                                          <!-- <i class="fa fa-ban fa-stack-2x text-danger"></i> -->
+                                          <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
+                                        </span>
+                                      </button>
                                     </span>
                                 </div>
                                 <div *ngIf="policyConfig.moderating.enabled">
-                                    <span *ngIf="policyConfig.broadcasting.enabled">You are presenting<button md-raised-button (click)="disableBroadcasting()" class="md-accent md-hue-1">Stop</button></span>
-                                    <span *ngIf="!policyConfig.broadcasting.enabled">You are not presenting<button md-raised-button (click)="enableBroadcasting()" class="md-accent md-hue-1">Start</button></span>
+                                    <span *ngIf="policyConfig.broadcasting.enabled">
+                                      <button md-fab class="md-primary" (click)="broadcast(false)" class="md-accent md-hue-1">
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-desktop fa-stack-1x"></i>
+                                          <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
+                                        </span>
+                                      </button>
+                                    </span>
+                                    <span *ngIf="!policyConfig.broadcasting.enabled">
+                                      <button md-fab class="md-primary" (click)="broadcast(true)" class="md-accent md-hue-1">
+                                        <span class="fa-stack fa-lg disabled">
+                                          <i class="fa fa-desktop fa-stack-1x"></i>
+                                          <i class="fa fa-times" aria-hidden="true"></i>
+                                          <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
+                                        </span>
+                                      </button>
+                                    </span>
                                 </div>
                             </section>
                             <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>

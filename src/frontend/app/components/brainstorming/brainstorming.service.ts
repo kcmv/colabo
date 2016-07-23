@@ -33,9 +33,10 @@ export class BrainstormingService {
                   //     // d3.select(this).style("display", "none");
                   // })
                   .html(function(d){
-                      var label = "<i class='fa fa-eye-slash' aria-hidden='true'></i>";
-                      //var label = "<i class='fa fa-eye' aria-hidden='true'></i>";
-                      return label;
+                    var label = "<i class='fa fa-user-secret' aria-hidden='true'></i>";
+                    //var label = "<i class='fa fa-eye-slash' aria-hidden='true'></i>";
+                    //var label = "<i class='fa fa-eye' aria-hidden='true'></i>";
+                    return label;
                   });
           }.bind(this), // necessary for keeping reference on service
 
@@ -55,8 +56,9 @@ export class BrainstormingService {
                   // .style("width", '2em')
                   // .style("height", '2em')
                   .html(function(d){
-                      var label = "<i class='fa fa-eye-slash' aria-hidden='true'></i>";
-                      return label;
+                    var label = "<i class='fa fa-user-secret' aria-hidden='true'></i>";
+                    //var label = "<i class='fa fa-eye-slash' aria-hidden='true'></i>";
+                    return label;
                   })
                   .style("opacity", 1e-6);
 
@@ -270,7 +272,7 @@ export class BrainstormingService {
       var ideas: any[] = this.brainstormingPluginInfo.references.map.items.mapStructure.getChildrenNodes(this.brainstorming.question);
       for(var i:number = 0; i < ideas.length; i++){
         var idea = ideas[i];
-        if(this.brainstormingPluginInfo.references.map.items.mapStructure.isMyNode(idea) && this.isPrivateNode(idea)){
+        if(this.brainstormingPluginInfo.references.map.items.mapStructure.isNodeOfActiveUser(idea) && this.isPrivateNode(idea)){
           console.log(idea.kNode.type,idea.kNode.iAmId);
           this.brainstormingPluginInfo.apis.map.items.nodeSelected(idea);
           delete idea.kNode.decorations.brainstorming;

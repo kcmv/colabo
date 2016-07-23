@@ -188,18 +188,11 @@ export class KnalledgeMapMain {
     getMapName(): any {
         return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
     }
-
-    stopFollowing(): any {
-        this.policyConfig.broadcasting.receiveNavigation = false;
+    followBroadcast(value: boolean): any {
+        this.policyConfig.broadcasting.receiveNavigation = value;
     }
-    continueFollowing(): any {
-        this.policyConfig.broadcasting.receiveNavigation = true;
-    }
-    disableBroadcasting(): any {
-        this.policyConfig.broadcasting.enabled = false;
-    }
-    enableBroadcasting(): any {
-        this.policyConfig.broadcasting.enabled = true;
+    broadcast(value: boolean): any {
+        this.policyConfig.broadcasting.enabled = value;
     }
     toggleTopPanel(): any {
         this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
