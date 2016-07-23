@@ -20,3 +20,20 @@ facet: "name"
 searchTerm: ""
 
 => callback called with: ["workshop test", "test"]
+
+### Ontov plugins
+
+```js
+
+_getFacetMatches_What(searchTerm:string){
+  return ['ISSS', 'system', 'todo', 'sustainable'];
+}
+_doesMatch_What(searchTerm:string, vkNode){
+  return vkNode.kNode.name === searchTerm;
+}
+
+this.registerFacet("What", {
+  getFacetMatches: this._getFacetMatches_What.bind(this),
+  doesMatch: this._doesMatch_What.bind(this)
+});
+```
