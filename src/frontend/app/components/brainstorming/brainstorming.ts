@@ -28,8 +28,8 @@ export class BrainstormingPhaseNames {
 				return this.SHARING_IDEAS;
 			case BrainstormingPhase.GROUP_DISCUSSION:
 				return this.GROUP_DISCUSSION;
-			case BrainstormingPhase.GROUP_DISCUSSION:
-				return this.GROUP_DISCUSSION;
+			case BrainstormingPhase.VOTING_AND_RANKING:
+				return this.VOTING_AND_RANKING;
 			case BrainstormingPhase.FINISHED:
 				return this.FINISHED;
 		}
@@ -55,14 +55,14 @@ export class Brainstorming {
 
 /* PROPERTIES */
 	public id: number;
-	public createPrivateIdeas: boolean = true; //create private ideas at the 1st phase
+	public createPrivateIdeas; //create private ideas at the 1st phase
 	//allow only addition of ideas to the brainstorming question node - no free knowlegdge gardening:
-	public onlyIdeasToQuestion: boolean = true;
-	public allowArgumentsToIdeas: boolean = false; //allow adding arguments to ideas
+	public onlyIdeasToQuestion: boolean;
+	public allowArgumentsToIdeas: boolean; //allow adding arguments to ideas
 	public currentPhaseTimeLeft: number;
 	public currentPhaseTimeSpent: number;
-	public question: knalledge.KNode = null;
-	public phase: number = BrainstormingPhase.INACTIVE;
+	public question: knalledge.KNode;
+	public phase;
 	public presenter: knalledge.WhoAmI;
 
 	public createdAt: any; //when the object is created
@@ -82,7 +82,28 @@ export class Brainstorming {
 	}
 
 	constructor(){
+		this.reset();
+	}
+
+	reset(){
 		this.id = Brainstorming.MaxId++;
+		this.createPrivateIdeas = true;
+		this.onlyIdeasToQuestion = true;
+		this.allowArgumentsToIdeas = false; //allow adding arguments to ideas
+		// this.currentPhaseTimeLeft: number;
+		// this.currentPhaseTimeSpent: number;
+		this.question = null;
+		this.phase= BrainstormingPhase.INACTIVE;
+		this.presenter = null;
+
+		// this.createdAt: any; //when the object is created
+		// this.updatedAt: any; //when the obect is updated
+		// this.dataContent: Object;
+		// this.decorations: Object;
+
+		/* THIS PROPERTY IS local-to-frontend */
+		this.state = State.LOCAL; //state of the object, responding to some of the enum STATE
+	/* PROPERTIES - END */
 	}
 
 	nextPhase(){
@@ -104,6 +125,31 @@ export class Brainstorming {
 			break;
 			case BrainstormingPhase.FINISHED:
 				this.phase = BrainstormingPhase.FINISHED;
+			break;
+			default:
+				this.phase = BrainstormingPhase.INACTIVE;
+		}
+	}
+
+	previousPhase(){
+		switch(this.phase){
+			case BrainstormingPhase.INACTIVE:
+				this.phase = BrainstormingPhase.INACTIVE;
+			break;
+			case BrainstormingPhase.IDEAS_GENERATION:
+				this.phase = BrainstormingPhase.INACTIVE;
+			break;
+			case BrainstormingPhase.SHARING_IDEAS:
+				this.phase = BrainstormingPhase.IDEAS_GENERATION;
+			break;
+			case BrainstormingPhase.GROUP_DISCUSSION:
+				this.phase = BrainstormingPhase.SHARING_IDEAS;
+			break;
+			case BrainstormingPhase.VOTING_AND_RANKING:
+				this.phase = BrainstormingPhase.GROUP_DISCUSSION;
+			break;
+			case BrainstormingPhase.FINISHED:
+				this.phase = BrainstormingPhase.VOTING_AND_RANKING;
 			break;
 			default:
 				this.phase = BrainstormingPhase.INACTIVE;

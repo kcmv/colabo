@@ -210,6 +210,12 @@ Map.prototype.init = function() {
 			nodeSelected: this.nodeSelected.bind(this)
 		}
 	});
+	this.collaboPluginsService.provideApi("mapInteraction", {
+		name: "mapInteraction",
+		items: {
+			addNode: this.mapInteraction.addNode.bind(this.mapInteraction)
+		}
+	});
 
 	// realtime listener registration
 	var NodeChangedPluginOptions = {

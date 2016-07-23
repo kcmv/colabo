@@ -107,7 +107,7 @@
                     <md-toolbar class="toolbar md-theme-indigo" color="primary" style="width: 100%;">
                         <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
                             <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
-                                <button md-fab class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
+                                <button md-fab md-tooltip="Configuration" tooltip-position="below" class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
                                     <i title="Settings" md-icon>settings</i>
                                 </button>
                                 <!-- <button md-fab class="md-primary" aria-label="Configuration" (click)="options.open()" hide-gt-md> -->
@@ -118,7 +118,7 @@
                                     <i title="Top Panel" md-icon>view_agenda</i>
                                 </button>
 
-                                <button md-fab class="md-primary" aria-label="Maps" (click)="go('maps')">
+                                <button md-fab md-tooltip="Maps" tooltip-position="below" class="md-primary" aria-label="Maps" (click)="go('maps')">
                                     <i title="Maps List" md-icon>map</i>
                                 </button>
 
