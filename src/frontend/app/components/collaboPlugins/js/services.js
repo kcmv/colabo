@@ -583,6 +583,8 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 	this.provideReferences = _provideReferences;
 	this.registerPlugin = _registerPlugin;
 	this.provideApi = _provideApi;
+	this.revokeReferences = _revokeReferences;
+	this.revokeApi = _revokeApi;
 
 	this.$get = ['$rootScope', 'ENV', /*'$q', */
 	function($rootScope, ENV /*$q */) {
@@ -616,6 +618,12 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 
 			// api provider provides api (with apiName name) to be registered with the collaboplugins service and available for others to use it
 			provideApi: _provideApi,
+
+			// reference revoker revokes/unregisters references (with referenceName) from system, and other consumers of them
+			revokeReferences: _revokeReferences,
+
+			// api revoker revokes/unregisters api (with apiName name) from system, and other consumers of them
+			revokeApi: _revokeApi,
 
 			// api consumers can ask for particular api
 			getApi: function(apiName){
