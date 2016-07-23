@@ -19,26 +19,7 @@ var componentDirectives = [
 declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
-// get the config for ourselves
-var puzzleHostingConfig = Config.Plugins.ViewComponents['bottomPanel.BottomPanel'];
-var pluggableSubComponentsConfig = puzzleHostingConfig.components;
-
-// go through all pluggable sub components
-for(var pluggableSubComponentName in pluggableSubComponentsConfig){
-  if (pluggableSubComponentsConfig[pluggableSubComponentName].active) {
-      console.warn("[BottomPanel] Loading pluggableSubComponent: ", pluggableSubComponentName);
-      // get reference to the pluggable sub component class
-      var pluggableSubComponent = PluginsPreloader.components[pluggableSubComponentName];
-      if(pluggableSubComponent){
-        // add to other directives that puzzle-hosting view component will contain
-        componentDirectives.push(pluggableSubComponent);
-      }else{
-        console.error("[BottomPanel] Error loading pluggableSubComponent: ", pluggableSubComponentName);
-      }
-  } else {
-      console.warn("[BottomPanel] Not loading pluggableSubComponent: ", pluggableSubComponentName);
-  }
-}
+PluginsPreloader.loadDirectivesDependenciesForCoponent('bottomPanel.BottomPanel', componentDirectives);
 
 @Component({
     selector: 'bottom-panel',
