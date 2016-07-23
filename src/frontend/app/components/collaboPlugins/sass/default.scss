@@ -6,8 +6,29 @@ h1{
 	border-bottom: solid gray 1px;
 }
 
+.brainstorming-panel{
+	md-switch{
+		display: inline-flex;
+	}
+	// .md-button{
+	// 	background-color: #d5d5d5;
+	// 	background: #d5d5d5;
+	// }
+}
+
 .brainstorming_decoration{
-	color: gray;
+	color: #808080;
+  // border-radius: 4px;
+  padding-right: 2px;
+	padding-bottom: 2px;
+  // width: 1.4em;
+  // height: 1.4em;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  // background-color: #ffff88;
+  // border: 2px solid #bfbf48;
+  // text-align: center;
 }
 
 .plugin-info{

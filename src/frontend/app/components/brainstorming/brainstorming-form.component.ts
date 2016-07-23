@@ -121,7 +121,7 @@ export class BrainstormingFormComponent {
 
     restart(): void {
         if (confirm('Are you sure?')) {
-            this.brainstorming = new Brainstorming();
+            this.brainstormingService.restart();
             // this.brainstorming.nextPhase();
             // this.readyForNewPhase = false;
             this.readyForNewPhase = true;
@@ -161,6 +161,10 @@ export class BrainstormingFormComponent {
     close(confirm: boolean = false) {
         console.log("[BrainstormingFormComponent].close:", confirm);
         this.mdDialog.close();
+        if(!confirm){
+          this.brainstorming.previousPhase();
+          this.readyForNewPhase = true;
+        }
     }
 
     private brainstormingSent(result: boolean, error?: any): void {

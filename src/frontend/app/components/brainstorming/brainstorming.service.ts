@@ -11,6 +11,8 @@ declare var knalledge;
 
 @Injectable()
 export class BrainstormingService {
+  //public static MaxId: number = 0;
+  //public id:number;
   plugins:any = {
       mapVisualizePlugins: {
           service: this,
@@ -95,7 +97,7 @@ export class BrainstormingService {
         private collaboGrammarService : CollaboGrammarService
         ) {
         let that = this;
-
+        //this.id = ++BrainstormingService.MaxId;
         globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
 
         this.knAllEdgeRealTimeService = this.$injector.get('KnAllEdgeRealTimeService');
@@ -146,6 +148,14 @@ export class BrainstormingService {
                     $resolved: false,
                     callback: null,
                     $promise: null
+                },
+                mapInteraction: {
+                    items: {
+                        addNode: null
+                    },
+                    $resolved: false,
+                    callback: null,
+                    $promise: null
                 }
             }
         };
@@ -177,6 +187,12 @@ export class BrainstormingService {
       }
     }
 
+    restart(){
+      let question = this.brainstorming.question;
+      this.brainstorming.reset();
+      this.brainstorming.question = question;
+    }
+
     amIPresenter(): boolean {
       return this.knalledgeMapPolicyService.get().config.broadcasting.enabled;
     }
@@ -192,9 +208,8 @@ export class BrainstormingService {
 
     showDecoration(node: any): boolean {
       return this.isPrivateNode(node)
-      // && this.brainstorming && (this.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION ||
-      // this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS) &&
-      ;
+      && this.brainstorming && (this.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION ||
+      this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS);
     }
 
     isPrivateNode(node: any): boolean {
@@ -248,7 +263,7 @@ export class BrainstormingService {
     addNewIdea(){
       console.log("brainstormingService.addNewIdea()");
       this.focusToQuestion();
-
+      this.brainstormingPluginInfo.apis.mapInteraction.items.addNode(this.brainstorming.question);
     }
 
     presentNextIdea() {

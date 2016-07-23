@@ -20,8 +20,16 @@ h1 {
   padding-bottom: 5px;
   border-bottom: solid gray 1px; }
 
+.brainstorming-panel md-switch {
+  display: inline-flex; }
+
 .brainstorming_decoration {
-  color: gray; }
+  color: #808080;
+  padding-right: 2px;
+  padding-bottom: 2px;
+  position: absolute;
+  right: 0px;
+  bottom: 0px; }
 
 .plugin-info {
   h2-margin-top: 10px;

@@ -29,6 +29,10 @@ export class BrainstormingPanelComponent {
 
     }
 
+    showPanel():boolean {
+      return this.brainstormingService.brainstorming && this.brainstormingService.brainstorming.phase !== BrainstormingPhase.INACTIVE;
+    }
+
     ngOnInit() {
       this.brainstormingService.init();
     }

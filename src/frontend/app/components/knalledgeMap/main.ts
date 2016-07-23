@@ -16,7 +16,7 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {BrainstormingFormComponent} from '../brainstorming/brainstorming-form.component';
-import {BrainstormingService} from '../brainstorming/brainstorming.service';
+//import {BrainstormingService} from '../brainstorming/brainstorming.service';
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
 import {BottomPanel} from '../bottomPanel/bottomPanel';
 
@@ -98,7 +98,7 @@ if (Config.Plugins.puzzles.ontov.active) {
         // provideRouter
         // RequestService
         // ROUTER_PROVIDERS
-        BrainstormingService
+        // BrainstormingService
     ],
     directives: componentDirectives,
     // necessary for having relative paths for templateUrl
