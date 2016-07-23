@@ -84,15 +84,7 @@ export class OntovComponent implements OnInit {
               value: value
             });
           });
-
-          // retrieving nodes that fits the search criteria
-          // (including also context nodes - like parent nodes
-          // all the way to the root node)
-
-          // hide all non-relevant nodes
-          // vkNode.visible = false;
-          // delete vkNode.visible;
-          // mapUpdate();
+          that.ontovService.filterByFacets(searchCollectionArray);
         },
         facetMatches: function(callback) {
           // These are the facets that will be autocompleted in an empty input.
