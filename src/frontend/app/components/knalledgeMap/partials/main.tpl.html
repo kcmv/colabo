@@ -147,7 +147,7 @@
                                     <span *ngIf="policyConfig.broadcasting.receiveNavigation">
                                       <button md-fab class="md-primary" (click)="followBroadcast(false)">
                                         <span class="fa-stack fa-lg">
-                                          <i class="fa fa-volume-control-phone fa-stack-1x"></i>
+                                          <i class="fa fa-phone fa-stack-1x"></i>
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
                                         </span>
                                       </button>
@@ -155,10 +155,11 @@
                                     <span *ngIf="!policyConfig.broadcasting.receiveNavigation">
                                       <!-- <span class="warning">You are not following a presentation!</span> -->
                                       <button md-fab class="md-primary" (click)="followBroadcast(true)">
-                                        <span class="warning fa-stack fa-lg">
-                                          <i class="fa fa-phone fa-stack-1x"></i>
-                                          <i style="margin-top: -0.3em" class="fa fa-times" aria-hidden="true"></i>
-                                          <!-- <i class="fa fa-ban fa-stack-2x text-danger"></i> -->
+                                        <span class="fa-stack fa-lg">
+                                          <!-- <i class="fa fa-ban text-danger" style="font-size: 2.3em"></i> -->
+                                          <i  style="font-size: 2em" class="fa fa-times text-danger"></i>
+                                          <i class="fa fa-phone disabled fa-stack-1x"></i>
+
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
                                         </span>
                                       </button>
@@ -175,9 +176,11 @@
                                     </span>
                                     <span *ngIf="!policyConfig.broadcasting.enabled">
                                       <button md-fab class="md-primary" (click)="broadcast(true)" class="md-accent md-hue-1">
-                                        <span class="fa-stack fa-lg disabled">
-                                          <i class="fa fa-desktop fa-stack-1x"></i>
-                                          <i class="fa fa-times" aria-hidden="true"></i>
+                                        <span class="fa-stack fa-lg">
+                                          <!-- <i class="fa fa-ban" style="font-size: 2.3em"></i> -->
+                                          <i class="fa fa-desktop fa-stack-1x disabled"></i>
+                                          <i style="margin-top: -0.1em" class="fa fa-times disabled"></i>
+                                          <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
                                         </span>
                                       </button>
