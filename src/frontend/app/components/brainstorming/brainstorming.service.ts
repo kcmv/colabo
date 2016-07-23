@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 //import {CollaboPluginsService} from 'collabo';
-import {Brainstorming, BrainstormingPhase} from './brainstorming';
+import {Brainstorming, BrainstormingPhase, BrainstrormingDecorations} from './brainstorming';
 import {Change, ChangeType, Domain, Event} from '../change/change';
 import {CollaboGrammarService} from '../collaboPlugins/CollaboGrammarService';
 
@@ -23,28 +23,29 @@ export class BrainstormingService {
 
               // .filter(function(d) { return d.kNode.dataContent && d.kNode.dataContent.image; })
               nodeHtmlEnter.append("div")
-                  .attr("class", "gardening_approval")
-                  .on("click", function(d){
-                      d3.event.stopPropagation();
-                      service.changeApproval(d);
-                      // d3.select(this).remove();
-                      // d3.select(this).style("display", "none");
-                  })
+                  .attr("class", "brainstorming_decoration")
+                  // .on("click", function(d){
+                  //     d3.event.stopPropagation();
+                  //     service.changeApproval(d);
+                  //     // d3.select(this).remove();
+                  //     // d3.select(this).style("display", "none");
+                  // })
                   .html(function(d){
-                      var label = 'X';//NodeGardened.getApprovalLabel(d.kNode);
+                      var label = "<i class='fa fa-eye-slash' aria-hidden='true'></i>";
+                      //var label = "<i class='fa fa-eye' aria-hidden='true'></i>";
                       return label;
                   });
           }.bind(this), // necessary for keeping reference on service
 
           nodeHtmlUpdate: function(nodeHtmlUpdate){
             var that = this;
-              nodeHtmlUpdate.select(".gardening_approval")
+              nodeHtmlUpdate.select(".brainstorming_decoration")
                   .style("display", function(d){
                       var display = "none";
                       // if((d.kNode.gardening && d.kNode.gardening.approval && d.kNode.gardening.approval.state)){
                       // 	display = "block";
                       // }
-                      if(true){//that.service.interfaceConfig.showInterface){
+                      if(that.service.showDecoration(d)){
                         display = "block";
                       }
                       return display;
@@ -52,17 +53,17 @@ export class BrainstormingService {
                   // .style("width", '2em')
                   // .style("height", '2em')
                   .html(function(d){
-                      var label = "X";//NodeGardened.getApprovalLabel(d.kNode);
+                      var label = "<i class='fa fa-eye-slash' aria-hidden='true'></i>";
                       return label;
                   })
                   .style("opacity", 1e-6);
 
-              var nodeHtmlUpdateTransition = nodeHtmlUpdate.select(".gardening_approval").transition().delay(300).duration(500)
+              var nodeHtmlUpdateTransition = nodeHtmlUpdate.select(".brainstorming_decoration").transition().delay(300).duration(500)
                   .style("opacity", 0.8);
           },
 
           nodeHtmlExit: function(nodeHtmlExit){
-              nodeHtmlExit.select(".gardening_approval")
+              nodeHtmlExit.select(".brainstorming_decoration")
                   .on("click", null);
           }
       }
@@ -76,6 +77,9 @@ export class BrainstormingService {
     private brainstormingPluginInfo: any;
     private knAllEdgeRealTimeService: any;
     private showSubComponentInBottomPanelEvent: string = "showSubComponentInBottomPanelEvent";
+
+    private initiated:boolean = false;
+    private rimaService:any = null;
 
     /**
      * Service constructor
@@ -166,6 +170,13 @@ export class BrainstormingService {
         this.collaboPluginsService.registerPlugin(this.brainstormingPluginInfo);
     }
 
+    init(){
+      if(!this.initiated){
+        this.initiated = true;
+        this.rimaService = this.$injector.get('RimaService');
+      }
+    }
+
     amIPresenter(): boolean {
       return this.knalledgeMapPolicyService.get().config.broadcasting.enabled;
     }
@@ -177,6 +188,17 @@ export class BrainstormingService {
       if(!node) {return false;}
       this.brainstorming.question = node;
       return (this.brainstorming.question.kNode.type === knalledge.KNode.TYPE_IBIS_QUESTION);
+    }
+
+    showDecoration(node: any): boolean {
+      return this.isPrivateNode(node)
+      // && this.brainstorming && (this.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION ||
+      // this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS) &&
+      ;
+    }
+
+    isPrivateNode(node: any): boolean {
+        return node.kNode.decorations && node.kNode.decorations.brainstorming === BrainstrormingDecorations.PRIVATE_BRAINSTORMING;
     }
 
     sendBrainstorming(callback: Function) {
@@ -229,6 +251,21 @@ export class BrainstormingService {
 
     }
 
+    presentNextIdea() {
+      var ideas: any[] = this.brainstormingPluginInfo.references.map.items.mapStructure.getChildrenNodes(this.brainstorming.question);
+      for(var i:number = 0; i < ideas.length; i++){
+        var idea = ideas[i];
+        if(this.brainstormingPluginInfo.references.map.items.mapStructure.isMyNode(idea) && this.isPrivateNode(idea)){
+          console.log(idea.kNode.type,idea.kNode.iAmId);
+          this.brainstormingPluginInfo.apis.map.items.nodeSelected(idea);
+          delete idea.kNode.decorations.brainstorming;
+          // this.brainstormingPluginInfo.references.map.items.mapStructure.
+          // updateNode(node, knalledge.MapStructure.UPDATE_NODE_VISUAL_OPEN, idea);
+          break;
+        }
+      }
+    }
+
     private processReferencesInBrainStorming(brainstorming:Brainstorming): Brainstorming{
       if(typeof brainstorming.question === 'string'){
         brainstorming.question = this.brainstormingPluginInfo.references.map.items.mapStructure.getVKNodeByKId(brainstorming.question);
@@ -249,6 +286,5 @@ export class BrainstormingService {
         }
         this.setUpBrainstormingChange();
     }
-
 
 };

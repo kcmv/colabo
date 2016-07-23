@@ -919,10 +919,13 @@
 		}
 	}
 
+	MapStructure.prototype.isMyNode = function(vnode) {
+		return vnode.kNode.iAmId === this.rimaService.getWhoAmI()._id;
+	}
+
 	MapStructure.prototype.deleteNode = function(vnode, callback) {
 		console.log("this.rimaService.getWhoAmI():",this.rimaService.getWhoAmI());
-		if(this.selectedNode.kNode.iAmId !== this.rimaService.getWhoAmI()._id && //TODO: shoul be loggedIN user, but temporarly it's not workig
-		!this.knalledgeMapPolicyService.provider.config.moderating.enabled){
+		if(!this.isMyNode(vnode) &&	!this.knalledgeMapPolicyService.provider.config.moderating.enabled){
 			window.alert('You are only allowed to delete content created by youself');
 			return null;
 		}

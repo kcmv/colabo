@@ -29,6 +29,10 @@ export class BrainstormingPanelComponent {
 
     }
 
+    ngOnInit() {
+      this.brainstormingService.init();
+    }
+
     close(confirm: boolean = false) {
         console.log("[BrainstormingPanelComponent].close:");
     }
@@ -49,8 +53,30 @@ export class BrainstormingPanelComponent {
     hideShowMyIdeasSwitch(): boolean {
       if(!this.brainstormingService.brainstorming) {return true;}
 
-      return  !(this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION ||
+      return  !(
+        this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION ||
         this.brainstormingService.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS);
+    }
+
+    // hideShowOnlyBrainstormingSwitch(): boolean {
+    //   if(!this.brainstormingService.brainstorming) {return true;}
+    //
+    //   return  !(
+    //     this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION ||
+    //     this.brainstormingService.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS);
+    // }
+
+    hidePresentNextIdeaBtn(): boolean {
+      if(!this.brainstormingService.brainstorming) {return true;}
+
+      return !(
+        this.brainstormingService.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS
+        //TODO: && this.brainstormingService.brainstorming.presenter === this.brainstormingService.
+      );
+    }
+
+    presentNextIdea() {
+      this.brainstormingService.presentNextIdea();
     }
 
 }

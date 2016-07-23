@@ -69,6 +69,10 @@ export class BrainstormingFormComponent {
         this.brainstorming = this.brainstormingService.brainstorming;
     }
 
+    ngOnInit() {
+      this.brainstormingService.init();
+    }
+
     getTitle(tabIndex: number): string {
         return this.tabData[tabIndex].title;
     }
