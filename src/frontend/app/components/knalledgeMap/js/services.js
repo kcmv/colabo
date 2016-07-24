@@ -33,6 +33,49 @@ var removeJsonProtected = function(ENV, jsonStr){
 	return jsonStr;
 };
 
+
+// // register the interceptor as a service
+// $provide.factory('myHttpInterceptor', function($q, dependency1, dependency2) {
+//   return {
+//     // optional method
+//     'request': function(config) {
+//       // do something on success
+//       return config;
+//     },
+//
+//     // optional method
+//    'requestError': function(rejection) {
+//       // do something on error
+//       console.error('WE CAUGHT NET ERROR: requestError');
+//       if (canRecover(rejection)) {
+//         return responseOrNewPromise
+//       }
+//       return $q.reject(rejection);
+//     },
+//
+//
+//
+//     // optional method
+//     'response': function(response) {
+//       // do something on success
+//       return response;
+//     },
+//
+//     // optional method
+//    'responseError': function(rejection) {
+//       // do something on error
+// 			console.error('WE CAUGHT NET ERROR: responseError');
+//       if (canRecover(rejection)) {
+//         return responseOrNewPromise
+//       }
+//       return $q.reject(rejection);
+//     }
+//   };
+// });
+//
+// $httpProvider.interceptors.push('myHttpInterceptor');
+
+
 /**
 * the namespace for core services for the KnAllEdge system
 * @namespace knalledge.knalledgeMap.knalledgeMapServices
@@ -127,8 +170,8 @@ knalledgeMapServices.provider('KnalledgeMapQueue', {
 * @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 
-knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', '$q', 'Plugins', 'ENV', 'KnalledgeMapQueue',
-function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
+knalledgeMapServices.factory('KnalledgeNodeService', ['$injector', '$resource', '$q', 'Plugins', 'ENV', 'KnalledgeMapQueue', 'ChangeService',
+function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeService){
 	try{
 		var KnAllEdgeRealTimeService = Plugins.puzzles.knalledgeMap.config.knAllEdgeRealTimeService.available ?
 			$injector.get('KnAllEdgeRealTimeService') : null;
@@ -145,6 +188,7 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 		// we are setting creationId as a pre-bound parameter. in that way url for the query action is equal to: data/creations/creations.json
 		// we also need to set isArray to true, since that is the main difference with get action that also uses GET method
 		getPlain: {method:'GET', params:{type:'one', searchParam:''}, isArray:false,
+			// interceptor : {responseError : resourceErrorHandler, requestError : resourceErrorHandler},
 			transformResponse: function(serverResponseNonParsed, headersGetter){ /*jshint unused:false*/
 			var serverResponse;
 			if(ENV.server.parseResponse){
@@ -398,7 +442,8 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 			return this.updatePlain({searchParam:id, type:'one', actionType:actionType}, kNodeForServer,
 				function(nodeFromServer){
 					var responseTime = new Date();
-					console.log("UPDATE: responseTime - requestTime:", (responseTime - requestTime));
+					//console.log("UPDATE: responseTime - requestTime:", (responseTime - requestTime));
+					ChangeService.logRequestResponseTiming(responseTime - requestTime);
 					// realtime distribution
 					if(KnAllEdgeRealTimeService){
 						var change = new puzzles.changes.Change();
@@ -423,7 +468,8 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 					if(callback){callback(nodeFromServer);}
 				},
 				function(error){
-					console.error('RESOURCE: UPDATE: ',error,' for ',id,actionType,kNodeForServer);
+					//console.error('RESOURCE: UPDATE: ',error,' for ',id,actionType,kNodeForServer);
+					ChangeService.logActionLost({'type:': 'RESOURCE: UPDATE', 'error': error, 'id':id, 'actionType' : actionType, 'kNodeForServer' : kNodeForServer});
 				}
 			);
 		}
@@ -480,7 +526,8 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 				//actionType:'default'
 				}, kNodeForServer, function(nodeFromServer){
 				var responseTime = new Date();
-				console.log("CREATE: responseTime - requestTime:", (responseTime - requestTime));
+				//console.log("CREATE: responseTime - requestTime:", (responseTime - requestTime));
+				ChangeService.logRequestResponseTiming(responseTime - requestTime);
 				kNodeReturn.$resolved = node.$resolved;
 				kNodeReturn.overrideFromServer(nodeFromServer);
 				request.processing.RESOLVE(kNodeReturn);//kNodeReturn.resolve()
@@ -507,7 +554,8 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 				}
 			},
 			function(error){
-				console.error('RESOURCE: CREATE: ',error,' for ',kNodeForServer);
+				//console.error('RESOURCE: CREATE: ',error,' for ',kNodeForServer);
+				ChangeService.logActionLost({'type:': 'RESOURCE: CREATE', 'error': error, 'kNodeForServer' : kNodeForServer});
 			});
 
 			//createPlain manages promises for its returning value, in our case 'node', so we need to  set its promise to the value we return

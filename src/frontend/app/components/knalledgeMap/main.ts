@@ -20,6 +20,8 @@ import {BrainstormingFormComponent} from '../brainstorming/brainstorming-form.co
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
 import {BottomPanel} from '../bottomPanel/bottomPanel';
 
+import {ChangeService} from '../change/change.service';
+
 declare var window;
 
 // import {DbAuditService} from './dbAudit.service';
@@ -112,6 +114,7 @@ export class KnalledgeMapMain {
     topPanelVisible: boolean = true;
     status: String;
     navigator = window.navigator;
+    public connectivityIssues: boolean = false;
     private rimaService;
     private knalledgeMapVOsService;
 
@@ -144,6 +147,9 @@ export class KnalledgeMapMain {
         // globalEmitterServicesArray.register('KnalledgeMapMain');
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
         // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");
+        //
+        this.globalEmitterServicesArray.get(ChangeService.CONNECTIVITY_ISSUE_EVENT).subscribe('main.ts',
+        this.displayConnectivityIssues.bind(this));
     };
 
     // testMain() {
@@ -174,6 +180,15 @@ export class KnalledgeMapMain {
         } else {
             this.status = 'Look for something else.';
         }
+    }
+
+    displayConnectivityIssues(error: any):void {
+      this.connectivityIssues = true;
+      var that = this;
+      //setTimeout(() => this.brainstormingFormActive = true, 2);
+      setTimeout(function(){
+        that.connectivityIssues = false;
+      }, 7000);
     }
 
     navigateBack() {

@@ -6,6 +6,10 @@ import { Headers, RequestOptions } from '@angular/http';
 import {Change, ChangeVisibility, ChangeType, State, Domain} from './change';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
+const LATENCY_WARNING_SINGLE: number = 300; //ms
+const LATENCY_WARNING_AVERAGE: number = 150; //ms
+const REQUEST_RESPONSE_TIMINGS_WINDOW_FRAME:number = 50;
+const TIME_BETWEEN_ERROR_DISPLAYS:number = 5000; //ms
 
 // operators
 import 'rxjs/add/operator/catch';
@@ -34,6 +38,8 @@ for showing structural changes, reacting on node-created, node-updated, node-del
  */
 @Injectable()
 export class ChangeService {
+  public static CONNECTIVITY_ISSUE_EVENT: string = "CONNECTIVITY_ISSUE_EVENT";
+
   public gotChangesFromServer: boolean = false;
 
   private _onChangeHandlers: Function[] = [];
@@ -42,6 +48,9 @@ export class ChangeService {
   private rimaService:any = null;
   private mapVOsService:any = null;
   private mapId: string = null;
+  private requestResponseTimings: number[] = [];
+  private requestResponseTimingsIndex = 0;
+  private timeErrorDisplayed: any = new Date();
 
 
   /**
@@ -62,6 +71,8 @@ export class ChangeService {
       private http: Http
       ) {
       //console.log('RequestService:constructor');
+
+      this.globalEmitterServicesArray.register(ChangeService.CONNECTIVITY_ISSUE_EVENT);
 
       console.log("[ChangeService] server backend: %s", this.ENV.server.backend);
 
@@ -103,6 +114,32 @@ export class ChangeService {
     error => alert("error: " +
         JSON.stringify(error))
     );
+  }
+
+  logRequestResponseTiming(time:number):void{
+    if(time>LATENCY_WARNING_SINGLE){
+      console.warn("CONNECTIVITY_ERROR:: time>LATENCY_WARNING_SINGLE", time);
+
+      this.globalEmitterServicesArray.get(ChangeService.CONNECTIVITY_ISSUE_EVENT)
+      .broadcast('ChangeService', {'type':'LATENCY_WARNING_SINGLE','time':time});
+    }
+    this.requestResponseTimings[this.requestResponseTimingsIndex] = time;
+    this.requestResponseTimingsIndex %= REQUEST_RESPONSE_TIMINGS_WINDOW_FRAME;
+    // this.requestResponseTimingsIndex = this.requestResponseTimingsIndex >
+    // REQUEST_RESPONSE_TIMINGS_WINDOW_FRAME ? 0 : this.requestResponseTimingsIndex++;
+  }
+
+  logErrorInConnectivity(error:any):void{
+    console.error("CONNECTIVITY_ERROR:: logErrorInConnectivity",error);
+  }
+
+  logActionLost(error:any):void{
+    console.error("CONNECTIVITY_ERROR:: logActionLost",error);
+    let now: any = new Date();
+    if(now - this.timeErrorDisplayed > TIME_BETWEEN_ERROR_DISPLAYS){
+      this.timeErrorDisplayed = now;
+      window.alert("Your activity has been lost due to connectivity error. Please check your internet connection");
+    }
   }
 
   processReferences(change: Change) {
@@ -204,7 +241,8 @@ export class ChangeService {
       // We'd also dig deeper into the error to get a better message
       let errMsg = (error.message) ? error.message :
           error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-      console.error(errMsg); // log to console instead
+      //console.error(errMsg); // log to console instead
+      this.logErrorInConnectivity({'ChangesService' : error, 'errMsg:' : errMsg});
       return Observable.throw(errMsg);
   }
 
