@@ -167,7 +167,7 @@
                                 </div>
                                 <div *ngIf="policyConfig.moderating.enabled">
                                     <span *ngIf="policyConfig.broadcasting.enabled">
-                                      <button md-fab class="md-primary" (click)="broadcast(false)" class="md-accent md-hue-1">
+                                      <button md-fab class="md-primary" (click)="broadcast(false)">
                                         <span class="fa-stack fa-lg">
                                           <i class="fa fa-desktop fa-stack-1x"></i>
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
@@ -175,11 +175,11 @@
                                       </button>
                                     </span>
                                     <span *ngIf="!policyConfig.broadcasting.enabled">
-                                      <button md-fab class="md-primary" (click)="broadcast(true)" class="md-accent md-hue-1">
+                                      <button md-fab class="md-primary" (click)="broadcast(true)">
                                         <span class="fa-stack fa-lg">
                                           <!-- <i class="fa fa-ban" style="font-size: 2.3em"></i> -->
                                           <i class="fa fa-desktop fa-stack-1x disabled"></i>
-                                          <i style="margin-top: -0.1em" class="fa fa-times disabled"></i>
+                                          <i style="margin-top: -0.1em; margin-left: 0.3em; font-size: 1.3em" class="fa fa-times text-danger"></i>
                                           <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
                                         </span>
