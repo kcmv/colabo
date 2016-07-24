@@ -890,7 +890,7 @@
 						// would not watch for changes in node.kNode.dataContent or $scope.node.kNode.dataContent.rima.whats ....
 						// so we're adding watchers for noticing when thesere are changed.
 						// a change may happen when we receive an updated node with a what added,
-						// but because 'node.kNode.dataContent' can be changed by adding some ohter content like 'ibis' voting
+						// but because 'node.kNode.dataContent' can be changed by adding some other content like 'ibis' voting
 						// we have to cover (in the waterfalling manner) all the path till 'whats'
 						$scope.items = [];
 						$scope.$watch("node.kNode.dataContent", function(newVal, oldVal) {

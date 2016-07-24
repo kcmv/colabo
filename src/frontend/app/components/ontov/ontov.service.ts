@@ -113,6 +113,11 @@ export class OntovService {
       doesMatch: this._doesMatch_Who.bind(this)
     });
 
+    this.registerFacet("iAmId", {
+      getFacetMatches: this._getFacetMatches_iAmId.bind(this),
+      doesMatch: this._doesMatch_iAmId.bind(this)
+    });
+
     this.registerFacet("What", {
       getFacetMatches: this._getFacetMatches_What.bind(this),
       doesMatch: this._doesMatch_What.bind(this)
@@ -252,17 +257,62 @@ export class OntovService {
     return vkNode.kNode.name === searchTerm;
   }
 
+  _getFacetMatches_iAmId(searchTerm: string) {
+    if (this.mapStructure) {
+      var iAmIdObj = {};
+      for (let id in this.mapStructure.nodesById) {
+        var vkNode = this.mapStructure.nodesById[id];
+        iAmIdObj[vkNode.kNode.iAmId] = true;
+      }
+      return Object.keys(iAmIdObj);
+    } else {
+      return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
+    }
+  }
+  _doesMatch_iAmId(searchTerm: string, vkNode) {
+    return vkNode.kNode.iAmId === searchTerm;
+  }
+
   _getFacetMatches_What(searchTerm: string) {
-    return ['ISSS', 'system', 'todo', 'sustainable'];
+    if (this.mapStructure) {
+      var whatObj = {};
+      for (let id in this.mapStructure.nodesById) {
+        var vkNode = this.mapStructure.nodesById[id];
+        if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats){
+          for(var what of vkNode.kNode.dataContent.rima.whats){
+            whatObj[what.name] = true;
+          }
+        }
+      }
+      return Object.keys(whatObj);
+    } else {
+      return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
+    }
   }
   _doesMatch_What(searchTerm: string, vkNode) {
-    return vkNode.kNode.name === searchTerm;
+    if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats){
+      for(var what of vkNode.kNode.dataContent.rima.whats){
+        if(what.name === searchTerm) return true;
+      }
+      return false;
+    }else{
+      return false;
+    }
   }
 
   _getFacetMatches_Tree(searchTerm: string) {
-    return ['name_1', 'name_2', 'name_3', 'name_4'];
+    return this._getFacetMatches_Name(searchTerm);
   }
   _doesMatch_Tree(searchTerm: string, vkNode) {
-    return vkNode.kNode.name === searchTerm;
+    // making visible all ancestor nodes of a visible node
+    var isInSubtree = false;
+    var ancestorsHash = this.mapStructure
+      .getAllAncestorsPaths(vkNode);
+    for (var aI in ancestorsHash) {
+      var ancestorVkNode = ancestorsHash[aI];
+      if(ancestorVkNode.kNode.name === searchTerm) isInSubtree = true;
+    }
+
+    return isInSubtree;
   }
 };
