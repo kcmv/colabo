@@ -187,7 +187,6 @@
                                     </span>
                                 </div>
                             </section>
-                            <div *ngIf="connectivityIssues" class="warning"><i class="fa fa-exclamation-triangle"></i>&nbsp;Connectivity issues</div>
                             <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
                                 <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
                                     <i title="Login" md-icon>person</i>
@@ -200,7 +199,10 @@
                                     <div class="active" *ngIf="policyConfig.moderating.enabled">
                                         Active: {{getActiveUserName()}}
                                     </div>
-                                    <div *ngIf="navigator.onLine" style="font-size:12px;"><i class="fa fa-signal" aria-hidden="true"></i></div><div *ngIf="!navigator.onLine" class="warning">OFFLINE</div>
+                                    <div class="connection" [ngClass]="{warning: !navigator.onLine}">
+                                      <!-- <div *ngIf="connectivityIssues" class="warning"><i class="fa fa-exclamation-triangle"></i>&nbsp;Connectivity issues</div> -->
+                                      <span [ngClass]="{warning: connectivityIssues}"><i class="fa fa-signal" aria-hidden="true"></i></span><span *ngIf="!navigator.onLine" style="font-size:12px;" class="warning">OFF</span>
+                                    </div>
                                 </div>
 
                                 <!-- <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
@@ -235,5 +237,6 @@
         </md-content>
     </md-sidenav-layout>
     <brainstorming-form></brainstorming-form>
+    <session-form></session-form>
     <media-show></media-show>
 </div>

@@ -78,6 +78,7 @@ export class KnalledgeMapTools {
     behaviourChangedEventName: string = "behaviourChangedEvent";
     broadcastingChangedEventName: string = "broadcastingChangedEvent";
     setUpBroadcastingRequest: string = "setUpBroadcastingRequest";
+    SETUP_SESSION_REQUEST_EVENT: string = "SETUP_SESSION_REQUEST_EVENT";
     //showSubComponentInBottomPanelEvent: string = "showSubComponentInBottomPanelEvent";
 
     viewConfig: any;
@@ -89,6 +90,8 @@ export class KnalledgeMapTools {
     //TODO: `limitedRangeCheckBoxValue` should be changed to `config.filtering.displayDistance` when we change checkBox to some NumberSLide
     public limitedRangeCheckBoxValue: boolean = false;
     public visualizationControlsShown: boolean = true;
+    public sessionsControlsShown: boolean = true;
+
     private knAllEdgeRealTimeService;
     private globalEmitterServicesArray: GlobalEmitterServicesArray;
 
@@ -110,6 +113,7 @@ export class KnalledgeMapTools {
         globalEmitterServicesArray.register(this.behaviourChangedEventName);
         globalEmitterServicesArray.register(this.broadcastingChangedEventName);
         globalEmitterServicesArray.register(this.setUpBroadcastingRequest);
+        globalEmitterServicesArray.register(this.SETUP_SESSION_REQUEST_EVENT);
       //  globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
 
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
@@ -160,6 +164,10 @@ export class KnalledgeMapTools {
       this.visualizationControlsShown = !this.visualizationControlsShown;
     }
 
+    hideShowSessionsControls(){
+      this.sessionsControlsShown = !this.sessionsControlsShown;
+    }
+
     sendChange: Function = function(path, value, eventName) {
         // alert("[sendChange] " + path + ":" + value);
         let msg = {
@@ -179,7 +187,10 @@ export class KnalledgeMapTools {
 
     showBrainstorming(){
       this.globalEmitterServicesArray.get(this.setUpBroadcastingRequest).broadcast('KnalledgeMapTools');
-      // this.knAllEdgeRealTimeService.emit(this.setUpBroadcastingRequest);
+    }
+
+    showSession(){
+      this.globalEmitterServicesArray.get(this.SETUP_SESSION_REQUEST_EVENT).broadcast('KnalledgeMapTools');
     }
 
     // showBrainstormingPanel(){

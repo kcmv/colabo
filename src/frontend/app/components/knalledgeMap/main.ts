@@ -16,6 +16,7 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {BrainstormingFormComponent} from '../brainstorming/brainstorming-form.component';
+import {SessionFormComponent} from '../session/session-form.component';
 //import {BrainstormingService} from '../brainstorming/brainstorming.service';
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
 import {BottomPanel} from '../bottomPanel/bottomPanel';
@@ -73,6 +74,7 @@ var componentDirectives = [
 //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
     KnalledgeMapTools,
     BrainstormingFormComponent,
+    SessionFormComponent,
     MediaShowComponent,
     BottomPanel
 ];
