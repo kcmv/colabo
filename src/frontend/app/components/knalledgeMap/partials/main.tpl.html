@@ -199,6 +199,7 @@
                                     <div class="active" *ngIf="policyConfig.moderating.enabled">
                                         Active: {{getActiveUserName()}}
                                     </div>
+                                    <div *ngIf="navigator.onLine">ONLINE</div><div *ngIf="!navigator.onLine" class="warning">OFFLINE</div>
                                 </div>
 
                                 <!-- <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">

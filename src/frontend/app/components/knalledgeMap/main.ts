@@ -20,6 +20,8 @@ import {BrainstormingFormComponent} from '../brainstorming/brainstorming-form.co
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
 import {BottomPanel} from '../bottomPanel/bottomPanel';
 
+declare var window;
+
 // import {DbAuditService} from './dbAudit.service';
 // import {Change} from '../change/change';
 // import {ChangeService} from "../change/change.service";
@@ -109,8 +111,10 @@ export class KnalledgeMapMain {
     public pluginsConfig: any;
     topPanelVisible: boolean = true;
     status: String;
+    navigator = window.navigator;
     private rimaService;
     private knalledgeMapVOsService;
+
 
     constructor(
         // public router: Router,
