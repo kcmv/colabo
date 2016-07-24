@@ -4,7 +4,7 @@
   "version": "0.0.5",
   "private": true,
   "scripts": {
-    "start": "node KnAllEdgeBackend 8888"
+    "start": "node KnAllEdgeBackend 8001 8002"
   },
   "dependencies": {
     "async": "x",

@@ -3,11 +3,20 @@
 
 /* Configuration */
 var envs = {
+	// "server_prod": {
+	// 	"server": {
+	// 		"frontend": "http://knalledge.org/prod",
+	// 		"backend": "http://knalledge.org:8888",
+	// 		"topichat": "http://knalledge.org:8060",
+	// 		"parseResponse": true,
+	// 		"jsonPrefixed": ")]}',\n"
+	// 	},
+	// },
 	"server_prod": {
 		"server": {
 			"frontend": "http://knalledge.org/prod",
-			"backend": "http://knalledge.org:8888",
-			"topichat": "http://knalledge.org:8060",
+			"backend": "http://api.knalledge.org",
+			"topichat": "http://topichat.knalledge.org",
 			"parseResponse": true,
 			"jsonPrefixed": ")]}',\n"
 		},
@@ -25,8 +34,18 @@ var envs = {
 		"server": {
 			"frontend": "http://localhost:8410/app",
 			//"backend": "http://localhost:5858",
-			"backend": "http://localhost:8888",
-			"topichat": "http://localhost:8060",
+			"backend": "http://localhost:8001",
+			"topichat": "http://localhost:8002",
+			"parseResponse": true,
+			"jsonPrefixed": ")]}',\n"
+		},
+	},
+	"forking": {
+		"server": {
+			"frontend": "http://_www.knalledge.org:80/app",
+			//"backend": "http://localhost:5858",
+			"backend": "http://_api.knalledge.org:80",
+			"topichat": "http://_topichat.knalledge.org:80",
 			"parseResponse": true,
 			"jsonPrefixed": ")]}',\n"
 		},
@@ -43,6 +62,7 @@ var envs = {
 
 // var env = envs.json;
 var env = envs.localhost;
+// var env = envs.forking;
 // var env = envs.server_prod;
 // var env = envs.server_beta;
 
