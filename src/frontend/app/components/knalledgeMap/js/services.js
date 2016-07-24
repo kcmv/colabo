@@ -394,8 +394,11 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 
 		}
 		else{
+			var requestTime = new Date();
 			return this.updatePlain({searchParam:id, type:'one', actionType:actionType}, kNodeForServer,
 				function(nodeFromServer){
+					var responseTime = new Date();
+					console.log("UPDATE: responseTime - requestTime:", (responseTime - requestTime));
 					// realtime distribution
 					if(KnAllEdgeRealTimeService){
 						var change = new puzzles.changes.Change();
@@ -418,6 +421,9 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 						KnAllEdgeRealTimeService.emit(KnRealTimeNodeUpdatedEventName, change);
 					}
 					if(callback){callback(nodeFromServer);}
+				},
+				function(error){
+					console.error('RESOURCE: UPDATE: ',error,' for ',id,actionType,kNodeForServer);
 				}
 			);
 		}
@@ -468,9 +474,13 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 			var kNodeReturn = request.data;
 			var callback = request.callback;
 
+			var requestTime = new Date();
+
 			var node = resource.createPlain({
 				//actionType:'default'
 				}, kNodeForServer, function(nodeFromServer){
+				var responseTime = new Date();
+				console.log("CREATE: responseTime - requestTime:", (responseTime - requestTime));
 				kNodeReturn.$resolved = node.$resolved;
 				kNodeReturn.overrideFromServer(nodeFromServer);
 				request.processing.RESOLVE(kNodeReturn);//kNodeReturn.resolve()
@@ -495,6 +505,9 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
 					// 		KnAllEdgeRealTimeService.emit(KnRealTimeNodeSelectedEventName, kNodeReturn._id);
 					// }
 				}
+			},
+			function(error){
+				console.error('RESOURCE: CREATE: ',error,' for ',kNodeForServer);
 			});
 
 			//createPlain manages promises for its returning value, in our case 'node', so we need to  set its promise to the value we return
