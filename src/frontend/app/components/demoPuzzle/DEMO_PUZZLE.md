@@ -1,5 +1,7 @@
 How to create a new Collabo Puzzle?
 
+You should copy all this `demoPuzzle` folder and rename it and its content accordingly, but not change original folder content
+
 # File Structure:
 
 ```
