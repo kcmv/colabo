@@ -33,7 +33,7 @@ export interface ITabData {
     ]
 })
 export class SessionFormComponent {
-    public SessionFormActive = true;
+    public sessionFormActive = true;
     //model = new knalledge.KMap();
     SETUP_SESSION_REQUEST_EVENT: string = "SETUP_SESSION_REQUEST_EVENT";
     public session: Session;
@@ -60,13 +60,13 @@ export class SessionFormComponent {
     ];
 
     constructor(
-        private SessionService: SessionService,
+        private sessionService: SessionService,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
         ) {
         this.globalEmitterServicesArray.register(this.SETUP_SESSION_REQUEST_EVENT);
         this.globalEmitterServicesArray.get(this.SETUP_SESSION_REQUEST_EVENT).subscribe('SessionFormComponent', this.show.bind(this));
         //window.alert("[SessionFormComponent] " + this.SessionService.test);
-        this.session = this.SessionService.session;
+        this.session = this.sessionService.session;
     }
 
     ngOnInit() {
@@ -98,20 +98,12 @@ export class SessionFormComponent {
     // }
 
     show() {
-        if(this.sessionService.amIPresenter() || window.confirm(
-          "If you continue before turning on 'Presenter' mode, you're broadcasting setting won't be broadcasted to participants!")){
-          console.log("[SessionFormComponent].show");
-          if(!this.sessionService.checkAndSetupQuestion()){
-              window.alert("Either node is not selected or it is not of type IBIS question.");
-              return;
-          }
-          this.mdDialog.show();
-          this.sessionFormActive = false;
-          setTimeout(() => this.sessionFormActive = true, 2);
-          if (this.readyForNewPhase) {
-              this.session.nextPhase();
-              this.readyForNewPhase = false;
-          }
+        this.mdDialog.show();
+        this.sessionFormActive = false;
+        setTimeout(() => this.sessionFormActive = true, 2);
+        if (this.readyForNewPhase) {
+            this.session.nextPhase();
+            this.readyForNewPhase = false;
         }
     }
 

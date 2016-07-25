@@ -3,6 +3,7 @@ import {upgradeAdapter} from './upgrade_adapter';
 
 import {ROUTER_PROVIDERS} from '@angular/router-deprecated';
 
+//import {DemoPuzzleService} from '../components/demoPuzzle/demoPuzzle.service';
 import {LoginStatusComponent} from '../components/login/login-status-component';
 import {KnalledgeMapMain} from '../components/knalledgeMap/main';
 import {MapsList} from '../components/mapsList/maps-list.component';
@@ -12,6 +13,7 @@ import {TopiChatReports} from '../components/topiChat/reports';
 import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterService';
 import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmitterServicesArray';
 import {BrainstormingService} from '../components/brainstorming/brainstorming.service';
+import {SessionService} from '../components/session/session.service';
 import {CollaboGrammarService} from '../components/collaboPlugins/CollaboGrammarService';
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
@@ -168,27 +170,37 @@ angular.module('Config')
 // http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html
 import { HTTP_PROVIDERS } from '@angular/http';
 upgradeAdapter.addProvider(HTTP_PROVIDERS);
-upgradeAdapter.addProvider(ChangeService);
 
+// upgradeAdapter.addProvider(DemoPuzzleService);
+// var demoPuzzleServices = angular.module('demoPuzzleServices');
+// demoPuzzleServices
+//     .service('DemoPuzzleService', upgradeAdapter.downgradeNg2Provider(DemoPuzzleService))
+//     ;
+
+upgradeAdapter.addProvider(ChangeService);
 var changeServices =
     angular.module('changeServices');
-
 changeServices.
     service('ChangeService', upgradeAdapter.downgradeNg2Provider(ChangeService));
 
 upgradeAdapter.addProvider(CollaboGrammarService);
-upgradeAdapter.addProvider(BrainstormingService);
-
 var collaboServices =
     angular.module('collaboPluginsServices');
-
 collaboServices.
     service('CollaboGrammarService', upgradeAdapter.downgradeNg2Provider(CollaboGrammarService));
 
+upgradeAdapter.addProvider(BrainstormingService);
 var brainstormingServices = angular.module('brainstormingServices');
 brainstormingServices
     .service('BrainstormingService', upgradeAdapter.downgradeNg2Provider(BrainstormingService))
     ;
+
+upgradeAdapter.addProvider(SessionService);
+var sessionServices = angular.module('sessionServices');
+sessionServices
+  .service('SessionService', upgradeAdapter.downgradeNg2Provider(SessionService))
+  ;
+
 
 
 // bootstrapping app

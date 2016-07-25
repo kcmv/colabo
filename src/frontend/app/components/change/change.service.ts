@@ -138,7 +138,8 @@ export class ChangeService {
     let now: any = new Date();
     if(now - this.timeErrorDisplayed > TIME_BETWEEN_ERROR_DISPLAYS){
       this.timeErrorDisplayed = now;
-      window.alert("Your activity has been lost due to connectivity error. Please check your internet connection");
+      window.alert("Your activity has been lost due to connectivity error. " +
+      "Please check your internet connection and redo your actions");
     }
   }
 

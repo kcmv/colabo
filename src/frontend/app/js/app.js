@@ -22,6 +22,7 @@ var requiresList = [
 	, 'knalledgeMapDirectives'
 ];
 
+//requiresList.push('demoPuzzleServices');
 requiresList.push('rimaServices');
 requiresList.push('rimaDirectives');
 requiresList.push('rimaFilters');
@@ -34,6 +35,7 @@ requiresList.push('notifyDirectives');
 
 requiresList.push('gardeningServices');
 requiresList.push('brainstormingServices');
+requiresList.push('sessionServices');
 
 requiresList.push('topiChatServices');
 requiresList.push('topiChatDirectives');

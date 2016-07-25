@@ -49,6 +49,10 @@ project.subProjects.KNALLEDGE.COMPILATION = {
 						destDir: APP_SRC,
 						cssDir: 'css'
 					},
+					// 'components/demoPuzzle': {
+					// 	destDir: APP_SRC,
+					// 	cssDir: 'css'
+					// }
 					'components/change': {
 						destDir: APP_SRC,
 						cssDir: 'css'
@@ -85,6 +89,10 @@ project.subProjects.KNALLEDGE.COMPILATION = {
 						 destDir: APP_SRC,
 						 cssDir: 'css'
 					},
+					'components/request': {
+						destDir: APP_SRC,
+						cssDir: 'css'
+					},
 					'components/topiChat': {
 						destDir: APP_SRC,
 						cssDir: 'css'
@@ -97,7 +105,7 @@ project.subProjects.KNALLEDGE.COMPILATION = {
 						destDir: APP_SRC,
 						cssDir: 'css'
 					},
-					'components/request': {
+					'components/session': {
 						destDir: APP_SRC,
 						cssDir: 'css'
 					}
@@ -163,6 +171,13 @@ var plugins = {
 				injectJs: ['mapLayout.js', 'mapVisualization.js', 'mapLayoutTree.js', 'mapVisualizationTree.js', 'mapLayoutFlat.js', 'mapVisualizationFlat.js', 'mapLayoutGraph.js', 'mapVisualizationGraph.js', 'mapManager.js', 'map.js']
 			}
 		},
+
+		// demoPuzzle: {
+		// 	path: [APP_SRC_STR, 'components/demoPuzzle'],
+		// 	injectJs: ['demoPuzzles.js', 'js/services.js'],
+		// 	injectCss: 'css/demoPuzzle.css'
+		// },
+
 		rima: {
 			path: [APP_SRC_STR, 'components/rima'],
 			injectJs: ['js/directives.js', 'js/services.js', 'js/filters.js'],
@@ -235,6 +250,12 @@ var plugins = {
 			injectCss: 'css/brainstorming.component.css'
 		},
 
+		session: {
+			path: [APP_SRC_STR, 'components/session'],
+			injectJs: ['sessions.js', 'js/services.js'],
+			injectCss: 'css/session.css'
+		},
+
 		gardening: {
 			path: [APP_SRC_STR, 'components/gardening'],
 			css: true,
@@ -247,6 +268,9 @@ var plugins = {
 		}
 	},
 	puzzlesConfig: {
+		// demoPuzzle: {
+		// 	available: true
+		// },
 		knalledgeMap: {
 			available: true
 		},
@@ -266,6 +290,9 @@ var plugins = {
 			available: true
 		},
 		brainstorming: {
+			available: true
+		},
+		session: {
 			available: true
 		},
 		change: {
@@ -400,6 +427,15 @@ var plugins = {
 				mapVisualizePlugins: ['BrainstormingService']
 			}
 		}
+		//,
+		// session: {
+		// 	active: true,
+		// 	services: {
+		// 		BrainstormingService: {
+		// 		}
+		// 	},
+		// 	plugins: null
+		// }
 	}
 };
 
