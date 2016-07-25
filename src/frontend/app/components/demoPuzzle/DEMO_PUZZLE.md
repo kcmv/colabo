@@ -80,6 +80,8 @@ In folder `src/frontend/app/js/`
     }
   }
   ```
+  + **IMPORTANT**: We have to RESTART the frontend server, since changes in config/congif.plugins.js file are loaded ONLY at the load time.
+
 ## Component Integration
 
 in order for DemoPuzzle to be seen we have to add one or more of its components into the Application Components Hierarchy

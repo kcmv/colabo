@@ -3,7 +3,7 @@
 
 var project = {
 	name: 'KNALLEDGE',
-	port: 5555,
+	port: 8000,
 	subProjects: {
 		KNALLEDGE: {
 	        BOOTSTRAP_MODULE: 'js/app2',

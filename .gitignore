@@ -42,3 +42,5 @@ dist/
 
 *.zip
 frontend_local/
+
+_local

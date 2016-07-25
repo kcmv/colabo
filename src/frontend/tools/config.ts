@@ -22,7 +22,7 @@ export const SUB_PROJECT = PluginsConfig.project.subProjects[SUB_PROJECT_NAME];
 console.log('__dirname: ', __dirname);
 // console.log("SUB_PROJECT: ", SUB_PROJECT);
 
-export const PORT = argv['port'] || PluginsConfig.project.port || 5555;
+export const PORT = argv['port'] || PluginsConfig.project.port || 8000;
 export const PROJECT_ROOT = normalize(join(__dirname, '..'));
 export const ENV = getEnvironment();
 export const DEBUG = argv['debug'] || false;
