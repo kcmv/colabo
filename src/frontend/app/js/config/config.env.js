@@ -32,7 +32,7 @@ var envs = {
 	},
 	"localhost": {
 		"server": {
-			"frontend": "http://localhost:8410/app",
+			"frontend": "http://localhost:5555/app",
 			//"backend": "http://localhost:5858",
 			"backend": "http://localhost:8001",
 			"topichat": "http://localhost:8002",
