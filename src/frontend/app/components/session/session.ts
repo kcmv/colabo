@@ -1,35 +1,30 @@
+import {Participant} from './participant';
+
 declare var puzzles;
 declare var knalledge;
 
 export const SessionPhase:any = {
 	INACTIVE:0,
-	IDEAS_GENERATION:1,
-	SHARING_IDEAS:2,
-	GROUP_DISCUSSION:3,
-	VOTING_AND_RANKING:4,
-	FINISHED:5
+	ACTIVE:1,
+	PAUSED: 2,
+	FINISHED: 3
 };
 
 export class SessionPhaseNames {
+
 	public static INACTIVE: string = 'Inactive';
-	public static IDEAS_GENERATION: string = 'Ideas Generation';
-	public static SHARING_IDEAS: string = 'Sharing Ideas';
-	public static GROUP_DISCUSSION: string = 'Group Discussion';
-	public static VOTING_AND_RANKING: string = 'Voting and Ranking';
+	public static ACTIVE: string = 'Active';
+	public static PAUSED: string = 'Paused';
 	public static FINISHED: string = 'Finished';
 
 	public static getNameByPhase(phase: number): string{
 		switch(phase){
 			case SessionPhase.INACTIVE:
 				return this.INACTIVE;
-			case SessionPhase.IDEAS_GENERATION:
-				return this.IDEAS_GENERATION;
-			case SessionPhase.SHARING_IDEAS:
-				return this.SHARING_IDEAS;
-			case SessionPhase.GROUP_DISCUSSION:
-				return this.GROUP_DISCUSSION;
-			case SessionPhase.VOTING_AND_RANKING:
-				return this.VOTING_AND_RANKING;
+			case SessionPhase.ACTIVE:
+				return this.ACTIVE;
+			case SessionPhase.PAUSED:
+				return this.PAUSED;
 			case SessionPhase.FINISHED:
 				return this.FINISHED;
 		}
@@ -51,15 +46,13 @@ export class Session {
 
 /* PROPERTIES */
 	public id: number;
-	public createPrivateIdeas; //create private ideas at the 1st phase
-	//allow only addition of ideas to the session question node - no free knowlegdge gardening:
-	public onlyIdeasToQuestion: boolean;
-	public allowArgumentsToIdeas: boolean; //allow adding arguments to ideas
-	public currentPhaseTimeLeft: number;
-	public currentPhaseTimeSpent: number;
-	public question: knalledge.KNode;
-	public phase;
-	public presenter: knalledge.WhoAmI;
+	public name: string;
+	public participants: Participant[] = [];
+	//public presenter: knalledge.WhoAmI = null; retreived from 'participants[i].isPresenter'
+	public mustFollowPresenter: boolean = false; //control of participants option of (NOT) receiveNavigation (if **they CAN STOP FOLLOWing**)
+	public readOnly: boolean = false;
+	public phase:number;
+	public mapId: number; //map at which the session is happening
 
 	public createdAt: any; //when the object is created
 	public updatedAt: any; //when the obect is updated
@@ -82,93 +75,44 @@ export class Session {
 	}
 
 	reset(){
-		this.id = Session.MaxId++;
-		this.createPrivateIdeas = true;
-		this.onlyIdeasToQuestion = true;
-		this.allowArgumentsToIdeas = false; //allow adding arguments to ideas
-		// this.currentPhaseTimeLeft: number;
-		// this.currentPhaseTimeSpent: number;
-		this.question = null;
-		this.phase= SessionPhase.INACTIVE;
-		this.presenter = null;
-
-		// this.createdAt: any; //when the object is created
-		// this.updatedAt: any; //when the obect is updated
-		// this.dataContent: Object;
-		// this.decorations: Object;
-
-		/* THIS PROPERTY IS local-to-frontend */
-		this.state = State.LOCAL; //state of the object, responding to some of the enum STATE
-	/* PROPERTIES - END */
-	}
-
-	nextPhase(){
-		switch(this.phase){
-			case SessionPhase.INACTIVE:
-				this.phase = SessionPhase.IDEAS_GENERATION;
-			break;
-			case SessionPhase.IDEAS_GENERATION:
-				this.phase = SessionPhase.SHARING_IDEAS;
-			break;
-			case SessionPhase.SHARING_IDEAS:
-				this.phase = SessionPhase.GROUP_DISCUSSION;
-			break;
-			case SessionPhase.GROUP_DISCUSSION:
-				this.phase = SessionPhase.VOTING_AND_RANKING;
-			break;
-			case SessionPhase.VOTING_AND_RANKING:
-				this.phase = SessionPhase.FINISHED;
-			break;
-			case SessionPhase.FINISHED:
-				this.phase = SessionPhase.FINISHED;
-			break;
-			default:
-				this.phase = SessionPhase.INACTIVE;
-		}
-	}
-
-	previousPhase(){
-		switch(this.phase){
-			case SessionPhase.INACTIVE:
-				this.phase = SessionPhase.INACTIVE;
-			break;
-			case SessionPhase.IDEAS_GENERATION:
-				this.phase = SessionPhase.INACTIVE;
-			break;
-			case SessionPhase.SHARING_IDEAS:
-				this.phase = SessionPhase.IDEAS_GENERATION;
-			break;
-			case SessionPhase.GROUP_DISCUSSION:
-				this.phase = SessionPhase.SHARING_IDEAS;
-			break;
-			case SessionPhase.VOTING_AND_RANKING:
-				this.phase = SessionPhase.GROUP_DISCUSSION;
-			break;
-			case SessionPhase.FINISHED:
-				this.phase = SessionPhase.VOTING_AND_RANKING;
-			break;
-			default:
-				this.phase = SessionPhase.INACTIVE;
-		}
+	// 	this.id = Session.MaxId++;
+	// 	this.createPrivateIdeas = true;
+	// 	this.onlyIdeasToQuestion = true;
+	// 	this.allowArgumentsToIdeas = false; //allow adding arguments to ideas
+	// 	// this.currentPhaseTimeLeft: number;
+	// 	// this.currentPhaseTimeSpent: number;
+	// 	this.question = null;
+	this.phase= SessionPhase.INACTIVE;
+	// 	this.presenter = null;
+	//
+	// 	// this.createdAt: any; //when the object is created
+	// 	// this.updatedAt: any; //when the obect is updated
+	// 	// this.dataContent: Object;
+	// 	// this.decorations: Object;
+	//
+	// 	/* THIS PROPERTY IS local-to-frontend */
+	// 	this.state = State.LOCAL; //state of the object, responding to some of the enum STATE
+	// /* PROPERTIES - END */
 	}
 
 	public fill(obj){
-		if(obj){
-			if("id" in obj){this.id = obj.id;}
-			if("createPrivateIdeas" in obj){this.createPrivateIdeas = obj.createPrivateIdeas;}
-			if("onlyIdeasToQuestion" in obj){this.onlyIdeasToQuestion = obj.onlyIdeasToQuestion;}
-			if("allowArgumentsToIdeas" in obj){this.allowArgumentsToIdeas = obj.allowArgumentsToIdeas;}
-			if("currentPhaseTimeLeft" in obj){this.currentPhaseTimeLeft = obj.currentPhaseTimeLeft;}
-			if("currentPhaseTimeSpent" in obj){this.currentPhaseTimeSpent = obj.currentPhaseTimeSpent;}
-			if("question" in obj){this.question = obj.question;}
-			if("phase" in obj){this.phase = obj.phase;}
-			if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
-			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
-			if("state" in obj){this.state = obj.state;}
-			if("presenter" in obj){this.presenter = obj.presenter;}
-
-		}
-	};
+	//TODO:
+	// 	if(obj){
+	// 		if("id" in obj){this.id = obj.id;}
+	// 		if("createPrivateIdeas" in obj){this.createPrivateIdeas = obj.createPrivateIdeas;}
+	// 		if("onlyIdeasToQuestion" in obj){this.onlyIdeasToQuestion = obj.onlyIdeasToQuestion;}
+	// 		if("allowArgumentsToIdeas" in obj){this.allowArgumentsToIdeas = obj.allowArgumentsToIdeas;}
+	// 		if("currentPhaseTimeLeft" in obj){this.currentPhaseTimeLeft = obj.currentPhaseTimeLeft;}
+	// 		if("currentPhaseTimeSpent" in obj){this.currentPhaseTimeSpent = obj.currentPhaseTimeSpent;}
+	// 		if("question" in obj){this.question = obj.question;}
+	// 		if("phase" in obj){this.phase = obj.phase;}
+	// 		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+	// 		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
+	// 		if("state" in obj){this.state = obj.state;}
+	// 		if("presenter" in obj){this.presenter = obj.presenter;}
+	//
+	// 	}
+	}
 
 	/** when object is updated on server we override local object by server version using this function **/
 	public overrideFromServer(obj){
@@ -190,17 +134,18 @@ export class Session {
 			if(id[0] === '$') continue;
 			if(id === 'parents') continue;
 			if(id === 'children') continue;
-			if(id === 'children') continue;
-			if(id === 'question'){
-				if(typeof this['question'] !== 'string'){
-					if(this['question'] instanceof knalledge.KNode){
-						session['question'] = this['question']._id;
-					}else{
-						session['question'] = this['question'].kNode._id; //VKNode
-					}
-				}
-				continue;
-			}
+
+			// if(id === 'question'){
+			// 	if(typeof this['question'] !== 'string'){
+			// 		if(this['question'] instanceof knalledge.KNode){
+			// 			session['question'] = this['question']._id;
+			// 		}else{
+			// 			session['question'] = this['question'].kNode._id; //VKNode
+			// 		}
+			// 	}
+			// 	continue;
+			// }
+
 			if (typeof this[id] === 'function') continue;
 			//console.log("cloning: %s", id);
 			if(this[id] !== undefined){ //JSON.parse breaks at "undefined"
@@ -221,6 +166,56 @@ export class Session {
 		//delete session.phase;
 
 		return session;
+	}
+
+	nextPhase(){
+		switch(this.phase){
+			// case SessionPhase.INACTIVE:
+			// 	this.phase = SessionPhase.IDEAS_GENERATION;
+			// break;
+			// case SessionPhase.IDEAS_GENERATION:
+			// 	this.phase = SessionPhase.SHARING_IDEAS;
+			// break;
+			// case SessionPhase.SHARING_IDEAS:
+			// 	this.phase = SessionPhase.GROUP_DISCUSSION;
+			// break;
+			// case SessionPhase.GROUP_DISCUSSION:
+			// 	this.phase = SessionPhase.VOTING_AND_RANKING;
+			// break;
+			// case SessionPhase.VOTING_AND_RANKING:
+			// 	this.phase = SessionPhase.FINISHED;
+			// break;
+			// case SessionPhase.FINISHED:
+			// 	this.phase = SessionPhase.FINISHED;
+			// break;
+			default:
+				this.phase = SessionPhase.INACTIVE;
+		}
+	}
+
+	previousPhase(){
+		switch(this.phase){
+			// case SessionPhase.INACTIVE:
+			// 	this.phase = SessionPhase.INACTIVE;
+			// break;
+			// case SessionPhase.IDEAS_GENERATION:
+			// 	this.phase = SessionPhase.INACTIVE;
+			// break;
+			// case SessionPhase.SHARING_IDEAS:
+			// 	this.phase = SessionPhase.IDEAS_GENERATION;
+			// break;
+			// case SessionPhase.GROUP_DISCUSSION:
+			// 	this.phase = SessionPhase.SHARING_IDEAS;
+			// break;
+			// case SessionPhase.VOTING_AND_RANKING:
+			// 	this.phase = SessionPhase.GROUP_DISCUSSION;
+			// break;
+			// case SessionPhase.FINISHED:
+			// 	this.phase = SessionPhase.VOTING_AND_RANKING;
+			// break;
+			default:
+				this.phase = SessionPhase.INACTIVE;
+		}
 	}
 }
 

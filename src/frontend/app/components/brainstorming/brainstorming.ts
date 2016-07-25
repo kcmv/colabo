@@ -55,7 +55,7 @@ export class Brainstorming {
 
 /* PROPERTIES */
 	public id: number;
-	public createPrivateIdeas; //create private ideas at the 1st phase
+	public createPrivateIdeas: boolean; //create private ideas at the 1st phase
 	//allow only addition of ideas to the brainstorming question node - no free knowlegdge gardening:
 	public onlyIdeasToQuestion: boolean;
 	public allowArgumentsToIdeas: boolean; //allow adding arguments to ideas
@@ -63,7 +63,7 @@ export class Brainstorming {
 	public currentPhaseTimeSpent: number;
 	public question: knalledge.KNode;
 	public phase;
-	public presenter: knalledge.WhoAmI;
+	//public presenter: knalledge.WhoAmI; migrated to `Session`
 
 	public createdAt: any; //when the object is created
 	public updatedAt: any; //when the obect is updated
@@ -94,7 +94,7 @@ export class Brainstorming {
 		// this.currentPhaseTimeSpent: number;
 		this.question = null;
 		this.phase= BrainstormingPhase.INACTIVE;
-		this.presenter = null;
+		//this.presenter = null;
 
 		// this.createdAt: any; //when the object is created
 		// this.updatedAt: any; //when the obect is updated
@@ -104,56 +104,6 @@ export class Brainstorming {
 		/* THIS PROPERTY IS local-to-frontend */
 		this.state = State.LOCAL; //state of the object, responding to some of the enum STATE
 	/* PROPERTIES - END */
-	}
-
-	nextPhase(){
-		switch(this.phase){
-			case BrainstormingPhase.INACTIVE:
-				this.phase = BrainstormingPhase.IDEAS_GENERATION;
-			break;
-			case BrainstormingPhase.IDEAS_GENERATION:
-				this.phase = BrainstormingPhase.SHARING_IDEAS;
-			break;
-			case BrainstormingPhase.SHARING_IDEAS:
-				this.phase = BrainstormingPhase.GROUP_DISCUSSION;
-			break;
-			case BrainstormingPhase.GROUP_DISCUSSION:
-				this.phase = BrainstormingPhase.VOTING_AND_RANKING;
-			break;
-			case BrainstormingPhase.VOTING_AND_RANKING:
-				this.phase = BrainstormingPhase.FINISHED;
-			break;
-			case BrainstormingPhase.FINISHED:
-				this.phase = BrainstormingPhase.FINISHED;
-			break;
-			default:
-				this.phase = BrainstormingPhase.INACTIVE;
-		}
-	}
-
-	previousPhase(){
-		switch(this.phase){
-			case BrainstormingPhase.INACTIVE:
-				this.phase = BrainstormingPhase.INACTIVE;
-			break;
-			case BrainstormingPhase.IDEAS_GENERATION:
-				this.phase = BrainstormingPhase.INACTIVE;
-			break;
-			case BrainstormingPhase.SHARING_IDEAS:
-				this.phase = BrainstormingPhase.IDEAS_GENERATION;
-			break;
-			case BrainstormingPhase.GROUP_DISCUSSION:
-				this.phase = BrainstormingPhase.SHARING_IDEAS;
-			break;
-			case BrainstormingPhase.VOTING_AND_RANKING:
-				this.phase = BrainstormingPhase.GROUP_DISCUSSION;
-			break;
-			case BrainstormingPhase.FINISHED:
-				this.phase = BrainstormingPhase.VOTING_AND_RANKING;
-			break;
-			default:
-				this.phase = BrainstormingPhase.INACTIVE;
-		}
 	}
 
 	public fill(obj){
@@ -169,7 +119,7 @@ export class Brainstorming {
 			if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
 			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 			if("state" in obj){this.state = obj.state;}
-			if("presenter" in obj){this.presenter = obj.presenter;}
+			//if("presenter" in obj){this.presenter = obj.presenter;}
 
 		}
 	};
@@ -225,6 +175,56 @@ export class Brainstorming {
 		//delete brainstorming.phase;
 
 		return brainstorming;
+	}
+
+	nextPhase(){
+		switch(this.phase){
+			case BrainstormingPhase.INACTIVE:
+				this.phase = BrainstormingPhase.IDEAS_GENERATION;
+			break;
+			case BrainstormingPhase.IDEAS_GENERATION:
+				this.phase = BrainstormingPhase.SHARING_IDEAS;
+			break;
+			case BrainstormingPhase.SHARING_IDEAS:
+				this.phase = BrainstormingPhase.GROUP_DISCUSSION;
+			break;
+			case BrainstormingPhase.GROUP_DISCUSSION:
+				this.phase = BrainstormingPhase.VOTING_AND_RANKING;
+			break;
+			case BrainstormingPhase.VOTING_AND_RANKING:
+				this.phase = BrainstormingPhase.FINISHED;
+			break;
+			case BrainstormingPhase.FINISHED:
+				this.phase = BrainstormingPhase.FINISHED;
+			break;
+			default:
+				this.phase = BrainstormingPhase.INACTIVE;
+		}
+	}
+
+	previousPhase(){
+		switch(this.phase){
+			case BrainstormingPhase.INACTIVE:
+				this.phase = BrainstormingPhase.INACTIVE;
+			break;
+			case BrainstormingPhase.IDEAS_GENERATION:
+				this.phase = BrainstormingPhase.INACTIVE;
+			break;
+			case BrainstormingPhase.SHARING_IDEAS:
+				this.phase = BrainstormingPhase.IDEAS_GENERATION;
+			break;
+			case BrainstormingPhase.GROUP_DISCUSSION:
+				this.phase = BrainstormingPhase.SHARING_IDEAS;
+			break;
+			case BrainstormingPhase.VOTING_AND_RANKING:
+				this.phase = BrainstormingPhase.GROUP_DISCUSSION;
+			break;
+			case BrainstormingPhase.FINISHED:
+				this.phase = BrainstormingPhase.VOTING_AND_RANKING;
+			break;
+			default:
+				this.phase = BrainstormingPhase.INACTIVE;
+		}
 	}
 }
 

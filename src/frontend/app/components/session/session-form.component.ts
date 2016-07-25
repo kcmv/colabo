@@ -43,16 +43,10 @@ export class SessionFormComponent {
 
     private tabData: ITabData[] = [
         {
-            title: SessionPhaseNames.IDEAS_GENERATION,
+            title: SessionPhaseNames.ACTIVE,
         },
         {
-            title: SessionPhaseNames.SHARING_IDEAS,
-        },
-        {
-            title: SessionPhaseNames.GROUP_DISCUSSION
-        },
-        {
-            title: SessionPhaseNames.VOTING_AND_RANKING
+            title: SessionPhaseNames.PAUSED,
         },
         {
             title: SessionPhaseNames.FINISHED
