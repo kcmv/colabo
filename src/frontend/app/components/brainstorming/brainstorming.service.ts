@@ -158,7 +158,16 @@ export class BrainstormingService {
                     $resolved: false,
                     callback: null,
                     $promise: null
-                }
+                },
+                ontov: {
+                    items: {
+                        setSearch: null,
+                        getSearch: null
+                    },
+                    $resolved: false,
+                    callback: null,
+                    $promise: null
+              }
             }
         };
 
@@ -178,6 +187,35 @@ export class BrainstormingService {
         };
         // });
         //
+
+        this.brainstormingPluginInfo.apis.ontov.callback = function() {
+            that.brainstormingPluginInfo.apis.ontov.$resolved = true;
+
+            // this is an example:
+            that.brainstormingPluginInfo.apis.ontov.items.setSearch([
+              // If you put more than one it will be OR (union)
+              // AND is not supported (if we need it we need to talk :) )
+              {
+                category: 'Type',
+                value: 'type_ibis_question'
+              }
+
+              // for some reason this doesn't filter
+              // {
+              //   category: 'iAmId',
+              //   value: '556760847125996dc1a4a241'
+              // }
+
+              // {
+              //   category: 'Tree',
+              //   value: 'Ideological model' // node name
+              // }
+              //
+
+
+
+            ]);
+        };
 
         this.collaboPluginsService.registerPlugin(this.brainstormingPluginInfo);
     }

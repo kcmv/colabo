@@ -11,6 +11,8 @@ export class OntovService {
   private knAllEdgeRealTimeService: any;
   private registeredFacets: any = {};
   private mapStructure: any;
+  private setSearchCallback:Function;
+  private searchArr:Array<any>;
 
   /**
    * Service constructor
@@ -127,6 +129,56 @@ export class OntovService {
       getFacetMatches: this._getFacetMatches_Tree.bind(this),
       doesMatch: this._doesMatch_Tree.bind(this)
     });
+
+    this.collaboPluginsService.provideApi("ontov", {
+      name: "ontov",
+      items: {
+        setSearch: this.setSearch.bind(this),
+        getSearchArray: this.getSearchArray.bind(this)
+      }
+    });
+  }
+
+  registerSetSearchCallback(setSearchCallback:Function){
+    this.setSearchCallback = setSearchCallback;
+    if(this.searchArr){
+      this.setSearchCallback(this.searchArr);
+      this.filterByFacets(this.searchArr);
+    }
+  }
+
+  /* ontov API:start */
+  setSearch(searchArr){
+    this.searchArr = searchArr;
+    this.filterByFacets(this.searchArr);
+
+    if(typeof this.setSearchCallback === 'function'){
+      this.setSearchCallback(searchArr);
+    }
+  }
+
+  getSearchArray(){
+    return this.searchArr;
+  }
+  /* ontov API:end */
+
+  updateSearchValuesFromComponent(searchArr:Array<any>){
+    this.searchArr = searchArr;
+  }
+
+  // TODO
+  searchValStr2Obj(searchStr){
+
+  }
+
+  searchValObj2Str(searchArr):String{
+    var searchStr = "";
+    for(var i=0; i<searchArr.length; i++){
+      var searchParam = searchArr[i];
+      searchStr += " " + searchParam.category + ": \"" +
+      searchParam.value + "\"";
+    }
+    return searchStr;
   }
 
   getFacets() {
@@ -191,7 +243,7 @@ export class OntovService {
         delete vkNode.visible;
       }
     }
-    this.mapUpdate();
+    if(this.mapUpdate) this.mapUpdate();
   }
 
   // Registers new factet (each facet like name, who, what, ... have to get registered)

@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation, Inject, OnInit} from '@angular/core';
+import {Component, ViewEncapsulation, Inject, OnInit, OnDestroy} from '@angular/core';
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
@@ -36,6 +36,7 @@ var componentProviders = [
 })
 export class OntovComponent implements OnInit {
   shown: boolean = true;
+  visualSearch:any;
 
   constructor(
     private ontovService:OntovService,
@@ -61,12 +62,17 @@ export class OntovComponent implements OnInit {
     window.setTimeout(function() {
       that.vsInit();
     }, 3000);
+
+  }
+
+  ngOnDestroy() {
+
   }
 
   vsInit() {
     var that:OntovComponent = this;
     var container = $('.ontov_visual_search_new');
-    var visualSearch = VS.init({
+    this.visualSearch = VS.init({
       container: container,
       query: '',
       callbacks: {
@@ -85,6 +91,7 @@ export class OntovComponent implements OnInit {
             });
           });
           that.ontovService.filterByFacets(searchCollectionArray);
+          that.ontovService.updateSearchValuesFromComponent(searchCollectionArray);
         },
         facetMatches: function(callback) {
           // These are the facets that will be autocompleted in an empty input.
@@ -102,7 +109,21 @@ export class OntovComponent implements OnInit {
         }
       } // end of callbacks
     }); // end of VS.init
+
+    // TODO: find a better callback
+    this.ontovService.registerSetSearchCallback(this.updateSearchValue.bind(this));
   }
+
+  updateSearchValue(searchVal) {
+    var searchStr;
+    if(typeof searchVal !== 'string'){
+      searchStr = this.ontovService.searchValObj2Str(searchVal);
+    }else{
+      searchStr = searchVal;
+    }
+    this.visualSearch.searchBox.value(searchStr);
+  }
+
   show(path) {
     this.shown = true;
   }
