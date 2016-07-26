@@ -42,10 +42,9 @@ var envs = {
 	},
 	"forking": {
 		"server": {
-			"frontend": "http://_www.knalledge.org:80/app",
-			//"backend": "http://localhost:5858",
-			"backend": "http://_api.knalledge.org:80",
-			"topichat": "http://_topichat.knalledge.org:80",
+			"frontend": "http://_www.knalledge.org:8088/app",
+			"backend": "http://_api.knalledge.org:8088",
+			"topichat": "http://_topichat.knalledge.org:8088",
 			"parseResponse": true,
 			"jsonPrefixed": ")]}',\n"
 		},
