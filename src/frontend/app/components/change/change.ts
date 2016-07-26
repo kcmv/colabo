@@ -16,7 +16,8 @@ export const ChangeType:any = {
 	STRUCTURAL:1,
 	NAVIGATIONAL:2,
 	VIEW:3,
-	BEHAVIORAL:4
+	BEHAVIORAL:4,
+	SYSTEM:5
 };
 
 export const ChangePhase:any = {
@@ -49,7 +50,10 @@ export const Event:any = {
 	NODE_DELETED: "node-deleted",
 	EDGE_UPDATED: "edge-updated",
 	REQUEST_EVENT: "REQUEST_EVENT",
-	BRAINSTORMING_CHANGED: "BRAINSTORMING_CHANGED"
+	BRAINSTORMING_CHANGED: "BRAINSTORMING_CHANGED",
+	SESSION_CREATED: "SESSION_CREATED",
+	SESSION_CHANGED: "SESSION_CHANGED",
+	SYSTEM_EVENT: "SYSTEM_EVENT"
 };
 
 export const Actions:any = {
@@ -60,7 +64,9 @@ export const Actions:any = {
 	UPDATE_NODE_NAME: "UPDATE_NODE_NAME",
 	UPDATE_NODE_TYPE_VOTE: "UPDATE_NODE_TYPE_VOTE",
 	UPDATE_NODE_TYPE: "UPDATE_NODE_TYPE",
+	CONNECTION_CHECK: "CONNECTION_CHECK"
 	//REQUEST_SPECIFIC: "REQUEST_SPECIFIC",
+
 };
 
 
@@ -122,6 +128,10 @@ export class Change {
 	// 	return this.type == Change.TYPE_IBIS_QUESTION || this.type == Change.TYPE_IBIS_IDEA ||
 	// 	this.type == Change.TYPE_IBIS_ARGUMENT || this.type == Change.TYPE_IBIS_COMMENT;
 	// }
+
+	public getId() {
+		return this.id;
+	}
 
 	public fill(obj){
 		if(obj){
@@ -245,4 +255,5 @@ if (typeof puzzles.changes !== 'undefined'){
 	puzzles.changes.State = State;
 	puzzles.changes.Change = Change;
 	puzzles.changes.Event = Event;
+	puzzles.changes.Actions = Actions;
 }

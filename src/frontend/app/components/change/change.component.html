@@ -29,7 +29,7 @@
             <img class="card-media md-media-sm" src="images/avatars/avatar13.svg">
           </md-card-title-media> -->
           <span *ngIf="change.isEdge()">Edge</span>
-          <span *ngIf="change.isNode()" class="value_object"[ngSwitch]="change.reference === null">
+          <span *ngIf="change.isNode()" class="value_object" [ngSwitch]="change.reference === null">
             <span class="non-existing" *ngSwitchCase="true">object-not-existing</span>
             <span class="existing" *ngSwitchCase="false" (click)="valueObjectClicked(change.reference)">{{change.reference.name}}</span>
           </span>

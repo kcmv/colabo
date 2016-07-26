@@ -3,13 +3,14 @@ import { Http, HTTP_PROVIDERS, Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import { Headers, RequestOptions } from '@angular/http';
 
-import {Change, ChangeVisibility, ChangeType, State, Domain} from './change';
+import {Change, ChangeVisibility, ChangeType, State, Domain, Actions, Event} from './change';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 const LATENCY_WARNING_SINGLE: number = 300; //ms
 const LATENCY_WARNING_AVERAGE: number = 150; //ms
 const REQUEST_RESPONSE_TIMINGS_WINDOW_FRAME:number = 50;
 const TIME_BETWEEN_ERROR_DISPLAYS:number = 5000; //ms
+const CHECK_CONNECTION_FREQUENCY:number = 500; //ms set to 0 if you don't want to check it
 
 // operators
 import 'rxjs/add/operator/catch';
@@ -39,6 +40,9 @@ for showing structural changes, reacting on node-created, node-updated, node-del
 @Injectable()
 export class ChangeService {
   public static CONNECTIVITY_ISSUE_EVENT: string = "CONNECTIVITY_ISSUE_EVENT";
+  public static CONNECTIVITY_ISSUE_TYPE_LATENCY_WARNING_SINGLE = 'LATENCY_WARNING_SINGLE';
+  public static CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_FAILED = 'CHECK_CONNECTION_FAILED';
+  public static CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_SUCCEEDED = 'CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_SUCCEEDED';
 
   public gotChangesFromServer: boolean = false;
 
@@ -51,7 +55,7 @@ export class ChangeService {
   private requestResponseTimings: number[] = [];
   private requestResponseTimingsIndex = 0;
   private timeErrorDisplayed: any = new Date();
-
+  private errorInConnectivity: boolean = false;
 
   /**
    * Service constructor
@@ -88,6 +92,10 @@ export class ChangeService {
       // this.getMockupChanges();
       //console.log("[ChangeService]: this.http: ", this.http);
       this.changes = [];
+
+      if(CHECK_CONNECTION_FREQUENCY !== 0){
+        setInterval(this.checkConnection.bind(this), CHECK_CONNECTION_FREQUENCY);
+      }
   }
 
   public set onChangeHandler(h: Function){
@@ -101,6 +109,14 @@ export class ChangeService {
     this.rimaService = this.$injector.get('RimaService');
     this.mapVOsService = this.$injector.get('KnalledgeMapVOsService');
     this.mapId = this.mapVOsService.getMapId();
+  }
+
+  checkConnection(): void{
+    let change:Change = new Change();
+    change.type = ChangeType.SYSTEM;
+    change.event = Event.SYSTEM_EVENT;
+    change.action = Actions.CONNECTION_CHECK;
+    this.create(change);
   }
 
   getChangesFromServer(callback?: Function){
@@ -121,7 +137,7 @@ export class ChangeService {
       console.warn("CONNECTIVITY_ERROR:: time>LATENCY_WARNING_SINGLE", time);
 
       this.globalEmitterServicesArray.get(ChangeService.CONNECTIVITY_ISSUE_EVENT)
-      .broadcast('ChangeService', {'type':'LATENCY_WARNING_SINGLE','time':time});
+      .broadcast('ChangeService', {'type':ChangeService.CONNECTIVITY_ISSUE_TYPE_LATENCY_WARNING_SINGLE,'time':time});
     }
     this.requestResponseTimings[this.requestResponseTimingsIndex] = time;
     this.requestResponseTimingsIndex %= REQUEST_RESPONSE_TIMINGS_WINDOW_FRAME;
@@ -130,7 +146,19 @@ export class ChangeService {
   }
 
   logErrorInConnectivity(error:any):void{
-    console.error("CONNECTIVITY_ERROR:: logErrorInConnectivity",error);
+    if(error === null){ //OK
+      if(this.errorInConnectivity){
+        console.warn("CONNECTIVITY_ERROR:: OK again");
+        this.globalEmitterServicesArray.get(ChangeService.CONNECTIVITY_ISSUE_EVENT)
+        .broadcast('ChangeService', {'type':ChangeService.CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_SUCCEEDED});
+        this.errorInConnectivity = false;
+      }
+    }else{
+      console.error("CONNECTIVITY_ERROR:: logErrorInConnectivity",error);
+      this.errorInConnectivity = true;
+      this.globalEmitterServicesArray.get(ChangeService.CONNECTIVITY_ISSUE_EVENT)
+      .broadcast('ChangeService', {'type':ChangeService.CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_FAILED,'lost_no':1});
+    }
   }
 
   logActionLost(error:any):void{
@@ -204,19 +232,24 @@ export class ChangeService {
   }
 
   create(change:Change, callback?: Function): void{
+      var that = this;
       this.post(change)
           .subscribe(
       changeFromServer => this.changeCreated(changeFromServer, callback),
-      error => console.error("error: " +
-          JSON.stringify(error))
-      );
-    ;
+      error =>
+      (change.action === Actions.CONNECTION_CHECK ? that.logErrorInConnectivity(error) : that.logActionLost(error))
+    );
   }
 
   received(changeReceived:Change): void{
     var change:Change = this.processChangeFromServer(changeReceived);
-    this.changes.push(change);
-    this.callOnChangeHandlers(1);
+    if(change.action === Actions.CONNECTION_CHECK){
+      //this IF never happens actually, because these Change-s are not broadcasted, but just in case
+        this.logErrorInConnectivity(null); //OK
+    }else{
+      this.changes.push(change);
+      this.callOnChangeHandlers(1);
+    }
   }
 
   private callOnChangeHandlers(no:number):void {
@@ -227,9 +260,13 @@ export class ChangeService {
 
   private changeCreated(changeFromServer, callback?: Function):void{
     var change:Change = this.processChangeFromServer(changeFromServer);
-    this.changes.push(change);
-    this.callOnChangeHandlers(1);
-    if(typeof callback === 'function'){callback(change);}
+    if(change.action === Actions.CONNECTION_CHECK){
+        this.logErrorInConnectivity(null); //OK
+    }else{
+      this.changes.push(change);
+      this.callOnChangeHandlers(1);
+      if(typeof callback === 'function'){callback(change);}
+    }
   }
 
   private extractData(res: Response) {
@@ -238,19 +275,19 @@ export class ChangeService {
   }
 
   private handleError(error: any) {
-      // In a real world app, we might use a remote logging infrastructure
-      // We'd also dig deeper into the error to get a better message
-      let errMsg = (error.message) ? error.message :
-          error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-      //console.error(errMsg); // log to console instead
-      this.logErrorInConnectivity({'ChangesService' : error, 'errMsg:' : errMsg});
-      return Observable.throw(errMsg);
+    // In a real world app, we might use a remote logging infrastructure
+    // We'd also dig deeper into the error to get a better message
+    let errMsg = (error.message) ? error.message :
+        error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    //console.error(errMsg); // log to console instead
+    this.logErrorInConnectivity({'ChangesService' : error, 'errMsg:' : errMsg});
+    return Observable.throw(errMsg);
   }
 
   private getOne(id: string): Observable<any> {
       return this.http.get(this.apiUrl + "one/" + id)
           .map(this.extractData)
-          .catch(this.handleError);
+          .catch(this.handleError.bind(this));
   }
 
   private post(change: Change): Observable<Change> {
@@ -261,12 +298,12 @@ export class ChangeService {
 
       return this.http.post(this.apiUrl, body, options)
           .map(this.extractData)
-          .catch(this.handleError);
+          .catch(this.handleError.bind(this));
   }
 
   private getChangesInMap(mapId: string): Observable<any> {
       return this.http.get(this.apiUrl + "in_map/" + mapId)
           .map(this.extractData)
-          .catch(this.handleError);
+          .catch(this.handleError.bind(this));
   }
 }

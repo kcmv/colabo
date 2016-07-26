@@ -113,18 +113,22 @@ exports.index = function(req, res){
 // curl -v -H "Content-Type: application/json" -X POST -d '{"firstname":"Sasha", "familyname": "Rudan", "displayName": "mPrinc"}' http://127.0.0.1:8888/dbAudits
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/dbAudits
 exports.create = function(req, res){
-	console.log("[modules/dbAudit.js:create] req.body: %s", JSON.stringify(req.body));
-
 	var data = req.body;
+	if(data.action === 'CONNECTION_CHECK'){
+		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});//this is not an action/change to be saved, it's just a pinging from the client to check its connectivity
+	}
+	else{
+		console.log("[modules/dbAudit.js:create] req.body: %s", JSON.stringify(req.body));
+		console.log(data);
+		var dbAudit = new DbAuditModel(data);
 
-	console.log(data);
-	var dbAudit = new DbAuditModel(data);
 
-	dbAudit.save(function(err) {
-		if (err) throw err;
-		console.log("[modules/DbAudit.js:create] id:%s, dbAudit data: %s", dbAudit._id, JSON.stringify(dbAudit));
-		resSendJsonProtected(res, {success: true, data: dbAudit, accessId : accessId});
-	});
+		dbAudit.save(function(err) {
+			if (err) throw err;
+			console.log("[modules/DbAudit.js:create] id:%s, dbAudit data: %s", dbAudit._id, JSON.stringify(dbAudit));
+			resSendJsonProtected(res, {success: true, data: dbAudit, accessId : accessId});
+		});
+	}
 }
 
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/dbAudits/one/55266618cce5af993fe8675f

@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 // import {LoginStatusComponent} from '../login/login-status-component';
@@ -108,7 +108,7 @@ if (Config.Plugins.puzzles.ontov.active) {
     `]
 })
 
-export class KnalledgeMapMain {
+export class KnalledgeMapMain implements OnInit{
     userUrl: String = "www.CollaboScience.com"; //TODO: CF?!
     policyConfig: any;
     viewConfig: any;
@@ -116,6 +116,7 @@ export class KnalledgeMapMain {
     topPanelVisible: boolean = true;
     status: String;
     navigator = window.navigator;
+    checkConnectionFailed: boolean = false;
     public connectivityIssues: boolean = false;
     private rimaService;
     private knalledgeMapVOsService;
@@ -184,13 +185,27 @@ export class KnalledgeMapMain {
         }
     }
 
+    isOffline(): boolean{
+      return !this.navigator.onLine || this.checkConnectionFailed;
+    }
+
     displayConnectivityIssues(error: any):void {
       this.connectivityIssues = true;
       var that = this;
-      //setTimeout(() => this.brainstormingFormActive = true, 2);
-      setTimeout(function(){
-        that.connectivityIssues = false;
-      }, 7000);
+      switch(error.type){
+          case ChangeService.CONNECTIVITY_ISSUE_TYPE_LATENCY_WARNING_SINGLE:
+            setTimeout(function(){
+              that.connectivityIssues = false;
+            }, 7000);
+          break;
+
+          case ChangeService.CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_FAILED:
+            this.checkConnectionFailed = true;
+          break;
+
+          case ChangeService.CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_SUCCEEDED:
+            this.checkConnectionFailed = false;
+      }
     }
 
     navigateBack() {
@@ -218,6 +233,17 @@ export class KnalledgeMapMain {
     toggleTopPanel(): any {
         this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
     }
+
+    amILoggedIn() : boolean{
+      return this.rimaService && this.rimaService.getWhoAmI() !== null;
+    }
+
+    ngOnInit() {
+      if(!this.amILoggedIn()){
+        window.alert("Please, log in to be albe to follow the session");
+      }
+    }
+
     getLoggedInUserName(): any {
         var whoAmI = this.rimaService ?
             this.rimaService.getWhoAmI() :
