@@ -47,7 +47,7 @@ export class RequestComponent implements OnInit {
 
   requestReceived(received:any) {
     let request:Request = received.request;
-    console.log("[requestReceived] request", JSON.stringify(request));
+    //console.log("[requestReceived] request", JSON.stringify(request));
   }
 
   grant(request){

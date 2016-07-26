@@ -188,7 +188,7 @@ export class RequestService {
         this.requests.push(request);
         request.who = this.rimaService.getUserById(request.who); //can be null!
         request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!
-        console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
+      //  console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
         if (request.type === RequestType.REPLICA) {
             console.log(' requested REPLICA for ');
         }
