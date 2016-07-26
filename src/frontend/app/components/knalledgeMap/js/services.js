@@ -2869,6 +2869,32 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 				return this;
 			},
 
+			/**
+			 * It unregisters an existing (registered) plugin
+			 * @function revokePlugin
+			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService#
+			 * @param  {string} pluginName - plugin name
+			 * @return {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService}
+			 */
+			revokePlugin: function(pluginName) {
+				console.log('[KnAllEdgeRealTimeService:registerPlugin] Revoking (unregistering) plugin: %s', pluginName);
+				var pluginOptions = this.plugins[pluginName];
+				for(var eventName in pluginOptions.events){
+					if(eventName in this.eventsByPlugins){
+						var eventByPlugins = this.eventsByPlugins[eventName];
+
+						for(var eBp=pluginOptions.events.length-1; eBp<=0; eBp--){
+							if(eventByPlugins[eBp].name === pluginName){
+									eventByPlugins.splice(eBp, 1);
+							}
+						}
+					}
+				}
+				delete this.plugins[pluginName];
+
+				return this;
+			},
+
 			setWhoAmI: function(whoAmI){
 				this.whoAmI = whoAmI;
 				if(TopiChatService && TopiChatService.setWhoAmI){
