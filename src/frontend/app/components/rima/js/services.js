@@ -950,6 +950,14 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 				}
 			},
 
+			getWhoAmIid: function(){
+				if(this.loggedInWhoAmI._id == this.ANONYMOUS_USER_ID){
+					return null;
+				}else{
+					return this.loggedInWhoAmI._id;
+				}
+			},
+
 			setIAmId: function(iAmId){
 				this.loggedInWhoAmI._id = iAmId;
 				this.loginInfo.iAmId = iAmId;

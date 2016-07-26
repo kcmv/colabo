@@ -195,13 +195,13 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
-				// console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
+				// console.log("[knalledgeMapServices] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
 				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
 				var data = knalledge.KNode.nodeFactory(serverResponse.data[0]);
 				data.state = knalledge.KNode.STATE_SYNCED;
 				return data;
 				*/
-				return serverResponse.data;
+				return serverResponse ? serverResponse.data : null;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -215,7 +215,7 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
-				// console.log("[KnalledgeNodeService] accessId: %s", serverResponse.accessId);
+				// console.log("[KnalledgeNodeService] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
 				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
 				var data = serverResponse.data;
 				var VOs = [];
@@ -227,7 +227,7 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 				//console.log("[KnalledgeNodeService] data: %s", JSON.stringify(data));
 				return VOs;
 				*/
-				return serverResponse.data;
+				return serverResponse ? serverResponse.data : null;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -241,8 +241,8 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				//console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[ng-KnalledgeNodeService::createPlain] accessId: %s", serverResponse.accessId);
-				var data = serverResponse.data;
+				console.log("[ng-KnalledgeNodeService::createPlain] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+				var data = serverResponse ? serverResponse.data : null;
 				console.log("ng-[KnalledgeNodeService::createPlain] data: %s", JSON.stringify(data));
 				return data;
 			}else{
@@ -261,8 +261,8 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 					serverResponse = JSON.parse(serverResponseNonParsed);
 					if(serverResponse != null){
 						//console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
-						console.log("[KnalledgeNodeService:create] accessId: %s", serverResponse.accessId);
-						var data = serverResponse.data;
+						console.log("[KnalledgeNodeService:create] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+						var data = serverResponse ? serverResponse.data : null;
 						return data;
 					} else {
 						return null;
@@ -282,8 +282,8 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
 					//console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[KnalledgeNodeService:create] accessId: %s", serverResponse.accessId);
-					var data = serverResponse.data;
+					console.log("[KnalledgeNodeService:create] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+					var data = serverResponse ? serverResponse.data : null;
 					return data;
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
@@ -468,8 +468,8 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 					if(callback){callback(nodeFromServer);}
 				},
 				function(error){
-					//console.error('RESOURCE: UPDATE: ',error,' for ',id,actionType,kNodeForServer);
-					ChangeService.logActionLost({'type:': 'RESOURCE: UPDATE', 'error': error, 'id':id, 'actionType' : actionType, 'kNodeForServer' : kNodeForServer});
+					//console.error('NODE: UPDATE: ',error,' for ',id,actionType,kNodeForServer);
+					ChangeService.logActionLost({'type:': 'NODE: UPDATE', 'error': error, 'id':id, 'actionType' : actionType, 'kNodeForServer' : kNodeForServer});
 				}
 			);
 		}
@@ -495,7 +495,12 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 				KnAllEdgeRealTimeService.emit(KnRealTimeNodeDeletedEventName, change);//{'_id':id});
 			}
 			if(callback){callback()};
-		});
+		},
+		function(error){
+			//console.error('NODE: DELETE: ',error,' for ',id,actionType,kNodeForServer);
+			ChangeService.logActionLost({'type:': 'NODE: DELETE', 'error': error, 'id':id});
+		}
+	);
 		return result;
 	};
 
@@ -554,8 +559,8 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 				}
 			},
 			function(error){
-				//console.error('RESOURCE: CREATE: ',error,' for ',kNodeForServer);
-				ChangeService.logActionLost({'type:': 'RESOURCE: CREATE', 'error': error, 'kNodeForServer' : kNodeForServer});
+				//console.error('NODE: CREATE: ',error,' for ',kNodeForServer);
+				ChangeService.logActionLost({'type:': 'NODE: CREATE', 'error': error, 'kNodeForServer' : kNodeForServer});
 			});
 
 			//createPlain manages promises for its returning value, in our case 'node', so we need to  set its promise to the value we return
@@ -588,7 +593,7 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 * @memberof knalledge.knalledgeMap.knalledgeMapServices
 */
 
-knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', '$q', 'Plugins', 'ENV', 'KnalledgeMapQueue', function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue){
+knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', '$q', 'Plugins', 'ENV', 'KnalledgeMapQueue', 'ChangeService', function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeService){
 	try{
 		var KnAllEdgeRealTimeService = Plugins.puzzles.knalledgeMap.config.knAllEdgeRealTimeService.available ?
 			$injector.get('KnAllEdgeRealTimeService') : null;
@@ -610,8 +615,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
-				// console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
-				var data = serverResponse.data;
+				// console.log("[knalledgeMapServices] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+				var data = serverResponse ? serverResponse.data : null;
 				return data[0];
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
@@ -626,8 +631,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
-				// console.log("[KnalledgeEdgeService] accessId: %s", serverResponse.accessId);
-//				var data = serverResponse.data;
+				// console.log("[KnalledgeEdgeService] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+//				var data = serverResponse ? serverResponse.data : null;
 //				var VOs = [];
 //				for(var datumId in serverResponse.data){
 //					var VO = knalledge.KEdge.edgeFactory(data[datumId]);
@@ -636,7 +641,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 //				//console.log("[KnalledgeNodeService] data: %s", JSON.stringify(data));
 //				return VOs;
 
-				return serverResponse.data;
+				return serverResponse ? serverResponse.data : null;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -650,8 +655,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				//console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[KnalledgeEdgeService::create] accessId: %s", serverResponse.accessId);
-				var data = serverResponse.data;
+				console.log("[KnalledgeEdgeService::create] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+				var data = serverResponse ? serverResponse.data : null;
 				console.log("[KnalledgeEdgeService::create] data: %s", JSON.stringify(data));
 				return data;
 			}else{
@@ -668,8 +673,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
 					//console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[KnalledgeEdgeService:create] accessId: %s", serverResponse.accessId);
-					var data = serverResponse.data;
+					console.log("[KnalledgeEdgeService:create] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+					var data = serverResponse ? serverResponse.data : null;
 					return data;
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
@@ -686,8 +691,8 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
 					//console.log("[KnalledgeEdgeService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[KnalledgeEdgeService:create] accessId: %s", serverResponse.accessId);
-					var data = serverResponse.data;
+					console.log("[KnalledgeEdgeService:create] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+					var data = serverResponse ? serverResponse.data : null;
 					return data;
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
@@ -815,7 +820,12 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, change); //edgeFromServer);
 				}
 				callback(true);
-			});
+			},
+			function(error){
+				//console.error('EDGE: UPDATE: ',error,' for ',kNodeForServer);
+				ChangeService.logActionLost({'type:': 'EDGE: UPDATE', 'error': error, 'kEdgeForServer' : kEdgeForServer});
+			}
+		);
 		}
 	};
 
@@ -827,7 +837,12 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 				KnAllEdgeRealTimeService.emit(KnRealTimeEdgeDeletedEventName, {'_id':id});
 			}
 			if(callback){callback()};
-		});
+		},
+		function(error){
+			//console.error('EDGE: DELETE: ',error,' for ',kNodeForServer);
+			ChangeService.logActionLost({'type:': 'EDGE: DELETE', 'error': error, 'id' : id});
+		}
+	);
 		return result;
 	};
 
@@ -995,7 +1010,7 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
 			 */
 			//mapId: "552678e69ad190a642ad461c", // map id
-			map: null,
+			map: new knalledge.KMap(),
 			/**
 			 * The id of root node of the currently loaded map
 			 * @type {string}
@@ -1405,8 +1420,16 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 					}); //updating on server service
 			},
 
+			getMap: function(){
+				return this.map;
+			},
+
 			getMapId: function(){
-				return this.map._id;
+				if(this.map){
+					return this.map._id;
+				}else{
+					return null;
+				}
 			},
 
 			addParticipantToMap(userId, callback){
@@ -1898,13 +1921,13 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[KnalledgeMapService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[knalledgeMapServices] accessId: %s", serverResponse.accessId);
+				console.log("[knalledgeMapServices] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
 				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
 				var data = knalledge.KMap.MapFactory(serverResponse.data[0]);
 				data.state = knalledge.KMap.STATE_SYNCED;
 				return data;
 				*/
-				return serverResponse.data;//TODO: data[0];
+				return serverResponse ? serverResponse.data : null;//TODO: data[0];
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -1918,9 +1941,9 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				console.log("[KnalledgeMapService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[KnalledgeMapService] accessId: %s", serverResponse.accessId);
+				console.log("[KnalledgeMapService] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
 				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
-				var data = serverResponse.data;
+				var data = serverResponse ? serverResponse.data : null;
 				var VOs = [];
 				for(var datumId in serverResponse.data){
 					var VO = knalledge.KMap.nodeFactory(data[datumId]);
@@ -1930,7 +1953,7 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 				//console.log("[KnalledgeMapService] data: %s", JSON.stringify(data));
 				return VOs;
 				*/
-				return serverResponse.data;
+				return serverResponse ? serverResponse.data : null;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -1944,8 +1967,8 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				//console.log("[KnalledgeMapService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[ng-KnalledgeMapService::createPlain] accessId: %s", serverResponse.accessId);
-				var data = serverResponse.data;
+				console.log("[ng-KnalledgeMapService::createPlain] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+				var data = serverResponse ? serverResponse.data : null;
 				console.log("ng-[KnalledgeMapService::createPlain] data: %s", JSON.stringify(data));
 				return data;
 			}else{
@@ -1963,8 +1986,8 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
 					//console.log("[KnalledgeMapService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[KnalledgeMapService:create] accessId: %s", serverResponse.accessId);
-					var data = serverResponse.data;
+					console.log("[KnalledgeMapService:create] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+					var data = serverResponse ? serverResponse.data : null;
 					return data;
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
@@ -1981,8 +2004,8 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
 					//console.log("[KnalledgeMapService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[KnalledgeMapService:create] accessId: %s", serverResponse.accessId);
-					var data = serverResponse.data;
+					console.log("[KnalledgeMapService:create] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+					var data = serverResponse ? serverResponse.data : null;
 					return data;
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
@@ -2219,13 +2242,13 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				// console.log("[SyncingService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[SyncingServices] accessId: %s", serverResponse.accessId);
+				console.log("[SyncingServices] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
 				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
 				var data = knalledge.KMap.MapFactory(serverResponse.data[0]);
 				data.state = knalledge.KMap.STATE_SYNCED;
 				return data;
 				*/
-				return serverResponse.data;//TODO: data[0];
+				return serverResponse ? serverResponse.data : null;//TODO: data[0];
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -2239,7 +2262,7 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				console.log("[SyncingService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[SyncingService] accessId: %s", serverResponse.accessId);
+				console.log("[SyncingService] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
 				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
 				var data = serverResponse.data;
 				var VOs = [];
@@ -2251,7 +2274,7 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				//console.log("[SyncingService] data: %s", JSON.stringify(data));
 				return VOs;
 				*/
-				return serverResponse.data;
+				return serverResponse ? serverResponse.data : null;
 			}else{
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				return serverResponse;
@@ -2265,8 +2288,8 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 				serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 				serverResponse = JSON.parse(serverResponseNonParsed);
 				//console.log("[SyncingService] serverResponse: %s", JSON.stringify(serverResponse));
-				console.log("[ng-SyncingService::createPlain] accessId: %s", serverResponse.accessId);
-				var data = serverResponse.data;
+				console.log("[ng-SyncingService::createPlain] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+				var data = serverResponse ? serverResponse.data : null;
 				console.log("ng-[SyncingService::createPlain] data: %s", JSON.stringify(data));
 				return data;
 			}else{
@@ -2284,8 +2307,8 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
 					//console.log("[SyncingService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[SyncingService:create] accessId: %s", serverResponse.accessId);
-					var data = serverResponse.data;
+					console.log("[SyncingService:create] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+					var data = serverResponse ? serverResponse.data : null;
 					return data;
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
@@ -2302,8 +2325,8 @@ knalledgeMapServices.factory('SyncingService', ['$resource', '$q', 'ENV', 'Knall
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
 					serverResponse = JSON.parse(serverResponseNonParsed);
 					//console.log("[SyncingService] serverResponse: %s", JSON.stringify(serverResponse));
-					console.log("[SyncingService:create] accessId: %s", serverResponse.accessId);
-					var data = serverResponse.data;
+					console.log("[SyncingService:create] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
+					var data = serverResponse ? serverResponse.data : null;
 					return data;
 				}else{
 					serverResponseNonParsed = removeJsonProtected(ENV, serverResponseNonParsed);
@@ -2745,6 +2768,12 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			filterBroadcasting: function(direction, eventName){
 				var emitStructuralChangesByNonBroadcasters = true;
 				var structuralChanges = {'node-created':1,'node-updated':1,'node-deleted':1,'nodes-deleted':1,'edge-created':1,'edge-updated':1,'edge-deleted':1,'edges-deleted':1,};
+				var stateOrBehaviourChanges = {};
+				stateOrBehaviourChanges[puzzles.changes.Event.BRAINSTORMING_CHANGED] = 1;
+				stateOrBehaviourChanges[puzzles.changes.Event.SESSION_CREATED] = 1;
+				stateOrBehaviourChanges[puzzles.changes.Event.SESSION_CHANGED] = 1;
+				stateOrBehaviourChanges[puzzles.changes.Event.REQUEST_EVENT] = 1;
+
 				if(direction == 'in'){
 					switch(eventName){
 						//navigationalChanges:
@@ -2772,18 +2801,23 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 
 						case "map-behaviour-change":
 						case puzzles.changes.Event.BRAINSTORMING_CHANGED:
+						case puzzles.changes.Event.SESSION_CREATED:
+						case puzzles.changes.Event.SESSION_CHANGED:
+						case this.REQUEST_EVENT:
 							return KnalledgeMapPolicyService.provider.config.broadcasting.receiveBehaviours;
 					}
 					return true;
 				}
 				else{ //direction = 'out'
-					switch(eventName){
+					switch(eventName){ //TODO see why this is treated differently:
 						case this.REQUEST_EVENT:
 							return KnalledgeMapPolicyService.provider.config.mediation.sendRequest;
 						break;
 					}
+
 					if(!KnalledgeMapPolicyService.provider.config.broadcasting.enabled){//if broadcasting is disabled
-						if(emitStructuralChangesByNonBroadcasters && structuralChanges[eventName] != undefined){ //we want to send structural changes by all participant, not only by broadcasting moderators
+						if((emitStructuralChangesByNonBroadcasters && structuralChanges[eventName] != undefined) || //we want to send structural changes by all participant, not only by broadcasting moderators
+						stateOrBehaviourChanges[eventName]){ //we want to send behavioral And State changes not only by broadcasting moderators
 							return true;
 						}
 						else{

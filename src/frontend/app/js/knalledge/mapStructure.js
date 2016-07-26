@@ -920,11 +920,11 @@
 	}
 
 	MapStructure.prototype.isMyNode = function(vnode) {
-		return vnode.kNode.iAmId === this.rimaService.getWhoAmI()._id;
+		return this.rimaService.getWhoAmI() !== null && vnode.kNode.iAmId === this.rimaService.getWhoAmIid();
 	}
 
 	MapStructure.prototype.isNodeOfActiveUser = function(vnode) {
-		return vnode.kNode.iAmId === this.rimaService.getActiveUserId();
+		return this.rimaService.getWhoAmI() !== null && vnode.kNode.iAmId === this.rimaService.getActiveUserId();
 	}
 
 	MapStructure.prototype.deleteNode = function(vnode, callback) {
