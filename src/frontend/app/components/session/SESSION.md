@@ -45,3 +45,5 @@ Moderators can create a new session (_Q1_).
 + who is excluded from readOnly: boolean?
   + moderator?
   + presenter?
++ we should think more of Session.collaboSpace, that is suppose to preserve actual state of all relevant puzzles in the Collabospace, behaviours, like a state in KnalledgeMapPolicyService
+  + here behaviours like Brainstorming would be persistent and thus enforced to users that drop off conection etc, without need to send all behaviours by themselves

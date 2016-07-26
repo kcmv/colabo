@@ -58,8 +58,8 @@ export class BrainstormingPanelComponent {
       if(!this.brainstormingService.brainstorming) {return true;}
 
       return  !(
-        this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION ||
-        this.brainstormingService.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS);
+        this.brainstormingService.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS ||
+        this.brainstormingService.brainstorming.phase === BrainstormingPhase.GROUP_DISCUSSION);
     }
 
     // hideShowOnlyBrainstormingSwitch(): boolean {

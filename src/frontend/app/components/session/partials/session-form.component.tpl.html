@@ -15,12 +15,10 @@
                     <template md-tab-content>
                         <md-content class="md-padding">
                           <div layout="column">
-                            <div><span>Question</span><span class="node">{{session.question?.kNode?.name}}</span></div>
-                            <md-switch [(checked)]="session.createPrivateIdeas" aria-label="create private ideas">create private ideas</md-switch>
-                            <md-switch [(checked)]="session.onlyIdeasToQuestion" aria-label="allow only addition of ideas to the session question node - no free knowledge gardening">allow only addition of ideas to the session question node - no free knowledge gardening</md-switch>
-                            <md-switch [hidden]="!session.onlyIdeasToQuestion" [(checked)]="session.allowArgumentsToIdeas" aria-label="allow adding arguments to ideas">allow adding arguments to ideas</md-switch>
+                            <md-input placeholder="Name" [(ngModel)]="session.name" name="name" required #name="ngModel"></md-input>
+                            <md-switch [(checked)]="session.mustFollowPresenter" aria-label="readOnly">mustFollowPresenter</md-switch>
+                            <md-switch [(checked)]="session.readOnly" aria-label="readOnly">readOnly</md-switch>
                           </div>
-
                         </md-content>
                     </template>
                 </md-tab>

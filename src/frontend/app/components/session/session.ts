@@ -53,7 +53,8 @@ export class Session {
 	public readOnly: boolean = false;
 	public phase:number;
 	public mapId: number; //map at which the session is happening
-
+	public collaboSpace: any = {}; //representing state of all relevant puzzles in the Collabospace, e.g. Brainstorming, etc ...
+	public creator: knalledge.WhoAmI = null;
 	public createdAt: any; //when the object is created
 	public updatedAt: any; //when the obect is updated
 	// public dataContent: Object;
@@ -75,24 +76,15 @@ export class Session {
 	}
 
 	reset(){
-	// 	this.id = Session.MaxId++;
-	// 	this.createPrivateIdeas = true;
-	// 	this.onlyIdeasToQuestion = true;
-	// 	this.allowArgumentsToIdeas = false; //allow adding arguments to ideas
-	// 	// this.currentPhaseTimeLeft: number;
-	// 	// this.currentPhaseTimeSpent: number;
-	// 	this.question = null;
-	this.phase= SessionPhase.INACTIVE;
-	// 	this.presenter = null;
-	//
-	// 	// this.createdAt: any; //when the object is created
-	// 	// this.updatedAt: any; //when the obect is updated
-	// 	// this.dataContent: Object;
-	// 	// this.decorations: Object;
-	//
-	// 	/* THIS PROPERTY IS local-to-frontend */
-	// 	this.state = State.LOCAL; //state of the object, responding to some of the enum STATE
-	// /* PROPERTIES - END */
+		this.id = Session.MaxId++;
+		this.name = "Session " + this.id;
+		this.participants = [];
+		this.mustFollowPresenter = false;
+		this.readOnly = false;
+		this.phase= SessionPhase.INACTIVE;
+		this.mapId = null;
+		this.collaboSpace = {};
+		this.creator = null;
 	}
 
 	public fill(obj){
@@ -128,7 +120,7 @@ export class Session {
 	/** before sending to object to server we clean it and fix it for server **/
 	public toServerCopy(){
 		var session:any = {};
-
+		//TODO:
 		/* copying all non-system and non-function properties */
 		for(var id in this){
 			if(id[0] === '$') continue;

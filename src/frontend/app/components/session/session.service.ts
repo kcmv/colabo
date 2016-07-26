@@ -4,7 +4,6 @@ import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyServi
 //import {CollaboPluginsService} from 'collabo';
 import {Session, SessionPhase} from './session';
 import {Change, ChangeType, Domain, Event} from '../change/change';
-import {CollaboGrammarService} from '../collaboPlugins/CollaboGrammarService';
 
 declare var d3:any;
 declare var knalledge;
@@ -74,7 +73,7 @@ export class SessionService {
   //     }
   // };
 
-    session: Session = new Session();
+    session: Session = null;
 
     //session-panel-settings:
     public showOnlySession: boolean = true;
@@ -96,8 +95,7 @@ export class SessionService {
         // @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
         @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService,
-        @Inject('CollaboPluginsService') private collaboPluginsService,
-        private collaboGrammarService : CollaboGrammarService
+        @Inject('CollaboPluginsService') private collaboPluginsService
         ) {
         let that = this;
         //this.id = ++SessionService.MaxId;
@@ -113,6 +111,8 @@ export class SessionService {
             requestPluginOptions.events[Event.SESSSION_CHANGED] = this.receivedSessionChange.bind(this);
             this.knAllEdgeRealTimeService.registerPlugin(requestPluginOptions);
         }
+
+        this.setSession();
 
         //this.collaboPluginsService = this.$injector.get('CollaboPluginsService');
         // this.sessionPluginInfo = {
@@ -183,6 +183,11 @@ export class SessionService {
         // this.collaboPluginsService.registerPlugin(this.sessionPluginInfo);
     }
 
+    setSession(): void{
+      this.session = new Session();
+      //this.session.mapId =
+    }
+
     init(){
       if(!this.initiated){
         this.initiated = true;
@@ -191,9 +196,8 @@ export class SessionService {
     }
 
     restart(){
-      let question = this.session.question;
       this.session.reset();
-      this.session.question = question;
+      this.setSession();
     }
 
     sendSession(callback: Function) {
@@ -205,7 +209,7 @@ export class SessionService {
         if (this.knAllEdgeRealTimeService) {
             let change = new Change();
             change.value = this.session.toServerCopy();
-            change.reference = this.session.question.kNode._id;
+            //change.reference = this.session.question.kNode._id;
             change.type = ChangeType.BEHAVIORAL;
             change.domain = Domain.GLOBAL;
             change.event = Event.SESSSION_CHANGED;
@@ -217,14 +221,14 @@ export class SessionService {
     }
 
     public setUpSessionChange(){
-      this.collaboGrammarService.puzzles.session.state = this.session;
-      if(this.session.phase === SessionPhase.INACTIVE){
-        this.collaboGrammarService.puzzles.session.state = null;
-        //TODO: hide session Panel or de-inject sessionPanel part from the Panel
-      }else{
-        this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
-        .broadcast('KnalledgeMapTools', 'session.SessionPanelComponent');
-      }
+      //this.collaboGrammarService.puzzles.session.state = this.session;
+      // if(this.session.phase === SessionPhase.INACTIVE){
+      //   this.collaboGrammarService.puzzles.session.state = null;
+      //   //TODO: hide session Panel or de-inject sessionPanel part from the Panel
+      // }else{
+      //   this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
+      //   .broadcast('KnalledgeMapTools', 'session.SessionPanelComponent');
+      // }
     }
 
     finishSession(){
@@ -233,9 +237,9 @@ export class SessionService {
     }
 
     private processReferencesInSession(session:Session): Session{
-      if(typeof session.question === 'string'){
-        session.question = this.sessionPluginInfo.references.map.items.mapStructure.getVKNodeByKId(session.question);
-      }
+      // if(typeof session.question === 'string'){
+      //   session.question = this.sessionPluginInfo.references.map.items.mapStructure.getVKNodeByKId(session.question);
+      // }
       return session;
     }
 
@@ -243,13 +247,13 @@ export class SessionService {
         let receivedSession: Session = Session.factory(change.value);
         console.warn("[receivedSessionChange]receivedSession: ", receivedSession);
         this.session = receivedSession;
-        if(this.session.question && this.sessionPluginInfo.references.map.$resolved){
-          this.session = this.processReferencesInSession(this.session);
-          this.sessionPluginInfo.apis.map.items.nodeSelected(this.session.question);
-          this.sessionPluginInfo.apis.map.items.update();
-          // this.sessionPluginInfo.references.map.items.mapStructure.setSelectedNode(this.session.question);
-          // this.sessionPluginInfo.apis.map.items.update();
-        }
+        // if(this.session.question && this.sessionPluginInfo.references.map.$resolved){
+        //   this.session = this.processReferencesInSession(this.session);
+        //   this.sessionPluginInfo.apis.map.items.nodeSelected(this.session.question);
+        //   this.sessionPluginInfo.apis.map.items.update();
+        //   // this.sessionPluginInfo.references.map.items.mapStructure.setSelectedNode(this.session.question);
+        //   // this.sessionPluginInfo.apis.map.items.update();
+        // }
         this.setUpSessionChange();
     }
 
