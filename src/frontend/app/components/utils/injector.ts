@@ -69,8 +69,15 @@ export class Injector {
     };
 
     addPath(path:string, value:any):Injector {
-        if(!this.has(path)){
-            this.items.push(new Injectant(path, value));            
+        var i = this.indexOf(path);
+        if(i<0){
+            this.items.push(new Injectant(path, value));
+        }else{
+          if(this.items[i] instanceof Injectant) {
+            this.items[i] = new Injectant(path, value);
+          }else {
+            this.items[i].addPath(path, value);
+          }
         }
         return this;
     };
@@ -103,6 +110,22 @@ export class Injector {
             }
         }
         return newInjector;
+    }
+
+    indexOf(path:string) {
+      var i:Number;
+        for(let i in this.items) {
+            if(this.items[i] instanceof Injectant) {
+                if((<Injectant> this.items[i]).path === path) {
+                    return i;
+                }
+            }else {
+                let injector:Injector = <Injector> this.items[i];
+                let result = injector.indexOf(path);
+                if(result>=0) return i;
+            }
+        }
+        return -1;
     }
 
     has(path:string) {
