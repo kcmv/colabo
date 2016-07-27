@@ -1,3 +1,8 @@
 <div class="ontov" *ngIf="shown">
-  <div class="ontov_visual_search_new"></div>
+  <section layout="row" layout-align="space-between center" layout-wrap style="width: 100%;">
+    <div flex class="ontov_visual_search_new"></div>
+    <button md-fab class="md-mini md-primary" (click)="operationToggled()" aria-label="Change operation">
+      {{ searchParam.operationType === 1 ? "&amp; &amp;" : "| |"}}
+    </button>
+  </section>
 </div>
