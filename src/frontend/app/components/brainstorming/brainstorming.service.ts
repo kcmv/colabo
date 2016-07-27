@@ -196,10 +196,10 @@ export class BrainstormingService {
             that.brainstormingPluginInfo.apis.ontov.items.setSearch([
               // If you put more than one it will be OR (union)
               // AND is not supported (if we need it we need to talk :) )
-              {
-                category: 'Type',
-                value: 'type_ibis_question'
-              }
+              // {
+              //   category: 'Type',
+              //   value: 'type_ibis_question'
+              // }
 
               // for some reason this doesn't filter
               // {
@@ -234,6 +234,13 @@ export class BrainstormingService {
       this.brainstorming.reset();
       this.brainstorming.question = question;
     }
+
+    filterOntov(searchObj) {
+      if(this.brainstormingPluginInfo.apis.ontov.items.setSearch){
+        this.brainstormingPluginInfo.apis.ontov.items.setSearch(searchObj);
+      }
+    }
+
 
     amIPresenter(): boolean {
       return this.knalledgeMapPolicyService.get().config.broadcasting.enabled;
