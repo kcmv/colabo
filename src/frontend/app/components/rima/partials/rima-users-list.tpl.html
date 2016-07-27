@@ -10,7 +10,7 @@
 		<div class="btn-group">
 			<md-switch class="md-primary" aria-label="show creators" (checkedChange)="changedShowCreators()" [(checked)]="showUsers">show creators</md-switch>
 		</div>
-		<button *ngIf="policyConfig.moderating.enabled" (click)="prepareForParticipants(); addParticipantQuickDialog.show()" class="btn btn-primary button_icon last" aria-label="Add Participant"
+		<button *ngIf="policyConfig?.moderating?.enabled" (click)="prepareForParticipants(); addParticipantQuickDialog.show()" class="btn btn-primary button_icon last" aria-label="Add Participant"
 		type="button"><i title="Add Participant" class="fa fa-plus-square" aria-hidden="true"></i></button>
 
 		<table class="list">
@@ -18,7 +18,7 @@
 			<tr (click)="selectItem(item)" *ngFor="let item of items" [ngClass]="{'row': true, 'active-selection': item._id === selectedItem._id}">
 				<!-- TODO: *ngFor="let item of items | definedDisplayNames | orderBy:'displayName'"  -->
 				<!-- we don't need any  more definedDisplayNames filter -->
-				<td>{{item.displayName}}</td>
+				<td>{{item?.displayName}}<div class="management"><button class="btn btn-primary" type="button" (click)="showUserDialog(item)"><i class="fa fa-bars"></i></button></div></td>
 			</tr>
 		</table>
 	</div>
@@ -33,8 +33,9 @@
 			, because the button is outside of the form
 		-->
 			<form layout="column" class="md-inline-form" #addParticipantToMapForm="ngForm">
+				<div *ngIf="newParticipant">
 					<!-- <md-input placeholder="Display Name" [(ngModel)]="newParticipant.displayName" (change)="displayNameChanged($event)" (ngchange)="displayNameChanged($event)" (ngChange)="displayNameChanged($event)" (ng-change)="displayNameChanged($event)" required></md-input> -->
-					<md-input placeholder="Display Name" (keyup)="displayNameChanged($event)" [(ngModel)]="newParticipant.displayName" required name="displayName" #displayName="ngModel"></md-input>
+						<md-input placeholder="Display Name" (keyup)="displayNameChanged($event)" [(ngModel)]="newParticipant.displayName" required name="displayName" #displayName="ngModel"></md-input>
 	          <div [hidden]="displayName.valid || displayName.pristine" class="alert alert-danger">
 	           displayName is required
 	         </div>
@@ -47,11 +48,12 @@
 						<!-- <span [hidden]="assignedE_mail"><md-input placeholder="E-mail" [(ngModel)]="newParticipant.e_mail" name="e_mail"></md-input></span> -->
 						<!-- <md-input [disabled]="assignedE_mail" placeholder="E-mail" [(ngModel)]="newParticipant.e_mail" value></md-input>
 					</span> -->
-				</form>
-			<md-dialog-actions>
-					<button md-button (click)="addParticipantQuickDialog.close(false)">Cancel</button>
-					<button type="submit" class="btn btn-default" [disabled]="!addParticipantToMapForm.form.valid" (click)="addParticipantQuickDialog.close(true)">Add</button>
-			</md-dialog-actions>
+				</div>
+			</form>
+		<md-dialog-actions>
+				<button md-button (click)="addParticipantQuickDialog.close(false)">Cancel</button>
+				<button type="submit" class="btn btn-default" [disabled]="!addParticipantToMapForm.form.valid" (click)="addParticipantQuickDialog.close(true)">Add</button>
+		</md-dialog-actions>
 	</md-dialog>
 
 	<md-dialog #alert>

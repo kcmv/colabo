@@ -20,6 +20,7 @@ import {SessionFormComponent} from '../session/session-form.component';
 //import {BrainstormingService} from '../brainstorming/brainstorming.service';
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
 import {BottomPanel} from '../bottomPanel/bottomPanel';
+import {UserDialogComponent} from '../rima/user-dialog-component';
 
 import {ChangeService} from '../change/change.service';
 
@@ -76,7 +77,8 @@ var componentDirectives = [
     BrainstormingFormComponent,
     SessionFormComponent,
     MediaShowComponent,
-    BottomPanel
+    BottomPanel,
+    UserDialogComponent
 ];
 
 PluginsPreloader.loadDirectivesDependenciesForCoponent('knalledgeMap.Main', componentDirectives);

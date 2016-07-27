@@ -16,6 +16,10 @@
 	margin-bottom: 7px;
 }
 
+.user_dialog{
+
+}
+
 .wizard-main{
 	position: relative;
 	.rima_logo{
@@ -661,16 +665,69 @@ wizard{
 		.active-selection{
 			background-color: #eee;
 		}
+
 		tr{
 			margin-bottom: 3px;
 			border-bottom: solid 2px #aaaaaa;
 			margin-bottom: 3px;
 			@include border-radius(5px, 5px);
-			 &:hover{
-		     	cursor: pointer;
-		     	background-color: #cccccc;
-		  }
+		 	&:hover{
+	     	cursor: pointer;
+	     	background-color: #cccccc;
+
+				.management{
+					display : block;
+					position: absolute;
+					top: 2px;
+					right: 2px;
+					.btn{
+						padding: 1px 3px;
+					}
+				}
+	   	}
+			td{
+				padding-left: 5%;
+				position: relative;
+				.management{
+					display: none;
+				}
+			}
 		}
+
+		// tr{
+		// 	&:nth-child(odd) {background-color: #888;}
+		// 	&:nth-child(even) {background-color: lighten(#888, 10%);}
+		//
+		// 	&:hover{
+		// 		cursor: pointer;
+		// 		background-color: lighten(#888, 35%);
+		//
+		// 		.management{
+		// 			display : block;
+		// 			position: absolute;
+		// 			top: 2px;
+		// 			right: 2px;
+		// 			.btn{
+		// 				padding: 1px 3px;
+		// 			}
+		// 		}
+		// 	}
+		//
+		// 	td{
+		// 		padding-left: 5%;
+		// 		position: relative;
+		// 		.management{
+		// 			display: none;
+		// 		}
+		// 	}
+		//
+		// 	&.active-selection{
+		// 		background-color: lighten(#888, 25%);
+		// 		/*font-weight: bold;*/
+		// 	}
+		// }
+
+
 
 		th{
 			background-color: #aaf;

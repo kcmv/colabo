@@ -81,6 +81,7 @@ export class BrainstormingService {
     private brainstormingPluginInfo: any;
     private knAllEdgeRealTimeService: any;
     private showSubComponentInBottomPanelEvent: string = "showSubComponentInBottomPanelEvent";
+    private hideBottomPanelEvent: string = "hideBottomPanelEvent";
 
     private initiated:boolean = false;
     private rimaService:any = null;
@@ -289,7 +290,9 @@ export class BrainstormingService {
       this.collaboGrammarService.puzzles.brainstorming.state = this.brainstorming;
       if(this.brainstorming.phase === BrainstormingPhase.INACTIVE){
         this.collaboGrammarService.puzzles.brainstorming.state = null;
-        //TODO: hide brainstorming Panel or de-inject brainstormingPanel part from the Panel
+        //TODO: should we de-inject brainstormingPanel part from the Panel?
+        this.globalEmitterServicesArray.get(this.hideBottomPanelEvent)
+        .broadcast('KnalledgeMapTools', 'brainstorming.BrainstormingPanelComponent');
       }else{
         this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
         .broadcast('KnalledgeMapTools', 'brainstorming.BrainstormingPanelComponent');

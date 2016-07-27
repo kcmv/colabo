@@ -1,0 +1,31 @@
+<div class="md-padding" id="popupContainer">
+  <md-dialog #userDialog class="user_dialog">
+      <md-dialog-title>User</md-dialog-title>
+      <div class="md-inline-form">
+        <!-- <form *ngIf="mapFormActive" (ngSubmit)="onSubmit()" #mapForm="ngForm" layout="column" class="inline-form"> -->
+
+            <md-input [disabled]="!policyConfig?.moderating?.enabled" placeholder="displayName" [(ngModel)]="user.displayName" name="displayName" required #name="ngModel"></md-input>
+              <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+               displayName is required
+             </div>
+            <!-- <md-input placeholder="Map Type" [(ngModel)]="user.type" name="type"></md-input>
+            <md-switch [(checked)]="user.isPublic" aria-label="public">public</md-switch> -->
+            <!-- <label for="name">Name</label>
+
+          <br>TODO: remove this: {{spy.className}}
+          <button type="button" class="btn btn-default" (click)="newHero()">New Hero</button> -->
+          <div layout="row">
+            <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
+            <!-- <button md-button type="submit" [disabled]="!mapForm.form.valid">Create</button> -->
+            <!-- <button md-button class="md-primary" (click)="mapDialog.close(true)">
+                <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
+            </button> -->
+          </div>
+        <!-- </form> -->
+      </div>
+      <md-dialog-actions>
+        <button md-button type="button" (click)="makePresenter(user)">Make Presenter</button>
+        <button md-button type="button" (click)="close(false)">OK</button>
+      </md-dialog-actions>
+  </md-dialog>
+</div>

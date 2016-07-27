@@ -83,13 +83,13 @@ export class RimaUsersList implements OnInit{
     public items:Array<any> = [];
     public selectedItem:any = null;
     public assignedE_mail:boolean = true;
-    public newParticipant;
+    public newParticipant = new knalledge.WhoAmI();
     public automaticEmailDomain:string = "knalledge.org";
 
     //This is a temporary workaround while we await a proper form reset feature https://angular.io/docs/ts/latest/guide/forms.html:
     public active_addParticipantToMapForm: boolean = true;
 
-    private policyConfig:any;
+    public policyConfig:any;
     private viewConfig:any;
     private componentShown:boolean = true;
     private knalledgeNodeCreatorChanged: string = "knalledgeNodeCreatorChanged";
@@ -100,6 +100,7 @@ export class RimaUsersList implements OnInit{
     private knAllEdgeRealTimeService;
     private rimaService;
     private knalledgeMapVOsService;
+    private SHOW_USER_DIALOG: string = "SHOW_USER_DIALOG";
 
     private knalledgeMapUpdateEventName:string = "knalledgeMapUpdateEvent";
 
@@ -118,6 +119,7 @@ export class RimaUsersList implements OnInit{
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
         this.rimaService = _RimaService_;
         this.knalledgeMapVOsService = _KnalledgeMapVOsService_;
+        this.globalEmitterServicesArray.register(this.SHOW_USER_DIALOG);
         this.globalEmitterServicesArray.register(this.knalledgeMapUpdateEventName);
         // $scope.items.sort(compare);
 
@@ -128,7 +130,7 @@ export class RimaUsersList implements OnInit{
         //   this.rimaService.whoAmIs.$promise.then(function(whoAmIs){this.initUsers(whoAmIs);});
         // }
         console.log('[RimaUsersList] rimaService.config.showUsers:'+this.rimaService.config.showUsers);
-        this.newParticipant = new knalledge.WhoAmI();
+
         // $scope.howAmIs = RimaService.getAllHows();
     }
 
@@ -142,6 +144,11 @@ export class RimaUsersList implements OnInit{
 
     get showUsers(){
       return this.rimaService.config.showUsers;
+    }
+
+    showUserDialog(user:knalledge.WhoAmI):void{
+      console.log("showUserDialog", user);
+      this.globalEmitterServicesArray.get(this.SHOW_USER_DIALOG).broadcast('RimaUsersList', user);
     }
 
     set showUsers(show){
