@@ -21,6 +21,7 @@ export class OntovService {
   constructor(
     @Inject('$injector') private $injector,
     @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+    @Inject('RimaService') private rimaService,
     @Inject('CollaboPluginsService') private collaboPluginsService
     ) {
     let that = this;
@@ -303,10 +304,29 @@ export class OntovService {
   }
 
   _getFacetMatches_Who(searchTerm: string) {
-    return ['Sasha', 'Sinisha', 'Dino', 'Alexander', 'John'];
+    if (this.mapStructure) {
+      var iAmIdObj = {};
+      for (let id in this.mapStructure.nodesById) {
+        var vkNode = this.mapStructure.nodesById[id];
+        iAmIdObj[vkNode.kNode.iAmId] = true;
+      }
+      var whos = [];
+      for (let iAmId in iAmIdObj) {
+        var whoAmI = this.rimaService.getUserById(iAmId);
+        var who = this.rimaService.getNameFromUser(whoAmI);
+        if(!who) who = "[unknown]";
+        whos.push({
+          label: who,
+          value: iAmId
+        });
+      }
+      return whos;
+    } else {
+      return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
+    }
   }
   _doesMatch_Who(searchTerm: string, vkNode) {
-    return vkNode.kNode.name === searchTerm;
+    return vkNode.kNode.iAmId === searchTerm;
   }
 
   _getFacetMatches_iAmId(searchTerm: string) {
