@@ -395,8 +395,7 @@ angular.module('knalledgeMapDirectives', ['Config'])
 						 * @param  {boolean} commingFromAngular - if the call comes from the ng world or from wildness
 						 */
 						nodeSelected: function(vkNode, dom, selectionSource, commingFromAngular){
-							if(selectionSource === knalledge.Map.INTERNAL_SOURCE
-							){
+							if(selectionSource === knalledge.Map.INTERNAL_SOURCE && !KnalledgeMapPolicyService.mustFollowPresenter()){
 								KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation = false;
 							}
 

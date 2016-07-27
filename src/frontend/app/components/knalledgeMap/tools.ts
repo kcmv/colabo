@@ -96,7 +96,7 @@ export class KnalledgeMapTools {
     private globalEmitterServicesArray: GlobalEmitterServicesArray;
 
     constructor(
-        @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService: KnalledgeMapPolicyService,
+        @Inject('KnalledgeMapPolicyService') public knalledgeMapPolicyService: KnalledgeMapPolicyService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
         @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray: GlobalEmitterServicesArray,
         @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_
