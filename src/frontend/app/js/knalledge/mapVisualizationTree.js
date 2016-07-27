@@ -74,6 +74,10 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 	}, 25);
 };
 
+function isShowingFullSizeImage(d){
+	return !this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width;
+}
+
 /**
  * calculates width of a node
  * @function getNodeWidth
@@ -83,7 +87,7 @@ function getNodeWidth(d){
 // .style("min-width", function(d){
 		var width = null;
 		if(this.knalledgeMapViewService.provider.config.nodes.showImages){
-			var width = (!this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+			var width = isShowingFullSizeImage.bind(this)(d) ?
 				d.kNode.dataContent.image.width : this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth;
 		}
 		// if width is not set or if it is narrower than
@@ -235,11 +239,11 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		})
 		.classed({
 			"node_html_fixed": function(d){
-				return (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-					false : true;
+				return (!isShowingFullSizeImage.bind(that)(d)) ?
+					true : false;
 			}
 		})
-		/* TODO FIxing expandable nodes */
+		/* TODO Fixing expandable nodes */
 		.style("width", getNodeWidth.bind(this))
 		.style("margin-left", getNodeMarginLeft.bind(this));
 		// .style("background-color", function(d) {
@@ -367,8 +371,8 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 	nodeHtmlUpdate
 		.classed({
 			"node_html_fixed": function(d){
-				return (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image) ?
-					false : true;
+				return (!isShowingFullSizeImage.bind(that)(d)) ?
+					true : false;
 			}
 		})
 		/* TODO FIxing expandable nodes */
@@ -983,9 +987,9 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 				}else{
 					o = {x: d.source.x0, y: d.source.y0};
 				}
-				diagonal = that.mapLayout.diagonal(that.mapLayout)({source: o, target: o});
+				diagonal = that.mapLayout.diagonal(that.mapLayout, isShowingFullSizeImage.bind(that))({source: o, target: o});
 			}else{
-				diagonal = that.mapLayout.diagonal(that.mapLayout)(d);
+				diagonal = that.mapLayout.diagonal(that.mapLayout, isShowingFullSizeImage.bind(that))(d);
 			}
 			return diagonal;
 		});
@@ -1011,14 +1015,14 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 		linkUpdateTransition
 			.attr("d", function(d){
 				var diagonal;
-				diagonal = that.mapLayout.diagonal(that.mapLayout)(d);
+				diagonal = that.mapLayout.diagonal(that.mapLayout, isShowingFullSizeImage.bind(that))(d);
 				return diagonal;
 			});
 	}else{
 		linkUpdate
 			.attr("d", function(d){
 				var diagonal;
-				diagonal = that.mapLayout.diagonal(that.mapLayout)(d);
+				diagonal = that.mapLayout.diagonal(that.mapLayout, isShowingFullSizeImage.bind(that))(d);
 				return diagonal;
 			});
 	}
@@ -1045,14 +1049,14 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 					}else{
 						o = {x: d.source.x, y: d.source.y};
 					}
-					diagonal = that.mapLayout.diagonal(that.mapLayout)({source: o, target: o});
+					diagonal = that.mapLayout.diagonal(that.mapLayout, isShowingFullSizeImage)({source: o, target: o});
 					return diagonal;
 				});
 		}else{
 			linkExit
 				.attr("d", function(d){
 					var diagonal;
-					diagonal = that.mapLayout.diagonal(that.mapLayout)(d);
+					diagonal = that.mapLayout.diagonal(that.mapLayout, isShowingFullSizeImage.bind(that))(d);
 					return diagonal;
 				});
 		}

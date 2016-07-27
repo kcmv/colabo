@@ -65,7 +65,7 @@ MapLayoutTree.prototype.init = function(mapSize, scales){
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal_projection
 // https://www.dashingd3js.com/svg-paths-and-d3js
-MapLayoutTree.prototype.diagonal = function(that){
+MapLayoutTree.prototype.diagonal = function(that, isShowingFullSizeImage){
 	var diagonalSource = function(d){
 		//return d.source;
 		// here we are creating object with just necessary parameters (x, y)
@@ -79,7 +79,7 @@ MapLayoutTree.prototype.diagonal = function(that){
 			// we deal here with y-coordinates, because our final tree is rotated to propagete across the x-axis, instead of y-axis
 			// (you can see that in .project() function
 			if(d.source.y < d.target.y){
-				var width = (d.source.kNode.dataContent && d.source.kNode.dataContent.image && d.source.kNode.dataContent.image.width) ?
+				var width = (isShowingFullSizeImage(d)) ?
 					d.source.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
 				point.y += that.scales.width(width) + 0;
 			}
@@ -94,7 +94,7 @@ MapLayoutTree.prototype.diagonal = function(that){
 		point.y = that.scales.y(point.y);
 		if(!that.configNodes.punctual){
 			if(d.target.y > d.source.y){
-				var width = (d.target.kNode.dataContent && d.target.kNode.dataContent.image && d.target.kNode.dataContent.image.width) ?
+				var width = (isShowingFullSizeImage(d)) ?
 					d.target.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
 				point.y -= that.scales.width(width) + 0;
 			}
@@ -117,7 +117,7 @@ MapLayoutTree.prototype.diagonal = function(that){
  * - destroying structure of the old tree
 - setting up VkNode
 position and dimension
- */
+*/
 MapLayoutTree.prototype.generateTree = function(source){
 	//this.mapStructure.setVisibilityByDistance(this.mapStructure.getSelectedNode(), 2);
 	var that = this;
