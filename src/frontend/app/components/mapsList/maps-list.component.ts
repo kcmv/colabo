@@ -106,7 +106,7 @@ export class MapsList implements OnInit {
     public nameOfDuplicatedMap = "";
     public mapParticipants = null;
     public title: string = "";
-    public mapRoutes: string[];
+    public mapRoutes: any[];
     //public cloneDialog = @ViewChild('cloneDialog');
 
     policyConfig: any;
@@ -524,7 +524,7 @@ export class MapsList implements OnInit {
         var url = URL.createObjectURL(new Blob([data]));
         var a = document.createElement('a');
         a.href = url;
-        a.download = map.map.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.json';
+        a['download'] = map.map.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.json';
         a.target = '_blank';
         a.click();
     }

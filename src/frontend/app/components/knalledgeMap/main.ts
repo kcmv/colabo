@@ -25,6 +25,7 @@ import {UserDialogComponent} from '../rima/user-dialog-component';
 import {ChangeService} from '../change/change.service';
 
 declare var window;
+declare var Config;
 
 // import {DbAuditService} from './dbAudit.service';
 // import {Change} from '../change/change';
