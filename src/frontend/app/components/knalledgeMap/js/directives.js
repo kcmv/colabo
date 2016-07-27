@@ -507,7 +507,6 @@ angular.module('knalledgeMapDirectives', ['Config'])
 										var SETUP_SESSION_REQUEST_EVENT = "SETUP_SESSION_REQUEST_EVENT";
 										GlobalEmitterServicesArray.register(SETUP_SESSION_REQUEST_EVENT);
 										GlobalEmitterServicesArray.get(SETUP_SESSION_REQUEST_EVENT).broadcast('KnalledgeMap');
-									}
 								}
 							});
 						},
