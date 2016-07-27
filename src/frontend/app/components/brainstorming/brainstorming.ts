@@ -16,7 +16,7 @@ export class BrainstormingPhaseNames {
 	public static SHARING_IDEAS: string = 'Sharing Ideas';
 	public static GROUP_DISCUSSION: string = 'Group Discussion';
 	public static VOTING_AND_RANKING: string = 'Voting and Ranking';
-	public static FINISHED: string = 'Finished';
+	public static FINISHED: string = 'Finish';
 
 	public static getNameByPhase(phase: number): string{
 		switch(phase){
@@ -144,7 +144,7 @@ export class Brainstorming {
 			if(id[0] === '$') continue;
 			if(id === 'parents') continue;
 			if(id === 'children') continue;
-			
+
 			if(id === 'question'){
 				if(typeof this['question'] !== 'string'){
 					if(this['question'] instanceof knalledge.KNode){
