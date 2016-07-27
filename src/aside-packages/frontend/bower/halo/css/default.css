@@ -49,11 +49,11 @@
   /* line 38, ../sass/default.scss */
   .halo .w {
     left: -45px;
-    top: 30px; }
+    top: 5px; }
   /* line 42, ../sass/default.scss */
   .halo .e {
     right: -55px;
-    top: 30px; }
+    top: 5px; }
   /* line 46, ../sass/default.scss */
   .halo .n {
     left: calc(50% - 20px);

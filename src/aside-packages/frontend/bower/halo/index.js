@@ -171,14 +171,24 @@ halo.prototype._createIcon = function(haloView, objectView, iconOptions){
 		.classed(classes);
 
 	if(iconOptions.iconClass){
-		var classes = {
-			fa: true
-		};
-		classes[iconOptions.iconClass] = true;
-		iconBgView
-			.append("i")
+		if(typeof iconOptions.iconClass === 'string'){
+			iconOptions.iconClass = [iconOptions.iconClass];
+		}
+		for(var i=0; i<iconOptions.iconClass.length; i++){
+			var iconClass = iconOptions.iconClass[i];
+			var classes = {
+				fa: true
+			};
+			classes[iconClass] = true;
+			var iTag = iconBgView
+				.append("i");
+			iTag
 				.style("margin", "0.2em")
 				.classed(classes);
+
+			if(i>0) iTag.style("margin-left", "0px")
+			if(i<iconOptions.iconClass.length-1) iTag.style("margin-right", "0px")
+		}
 	}
 	if(iconOptions.iconText){
 		var classes = {
