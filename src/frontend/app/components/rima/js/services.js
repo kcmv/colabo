@@ -1068,13 +1068,13 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 				if(!whoAmI) return null;
 
 				var name = whoAmI.displayName;
-		        if(!name || name.length <= 0){
-		            name = whoAmI.firstname + " " + whoAmI.familyname;
-					name = name.trim();
-		        }
-		        if(!name || name.length <= 0){
-		            name = whoAmI._id;
-		        }
+        if(!name || name.length <= 0){
+            name = whoAmI.firstname + " " + whoAmI.familyname;
+						name = name.trim();
+        }
+        if(!name || name.length <= 0){
+            name = whoAmI._id;
+        }
 				return name;
 			},
 

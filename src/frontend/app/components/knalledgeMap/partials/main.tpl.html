@@ -12,7 +12,7 @@
                 </md-input-container>
                 </form> -->
                 <div style="text-align: right;">
-                    <button md-raised-button (click)="options.close()" align="right" class="md-primary" hide-gt-md>
+                    <button md-raised-button (click)="options.close()" align="right" class="md-mini md-primary" hide-gt-md>
                         Close
                     </button>
                 </div>
@@ -23,49 +23,10 @@
         <md-sidenav #settings (close)="turnOffEditingNode($event)" class="settings" align="start" style="min-width: 200px; max-width: 300px; width: 30%;" class="md-sidenav-left md-whiteframe-z2">
             <md-content>
                 <div style="text-align: right;">
-                    <!-- <button md-raised-button (click)="testMain()" align="right" class="md-primary">
-                        Test
-                    </button> -->
                     <button md-raised-button (click)="settings.close()" align="right" class="md-primary">
                         Close
                     </button>
                 </div>
-                <!-- <div class="md-padding" id="popupContainer" style="position: relative;">
-                    <md-dialog #custom (onClose)="customClose($event)">
-                        <form>
-                            <h2 class="md-title">{{fruit}} (Fruit)</h2>
-                            <div>
-                                <p>
-                                    The mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting trees, cultivated mostly for edible fruit.
-                                </p>
-                                <p>
-                                    The highest concentration of Mangifera genus is in the western part of Malesia (Sumatra, Java and Borneo) and in Burma and India.
-                                </p>
-                            </div>
-                        </form>
-                        <md-dialog-actions>
-                            <a md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank">
-                                <span>More on Wikipedia</span>
-                            </a>
-                            <span flex></span>
-                            <button md-button (click)="custom.close(false)">
-                                <span>Ignore</span>
-                            </button>
-                            <button md-button class="md-primary" (click)="custom.close(true)">
-                                <span>Interesting...</span>
-                            </button>
-                        </md-dialog-actions>
-                    </md-dialog>
-                    <button md-raised-button class="md-primary" flex="auto" (click)="custom.show()">
-                        Custom Dialog
-                    </button>
-                    <div *ngIf="status">
-                        <br/>
-                        <b layout="row" layout-align="center center" class="md-padding">
-                      {{status}}
-                    </b>
-                    </div>
-                </div> -->
                 <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
             </md-content>
         </md-sidenav>
@@ -107,26 +68,25 @@
                     <md-toolbar class="toolbar md-theme-indigo" color="primary" style="width: 100%;">
                         <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
                             <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
-                                <button md-fab md-tooltip="Configuration" tooltip-position="below" class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
+                                <button md-fab md-tooltip="Configuration" tooltip-position="below" class="md-mini md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
                                     <i title="Settings" md-icon>settings</i>
                                 </button>
-                                <!-- <button md-fab class="md-primary" aria-label="Configuration" (click)="options.open()" hide-gt-md> -->
-                                <button md-fab class="md-primary" aria-label="Configuration" (click)="options.toggle()">
+                                <button md-fab class="md-mini md-primary" aria-label="Configuration" (click)="options.toggle()">
                                     <i title="Configuration" md-icon>chrome_reader_mode</i>
                                 </button>
-                                <button md-fab class="md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
+                                <button md-fab class="md-mini md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
                                     <i title="Top Panel" md-icon>view_agenda</i>
                                 </button>
 
-                                <button md-fab md-tooltip="Maps" tooltip-position="below" class="md-primary" aria-label="Maps" (click)="go('maps')">
+                                <button md-fab md-tooltip="Maps" tooltip-position="below" class="md-mini md-primary" aria-label="Maps" (click)="go('maps')">
                                     <i title="Maps List" md-icon>map</i>
                                 </button>
 
-                                <button md-fab class="md-primary" aria-label="Plugins" (click)="go('plugins')" *ngIf="policyConfig.moderating.enabled">
+                                <button md-fab class="md-mini md-primary" aria-label="Plugins" (click)="go('plugins')" *ngIf="policyConfig.moderating.enabled">
                                     <i title="Plugins" md-icon>extension</i>
                                 </button>
 
-                                <button *ngIf="pluginsConfig?.knalledgeMap?.config?.externalInterface?.backFromMap" md-fab class="md-primary" aria-label="Navigate Back" (click)="navigateBack()">
+                                <button *ngIf="pluginsConfig?.knalledgeMap?.config?.externalInterface?.backFromMap" md-fab class="md-mini md-primary" aria-label="Navigate Back" (click)="navigateBack()">
                                   <i title="Back" md-icon>navigate_before</i>
                                 </button>
 
@@ -145,7 +105,7 @@
                                 </div>
                                 <div *ngIf="!policyConfig.moderating.enabled">
                                     <span *ngIf="policyConfig.broadcasting.receiveNavigation">
-                                      <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter()" md-fab class="md-primary" (click)="followBroadcast(false)">
+                                      <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter()" md-fab class="md-mini md-primary" (click)="followBroadcast(false)">
                                         <span class="fa-stack fa-lg">
                                           <i class="fa fa-phone fa-stack-1x"></i>
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
@@ -154,7 +114,7 @@
                                     </span>
                                     <span *ngIf="!policyConfig.broadcasting.receiveNavigation">
                                       <!-- <span class="warning">You are not following a presentation!</span> -->
-                                      <button md-fab class="md-primary" (click)="followBroadcast(true)">
+                                      <button md-fab class="md-mini md-primary" (click)="followBroadcast(true)">
                                         <span class="fa-stack fa-lg">
                                           <!-- <i class="fa fa-ban text-danger" style="font-size: 2.3em"></i> -->
                                           <i  style="font-size: 2em" class="fa fa-times text-danger"></i>
@@ -167,7 +127,7 @@
                                 </div>
                                 <div *ngIf="policyConfig.moderating.enabled">
                                     <span *ngIf="policyConfig.broadcasting.enabled">
-                                      <button md-fab class="md-primary" (click)="broadcast(false)">
+                                      <button md-fab class="md-mini md-primary" (click)="broadcast(false)">
                                         <span class="fa-stack fa-lg">
                                           <i class="fa fa-desktop fa-stack-1x"></i>
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
@@ -175,7 +135,7 @@
                                       </button>
                                     </span>
                                     <span *ngIf="!policyConfig.broadcasting.enabled">
-                                      <button md-fab class="md-primary" (click)="broadcast(true)">
+                                      <button md-fab class="md-mini md-primary" (click)="broadcast(true)">
                                         <span class="fa-stack fa-lg">
                                           <!-- <i class="fa fa-ban" style="font-size: 2.3em"></i> -->
                                           <i class="fa fa-desktop fa-stack-1x disabled"></i>
@@ -188,7 +148,7 @@
                                 </div>
                             </section>
                             <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
-                                <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
+                                <button md-fab class="md-mini md-primary" aria-label="Person" (click)="go('login')">
                                     <i [ngClass]="{warning: !amILoggedIn()}" title="Login" md-icon>person</i>
                                 </button>
 
@@ -206,9 +166,6 @@
                                     </div>
                                 </div>
 
-                                <!-- <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
-                                    <i title="Logout" md-icon>directions run</i>
-                                </button> -->
                                 <!-- <div>TESTING
                                   <span *ngIf="policyConfig.moderating.enabled">
                                     policyConfig.moderating.enabled = {{policyConfig.moderating.enabled}} = true

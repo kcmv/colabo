@@ -6,8 +6,11 @@ if(typeof interaction === 'undefined'){
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-
+var ID=0;
 var halo =  interaction.Halo = function(){
+	this.id = ID++;
+	console.log("[halo] instance-id: ", this.id);
+	this.destroyed = false;
 };
 
 halo.HALO_VIEW_ID = "halo_view_id";
@@ -46,7 +49,24 @@ halo.prototype.init = function (config, callback) {
 	console.log("[init]");
 };
 
-halo.prototype.destroy = function () {
+/**
+ * The function that is called when we are destroying parent.
+ * It has to destroy, or at worst disable any subcomponent from working
+ * @function destroy
+ * @memberof knalledge.MapLayout#
+ */
+halo.prototype.destroy = function(){
+	if(this.destroyed){
+		console.log("[halo] skipping 2nd destruction of instance-id: ", this.id);
+		return;
+	}
+	console.log("[halo] destroying instance-id: ", this.id);
+	this.destroyed = true;
+	this.callback = false;
+	this.config = false;
+};
+
+halo.prototype.remove = function () {
 	d3.select("#"+interaction.Halo.HALO_VIEW_ID).remove();
 };
 
@@ -119,7 +139,7 @@ halo.prototype.create = function (objectDom, options) {
 	var haloView = null;
 
 	if(this.config.exclusive){
-		this.destroy();
+		this.remove();
 	}
 
 	switch(this.config.createAt){

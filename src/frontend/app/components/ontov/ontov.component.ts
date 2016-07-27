@@ -2,7 +2,7 @@ import {Component, ViewEncapsulation, Inject, OnInit, OnDestroy} from '@angular/
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
-import {OntovService} from './ontov.service';
+import {OntovService, ISearchParam} from './ontov.service';
 
 // VS is a visual search component
 // http://documentcloud.github.io/visualsearch/
@@ -37,11 +37,15 @@ var componentProviders = [
 export class OntovComponent implements OnInit {
   shown: boolean = true;
   visualSearch:any;
+  operationType:Number = 0;
+  searchParam:ISearchParam;
 
   constructor(
     private ontovService:OntovService,
     @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
     ) {
+      this.searchParam = this.ontovService.searchParam;
+
     var showSubComponentInOntovComponentEvent = "showSubComponentInOntovComponentEvent";
     this.globalEmitterServicesArray.register(showSubComponentInOntovComponentEvent);
 
@@ -68,6 +72,10 @@ export class OntovComponent implements OnInit {
   ngOnDestroy() {
 
   }
+  operationToggled() {
+    this.searchParam.operationType = 1 - this.searchParam.operationType;
+    this.ontovService.filterByFacets();
+  }
 
   vsInit() {
     var that:OntovComponent = this;
@@ -90,8 +98,8 @@ export class OntovComponent implements OnInit {
               value: value
             });
           });
-          that.ontovService.filterByFacets(searchCollectionArray);
           that.ontovService.updateSearchValuesFromComponent(searchCollectionArray);
+          that.ontovService.filterByFacets();
         },
         facetMatches: function(callback) {
           // These are the facets that will be autocompleted in an empty input.

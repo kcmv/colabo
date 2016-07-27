@@ -6,7 +6,7 @@ import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
 
-declare var knalledge;
+declare var knalledge:any;
 
 @Component({
   selector: 'map-form',

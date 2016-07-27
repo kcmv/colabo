@@ -3,16 +3,25 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 
 declare var knalledge;
 
+export interface ISearchParam {
+    searchArr:Array<any>;
+    operationType:Number;
+}
+
 @Injectable()
 export class OntovService {
   searchFacets = [];
   public mapUpdate: Function;
+  public positionToDatum: Function;
+  public searchParam:ISearchParam = {
+    searchArr: [],
+    operationType: 0
+  };
   private ontovPluginInfo: any;
   private knAllEdgeRealTimeService: any;
   private registeredFacets: any = {};
   private mapStructure: any;
   private setSearchCallback:Function;
-  private searchArr:Array<any>;
 
   /**
    * Service constructor
@@ -21,6 +30,7 @@ export class OntovService {
   constructor(
     @Inject('$injector') private $injector,
     @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+    @Inject('RimaService') private rimaService,
     @Inject('CollaboPluginsService') private collaboPluginsService
     ) {
     let that = this;
@@ -70,7 +80,8 @@ export class OntovService {
         map: {
           items: {
             update: null,
-            nodeSelected: null
+            nodeSelected: null,
+            positionToDatum: null
           },
           $resolved: false,
           callback: null,
@@ -92,6 +103,7 @@ export class OntovService {
     this.ontovPluginInfo.apis.map.callback = function() {
       that.ontovPluginInfo.apis.map.$resolved = true;
       that.mapUpdate = that.ontovPluginInfo.apis.map.items.update;
+      that.positionToDatum = that.ontovPluginInfo.apis.map.items.positionToDatum;
       // resolve(that.ontovPluginInfo.apis.map);
       // reject('not allowed');
     };
@@ -134,23 +146,24 @@ export class OntovService {
       name: "ontov",
       items: {
         setSearch: this.setSearch.bind(this),
-        getSearchArray: this.getSearchArray.bind(this)
+        getSearchArray: this.getSearchArray.bind(this),
+        setOperation: this.setOperation.bind(this)
       }
     });
   }
 
   registerSetSearchCallback(setSearchCallback:Function){
     this.setSearchCallback = setSearchCallback;
-    if(this.searchArr){
-      this.setSearchCallback(this.searchArr);
-      this.filterByFacets(this.searchArr);
+    if(this.searchParam.searchArr){
+      this.setSearchCallback(this.searchParam.searchArr);
+      this.filterByFacets(this.searchParam.searchArr);
     }
   }
 
   /* ontov API:start */
   setSearch(searchArr){
-    this.searchArr = searchArr;
-    this.filterByFacets(this.searchArr);
+    this.searchParam.searchArr = searchArr;
+    this.filterByFacets(this.searchParam.searchArr);
 
     if(typeof this.setSearchCallback === 'function'){
       this.setSearchCallback(searchArr);
@@ -158,12 +171,17 @@ export class OntovService {
   }
 
   getSearchArray(){
-    return this.searchArr;
+    return this.searchParam.searchArr;
+  }
+
+  setOperation(operationType){
+    this.searchParam.operationType = operationType;
+    this.filterByFacets(this.searchParam.searchArr);
   }
   /* ontov API:end */
 
   updateSearchValuesFromComponent(searchArr:Array<any>){
-    this.searchArr = searchArr;
+    this.searchParam.searchArr = searchArr;
   }
 
   // TODO
@@ -208,20 +226,28 @@ export class OntovService {
   }
 
   // filters based on provided facet search criteria
-  filterByFacets(searchCollectionArray) {
+  filterByFacets(searchCollectionArray?:any[]) {
+    if(typeof searchCollectionArray === 'undefined'){
+      searchCollectionArray = this.searchParam.searchArr;
+    }
+
     var nodesById = this.getNodesById();
 
     // there are facet filters active
     if (searchCollectionArray.length > 0) {
       for (let id in nodesById) {
         var vkNode = nodesById[id];
-        var visible = false;
+        // 0 - or, 1 - and
+        var visible =
+          this.searchParam.operationType ? true : false;
         for (var sC of searchCollectionArray) {
-          if (this.doesFacetMatches(sC.category, sC.value, vkNode)) {
-            visible = true;
-            // }else{ // TODO FOR AND SCENARIO
-            //   visible = false;
-          }
+          let doesMatch = this.doesFacetMatches(sC.category, sC.value, vkNode);
+          visible =
+            this.searchParam.operationType ?
+              visible && doesMatch :
+              visible || doesMatch;
+          // }else{ // TODO FOR AND SCENARIO
+          //   visible = false;
         }
         if (visible) {
           delete vkNode.visible;
@@ -243,7 +269,7 @@ export class OntovService {
         delete vkNode.visible;
       }
     }
-    if(this.mapUpdate) this.mapUpdate();
+    if(this.mapUpdate) this.mapUpdate(undefined, this.positionToDatum);
   }
 
   // Registers new factet (each facet like name, who, what, ... have to get registered)
@@ -303,10 +329,29 @@ export class OntovService {
   }
 
   _getFacetMatches_Who(searchTerm: string) {
-    return ['Sasha', 'Sinisha', 'Dino', 'Alexander', 'John'];
+    if (this.mapStructure) {
+      var iAmIdObj = {};
+      for (let id in this.mapStructure.nodesById) {
+        var vkNode = this.mapStructure.nodesById[id];
+        iAmIdObj[vkNode.kNode.iAmId] = true;
+      }
+      var whos = [];
+      for (let iAmId in iAmIdObj) {
+        var whoAmI = this.rimaService.getUserById(iAmId);
+        var who = this.rimaService.getNameFromUser(whoAmI);
+        if(!who) who = "[unknown]";
+        whos.push({
+          label: who,
+          value: iAmId
+        });
+      }
+      return whos;
+    } else {
+      return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
+    }
   }
   _doesMatch_Who(searchTerm: string, vkNode) {
-    return vkNode.kNode.name === searchTerm;
+    return vkNode.kNode.iAmId === searchTerm;
   }
 
   _getFacetMatches_iAmId(searchTerm: string) {
