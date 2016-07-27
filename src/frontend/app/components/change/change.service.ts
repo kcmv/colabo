@@ -197,13 +197,16 @@ export class ChangeService {
 
   changesForMapReceived(changes:any[], callback?: Function){
     //alert("audit: " +JSON.stringify(changes));
-    for(var i = 0; i< changes.length; i++){
-      changes[i] = this.processChangeFromServer(changes[i]);
-      this.changes.push(changes[i]);
-    }
-    // this.changes = changes;
-    this.gotChangesFromServer = true;
-    this.callOnChangeHandlers(changes.length);
+    //
+    //TODO:
+    // for(var i = 0; i< changes.length; i++){
+    //   changes[i] = this.processChangeFromServer(changes[i]);
+    //   this.changes.push(changes[i]);
+    // }
+    // // this.changes = changes;
+    // this.gotChangesFromServer = true;
+    // this.callOnChangeHandlers(changes.length);
+    //
     if(typeof callback === 'function'){callback(this.changes);}
   }
 
@@ -242,7 +245,7 @@ export class ChangeService {
   }
 
   received(changeReceived:Change): void{
-    // var change:Change = this.processChangeFromServer(changeReceived);
+    //TODO: var change:Change = this.processChangeFromServer(changeReceived);
     // if(change.action === Actions.CONNECTION_CHECK){
     //   //this IF never happens actually, because these Change-s are not broadcasted, but just in case
     //     this.logErrorInConnectivity(null); //OK
@@ -263,8 +266,9 @@ export class ChangeService {
     if(change.action === Actions.CONNECTION_CHECK){
         this.logErrorInConnectivity(null); //OK
     }else{
-      this.changes.push(change);
-      this.callOnChangeHandlers(1);
+      // TODO:
+      //  this.changes.push(change);
+      // this.callOnChangeHandlers(1);
       if(typeof callback === 'function'){callback(change);}
     }
   }
