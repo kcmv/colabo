@@ -144,7 +144,7 @@ export class Brainstorming {
 			if(id[0] === '$') continue;
 			if(id === 'parents') continue;
 			if(id === 'children') continue;
-			if(id === 'children') continue;
+			
 			if(id === 'question'){
 				if(typeof this['question'] !== 'string'){
 					if(this['question'] instanceof knalledge.KNode){

@@ -1,5 +1,5 @@
 import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, OnInit} from '@angular/core';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
 //import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
@@ -32,7 +32,7 @@ export interface ITabData {
         MD_TABS_DIRECTIVES
     ]
 })
-export class BrainstormingFormComponent {
+export class BrainstormingFormComponent implements OnInit{
     public brainstormingFormActive = true;
     //model = new knalledge.KMap();
     setUpBroadcastingRequest: string = "setUpBroadcastingRequest";
@@ -98,21 +98,18 @@ export class BrainstormingFormComponent {
     // }
 
     show() {
-        if(this.brainstormingService.amIPresenter() || window.confirm(
-          "If you continue before turning on 'Presenter' mode, you're broadcasting setting won't be broadcasted to participants!")){
-          console.log("[BrainstormingFormComponent].show");
-          if(!this.brainstormingService.checkAndSetupQuestion()){
-              window.alert("Either node is not selected or it is not of type IBIS question.");
-              return;
-          }
-          this.mdDialog.show();
-          this.brainstormingFormActive = false;
-          setTimeout(() => this.brainstormingFormActive = true, 2);
-          if (this.readyForNewPhase) {
-              this.brainstorming.nextPhase();
-              this.readyForNewPhase = false;
-          }
-        }
+      console.log("[BrainstormingFormComponent].show");
+      if(!this.brainstormingService.checkAndSetupQuestion()){
+          window.alert("Either node is not selected or it is not of type IBIS question.");
+          return;
+      }
+      this.mdDialog.show();
+      this.brainstormingFormActive = false;
+      setTimeout(() => this.brainstormingFormActive = true, 2);
+      if (this.readyForNewPhase) {
+          this.brainstorming.nextPhase();
+          this.readyForNewPhase = false;
+      }
     }
 
     showStartFinish(selectedIndex): boolean {

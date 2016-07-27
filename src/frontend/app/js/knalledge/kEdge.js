@@ -72,6 +72,10 @@ KEdge.TYPE_IBIS_ARGUMENT = "type_ibis_argument";
 KEdge.TYPE_IBIS_COMMENT = "type_ibis_comment";
 
 //KEdge.S_ID = 0;
+//
+KEdge.prototype.getId = function() {
+	return this._id;
+}
 
 KEdge.edgeFactory = function(obj){
 	var kEdge = new knalledge.KEdge();

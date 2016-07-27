@@ -1,5 +1,6 @@
 if (!global.hasOwnProperty('db')) {
 	var mDbAudit = require('./mDbAudit');
+	var mSession = require('./mSession');
 	var mkNode = require('./mkNode');
 	var mkEdge = require('./mkEdge');
 	var mkMap = require('./mkMap');
@@ -11,6 +12,7 @@ if (!global.hasOwnProperty('db')) {
 
 	global.db = {
 		dbAudit: mDbAudit,
+		session: mSession,
 		kNode: mkNode,
 		kEdge: mkEdge,
 		kMap: mkMap,

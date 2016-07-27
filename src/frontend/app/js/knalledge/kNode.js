@@ -81,6 +81,10 @@
 
 	};
 
+	KNode.prototype.getId = function() {
+		return this._id;
+	}
+
 	KNode.nodeFactory = function(obj) {
 		var kNode = new knalledge.KNode();
 		kNode.fill(obj);

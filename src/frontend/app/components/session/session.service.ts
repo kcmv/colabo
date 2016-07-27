@@ -2,8 +2,14 @@ import { Injectable, Inject } from '@angular/core';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 //import {CollaboPluginsService} from 'collabo';
-import {Session, SessionPhase} from './session';
+import {Session, SessionPhase, State} from './session';
 import {Change, ChangeType, Domain, Event} from '../change/change';
+import {ChangeService} from '../change/change.service';
+
+import { Http, HTTP_PROVIDERS, Response } from '@angular/http';
+import { Observable }     from 'rxjs/Observable';
+import { Headers, RequestOptions } from '@angular/http';
+import {Participant} from './participant';
 
 declare var d3:any;
 declare var knalledge;
@@ -74,9 +80,11 @@ export class SessionService {
   // };
 
     session: Session = null;
+    isSessionCreated: boolean = false;
 
     //session-panel-settings:
     public showOnlySession: boolean = true;
+    private meParticipant:Participant = new Participant();
 
     private sessionPluginInfo: any;
     private knAllEdgeRealTimeService: any;
@@ -84,6 +92,9 @@ export class SessionService {
 
     private initiated:boolean = false;
     private rimaService:any = null;
+    private mapVOsService:any = null;
+    private apiUrl: string = ""; // "http://127.0.0.1:8888/dbAudits/";
+
 
     /**
      * Service constructor
@@ -92,13 +103,17 @@ export class SessionService {
     constructor(
         @Inject('$injector') private $injector,
         //  @Inject('RimaService') private rimaService,
-        // @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
+        @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
         @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService,
-        @Inject('CollaboPluginsService') private collaboPluginsService
+        @Inject('CollaboPluginsService') private collaboPluginsService,
+        @Inject('ENV') private ENV,
+        private http: Http,
+        private changeService: ChangeService
         ) {
         let that = this;
         //this.id = ++SessionService.MaxId;
+        this.apiUrl = this.ENV.server.backend + "/session/";
         globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
 
         this.knAllEdgeRealTimeService = this.$injector.get('KnAllEdgeRealTimeService');
@@ -108,11 +123,13 @@ export class SessionService {
             }
         };
         if (this.knAllEdgeRealTimeService) {
-            requestPluginOptions.events[Event.SESSSION_CHANGED] = this.receivedSessionChange.bind(this);
+            requestPluginOptions.events[Event.SESSION_CHANGED] = this.receivedSessionChange.bind(this);
+            requestPluginOptions.events[Event.SESSION_CREATED] = this.receivedSessionChange.bind(this);
             this.knAllEdgeRealTimeService.registerPlugin(requestPluginOptions);
         }
 
-        this.setSession();
+        this.session = new Session();
+
 
         //this.collaboPluginsService = this.$injector.get('CollaboPluginsService');
         // this.sessionPluginInfo = {
@@ -184,20 +201,44 @@ export class SessionService {
     }
 
     setSession(): void{
-      this.session = new Session();
-      //this.session.mapId =
+      this.session.creator = this.meParticipant;
+      if(this.meParticipant && this.meParticipant.whoAmI){
+        this.session.participants[this.meParticipant.whoAmI._id] = this.meParticipant;
+      }else{
+        this.session.participants[Participant.NON_LOGGED_IN] = Participant.NON_LOGGED_IN;
+      }
+      let map: any = this.mapVOsService.getMap();
+      if(map.state !== knalledge.KMap.STATE_SYNCED){
+        console.warn("map.state !== knalledge.KMap.STATE_SYNCED", map, JSON.stringify(map));
+        // if(map.$resolved){
+        //   this.session.mapId =
+        // }
+      }
     }
 
     init(){
       if(!this.initiated){
         this.initiated = true;
         this.rimaService = this.$injector.get('RimaService');
+        this.mapVOsService = this.$injector.get('KnalledgeMapVOsService');
+        this.meParticipant.whoAmI = this.rimaService.getWhoAmI();
+        this.setSession();
       }
     }
 
     restart(){
       this.session.reset();
       this.setSession();
+    }
+
+    create(session:Session, callback?: Function): void{
+        this.post(session.toServerCopy())
+            .subscribe(
+        sessionFromServer => this.sessionCreated(sessionFromServer, callback),
+        error => console.error("error: " +
+            JSON.stringify(error))
+        );
+      ;
     }
 
     sendSession(callback: Function) {
@@ -212,15 +253,19 @@ export class SessionService {
             //change.reference = this.session.question.kNode._id;
             change.type = ChangeType.BEHAVIORAL;
             change.domain = Domain.GLOBAL;
-            change.event = Event.SESSSION_CHANGED;
+            change.event = this.isSessionCreated ? Event.SESSION_CREATED : Event.SESSION_CHANGED;
             this.knAllEdgeRealTimeService.emit(change.event, change);
             callback(true);
         } else {
             callback(false, 'SERVICE_UNAVAILABLE');
         }
+        if(!this.isSessionCreated){
+          this.create(this.session);
+        }
     }
 
     public setUpSessionChange(){
+
       //this.collaboGrammarService.puzzles.session.state = this.session;
       // if(this.session.phase === SessionPhase.INACTIVE){
       //   this.collaboGrammarService.puzzles.session.state = null;
@@ -237,6 +282,7 @@ export class SessionService {
     }
 
     private processReferencesInSession(session:Session): Session{
+      //TODO:
       // if(typeof session.question === 'string'){
       //   session.question = this.sessionPluginInfo.references.map.items.mapStructure.getVKNodeByKId(session.question);
       // }
@@ -255,6 +301,46 @@ export class SessionService {
         //   // this.sessionPluginInfo.apis.map.items.update();
         // }
         this.setUpSessionChange();
+    }
+
+    private post(session: Session): Observable<Session> {
+        //let body = JSON.stringify(session);
+        let body = angular.toJson(session);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.apiUrl, body, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    private extractData(res: Response) {
+        let body = res.json();
+        return body.data || {};
+    }
+
+    private handleError(error: any) {
+        // In a real world app, we might use a remote logging infrastructure
+        // We'd also dig deeper into the error to get a better message
+        let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        //console.error(errMsg); // log to console instead
+        this.changeService.logActionLost({'SessionsService' : error, 'errMsg:' : errMsg});
+        return Observable.throw(errMsg);
+    }
+
+    private processSessionFromServer(sessionFromServer: any): Session {
+      var session:Session = Session.factory(sessionFromServer);
+      session.state = State.SYNCED;
+      //TODO: session = this.processReferences(session);
+      return session;
+    }
+
+    private sessionCreated(sessionFromServer, callback?: Function):void{
+      this.isSessionCreated=true;
+      var session:Session = this.processSessionFromServer(sessionFromServer);
+      //this.sessions.push(session);
+      if(typeof callback === 'function'){callback(session);}
     }
 
 };

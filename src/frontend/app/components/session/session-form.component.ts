@@ -1,5 +1,5 @@
 import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, OnInit} from '@angular/core';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
 //import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
@@ -32,7 +32,7 @@ export interface ITabData {
         MD_TABS_DIRECTIVES
     ]
 })
-export class SessionFormComponent {
+export class SessionFormComponent implements OnInit{
     public sessionFormActive = true;
     //model = new knalledge.KMap();
     SETUP_SESSION_REQUEST_EVENT: string = "SETUP_SESSION_REQUEST_EVENT";

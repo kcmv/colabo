@@ -47,7 +47,7 @@ export class Session {
 /* PROPERTIES */
 	public id: number;
 	public name: string;
-	public participants: Participant[] = [];
+	public participants: any = {};
 	//public presenter: knalledge.WhoAmI = null; retreived from 'participants[i].isPresenter'
 	public mustFollowPresenter: boolean = false; //control of participants option of (NOT) receiveNavigation (if **they CAN STOP FOLLOWing**)
 	public readOnly: boolean = false;
@@ -78,7 +78,7 @@ export class Session {
 	reset(){
 		this.id = Session.MaxId++;
 		this.name = "Session " + this.id;
-		this.participants = [];
+		this.participants = {};
 		this.mustFollowPresenter = false;
 		this.readOnly = false;
 		this.phase= SessionPhase.INACTIVE;
@@ -119,7 +119,7 @@ export class Session {
 
 	/** before sending to object to server we clean it and fix it for server **/
 	public toServerCopy(){
-		var session:any = {};
+		var forServer:any = {};
 		//TODO:
 		/* copying all non-system and non-function properties */
 		for(var id in this){
@@ -130,34 +130,66 @@ export class Session {
 			// if(id === 'question'){
 			// 	if(typeof this['question'] !== 'string'){
 			// 		if(this['question'] instanceof knalledge.KNode){
-			// 			session['question'] = this['question']._id;
+			// 			forServer['question'] = this['question']._id;
 			// 		}else{
-			// 			session['question'] = this['question'].kNode._id; //VKNode
+			// 			forServer['question'] = this['question'].kNode._id; //VKNode
 			// 		}
 			// 	}
 			// 	continue;
 			// }
+			//
+
+			if(id === 'collaboSpace'){
+				for (var id in this['collaboSpace']){
+					if(typeof this['collaboSpace'].id.toServerCopy === 'function') {
+						forServer['collaboSpace'].id = this['collaboSpace'].id.toServerCopy();
+					}
+				}
+			}
+
+			if(id === 'participants'){
+				//TODO: we should see in the future if we want to save presenter objects too
+				forServer['participants'] = {};
+				//var participantsForServer:any = {};
+				for (var id in this['participants']){
+					if(this['participants'].id instanceof Participant){
+						forServer['participants'].id = this['participants'].id.isPresenter;
+					}
+				}
+				continue;
+			}
+
+			if((typeof this[id] === 'object') && this[id] !== null ){ //if the property is an object
+				if(typeof this[id].getId === 'function') {
+					forServer[id] = this[id].getId();
+				}
+				// if(typeof this[id].toServerCopy === 'function') {
+				// 	forServer[id] = this[id].toServerCopy();
+				// }
+				continue;
+			}
 
 			if (typeof this[id] === 'function') continue;
 			//console.log("cloning: %s", id);
+
 			if(this[id] !== undefined){ //JSON.parse breaks at "undefined"
-				session[id] = (JSON.parse(JSON.stringify(this[id])));
+				forServer[id] = (JSON.parse(JSON.stringify(this[id])));
 			}
 		}
 
 		/* deleting properties that should be set created to default value on server */
-		if(session.createdAt === undefined || session.createdAt === null) {delete session.createdAt;}
-		if(session.updatedAt === undefined || session.updatedAt === null) {delete session.updatedAt;}
+		if(forServer.createdAt === undefined || forServer.createdAt === null) {delete forServer.createdAt;}
+		if(forServer.updatedAt === undefined || forServer.updatedAt === null) {delete forServer.updatedAt;}
 
-		if(session.state === State.LOCAL){
-			delete session._id;
+		if(forServer.state === State.LOCAL){
+			delete forServer._id;
 		}
 
 		/* deleting local-frontend parameters */
-		delete session.state;
-		//delete session.phase;
+		delete forServer.state;
+		//delete forServer.phase;
 
-		return session;
+		return forServer;
 	}
 
 	nextPhase(){

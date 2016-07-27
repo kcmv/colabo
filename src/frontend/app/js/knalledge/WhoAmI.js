@@ -5,7 +5,7 @@ var WhoAmI =  knalledge.WhoAmI = function(){
 	this._id = WhoAmI.MaxId++; //TODO: maxId logic should be migrated here
 	this.firstname = "";
 	this.familyname = "";
-	this.e_mail = "";	
+	this.e_mail = "";
 	this.passw = "";
 	this.displayName = "";
 	this.gender = 0;
@@ -13,7 +13,7 @@ var WhoAmI =  knalledge.WhoAmI = function(){
 	this.affiliation = "";
 	this.coordX = 0;
 	this.coordY = 0;
-	this.locationType = null;	
+	this.locationType = null;
 	this.mySearchAreaVisible = true;
 	this.myLocationVisible = true;
 	this.accessedAt = null;
@@ -34,7 +34,7 @@ var WhoAmI =  knalledge.WhoAmI = function(){
 	// 		widthM: undefined,
 	// 		heightM: undefined
 	// };
-	
+
 	/* local-to-frontend */
 	this.state = WhoAmI.STATE_LOCAL;
 };
@@ -44,8 +44,12 @@ WhoAmI.STATE_LOCAL = "STATE_LOCAL";
 WhoAmI.STATE_NON_SYNCED = "STATE_NON_SYNCED";
 WhoAmI.STATE_SYNCED = "STATE_SYNCED";
 
+WhoAmI.prototype.getId = function() {
+	return this._id;
+}
+
 WhoAmI.prototype.init = function(){
-	
+
 };
 
 WhoAmI.whoAmIFactory = function(obj){
@@ -68,7 +72,7 @@ WhoAmI.prototype.fill = function(obj){
 		if("coordX" in obj){this.coordX = obj.coordX;}
 		if("coordY" in obj){this.coordY = obj.coordY;}
 		if("locationType" in obj){this.locationType = obj.locationType;}
-		
+
 		if("mySearchAreaVisible" in obj){this.mySearchAreaVisible = obj.mySearchAreaVisible;}
 		if("myLocationVisible" in obj){this.myLocationVisible = obj.myLocationVisible;}
 		if("accessedAt" in obj){this.accessedAt = obj.accessedAt;}
@@ -79,7 +83,7 @@ WhoAmI.prototype.fill = function(obj){
 			this.extensions = {}; //TODO: see how to copy this
 			if("contacts" in obj.extensions){
 				this.extensions.contacts = obj.extensions.contacts;
-			} 
+			}
 		}
 
 
@@ -99,7 +103,7 @@ WhoAmI.prototype.overrideFromServer = function(obj){
 
 WhoAmI.prototype.toServerCopy = function(){
 	var whoAmI = {};
-	
+
 	/* copying all non-system and non-function properties */
 	for(var id in this){
 		if(id[0] == '$') continue;
@@ -109,18 +113,18 @@ WhoAmI.prototype.toServerCopy = function(){
 			whoAmI[id] = (JSON.parse(JSON.stringify(this[id])));
 		}
 	}
-	
+
 	/* deleting properties that should be set created to default value on server */
 	if(whoAmI.createdAt === undefined || whoAmI.createdAt === null) {delete whoAmI.createdAt;}
 	if(whoAmI.updatedAt === undefined || whoAmI.updatedAt === null) {delete whoAmI.updatedAt;}
-	
+
 	if(whoAmI.state == WhoAmI.STATE_LOCAL){
 		delete whoAmI._id;
 	}
-	
+
 	/* deleting local-frontend parameters */
 	delete whoAmI.state;
-	
+
 	return whoAmI;
 };
 

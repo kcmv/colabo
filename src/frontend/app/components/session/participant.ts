@@ -15,6 +15,7 @@ export const State:any = {
  */
 export class Participant {
 	static ACTIONS_NO: number = 30;
+	static NON_LOGGED_IN: string = "NON_LOGGED_IN";
 
 	public static MaxId: number = 0;
 
@@ -44,6 +45,10 @@ export class Participant {
 
 	constructor(){
 		this.reset();
+	}
+
+	getId() {
+		return this.whoAmI._id;
 	}
 
 
@@ -101,7 +106,7 @@ export class Participant {
 
 	/** before sending to object to server we clean it and fix it for server **/
 	public toServerCopy(){
-		var participant:any = {};
+		var forServer:any = {};
 
 		/* copying all non-system and non-function properties */
 		for(var id in this){
@@ -109,26 +114,37 @@ export class Participant {
 			if(id === 'parents') continue;
 			if(id === 'children') continue;
 
+			if((typeof this[id] === 'object') && this[id] !== null ){ //if the property is an object
+				if(typeof this[id].getId === 'function') {
+					forServer[id] = this[id].getId();
+				}
+				// if(typeof this[id].toServerCopy === 'function') {
+				// 	forServer[id] = this[id].toServerCopy();
+				// }
+				continue;
+			}
+
 			if (typeof this[id] === 'function') continue;
 			//console.log("cloning: %s", id);
+
 			if(this[id] !== undefined){ //JSON.parse breaks at "undefined"
-				participant[id] = (JSON.parse(JSON.stringify(this[id])));
+				forServer[id] = (JSON.parse(JSON.stringify(this[id])));
 			}
 		}
 
 		/* deleting properties that should be set created to default value on server */
-		if(participant.createdAt === undefined || participant.createdAt === null) {delete participant.createdAt;}
-		if(participant.updatedAt === undefined || participant.updatedAt === null) {delete participant.updatedAt;}
+		if(forServer.createdAt === undefined || forServer.createdAt === null) {delete forServer.createdAt;}
+		if(forServer.updatedAt === undefined || forServer.updatedAt === null) {delete forServer.updatedAt;}
 
-		if(participant.state === State.LOCAL){
-			delete participant._id;
+		if(forServer.state === State.LOCAL){
+			delete forServer._id;
 		}
 
 		/* deleting local-frontend parameters */
-		delete participant.state;
-		//delete participant.phase;
+		delete forServer.state;
+		//delete forServer.phase;
 
-		return participant;
+		return forServer;
 	}
 }
 
