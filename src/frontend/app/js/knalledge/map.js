@@ -30,10 +30,13 @@
 * @param  {utils.Injector}  injector
 * @param  {config.Plugins}  Plugins
 */
+var ID=0;
 var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, mapService, mapStructureExternal, collaboPluginsService,
 	rimaService, ibisTypesService, notifyService, mapPlugins, knalledgeMapViewService, syncingService, knAllEdgeRealTimeService, knalledgeMapPolicyService, injector, Plugins){
 	var that = this;
 
+	this.id = ID++;
+	console.log("[Map] instance-id: ", this.id);
 	this.config = config;
 	this.upperApi = upperApi;
 	this.entityStyles = entityStyles;
@@ -108,6 +111,11 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		addImage: function(node){
 			this.upperApi.addImage(node);
 		}.bind(this),
+		removeImage: function(){
+			var vkNode = this.mapStructure.getSelectedNode();
+			this.mapStructure.removeImage(vkNode);
+			this.update(vkNode);
+		}.bind(this),
 		searchNodeByName: function(){
 			this.upperApi.searchNodeByName();
 		}.bind(this),
@@ -119,11 +127,6 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		}.bind(this),
 		togglePresenter: function(){
 			this.upperApi.togglePresenter();
-		}.bind(this),
-		removeImage: function(){
-			var vkNode = this.mapStructure.getSelectedNode();
-			this.mapStructure.removeImage(vkNode);
-			this.update(vkNode);
 		}.bind(this),
 		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
 		getActiveIbisType: this.getActiveIbisType.bind(this),
@@ -243,6 +246,7 @@ Map.KnRealTimeNodeClickedEventName = "node-clicked";
  * @function destroy
  */
 Map.prototype.destroy = function(){
+	console.log("[Map] destroying instance-id: ", this.id);
 	this.knalledgeState.destroyed = true;
 
 	// unregistering references and api to collabo plugins

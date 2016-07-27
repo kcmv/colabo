@@ -22,7 +22,7 @@ export class RequestService {
                 this.mapInteraction = mapInteraction;
 
                 actions.showRequests = function(){
-                    that.halo.destroy();
+                    // that.halo.remove();
 
                     // window.alert("show requests");
                     // that.mapInteraction.toggleNode();

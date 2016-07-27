@@ -10,8 +10,11 @@
 var MapLayout =  knalledge.MapLayout = function(){
 }
 
+var ID=0;
 MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
 	this.destroyed = false;
+	this.id = ID++;
+	console.log("[MapLayout] instance-id: ", this.id);
 
 	this.mapStructure = mapStructure;
 	this.collaboPluginsService = collaboPluginsService;
@@ -54,9 +57,13 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
  * @memberof knalledge.MapLayout#
  */
 MapLayout.prototype.destroy = function(){
+	if(this.destroyed){
+		console.log("[MapLayout] skipping 2nd destruction of instance-id: ", this.id);
+		return;
+	}
+	console.log("[MapLayout] destroying instance-id: ", this.id);
 	this.destroyed = true;
 };
-
 
 MapLayout.prototype.getNodes = function(){
 	return this.nodes;

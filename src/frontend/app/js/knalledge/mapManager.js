@@ -7,7 +7,10 @@
 @memberof knalledge
 */
 
+var ID=0;
 var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, knalledgeState, notifyService, mapPlugins, knalledgeMapViewService, knAllEdgeRealTimeService, injector){
+	this.id = ID++;
+	console.log("[MapManager] instance-id: ", this.id);
 	this.destroyed = false;
 	/**
 	 * References to map DOM elements
@@ -241,7 +244,15 @@ MapManager.prototype.init = function(mapLayout, mapSize){
  * @memberof knalledge.MapManager#
  */
 MapManager.prototype.destroy = function(){
+	console.log("[MapManager] destroying instance-id: ", this.id);
 	this.destroyed = true;
+
+	for(var vN in this.visualizations){
+		this.visualizations[vN].destroy();
+	}
+	for(var vL in this.layouts){
+		this.layouts[vL].destroy();
+	}
 };
 
 /**

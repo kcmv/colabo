@@ -11,6 +11,7 @@ const STATUS_DESTROYED: string = "STATUS_DESTROYED";
 const STATUS_MAP: string = "STATUS_MAP";
 const STATUS_EDITOR: string = "STATUS_EDITOR";
 
+var ID=0;
 export class MapInteraction {
     public destroyed;
     private status: string;
@@ -21,11 +22,15 @@ export class MapInteraction {
     * @memberof interaction.Keyboard
     */
     private debug;
+    private id;
 
     constructor(
         public clientApi,
         public mapPlugins
     ) {
+        this.id = ID++;
+      	console.log("[MapInteraction] instance-id: ", this.id);
+
         this.clientApi = clientApi;
         this.debug = debugpp.debug('interaction.MapInteraction');
         this.destroyed = false;

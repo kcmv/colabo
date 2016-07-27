@@ -9,8 +9,11 @@
 
     var MapVisualization = knalledge.MapVisualization = function() {};
 
+    var ID=0;
     MapVisualization.prototype.construct = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService, upperAPI) {
-        this.destroyed = true;
+        this.destroyed = false;
+        this.id = ID++;
+      	console.log("[MapVisualization] instance-id: ", this.id);
 
         this.dom = dom;
         this.mapStructure = mapStructure;
@@ -70,6 +73,12 @@
     };
 
     MapVisualization.prototype.destroy = function() {
+      if(this.destroyed){
+        console.log("[MapVisualization] skipping 2nd destruction of instance-id: ", this.id);
+        return;
+      }
+      console.log("[MapVisualization] destroying instance-id: ", this.id);
+
         this.destroyed = true;
         this.dom = null;
         this.mapStructure = null;
@@ -92,6 +101,7 @@
         this.injector = null;
         this.mapInteraction = null;
         this.upperAPI = null;
+        this.halo.destroy();
         this.halo = null;
     };
 
@@ -114,7 +124,7 @@
 
                 var actions = {
                     toggle: function() {
-                        that.halo.destroy();
+                        // that.halo.remove();
 
                         // window.alert("Showing params");
                         // this.selectedView = null;
@@ -122,7 +132,7 @@
 
                     },
                     addChildNode: function() {
-                        that.halo.destroy();
+                        that.halo.remove();
 
                         // window.alert("Showing analysis");
                         // this.selectedView = null;
@@ -130,7 +140,7 @@
 
                     },
                     addSiblingNode: function() {
-                        that.halo.destroy();
+                        that.halo.remove();
 
                         // window.alert("Showing analysis");
                         // this.selectedView = null;
@@ -138,12 +148,12 @@
 
                     },
                     addImage: function() {
-                        that.halo.destroy();
+                        // that.halo.remove();
                         that.mapInteraction.addImage();
                     },
                     deleteNode: function() {
                         if (window.confirm("Are you sure you want to delete this node?")) {
-                            that.halo.destroy();
+                            that.halo.remove();
 
                             // window.alert("Showing analysis");
                             // this.selectedView = null;
@@ -151,7 +161,7 @@
                         }
                     },
                     editNode: function() {
-                        that.halo.destroy();
+                        // that.halo.remove();
 
                         // window.alert("Showing analysis");
                         // this.selectedView = null;
@@ -530,7 +540,7 @@
 
         // halo
         if (this.halo) {
-            this.halo.destroy();
+            this.halo.remove();
         }
 
         this.previousSelectedNode = null;
