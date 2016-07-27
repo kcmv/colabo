@@ -164,11 +164,11 @@ export class ChangeService {
   logActionLost(error:any):void{
     console.error("CONNECTIVITY_ERROR:: logActionLost",error);
     let now: any = new Date();
-    if(now - this.timeErrorDisplayed > TIME_BETWEEN_ERROR_DISPLAYS){
+    //if(now - this.timeErrorDisplayed > TIME_BETWEEN_ERROR_DISPLAYS){
       this.timeErrorDisplayed = now;
       window.alert("Your activity has been lost due to connectivity error. " +
       "Please check your internet connection and redo your actions");
-    }
+    //}
   }
 
   processReferences(change: Change) {
