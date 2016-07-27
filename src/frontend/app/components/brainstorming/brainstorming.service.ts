@@ -191,6 +191,7 @@ export class BrainstormingService {
         this.brainstormingPluginInfo.apis.ontov.callback = function() {
             that.brainstormingPluginInfo.apis.ontov.$resolved = true;
 
+            /*
             // this is an example:
             that.brainstormingPluginInfo.apis.ontov.items.setSearch([
               // If you put more than one it will be OR (union)
@@ -215,6 +216,7 @@ export class BrainstormingService {
 
 
             ]);
+            */
         };
 
         this.collaboPluginsService.registerPlugin(this.brainstormingPluginInfo);
