@@ -1860,7 +1860,8 @@ md-toolbar-row {
   padding: 3px; }
 
 md-toolbar {
-  height: auto !important; }
+  height: auto !important;
+  min-height: auto !important; }
 
 #container {
   position: relative;
