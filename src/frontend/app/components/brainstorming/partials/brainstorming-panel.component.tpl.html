@@ -2,7 +2,7 @@
   <span class="phase-title">{{getPhaseName()}}</span>
   <button md-raised-button (click)="addNewIdea()" type="button">Add New Idea</button>
   <button md-raised-button (click)="focusToQuestion()" type="button">Focus to Question</button>
-  <md-switch [(checked)]="showOnlyBrainstorming" aria-label="show only brainstorming questions and ideas">show only brainstorming questions and ideas</md-switch>
-  <span [hidden]="hideShowMyIdeasSwitch()"><md-switch [(checked)]="showMyIdeas" aria-label="create private ideas">show my ideas</md-switch></span>
+  <md-switch [(checked)]="showOnlyBrainstorming" (checkedChange)="changedShowOnlyBrainstorming($event)"  aria-label="show only brainstorming questions and ideas">show only brainstorming questions and ideas</md-switch>
+  <!-- <span [hidden]="hideShowMyIdeasSwitch()"><md-switch [(checked)]="showMyIdeas" aria-label="create private ideas">show my ideas</md-switch></span> -->
   <span [hidden]="hidePresentNextIdeaBtn()"><button md-raised-button (click)="presentNextIdea()" type="button">Present Next Idea</button></span>
 </div>

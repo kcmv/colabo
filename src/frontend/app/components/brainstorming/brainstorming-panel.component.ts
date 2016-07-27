@@ -83,4 +83,18 @@ export class BrainstormingPanelComponent {
       this.brainstormingService.presentNextIdea();
     }
 
+    changedShowOnlyBrainstorming(filter:boolean): void{
+        this.filterToBrainstorming(filter);
+    }
+
+    filterToBrainstorming(filter:boolean): void{
+      this.brainstormingService.filterOntov( filter ?
+        [
+        {
+          category: 'Tree',
+          value: this.brainstormingService.brainstorming.question.kNode.name //'Ideological model'
+        }
+        ]
+        : []);
+    }
 }

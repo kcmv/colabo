@@ -47,23 +47,21 @@ _**Nominal Group Technique**_
     + Participants are encouraged to write down any **new ideas** that may arise from what others share.
     + This stage may take _15–30 minutes_
     + **Current procedure**
-      + other participants that listen, they turn off navigation to be able to add ideas
-      + we turn on Ontov filter for the current user to show ideas on screen
-      + user can use Ontov filter to hide others ideas on their computers
+      + moderator chooses presenter one by one
+      + presenter has button 'Present Next Idea' wthich make visible one by one idea and navigate to it
+      + for other participants `session::mustFollowPresenter` is turned on so that they MUST follow presenter's ideas
+        + see how will they be able then to add new ideas in this phase (If we allow them too?!)
+      + we use **Ontov filter** to filter only the presenter to show only his ideas to everywhone
     + _**Notes. Open?**_
         + how to go around users?
           + we can support round robin (token) guidance.
           + moderator can choose next presenter
-        + Is it better for a presenter to show one by one idea?
-        That is more difficult to implement, but can be achieved by changing decoration of ideas.
-        (UI for this can be a decorator on the node)
-        + how will we manage presenting and adding new ideas by listeners in parallel?
-          + will presenter broadcast its navigation so that we follow him? If so, then listeners could add their ideas
+          + Because presenter broadcast its navigation so that we follow him, listeners could add their ideas
             + by a dialog, like we add collaboration in MCM tool (without being disturbed/broken by presenter)
             + or by fixing that new nodes (ideas) are added to the Brainstorming-Question, no matter the selected node
+            + but adding new ideas in sharing ideas phase could prevent other to listen to presenter ?!
         + Will new ideas made by listeners of a presenter be public or private?
             + not a big deal, what ever is easier to implement
-        + :warning: There may be hundred(s) of sibling ideas!! How to manage them? Visual map is going to be disturbed!?! Participants will be lost in finding their ideas to present
 1. **Group discussion**
     + `IBIS Dialog` - Participants are invited to **seek verbal explanation** or further details about any of the ideas that colleagues have produced that may not be clear to them.
     + The facilitator’s task is to ensure that each person is allowed to contribute and that discussion of all ideas is thorough without spending too long on a single idea.
@@ -72,6 +70,8 @@ _**Nominal Group Technique**_
     + This stage lasts _30–45 minutes_
     + _**Notes. Open?**_
         + !!! restructuring ideas into categories **could make voting more complicated!!**
+        + support adding **questions** to ideas which trigger idea creator to answer them. This is important for dislocated Brainstorming
+        + add switch "show only my ideas" - to filter them especially to see questions and comments (here **Ontov filter** will be used)
 1. **Voting and ranking**
     + This involves **prioritizing** the recorded ideas in relation to the original question.
     + Following the voting and ranking process, immediate results in the response to the question is available to participants so the meeting concludes having reached a specific outcome.
@@ -79,10 +79,17 @@ _**Nominal Group Technique**_
       + Order nodes by voting score: 1) overall sum, 2) differences in positive.vs negative
     + Voting can be done by **secret ballot**
     + **Questions**
-      +  we Should hide global voting score (not to influence voting!)
+      + ..
     + **Current procedure**
-        + participants give 3, 2, 1 votes for 1st, 2nd and 3rd rated idea
-1. **Conclusion**
+      + participants give 3, 2, 1 votes for 1st, 2nd and 3rd rated idea
+      + enable easier voting management:
+        + **Ontov Filter** to filter ideas by 'number of votes' threshold
+          + users can have a selector to choose the threshold
+    + _**Notes. Open?**_
+      + do not show total votes at this phase - to avoid influence; only yours
+1. **Finish**
+    + **Ontov Filter** to filter ideas by 'number of votes' threshold
+      + users/moderator can have a selector to choose the threshold
     + Statistics
       + most active authors
       + author with best voted ideas

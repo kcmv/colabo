@@ -293,7 +293,7 @@ export class SessionService {
       let receivedSession: Session = Session.factory(change.value);
       console.warn("[receivedSessionChange]receivedSession: ", receivedSession);
       this.session = receivedSession;
-      window.alert("You are now participating session '" + this.session.name + "'");
+      window.alert("You are added to the session '" + this.session.name + "'");
       // if(this.session.question && this.sessionPluginInfo.references.map.$resolved){
       //   this.session = this.processReferencesInSession(this.session);
       //   this.sessionPluginInfo.apis.map.items.nodeSelected(this.session.question);
