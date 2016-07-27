@@ -242,14 +242,14 @@ export class ChangeService {
   }
 
   received(changeReceived:Change): void{
-    var change:Change = this.processChangeFromServer(changeReceived);
-    if(change.action === Actions.CONNECTION_CHECK){
-      //this IF never happens actually, because these Change-s are not broadcasted, but just in case
-        this.logErrorInConnectivity(null); //OK
-    }else{
-      this.changes.push(change);
-      this.callOnChangeHandlers(1);
-    }
+    // var change:Change = this.processChangeFromServer(changeReceived);
+    // if(change.action === Actions.CONNECTION_CHECK){
+    //   //this IF never happens actually, because these Change-s are not broadcasted, but just in case
+    //     this.logErrorInConnectivity(null); //OK
+    // }else{
+    //   this.changes.push(change);
+    //   this.callOnChangeHandlers(1);
+    // }
   }
 
   private callOnChangeHandlers(no:number):void {
