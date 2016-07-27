@@ -158,6 +158,28 @@ export class BrainstormingFormComponent {
       this.brainstormingService.finishBrainstorming();
     }
 
+    testOntovFilter(){
+      this.brainstormingService.filterOntov([
+        // If you put more than one it will be OR (union)
+        // AND is not supported (if we need it we need to talk :) )
+        // {
+        //   category: 'Type',
+        //   value: 'type_ibis_question'
+        // }
+
+        // for some reason this doesn't filter
+        {
+          category: 'iAmId',
+          value: '556760847125996dc1a4a241'
+        }
+
+        // {
+        //   category: 'Tree',
+        //   value: 'Ideological model' // node name
+        // }
+      ]);
+    }
+
     close(confirm: boolean = false) {
         console.log("[BrainstormingFormComponent].close:", confirm);
         this.mdDialog.close();
