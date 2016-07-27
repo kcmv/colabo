@@ -145,7 +145,7 @@
                                 </div>
                                 <div *ngIf="!policyConfig.moderating.enabled">
                                     <span *ngIf="policyConfig.broadcasting.receiveNavigation">
-                                      <button md-fab class="md-primary" (click)="followBroadcast(false)">
+                                      <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter()" md-fab class="md-primary" (click)="followBroadcast(false)">
                                         <span class="fa-stack fa-lg">
                                           <i class="fa fa-phone fa-stack-1x"></i>
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->

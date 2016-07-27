@@ -88,22 +88,34 @@ export class Session {
 	}
 
 	public fill(obj){
-	//TODO:
-	// 	if(obj){
-	// 		if("id" in obj){this.id = obj.id;}
-	// 		if("createPrivateIdeas" in obj){this.createPrivateIdeas = obj.createPrivateIdeas;}
-	// 		if("onlyIdeasToQuestion" in obj){this.onlyIdeasToQuestion = obj.onlyIdeasToQuestion;}
-	// 		if("allowArgumentsToIdeas" in obj){this.allowArgumentsToIdeas = obj.allowArgumentsToIdeas;}
-	// 		if("currentPhaseTimeLeft" in obj){this.currentPhaseTimeLeft = obj.currentPhaseTimeLeft;}
-	// 		if("currentPhaseTimeSpent" in obj){this.currentPhaseTimeSpent = obj.currentPhaseTimeSpent;}
-	// 		if("question" in obj){this.question = obj.question;}
-	// 		if("phase" in obj){this.phase = obj.phase;}
-	// 		if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
-	// 		if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
-	// 		if("state" in obj){this.state = obj.state;}
-	// 		if("presenter" in obj){this.presenter = obj.presenter;}
-	//
-	// 	}
+		//TODO: finish for DEEP FILLING - for Object parameters
+		if(obj){
+			if("id" in obj){this.id = obj.id;}
+			if("name" in obj){this.name = obj.name;}
+			if("participants" in obj){this.participants = obj.participants;}
+			if("mustFollowPresenter" in obj){this.mustFollowPresenter = obj.mustFollowPresenter;}
+			if("readOnly" in obj){this.readOnly = obj.readOnly;}
+			if("phase" in obj){this.phase = obj.phase;}
+			if("mapId" in obj){this.mapId = obj.mapId;}
+			if("collaboSpace" in obj){this.collaboSpace = obj.collaboSpace;}
+			if("creator" in obj){this.creator = obj.creator;}
+			if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
+
+			// public id: number;
+			// public name: string;
+			// public participants: any = {};
+			// //public presenter: knalledge.WhoAmI = null; retreived from 'participants[i].isPresenter'
+			//control of participants option of (NOT) receiveNavigation (if **they CAN STOP FOLLOWing**):
+			// public mustFollowPresenter: boolean = false;
+			// public readOnly: boolean = false;
+			// public phase:number;
+			// public mapId: number; //map at which the session is happening
+			// public collaboSpace: any = {}; //representing state of all relevant puzzles in the Collabospace, e.g. Brainstorming, etc ...
+			// public creator: knalledge.WhoAmI = null;
+			// public createdAt: any; //when the object is created
+			// public updatedAt: any; //when the obect is updated
+		}
 	}
 
 	/** when object is updated on server we override local object by server version using this function **/

@@ -21,6 +21,9 @@ export class KnalledgeMapPolicyService {
           //depricated in favour of state:
           // brainstorming: 0 //0:off, 1:phase 1; ... 4:phase 4
       },
+      session: {
+
+      },
       state: {
         id: 0,
         name: "",
@@ -36,6 +39,14 @@ export class KnalledgeMapPolicyService {
       }
     }
   };
+
+  mustFollowPresenter():boolean {
+    return this.provider.config.session && this.provider.config.session.mustFollowPresenter && !this.provider.config.moderating.enabled;
+  }
+
+  readOnly():boolean {
+    return this.provider.config.session && this.provider.config.session.readOnly && !this.provider.config.moderating.enabled;
+  }
 
   get():any {
       return this.provider;

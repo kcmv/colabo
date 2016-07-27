@@ -125,7 +125,7 @@ export class KnalledgeMapMain implements OnInit{
     constructor(
         // public router: Router,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
-        @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService,
+        @Inject('KnalledgeMapPolicyService') public knalledgeMapPolicyService: KnalledgeMapPolicyService,
         @Inject('Plugins') private Plugins,
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,

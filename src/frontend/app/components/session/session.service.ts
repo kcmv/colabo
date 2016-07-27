@@ -265,7 +265,7 @@ export class SessionService {
     }
 
     public setUpSessionChange(){
-
+      this.knalledgeMapPolicyService.get().config.session = this.session;
       //this.collaboGrammarService.puzzles.session.state = this.session;
       // if(this.session.phase === SessionPhase.INACTIVE){
       //   this.collaboGrammarService.puzzles.session.state = null;
@@ -290,43 +290,44 @@ export class SessionService {
     }
 
     private receivedSessionChange(event: string, change: Change) {
-        let receivedSession: Session = Session.factory(change.value);
-        console.warn("[receivedSessionChange]receivedSession: ", receivedSession);
-        this.session = receivedSession;
-        // if(this.session.question && this.sessionPluginInfo.references.map.$resolved){
-        //   this.session = this.processReferencesInSession(this.session);
-        //   this.sessionPluginInfo.apis.map.items.nodeSelected(this.session.question);
-        //   this.sessionPluginInfo.apis.map.items.update();
-        //   // this.sessionPluginInfo.references.map.items.mapStructure.setSelectedNode(this.session.question);
-        //   // this.sessionPluginInfo.apis.map.items.update();
-        // }
-        this.setUpSessionChange();
+      let receivedSession: Session = Session.factory(change.value);
+      console.warn("[receivedSessionChange]receivedSession: ", receivedSession);
+      this.session = receivedSession;
+      window.alert("You are now participating session '" + this.session.name + "'");
+      // if(this.session.question && this.sessionPluginInfo.references.map.$resolved){
+      //   this.session = this.processReferencesInSession(this.session);
+      //   this.sessionPluginInfo.apis.map.items.nodeSelected(this.session.question);
+      //   this.sessionPluginInfo.apis.map.items.update();
+      //   // this.sessionPluginInfo.references.map.items.mapStructure.setSelectedNode(this.session.question);
+      //   // this.sessionPluginInfo.apis.map.items.update();
+      // }
+      this.setUpSessionChange();
     }
 
     private post(session: Session): Observable<Session> {
-        //let body = JSON.stringify(session);
-        let body = angular.toJson(session);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+      //let body = JSON.stringify(session);
+      let body = angular.toJson(session);
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.apiUrl, body, options)
-            .map(this.extractData)
-            .catch(this.handleError);
+      return this.http.post(this.apiUrl, body, options)
+          .map(this.extractData)
+          .catch(this.handleError);
     }
 
     private extractData(res: Response) {
-        let body = res.json();
-        return body.data || {};
+      let body = res.json();
+      return body.data || {};
     }
 
     private handleError(error: any) {
-        // In a real world app, we might use a remote logging infrastructure
-        // We'd also dig deeper into the error to get a better message
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        //console.error(errMsg); // log to console instead
-        this.changeService.logActionLost({'SessionsService' : error, 'errMsg:' : errMsg});
-        return Observable.throw(errMsg);
+      // In a real world app, we might use a remote logging infrastructure
+      // We'd also dig deeper into the error to get a better message
+      let errMsg = (error.message) ? error.message :
+          error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+      //console.error(errMsg); // log to console instead
+      this.changeService.logActionLost({'SessionsService' : error, 'errMsg:' : errMsg});
+      return Observable.throw(errMsg);
     }
 
     private processSessionFromServer(sessionFromServer: any): Session {
