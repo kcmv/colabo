@@ -151,7 +151,8 @@ function getImageWidthForNode(d){
 /** @function updateHtml
  * 	@param {vkNode} source - root node
  * joins data and view
- * stylize nodes and set their eventlisteners
+ * stylize nodes and set their event listeners
+ * Adds all visual plugins
  * */
 MapVisualizationTree.prototype.updateHtml = function(source) {
 	var that = this;
@@ -334,6 +335,14 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	return nodeHtmlDatasets;
 };
 
+/** @function updateHtmlTransitions
+ * 	@param {vkNode} source - root node
+ * 	@param {vkNode} nodeHtmlDatasets - root node
+ * joins data and view
+ * stylize nodes and set their event listeners
+ * Adds all visual plugins
+ * Updates/adds/removes node decorations (for example it adds image thumbnail if before this and previous update rendering image is attached to a node)
+ * */
 MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtmlDatasets){
 	if(!this.configNodes.html.show) return;
 	var that = this;
@@ -353,6 +362,8 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 			.duration(this.configTransitions.update.duration);
 	}
 
+	// updates representation of nodes
+	// adding/removing/updating image thumbnails, etc, ...
 	nodeHtmlUpdate
 		.classed({
 			"node_html_fixed": function(d){
@@ -372,7 +383,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 				return d.kNode.name;
 			});
 
-
+	// updating image state
 	// image exists in data but not in the view
 	nodeHtmlUpdate.filter(function(d) {
 		return (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && (d3.select(this).select("img").size() <= 0));
@@ -553,6 +564,9 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		}
 	}
 
+	// if we are doing animation then we are continuing changing node position, ... through nodeHtmlUpdateTransition,
+	// which will introduce change with delay and transition,
+	// otherwise changes will happen imediatelly through nodeHtmlUpdate
 	(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
 		.style("left", function(d){
 			return that.scales.y(d.y) + "px";
@@ -584,7 +598,8 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 	// 		return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
 	// 	});
 
-	// Transition exiting nodes
+	// TRANSITION EXITING NODES
+	// TODO: move to separate function
 	var nodeHtmlExit = nodeHtml.exit();
 	var nodeHtmlExitTransition = nodeHtmlExit;
 	nodeHtmlExit.on("click", null);
@@ -656,7 +671,11 @@ MapVisualizationTree.prototype.updateHtmlAfterTransitions = function(source, nod
 			// x = d.x;
 			// console.log("[nodeHtmlUpdateTransition] d: %s, xCurrent: %s, xNew: %s", d.kNode.name, d3.select(this).style("top"), x);
 			return that.scales.x(x) + "px";
-		});
+		})
+	  .each('end',  function(d){
+			that.positionNodeRelatedEntities(d);
+		})
+		;
 
 	if(this.configTransitions.update.animate.opacity){
 		nodeHtmlUpdateTransition
@@ -695,6 +714,7 @@ MapVisualizationTree.prototype.updateSvgNodes = function(source) {
 		// })
 		// Enter any new nodes at the parent's previous position.
 		.attr("transform", function(d) {
+
 			var x = null, y = null;
 			if(that.configTransitions.enter.animate.position){
 				if(that.configTransitions.enter.referToToggling){
@@ -745,7 +765,9 @@ MapVisualizationTree.prototype.updateSvgNodes = function(source) {
 	}
 	// Transition nodes to their new position
 	(this.configTransitions.update.animate.position ? nodeUpdateTransition : nodeUpdate)
-		.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+		.attr("transform", function(d) {
+			return "translate(" + d.y + "," + d.x + ")";
+		});
 	(this.configTransitions.update.animate.opacity ? nodeUpdateTransition : nodeUpdate)
 			.style("opacity", 0.8);
 
