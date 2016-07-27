@@ -1859,6 +1859,9 @@ md-toolbar-row {
   height: auto !important;
   padding: 3px; }
 
+md-toolbar {
+  height: auto !important; }
+
 #container {
   position: relative;
   height: 100%;

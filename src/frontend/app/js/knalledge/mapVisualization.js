@@ -101,7 +101,7 @@
         this.injector = null;
         this.mapInteraction = null;
         this.upperAPI = null;
-        this.halo.destroy();
+        if(this.halo) this.halo.destroy();
         this.halo = null;
     };
 
