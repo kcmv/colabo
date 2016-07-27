@@ -10,19 +10,18 @@ if(typeof interaction === 'undefined'){
 var halo =  interaction.Halo = function(){
 };
 
+halo.HALO_VIEW_ID = "halo_view_id";
+
 /**
  * @ngdoc object
- * @name initializeManipulation
+ * @name init
  * @function
  *
  * @description
- * Initializes support for manipulation of objects of specified class
- * reference: // http://stackoverflow.com/questions/4679785/graphael-bar-chart-with-text-x-axis
+ * Initializes halo object
  * @param {Object} config contains all parameters relevant for the initialization
+ * @param {Function} callback - callback called when user clicks on halo's icon
 **/
-
-halo.HALO_VIEW_ID = "halo_view_id";
-
 halo.prototype.init = function (config, callback) {
 	/**
 	 * Configuration object for halo
@@ -32,9 +31,13 @@ halo.prototype.init = function (config, callback) {
 	 * 	createAt: 'sibling'
 	 * }
 	 * ```
-	 * @type {[type]}
+	 * @type {Object}
 	 */
 	this.config = config;
+	/**
+	 * Configuration object for halo
+	 * @type {Function}
+	 */
 	this.callback = callback;
 
 	var staticPlaceholder = null;
@@ -45,6 +48,46 @@ halo.prototype.init = function (config, callback) {
 
 halo.prototype.destroy = function () {
 	d3.select("#"+interaction.Halo.HALO_VIEW_ID).remove();
+};
+
+/**
+ * @name updatePosition
+ * @function
+ *
+ * @description
+ * Updates position of the created halo
+ * @param {jQuery node} objectDom object that halo should align to
+ * @param {D3 node} [haloView] created halo object
+ */
+halo.prototype.updatePosition = function (objectDom, haloView) {
+	if(typeof haloView === 'undefined'){
+		haloView = this.getHaloView();
+	}
+	if(!haloView || !objectDom) return;
+
+	var objectView = d3.select(objectDom);
+	if(!objectView) return;
+
+	haloView
+		.style("top", objectView.style("top"))
+		.style("left", objectView.style("left"))
+		.style("width", objectView.style("width"))
+		.style("height", objectView.style("height"))
+		.style("margin-top", objectView.style("margin-top"))
+		.style("margin-left", objectView.style("margin-left"))
+};
+
+/**
+ * @name getHaloView
+ * @function
+ *
+ * @description
+ * Returns halo D3 object if it exists
+ * @return {D3 node}
+ */
+halo.prototype.getHaloView = function () {
+	var haloView = d3.select("#"+interaction.Halo.HALO_VIEW_ID);
+	return haloView;
 };
 
 /**
