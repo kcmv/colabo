@@ -129,6 +129,18 @@
                         that.mapInteraction.addChildNode();
 
                     },
+                    addSiblingNode: function() {
+                        that.halo.destroy();
+
+                        // window.alert("Showing analysis");
+                        // this.selectedView = null;
+                        that.mapInteraction.addSiblingNode();
+
+                    },
+                    addImage: function() {
+                        that.halo.destroy();
+                        that.mapInteraction.addImage();
+                    },
                     deleteNode: function() {
                         if (window.confirm("Are you sure you want to delete this node?")) {
                             that.halo.destroy();
@@ -467,6 +479,10 @@
                     iconClass: "fa-plus-circle",
                     action: "addChildNode"
                 }, {
+                  position: "se",
+                  iconClass: ["fa-plus-circle", "fa-level-down"],
+                  action: "addSiblingNode"
+              }, {
                     position: "n",
                     iconClass: "fa-folder-open",
                     action: "toggle"
@@ -478,6 +494,10 @@
                     position: "w",
                     iconClass: "fa-trash",
                     action: "deleteNode"
+                }, {
+                    position: "ne",
+                    iconClass: "fa-picture-o",
+                    action: "addImage"
                 }]
             };
 
