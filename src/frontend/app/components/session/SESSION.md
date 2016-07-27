@@ -22,6 +22,9 @@ Moderators can create a new session (_Q1_).
   + what is the last action of each participant
   + where is each participant in the map
 
+## Presenter
++ session takes care of current Presenter
+
 # Session persistence
 + Sessions are used to enforce and keep persistence of manners/rules/behaviours (brainstorming, etc) participants are practicing
 + thus, sessions are stored on server

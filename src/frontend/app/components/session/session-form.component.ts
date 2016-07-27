@@ -92,13 +92,20 @@ export class SessionFormComponent implements OnInit{
     // }
 
     show() {
-        this.mdDialog.show();
-        this.sessionFormActive = false;
-        setTimeout(() => this.sessionFormActive = true, 2);
-        if (this.readyForNewPhase) {
-            this.session.nextPhase();
-            this.readyForNewPhase = false;
+      if(window.localStorage && window.localStorage['session']){
+        console.log("show:: window.localStorage['session']",window.localStorage['session']);
+        if(window.confirm("Do you want to preload saved session?")){
+          this.session = window.localStorage['session'];
         }
+      }
+
+      this.mdDialog.show();
+      this.sessionFormActive = false;
+      setTimeout(() => this.sessionFormActive = true, 2);
+      if (this.readyForNewPhase) {
+          this.session.nextPhase();
+          this.readyForNewPhase = false;
+      }
     }
 
     showStartFinish(selectedIndex): boolean {

@@ -15,12 +15,28 @@ To build and push new zip
 
 on **production** server run
 ```sh
-./scripts/deploy-frontend prod
+./scripts/deploy-backend prod
+```
+after this, you will be informed that you have to execute the following commands on your own:
+```
+ssh mprinc@knalledge.org
+su
+restart knalledge-b
+exit
+exit
 ```
 
 and on **beta** server run
 ```sh
-./scripts/deploy-frontend
+./scripts/deploy-backend
+```
+after this, you will be informed that you have to execute the following commands on your own:
+```
+ssh mprinc@knalledge.org
+su
+restart knalledge-b-beta
+exit
+exit
 ```
 
 ## Pushing built production to server
@@ -29,12 +45,12 @@ To push built and zipped file
 
 on **production** server run
 ```sh
-./scripts/push-frontend prod <ZIP-FILE-NAME>
+./scripts/push-backend prod <ZIP-FILE-NAME>
 ```
 
 and on **beta** server run
 ```sh
-./scripts/push-frontend beta <ZIP-FILE-NAME>
+./scripts/push-backend beta <ZIP-FILE-NAME>
 ```
 
 where  <ZIP-FILE-NAME> is the name of the zip file produced in build/deploy phase.

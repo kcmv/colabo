@@ -54,7 +54,7 @@ export class Brainstorming {
 	public static MaxId: number = 0;
 
 /* PROPERTIES */
-	public id: number;
+	public _id: number;
 	public createPrivateIdeas: boolean; //create private ideas at the 1st phase
 	//allow only addition of ideas to the brainstorming question node - no free knowlegdge gardening:
 	public onlyIdeasToQuestion: boolean;
@@ -86,7 +86,7 @@ export class Brainstorming {
 	}
 
 	reset(){
-		this.id = Brainstorming.MaxId++;
+		this._id = Brainstorming.MaxId++;
 		this.createPrivateIdeas = true;
 		this.onlyIdeasToQuestion = true;
 		this.allowArgumentsToIdeas = false; //allow adding arguments to ideas
@@ -108,7 +108,7 @@ export class Brainstorming {
 
 	public fill(obj){
 		if(obj){
-			if("id" in obj){this.id = obj.id;}
+			if("_id" in obj){this._id = obj._id;}
 			if("createPrivateIdeas" in obj){this.createPrivateIdeas = obj.createPrivateIdeas;}
 			if("onlyIdeasToQuestion" in obj){this.onlyIdeasToQuestion = obj.onlyIdeasToQuestion;}
 			if("allowArgumentsToIdeas" in obj){this.allowArgumentsToIdeas = obj.allowArgumentsToIdeas;}
@@ -127,12 +127,12 @@ export class Brainstorming {
 	/** when object is updated on server we override local object by server version using this function **/
 	public overrideFromServer(obj){
 		if(obj){
-			if("id" in obj){this.id = obj.id;}
+			if("_id" in obj){this._id = obj._id;}
 			if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
 			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 		}
 		this.state = State.SYNCED;
-		this.phase = BrainstormingPhase.UNDISPLAYED;
+		//this.phase = BrainstormingPhase.UNDISPLAYED;
 	};
 
 	/** before sending to object to server we clean it and fix it for server **/

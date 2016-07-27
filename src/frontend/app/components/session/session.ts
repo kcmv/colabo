@@ -45,10 +45,11 @@ export class Session {
 	public static MaxId: number = 0;
 
 /* PROPERTIES */
-	public id: number;
+	public _id: number;
 	public name: string;
 	public participants: any = {};
-	//public presenter: knalledge.WhoAmI = null; retreived from 'participants[i].isPresenter'
+	//TODO remove 'presenter' is temp:
+	public presenter: knalledge.WhoAmI = null; //TODO: termporary, because it will be retreived from 'participants[i].isPresenter'
 	public mustFollowPresenter: boolean = false; //control of participants option of (NOT) receiveNavigation (if **they CAN STOP FOLLOWing**)
 	public readOnly: boolean = false;
 	public phase:number;
@@ -76,9 +77,10 @@ export class Session {
 	}
 
 	reset(){
-		this.id = Session.MaxId++;
-		this.name = "Session " + this.id;
+		this._id = Session.MaxId++;
+		this.name = "Session " + this._id;
 		this.participants = {};
+		this.presenter = null;
 		this.mustFollowPresenter = false;
 		this.readOnly = false;
 		this.phase= SessionPhase.INACTIVE;
@@ -90,9 +92,10 @@ export class Session {
 	public fill(obj){
 		//TODO: finish for DEEP FILLING - for Object parameters
 		if(obj){
-			if("id" in obj){this.id = obj.id;}
+			if("_id" in obj){this._id = obj._id;}
 			if("name" in obj){this.name = obj.name;}
 			if("participants" in obj){this.participants = obj.participants;}
+			if("presenter" in obj){this.presenter = obj.presenter;}
 			if("mustFollowPresenter" in obj){this.mustFollowPresenter = obj.mustFollowPresenter;}
 			if("readOnly" in obj){this.readOnly = obj.readOnly;}
 			if("phase" in obj){this.phase = obj.phase;}
@@ -121,12 +124,12 @@ export class Session {
 	/** when object is updated on server we override local object by server version using this function **/
 	public overrideFromServer(obj){
 		if(obj){
-			if("id" in obj){this.id = obj.id;}
+			if("_id" in obj){this._id = obj._id;}
 			if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
 			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 		}
 		this.state = State.SYNCED;
-		this.phase = SessionPhase.UNDISPLAYED;
+		//this.phase = SessionPhase.UNDISPLAYED;
 	};
 
 	/** before sending to object to server we clean it and fix it for server **/

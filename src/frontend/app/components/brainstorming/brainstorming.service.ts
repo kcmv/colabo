@@ -100,7 +100,7 @@ export class BrainstormingService {
         private collaboGrammarService : CollaboGrammarService
         ) {
         let that = this;
-        //this.id = ++BrainstormingService.MaxId;
+        //this._id = ++BrainstormingService.MaxId;
         globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
 
         this.knAllEdgeRealTimeService = this.$injector.get('KnAllEdgeRealTimeService');

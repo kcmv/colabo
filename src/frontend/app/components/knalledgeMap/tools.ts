@@ -94,6 +94,7 @@ export class KnalledgeMapTools {
 
     private knAllEdgeRealTimeService;
     private globalEmitterServicesArray: GlobalEmitterServicesArray;
+    private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
 
     constructor(
         @Inject('KnalledgeMapPolicyService') public knalledgeMapPolicyService: KnalledgeMapPolicyService,
@@ -114,6 +115,7 @@ export class KnalledgeMapTools {
         globalEmitterServicesArray.register(this.broadcastingChangedEventName);
         globalEmitterServicesArray.register(this.setUpBroadcastingRequest);
         globalEmitterServicesArray.register(this.SETUP_SESSION_REQUEST_EVENT);
+        this.globalEmitterServicesArray.register(this.PRESENTER_CHANGED);
       //  globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
 
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
@@ -157,7 +159,9 @@ export class KnalledgeMapTools {
     // };
 
     broadcastingChanged: Function = function(path, value) {
-        this.sendChange(path, value, this.broadcastingChangedEventName);
+        //this.sendChange(path, value, this.broadcastingChangedEventName);
+        this.globalEmitterServicesArray.get(this.PRESENTER_CHANGED)
+        .broadcast('Tools', {'user': null, 'value': value});
     };
 
     hideShowVisualizationControls(){

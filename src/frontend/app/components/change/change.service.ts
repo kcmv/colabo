@@ -10,7 +10,7 @@ const LATENCY_WARNING_SINGLE: number = 300; //ms
 const LATENCY_WARNING_AVERAGE: number = 150; //ms
 const REQUEST_RESPONSE_TIMINGS_WINDOW_FRAME:number = 50;
 const TIME_BETWEEN_ERROR_DISPLAYS:number = 5000; //ms
-const CHECK_CONNECTION_FREQUENCY:number = 500; //ms set to 0 if you don't want to check it
+const CHECK_CONNECTION_FREQUENCY:number = 1000; //ms set to 0 if you don't want to check it
 
 // operators
 import 'rxjs/add/operator/catch';

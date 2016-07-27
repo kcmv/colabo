@@ -14,6 +14,8 @@ import {Participant} from './participant';
 declare var d3:any;
 declare var knalledge;
 
+const BROADCASTING_FREQUENCY:number = 1500; //ms set to 0 if you don't want to check it
+
 @Injectable()
 export class SessionService {
   //public static MaxId: number = 0;
@@ -89,12 +91,13 @@ export class SessionService {
     private sessionPluginInfo: any;
     private knAllEdgeRealTimeService: any;
     private showSubComponentInBottomPanelEvent: string = "showSubComponentInBottomPanelEvent";
+    private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
 
     private initiated:boolean = false;
     private rimaService:any = null;
     private mapVOsService:any = null;
     private apiUrl: string = ""; // "http://127.0.0.1:8888/dbAudits/";
-
+    private broadcastingIntervalId;
 
     /**
      * Service constructor
@@ -114,7 +117,9 @@ export class SessionService {
         let that = this;
         //this.id = ++SessionService.MaxId;
         this.apiUrl = this.ENV.server.backend + "/session/";
-        globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
+        this.globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
+        this.globalEmitterServicesArray.register(this.PRESENTER_CHANGED);
+        this.globalEmitterServicesArray.get(this.PRESENTER_CHANGED).subscribe('SessionService', this.presenterChanged.bind(this));
 
         this.knAllEdgeRealTimeService = this.$injector.get('KnAllEdgeRealTimeService');
         let requestPluginOptions: any = {
@@ -241,31 +246,69 @@ export class SessionService {
       ;
     }
 
-    sendSession(callback: Function) {
+    presenterChanged(presenterVO: any): void{
+      if(presenterVO){
+        var newPresenter: knalledge.WhoAmI = presenterVO.user ? this.rimaService.getUserById(presenterVO.user) :
+        this.rimaService.getWhoAmI();
+        if(newPresenter._id === this.rimaService.getWhoAmIid()){
+            this.knalledgeMapPolicyService.get().config.broadcasting.enabled = presenterVO.value;
+        }else{
+            this.knalledgeMapPolicyService.get().config.broadcasting.enabled = false;
+        }
+        if(newPresenter){
+          if(this.session && !(this.session.phase === SessionPhase.FINISHED || this.session.phase === SessionPhase.INACTIVE) ){
+            // if(!this.session.presenter || this.session.presenter._id !== userId){
+            if(presenterVO.value){
+              this.session.presenter = newPresenter;
+            }else{
+              this.session.presenter = null;
+            }
+          }else{
+            window.alert("You have to create a session before changing presenter");
+          }
+        }
+      }
+      this.sendSession();
+    }
 
+    sendSession(callback?: Function) {
+      if(this.broadcastingIntervalId && (this.session.phase === SessionPhase.FINISHED || this.session.phase === SessionPhase.INACTIVE)){
+        clearInterval(this.broadcastingIntervalId);
+      }
         // this.session.mapId = this.knalledgeMapVOsService.getMapId();
         // this.session.who = this.rimaService.getWhoAmI()._id;
         console.log(this.session);
-
-        if (this.knAllEdgeRealTimeService) {
+        var that = this;
+        var rtSend = function(session:Session):void{
+          if (that.knAllEdgeRealTimeService) {
             let change = new Change();
-            change.value = this.session.toServerCopy();
-            //change.reference = this.session.question.kNode._id;
+            change.value = session.toServerCopy();
+            //change.reference = session.question.kNode._id;
             change.type = ChangeType.BEHAVIORAL;
             change.domain = Domain.GLOBAL;
-            change.event = this.isSessionCreated ? Event.SESSION_CREATED : Event.SESSION_CHANGED;
-            this.knAllEdgeRealTimeService.emit(change.event, change);
-            callback(true);
-        } else {
-            callback(false, 'SERVICE_UNAVAILABLE');
-        }
+            change.event = that.isSessionCreated ? Event.SESSION_CREATED : Event.SESSION_CHANGED;
+            that.knAllEdgeRealTimeService.emit(change.event, change);
+
+            if(window.localStorage){
+    					window.localStorage['session'] = JSON.stringify(session);
+              console.log("sendSession:: window.localStorage['session']",window.localStorage['session']);
+            }
+            if(typeof callback === 'function'){callback(true);;}
+          } else {
+            if(typeof callback === 'function'){callback(false, 'SERVICE_UNAVAILABLE');}
+          }
+        };
+
+
         if(!this.isSessionCreated){
-          this.create(this.session);
+          this.create(this.session, rtSend);
+        }else{
+          rtSend(this.session);
         }
     }
 
     public setUpSessionChange(){
-      this.knalledgeMapPolicyService.get().config.session = this.session;
+      this.knalledgeMapPolicyService.get().config.session = this.session; //TODO: what is this used for?
       //this.collaboGrammarService.puzzles.session.state = this.session;
       // if(this.session.phase === SessionPhase.INACTIVE){
       //   this.collaboGrammarService.puzzles.session.state = null;
@@ -282,6 +325,13 @@ export class SessionService {
     }
 
     private processReferencesInSession(session:Session): Session{
+      if(typeof session.creator === "string"){
+        session.creator = this.rimaService.getUserById(session.creator);
+      }
+
+      if(typeof session.presenter === "string"){
+        session.presenter = this.rimaService.getUserById(session.presenter);
+      }
       //TODO:
       // if(typeof session.question === 'string'){
       //   session.question = this.sessionPluginInfo.references.map.items.mapStructure.getVKNodeByKId(session.question);
@@ -292,8 +342,25 @@ export class SessionService {
     private receivedSessionChange(event: string, change: Change) {
       let receivedSession: Session = Session.factory(change.value);
       console.warn("[receivedSessionChange]receivedSession: ", receivedSession);
-      this.session = receivedSession;
-      window.alert("You are added to the session '" + this.session.name + "'");
+      if(receivedSession._id !== this.session._id){
+        window.alert("You are added to the session '" + this.session.name + "'");
+      }
+
+      this.session = this.processReferencesInSession(receivedSession);
+
+      if(this.session.presenter){
+        if(this.session.presenter._id !== this.rimaService.getWhoAmIid()){
+          if(this.knalledgeMapPolicyService.get().config.broadcasting.enabled){
+            window.alert("You are not presenter any more");
+          }
+          this.knalledgeMapPolicyService.get().config.broadcasting.enabled = false;
+        }else{
+          if(!this.knalledgeMapPolicyService.get().config.broadcasting.enabled){
+            window.alert("You have become presenter");
+          }
+          this.knalledgeMapPolicyService.get().config.broadcasting.enabled = true;
+        }
+      }
       // if(this.session.question && this.sessionPluginInfo.references.map.$resolved){
       //   this.session = this.processReferencesInSession(this.session);
       //   this.sessionPluginInfo.apis.map.items.nodeSelected(this.session.question);
@@ -330,18 +397,22 @@ export class SessionService {
       return Observable.throw(errMsg);
     }
 
-    private processSessionFromServer(sessionFromServer: any): Session {
-      var session:Session = Session.factory(sessionFromServer);
-      session.state = State.SYNCED;
-      //TODO: session = this.processReferences(session);
-      return session;
-    }
+    // private processSessionFromServer(sessionFromServer: any): Session {
+    //   var session:Session = Session.factory(sessionFromServer);
+    //   session.state = State.SYNCED;
+    //   //TODO: session = this.processReferences(session);
+    //   return session;
+    // }
 
     private sessionCreated(sessionFromServer, callback?: Function):void{
+      if(BROADCASTING_FREQUENCY !== 0){
+        this.broadcastingIntervalId = setInterval(this.sendSession.bind(this), BROADCASTING_FREQUENCY);
+      }
       this.isSessionCreated=true;
-      var session:Session = this.processSessionFromServer(sessionFromServer);
+      this.session.overrideFromServer(sessionFromServer);
+
       //this.sessions.push(session);
-      if(typeof callback === 'function'){callback(session);}
+      if(typeof callback === 'function'){callback(this.session);}
     }
 
 };

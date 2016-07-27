@@ -122,6 +122,7 @@ export class KnalledgeMapMain implements OnInit{
     public connectivityIssues: boolean = false;
     private rimaService;
     private knalledgeMapVOsService;
+    private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
 
 
     constructor(
@@ -155,6 +156,7 @@ export class KnalledgeMapMain implements OnInit{
         //
         this.globalEmitterServicesArray.get(ChangeService.CONNECTIVITY_ISSUE_EVENT).subscribe('main.ts',
         this.displayConnectivityIssues.bind(this));
+        this.globalEmitterServicesArray.register(this.PRESENTER_CHANGED);
     };
 
     // testMain() {
@@ -226,12 +228,16 @@ export class KnalledgeMapMain implements OnInit{
     getMapName(): any {
         return this.knalledgeMapVOsService.map ? this.knalledgeMapVOsService.map.name : 'loading ...';
     }
+
     followBroadcast(value: boolean): any {
         this.policyConfig.broadcasting.receiveNavigation = value;
     }
+
     broadcast(value: boolean): any {
-        this.policyConfig.broadcasting.enabled = value;
+        this.globalEmitterServicesArray.get(this.PRESENTER_CHANGED)
+        .broadcast('KnalledgeMapMain', {'user': this.rimaService.getWhoAmIid(), 'value': value});
     }
+
     toggleTopPanel(): any {
         this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
     }
