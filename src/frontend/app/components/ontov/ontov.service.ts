@@ -12,6 +12,7 @@ export interface ISearchParam {
 export class OntovService {
   searchFacets = [];
   public mapUpdate: Function;
+  public positionToDatum: Function;
   public searchParam:ISearchParam = {
     searchArr: [],
     operationType: 0
@@ -79,7 +80,8 @@ export class OntovService {
         map: {
           items: {
             update: null,
-            nodeSelected: null
+            nodeSelected: null,
+            positionToDatum: null
           },
           $resolved: false,
           callback: null,
@@ -101,6 +103,7 @@ export class OntovService {
     this.ontovPluginInfo.apis.map.callback = function() {
       that.ontovPluginInfo.apis.map.$resolved = true;
       that.mapUpdate = that.ontovPluginInfo.apis.map.items.update;
+      that.positionToDatum = that.ontovPluginInfo.apis.map.items.positionToDatum;
       // resolve(that.ontovPluginInfo.apis.map);
       // reject('not allowed');
     };
@@ -266,7 +269,7 @@ export class OntovService {
         delete vkNode.visible;
       }
     }
-    if(this.mapUpdate) this.mapUpdate();
+    if(this.mapUpdate) this.mapUpdate(undefined, this.positionToDatum);
   }
 
   // Registers new factet (each facet like name, who, what, ... have to get registered)

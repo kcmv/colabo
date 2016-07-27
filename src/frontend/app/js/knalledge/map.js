@@ -210,6 +210,7 @@ Map.prototype.init = function() {
 		items: {
 			/* update(source, callback) */
 			update: this.mapVisualization.update.bind(this.mapVisualization),
+			positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
 			nodeSelected: this.nodeSelected.bind(this)
 		}
 	});
@@ -311,6 +312,7 @@ Map.prototype.realTimeNodeSelected = function(eventName, msg){
 			that.nodeSelected_WithoutRTBroadcasting(kNode, Map.EXTERNAL_SOURCE, repeatNum);
 		}else if(repeatNum>0){
 			repeatNum--;
+			console.warn("[knalledge.Map] we didnt get getVKNodeByKId in the first iteration!");
 			timeout(realTimeNodeSelectedInner, 50);
 		}
 	})();

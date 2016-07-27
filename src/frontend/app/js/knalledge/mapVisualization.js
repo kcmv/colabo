@@ -550,6 +550,13 @@
     	positions map to specific 'datum'
     */
     MapVisualization.prototype.positionToDatum = function(datum) {
+      if(datum === null || typeof datum === 'undefined'){
+        datum = this.mapStructure.getSelectedNode();
+        if(datum === null || typeof datum === 'undefined'){
+          datum = this.mapStructure.rootNode;
+          if(datum === null || typeof datum === 'undefined') return;
+        }
+      }
         // TODO: Add support for scales
         var y = datum.x - this.dom.parentDom.node().getBoundingClientRect().height / 2;
         var x = datum.y - this.dom.parentDom.node().getBoundingClientRect().width / 2;
