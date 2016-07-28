@@ -253,6 +253,18 @@ export class KnalledgeMapMain implements OnInit{
       }
     }
 
+    get following():string{
+      if(this.policyConfig.session && this.policyConfig.session.presenter){
+        if(this.policyConfig.broadcasting.receiveNavigation){
+            return "following " + this.policyConfig.session.presenter.displayName;
+        }else{
+          return "you can follow " + this.policyConfig.session.presenter.displayName;
+        }
+      }else{
+        return "";
+      }
+    }
+
     getLoggedInUserName(): any {
         var whoAmI = this.rimaService ?
             this.rimaService.getWhoAmI() :

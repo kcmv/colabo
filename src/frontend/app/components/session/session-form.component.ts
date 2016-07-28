@@ -36,7 +36,7 @@ export class SessionFormComponent implements OnInit{
     public sessionFormActive = true;
     //model = new knalledge.KMap();
     SETUP_SESSION_REQUEST_EVENT: string = "SETUP_SESSION_REQUEST_EVENT";
-    public session: Session;
+    public model: Session = new Session();
     public readyForNewPhase: boolean = true;
 
     @ViewChild(MdDialog) private mdDialog: MdDialog;
@@ -60,7 +60,6 @@ export class SessionFormComponent implements OnInit{
         this.globalEmitterServicesArray.register(this.SETUP_SESSION_REQUEST_EVENT);
         this.globalEmitterServicesArray.get(this.SETUP_SESSION_REQUEST_EVENT).subscribe('SessionFormComponent', this.show.bind(this));
         //window.alert("[SessionFormComponent] " + this.SessionService.test);
-        this.session = this.sessionService.session;
     }
 
     ngOnInit() {
@@ -77,25 +76,27 @@ export class SessionFormComponent implements OnInit{
         this.mdDialog.close();
         this.readyForNewPhase = true;
         this.sessionService.setUpSessionChange();
+        this.sessionService.session.fill(this.model);
         this.sessionService.sendSession(this.sessionSent.bind(this));
     }
 
     public changePhase(phase) {
-        this.session.phase = phase;
+        this.model.phase = phase;
     }
 
 
-    get diagnostic() { return JSON.stringify(this.session); }
+    get diagnostic() { return JSON.stringify(this.model); }
 
     // get debugging(){
     //   return
     // }
 
     show() {
-      if(window.localStorage && window.localStorage['session']){
+      this.model = Session.factory(this.sessionService.session);
+      if(this.model.phase === SessionPhase.INACTIVE && window.localStorage && window.localStorage['session']){
         console.log("show:: window.localStorage['session']",window.localStorage['session']);
         if(window.confirm("Do you want to preload saved session?")){
-          this.session = window.localStorage['session'];
+          this.model = Session.factory(JSON.parse(window.localStorage['session']));
         }
       }
 
@@ -103,7 +104,7 @@ export class SessionFormComponent implements OnInit{
       this.sessionFormActive = false;
       setTimeout(() => this.sessionFormActive = true, 2);
       if (this.readyForNewPhase) {
-          this.session.nextPhase();
+          this.model.nextPhase();
           this.readyForNewPhase = false;
       }
     }
@@ -115,7 +116,7 @@ export class SessionFormComponent implements OnInit{
     restart(): void {
         if (confirm('Are you sure?')) {
             this.sessionService.restart();
-            // this.session.nextPhase();
+            // this.model.nextPhase();
             // this.readyForNewPhase = false;
             this.readyForNewPhase = true;
             //this.close(false);
@@ -124,15 +125,15 @@ export class SessionFormComponent implements OnInit{
     }
 
     selectedIndex(): number {
-        return Math.max(Math.min(this.tabData.length - 1, this.session.phase - 1), 0);
+        return Math.max(Math.min(this.tabData.length - 1, this.model.phase - 1), 0);
     }
 
     isDisabled(selectedIndex: number): boolean {
-        return selectedIndex > this.session.phase;
+        return selectedIndex > this.model.phase;
     }
 
     // nextPhase(){
-    //   this.session.nextPhase();
+    //   this.model.nextPhase();
     // }
 
     focusChanged(tabIndex) {
@@ -155,7 +156,7 @@ export class SessionFormComponent implements OnInit{
         console.log("[SessionFormComponent].close:", confirm);
         this.mdDialog.close();
         if(!confirm){
-          this.session.previousPhase();
+          this.model.previousPhase();
           this.readyForNewPhase = true;
         }
     }
