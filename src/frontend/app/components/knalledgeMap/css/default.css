@@ -560,11 +560,11 @@ md-sidenav.options {
     .knalledge_map_container .node_html.type_ibis_question {
       background-color: #ffffaa; }
     .knalledge_map_container .node_html.type_ibis_idea {
-      background-color: #aaaaff; }
+      background-color: #aaffaa; }
     .knalledge_map_container .node_html.type_ibis_argument {
       background-color: rgba(255, 170, 170, 0.5); }
     .knalledge_map_container .node_html.type_ibis_comment {
-      background-color: #aaffaa; }
+      background-color: #aaffff; }
   .knalledge_map_container .node_html_fixed {
     /* TODO FIxing expandable nodes */
     /*width: 200px;*/

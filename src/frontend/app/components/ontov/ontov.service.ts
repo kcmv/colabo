@@ -142,10 +142,17 @@ export class OntovService {
       doesMatch: this._doesMatch_Tree.bind(this)
     });
 
+    this.registerFacet("Voting", {
+      getFacetMatches: this._getFacetMatches_Voting.bind(this),
+      doesMatch: this._doesMatch_Voting.bind(this)
+    });
+
     this.collaboPluginsService.provideApi("ontov", {
       name: "ontov",
       items: {
         setSearch: this.setSearch.bind(this),
+        addSearchItem: this.addSearchItem.bind(this),
+        removeSearchItem: this.removeSearchItem.bind(this),
         getSearchArray: this.getSearchArray.bind(this),
         setOperation: this.setOperation.bind(this)
       }
@@ -173,6 +180,32 @@ export class OntovService {
   getSearchArray(){
     return this.searchParam.searchArr;
   }
+
+  addSearchItem(searchItem){
+    this.searchParam.searchArr.push(searchItem);
+
+    this.filterByFacets(this.searchParam.searchArr);
+
+    if(typeof this.setSearchCallback === 'function'){
+      this.setSearchCallback(this.searchParam.searchArr);
+    }
+  }
+
+  removeSearchItem(searchItem){
+    for(var i=this.searchParam.searchArr.length-1; i>=0; i--){
+      let lSearchItem = this.searchParam.searchArr[i];
+      if((lSearchItem.category === searchItem.category) &&
+      (!('value' in searchItem) || (lSearchItem.value === searchItem.value))){
+        this.searchParam.searchArr.splice(i, 1);
+      }
+    }
+    this.filterByFacets(this.searchParam.searchArr);
+
+    if(typeof this.setSearchCallback === 'function'){
+      this.setSearchCallback(this.searchParam.searchArr);
+    }
+  }
+
 
   setOperation(operationType){
     this.searchParam.operationType = operationType;
@@ -203,7 +236,7 @@ export class OntovService {
     return this.searchFacets;
   }
 
-  getFacetMatches(facet: string, searchTerm: string) {
+  getFacetMatches(facet: string, searchTerm: any) {
     if (facet in this.registeredFacets) {
       return this.registeredFacets[facet].getFacetMatches(searchTerm);
     } else {
@@ -211,7 +244,7 @@ export class OntovService {
     }
   }
 
-  doesFacetMatches(facet: string, searchTerm: string, vkNode) {
+  doesFacetMatches(facet: string, searchTerm: any, vkNode) {
     if (facet in this.registeredFacets) {
       return this.registeredFacets[facet].doesMatch(searchTerm, vkNode);
     } else {
@@ -280,7 +313,7 @@ export class OntovService {
     this.searchFacets.push(facet);
   }
 
-  _getFacetMatches_Name(searchTerm: string) {
+  _getFacetMatches_Name(searchTerm: any) {
     if (this.mapStructure) {
       var nodeNameObj = {};
       for (let id in this.mapStructure.nodesById) {
@@ -292,11 +325,11 @@ export class OntovService {
       return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
     }
   }
-  _doesMatch_Name(searchTerm: string, vkNode) {
+  _doesMatch_Name(searchTerm: any, vkNode) {
     return vkNode.kNode.name === searchTerm;
   }
 
-  _getFacetMatches_Type(searchTerm: string) {
+  _getFacetMatches_Type(searchTerm: any) {
     var typeToName = {
       'type_knowledge': 'kn:KnAllEdge',
       'type_ibis_question': 'ibis:QUESTION',
@@ -324,11 +357,11 @@ export class OntovService {
     }
 
   }
-  _doesMatch_Type(searchTerm: string, vkNode) {
+  _doesMatch_Type(searchTerm: any, vkNode) {
     return vkNode.kNode.type === searchTerm;
   }
 
-  _getFacetMatches_Who(searchTerm: string) {
+  _getFacetMatches_Who(searchTerm: any) {
     if (this.mapStructure) {
       var iAmIdObj = {};
       for (let id in this.mapStructure.nodesById) {
@@ -350,11 +383,51 @@ export class OntovService {
       return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
     }
   }
-  _doesMatch_Who(searchTerm: string, vkNode) {
+  _doesMatch_Who(searchTerm: any, vkNode) {
     return vkNode.kNode.iAmId === searchTerm;
   }
 
-  _getFacetMatches_iAmId(searchTerm: string) {
+  _getFacetMatches_Voting(searchTerm: any) {
+    if (this.mapStructure) {
+      var votingObj = {};
+      for (let id in this.mapStructure.nodesById) {
+        var vkNode = this.mapStructure.nodesById[id];
+        var votes:number = 0;
+        if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.ibis && vkNode.kNode.dataContent.ibis.votes){
+          for(let vI in vkNode.kNode.dataContent.ibis.votes){
+            votes += vkNode.kNode.dataContent.ibis.votes[vI];
+          }
+        }
+        votingObj[(""+votes)] = true;
+      }
+      var votings = [];
+      for (let voting in votingObj) {
+        let votingLabel = ">= " + voting;
+        votings.push({
+          label: votingLabel,
+          value: voting
+        });
+      }
+      // sort in descending order
+      votings.sort(function(a, b){
+        return parseInt(b.value)-parseInt(a.value);
+      });
+      return votings;
+    } else {
+      return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
+    }
+  }
+  _doesMatch_Voting(searchTerm: any, vkNode) {
+    let votes:number = 0;
+    if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.ibis && vkNode.kNode.dataContent.ibis.votes){
+      for(let vI in vkNode.kNode.dataContent.ibis.votes){
+        votes += vkNode.kNode.dataContent.ibis.votes[vI];
+      }
+    }
+    return votes >= parseInt(searchTerm);
+  }
+
+  _getFacetMatches_iAmId(searchTerm: any) {
     if (this.mapStructure) {
       var iAmIdObj = {};
       for (let id in this.mapStructure.nodesById) {
@@ -366,11 +439,11 @@ export class OntovService {
       return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
     }
   }
-  _doesMatch_iAmId(searchTerm: string, vkNode) {
+  _doesMatch_iAmId(searchTerm: any, vkNode) {
     return vkNode.kNode.iAmId === searchTerm;
   }
 
-  _getFacetMatches_What(searchTerm: string) {
+  _getFacetMatches_What(searchTerm: any) {
     if (this.mapStructure) {
       var whatObj = {};
       for (let id in this.mapStructure.nodesById) {
@@ -386,7 +459,7 @@ export class OntovService {
       return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
     }
   }
-  _doesMatch_What(searchTerm: string, vkNode) {
+  _doesMatch_What(searchTerm: any, vkNode) {
     if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats){
       for(var what of vkNode.kNode.dataContent.rima.whats){
         if(what.name === searchTerm) return true;
@@ -397,10 +470,10 @@ export class OntovService {
     }
   }
 
-  _getFacetMatches_Tree(searchTerm: string) {
+  _getFacetMatches_Tree(searchTerm: any) {
     return this._getFacetMatches_Name(searchTerm);
   }
-  _doesMatch_Tree(searchTerm: string, vkNode) {
+  _doesMatch_Tree(searchTerm: any, vkNode) {
     // making visible all ancestor nodes of a visible node
     var isInSubtree = false;
     var ancestorsHash = this.mapStructure
