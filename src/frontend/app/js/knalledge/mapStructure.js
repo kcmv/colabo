@@ -883,6 +883,13 @@
 					}
 				};
 				break;
+			case puzzles.changes.Actions.UPDATE_NODE_DECORATION:
+				patch = {
+									decorations: {
+										//brainstorming
+									}
+								};
+			break;
 			case MapStructure.UPDATE_DATA_CONTENT:
 				break;
 			case MapStructure.UPDATE_NODE_NAME:

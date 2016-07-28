@@ -154,7 +154,8 @@ export class BrainstormingService {
                 },
                 mapInteraction: {
                     items: {
-                        addNode: null
+                        addNode: null,
+                        updateNodeDecoration: null
                     },
                     $resolved: false,
                     callback: null,
@@ -297,6 +298,16 @@ export class BrainstormingService {
         this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
         .broadcast('KnalledgeMapTools', 'brainstorming.BrainstormingPanelComponent');
       }
+      if(this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS && this.knalledgeMapPolicyService.get().config.session &&
+      this.knalledgeMapPolicyService.get().config.session.presenter){ //filter to presenter's ideas who shares them
+        this.filterOntov([
+          {
+            category: 'iAmId',
+            value: this.knalledgeMapPolicyService.get().config.session.presenter._id
+          }
+        ]);
+      }
+      this.brainstormingPluginInfo.apis.map.items.update();
     }
 
     finishBrainstorming(){
@@ -324,8 +335,10 @@ export class BrainstormingService {
         var idea = ideas[i];
         if(this.brainstormingPluginInfo.references.map.items.mapStructure.isNodeOfActiveUser(idea) && this.isPrivateNode(idea)){
           console.log(idea.kNode.type,idea.kNode.iAmId);
+          this.brainstormingPluginInfo.apis.mapInteraction.items.updateNodeDecoration(idea,'brainstorming');
           this.brainstormingPluginInfo.apis.map.items.nodeSelected(idea);
-          delete idea.kNode.decorations.brainstorming;
+          //delete idea.kNode.decorations.brainstorming;
+
           // this.brainstormingPluginInfo.references.map.items.mapStructure.
           // updateNode(node, knalledge.MapStructure.UPDATE_NODE_VISUAL_OPEN, idea);
           break;

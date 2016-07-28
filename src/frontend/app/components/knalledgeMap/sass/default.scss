@@ -15,6 +15,10 @@ $color_tool_border: gray;
 
 $provideLayout: 'hide';
 
+.small{
+	font-size: 12px;
+}
+
 @if $provideLayout == 'show' {
 	$susy: (
 		columns: 12,

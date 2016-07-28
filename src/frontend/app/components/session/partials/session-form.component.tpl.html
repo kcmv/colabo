@@ -15,9 +15,9 @@
                     <template md-tab-content>
                         <md-content class="md-padding">
                           <div layout="column">
-                            <md-input placeholder="Name" [(ngModel)]="session.name" name="name" required #name="ngModel"></md-input>
-                            <md-switch [(checked)]="session.mustFollowPresenter" aria-label="readOnly">mustFollowPresenter</md-switch>
-                            <md-switch [(checked)]="session.readOnly" aria-label="readOnly">readOnly</md-switch>
+                            <md-input placeholder="Name" [(ngModel)]="model.name" name="name" required #name="ngModel"></md-input>
+                            <md-switch [(checked)]="model.mustFollowPresenter" aria-label="readOnly">mustFollowPresenter</md-switch>
+                            <md-switch [(checked)]="model.readOnly" aria-label="readOnly">readOnly</md-switch>
                           </div>
                         </md-content>
                     </template>
@@ -107,8 +107,8 @@
               <!-- <button md-button type="button" (click)="nextPhase()">Next Phase</button> -->
               <span *ngIf="showStartFinish(sessionFormTabs.selectedIndex)">
                 <button md-button type="submit" [disabled]="!sessionForm.form.valid">
-                  <span class="warning" *ngIf="sessionFormTabs.selectedIndex + 1 < session.phase">Restart This Phase</span>
-                  <span *ngIf="sessionFormTabs.selectedIndex + 1 >= session.phase">Start This Phase</span>
+                  <span class="warning" *ngIf="sessionFormTabs.selectedIndex + 1 < model.phase">Restart This Phase</span>
+                  <span *ngIf="sessionFormTabs.selectedIndex + 1 >= model.phase">Start This Phase</span>
                 </button>
               </span>
               <span *ngIf="!showStartFinish(sessionFormTabs.selectedIndex)">

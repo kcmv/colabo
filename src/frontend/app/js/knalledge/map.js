@@ -217,7 +217,8 @@ Map.prototype.init = function() {
 	this.collaboPluginsService.provideApi("mapInteraction", {
 		name: "mapInteraction",
 		items: {
-			addNode: this.mapInteraction.addNode.bind(this.mapInteraction)
+			addNode: this.mapInteraction.addNode.bind(this.mapInteraction),
+			updateNodeDecoration: this.mapInteraction.updateNodeDecoration.bind(this.mapInteraction)
 		}
 	});
 

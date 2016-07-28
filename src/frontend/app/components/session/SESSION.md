@@ -50,3 +50,6 @@ Moderators can create a new session (_Q1_).
   + presenter?
 + we should think more of Session.collaboSpace, that is suppose to preserve actual state of all relevant puzzles in the Collabospace, behaviours, like a state in KnalledgeMapPolicyService
   + here behaviours like Brainstorming would be persistent and thus enforced to users that drop off conection etc, without need to send all behaviours by themselves
++ Should we provide multiple presenters per map?
+ - so that you can choose which one to follow
+ - or should in that case that other presenter open another session?

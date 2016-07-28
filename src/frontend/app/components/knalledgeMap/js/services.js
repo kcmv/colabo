@@ -1056,6 +1056,7 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 				obj[knalledge.MapStructure.UPDATE_NODE_CREATOR] =1;
 				obj[knalledge.MapStructure.UPDATE_NODE_VISUAL_OPEN] =1;
 				obj[knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING] =1;
+				obj[puzzles.changes.Actions.UPDATE_NODE_DECORATION] =1;
 
 				return obj;
 			})(),
@@ -2980,7 +2981,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 					}
 				}
 				else{
-					console.log('received KnAllEdgeRealTimeService message from a different session `' + sessionId + '`, while our session is `' + this.sessionId + '`');
+					console.log('received KnAllEdgeRealTimeService message from a different session `' + knPackage.sessionId + '`, while our session is `' + this.sessionId + '`');
 				}
 			}
 		};
