@@ -43,7 +43,8 @@ export const State:any = {
 };
 
 export const BrainstrormingDecorations:any = {
-	PRIVATE_BRAINSTORMING : "PRIVATE_BRAINSTORMING"
+	PRIVATE : "private",
+	PRESENTED : "presented"
 };
 
 
@@ -52,7 +53,7 @@ export const BrainstrormingDecorations:any = {
  */
 export class Brainstorming {
 	public static MaxId: number = 0;
-
+	public static DECORATION: string = "brainstorming";
 /* PROPERTIES */
 	public _id: number;
 	public createPrivateIdeas: boolean; //create private ideas at the 1st phase

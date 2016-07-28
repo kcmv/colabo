@@ -196,7 +196,7 @@ export class MapInteraction {
     updateNodeDecoration(node, decoration, value){
       //TODO:
       if(node){
-        this.clientApi.updateNode(node, Actions.UPDATE_NODE_DECORATION, decoration);
+        this.clientApi.updateNode(node, Actions.UPDATE_NODE_DECORATION, {'decoration':decoration, 'value':value}, null);
         this.clientApi.update(this.clientApi.getSelectedNode());
       }
     }

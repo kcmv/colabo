@@ -14,7 +14,8 @@ import {Participant} from './participant';
 declare var d3:any;
 declare var knalledge;
 
-const BROADCASTING_FREQUENCY:number = 1500; //ms set to 0 if you don't want to check it
+const SESSION_BROADCASTING_FREQUENCY:number = 1500; //ms set to 0 to stop it
+const PARITICIPANT_BROADCASTING_FREQUENCY:number = 1500; //ms set to 0 to stop it
 
 @Injectable()
 export class SessionService {
@@ -98,6 +99,7 @@ export class SessionService {
     private mapVOsService:any = null;
     private apiUrl: string = ""; // "http://127.0.0.1:8888/dbAudits/";
     private broadcastingIntervalId;
+    private participantbroadcastingIntervalId;
 
     /**
      * Service constructor
@@ -209,15 +211,18 @@ export class SessionService {
       this.session.creator = this.meParticipant;
       if(this.meParticipant && this.meParticipant.whoAmI){
         this.session.participants[this.meParticipant.whoAmI._id] = this.meParticipant;
+
+        let map: any = this.mapVOsService.getMap();
+        if(map.state !== knalledge.KMap.STATE_SYNCED){
+          console.warn("map.state !== knalledge.KMap.STATE_SYNCED", map, JSON.stringify(map));
+          // if(map.$resolved){
+          //   this.session.mapId =
+          // }
+        }
       }else{
-        this.session.participants[Participant.NON_LOGGED_IN] = Participant.NON_LOGGED_IN;
-      }
-      let map: any = this.mapVOsService.getMap();
-      if(map.state !== knalledge.KMap.STATE_SYNCED){
-        console.warn("map.state !== knalledge.KMap.STATE_SYNCED", map, JSON.stringify(map));
-        // if(map.$resolved){
-        //   this.session.mapId =
-        // }
+        window.alert("you have to be logged in to set up a session");
+        return;
+        //this.session.participants[Participant.NON_LOGGED_IN] = Participant.NON_LOGGED_IN;
       }
     }
 
@@ -339,7 +344,27 @@ export class SessionService {
       return session;
     }
 
+    private enteredSession() :void{
+      this.meParticipant = new Participant();
+      //TODO: suppport not logged_in_users
+      this.meParticipant.whoAmI = this.rimaService.getWhoAmI();
+
+      if(SESSION_BROADCASTING_FREQUENCY !== 0){
+        this.participantbroadcastingIntervalId = setInterval(this.sendParticipant.bind(this), PARITICIPANT_BROADCASTING_FREQUENCY);
+      }
+    }
+
+    private exitedSession(): void{
+      clearInterval(this.participantbroadcastingIntervalId);
+    }
+
+    private sendParticipant():void{
+
+    }
+
     private receivedSessionChange(event: string, change: Change) {
+      //TODO: take care that logged out users can be session participants ot to be warned
+
       let receivedSession: Session = Session.factory(change.value);
       //console.warn("[receivedSessionChange]receivedSession: ", receivedSession);
       if(receivedSession._id !== this.session._id){
@@ -373,6 +398,7 @@ export class SessionService {
       //   // this.sessionPluginInfo.apis.map.items.update();
       // }
       this.setUpSessionChange();
+      this.enteredSession();
     }
 
     private post(session: Session): Observable<Session> {
@@ -409,8 +435,8 @@ export class SessionService {
     // }
 
     private sessionCreated(sessionFromServer, callback?: Function):void{
-      if(BROADCASTING_FREQUENCY !== 0){
-        this.broadcastingIntervalId = setInterval(this.sendSession.bind(this), BROADCASTING_FREQUENCY);
+      if(SESSION_BROADCASTING_FREQUENCY !== 0){
+        this.broadcastingIntervalId = setInterval(this.sendSession.bind(this), SESSION_BROADCASTING_FREQUENCY);
       }
       this.isSessionCreated=true;
       this.session.overrideFromServer(sessionFromServer);

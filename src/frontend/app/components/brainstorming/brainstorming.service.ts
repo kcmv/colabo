@@ -258,13 +258,13 @@ export class BrainstormingService {
     }
 
     showDecoration(node: any): boolean {
-      return this.isPrivateNode(node)
+      return this.isPrivateBSNode(node)
       && this.brainstorming && (this.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION ||
       this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS);
     }
 
-    isPrivateNode(node: any): boolean {
-        return node.kNode.decorations && node.kNode.decorations.brainstorming === BrainstrormingDecorations.PRIVATE_BRAINSTORMING;
+    isPrivateBSNode(node: any): boolean {
+        return node.kNode.decorations && node.kNode.decorations.brainstorming === BrainstrormingDecorations.PRIVATE;
     }
 
     sendBrainstorming(callback: Function) {
@@ -333,9 +333,10 @@ export class BrainstormingService {
       var ideas: any[] = this.brainstormingPluginInfo.references.map.items.mapStructure.getChildrenNodes(this.brainstorming.question);
       for(var i:number = 0; i < ideas.length; i++){
         var idea = ideas[i];
-        if(this.brainstormingPluginInfo.references.map.items.mapStructure.isNodeOfActiveUser(idea) && this.isPrivateNode(idea)){
+        if(this.brainstormingPluginInfo.references.map.items.mapStructure.isNodeOfActiveUser(idea) && this.isPrivateBSNode(idea)){
           console.log(idea.kNode.type,idea.kNode.iAmId);
-          this.brainstormingPluginInfo.apis.mapInteraction.items.updateNodeDecoration(idea,'brainstorming');
+          this.brainstormingPluginInfo.apis.mapInteraction.items.updateNodeDecoration(idea, Brainstorming.DECORATION,
+             BrainstrormingDecorations.PRESENTED);
           this.brainstormingPluginInfo.apis.map.items.nodeSelected(idea);
           //delete idea.kNode.decorations.brainstorming;
 

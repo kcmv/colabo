@@ -340,7 +340,7 @@
 			(this.collaboGrammarService.puzzles.brainstorming.state.phase === puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION ||
 				this.collaboGrammarService.puzzles.brainstorming.state.phase === puzzles.brainstormings.BrainstormingPhase.SHARING_IDEAS)
 		) {
-			return node.kNode.decorations.brainstorming === undefined || !(node.kNode.decorations.brainstorming === puzzles.brainstormings.BrainstrormingDecorations.PRIVATE_BRAINSTORMING &&
+			return node.kNode.decorations === undefined || node.kNode.decorations.brainstorming === undefined || !(node.kNode.decorations.brainstorming === puzzles.brainstormings.BrainstrormingDecorations.PRIVATE &&
 				node.kNode.iAmId !== this.getActiveUserId());
 		} else {
 			return true;
@@ -700,7 +700,7 @@
 		if (this.collaboGrammarService.puzzles.brainstorming && this.collaboGrammarService.puzzles.brainstorming.state &&
 			this.collaboGrammarService.puzzles.brainstorming.state !== puzzles.brainstormings.BrainstormingPhase.INACTIVE){
 				if (this.collaboGrammarService.puzzles.brainstorming.state.createPrivateIdeas) {
-					node.kNode.decorations.brainstorming = puzzles.brainstormings.BrainstrormingDecorations.PRIVATE_BRAINSTORMING;
+					node.kNode.decorations.brainstorming = puzzles.brainstormings.BrainstrormingDecorations.PRIVATE;
 				}
 			}
 		return node;
@@ -884,11 +884,8 @@
 				};
 				break;
 			case puzzles.changes.Actions.UPDATE_NODE_DECORATION:
-				patch = {
-									decorations: {
-										//brainstorming
-									}
-								};
+				patch = {decorations:{}};
+				patch.decorations[change.decoration] = change.value;
 			break;
 			case MapStructure.UPDATE_DATA_CONTENT:
 				break;
