@@ -1372,7 +1372,7 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 				newNode.type = kNodeType;
 
 				var localNodeId = newNode._id;// = maxId+1;
-				if(!('mapId' in newNode) || !newNode.mapId) {newNode.mapId = this.map ? this.map._id : null;} //'575ffc2cfe15024a16d456c6';}
+				if(!('mapId' in newNode) || !newNode.mapId) {newNode.mapId = (this.map && this.map.state !== knalledge.KMap.STATE_LOCAL) ? this.map._id : null;} //'575ffc2cfe15024a16d456c6';}
 
 				newNode = KnalledgeNodeService.create(newNode, nodeCreated.bind(this)); //saving on server service.
 				this.nodesById[localNodeId] = newNode;
