@@ -1,5 +1,5 @@
 import {BrainstormingPhase} from '../../components/brainstorming/brainstorming';
-
+import {Actions} from '../../components/change/change';
 // external from the JS world
 declare var interaction;
 declare var knalledge;
@@ -190,6 +190,14 @@ export class MapInteraction {
       }
       if(node){
         this.clientApi.nodeMediaClicked(node);
+      }
+    }
+
+    updateNodeDecoration(node, decoration, value){
+      //TODO:
+      if(node){
+        this.clientApi.updateNode(node, Actions.UPDATE_NODE_DECORATION, decoration);
+        this.clientApi.update(this.clientApi.getSelectedNode());
       }
     }
 

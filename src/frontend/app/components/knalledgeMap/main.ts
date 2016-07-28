@@ -255,10 +255,14 @@ export class KnalledgeMapMain implements OnInit{
 
     get following():string{
       if(this.policyConfig.session && this.policyConfig.session.presenter){
-        if(this.policyConfig.broadcasting.receiveNavigation){
-            return "following " + this.policyConfig.session.presenter.displayName;
+        if(this.policyConfig.session.presenter._id === this.rimaService.getWhoAmIid()){
+          return "you are presenting";
         }else{
-          return "you can follow " + this.policyConfig.session.presenter.displayName;
+        if(this.policyConfig.broadcasting.receiveNavigation){
+              return "following " + this.policyConfig.session.presenter.displayName;
+          }else{
+            return "you can follow " + this.policyConfig.session.presenter.displayName;
+          }
         }
       }else{
         return "";
