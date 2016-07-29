@@ -140,6 +140,24 @@ export class RimaUsersList implements OnInit{
 
     ngOnInit() {
       this.items = this.rimaService.whoAmIs;
+
+      //workaround for sorting until we can use above-defined SortUsersByDisplayNamePipe...
+      //which causes problem with non-watching input (items):
+      if(!this.items || this.items.length === 0){
+        var that = this;
+        let id:number;
+        let i:number=50;
+        var sortItems: Function = function(){
+          if(i--<=0){clearInterval(id);} //give up
+          if(that.items && that.items.length !== 0){
+            clearInterval(id);
+            let sort:SortUsersByDisplayNamePipe = new SortUsersByDisplayNamePipe();
+            that.items = sort.transform(that.items);
+          }
+        };
+        id = setInterval(sortItems, 100);
+      }
+
     }
 
     get showUsers(){
