@@ -106,7 +106,8 @@
                                     {{policyConfig.state.name}}
                                     <!-- ({{policyConfig.state.id}}) -->
                                 </div>
-                                <div *ngIf="!policyConfig.moderating.enabled">
+                                <!-- <div *ngIf="!policyConfig.moderating.enabled"> -->
+                                <div>
                                     <span *ngIf="policyConfig.broadcasting.receiveNavigation">
                                       <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter()" md-fab class="md-mini md-primary" (click)="followBroadcast(false)">
                                         <span class="fa-stack fa-lg">
