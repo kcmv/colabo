@@ -856,8 +856,10 @@
 		}
 	])
 
-	.directive('rimaWhats', ['$rootScope', '$injector', 'RimaService',
-		function($rootScope, $injector, RimaService) {
+	.directive('rimaWhats', ['$rootScope', '$injector', 'RimaService', 'KnalledgeMapPolicyService',
+	/** @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
+  */
+		function($rootScope, $injector, RimaService, KnalledgeMapPolicyService) {
 			console.log("[rimaWhats] loading directive");
 
 			var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
@@ -976,6 +978,12 @@
 
 						var newWhat = null;
 						if (typeof what === 'string') {
+							var maxLength = KnalledgeMapPolicyService.provider.config.rima.maxWhatLength;
+							if(what.length > maxLength){
+								console.log("What name too long");
+								window.alert('You have entered WHAT name that is ' + what.length + ' characters long. Please, choose a name that is max ' + maxLength + ' characters long.');
+								return;
+							}
 							newWhat = new knalledge.WhatAmI();
 							newWhat.name = what;
 						} else {

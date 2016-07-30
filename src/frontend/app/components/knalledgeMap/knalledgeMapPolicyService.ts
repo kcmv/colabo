@@ -36,6 +36,9 @@ export class KnalledgeMapPolicyService {
       },
       knalledgeMap: {
         nextNodeType: null
+      },
+      rima: {
+        maxWhatLength: 30
       }
     }
   };
