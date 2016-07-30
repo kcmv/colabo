@@ -1,6 +1,6 @@
 import {CORE_DIRECTIVES, NgClass, NgStyle} from '@angular/common';
 
-//import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload';
+import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 
 import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
 import { Component, ViewChild } from '@angular/core';
@@ -13,7 +13,9 @@ import {MdDialog} from "ng2-material";
 
 declare var knalledge;
 
-// const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
+const URL = 'http://localhost:8001/mapImport.json';//'http://localhost:3000/mapImport'; //'kmaps.json:8001';
+
+//using https://github.com/valor-software/ng2-file-upload
 
 @Component({
   selector: 'import-map-form',
@@ -27,7 +29,7 @@ declare var knalledge;
       MATERIAL_DIRECTIVES,
       MD_INPUT_DIRECTIVES,
 
-      //FILE_UPLOAD_DIRECTIVES,
+      FILE_UPLOAD_DIRECTIVES,
   ]
 })
 export class ImportMapFormComponent {
@@ -36,7 +38,8 @@ export class ImportMapFormComponent {
   public mapName:string = "";
   model = new knalledge.KMap();
 
-  //public uploader:FileUploader = new FileUploader({url: URL});
+  public uploader:FileUploader = new FileUploader({url: URL});
+
   public hasBaseDropZoneOver:boolean = false;
   public hasAnotherDropZoneOver:boolean = false;
 
@@ -52,8 +55,6 @@ export class ImportMapFormComponent {
       this.creatingFunction(true);
     }
   }
-  // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.model); }
 
   // get debugging(){
   //   return

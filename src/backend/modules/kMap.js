@@ -110,21 +110,27 @@ console.log("dbName: %s", dbName);
 // curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Map", "iAmId":5, "visual": {}}' http://127.0.0.1:8042/kmaps
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8042/kmaps
 exports.create = function(req, res){
-
+	var type = req.params.type;
+	console.log("create::type",type);
 	var data = req.body;
+	switch(type){
+		case 'import':
+			console.log("[modules/KMap.js:create/mapImport]", data);
+		break;
+		default:
+			console.log("[modules/kMap.js:create/default] req.body: %s", JSON.stringify(data));
 
-	console.log("[modules/kMap.js:create] req.body: %s", JSON.stringify(data));
+			var finished = function(){
+				resSendJsonProtected(res, {success: true, data: kmap, accessId : accessId});
+			}
 
-	var finished = function(){
-		resSendJsonProtected(res, {success: true, data: kmap, accessId : accessId});
+			var kmap = new KMapModel(data);
+			kmap.save(function(err) {
+				if (err) throw err;
+				console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
+				finished();
+			});
 	}
-
-	var kmap = new KMapModel(data);
-	kmap.save(function(err) {
-		if (err) throw err;
-		console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
-		finished();
-	});
 }
 
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8042/kmaps/one/55266618cce5af993fe8675f
@@ -145,7 +151,6 @@ exports.update = function(req, res){
 	}
 
 	switch (type) {
-
 		case 'one':
 			console.log("[modules/KMap.js:update/one]");
 

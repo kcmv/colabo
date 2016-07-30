@@ -30,14 +30,18 @@ function supportCrossOriginScript(req, res, next) {
 	// res.header("Access-Control-Allow-Origin", "*");
 	// http://stackoverflow.com/questions/15026016/set-cookie-in-http-header-is-ignored-with-angularjs
 	var origin = req.headers.origin; // "litterra.info"; // "litterra.info:8088"; //req.headers.origin;
-	console.log("Access-Control-Allow-Origin: %s", origin);
-	//var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+  //console.log("Access-Control-Allow-Origin: %s", origin);
+
+  //var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	// console.log("Access-Control-Allow-Origin: %s", ip);
-	console.log("Access-Control-Allow-Origin: %s", origin);
-	res.header('Access-Control-Allow-Origin', origin);
+
+  //console.log("Access-Control-Allow-Origin: %s", origin);
+
+  res.header('Access-Control-Allow-Origin', origin);
 	res.header('Access-Control-Allow-Credentials', true);
 
-	console.log("[supportCrossOriginScript] setting up headers");
+	//console.log("[supportCrossOriginScript] setting up headers");
 
 	res.status(200);
 	next();
@@ -80,6 +84,8 @@ var howAmIs = app.resource('howAmIs', require('./modules/howAmI'), {id: 'type?/:
 var syncing = app.resource('syncing', require('./modules/syncing'), {id: 'type?/:searchParam?/:searchParam2?'});
 var dbAudits = app.resource('dbAudits', require('./modules/dbAudit'), {id: 'type?/:searchParam?'});
 var session = app.resource('session', require('./modules/session'), {id: 'type?/:searchParam?'});
+
+var session = app.resource('mapImport', require('./modules/mapImport'), {id: 'type?/:searchParam?'});
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Listening on " + app.get('port'));
