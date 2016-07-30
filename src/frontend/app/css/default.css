@@ -1824,6 +1824,9 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 .disabled {
   color: #b0b0b0; }
 
+.dropdown-menu {
+  right: 10px; }
+
 form md-input.ng-valid[required] {
   border-left: 5px solid #42A948;
   /* green */ }
