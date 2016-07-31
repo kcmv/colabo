@@ -105,15 +105,15 @@ https://github.com/petkaantonov/bluebird/blob/master/API.md#new-promisefunctionf
 https://github.com/petkaantonov/bluebird/blob/master/API.md#thenfunction-fulfilledhandler--function-rejectedhandler----promise
 http://stackoverflow.com/questions/28000060/promised-mongo-cant-finalize-promise
 */
-function populateNodeDemo(){
+function populateNodeDemo(mapData){
 	var entriesNo = 0;
 	var finishedinserting = false;
 	var errorOccured = false;
 	return new Promise(function (resolve, reject) {
 		//console.log('kNode populateDemo');
-		var data_bulk = mapData.map.nodes;
-		var rootNodeId = mapData.properties.rootNodeId;
-		var mapId = mapData.properties.mapId;
+		var data_bulk = mapData.nodes;
+		var rootNodeId = mapData.map.rootNodeId;
+		var mapId = mapData.map._id;
 		//console.log("typeof data_bulk:" + typeof data_bulk);
 		var data_array = new Array();
 		//var isRootNode = true;
@@ -171,13 +171,14 @@ https://github.com/petkaantonov/bluebird
 https://github.com/petkaantonov/bluebird/blob/master/API.md#new-promisefunctionfunction-resolve-function-reject-resolver---promise
 http://stackoverflow.com/questions/28000060/promised-mongo-cant-finalize-promise
 */
-function populateEdgeDemo(){
+function populateEdgeDemo(mapData){
 	var entriesNo = 0;
 	var finishedinserting = false;
 	var errorOccured = false;
 	return new Promise(function (resolve, reject) {
-		var data_bulk = mapData.map.edges;
-		var mapId = mapData.properties.mapId;
+
+    var data_bulk = mapData.edges;
+		var mapId = mapData.map._id;
 		//console.log("typeof data_bulk:" + typeof data_bulk);
 		var data_array = new Array();
 		for (var datumId in data_bulk){
@@ -252,33 +253,40 @@ exports.create = function(req, res){
 		if(_mapData){
 			var mapData = _mapData;
       console.log(mapData.map);
-			console.log("[kNode.populate]");
-			KNodeModel.remove({mapId: mapData.map._id}).exec()
-			.then(function onFulfilled(result, info) {
-				//console.log("[kNode.remove()] params: result: " + result + ". info: " + JSON.stringify(info));
-				console.log("[kNode.remove()] Collection deleted. %d documents deleted: ", result);
-				//resolve();
-			}, function onRejected(err) {
-				console.log("[kNode.remove()] error on deleting collections. Error: " + err);
-				//reject();
-			})
-			.then(populateNodeDemo)
-			.then(function(data){
-				console.log('[kNode] all demo data successfully inserted');
-			});
 
-			KEdgeModel.remove({mapId: mapData.map._id}).exec()
-			.then(function onFulfilled(result, info) {
-				//console.log("[kEdge.remove()] params: result: " + result + ". info: " + JSON.stringify(info));
-				console.log("[kEdge.remove()] Collection deleted. %d documents deleted: ", result);
-				//resolve();
-			}, function onRejected(err) {
-				console.log("[kEdge.remove()] error on deleting collections. Error: " + err);
-				//reject();
-			})
-			.then(populateEdgeDemo)
-			.then(function(data){
-				console.log('[kEdge] all demo data successfully inserted');
+      var kmap = new KMapModel(mapData.map);
+      console.log('kmap',kmap);
+			kmap.save(function(err) {
+				if (err) throw err;
+				console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
+        console.log("[kNode.populate]");
+        KNodeModel.remove({mapId: mapData.map._id}).exec()
+        .then(function onFulfilled(result, info) {
+          //console.log("[kNode.remove()] params: result: " + result + ". info: " + JSON.stringify(info));
+          console.log("[kNode.remove()] Collection deleted. %d documents deleted: ", result);
+          //resolve();
+        }, function onRejected(err) {
+          console.log("[kNode.remove()] error on deleting collections. Error: " + err);
+          //reject();
+        })
+        .then(populateNodeDemo(mapData))
+        .then(function(data){
+          console.log('[kNode] all demo data successfully inserted');
+        });
+
+        KEdgeModel.remove({mapId: mapData.map._id}).exec()
+        .then(function onFulfilled(result, info) {
+          //console.log("[kEdge.remove()] params: result: " + result + ". info: " + JSON.stringify(info));
+          console.log("[kEdge.remove()] Collection deleted. %d documents deleted: ", result);
+          //resolve();
+        }, function onRejected(err) {
+          console.log("[kEdge.remove()] error on deleting collections. Error: " + err);
+          //reject();
+        })
+        .then(populateEdgeDemo(mapData))
+        .then(function(data){
+          console.log('[kEdge] all demo data successfully inserted');
+        });
 			});
 		}
 	});
