@@ -6,6 +6,7 @@ if (!global.hasOwnProperty('db')) {
 	var mkMap = require('./mkMap');
 	var mWhatAmI = require('./mWhatAmI');
 	var mWhoAmI = require('./mWhoAmI');
+	var mWhoAmIStats = require('./mWhoAmIStats');
 	var mHowAmI = require('./mHowAmI');
 	var sq = null;
 	var fs = require('fs');
@@ -18,6 +19,7 @@ if (!global.hasOwnProperty('db')) {
 		kMap: mkMap,
 		whatAmI: mWhatAmI,
 		whoAmI: mWhoAmI,
+		whoAmIStats: mWhoAmIStats,
 		howAmI: mHowAmI,
 		LIMIT_NO: 100,
 	};

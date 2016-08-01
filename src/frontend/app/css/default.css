@@ -1821,6 +1821,9 @@ http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
   color: red;
   font-weight: bold; }
 
+.back_info {
+  color: #505050; }
+
 .disabled {
   color: #b0b0b0; }
 

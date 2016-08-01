@@ -18,40 +18,39 @@
                  Name is required
                </div> -->
 
-               <div class="container">
+               <div layout="row">
                  <!-- http://valor-software.com/ng2-file-upload/ -->
-                   <div class="navbar navbar-default">
+                   <!-- <div class="navbar navbar-default">
                        <div class="navbar-header">
                            <a class="navbar-brand" href>Map File (<i>.json</i>) Upload</a>
                        </div>
-                   </div>
+                   </div> -->
 
-                   <div class="row">
+                   <div>
 
                        <div class="col-md-3">
 
-                           <h3>Select files</h3>
+                           <h3>Select .json map file</h3>
 
-                           <!-- <div ng2FileDrop
+                           <div ng2FileDrop
                                 [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
                                 (fileOver)="fileOverBase($event)"
                                 [uploader]="uploader"
                                 class="well my-drop-zone">
-                               Base drop zone
+                               Drop it here
                            </div>
-
-                           <div ng2FileDrop
+or
+                           <!-- <div ng2FileDrop
                                 [ngClass]="{'another-file-over-class': hasAnotherDropZoneOver}"
                                 (fileOver)="fileOverAnother($event)"
                                 [uploader]="uploader"
                                 class="well my-drop-zone">
                                Another drop zone
-                           </div>
+                           </div> -->
 
-                           Multiple
                            <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
 
-                           Single
+                           <!-- Single
                            <input type="file" ng2FileSelect [uploader]="uploader" /> -->
                        </div>
 
@@ -71,7 +70,7 @@
                                </tr>
                                </thead>
                                <tbody>
-                               <!-- <tr *ngFor="let item of uploader.queue">
+                               <tr *ngFor="let item of uploader.queue">
                                    <td><strong></strong></td>
                                    <td *ngIf="uploader.isHTML5" nowrap>0.00 MB</td>
                                    <td *ngIf="uploader.isHTML5">
@@ -98,12 +97,12 @@
                                            <span class="glyphicon glyphicon-trash"></span> Remove
                                        </button>
                                    </td>
-                               </tr> -->
+                               </tr>
                                </tbody>
                            </table>
 
                            <div>
-                               <!-- <div>
+                               <div>
                                    Queue progress:
                                    <div class="progress" style="">
                                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
@@ -120,7 +119,7 @@
                                <button type="button" class="btn btn-danger btn-s"
                                        (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
                                    <span class="glyphicon glyphicon-trash"></span> Remove all
-                               </button> -->
+                               </button>
                            </div>
 
                        </div>
@@ -159,8 +158,8 @@
             <button type="button" class="btn btn-default" (click)="newHero()">New Hero</button> -->
             <div layout="row">
               <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
-              <button md-button type="button" (click)="close(false)">Cancel</button>
-              <button md-button type="submit" [disabled]="!importMapForm.form.valid">Import</button>
+              <button md-button type="button" (click)="close(false)">Close</button>
+              <!-- <button md-button type="submit" [disabled]="!importMapForm.form.valid">Import</button> -->
               <!-- <button md-button class="md-primary" (click)="mapDialog.close(true)">
                   <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
               </button> -->
