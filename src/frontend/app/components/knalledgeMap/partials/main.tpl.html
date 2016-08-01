@@ -202,4 +202,12 @@
     <session-form></session-form>
     <media-show style="width:90%"></media-show>
     <user-dialog></user-dialog>
+
+    <md-dialog #infoDialog>
+      <md-dialog-title>{{info.title}}</md-dialog-title>
+      <div>
+        {{info.message}}
+     </div>
+      <md-dialog-actions (click)="infoDialog.close()" ok={{info.buttons[0]}}></md-dialog-actions>
+    </md-dialog>
 </div>

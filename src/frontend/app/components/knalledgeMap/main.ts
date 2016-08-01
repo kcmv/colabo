@@ -1,10 +1,11 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 // import {LoginStatusComponent} from '../login/login-status-component';
 // import {Media, MdContent, MdButton} from 'ng2-material';
-import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
+import {MATERIAL_DIRECTIVES, Media, MdDialog} from "ng2-material";
 import {MdToolbar} from '@angular2-material/toolbar';
+import {InfoForDialog} from '../../js/interaction/infoForDialog';
 //import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
@@ -121,10 +122,13 @@ export class KnalledgeMapMain implements OnInit{
     navigator = window.navigator;
     checkConnectionFailed: boolean = false;
     public connectivityIssues: boolean = false;
+    public info:InfoForDialog = new InfoForDialog();
     private rimaService;
     private knalledgeMapVOsService;
     private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
+    private SHOW_INFO: string = "SHOW_INFO";
 
+    @ViewChild('infoDialog') private infoDialog: MdDialog;
 
     constructor(
         // public router: Router,
@@ -155,9 +159,13 @@ export class KnalledgeMapMain implements OnInit{
         // globalEmitterServicesArray.get().subscribe('KnalledgeMapMain', (data) => alert("[KnalledgeMapMain]:"+data));
         // globalEmitterServicesArray.broadcast('KnalledgeMapMain', "Hello from KnalledgeMaKnalledgeMapMainpTools!");
         //
-        this.globalEmitterServicesArray.get(ChangeService.CONNECTIVITY_ISSUE_EVENT).subscribe('main.ts',
+        this.globalEmitterServicesArray.register(ChangeService.CONNECTIVITY_ISSUE_EVENT);
+        this.globalEmitterServicesArray.get(ChangeService.CONNECTIVITY_ISSUE_EVENT).subscribe('KnalledgeMapMain',
         this.displayConnectivityIssues.bind(this));
         this.globalEmitterServicesArray.register(this.PRESENTER_CHANGED);
+        this.globalEmitterServicesArray.register(this.SHOW_INFO);
+        this.globalEmitterServicesArray.get(this.SHOW_INFO).subscribe('KnalledgeMapMain',
+        this.showInfo.bind(this));
     };
 
     // testMain() {
@@ -220,6 +228,14 @@ export class KnalledgeMapMain implements OnInit{
         var mapRoute: string = 'mcmap'; //Config.Plugins.puzzles.mapsList.config.openMap.routes[0].route;
         var mapId: string = this.knalledgeMapVOsService.map._id;
         window.location.href = "#/" + mapRoute + "/id/" + mapId;
+    }
+
+    showInfo(info:InfoForDialog):void{
+      this.info = info;
+      // this.info.title = info.title ? info.title : "";
+      // this.info.message = info.message ? info.message : "";
+      // this.info.buttons = info.buttons ? info.buttons : "ok";
+      this.infoDialog.show();
     }
 
     turnOffEditingNode(event) {
