@@ -70,8 +70,11 @@ _**Nominal Group Technique**_
     + This stage lasts _30–45 minutes_
     + _**Notes. Open?**_
         + !!! restructuring ideas into categories **could make voting more complicated!!**
-        + support adding **questions** to ideas which trigger idea creator to answer them. This is important for dislocated Brainstorming
+        + support adding **questions** to ideas which triggers idea creator to answer them. This is important for dislocated Brainstorming
         + add switch "show only my ideas" - to filter them especially to see questions and comments (here **Ontov filter** will be used)
+        + we would need to **improve navigation through big amount of (sibling) nodes**, like at this case, through many ideas:
+          + we could add **Navigation panel**, with 4 buttons: `<<  <  > >>` for navigation through sibling nodes (ideas)
+          + also to see how to improve **seeing of all available nodes** when discussing (P4) and voting (P5)
 1. **Voting and ranking**
     + This involves **prioritizing** the recorded ideas in relation to the original question.
     + Following the voting and ranking process, immediate results in the response to the question is available to participants so the meeting concludes having reached a specific outcome.

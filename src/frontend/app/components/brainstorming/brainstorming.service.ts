@@ -2,9 +2,10 @@ import { Injectable, Inject } from '@angular/core';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 //import {CollaboPluginsService} from 'collabo';
-import {Brainstorming, BrainstormingPhase, BrainstrormingDecorations} from './brainstorming';
+import {Brainstorming, BrainstormingPhase, BrainstormingPhaseNames, BrainstrormingDecorations} from './brainstorming';
 import {Change, ChangeType, Domain, Event} from '../change/change';
 import {CollaboGrammarService} from '../collaboPlugins/CollaboGrammarService';
+import {InfoForDialog} from '../../js/interaction/infoForDialog';
 
 declare var d3:any;
 declare var knalledge;
@@ -85,7 +86,7 @@ export class BrainstormingService {
 
     private initiated:boolean = false;
     private rimaService:any = null;
-
+    private SHOW_INFO: string = "SHOW_INFO";
     /**
      * Service constructor
      * @constructor
@@ -102,6 +103,7 @@ export class BrainstormingService {
         let that = this;
         //this._id = ++BrainstormingService.MaxId;
         globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
+        this.globalEmitterServicesArray.register(this.SHOW_INFO);
 
         this.knAllEdgeRealTimeService = this.$injector.get('KnAllEdgeRealTimeService');
         let requestPluginOptions: any = {
@@ -308,6 +310,17 @@ export class BrainstormingService {
         ]);
       }
       this.brainstormingPluginInfo.apis.map.items.update();
+      let info:InfoForDialog = new InfoForDialog();
+      info.title = 'Brainstorming';
+      switch(this.brainstorming.phase){
+        case BrainstormingPhase.IDEAS_GENERATION:
+          info.message = 'Brainstorming started. ';
+        break;
+      }
+      info.title = 'Brainstorming';
+      info.message+= BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase);
+      this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService',
+      info);
     }
 
     finishBrainstorming(){
