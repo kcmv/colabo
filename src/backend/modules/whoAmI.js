@@ -26,6 +26,7 @@ function resSendJsonProtected(res, data){
 
 
 var WhoAmIModel = mongoose.model('WhoAmI', global.db.whoAmI.Schema);
+var WhoAmIStatsModel = mongoose.model('WhoAmIStats', global.db.whoAmIStats.Schema);
 
 // module.exports = WhoAmIModel; //then we can use it by: var User = require('./app/models/WhoAmIModel');
 
@@ -79,6 +80,39 @@ exports.index = function(req, res){
 		case 'one': //by id:
 			console.log("findById:\n id: %s.\n", id);
 			WhoAmIModel.findById(id, found);
+
+			//TODO:
+			var LOG_LENGTH = 100;
+			var foundWhoAmIStats = function(err,whoAmIStats){
+				console.log("[modules/foundWhoAmIStats.js:index] in 'found'");
+				if (err){
+					console.error("foundWhoAmIStats:find",id,err);
+					//resSendJsonProtected(res, {data: whoAmIs, accessId : accessId, message: msg, success: false});
+				}else{
+					console.log("[modules/whoAmI.js:foundWhoAmIStats]", id, whoAmIStats);
+					if(!whoAmIStats){
+						console.log("[modules/whoAmI.js:foundWhoAmIStats] not found, Creating");
+						whoAmIStats = new WhoAmIStatsModel({whoAmI: mongoose.Types.ObjectId(id)});
+						whoAmIStats.accesses = [];
+						//console.log("foundWhoAmIStats:whoAmIStats",whoAmIStats);
+					}
+					whoAmIStats.accesses.push({'from': new Date(), 'till':null});
+					if(whoAmIStats.accesses.length > LOG_LENGTH){
+						whoAmIStats.accesses.shift();
+					}
+
+					// whoAmIStats.accesses[0] = {};//'from': new Date(), 'till':null};
+					// whoAmIStats.accesses[0].from = null;
+					// whoAmIStats.accesses[0].till = null;
+					console.log("foundWhoAmIStats:whoAmIStats",whoAmIStats);
+					whoAmIStats.save(function(err) {
+						console.error("foundWhoAmIStats:save",id,err);
+					});
+					//resSendJsonProtected(res, {data: whoAmIs, accessId : accessId, success: true});
+				}
+			}
+
+			WhoAmIStatsModel.findOne({whoAmI: id}, foundWhoAmIStats);
 			break;
 		case 'oneByEmail': // by email
 			console.log("findBy e-mail:\n e-mail: %s.\n", id);

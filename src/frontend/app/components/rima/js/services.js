@@ -882,7 +882,7 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 							this.loggedInWhoAmI._id = this.loginInfo.iAmId;
 							this.loggedInWhoAmI.displayName = "";
 							this.loggedInWhoAmI.state = knalledge.WhoAmI.STATE_SYNCED;
-							this.loggedInWhoAmI = WhoAmIService.getById(this.loggedInWhoAmI._id );
+							this.loggedInWhoAmI = WhoAmIService.getById(this.loggedInWhoAmI._id);//, updateUserStats.bind(this));
 						}
 						if(this.loginInfo.token) this.loggedInWhoAmI.token = this.loginInfo.token;
 					}
@@ -897,6 +897,16 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 						that.loadUsersFromIDsList(whoIamIds);
 				});
 			},
+
+			// updateUserStats: function(type){
+			// 	switch (type) {
+			// 		case 'accessed':
+			// 				this.loggedInWhoAmI)
+			// 			break;
+			// 		default:
+			//
+			// 	}
+			// }
 
 			updateWhoAmI: function(callback){
 				if(this.loggedInWhoAmI._id == this.ANONYMOUS_USER_ID){
