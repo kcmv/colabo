@@ -1,4 +1,3 @@
-import {BrainstormingPhase} from '../../components/brainstorming/brainstorming';
 import {Actions} from '../../components/change/change';
 // external from the JS world
 declare var interaction;
@@ -6,6 +5,10 @@ declare var knalledge;
 declare var d3;
 declare var window:Window;
 declare var debugpp;
+
+import {components} from '../../js/pluginDependencies';
+var BrainstormingPhase =
+  components['/components/brainstorming/brainstorming'];
 
 const STATUS_DESTROYED: string = "STATUS_DESTROYED";
 const STATUS_MAP: string = "STATUS_MAP";
@@ -457,9 +460,11 @@ export class MapInteraction {
         if (!this.isStatusMap()) return;
 
         if(this.clientApi.collaboGrammarService.puzzles.brainstorming && this.clientApi.collaboGrammarService.puzzles.brainstorming.state &&
-      		(this.clientApi.collaboGrammarService.puzzles.brainstorming.state.phase ===
+      	(BrainstormingPhase &&
+          (this.clientApi.collaboGrammarService.puzzles.brainstorming.state.phase ===
             BrainstormingPhase.IDEAS_GENERATION ||
       		this.clientApi.collaboGrammarService.puzzles.brainstorming.state.phase === BrainstormingPhase.SHARING_IDEAS)
+        )
           && this.clientApi.collaboGrammarService.puzzles.brainstorming.state.onlyIdeasToQuestion
       	){
           var allowedDistance = this.clientApi.collaboGrammarService.puzzles.brainstorming.state.allowArgumentsToIdeas ? 1 : 0;

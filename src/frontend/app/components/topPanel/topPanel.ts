@@ -49,7 +49,6 @@ export interface ITabData {
         RequestComponent,
         SuggestionComponent,
         ChangeComponent,
-        upgradeAdapter.upgradeNg1Component('ontovSearch'),
         upgradeAdapter.upgradeNg1Component('rimaRelevantList'),
    ],
    pipes: [DatePipe, OrderArrayPipe],

@@ -2,11 +2,11 @@
     <md-dialog #createNodeDialog class="createNodeDialog" (onClose)="onCreateNodeDialogClosed($event)">
         <md-dialog-title>{{createNodeTitle}}</md-dialog-title>
         <div layout="column" class="md-inline-form">
-          <form>
+          <!-- <form> -->
               <div>
                   <md-input placeholder="Write here ..." style="width: 100%" [(ngModel)]="nodeName"  (keyup)="onNodeNameChanged($event)"></md-input>
               </div>
-          </form>
+          <!-- </form> -->
         </div>
 
         <md-dialog-actions>

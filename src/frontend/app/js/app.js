@@ -43,7 +43,6 @@ requiresList.push('topiChatDirectives');
 requiresList.push('collaboBroadcastingServices');
 
 // we want to avoid hardoced registering plugins here
-requiresList.push('ontovServices');
 
 requiresList.push('requestServices');
 requiresList.push('suggestionServices');

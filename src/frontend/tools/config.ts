@@ -6,7 +6,6 @@ import * as chalk from 'chalk';
 var PluginsConfig = require('../app/js/config/config.plugins');
 
 console.log("Plugins.gardening: ", PluginsConfig.plugins.gardening);
-
 // --------------
 // Configuration.
 
@@ -48,12 +47,14 @@ export const DIST_DIR = 'dist';
 export const DEV_DEST = `${DIST_DIR}/dev`;
 export const PROD_DEST = `${DIST_DIR}/prod`;
 export const TMP_DIR = ENV === 'dev' ? `${DIST_DIR}/dev` : `${DIST_DIR}/tmp`;
+// this is necessary to help Atom to work with ` character
 export const APP_DEST = `${DIST_DIR}/${ENV}`;
 export const APP_DEST_FROM_HERE = join('..', APP_DEST);
 export const CSS_DEST = `${APP_DEST}/css`;
 export const FONTS_DEST = `${APP_DEST}/fonts`;
 export const JS_DEST = `${APP_DEST}/js`;
 export const APP_ROOT = ENV === 'dev' ? `${APP_BASE}${APP_DEST}/` : `${APP_BASE}`;
+// this is necessary to help Atom to work with ` character
 export const VERSION = appVersion();
 
 export const CSS_PROD_BUNDLE = 'all.css';
@@ -148,9 +149,6 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         { src: join(APP_SRC, 'components/puzzles.js'), inject: true, noNorm: true },
 
 
-        { src: join(APP_SRC, 'components/collaboPlugins/js/services.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'components/collaboPlugins/js/directives.js'), inject: true, noNorm: true },
-
         { src: join(APP_SRC, 'components/knalledgeMap/js/services.js'), inject: true, noNorm: true },
         { src: join(APP_SRC, 'components/collaboBroadcasting/js/services.js'), inject: true, noNorm: true },
 
@@ -160,7 +158,6 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         // Example: components/knalledgeMap/main.js imports
         // components/topPanel/topPanel.js only if the config.plugins.js says so
 
-        // { src: join(APP_SRC, 'components/ontov/js/vendor/jquery-1.8.3.js'), inject: true, noNorm: true},
 
         // ng1 registration and bootstrap
         // { src: join(TMP_DIR, 'components/knalledgeMap/knalledgeMapPolicyService.js'), inject: true, noNorm: true},
@@ -177,7 +174,6 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
 
         { src: join(APP_SRC, 'css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
         { src: join(APP_SRC, '../bower_components/halo/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
-        { src: join(APP_SRC, 'components/collaboPlugins/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
         // KNALLEDGE PLUGINS, TODO: we want to avoid hardoced registering plugins here
 
@@ -195,6 +191,7 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
 
 var npmDependencies = SUB_PROJECTS_FILE.NPM_DEPENDENCIES;
 var puzzlesBuild = PluginsConfig.plugins.puzzlesBuild;
+var puzzlesConfig = PluginsConfig.plugins.puzzlesConfig;
 
 // Example
 
@@ -268,6 +265,10 @@ function injectPuzzle(dependencies:IDependency[], puzzleBuild:any){
 for(var puzzleName in puzzlesBuild){
     var puzzleBuild = puzzlesBuild[puzzleName];
     console.log("puzzleBuild: ", puzzleBuild);
+
+    // if not configured or set as unavailable do not inject it
+    if(!(puzzleName in puzzlesConfig) || !puzzlesConfig[puzzleName].available) continue;
+
     if('path' in puzzleBuild){
         injectPuzzle(npmDependencies, puzzleBuild);
     }else{
