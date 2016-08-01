@@ -15,9 +15,6 @@ import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-import {BrainstormingFormComponent} from '../brainstorming/brainstorming-form.component';
-import {SessionFormComponent} from '../session/session-form.component';
-//import {BrainstormingService} from '../brainstorming/brainstorming.service';
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
 import {BottomPanel} from '../bottomPanel/bottomPanel';
 import {UserDialogComponent} from '../rima/user-dialog-component';
@@ -75,18 +72,12 @@ var componentDirectives = [
     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
 //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
     KnalledgeMapTools,
-    BrainstormingFormComponent,
-    SessionFormComponent,
     MediaShowComponent,
     BottomPanel,
     UserDialogComponent
 ];
 
-PluginsPreloader.loadDirectivesDependenciesForCoponent('knalledgeMap.Main', componentDirectives);
-
-if (Config.Plugins.puzzles.ontov.active) {
-    componentDirectives.push(upgradeAdapter.upgradeNg1Component('ontovSearch'));
-}
+PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', componentDirectives);
 
 @Component({
     selector: 'knalledge-map-main',

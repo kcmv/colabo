@@ -125,9 +125,18 @@ var plugins = {
 				'ontov.OntovComponent': {
 					active: true,
 					path: "/components/ontov/ontov.component"
+				},
+				'brainstorming.BrainstormingFormComponent': {
+					active: true,
+					path: "/components/brainstorming/brainstorming-form.component"
+				},
+				'session.SessionFormComponent': {
+					active: true,
+					path: "/components/session/session-form.component"
 				}
 			}
 		},
+
 		"bottomPanel.BottomPanel": {
 			components: {
 				'brainstorming.BrainstormingPanelComponent': {
@@ -158,7 +167,7 @@ var plugins = {
 			directive: {
 				path: [APP_SRC_STR, 'components/knalledgeMap'],
 				injectJs: [
-					'js/directives.js',
+					'js/directives.js', 'js/services.js'
 				],
 				injectCss: ['css/default.css', 'css/graph.css']
 			},
@@ -178,6 +187,11 @@ var plugins = {
 		// 	injectCss: 'css/demoPuzzle.css'
 		// },
 
+		collaboPlugins: {
+			path: [APP_SRC_STR, 'components/collaboPlugins'],
+			injectJs: ['js/directives.js', 'js/services.js'],
+			injectCss: 'css/default.css'
+		},
 		rima: {
 			path: [APP_SRC_STR, 'components/rima'],
 			injectJs: ['js/directives.js', 'js/services.js', 'js/filters.js'],
@@ -224,14 +238,12 @@ var plugins = {
 		},
 		ontov: {
 			path: [APP_SRC_STR, 'components/ontov'],
-			injectJs: ['js/vendor/underscore-1.8.3.min.js', 'js/vendor/underscore-1.8.3.min.js',
-			'js/vendor/backbone-1.1.2.min.js',
-			'js/vendor/query-engine.js',
-			'js/vendor/dependencies.js',
-			'js/vendor/visualsearch.js',
-			'js/services.js',
-			'js/directives.js'
-			],
+			injectJs: [
+				'js/vendor/underscore-1.8.3.min.js',
+				'js/vendor/backbone-1.1.2.min.js',
+				'js/vendor/query-engine.js',
+				'js/vendor/dependencies.js',
+				'js/vendor/visualsearch.js'],
 			injectCss: ['css/default.css', 'css/visualsearch/visualsearch-datauri.css']
 		},
 
@@ -272,6 +284,9 @@ var plugins = {
 		// 	available: true
 		// },
 		knalledgeMap: {
+			available: true
+		},
+		collaboPlugins: {
 			available: true
 		},
 		rima: {

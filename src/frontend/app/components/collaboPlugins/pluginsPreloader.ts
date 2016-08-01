@@ -16,6 +16,8 @@ export class PluginsPreloader {
     static componentsPromise;
     static useSystemJsImport = false;
 
+    // Iterates through Config.Plugins.ViewComponents and loads
+    // all components
     static loadPlugins() {
         if(PluginsPreloader.loadingInitiated) return;
         PluginsPreloader.loadingInitiated = true;
@@ -35,9 +37,17 @@ export class PluginsPreloader {
         }
     }
 
-    static loadDirectivesDependenciesForCoponent(componentName, componentDirectives){
+    // adds to the component's directives list componentDirectives
+    // all components that are dinamically loaded through puzzles
+    // and described in Config.Plugins.ViewComponents[componentName] 
+    static addDirectivesDependenciesForComponent(componentName, componentDirectives){
       // get the config for ourselves
       var puzzleHostingConfig = Config.Plugins.ViewComponents[componentName];
+      if(!puzzleHostingConfig){
+        console.warn("[addDirectivesDependenciesForComponent] ViewComponents %s is missing", componentName);
+        return;
+      }
+
       var pluggableSubComponentsConfig = puzzleHostingConfig.components;
 
       // go through all pluggable sub components

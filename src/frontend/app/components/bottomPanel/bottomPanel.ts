@@ -19,7 +19,7 @@ var componentDirectives = [
 declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
-PluginsPreloader.loadDirectivesDependenciesForCoponent('bottomPanel.BottomPanel', componentDirectives);
+PluginsPreloader.addDirectivesDependenciesForComponent('bottomPanel.BottomPanel', componentDirectives);
 
 @Component({
     selector: 'bottom-panel',
