@@ -253,9 +253,12 @@ export class BrainstormingService {
       if (!this.brainstormingPluginInfo.references.map.$resolved) return false;
 
       var node = this.brainstormingPluginInfo.references.map.items.mapStructure.getSelectedNode();
-      if(!node) {return false;}
-      this.brainstorming.question = node;
-      return (this.brainstorming.question.kNode.type === knalledge.KNode.TYPE_IBIS_QUESTION);
+      if(!node || node.kNode.type !== knalledge.KNode.TYPE_IBIS_QUESTION) {
+        return false;
+      }else{
+        this.brainstorming.question = node;
+        return true;
+      }
     }
 
     showDecoration(node: any): boolean {
@@ -308,12 +311,12 @@ export class BrainstormingService {
           }
         ]);
       }
+      // let info:InfoForDialog = new InfoForDialog();
+      // info.title = 'Brainstorming';
+      // info.message = this.getMessage();
+      // this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService',
+      // info);
       this.brainstormingPluginInfo.apis.map.items.update();
-      let info:InfoForDialog = new InfoForDialog();
-      info.title = 'Brainstorming';
-      info.message = this.getMessage();
-      this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService',
-      info);
     }
 
     finishBrainstorming(){
@@ -336,11 +339,13 @@ export class BrainstormingService {
     }
 
     presentNextIdea() {
-      var ideas: any[] = this.brainstormingPluginInfo.references.map.items.mapStructure.getChildrenNodes(this.brainstorming.question);
+      let presentedIdea: boolean = false;
+      let ideas: any[] = this.brainstormingPluginInfo.references.map.items.mapStructure.getChildrenNodes(this.brainstorming.question);
       for(var i:number = 0; i < ideas.length; i++){
         var idea = ideas[i];
         if(this.brainstormingPluginInfo.references.map.items.mapStructure.isNodeOfActiveUser(idea) && this.isPrivateBSNode(idea)){
           console.log(idea.kNode.type,idea.kNode.iAmId);
+          presentedIdea = true;
           this.brainstormingPluginInfo.apis.mapInteraction.items.updateNodeDecoration(idea, Brainstorming.DECORATION,
              BrainstrormingDecorations.PRESENTED);
           this.brainstormingPluginInfo.apis.map.items.nodeSelected(idea);
@@ -350,6 +355,15 @@ export class BrainstormingService {
           // updateNode(node, knalledge.MapStructure.UPDATE_NODE_VISUAL_OPEN, idea);
           break;
         }
+      }
+      if(!presentedIdea){
+        var info:InfoForDialog = new InfoForDialog();
+        window.alert("You've presented all your ideas");
+        //TODO:
+        //  info.title = 'Brainstorming';
+        // info.message = "You've presented all your ideas";
+        // this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService',
+        // info);
       }
     }
 
