@@ -329,8 +329,8 @@ export class BrainstormingService {
       }
     }
 
-    addNewIdea(){
-      console.log("brainstormingService.addNewIdea()");
+    addIdea(){
+      console.log("brainstormingService.addIdea()");
       this.focusToQuestion();
       this.brainstormingPluginInfo.apis.mapInteraction.items.addNode(this.brainstorming.question);
     }

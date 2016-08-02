@@ -23,7 +23,8 @@
             <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
             <button md-button *ngIf="policyConfig?.moderating?.enabled" type="submit" [disabled]="!userForm.form.valid">Update</button>
             <button md-button *ngIf="policyConfig?.moderating?.enabled" type="button" (click)="makePresenter(user)">Make Presenter</button>
-            <button md-button type="button" (click)="close(false)">CLOSE</button>
+            <button md-button type="button" (click)="sendMessage()">Message</button>
+            <button md-button type="button" (click)="close(false)">Close</button>
             <!-- <button md-button class="md-primary" (click)="mapDialog.close(true)">
                 <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
             </button> -->

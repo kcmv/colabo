@@ -193,6 +193,12 @@ export class KnalledgeMapMain implements OnInit{
       return !this.navigator.onLine || this.checkConnectionFailed;
     }
 
+    userPanel():void{
+      if(confirm("You are about to leave this map an go to the user panel ...")){
+        this.go('login');
+      }
+    }
+
     displayConnectivityIssues(error: any):void {
       this.connectivityIssues = true;
       var that = this;

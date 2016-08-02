@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {MATERIAL_DIRECTIVES} from "ng2-material";
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {BrainstormingService} from "./brainstorming.service";
@@ -20,9 +20,15 @@ declare var window;
 })
 export class BrainstormingPanelComponent {
     constructor(
+      @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
       private brainstormingService: BrainstormingService
         ) {
-          console.log("[BrainstormingPanelComponent] created");
+          //console.log("[BrainstormingPanelComponent] created");
+
+          // let selectedNodeChangedEventName = "selectedNodeChangedEvent";
+          // this.globalEmitterServicesArray.register(selectedNodeChangedEventName);
+        	// this.globalEmitterServicesArray.get(selectedNodeChangedEventName).subscribe(
+          //  'SuggestionComponent', this.selectedNodeChanged.bind(this));
     }
 
     show() {
@@ -46,12 +52,29 @@ export class BrainstormingPanelComponent {
       ('Brainstorming / ' + BrainstormingPhaseNames.getNameByPhase(this.brainstormingService.brainstorming.phase)) : '';
     }
 
+    // selectedNodeChanged():void{
+    //
+    // }
+
     focusToQuestion(){
       this.brainstormingService.focusToQuestion();
     }
 
-    addNewIdea(){
-      this.brainstormingService.addNewIdea();
+    addIdea(){
+      this.brainstormingService.addIdea();
+    }
+
+    hideAddIdea(): boolean{
+      return !(
+        this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION
+      );
+    }
+
+    hideAddArgument(): boolean{
+      return !(
+        this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION
+        && this.brainstormingService.brainstorming.allowArgumentsToIdeas
+      );
     }
 
     hideShowMyIdeasSwitch(): boolean {
