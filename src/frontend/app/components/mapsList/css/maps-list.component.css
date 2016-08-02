@@ -69,13 +69,22 @@ h1 {
     border: solid 1px black;
     border-radius: 3px;
     padding: 8px; }
+.mapsList .heading {
+  font-weight: bolder;
+  background-color: #aaaaff;
+  border-bottom: 2px solid #7777ff;
+  min-height: 1.5em;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #c2c2c2;
+  justify-content: space-between; }
 .mapsList .list {
   /* for toolbar hovering */
   overflow-y: auto;
   /* for toolbar hovering - end */
   margin-bottom: 3px;
   width: 100%;
-  border-bottom: 1px solid #7c7c7c;
+  border-bottom: 1px solid #c2c2c2;
   justify-content: space-between; }
   .mapsList .list .heading {
     font-weight: bolder;
@@ -84,14 +93,16 @@ h1 {
   .mapsList .list .item {
     width: 100%; }
     .mapsList .list .item.data_item {
-      background-color: #a2a2a2; }
+      background-color: #e8e8e8;
+      align-items: center;
+      min-height: 2.5em; }
       .mapsList .list .item.data_item:nth-child(even) {
-        background-color: #888888; }
+        background-color: #ffffff; }
       .mapsList .list .item.data_item.active-selection {
-        background-color: #747487; }
+        background-color: #d9d9ec; }
       .mapsList .list .item.data_item:hover {
         cursor: pointer;
-        background-color: #74749a; }
+        background-color: #d9d9ff; }
     @media (max-width: 960px) {
       .mapsList .list .item {
         /* adding straps in column view (small-screens)*/
@@ -103,9 +114,9 @@ h1 {
         .item_property:nth-of-type(7):before { content: "Created"; }
         */ }
         .mapsList .list .item .item_property:nth-of-type(even) {
-          background-color: #888888; }
+          background-color: #ffffff; }
         .mapsList .list .item .item_property:nth-of-type(odd) {
-          background-color: #a2a2a2; }
+          background-color: #e8e8e8; }
         .mapsList .list .item .item_property:first-of-type {
           background-color: #aaaaff;
           font-weight: bold; } }
@@ -132,7 +143,7 @@ h1 {
       .mapsList .list .item .item_property .item_header {
         padding-right: 10px;
         white-space: nowrap;
-        border-right: 1px solid #bcbcbc;
+        border-right: 1px solid white;
         /* TODO still not breaking words */
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -145,17 +156,17 @@ h1 {
     .mapsList .list {
       /* adding  hover and selectd for mobile-view*/ }
       .mapsList .list .item.active-selection .item_property:nth-of-type(even) {
-        background-color: #747487; }
+        background-color: #d9d9ec; }
       .mapsList .list .item.active-selection .item_property:nth-of-type(odd) {
-        background-color: #8a8a9d; }
+        background-color: #c5c5d8; }
       .mapsList .list .item.active-selection .item_property:first-of-type {
         background-color: #aaaaff; }
       .mapsList .list .item:hover {
         cursor: pointer; }
         .mapsList .list .item:hover .item_property:nth-of-type(even) {
-          background-color: #74749a; }
+          background-color: #d9d9ff; }
         .mapsList .list .item:hover .item_property:nth-of-type(odd) {
-          background-color: #8a8ab0; }
+          background-color: #c5c5eb; }
         .mapsList .list .item:hover .item_property:first-of-type {
           background-color: #aaaaff; } }
 

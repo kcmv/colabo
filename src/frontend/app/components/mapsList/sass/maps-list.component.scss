@@ -9,8 +9,8 @@ h1{
 
 $toolbar_bg_color: #009688;
 $heading_background_color: #aaaaff;
-$item_background_color: #a2a2a2;
-$item_even_background_color: #888888;
+$item_background_color: #e8e8e8;
+$item_even_background_color: #ffffff;
 $active_color: #000080;
 $over_color: #0000ff;
 $icon_over_color: #ffffb0;
@@ -102,6 +102,17 @@ $toolbar_height: 60px;
 	  }
 	}
 
+	.heading{
+		font-weight: bolder;
+		background-color: $heading_background_color;
+		border-bottom: 2px solid darken($heading_background_color, 10%);
+		min-height: 1.5em;
+		align-items: center;
+		width: 100%;
+		border-bottom: 1px solid darken($item_background_color, 15%);
+		justify-content: space-between;
+	}
+
 	.list{
 		/* for toolbar hovering */
 		// -webkit-flex: 1 1 auto; //approach from: http://jsfiddle.net/ch7n6/4/
@@ -131,6 +142,8 @@ $toolbar_height: 60px;
 			// border: 1px solid black;
 			&.data_item{
 				background-color: $item_background_color;
+				align-items: center;
+				min-height: 2.5em;
 				&:nth-child(even) {background-color: $item_even_background_color;}
 				&.active-selection{
 					background-color: mix($item_even_background_color, $active_color, 85%);
