@@ -1,21 +1,5 @@
 /*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
 /* @import "normalize"; */
-/*
-$medium: 800px;
-$large: 1400px;
-*/
-/*
-	http://compass-style.org/examples/compass/css3/box_sizing/
-	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
-	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
-*/
-* {
-  margin: 0px;
-  padding: 0px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
-
 h1 {
   padding-bottom: 5px;
   border-bottom: solid gray 1px; }
@@ -38,30 +22,30 @@ h1 {
   padding: 5px;
   margin-left: 15px; }
 
-.list {
+.plugins-list .list {
   margin: 5px;
   margin-left: 1%;
   margin-bottom: 3px;
   font-size: 0.85em;
   padding: 3px;
   width: 98%; }
-  .list tr {
+  .plugins-list .list tr {
     /*border-bottom: 1px solid black;*/ }
-    .list tr.heading th {
+    .plugins-list .list tr.heading th {
       border-bottom: 1px solid #848484;
       /*						border-left: 1px solid  darken($item_background_color, 20%);
       				border-right: 1px solid  darken($item_background_color, 20%);
       */
       padding: 5px;
       font-weight: bold; }
-    .list tr.data_row:nth-child(odd) {
+    .plugins-list .list tr.data_row:nth-child(odd) {
       background-color: #dddddd; }
-    .list tr.data_row:nth-child(even) {
+    .plugins-list .list tr.data_row:nth-child(even) {
       background-color: #f7f7f7; }
-    .list tr.data_row:hover {
+    .plugins-list .list tr.data_row:hover {
       cursor: pointer;
       background-color: #848484; }
-    .list tr.data_row td {
+    .plugins-list .list tr.data_row td {
       padding: 5px; }
 
 /*# sourceMappingURL=default.css.map */
