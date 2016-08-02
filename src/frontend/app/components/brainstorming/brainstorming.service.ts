@@ -245,7 +245,6 @@ export class BrainstormingService {
       }
     }
 
-
     amIPresenter(): boolean {
       return this.knalledgeMapPolicyService.get().config.broadcasting.enabled;
     }
@@ -312,13 +311,7 @@ export class BrainstormingService {
       this.brainstormingPluginInfo.apis.map.items.update();
       let info:InfoForDialog = new InfoForDialog();
       info.title = 'Brainstorming';
-      switch(this.brainstorming.phase){
-        case BrainstormingPhase.IDEAS_GENERATION:
-          info.message = 'Brainstorming started. ';
-        break;
-      }
-      info.title = 'Brainstorming';
-      info.message+= BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase);
+      info.message = this.getMessage();
       this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService',
       info);
     }
@@ -358,6 +351,50 @@ export class BrainstormingService {
           break;
         }
       }
+    }
+
+    private getMessage():string{
+      let message = "";
+      switch(this.brainstorming.phase){
+  			case BrainstormingPhase.INACTIVE:
+  				message += "Brainstorming has become inactive";
+          break;
+  			case BrainstormingPhase.IDEAS_GENERATION:
+  				message += "<p class='title'>Welcome to brainstorming!</p>" +
+          "<p>During brainstorming process you will pass through several phases, during which you will develop ideas " +
+          "with other particiapants, over the question <span class='emphasize emp_bg'>" + this.brainstorming.question.kNode.name +
+          ".</span></p>" +
+          "<p>At each phase you will have specific actions and info avaible at bottom <span class='emphasize'>brainstorming panel</span>. "+
+          "At this first phase <span class='emphasize emp_bg'>" + BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) +
+          "</span>, " +
+          "you and other participants should individually create as much as possible ideas that come to your mind " +
+          "when considering the question.</p>" +
+          "<p>You can add <span class='emphasize'>ideas</span> by a button at the brainstorming panel or " +
+          "following the regular CollaboFramework procedure " +
+          "for adding a node/topic to the topic (question). </p>" +
+          (this.brainstorming.createPrivateIdeas ? "<p>All ideas are <span class='emphasize'>private</span> at this phase.</p>" : "") +
+          (this.brainstorming.allowArgumentsToIdeas ?
+            "<p>For each idea you can add an <span class='emphasize'>argument</span> to support it</p>" : "") +
+          "<p>Now, start creating those ideas and good luck!</p>";
+          break;
+  			case BrainstormingPhase.SHARING_IDEAS:
+  				message += "We have now entered <span class='emphasize emp_bg'>" +
+          BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span> phase";
+          break;
+  			case BrainstormingPhase.GROUP_DISCUSSION:
+          message += "We have now entered <span class='emphasize emp_bg'>" +
+          BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span> phase";
+          break;
+  			case BrainstormingPhase.VOTING_AND_RANKING:
+          message += "We have now entered <span class='emphasize emp_bg'>" +
+          BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span> phase";
+          break;
+  			case BrainstormingPhase.FINISHED:
+          message += "We have now entered <span class='emphasize emp_bg'>" +
+          BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span> phase";
+          break;
+  		}
+      return message;
     }
 
     private processReferencesInBrainStorming(brainstorming:Brainstorming): Brainstorming{

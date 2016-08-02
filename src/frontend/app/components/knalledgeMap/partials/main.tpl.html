@@ -204,9 +204,7 @@
 
     <md-dialog #infoDialog>
       <md-dialog-title>{{info.title}}</md-dialog-title>
-      <div>
-        {{info.message}}
-     </div>
+      <div [innerHTML]=info.message></div>
       <md-dialog-actions (click)="infoDialog.close()" ok={{info.buttons[0]}}></md-dialog-actions>
     </md-dialog>
 </div>
