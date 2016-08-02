@@ -51,7 +51,7 @@ _**Nominal Group Technique**_
       + presenter has button 'Present Next Idea' wthich make visible one by one idea and navigate to it
       + for other participants `session::mustFollowPresenter` is turned on so that they MUST follow presenter's ideas
         + see how will they be able then to add new ideas in this phase (If we allow them too?!)
-      + we use **Ontov filter** to filter only the presenter to show only his ideas to everywhone
+      + we use **Ontov filter** to filter only the presenter to show only his ideas to everyone
     + _**Notes. Open?**_
         + how to go around users?
           + we can support round robin (token) guidance.
