@@ -122,6 +122,11 @@ export class OntovService {
       doesMatch: this._doesMatch_Type.bind(this)
     });
 
+    this.registerFacet("4Me", {
+      getFacetMatches: this._getFacetMatches_4Me.bind(this),
+      doesMatch: this._doesMatch_4Me.bind(this)
+    });
+
     this.registerFacet("Who", {
       getFacetMatches: this._getFacetMatches_Who.bind(this),
       doesMatch: this._doesMatch_Who.bind(this)
@@ -359,6 +364,79 @@ export class OntovService {
   }
   _doesMatch_Type(searchTerm: any, vkNode) {
     return vkNode.kNode.type === searchTerm;
+  }
+
+  _getFacetMatches_4Me(searchTerm: any) {
+    var typeToName = {
+      'type_knowledge': 'kn:KnAllEdge',
+      'type_ibis_question': 'ibis:QUESTION',
+      'type_ibis_idea': 'ibis:IDEA',
+      'type_ibis_argument': 'ibis:ARGUMENT',
+      'type_ibis_comment': 'ibis:COMMENT'
+    };
+
+    // get active user
+    var iAmId = this.rimaService.getActiveUserId();
+    if(!iAmId){
+      return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
+    }
+
+    if (this.mapStructure) {
+      var nodeNameObj = {};
+      for (let id in this.mapStructure.nodesById) {
+        var vkNode = this.mapStructure.nodesById[id];
+
+        // check if parent is created by active user
+        var vkParents = this.mapStructure.getParentNodes(vkNode);
+        if(vkParents.length <= 0) continue;
+        var vkParent = vkParents[0];
+        if(vkParent.kNode.iAmId !== iAmId) continue;
+        if(vkNode.kNode.iAmId === iAmId) continue;
+
+        // set type as available
+        nodeNameObj[vkNode.kNode.type] = true;
+      }
+      var existing4Mes = [];
+      for(var type in nodeNameObj){
+        existing4Mes.push({
+          label: typeToName[type],
+          value: type
+        });
+      }
+      if(existing4Mes.length <= 0){
+        existing4Mes.push({
+          label: 'There is nothing for you at the moment. Please check again!',
+          value: null
+        });
+      }
+      existing4Mes.push({
+        label: 'Any',
+        value: 'any'
+      });
+      return existing4Mes;
+    } else {
+      return [{
+        label: 'SERVICE_UNVAILABLE. PLEASE TRY LATER.',
+        value: null
+      }];
+    }
+
+  }
+  _doesMatch_4Me(searchTerm: any, vkNode) {
+    // get active user
+    var iAmId = this.rimaService.getActiveUserId();
+    if(!iAmId){
+      return true;
+    }
+
+    // check if parent is created by active user
+    var vkParents = this.mapStructure.getParentNodes(vkNode);
+    if(vkParents.length <= 0) return false;
+    var vkParent = vkParents[0];
+    if(vkParent.kNode.iAmId !== iAmId) return false;
+    if(vkNode.kNode.iAmId === iAmId) return false;
+
+    return searchTerm === 'any' ? true : vkNode.kNode.type === searchTerm;
   }
 
   _getFacetMatches_Who(searchTerm: any) {
