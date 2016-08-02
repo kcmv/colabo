@@ -229,6 +229,10 @@ export class KnalledgeMapMain implements OnInit{
       this.infoDialog.show();
     }
 
+    // get infoMessage(): string {
+    //   return this.info? this.info.message : "";
+    // }
+
     turnOffEditingNode(event) {
         this.viewConfig.states.editingNode = null;
     }

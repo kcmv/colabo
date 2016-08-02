@@ -25,7 +25,8 @@
                     </template>
                 </md-tab>
 
-                <md-tab ng-disabled="true" [ng-disabled]="true" disabled="true" [disabled]="true">
+                <md-tab [disabled]="isDisabled(1)">
+                <!-- <md-tab ng-disabled="true" [ng-disabled]="true" disabled="true" [disabled]="true"> -->
                     <template md-tab-label>{{getTitle(1)}}</template>
                     <template md-tab-content>
                         <md-content class="md-padding">

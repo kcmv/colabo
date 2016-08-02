@@ -64,6 +64,10 @@ export class UserDialogComponent {
     this.forUser = user;
   }
 
+  sendMessage():void{
+    this.mdDialog.close();
+  }
+
   makePresenter(user:knalledge.WhoAmI):void{
     //this.policyConfig.broadcasting.enabled = false;
     this.globalEmitterServicesArray.get(this.PRESENTER_CHANGED)
