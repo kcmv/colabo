@@ -152,6 +152,11 @@ export class OntovService {
       doesMatch: this._doesMatch_Voting.bind(this)
     });
 
+    this.registerFacet("RimaWhoWhat", {
+      getFacetMatches: this._getFacetMatches_RimaWhoWhat.bind(this),
+      doesMatch: this._doesMatch_RimaWhoWhat.bind(this)
+    });
+
     this.collaboPluginsService.provideApi("ontov", {
       name: "ontov",
       items: {
@@ -687,5 +692,43 @@ export class OntovService {
     }
 
     return isInSubtree;
+  }
+
+  /**
+   * RimaWhoWhat
+   * Filteres and keeps nodes with specific whats
+   * {
+   *   category: 'RimaWhoWhat',
+   *   value: 'todo'
+   * }
+   *
+   * will keep only nodes with whats === 'todo'
+   */
+
+  _getFacetMatches_RimaWhoWhat(searchTerm: any) {
+    var whoAmIs = {};
+    if (this.mapStructure) {
+      for (let id in this.mapStructure.nodesById) {
+        var vkNode = this.mapStructure.nodesById[id];
+        if(!(vkNode.kNode.iAmId in whoAmIs)){
+          var whoAmI = this.rimaService.getUserById(vkNode.kNode.iAmId);
+          whoAmIs[vkNode.kNode.iAmId] = whoAmI;
+        }
+      }
+      return Object.keys(['test', 'test2']);
+    } else {
+      return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
+    }
+  }
+
+  _doesMatch_RimaWhoWhat(searchTerm: any, vkNode) {
+    if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats){
+      for(var what of vkNode.kNode.dataContent.rima.whats){
+        if(what.name === searchTerm) return true;
+      }
+      return false;
+    }else{
+      return false;
+    }
   }
 };
