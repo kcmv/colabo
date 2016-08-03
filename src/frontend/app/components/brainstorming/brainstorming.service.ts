@@ -174,7 +174,10 @@ export class BrainstormingService {
                 ontov: {
                     items: {
                         setSearch: null,
-                        getSearch: null
+                        getSearch: null,
+                        setOperation: null,
+                        addSearchItem: null,
+                        removeSearchItem: null
                     },
                     $resolved: false,
                     callback: null,
@@ -247,9 +250,49 @@ export class BrainstormingService {
       this.brainstorming.question = question;
     }
 
-    filterOntov(searchObj) {
-      if(this.brainstormingPluginInfo.apis.ontov.items.setSearch){
-        this.brainstormingPluginInfo.apis.ontov.items.setSearch(searchObj);
+    getIamId(){
+      var iAmId = this.rimaService.getActiveUserId();
+      return iAmId;
+    }
+
+    prepareOntov(){
+      if(this.brainstormingPluginInfo.apis.ontov.items.setOperation){
+        this.brainstormingPluginInfo.apis.ontov.items.setOperation(1);
+      }
+      this.filterOntov([]);
+    }
+
+    restoreOntov(){
+      if(this.brainstormingPluginInfo.apis.ontov.items.setOperation){
+        this.brainstormingPluginInfo.apis.ontov.items.setOperation(0);
+      }
+    }
+
+    /**
+     * Set ontov filters
+     * @param  {[type]}  searchesObj filters to be applied
+     * @param  {Boolean} [filter]      if it is undefined it replace filters with provided
+     * If it is false it removes provided filters from ontov
+     * If it is true it adds filters to ontov
+     */
+    filterOntov(searchesObj, filter?:Boolean) {
+      if(typeof filter === 'undefined'){
+        if(this.brainstormingPluginInfo.apis.ontov.items.setSearch){
+          this.brainstormingPluginInfo.apis.ontov.items.setSearch(searchesObj);
+        }
+      }else{
+        for(var sI in searchesObj){
+          var searchObj = searchesObj[sI];
+          if(filter){
+            if(this.brainstormingPluginInfo.apis.ontov.items.addSearchItem){
+              this.brainstormingPluginInfo.apis.ontov.items.addSearchItem(searchObj);
+            }
+          }else{
+            if(this.brainstormingPluginInfo.apis.ontov.items.removeSearchItem){
+              this.brainstormingPluginInfo.apis.ontov.items.removeSearchItem(searchObj);
+            }
+          }
+        }
       }
     }
 
@@ -302,11 +345,13 @@ export class BrainstormingService {
     public setUpBrainstormingChange(creator:boolean = true){
       this.collaboGrammarService.puzzles.brainstorming.state = this.brainstorming;
       if(this.brainstorming.phase === BrainstormingPhase.INACTIVE){
+        this.restoreOntov();
         this.collaboGrammarService.puzzles.brainstorming.state = null;
         //TODO: should we de-inject brainstormingPanel part from the Panel?
         this.globalEmitterServicesArray.get(this.hideBottomPanelEvent)
         .broadcast('BrainstormingService', 'brainstorming.BrainstormingPanelComponent');
       }else{
+        this.prepareOntov();
         this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
         .broadcast('BrainstormingService', 'brainstorming.BrainstormingPanelComponent');
       }

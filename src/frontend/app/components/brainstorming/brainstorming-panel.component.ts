@@ -32,7 +32,6 @@ export class BrainstormingPanelComponent {
     }
 
     show() {
-
     }
 
     showPanel():boolean {
@@ -45,6 +44,7 @@ export class BrainstormingPanelComponent {
 
     close(confirm: boolean = false) {
         console.log("[BrainstormingPanelComponent].close:");
+        this.brainstormingService.restoreOntov();
     }
 
     getPhaseName(): string{
@@ -115,14 +115,33 @@ export class BrainstormingPanelComponent {
         this.filterToBrainstorming(filter);
     }
 
+    changedShowMyIdeas(filter:boolean): void{
+        this.filterMyIdeas(filter);
+    }
+
     filterToBrainstorming(filter:boolean): void{
-      this.brainstormingService.filterOntov( filter ?
+      // TODO: set selected node at question or even better check if it is inside the question or not
+      this.brainstormingService.filterOntov(
         [
-        {
-          category: 'Tree',
-          value: this.brainstormingService.brainstorming.question.kNode.name //'Ideological model'
-        }
-        ]
-        : []);
+          {
+            category: 'Tree',
+            value: this.brainstormingService.brainstorming.question.kNode.name //'Ideological model'
+          }
+        ],
+        filter
+        );
+    }
+
+    filterMyIdeas(filter:boolean): void{
+      var iAmId = this.brainstormingService.getIamId();
+      this.brainstormingService.filterOntov(
+        [
+          {
+            category: 'iAmId',
+            value: iAmId
+          }
+        ],
+        filter
+        );
     }
 }
