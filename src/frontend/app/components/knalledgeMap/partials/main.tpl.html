@@ -107,9 +107,10 @@
                                     <!-- ({{policyConfig.state.id}}) -->
                                 </div>
                                 <!-- <div *ngIf="!policyConfig.moderating.enabled"> -->
-                                <div>
+                                <!-- <span>{{policyConfig.broadcasting.enabled}}</span> -->
+                                <div *ngIf="!policyConfig.broadcasting.enabled">
                                     <span *ngIf="policyConfig.broadcasting.receiveNavigation">
-                                      <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter()" md-fab class="md-mini md-primary" (click)="followBroadcast(false)">
+                                      <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter() && !policyConfig.moderating.enabled" md-fab class="md-mini md-primary" (click)="followBroadcast(false)">
                                         <span class="fa-stack fa-lg">
                                           <i class="fa fa-phone fa-stack-1x"></i>
                                           <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
@@ -204,7 +205,8 @@
 
     <md-dialog #infoDialog>
       <md-dialog-title>{{info.title}}</md-dialog-title>
-      <div [innerHTML]=info.message></div>
-      <md-dialog-actions (click)="infoDialog.close()" ok={{info.buttons[0]}}></md-dialog-actions>
+      <!-- <div [innerHTML]=info.message></div> -->
+      <!-- <md-dialog-actions (click)="infoDialog.close()" ok="{{info.buttons[0]}}"></md-dialog-actions> -->
+      <md-dialog-actions (click)="infoDialogClose()" ok="C:{{info.buttons[0]}}"></md-dialog-actions>
     </md-dialog>
 </div>

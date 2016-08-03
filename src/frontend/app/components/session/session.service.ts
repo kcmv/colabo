@@ -262,8 +262,8 @@ export class SessionService {
         }
         if(newPresenter){
           if(this.session && !(this.session.phase === SessionPhase.FINISHED || this.session.phase === SessionPhase.INACTIVE) ){
-            // if(!this.session.presenter || this.session.presenter._id !== userId){
-            if(presenterVO.value){
+
+            if(presenterVO.value){ // (!this.session.presenter || this.session.presenter._id !== userId)
               this.session.presenter = newPresenter;
             }else{
               this.session.presenter = null;
@@ -273,6 +273,7 @@ export class SessionService {
           }
         }
       }
+      this.setUpSessionChange();
       this.sendSession();
     }
 
@@ -312,7 +313,15 @@ export class SessionService {
         }
     }
 
+    get iAmPresenter(): boolean{
+      return this.knalledgeMapPolicyService.get().config.broadcasting.enabled;
+      //could be done like this too: this.session.presenter._id === this.rimaService.getWhoAmIid()
+    }
+
     public setUpSessionChange(){
+      if(this.session.mustFollowPresenter && !this.iAmPresenter){
+        this.knalledgeMapPolicyService.get().config.broadcasting.receiveNavigation = true;
+      }
       this.knalledgeMapPolicyService.get().config.session = this.session; //used for easy access from KnalledgeMap (e.g main.ts)
       //this.collaboGrammarService.puzzles.session.state = this.session;
       // if(this.session.phase === SessionPhase.INACTIVE){
@@ -372,10 +381,6 @@ export class SessionService {
       }
 
       this.session = this.processReferencesInSession(receivedSession);
-
-      if(this.session.mustFollowPresenter){
-        this.knalledgeMapPolicyService.get().config.broadcasting.receiveNavigation = true;
-      }
 
       if(this.session.presenter){
         if(this.session.presenter._id !== this.rimaService.getWhoAmIid()){

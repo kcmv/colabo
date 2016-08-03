@@ -153,7 +153,9 @@
       <div class="subgroup">
           <div><b>Receive changes</b></div>
           <!-- <md-switch class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-switch> -->
-          <md-switch class="md-primary" aria-label="Navigation"[disabled]="knalledgeMapPolicyService.mustFollowPresenter()" [(checked)]="policyConfig.broadcasting.receiveNavigation" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveNavigation', policyConfig.broadcasting.receiveNavigation)">Navigations</md-switch>
+          <md-switch *ngIf="!policyConfig.broadcasting.enabled" class="md-primary" aria-label="Navigation"[disabled]="knalledgeMapPolicyService.mustFollowPresenter() && !policyConfig.moderating.enabled"
+          [(checked)]="policyConfig.broadcasting.receiveNavigation">Navigations</md-switch>
+          <!-- (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveNavigation', policyConfig.broadcasting.receiveNavigation)" -->
           <!-- <md-switch class="md-primary" aria-label="Structural" [(checked)]="policyConfig.broadcasting.receiveStructural" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveStructural', policyConfig.broadcasting.receiveStructural)">Structural</md-switch> -->
           <md-switch class="md-primary" aria-label="Visualization" [(checked)]="policyConfig.broadcasting.receiveVisualization" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveVisualization', policyConfig.broadcasting.receiveVisualization)">Visualization</md-switch>
           <md-switch class="md-primary" *ngIf="policyConfig.moderating.enabled" aria-label="Behaviours" [(checked)]="policyConfig.broadcasting.receiveBehaviours" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveBehaviours', policyConfig.broadcasting.receiveBehaviours)">Behaviours</md-switch>
