@@ -5,7 +5,7 @@ declare var knalledge;
 
 export interface ISearchParam {
     searchArr:Array<any>;
-    operationType:Number;
+    operationType:Number; // 1 - and, 0 - or
 }
 
 @Injectable()
@@ -173,7 +173,19 @@ export class OntovService {
   }
 
   /* ontov API:start */
-  setSearch(searchArr){
+
+
+/**
+ * This method sets search facets for ontov. It completely replaces old facets
+ * @param  {Array}     searchArr array of search parameters. Each param/facet is of the type
+ * ```js
+ * {
+ *  category: 'iAmId',
+ *  value: '556760847125996dc1a4a241'
+ * }
+ * ```
+ */
+  setSearch(searchArr:Array){
     this.searchParam.searchArr = searchArr;
     this.filterByFacets(this.searchParam.searchArr);
 
@@ -182,10 +194,24 @@ export class OntovService {
     }
   }
 
+  /**
+   * Returns search facets
+   * @return {Array} Array of facets sets in ontov
+   */
   getSearchArray(){
     return this.searchParam.searchArr;
   }
 
+  /**
+   * Adds search facet to the existing array of search facets
+   * @param  {Object} searchItem it is of a form
+   * ```js
+   * {
+   *  category: 'iAmId',
+   *  value: '556760847125996dc1a4a241'
+   * }
+   * ```
+   */
   addSearchItem(searchItem){
     this.searchParam.searchArr.push(searchItem);
 
@@ -196,6 +222,18 @@ export class OntovService {
     }
   }
 
+  /**
+   * It removes provided searchItem
+   * @param  {Object} searchItem It is of a form
+   * ```js
+   * {
+   *  category: 'iAmId',
+   *  value: '556760847125996dc1a4a241'
+   * }
+   * ```
+   * If it is provided only category, it removes any facet that conforms to the category,
+   * otherwise it matches both category and value
+   */
   removeSearchItem(searchItem){
     for(var i=this.searchParam.searchArr.length-1; i>=0; i--){
       let lSearchItem = this.searchParam.searchArr[i];
@@ -212,7 +250,11 @@ export class OntovService {
   }
 
 
-  setOperation(operationType){
+  /**
+   * Sets operational mode of the ontov facet filtering
+   * @param  {string} operationType 1 - and, 0 - or
+   */
+  setOperation(operationType:Number){
     this.searchParam.operationType = operationType;
     this.filterByFacets(this.searchParam.searchArr);
   }
@@ -318,6 +360,15 @@ export class OntovService {
     this.searchFacets.push(facet);
   }
 
+  /**
+   * Name
+   * Filteres and keeps nodes with specific name
+   * {
+   *   category: 'Name',
+   *   value: 'hello'
+   * }
+   */
+
   _getFacetMatches_Name(searchTerm: any) {
     if (this.mapStructure) {
       var nodeNameObj = {};
@@ -333,6 +384,15 @@ export class OntovService {
   _doesMatch_Name(searchTerm: any, vkNode) {
     return vkNode.kNode.name === searchTerm;
   }
+
+  /**
+   * Type
+   * Filteres and keeps nodes with specific type
+   * {
+   *   category: 'Type',
+   *   value: 'type_ibis_question'
+   * }
+   */
 
   _getFacetMatches_Type(searchTerm: any) {
     var typeToName = {
@@ -365,6 +425,19 @@ export class OntovService {
   _doesMatch_Type(searchTerm: any, vkNode) {
     return vkNode.kNode.type === searchTerm;
   }
+
+  /**
+   * 4Me
+   * Filteres and keeps nodes with specific type
+   * that have any content as a sub-child from some another author
+   * {
+   *   category: '4Me',
+   *   value: 'type_ibis_question'
+   * }
+   *
+   * In addition to all node types, value can be a special value: 'any'
+   * Which keeps nodes of any type if they confirm with condition
+   */
 
   _getFacetMatches_4Me(searchTerm: any) {
     var typeToName = {
@@ -439,6 +512,14 @@ export class OntovService {
     return searchTerm === 'any' ? true : vkNode.kNode.type === searchTerm;
   }
 
+  /**
+   * Who
+   * Filteres and keeps nodes with specific author (displayName)
+   * {
+   *   category: 'Who',
+   *   value: 'John'
+   * }
+   */
   _getFacetMatches_Who(searchTerm: any) {
     if (this.mapStructure) {
       var iAmIdObj = {};
@@ -465,6 +546,16 @@ export class OntovService {
     return vkNode.kNode.iAmId === searchTerm;
   }
 
+  /**
+   * Voting
+   * Filteres and keeps nodes with specific values of votes
+   * {
+   *   category: 'Voting',
+   *   value: '5'
+   * }
+   *
+   * will keep only votes with total voting >= 5
+   */
   _getFacetMatches_Voting(searchTerm: any) {
     if (this.mapStructure) {
       var votingObj = {};
@@ -505,7 +596,18 @@ export class OntovService {
     return votes >= parseInt(searchTerm);
   }
 
-  _getFacetMatches_iAmId(searchTerm: any) {
+  /**
+   * iAmId
+   * Filteres and keeps nodes with specific user ids
+   * {
+   *   category: 'iAmId',
+   *   value: '556760847125996dc1a4a241'
+   * }
+   *
+   * will keep only nodes with author id === `556760847125996dc1a4a241`
+   */
+
+    _getFacetMatches_iAmId(searchTerm: any) {
     if (this.mapStructure) {
       var iAmIdObj = {};
       for (let id in this.mapStructure.nodesById) {
@@ -520,6 +622,17 @@ export class OntovService {
   _doesMatch_iAmId(searchTerm: any, vkNode) {
     return vkNode.kNode.iAmId === searchTerm;
   }
+
+  /**
+   * What
+   * Filteres and keeps nodes with specific whats
+   * {
+   *   category: 'What',
+   *   value: 'todo'
+   * }
+   *
+   * will keep only nodes with whats === 'todo'
+   */
 
   _getFacetMatches_What(searchTerm: any) {
     if (this.mapStructure) {
@@ -537,6 +650,7 @@ export class OntovService {
       return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
     }
   }
+
   _doesMatch_What(searchTerm: any, vkNode) {
     if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats){
       for(var what of vkNode.kNode.dataContent.rima.whats){
@@ -547,6 +661,17 @@ export class OntovService {
       return false;
     }
   }
+
+  /**
+   * Tree
+   * Filteres and keeps nodes whose parent is a specified node
+   * {
+   *   category: 'Tree',
+   *   value: 'hello'
+   * }
+   *
+   * will keep only nodes parent that has name === 'hello'
+   */
 
   _getFacetMatches_Tree(searchTerm: any) {
     return this._getFacetMatches_Name(searchTerm);
