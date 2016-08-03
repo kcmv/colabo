@@ -15,10 +15,10 @@
                     <template md-tab-content>
                         <md-content class="md-padding">
                           <div layout="column">
-                            <div><span>Question</span><span class="node">{{brainstorming.question?.kNode?.name}}</span></div>
-                            <md-switch [(checked)]="brainstorming.createPrivateIdeas" aria-label="create private ideas">create private ideas</md-switch>
-                            <md-switch [(checked)]="brainstorming.onlyIdeasToQuestion" aria-label="allow only addition of ideas to the brainstorming question node - no free knowledge gardening">allow only addition of ideas to the brainstorming question node - no free knowledge gardening</md-switch>
-                            <md-switch [hidden]="!brainstorming.onlyIdeasToQuestion" [(checked)]="brainstorming.allowArgumentsToIdeas" aria-label="allow adding arguments to ideas">allow adding arguments to ideas</md-switch>
+                            <div><span>Question</span><span class="node">{{model.question?.kNode?.name}}</span></div>
+                            <md-switch [(checked)]="model.createPrivateIdeas" aria-label="create private ideas">create private ideas</md-switch>
+                            <md-switch [(checked)]="model.onlyIdeasToQuestion" aria-label="allow only addition of ideas to the brainstorming question node - no free knowledge gardening">allow only addition of ideas to the brainstorming question node - no free knowledge gardening</md-switch>
+                            <md-switch [hidden]="!model.onlyIdeasToQuestion" [(checked)]="model.allowArgumentsToIdeas" aria-label="allow adding arguments to ideas">allow adding arguments to ideas</md-switch>
                           </div>
 
                         </md-content>
@@ -30,7 +30,8 @@
                     <template md-tab-label>{{getTitle(1)}}</template>
                     <template md-tab-content>
                         <md-content class="md-padding">
-                          <div>Presenter</div>
+                          <div><span class="ehmphasize">Presenter</span><BR/>changed through 'Map participants' -> 'User Dialog' so far</div>
+                          <md-switch [(checked)]="model.allowAddingWhileSharingIdeas" aria-label="allow adding ideas while while someone presents his ideas">allow adding ideas while while someone presents his ideas</md-switch>
                         </md-content>
                     </template>
                 </md-tab>
@@ -109,8 +110,8 @@
               <!-- <button md-button type="button" (click)="nextPhase()">Next Phase</button> -->
               <span *ngIf="showStartFinish(brainstormingFormTabs.selectedIndex)">
                 <button md-button type="submit" [disabled]="!brainstormingForm.form.valid">
-                  <span class="warning" *ngIf="brainstormingFormTabs.selectedIndex + 1 < brainstorming.phase">Restart This Phase</span>
-                  <span *ngIf="brainstormingFormTabs.selectedIndex + 1 >= brainstorming.phase">Start This Phase</span>
+                  <span class="warning" *ngIf="brainstormingFormTabs.selectedIndex + 1 < model.phase">Restart This Phase</span>
+                  <span *ngIf="brainstormingFormTabs.selectedIndex + 1 >= model.phase">Start This Phase</span>
                 </button>
               </span>
               <span *ngIf="!showStartFinish(brainstormingFormTabs.selectedIndex)">

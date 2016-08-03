@@ -93,6 +93,7 @@ export class SessionService {
     private knAllEdgeRealTimeService: any;
     private showSubComponentInBottomPanelEvent: string = "showSubComponentInBottomPanelEvent";
     private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
+    private REQUEST_TO_CHANGE_SESSION_PARAMETER: string = "REQUEST_TO_CHANGE_SESSION_PARAMETER";
 
     private initiated:boolean = false;
     private rimaService:any = null;
@@ -122,6 +123,11 @@ export class SessionService {
         this.globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
         this.globalEmitterServicesArray.register(this.PRESENTER_CHANGED);
         this.globalEmitterServicesArray.get(this.PRESENTER_CHANGED).subscribe('SessionService', this.presenterChanged.bind(this));
+
+        this.globalEmitterServicesArray.register(this.REQUEST_TO_CHANGE_SESSION_PARAMETER);
+        this.globalEmitterServicesArray.get(this.REQUEST_TO_CHANGE_SESSION_PARAMETER).
+        subscribe('SessionService', this.changeParameter.bind(this));
+
 
         this.knAllEdgeRealTimeService = this.$injector.get('KnAllEdgeRealTimeService');
         let requestPluginOptions: any = {
@@ -251,7 +257,22 @@ export class SessionService {
       ;
     }
 
+    changeParameter(change:any):void{
+      switch(change.parameter){
+        case 'mustFollowPresenter':
+        this.session.mustFollowPresenter = change.value;
+        break;
+      }
+      this.setUpSessionChange();
+      this.sendSession();
+    }
+
     presenterChanged(presenterVO: any): void{
+      if(presenterVO && presenterVO.source && presenterVO.source === 'receivedSessionChange'){
+        return; //presenterChanged is bound to globalEmitterServicesArray.PRESENTER_CHANGED event sent both by receivedSessionChange and ...
+        // UI that changes presenter. for UI change it should broadcast change to other, but for receivedSessionChange, ...
+        // it shouldn't do anything
+      }
       if(presenterVO){
         var newPresenter: knalledge.WhoAmI = presenterVO.user ? this.rimaService.getUserById(presenterVO.user) :
         this.rimaService.getWhoAmI();
@@ -383,6 +404,10 @@ export class SessionService {
       this.session = this.processReferencesInSession(receivedSession);
 
       if(this.session.presenter){
+        //we broadcast it so that other puzzles are notified about it, e.g. BrainstormingService adjust its presentation to it
+        this.globalEmitterServicesArray.get(this.PRESENTER_CHANGED)
+        .broadcast('SessionService', {'user': this.session.presenter._id, 'value': true, 'source':'receivedSessionChange'});
+
         if(this.session.presenter._id !== this.rimaService.getWhoAmIid()){
           if(this.knalledgeMapPolicyService.get().config.broadcasting.enabled){
             window.alert("You are not presenter any more");

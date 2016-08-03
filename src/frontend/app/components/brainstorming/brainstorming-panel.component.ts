@@ -66,7 +66,9 @@ export class BrainstormingPanelComponent {
 
     hideAddIdea(): boolean{
       return !(
-        this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION
+        this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION ||
+        (this.brainstormingService.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS &&
+          this.brainstormingService.brainstorming.allowAddingWhileSharingIdeas)
       );
     }
 
@@ -75,6 +77,10 @@ export class BrainstormingPanelComponent {
         this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION
         && this.brainstormingService.brainstorming.allowArgumentsToIdeas
       );
+    }
+
+    addArgument(): void{
+      window.alert("not supported yet");
     }
 
     hideShowMyIdeasSwitch(): boolean {
@@ -95,10 +101,9 @@ export class BrainstormingPanelComponent {
 
     hidePresentNextIdeaBtn(): boolean {
       if(!this.brainstormingService.brainstorming) {return true;}
-
       return !(
         this.brainstormingService.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS
-        //TODO: && this.brainstormingService.brainstorming.presenter === this.brainstormingService.
+        && this.brainstormingService.iAmPresenter
       );
     }
 

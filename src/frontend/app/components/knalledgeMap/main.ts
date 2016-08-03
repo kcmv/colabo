@@ -233,7 +233,12 @@ export class KnalledgeMapMain implements OnInit{
       // this.info.message = info.message ? info.message : "";
       // this.info.buttons = info.buttons ? info.buttons : "ok";
       this.infoDialog.show();
+      //this.infoDialog.ngOnDestroy = function(){window.alert('closing');};
     }
+
+    // infoDialogClose():void{
+    //   this.infoDialog.close();
+    // }
 
     // get infoMessage(): string {
     //   return this.info? this.info.message : "";

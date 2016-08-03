@@ -78,6 +78,7 @@ export class BrainstormingService {
 
     //brainstorming-panel-settings:
     public showOnlyBrainstorming: boolean = true;
+    public previousPhase: number = BrainstormingPhase.INACTIVE;
 
     private brainstormingPluginInfo: any;
     private knAllEdgeRealTimeService: any;
@@ -87,6 +88,9 @@ export class BrainstormingService {
     private initiated:boolean = false;
     private rimaService:any = null;
     private SHOW_INFO: string = "SHOW_INFO";
+    private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
+    private REQUEST_TO_CHANGE_SESSION_PARAMETER: string = "REQUEST_TO_CHANGE_SESSION_PARAMETER";
+
     /**
      * Service constructor
      * @constructor
@@ -104,6 +108,10 @@ export class BrainstormingService {
         //this._id = ++BrainstormingService.MaxId;
         globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
         this.globalEmitterServicesArray.register(this.SHOW_INFO);
+        this.globalEmitterServicesArray.register(this.REQUEST_TO_CHANGE_SESSION_PARAMETER);
+
+        this.globalEmitterServicesArray.register(this.PRESENTER_CHANGED);
+        this.globalEmitterServicesArray.get(this.PRESENTER_CHANGED).subscribe('SessionService', this.presenterChanged.bind(this));
 
         this.knAllEdgeRealTimeService = this.$injector.get('KnAllEdgeRealTimeService');
         let requestPluginOptions: any = {
@@ -245,18 +253,18 @@ export class BrainstormingService {
       }
     }
 
-    amIPresenter(): boolean {
+    get iAmPresenter(): boolean {
       return this.knalledgeMapPolicyService.get().config.broadcasting.enabled;
     }
 
-    checkAndSetupQuestion(): boolean {
+    checkAndSetupQuestion(brainstorming:Brainstorming): boolean {
       if (!this.brainstormingPluginInfo.references.map.$resolved) return false;
 
       var node = this.brainstormingPluginInfo.references.map.items.mapStructure.getSelectedNode();
       if(!node || node.kNode.type !== knalledge.KNode.TYPE_IBIS_QUESTION) {
         return false;
       }else{
-        this.brainstorming.question = node;
+        brainstorming.question = node;
         return true;
       }
     }
@@ -291,17 +299,34 @@ export class BrainstormingService {
         }
     }
 
-    public setUpBrainstormingChange(){
+    public setUpBrainstormingChange(creator:boolean = true){
       this.collaboGrammarService.puzzles.brainstorming.state = this.brainstorming;
       if(this.brainstorming.phase === BrainstormingPhase.INACTIVE){
         this.collaboGrammarService.puzzles.brainstorming.state = null;
         //TODO: should we de-inject brainstormingPanel part from the Panel?
         this.globalEmitterServicesArray.get(this.hideBottomPanelEvent)
-        .broadcast('KnalledgeMapTools', 'brainstorming.BrainstormingPanelComponent');
+        .broadcast('BrainstormingService', 'brainstorming.BrainstormingPanelComponent');
       }else{
         this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
-        .broadcast('KnalledgeMapTools', 'brainstorming.BrainstormingPanelComponent');
+        .broadcast('BrainstormingService', 'brainstorming.BrainstormingPanelComponent');
       }
+      let info:InfoForDialog = new InfoForDialog();
+      info.title = 'Brainstorming';
+      info.message = this.getMessage();
+      this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService', info);
+      if(creator){
+        if(this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS){
+          let change:any = {'parameter':'mustFollowPresenter','value':true};
+          this.globalEmitterServicesArray.get(this.REQUEST_TO_CHANGE_SESSION_PARAMETER).broadcast('BrainstormingService', change);
+        }else if(this.previousPhase === BrainstormingPhase.SHARING_IDEAS){
+          let change:any = {'parameter':'mustFollowPresenter','value':false};
+          this.globalEmitterServicesArray.get(this.REQUEST_TO_CHANGE_SESSION_PARAMETER).broadcast('BrainstormingService', change);
+        }
+      }
+      this.brainstormingPluginInfo.apis.map.items.update();
+    }
+
+    presenterChanged():void{
       if(this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS && this.knalledgeMapPolicyService.get().config.session &&
       this.knalledgeMapPolicyService.get().config.session.presenter){ //filter to presenter's ideas who shares them
         this.filterOntov([
@@ -311,12 +336,6 @@ export class BrainstormingService {
           }
         ]);
       }
-      // let info:InfoForDialog = new InfoForDialog();
-      // info.title = 'Brainstorming';
-      // info.message = this.getMessage();
-      // this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService',
-      // info);
-      this.brainstormingPluginInfo.apis.map.items.update();
     }
 
     finishBrainstorming(){
@@ -339,6 +358,7 @@ export class BrainstormingService {
     }
 
     presentNextIdea() {
+      let that = this;
       let presentedIdea: boolean = false;
       let ideas: any[] = this.brainstormingPluginInfo.references.map.items.mapStructure.getChildrenNodes(this.brainstorming.question);
       for(var i:number = 0; i < ideas.length; i++){
@@ -347,8 +367,11 @@ export class BrainstormingService {
           console.log(idea.kNode.type,idea.kNode.iAmId);
           presentedIdea = true;
           this.brainstormingPluginInfo.apis.mapInteraction.items.updateNodeDecoration(idea, Brainstorming.DECORATION,
-             BrainstrormingDecorations.PRESENTED);
-          this.brainstormingPluginInfo.apis.map.items.nodeSelected(idea);
+             BrainstrormingDecorations.PRESENTED,
+           function(){
+              that.brainstormingPluginInfo.apis.map.items.nodeSelected(idea);
+           });
+
           //delete idea.kNode.decorations.brainstorming;
 
           // this.brainstormingPluginInfo.references.map.items.mapStructure.
@@ -358,12 +381,11 @@ export class BrainstormingService {
       }
       if(!presentedIdea){
         var info:InfoForDialog = new InfoForDialog();
-        window.alert("You've presented all your ideas");
-        //TODO:
-        //  info.title = 'Brainstorming';
-        // info.message = "You've presented all your ideas";
-        // this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService',
-        // info);
+        //window.alert("You've presented all your ideas");
+
+        info.title = 'Brainstorming';
+        info.message = "You've presented all your ideas";
+        this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService', info);
       }
     }
 
@@ -375,7 +397,7 @@ export class BrainstormingService {
           break;
   			case BrainstormingPhase.IDEAS_GENERATION:
   				message += "<p class='title'>Welcome to brainstorming!</p>" +
-          "<p>During brainstorming process you will pass through several phases, during which you will develop ideas " +
+          "<p>During 4 phases of brainstorming process you will pass through several phases, during which you will develop ideas " +
           "with other particiapants, over the question <span class='emphasize emp_bg'>" + this.brainstorming.question.kNode.name +
           ".</span></p>" +
           "<p>At each phase you will have specific actions and info avaible at bottom <span class='emphasize'>brainstorming panel</span>. "+
@@ -392,16 +414,28 @@ export class BrainstormingService {
           "<p>Now, start creating those ideas and good luck!</p>";
           break;
   			case BrainstormingPhase.SHARING_IDEAS:
-  				message += "We have now entered <span class='emphasize emp_bg'>" +
-          BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span> phase";
+  				message += "<p>We have now entered 2nd phase <span class='emphasize emp_bg'>" +
+          BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span></p>" +
+          "<p>Now, moderator will choose one by one participant to present their ideas. You will be noticed when you become a presenter " +
+          "and at that moment a button <span class='emphasize emp_bg'>Present Next Idea</span> will show up in the brainstorming panel. " +
+          "By pressint it, your ideas will one by one become visible to other participants. Press it until you present all your ideas.</p>";
           break;
   			case BrainstormingPhase.GROUP_DISCUSSION:
-          message += "We have now entered <span class='emphasize emp_bg'>" +
-          BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span> phase";
+          message += "<p>We have now entered 3rd phase <span class='emphasize emp_bg'>" +
+          BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span></p>" +
+          "<p>Now, you have an opportunity to ask question over other participants ideas. You can do it by following " +
+          "the regular CollaboFramework procedure for adding a node/topic (of type 'question') to the topic (idea). (<i>In the recent " +
+          "future we will provide you with a button for that</i>)</p>" +
+          "<p>But, others might ask you to explain your ideas. So check for any questions added to your ideas. (<i> to simplify that, " +
+          "we have provided <span class='emphasize emp_bg'>Ontov filter</span> '4Me / ibis: Question' and a simple button in the future" +
+          "</i>)";
           break;
   			case BrainstormingPhase.VOTING_AND_RANKING:
-          message += "We have now entered <span class='emphasize emp_bg'>" +
-          BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span> phase";
+          message += "<p>We have now entered 4th, last phase <span class='emphasize emp_bg'>" +
+          BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span></p>" +
+          "<p>Now, you should vote for your favorite ideas. Voting is anonymous and votes of all the participants will be " +
+          "sumed to find the best <span class='emphasize emp_bg'>Brainstorming ideas</span></p>" +
+          "Try to be objective and let the best idea win!";
           break;
   			case BrainstormingPhase.FINISHED:
           message += "We have now entered <span class='emphasize emp_bg'>" +
@@ -429,7 +463,7 @@ export class BrainstormingService {
           // this.brainstormingPluginInfo.references.map.items.mapStructure.setSelectedNode(this.brainstorming.question);
           // this.brainstormingPluginInfo.apis.map.items.update();
         }
-        this.setUpBrainstormingChange();
+        this.setUpBrainstormingChange(false);
     }
 
 };
