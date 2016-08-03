@@ -36,6 +36,7 @@ export class BrainstormingFormComponent implements OnInit{
     public brainstormingFormActive = true;
     //model = new knalledge.KMap();
     setUpBroadcastingRequest: string = "setUpBroadcastingRequest";
+    public model: Brainstorming = new Brainstorming();
     public brainstorming: Brainstorming;
     public readyForNewPhase: boolean = true;
 
@@ -82,16 +83,18 @@ export class BrainstormingFormComponent implements OnInit{
         this.changePhase(selectedIndex + 1);
         this.mdDialog.close();
         this.readyForNewPhase = true;
+        this.brainstormingService.previousPhase = this.brainstormingService.brainstorming.phase;
+        this.brainstormingService.brainstorming.fill(this.model);
         this.brainstormingService.setUpBrainstormingChange();
         this.brainstormingService.sendBrainstorming(this.brainstormingSent.bind(this));
     }
 
     public changePhase(phase) {
-        this.brainstorming.phase = phase;
+        this.model.phase = phase;
     }
 
 
-    get diagnostic() { return JSON.stringify(this.brainstorming); }
+    get diagnostic() { return JSON.stringify(this.model); }
 
     // get debugging(){
     //   return
@@ -99,7 +102,8 @@ export class BrainstormingFormComponent implements OnInit{
 
     show() {
       console.log("[BrainstormingFormComponent].show");
-      if(!this.brainstormingService.checkAndSetupQuestion()){
+      this.model = Brainstorming.factory(this.brainstormingService.brainstorming);
+      if(!this.brainstormingService.checkAndSetupQuestion(this.model)){
           window.alert("Either node is not selected or it is not of type IBIS question.");
           return;
       }
@@ -107,7 +111,7 @@ export class BrainstormingFormComponent implements OnInit{
       this.brainstormingFormActive = false;
       setTimeout(() => this.brainstormingFormActive = true, 2);
       if (this.readyForNewPhase) {
-          this.brainstorming.nextPhase();
+          this.model.nextPhase();
           this.readyForNewPhase = false;
       }
     }
@@ -119,7 +123,7 @@ export class BrainstormingFormComponent implements OnInit{
     restart(): void {
         if (confirm('Are you sure?')) {
             this.brainstormingService.restart();
-            // this.brainstorming.nextPhase();
+            // this.model.nextPhase();
             // this.readyForNewPhase = false;
             this.readyForNewPhase = true;
             //this.close(false);
@@ -128,15 +132,15 @@ export class BrainstormingFormComponent implements OnInit{
     }
 
     selectedIndex(): number {
-        return Math.max(Math.min(this.tabData.length - 1, this.brainstorming.phase - 1), 0);
+        return Math.max(Math.min(this.tabData.length - 1, this.model.phase - 1), 0);
     }
 
     isDisabled(selectedIndex: number): boolean {
-        return selectedIndex > this.brainstorming.phase;
+        return selectedIndex > this.model.phase;
     }
 
     // nextPhase(){
-    //   this.brainstorming.nextPhase();
+    //   this.model.nextPhase();
     // }
 
     focusChanged(tabIndex) {
@@ -181,7 +185,7 @@ export class BrainstormingFormComponent implements OnInit{
         console.log("[BrainstormingFormComponent].close:", confirm);
         this.mdDialog.close();
         if(!confirm){
-          this.brainstorming.previousPhase();
+          this.model.previousPhase();
           this.readyForNewPhase = true;
         }
     }

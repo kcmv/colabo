@@ -5,7 +5,7 @@ declare var knalledge;
 
 export interface ISearchParam {
     searchArr:Array<any>;
-    operationType:Number;
+    operationType:Number; // 1 - and, 0 - or
 }
 
 @Injectable()
@@ -122,6 +122,11 @@ export class OntovService {
       doesMatch: this._doesMatch_Type.bind(this)
     });
 
+    this.registerFacet("4Me", {
+      getFacetMatches: this._getFacetMatches_4Me.bind(this),
+      doesMatch: this._doesMatch_4Me.bind(this)
+    });
+
     this.registerFacet("Who", {
       getFacetMatches: this._getFacetMatches_Who.bind(this),
       doesMatch: this._doesMatch_Who.bind(this)
@@ -147,6 +152,11 @@ export class OntovService {
       doesMatch: this._doesMatch_Voting.bind(this)
     });
 
+    this.registerFacet("RimaWhoWhat", {
+      getFacetMatches: this._getFacetMatches_RimaWhoWhat.bind(this),
+      doesMatch: this._doesMatch_RimaWhoWhat.bind(this)
+    });
+
     this.collaboPluginsService.provideApi("ontov", {
       name: "ontov",
       items: {
@@ -168,7 +178,19 @@ export class OntovService {
   }
 
   /* ontov API:start */
-  setSearch(searchArr){
+
+
+/**
+ * This method sets search facets for ontov. It completely replaces old facets
+ * @param  {Array}     searchArr array of search parameters. Each param/facet is of the type
+ * ```js
+ * {
+ *  category: 'iAmId',
+ *  value: '556760847125996dc1a4a241'
+ * }
+ * ```
+ */
+  setSearch(searchArr:Array){
     this.searchParam.searchArr = searchArr;
     this.filterByFacets(this.searchParam.searchArr);
 
@@ -177,10 +199,24 @@ export class OntovService {
     }
   }
 
+  /**
+   * Returns search facets
+   * @return {Array} Array of facets sets in ontov
+   */
   getSearchArray(){
     return this.searchParam.searchArr;
   }
 
+  /**
+   * Adds search facet to the existing array of search facets
+   * @param  {Object} searchItem it is of a form
+   * ```js
+   * {
+   *  category: 'iAmId',
+   *  value: '556760847125996dc1a4a241'
+   * }
+   * ```
+   */
   addSearchItem(searchItem){
     this.searchParam.searchArr.push(searchItem);
 
@@ -191,6 +227,18 @@ export class OntovService {
     }
   }
 
+  /**
+   * It removes provided searchItem
+   * @param  {Object} searchItem It is of a form
+   * ```js
+   * {
+   *  category: 'iAmId',
+   *  value: '556760847125996dc1a4a241'
+   * }
+   * ```
+   * If it is provided only category, it removes any facet that conforms to the category,
+   * otherwise it matches both category and value
+   */
   removeSearchItem(searchItem){
     for(var i=this.searchParam.searchArr.length-1; i>=0; i--){
       let lSearchItem = this.searchParam.searchArr[i];
@@ -207,7 +255,11 @@ export class OntovService {
   }
 
 
-  setOperation(operationType){
+  /**
+   * Sets operational mode of the ontov facet filtering
+   * @param  {string} operationType 1 - and, 0 - or
+   */
+  setOperation(operationType:Number){
     this.searchParam.operationType = operationType;
     this.filterByFacets(this.searchParam.searchArr);
   }
@@ -313,6 +365,15 @@ export class OntovService {
     this.searchFacets.push(facet);
   }
 
+  /**
+   * Name
+   * Filteres and keeps nodes with specific name
+   * {
+   *   category: 'Name',
+   *   value: 'hello'
+   * }
+   */
+
   _getFacetMatches_Name(searchTerm: any) {
     if (this.mapStructure) {
       var nodeNameObj = {};
@@ -328,6 +389,15 @@ export class OntovService {
   _doesMatch_Name(searchTerm: any, vkNode) {
     return vkNode.kNode.name === searchTerm;
   }
+
+  /**
+   * Type
+   * Filteres and keeps nodes with specific type
+   * {
+   *   category: 'Type',
+   *   value: 'type_ibis_question'
+   * }
+   */
 
   _getFacetMatches_Type(searchTerm: any) {
     var typeToName = {
@@ -361,6 +431,100 @@ export class OntovService {
     return vkNode.kNode.type === searchTerm;
   }
 
+  /**
+   * 4Me
+   * Filteres and keeps nodes with specific type
+   * that have any content as a sub-child from some another author
+   * {
+   *   category: '4Me',
+   *   value: 'type_ibis_question'
+   * }
+   *
+   * In addition to all node types, value can be a special value: 'any'
+   * Which keeps nodes of any type if they confirm with condition
+   */
+
+  _getFacetMatches_4Me(searchTerm: any) {
+    var typeToName = {
+      'type_knowledge': 'kn:KnAllEdge',
+      'type_ibis_question': 'ibis:QUESTION',
+      'type_ibis_idea': 'ibis:IDEA',
+      'type_ibis_argument': 'ibis:ARGUMENT',
+      'type_ibis_comment': 'ibis:COMMENT'
+    };
+
+    // get active user
+    var iAmId = this.rimaService.getActiveUserId();
+    if(!iAmId){
+      return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
+    }
+
+    if (this.mapStructure) {
+      var nodeNameObj = {};
+      for (let id in this.mapStructure.nodesById) {
+        var vkNode = this.mapStructure.nodesById[id];
+
+        // check if parent is created by active user
+        var vkParents = this.mapStructure.getParentNodes(vkNode);
+        if(vkParents.length <= 0) continue;
+        var vkParent = vkParents[0];
+        if(vkParent.kNode.iAmId !== iAmId) continue;
+        if(vkNode.kNode.iAmId === iAmId) continue;
+
+        // set type as available
+        nodeNameObj[vkNode.kNode.type] = true;
+      }
+      var existing4Mes = [];
+      for(var type in nodeNameObj){
+        existing4Mes.push({
+          label: typeToName[type],
+          value: type
+        });
+      }
+      if(existing4Mes.length <= 0){
+        existing4Mes.push({
+          label: 'There is nothing for you at the moment. Please check again!',
+          value: null
+        });
+      }
+      existing4Mes.push({
+        label: 'Any',
+        value: 'any'
+      });
+      return existing4Mes;
+    } else {
+      return [{
+        label: 'SERVICE_UNVAILABLE. PLEASE TRY LATER.',
+        value: null
+      }];
+    }
+
+  }
+  _doesMatch_4Me(searchTerm: any, vkNode) {
+    // get active user
+    var iAmId = this.rimaService.getActiveUserId();
+    if(!iAmId){
+      return true;
+    }
+
+    // check if parent is created by active user
+    var vkParents = this.mapStructure.getParentNodes(vkNode);
+    if(vkParents.length <= 0) return false;
+    var vkParent = vkParents[0];
+    if(vkParent.kNode.iAmId !== iAmId) return false;
+    if(vkNode.kNode.iAmId === iAmId) return false;
+
+    return searchTerm === 'any' ? true : vkNode.kNode.type === searchTerm;
+  }
+
+  /**
+   * Who
+   * Filteres and keeps nodes with specific author (displayName)
+   * {
+   *   category: 'Who',
+   *   value: 'John'
+   * }
+   */
   _getFacetMatches_Who(searchTerm: any) {
     if (this.mapStructure) {
       var iAmIdObj = {};
@@ -387,6 +551,16 @@ export class OntovService {
     return vkNode.kNode.iAmId === searchTerm;
   }
 
+  /**
+   * Voting
+   * Filteres and keeps nodes with specific values of votes
+   * {
+   *   category: 'Voting',
+   *   value: '5'
+   * }
+   *
+   * will keep only votes with total voting >= 5
+   */
   _getFacetMatches_Voting(searchTerm: any) {
     if (this.mapStructure) {
       var votingObj = {};
@@ -427,7 +601,18 @@ export class OntovService {
     return votes >= parseInt(searchTerm);
   }
 
-  _getFacetMatches_iAmId(searchTerm: any) {
+  /**
+   * iAmId
+   * Filteres and keeps nodes with specific user ids
+   * {
+   *   category: 'iAmId',
+   *   value: '556760847125996dc1a4a241'
+   * }
+   *
+   * will keep only nodes with author id === `556760847125996dc1a4a241`
+   */
+
+    _getFacetMatches_iAmId(searchTerm: any) {
     if (this.mapStructure) {
       var iAmIdObj = {};
       for (let id in this.mapStructure.nodesById) {
@@ -442,6 +627,17 @@ export class OntovService {
   _doesMatch_iAmId(searchTerm: any, vkNode) {
     return vkNode.kNode.iAmId === searchTerm;
   }
+
+  /**
+   * What
+   * Filteres and keeps nodes with specific whats
+   * {
+   *   category: 'What',
+   *   value: 'todo'
+   * }
+   *
+   * will keep only nodes with whats === 'todo'
+   */
 
   _getFacetMatches_What(searchTerm: any) {
     if (this.mapStructure) {
@@ -459,6 +655,7 @@ export class OntovService {
       return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
     }
   }
+
   _doesMatch_What(searchTerm: any, vkNode) {
     if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats){
       for(var what of vkNode.kNode.dataContent.rima.whats){
@@ -469,6 +666,17 @@ export class OntovService {
       return false;
     }
   }
+
+  /**
+   * Tree
+   * Filteres and keeps nodes whose parent is a specified node
+   * {
+   *   category: 'Tree',
+   *   value: 'hello'
+   * }
+   *
+   * will keep only nodes parent that has name === 'hello'
+   */
 
   _getFacetMatches_Tree(searchTerm: any) {
     return this._getFacetMatches_Name(searchTerm);
@@ -484,5 +692,43 @@ export class OntovService {
     }
 
     return isInSubtree;
+  }
+
+  /**
+   * RimaWhoWhat
+   * Filteres and keeps nodes with specific whats
+   * {
+   *   category: 'RimaWhoWhat',
+   *   value: 'todo'
+   * }
+   *
+   * will keep only nodes with whats === 'todo'
+   */
+
+  _getFacetMatches_RimaWhoWhat(searchTerm: any) {
+    var whoAmIs = {};
+    if (this.mapStructure) {
+      for (let id in this.mapStructure.nodesById) {
+        var vkNode = this.mapStructure.nodesById[id];
+        if(!(vkNode.kNode.iAmId in whoAmIs)){
+          var whoAmI = this.rimaService.getUserById(vkNode.kNode.iAmId);
+          whoAmIs[vkNode.kNode.iAmId] = whoAmI;
+        }
+      }
+      return Object.keys(['test', 'test2']);
+    } else {
+      return ['SERVICE_UNVAILABLE. PLEASE TRY LATER.'];
+    }
+  }
+
+  _doesMatch_RimaWhoWhat(searchTerm: any, vkNode) {
+    if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats){
+      for(var what of vkNode.kNode.dataContent.rima.whats){
+        if(what.name === searchTerm) return true;
+      }
+      return false;
+    }else{
+      return false;
+    }
   }
 };

@@ -142,7 +142,6 @@ $toolbar_height: 60px;
 			// border: 1px solid black;
 			&.data_item{
 				background-color: $item_background_color;
-				align-items: center;
 				min-height: 2.5em;
 				&:nth-child(even) {background-color: $item_even_background_color;}
 				&.active-selection{

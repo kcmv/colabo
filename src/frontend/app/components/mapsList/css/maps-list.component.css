@@ -94,7 +94,6 @@ h1 {
     width: 100%; }
     .mapsList .list .item.data_item {
       background-color: #e8e8e8;
-      align-items: center;
       min-height: 2.5em; }
       .mapsList .list .item.data_item:nth-child(even) {
         background-color: #ffffff; }

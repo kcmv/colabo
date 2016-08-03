@@ -44,7 +44,7 @@ export class KnalledgeMapPolicyService {
   };
 
   mustFollowPresenter():boolean {
-    return this.provider.config.session && this.provider.config.session.mustFollowPresenter && !this.provider.config.moderating.enabled;
+    return this.provider.config.session && this.provider.config.session.mustFollowPresenter;
   }
 
   readOnly():boolean {
