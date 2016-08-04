@@ -86,13 +86,16 @@ export class BrainstormingPanelComponent {
 
     hideAddArgument(): boolean{
       return !(
-        this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION
+        (this.brainstormingService.brainstorming.phase === BrainstormingPhase.IDEAS_GENERATION ||
+          (this.brainstormingService.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS &&
+            this.brainstormingService.brainstorming.allowAddingWhileSharingIdeas)
+        )
         && this.brainstormingService.brainstorming.allowArgumentsToIdeas
       );
     }
 
     addArgument(): void{
-      window.alert("not supported yet");
+      this.brainstormingService.addArgument();
     }
 
     hideShowMyIdeasSwitch(): boolean {

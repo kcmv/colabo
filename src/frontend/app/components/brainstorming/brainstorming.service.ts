@@ -422,6 +422,16 @@ export class BrainstormingService {
       this.brainstormingPluginInfo.apis.mapInteraction.items.addNode(this.brainstorming.question);
     }
 
+    addArgument(){
+      let idea = this.brainstormingPluginInfo.references.map.items.mapStructure.getSelectedNode();
+      if(!idea || idea.kNode.type !== knalledge.KNode.TYPE_IBIS_IDEA) {
+        this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService',
+        new InfoForDialog('You must select an idea to support it by adding an argument to it'));
+        return;
+      }
+      this.brainstormingPluginInfo.apis.mapInteraction.items.addNode(idea);
+    }
+
     presentNextIdea() {
       let that = this;
       let presentedIdea: boolean = false;
@@ -497,7 +507,9 @@ export class BrainstormingService {
           "<p>Now, moderator will choose one by one participant to present their ideas. You will be noticed when you become a presenter " +
           "and at that moment a button <span class='emphasize emp_bg'>Present Next Idea</span> will show up in the brainstorming panel. " +
           "By pressing it, your ideas will, one by one, become visible to other participants. " +
-          "Press it until you present all your ideas.</p>";
+          "Press it until you present all your ideas.</p>" +
+          (this.brainstorming.allowAddingWhileSharingIdeas ? "<p>You are encouraged to <span class='emphasize'>add any new ideas</span> " +
+          "that may arise from what others share.</p>" : "");
           break;
   			case BrainstormingPhase.GROUP_DISCUSSION:
           message += "<p>We have now entered 3rd phase <span class='emphasize emp_bg'>" +
