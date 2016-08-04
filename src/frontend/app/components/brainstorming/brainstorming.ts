@@ -60,6 +60,7 @@ export class Brainstorming {
 	//allow only addition of ideas to the brainstorming question node - no free knowlegdge gardening:
 	public onlyIdeasToQuestion: boolean;
 	public allowArgumentsToIdeas: boolean; //allow adding arguments to ideas
+	public allowAddingWhileSharingIdeas: boolean;
 	public currentPhaseTimeLeft: number;
 	public currentPhaseTimeSpent: number;
 	public question: knalledge.KNode;
@@ -91,6 +92,7 @@ export class Brainstorming {
 		this.createPrivateIdeas = true;
 		this.onlyIdeasToQuestion = true;
 		this.allowArgumentsToIdeas = false; //allow adding arguments to ideas
+		this.allowAddingWhileSharingIdeas = false;
 		// this.currentPhaseTimeLeft: number;
 		// this.currentPhaseTimeSpent: number;
 		this.question = null;
@@ -113,6 +115,7 @@ export class Brainstorming {
 			if("createPrivateIdeas" in obj){this.createPrivateIdeas = obj.createPrivateIdeas;}
 			if("onlyIdeasToQuestion" in obj){this.onlyIdeasToQuestion = obj.onlyIdeasToQuestion;}
 			if("allowArgumentsToIdeas" in obj){this.allowArgumentsToIdeas = obj.allowArgumentsToIdeas;}
+			if("allowAddingWhileSharingIdeas" in obj){this.allowAddingWhileSharingIdeas = obj.allowAddingWhileSharingIdeas;}
 			if("currentPhaseTimeLeft" in obj){this.currentPhaseTimeLeft = obj.currentPhaseTimeLeft;}
 			if("currentPhaseTimeSpent" in obj){this.currentPhaseTimeSpent = obj.currentPhaseTimeSpent;}
 			if("question" in obj){this.question = obj.question;}

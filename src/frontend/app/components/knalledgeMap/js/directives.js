@@ -510,11 +510,15 @@
 								toggleModerator: function() {
 									$scope.$apply(function() {
 										KnalledgeMapPolicyService.provider.config.moderating.enabled = !KnalledgeMapPolicyService.provider.config.moderating.enabled;
-										if (KnalledgeMapPolicyService.provider.config.moderating.enabled && window.confirm('Do you want to create a new session?')) {
-											//TODO: this code is probably temporary, so even registration is put here:
-											var SETUP_SESSION_REQUEST_EVENT = "SETUP_SESSION_REQUEST_EVENT";
-											GlobalEmitterServicesArray.register(SETUP_SESSION_REQUEST_EVENT);
-											GlobalEmitterServicesArray.get(SETUP_SESSION_REQUEST_EVENT).broadcast('KnalledgeMap');
+										if (KnalledgeMapPolicyService.provider.config.moderating.enabled){
+											if(window.confirm('Do you want to create a new session?')) {
+												//TODO: this code is probably temporary, so even registration is put here:
+												var SETUP_SESSION_REQUEST_EVENT = "SETUP_SESSION_REQUEST_EVENT";
+												GlobalEmitterServicesArray.register(SETUP_SESSION_REQUEST_EVENT);
+												GlobalEmitterServicesArray.get(SETUP_SESSION_REQUEST_EVENT).broadcast('KnalledgeMap');
+											}
+										}else{
+											RimaService.setActiveUser(RimaService.getWhoAmI());
 										}
 									});
 								},

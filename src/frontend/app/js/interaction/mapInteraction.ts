@@ -196,10 +196,10 @@ export class MapInteraction {
       }
     }
 
-    updateNodeDecoration(node, decoration, value){
+    updateNodeDecoration(node, decoration, value, callback){
       //TODO:
       if(node){
-        this.clientApi.updateNode(node, Actions.UPDATE_NODE_DECORATION, {'decoration':decoration, 'value':value}, null);
+        this.clientApi.updateNode(node, Actions.UPDATE_NODE_DECORATION, {'decoration':decoration, 'value':value}, callback);
         this.clientApi.update(this.clientApi.getSelectedNode());
       }
     }

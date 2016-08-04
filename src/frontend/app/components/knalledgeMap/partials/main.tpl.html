@@ -224,8 +224,8 @@
 
     <md-dialog #infoDialog>
       <md-dialog-title>{{info.title}}</md-dialog-title>
-      <!-- <div [innerHTML]=info.message></div> -->
-      <!-- <md-dialog-actions (click)="infoDialog.close()" ok="{{info.buttons[0]}}"></md-dialog-actions> -->
-      <md-dialog-actions (click)="infoDialogClose()" ok="C:{{info.buttons[0]}}"></md-dialog-actions>
+      <div [innerHTML]=info.message></div>
+      <md-dialog-actions (click)="infoDialog.close()" ok="{{info.buttons[0]}}"></md-dialog-actions>
+      <!-- <md-dialog-actions (click)="infoDialogClose()" ok="C:{{info.buttons[0]}}"></md-dialog-actions> -->
     </md-dialog>
 </div>

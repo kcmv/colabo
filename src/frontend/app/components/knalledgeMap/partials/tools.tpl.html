@@ -165,7 +165,7 @@
           <div><b>Session</b></div>
           <!-- <md-switch class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-switch> -->
           <button md-raised-button (click)="showSession()" class="md-accent md-hue-1">Session</button>
-          <md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled" (checkedChange)="viewConfigChanged('policyConfig.moderating.enabled', policyConfig.moderating.enabled)">Moderator</md-switch>
+          <!-- <md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled" (checkedChange)="moderatorToggled()">Moderator</md-switch> -->
           <md-switch class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)">Presenter</md-switch>
 
           <button md-raised-button (click)="broadcastUpdateMaps()" class="md-accent md-hue-1">Update Maps</button>
