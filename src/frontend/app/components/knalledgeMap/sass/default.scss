@@ -1049,10 +1049,11 @@ CollaboFramework/Knalledge Maps
 
 .ibis-types-list{
 	.list{
-		margin: 5px;
+		//margin: 5px;
 		font-size: 18px;
 		border: 1px solid #aaaaaa;
 		@include border-radius(15px, 15px);
+		width: 100%;
 
 		.active-selection{
 			background-color: #eee;
