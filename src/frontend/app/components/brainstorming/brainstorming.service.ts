@@ -86,6 +86,7 @@ export class BrainstormingService {
     private hideBottomPanelEvent: string = "hideBottomPanelEvent";
 
     private initiated:boolean = false;
+    private previousIdeasPresenter: boolean = null;
     private rimaService:any = null;
     private SHOW_INFO: string = "SHOW_INFO";
     private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
@@ -373,13 +374,32 @@ export class BrainstormingService {
     }
 
     presenterChanged(presenterVO: any):void{
-      if(this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS && presenterVO.value){ //filter to presenter's ideas who shares them
-        this.filterOntov([
-          {
-            category: 'iAmId',
-            value: presenterVO.user
-          }
-        ]);
+      if(this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS){
+          if(presenterVO.value){ //filter to presenter's ideas who shares them
+            if(this.previousIdeasPresenter){
+              //deleting previous filter for 'iAmId'
+              this.filterOntov([
+                {
+                  category: 'iAmId',
+                  value: this.previousIdeasPresenter
+                }
+                ],
+                false
+              );
+            }
+
+            this.filterOntov([
+              {
+                category: 'iAmId',
+                value: presenterVO.user
+              }
+              ],
+              presenterVO.value //true or false, based on if it is set or reset
+            );
+            this.previousIdeasPresenter = presenterVO.user;
+        }else{
+          this.previousIdeasPresenter = null;
+        }
       }
     }
 

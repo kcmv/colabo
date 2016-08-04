@@ -155,6 +155,7 @@ export class KnalledgeMapTools {
     }
 
     moderatorToggled():void{
+      //TODO:
       console.error("moderatorToggled not finished - should work as knalledgeMap::directive::toggleModerator - to reset activeUser");
     }
 
