@@ -261,9 +261,9 @@ export class KnalledgeMapMain implements OnInit{
         .broadcast('KnalledgeMapMain', {'user': this.rimaService.getWhoAmIid(), 'value': value});
     }
 
-    toggleTopPanel(): any {
-        this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
-    }
+    // toggleTopPanel(): any {
+    //     this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
+    // }
 
     amILoggedIn() : boolean{
       return this.rimaService && this.rimaService.getWhoAmI() !== null;

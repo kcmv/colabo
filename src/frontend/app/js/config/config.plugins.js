@@ -89,6 +89,10 @@ project.subProjects.KNALLEDGE.COMPILATION = {
 						 destDir: APP_SRC,
 						 cssDir: 'css'
 					},
+					'components/topPanel': {
+						 destDir: APP_SRC,
+						 cssDir: 'css'
+					},
 					'components/request': {
 						destDir: APP_SRC,
 						cssDir: 'css'
@@ -226,6 +230,11 @@ var plugins = {
 			injectJs: [],
 			injectCss: 'css/bottomPanel.css'
 		},
+		topPanel: {
+			path: [APP_SRC_STR, 'components/topPanel'],
+			injectJs: [],
+			injectCss: 'css/topPanel.css'
+		},
 		change: {
 			path: [APP_SRC_STR, 'components/change'],
 			injectJs: ['changes.js', 'services.js'],
@@ -296,6 +305,12 @@ var plugins = {
 			available: true
 		},
 		topiChat: {
+			available: true
+		},
+		topPanel: {
+			available: true
+		},
+		bottomPanel: {
 			available: true
 		},
 		request: {

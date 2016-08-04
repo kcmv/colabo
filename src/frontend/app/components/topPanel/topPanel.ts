@@ -23,6 +23,7 @@ export interface ITabData {
   newItems?: number;
   totalItems?: number;
   disabled?: boolean;
+  opened?: boolean;
 }
 
 /**
@@ -75,14 +76,16 @@ export class TopPanel {
         content: '<suggestion-component></suggestion-component>',
         service: this.suggestionService,
         newItems: 0,
-        totalItems: 0
+        totalItems: 0,
+        opened: false
       },
       {
         title: 'relevant',
         content: '<rima-relevant-list class="rima_relevant_list"></rima-relevant-list>',
         service: null,
         newItems: 0,
-        totalItems: 0
+        totalItems: 0,
+        opened: false
       },
       {
         title: 'changes',
@@ -91,14 +94,16 @@ export class TopPanel {
         "</change-component>",
         service: this.changeService,
         newItems: 0,
-        totalItems: 0
+        totalItems: 0,
+        opened: false
       },
       {
         title: 'requests',
         content: '<request></request>',
         service: this.requestService,
         newItems: 0,
-        totalItems: 0
+        totalItems: 0,
+        opened: false
       }
     ];
 
@@ -146,10 +151,22 @@ export class TopPanel {
         ' (' + this.tabData[tabIndex].newItems + '/' + this.tabData[tabIndex].totalItems + ')' : '');
     }
 
+    isVisible(tabIndex: number): boolean {
+      return this.tabData[tabIndex].opened;
+      // return this.tabData[tabIndex].title + (this.tabData[tabIndex].newItems > 0 ?
+      //   ' (' + this.tabData[tabIndex].newItems + '/' + this.tabData[tabIndex].totalItems + ')' : '');
+    }
+
     focusChanged(tabIndex){
       console.log("focusChanged", tabIndex);
       //this._selectedIndex = tabIndex;
       this.tabData[tabIndex].newItems = 0;
+      this.tabData[tabIndex].opened = !this.tabData[tabIndex].opened;
+      for(let i:number = 0; i < this.tabData.length; i++){
+        if(i !== tabIndex){
+          this.tabData[i].opened = false;
+        }
+      }
     }
 
     selectedChanged(event){
