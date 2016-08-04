@@ -46,6 +46,34 @@ in the angular router we have:
 })
 ```
 
+## Creating a new IBIS PUZZLE
+
+We will create it in a separeate folder, `src/frontend/dev-puzzles/ibis`.
+
+It is always good practice to create `README.md` file with each puzzle.
+
+### Config
+
+Config file `config.js` contains all info about the puzzle, how it is integrated inside the system, which resources it needs, etc.
+
+### Registering
+
+Inside the `src/frontend/js/config/config.plugins.js` add
+
+```js
+  ibis: {
+    active: true,
+    // relative to the project root
+    path: 'dev-puzzles/ibis'
+```
+
+inside the `puzzles` property.
+
+### Service
+
+Now we need to provide a service that will support business logic.
+
+
 # Visualization plugins as services/providers
 
 Map Visualization plugins

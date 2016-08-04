@@ -70,21 +70,31 @@ console.log('APP_DEST: %s, APP_DEST_FROM_HERE: ', APP_DEST, APP_DEST_FROM_HERE);
 export const COMPASS_CONFIG = SUB_PROJECT.COMPILATION.COMPASS;
 console.log("SUB_PROJECT: ", SUB_PROJECT);
 
-function replaceStrPaths(pathArray:string[]):string{
-    if(!Array.isArray(pathArray) || pathArray.length !== 2)
-        return null;
+/**
+ * Replaces string version(s) of APP paths with real path values and returns string path
+ * @param  {string[]|string} pathArray array of pa
+ * @return {string} substituted path
+ */
+function replaceStrPaths(pathArray:string[]|string, parentPath?:string):string{
+    if(typeof pathArray === 'string') pathArray = [<string>pathArray];
 
-    var folder = pathArray[0];
-    var file = pathArray[1];
-    switch(folder){
-        case 'APP_SRC_STR':
-            folder = APP_SRC;
-            break;
-        case 'APP_DEST_STR':
-            folder = APP_DEST;
-            break;
+    var path = "";
+    for(var pI in <string[]>pathArray){
+      var pathPart = pathArray[pI];
+      switch(pathPart){
+          case 'APP_SRC_STR':
+              pathPart = APP_SRC;
+              break;
+          case 'APP_DEST_STR':
+              pathPart = APP_DEST;
+              break;
+          case '.':
+              pathPart = parentPath ? parentPath : pathPart;
+              break;
+      }
+      path += (path.length > 0) ? "/"+pathPart : pathPart;
     }
-    return folder + "/" + file;
+    return path;
 }
 
 // fixing/patching project variables
@@ -195,7 +205,12 @@ var puzzlesConfig = PluginsConfig.plugins.puzzlesConfig;
 
 // Example
 
-function injectJsDependencyFactory(dependencies:IDependency[], puzzleBuild:any){
+/**
+ * Analyzes puzzleBuild and extracts and injects JavaScript build dependencies in dependencies
+ * @param  {IDependency[]} dependencies dependencies in which puzzle dependencies will be added
+ * @param  {any}           puzzleBuild  config object describing build aspects of the puzzle
+ */
+function injectJsDependencyFactory(dependencies:IDependency[], puzzleBuild:any, parentPath?:string){
     // Example
     // { src: join('components/gardening/js/services.js'), inject: true, noNorm: true },
 
@@ -203,19 +218,25 @@ function injectJsDependencyFactory(dependencies:IDependency[], puzzleBuild:any){
         inject: true, noNorm: true
     };
 
-    var path = replaceStrPaths(puzzleBuild.path);
+    var path = replaceStrPaths(puzzleBuild.path, parentPath);
 
     function injectJsDependency(injectJs:string){
         var dependency:any = {};
         Object.assign(dependency, jsDpendencyTemplate);
         dependency.src = (path) ?
             path + "/" + injectJs : injectJs;
+          console.log("[injectJsDependencyFactory] dependency=", dependency);
         dependencies.push(dependency);
     }
     return injectJsDependency;
 }
 
-function injectCssDependencyFactory(dependencies:IDependency[], puzzleBuild:any){
+/**
+ * Analyzes puzzleBuild and extracts and injects CSS build dependencies in dependencies
+ * @param  {IDependency[]} dependencies dependencies in which puzzle dependencies will be added
+ * @param  {any}           puzzleBuild  config object describing build aspects of the puzzle
+ */
+function injectCssDependencyFactory(dependencies:IDependency[], puzzleBuild:any, parentPath?:string){
     // Example
     // { src: join(APP_SRC, 'components/gardening/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
@@ -223,21 +244,27 @@ function injectCssDependencyFactory(dependencies:IDependency[], puzzleBuild:any)
         inject: true, noNorm: true
     };
 
-    var path = replaceStrPaths(puzzleBuild.path);
+    var path = replaceStrPaths(puzzleBuild.path, parentPath);
 
     function injectCssDependency(injectCss:string){
         var dependency:any = {};
         Object.assign(dependency, cssDpendencyTemplate);
         dependency.src = (path) ?
             path + "/" + injectCss : injectCss;
+        console.log("[injectCssDependencyFactory] dependency=", dependency);
         dependencies.push(dependency);
     }
     return injectCssDependency;
 }
 
-function injectPuzzle(dependencies:IDependency[], puzzleBuild:any){
+/**
+ * Analyzes puzzleBuild and extracts and injects all build dependencies in dependencies
+ * @param  {IDependency[]} dependencies dependencies in which puzzle dependencies will be added
+ * @param  {any}           puzzleBuild  config object describing build aspects of the puzzle
+ */
+function injectPuzzle(dependencies:IDependency[], puzzleBuild:any, parentPath?:string){
 
-    let injectJsDependency = injectJsDependencyFactory(dependencies, puzzleBuild);
+    let injectJsDependency = injectJsDependencyFactory(dependencies, puzzleBuild, parentPath);
 
     if(Array.isArray(puzzleBuild.injectJs)){
         for(let i in puzzleBuild.injectJs){
@@ -249,7 +276,7 @@ function injectPuzzle(dependencies:IDependency[], puzzleBuild:any){
         injectJsDependency(injectJs);
     }
 
-    let injectCssDependency = injectCssDependencyFactory(dependencies, puzzleBuild);
+    let injectCssDependency = injectCssDependencyFactory(dependencies, puzzleBuild, parentPath);
 
     if(Array.isArray(puzzleBuild.injectCss)){
         for(let i in puzzleBuild.injectCss){
@@ -262,23 +289,75 @@ function injectPuzzle(dependencies:IDependency[], puzzleBuild:any){
     }
 }
 
+
+/**
+ * Analyzes if there are additional sub puzzles/build-folders in the puzzleBuild
+ * and calls injectPuzzle on appropriate builds
+ * @param  {IDependency[]} dependencies dependencies in which puzzle dependencies will be added
+ * @param  {any}           puzzleBuild  config object describing build aspects of the puzzle
+ */
+function injectPuzzleWithPossibleSubPuzzles(dependencies:IDependency[], puzzleBuild:any, parentPath?:string){
+  if('path' in puzzleBuild){
+      injectPuzzle(dependencies, puzzleBuild, parentPath);
+  }else{
+      for(var subPuzzleName in puzzleBuild){
+          var subPuzzleBuild = puzzleBuild[subPuzzleName];
+          console.log("subPuzzleBuild: ", subPuzzleBuild);
+          if('path' in subPuzzleBuild){
+              injectPuzzle(dependencies, subPuzzleBuild, parentPath);
+          }
+      }
+  }
+}
+
+/*
+ * Iterates through all puzzles inside the puzzlesBuild and injects them in dependencies
+ */
 for(var puzzleName in puzzlesBuild){
     var puzzleBuild = puzzlesBuild[puzzleName];
     console.log("puzzleBuild: ", puzzleBuild);
 
     // if not configured or set as unavailable do not inject it
     if(!(puzzleName in puzzlesConfig) || !puzzlesConfig[puzzleName].available) continue;
+    injectPuzzleWithPossibleSubPuzzles(npmDependencies, puzzleBuild);
+}
 
-    if('path' in puzzleBuild){
-        injectPuzzle(npmDependencies, puzzleBuild);
-    }else{
-        for(var subPuzzleName in puzzleBuild){
-            var subPuzzleBuild = puzzleBuild[subPuzzleName];
-            console.log("subPuzzleBuild: ", subPuzzleBuild);
-            if('path' in subPuzzleBuild){
-                injectPuzzle(npmDependencies, subPuzzleBuild);
-            }
-        }
+var puzzles = PluginsConfig.plugins.puzzles;
+
+
+/*
+ * INJECTING EXTERNAL PUZZLES
+ */
+
+function injectExternalPuzzle(puzzlePath, puzzleConfig:any){
+
+  // injecting dependencies
+  var puzzleBuild = puzzleConfig.puzzlesBuild;
+  console.log("external puzzleBuild: ", puzzleBuild);
+
+  // if not configured or set as unavailable do not inject it
+  // if(!(puzzleName in puzzlesConfig) || !puzzlesConfig[puzzleName].available) continue;
+  injectPuzzleWithPossibleSubPuzzles(npmDependencies, puzzleBuild, puzzlePath);
+
+  // injecting compass building
+  var compassPaths = COMPASS_CONFIG.PATHS;
+  var compassPathsPuzzle = puzzleConfig.COMPASS.PATHS;
+  for(var cppPath in compassPathsPuzzle){
+    var compassPathPuzzle = compassPathsPuzzle[cppPath];
+    compassPathPuzzle.isPathFull = true;
+    compassPaths[puzzlePath] = compassPathPuzzle;
+  }
+}
+
+/*
+ * Iterates through all puzzles inside the puzzles config and if they are external
+ * injects them
+ */
+for(var puzzleName in puzzles){
+    var puzzle = puzzles[puzzleName];
+    if('path' in puzzle){
+      var puzzleConfig = require(join(PROJECT_ROOT, puzzle.path, 'config.js'));
+      injectExternalPuzzle(puzzle.path, puzzleConfig);
     }
 }
 
