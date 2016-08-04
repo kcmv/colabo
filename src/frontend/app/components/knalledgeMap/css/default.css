@@ -444,8 +444,7 @@ md-sidenav.options {
     */
     /*margin-top: -1.5em;
     margin-left: -5em;*/
-    /*TODO: center this verticaly (need to do it from JS :( ))*/
-    /* NODE SEMANTIC / STYLING */ }
+    /*TODO: center this verticaly (need to do it from JS :( ))*/ }
     .knalledge_map_container .node_html span {
       display: inline-block;
       vertical-align: middle;
@@ -563,14 +562,6 @@ md-sidenav.options {
       -moz-border-radius: 5px;
       -webkit-border-radius: 5px;
       border-radius: 5px; }
-    .knalledge_map_container .node_html.type_ibis_question {
-      background-color: #ffffaa; }
-    .knalledge_map_container .node_html.type_ibis_idea {
-      background-color: #aaffaa; }
-    .knalledge_map_container .node_html.type_ibis_argument {
-      background-color: rgba(255, 170, 170, 0.5); }
-    .knalledge_map_container .node_html.type_ibis_comment {
-      background-color: #aaffff; }
   .knalledge_map_container .node_html_fixed {
     /* TODO FIxing expandable nodes */
     /*width: 200px;*/
@@ -789,40 +780,6 @@ CollaboFramework/Knalledge Maps
 
 .displayNone {
   display: none; }
-
-/* -------------------------
-	IBIS
-	ibis-types-list
-------------------------- */
-.ibis-types-list .list {
-  margin: 5px;
-  font-size: 18px;
-  border: 1px solid #aaaaaa;
-  -moz-border-radius: 15px / 15px;
-  -webkit-border-radius: 15px 15px;
-  border-radius: 15px / 15px; }
-  .ibis-types-list .list .active-selection {
-    background-color: #eee; }
-  .ibis-types-list .list tr {
-    margin-bottom: 3px;
-    border-bottom: solid 2px #aaaaaa;
-    margin-bottom: 3px;
-    -moz-border-radius: 5px / 5px;
-    -webkit-border-radius: 5px 5px;
-    border-radius: 5px / 5px; }
-    .ibis-types-list .list tr:hover {
-      cursor: pointer;
-      background-color: #cccccc; }
-  .ibis-types-list .list th {
-    background-color: #aaf;
-    /*border: 1px solid black;*/
-    padding: 5px; }
-  .ibis-types-list .list td {
-    /*border: 1px solid black;*/
-    padding: 5px;
-    font-size: 0.75em; }
-  .ibis-types-list .list .active-selection {
-    background-color: #aaf; }
 
 /* -------------------------
 	Select item

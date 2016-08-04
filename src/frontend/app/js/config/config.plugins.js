@@ -330,6 +330,11 @@ var plugins = {
 		}
 	},
 	puzzles: {
+		ibis: {
+			active: true,
+			// relative to the project root
+			path: 'dev-puzzles/ibis'
+		},
 		knalledgeMap: {
 	        active: true,
 	        config: {
