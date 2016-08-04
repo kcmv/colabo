@@ -437,7 +437,7 @@ export class BrainstormingService {
       let presentedIdea: boolean = false;
       let ideas: any[] = this.brainstormingPluginInfo.references.map.items.mapStructure.getChildrenNodes(this.brainstorming.question);
       for(var i:number = 0; i < ideas.length; i++){
-        var idea = ideas[i];
+        let idea = ideas[i];
         if(this.brainstormingPluginInfo.references.map.items.mapStructure.isNodeOfActiveUser(idea) && this.isPrivateBSNode(idea)){
           console.log(idea.kNode.type,idea.kNode.iAmId);
           presentedIdea = true;
@@ -445,6 +445,19 @@ export class BrainstormingService {
              BrainstrormingDecorations.PRESENTED,
            function(){
               that.brainstormingPluginInfo.apis.map.items.nodeSelected(idea);
+
+              if(that.brainstorming.allowArgumentsToIdeas){
+                //change ideas' arguments from private to public:
+                let args: any[] = that.brainstormingPluginInfo.references.map.items.mapStructure.getChildrenNodes(idea);
+                for(let ai:number = 0; ai < args.length; ai++){
+                  let arg = args[ai];
+                  if(that.brainstormingPluginInfo.references.map.items.mapStructure.isNodeOfActiveUser(arg) && that.isPrivateBSNode(arg)){
+                    //console.log(arg.kNode.type,arg.kNode.iAmId);
+                    that.brainstormingPluginInfo.apis.mapInteraction.items.updateNodeDecoration(arg, Brainstorming.DECORATION,
+                       BrainstrormingDecorations.PRESENTED);
+                  }
+                }
+              }
            });
 
           //delete idea.kNode.decorations.brainstorming;
@@ -455,12 +468,8 @@ export class BrainstormingService {
         }
       }
       if(!presentedIdea){
-        var info:InfoForDialog = new InfoForDialog();
-        //window.alert("You've presented all your ideas");
-
-        info.title = 'Brainstorming';
-        info.message = "You've presented all your ideas";
-        this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService', info);
+        this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService',
+        new InfoForDialog("You've presented all your ideas"));
       }
     }
 
