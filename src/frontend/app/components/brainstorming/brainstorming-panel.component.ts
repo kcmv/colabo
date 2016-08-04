@@ -19,6 +19,7 @@ declare var window;
     ]
 })
 export class BrainstormingPanelComponent {
+  public showOnlyBrainstorming: boolean = true;
     constructor(
       @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
       private brainstormingService: BrainstormingService
@@ -31,11 +32,22 @@ export class BrainstormingPanelComponent {
           //  'SuggestionComponent', this.selectedNodeChanged.bind(this));
     }
 
-    show() {
+    // show() {
+    //   this.init();
+    // }
+
+    init(): void{
+      this.showOnlyBrainstorming = this.brainstormingService.showOnlyBrainstorming;
     }
 
     showPanel():boolean {
-      return this.brainstormingService.brainstorming && this.brainstormingService.brainstorming.phase !== BrainstormingPhase.INACTIVE;
+      let showIt = this.brainstormingService.brainstorming && this.brainstormingService.brainstorming.phase !== BrainstormingPhase.INACTIVE;
+      if(showIt){
+        this.init();
+        return true;
+      }else{
+        return false;
+      }
     }
 
     ngOnInit() {
@@ -112,24 +124,11 @@ export class BrainstormingPanelComponent {
     }
 
     changedShowOnlyBrainstorming(filter:boolean): void{
-        this.filterToBrainstorming(filter);
+        this.brainstormingService.filterToBrainstorming(filter);
     }
 
     changedShowMyIdeas(filter:boolean): void{
         this.filterMyIdeas(filter);
-    }
-
-    filterToBrainstorming(filter:boolean): void{
-      // TODO: set selected node at question or even better check if it is inside the question or not
-      this.brainstormingService.filterOntov(
-        [
-          {
-            category: 'Tree',
-            value: this.brainstormingService.brainstorming.question.kNode.name //'Ideological model'
-          }
-        ],
-        filter
-        );
     }
 
     filterMyIdeas(filter:boolean): void{

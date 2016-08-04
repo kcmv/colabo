@@ -129,7 +129,7 @@ export class KnalledgeMapTools {
     // };
 
     //TODO: eliminate this function and use directly `viewConfigChanged` when switch values are set to exact values
-    limitDisplayChanged: Function = function(path, value) {
+    limitDisplayChanged(path, value) {
         this.viewConfig.filtering.displayDistance = (value) ? 3 : -1;
         this.viewConfigChanged(path, this.viewConfig.filtering.displayDistance);
         //this.globalEmitterServicesArray.get(this.viewConfigChangedEventName).broadcast('KnalledgeMapTools', msg);
@@ -148,17 +148,21 @@ export class KnalledgeMapTools {
       return msg;
     }
 
-    viewConfigChanged: Function = function(path, value) {
+    viewConfigChanged(path, value) {
         // alert("[viewConfigChanged] " + path + ":" + value);
         this.sendChange(path, value, this.viewConfigChangedEventName);
         //this.globalEmitterServicesArray.get(this.viewspecChangedEventName).broadcast('KnalledgeMapTools', this.bindings.viewspec);
-    };
+    }
 
-    // brainstormingChanged: Function = function(path, value) {
+    moderatorToggled():void{
+      console.error("moderatorToggled not finished - should work as knalledgeMap::directive::toggleModerator - to reset activeUser");
+    }
+
+    // brainstormingChanged(path, value) {
     //     this.sendChange(path, value, this.behaviourChangedEventName);
     // };
 
-    broadcastingChanged: Function = function(path, value) {
+    broadcastingChanged(path, value) {
         //this.sendChange(path, value, this.broadcastingChangedEventName);
         this.globalEmitterServicesArray.get(this.PRESENTER_CHANGED)
         .broadcast('Tools', {'user': null, 'value': value});
@@ -172,7 +176,7 @@ export class KnalledgeMapTools {
       this.sessionsControlsShown = !this.sessionsControlsShown;
     }
 
-    sendChange: Function = function(path, value, eventName) {
+    sendChange(path, value, eventName) {
         // alert("[sendChange] " + path + ":" + value);
         let msg = {
             path: path,
@@ -181,11 +185,11 @@ export class KnalledgeMapTools {
         this.globalEmitterServicesArray.get(eventName).broadcast('KnalledgeMapTools', msg);
     };
 
-    broadcastUpdateMaps: Function = function() {
+    broadcastUpdateMaps() {
         this.knAllEdgeRealTimeService.emit(this.knRealTimeBroadcastUpdateMaps);
     };
 
-    broadcastReloadMaps: Function = function() {
+    broadcastReloadMaps() {
         this.knAllEdgeRealTimeService.emit(this.knRealTimeBroadcastReloadMaps);
     };
 

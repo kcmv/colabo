@@ -352,6 +352,7 @@ export class BrainstormingService {
         .broadcast('BrainstormingService', 'brainstorming.BrainstormingPanelComponent');
       }else{
         this.prepareOntov();
+        this.filterToBrainstorming(this.showOnlyBrainstorming);
         this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
         .broadcast('BrainstormingService', 'brainstorming.BrainstormingPanelComponent');
       }
@@ -371,13 +372,12 @@ export class BrainstormingService {
       this.brainstormingPluginInfo.apis.map.items.update();
     }
 
-    presenterChanged():void{
-      if(this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS && this.knalledgeMapPolicyService.get().config.session &&
-      this.knalledgeMapPolicyService.get().config.session.presenter){ //filter to presenter's ideas who shares them
+    presenterChanged(presenterVO: any):void{
+      if(this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS && presenterVO.value){ //filter to presenter's ideas who shares them
         this.filterOntov([
           {
             category: 'iAmId',
-            value: this.knalledgeMapPolicyService.get().config.session.presenter._id
+            value: presenterVO.user
           }
         ]);
       }
@@ -434,6 +434,19 @@ export class BrainstormingService {
       }
     }
 
+    filterToBrainstorming(filter:boolean): void{
+      // TODO: set selected node at question or even better check if it is inside the question or not
+      this.filterOntov(
+        [
+          {
+            category: 'Tree',
+            value: this.brainstorming.question.kNode.name //'Ideological model'
+          }
+        ],
+        filter
+        );
+    }
+
     private getMessage():string{
       let message = "";
       switch(this.brainstorming.phase){
@@ -463,7 +476,8 @@ export class BrainstormingService {
           BrainstormingPhaseNames.getNameByPhase(this.brainstorming.phase) + "</span></p>" +
           "<p>Now, moderator will choose one by one participant to present their ideas. You will be noticed when you become a presenter " +
           "and at that moment a button <span class='emphasize emp_bg'>Present Next Idea</span> will show up in the brainstorming panel. " +
-          "By pressint it, your ideas will one by one become visible to other participants. Press it until you present all your ideas.</p>";
+          "By pressing it, your ideas will, one by one, become visible to other participants. " +
+          "Press it until you present all your ideas.</p>";
           break;
   			case BrainstormingPhase.GROUP_DISCUSSION:
           message += "<p>We have now entered 3rd phase <span class='emphasize emp_bg'>" +

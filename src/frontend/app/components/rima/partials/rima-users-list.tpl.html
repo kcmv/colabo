@@ -18,7 +18,7 @@
 			<tr (click)="selectItem(item)" *ngFor="let item of items" [ngClass]="{'row': true, 'active-selection': item._id === selectedItem._id}">
 				<!-- TODO: *ngFor="let item of items | definedDisplayNames | orderBy:'displayName'"  -->
 				<!-- we don't need any  more definedDisplayNames filter -->
-				<td>{{item?.displayName}}<div class="management"><button class="btn btn-primary" type="button" (click)="showUserDialog(item)"><i class="fa fa-bars"></i></button></div></td>
+				<td>{{item?.displayName}}<div class="management"><button class="btn btn-primary" type="button" (click)="$event.stopPropagation();showUserDialog(item)"><i class="fa fa-bars"></i></button></div></td>
 			</tr>
 		</table>
 	</div>
