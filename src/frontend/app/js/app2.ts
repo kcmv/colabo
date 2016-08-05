@@ -40,6 +40,20 @@ import { Injector } from '../components/utils/injector';
 // Loading plugins' dependencies
 import './pluginDependencies';
 
+
+import {PluginsPreloader} from '../components/collaboPlugins/pluginsPreloader';
+declare var Config:any;
+
+/* load external puzzles
+ * 2. EXTERNAL PUZZLES - RUN-TIME PHASE
+ * Loads external puzzles from Config.Plugins.external
+ */
+for(let puzzleName in Config.Plugins.external){
+    let puzzleConfig = Config.Plugins.external[puzzleName];
+
+    PluginsPreloader.loadExternalPuzzle(puzzleConfig);
+}
+
 /** used instead of
 * import {MATERIAL_PROVIDERS} from 'ng2-material';
 * because of the bug
