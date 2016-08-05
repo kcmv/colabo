@@ -329,11 +329,24 @@ var puzzles = PluginsConfig.plugins.puzzles;
  * INJECTING EXTERNAL PUZZLES
  */
 
-function injectExternalPuzzle(puzzlePath, puzzleConfig:any){
+function injectExternalPuzzle(puzzle:any){
+  var puzzlePath = puzzle.path;
+  var puzzleConfig = require(join(PROJECT_ROOT, puzzlePath, 'config.js'));
 
   // injecting dependencies
-  var puzzleBuild = puzzleConfig.puzzlesBuild;
-  console.log("external puzzleBuild: ", puzzleBuild);
+  var puzzleBuilds = puzzleConfig.puzzlesBuild;
+  console.log("external puzzleBuilds: ", puzzleBuilds);
+
+  // inject 'config.js' if not already injected
+  // we need this to be accessable during the runtime
+  for(var puzzleName in puzzleBuilds){
+    var puzzleBuild = puzzleBuilds[puzzleName];
+
+    if(typeof puzzleBuild.injectJs === 'string') puzzleBuild.injectJs = [];
+    if(puzzleBuild.injectJs.indexOf('config.js') < 0){
+      puzzleBuild.injectJs.push('config.js');
+    }
+  }
 
   // if not configured or set as unavailable do not inject it
   // if(!(puzzleName in puzzlesConfig) || !puzzlesConfig[puzzleName].available) continue;
@@ -352,12 +365,12 @@ function injectExternalPuzzle(puzzlePath, puzzleConfig:any){
 /*
  * Iterates through all puzzles inside the puzzles config and if they are external
  * injects them
+ * 1. EXTERNAL PUZZLES - BUILD PHASE
  */
 for(var puzzleName in puzzles){
     var puzzle = puzzles[puzzleName];
     if('path' in puzzle){
-      var puzzleConfig = require(join(PROJECT_ROOT, puzzle.path, 'config.js'));
-      injectExternalPuzzle(puzzle.path, puzzleConfig);
+      injectExternalPuzzle(puzzle);
     }
 }
 
