@@ -60,11 +60,12 @@ In folder `src/frontend/app/js/`
   },
   ```
   + we make it available in 'puzzlesConfig'
-		```
-    demoPuzzle: {
-			available: true
-		}
-    ```
+  ```
+  demoPuzzle: {
+		available: true
+	}
+  ```
+
   + we add service as active (difference from upper `available`?)
   and define its plugin connection
   **EXPLAIN THIS FURTHER?!**

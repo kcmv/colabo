@@ -622,7 +622,6 @@ md-sidenav.options {
 .knalledge_map_middle_bottom {
   position: relative;
   width: 100%;
-  height: 10em;
   overflow-y: scroll; }
 
 /* ------------------------------
@@ -795,12 +794,12 @@ CollaboFramework/Knalledge Maps
 	ibis-types-list
 ------------------------- */
 .ibis-types-list .list {
-  margin: 5px;
   font-size: 18px;
   border: 1px solid #aaaaaa;
   -moz-border-radius: 15px / 15px;
   -webkit-border-radius: 15px 15px;
-  border-radius: 15px / 15px; }
+  border-radius: 15px / 15px;
+  width: 100%; }
   .ibis-types-list .list .active-selection {
     background-color: #eee; }
   .ibis-types-list .list tr {

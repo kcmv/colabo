@@ -657,9 +657,10 @@ wizard{
 
 .rima-users-list{
 	.list{
-		margin: 5px;
+		//margin: 5px;
 		font-size: 18px;
 		border: 1px solid #aaaaaa;
+		width: 100%;
 		@include border-radius(15px, 15px);
 
 		.active-selection{
