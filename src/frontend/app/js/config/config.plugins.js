@@ -333,7 +333,7 @@ var plugins = {
 		ibis: {
 			active: true,
 			// relative to the project root
-			path: 'dev-puzzles/ibis'
+			path: 'dev_puzzles/ibis'
 		},
 		knalledgeMap: {
 	        active: true,
@@ -459,7 +459,6 @@ var plugins = {
 	}
 };
 
-
 if(typeof window !== 'undefined'){
 	if(typeof window.Config === 'undefined') window.Config = {};
 	window.Config.Plugins = plugins;
@@ -468,7 +467,7 @@ if(typeof window !== 'undefined'){
 if(typeof angular !== 'undefined'){
 	angular.module('Config')
 		.constant("Plugins", plugins);
-	}
+}
 
 if(typeof global !== 'undefined'){
 	if(typeof global.Config === 'undefined') global.Config = {};
