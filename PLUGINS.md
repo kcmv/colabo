@@ -48,7 +48,7 @@ in the angular router we have:
 
 ## Creating a new IBIS PUZZLE
 
-We will create it in a separeate folder, `src/frontend/dev-puzzles/ibis`.
+We will create it in a separeate folder, `src/frontend/dev_puzzles/ibis`.
 
 It is always good practice to create `README.md` file with each puzzle.
 
@@ -64,7 +64,7 @@ Inside the `src/frontend/js/config/config.plugins.js` add
   ibis: {
     active: true,
     // relative to the project root
-    path: 'dev-puzzles/ibis'
+    path: 'dev_puzzles/ibis'
 ```
 
 inside the `puzzles` property.
