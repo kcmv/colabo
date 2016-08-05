@@ -26,5 +26,11 @@ $large: 1400px;
     max-height: 15em; }
   .top_panel .tab_block {
     display: block; }
+  .top_panel .tab_label {
+    min-width: 100px !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important; }
 
 /*# sourceMappingURL=topPanel.css.map */
