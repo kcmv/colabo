@@ -1,0 +1,17 @@
+@import "../../../sass/include";
+
+.top_panel{
+	margin: 0px;
+  padding: 0px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+
+	.tab_content{
+		display: none;
+    max-height: 15em;
+	}
+	.tab_block{
+		display: block;
+	}
+}

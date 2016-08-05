@@ -519,9 +519,9 @@ wizard {
   display: none; }
 
 .rima-users-list .list {
-  margin: 5px;
   font-size: 18px;
   border: 1px solid #aaaaaa;
+  width: 100%;
   -moz-border-radius: 15px / 15px;
   -webkit-border-radius: 15px 15px;
   border-radius: 15px / 15px; }

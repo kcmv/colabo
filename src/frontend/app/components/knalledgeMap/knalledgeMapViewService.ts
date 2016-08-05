@@ -38,7 +38,7 @@ export class KnalledgeMapViewService {
             },
             panels: {
                 topPanel: {
-                    visible: false
+                    visible: true
                 }
             },
             states: { //TODO: temp solution
