@@ -161,10 +161,11 @@ Map.prototype.getActiveIbisType = function() {
 	this.knalledgeMapPolicyService.provider.config.knalledgeMap && this.knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType){
 				return this.knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType;
 	}else{
-		if(this.collaboGrammarService.puzzles.brainstorming && this.collaboGrammarService.puzzles.brainstorming.state &&
-			this.collaboGrammarService.puzzles.brainstorming.state.phase ===  puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION ||
-			(this.collaboGrammarService.puzzles.brainstorming.state.phase === puzzles.brainstormings.BrainstormingPhase.SHARING_IDEAS &&
-				this.collaboGrammarService.puzzles.brainstorming.state.allowAddingWhileSharingIdeas)
+		if(this.collaboGrammarService.puzzles.brainstorming &&
+			this.collaboGrammarService.puzzles.brainstorming.state &&
+		 (this.collaboGrammarService.puzzles.brainstorming.state.phase ===  puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION ||
+		  (this.collaboGrammarService.puzzles.brainstorming.state.phase === puzzles.brainstormings.BrainstormingPhase.SHARING_IDEAS &&
+				this.collaboGrammarService.puzzles.brainstorming.state.allowAddingWhileSharingIdeas))
 		){
 				if(this.mapStructure.getSelectedNode() === this.collaboGrammarService.puzzles.brainstorming.state.question){
 					return knalledge.KNode.TYPE_IBIS_IDEA;
