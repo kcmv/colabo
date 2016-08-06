@@ -17,3 +17,29 @@ While developing in other development branches, you should constantly update the
 ```sh
 git merge master
 ```
+
+# Merging dev-branch into master
+
+After you achieved stable functionality in your dev branch, you should merge it back to the master branch and share with the master code and other developers and users :)
+
+Switch to master
+
+Merge `cf-puzzle-ibis` branch into master
+```sh
+git merge cf-puzzle-ibis
+```
+
+Pull latest changes from the server
+```sh
+git pull origin master
+```
+
+Push back to the server
+```sh
+git push origin master
+```
+
+Delete local developer branch
+```sh
+git branch -d cf-puzzle-ibis
+```
