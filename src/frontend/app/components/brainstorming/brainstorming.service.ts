@@ -357,10 +357,8 @@ export class BrainstormingService {
         this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
         .broadcast('BrainstormingService', 'brainstorming.BrainstormingPanelComponent');
       }
-      let info:InfoForDialog = new InfoForDialog();
-      info.title = 'Brainstorming';
-      info.message = this.getMessage();
-      this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService', info);
+      this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('BrainstormingService',
+      new InfoForDialog(this.getMessage(), 'Brainstorming'));
       if(creator){
         if(this.brainstorming.phase === BrainstormingPhase.SHARING_IDEAS){
           let change:any = {'parameter':'mustFollowPresenter','value':true};

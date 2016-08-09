@@ -14,4 +14,11 @@
 	.tab_block{
 		display: block;
 	}
+	.tab_label{
+			min-width: 100px !important;
+			padding-top: 2px !important;
+			padding-bottom: 2px !important;
+			padding-left: 5px !important;
+			padding-right: 5px !important;
+	}
 }
