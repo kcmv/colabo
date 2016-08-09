@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {components} from '../../js/pluginDependencies';
+import {components, servicesDependencies} from '../../js/pluginDependencies';
+import {upgradeAdapter} from '../../js/upgrade_adapter';
 declare var Config:any;
 
 /**
@@ -15,6 +16,38 @@ export class PluginsPreloader {
     static componentsPromises:Array<any> = [];
     static componentsPromise;
     static useSystemJsImport = false;
+
+    /**
+     * Loads external puzzle from puzzleInfo
+     * loads and injects services, adds providers, ng1/2 upgrade/downgrade, ...
+     * @param  {[type]} puzzleInfo external puzzle info
+     */
+    static loadExternalPuzzle(puzzleInfo){
+      // loads all registered services from the puzzle
+      // they can be of different type NG1 or NG2
+      // and language JS or TS
+      // and visible in NG1 and/or NG2 world
+      var services = puzzleInfo.puzzles.services;
+      for(var serviceName in services){
+        let service = services[serviceName];
+        if(service.isTS){
+          var serviceClass = servicesDependencies[service.path];
+          if(service.isGlobal){
+            // upgradeAdapter
+            upgradeAdapter.addProvider(serviceClass);
+          }
+        }
+        if(service.isAvailableInNG1){
+          var moduleRef =
+              angular.module(service.module);
+          moduleRef.
+              service(serviceName,
+                service.isNG2 ? upgradeAdapter.downgradeNg2Provider(serviceClass) :
+                serviceClass
+              );
+        }
+      }
+    }
 
     // Iterates through Config.Plugins.ViewComponents and loads
     // all components
@@ -39,7 +72,7 @@ export class PluginsPreloader {
 
     // adds to the component's directives list componentDirectives
     // all components that are dinamically loaded through puzzles
-    // and described in Config.Plugins.ViewComponents[componentName] 
+    // and described in Config.Plugins.ViewComponents[componentName]
     static addDirectivesDependenciesForComponent(componentName, componentDirectives){
       // get the config for ourselves
       var puzzleHostingConfig = Config.Plugins.ViewComponents[componentName];

@@ -24,3 +24,9 @@ components['/components/brainstorming/brainstorming-panel.component'] = Brainsto
 components['/components/ontov/ontov.component'] = OntovComponent;
 components['/components/session/session-form.component'] = SessionFormComponent;
 components['/components/brainstorming/brainstorming'] = BrainstormingPhase;
+
+// service dependencies that other parts of the system depends on
+export var servicesDependencies:any = {};
+
+import {CfPuzzlesIbisService} from '../../dev_puzzles/ibis/cf.puzzles.ibis.service';
+servicesDependencies['cf.puzzles.ibis.service'] = CfPuzzlesIbisService;

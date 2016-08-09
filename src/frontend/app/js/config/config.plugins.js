@@ -10,6 +10,8 @@ var project = {
 	        BOOTSTRAP_MODULE_HOT_LOADER: 'hot_loader_app2',
 	        SELECTOR: 'button-basic-usage',
 	        APP_SRC: 'app',
+					DEV_PUZZLES_SRC: 'dev_puzzles',
+					DEV_PUZZLES: 'dev_puzzles',
 	        APP_TITLE: 'KnAllEdge',
 	        COMPILATION: {},
 	        SYM_LINKS_EXISTS: false
@@ -345,11 +347,6 @@ var plugins = {
 		}
 	},
 	puzzles: {
-		ibis: {
-			active: true,
-			// relative to the project root
-			path: 'dev_puzzles/ibis'
-		},
 		knalledgeMap: {
 	        active: true,
 	        config: {
@@ -461,6 +458,10 @@ var plugins = {
 			plugins: {
 				mapVisualizePlugins: ['BrainstormingService']
 			}
+		},
+		ibis: {
+			active: true, // is active puzzle
+			path: 'dev_puzzles/ibis' // path to the puzzle folder, relative to the project (frontend) root
 		}
 		//,
 		// session: {
@@ -474,6 +475,7 @@ var plugins = {
 	}
 };
 
+
 if(typeof window !== 'undefined'){
 	if(typeof window.Config === 'undefined') window.Config = {};
 	window.Config.Plugins = plugins;
@@ -482,7 +484,7 @@ if(typeof window !== 'undefined'){
 if(typeof angular !== 'undefined'){
 	angular.module('Config')
 		.constant("Plugins", plugins);
-}
+	}
 
 if(typeof global !== 'undefined'){
 	if(typeof global.Config === 'undefined') global.Config = {};

@@ -1316,43 +1316,6 @@
 	//     	};
 	// 	}])
 
-	/* migrated to ng2 IbisTYpesList component
-	.directive('ibisTypesList', ["$rootScope", "$timeout", "IbisTypesService",
-		function($rootScope, $timeout, IbisTypesService){
-		console.log("[ibisTypesList] loading directive");
-		return {
-			restrict: 'AE',
-			scope: {
-			},
-			// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
-			// expression: http://docs.angularjs.org/guide/expression
-			templateUrl: 'components/knalledgeMap/partials/ibisTypes-list.tpl.html',
-			controller: function ( $scope, $element) {
-				$scope.mapToCreate = null;
-				$scope.modeCreating = false;
-				$scope.items = null;
-				$scope.selectedItem = null;
-				$scope.componentShown = true;
-
-				$scope.items = IbisTypesService.getTypes();
-
-			  $scope.selectedItem = IbisTypesService.getActiveType();
-				$scope.selectItem = function(item) {
-				    $scope.selectedItem = item;
-				    console.log("$scope.selectedItem = " + $scope.selectedItem.name + ": " + $scope.selectedItem._id);
-				    IbisTypesService.selectActiveType	(item);
-				};
-				$scope.hideShowComponent = function($el){
-					// var elSwitch = $element.find('.content');
-					// $(elSwitch).slideToggle();
-					// console.log("Switching: ", $el);
-					$scope.componentShown = !$scope.componentShown;
-				}
-    		}
-    	};
-	}])
-	*/
-
 	.directive('knalledgeMapSelectItem', ['KnAllEdgeSelectItemService', function(KnAllEdgeSelectItemService) { // mcm_map_select_sub_entity
 		return {
 			restrict: 'AE',

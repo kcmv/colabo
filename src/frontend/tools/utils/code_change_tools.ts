@@ -7,6 +7,7 @@ let runServer = () => {
   let routes:any = {
     [`/${APP_DEST}`]: APP_DEST,
     '/node_modules': 'node_modules',
+    '/dev_puzzles': 'dev_puzzles',
     '/bower_components': 'bower_components',
     '/app/images': 'app/images'
   };

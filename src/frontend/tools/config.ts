@@ -55,6 +55,8 @@ export const FONTS_DEST = `${APP_DEST}/fonts`;
 export const JS_DEST = `${APP_DEST}/js`;
 export const APP_ROOT = ENV === 'dev' ? `${APP_BASE}${APP_DEST}/` : `${APP_BASE}`;
 // this is necessary to help Atom to work with ` character
+export const DEV_PUZZLES_SRC = SUB_PROJECT.DEV_PUZZLES_SRC;
+export const DEV_PUZZLES_DEST = `${DIST_DIR}/${ENV}/${SUB_PROJECT.DEV_PUZZLES}`;
 export const VERSION = appVersion();
 
 export const CSS_PROD_BUNDLE = 'all.css';
@@ -342,7 +344,7 @@ function injectExternalPuzzle(puzzle:any){
   for(var puzzleName in puzzleBuilds){
     var puzzleBuild = puzzleBuilds[puzzleName];
 
-    if(typeof puzzleBuild.injectJs === 'string') puzzleBuild.injectJs = [];
+    if(typeof puzzleBuild.injectJs === 'string') puzzleBuild.injectJs = [puzzleBuild.injectJs];
     if(puzzleBuild.injectJs.indexOf('config.js') < 0){
       puzzleBuild.injectJs.push('config.js');
     }
