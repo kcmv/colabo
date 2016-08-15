@@ -174,7 +174,6 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         // ng1 registration and bootstrap
         // { src: join(TMP_DIR, 'components/knalledgeMap/knalledgeMapPolicyService.js'), inject: true, noNorm: true},
         // { src: join(TMP_DIR, 'components/knalledgeMap/knalledgeMapViewService.js'), inject: true, noNorm: true},
-        { src: join(APP_SRC, 'js/app.js'), inject: true, noNorm: true },
 
         // CSS
         // LIBS
@@ -375,6 +374,12 @@ for(var puzzleName in puzzles){
       injectExternalPuzzle(puzzle);
     }
 }
+
+// add app.js after all other external puzzles-containers' configs are provided
+SUB_PROJECTS_FILE.NPM_DEPENDENCIES.push(
+  { src: join(APP_SRC, 'js/app.js'), inject: true, noNorm: true }
+);
+
 
 if (ENABLE_HOT_LOADING) {
     console.log(chalk.bgRed.white.bold('The hot loader is temporary disabled.'));

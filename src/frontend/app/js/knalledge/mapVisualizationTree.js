@@ -482,62 +482,6 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		.html(function(d){
 			return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "+" : "-";
 		});
-	nodeHtmlUpdate.select(".node_type")
-		.style("display", function(d){
-			return (that.knalledgeMapViewService.provider.config.nodes.showTypes && d.kNode && d.kNode.type) ? "block" : "none";
-		})
-		.html(function(d){
-			var label = "";
-			if(d.kNode && d.kNode.type){
-				var type = d.kNode.type;
-				switch(type){
-					case "type_ibis_question":
-						type = "ibis:QUESTION";
-						break;
-					case "type_ibis_idea":
-						type = "ibis:IDEA";
-						break;
-					case "type_ibis_argument":
-						type = "ibis:ARGUMENT";
-						break;
-					case "type_ibis_comment":
-						type = "ibis:COMMENT";
-						break;
-					case "type_knowledge":
-						type = "kn:KnAllEdge";
-						break;
-
-					case "model_component":
-						type = "csdms:COMPONENT";
-						break;
-					case "object":
-						type = "csdms:OBJECT";
-						break;
-					case "variable":
-						type = "csdms:VARIABLE";
-						break;
-					case "assumption":
-						type = "csdms:ASSUMPTION";
-						break;
-					case "grid_desc":
-						type = "csdms:GRID DESC";
-						break;
-					case "grid":
-						type = "csdms:GRID";
-						break;
-					case "process":
-						type = "csdms:PROCESS";
-						break;
-				}
-				label = "%" + type;
-			}
-			return label;
-		})
-		.on("click", function(d){
-			console.log('type clicked for node ',d.kNode.name);
-			d3.event.stopPropagation();
-			that.upperAPI.nodeTypeClicked(d);
-		});
 	nodeHtmlUpdate.select(".rima_user")
 		.style("display", function(d){
 			return that.rimaService.config.showUsers && that.rimaService.getUserById(d.kNode.iAmId) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')

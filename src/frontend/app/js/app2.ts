@@ -33,6 +33,7 @@ import { disableDeprecatedForms, provideForms } from '@angular/forms';
 import { MapInteraction } from './interaction/mapInteraction';
 
 import { Injector } from '../components/utils/injector';
+var injector:Injector = new Injector();
 /// <reference path="../../../typings/browser/ambient/angular/angular.d.ts" />
 /// <reference path="../../../typings/browser/ambient/angular-route/angular-route.d.ts" />
 
@@ -41,10 +42,11 @@ import { Injector } from '../components/utils/injector';
 // like injecting services, providers, etc
 import './pluginDependencies';
 import {PluginsPreloader} from '../components/collaboPlugins/pluginsPreloader';
+injector.addPath("puzzles.collaboPlugins.PluginsPreloader", PluginsPreloader);
 declare var Config:any;
 for(let puzzleName in Config.Plugins.external){
   let puzzleInfo = Config.Plugins.external[puzzleName];
-  PluginsPreloader.loadExternalPuzzle(puzzleInfo);
+  PluginsPreloader.loadExternalPuzzleContainer(puzzleInfo);
 }
 
 /** used instead of
@@ -159,7 +161,6 @@ upgradeAdapter.upgradeNg1Provider('KnalledgeMapPolicyService');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
 
 
-var injector:Injector = new Injector();
 // injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
 // injector.addPath("collaboPlugins.globalEmitterService", GlobalEmitterService);
 injector.addPath("utils.globalEmitterService", Injector);

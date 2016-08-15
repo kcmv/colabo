@@ -49,6 +49,25 @@ requiresList.push('suggestionServices');
 requiresList.push('changeServices');
 
 
+for(var puzzlesContainerName in window.Config.Plugins.external){
+	var puzzlesContainer = window.Config.Plugins.external[puzzlesContainerName];
+
+	for(var puzzleName in puzzlesContainer.puzzles){
+		var puzzle = puzzlesContainer.puzzles[puzzleName];
+		if(!puzzle.active) continue;
+
+		for(var serviceName in puzzle.services){
+			var service = puzzle.services[serviceName];
+			if(!service.isNG2 || service.isAvailableInNG1){
+				if(requiresList.indexOf(service.module) < 0){
+					console.info("[app] adding module: ", service.module);
+					requiresList.push(service.module);
+				}
+			}
+		}
+	}
+}
+
 // a module that contains ng2 directives and services downgraded for ng1 space
 // requiresList.push('KnAllEdgeNg2');
 

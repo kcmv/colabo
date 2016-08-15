@@ -100,54 +100,6 @@
 
 				injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
 
-				// loading component plugins' services
-
-				var loadPluginsServices = function loadPluginsServices(
-					configPlugins, serviceRefs, pluginsToLoad, injectorAngular, injectorPartial
-				) {
-					// iterating through components
-					for (var componentName in configPlugins) {
-						var component = configPlugins[componentName];
-						// if disabled skip
-						if (!component.active) continue;
-
-						// list of services that we have to load
-						var serviceIds = [];
-
-						serviceRefs[componentName] = {};
-
-						// iterating through all plugins we care for in this directive
-						if (!component.plugins) continue;
-						for (var pluginId in component.plugins) {
-							if (!pluginsToLoad[pluginId]) continue;
-
-							var plugins = component.plugins[pluginId];
-							for (var pId in plugins) {
-								var serviceId = plugins[pId];
-								serviceIds.push(serviceId);
-							}
-						}
-
-						// injecting reuqired services
-						for (var sId in serviceIds) {
-							var serviceId = serviceIds[sId];
-							if (serviceRefs[componentName][serviceId]) continue;
-							var serviceConfig = component.services[serviceId];
-							// injecting
-							var serviceRef =
-								injectorAngular.get(serviceConfig.name || serviceId);
-							serviceRefs[componentName][serviceId] =
-								serviceRef;
-							// path to the service
-							var servicePath = serviceConfig.path ||
-								(componentName + "." + (serviceConfig.name || serviceId));
-
-							if (!injectorPartial.has(servicePath))
-								injectorPartial.addPath(servicePath, serviceRef);
-						}
-					}
-				};
-
 				// references to loaded services
 				var componentServiceRefs = {};
 				// plugins that we care for inside the directive
@@ -157,8 +109,9 @@
 					mapInteractionPlugins: true,
 					keboardPlugins: true
 				};
-
-				loadPluginsServices(Config.Plugins.puzzles, componentServiceRefs, pluginsOfInterest, $injector, injector);
+				var PluginsPreloader = injector.get("puzzles.collaboPlugins.PluginsPreloader");
+				PluginsPreloader.loadPluginsServices(componentServiceRefs,
+					pluginsOfInterest, $injector, injector);
 
 				//duplikat: var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 				var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
@@ -578,50 +531,13 @@
 								}
 							};
 
-							// this function iterates through components' plugins
-							// and injects them into mapPlugins structure
-							// that will be used in sub components
-							function injectPlugins(pluginsName) {
-								if (!mapPlugins[pluginsName]) {
-									mapPlugins[pluginsName] = {};
-								}
-
-								for (var componentName in Config.Plugins.puzzles) {
-									var component = Config.Plugins.puzzles[componentName];
-									if (component.active && component.plugins &&
-										component.plugins[pluginsName]
-									) {
-										for (var sId in component.plugins[pluginsName]) {
-											var serviceId = component.plugins[pluginsName][sId];
-											var serviceConfig = component.services[serviceId];
-											var serviceName = serviceConfig.name || serviceId;
-
-											if (!componentServiceRefs[componentName][serviceId].plugins) continue;
-
-											// path to the service
-											var servicePath = serviceConfig.path ||
-												(componentName + "." + (serviceConfig.name || serviceId));
-
-											mapPlugins[pluginsName][servicePath] =
-												componentServiceRefs[componentName][serviceId].plugins[pluginsName];
-										}
-									}
-								}
-							}
-
 							/**
-							 * Plugins that are provided to the knalledge.Map
-							 * @type {Object}
-							 */
-							var mapPlugins = {};
-
-							// injecting plugins
-							for (var pluginName in pluginsOfInterest) {
-								injectPlugins(pluginName);
-							}
+				       * Plugins that are provided to the knalledge.Map
+				       * @type {Object}
+				       */
+							var mapPlugins = PluginsPreloader.injectPluginsOfInterestForComponent(pluginsOfInterest, componentServiceRefs);
 
 							injector.addPath("timeout", $timeout);
-
 							injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
 
 							$scope.knalledgeMap = new knalledge.Map(
