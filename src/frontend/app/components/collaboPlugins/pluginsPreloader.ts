@@ -23,26 +23,26 @@ export class PluginsPreloader {
      * @param  {[type]} puzzleInfo external puzzle info
      * used at the frontend, run-time for loading puzzle dependencies
      */
-    static loadExternalPuzzleContainer(puzzlesInfo){
+    static loadServicesFromExternalPuzzleContainer(puzzlesInfo){
       console.info("[PluginsPreloader.loadExternalPuzzle] loading puzzle container: ", puzzlesInfo.name);
       for (var puzzleName in puzzlesInfo.puzzles) {
         var puzzle = puzzlesInfo.puzzles[puzzleName];
         // if disabled skip
         if (!puzzle.active) continue;
-        PluginsPreloader._loadExternalPuzzle(puzzleName, puzzle);
+        PluginsPreloader._loadServicesFromExternalPuzzle(puzzleName, puzzle);
       }
     }
 
-    static _loadExternalPuzzle(puzzleName:string, puzzleInfo:any){
-      // loads all registered services from the puzzle
-      // they can be of different type NG1 or NG2
-      // and language JS or TS
-      // and visible in NG1 and/or NG2 world
-      console.info("[PluginsPreloader._loadExternalPuzzle] loading puzzle: ", puzzleName);
+    // loads all registered services from the puzzle
+    // they can be of different type NG1 or NG2
+    // and language JS or TS
+    // and visible in NG1 and/or NG2 world
+    static _loadServicesFromExternalPuzzle(puzzleName:string, puzzleInfo:any){
+      console.info("[PluginsPreloader._loadServicesFromExternalPuzzle] loading puzzle: ", puzzleName);
       var services = puzzleInfo.services;
       for(var serviceName in services){
         let service = services[serviceName];
-        console.info("[PluginsPreloader._loadExternalPuzzle] loading service: ", serviceName, ", service:", service);
+        console.info("[PluginsPreloader._loadServicesFromExternalPuzzle] loading service: ", serviceName, ", service:", service);
         if(service.isTS){
           var serviceClass = servicesDependencies[service.path];
           if(service.isGlobal){
@@ -60,29 +60,35 @@ export class PluginsPreloader {
               );
         }
       }
-      console.info("[PluginsPreloader._loadExternalPuzzle] puzzle loaded");
+      console.info("[PluginsPreloader._loadServicesFromExternalPuzzle] puzzle loaded");
     }
 
-    // loading component plugins' services
-    static loadPluginsServices(
-      serviceRefs, pluginsToLoad, injectorAngular, injectorPartial
+    /**
+     * retrieving all  services that are needed for plugins
+     * @param  {[type]} pluginsToLoad   plugins of interest
+     * @param  {[type]} injectorAngular reference to angular $injector
+     * @param  {[type]} injectorPartial reference to our components.utils.Injector
+     * @param  {[type]} serviceRefs     returned services related to plugins
+     */
+    static retrieveServicesForPlugins(
+      pluginsToLoad, injectorAngular, injectorPartial, serviceRefs
     ) {
       // loading internal puzzles
-      PluginsPreloader._loadPluginsServicesForConfig(
+      PluginsPreloader._retrieveServicesForPluginsFromConfig(
         Config.Plugins.puzzles, serviceRefs, pluginsToLoad, injectorAngular, injectorPartial);
 
       // loading external puzzles' plugins
       for(let puzzleName in Config.Plugins.external){
-        console.info("[PluginsPreloader.loadPluginsServices] puzzle: ", puzzleName);
+        console.info("[PluginsPreloader.retrieveServicesForPlugins] puzzle: ", puzzleName);
         let puzzleInfo = Config.Plugins.external[puzzleName];
-        PluginsPreloader._loadPluginsServicesForConfig(
+        PluginsPreloader._retrieveServicesForPluginsFromConfig(
           puzzleInfo.puzzles, serviceRefs, pluginsToLoad, injectorAngular, injectorPartial);
       }
 
     }
 
     // loading component plugins' services
-    static _loadPluginsServicesForConfig(
+    static _retrieveServicesForPluginsFromConfig(
       configPlugins, serviceRefs, pluginsToLoad, injectorAngular, injectorPartial
     ) {
       // iterating through components
@@ -128,41 +134,44 @@ export class PluginsPreloader {
     }
 
     // this function iterates through components' plugins
-    // and injects them into mapPlugins structure
+    // and injects them into populatedPlugins structure
     // that will be used in sub components
-    static injectPluginsOfInterestForComponent(pluginsOfInterest, componentServiceRefs){
-      var mapPlugins = {};
+    static populateInPluginsOfInterest(pluginsOfInterest, $injector, injector, populatedPlugins){
+      // references to loaded services
+      var serviceRefs = {};
+
+      PluginsPreloader.retrieveServicesForPlugins(pluginsOfInterest, $injector, injector, serviceRefs);
 
       // injecting plugins
       for (var pluginName in pluginsOfInterest) {
-        PluginsPreloader.injectPluginsForComponent(pluginName, mapPlugins, componentServiceRefs);
+        PluginsPreloader.populateInPlugins(pluginName, populatedPlugins, serviceRefs);
       }
 
-      return mapPlugins;
+      return populatedPlugins;
     }
 
     // this function iterates through components' plugins
-    // and injects them into mapPlugins structure
+    // and injects them into populatedPlugins structure
     // that will be used in sub components
-    static injectPluginsForComponent(pluginName, mapPlugins, componentServiceRefs){
-      if (!mapPlugins[pluginName]) {
-        mapPlugins[pluginName] = {};
+    static populateInPlugins(pluginName, populatedPlugins, serviceRefs){
+      if (!populatedPlugins[pluginName]) {
+        populatedPlugins[pluginName] = {};
       }
 
       // injecting from internal puzzles-container
-      PluginsPreloader.injectPluginsForComponentFromPuzzles(pluginName, mapPlugins, componentServiceRefs, Config.Plugins.puzzles);
+      PluginsPreloader.populateInPluginsFromPuzzles(pluginName, populatedPlugins, serviceRefs, Config.Plugins.puzzles);
 
       // injecting from external puzzles-containers
       for(let puzzleName in Config.Plugins.external){
-        console.info("[PluginsPreloader.loadPluginsServices] puzzle: ", puzzleName);
+        console.info("[PluginsPreloader.populateInPlugins] puzzle: ", puzzleName);
         let puzzleInfo = Config.Plugins.external[puzzleName];
-        PluginsPreloader.injectPluginsForComponentFromPuzzles(pluginName, mapPlugins, componentServiceRefs, puzzleInfo.puzzles);
+        PluginsPreloader.populateInPluginsFromPuzzles(pluginName, populatedPlugins, serviceRefs, puzzleInfo.puzzles);
       }
 
     }
 
     // inject plugins from puzzles-container
-    static injectPluginsForComponentFromPuzzles(pluginName, mapPlugins, componentServiceRefs, puzzlesInfo){
+    static populateInPluginsFromPuzzles(pluginName, populatedPlugins, serviceRefs, puzzlesInfo){
 
       for (var componentName in puzzlesInfo) {
         var component = puzzlesInfo[componentName];
@@ -174,14 +183,14 @@ export class PluginsPreloader {
             var serviceConfig = component.services[serviceId];
             var serviceName = serviceConfig.name || serviceId;
 
-            if (!componentServiceRefs[componentName][serviceId].plugins) continue;
+            if (!serviceRefs[componentName][serviceId].plugins) continue;
 
             // path to the service
             var servicePath = serviceConfig.path ||
               (componentName + "." + (serviceConfig.name || serviceId));
 
-            mapPlugins[pluginName][servicePath] =
-              componentServiceRefs[componentName][serviceId].plugins[pluginName];
+            populatedPlugins[pluginName][servicePath] =
+              serviceRefs[componentName][serviceId].plugins[pluginName];
           }
         }
       }

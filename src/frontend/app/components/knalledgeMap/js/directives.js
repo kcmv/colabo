@@ -100,19 +100,6 @@
 
 				injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
 
-				// references to loaded services
-				var componentServiceRefs = {};
-				// plugins that we care for inside the directive
-				var pluginsOfInterest = {
-					mapVisualizePlugins: true,
-					mapVisualizeHaloPlugins: true,
-					mapInteractionPlugins: true,
-					keboardPlugins: true
-				};
-				var PluginsPreloader = injector.get("puzzles.collaboPlugins.PluginsPreloader");
-				PluginsPreloader.loadPluginsServices(componentServiceRefs,
-					pluginsOfInterest, $injector, injector);
-
 				//duplikat: var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 				var changeKnalledgePropertyEventName = "changeKnalledgePropertyEvent";
 				GlobalEmitterServicesArray.register(changeKnalledgePropertyEventName);
@@ -531,11 +518,25 @@
 								}
 							};
 
+
+							// loading component plugins
+							// plugins that we care for inside the directive
+							var pluginsOfInterest = {
+								mapVisualizePlugins: true,
+								mapVisualizeHaloPlugins: true,
+								mapInteractionPlugins: true,
+								keboardPlugins: true
+							};
+							var PluginsPreloader = injector.get("puzzles.collaboPlugins.PluginsPreloader");
 							/**
 				       * Plugins that are provided to the knalledge.Map
 				       * @type {Object}
 				       */
-							var mapPlugins = PluginsPreloader.injectPluginsOfInterestForComponent(pluginsOfInterest, componentServiceRefs);
+							var mapPlugins = {};
+							// populate in all plugins of interest
+							PluginsPreloader.populateInPluginsOfInterest(
+								pluginsOfInterest, $injector, injector, mapPlugins);
+
 
 							injector.addPath("timeout", $timeout);
 							injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);

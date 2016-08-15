@@ -376,6 +376,7 @@ for(var puzzleName in puzzles){
 }
 
 // add app.js after all other external puzzles-containers' configs are provided
+// so app.js is capable of accessing external puzzles-containers' configs
 SUB_PROJECTS_FILE.NPM_DEPENDENCIES.push(
   { src: join(APP_SRC, 'js/app.js'), inject: true, noNorm: true }
 );

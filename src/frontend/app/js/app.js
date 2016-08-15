@@ -48,7 +48,8 @@ requiresList.push('requestServices');
 requiresList.push('suggestionServices');
 requiresList.push('changeServices');
 
-
+// This code loads all external puzzles-containers and scans for any ng1 module
+// and adds it as a requirement to the main module
 for(var puzzlesContainerName in window.Config.Plugins.external){
 	var puzzlesContainer = window.Config.Plugins.external[puzzlesContainerName];
 

@@ -21,12 +21,6 @@ var puzzles = {
     }
   },
 
-  puzzlesConfig: {
-    ibis: {
-      available: true
-    }
-  },
-
   puzzles: {
     ibis: {
       active: true,

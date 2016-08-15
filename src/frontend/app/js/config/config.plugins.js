@@ -290,62 +290,6 @@ var plugins = {
 			injectCss: 'css/default.css'
 		}
 	},
-	puzzlesConfig: {
-		// demoPuzzle: {
-		// 	available: true
-		// },
-		knalledgeMap: {
-			available: true
-		},
-		collaboPlugins: {
-			available: true
-		},
-		rima: {
-			available: true
-		},
-		notify: {
-			available: true
-		},
-		topiChat: {
-			available: true
-		},
-		topPanel: {
-			available: true
-		},
-		bottomPanel: {
-			available: true
-		},
-		request: {
-			available: true
-		},
-		suggestion: {
-			available: true
-		},
-		brainstorming: {
-			available: true
-		},
-		session: {
-			available: true
-		},
-		change: {
-			available: true
-		},
-		login: {
-			available: true
-		},
-		ontov: {
-			available: true
-		},
-		mcMap: {
-			available: true
-		},
-		mapsList: {
-			available: true
-		},
-		gardening: {
-			available: true
-		}
-	},
 	puzzles: {
 		knalledgeMap: {
 	        active: true,
