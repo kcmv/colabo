@@ -86,6 +86,10 @@
                                     <i title="Plugins" md-icon>extension</i>
                                 </button>
 
+                                <button md-fab class="md-mini md-primary" aria-label="Ontov Search" (click)="state('plugins')">
+                                    <i title="Ontov Search" md-icon>search</i>
+                                </button>
+
                                 <button *ngIf="pluginsConfig?.knalledgeMap?.config?.externalInterface?.backFromMap" md-fab class="md-mini md-primary" aria-label="Navigate Back" (click)="navigateBack()">
                                   <i title="Back" md-icon>navigate_before</i>
                                 </button>
