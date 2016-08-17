@@ -1,3 +1,4 @@
+import {join} from 'path';
 import {PORT, APP_DEST} from '../config';
 // Live CSS Reload &amp; Browser Syncing
 // https://www.npmjs.com/package/browser-sync
@@ -7,19 +8,33 @@ let runServer = () => {
   let routes:any = {
     [`/${APP_DEST}`]: APP_DEST,
     '/node_modules': 'node_modules',
-    '/dev_puzzles': 'dev_puzzles',
     '/bower_components': 'bower_components',
-    '/app/images': 'app/images'
+    '/app/images': join(APP_DEST, 'images'),
+    // '/dev_puzzles': join(APP_DEST, 'dev_puzzles'),
+    '/dev_puzzles': 'dev_puzzles',
+    // current (?) hack for wrong mapping coming from code (like `/dev_puzzles`)
+    // that is outside the `app` folder
+    // example: referencing the path:
+    // ```js
+    // import {KnalledgeMapViewService} from '../../app/components/knalledgeMap/knalledgeMapViewService';
+    // ```
+    // '/app/components': join(APP_DEST, 'components')
+    // '/app/components': 'app/components'
+    '/app/components': join(APP_DEST, 'components')
   };
   // https://www.browsersync.io/docs/options/
   browserSync({
     middleware: [require('connect-history-api-fallback')()],
     port: PORT,
     startPath: '/',
+
+    // logLevel: "debug",
+    // logConnections: true,
+    // logFileChanges: true,
+
     server: {
       baseDir: APP_DEST,
-    //   directory: true,
-    //   index: "index.html",
+      directory: true,
       routes: routes
     }
   });

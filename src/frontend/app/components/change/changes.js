@@ -10,7 +10,7 @@ var changes;
 * This namespace contains changes puzzle that track changes happening in the CollaboFramework system
 * @namespace changes
 */
-if(typeof puzzles.changes === 'undefined') 
+if(typeof puzzles.changes === 'undefined')
     puzzles.changes = {};
 
 }()); // end of 'use strict';

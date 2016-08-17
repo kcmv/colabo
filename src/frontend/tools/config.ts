@@ -14,6 +14,7 @@ const ENVIRONMENTS = {
     PRODUCTION: 'prod'
 };
 
+
 export const SUB_PROJECT_NAME = argv['sub-project'] || PluginsConfig.project.name;
 
 export const SUB_PROJECT = PluginsConfig.project.subProjects[SUB_PROJECT_NAME];
@@ -71,6 +72,77 @@ console.log('APP_DEST: %s, APP_DEST_FROM_HERE: ', APP_DEST, APP_DEST_FROM_HERE);
 
 export const COMPASS_CONFIG = SUB_PROJECT.COMPILATION.COMPASS;
 console.log("SUB_PROJECT: ", SUB_PROJECT);
+
+export var BUILD_SEQUENCE: [
+  'clean.dev', // cleans prod (folder, ...)
+  'build.compass', // compiles COMPASS files -> APP_DEST
+  'build.assets.dev',   // copies asset files (not *.ts) from APP_SRC -> APP_DEST
+                        // (and dependencies assets -> d.dest)
+  'tslint', // ts linting
+  'build.js.dev', // compiles ts files, replace templates and adds sourcemaps -> APP_DEST
+  'build.index.dev' // inject all dependencies under coresponding placeholders
+];
+
+// states used to support smart building process
+export var WATCH_BUILD_STATE:any = {
+  printCommands: true, // print commands on any action
+  autoBuild: false, // build after any watch trigger
+  autoReload: true, // reload browser after any build
+  notifyOnReload: true, // audio notify on reloading the browser
+  everyBuildIsFull: false // should every triggered/requested build be full ?
+};
+
+// set of watch rules that will set particular steps of building process in response
+export var WATCH_BUILD_RULES:any = {
+};
+
+// COMPASS/SASS rule
+WATCH_BUILD_RULES[join(APP_SRC, '**/*.scss')] = {
+  steps: {
+    'clean.dev': false,
+    'build.compass': true,
+    'build.assets.dev': true,
+    'tslint': false,
+    'build.js.dev': false,
+    'build.index.dev': true,
+  }
+};
+
+// JS rule
+WATCH_BUILD_RULES[join(APP_SRC, '**/*.js')] = {
+  steps: {
+    'clean.dev': false,
+    'build.compass': false,
+    'build.assets.dev': false,
+    'tslint': false,
+    'build.js.dev': false,
+    'build.index.dev': false,
+  }
+};
+
+// TS rule
+WATCH_BUILD_RULES[join(APP_SRC, '**/*.ts')] = {
+  steps: {
+    'clean.dev': false,
+    'build.compass': false,
+    'build.assets.dev': false,
+    'tslint': true,
+    'build.js.dev': true,
+    'build.index.dev': false,
+  }
+};
+
+export var WATCH_BUILD_CHANGED_FILES = {};
+
+// the set of building tasks that are set to be built on the next build
+export var WATCH_CHANGED:any = {
+  'clean.dev': false,
+  'build.compass': false,
+  'build.assets.dev': false,
+  'tslint': false,
+  'build.js.dev': false,
+  'build.index.dev': false
+};
 
 /**
  * Replaces string version(s) of APP paths with real path values and returns string path
@@ -202,7 +274,7 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
 
 var npmDependencies = SUB_PROJECTS_FILE.NPM_DEPENDENCIES;
 var puzzlesBuild = PluginsConfig.plugins.puzzlesBuild;
-var puzzlesConfig = PluginsConfig.plugins.puzzlesConfig;
+var puzzlesConfig = PluginsConfig.plugins.puzzles;
 
 // Example
 
@@ -319,7 +391,7 @@ for(var puzzleName in puzzlesBuild){
     console.log("puzzleBuild: ", puzzleBuild);
 
     // if not configured or set as unavailable do not inject it
-    if(!(puzzleName in puzzlesConfig) || !puzzlesConfig[puzzleName].available) continue;
+    if(!(puzzleName in puzzlesConfig) || !puzzlesConfig[puzzleName].active) continue;
     injectPuzzleWithPossibleSubPuzzles(npmDependencies, puzzleBuild);
 }
 
@@ -350,7 +422,6 @@ function injectExternalPuzzle(puzzle:any){
   }
 
   // if not configured or set as unavailable do not inject it
-  // if(!(puzzleName in puzzlesConfig) || !puzzlesConfig[puzzleName].available) continue;
   injectPuzzleWithPossibleSubPuzzles(npmDependencies, puzzleBuild, puzzlePath);
 
   // injecting compass building
