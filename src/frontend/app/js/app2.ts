@@ -38,7 +38,7 @@ var injector:Injector = new Injector();
 /// <reference path="../../../typings/browser/ambient/angular-route/angular-route.d.ts" />
 
 
-// Loading external puzzles' dependencies
+// Loading external puzzles-containers dependencies
 // like injecting services, providers, etc
 import './pluginDependencies';
 import {PluginsPreloader} from '../components/collaboPlugins/pluginsPreloader';
@@ -46,7 +46,7 @@ injector.addPath("puzzles.collaboPlugins.PluginsPreloader", PluginsPreloader);
 declare var Config:any;
 for(let puzzleName in Config.Plugins.external){
   let puzzleInfo = Config.Plugins.external[puzzleName];
-  PluginsPreloader.loadExternalPuzzleContainer(puzzleInfo);
+  PluginsPreloader.loadServicesFromExternalPuzzleContainer(puzzleInfo);
 }
 
 /** used instead of

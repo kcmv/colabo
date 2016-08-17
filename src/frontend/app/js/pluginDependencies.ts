@@ -5,7 +5,7 @@
 import {TopPanel} from '../components/topPanel/topPanel';
 import {GardeningControls} from '../components/gardening/gardening-controls.component';
 import {RimaUsersList} from '../components/rima/rimaUsersList';
-import {IbisTypesList} from '../components/knalledgeMap/ibisTypesList';
+import {IbisTypesList} from '../../dev_puzzles/ibis/ibisTypesList';
 import {BrainstormingFormComponent} from '../components/brainstorming/brainstorming-form.component';
 import {BrainstormingPanelComponent} from
 '../components/brainstorming/brainstorming-panel.component';
@@ -18,7 +18,7 @@ export var components:any = {};
 components['/components/topPanel/topPanel'] = TopPanel;
 components['/components/gardening/gardening-controls.component'] = GardeningControls;
 components['/components/rima/rimaUsersList'] = RimaUsersList;
-components['/components/knalledgeMap/ibisTypesList'] = IbisTypesList;
+components['cf.puzzles.ibis.typesList'] = IbisTypesList;
 components['/components/brainstorming/brainstorming-form.component'] = BrainstormingFormComponent;
 components['/components/brainstorming/brainstorming-panel.component'] = BrainstormingPanelComponent;
 components['/components/ontov/ontov.component'] = OntovComponent;

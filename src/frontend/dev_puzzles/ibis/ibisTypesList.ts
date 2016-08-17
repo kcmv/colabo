@@ -3,9 +3,10 @@ import {NgIf, CORE_DIRECTIVES} from "@angular/common";
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {FORM_DIRECTIVES} from '@angular/forms';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
-import {KnalledgeMapViewService} from './knalledgeMapViewService';
-import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+
+import {KnalledgeMapViewService} from '../../app/components/knalledgeMap/knalledgeMapViewService';
+import {KnalledgeMapPolicyService} from '../../app/components/knalledgeMap/knalledgeMapPolicyService';
+import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
 
 @Component({
     selector: 'ibis-types-list',
