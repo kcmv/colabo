@@ -132,6 +132,43 @@ WATCH_BUILD_RULES[join(APP_SRC, '**/*.ts')] = {
   }
 };
 
+// DEV_PUZZLES_SRC related
+// COMPASS/SASS rule
+WATCH_BUILD_RULES[join(DEV_PUZZLES_SRC, '**/*.scss')] = {
+  steps: {
+    'clean.dev': false,
+    'build.compass': true,
+    'build.assets.dev': true,
+    'tslint': false,
+    'build.js.dev': false,
+    'build.index.dev': true,
+  }
+};
+
+// JS rule
+WATCH_BUILD_RULES[join(DEV_PUZZLES_SRC, '**/*.js')] = {
+  steps: {
+    'clean.dev': false,
+    'build.compass': false,
+    'build.assets.dev': false,
+    'tslint': false,
+    'build.js.dev': false,
+    'build.index.dev': false,
+  }
+};
+
+// TS rule
+WATCH_BUILD_RULES[join(DEV_PUZZLES_SRC, '**/*.ts')] = {
+  steps: {
+    'clean.dev': false,
+    'build.compass': false,
+    'build.assets.dev': false,
+    'tslint': true,
+    'build.js.dev': true,
+    'build.index.dev': false,
+  }
+};
+
 export var WATCH_BUILD_CHANGED_FILES = {};
 
 // the set of building tasks that are set to be built on the next build
