@@ -21,3 +21,32 @@
     + [rima-insights](http://KnAllEdge.org/app/index-dev.html#/rima-insights)
     + [rima-insights-map](http://KnAllEdge.org/app/index-dev.html#/rima-insights-map)
     + [plugins](http://KnAllEdge.org/app/index-dev.html#/plugins)
+
+## Windows
+
+### Database (MongoDB)
+
+Navigate to `c:/mongodb/bin/`in command prompt and start the server:
+
+```sh
+c:
+cd c:\mongodb\bin\
+mongod
+```
+
+### Server (Backend)
+
+Naviagate to `KnAllEdge/src/backend` and start the server:
+
+```sh
+npm start
+```
+
+
+### Server (Frontend)
+
+Naviagate to `KnAllEdge/src/frontend` and start the server:
+
+```sh
+npm start
+```
