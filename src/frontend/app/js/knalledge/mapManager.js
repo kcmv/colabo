@@ -135,7 +135,7 @@ var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStruct
 	};
 
 	// Layout
-	this.layouts.viewspec_tree = this.layouts.viewspec_manual = new knalledge.MapLayoutTree(this.mapStructure,
+	this.layouts.viewspec_tree = this.layouts.viewspec_manual = new knalledge.MapLayoutTreeCF(this.mapStructure,
 		this.collaboPluginsService, this.configNodes, this.configTree, this.layoutApis.viewspec_tree, this.knalledgeState,
 		this.knAllEdgeRealTimeService);
 
@@ -165,7 +165,7 @@ var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStruct
 	};
 
 	// Layout
-	this.layouts.viewspec_flat = new knalledge.MapLayoutTree(this.mapStructure, this.collaboPluginsService, this.configNodes,
+	this.layouts.viewspec_flat = new knalledge.MapLayoutTreeCF(this.mapStructure, this.collaboPluginsService, this.configNodes,
 		this.configTree, this.layoutApis.viewspec_flat, this.knalledgeState, this.knAllEdgeRealTimeService);
 
 /***********************************
