@@ -124,7 +124,7 @@ MapLayoutTree.prototype.generateTree = function(source){
 	if(this.nodes){
 		// Normalize for fixed-depth.
 		this.nodes.forEach(function(d) {
-			// Stash the old positions for transition.
+			// Stash the old positions for transition
 		    if('x' in d) d.x0 = d.x;
 		    if('y' in d) d.y0 = d.y;
 		    if('width' in d) d.width0 = d.width;

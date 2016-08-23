@@ -10,8 +10,6 @@ var requiresList = [
 	, 'ngAnimate'
 
 	, 'ui.bootstrap' // UI-bootstrap
-	, 'textAngular'
-	// , 'textAngularSetup'
 	, 'ngWizard'
 	, 'btford.socket-io'
 

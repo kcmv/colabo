@@ -212,22 +212,6 @@ md-sidenav.options {
     margin-bottom: 1em;
     padding: 0.1em;
     border-bottom: solid 1px #555555; }
-  .knalledge_map_list .content {
-    position: relative;
-    margin: 0.1em;
-    padding: 0.0em; }
-    .knalledge_map_list .content .knalledge-properties {
-      position: relative;
-      width: 90%;
-      height: 100%; }
-      .knalledge_map_list .content .knalledge-properties.knalledge-view {
-        word-break: break-all;
-        padding: 0.3em; }
-      .knalledge_map_list .content .knalledge-properties .ta-editor {
-        position: relative; }
-      .knalledge_map_list .content .knalledge-properties .ta-scroll-window > .ta-bind {
-        height: 100%;
-        position: relative; }
 
 /* ------------------------
  knalledge_map_middle
