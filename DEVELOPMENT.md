@@ -79,7 +79,7 @@ git commit
 
 After you achieved stable functionality in your dev branch, you should merge it back to the master branch and share with the master code and other developers and users :)
 
-We need to be in (switch to `git checkout master`) our dev branch and work from
+We need to be in (switch to `git checkout master`) the master branch and work from
 there.
 
 Now we can merge our dev branch back to the master branch:

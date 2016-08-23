@@ -43,6 +43,10 @@ export class KnalledgeMapViewService {
             },
             states: { //TODO: temp solution
               editingNode: null
+            },
+            editors: {
+              defaultType: 'text/markdown'
+              // defaultType: 'text/html'
             }
         }
     };

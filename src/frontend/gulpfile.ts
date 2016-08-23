@@ -102,7 +102,7 @@ gulp.task('build.js.prod', done =>
 // then run: npm run temp
 gulp.task('temp', done =>
     runSequence(
-        'serve.dev.smart',
+        'build.bundles.app',
         done));
 
 // just for testing and accessing directly to a task

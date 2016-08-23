@@ -47,7 +47,9 @@ export const DOCS_DEST = 'docs';
 export const DIST_DIR = 'dist';
 export const DEV_DEST = `${DIST_DIR}/dev`;
 export const PROD_DEST = `${DIST_DIR}/prod`;
-export const TMP_DIR = ENV === 'dev' ? `${DIST_DIR}/dev` : `${DIST_DIR}/tmp`;
+export const TMP_DIR_BASE = ENV === 'dev' ? `${DIST_DIR}/dev` : `${DIST_DIR}/tmp`;
+// this is necessary to help Atom to work with ` character
+export const TMP_DIR = ENV === 'dev' ? `${DIST_DIR}/dev` : `${DIST_DIR}/tmp/app`;
 // this is necessary to help Atom to work with ` character
 export const APP_DEST = `${DIST_DIR}/${ENV}`;
 export const APP_DEST_FROM_HERE = join('..', APP_DEST);
@@ -113,10 +115,10 @@ WATCH_BUILD_RULES[join(APP_SRC, '**/*.js')] = {
   steps: {
     'clean.dev': false,
     'build.compass': false,
-    'build.assets.dev': false,
+    'build.assets.dev': true,
     'tslint': false,
     'build.js.dev': false,
-    'build.index.dev': false,
+    'build.index.dev': true,
   }
 };
 
@@ -150,10 +152,10 @@ WATCH_BUILD_RULES[join(DEV_PUZZLES_SRC, '**/*.js')] = {
   steps: {
     'clean.dev': false,
     'build.compass': false,
-    'build.assets.dev': false,
+    'build.assets.dev': true,
     'tslint': false,
     'build.js.dev': false,
-    'build.index.dev': false,
+    'build.index.dev': true,
   }
 };
 
@@ -287,7 +289,6 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         // CSS
         // LIBS
         { src: join(APP_SRC, 'css/libs/bootstrap/bootstrap.css'), inject: true, dest: CSS_DEST, noNorm: true },
-        { src: join(APP_SRC, 'css/libs/textAngular/textAngular.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
         // KNALLEDGE CORE
         { src: join(APP_SRC, 'css/libs/wizard/ngWizard.css'), inject: true, dest: CSS_DEST, noNorm: true },
@@ -305,7 +306,8 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
     ],
     PROD_NPM_DEPENDENCIES: [
         // ng1 templates (build.js.prod:inlineNg1Templates())
-        { src: join(TMP_DIR, 'js/ng1Templates.js'), inject: true, noNorm: true }
+        { src: join(TMP_DIR, 'js/ng1Templates.js'), inject: true, noNorm: true },
+        { src: join(TMP_DIR, '..', DEV_PUZZLES_SRC, 'js/ng1Templates.js'), inject: true, noNorm: true }
     ]
 };
 
@@ -329,13 +331,17 @@ function injectJsDependencyFactory(dependencies:IDependency[], puzzleBuild:any, 
     };
 
     var path = replaceStrPaths(puzzleBuild.path, parentPath);
+    path = normalize(path);
 
     function injectJsDependency(injectJs:string){
+        var dPath = injectJs[0] === '.' ? parentPath : path;
+        // console.log("injectJs: ", injectJs, "dPath: ", dPath, "parentPath: ", parentPath, "path: ", path);
         var dependency:any = {};
         Object.assign(dependency, jsDpendencyTemplate);
-        dependency.src = (path) ?
-            path + "/" + injectJs : injectJs;
-          console.log("[injectJsDependencyFactory] dependency=", dependency);
+        dependency.src = (dPath) ?
+          dPath + "/" + injectJs : injectJs;
+        dependency.src = normalize(dependency.src);
+        console.log("[injectJsDependencyFactory] dependency=", dependency);
         dependencies.push(dependency);
     }
     return injectJsDependency;
@@ -355,12 +361,15 @@ function injectCssDependencyFactory(dependencies:IDependency[], puzzleBuild:any,
     };
 
     var path = replaceStrPaths(puzzleBuild.path, parentPath);
+    path = normalize(path);
 
     function injectCssDependency(injectCss:string){
+      var dPath = injectCss[0] === '.' ? parentPath : path;
         var dependency:any = {};
         Object.assign(dependency, cssDpendencyTemplate);
-        dependency.src = (path) ?
-            path + "/" + injectCss : injectCss;
+        dependency.src = (dPath) ?
+          dPath + "/" + injectCss : injectCss;
+        dependency.src = normalize(dependency.src);
         console.log("[injectCssDependencyFactory] dependency=", dependency);
         dependencies.push(dependency);
     }
@@ -454,12 +463,13 @@ function injectExternalPuzzle(puzzle:any){
 
     if(typeof puzzleBuild.injectJs === 'string') puzzleBuild.injectJs = [puzzleBuild.injectJs];
     if(puzzleBuild.injectJs.indexOf('config.js') < 0){
-      puzzleBuild.injectJs.push('config.js');
+      puzzleBuild.injectJs.push('./config.js');
     }
+
+    // if not configured or set as unavailable do not inject it
+    injectPuzzleWithPossibleSubPuzzles(npmDependencies, puzzleBuild, puzzlePath);
   }
 
-  // if not configured or set as unavailable do not inject it
-  injectPuzzleWithPossibleSubPuzzles(npmDependencies, puzzleBuild, puzzlePath);
 
   // injecting compass building
   var compassPaths = COMPASS_CONFIG.PATHS;
@@ -519,9 +529,6 @@ const NPM_DEPENDENCIES: IDependency[] = [
     { src: join(APP_SRC, 'js/lib/tween/tween.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/socket.io/socket.io.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/ui-bootstrap/ui-bootstrap-tpls-0.12.1.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_SRC, 'js/lib/textAngular/textAngular-rangy.min.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_SRC, 'js/lib/textAngular/textAngular-sanitize.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_SRC, 'js/lib/textAngular/textAngular.min.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/wizard/ngWizard.js'), inject: 'libs', noNorm: true },
     // { src: join(APP_SRC, 'js/lib/ng2-file-upload/ng2-file-upload.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/socket.io/angular.socket.io.js'), inject: 'libs', noNorm: true },
@@ -608,6 +615,7 @@ var config = {
         [BOOTSTRAP_MODULE]: `${APP_BASE}${BOOTSTRAP_MODULE}`,
         // 'rxjs/*': `${APP_BASE}rxjs/*`,
         '*': `./node_modules/*`,
+        'dist/*': `./dist/*`,
     }
 };
 
