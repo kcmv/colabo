@@ -657,6 +657,7 @@ Map.prototype.processData = function(mapData, selectedKNodeId, callback) {
 	});
 
 	//this.syncingChanged();
+	this.upperApi.nodeSelected(selectedVKNode, undefined, knalledge.Map.INTERNAL_SOURCE, true);
 
 	return this;
 };
