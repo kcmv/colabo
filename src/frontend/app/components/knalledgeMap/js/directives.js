@@ -354,6 +354,7 @@
 											"dom": dom
 										});
 										var property = undefined;
+										var propertyType = undefined;
 
 										// get property and broadcast it
 										// at the moment `knalledgeMapList` directive listens for this event
@@ -364,7 +365,10 @@
 												$route.updateParams($routeParams);
 											}
 											// http://www.historyrundown.com/did-galileo-really-say-and-yet-it-moves/
-											if (vkNode.kNode.dataContent) property = vkNode.kNode.dataContent.property;
+											if (vkNode.kNode.dataContent){
+												property = vkNode.kNode.dataContent.property;
+												propertyType = vkNode.kNode.dataContent.propertyType;
+											}
 											console.log("[knalledgeMap::kMapClientInterface::nodeClicked'] vkNode[%s](%s): property: %s", vkNode.id, vkNode.kNode._id, property);
 										} else {
 											console.log("[knalledgeMap::kMapClientInterface::nodeClicked'] node is not provided. property: %s", property);
@@ -372,7 +376,8 @@
 
 										var nodeContent = {
 											node: vkNode,
-											property: property
+											property: property,
+											propertyType: propertyType
 										};
 
 										GlobalEmitterServicesArray.get(changeKnalledgePropertyEventName).broadcast('knalledgeMap', nodeContent);
@@ -412,7 +417,8 @@
 										// and presents the property inside the editor
 										var nodeContent = {
 											node: null,
-											property: undefined
+											property: undefined,
+											propertyType: undefined
 										};
 
 										GlobalEmitterServicesArray.get(changeKnalledgePropertyEventName).broadcast('knalledgeMap', nodeContent);
@@ -672,10 +678,13 @@
 								}, true);
 
 
-							$scope.subscriptions.push(GlobalEmitterServicesArray.get(knalledgePropertyChangedEventName).subscribe('knalledgeMap', function(knalledgeProperty) {
+							$scope.subscriptions.push(GlobalEmitterServicesArray.get(knalledgePropertyChangedEventName).subscribe('knalledgeMap', function(nodeContentChanged) {
 								var vkNode = $scope.knalledgeMap.mapStructure.getSelectedNode();
 
-								var knalledgePropertyBefore = null;
+								var knalledgePropertyBefore = undefined;
+								var knalledgeProperty = nodeContentChanged.property;
+								var knalledgePropertyTypeBefore = undefined;
+								var knalledgePropertyType = nodeContentChanged.propertyType;
 								if (vkNode) {
 									console.log("[knalledgeMap.controller::$on:%s] vkNode[%s](%s): (old knalledgeProperty: %s), knalledgeProperty: %s", knalledgePropertyChangedEventName, vkNode.id, vkNode.kNode._id,
 										(vkNode.kNode.dataContent ? vkNode.kNode.dataContent.property : null),
@@ -683,15 +692,18 @@
 
 									if (!vkNode.kNode.dataContent) vkNode.kNode.dataContent = {};
 									if (vkNode.kNode.dataContent.property) knalledgePropertyBefore = vkNode.kNode.dataContent.property;
+									if (vkNode.kNode.dataContent.propertyType) knalledgePropertyTypeBefore = vkNode.kNode.dataContent.propertyType;
+									knalledgeProperty
 									//var nowExist = (knalledgeProperty !== null) && (knalledgeProperty.length > 0);
 									//var beforeExisted = (vkNode.kNode.dataContent.property !== null) && (vkNode.kNode.dataContent.property.length > 0);
-									if (knalledgePropertyBefore == knalledgeProperty) return;
-									if (!knalledgePropertyBefore && !knalledgeProperty) return;
+									if (knalledgePropertyBefore === knalledgeProperty && knalledgeProperty === knalledgePropertyTypeBefore) return;
+									if (!knalledgePropertyBefore && !knalledgeProperty && !knalledgePropertyTypeBefore && !knalledgeProperty) return;
 
 									vkNode.kNode.dataContent.property = knalledgeProperty;
+									vkNode.kNode.dataContent.propertyType = knalledgePropertyType;
 									$scope.knalledgeMap.mapStructure.updateNode(vkNode, knalledge.MapStructure.UPDATE_DATA_CONTENT);
 								} else {
-									console.log("[knalledgeMap.controller::$on:%s] node not selected. knalledgeProperty: %s", knalledgePropertyChangedEventName, knalledgeProperty);
+									console.log("[knalledgeMap.controller::$on:%s] node not selected. knalledgeProperty: %s", knalledgePropertyChangedEventName, knalledgeProperty, knalledgePropertyType);
 
 
 								}
@@ -866,8 +878,9 @@
 				};
 			}
 		])
-		.directive('knalledgeMapList', ['$rootScope', '$injector', 'KnalledgeMapPolicyService', /*, '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', */
-			function($rootScope, $injector, KnalledgeMapPolicyService /*, $window, KnalledgeNodeService, KnalledgeEdgeService, $q*/ ) {
+		.directive('knalledgeMapList', ['$rootScope', '$injector', '$timeout', 'KnalledgeMapPolicyService', 'KnalledgeMapViewService',
+			/*, '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', */
+			function($rootScope, $injector, $timeout, KnalledgeMapPolicyService, KnalledgeMapViewService /*, $window, KnalledgeNodeService, KnalledgeEdgeService, $q*/ ) {
 				// http://docs.angularjs.org/guide/directive
 				var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 				var knalledgePropertyChangedEventName = "knalledgePropertyChangedEvent";
@@ -876,17 +889,48 @@
 				GlobalEmitterServicesArray.register(changeKnalledgePropertyEventName);
 				return {
 					restrict: 'AE',
+					// crashes here
+					// https://toddmotto.com/directive-to-directive-communication-with-require/
+					// http://stackoverflow.com/questions/15672709/how-to-require-a-controller-in-an-angularjs-directive
+					// https://demisx.github.io/angularjs/directives/2014/11/25/angular-directive-require-property-options.html
+					// http://websystique.com/angularjs/angularjs-custom-directives-controllers-require-option-guide/
+					// https://docs.angularjs.org/guide/directive
+					//  require: 'simplemde',
 					scope: {},
 					// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
 					// expression: http://docs.angularjs.org/guide/expression
 					templateUrl: 'components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
-					controller: function($scope) {
+					link: function($scope, $element, $attrs, simplemde) {
+						/*
+						var simplemdeInstance = simplemde.get(); // => SimpleMDE instance
+      			// simplemde.rerenderPreview();
+						// https://codemirror.net/doc/manual.html#events
+						simplemdeInstance.codemirror.on("blur", function(){
+    					console.log(simplemdeInstance.value());
+						});
+						*/
+
 						$scope.nodeContent = {
 							htmlProperty: "",
 							editing: false
 						};
 
+						// TODO: try to react on loosing focus on the editor
+						// as a moment of storing node properties
+						$timeout(function() {
+							// http://stackoverflow.com/questions/21700364/javascript-adding-click-event-listener-to-class
+							var simplemdeInstance = document.querySelector(".knalledge-edit");
+
+							if(simplemdeInstance){
+								simplemdeInstance.addEventListener('blur', function(event) {
+									console.log("simplemdeInstance left");
+		    				});
+							}
+						}, 500);
+
 						$scope.policyConfig = KnalledgeMapPolicyService.provider.config;
+						$scope.viewConfig = KnalledgeMapViewService.provider.config;
+
 						$scope.enableEditing = function() {
 							$scope.nodeContent.editing = true;
 						};
@@ -898,10 +942,37 @@
 						//     }
 						//  };
 
+						// $scope.mediumEditorBindOptions = {
+						// 	disableReturn: false,
+						// 	disableExtraSpaces: true,
+						// 	toolbar: true,
+						// 	extensions: {
+						// 		markdown: new MeMarkdown(function (md) {
+						// 				var markDownEl = document.querySelector(".knalledge-edit");
+            //         markDownEl.textContent = md;
+            //     })
+						// 	}
+						// };
+
+						$scope.simpleMdeOptions = {
+							spellChecker: false
+						};
+
 						$scope.propertyChanged = function() {
-							console.info("[knalledgeMapList:propertyChanged] $scope.nodeContent.htmlProperty: %s", $scope.nodeContent.htmlProperty);
+							switch($scope.viewConfig.editors.defaultType){
+								case 'text/markdown':
+									$scope.nodeContent.propertyType = 'text/markdown';
+									break;
+
+								case 'text/html':
+								default:
+									$scope.nodeContent.propertyType = 'text/html';
+									$scope.nodeContent.property = $scope.nodeContent.htmlProperty;
+									break;
+							}
+							console.info("[knalledgeMapList:propertyChanged] $scope.nodeContent.property: %s", $scope.nodeContent.property);
 							//console.log("result:" + JSON.stringify(result));
-							GlobalEmitterServicesArray.get(knalledgePropertyChangedEventName).broadcast('knalledgeMapList', $scope.nodeContent.htmlProperty);
+							GlobalEmitterServicesArray.get(knalledgePropertyChangedEventName).broadcast('knalledgeMapList', $scope.nodeContent);
 						};
 
 						GlobalEmitterServicesArray.get(changeKnalledgePropertyEventName).subscribe('knalledgeMapList', function(nodeContent) {
@@ -910,7 +981,23 @@
 								(nodeContent.node ? nodeContent.node.kNode._id : null), nodeContent.property);
 							$scope.nodeContent.editing = false;
 							$scope.nodeContent.node = nodeContent.node;
+							$scope.nodeContent.property = nodeContent.property;
 							$scope.nodeContent.htmlProperty = nodeContent.property;
+							$scope.nodeContent.propertyType = nodeContent.propertyType;
+							switch(nodeContent.propertyType){
+								case 'text/markdown':
+									$scope.nodeContent.htmlProperty = marked(nodeContent.property);
+									break;
+
+								case 'text/html':
+								default:
+									$scope.nodeContent.htmlProperty = nodeContent.property;
+									$scope.nodeContent.property = toMarkdown(nodeContent.property, {
+										gfm: true
+									});
+									$scope.nodeContent.propertyType = 'text/markdown';
+									break;
+							}
 						});
 					}
 				};

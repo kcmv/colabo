@@ -20,7 +20,11 @@ http://nontroppo.org/test/tab1.html
 			<button ng-if="!nodeContent.editing && nodeContent.node" class="btn btn-primary" type="button" ng-click="enableEditing()">Edit</button>
 		</div>
 		<div class="content">
-			<div ng-if="nodeContent.editing" text-angular name="htmlcontent" ng-model="nodeContent.htmlProperty" ng-change="propertyChanged()" ta-disabled='disabled' class="knalledge-properties knalledge-edit" text-angular-name="KN-Properties"></div>
+			<div ng-if="viewConfig.editors.defaultType === 'text/html' && nodeContent.editing" text-angular name="htmlcontent" ng-model="nodeContent.htmlProperty" ng-change="propertyChanged()" ta-disabled='disabled' class="knalledge-properties knalledge-edit" text-angular-name="KN-Properties"></div>
+
+      <!-- <div ng-if="nodeContent.editing" medium-editor name="htmlcontent" ng-model="nodeContent.htmlProperty" ng-change="propertyChanged()" class="knalledge-properties knalledge-edit" bind-options="mediumEditorBindOptions"></div> -->
+
+      <textarea ng-if="(!viewConfig.editors.defaultType || viewConfig.editors.defaultType === 'text/markdown') && nodeContent.editing" simplemde="simpleMdeOptions" name="htmlcontent" ng-model="nodeContent.property" ng-change="propertyChanged()" class="knalledge-properties knalledge-edit"></textarea>
 
 			<div ng-if="!nodeContent.editing" ng-bind-html="nodeContent.htmlProperty" class="knalledge-properties knalledge-view"></div>
 		</div>
