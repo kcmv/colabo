@@ -40,6 +40,14 @@ function setListeningForKeyCommands(){
       buildProject(undefined, undefined, true);
     }
 
+    // ctrl-i
+    if(key === '\u0009'){
+      WATCH_CHANGED['build.assets.dev'] = true;
+      WATCH_CHANGED['build.index.dev'] = true;
+      printWaitingToBuildTasks();
+      // buildProject(undefined, undefined, true);
+    }
+
     // ctrl-l
     if(key === '\u000C'){
       let filesList = filesToBeReloadedToList();
@@ -71,6 +79,7 @@ export function printCommands(){
   console.log("  - CTRL+C: quit");
   console.log("  - CTRL+E: is every build full (%s)", WATCH_BUILD_STATE.everyBuildIsFull);
   console.log("  - CTRL+F: full build");
+  console.log("  - CTRL+I: add tasks necessary to reinject in index.html");
   console.log("  - CTRL+L: show list of files to be reload");
   console.log("  - CTRL+R: reload");
   console.log("  - CTRL+T: show the list of tasks waiting to be built");
