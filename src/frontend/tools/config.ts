@@ -47,7 +47,9 @@ export const DOCS_DEST = 'docs';
 export const DIST_DIR = 'dist';
 export const DEV_DEST = `${DIST_DIR}/dev`;
 export const PROD_DEST = `${DIST_DIR}/prod`;
-export const TMP_DIR = ENV === 'dev' ? `${DIST_DIR}/dev` : `${DIST_DIR}/tmp`;
+export const TMP_DIR_BASE = ENV === 'dev' ? `${DIST_DIR}/dev` : `${DIST_DIR}/tmp`;
+// this is necessary to help Atom to work with ` character
+export const TMP_DIR = ENV === 'dev' ? `${DIST_DIR}/dev` : `${DIST_DIR}/tmp/app`;
 // this is necessary to help Atom to work with ` character
 export const APP_DEST = `${DIST_DIR}/${ENV}`;
 export const APP_DEST_FROM_HERE = join('..', APP_DEST);
@@ -304,7 +306,8 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
     ],
     PROD_NPM_DEPENDENCIES: [
         // ng1 templates (build.js.prod:inlineNg1Templates())
-        { src: join(TMP_DIR, 'js/ng1Templates.js'), inject: true, noNorm: true }
+        { src: join(TMP_DIR, 'js/ng1Templates.js'), inject: true, noNorm: true },
+        { src: join(TMP_DIR, '..', DEV_PUZZLES_SRC, 'js/ng1Templates.js'), inject: true, noNorm: true }
     ]
 };
 
@@ -612,6 +615,7 @@ var config = {
         [BOOTSTRAP_MODULE]: `${APP_BASE}${BOOTSTRAP_MODULE}`,
         // 'rxjs/*': `${APP_BASE}rxjs/*`,
         '*': `./node_modules/*`,
+        'dist/*': `./dist/*`,
     }
 };
 
