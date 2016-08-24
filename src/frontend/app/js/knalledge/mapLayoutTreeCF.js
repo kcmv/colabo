@@ -16,6 +16,23 @@ MapLayoutTreeCF.prototype._super = function(){
 	return parentP;
 };
 
+MapLayoutTreeCF.prototype.init = function(mapSize, scales){
+	this.scales = scales;
+
+	this.tree = d3.layout.tree();
+		// we invert x and y since tree grows to the right
+	if(this.configTree.sizing.setNodeSize){
+		this.tree.nodeSize([
+			this.configTree.sizing.nodeSize[1],
+			this.configTree.sizing.nodeSize[0]
+		]);
+	}else{
+		this.tree.size([mapSize[1], mapSize[0]]);
+	}
+
+	this.tree.children(this.getChildren.bind(this));
+};
+
 MapLayoutTreeCF.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
 	var children = [];
 	if(!d.isOpen) return children;
@@ -45,71 +62,46 @@ MapLayoutTreeCF.prototype.getChildren = function(d){ //TODO: improve probably, n
 	return children;
 };
 
-MapLayoutTreeCF.prototype.init = function(mapSize, scales){
-	this.scales = scales;
+MapLayoutTreeCF.prototype.generateNodes = function(source){
+	/*
+	var nodes = this.tree.nodes(source).reverse();
+	nodes.forEach(function(d) {
+			d.x *= 2;
+			d.y *= 2;
+	});
+	return nodes;
+	*/
 
-	this.tree = d3.layout.tree();
-		// we invert x and y since tree grows to the right
-	if(this.configTree.sizing.setNodeSize){
-		this.tree.nodeSize([
-			this.configTree.sizing.nodeSize[1],
-			this.configTree.sizing.nodeSize[0]
-		]);
-	}else{
-		this.tree.size([mapSize[1], mapSize[0]]);
+	var nodes = [source];
+	var nodesToProcess = [source];
+	source.x = 500;
+	source.y = 100;
+	source.processed = true;
+
+	var parent;
+	while(parent = nodesToProcess.shift()){
+		var children = this.getChildren(parent);
+		parent.children = children;
+		children.forEach(function(d, i) {
+				d.x = parent.x - 100*children.length/2 + 100*i;
+				d.y = parent.y + 200;
+				d.parent = parent;
+				d.depth = parent.depth + 1;
+				nodes.push(d);
+				if(!d.processed){
+					d.processed = true;
+					nodesToProcess.push(d);
+				}
+		});
 	}
 
-	this.tree.children(this.getChildren.bind(this));
+	return nodes;
+
 };
 
-// https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
-// https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal_projection
-// https://www.dashingd3js.com/svg-paths-and-d3js
-MapLayoutTreeCF.prototype.diagonal = function(that, isShowingFullSizeImage){
-	var diagonalSource = function(d){
-		//return d.source;
-		// here we are creating object with just necessary parameters (x, y)
-		var point = {x: d.source.x, y: d.source.y};
-
-		point.x = that.scales.x(point.x);
-		point.y = that.scales.y(point.y);
-		if(!that.configNodes.punctual){
-			// since our node is not just a punctual entity, but it has width, we need to adjust diagonals' source and target points
-			// by shifting points from the center of node to the edges of node
-			// we deal here with y-coordinates, because our final tree is rotated to propagete across the x-axis, instead of y-axis
-			// (you can see that in .project() function
-			if(d.source.y < d.target.y){
-				var width = (isShowingFullSizeImage(d)) ?
-					d.source.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
-				point.y += that.scales.width(width) + 0;
-			}
-		}
-		return point;
-	}.bind(that);
-
-	var diagonalTarget = function(d){
-		//return d.target;
-		var point = {x: d.target.x, y: d.target.y};
-		point.x = that.scales.x(point.x);
-		point.y = that.scales.y(point.y);
-		if(!that.configNodes.punctual){
-			if(d.target.y > d.source.y){
-				var width = (isShowingFullSizeImage(d)) ?
-					d.target.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
-				point.y -= that.scales.width(width) + 0;
-			}
-		}
-		return point;
-	}.bind(that);
-	var diagonal = d3.svg.diagonal()
-	.source(diagonalSource)
-	.target(diagonalTarget)
-	// our final tree is rotated to propagete across the x-axis, instead of y-axis
-	// therefor we are swapping x and y coordinates here
-	.projection(function(d) {
-		return [d.y, d.x];
-	});
-	return diagonal;
+MapLayoutTreeCF.prototype.generateLinks = function(nodes){
+	var links = this.tree.links(nodes);
+	return links;
 };
 
 /**
@@ -133,13 +125,14 @@ MapLayoutTreeCF.prototype.generateTree = function(source){
 		    delete d.parent;
 		    delete d.children;
 		    delete d.depth;
+				delete d.processed;
 		});
 	}
 
 	if(source){
 		// Compute the new tree layout.
-		this.nodes = this.tree.nodes(source).reverse();
-		this.links = this.tree.links(this.nodes);
+		this.nodes = this.generateNodes(source);
+		this.links = this.generateLinks(this.nodes);
 
 		//links are D3.tree-generated objects of type Object: {source, target}
 		for(var i in this.links){
@@ -209,6 +202,56 @@ MapLayoutTreeCF.prototype.generateTree = function(source){
 		this.links = [];
 	}
 	// this.printTree(this.nodes);
+};
+
+// https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
+// https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal_projection
+// https://www.dashingd3js.com/svg-paths-and-d3js
+MapLayoutTreeCF.prototype.diagonal = function(that, isShowingFullSizeImage){
+	var diagonalSource = function(d){
+		//return d.source;
+		// here we are creating object with just necessary parameters (x, y)
+		var point = {x: d.source.x, y: d.source.y};
+
+		point.x = that.scales.x(point.x);
+		point.y = that.scales.y(point.y);
+		if(!that.configNodes.punctual){
+			// since our node is not just a punctual entity, but it has width, we need to adjust diagonals' source and target points
+			// by shifting points from the center of node to the edges of node
+			// we deal here with y-coordinates, because our final tree is rotated to propagete across the x-axis, instead of y-axis
+			// (you can see that in .project() function
+			if(d.source.y < d.target.y){
+				var width = (isShowingFullSizeImage(d)) ?
+					d.source.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
+				point.y += that.scales.width(width) + 0;
+			}
+		}
+		return point;
+	}.bind(that);
+
+	var diagonalTarget = function(d){
+		//return d.target;
+		var point = {x: d.target.x, y: d.target.y};
+		point.x = that.scales.x(point.x);
+		point.y = that.scales.y(point.y);
+		if(!that.configNodes.punctual){
+			if(d.target.y > d.source.y){
+				var width = (isShowingFullSizeImage(d)) ?
+					d.target.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
+				point.y -= that.scales.width(width) + 0;
+			}
+		}
+		return point;
+	}.bind(that);
+	var diagonal = d3.svg.diagonal()
+	.source(diagonalSource)
+	.target(diagonalTarget)
+	// our final tree is rotated to propagete across the x-axis, instead of y-axis
+	// therefor we are swapping x and y coordinates here
+	.projection(function(d) {
+		return [d.y, d.x];
+	});
+	return diagonal;
 };
 
 MapLayoutTreeCF.prototype.printTree = function(nodes) {
