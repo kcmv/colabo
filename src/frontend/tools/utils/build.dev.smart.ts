@@ -79,7 +79,7 @@ export function printCommands(){
   console.log("  - CTRL+C: quit");
   console.log("  - CTRL+E: is every build full (%s)", WATCH_BUILD_STATE.everyBuildIsFull);
   console.log("  - CTRL+F: full build");
-  console.log("  - CTRL+I: add tasks necessary to reinject files into index.html");
+  console.log("  - CTRL+I: add tasks necessary to reinject files into index.html (build.assets.dev, build.index.dev)");
   console.log("  - CTRL+L: show list of files to be reload");
   console.log("  - CTRL+R: reload");
   console.log("  - CTRL+T: show the list of tasks waiting to be built");
