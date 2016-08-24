@@ -450,16 +450,20 @@ var puzzles = PluginsConfig.plugins.puzzles;
 
 function injectExternalPuzzle(puzzle:any){
   var puzzlePath = puzzle.path;
-  var puzzleConfig = require(join(PROJECT_ROOT, puzzlePath, 'config.js'));
+  var puzzlesContainerConfig = require(join(PROJECT_ROOT, puzzlePath, 'config.js'));
 
   // injecting dependencies
-  var puzzleBuilds = puzzleConfig.puzzlesBuild;
-  console.log("external puzzleBuilds: ", puzzleBuilds);
+  var puzzlesBuild = puzzlesContainerConfig.puzzlesBuild;
+  var puzzlesConfig = puzzlesContainerConfig.puzzles;
+  console.log("external puzzlesBuild: ", puzzlesBuild);
 
   // inject 'config.js' if not already injected
   // we need this to be accessable during the runtime
-  for(var puzzleName in puzzleBuilds){
-    var puzzleBuild = puzzleBuilds[puzzleName];
+  for(var puzzleName in puzzlesBuild){
+    var puzzleBuild = puzzlesBuild[puzzleName];
+
+    // if not configured or set as unavailable do not inject it
+    if(!(puzzleName in puzzlesConfig) || !puzzlesConfig[puzzleName].active) continue;
 
     if(typeof puzzleBuild.injectJs === 'string') puzzleBuild.injectJs = [puzzleBuild.injectJs];
     if(puzzleBuild.injectJs.indexOf('config.js') < 0){
@@ -473,7 +477,7 @@ function injectExternalPuzzle(puzzle:any){
 
   // injecting compass building
   var compassPaths = COMPASS_CONFIG.PATHS;
-  var compassPathsPuzzle = puzzleConfig.COMPASS.PATHS;
+  var compassPathsPuzzle = puzzlesContainerConfig.COMPASS.PATHS;
   for(var cppPath in compassPathsPuzzle){
     var compassPathPuzzle = compassPathsPuzzle[cppPath];
     compassPathPuzzle.isPathFull = true;
