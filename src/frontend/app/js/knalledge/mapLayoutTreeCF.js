@@ -63,38 +63,57 @@ MapLayoutTreeCF.prototype.getChildren = function(d){ //TODO: improve probably, n
 };
 
 MapLayoutTreeCF.prototype.generateNodes = function(source){
-	/*
-	var nodes = this.tree.nodes(source).reverse();
-	nodes.forEach(function(d) {
-			d.x *= 2;
-			d.y *= 2;
-	});
-	return nodes;
-	*/
+	// each element of the array preset one depth containing an array of nodes
+	// at that depth
+	var nodesPerDepth = [];
+	nodesPerDepth[0] = [source];
 
+	// list of nodes that are returned as a set of nodes in the layout
 	var nodes = [source];
-	var nodesToProcess = [source];
+
+	// an array of nodes that still have to be processed
+	// (to avoid recursion)
+	var nodesToProcess = [];
 	source.x = 500;
 	source.y = 100;
 	source.processed = true;
+	source.depth = 0;
 
-	var parent;
-	while(parent = nodesToProcess.shift()){
+	/*
+	 * Building
+	 * - tree layout
+	 * - relationship between parent and children
+	 * - relationship between children and their relative position
+	 */
+	var parent = source;
+	do{
 		var children = this.getChildren(parent);
 		parent.children = children;
+		if(nodesPerDepth.length < parent.depth + 2) nodesPerDepth[parent.depth + 1] = [];
+
 		children.forEach(function(d, i) {
+			if(!d.processed){
+				d.processed = true;
+
 				d.x = parent.x - 100*children.length/2 + 100*i;
 				d.y = parent.y + 200;
 				d.parent = parent;
 				d.depth = parent.depth + 1;
-				nodes.push(d);
-				if(!d.processed){
-					d.processed = true;
-					nodesToProcess.push(d);
-				}
-		});
-	}
 
+				nodes.push(d);
+				nodesToProcess.push(d);
+				nodesPerDepth[d.depth].push(d);
+			}
+		});
+	}while(parent = nodesToProcess.shift());
+
+	/*
+	 * calculating absolute node positions
+	 * propagating relative positions in the relationship to parent of parent, ...
+	 */
+	for(var depth=0; depth<nodesPerDepth.length; depth++){
+
+	}
 	return nodes;
 
 };
