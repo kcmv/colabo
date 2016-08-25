@@ -32,7 +32,7 @@ git checkout cf-puzzle-ibis
 Push the dev branch on the github:
 
 ```sh
-git push origin [name_of_your_new_branch]
+git push origin cf-puzzle-ibis
 ```
 
 You can see all branches created by using :
