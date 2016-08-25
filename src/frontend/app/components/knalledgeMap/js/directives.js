@@ -992,9 +992,10 @@
 								case 'text/html':
 								default:
 									$scope.nodeContent.htmlProperty = nodeContent.property;
-									$scope.nodeContent.property = toMarkdown(nodeContent.property, {
-										gfm: true
-									});
+									$scope.nodeContent.property = nodeContent.property ?
+										toMarkdown(nodeContent.property, {
+											gfm: true
+										}) : "";
 									$scope.nodeContent.propertyType = 'text/markdown';
 									break;
 							}
