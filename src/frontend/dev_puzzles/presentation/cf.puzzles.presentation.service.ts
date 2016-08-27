@@ -57,6 +57,8 @@ export class CfPuzzlesPresentationServices {
     private mapStructure:any;
     private mapUpdate:Function;
     private positionToDatum:Function;
+    private presentationsVKNode:knalledge.VKNode;
+    private presentationVKNode:knalledge.VKNode;
 
     /**
     * the namespace for core services for the Notify system
@@ -108,7 +110,8 @@ export class CfPuzzlesPresentationServices {
       this.puzzlePresentationPluginInfo.references.map.callback = function() {
         that.puzzlePresentationPluginInfo.references.map.$resolved = true;
         that.mapStructure = that.puzzlePresentationPluginInfo.references.map.items.mapStructure;
-        // resolve(that.puzzlePresentationPluginInfo.references.map);
+        that.presentationsVKNode = that._getPresentationsNode();
+        that.presentationVKNode = that._getPresentationNode();
       };
       // });
       //
@@ -126,14 +129,26 @@ export class CfPuzzlesPresentationServices {
     }
 
     presentationAvailable(){
-      if(!this.mapStructure || !this.mapStructure.getVKNodeByType(PRESENTATION_NODE_TYPE)){
-        return false;
-      }else{
-        return true;
-      }
+      return !!this.presentationsVKNode;
     }
 
-    createPresentationsNode (callback?:Function){
+    _getPresentationsNode(){
+      let presentationsNode;
+      if(this.mapStructure){
+        presentationsNode = this.mapStructure.getVKNodeByType(PRESENTATIONS_NODE_TYPE);
+      }
+      return presentationsNode;
+    }
+
+    _getPresentationNode(){
+      let presentationNode;
+      if(this.mapStructure){
+        presentationNode = this.mapStructure.getVKNodeByType(PRESENTATION_NODE_TYPE);
+      }
+      return presentationNode;
+    }
+
+    _createPresentationsNode (callback?:Function){
       let rootNode = this.mapStructure.rootNode;
       if(!rootNode) return;
       let kEdge = new knalledge.KEdge();
@@ -141,30 +156,33 @@ export class CfPuzzlesPresentationServices {
       let vkEdge = new knalledge.VKEdge();
       vkEdge.kEdge = kEdge;
 
-      let presentationsKNode = new knalledge.Node();
+      let presentationsKNode = new knalledge.KNode();
       presentationsKNode.type = PRESENTATIONS_NODE_TYPE;
-      presentationsKNode.type = "Presentations";
+      presentationsKNode.name = "Presentations";
       let presentationsVKNode = new knalledge.VKNode();
       presentationsVKNode.kNode = presentationsKNode;
+
+      this.presentationsVKNode = presentationsVKNode;
 
       this.mapStructure.createNodeWithEdge(rootNode, vkEdge, presentationsVKNode, callback);
     }
 
-    createPresentationNode (callback?:Function){
-      let rootNode = this.mapStructure.rootNode;
-      if(!rootNode) return;
+    _createPresentationNode (callback?:Function){
+      if(!this.presentationsVKNode) return;
       let kEdge = new knalledge.KEdge();
       kEdge.type = PRESENTATION_EDGE_TYPE;
       let vkEdge = new knalledge.VKEdge();
       vkEdge.kEdge = kEdge;
 
-      let presentationKNode = new knalledge.Node();
+      let presentationKNode = new knalledge.KNode();
       presentationKNode.type = PRESENTATION_NODE_TYPE;
-      presentationKNode.type = "Presentation";
+      presentationKNode.name = "Presentation";
       let presentationVKNode = new knalledge.VKNode();
       presentationVKNode.kNode = presentationKNode;
 
-      this.mapStructure.createNodeWithEdge(rootNode, vkEdge, presentationVKNode, callback);
+      this.presentationVKNode = presentationVKNode;
+
+      this.mapStructure.createNodeWithEdge(this.presentationsVKNode, vkEdge, presentationVKNode, callback);
     }
 
     createPresentation(){
@@ -173,9 +191,9 @@ export class CfPuzzlesPresentationServices {
          var vkPresentationsNode = this.mapStructure.getVKNodeByType(PRESENTATIONS_NODE_TYPE);
 
          if(!vkPresentationsNode){
-           this.createPresentationsNode(this.createPresentationNode);
+           this._createPresentationsNode(this._createPresentationNode.bind(this));
          }else{
-           this.createPresentationNode();
+           this._createPresentationNode();
          }
       }
     }
