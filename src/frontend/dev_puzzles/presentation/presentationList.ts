@@ -8,17 +8,14 @@ import {KnalledgeMapViewService} from '../../app/components/knalledgeMap/knalled
 import {KnalledgeMapPolicyService} from '../../app/components/knalledgeMap/knalledgeMapPolicyService';
 import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
 
+import {CfPuzzlesPresentationServices} from './cf.puzzles.presentation.service'
 @Component({
     selector: 'presentation-list',
     providers: [
-        //MATERIAL_PROVIDERS
     ],
     directives: [
       MATERIAL_DIRECTIVES,
-      // MdList, MdListItem, MdContent, MdButton, MdSwitch,
       NgIf, FORM_DIRECTIVES,
-      // MdRadioButton, MdRadioGroup,
-      //
       MD_INPUT_DIRECTIVES
    ],
     moduleId: module.id,
@@ -30,23 +27,19 @@ export class PresentationList {
   public items:Array<any> = [];
   public selectedItem:any = null;
   private componentShown:boolean = true;
-  private ibisTypesService;
   private viewConfig:any;
   private policyConfig:any;
   private knalledgeNodeTypeChanged: string = "knalledgeNodeTypeChanged";
 
 
   constructor(
-    @Inject('IbisTypesService') _IbisTypesService_,
+    private service:CfPuzzlesPresentationServices,
     @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
     @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
     @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
   ) {
-      // console.log('[PresentationList]');
-      this.ibisTypesService = _IbisTypesService_;
-
-      this.items = this.ibisTypesService.getTypes();
-      this.selectedItem = this.ibisTypesService.getActiveType();
+      // this.items = this.service.getTypes();
+      // this.selectedItem = this.service.getActiveType();
       this.viewConfig = knalledgeMapViewService.get().config;
       this.policyConfig = knalledgeMapPolicyService.get().config;
       this.globalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
@@ -55,9 +48,24 @@ export class PresentationList {
       // });
   }
 
+  presentationAvailable():boolean {
+    return this.service.presentationAvailable();
+  }
+
+  createPresentation():any {
+    return this.service.createPresentation();
+  }
+
+  isFirst():boolean {
+    return false;
+  }
+
+  isLast ():boolean {
+    return false;
+  }
+
   selectItem (item) {
     this.selectedItem = item;
-    this.ibisTypesService.selectActiveType(item);
 
     if(this.policyConfig.knalledgeMap){
       this.policyConfig.knalledgeMap.nextNodeType = null;

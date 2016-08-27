@@ -1,17 +1,16 @@
 <div class="ibis-types-list tools-controls-group">
-	<div class="switch" (click)="hideShowComponent()">
-		<span class="panel-title">IBIS/Kn</span>
-		<span class='arrows'>
-			<span [hidden]="!componentShown"><i title="hide panel" class="fa fa-caret-square-o-up" aria-hidden="true"></i></span>
-			<span [hidden]="componentShown"><i title="show panel" class="fa fa-caret-square-o-down" aria-hidden="true"></i></span>
-		</span>
+	<div class="switch" (click)="hideShowCommands()">
+		<span [hidden]="isFirst()"><i title="hide panel" class="fa fa-caret-square-o-up" aria-hidden="true"></i></span>
+		<span [hidden]="isLast()"><i title="show panel" class="fa fa-caret-square-o-down" aria-hidden="true"></i></span>
+		<button md-fab md-tooltip="New Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="New Presentation" (click)="createPresentation()" [hidden]="presentationAvailable()">
+				<i title="Settings" md-icon>settings</i>
+		</button>
+
 	</div>
 	<div class="content" [hidden]="!componentShown">
-		<table class="list">
-			<tr (click)="selectItem(item)" *ngFor="let item of items"
-			[ngClass]="{'row': true, 'active-selection': item._id === selectedItem._id}">
-				<td>{{item.name}}</td>
-			</tr>
-		</table>
+		<div (click)="selectItem(item)" *ngFor="let item of items"
+		[ngClass]="{'row': true, 'active-selection': item._id === selectedItem._id}">
+			<td>{{item.name}}</td>
+		</div>
 	</div>
 </div>

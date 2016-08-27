@@ -987,6 +987,34 @@
 		}
 	};
 
+	MapStructure.prototype.getVKNodeByType = function(nodeType) {
+		if (nodeType === null) {
+			return null;
+		}
+		for (var i in this.nodesById) {
+			var vkNode = this.nodesById[i];
+			if (vkNode.kNode.type === nodeType) {
+				return vkNode;
+			}
+		}
+	};
+
+	MapStructure.prototype.getVKNodesByType = function(nodeType) {
+		var vkNodes = [];
+
+		if (nodeType === null) {
+			return null;
+		}
+		for (var i in this.nodesById) {
+			var vkNode = this.nodesById[i];
+			if (vkNode.kNode.type === nodeType) {
+				vkNodes.push(vkNode);
+			}
+		}
+
+		return vkNodes;
+	};
+
 	MapStructure.prototype.getVKEdgeByKId = function(kId) {
 		for (var i in this.edgesById) {
 			var vkEdge = this.edgesById[i];

@@ -79,7 +79,7 @@ export class KnalledgeMapTools {
     broadcastingChangedEventName: string = "broadcastingChangedEvent";
     setUpBroadcastingRequest: string = "setUpBroadcastingRequest";
     SETUP_SESSION_REQUEST_EVENT: string = "SETUP_SESSION_REQUEST_EVENT";
-    //showSubComponentInBottomPanelEvent: string = "showSubComponentInBottomPanelEvent";
+    showSubComponentInBottomPanelEvent: string = "showSubComponentInBottomPanelEvent";
 
     viewConfig: any;
     policyConfig: any;
@@ -116,7 +116,7 @@ export class KnalledgeMapTools {
         globalEmitterServicesArray.register(this.setUpBroadcastingRequest);
         globalEmitterServicesArray.register(this.SETUP_SESSION_REQUEST_EVENT);
         this.globalEmitterServicesArray.register(this.PRESENTER_CHANGED);
-      //  globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
+       globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
 
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
     };
@@ -202,8 +202,8 @@ export class KnalledgeMapTools {
       this.globalEmitterServicesArray.get(this.SETUP_SESSION_REQUEST_EVENT).broadcast('KnalledgeMapTools');
     }
 
-    // showBrainstormingPanel(){
-    //     this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
-    //       .broadcast('KnalledgeMapTools', 'brainstorming.BrainstormingPanelComponent');
-    // }
+    showPresentationList(){
+        this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
+          .broadcast('KnalledgeMapTools', 'cf.puzzles.presentation.list');
+    }
 }
