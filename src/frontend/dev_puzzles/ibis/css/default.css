@@ -16,15 +16,31 @@ $large: 1400px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-.node_html {
+.knalledge_map_container .node_html {
   /* NODE SEMANTIC / STYLING */ }
-  .node_html.type_ibis_question {
+  .knalledge_map_container .node_html .node_type {
+    position: absolute;
+    left: 10px;
+    top: -20px;
+    /*background-color: #ddddff;*/
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    color: #5555aa;
+    text-align: center;
+    /*font-weight: bold;*/
+    min-width: 1.2em;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; }
+  .knalledge_map_container .node_html.type_ibis_question {
     background-color: #ffffaa; }
-  .node_html.type_ibis_idea {
+  .knalledge_map_container .node_html.type_ibis_idea {
     background-color: #aaffaa; }
-  .node_html.type_ibis_argument {
+  .knalledge_map_container .node_html.type_ibis_argument {
     background-color: rgba(255, 170, 170, 0.5); }
-  .node_html.type_ibis_comment {
+  .knalledge_map_container .node_html.type_ibis_comment {
     background-color: #aaffff; }
 
 /* -------------------------
