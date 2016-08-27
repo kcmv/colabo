@@ -133,48 +133,49 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
+    createPresentationsNode (callback?:Function){
+      let rootNode = this.mapStructure.rootNode;
+      if(!rootNode) return;
+      let kEdge = new knalledge.KEdge();
+      kEdge.type = PRESENTATIONS_EDGE_TYPE;
+      let vkEdge = new knalledge.VKEdge();
+      vkEdge.kEdge = kEdge;
+
+      let presentationsKNode = new knalledge.Node();
+      presentationsKNode.type = PRESENTATIONS_NODE_TYPE;
+      presentationsKNode.type = "Presentations";
+      let presentationsVKNode = new knalledge.VKNode();
+      presentationsVKNode.kNode = presentationsKNode;
+
+      this.mapStructure.createNodeWithEdge(rootNode, vkEdge, presentationsVKNode, callback);
+    }
+
+    createPresentationNode (callback?:Function){
+      let rootNode = this.mapStructure.rootNode;
+      if(!rootNode) return;
+      let kEdge = new knalledge.KEdge();
+      kEdge.type = PRESENTATION_EDGE_TYPE;
+      let vkEdge = new knalledge.VKEdge();
+      vkEdge.kEdge = kEdge;
+
+      let presentationKNode = new knalledge.Node();
+      presentationKNode.type = PRESENTATION_NODE_TYPE;
+      presentationKNode.type = "Presentation";
+      let presentationVKNode = new knalledge.VKNode();
+      presentationVKNode.kNode = presentationKNode;
+
+      this.mapStructure.createNodeWithEdge(rootNode, vkEdge, presentationVKNode, callback);
+    }
+
     createPresentation(){
-      function createPresentationsNode (callback?:Function){
-        let rootNode = this.mapStructure.rootNode;
-        if(!rootNode) return;
-        let kEdge = new knalledge.KEdge();
-        kEdge.type = PRESENTATIONS_EDGE_TYPE;
-        let vkEdge = new knalledge.VKEdge();
-        vkEdge.kEdge = kEdge;
-
-        let presentationsKNode = new knalledge.Node();
-        presentationsKNode.type = PRESENTATIONS_NODE_TYPE;
-        presentationsKNode.type = "Presentations";
-        let presentationsVKNode = new knalledge.VKNode();
-        presentationsVKNode.kNode = presentationsKNode;
-
-        this.mapStructure.createNodeWithEdge(rootNode, vkEdge, presentationsVKNode, callback);
-      }
-
-      function createPresentationNode (callback?:Function){
-        let rootNode = this.mapStructure.rootNode;
-        if(!rootNode) return;
-        let kEdge = new knalledge.KEdge();
-        kEdge.type = PRESENTATION_EDGE_TYPE;
-        let vkEdge = new knalledge.VKEdge();
-        vkEdge.kEdge = kEdge;
-
-        let presentationKNode = new knalledge.Node();
-        presentationKNode.type = PRESENTATION_NODE_TYPE;
-        presentationKNode.type = "Presentation";
-        let presentationVKNode = new knalledge.VKNode();
-        presentationVKNode.kNode = presentationKNode;
-
-        this.mapStructure.createNodeWithEdge(rootNode, vkEdge, presentationVKNode, callback);
-      }
 
       if(this.mapStructure){
          var vkPresentationsNode = this.mapStructure.getVKNodeByType(PRESENTATIONS_NODE_TYPE);
 
          if(!vkPresentationsNode){
-           createPresentationsNode(createPresentationNode);
+           this.createPresentationsNode(this.createPresentationNode);
          }else{
-           createPresentationNode();
+           this.createPresentationNode();
          }
       }
     }
