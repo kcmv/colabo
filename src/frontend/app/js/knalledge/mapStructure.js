@@ -222,16 +222,22 @@
 	};
 
 	/**
+	 * [function description]
 	 * @function getEdgesBetweenNodes
 	 * @memberof knalledge.MapStructure#
+	 * @param  {knalledge.KNode} source - source node
+	 * @param  {knalledge.KNode} target - target node
+	 * @param  {string} [edgeType] - edge type that we are interested in
 	 * @returns Array - their may be several edges connecting 2 nodes:
 	 */
-	MapStructure.prototype.getEdgesBetweenNodes = function(source, target) { //TODO: improve this for Big data by 2-dimensional array
+	MapStructure.prototype.getEdgesBetweenNodes = function(source, target, edgeType) { //TODO: improve this for Big data by 2-dimensional array
 		var edges = [];
 		for (var i in this.edgesById) {
 			var vkEdge = this.edgesById[i];
 			if (source._id == vkEdge.kEdge.sourceId && target._id == vkEdge.kEdge.targetId) {
-				edges.push(vkEdge);
+				if(typeof edgeType === 'undefined' || vkEdge.kEdge.type === edgeType){
+					edges.push(vkEdge);
+				}
 			}
 		}
 		return edges;
@@ -956,6 +962,18 @@
 				delete that.nodesById[vnode.id]; //TODO: see if we should do it only upon server deleting success
 				if(callback){callback(delResult);}
 		});
+	};
+
+	MapStructure.prototype.deleteEdge = function(vkEdge) {
+		this.mapService.deleteEdge(vkEdge.kEdge);
+
+		//deleting from edgesById:
+		for (var i in this.edgesById) {
+			var edge = this.edgesById[i];
+			if (edge.kEdge._id === vkEdge.kEdge._id) {
+				delete this.edgesById[i];
+			}
+		}
 	};
 
 	MapStructure.prototype.deleteEdgesConnectedTo = function(vnode) {

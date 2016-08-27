@@ -1468,6 +1468,19 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 				return kEdge;
 			},
 
+			deleteEdge: function(kEdge) {
+				var result = KnalledgeEdgeService.destroy(kEdge._id); //TODO: handle a case when the edge is not deleted sucessfully
+				//delete in edgesById (kEdge):
+				delete this.edgesById[kEdge._id];
+				return result;
+			},
+
+
+			/**
+			 * deleteEdgesConnectedTo
+			 * @param  {knalledge.KNode} node - node which incoming edges should be deleted
+			 * @return {[type]}      [description]
+			 */
 			deleteEdgesConnectedTo: function(node) {
 				var result = KnalledgeEdgeService.deleteConnectedTo(node._id); //TODO: handle a case when the edge is not deleted sucessfully
 				//delete edgesById (kEdge):
