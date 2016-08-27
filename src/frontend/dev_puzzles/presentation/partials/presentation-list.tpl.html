@@ -1,29 +1,30 @@
-<div class="ibis-types-list tools-controls-group">
+<div class="presentation-list">
+	Presentation
 	<div class="switch" (click)="hideShowCommands()">
-		Presentation
 		<button md-fab md-tooltip="New Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="New Presentation" (click)="createPresentation()" *ngIf="!presentationAvailable()">
 				<i title="New Presentation" md-icon>add_to_queue</i>
 		</button>
 		<button md-fab md-tooltip="Show Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="Show Presentation" (click)="createPresentation()" *ngIf="presentationAvailable()">
 				<i title="Show Presentation" md-icon>play_circle_filled</i>
 		</button>
-		<button md-fab md-tooltip="Add Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Add Slide" (click)="addSlide()" *ngIf="presentationAvailable()">
+		<button md-fab md-tooltip="Add Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Add Slide" (click)="addSlide()" *ngIf="presentationAvailable() && selectedItem() && !isSelectedItemInSlides()">
 				<i title="Add Slide" md-icon>add</i>
 		</button>
-		<button md-fab md-tooltip="Remove Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Remove Slide" (click)="removeSlide()" *ngIf="selectedItem">
+		<button md-fab md-tooltip="Remove Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Remove Slide" (click)="removeSlide()" *ngIf="presentationAvailable && isSelectedItemInSlides()">
 				<i title="Remove Slide" md-icon>remove</i>
 		</button>
-		<button md-fab md-tooltip="New Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="New Presentation" (click)="createPresentation()" *ngIf="selectedItem && !isFirst()">
+		<button md-fab md-tooltip="New Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="New Presentation" (click)="createPresentation()" *ngIf="selectedItem() && !isFirst()">
 				<i title="New Presentation" md-icon>keyboard_arrow_up</i>
 		</button>
-		<button md-fab md-tooltip="New Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="New Presentation" (click)="createPresentation()" *ngIf="selectedItem && !isLast()">
+		<button md-fab md-tooltip="New Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="New Presentation" (click)="createPresentation()" *ngIf="selectedItem() && !isLast()">
 				<i title="New Presentation" md-icon>keyboard_arrow_down</i>
 		</button>
 	</div>
-	<div class="content" [hidden]="!componentShown">
-		<div (click)="selectItem(item)" *ngFor="let item of items"
-		[ngClass]="{'row': true, 'active-selection': item._id === selectedItem._id}">
-			<td>{{item.name}}</td>
+	({{getSlides().length}} slides)
+	<section class="slides" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+		<div class="slide clickable" (click)="selectSlide(slide)" *ngFor="let slide of getSlides()"
+		[ngClass]="{'active-selection': slide?.kNode?._id === selectedSlide?.kNode?._id}">
+			<div>{{slide?.kNode.name}}</div>
 		</div>
-	</div>
+	</section>
 </div>

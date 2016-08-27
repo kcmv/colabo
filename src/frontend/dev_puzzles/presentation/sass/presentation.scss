@@ -3,11 +3,33 @@
 .presentation{
 }
 
+.presentation-list{
+    .slides{
+      .slide{
+        text-align: center;
+        font-weight: bold;
+        // font-style: italic;
+        @include border-radius(5px, 5px);
+        padding: 3px;
+        margin-right: 3px;
+        margin-bottom: 5px;
+        width: 10em;
+        // min-width: 5em;
+        height: 3em;
+        background-color: #ffffee;
+        border: 2px solid #bfbf30;
+        &.active-selection{
+          background-color: #ffff88;
+        }
+      }
+    }
+}
+
 .knalledge_map_container{
   .node_html{
     .node_presentation {
       font-style: italic;
-      border-radius: 4px;
+      @include border-radius(4px, 4px);
       padding-right: 2px;
       width: 1.4em;
       height: 1.4em;

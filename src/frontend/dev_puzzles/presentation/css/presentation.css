@@ -15,9 +15,27 @@ $large: 1400px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+.presentation-list .slides .slide {
+  text-align: center;
+  font-weight: bold;
+  -moz-border-radius: 5px / 5px;
+  -webkit-border-radius: 5px 5px;
+  border-radius: 5px / 5px;
+  padding: 3px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  width: 10em;
+  height: 3em;
+  background-color: #ffffee;
+  border: 2px solid #bfbf30; }
+  .presentation-list .slides .slide.active-selection {
+    background-color: #ffff88; }
+
 .knalledge_map_container .node_html .node_presentation {
   font-style: italic;
-  border-radius: 4px;
+  -moz-border-radius: 4px / 4px;
+  -webkit-border-radius: 4px 4px;
+  border-radius: 4px / 4px;
   padding-right: 2px;
   width: 1.4em;
   height: 1.4em;

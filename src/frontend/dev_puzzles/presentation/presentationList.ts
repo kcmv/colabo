@@ -25,13 +25,12 @@ import {CfPuzzlesPresentationServices} from './cf.puzzles.presentation.service'
 })
 export class PresentationList implements OnInit, OnDestroy {
   public items:Array<any> = [];
-  public selectedItem:any = null;
   public commandsVisible:boolean = true;
-  private componentShown:boolean = true;
+  public selectedSlide; // :knalledge.VKNode
   private viewConfig:any;
   private policyConfig:any;
-  private knalledgeNodeTypeChanged: string = "knalledgeNodeTypeChanged";
-
+  private changeSelectedNodeEvent: string = "changeSelectedNodeEvent";
+  private selectedNodeChangedEvent: string = "selectedNodeChangedEvent";
 
   constructor(
     private service:CfPuzzlesPresentationServices,
@@ -43,10 +42,10 @@ export class PresentationList implements OnInit, OnDestroy {
       // this.selectedItem = this.service.getActiveType();
       this.viewConfig = knalledgeMapViewService.get().config;
       this.policyConfig = knalledgeMapPolicyService.get().config;
-      this.globalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
-      // this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('PresentationList', function(vkNode,type) {
-      //     console.log("knalledgeNodeTypeChanged: ", vkNode.kNode.name, type);
-      // });
+      this.globalEmitterServicesArray.register(this.changeSelectedNodeEvent);
+      this.globalEmitterServicesArray.register(this.selectedNodeChangedEvent);
+    	this.globalEmitterServicesArray.get(this.selectedNodeChangedEvent).subscribe(
+       'cf.puzzles.presentation.PresentationList', this.selectPotentialSlide.bind(this));
   }
 
   ngOnInit() {
@@ -65,6 +64,29 @@ export class PresentationList implements OnInit, OnDestroy {
     return this.service.createPresentation();
   }
 
+  selectedItem(){ // :knalledge.VKNode
+    var selectedItem = this.service.getSelectedItem();
+    return selectedItem;
+  }
+
+  isSelectedItemInSlides():boolean{
+    var selectedItem = this.service.getSelectedItem();
+    if(!selectedItem) return false;
+    return this.service.isNodeInSlides(selectedItem);
+  }
+
+  getSlides(){
+    return this.service.getSlides();
+  }
+
+  addSlide(){
+    this.service.addSlide();
+  }
+
+  removeSlide(){
+    this.service.removeSlide();
+  }
+
   isFirst():boolean {
     return false;
   }
@@ -73,25 +95,15 @@ export class PresentationList implements OnInit, OnDestroy {
     return false;
   }
 
-  selectItem (item) {
-    this.selectedItem = item;
-
-    if(this.policyConfig.knalledgeMap){
-      this.policyConfig.knalledgeMap.nextNodeType = null;
-    }
-
-    if(this.viewConfig.states.editingNode){
-      this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged)
-      .broadcast('PresentationList',{node:this.viewConfig.states.editingNode,type:item.type});
-      //, this.selectedItem
+  selectPotentialSlide (slide) {
+    if(this.service.isNodeInSlides(slide)){
+      this.selectSlide(slide, true);
     }
   }
 
-  hideShowComponent (){
-    this.componentShown = !this.componentShown;
-  }
+  selectSlide (slide, dontBroadcastEvent?:boolean) {
+    this.selectedSlide = slide;
 
-  hideShowCommands (){
-    this.commandsVisible = !this.commandsVisible;
+    if(!dontBroadcastEvent) this.globalEmitterServicesArray.get(this.changeSelectedNodeEvent).broadcast('cf.puzzles.presentation.PresentationList', this.selectedSlide);
   }
 }

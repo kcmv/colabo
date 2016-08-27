@@ -500,9 +500,12 @@
 		return names;
 	}
 
-	/*
-		get all nodes that are children (immediate descendant) of @vkNode
-	*/
+	/**
+	* get all nodes that are children (immediate descendant) of @vkNode
+	 * @param  {knalledge.VKNode} vkNode - node whos children we are itnerested in
+	 * @param  {string} [edgeType] - what type of edges we are interested in
+	 * @return {Array.<knalledge.VKNode>} children of vkNode of (if specified) edge type
+	 */
 	MapStructure.prototype.getChildrenNodes = function(vkNode, edgeType) {
 		var children = [];
 		for (var i in this.edgesById) {

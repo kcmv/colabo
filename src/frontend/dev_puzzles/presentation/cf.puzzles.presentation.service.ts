@@ -176,7 +176,7 @@ export class CfPuzzlesPresentationServices {
 
     isNodeInSlides(vkNode){
       if(vkNode && this.mapStructure){
-        let presentationNode = this.mapStructure.getVKNodeByType(PRESENTATION_NODE_TYPE);
+        let presentationNode = this._getPresentationNode();
         if(!presentationNode) return false;
 
         var edges = this.mapStructure.getEdgesBetweenNodes(presentationNode.kNode, vkNode.kNode);
@@ -190,7 +190,7 @@ export class CfPuzzlesPresentationServices {
       if(!vkNode || !this.mapStructure || this.isNodeInSlides(vkNode)){
         if(callback) callback(null);
       }else{
-        let presentationNode = this.mapStructure.getVKNodeByType(PRESENTATION_NODE_TYPE);
+        let presentationNode = this._getPresentationNode();
         if(!presentationNode){
           if(callback) callback(null);
         }else{
@@ -214,7 +214,7 @@ export class CfPuzzlesPresentationServices {
       if(!vkNode || !this.mapStructure || !this.isNodeInSlides(vkNode)){
         if(callback) callback(null);
       }else{
-        let presentationNode = this.mapStructure.getVKNodeByType(PRESENTATION_NODE_TYPE);
+        let presentationNode = this._getPresentationNode();
         if(!presentationNode){
           if(callback) callback(null);
         }else{
@@ -309,7 +309,11 @@ export class CfPuzzlesPresentationServices {
     }
 
     getSlides(){
-      let slides;
+      let slides = [];
+      if(this.mapStructure){
+        let presentationNode = this._getPresentationNode();
+        slides = this.mapStructure.getChildrenNodes(presentationNode, SLIDE_EDGE_TYPE);
+      }
       return slides;
     }
 
