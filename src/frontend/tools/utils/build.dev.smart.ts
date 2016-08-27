@@ -60,7 +60,11 @@ function setListeningForKeyCommands(){
     }
 
     // ctrl-q
-    if(key === '\u0011') cleanWatches();
+    if(key === '\u0011'){
+      console.log("[build.dev.smart] cleaning waiting tasks: ");
+      printWaitingToBuildTasks();
+      cleanWatches();
+    }
 
     // ctrl-r
     if(key === '\u0012') reloadBrowser();
