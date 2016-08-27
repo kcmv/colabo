@@ -169,6 +169,7 @@ export class CfPuzzlesPresentationServices {
     }
 
     addNodeToSlides(vkNode, callback){
+      var that:CfPuzzlesPresentationServices = this;
       if(!vkNode || !this.mapStructure || this.isNodeInSlides(vkNode)){
         if(callback) callback(null);
       }else{
@@ -181,12 +182,18 @@ export class CfPuzzlesPresentationServices {
           let vkEdge = new knalledge.VKEdge();
           vkEdge.kEdge = kEdge;
 
+          if(!callback){
+            callback = function(){
+              that.mapUpdate();
+            }
+          }
           this.mapStructure.createNodeWithEdge(presentationNode, vkEdge, vkNode, callback);
         }
       }
     }
 
     removeNodeFromSlides(vkNode, callback){
+      var that:CfPuzzlesPresentationServices = this;
       if(!vkNode || !this.mapStructure || !this.isNodeInSlides(vkNode)){
         if(callback) callback(null);
       }else{
@@ -199,7 +206,12 @@ export class CfPuzzlesPresentationServices {
             callback(null);
           }else{
             let presentationEdge = edges[0];
-            this.mapStructure.deleteEdge(presentationEdge);
+            if(!callback){
+              callback = function(){
+                that.mapUpdate();
+              }
+            }
+            this.mapStructure.deleteEdge(presentationEdge, callback);
           }
         }
       }
@@ -241,13 +253,18 @@ export class CfPuzzlesPresentationServices {
     }
 
     createPresentation(){
-       if(!this._getPresentationsNode()){
-         this._createPresentationsNode(function(){
-           this._createPresentationNode();
-         }.bind(this));
-       }else{
-         this._createPresentationNode();
-       }
+      let that:CfPuzzlesPresentationServices = this;
+      let callback = function(){
+        that.mapUpdate();
+      }
+
+      if(!this._getPresentationsNode()){
+        this._createPresentationsNode(function(){
+        this._createPresentationNode(callback);
+        }.bind(this));
+      }else{
+        this._createPresentationNode(callback);
+      }
     }
 
     enable(){

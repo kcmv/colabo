@@ -964,9 +964,7 @@
 		});
 	};
 
-	MapStructure.prototype.deleteEdge = function(vkEdge) {
-		this.mapService.deleteEdge(vkEdge.kEdge);
-
+	MapStructure.prototype.deleteEdge = function(vkEdge, callback) {
 		//deleting from edgesById:
 		for (var i in this.edgesById) {
 			var edge = this.edgesById[i];
@@ -974,6 +972,8 @@
 				delete this.edgesById[i];
 			}
 		}
+
+		this.mapService.deleteEdge(vkEdge.kEdge, callback);
 	};
 
 	MapStructure.prototype.deleteEdgesConnectedTo = function(vnode) {
