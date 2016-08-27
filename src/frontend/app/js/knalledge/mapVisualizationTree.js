@@ -246,11 +246,6 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		/* TODO Fixing expandable nodes */
 		.style("width", getNodeWidth.bind(this))
 		.style("margin-left", getNodeMarginLeft.bind(this));
-		// .style("background-color", function(d) {
-		// 	var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
-		// 	if(image) return null; // no bacground
-		// 	return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
-		// });
 
 	nodeHtmlEnter.filter(function(d) { return that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image; })
 		.append("img")
@@ -480,7 +475,7 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 			that.upperAPI.nodeDblClicked(d);
 		})
 		.html(function(d){
-			return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "+" : "-";
+			return ((d.isOpen === false) && that.mapStructure.hasChildren(d)) ? "+" : "-";
 		});
 	nodeHtmlUpdate.select(".rima_user")
 		.style("display", function(d){
@@ -538,13 +533,6 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 					1.0 : 0.95;
 			});
 	}
-
-	// nodeHtmlUpdateTransition
-	// 	.style("background-color", function(d) {
-	// 		var image = d.kNode.dataContent ? d.kNode.dataContent.image : null;
-	// 		if(image) return null; // no bacground
-	// 		return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "#aaaaff" : "#ffffff";
-	// 	});
 
 	// TRANSITION EXITING NODES
 	// TODO: move to separate function
@@ -720,7 +708,7 @@ MapVisualizationTree.prototype.updateSvgNodes = function(source) {
 			.style("opacity", 0.8);
 
 	node.select("circle")
-		.style("fill", function(d) { return (!d.isOpen && that.mapStructure.hasChildren(d)) ? "lightsteelblue" : "#ffffff"; });
+		.style("fill", function(d) { return ((d.isOpen === false) && that.mapStructure.hasChildren(d)) ? "lightsteelblue" : "#ffffff"; });
 
 	// Transition exiting nodes
 	var nodeExit = node.exit();
