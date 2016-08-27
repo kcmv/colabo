@@ -10,45 +10,58 @@ export const PRESENTATIONS_NODE_TYPE:string = 'type_presentations';
 export const PRESENTATION_NODE_TYPE:string = 'type_presentation';
 export const PRESENTATIONS_EDGE_TYPE:string = 'type_presentations';
 export const PRESENTATION_EDGE_TYPE:string = 'type_presentation';
+export const SLIDE_EDGE_TYPE:string = 'type_slide';
 
 @Injectable()
 export class CfPuzzlesPresentationServices {
     puzzlePresentationPluginInfo:any;
+    store:any = {
+      enabled: true,
+      presentations: [
+
+      ],
+      currentPresentation: null
+    };
 
     plugins:any = {
         mapVisualizePlugins: {
             service: this,
-            store: {
-              enabled: true,
-              presentations: [
-
-              ],
-              currentPresentation: null
-            },
             init: function init() {
                 var that = this;
+            },
+
+            nodeHtmlEnter: function(nodeHtmlEnter){
+              var that = this;
+
+              nodeHtmlEnter
+            		.append("div")
+            			.attr("class", "node_presentation");
             },
 
             nodeHtmlUpdate: function(nodeHtmlUpdate){
               var that = this;
 
-              if(!that.store.enabled) return;
-
               nodeHtmlUpdate.select(".node_presentation")
             		.style("display", function(d){
-            			return (that.service.knalledgeMapViewService.provider.config.nodes.showTypes && d.kNode && d.kNode.type) ? "block" : "none";
+            			return (that.service.store.enabled) ? "block" : "none";
             		})
             		.html(function(d){
             			var label = "";
-            			if(d.kNode && d.kNode.type){
-            				var type = d.kNode.type;
-            			}
+            			if(that.service.isNodeInSlides(d)){
+            				label = "S";
+            			}else{
+                    label = "-";
+                  }
             			return label;
             		})
             		.on("click", function(d){
             			console.log('presentation clicked for node ',d.kNode.name);
             			d3.event.stopPropagation();
-            			that.upperAPI.nodeTypeClicked(d);
+                  if(that.service.isNodeInSlides(d)){
+                    that.service.removeNodeFromSlides(d);
+            			}else{
+                    that.service.addNodeToSlides(d);
+                  }
             		});
             }
         }
@@ -57,8 +70,6 @@ export class CfPuzzlesPresentationServices {
     private mapStructure:any;
     private mapUpdate:Function;
     private positionToDatum:Function;
-    private presentationsVKNode:knalledge.VKNode;
-    private presentationVKNode:knalledge.VKNode;
 
     /**
     * the namespace for core services for the Notify system
@@ -110,8 +121,6 @@ export class CfPuzzlesPresentationServices {
       this.puzzlePresentationPluginInfo.references.map.callback = function() {
         that.puzzlePresentationPluginInfo.references.map.$resolved = true;
         that.mapStructure = that.puzzlePresentationPluginInfo.references.map.items.mapStructure;
-        that.presentationsVKNode = that._getPresentationsNode();
-        that.presentationVKNode = that._getPresentationNode();
       };
       // });
       //
@@ -129,7 +138,7 @@ export class CfPuzzlesPresentationServices {
     }
 
     presentationAvailable(){
-      return !!this.presentationsVKNode;
+      return this._getPresentationsNode() && this._getPresentationNode();
     }
 
     _getPresentationsNode(){
@@ -148,6 +157,54 @@ export class CfPuzzlesPresentationServices {
       return presentationNode;
     }
 
+    isNodeInSlides(vkNode){
+      if(vkNode && this.mapStructure){
+        let presentationNode = this.mapStructure.getVKNodeByType(PRESENTATION_NODE_TYPE);
+        if(!presentationNode) return false;
+
+        var edges = this.mapStructure.getEdgesBetweenNodes(presentationNode.kNode, vkNode.kNode);
+        if(edges && edges.length > 0) return true;
+      }
+      return false;
+    }
+
+    addNodeToSlides(vkNode, callback){
+      if(!vkNode || !this.mapStructure || this.isNodeInSlides(vkNode)){
+        if(callback) callback(null);
+      }else{
+        let presentationNode = this.mapStructure.getVKNodeByType(PRESENTATION_NODE_TYPE);
+        if(!presentationNode){
+          if(callback) callback(null);
+        }else{
+          let kEdge = new knalledge.KEdge();
+          kEdge.type = SLIDE_EDGE_TYPE;
+          let vkEdge = new knalledge.VKEdge();
+          vkEdge.kEdge = kEdge;
+
+          this.mapStructure.createNodeWithEdge(presentationNode, vkEdge, vkNode, callback);
+        }
+      }
+    }
+
+    removeNodeFromSlides(vkNode, callback){
+      if(!vkNode || !this.mapStructure || !this.isNodeInSlides(vkNode)){
+        if(callback) callback(null);
+      }else{
+        let presentationNode = this.mapStructure.getVKNodeByType(PRESENTATION_NODE_TYPE);
+        if(!presentationNode){
+          if(callback) callback(null);
+        }else{
+          var edges = this.mapStructure.getEdgesBetweenNodes(presentationNode.kNode, vkNode.kNode, SLIDE_EDGE_TYPE);
+          if(edges.length <= 0){
+            callback(null);
+          }else{
+            let presentationEdge = edges[0];
+            this.mapStructure.deleteEdge(presentationEdge);
+          }
+        }
+      }
+    }
+
     _createPresentationsNode (callback?:Function){
       let rootNode = this.mapStructure.rootNode;
       if(!rootNode) return;
@@ -162,13 +219,13 @@ export class CfPuzzlesPresentationServices {
       let presentationsVKNode = new knalledge.VKNode();
       presentationsVKNode.kNode = presentationsKNode;
 
-      this.presentationsVKNode = presentationsVKNode;
-
       this.mapStructure.createNodeWithEdge(rootNode, vkEdge, presentationsVKNode, callback);
     }
 
     _createPresentationNode (callback?:Function){
-      if(!this.presentationsVKNode) return;
+      let presentationsVKNode = this._getPresentationsNode();
+      if(!presentationsVKNode) return;
+
       let kEdge = new knalledge.KEdge();
       kEdge.type = PRESENTATION_EDGE_TYPE;
       let vkEdge = new knalledge.VKEdge();
@@ -180,22 +237,25 @@ export class CfPuzzlesPresentationServices {
       let presentationVKNode = new knalledge.VKNode();
       presentationVKNode.kNode = presentationKNode;
 
-      this.presentationVKNode = presentationVKNode;
-
-      this.mapStructure.createNodeWithEdge(this.presentationsVKNode, vkEdge, presentationVKNode, callback);
+      this.mapStructure.createNodeWithEdge(presentationsVKNode, vkEdge, presentationVKNode, callback);
     }
 
     createPresentation(){
-
-      if(this.mapStructure){
-         var vkPresentationsNode = this.mapStructure.getVKNodeByType(PRESENTATIONS_NODE_TYPE);
-
-         if(!vkPresentationsNode){
-           this._createPresentationsNode(this._createPresentationNode.bind(this));
-         }else{
+       if(!this._getPresentationsNode()){
+         this._createPresentationsNode(function(){
            this._createPresentationNode();
-         }
-      }
+         }.bind(this));
+       }else{
+         this._createPresentationNode();
+       }
+    }
+
+    enable(){
+      this.store.enabled = true;
+    }
+
+    disable(){
+      this.store.enabled = false;
     }
 
     restart(){

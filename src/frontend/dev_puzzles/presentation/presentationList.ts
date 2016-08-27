@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit, OnDestroy} from '@angular/core';
 import {NgIf, CORE_DIRECTIVES} from "@angular/common";
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {FORM_DIRECTIVES} from '@angular/forms';
@@ -23,9 +23,10 @@ import {CfPuzzlesPresentationServices} from './cf.puzzles.presentation.service'
     styles: [`
     `]
 })
-export class PresentationList {
+export class PresentationList implements OnInit, OnDestroy {
   public items:Array<any> = [];
   public selectedItem:any = null;
+  public commandsVisible:boolean = true;
   private componentShown:boolean = true;
   private viewConfig:any;
   private policyConfig:any;
@@ -46,6 +47,14 @@ export class PresentationList {
       // this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('PresentationList', function(vkNode,type) {
       //     console.log("knalledgeNodeTypeChanged: ", vkNode.kNode.name, type);
       // });
+  }
+
+  ngOnInit() {
+    this.service.enable();
+  }
+
+  ngOnDestroy() {
+    this.service.disable();
   }
 
   presentationAvailable():boolean {
@@ -80,5 +89,9 @@ export class PresentationList {
 
   hideShowComponent (){
     this.componentShown = !this.componentShown;
+  }
+
+  hideShowCommands (){
+    this.commandsVisible = !this.commandsVisible;
   }
 }
