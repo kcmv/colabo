@@ -16,7 +16,7 @@ export const SLIDE_EDGE_TYPE:string = 'type_slide';
 export class CfPuzzlesPresentationServices {
     puzzlePresentationPluginInfo:any;
     store:any = {
-      enabled: true,
+      enabled: false,
       presentations: [
 
       ],
@@ -70,6 +70,10 @@ export class CfPuzzlesPresentationServices {
     private mapStructure:any;
     private mapUpdate:Function;
     private positionToDatum:Function;
+    private addKnownEdgeTypess:Function;
+    private removeKnownEdgeTypess:Function;
+    private addSystemEdgeTypess:Function;
+    private removeSystemEdgeTypess:Function;
 
     /**
     * the namespace for core services for the Notify system
@@ -86,9 +90,9 @@ export class CfPuzzlesPresentationServices {
       @Inject('CollaboPluginsService') private collaboPluginsService
     ) {
       var that:CfPuzzlesPresentationServices = this;
-      //this.collaboPluginsService = this.$injector.get('CollaboPluginsService');
+
       this.puzzlePresentationPluginInfo = {
-        name: "brainstorming",
+        name: "puzzles.presentation",
         components: {
 
         },
@@ -113,26 +117,39 @@ export class CfPuzzlesPresentationServices {
             $resolved: false,
             callback: null,
             $promise: null
+          },
+          MapLayoutTree: {
+            items: {
+              addKnownEdgeTypess: null,
+              removeKnownEdgeTypess: null,
+              addSystemEdgeTypess: null,
+              removeSystemEdgeTypess: null
+            },
+            $resolved: false,
+            callback: null,
+            $promise: null
           }
         }
       };
 
-      // this.puzzlePresentationPluginInfo.references.map.$promise = $q(function(resolve, reject) { /*jshint unused:false*/
       this.puzzlePresentationPluginInfo.references.map.callback = function() {
         that.puzzlePresentationPluginInfo.references.map.$resolved = true;
         that.mapStructure = that.puzzlePresentationPluginInfo.references.map.items.mapStructure;
       };
-      // });
-      //
-      // this.puzzlePresentationPluginInfo.apis.map.$promise = $q(function(resolve, reject) { /*jshint unused:false*/
+
       this.puzzlePresentationPluginInfo.apis.map.callback = function() {
         that.puzzlePresentationPluginInfo.apis.map.$resolved = true;
         that.mapUpdate = that.puzzlePresentationPluginInfo.apis.map.items.update;
         that.positionToDatum = that.puzzlePresentationPluginInfo.apis.map.items.positionToDatum;
-        // resolve(that.puzzlePresentationPluginInfo.apis.map);
       };
-      // });
-      //
+
+      this.puzzlePresentationPluginInfo.apis.MapLayoutTree.callback = function() {
+        that.puzzlePresentationPluginInfo.apis.MapLayoutTree.$resolved = true;
+        that.addKnownEdgeTypess = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.addKnownEdgeTypess;
+        that.removeKnownEdgeTypess = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.removeKnownEdgeTypess;
+        that.addSystemEdgeTypess = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.addSystemEdgeTypess;
+        that.removeSystemEdgeTypess = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.removeSystemEdgeTypess;
+      };
 
       this.collaboPluginsService.registerPlugin(this.puzzlePresentationPluginInfo);
     }
@@ -168,7 +185,7 @@ export class CfPuzzlesPresentationServices {
       return false;
     }
 
-    addNodeToSlides(vkNode, callback){
+    addNodeToSlides(vkNode, callback?){
       var that:CfPuzzlesPresentationServices = this;
       if(!vkNode || !this.mapStructure || this.isNodeInSlides(vkNode)){
         if(callback) callback(null);
@@ -184,7 +201,7 @@ export class CfPuzzlesPresentationServices {
 
           if(!callback){
             callback = function(){
-              that.mapUpdate();
+              if(that.mapUpdate) that.mapUpdate();
             }
           }
           this.mapStructure.createNodeWithEdge(presentationNode, vkEdge, vkNode, callback);
@@ -192,7 +209,7 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
-    removeNodeFromSlides(vkNode, callback){
+    removeNodeFromSlides(vkNode, callback?){
       var that:CfPuzzlesPresentationServices = this;
       if(!vkNode || !this.mapStructure || !this.isNodeInSlides(vkNode)){
         if(callback) callback(null);
@@ -208,7 +225,7 @@ export class CfPuzzlesPresentationServices {
             let presentationEdge = edges[0];
             if(!callback){
               callback = function(){
-                that.mapUpdate();
+                if(that.mapUpdate) that.mapUpdate();
               }
             }
             this.mapStructure.deleteEdge(presentationEdge, callback);
@@ -255,7 +272,7 @@ export class CfPuzzlesPresentationServices {
     createPresentation(){
       let that:CfPuzzlesPresentationServices = this;
       let callback = function(){
-        that.mapUpdate();
+        if(that.mapUpdate) that.mapUpdate();
       }
 
       if(!this._getPresentationsNode()){
@@ -268,18 +285,45 @@ export class CfPuzzlesPresentationServices {
     }
 
     enable(){
+      var that:CfPuzzlesPresentationServices = this;
       this.store.enabled = true;
+      this.addKnownEdgeTypess([PRESENTATIONS_EDGE_TYPE, PRESENTATION_EDGE_TYPE]);
+      this.addSystemEdgeTypess([SLIDE_EDGE_TYPE]);
+      if(that.mapUpdate) that.mapUpdate();
     }
 
     disable(){
+      var that:CfPuzzlesPresentationServices = this;
       this.store.enabled = false;
+      this.removeKnownEdgeTypess([PRESENTATIONS_EDGE_TYPE, PRESENTATION_EDGE_TYPE]);
+      this.removeSystemEdgeTypess([SLIDE_EDGE_TYPE]);
+      if(that.mapUpdate) that.mapUpdate();
     }
 
-    restart(){
-
+    getSelectedItem(){
+      if(this.mapStructure){
+        return this.mapStructure.getSelectedNode();
+      }else{
+        return null;
+      }
     }
 
-    finish(){
+    getSlides(){
+      let slides;
+      return slides;
+    }
 
+    addSlide(){
+      if(this.mapStructure){
+        let vkNode = this.mapStructure.getSelectedNode();
+        this.addNodeToSlides(vkNode);
+      }
+    }
+
+    removeSlide(){
+      if(this.mapStructure){
+        let vkNode = this.mapStructure.getSelectedNode();
+        this.removeNodeFromSlides(vkNode);
+      }
     }
 }
