@@ -459,12 +459,33 @@ export class MapInteraction {
     addNode(parentNode, nodeType?, edgeType?) {
         if (!this.isStatusMap()) return;
 
+        if (typeof nodeType === 'undefined') nodeType = this.clientApi.getActiveIbisType();
+        //and if getActiveIbisType also returns undefined:
+        if (typeof nodeType === 'undefined') nodeType = knalledge.KNode.TYPE_KNOWLEDGE;
+
+        if (typeof edgeType === 'undefined') edgeType = this.clientApi.getActiveIbisType();
+        if (typeof edgeType === 'undefined') edgeType = knalledge.KEdge.TYPE_KNOWLEDGE;
+
+        if(this.clientApi.collaboGrammarService.puzzles.brainstorming && this.clientApi.collaboGrammarService.puzzles.brainstorming.state
+          && this.clientApi.collaboGrammarService.puzzles.brainstorming.state.phase === BrainstormingPhase.SHARING_IDEAS
+          && !this.clientApi.collaboGrammarService.puzzles.brainstorming.state.allowAddingWhileSharingIdeas
+          && this.clientApi.getSelectedNode() === this.clientApi.collaboGrammarService.puzzles.brainstorming.state.question
+      	){
+            if(nodeType === knalledge.KNode.TYPE_IBIS_IDEA){
+              window.alert("You are not supposed to add brainstorming ideas in this phase");
+              return;
+            }else if(!window.confirm("You are about to add a non-idea to the brainstorming question. Do you want to continue?")){
+              return;
+            }
+        }
+
+        //CollaboGrammar:
+        //allow only addition of ideas to the brainstorming question node - no free knowledge gardening
+        //allow adding arguments to ideas:
         if(this.clientApi.collaboGrammarService.puzzles.brainstorming && this.clientApi.collaboGrammarService.puzzles.brainstorming.state &&
-      	(BrainstormingPhase &&
           (this.clientApi.collaboGrammarService.puzzles.brainstorming.state.phase ===
             BrainstormingPhase.IDEAS_GENERATION ||
       		this.clientApi.collaboGrammarService.puzzles.brainstorming.state.phase === BrainstormingPhase.SHARING_IDEAS)
-        )
           && this.clientApi.collaboGrammarService.puzzles.brainstorming.state.onlyIdeasToQuestion
       	){
           var allowedDistance = this.clientApi.collaboGrammarService.puzzles.brainstorming.state.allowArgumentsToIdeas ? 1 : 0;
@@ -479,17 +500,6 @@ export class MapInteraction {
               }
           }
         }
-
-        if (typeof nodeType === 'undefined') nodeType = this.clientApi.getActiveIbisType();
-        //and if getActiveIbisType also returns undefined:
-        if (typeof nodeType === 'undefined') nodeType = knalledge.KNode.TYPE_KNOWLEDGE;
-
-        if (typeof edgeType === 'undefined') edgeType = this.clientApi.getActiveIbisType();
-        if (typeof edgeType === 'undefined') edgeType = knalledge.KEdge.TYPE_KNOWLEDGE;
-
-        //CollaboGrammar:
-        //allow only addition of ideas to the brainstorming question node - no free knowledge gardening
-        //allow adding arguments to ideas
 
 
         console.log("exitEditingNode");

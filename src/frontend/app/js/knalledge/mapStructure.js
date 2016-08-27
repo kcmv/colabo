@@ -533,6 +533,16 @@
 		return parents;
 	};
 
+	MapStructure.prototype.isParent = function(child, parent) {
+		for (var i in this.edgesById) {
+			var vkEdge = this.edgesById[i];
+			if (vkEdge.kEdge.targetId === child.kNode._id && parent.kNode._id === vkEdge.kEdge.sourceId) {
+				return true;
+			}
+		}
+		return false;
+	};
+
 	/*
 		returns all nodes that are ancestors of @node, INCLUDING the node
 		it takes in count that a node generally can have more parents
