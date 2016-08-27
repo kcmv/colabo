@@ -2,19 +2,38 @@
 
 @import "../../../app/sass/include";
 
-.node_html{
-  /* NODE SEMANTIC / STYLING */
-  &.type_ibis_question{
-    background-color: #ffffaa;
-  }
-  &.type_ibis_idea{
-    background-color: #aaffaa;
-  }
-  &.type_ibis_argument{
-    background-color: transparentize(#ffaaaa, 0.50);
-  }
-  &.type_ibis_comment{
-    background-color: #aaffff;
+
+.knalledge_map_container{
+  .node_html{
+    .node_type {
+      position: absolute;
+      left: 10px;
+      top: -20px;
+      /*background-color: #ddddff;*/
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      color: #5555aa;
+      text-align: center;
+      /*font-weight: bold;*/
+      min-width: 1.2em;
+      @include border-radius(5px);
+    }
+
+    /* NODE SEMANTIC / STYLING */
+    &.type_ibis_question{
+      background-color: #ffffaa;
+    }
+    &.type_ibis_idea{
+      background-color: #aaffaa;
+    }
+    &.type_ibis_argument{
+      background-color: transparentize(#ffaaaa, 0.50);
+    }
+    &.type_ibis_comment{
+      background-color: #aaffff;
+    }
   }
 }
 

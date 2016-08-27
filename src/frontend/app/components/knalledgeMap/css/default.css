@@ -514,22 +514,6 @@ md-sidenav.options {
       -moz-border-radius: 5px;
       -webkit-border-radius: 5px;
       border-radius: 5px; }
-    .knalledge_map_container .node_html .node_type {
-      position: absolute;
-      left: 10px;
-      top: -20px;
-      /*background-color: #ddddff;*/
-      padding-left: 4px;
-      padding-right: 4px;
-      padding-top: 0px;
-      padding-bottom: 0px;
-      color: #5555aa;
-      text-align: center;
-      /*font-weight: bold;*/
-      min-width: 1.2em;
-      -moz-border-radius: 5px;
-      -webkit-border-radius: 5px;
-      border-radius: 5px; }
     .knalledge_map_container .node_html .rima_user {
       position: absolute;
       font-style: italic;
