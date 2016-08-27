@@ -142,7 +142,7 @@ var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStruct
 /***********************************
 * Creating Flat (currently Tree)
 ************************************/
-
+/*
 	// Visualization API
 	this.visualizationApis.viewspec_flat = {
 		nodeClicked: this.upperApi.nodeClicked.bind(this.upperApi),
@@ -167,6 +167,8 @@ var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStruct
 	// Layout
 	this.layouts.viewspec_flat = new knalledge.MapLayoutTree(this.mapStructure, this.collaboPluginsService, this.configNodes,
 		this.configTree, this.layoutApis.viewspec_flat, this.knalledgeState, this.knAllEdgeRealTimeService);
+*/
+
 
 /***********************************
 * Creating Graph
