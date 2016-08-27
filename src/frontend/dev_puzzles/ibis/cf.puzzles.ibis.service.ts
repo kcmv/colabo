@@ -15,6 +15,16 @@ export class CfPuzzlesIbisService {
                 var that = this;
             },
 
+            nodeHtmlEnter: function(nodeHtmlEnter){
+              var that = this;
+
+              // TODO: we cannot optimize
+            	// if(this.knalledgeMapViewService.provider.config.nodes.showTypes){
+            nodeHtmlEnter
+            		.append("div")
+            			.attr("class", "node_type");
+            },
+
             nodeHtmlUpdate: function(nodeHtmlUpdate){
               var that = this;
               nodeHtmlUpdate.select(".node_type")
