@@ -7,6 +7,9 @@
     position: relative;
     margin: 0.1em;
     padding: 0.0em;
+    ul, ol{
+      margin-left: 1.1em;
+    }
 
     .knalledge-properties{
       position: relative;
@@ -15,6 +18,7 @@
 
       &.knalledge-view{
         word-break: break-all;
+        overflow-wrap: break-word;
         padding: 0.3em;
       }
 
