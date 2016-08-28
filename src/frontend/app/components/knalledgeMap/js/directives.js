@@ -984,6 +984,9 @@
 							$scope.nodeContent.property = nodeContent.property;
 							$scope.nodeContent.htmlProperty = nodeContent.property;
 							$scope.nodeContent.propertyType = nodeContent.propertyType;
+							marked.setOptions({
+							  gfm: true // this should be true by default
+							});
 							switch(nodeContent.propertyType){
 								case 'text/markdown':
 									$scope.nodeContent.htmlProperty = marked(nodeContent.property);
