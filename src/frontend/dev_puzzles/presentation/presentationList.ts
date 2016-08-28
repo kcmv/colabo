@@ -120,4 +120,8 @@ export class PresentationList implements OnInit, OnDestroy {
 
     if(!dontBroadcastEvent) this.globalEmitterServicesArray.get(this.changeSelectedNodeEvent).broadcast('cf.puzzles.presentation.PresentationList', this.selectedSlide);
   }
+
+  hideShowCommands(){
+    this.commandsVisible = !this.commandsVisible;
+  }
 }
