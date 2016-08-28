@@ -16,15 +16,26 @@ var puzzles = {
     presentation: {
       path: '.',
       css: true,
-      injectJs: 'js/services.js',
-      injectCss: 'css/presentation.css'
+      injectJs: ['js/services.js',
+        'lib/reveal.js/lib/js/head.min.js',
+        'lib/reveal.js/js/reveal.js'
+      ],
+      injectCss: ['css/presentation.css',
+        'lib/reveal.js/css/reveal.css',
+        'lib/reveal.js/css/theme/black.css',
+        // 'lib/reveal.js/css/theme/moon.css',
+        // Theme used for syntax highlighting of code
+        'lib/reveal.js/lib/css/zenburn.css',
+        'lib/reveal.js/css/print/paper.css',
+        // 'lib/reveal.js/css/print/pdf.css'
+      ]
     }
   },
 
   puzzlesActions: {
     presentation: {
       'cf.puzzles.presentation.createPresentation': {
-        
+
       }
     }
   },
