@@ -4,7 +4,7 @@
 		<button md-fab md-tooltip="New Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="New Presentation" (click)="createPresentation()" *ngIf="!presentationAvailable()">
 				<i title="New Presentation" md-icon>add_to_queue</i>
 		</button>
-		<button md-fab md-tooltip="Show Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="Show Presentation" (click)="createPresentation()" *ngIf="presentationAvailable()">
+		<button md-fab md-tooltip="Show Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="Show Presentation" (click)="showPresentation()" *ngIf="presentationAvailable()">
 				<i title="Show Presentation" md-icon>play_circle_filled</i>
 		</button>
 		<button md-fab md-tooltip="Add Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Add Slide" (click)="addSlide()" *ngIf="presentationAvailable() && selectedItem() && !isSelectedItemInSlides()">

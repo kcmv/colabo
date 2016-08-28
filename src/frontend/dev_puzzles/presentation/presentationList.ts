@@ -9,6 +9,10 @@ import {KnalledgeMapPolicyService} from '../../app/components/knalledgeMap/knall
 import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
 
 import {CfPuzzlesPresentationServices} from './cf.puzzles.presentation.service'
+
+// currently declared in presentation/js/services.js
+declare var startPresentation:Function;
+
 @Component({
     selector: 'presentation-list',
     providers: [
@@ -99,6 +103,10 @@ export class PresentationList implements OnInit, OnDestroy {
     let slides = this.getSlides();
     if(slides.length <= 0) return false;
     return this.selectedSlide === slides[slides.length-1];
+  }
+
+  showPresentation(){
+    startPresentation();
   }
 
   selectPotentialSlide (slide) {
