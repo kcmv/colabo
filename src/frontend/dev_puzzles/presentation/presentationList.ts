@@ -88,11 +88,17 @@ export class PresentationList implements OnInit, OnDestroy {
   }
 
   isFirst():boolean {
-    return false;
+    if(!this.selectedSlide) return false;
+    let slides = this.getSlides();
+    if(slides.length <= 0) return false;
+    return this.selectedSlide === this.getSlides()[0];
   }
 
   isLast ():boolean {
-    return false;
+    if(!this.selectedSlide) return false;
+    let slides = this.getSlides();
+    if(slides.length <= 0) return false;
+    return this.selectedSlide === slides[slides.length-1];
   }
 
   selectPotentialSlide (slide) {
