@@ -20,12 +20,15 @@ $large: 1400px;
   position: relative;
   margin: 0.1em;
   padding: 0.0em; }
+  .knalledge_map_list .content ul, .knalledge_map_list .content ol {
+    margin-left: 1.1em; }
   .knalledge_map_list .content .knalledge-properties {
     position: relative;
     width: 90%;
     height: 100%; }
     .knalledge_map_list .content .knalledge-properties.knalledge-view {
       word-break: break-all;
+      overflow-wrap: break-word;
       padding: 0.3em; }
     .knalledge_map_list .content .knalledge-properties .ta-editor {
       position: relative; }
