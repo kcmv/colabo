@@ -27,6 +27,10 @@ $provideLayout: 'hide';
 	font-size: 12px;
 }
 
+.knalledge_map_list{
+	text-align: left;
+}
+
 @if $provideLayout == 'show' {
 	$susy: (
 		columns: 12,
