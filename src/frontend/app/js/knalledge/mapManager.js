@@ -250,10 +250,14 @@ MapManager.prototype.destroy = function(){
 	this.destroyed = true;
 
 	for(var vN in this.visualizations){
-		this.visualizations[vN].destroy();
+		if(this.visualizations[vN]){
+			this.visualizations[vN].destroy();
+		}
 	}
 	for(var vL in this.layouts){
-		this.layouts[vL].destroy();
+		if(this.layouts[vL]){
+			this.layouts[vL].destroy();
+		}
 	}
 };
 
