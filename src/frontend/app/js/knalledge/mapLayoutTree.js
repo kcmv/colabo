@@ -18,7 +18,7 @@ MapLayoutTree.prototype._super = function(){
 
 MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
 	var children = [];
-	if(!d.isOpen) return children;
+	if(d.isOpen === false) return children;
 
 	// if(this.mapStructure.getSelectedNode() == d){
 	// 	return children;

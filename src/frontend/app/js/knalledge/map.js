@@ -131,7 +131,8 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
 		getActiveIbisType: this.getActiveIbisType.bind(this),
 		collaboGrammarService: this.collaboGrammarService,
-		isDescendantInDistance: this.mapStructure.isDescendantInDistance.bind(this.mapStructure)
+		isDescendantInDistance: this.mapStructure.isDescendantInDistance.bind(this.mapStructure),
+		//isParent: this.mapStructure.isParent.bind(this.mapStructure)
 	};
 
 	var MapInteraction = this.injector.get("interaction.MapInteraction");
