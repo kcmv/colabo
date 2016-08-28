@@ -27,7 +27,7 @@ $large: 1400px;
     width: 90%;
     height: 100%; }
     .knalledge_map_list .content .knalledge-properties.knalledge-view {
-      word-break: break-all;
+      word-break: normal;
       overflow-wrap: break-word;
       padding: 0.3em; }
     .knalledge_map_list .content .knalledge-properties .ta-editor {
