@@ -22,7 +22,7 @@ var plugins = {
 
     },
 ```
-- disable map keyboard controll while in the presentation mode
+- disable map keyboard control while in the presentation mode
 
 # Intro
 
