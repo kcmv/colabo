@@ -1,3 +1,29 @@
+# ToDo
+
+- migrate view component dependencies from `config.plugins.js` to puzzle's `config.js`
+```js
+/* Configuration */
+var plugins = {
+    "ViewComponents": {
+
+        // ...
+
+        "bottomPanel.BottomPanel": {
+            components: {
+                // ...
+                'cf.puzzles.presentation.list': {
+                    active: true,
+                    path: "cf.puzzles.presentation.list"
+                },
+            }
+        },
+
+        // ...
+
+    },
+```
+- disable map keyboard controll while in the presentation mode
+
 # Intro
 
 Presentation puzzle provides possibility for presenting nodes as set of slides that you can present in a similar way as regular presentation application (Microsoft Power Point, ...)

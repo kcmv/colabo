@@ -10,9 +10,6 @@ import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/Gl
 
 import {CfPuzzlesPresentationServices} from './cf.puzzles.presentation.service'
 
-// currently declared in presentation/js/services.js
-declare var startPresentation:Function;
-
 @Component({
     selector: 'presentation-list',
     providers: [
@@ -106,7 +103,7 @@ export class PresentationList implements OnInit, OnDestroy {
   }
 
   showPresentation(){
-    startPresentation();
+    this.service.showPresentation();
   }
 
   selectPotentialSlide (slide) {
