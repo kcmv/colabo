@@ -317,7 +317,9 @@ export class CfPuzzlesPresentationServices {
       let slides = [];
       if(this.mapStructure){
         let presentationNode = this._getPresentationNode();
-        slides = this.mapStructure.getChildrenNodes(presentationNode, SLIDE_EDGE_TYPE);
+        if(presentationNode){
+          slides = this.mapStructure.getChildrenNodes(presentationNode, SLIDE_EDGE_TYPE);          
+        }
       }
       return slides;
     }

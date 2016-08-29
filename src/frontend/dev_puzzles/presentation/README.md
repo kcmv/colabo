@@ -23,6 +23,8 @@ var plugins = {
     },
 ```
 - disable map keyboard control while in the presentation mode
+- make bottomPanel controllable (or greater at least) height
+- remove slide button from presentation(s) nodes
 
 # Intro
 
