@@ -414,6 +414,7 @@ export class CfPuzzlesPresentationServices {
         slidesDom.append(section);
         section.attr('data-markdown', '');
         section.attr('data-separator-vertical', '--vertical--');
+        section.attr('data-separator', '--horizontal--');
 
         var script = $("<script></script>");
         section.append(script);
