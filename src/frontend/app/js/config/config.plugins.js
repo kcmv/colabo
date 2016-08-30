@@ -150,7 +150,11 @@
                     'brainstorming.BrainstormingPanelComponent': {
                         active: true,
                         path: "/components/brainstorming/brainstorming-panel.component"
-                    }
+                    },
+                    'cf.puzzles.presentation.list': {
+                        active: true,
+                        path: "cf.puzzles.presentation.list"
+                    },
                 }
             },
             "knalledgeMap.KnalledgeMapTools": {
@@ -166,7 +170,11 @@
                     IbisTypesList: {
                         active: true,
                         path: "cf.puzzles.ibis.typesList"
-                    }
+                    },
+                    'cf.puzzles.presentation.show': {
+                        active: true,
+                        path: "cf.puzzles.presentation.show"
+                    },
                 }
             }
         },
@@ -434,6 +442,10 @@
             editors: {
                 active: true, // is active puzzle
                 path: 'dev_puzzles/editors' // path to the puzzle folder, relative to the project (frontend) root
+            },
+            presentation: {
+                active: true, // is active puzzle
+                path: 'dev_puzzles/presentation' // path to the puzzle folder, relative to the project (frontend) root
             },
         }
     };

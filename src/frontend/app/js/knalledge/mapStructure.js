@@ -222,16 +222,22 @@
 	};
 
 	/**
+	 * [function description]
 	 * @function getEdgesBetweenNodes
 	 * @memberof knalledge.MapStructure#
+	 * @param  {knalledge.KNode} source - source node
+	 * @param  {knalledge.KNode} target - target node
+	 * @param  {string} [edgeType] - edge type that we are interested in
 	 * @returns Array - their may be several edges connecting 2 nodes:
 	 */
-	MapStructure.prototype.getEdgesBetweenNodes = function(source, target) { //TODO: improve this for Big data by 2-dimensional array
+	MapStructure.prototype.getEdgesBetweenNodes = function(source, target, edgeType) { //TODO: improve this for Big data by 2-dimensional array
 		var edges = [];
 		for (var i in this.edgesById) {
 			var vkEdge = this.edgesById[i];
 			if (source._id == vkEdge.kEdge.sourceId && target._id == vkEdge.kEdge.targetId) {
-				edges.push(vkEdge);
+				if(typeof edgeType === 'undefined' || vkEdge.kEdge.type === edgeType){
+					edges.push(vkEdge);
+				}
 			}
 		}
 		return edges;
@@ -494,9 +500,12 @@
 		return names;
 	}
 
-	/*
-		get all nodes that are children (immediate descendant) of @vkNode
-	*/
+	/**
+	* get all nodes that are children (immediate descendant) of @vkNode
+	 * @param  {knalledge.VKNode} vkNode - node whos children we are itnerested in
+	 * @param  {string} [edgeType] - what type of edges we are interested in
+	 * @return {Array.<knalledge.VKNode>} children of vkNode of (if specified) edge type
+	 */
 	MapStructure.prototype.getChildrenNodes = function(vkNode, edgeType) {
 		var children = [];
 		for (var i in this.edgesById) {
@@ -958,6 +967,18 @@
 		});
 	};
 
+	MapStructure.prototype.deleteEdge = function(vkEdge, callback) {
+		//deleting from edgesById:
+		for (var i in this.edgesById) {
+			var edge = this.edgesById[i];
+			if (edge.kEdge._id === vkEdge.kEdge._id) {
+				delete this.edgesById[i];
+			}
+		}
+
+		this.mapService.deleteEdge(vkEdge.kEdge, callback);
+	};
+
 	MapStructure.prototype.deleteEdgesConnectedTo = function(vnode) {
 		if (!this.mapService) return;
 
@@ -995,6 +1016,34 @@
 			console.warn('getVKNodeByKId found kNode.' + kId + ' without encapsulating vkNode: \n' + e.stack);
 			return null;
 		}
+	};
+
+	MapStructure.prototype.getVKNodeByType = function(nodeType) {
+		if (nodeType === null) {
+			return null;
+		}
+		for (var i in this.nodesById) {
+			var vkNode = this.nodesById[i];
+			if (vkNode.kNode.type === nodeType) {
+				return vkNode;
+			}
+		}
+	};
+
+	MapStructure.prototype.getVKNodesByType = function(nodeType) {
+		var vkNodes = [];
+
+		if (nodeType === null) {
+			return null;
+		}
+		for (var i in this.nodesById) {
+			var vkNode = this.nodesById[i];
+			if (vkNode.kNode.type === nodeType) {
+				vkNodes.push(vkNode);
+			}
+		}
+
+		return vkNodes;
 	};
 
 	MapStructure.prototype.getVKEdgeByKId = function(kId) {

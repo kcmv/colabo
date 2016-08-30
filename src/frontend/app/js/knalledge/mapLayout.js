@@ -11,8 +11,9 @@ var MapLayout =  knalledge.MapLayout = function(){
 }
 
 var ID=0;
-MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
+MapLayout.prototype.construct = function(className, mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
 	this.destroyed = false;
+	this.className = className;
 	this.id = ID++;
 	console.log("[MapLayout] instance-id: ", this.id);
 
@@ -27,10 +28,20 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
 	this.links = null;
 	this.nodeWeightSumMin = 0;
 	this.nodeWeightSumMax = 0;
+
 	this.nodesToAvoid = [];
 
-	this.collaboPluginsService.provideApi("mapLayout", {
-		name: "mapLayout",
+	this.showUnknownEdges = false; // TODO: provide UX switch, migrate to external store
+	this.knownEdgeTypes = [knalledge.KEdge.TYPE_KNOWLEDGE];
+	this.systemEdgeTypes = [];
+
+	// TODO
+	this.showUnknownNodes = false; // TODO: provide UX switch, migrate to external store
+	this.knownNodeTypes = [knalledge.KNode.TYPE_KNOWLEDGE];
+	this.systemNodeTypes = [];
+
+	this.collaboPluginsService.provideApi(className, {
+		name: className,
 		items: {
 			/* distribute() */
 			distribute: this.distribute.bind(this),
@@ -45,7 +56,11 @@ MapLayout.prototype.construct = function(mapStructure, collaboPluginsService, co
 			/* updateNodeSizes() */
 			updateNodeSizes: this.updateNodeSizes.bind(this),
 			// updateNodesToAvoid(nodesToAvoid)
-			updateNodesToAvoid: this.updateNodesToAvoid.bind(this)
+			updateNodesToAvoid: this.updateNodesToAvoid.bind(this),
+			addKnownEdgeTypess: this.addKnownEdgeTypess.bind(this),
+			removeKnownEdgeTypess: this.removeKnownEdgeTypess.bind(this),
+			addSystemEdgeTypess: this.addSystemEdgeTypess.bind(this),
+			removeSystemEdgeTypess: this.removeSystemEdgeTypess.bind(this)
 		}
 	});
 };
@@ -88,6 +103,38 @@ MapLayout.prototype.updateNodesToAvoid = function(nodesToAvoidNonParsed){
 		if(kNodeId.indexOf(":") >= 0) kNodeId = kNodeId.substring(0, kNodeId.indexOf(":"));
 		var vkNode = this.mapStructure.getVKNodeByKId(parseInt(kNodeId));
 		this.nodesToAvoid.push(vkNode);
+	}
+};
+
+MapLayout.prototype.addKnownEdgeTypess = function(edgeTypes){
+	for(var i=0; i<edgeTypes.length; i++){
+		var edgeType = edgeTypes[i];
+		this.knownEdgeTypes.push(edgeType);
+	}
+};
+MapLayout.prototype.removeKnownEdgeTypess = function(edgeTypes){
+	for(var i=0; i<edgeTypes.length; i++){
+		var edgeType = edgeTypes[i];
+		var rI = this.knownEdgeTypes.indexOf(edgeType);
+		if (rI > -1) {
+			this.knownEdgeTypes.splice(rI, 1);
+		}
+	}
+};
+
+MapLayout.prototype.addSystemEdgeTypess = function(edgeTypes){
+	for(var i=0; i<edgeTypes.length; i++){
+		var edgeType = edgeTypes[i];
+		this.systemEdgeTypes.push(edgeType);
+	}
+};
+MapLayout.prototype.removeSystemEdgeTypess = function(edgeTypes){
+	for(var i=0; i<edgeTypes.length; i++){
+		var edgeType = edgeTypes[i];
+		var rI = this.systemEdgeTypes.indexOf(edgeType);
+		if (rI > -1) {
+			this.systemEdgeTypes.splice(rI, 1);
+		}
 	}
 };
 

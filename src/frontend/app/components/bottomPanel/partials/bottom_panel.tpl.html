@@ -1,7 +1,8 @@
-<!-- <button md-fab class="md-mini md-primary btn_close" aria-label="Close"  *ngIf="shown" (click)="hideBottomPanel()">
+<button md-fab class="md-mini md-primary btn_close" aria-label="Close"  *ngIf="shown" (click)="hideBottomPanel()">
     <i title="Close" md-icon>close</i>
-</button> -->
+</button>
 
 <div class="bottom_panel" *ngIf="shown">
     <brainstorming-panel *ngIf="visiblePluggableSubComponent == 'brainstorming.BrainstormingPanelComponent'"></brainstorming-panel>
+    <presentation-list *ngIf="visiblePluggableSubComponent == 'cf.puzzles.presentation.list'"></presentation-list>
 </div>

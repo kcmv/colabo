@@ -742,22 +742,6 @@ md-sidenav{
 			@include border-radius(5px);
 		}
 
-		.node_type {
-			position: absolute;
-			left: 10px;
-			top: -20px;
-			/*background-color: #ddddff;*/
-			padding-left: 4px;
-			padding-right: 4px;
-			padding-top: 0px;
-			padding-bottom: 0px;
-			color: #5555aa;
-			text-align: center;
-			/*font-weight: bold;*/
-			min-width: 1.2em;
-			@include border-radius(5px);
-		}
-
 		.rima_user {
 			position: absolute;
 			// right: -10px;

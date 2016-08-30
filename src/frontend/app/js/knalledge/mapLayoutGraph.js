@@ -2,7 +2,7 @@
 'use strict';
 
 var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
+	this.construct("MapLayoutGraph", mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
 	this.graph = null;
 };
 
