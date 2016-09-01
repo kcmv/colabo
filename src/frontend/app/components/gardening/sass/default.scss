@@ -5,6 +5,7 @@
 .gardening_approval{
   font-style: italic;
   border-radius: 4px;
+  @include border-radius(4px, 4px);
   padding-right: 2px;
   width: 1.4em;
   height: 1.4em;
@@ -19,5 +20,5 @@
 }
 
 .gardening_controls{
-  
+
 }

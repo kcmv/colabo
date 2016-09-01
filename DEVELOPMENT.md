@@ -32,7 +32,7 @@ git checkout cf-puzzle-ibis
 Push the dev branch on the github:
 
 ```sh
-git push origin [name_of_your_new_branch]
+git push origin cf-puzzle-ibis
 ```
 
 You can see all branches created by using :
@@ -120,3 +120,9 @@ If there is some "garbage" in the dev branch that you didn't want to commit and 
 ```sh
 git branch -D cf-puzzle-ibis
 ```
+
+# TODO
+
+## Zhenia
+
++ highlight node/text

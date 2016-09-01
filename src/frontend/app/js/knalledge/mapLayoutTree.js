@@ -2,7 +2,7 @@
 'use strict';
 
 var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService);
+	this.construct("MapLayoutTree", mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService);
 	this.tree = null;
 };
 
@@ -29,6 +29,9 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 		// if defined and set to false the vkEdge and its vkNode should not be presented
 		if(vkEdge.visible === false) continue;
 		if(vkEdge.kEdge.sourceId === d.kNode._id){
+			if(this.systemEdgeTypes.indexOf(vkEdge.kEdge.type) >= 0) continue;
+			if(!this.showUnknownEdges && this.knownEdgeTypes.indexOf(vkEdge.kEdge.type) < 0) continue;
+
 			var vkNode = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
 			if(vkNode){ //vkNode can be null - e.g. when deleting node (e.g. when deleted from other client 'Presenter') and edge is still not deleted
 				// if defined and set to false the vkNode should not be presented

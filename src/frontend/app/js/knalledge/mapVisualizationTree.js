@@ -269,13 +269,6 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 			.attr("class", "open_close_status");
 
 	// TODO: we cannot optimize
-	// if(this.knalledgeMapViewService.provider.config.nodes.showTypes){
-	nodeHtmlEnter
-		.append("div")
-			.attr("class", "node_type");
-	// }
-
-	// TODO: we cannot optimize
 	// if(this.rimaService.config.showUsers){
 		nodeHtmlEnter
 			.append("div")

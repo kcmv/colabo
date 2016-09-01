@@ -113,6 +113,7 @@
     </div>
 </div>
 
+<button md-raised-button (click)="showPresentationList()" class="md-accent md-hue-1">Presentation</button>
 <div *ngIf="policyConfig.moderating.enabled">
     <h4>Behaviours:</h4>
     <!-- <div class="btn-group">
@@ -126,7 +127,6 @@
   </div>
   -->
     <button md-raised-button (click)="showBrainstorming()" class="md-accent md-hue-1">Brainstorming</button>
-    <!-- <button md-raised-button (click)="showBrainstormingPanel()" class="md-accent md-hue-1">Brainstorming panel</button> -->
     <!-- <div>
   <div>Brainstorming</div>
     <md-radio-group [(value)]="policyConfig.behaviour.brainstorming">

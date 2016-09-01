@@ -1470,6 +1470,19 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 				return kEdge;
 			},
 
+			deleteEdge: function(kEdge, callback) {
+				//delete in edgesById (kEdge):
+				delete this.edgesById[kEdge._id];
+				var result = KnalledgeEdgeService.destroy(kEdge._id, callback); //TODO: handle a case when the edge is not deleted sucessfully
+				return result;
+			},
+
+
+			/**
+			 * deleteEdgesConnectedTo
+			 * @param  {knalledge.KNode} node - node which incoming edges should be deleted
+			 * @return {[type]}      [description]
+			 */
 			deleteEdgesConnectedTo: function(node) {
 				var result = KnalledgeEdgeService.deleteConnectedTo(node._id); //TODO: handle a case when the edge is not deleted sucessfully
 				//delete edgesById (kEdge):
@@ -1505,7 +1518,8 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 
 			createEdge: function(kEdge, callback) {
 				var edgeCreated = function(edgeFromServer) {
-					console.log("[KnalledgeMapVOsService::createEdge] edgeCreated" + JSON.stringify(edgeFromServer));
+					// not able to log: circular
+					// console.log("[KnalledgeMapVOsService::createEdge] edgeCreated" + JSON.stringify(edgeFromServer));
 
 					// updating all references to edge on fronted with server-created id:
 					// var oldId = newEdge._id;
