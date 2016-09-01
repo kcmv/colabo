@@ -1147,9 +1147,7 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 						}
 
 						if(change.action === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING || change.action === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING){
-							var rimaWhatsChangedEvent = "rimaWhatsChangedEvent";
-							GlobalEmitterServicesArray.register(rimaWhatsChangedEvent);
-							GlobalEmitterServicesArray.get(rimaWhatsChangedEvent).broadcast('mapService', {node:kNode, actionType:change.action, change:change.value});
+							this.broadcastWhatsChange(kNode, change.action, (change.action === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING ? change.value.dataContent.rima.whats[0] : change.value.dataContent.rima.whats));
 						}
 
 						kNode.state = knalledge.KNode.STATE_SYNCED;
@@ -1251,6 +1249,12 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 					// 	// we need to replace with our own version of the kEdge, so upper levels (like vkEdge) stays in the sync
 					// 	changesFromServer.edges[id] = kEdge;
 					// }
+			},
+
+			broadcastWhatsChange: function(kNode, action, what){
+				var rimaWhatsChangedEvent = "rimaWhatsChangedEvent";
+				GlobalEmitterServicesArray.register(rimaWhatsChangedEvent);
+				GlobalEmitterServicesArray.get(rimaWhatsChangedEvent).broadcast('mapService', {node:kNode, actionType:action, change:what});
 			},
 
 			getNodesList: function(){
@@ -1413,9 +1417,7 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 							that.nodesById[nodeFromServer._id].overrideFromServer(nodeFromServer);
 						}
 						if(actionType === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_DELETING || actionType === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING){
-							var rimaWhatsChangedEvent = "rimaWhatsChangedEvent";
-							GlobalEmitterServicesArray.register(rimaWhatsChangedEvent);
-							GlobalEmitterServicesArray.get(rimaWhatsChangedEvent).broadcast('mapService', {node:node, actionType:actionType, change:patch});
+							that.broadcastWhatsChange(node, actionType, (actionType === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING ? patch.dataContent.rima.whats[0] : patch.dataContent.rima.whats));
 						}
 						if(callback){callback(that.nodesById[nodeFromServer._id]);}
 					}); //updating on server service
