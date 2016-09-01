@@ -91,7 +91,7 @@ export class CfPuzzlesIbisService {
     private mapStructure:any;
     private mapUpdate:Function;
     private positionToDatum:Function;
-    private addKnownEdgeTypess:Function;
+    private addKnownEdgeTypes:Function;
     private removeKnownEdgeTypess:Function;
     private addSystemEdgeTypess:Function;
     private removeSystemEdgeTypess:Function;
@@ -142,7 +142,7 @@ export class CfPuzzlesIbisService {
           },
           MapLayoutTree: {
             items: {
-              addKnownEdgeTypess: null,
+              addKnownEdgeTypes: null,
               removeKnownEdgeTypess: null,
               addSystemEdgeTypess: null,
               removeSystemEdgeTypess: null
@@ -167,12 +167,12 @@ export class CfPuzzlesIbisService {
 
       this.puzzleIbisPluginInfo.apis.MapLayoutTree.callback = function() {
         that.puzzleIbisPluginInfo.apis.MapLayoutTree.$resolved = true;
-        that.addKnownEdgeTypess = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.addKnownEdgeTypess;
+        that.addKnownEdgeTypes = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.addKnownEdgeTypes;
         that.removeKnownEdgeTypess = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.removeKnownEdgeTypess;
         that.addSystemEdgeTypess = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.addSystemEdgeTypess;
         that.removeSystemEdgeTypess = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.removeSystemEdgeTypess;
 
-        that.addKnownEdgeTypess([knalledge.KEdge.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_IDEA,
+        that.addKnownEdgeTypes([knalledge.KEdge.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_IDEA,
           knalledge.KEdge.TYPE_IBIS_ARGUMENT, knalledge.KEdge.TYPE_IBIS_COMMENT]);
         // that.addSystemEdgeTypess([]);
       };

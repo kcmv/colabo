@@ -2,7 +2,7 @@
 'use strict';
 
 var MapLayoutTreeCF =  knalledge.MapLayoutTreeCF = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService);
+	this.construct('MapLayoutTree', mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService);
 	this.tree = null;
 };
 
@@ -62,6 +62,8 @@ MapLayoutTreeCF.prototype.getChildren = function(d){ //TODO: improve probably, n
 	return children;
 };
 
+
+// We are generating VERTICAL-DOWN tree
 MapLayoutTreeCF.prototype.generateNodes = function(source){
 	// each element of the array preset one depth containing an array of nodes
 	// at that depth
@@ -107,13 +109,45 @@ MapLayoutTreeCF.prototype.generateNodes = function(source){
 		});
 	}while(parent = nodesToProcess.shift());
 
-	/*
+	/* NOTE: It works wifth fixed (max-)width nodes only
 	 * calculating absolute node positions
 	 * propagating relative positions in the relationship to parent of parent, ...
 	 */
-	for(var depth=0; depth<nodesPerDepth.length; depth++){
+	var xForNode = 0; // x position of the next processed node
+	var yForNode = 0; // y position of the next procesed node
+	var xForNodeMax = 0;
+	var yForNodeMax = 0;
+	var xForNodeMin = 0;
+	var yForNodeMin = 0;
+	var default_node_width = 100;
+	var default_node_height = 200;
 
+	for(var depth = nodesPerDepth.length-1; depth >= 0; depth--){
+		var nodesOnDepth = nodesPerDepth[depth];
+		xForNode = 0;
+		for(var nI = 0; nI < nodesOnDepth.length; nI++){
+			var vkNode = nodesOnDepth[nI];
+			vkNode.x = xForNode;
+			vkNode.y = yForNode;
+			xForNode += default_node_width;
+		}
+		if(xForNode>xForNodeMax) xForNodeMax = xForNode;
+		if(xForNode<xForNodeMin) xForNodeMin = xForNode;
+
+		yForNode -= default_node_height;
 	}
+	if(yForNode>yForNodeMax) yForNodeMax = yForNode;
+	if(yForNode<yForNodeMin) yForNodeMin = yForNode;
+
+	// move nodes to positions >= 0
+	var deltaX = -Math.min(0, xForNodeMin);
+	var deltaY = -Math.min(0, yForNodeMin);
+	for(var nI = 0; nI < nodes.length; nI++){
+		var vkNode = nodes[nI];
+		vkNode.x += deltaX;
+		vkNode.y += deltaY;
+	}
+
 	return nodes;
 
 };
