@@ -35,7 +35,7 @@ MapLayoutTreeCF.prototype.init = function(mapSize, scales){
 
 MapLayoutTreeCF.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
 	var children = [];
-	if(!d.isOpen) return children;
+	if(d.isOpen === false) return children;
 
 	// if(this.mapStructure.getSelectedNode() == d){
 	// 	return children;
@@ -46,6 +46,9 @@ MapLayoutTreeCF.prototype.getChildren = function(d){ //TODO: improve probably, n
 		// if defined and set to false the vkEdge and its vkNode should not be presented
 		if(vkEdge.visible === false) continue;
 		if(vkEdge.kEdge.sourceId === d.kNode._id){
+			if(this.systemEdgeTypes.indexOf(vkEdge.kEdge.type) >= 0) continue;
+			if(!this.showUnknownEdges && this.knownEdgeTypes.indexOf(vkEdge.kEdge.type) < 0) continue;
+
 			var vkNode = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
 			if(vkNode){ //vkNode can be null - e.g. when deleting node (e.g. when deleted from other client 'Presenter') and edge is still not deleted
 				// if defined and set to false the vkNode should not be presented
@@ -61,7 +64,6 @@ MapLayoutTreeCF.prototype.getChildren = function(d){ //TODO: improve probably, n
 	}
 	return children;
 };
-
 
 // We are generating VERTICAL-DOWN tree
 MapLayoutTreeCF.prototype.generateNodes = function(source){

@@ -25,6 +25,9 @@ var plugins = {
 - disable map keyboard control while in the presentation mode
 - make bottomPanel controllable (or greater at least) height
 - remove slide button from presentation(s) nodes
+- sync node presented and selected
+- add support that audience questions become slides at the end of our presentation
+- start from particular slide
 
 # Intro
 
