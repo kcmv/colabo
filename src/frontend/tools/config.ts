@@ -297,6 +297,7 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
 
 
         { src: join(APP_SRC, 'components/knalledgeMap/js/services.js'), inject: true, noNorm: true },
+        { src: join(APP_SRC, 'components/collaboBroadcasting/js/services.js'), inject: true, noNorm: true },
 
         // PLUGINS: TODO: We want to avoid hardoced registering plugins here!
         // TODO: should we add all dependencies to the all components
