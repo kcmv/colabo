@@ -27,8 +27,6 @@ import {IbisTypesList} from '../../dev_puzzles/ibis/ibisTypesList';
 components['cf.puzzles.ibis.typesList'] = IbisTypesList;
 import {PresentationList} from '../../dev_puzzles/presentation/presentationList';
 components['cf.puzzles.presentation.list'] = PresentationList;
-import {PresentationShow} from '../../dev_puzzles/presentation/presentationShow';
-components['cf.puzzles.presentation.show'] = PresentationShow;
 
 // service dependencies that other parts of the system depends on
 export var servicesDependencies:any = {};
