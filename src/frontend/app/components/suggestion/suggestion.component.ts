@@ -9,6 +9,8 @@ import {Suggestion, SuggestionState} from "./suggestion";
 import {SuggestionService} from "./suggestion.service";
 //import {KNode} from "KNode";
 
+declare var knalledge;
+
 @Component({
     selector: 'suggestion-component',
     // since it is comming from ng1 space we need to use explicit injection decorator
@@ -24,7 +26,6 @@ import {SuggestionService} from "./suggestion.service";
 })
 export class SuggestionComponent implements OnInit {
   suggestionsByExpertise: Suggestion[] = [];
-  selectedNode:any; //KNode;
 
   constructor(
       @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
@@ -38,19 +39,15 @@ export class SuggestionComponent implements OnInit {
       // alert("this.policyConfig.moderating.enabled: "+this.policyConfig.moderating.enabled);
       // alert("policyConfig.broadcasting.enabled: "+this.policyConfig.broadcasting.enabled);
       let selectedNodeChangedEventName = "selectedNodeChangedEvent";
-      let rimaWhatsChangedEvent = "rimaWhatsChangedEvent";
       this.globalEmitterServicesArray.register(selectedNodeChangedEventName);
     	this.globalEmitterServicesArray.get(selectedNodeChangedEventName).subscribe(
        'SuggestionComponent', this.selectedNodeChanged.bind(this));
-      this.globalEmitterServicesArray.register(rimaWhatsChangedEvent);
-     	this.globalEmitterServicesArray.get(rimaWhatsChangedEvent).subscribe(
-        'SuggestionComponent', this.rimaWhatsChanged.bind(this));
   }
 
   ngOnInit() {
-    this.selectedNode = this._suggestionService.getSelectedNode();
-    if(this.selectedNode){
-      this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode.kNode);
+    this._suggestionService.selectedNode = this._suggestionService.getSelectedNode();
+    if(this._suggestionService.selectedNode){
+      this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this._suggestionService.selectedNode.kNode);
     }
   //TODO:  check for Selected Node
   //this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode);
@@ -58,16 +55,9 @@ export class SuggestionComponent implements OnInit {
 
   selectedNodeChanged(vkNode:any){
     console.log('selectedNodeChanged');
-    this.selectedNode = vkNode;
-    if(this.selectedNode){
-      this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode.kNode);
-    }
-  }
-
-  rimaWhatsChanged(msg:any){
-    console.log('rimaWhatsChanged');
-    if(this.selectedNode){
-      this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this.selectedNode.kNode);
+    this._suggestionService.selectedNode = vkNode;
+    if(this._suggestionService.selectedNode){
+      this.suggestionsByExpertise = this._suggestionService.setSuggestedExpertsForNode(this._suggestionService.selectedNode.kNode);
     }
   }
 

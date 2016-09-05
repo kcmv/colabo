@@ -779,6 +779,7 @@ md-sidenav{
 		/* color h-shadow v-shadow blur spread color inset*/
 	}
 	.node_selected{
+		z-index: 1000;
 		border-style: solid;
 		border-color: #0000aa;
 		border-width: 5px;
