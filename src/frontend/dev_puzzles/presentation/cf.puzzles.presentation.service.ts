@@ -73,10 +73,10 @@ export class CfPuzzlesPresentationServices {
     private mapStructure:any;
     private mapUpdate:Function;
     private positionToDatum:Function;
-    private addKnownEdgeTypess:Function;
-    private removeKnownEdgeTypess:Function;
-    private addSystemEdgeTypess:Function;
-    private removeSystemEdgeTypess:Function;
+    private addKnownEdgeTypes:Function;
+    private removeKnownEdgeTypes:Function;
+    private addSystemEdgeTypes:Function;
+    private removeSystemEdgeTypes:Function;
 
     /**
     * the namespace for core services for the Notify system
@@ -123,10 +123,10 @@ export class CfPuzzlesPresentationServices {
           },
           MapLayoutTree: {
             items: {
-              addKnownEdgeTypess: null,
-              removeKnownEdgeTypess: null,
-              addSystemEdgeTypess: null,
-              removeSystemEdgeTypess: null
+              addKnownEdgeTypes: null,
+              removeKnownEdgeTypes: null,
+              addSystemEdgeTypes: null,
+              removeSystemEdgeTypes: null
             },
             $resolved: false,
             callback: null,
@@ -148,10 +148,10 @@ export class CfPuzzlesPresentationServices {
 
       this.puzzlePresentationPluginInfo.apis.MapLayoutTree.callback = function() {
         that.puzzlePresentationPluginInfo.apis.MapLayoutTree.$resolved = true;
-        that.addKnownEdgeTypess = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.addKnownEdgeTypess;
-        that.removeKnownEdgeTypess = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.removeKnownEdgeTypess;
-        that.addSystemEdgeTypess = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.addSystemEdgeTypess;
-        that.removeSystemEdgeTypess = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.removeSystemEdgeTypess;
+        that.addKnownEdgeTypes = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.addKnownEdgeTypes;
+        that.removeKnownEdgeTypes = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.removeKnownEdgeTypes;
+        that.addSystemEdgeTypes = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.addSystemEdgeTypes;
+        that.removeSystemEdgeTypes = that.puzzlePresentationPluginInfo.apis.MapLayoutTree.items.removeSystemEdgeTypes;
       };
 
       this.collaboPluginsService.registerPlugin(this.puzzlePresentationPluginInfo);
@@ -292,16 +292,16 @@ export class CfPuzzlesPresentationServices {
     enable(){
       var that:CfPuzzlesPresentationServices = this;
       this.store.enabled = true;
-      this.addKnownEdgeTypess([PRESENTATIONS_EDGE_TYPE, PRESENTATION_EDGE_TYPE]);
-      this.addSystemEdgeTypess([SLIDE_EDGE_TYPE]);
+      this.addKnownEdgeTypes([PRESENTATIONS_EDGE_TYPE, PRESENTATION_EDGE_TYPE]);
+      this.addSystemEdgeTypes([SLIDE_EDGE_TYPE]);
       if(that.mapUpdate) that.mapUpdate();
     }
 
     disable(){
       var that:CfPuzzlesPresentationServices = this;
       this.store.enabled = false;
-      this.removeKnownEdgeTypess([PRESENTATIONS_EDGE_TYPE, PRESENTATION_EDGE_TYPE]);
-      this.removeSystemEdgeTypess([SLIDE_EDGE_TYPE]);
+      this.removeKnownEdgeTypes([PRESENTATIONS_EDGE_TYPE, PRESENTATION_EDGE_TYPE]);
+      this.removeSystemEdgeTypes([SLIDE_EDGE_TYPE]);
       if(that.mapUpdate) that.mapUpdate();
     }
 
