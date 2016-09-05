@@ -92,9 +92,9 @@ export class CfPuzzlesIbisService {
     private mapUpdate:Function;
     private positionToDatum:Function;
     private addKnownEdgeTypes:Function;
-    private removeKnownEdgeTypess:Function;
-    private addSystemEdgeTypess:Function;
-    private removeSystemEdgeTypess:Function;
+    private removeKnownEdgeTypes:Function;
+    private addSystemEdgeTypes:Function;
+    private removeSystemEdgeTypes:Function;
 
 
     /**
@@ -143,9 +143,9 @@ export class CfPuzzlesIbisService {
           MapLayoutTree: {
             items: {
               addKnownEdgeTypes: null,
-              removeKnownEdgeTypess: null,
-              addSystemEdgeTypess: null,
-              removeSystemEdgeTypess: null
+              removeKnownEdgeTypes: null,
+              addSystemEdgeTypes: null,
+              removeSystemEdgeTypes: null
             },
             $resolved: false,
             callback: null,
@@ -168,13 +168,13 @@ export class CfPuzzlesIbisService {
       this.puzzleIbisPluginInfo.apis.MapLayoutTree.callback = function() {
         that.puzzleIbisPluginInfo.apis.MapLayoutTree.$resolved = true;
         that.addKnownEdgeTypes = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.addKnownEdgeTypes;
-        that.removeKnownEdgeTypess = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.removeKnownEdgeTypess;
-        that.addSystemEdgeTypess = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.addSystemEdgeTypess;
-        that.removeSystemEdgeTypess = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.removeSystemEdgeTypess;
+        that.removeKnownEdgeTypes = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.removeKnownEdgeTypes;
+        that.addSystemEdgeTypes = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.addSystemEdgeTypes;
+        that.removeSystemEdgeTypes = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.removeSystemEdgeTypes;
 
         that.addKnownEdgeTypes([knalledge.KEdge.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_IDEA,
           knalledge.KEdge.TYPE_IBIS_ARGUMENT, knalledge.KEdge.TYPE_IBIS_COMMENT]);
-        // that.addSystemEdgeTypess([]);
+        // that.addSystemEdgeTypes([]);
       };
 
       this.collaboPluginsService.registerPlugin(this.puzzleIbisPluginInfo);    }

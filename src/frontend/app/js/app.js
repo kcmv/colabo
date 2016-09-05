@@ -38,8 +38,6 @@ requiresList.push('sessionServices');
 requiresList.push('topiChatServices');
 requiresList.push('topiChatDirectives');
 
-requiresList.push('collaboBroadcastingServices');
-
 // we want to avoid hardoced registering plugins here
 
 requiresList.push('requestServices');

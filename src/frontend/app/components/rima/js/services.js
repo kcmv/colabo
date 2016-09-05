@@ -908,6 +908,37 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 			// 	}
 			// }
 
+			isInMyHowAmIs(what){
+					return this.isInUserHowAmIs(what, this.getWhoAmIid())
+			},
+
+			isInUserHowAmIs: function(what, userID){
+				var userHows = this.howAmIs[userID];
+				for(var hi in userHows){
+					var userHow = userHows[hi];
+					//TODO: see about using ._id instead of .name:
+					if (userHow && userHow.whatAmI && (userHow.whatAmI.name === what.name &&
+						this.isExpertHow(userHow.how) //avoiding 'INTERESTED IN' (THOSE ARE NOT experts)
+					)){
+						return true;
+					}
+				}
+				return false;
+			},
+
+			isExpertHow: function(how){
+		    switch(how){
+		      case 1:
+		        return false;
+		      case 2:
+		        return true;
+		      case 3:
+		        return true;
+		      case 4:
+		        return true;
+		    }
+		  },
+
 			updateWhoAmI: function(callback){
 				if(this.loggedInWhoAmI._id == this.ANONYMOUS_USER_ID){
 					if(callback){callback(this.loggedInWhoAmI);}

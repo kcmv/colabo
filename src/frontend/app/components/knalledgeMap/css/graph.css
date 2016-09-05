@@ -73,6 +73,7 @@ $large: 1400px;
   /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
   /* color h-shadow v-shadow blur spread color inset*/ }
 .knalledge_map_container .node_selected {
+  z-index: 1000;
   border-style: solid;
   border-color: #0000aa;
   border-width: 5px;

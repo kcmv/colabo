@@ -3,9 +3,13 @@ import {Injectable
 
 import {Suggestion, SuggestionVisibility, SuggestionType, SuggestionState} from './suggestion';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {InfoForDialog} from '../../js/interaction/infoForDialog';
+
+declare var knalledge;
 
 @Injectable()
 export class SuggestionService {
+  public selectedNode:any; //KNode;
   private rimaService:any;
   private knalledgeMapVOsService:any;
   private knAllEdgeRealTimeService:any;
@@ -13,6 +17,7 @@ export class SuggestionService {
   private globalEmitterServicesArray:GlobalEmitterServicesArray;
   private suggestionsByExpertise: Suggestion[] = [];
   private users:any[] = [];
+  private SHOW_INFO: string = "SHOW_INFO";
 
   /**
    * Service constructor
@@ -43,6 +48,11 @@ export class SuggestionService {
 
       this.getMockupSuggestions();
       this.users = this.rimaService.getUsers(); //TODO: should we later add that CF suggests only logged in users?!
+      let rimaWhatsChangedEvent = "rimaWhatsChangedEvent";
+      this.globalEmitterServicesArray.register(rimaWhatsChangedEvent);
+      this.globalEmitterServicesArray.get(rimaWhatsChangedEvent).subscribe(
+        'SuggestionComponent', this.rimaWhatsChanged.bind(this));
+      this.globalEmitterServicesArray.register(this.SHOW_INFO);
   }
 
   getMockupSuggestions(){
@@ -67,17 +77,24 @@ export class SuggestionService {
     return this.knalledgeMapVOsService.mapStructure.getSelectedNode();
   }
 
-  isExpertHow(how:number){
-    switch(how){
-      case 1:
-        return false;
-      case 2:
-        return true;
-      case 3:
-        return true;
-      case 4:
-        return true;
+  rimaWhatsChanged(msg:any){
+    console.log('rimaWhatsChanged');
+    if(this.selectedNode){
+      this.suggestionsByExpertise = this.setSuggestedExpertsForNode(this.selectedNode.kNode);
     }
+    if(msg.actionType === knalledge.KNode.DATA_CONTENT_RIMA_WHATS_ADDING){
+      if(this.isInMyHowAmIs(msg.change)){
+          this.globalEmitterServicesArray.get(this.SHOW_INFO).broadcast('SuggestionService',
+          new InfoForDialog('Dear ' +  this.rimaService.getWhoAmI().displayName +
+          ", you've been recognized as an expert for topic <span class='emp_bg'>" +
+          msg.node.name + "</span>, being added now. Are you interested in giving your thoughts on this topic?",
+          'Expert recognized'));
+      }
+    }
+  }
+
+  isInMyHowAmIs(what:knalledge.WhatAmI){
+    return this.rimaService.isInMyHowAmIs(what);
   }
 
   setSuggestedExpertsForNode(node: any){
@@ -101,7 +118,7 @@ export class SuggestionService {
           for(var hi in userHows){
             var userHow = userHows[hi];
             if (userHow && userHow.whatAmI && (userHow.whatAmI.name === nodeWhat.name &&
-              this.isExpertHow(userHow.how) //avoiding 'INTERESTED IN' (THOSE ARE NOT experts)
+              this.rimaService.isExpertHow(userHow.how) //avoiding 'INTERESTED IN' (THOSE ARE NOT experts)
             )){
               let alreadyAdded = false;
               //same whats can be associated to a user by different hows
