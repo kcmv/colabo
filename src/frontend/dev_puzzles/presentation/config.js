@@ -18,7 +18,11 @@ var puzzles = {
       css: true,
       injectJs: ['js/services.js',
         'lib/reveal.js/lib/js/head.min.js',
-        'lib/reveal.js/js/reveal.js'
+        'lib/reveal.js/js/reveal.js',
+        'lib/reveal.js/plugin/highlight/highlight.js',
+        'lib/reveal.js/plugin/notes/notes.js',
+        'lib/reveal.js/plugin/markdown/markdown.js',
+        'lib/reveal.js/plugin/markdown/marked.js'
       ],
       injectCss: ['css/presentation.css',
         'lib/reveal.js/css/reveal.css',
