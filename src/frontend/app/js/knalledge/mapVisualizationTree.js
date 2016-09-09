@@ -749,26 +749,32 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 
 	var that = this;
 
+	/**************
+	* create D3 references to link labels
+	**************/
 	var linkLabelHtml = this.dom.divMapHtml.selectAll("div.label_html")
 	.data(this.mapLayout.links, function(d) {
 		// there is only one incoming edge
 		return d.vkEdge.id; // d.target.id;
 	});
 
-	// Enter the nodes
-	// we create a div that will contain both visual representation of a node (circle) and text
+	/**************
+	* creating link label (enter)
+	**************/
+	// we create a div that will contain both visual representation link label
 	var linkLabelHtmlEnter = linkLabelHtml.enter().append("div")
 		.attr("class", function(d){
 				return "label_html " + d.vkEdge.kEdge.type;
 			})
-		// position node on enter at the source position
-		// (it is either parent or another precessor)
+		// inform on edge clicked
 		.on("click", function(d){
 			that.upperAPI.edgeClicked(d);
 		})
 		.style("left", function(d) {
 			var y;
+			// if edges are animated
 			if(that.configTransitions.enter.animate.position){
+				// if animation is comming from source of action (usually node toggling)
 				if(that.configTransitions.enter.referToToggling){
 					y = source.y0;
 				}else{
@@ -793,34 +799,44 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 			return that.scales.x(x) + "px";
 		});
 
+	// append link label name
 	linkLabelHtmlEnter
 		.append("span")
 			//.text("<span>Hello</span>");
 			//.html("<span>Hello</span>");
 			.html(function(d) {
 				var edge = that.mapStructure.getEdge(d.source.id, d.target.id); //TODO: replace with added kEdge
-				return edge.kEdge.name;
+				return that.knalledgeMapViewService.provider.config.edges.showNames ? edge.kEdge.name : "";
 			});
 
+	// set opacity to 0 at the innitial 
 	if(this.configTransitions.enter.animate.opacity){
 		linkLabelHtmlEnter
 			.style("opacity", 1e-6);
 	}
 
+	/**************
+	* UPDATING link label
+	**************/
 	var linkLabelHtmlUpdate = linkLabelHtml;
 	var linkLabelHtmlUpdateTransition = linkLabelHtmlUpdate;
+
+	// make transition of lonk labels if there is animation of position or opacity
 	if(this.configTransitions.update.animate.position || this.configTransitions.update.animate.opacity){
 		linkLabelHtmlUpdateTransition = linkLabelHtmlUpdate.transition()
 			.duration(this.configTransitions.update.duration);
 	}
 
+	// update link label
 	linkLabelHtmlUpdate.select("span")
 			.html(function(d) {
 				var edge = that.mapStructure.getEdge(d.source.id, d.target.id); //TODO: replace with added kEdge
 				return that.knalledgeMapViewService.provider.config.edges.showNames ? edge.kEdge.name : "";
 			});
 
+	// animate position to the middle between source and target position
 	if(this.configTransitions.update.animate.position){
+		// either transition ...
 		linkLabelHtmlUpdateTransition
 			.style("left", function(d){
 				return ((d.source.y + d.target.y) / 2) + "px";
@@ -829,6 +845,7 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 				return ((d.source.x + d.target.x) / 2) + "px";
 			});
 	}else{
+		// ... or non-transition linkLabel
 		linkLabelHtmlUpdate
 			.style("left", function(d){
 				return ((d.source.y + d.target.y) / 2) + "px";
@@ -837,26 +854,34 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 				return ((d.source.x + d.target.x) / 2) + "px";
 			});
 	}
+	// if opacity animated increase it to its final value
 	if(this.configTransitions.update.animate.opacity){
 		linkLabelHtmlUpdateTransition
 			.style("opacity", 1.0);
 	}
 
+	/**************
+	* LINK REMOVAL (exit)
+	**************/
 	var linkLabelHtmlExit = linkLabelHtml.exit();
 	var linkLabelHtmlExitTransition = linkLabelHtmlExit;
 	linkLabelHtmlExit.on("click", null);
+
+	// if exiting is animated
 	if(this.configTransitions.exit.animate.position || this.configTransitions.exit.animate.opacity){
+		// introduce transition
 		linkLabelHtmlExitTransition = linkLabelHtmlExit.transition()
 			.duration(this.configTransitions.exit.duration);
 
+		// position
 		if(this.configTransitions.exit.animate.position){
 			linkLabelHtmlExitTransition
 				.style("left", function(d) {
 					var y = null;
-					// Transition nodes to the toggling node's new position
+					// Transition edge to the source-of-action's new position
 					if(that.configTransitions.exit.referToToggling){
 						y = source.y;
-					}else{ // Transition nodes to the parent node's new position
+					}else{ // Transition edge to the parent node's new position
 						y = d.source.y;
 					}
 
@@ -864,37 +889,50 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 				})
 				.style("top", function(d) {
 					var x = null;
-					// Transition nodes to the toggling node's new position
+					// Transition edge to the source-of-action's new position
 					if(that.configTransitions.exit.referToToggling){
 						x = source.x;
-					}else{ // Transition nodes to the parent node's new position
+					}else{ // Transition edge to the parent node's new position
 						x = d.source.x;
 					}
 
 					return that.scales.x(x) + "px";
 				});
 		}
+		// opacity
 		if(this.configTransitions.exit.animate.opacity){
 			linkLabelHtmlExitTransition
 				.style("opacity", 1e-6);
 		}
+	// or just remove link label if there is no animation
 	}
 	linkLabelHtmlExitTransition
 		.remove();
 };
 
+/* method responsible for dealing with links
+* + creating (enter)
+* + updating
+* + removing (exit)
+*/
 MapVisualizationTree.prototype.updateLinks = function(source) {
 	if(!this.configEdges.show) return;
 
 	var that = this;
 
 	// Declare the links
+	/*************
+	* LINK CREATION
+	*************/
 	var link = this.dom.svg.selectAll("path.link")
 	.data(this.mapLayout.links, function(d) {
-		// there is only one incoming edge
-		return d.vkEdge.id; // d.target.id;
+		// TODO: this will need to evolve after adding bouquet links 
+		return d.vkEdge.id;
 	});
 
+	/*************
+	* LINK ENTER
+	*************/
 	// Enter the links
 	var linkEnter = link.enter().insert("path", "g")
 		.attr("class", "link")
@@ -905,14 +943,17 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 		// and then each passed to projection to calculate array couple [x,y] for both source and target point
 		.attr("d", function(d) {
 			var diagonal;
+			// animate diagonal appereance
 			if(that.configTransitions.enter.animate.position){
 				var o;
+				// should link appear from the node we initiated action?
 				if(that.configTransitions.enter.referToToggling){
 					o = {x: source.x0, y: source.y0};
 				}else{
 					o = {x: d.source.x0, y: d.source.y0};
 				}
 				diagonal = that.mapLayout.diagonal(that.mapLayout, isShowingFullSizeImage.bind(that))({source: o, target: o});
+			// if not, position diagonal in its final position determined by parent and child node position
 			}else{
 				diagonal = that.mapLayout.diagonal(that.mapLayout, isShowingFullSizeImage.bind(that))(d);
 			}
@@ -920,6 +961,8 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 		});
 
 	var linkEnterTransition = linkEnter;
+
+	// make link-entrance animation with increasing opacity
 	if(this.configTransitions.enter.animate.opacity){
 		linkEnterTransition = linkEnter.transition()
 			.duration(this.configTransitions.update.duration);
@@ -930,13 +973,18 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 	linkEnterTransition
 		.style("opacity", 1.0);
 
+	/*************
+	* LINK UPDATING
+	*************/
 	var linkUpdate = link;
 	var linkUpdateTransition = linkUpdate;
+	// introduce transition if there is animation
 	if(this.configTransitions.update.animate.position || this.configTransitions.update.animate.opacity){
 		linkUpdateTransition = linkUpdate.transition()
 			.duration(this.configTransitions.update.duration);
 	}
 	if(this.configTransitions.update.animate.position){
+		//if there is animation, update link with transition
 		linkUpdateTransition
 			.attr("d", function(d){
 				var diagonal;
@@ -944,6 +992,7 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 				return diagonal;
 			});
 	}else{
+		// otherwise update it immediatelly
 		linkUpdate
 			.attr("d", function(d){
 				var diagonal;
@@ -958,17 +1007,28 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 	linkUpdateTransition
 		.style("opacity", 1.0);
 
+
+	/*************
+	* LINK EXITING
+	*************/
 	var linkExit = link.exit();
 	var linkExitTransition = linkExit;
+
+	// if there is animation (of either position or opacity) introduce transition by setting
+	// linkExitTransition to transition
 	if(this.configTransitions.exit.animate.position || this.configTransitions.exit.animate.opacity){
+		// create transition
 		linkExitTransition = linkExit.transition()
 			.duration(this.configTransitions.exit.duration);
 
+		// animating position
 		if(this.configTransitions.exit.animate.position){
+			// provide final position to transition linkExit: linkExitTransition
 			linkExitTransition
 				.attr("d", function(d) {
 					var diagonal;
 					var o;
+					// Transition nodes to the toggling node's new position
 					if(that.configTransitions.exit.referToToggling){
 						o = {x: source.x, y: source.y};
 					}else{
@@ -978,6 +1038,7 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 					return diagonal;
 				});
 		}else{
+			// provide final position to non-transition linkExit
 			linkExit
 				.attr("d", function(d){
 					var diagonal;
@@ -985,10 +1046,12 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 					return diagonal;
 				});
 		}
+		// reduce opacity through transition
 		if(this.configTransitions.exit.animate.opacity){
 			linkExitTransition
 				.style("opacity", 1e-6);
 		}
+	// or it will stay just regular linkExit (without transition)
 	}
 	linkExitTransition
 		.remove();

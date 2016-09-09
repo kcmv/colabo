@@ -27,7 +27,8 @@ export class PluginsPreloader {
       console.info("[PluginsPreloader.loadExternalPuzzle] loading puzzle container: ", puzzlesInfo.name);
       for (var puzzleName in puzzlesInfo.puzzles) {
         var puzzle = puzzlesInfo.puzzles[puzzleName];
-        // if disabled skip
+        // skip if disabled
+        console.info("[PluginsPreloader.loadExternalPuzzle] puzzle %s: ", puzzleName, puzzle);
         if (!puzzle.active) continue;
         PluginsPreloader._loadServicesFromExternalPuzzle(puzzleName, puzzle);
       }
@@ -45,6 +46,10 @@ export class PluginsPreloader {
         console.info("[PluginsPreloader._loadServicesFromExternalPuzzle] loading service: ", serviceName, ", service:", service);
         if(service.isTS){
           var serviceClass = servicesDependencies[service.path];
+          if(!serviceClass){
+            console.error("[PluginsPreloader._loadServicesFromExternalPuzzle] service %s with path '%s' is missing",
+              serviceName, service.path);
+          }
           if(service.isGlobal){
             // upgradeAdapter
             upgradeAdapter.addProvider(serviceClass);
@@ -204,6 +209,8 @@ export class PluginsPreloader {
         PluginsPreloader.loadingInitiated = true;
 
         for(let parentComponentName in Config.Plugins.ViewComponents){
+            console.info("[PluginsPreloader] Loading parent component: ", parentComponentName);
+
             let parentComponentReference = Config.Plugins.ViewComponents[parentComponentName];
 
             PluginsPreloader.loadChildrenComponents(parentComponentName, parentComponentReference);
@@ -225,7 +232,7 @@ export class PluginsPreloader {
       // get the config for ourselves
       var puzzleHostingConfig = Config.Plugins.ViewComponents[componentName];
       if(!puzzleHostingConfig){
-        console.warn("[addDirectivesDependenciesForComponent] ViewComponents %s is missing", componentName);
+        console.error("[addDirectivesDependenciesForComponent] ViewComponents %s is missing", componentName);
         return;
       }
 
@@ -234,7 +241,7 @@ export class PluginsPreloader {
       // go through all pluggable sub components
       for(var pluggableSubComponentName in pluggableSubComponentsConfig){
         if (pluggableSubComponentsConfig[pluggableSubComponentName].active) {
-            console.warn("["+componentName+"] Loading pluggableSubComponent: ", pluggableSubComponentName);
+            console.info("["+componentName+"] Loading pluggableSubComponent: ", pluggableSubComponentName);
             // get reference to the pluggable sub component class
             var pluggableSubComponent = PluginsPreloader.components[pluggableSubComponentName];
             if(pluggableSubComponent){
@@ -244,12 +251,13 @@ export class PluginsPreloader {
               console.error("["+componentName+"] Error loading pluggableSubComponent: ", pluggableSubComponentName);
             }
         } else {
-            console.warn("["+componentName+"] Not loading pluggableSubComponent: ", pluggableSubComponentName);
+            console.info("["+componentName+"] Not loading pluggableSubComponent: ", pluggableSubComponentName);
         }
       }
     }
 
     static loadChildrenComponents(parentComponentName, parentComponentReference) {
+        console.info("[PluginsPreloader] Loading children components for the parent component: ", parentComponentName);
         if(!parentComponentReference) return;
 
         for(let componentName in parentComponentReference.components){
@@ -263,7 +271,7 @@ export class PluginsPreloader {
         if(!componentReference || !componentReference.active) return;
 
         var componentPath = componentReference.path;
-        console.warn("[PluginsPreloader] Loading component: %s at path: %s", componentName, componentPath);
+        console.info("[PluginsPreloader] Loading component: %s at path: %s", componentName, componentPath);
         /* import {TopPanel} from '../topPanel/topPanel'; */
 
         // Currently not supported because it we do not know the way
@@ -272,7 +280,7 @@ export class PluginsPreloader {
             var componentImport = System.import(componentPath);
             var componentPromise = new Promise(function(resolve, reject) {
                 componentImport.then(function(result){
-                    console.warn("[PluginsPreloader] component", componentName, " is loaded: ", result);
+                    console.info("[PluginsPreloader] component", componentName, " is loaded: ", result);
                     var ComponentClass = result[componentName];
                     PluginsPreloader.components[componentName] = ComponentClass;
                     resolve(ComponentClass);
@@ -280,12 +288,15 @@ export class PluginsPreloader {
             });
             PluginsPreloader.componentsPromises.push(componentPromise);
             componentPromise.then(function(result){
-                console.warn("[PluginsPreloader] component", componentName, " is loaded: ", result);
+                console.info("[PluginsPreloader] component", componentName, " is loaded: ", result);
             });
         }else{
-            PluginsPreloader.components[componentName] = components[componentPath];
-
-            console.warn("[PluginsPreloader] component", componentName, " is loaded: ");
+            if(components[componentPath]){
+              PluginsPreloader.components[componentName] = components[componentPath];
+              console.info("[PluginsPreloader] component", componentName, " is loaded: ");
+            }else{
+              console.error("[PluginsPreloader] component", componentName, " is missing among the plugindDependencies components");
+            }
 
             var componentPromise = new Promise(function(resolve, reject) {
                 resolve(true);
