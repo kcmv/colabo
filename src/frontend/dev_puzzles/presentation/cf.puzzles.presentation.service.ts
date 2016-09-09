@@ -48,6 +48,7 @@ export class CfPuzzlesPresentationServices {
             		.style("display", function(d){
             			return (that.service.store.enabled) ? "block" : "none";
             		})
+                // 'S' for node contained in presentation, and '-' for node outside presentation
             		.html(function(d){
             			var label = "";
             			if(that.service.isNodeInSlides(d)){
@@ -57,6 +58,7 @@ export class CfPuzzlesPresentationServices {
                   }
             			return label;
             		})
+                // toggle node presence in presentation
             		.on("click", function(d){
             			console.log('presentation clicked for node ',d.kNode.name);
             			d3.event.stopPropagation();
@@ -94,6 +96,7 @@ export class CfPuzzlesPresentationServices {
     ) {
       var that:CfPuzzlesPresentationServices = this;
 
+      // access to CF internals through plugin mechanism
       this.puzzlePresentationPluginInfo = {
         name: "puzzles.presentation",
         components: {
@@ -159,10 +162,11 @@ export class CfPuzzlesPresentationServices {
       this.initPresentation();
     }
 
-    presentationAvailable(){
+    isPresentationAvailable(){
       return this._getPresentationsNode() && this._getPresentationNode();
     }
 
+    // get presentations' holder node (there might be many presentations)
     _getPresentationsNode(){
       let presentationsNode;
       if(this.mapStructure){
@@ -171,6 +175,7 @@ export class CfPuzzlesPresentationServices {
       return presentationsNode;
     }
 
+    // get node that holds 'default' presentation (note, there might be many of them but currently we are supporting only one)
     _getPresentationNode(){
       let presentationNode;
       if(this.mapStructure){
@@ -179,6 +184,7 @@ export class CfPuzzlesPresentationServices {
       return presentationNode;
     }
 
+    // is node in the currently selected presentation
     isNodeInSlides(vkNode){
       if(vkNode && this.mapStructure){
         let presentationNode = this._getPresentationNode();
@@ -190,7 +196,8 @@ export class CfPuzzlesPresentationServices {
       return false;
     }
 
-    addNodeToSlides(vkNode, callback?){
+    // add node to the currently selected presentation
+    private addNodeToSlides(vkNode, callback?){
       var that:CfPuzzlesPresentationServices = this;
       if(!vkNode || !this.mapStructure || this.isNodeInSlides(vkNode)){
         if(callback) callback(null);
@@ -209,12 +216,15 @@ export class CfPuzzlesPresentationServices {
               if(that.mapUpdate) that.mapUpdate();
             }
           }
+          // add an edge between the presentation and vkNode
+          // (= add node to presentation)
           this.mapStructure.createNodeWithEdge(presentationNode, vkEdge, vkNode, callback);
         }
       }
     }
 
-    removeNodeFromSlides(vkNode, callback?){
+    // remove node from the currently selected presentation
+    private removeNodeFromSlides(vkNode, callback?){
       var that:CfPuzzlesPresentationServices = this;
       if(!vkNode || !this.mapStructure || !this.isNodeInSlides(vkNode)){
         if(callback) callback(null);
@@ -223,6 +233,7 @@ export class CfPuzzlesPresentationServices {
         if(!presentationNode){
           if(callback) callback(null);
         }else{
+          // check if there is edge between the presentation and vkNode
           var edges = this.mapStructure.getEdgesBetweenNodes(presentationNode.kNode, vkNode.kNode, SLIDE_EDGE_TYPE);
           if(edges.length <= 0){
             callback(null);
@@ -239,6 +250,7 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
+    // create presentations node for map without presentations node
     _createPresentationsNode (callback?:Function){
       let rootNode = this.mapStructure.rootNode;
       if(!rootNode) return;
@@ -256,7 +268,8 @@ export class CfPuzzlesPresentationServices {
       this.mapStructure.createNodeWithEdge(rootNode, vkEdge, presentationsVKNode, callback);
     }
 
-    _createPresentationNode (callback?:Function){
+    // create presentation node for map without any presentation, or simply adding a new presentation
+    private _createPresentationNode (callback?:Function){
       let presentationsVKNode = this._getPresentationsNode();
       if(!presentationsVKNode) return;
 
@@ -274,6 +287,8 @@ export class CfPuzzlesPresentationServices {
       this.mapStructure.createNodeWithEdge(presentationsVKNode, vkEdge, presentationVKNode, callback);
     }
 
+    // similar to _createPresentationNode but for external call and for double checking existance of presentaiton node
+    // (since we are currently supporting only one), etc
     createPresentation(){
       let that:CfPuzzlesPresentationServices = this;
       let callback = function(){
@@ -289,6 +304,7 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
+    // enable presentation puzzle
     enable(){
       var that:CfPuzzlesPresentationServices = this;
       this.store.enabled = true;
@@ -297,6 +313,7 @@ export class CfPuzzlesPresentationServices {
       if(that.mapUpdate) that.mapUpdate();
     }
 
+    // disable presentation puzzle
     disable(){
       var that:CfPuzzlesPresentationServices = this;
       this.store.enabled = false;
@@ -305,6 +322,7 @@ export class CfPuzzlesPresentationServices {
       if(that.mapUpdate) that.mapUpdate();
     }
 
+    // interface to mapStructure's method
     getSelectedItem(){
       if(this.mapStructure){
         return this.mapStructure.getSelectedNode();
@@ -313,6 +331,7 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
+    // get all nodes that belongs to presentation
     getSlides(){
       let slides = [];
       if(this.mapStructure){
@@ -324,6 +343,7 @@ export class CfPuzzlesPresentationServices {
       return slides;
     }
 
+    // adds currently selected node to presentation
     addSlide(){
       if(this.mapStructure){
         let vkNode = this.mapStructure.getSelectedNode();
@@ -331,6 +351,7 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
+    // removes currently selected node from presentation
     removeSlide(){
       if(this.mapStructure){
         let vkNode = this.mapStructure.getSelectedNode();
@@ -338,7 +359,8 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
-    generatePresentationHolder(callback){
+    // creates place holder for slides for Reveal.js
+    private generatePresentationHolder(callback){
       // $('#presentation').remove();
       // var presentation = $("<div id='presentation'></div>")
       // $('body').append(presentation);
@@ -358,7 +380,8 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
-    _generatePresentationSlidesDemo(slides, callback){
+    // generates 2 demo slides for Reveal.js
+    private _generatePresentationSlidesDemo(slides, callback){
       // slide 1
       var section = $("<section></section>");
       slides.append(section);
@@ -405,6 +428,7 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
+    // generates slides ready for Reveal.js to present them
     generatePresentationSlides(slidesDom, callback){
       var slides = this.getSlides();
 
@@ -412,16 +436,25 @@ export class CfPuzzlesPresentationServices {
         var slide = slides[sI];
 
         // slide 1
+        // each slide is contained in section
         var section = $("<section></section>");
         slidesDom.append(section);
+
+        // we need to tell that slide is in markdown format so markdown plugin will render it
         section.attr('data-markdown', '');
+        // --vertical-- in node's property will split the node preperty content into two vertical slides
+        // or more if more separators are added
         section.attr('data-separator-vertical', '--vertical--');
+        // --horizontal-- in node's property will split node preperty content into two horizontal slides
+        // or more if more separators are added
         section.attr('data-separator', '--horizontal--');
 
+        // markdown content is wrapped in extra script template wrapper
         var script = $("<script></script>");
         section.append(script);
         script.attr('type', 'text/template');
 
+        // TODO: we need to add node embeded photo
         var slideContent =
           "# " + slide.kNode.name + "\r\n\r\n";
         if(slide.kNode.dataContent && slide.kNode.dataContent.property &&
@@ -439,6 +472,7 @@ export class CfPuzzlesPresentationServices {
     }
 
 
+    // ask Reveal and markdown plugin to rerender and update itself according to new slides
     updateReveal(callback){
       RevealMarkdown.initialize();
       window.setTimeout(function(){
@@ -464,6 +498,7 @@ export class CfPuzzlesPresentationServices {
       }, 500);
     }
 
+    // generate presentation from slides inside the presentation
     generatePresentation(callback){
       this.generatePresentationHolder(function(slides){
         this.generatePresentationSlides(slides, function(){
@@ -474,6 +509,10 @@ export class CfPuzzlesPresentationServices {
       }.bind(this));
     }
 
+    // init presentation for the first time
+    // add Reveal.js presentation holder (remove if it already existed)
+    // configure Reveal.js, ...
+    // NOTE: this is not idempotent
     initPresentation(callback?){
       $('#presentation').remove();
       var presentation = $("<div class='reveal' id='presentation' style='display: none;'></div>")
@@ -562,6 +601,8 @@ export class CfPuzzlesPresentationServices {
           Reveal.configure({
             keyboard: {
               // 13: 'next', // go to the next slide when the ENTER key is pressed
+              // makes ESC to switch off presentation mode
+              // we still have 'O' to se overlay mode
               27: this.hidePresentation.bind(this),
               // 32: null // don't do anything when SPACE is pressed (i.e. disable a reveal.js default binding)
             }
@@ -575,11 +616,14 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
+    // triggers presentation mode
     showPresentation(){
       this.generatePresentation(function(){
         console.log("hiding id='container'");
         $('#container').css('display','none');
+        $('#container').css('display','none');
         $('#presentation').css('display','block');
+        $('body').addClass('reveal');
         console.log("Reveal-ing");
 
         Reveal.sync();
@@ -587,8 +631,10 @@ export class CfPuzzlesPresentationServices {
       }.bind(this));
     }
 
+    // switches off presentation mode
     hidePresentation(){
       $('#container').css('display','block');
       $('#presentation').css('display','none');
+      $('body').removeClass('reveal');
     }
 }
