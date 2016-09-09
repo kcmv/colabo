@@ -956,6 +956,9 @@
 			window.alert('You are only allowed to delete content created by youself');
 			return null;
 		}
+		if(this.hasChildren(vnode) && !window.confirm('Are you sure that you want to delete a topic containing children topics?')){
+			return null;
+		}
 
 		if (!this.mapService) return;
 
