@@ -171,10 +171,6 @@
                         active: true,
                         path: "cf.puzzles.ibis.typesList"
                     },
-                    'cf.puzzles.presentation.show': {
-                        active: true,
-                        path: "cf.puzzles.presentation.show"
-                    },
                 }
             }
         },

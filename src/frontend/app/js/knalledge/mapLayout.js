@@ -57,10 +57,10 @@ MapLayout.prototype.construct = function(className, mapStructure, collaboPlugins
 			updateNodeSizes: this.updateNodeSizes.bind(this),
 			// updateNodesToAvoid(nodesToAvoid)
 			updateNodesToAvoid: this.updateNodesToAvoid.bind(this),
-			addKnownEdgeTypess: this.addKnownEdgeTypess.bind(this),
-			removeKnownEdgeTypess: this.removeKnownEdgeTypess.bind(this),
-			addSystemEdgeTypess: this.addSystemEdgeTypess.bind(this),
-			removeSystemEdgeTypess: this.removeSystemEdgeTypess.bind(this)
+			addKnownEdgeTypes: this.addKnownEdgeTypes.bind(this),
+			removeKnownEdgeTypes: this.removeKnownEdgeTypes.bind(this),
+			addSystemEdgeTypes: this.addSystemEdgeTypes.bind(this),
+			removeSystemEdgeTypes: this.removeSystemEdgeTypes.bind(this)
 		}
 	});
 };
@@ -106,13 +106,13 @@ MapLayout.prototype.updateNodesToAvoid = function(nodesToAvoidNonParsed){
 	}
 };
 
-MapLayout.prototype.addKnownEdgeTypess = function(edgeTypes){
+MapLayout.prototype.addKnownEdgeTypes = function(edgeTypes){
 	for(var i=0; i<edgeTypes.length; i++){
 		var edgeType = edgeTypes[i];
 		this.knownEdgeTypes.push(edgeType);
 	}
 };
-MapLayout.prototype.removeKnownEdgeTypess = function(edgeTypes){
+MapLayout.prototype.removeKnownEdgeTypes = function(edgeTypes){
 	for(var i=0; i<edgeTypes.length; i++){
 		var edgeType = edgeTypes[i];
 		var rI = this.knownEdgeTypes.indexOf(edgeType);
@@ -122,13 +122,13 @@ MapLayout.prototype.removeKnownEdgeTypess = function(edgeTypes){
 	}
 };
 
-MapLayout.prototype.addSystemEdgeTypess = function(edgeTypes){
+MapLayout.prototype.addSystemEdgeTypes = function(edgeTypes){
 	for(var i=0; i<edgeTypes.length; i++){
 		var edgeType = edgeTypes[i];
 		this.systemEdgeTypes.push(edgeType);
 	}
 };
-MapLayout.prototype.removeSystemEdgeTypess = function(edgeTypes){
+MapLayout.prototype.removeSystemEdgeTypes = function(edgeTypes){
 	for(var i=0; i<edgeTypes.length; i++){
 		var edgeType = edgeTypes[i];
 		var rI = this.systemEdgeTypes.indexOf(edgeType);
