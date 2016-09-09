@@ -57,8 +57,8 @@ export class PresentationList implements OnInit, OnDestroy {
     this.service.disable();
   }
 
-  presentationAvailable():boolean {
-    return this.service.presentationAvailable();
+  isPresentationAvailable():boolean {
+    return this.service.isPresentationAvailable();
   }
 
   createPresentation():any {
