@@ -10,7 +10,7 @@
 		<button md-fab md-tooltip="Add Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Add Slide" (click)="addSlide()" *ngIf="isPresentationAvailable() && selectedItem() && !isSelectedItemInSlides()">
 				<i title="Add Slide" md-icon>add</i>
 		</button>
-		<button md-fab md-tooltip="Remove Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Remove Slide" (click)="removeSlide()" *ngIf="isPresentationAvailable && isSelectedItemInSlides()">
+		<button md-fab md-tooltip="Remove Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Remove Slide" (click)="removeSlide()" *ngIf="isPresentationAvailable() && isSelectedItemInSlides()">
 				<i title="Remove Slide" md-icon>remove</i>
 		</button>
 		<button md-fab md-tooltip="New Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="New Presentation" (click)="createPresentation()" *ngIf="selectedItem() && !isFirst()">

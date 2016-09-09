@@ -91,6 +91,27 @@ Presentation is neither active nor visible
   - state: we activated presentation-editing mode
   - context: only under presentation-node they are visible
 
+# Install
+
+## Patches
+
+Reveal.js themes are agressive rearding the body bacground-style. We need to change styles withhin `lib/reveal.js/css/theme/` like `black.css' or 'blood.css', etc.
+
+```css
+body {
+  background: #222;
+  background-color: #222; }
+```
+
+into:
+
+```css
+body.reveal {
+  background: #222;
+  background-color: #222; }
+```
+
+
 ## Open questions
 
 ### Ordering nodes

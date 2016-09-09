@@ -621,7 +621,9 @@ export class CfPuzzlesPresentationServices {
       this.generatePresentation(function(){
         console.log("hiding id='container'");
         $('#container').css('display','none');
+        $('#container').css('display','none');
         $('#presentation').css('display','block');
+        $('body').addClass('reveal');
         console.log("Reveal-ing");
 
         Reveal.sync();
@@ -633,5 +635,6 @@ export class CfPuzzlesPresentationServices {
     hidePresentation(){
       $('#container').css('display','block');
       $('#presentation').css('display','none');
+      $('body').removeClass('reveal');
     }
 }
