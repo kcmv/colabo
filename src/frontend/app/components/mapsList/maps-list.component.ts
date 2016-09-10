@@ -524,7 +524,10 @@ export class MapsList implements OnInit {
         var url = URL.createObjectURL(new Blob([data]));
         var a = document.createElement('a');
         a.href = url;
-        a['download'] = map.map.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.json';
+        let d = new Date();
+        let dStr = d.getFullYear() + '_' + (d.getMonth()+1) + '_' + d.getDate() + '_' +
+        d.getHours() + '_' + d.getMinutes() + '_' + d.getSeconds();
+        a['download'] = map.map.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + ' (' + dStr + ').json';
         a.target = '_blank';
         a.click();
     }
