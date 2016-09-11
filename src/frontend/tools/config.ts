@@ -471,7 +471,8 @@ var puzzles = PluginsConfig.plugins.puzzles;
  * INJECTING EXTERNAL PUZZLES
  */
 
-function injectExternalPuzzle(puzzle:any){
+function injectExternalPuzzle(externalPuzzleName:string, puzzle:any){
+  console.log("[injectExternalPuzzle] Injecting external puzzle: ", externalPuzzleName);
   var puzzlePath = puzzle.path;
   var puzzlesContainerConfig = require(join(PROJECT_ROOT, puzzlePath, 'config.js'));
 
@@ -515,8 +516,8 @@ function injectExternalPuzzle(puzzle:any){
  */
 for(var puzzleName in puzzles){
     var puzzle = puzzles[puzzleName];
-    if('path' in puzzle){
-      injectExternalPuzzle(puzzle);
+    if('path' in puzzle && !!puzzle.active){
+      injectExternalPuzzle(puzzleName, puzzle);
     }
 }
 

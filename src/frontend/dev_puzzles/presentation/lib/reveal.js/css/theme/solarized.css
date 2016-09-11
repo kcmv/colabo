@@ -14,7 +14,7 @@ html * {
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
-body {
+body.reveal {
   background: #fdf6e3;
   background-color: #fdf6e3; }
 

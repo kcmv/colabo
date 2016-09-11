@@ -12,7 +12,7 @@ body {
   background: #111;
   background-color: #111; }
 
-.reveal {
+.reveal.reveal {
   font-family: "Open Sans", sans-serif;
   font-size: 30px;
   font-weight: normal;
