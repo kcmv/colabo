@@ -47,29 +47,31 @@ exports.index = function(req, res){
 			resSendJsonProtected(res, {data: kNodes, accessId : accessId, message: msg, success: false});
 		}else{
 			//console.log("[modules/kNode.js:index] Data:\n%s", JSON.stringify(kNodes));
-			resSendJsonProtected(res, {data: kNodes, accessId : accessId, success: true});
 		}
 	}
 
 	var id = req.params.searchParam;
 	var id2 = req.params.searchParam2;
-	if(mockup && mockup.db && mockup.db.data){
-		var datas_json = [];
-  		datas_json.push({id: 1, name: "Sun"});
-  		datas_json.push({id: 2, name: "Earth"});
-  		datas_json.push({id: 3, name: "Pluto"});
-  		datas_json.push({id: 4, name: "Venera"});
-		resSendJsonProtected(res, {data: datas_json, accessId : accessId});
-	}
-	//TODO: remove (this is for testing)
-	// KNodeModel.find(function (err, knodes) {
-	// 	console.log("all data:\n length: %d.\n", knodes.length);
-	// 	console.log(knodes);
-	// 	//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
-	// });
+	var type = req.params.type;
+	exports._index(id, id2, type, function(err, kNodes){
+		resSendJsonProtected(res, {data: kNodes, accessId : accessId, success: true});
+	});
+}
 
-	console.log("[modules/kNode.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
-	switch (req.params.type){
+exports._index = function(id, id2, type, callback){
+	var found = function(err,kNodes){
+		console.log("[modules/kNode.js:index] in 'found'");
+		if (err){
+			throw err;
+			var msg = JSON.stringify(err);
+			if(callback) callback(err);
+		}else{
+			if(callback) callback(null, kNodes);
+		}
+	}
+
+	console.log("[modules/kNode.js:index] id: %s. id2: %s", id, id2);
+	switch (type){
 		case 'one': //by id:
 			console.log("findById:\n id: %s.\n", id);
 			KNodeModel.findById(id, found);
@@ -93,13 +95,20 @@ exports.create = function(req, res){
 
 	var data = req.body;
 
-	console.log(data);
-	var knode = new KNodeModel(data);
-
-	knode.save(function(err) {
+	exports._create(data, function(knode, err) {
 		if (err) throw err;
 		console.log("[modules/KNode.js:create] id:%s, knode data: %s", knode._id, JSON.stringify(knode));
 		resSendJsonProtected(res, {success: true, data: knode, accessId : accessId});
+	});
+}
+
+exports._create = function(data, callback){
+	console.log("[modules/kNode.js:_create] data: ", data);
+	var knode = new KNodeModel(data);
+
+	knode.save(function(err){
+		if (err) throw err;
+		callback(knode, err);
 	});
 }
 
@@ -110,6 +119,13 @@ exports.update = function(req, res){
 	var data = req.body;
 	var id = req.params.searchParam;
 	var actionType = req.params.actionType;
+
+	exports._update(data, id, actionType, function (err, old_data) {
+		resSendJsonProtected(res, {success: true, data: old_data, accessId : accessId});
+	});
+}
+
+exports._update = function(data, id, actionType, callback){
 
 	/* here, we started logics if RIMA-whats are integrated in kNode.dataContent.rima.whats and
 	some of them are newly created on frontend so should be first created in whatAmI collection.
@@ -173,7 +189,7 @@ exports.update = function(req, res){
 		if (err){
 			throw err;
 			var msg = JSON.stringify(err);
-			resSendJsonProtected(res, {data: kNodes, accessId : accessId, message: msg, success: false});
+			if(callback) callback(err);
 		}else{
 			//console.log('old_data', JSON.stringify(old_data));
 
@@ -231,8 +247,7 @@ exports.update = function(req, res){
 				if (err) throw err;
 				//console.log('The raw response from Mongo was ', raw);
 				data._id = id; //TODO: when we completly transfer to differential updates we won't need this
-				resSendJsonProtected(res, {success: true, data: old_data, accessId : accessId});
-				//resSendJsonProtected(res, {data: kNodes, accessId : accessId, success: true});
+				if(callback) callback(err, old_data);
 			});
 		}
 	}
@@ -249,40 +264,62 @@ exports.destroy = function(req, res){
 	console.log("[modules/KNode.js:destroy] searchParam:%s, type:%s, req.body: %s", searchParam, type, JSON.stringify(req.body));
 
 	switch (type){
-		case 'one':
-			KNodeModel.findByIdAndRemove(searchParam, function (err, countOfRemoved) {
-					console.log("err" + err);
-					console.log("data" + countOfRemoved);
-					if (err) throw err;
-					var data = {countOfRemoved:countOfRemoved}; //ToDo: check this, it looks like it returns deleted Document
-					resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
-				}
-			);
-			break;
-		case 'in-map': //all nodes in the map
-			console.log("[modules/kNode.js:destroy] deleting nodes in map %s", searchParam);
-			KNodeModel.remove({'mapId': searchParam}, function (err) {
-				if (err){
-					console.log("[modules/kNode.js:destroy] error:" + err);
-					throw err;
-				}
-				var data = {id:searchParam};
-				console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
-				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
-			});
-			break;
-		// TODO: this currently delete all nodes that belongs to the provided mapId
-		case 'by-modification-source': // by source (manual/computer) of modification
-			console.log("[modules/kNode.js:destroy] deleting nodes in map %s", searchParam);
-			KNodeModel.remove({'mapId': searchParam}, function (err) {
-				if (err){
-					console.log("[modules/kNode.js:destroy] error:" + err);
-					throw err;
-				}
-				var data = {mapId:searchParam};
-				console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
-				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
-			});
-			break;
+	case 'one':
+		exports._destroyOne(searchParam, function (err, countOfRemoved) {
+			var data = {countOfRemoved:countOfRemoved}; //ToDo: check this, it looks like it returns deleted Document
+			console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
+			resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+		});
+		break;
+	case 'in-map': //all nodes in the map
+		exports._destroyInMap(searchParam, function (err) {
+			var data = {id:searchParam};
+			console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
+			resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+		});
+		break;
+	// TODO: this currently delete all nodes that belongs to the provided mapId
+	case 'by-modification-source': // by source (manual/computer) of modification
+		exports._destroyByModificationSource(searchParam, function (err) {
+			var data = {mapId:searchParam};
+			console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
+			resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+		});
+		break;
 	}
 };
+
+exports._destroyOne = function(searchParam, callback){
+	KNodeModel.findByIdAndRemove(searchParam, function (err, countOfRemoved) {
+		if (err){
+			console.log("[modules/kNode.js:destroy] error:" + err);
+			throw err;
+		}
+		if(callback) callback(err, countOfRemoved);
+	});
+}
+
+//all nodes in the map
+exports._destroyInMap = function(searchParam, callback){
+	console.log("[modules/kNode.js:destroy] deleting nodes in map %s", searchParam);
+	KNodeModel.remove({'mapId': searchParam}, function (err) {
+		if (err){
+			console.log("[modules/kNode.js:destroy] error:" + err);
+			throw err;
+		}
+		if(callback) callback(err);
+	});
+}
+
+// TODO: this currently delete all nodes that belongs to the provided mapId
+// by source (manual/computer) of modification
+exports._destroyByModificationSource = function(searchParam, callback){
+	console.log("[modules/kNode.js:destroy] deleting nodes in map %s", searchParam);
+	KNodeModel.remove({'mapId': searchParam}, function (err) {
+		if (err){
+			console.log("[modules/kNode.js:destroy] error:" + err);
+			throw err;
+		}
+		if(callback) callback(err);
+	});
+}
