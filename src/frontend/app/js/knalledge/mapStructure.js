@@ -87,6 +87,10 @@
 	MapStructure.UPDATE_NODE_TYPE = "UPDATE_NODE_TYPE";
 	MapStructure.UPDATE_NODE_CREATOR = "UPDATE_NODE_CREATOR";
 
+	// Lists of constants that describes what type of updates are made on edge
+	MapStructure.UPDATE_EDGE_NAME = "UPDATE_EDGE_NAME";
+	MapStructure.UPDATE_EDGE_VALUE = "UPDATE_EDGE_VALUE";
+
 	/**
 	 * @var {debugPP} debug - namespaced debug for the class
 	 * @memberof knalledge.MapStructure#
@@ -922,6 +926,21 @@
 
 		return this;
 	};
+
+	/**
+	* Newly created (by mPrinC)
+	* Needs support for patching, diff update, saving change, etc
+	*/
+	MapStructure.prototype.updateEdge = function(vkEdge, updateType, change, callback) {
+		if (!this.mapService) return;
+		var patch = null;
+		switch (updateType) {
+		case MapStructure.UPDATE_EDGE_VALUE:
+			if (vkEdge.kEdge) vkEdge.kEdge.value = change;
+			break;
+		}
+		this.mapService.updateEdge(vkEdge.kEdge, updateType, callback);
+	}
 
 	//TODO: should this be in the RIMA component or here?
 	/**

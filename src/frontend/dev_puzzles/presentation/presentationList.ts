@@ -102,8 +102,20 @@ export class PresentationList implements OnInit, OnDestroy {
     return this.selectedSlide === slides[slides.length-1];
   }
 
+  slideMoveUp (){
+    this.service.slideMoveUp();
+  }
+
+  slideMoveDown (){
+    this.service.slideMoveDown();	
+  }
+
   showPresentation(){
     this.service.showPresentation();
+  }
+
+  showPresentationFromCurrentSlide(){
+    this.service.showPresentationFromCurrentSlide();
   }
 
   selectPotentialSlide (slide) {

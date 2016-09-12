@@ -819,7 +819,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 
 					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, change); //edgeFromServer);
 				}
-				callback(true);
+				if(callback) callback(true);
 			},
 			function(error){
 				//console.error('EDGE: UPDATE: ',error,' for ',kNodeForServer);
