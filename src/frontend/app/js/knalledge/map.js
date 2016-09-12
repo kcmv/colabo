@@ -216,7 +216,9 @@ Map.prototype.init = function() {
 			/* update(source, callback) */
 			update: this.mapVisualization.update.bind(this.mapVisualization),
 			positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
-			nodeSelected: this.nodeSelected.bind(this)
+			nodeSelected: this.nodeSelected.bind(this),
+			disableKeyboard: this.keyboardInteraction.disable.bind(this.keyboardInteraction),
+			enableKeyboard: this.keyboardInteraction.enable.bind(this.keyboardInteraction)
 		}
 	});
 	this.collaboPluginsService.provideApi("mapInteraction", {

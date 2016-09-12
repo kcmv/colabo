@@ -84,7 +84,9 @@ export class CfPuzzlesPresentationServices {
     private removeKnownEdgeTypes:Function;
     private addSystemEdgeTypes:Function;
     private removeSystemEdgeTypes:Function;
-    private slideChangedEventListenerBinded;
+    private slideChangedEventListenerBinded:Fuction;
+    private disableKeyboard:Function;
+    private enableKeyboard:Function;
 
     /**
     * the namespace for core services for the Notify system
@@ -154,6 +156,8 @@ export class CfPuzzlesPresentationServices {
         that.mapUpdate = that.puzzlePresentationPluginInfo.apis.map.items.update;
         that.mapNodeSelected = that.puzzlePresentationPluginInfo.apis.map.items.nodeSelected;
         that.positionToDatum = that.puzzlePresentationPluginInfo.apis.map.items.positionToDatum;
+        that.disableKeyboard = that.puzzlePresentationPluginInfo.apis.map.items.disableKeyboard;
+        that.enableKeyboard = that.puzzlePresentationPluginInfo.apis.map.items.enableKeyboard;
       };
 
       this.puzzlePresentationPluginInfo.apis.MapLayoutTree.callback = function() {
@@ -216,6 +220,10 @@ export class CfPuzzlesPresentationServices {
         }else{
           let kEdge = new knalledge.KEdge();
           kEdge.type = SLIDE_EDGE_TYPE;
+          if(typeof slidePosition !== 'number'){
+            let vkEdges = this.mapStructure.getChildrenEdges(presentationNode, SLIDE_EDGE_TYPE);
+            slidePosition = vkEdges.length;
+          }
           if(typeof slidePosition === 'number') kEdge.value = slidePosition;
           let vkEdge = new knalledge.VKEdge();
           vkEdge.kEdge = kEdge;
@@ -344,7 +352,7 @@ export class CfPuzzlesPresentationServices {
     Ensures that all edges of all nodes that are part of slideshow have value (order)
     and that those values are forming an uniform array [0, 1, 2, ..., (slides_no-1)]
     */
-    _orderSlidesAndUpdateEdgeValues(callback){
+    _orderSlidesAndUpdateEdgeValues(callback?){
       if(this.mapStructure){
         let presentationNode = this._getPresentationNode();
         if(!presentationNode){
@@ -738,6 +746,7 @@ export class CfPuzzlesPresentationServices {
         Reveal.sync();
 
         Reveal.addEventListener( 'slidechanged', this.slideChangedEventListenerBinded);
+        this.disableKeyboard();
         Reveal.slide(slideId);
       }.bind(this));
     }
@@ -819,5 +828,6 @@ export class CfPuzzlesPresentationServices {
       $('#presentation').css('display','none');
       $('body').removeClass('reveal');
       Reveal.removeEventListener('slidechanged', this.slideChangedEventListenerBinded);
+      this.enableKeyboard();
     }
 }
