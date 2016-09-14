@@ -2652,6 +2652,30 @@ knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 				return returnedItems;
 			},
 
+			getItemsDescsByDataContent: function(search){
+				search = search.toLowerCase();
+				var returnedItems = [];
+				switch(this.itemType){
+					case "kNode":
+						for(var i in this.itemsDescs){
+							var item = this.itemsDescs[i];
+							if(item.dataContent && item.dataContent.property && item.dataContent.property.toLowerCase().indexOf(search) > -1){
+								returnedItems.push(item);
+							}
+						}
+						break;
+					case "vkNode":
+						for(var i in this.itemsDescs){
+							var item = this.itemsDescs[i];
+							if(item.kNode.dataContent && item.kNode.dataContent.property && item.kNode.dataContent.property.toLowerCase().indexOf(search) > -1){
+								returnedItems.push(item);
+							}
+						}
+						break;
+				}
+				return returnedItems;
+			},
+
 			openSelectItem: function(items, labels, callback, itemType){
 				console.log("[KnAllEdgeSelectItemService] selecting Item out of %d items", items.length);
 				this.itemsDescs = items;

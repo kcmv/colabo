@@ -1359,6 +1359,20 @@
 					console.log("getItemsDescsByName(%s)", subName);
 					$scope.itemType = KnAllEdgeSelectItemService.itemType;
 					$scope.items = KnAllEdgeSelectItemService.getItemsDescsByName(subName);
+					var dataContentItems = KnAllEdgeSelectItemService.getItemsDescsByDataContent(subName);
+					var found = false;
+					for(var i=0; i< dataContentItems.length; i++){ //there must be no duplicates and both search methods can return some same elements
+						found = false;
+						for(var j=0; j< $scope.items.length; j++){
+							if(dataContentItems[i] == $scope.items[j]){
+								found = true;
+								continue;
+							}
+						}
+						if(!found){
+							$scope.items.push(dataContentItems[i]);
+						}
+					}
 					console.log("$scope.items IN: " + $scope.items);
 				};
 
