@@ -24,6 +24,7 @@ import {ChangeService} from '../change/change.service';
 
 declare var window;
 declare var Config;
+declare var knalledge;
 
 // import {DbAuditService} from './dbAudit.service';
 // import {Change} from '../change/change';
@@ -230,16 +231,56 @@ export class KnalledgeMapMain implements OnInit{
     // }
 
     onQuestionItem() {
+      if (!this.mapStructure.getSelectedNode()){
+        window.alert('You have to select a node which you are addressing your question to.');
+        return; // no parent node selected
+      }
       if(this.mapStructure){
-        // ili druga odgovarajuca metoda
-        this.mapStructure.createNode(function(){
-          // callback
+        var sourceNode = this.mapStructure.getSelectedNode();
 
-          // update map
+        var vkNode = new knalledge.VKNode();
+    	  vkNode.kNode = new knalledge.KNode();
+        vkNode.kNode.type = knalledge.KNode.TYPE_IBIS_QUESTION;
+        //vkNode.kNode.name = "...";
+
+        var vkEdge = new knalledge.VKEdge();
+        vkEdge.kEdge = new knalledge.KEdge();
+        //vkEdge.kEdge.type = knalledgeEdgeType;
+
+        this.mapStructure.createNodeWithEdge(sourceNode, vkEdge, vkNode, function(){
           if(this.mapUpdate){
             this.mapUpdate();
+            //this.....nodeSelected(vkNode);
+            //this.setEditing(newNode);
           }
-        });
+        }.bind(this));
+      }
+    }
+
+    onCommentItem() {
+      if (!this.mapStructure.getSelectedNode()){
+        window.alert('You have to select a node which you are addressing your comment to.');
+        return; // no parent node selected
+      }
+      if(this.mapStructure){
+        var sourceNode = this.mapStructure.getSelectedNode();
+
+        var vkNode = new knalledge.VKNode();
+    	  vkNode.kNode = new knalledge.KNode();
+        vkNode.kNode.type = knalledge.KNode.TYPE_IBIS_COMMENT;
+        //vkNode.kNode.name = "...";
+
+        var vkEdge = new knalledge.VKEdge();
+        vkEdge.kEdge = new knalledge.KEdge();
+        //vkEdge.kEdge.type = knalledgeEdgeType;
+
+        this.mapStructure.createNodeWithEdge(sourceNode, vkEdge, vkNode, function(){
+          if(this.mapUpdate){
+            this.mapUpdate();
+            //this.....nodeSelected(vkNode);
+            //this.setEditing(newNode);
+          }
+        }.bind(this));
       }
     }
 
