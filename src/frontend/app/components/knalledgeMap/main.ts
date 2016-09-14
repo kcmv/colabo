@@ -250,9 +250,9 @@ export class KnalledgeMapMain implements OnInit{
         this.mapStructure.createNodeWithEdge(sourceNode, vkEdge, vkNode, function(){
           if(this.mapUpdate){
             this.mapUpdate();
-            //this.....nodeSelected(vkNode);
-            //this.setEditing(newNode);
           }
+          //this.....nodeSelected(vkNode);
+          //this.setEditing(newNode);
         }.bind(this));
       }
     }
@@ -277,9 +277,9 @@ export class KnalledgeMapMain implements OnInit{
         this.mapStructure.createNodeWithEdge(sourceNode, vkEdge, vkNode, function(){
           if(this.mapUpdate){
             this.mapUpdate();
-            //this.....nodeSelected(vkNode);
-            //this.setEditing(newNode);
           }
+          //this.....nodeSelected(vkNode);
+          //this.setEditing(newNode);
         }.bind(this));
       }
     }
