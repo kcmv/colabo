@@ -645,7 +645,7 @@ Map.prototype.processData = function(mapData, selectedKNodeId, callback) {
 		selectedVKNode = this.mapStructure.rootNode;
 	}
 	// we do this only if we created an mapStructure in our class
-	if(!this.mapStructureExternal) this.mapStructure.processData(mapData, selectedKNodeId);
+	if(!this.mapStructureExternal) this.mapStructure.processData(mapData, undefined, undefined, selectedKNodeId);
 	else{
 		// set default selected node
 		if(selectedVKNode){
