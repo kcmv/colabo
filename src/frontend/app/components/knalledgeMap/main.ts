@@ -118,6 +118,9 @@ export class KnalledgeMapMain implements OnInit{
     private knalledgeMapVOsService;
     private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
     private SHOW_INFO: string = "SHOW_INFO";
+    private ibisActionPluginInfo:any;
+    private mapStructure:any;
+    private mapUpdate:Function;
 
     @ViewChild('infoDialog') private infoDialog: MdDialog;
 
@@ -129,8 +132,11 @@ export class KnalledgeMapMain implements OnInit{
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray//,
+        @Inject('CollaboPluginsService') private collaboPluginsService
         // public dbAuditService: DbAuditService
         ) {
+        let that:KnalledgeMapMain = this;
+
         console.log('[KnalledgeMapMain] loaded');
         this.viewConfig = knalledgeMapViewService.get().config;
         this.policyConfig = knalledgeMapPolicyService.get().config;
@@ -157,6 +163,48 @@ export class KnalledgeMapMain implements OnInit{
         this.globalEmitterServicesArray.register(this.SHOW_INFO);
         this.globalEmitterServicesArray.get(this.SHOW_INFO).subscribe('KnalledgeMapMain',
         this.showInfo.bind(this));
+
+
+     // access to CF internals through plugin mechanism
+      this.ibisActionPluginInfo = {
+        name: "puzzles.ibis.action",
+        components: {
+
+        },
+        references: {
+          map: {
+            items: {
+              mapStructure: {
+              }
+            },
+            $resolved: false,
+            callback: null,
+            $promise: null
+          }
+        },
+        apis: {
+          map: {
+            items: {
+              update: null,
+            },
+            $resolved: false,
+            callback: null,
+            $promise: null
+          }
+        }
+      };
+
+      this.ibisActionPluginInfo.references.map.callback = function() {
+        that.ibisActionPluginInfo.references.map.$resolved = true;
+        that.mapStructure = that.ibisActionPluginInfo.references.map.items.mapStructure;
+      };
+
+      this.ibisActionPluginInfo.apis.map.callback = function() {
+        that.ibisActionPluginInfo.apis.map.$resolved = true;
+        that.mapUpdate = that.ibisActionPluginInfo.apis.map.items.update;
+      };
+
+      this.collaboPluginsService.registerPlugin(this.ibisActionPluginInfo);
     };
 
     // testMain() {
@@ -180,6 +228,20 @@ export class KnalledgeMapMain implements OnInit{
       //         JSON.stringify(error))
       //     );
     // }
+
+    onQuestionItem() {
+      if(this.mapStructure){
+        // ili druga odgovarajuca metoda
+        this.mapStructure.createNode(function(){
+          // callback
+
+          // update map
+          if(this.mapUpdate){
+            this.mapUpdate();
+          }
+        });
+      }
+    }
 
     customClose(interesting: boolean) {
         if (interesting) {
