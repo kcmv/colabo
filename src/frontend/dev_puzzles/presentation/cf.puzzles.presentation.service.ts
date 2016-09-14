@@ -127,8 +127,8 @@ export class CfPuzzlesPresentationServices {
               update: null,
               nodeSelected: null,
               positionToDatum: null,
-              disableKeyboard,
-              enableKeyboard
+              disableKeyboard: null,
+              enableKeyboard: null
             },
             $resolved: false,
             callback: null,
