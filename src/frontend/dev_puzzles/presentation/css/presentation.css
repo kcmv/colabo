@@ -15,21 +15,31 @@ $large: 1400px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-.presentation-list .slides .slide {
-  text-align: center;
-  font-weight: bold;
-  -moz-border-radius: 5px / 5px;
-  -webkit-border-radius: 5px 5px;
-  border-radius: 5px / 5px;
-  padding: 3px;
-  margin-right: 3px;
-  margin-bottom: 5px;
-  width: 10em;
-  height: 3em;
-  background-color: #ffffee;
-  border: 2px solid #bfbf30; }
-  .presentation-list .slides .slide.active-selection {
-    background-color: #ffff88; }
+presentation-list {
+  height: inherit; }
+
+.presentation-list {
+  height: inherit; }
+  .presentation-list .slides {
+    overflow-y: scroll;
+    height: 130%; }
+    .presentation-list .slides .slide {
+      text-align: center;
+      font-weight: bold;
+      -moz-border-radius: 5px / 5px;
+      -webkit-border-radius: 5px 5px;
+      border-radius: 5px / 5px;
+      padding: 3px;
+      margin-right: 3px;
+      margin-bottom: 5px;
+      width: 10em;
+      height: 3em;
+      font-size: 0.7em;
+      overflow-y: scroll;
+      background-color: #ffffee;
+      border: 2px solid #bfbf30; }
+      .presentation-list .slides .slide.active-selection {
+        background-color: #ffff88; }
 
 .knalledge_map_container .node_html .node_presentation {
   font-style: italic;
