@@ -173,8 +173,8 @@ MapLayoutGraph.prototype.updateScaleNodeSizes = function(){
 // updates scale scaleEdgeDistances in accordance to this.edgeWeightMin, this.edgeWeightMax
 MapLayoutGraph.prototype.updateScaleEdgeDistances = function(){
 	this.findEdgeWeightsRange();
-	var minDistance = 30;
-	var maxDistance = 100;
+	var minDistance = 100;
+	var maxDistance = 300;
 	this.scaleEdgeDistances = d3.scale.linear()
 		.domain([this.edgeWeightMin, this.edgeWeightMax])
 		.range([maxDistance, minDistance]);
