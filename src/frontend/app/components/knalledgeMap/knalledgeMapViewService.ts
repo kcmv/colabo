@@ -12,11 +12,11 @@ export class KnalledgeMapViewService {
                 showImagesAsThumbnails: true,
                 imagesThumbnailsWidth: 50,
                 imagesThumbnailsHeight: 50,
-                showTypes: true
+                showTypes: false
             },
             edges: {
                 showNames: true,
-                showTypes: true
+                showTypes: false
             },
             type: {
                 // name: "collabo_science"
@@ -26,8 +26,8 @@ export class KnalledgeMapViewService {
             },
             filtering: {
               visbileTypes: {
-                ibis: true,
-                knalledge: true
+                ibis: false,
+                knalledge: false
               },
                 displayDistance	: -1, // if we wanna show them all visible we set it to -1
                 byAuthor: [] //array of iAmId. An empty means to see for all authors

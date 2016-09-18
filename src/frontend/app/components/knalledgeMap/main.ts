@@ -30,9 +30,6 @@ declare var knalledge;
 // import {Change} from '../change/change';
 // import {ChangeService} from "../change/change.service";
 
-// TODO: probable remove later, this is just to trigger starting the service
-// import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
-
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
  *

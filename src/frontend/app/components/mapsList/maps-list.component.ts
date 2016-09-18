@@ -32,9 +32,6 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 //TODO: import {KMap} from '../../js/knalledge/kMap';
 //TODO: import {KNode} from '../../js/knalledge/kNode';
 
-// TODO: probable remove later, this is just to trigger starting the service
-// import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
-
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
  *
