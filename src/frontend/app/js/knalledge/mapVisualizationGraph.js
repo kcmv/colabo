@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapVisualizationGraph =  knalledge.MapVisualizationGraph = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService){
-	this.construct(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService);
+var MapVisualizationGraph =  knalledge.MapVisualizationGraph = function(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService, upperAPI){
+	this.construct(dom, mapStructure, collaboPluginsService, configTransitions, configTree, configNodes, configEdges, rimaService, notifyService, mapPlugins, knalledgeMapViewService, upperAPI);
 };
 
 // TODO: the quickest solution until find the best and the most performance optimal solution
@@ -104,12 +104,6 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 			}
 		});
 
-		//  .enter().append("g")
-		// .attr("class", "node")
-		// .on("click", click)
-		// //.on("dblclick", dblclick)
-		// .call(force.drag);
-
 		// Enter the nodes
 		// we create a div that will contain both visual representation of a node (circle) and text
 		var nodeHtmlEnter = nodeHtml.enter().append("div")
@@ -118,10 +112,10 @@ MapVisualizationGraph.prototype.updateHtml = function(source) {
 					return classes;
 				})
 			.on("dblclick", function(d){
-				that.mapLayout.clickDoubleNode(d, this);
+				that.upperAPI.nodeDblClicked(d);
 			})
 			.on("click", function(d){
-				that.mapLayout.clickNode(d, this);
+				that.upperAPI.nodeClicked(d);
 			})
 			//.call(graph.drag);
 
@@ -437,10 +431,10 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 		})
 
 		.on("click", function(d){
-			that.mapLayout.clickNode(d, this);
+			that.upperAPI.nodeClicked(d);
 		})
 		.on("dblclick", function(d){
-			that.clickDoubleNode.clickNode(d, this);
+			that.upperAPI.nodeDblClicked(d);
 		})
 		// Enter any new nodes at the parent's previous position
 		.attr("transform", function(d) {
@@ -484,8 +478,10 @@ MapVisualizationGraph.prototype.updateSvgNodes = function(source) {
 		// increase negative (left) margine
 		// otherwise we increase positive (right) margine
 		.attr("x", 13)
+		// move (relatively) the text right
+		.attr("dx", "1em")
 		// move (relatively) the text down
-		.attr("dy", ".35em")
+		.attr("dy", "1em")
 		// set the text
 		.text(function(d) {
 			return that.configNodes.labels.show ? d.kNode.name : "";

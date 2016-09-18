@@ -45,21 +45,20 @@ body.reveal {
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: normal;
-  text-transform: uppercase;
   text-shadow: none;
   word-wrap: break-word; }
 
 .reveal h1 {
-  font-size: 2.5em; }
+  font-size: 2em; }
 
 .reveal h2 {
-  font-size: 1.6em; }
+  font-size: 1.7em; }
 
 .reveal h3 {
-  font-size: 1.3em; }
+  font-size: 1.4em; }
 
 .reveal h4 {
-  font-size: 1em; }
+  font-size: 1.2em; }
 
 .reveal h1 {
   text-shadow: none; }
@@ -69,14 +68,19 @@ body.reveal {
  *********************************************/
 .reveal p {
   margin: 20px 0;
-  line-height: 1.3; }
+  line-height: 1.2; 
+  text-align: justify;
+  font-size: 0.8em;
+}
 
 /* Ensure certain elements are never larger than the slide itself */
 .reveal img,
 .reveal video,
 .reveal iframe {
   max-width: 95%;
-  max-height: 95%; }
+  max-height: 95%;
+  text-align: center !important;
+   }
 
 .reveal strong,
 .reveal b {

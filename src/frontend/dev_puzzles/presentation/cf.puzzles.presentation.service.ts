@@ -15,6 +15,10 @@ export const PRESENTATIONS_EDGE_TYPE:string = 'type_presentations';
 export const PRESENTATION_EDGE_TYPE:string = 'type_presentation';
 export const SLIDE_EDGE_TYPE:string = 'type_slide';
 
+export const DATA_SEPARATOR_HORIZONTAL:string = '--horizontal--';
+export const DATA_SEPARATOR_VERTICAL:string = '--vertical--';
+export const DATA_SEPARATOR_NOTES:string = '--notes--';
+
 @Injectable()
 export class CfPuzzlesPresentationServices {
     puzzlePresentationPluginInfo:any;
@@ -74,11 +78,15 @@ export class CfPuzzlesPresentationServices {
 
     private mapStructure:any;
     private mapUpdate:Function;
+    private mapNodeSelected:Function;
     private positionToDatum:Function;
     private addKnownEdgeTypes:Function;
     private removeKnownEdgeTypes:Function;
     private addSystemEdgeTypes:Function;
     private removeSystemEdgeTypes:Function;
+    private slideChangedEventListenerBinded:Fuction;
+    private disableKeyboard:Function;
+    private enableKeyboard:Function;
 
     /**
     * the namespace for core services for the Notify system
@@ -118,7 +126,9 @@ export class CfPuzzlesPresentationServices {
             items: {
               update: null,
               nodeSelected: null,
-              positionToDatum: null
+              positionToDatum: null,
+              disableKeyboard: null,
+              enableKeyboard: null
             },
             $resolved: false,
             callback: null,
@@ -146,7 +156,10 @@ export class CfPuzzlesPresentationServices {
       this.puzzlePresentationPluginInfo.apis.map.callback = function() {
         that.puzzlePresentationPluginInfo.apis.map.$resolved = true;
         that.mapUpdate = that.puzzlePresentationPluginInfo.apis.map.items.update;
+        that.mapNodeSelected = that.puzzlePresentationPluginInfo.apis.map.items.nodeSelected;
         that.positionToDatum = that.puzzlePresentationPluginInfo.apis.map.items.positionToDatum;
+        that.disableKeyboard = that.puzzlePresentationPluginInfo.apis.map.items.disableKeyboard;
+        that.enableKeyboard = that.puzzlePresentationPluginInfo.apis.map.items.enableKeyboard;
       };
 
       this.puzzlePresentationPluginInfo.apis.MapLayoutTree.callback = function() {
@@ -159,6 +172,7 @@ export class CfPuzzlesPresentationServices {
 
       this.collaboPluginsService.registerPlugin(this.puzzlePresentationPluginInfo);
 
+      this.slideChangedEventListenerBinded = this.slideChangedEventListener.bind(this);
       this.initPresentation();
     }
 
@@ -197,7 +211,7 @@ export class CfPuzzlesPresentationServices {
     }
 
     // add node to the currently selected presentation
-    private addNodeToSlides(vkNode, callback?){
+    private addNodeToSlides(vkNode, slidePosition, callback?){
       var that:CfPuzzlesPresentationServices = this;
       if(!vkNode || !this.mapStructure || this.isNodeInSlides(vkNode)){
         if(callback) callback(null);
@@ -208,6 +222,11 @@ export class CfPuzzlesPresentationServices {
         }else{
           let kEdge = new knalledge.KEdge();
           kEdge.type = SLIDE_EDGE_TYPE;
+          if(typeof slidePosition !== 'number'){
+            let vkEdges = this.mapStructure.getChildrenEdges(presentationNode, SLIDE_EDGE_TYPE);
+            slidePosition = vkEdges.length;
+          }
+          if(typeof slidePosition === 'number') kEdge.value = slidePosition;
           let vkEdge = new knalledge.VKEdge();
           vkEdge.kEdge = kEdge;
 
@@ -310,6 +329,7 @@ export class CfPuzzlesPresentationServices {
       this.store.enabled = true;
       this.addKnownEdgeTypes([PRESENTATIONS_EDGE_TYPE, PRESENTATION_EDGE_TYPE]);
       this.addSystemEdgeTypes([SLIDE_EDGE_TYPE]);
+      this._orderSlidesAndUpdateEdgeValues();
       if(that.mapUpdate) that.mapUpdate();
     }
 
@@ -320,6 +340,38 @@ export class CfPuzzlesPresentationServices {
       this.removeKnownEdgeTypes([PRESENTATIONS_EDGE_TYPE, PRESENTATION_EDGE_TYPE]);
       this.removeSystemEdgeTypes([SLIDE_EDGE_TYPE]);
       if(that.mapUpdate) that.mapUpdate();
+    }
+
+    _sortEdgesByWeight(eA, eB):Number{
+      // ensure that numbers are always placed first
+      if(typeof eA.kEdge.value !== 'number') return 1;
+      if(typeof eB.kEdge.value !== 'number') return -1;
+
+      return eA.kEdge.value - eB.kEdge.value;
+    }
+
+    /**
+    Ensures that all edges of all nodes that are part of slideshow have value (order)
+    and that those values are forming an uniform array [0, 1, 2, ..., (slides_no-1)]
+    */
+    _orderSlidesAndUpdateEdgeValues(callback?){
+      if(this.mapStructure){
+        let presentationNode = this._getPresentationNode();
+        if(!presentationNode){
+          if(callback) callback(null);
+          return;
+        }
+
+        let vkEdges = this.mapStructure.getChildrenEdges(presentationNode, SLIDE_EDGE_TYPE);
+        vkEdges.sort(this._sortEdgesByWeight);
+        for(let i=0; i<vkEdges.length; i++){
+          let vkEdge = vkEdges[i];
+          // we need a strictly ordered array of edges
+          if(typeof vkEdge.kEdge.value !== 'number' || vkEdge.kEdge.value !== i){
+            this.mapStructure.updateEdge(vkEdge, knalledge.MapStructure.UPDATE_EDGE_VALUE, i);
+          }
+        }
+      }
     }
 
     // interface to mapStructure's method
@@ -337,7 +389,12 @@ export class CfPuzzlesPresentationServices {
       if(this.mapStructure){
         let presentationNode = this._getPresentationNode();
         if(presentationNode){
-          slides = this.mapStructure.getChildrenNodes(presentationNode, SLIDE_EDGE_TYPE);          
+          let vkEdges = this.mapStructure.getChildrenEdges(presentationNode, SLIDE_EDGE_TYPE);
+          vkEdges.sort(this._sortEdgesByWeight);
+          for(let i=0; i<vkEdges.length; i++){
+            let vkEdge = vkEdges[i];
+            slides.push(this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId));
+          }
         }
       }
       return slides;
@@ -347,7 +404,11 @@ export class CfPuzzlesPresentationServices {
     addSlide(){
       if(this.mapStructure){
         let vkNode = this.mapStructure.getSelectedNode();
-        this.addNodeToSlides(vkNode);
+        let presentationNode = this._getPresentationNode();
+        if(presentationNode){
+          let vkEdges = this.mapStructure.getChildrenEdges(presentationNode, SLIDE_EDGE_TYPE);
+          this.addNodeToSlides(vkNode, vkEdges.length);
+        }
       }
     }
 
@@ -356,6 +417,7 @@ export class CfPuzzlesPresentationServices {
       if(this.mapStructure){
         let vkNode = this.mapStructure.getSelectedNode();
         this.removeNodeFromSlides(vkNode);
+        this._orderSlidesAndUpdateEdgeValues();
       }
     }
 
@@ -442,12 +504,16 @@ export class CfPuzzlesPresentationServices {
 
         // we need to tell that slide is in markdown format so markdown plugin will render it
         section.attr('data-markdown', '');
-        // --vertical-- in node's property will split the node preperty content into two vertical slides
+        // DATA_SEPARATOR_VERTICAL in node's property will split the node preperty content into two vertical slides
         // or more if more separators are added
-        section.attr('data-separator-vertical', '--vertical--');
-        // --horizontal-- in node's property will split node preperty content into two horizontal slides
+        section.attr('data-separator-vertical', DATA_SEPARATOR_VERTICAL);
+        // DATA_SEPARATOR_HORIZONTAL in node's property will split node preperty content into two horizontal slides
         // or more if more separators are added
-        section.attr('data-separator', '--horizontal--');
+        section.attr('data-separator', DATA_SEPARATOR_HORIZONTAL);
+        // https://github.com/hakimel/reveal.js#speaker-notes
+        // --notes-- in node's property will create node content that will not be visible in presentation
+        // but only to the presenter
+        section.attr('data-separator-notes', DATA_SEPARATOR_NOTES);
 
         // markdown content is wrapped in extra script template wrapper
         var script = $("<script></script>");
@@ -471,6 +537,57 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
+    slideMoveUp (callback){
+      if(this.mapStructure){
+        let presentationNode = this._getPresentationNode();
+        if(!presentationNode){
+          if(callback) callback(null);
+          return;
+        }
+
+        let slideVkNode = this.mapStructure.getSelectedNode();
+        let slideVkEdge = this.mapStructure.getEdge(presentationNode.id, slideVkNode.id);
+
+        let vkEdges = this.mapStructure.getChildrenEdges(presentationNode, SLIDE_EDGE_TYPE);
+        vkEdges.sort(this._sortEdgesByWeight);
+        for(let i=0; i<vkEdges.length; i++){
+          let vkEdge = vkEdges[i];
+          if(vkEdge === slideVkEdge && i>0){
+            // swap positions of two slides (edges)
+            this.mapStructure.updateEdge(slideVkEdge, knalledge.MapStructure.UPDATE_EDGE_VALUE, 
+              slideVkEdge.kEdge.value-1);
+            this.mapStructure.updateEdge(vkEdges[i-1], knalledge.MapStructure.UPDATE_EDGE_VALUE, 
+              vkEdges[i-1].kEdge.value+1);
+          }
+        }
+      }
+    }
+
+    slideMoveDown (callback){
+      if(this.mapStructure){
+        let presentationNode = this._getPresentationNode();
+        if(!presentationNode){
+          if(callback) callback(null);
+          return;
+        }
+
+        let slideVkNode = this.mapStructure.getSelectedNode();
+        let slideVkEdge = this.mapStructure.getEdge(presentationNode.id, slideVkNode.id);
+
+        let vkEdges = this.mapStructure.getChildrenEdges(presentationNode, SLIDE_EDGE_TYPE);
+        vkEdges.sort(this._sortEdgesByWeight);
+        for(let i=0; i<vkEdges.length; i++){
+          let vkEdge = vkEdges[i];
+          if(vkEdge === slideVkEdge && i<(vkEdges.length-1)){
+            // swap positions of two slides (edges)
+            this.mapStructure.updateEdge(slideVkEdge, knalledge.MapStructure.UPDATE_EDGE_VALUE, 
+              slideVkEdge.kEdge.value+1);
+            this.mapStructure.updateEdge(vkEdges[i+1], knalledge.MapStructure.UPDATE_EDGE_VALUE, 
+              vkEdges[i+1].kEdge.value-1);
+          }
+        }
+      }
+    }
 
     // ask Reveal and markdown plugin to rerender and update itself according to new slides
     updateReveal(callback){
@@ -617,7 +734,9 @@ export class CfPuzzlesPresentationServices {
     }
 
     // triggers presentation mode
-    showPresentation(){
+    showPresentation(slideId?:number){
+      if(typeof slideId !== 'number') slideId = 0;
+
       this.generatePresentation(function(){
         console.log("hiding id='container'");
         $('#container').css('display','none');
@@ -627,8 +746,82 @@ export class CfPuzzlesPresentationServices {
         console.log("Reveal-ing");
 
         Reveal.sync();
-        Reveal.slide(0);
+
+        Reveal.addEventListener( 'slidechanged', this.slideChangedEventListenerBinded);
+        this.disableKeyboard();
+        Reveal.slide(slideId);
       }.bind(this));
+    }
+
+    slideChangedEventListener( event ) {
+        // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+        var presentingVkNode = this.getNodeFromSlidePosition(event.indexh);
+        if(this.mapStructure){
+          if(presentingVkNode && this.mapStructure.getSelectedNode() !== presentingVkNode){
+            this.mapNodeSelected(presentingVkNode);
+          }
+        }
+    }
+
+    // returns indexh position
+    getSlidePositionForSlideNode(positionedSlideNode):number{
+      let slides = this.getSlides();
+      let positionedSlideId = 0;
+      // returns total cumulative position
+      // var re = new RegExp('('+DATA_SEPARATOR_HORIZONTAL+'|'+DATA_SEPARATOR_VERTICAL+')', "g");
+      // returns indexh position
+      var re = new RegExp(DATA_SEPARATOR_HORIZONTAL, "g");
+
+      for(let s=0; s<slides.length; s++){
+        var slide=slides[s];
+        if(slide === positionedSlideNode) break;
+
+        positionedSlideId++;
+        var contentType = slide.kNode.dataContent.propertyType;
+        var content = slide.kNode.dataContent.property;
+        if(contentType === 'text/markdown'){
+          var count = (content.match(re) || []).length;
+          positionedSlideId += count;
+        }
+      }
+      return positionedSlideId;
+    }
+
+    // gets indexh as input
+    getNodeFromSlidePosition(positionedSlideId){
+      let slides = this.getSlides();
+      // slide id of the node that is currently processed
+      let processingSlideStartingSlideId = 0;
+      // returns total cumulative position
+      // var re = new RegExp('('+DATA_SEPARATOR_HORIZONTAL+'|'+DATA_SEPARATOR_VERTICAL+')', "g");
+      // returns indexh position
+      var re = new RegExp(DATA_SEPARATOR_HORIZONTAL, "g");
+
+      for(let s=0; s<slides.length; s++){
+        var slide=slides[s];
+
+        processingSlideStartingSlideId++;
+        var contentType = slide.kNode.dataContent.propertyType;
+        var content = slide.kNode.dataContent.property;
+        if(contentType === 'text/markdown'){
+          var count = (content.match(re) || []).length;
+          processingSlideStartingSlideId += count;
+        }
+        if(processingSlideStartingSlideId > positionedSlideId) break;
+      }
+      return slide;
+    }
+
+
+    showPresentationFromCurrentSlide(){
+      let slideId = 0;
+      if(this.mapStructure){
+        let slideVkNode = this.mapStructure.getSelectedNode();
+        slideId = this.getSlidePositionForSlideNode(slideVkNode);
+
+      }
+
+      this.showPresentation(slideId);
     }
 
     // switches off presentation mode
@@ -636,5 +829,7 @@ export class CfPuzzlesPresentationServices {
       $('#container').css('display','block');
       $('#presentation').css('display','none');
       $('body').removeClass('reveal');
+      Reveal.removeEventListener('slidechanged', this.slideChangedEventListenerBinded);
+      this.enableKeyboard();
     }
 }

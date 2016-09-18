@@ -631,6 +631,10 @@ collaboPluginsServices.provider('CollaboPluginsService', function CollaboPlugins
 				return _apis[apiName];
 			},
 
+			getReference: function(referenceName){
+				return _references[referenceName];
+			},
+
 			getPluginContent: function(pluginName){
 
 			}

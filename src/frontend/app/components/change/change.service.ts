@@ -154,7 +154,8 @@ export class ChangeService {
         this.errorInConnectivity = false;
       }
     }else{
-      console.error("CONNECTIVITY_ERROR:: logErrorInConnectivity",error);
+      // relaced inestead of console.error
+      console.warn("CONNECTIVITY_ERROR:: logErrorInConnectivity",error);
       this.errorInConnectivity = true;
       this.globalEmitterServicesArray.get(ChangeService.CONNECTIVITY_ISSUE_EVENT)
       .broadcast('ChangeService', {'type':ChangeService.CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_FAILED,'lost_no':1});
@@ -162,7 +163,8 @@ export class ChangeService {
   }
 
   logActionLost(error:any):void{
-    console.error("CONNECTIVITY_ERROR:: logActionLost",error);
+    // relaced inestead of console.error
+    console.warn("CONNECTIVITY_ERROR:: logActionLost",error);
     let now: any = new Date();
     //if(now - this.timeErrorDisplayed > TIME_BETWEEN_ERROR_DISPLAYS){
       this.timeErrorDisplayed = now;

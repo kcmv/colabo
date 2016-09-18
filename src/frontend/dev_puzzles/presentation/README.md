@@ -33,6 +33,41 @@ var plugins = {
 
 Presentation puzzle provides possibility for presenting nodes as set of slides that you can present in a similar way as regular presentation application (Microsoft Power Point, ...)
 
+## Patching
+
+remove:
+```css
+.reveal h6 {
+  text-transform: uppercase;
+}
+```
+
+update:
+```css
+.reveal h1 {
+  font-size: 2em; }
+
+.reveal h2 {
+  font-size: 1.7em; }
+
+.reveal h3 {
+  font-size: 1.4em; }
+
+.reveal h4 {
+  font-size: 1.2em; }
+```
+
+update:
+```css
+.reveal p {
+  margin: 20px 0;
+  line-height: 1.2; 
+  text-align: justify;
+  font-size: 0.8em;
+}
+
+```
+
 ## States
 
 This are 3 states of presentation puzzle

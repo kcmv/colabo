@@ -819,7 +819,7 @@ knalledgeMapServices.factory('KnalledgeEdgeService', ['$injector', '$resource', 
 
 					KnAllEdgeRealTimeService.emit(KnRealTimeEdgeUpdatedEventName, change); //edgeFromServer);
 				}
-				callback(true);
+				if(callback) callback(true);
 			},
 			function(error){
 				//console.error('EDGE: UPDATE: ',error,' for ',kNodeForServer);
@@ -2644,6 +2644,30 @@ knalledgeMapServices.provider('KnAllEdgeSelectItemService', {
 						for(var i in this.itemsDescs){
 							var item = this.itemsDescs[i];
 							if(item.kNode.name.toLowerCase().indexOf(nameSubStr) > -1){
+								returnedItems.push(item);
+							}
+						}
+						break;
+				}
+				return returnedItems;
+			},
+
+			getItemsDescsByDataContent: function(search){
+				search = search.toLowerCase();
+				var returnedItems = [];
+				switch(this.itemType){
+					case "kNode":
+						for(var i in this.itemsDescs){
+							var item = this.itemsDescs[i];
+							if(item.dataContent && item.dataContent.property && item.dataContent.property.toLowerCase().indexOf(search) > -1){
+								returnedItems.push(item);
+							}
+						}
+						break;
+					case "vkNode":
+						for(var i in this.itemsDescs){
+							var item = this.itemsDescs[i];
+							if(item.kNode.dataContent && item.kNode.dataContent.property && item.kNode.dataContent.property.toLowerCase().indexOf(search) > -1){
 								returnedItems.push(item);
 							}
 						}

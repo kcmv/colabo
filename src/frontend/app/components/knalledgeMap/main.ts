@@ -24,13 +24,11 @@ import {ChangeService} from '../change/change.service';
 
 declare var window;
 declare var Config;
+declare var knalledge;
 
 // import {DbAuditService} from './dbAudit.service';
 // import {Change} from '../change/change';
 // import {ChangeService} from "../change/change.service";
-
-// TODO: probable remove later, this is just to trigger starting the service
-// import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
 
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
@@ -118,6 +116,9 @@ export class KnalledgeMapMain implements OnInit{
     private knalledgeMapVOsService;
     private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
     private SHOW_INFO: string = "SHOW_INFO";
+    private ibisActionPluginInfo:any;
+    private mapStructure:any;
+    private mapUpdate:Function;
 
     @ViewChild('infoDialog') private infoDialog: MdDialog;
 
@@ -129,8 +130,11 @@ export class KnalledgeMapMain implements OnInit{
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray//,
+        @Inject('CollaboPluginsService') private collaboPluginsService
         // public dbAuditService: DbAuditService
         ) {
+        let that:KnalledgeMapMain = this;
+
         console.log('[KnalledgeMapMain] loaded');
         this.viewConfig = knalledgeMapViewService.get().config;
         this.policyConfig = knalledgeMapPolicyService.get().config;
@@ -157,6 +161,48 @@ export class KnalledgeMapMain implements OnInit{
         this.globalEmitterServicesArray.register(this.SHOW_INFO);
         this.globalEmitterServicesArray.get(this.SHOW_INFO).subscribe('KnalledgeMapMain',
         this.showInfo.bind(this));
+
+
+     // access to CF internals through plugin mechanism
+      this.ibisActionPluginInfo = {
+        name: "puzzles.ibis.action",
+        components: {
+
+        },
+        references: {
+          map: {
+            items: {
+              mapStructure: {
+              }
+            },
+            $resolved: false,
+            callback: null,
+            $promise: null
+          }
+        },
+        apis: {
+          map: {
+            items: {
+              update: null,
+            },
+            $resolved: false,
+            callback: null,
+            $promise: null
+          }
+        }
+      };
+
+      this.ibisActionPluginInfo.references.map.callback = function() {
+        that.ibisActionPluginInfo.references.map.$resolved = true;
+        that.mapStructure = that.ibisActionPluginInfo.references.map.items.mapStructure;
+      };
+
+      this.ibisActionPluginInfo.apis.map.callback = function() {
+        that.ibisActionPluginInfo.apis.map.$resolved = true;
+        that.mapUpdate = that.ibisActionPluginInfo.apis.map.items.update;
+      };
+
+      this.collaboPluginsService.registerPlugin(this.ibisActionPluginInfo);
     };
 
     // testMain() {
@@ -180,6 +226,60 @@ export class KnalledgeMapMain implements OnInit{
       //         JSON.stringify(error))
       //     );
     // }
+
+    onQuestionItem() {
+      if (!this.mapStructure.getSelectedNode()){
+        window.alert('You have to select a node which you are addressing your question to.');
+        return; // no parent node selected
+      }
+      if(this.mapStructure){
+        var sourceNode = this.mapStructure.getSelectedNode();
+
+        var vkNode = new knalledge.VKNode();
+    	  vkNode.kNode = new knalledge.KNode();
+        vkNode.kNode.type = knalledge.KNode.TYPE_IBIS_QUESTION;
+        //vkNode.kNode.name = "...";
+
+        var vkEdge = new knalledge.VKEdge();
+        vkEdge.kEdge = new knalledge.KEdge();
+        //vkEdge.kEdge.type = knalledgeEdgeType;
+
+        this.mapStructure.createNodeWithEdge(sourceNode, vkEdge, vkNode, function(){
+          if(this.mapUpdate){
+            this.mapUpdate();
+          }
+          //this.....nodeSelected(vkNode);
+          //this.setEditing(newNode);
+        }.bind(this));
+      }
+    }
+
+    onCommentItem() {
+      if (!this.mapStructure.getSelectedNode()){
+        window.alert('You have to select a node which you are addressing your comment to.');
+        return; // no parent node selected
+      }
+      if(this.mapStructure){
+        var sourceNode = this.mapStructure.getSelectedNode();
+
+        var vkNode = new knalledge.VKNode();
+    	  vkNode.kNode = new knalledge.KNode();
+        vkNode.kNode.type = knalledge.KNode.TYPE_IBIS_COMMENT;
+        //vkNode.kNode.name = "...";
+
+        var vkEdge = new knalledge.VKEdge();
+        vkEdge.kEdge = new knalledge.KEdge();
+        //vkEdge.kEdge.type = knalledgeEdgeType;
+
+        this.mapStructure.createNodeWithEdge(sourceNode, vkEdge, vkNode, function(){
+          if(this.mapUpdate){
+            this.mapUpdate();
+          }
+          //this.....nodeSelected(vkNode);
+          //this.setEditing(newNode);
+        }.bind(this));
+      }
+    }
 
     customClose(interesting: boolean) {
         if (interesting) {

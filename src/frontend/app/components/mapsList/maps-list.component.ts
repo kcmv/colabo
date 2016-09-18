@@ -32,9 +32,6 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 //TODO: import {KMap} from '../../js/knalledge/kMap';
 //TODO: import {KNode} from '../../js/knalledge/kNode';
 
-// TODO: probable remove later, this is just to trigger starting the service
-// import {BroadcastManagerService} from '../collaboBroadcasting/broadcastManagerService';
-
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
  *
@@ -524,7 +521,10 @@ export class MapsList implements OnInit {
         var url = URL.createObjectURL(new Blob([data]));
         var a = document.createElement('a');
         a.href = url;
-        a['download'] = map.map.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.json';
+        let d = new Date();
+        let dStr = d.getFullYear() + '_' + (d.getMonth()+1) + '_' + d.getDate() + '_' +
+        d.getHours() + '_' + d.getMinutes() + '_' + d.getSeconds();
+        a['download'] = map.map.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + ' (' + dStr + ').json';
         a.target = '_blank';
         a.click();
     }

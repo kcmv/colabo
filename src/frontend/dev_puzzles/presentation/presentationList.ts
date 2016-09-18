@@ -11,119 +11,126 @@ import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/Gl
 import {CfPuzzlesPresentationServices} from './cf.puzzles.presentation.service'
 
 @Component({
-		selector: 'presentation-list',
-		providers: [
-		],
-		directives: [
-			MATERIAL_DIRECTIVES,
-			NgIf, FORM_DIRECTIVES,
-			MD_INPUT_DIRECTIVES
-	 ],
-		moduleId: module.id,
-		templateUrl: 'partials/presentation-list.tpl.html',
-		styles: [`
-		`]
+    selector: 'presentation-list',
+    providers: [
+    ],
+    directives: [
+      MATERIAL_DIRECTIVES,
+      NgIf, FORM_DIRECTIVES,
+      MD_INPUT_DIRECTIVES
+   ],
+    moduleId: module.id,
+    templateUrl: 'partials/presentation-list.tpl.html',
+    styles: [`
+    `]
 })
 export class PresentationList implements OnInit, OnDestroy {
-	public items:Array<any> = [];
-	public commandsVisible:boolean = true;
-	public selectedSlide; // :knalledge.VKNode
-	private viewConfig:any;
-	private policyConfig:any;
-	private changeSelectedNodeEvent: string = "changeSelectedNodeEvent";
-	private selectedNodeChangedEvent: string = "selectedNodeChangedEvent";
+  public items:Array<any> = [];
+  public commandsVisible:boolean = true;
+  public selectedSlide; // :knalledge.VKNode
+  private viewConfig:any;
+  private policyConfig:any;
+  private changeSelectedNodeEvent: string = "changeSelectedNodeEvent";
+  private selectedNodeChangedEvent: string = "selectedNodeChangedEvent";
 
-	constructor(
-		private service:CfPuzzlesPresentationServices,
-		@Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
-		@Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
-		@Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
-	) {
-			// this.items = this.service.getTypes();
-			// this.selectedItem = this.service.getActiveType();
-			this.viewConfig = knalledgeMapViewService.get().config;
-			this.policyConfig = knalledgeMapPolicyService.get().config;
-			this.globalEmitterServicesArray.register(this.changeSelectedNodeEvent);
-			this.globalEmitterServicesArray.register(this.selectedNodeChangedEvent);
-			this.globalEmitterServicesArray.get(this.selectedNodeChangedEvent).subscribe(
-			 'cf.puzzles.presentation.PresentationList', this.selectPotentialSlide.bind(this));
-	}
+  constructor(
+    private service:CfPuzzlesPresentationServices,
+    @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
+    @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
+    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+  ) {
+      // this.items = this.service.getTypes();
+      // this.selectedItem = this.service.getActiveType();
+      this.viewConfig = knalledgeMapViewService.get().config;
+      this.policyConfig = knalledgeMapPolicyService.get().config;
+      this.globalEmitterServicesArray.register(this.changeSelectedNodeEvent);
+      this.globalEmitterServicesArray.register(this.selectedNodeChangedEvent);
+    	this.globalEmitterServicesArray.get(this.selectedNodeChangedEvent).subscribe(
+       'cf.puzzles.presentation.PresentationList', this.selectPotentialSlide.bind(this));
+  }
 
-	ngOnInit() {
-		this.service.enable();
-	}
+  ngOnInit() {
+    this.service.enable();
+  }
 
-	ngOnDestroy() {
-		this.service.disable();
-	}
+  ngOnDestroy() {
+    this.service.disable();
+  }
 
-	isPresentationAvailable():boolean {
-		return this.service.isPresentationAvailable();
-	}
+  isPresentationAvailable():boolean {
+    return this.service.isPresentationAvailable();
+  }
 
-	createPresentation():any {
-		return this.service.createPresentation();
-	}
+  createPresentation():any {
+    return this.service.createPresentation();
+  }
 
-	selectedItem(){ // :knalledge.VKNode
-		var selectedItem = this.service.getSelectedItem();
-		return selectedItem;
-	}
+  selectedItem(){ // :knalledge.VKNode
+    var selectedItem = this.service.getSelectedItem();
+    return selectedItem;
+  }
 
-	isSelectedItemInSlides():boolean{
-		var selectedItem = this.service.getSelectedItem();
-		if(!selectedItem) return false;
-		return this.service.isNodeInSlides(selectedItem);
-	}
+  isSelectedItemInSlides():boolean{
+    var selectedItem = this.service.getSelectedItem();
+    if(!selectedItem) return false;
+    return this.service.isNodeInSlides(selectedItem);
+  }
 
-	getSlides(){
-		return this.service.getSlides();
-	}
+  getSlides(){
+    return this.service.getSlides();
+  }
 
-	addSlide(){
-		this.service.addSlide();
-	}
+  addSlide(){
+    this.service.addSlide();
+  }
 
-	removeSlide(){
-		this.service.removeSlide();
-	}
+  removeSlide(){
+    this.service.removeSlide();
+  }
 
-	isFirst():boolean {
-		if(!this.selectedSlide) return false;
-		let slides = this.getSlides();
-		if(slides.length <= 0) return false;
-		return this.selectedSlide === this.getSlides()[0];
-	}
+  isFirst():boolean {
+    if(!this.selectedSlide) return false;
+    let slides = this.getSlides();
+    if(slides.length <= 0) return false;
+    return this.selectedSlide === this.getSlides()[0];
+  }
 
-	isLast ():boolean {
-		if(!this.selectedSlide) return false;
-		let slides = this.getSlides();
-		if(slides.length <= 0) return false;
-		return this.selectedSlide === slides[slides.length-1];
-	}
+  isLast ():boolean {
+    if(!this.selectedSlide) return false;
+    let slides = this.getSlides();
+    if(slides.length <= 0) return false;
+    return this.selectedSlide === slides[slides.length-1];
+  }
 
-	showPresentation(){
-		this.service.showPresentation();
-	}
+  slideMoveUp (){
+    this.service.slideMoveUp();
+  }
 
-	// this is a callback function that is called if node in the map is changed
-	// it checkes if the newely selected node is in slides and if it is it ask to swich to it
-	private selectPotentialSlide (slide) {
-		if(this.service.isNodeInSlides(slide)){
-			// we set the dontBroadcastEvent parameter to to true, to avoid cycle of recursion
-			this.selectSlide(slide, true);
-		}
-	}
+  slideMoveDown (){
+    this.service.slideMoveDown();	
+  }
 
-	// select slide in the slides list
-	// if dontBroadcastEvent == false it will broadcast node change so the rest of the system can change their state accordingly
-	selectSlide (slide, dontBroadcastEvent?:boolean) {
-		this.selectedSlide = slide;
+  showPresentation(){
+    this.service.showPresentation();
+  }
 
-		if(!dontBroadcastEvent) this.globalEmitterServicesArray.get(this.changeSelectedNodeEvent).broadcast('cf.puzzles.presentation.PresentationList', this.selectedSlide);
-	}
+  showPresentationFromCurrentSlide(){
+    this.service.showPresentationFromCurrentSlide();
+  }
 
-	hideShowCommands(){
-		this.commandsVisible = !this.commandsVisible;
-	}
+  selectPotentialSlide (slide) {
+    if(this.service.isNodeInSlides(slide)){
+      this.selectSlide(slide, true);
+    }
+  }
+
+  selectSlide (slide, dontBroadcastEvent?:boolean) {
+    this.selectedSlide = slide;
+
+    if(!dontBroadcastEvent) this.globalEmitterServicesArray.get(this.changeSelectedNodeEvent).broadcast('cf.puzzles.presentation.PresentationList', this.selectedSlide);
+  }
+
+  hideShowCommands(){
+    this.commandsVisible = !this.commandsVisible;
+  }
 }

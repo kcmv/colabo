@@ -216,7 +216,9 @@ Map.prototype.init = function() {
 			/* update(source, callback) */
 			update: this.mapVisualization.update.bind(this.mapVisualization),
 			positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
-			nodeSelected: this.nodeSelected.bind(this)
+			nodeSelected: this.nodeSelected.bind(this),
+			disableKeyboard: this.keyboardInteraction.disable.bind(this.keyboardInteraction),
+			enableKeyboard: this.keyboardInteraction.enable.bind(this.keyboardInteraction)
 		}
 	});
 	this.collaboPluginsService.provideApi("mapInteraction", {
@@ -643,7 +645,7 @@ Map.prototype.processData = function(mapData, selectedKNodeId, callback) {
 		selectedVKNode = this.mapStructure.rootNode;
 	}
 	// we do this only if we created an mapStructure in our class
-	if(!this.mapStructureExternal) this.mapStructure.processData(mapData, selectedKNodeId);
+	if(!this.mapStructureExternal) this.mapStructure.processData(mapData, undefined, undefined, selectedKNodeId);
 	else{
 		// set default selected node
 		if(selectedVKNode){

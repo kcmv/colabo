@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct("MapLayoutGraph", mapStructure, collaboPluginsService, configNodes, configTree, clientApi, knalledgeState, knAllEdgeRealTimeService);
+var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
+	this.construct("MapLayoutGraph", mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService);
 	this.graph = null;
 };
 
@@ -36,8 +36,10 @@ MapLayoutGraph.prototype._super = function(){
 // };
 
 MapLayoutGraph.prototype.init = function(mapSize, scales){
-	this.dom = this.clientApi.getDom();
+	// this.dom = this.upperApi.getDom();
 	this.scales = scales;
+	this.scaleNodeSizes = null;
+	this.scaleEdgeDistances = null;
 
 	//this.tree = d3.layout.tree();
 		// we invert x and y since tree grows to the right
@@ -53,6 +55,7 @@ MapLayoutGraph.prototype.init = function(mapSize, scales){
 	//this.tree.children(this.getChildren.bind(this));
 
 	// realtime listener registration
+	/*
 	var mapLayoutPluginOptions = {
 		name: "mapLayout",
 		events: {
@@ -60,6 +63,7 @@ MapLayoutGraph.prototype.init = function(mapSize, scales){
 	};
 	mapLayoutPluginOptions.events[MapLayout.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
 	this.knAllEdgeRealTimeService.registerPlugin(mapLayoutPluginOptions);
+	*/
 };
 
 // https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal
@@ -112,11 +116,12 @@ MapLayoutGraph.prototype.diagonal = function(that){
 	return diagonal;
 };
 
-MapLayoutGraph.prototype.getAllNodesHtml = function(){
-	return this.dom.divMapHtml ? this.dom.divMapHtml.selectAll("div.node_graph_html") : null;
-};
+// MapLayoutGraph.prototype.getAllNodesHtml = function(){
+// 	return this.dom.divMapHtml ? this.dom.divMapHtml.selectAll("div.node_graph_html") : null;
+// };
 
 // It calculates node size across all node edges (both visible and hidden)
+// and updates node sizes
 MapLayoutGraph.prototype.calculateNodeWeights = function(){
 	var newighbourlinks, weightSum;
 
@@ -140,17 +145,61 @@ MapLayoutGraph.prototype.calculateNodeWeights = function(){
 
 };
 
-// It calculates node size across all node edges (both visible and hidden)
-MapLayoutGraph.prototype.updateNodeSizes = function(){
+// It finds the edge weights across all edges (both visible and hidden)
+// and updates node sizes
+MapLayoutGraph.prototype.findEdgeWeightsRange = function(){
+	var newighbourlinks, weightSum;
+
+	if(!this.links || this.links.length<=0) return;
+
+	this.edgeWeightMin = Number.MAX_VALUE;
+	this.edgeWeightMax = Number.MIN_VALUE;
+	for(var i=0; i<this.links.length; i++){
+		var edge = this.links[i].kEdge;
+		if(this.edgeWeightMin > edge.value) this.edgeWeightMin = edge.value;
+		if(this.edgeWeightMax < edge.value) this.edgeWeightMax = edge.value;
+	}
+};
+
+// updates scale scaleNodeSizes in accordance to this.nodeWeightSumMin, this.nodeWeightSumMax
+MapLayoutGraph.prototype.updateScaleNodeSizes = function(){
 	var minSize = 5;
 	var maxSize = 50;
-	var scale = d3.scale.linear()
+	this.scaleNodeSizes = d3.scale.linear()
 		.domain([this.nodeWeightSumMin, this.nodeWeightSumMax])
 		.range([minSize, maxSize]);
+};
+
+// updates scale scaleEdgeDistances in accordance to this.edgeWeightMin, this.edgeWeightMax
+MapLayoutGraph.prototype.updateScaleEdgeDistances = function(){
+	this.findEdgeWeightsRange();
+	var minDistance = 100;
+	var maxDistance = 300;
+	this.scaleEdgeDistances = d3.scale.linear()
+		.domain([this.edgeWeightMin, this.edgeWeightMax])
+		.range([maxDistance, minDistance]);
+};
+
+// It sets node size for all nodes (both visible and hidden)
+// the smallest node will be set to minSize and biggest will be set to maxSize
+MapLayoutGraph.prototype.updateNodeSizes = function(){
+	this.updateScaleNodeSizes();
 
 	for(var i=0; i<this.nodes.length; i++){
 		var node = this.nodes[i];
-		node.size = scale(node.weightSum);
+		node.size = this.scaleNodeSizes(node.weightSum);
+	}
+};
+
+// It sets edge distances for all edges (both visible and hidden)
+// the most weighted edge will be set to minDistance and least distances will be set to maxDistance
+MapLayoutGraph.prototype.updateEdgeDistances = function(){
+	this.updateScaleEdgeDistances();
+
+	for(var i=0; i<this.links.length; i++){
+		var link = this.links[i];
+		var edge = link.kEdge;
+		link.distance = this.scaleEdgeDistances(edge.value);
 	}
 };
 
@@ -246,6 +295,7 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 
 	if(this.nodes.length==0){return;}
 
+	// positions node 
 	for(var i =0; i<this.nodes.length; i++){
 		var vkNode = this.nodes[i];
 		if(!("x" in vkNode) || vkNode.x == undefined) vkNode.x = 0;
@@ -273,23 +323,37 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 	// this.printTree(this.nodes);
 };
 
+// force graph for nodes and links in the graph
 MapLayoutGraph.prototype.distribute = function() {
+	var that = this;
+
 	//this.links = []; //TODO remove
 	var width = 960, height = 600; //TODO: set somewhere
+
+	this.updateEdgeDistances();
 
 	this.graph = d3.layout.force()
 		.nodes(this.nodes) //.nodes(d3.values(this.nodes))
 		.links(this.links)//.links(this.links)
 		.size([width, height])
-		.linkDistance(300)
+		// .linkDistance(300)
+		.linkDistance(function(link, i){
+			return link.distance;
+		})
 		.charge(-100);
+
 
 	var tick = function () {
 		// TODO: add updating nodes/edges positions
 	};
 
+	var ended = function() {
+		that.upperApi.update();
+	};
+
 	this.graph
 		.on("tick", tick)
+		.on("end", ended)
 		.start();
 
 	// calculating node boundaries
@@ -297,6 +361,11 @@ MapLayoutGraph.prototype.distribute = function() {
 		this.MoveNodesToPositiveSpace(this.nodes);
 	}
 };
+
+// stops force graph
+MapLayoutGraph.prototype.stopDistribution = function() {
+	if(this.graph) this.graph.stop();
+}
 
 MapLayoutGraph.prototype.printTree = function(nodes) {
 	var minX = 0, maxX = 0, minY = 0, maxY = 0;
@@ -322,6 +391,7 @@ MapLayoutGraph.prototype.printTree = function(nodes) {
 	}
 };
 
+// ind maximal negative positions across all nodes and shift all nodes by that amount
 MapLayoutGraph.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	var minX = 0, maxX = 0, minY = 0, maxY = 0;
 	var node;
@@ -342,7 +412,7 @@ MapLayoutGraph.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	}
 	maxX += -minX + this.configTree.margin.bottom;
 	maxY += -minY + this.configTree.margin.right;
-	this.clientApi.setDomSize(maxY, maxX);
+	this.upperApi.setDomSize(maxY, maxX);
 };
 
 }()); // end of 'use strict';

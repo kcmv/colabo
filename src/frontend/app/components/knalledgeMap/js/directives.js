@@ -71,8 +71,18 @@
 				// that will pull/provide services across the system
 				// depending on available (which is configurabe) components/plugins
 				// and services
-				var IbisTypesService = $injector.get('IbisTypesService');
-				var NotifyService = $injector.get('NotifyService');
+				try {
+					// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
+					var IbisTypesService = $injector.get('IbisTypesService');
+				} catch (err) {
+					console.warn("Error while trying to retrieve the IbisTypesService service:", err);
+				}
+				try {
+					// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
+					var NotifyService = $injector.get('NotifyService');
+				} catch (err) {
+					console.warn("Error while trying to retrieve the NotifyService service:", err);
+				}
 				var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 
 				try {
@@ -580,23 +590,23 @@
 						 * @return {boolean}
 						 */
 						var checkData = function(data) {
-							if (!model) return false;
-							if (!('map' in model)) {
+							if (!data) return false;
+							if (!('map' in data)) {
 								console.warn("[directive:knalledgeMap:checkData] strange data: ", data);
 								return false;
 							};
 							return true;
 						}
 
-						var setData = function(model) {
-							if (!checkData(model)) return;
+						var setData = function(data) {
+							if (!checkData(data)) return;
 							var selectedKNodeId = null;
 							if ($routeParams.node_id) selectedKNodeId = $routeParams.node_id;
 							if ($scope.mapData && $scope.mapData.selectedNode) {
-								selectedKNodeId = $scope.mapData.selectedNode;
+								selectedKNodeId = $scope.mapData.selectedNode._id;
 							}
 
-							$scope.knalledgeMap.processData(model, selectedKNodeId, function() {
+							$scope.knalledgeMap.processData(data, selectedKNodeId, function() {
 								// we call the second time since at the moment dimensions of nodes (images, ...) are not known at the first update
 								// TODO: we need to avoid this and reduce map processing
 								// $scope.knalledgeMap.update();
@@ -648,7 +658,7 @@
 
 						var delayedFunc = function() {
 							init();
-							if (checkData(model)) {
+							if (checkData($scope.mapData)) {
 								// console.warn('have $scope.mapData:' + JSON.stringify($scope.mapData));
 								setData($scope.mapData);
 							} else {
@@ -734,6 +744,7 @@
 							$scope.subscriptions.push(GlobalEmitterServicesArray.get(knalledgeMapUpdateEvent).subscribe('knalledgeMap', knalledgeMapUpdate));
 
 							var viewConfigChangedEvent = "viewConfigChangedEvent";
+							GlobalEmitterServicesArray.register(viewConfigChangedEvent);
 							$scope.subscriptions.push(GlobalEmitterServicesArray.get(viewConfigChangedEvent).subscribe('knalledgeMap', viewConfigChanged));
 
 							var toolsChange = function(eventName, msg) {
@@ -1359,6 +1370,20 @@
 					console.log("getItemsDescsByName(%s)", subName);
 					$scope.itemType = KnAllEdgeSelectItemService.itemType;
 					$scope.items = KnAllEdgeSelectItemService.getItemsDescsByName(subName);
+					var dataContentItems = KnAllEdgeSelectItemService.getItemsDescsByDataContent(subName);
+					var found = false;
+					for(var i=0; i< dataContentItems.length; i++){ //there must be no duplicates and both search methods can return some same elements
+						found = false;
+						for(var j=0; j< $scope.items.length; j++){
+							if(dataContentItems[i] == $scope.items[j]){
+								found = true;
+								continue;
+							}
+						}
+						if(!found){
+							$scope.items.push(dataContentItems[i]);
+						}
+					}
 					console.log("$scope.items IN: " + $scope.items);
 				};
 

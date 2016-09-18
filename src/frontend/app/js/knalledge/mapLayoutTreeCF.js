@@ -111,7 +111,7 @@ MapLayoutTreeCF.prototype.generateNodes = function(source){
 		});
 	}while(parent = nodesToProcess.shift());
 
-	/* NOTE: It works wifth fixed (max-)width nodes only
+	/* NOTE: It works with fixed (max-)width nodes only
 	 * calculating absolute node positions
 	 * propagating relative positions in the relationship to parent of parent, ...
 	 */

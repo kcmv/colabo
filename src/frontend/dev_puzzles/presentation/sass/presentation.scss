@@ -3,8 +3,17 @@
 .presentation{
 }
 
+presentation-list{
+  height: inherit;
+}
+
 .presentation-list{
+    height: inherit;
     .slides{
+      overflow-y: scroll;
+      // TODO: figure this out
+      height: 130%;
+
       .slide{
         text-align: center;
         font-weight: bold;
@@ -16,6 +25,8 @@
         width: 10em;
         // min-width: 5em;
         height: 3em;
+        font-size: 0.7em;
+        overflow-y: scroll;
         background-color: #ffffee;
         border: 2px solid #bfbf30;
         &.active-selection{
