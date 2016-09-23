@@ -273,7 +273,7 @@ MapLayoutTree.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	}
 	maxX += -minX + this.configTree.margin.bottom;
 	maxY += -minY + this.configTree.margin.right;
-	this.upperApi.setDomSize(maxY, maxX);
+	this.upperApi.setDomSize(maxX, maxY);
 };
 
 }()); // end of 'use strict';

@@ -222,7 +222,7 @@
 									},
 									sizing: {
 										setNodeSize: true,
-										nodeSize: [300, 25]
+										nodeSize: [300, 50]
 									},
 									margin: {
 										top: 25,
@@ -231,7 +231,7 @@
 										bottom: 500
 									},
 									childrenGroup: {
-										padding: 20
+										padding: 30
 									},
 									depth: {
 										padding: 50
