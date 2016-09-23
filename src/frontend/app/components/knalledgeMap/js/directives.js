@@ -196,10 +196,8 @@
 										show: true,
 										dimensions: {
 											sizes: {
-												y: 10,
-												x: 50,
-												width: 150,
-												height: 40
+												width: 200,
+												height: 20
 											}
 										}
 									},
@@ -216,19 +214,27 @@
 								tree: {
 									viewspec: "viewspec_tree", // "viewspec_tree" // "viewspec_manual",
 									selectableEnabled: false,
+									// 0 - horizontal, 1 - vertical
+									orientation: 0,
 									fixedDepth: {
 										enabled: false,
-										levelDepth: 300
+										levelDepth: 100
 									},
 									sizing: {
 										setNodeSize: true,
-										nodeSize: [200, 100]
+										nodeSize: [300, 25]
 									},
 									margin: {
-										top: 35,
-										left: 25,
+										top: 25,
+										left: 100,
 										right: 100,
 										bottom: 500
+									},
+									childrenGroup: {
+										padding: 20
+									},
+									depth: {
+										padding: 50
 									},
 									scaling: {
 										x: 0.5,

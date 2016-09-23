@@ -79,24 +79,22 @@ MapLayoutTree.prototype.diagonal = function(that, isShowingFullSizeImage){
 		// here we are creating object with just necessary parameters (x, y)
 		var point = {x: d.source.x, y: d.source.y};
 
-		// we adjust source points to scale
 		point.x = that.scales.x(point.x);
 		point.y = that.scales.y(point.y);
-
-		// if our node is not just a punctual entity (but it has width)
 		if(!that.configNodes.punctual){
+			// since our node is not just a punctual entity, but it has width, 
 			// we need to adjust diagonals' source and target points
 			// by shifting points from the center of node to the edges of node
-			// we deal here with y-coordinates
-			// (because our final tree is rotated to propagete across the x-axis) instead of y-axis
-			// (you can see that in the .project() function
-			if(d.source.y < d.target.y){
+			if(d.source.x < d.target.x){
 				var width = (isShowingFullSizeImage(d)) ?
-					d.source.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
-				point.y += that.scales.width(width) + 0;
+					d.source.kNode.dataContent.image.width/2 : 
+					that.configNodes.html.dimensions.sizes.width/2;
+				point.x += that.scales.width(width) + 0;
 			}
 		}
-		return point;
+		// temporary inversion to make it visually nicer
+		return {x: point.y, y: point.x};
+		// return point;
 	}.bind(that);
 
 	var diagonalTarget = function(d){
@@ -104,21 +102,22 @@ MapLayoutTree.prototype.diagonal = function(that, isShowingFullSizeImage){
 		var point = {x: d.target.x, y: d.target.y};
 		point.x = that.scales.x(point.x);
 		point.y = that.scales.y(point.y);
-
 		if(!that.configNodes.punctual){
-			if(d.target.y > d.source.y){
+			if(d.target.x > d.source.x){
 				var width = (isShowingFullSizeImage(d)) ?
-					d.target.kNode.dataContent.image.width/2 : that.configNodes.html.dimensions.sizes.width/2;
-				point.y -= that.scales.width(width) + 0;
+					d.target.kNode.dataContent.image.width/2 : 
+					that.configNodes.html.dimensions.sizes.width/2;
+				point.x -= that.scales.width(width) + 0;
 			}
 		}
-		return point;
+		// temporary inversion to make it visually nicer
+		return {x: point.y, y: point.x};
+		// return point;
 	}.bind(that);
 	var diagonal = d3.svg.diagonal()
 	.source(diagonalSource)
 	.target(diagonalTarget)
-	// our final tree is rotated to propagete across the x-axis, instead of y-axis
-	// therefor we are swapping x and y coordinates here
+	// temporary inversion to make it visually nicer
 	.projection(function(d) {
 		return [d.y, d.x];
 	});
@@ -170,7 +169,12 @@ MapLayoutTree.prototype.generateTree = function(source){
 
 		var viewspec = this.configTree.viewspec;
 		var sizes = this.configNodes.html.dimensions.sizes;
+		var temp;
 		this.nodes.forEach(function(d) {
+			temp = d.x;
+			d.x = d.y;
+			d.y = temp;
+
 			// Normalize for fixed-depth.
 			if(that.configTree.fixedDepth.enabled){
 				var levelDepth = 300;

@@ -88,22 +88,26 @@ function getNodeWidth(d){
 		var width = null;
 		if(this.knalledgeMapViewService.provider.config.nodes.showImages){
 			var width = isShowingFullSizeImage.bind(this)(d) ?
-				d.kNode.dataContent.image.width : this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth;
+				d.kNode.dataContent.image.width : 
+					this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth;
 		}
 		// if width is not set or if it is narrower than
 		// this.configNodes.html.dimensions.sizes.width
-		if(this.configNodes.html.dimensions &&  this.configNodes.html.dimensions.sizes &&  this.configNodes.html.dimensions.sizes.width && (width === null || width < this.configNodes.html.dimensions.sizes.width)) {
+		if(this.configNodes.html.dimensions &&  this.configNodes.html.dimensions.sizes &&  
+			this.configNodes.html.dimensions.sizes.width && 
+			(width === null || width < this.configNodes.html.dimensions.sizes.width))
+		{
 			width = this.configNodes.html.dimensions.sizes.width;
 		}
 		return this.scales.width(width) + "px";
 }
 
 /**
-* Calculates left margin of a node
-* @function getNodeMarginLeft
+ * Calculates left margin of a node
+ * @function getNodeMarginLeft
  * 	@param {vkNode} d node that we are calculating
  * 	the left margin for
- * */
+ */
 function getNodeMarginLeft(d){
 		// centering the node (set margin to half the width of the node)
 		var width = null;
@@ -165,6 +169,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	var nodeHtml = this.dom.divMapHtml.selectAll("div.node_html")
 		.data(this.mapLayout.nodes, function(d) { return d.id; });
 
+	// set selectability of node
 	nodeHtml.classed({
 		"node_unselectable": function(d){
 			return (!d.kNode.visual || !d.kNode.visual.selectable) ?
@@ -177,9 +182,11 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	});
 
 	// Enter the nodes
-	// we create a div that will contain both visual representation of a node
+	// we create a div that will contain visual representation of a node
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", function(d){
+				// check if node is relevant for an active user
+				// TODO: this things are necessary to check at node load, whats update, and who update
 				var userHows = that.rimaService.howAmIs;
 				var nodeWhats = (d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats) ?
 					d.kNode.dataContent.rima.whats : [];
@@ -211,19 +218,6 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	// (it is either parent or another precessor)
 	nodeHtmlEnter
 		.style("left", function(d) {
-			var y = null;
-			if(that.configTransitions.enter.animate.position){
-				if(that.configTransitions.enter.referToToggling){
-					y = source.y0;
-				}else{
-					y = d.parent ? d.parent.y0 : d.y0;
-				}
-			}else{
-				y = d.y;
-			}
-			return that.scales.y(y) + "px";
-		})
-		.style("top", function(d) {
 			var x = null;
 			if(that.configTransitions.enter.animate.position){
 				if(that.configTransitions.enter.referToToggling){
@@ -237,6 +231,19 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 			// console.log("[nodeHtmlEnter] d: %s, x: %s", d.kNode.name, x);
 			return that.scales.x(x) + "px";
 		})
+		.style("top", function(d) {
+			var y = null;
+			if(that.configTransitions.enter.animate.position){
+				if(that.configTransitions.enter.referToToggling){
+					y = source.y0;
+				}else{
+					y = d.parent ? d.parent.y0 : d.y0;
+				}
+			}else{
+				y = d.y;
+			}
+			return that.scales.y(y) + "px";
+		})
 		.classed({
 			"node_html_fixed": function(d){
 				return (!isShowingFullSizeImage.bind(that)(d)) ?
@@ -247,7 +254,11 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		.style("width", getNodeWidth.bind(this))
 		.style("margin-left", getNodeMarginLeft.bind(this));
 
-	nodeHtmlEnter.filter(function(d) { return that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image; })
+	// adds image
+	nodeHtmlEnter.filter(function(d) {
+		return that.knalledgeMapViewService.provider.config.nodes.showImages && 
+			d.kNode.dataContent && d.kNode.dataContent.image; 
+	})
 		.append("img")
 			.attr("src", function(d){
 				return d.kNode.dataContent.image.url;
@@ -264,10 +275,12 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 			})
 			;
 
+	// add node open/close status (little plus/minus) on the right side of the node
 	nodeHtmlEnter
 		.append("div")
 			.attr("class", "open_close_status");
 
+	// placeholder for a node author
 	// TODO: we cannot optimize
 	// if(this.rimaService.config.showUsers){
 		nodeHtmlEnter
@@ -281,6 +294,8 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	// 			.html(function(){
 	// 				return "&nbsp;"; //d._id; // d.kNode._id;
 	// 			});
+
+	// voting placeholders
 	nodeHtmlEnter
 		.append("div")
 			.attr("class", "vote_up");
@@ -289,6 +304,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		.append("div")
 			.attr("class", "vote_down");
 
+	// create node content (name, ...)
 	nodeHtmlEnter
 		.append("div")
 			.attr("class", "node_inner_html")
@@ -305,11 +321,14 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 			// 		return "moving: ";
 			// 	});
 
+	// if node entrance is animated we start with transparent node
+	// and make it opaque in the parallel with node appereance
 	if(this.configTransitions.enter.animate.opacity){
 		nodeHtmlEnter
 			.style("opacity", 1e-6);
 	}
 
+	// invite all plugins dealing with node creation (entering the "stage")
 	if(this.mapPlugins && this.mapPlugins.mapVisualizePlugins){
 		for(var pluginName in this.mapPlugins.mapVisualizePlugins){
 			var plugin = this.mapPlugins.mapVisualizePlugins[pluginName];
@@ -319,6 +338,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		}
 	}
 
+	// return created artefacts
 	var nodeHtmlDatasets = {
 		elements: nodeHtml,
 		enter: nodeHtmlEnter,
@@ -370,6 +390,8 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 			var isEditingNode = (that.mapStructure.getEditingNode() == d);
 			return !isEditingNode;
 		})
+
+		// update node name
 		.select(".node_inner_html span")
 			.html(function(d) {
 				return d.kNode.name;
@@ -505,16 +527,16 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 	// otherwise changes will happen imediatelly through nodeHtmlUpdate
 	(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
 		.style("left", function(d){
-			return that.scales.y(d.y) + "px";
+			return that.scales.x(d.x) + "px";
 		})
 		// .each("start", function(d){
 		// 	console.log("[nodeHtmlUpdateTransition] STARTED: d: %s, xCurrent: %s", d.kNode.name, d3.select(this).style("top"));
 		// })
 		.style("top", function(d){
-			var x = that.mapLayout.getHtmlNodePosition(d);
+			var y = that.mapLayout.getHtmlNodePosition(d);
 			// x = d.x;
 			// console.log("[nodeHtmlUpdateTransition] d: %s, xCurrent: %s, xNew: %s", d.kNode.name, d3.select(this).style("top"), x);
-			return that.scales.x(x) + "px";
+			return that.scales.y(y) + "px";
 		});
 
 	if(this.configTransitions.update.animate.opacity){
@@ -590,16 +612,16 @@ MapVisualizationTree.prototype.updateHtmlAfterTransitions = function(source, nod
 
 	(this.configTransitions.update.animate.position ? nodeHtmlUpdateTransition : nodeHtmlUpdate)
 		.style("left", function(d){
-			return that.scales.y(d.y) + "px";
+			return that.scales.x(d.x) + "px";
 		})
 		// .each("start", function(d){
 		// 	console.log("[nodeHtmlUpdateTransition] STARTED: d: %s, xCurrent: %s", d.kNode.name, d3.select(this).style("top"));
 		// })
 		.style("top", function(d){
-			var x = that.mapLayout.getHtmlNodePosition(d);
-			// x = d.x;
-			// console.log("[nodeHtmlUpdateTransition] d: %s, xCurrent: %s, xNew: %s", d.kNode.name, d3.select(this).style("top"), x);
-			return that.scales.x(x) + "px";
+			var y = that.mapLayout.getHtmlNodePosition(d);
+			// y = d.y;
+			// console.log("[nodeHtmlUpdateTransition] d: %s, yCurrent: %s, yNew: %s", d.kNode.name, d3.select(this).style("top"), y);
+			return that.scales.y(y) + "px";
 		})
 	  .each('end',  function(d){
 			that.positionNodeRelatedEntities(d);
@@ -662,11 +684,11 @@ MapVisualizationTree.prototype.updateSvgNodes = function(source) {
 					y = d.y;
 					x = d.x;
 			}
-			return "translate(" + that.scales.y(source.y0) + "," + that.scales.x(source.x0) + ")";
+			return "translate(" + that.scales.x(source.x0) + "," + that.scales.y(source.y0) + ")";
 		});
 		// .attr("transform", function(d) {
 		//   // return "translate(0,0)";
-		//   return "translate(" + d.y + "," + d.x + ")";
+		//   return "translate(" + d.x + "," + d.y + ")";
 		// });
 
 	// add visual representation of node
@@ -695,7 +717,7 @@ MapVisualizationTree.prototype.updateSvgNodes = function(source) {
 	// Transition nodes to their new position
 	(this.configTransitions.update.animate.position ? nodeUpdateTransition : nodeUpdate)
 		.attr("transform", function(d) {
-			return "translate(" + d.y + "," + d.x + ")";
+			return "translate(" + d.x + "," + d.y + ")";
 		});
 	(this.configTransitions.update.animate.opacity ? nodeUpdateTransition : nodeUpdate)
 			.style("opacity", 0.8);
@@ -733,7 +755,7 @@ MapVisualizationTree.prototype.updateSvgNodes = function(source) {
 							y = d.y;
 						}
 					}
-					return "translate(" + that.scales.y(y) + "," + that.scales.x(x) + ")";
+					return "translate(" + that.scales.x(x) + "," + that.scales.y(y) + ")";
 				});
 		}
 		nodeExitTransition
@@ -771,6 +793,19 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 			that.upperAPI.edgeClicked(d);
 		})
 		.style("left", function(d) {
+			var x;
+			if(that.configTransitions.enter.animate.position){
+				if(that.configTransitions.enter.referToToggling){
+					x = source.x0;
+				}else{
+					x = d.source.x0;
+				}
+			}else{
+				x = (d.source.x + d.target.x) / 2;
+			}
+			return that.scales.x(x) + "px";
+		})
+		.style("top", function(d) {
 			var y;
 			// if edges are animated
 			if(that.configTransitions.enter.animate.position){
@@ -784,19 +819,6 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 				y = (d.source.y + d.target.y) / 2;
 			}
 			return that.scales.y(y) + "px";
-		})
-		.style("top", function(d) {
-			var x;
-			if(that.configTransitions.enter.animate.position){
-				if(that.configTransitions.enter.referToToggling){
-					x = source.x0;
-				}else{
-					x = d.source.x0;
-				}
-			}else{
-				x = (d.source.x + d.target.x) / 2;
-			}
-			return that.scales.x(x) + "px";
 		});
 
 	// append link label name
@@ -839,19 +861,19 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 		// either transition ...
 		linkLabelHtmlUpdateTransition
 			.style("left", function(d){
-				return ((d.source.y + d.target.y) / 2) + "px";
+				return ((d.source.x + d.target.x) / 2) + "px";
 			})
 			.style("top", function(d){
-				return ((d.source.x + d.target.x) / 2) + "px";
+				return ((d.source.y + d.target.y) / 2) + "px";
 			});
 	}else{
 		// ... or non-transition linkLabel
 		linkLabelHtmlUpdate
 			.style("left", function(d){
-				return ((d.source.y + d.target.y) / 2) + "px";
+				return ((d.source.x + d.target.x) / 2) + "px";
 			})
 			.style("top", function(d){
-				return ((d.source.x + d.target.x) / 2) + "px";
+				return ((d.source.y + d.target.y) / 2) + "px";
 			});
 	}
 	// if opacity animated increase it to its final value
@@ -877,17 +899,6 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 		if(this.configTransitions.exit.animate.position){
 			linkLabelHtmlExitTransition
 				.style("left", function(d) {
-					var y = null;
-					// Transition edge to the source-of-action's new position
-					if(that.configTransitions.exit.referToToggling){
-						y = source.y;
-					}else{ // Transition edge to the parent node's new position
-						y = d.source.y;
-					}
-
-					return that.scales.y(y) + "px";
-				})
-				.style("top", function(d) {
 					var x = null;
 					// Transition edge to the source-of-action's new position
 					if(that.configTransitions.exit.referToToggling){
@@ -897,6 +908,17 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 					}
 
 					return that.scales.x(x) + "px";
+				})
+				.style("top", function(d) {
+					var y = null;
+					// Transition edge to the source-of-action's new position
+					if(that.configTransitions.exit.referToToggling){
+						y = source.y;
+					}else{ // Transition edge to the parent node's new position
+						y = d.source.y;
+					}
+
+					return that.scales.y(y) + "px";
 				});
 		}
 		// opacity

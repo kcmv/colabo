@@ -189,7 +189,7 @@
                 },
                 knalledge: {
                     path: [APP_SRC_STR, 'js/knalledge'],
-                    injectJs: ['mapLayout.js', 'mapVisualization.js', 'mapLayoutTree.js', 'mapLayoutTreeCF.js', 'mapVisualizationTree.js', 'mapLayoutFlat.js', 'mapVisualizationFlat.js', 'mapLayoutGraph.js', 'mapVisualizationGraph.js', 'mapManager.js', 'map.js']
+                    injectJs: ['mapLayout.js', 'mapVisualization.js', 'mapLayoutTree.js', 'mapLayoutTreeCF.js', 'mapVisualizationTree.js', 'mapVisualizationTreeCF.js', 'mapLayoutFlat.js', 'mapVisualizationFlat.js', 'mapLayoutGraph.js', 'mapVisualizationGraph.js', 'mapManager.js', 'map.js']
                 }
             },
 

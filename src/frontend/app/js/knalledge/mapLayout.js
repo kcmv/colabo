@@ -30,6 +30,7 @@ MapLayout.prototype.construct = function(className, mapStructure, collaboPlugins
 	this.nodeWeightSumMax = 0;
 
 	this.nodesToAvoid = [];
+	this.treeOrientation = this.configTree.orientation;
 
 	this.showUnknownEdges = false; // TODO: provide UX switch, migrate to external store
 	this.knownEdgeTypes = [knalledge.KEdge.TYPE_KNOWLEDGE];
@@ -195,17 +196,17 @@ MapLayout.prototype.viewspecChanged = function(target){
 };
 
 MapLayout.prototype.getHtmlNodePosition = function(d) {
-	var x = null;
+	var y = null;
 	if(this.configNodes.html.show){
-		x = d.x - d.height/2;
+		y = d.y - d.height/2;
 	}else{
-		x = d.x;
+		y = d.y;
 	}
 
-	if (isNaN(x) || x === null){
-		x = d.x;
+	if (isNaN(y) || y === null){
+		y = d.y;
 	}
-	return x;
+	return y;
 };
 
 }()); // end of 'use strict';

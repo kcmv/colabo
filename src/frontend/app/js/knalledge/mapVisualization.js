@@ -380,26 +380,26 @@
 
             var scaling = 1;
 
-            scales.x = d3.scale.linear()
-                .domain([0, maxY])
-                .range([this.configTree.margin.top, this.configTree.margin.top + maxY]);
-            scales.y = d3.scale.linear()
-                .domain([0, maxX])
-                .range([this.configTree.margin.left, this.configTree.margin.left + maxX]);
+            // scales.x = d3.scale.linear()
+            //     .domain([0, maxY])
+            //     .range([this.configTree.margin.left, this.configTree.margin.left + maxY]);
+            // scales.y = d3.scale.linear()
+            //     .domain([0, maxX])
+            //     .range([this.configTree.margin.top, this.configTree.margin.top + maxX]);
 
             scales.x = d3.scale.linear()
                 .domain([0, 1])
-                .range([0, scaling]);
+                .range([this.configTree.margin.left+0, this.configTree.margin.left+scaling]);
             scales.y = d3.scale.linear()
                 .domain([0, 1])
-                .range([0, scaling]);
+                .range([this.configTree.margin.top+0, this.configTree.margin.top+scaling]);
 
-            scales.width = d3.scale.linear()
-                .domain([0, maxX])
-                .range([this.configTree.margin.left, this.configTree.margin.left + maxX]);
-            scales.height = d3.scale.linear()
-                .domain([0, maxY])
-                .range([this.configTree.margin.top, this.configTree.margin.top + maxY]);
+            // scales.width = d3.scale.linear()
+            //     .domain([0, maxX])
+            //     .range([this.configTree.margin.left, this.configTree.margin.left + maxX]);
+            // scales.height = d3.scale.linear()
+            //     .domain([0, maxY])
+            //     .range([this.configTree.margin.top, this.configTree.margin.top + maxY]);
 
             scales.width = d3.scale.linear()
                 .domain([0, 1])
@@ -558,8 +558,8 @@
         }
       }
         // TODO: Add support for scales
-        var y = datum.x - this.dom.parentDom.node().getBoundingClientRect().height / 2;
-        var x = datum.y - this.dom.parentDom.node().getBoundingClientRect().width / 2;
+        var y = datum.y - this.dom.parentDom.node().getBoundingClientRect().height / 2;
+        var x = datum.x - this.dom.parentDom.node().getBoundingClientRect().width / 2;
         var divMapNative = this.dom.divMap.node();
         var divMapJQ = $(divMapNative);
         divMapJQ = $('.knalledge_map_container');
