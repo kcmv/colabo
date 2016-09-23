@@ -1886,6 +1886,12 @@ md-toolbar.flexible {
     display: block;
     clear: both; }
 
+.horizontal-separator {
+  display: inline-block;
+  border-left: 1px white solid;
+  margin: 5px;
+  margin-left: 10px; }
+
 .clickable {
   cursor: pointer; }
 
