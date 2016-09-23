@@ -7,7 +7,7 @@ import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {KnalledgeMapViewService} from '../../app/components/knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../../app/components/knalledgeMap/knalledgeMapPolicyService';
 import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
-
+import {CfPuzzlesIbisService} from './cf.puzzles.ibis.service';
 @Component({
     selector: 'ibis-actions-form',
     providers: [
@@ -40,7 +40,8 @@ export class IbisActionsForm {
     @Inject('IbisTypesService') _IbisTypesService_,
     @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
     @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
-    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
+    private ibisService:CfPuzzlesIbisService
   ) {
       // console.log('[IbisActionsForm]');
       this.ibisTypesService = _IbisTypesService_;
@@ -74,57 +75,27 @@ export class IbisActionsForm {
     this.componentShown = !this.componentShown;
   }
 
-    onQuestionItem() {
-      if (!this.mapStructure.getSelectedNode()){
-        window.alert('You have to select a node which you are addressing your question to.');
-        return; // no parent node selected
-      }
-      if(this.mapStructure){
-        var sourceNode = this.mapStructure.getSelectedNode();
+  onQuestionItem() {
+    this.ibisService.createNodeQuestion();
+  }
 
-        var vkNode = new knalledge.VKNode();
-        vkNode.kNode = new knalledge.KNode();
-        vkNode.kNode.type = knalledge.KNode.TYPE_IBIS_QUESTION;
-        //vkNode.kNode.name = "...";
+  onIdeaItem() {
+    this.ibisService.createNodeIdea();
+  }
 
-        var vkEdge = new knalledge.VKEdge();
-        vkEdge.kEdge = new knalledge.KEdge();
-        //vkEdge.kEdge.type = knalledgeEdgeType;
+  onArgumentItem() {
+    this.ibisService.createNodeArgument();
+  }
 
-        this.mapStructure.createNodeWithEdge(sourceNode, vkEdge, vkNode, function(){
-          if(this.mapUpdate){
-            this.mapUpdate();
-          }
-          //this.....nodeSelected(vkNode);
-          //this.setEditing(newNode);
-        }.bind(this));
-      }
-    }
+  onCommentItem() {
+    this.ibisService.createNodeComment();
+  }
 
-    onCommentItem() {
-      if (!this.mapStructure.getSelectedNode()){
-        window.alert('You have to select a node which you are addressing your comment to.');
-        return; // no parent node selected
-      }
-      if(this.mapStructure){
-        var sourceNode = this.mapStructure.getSelectedNode();
+  onVoteUpItem() {
+    this.ibisService.voteNodeUp();
+  }
 
-        var vkNode = new knalledge.VKNode();
-        vkNode.kNode = new knalledge.KNode();
-        vkNode.kNode.type = knalledge.KNode.TYPE_IBIS_COMMENT;
-        //vkNode.kNode.name = "...";
-
-        var vkEdge = new knalledge.VKEdge();
-        vkEdge.kEdge = new knalledge.KEdge();
-        //vkEdge.kEdge.type = knalledgeEdgeType;
-
-        this.mapStructure.createNodeWithEdge(sourceNode, vkEdge, vkNode, function(){
-          if(this.mapUpdate){
-            this.mapUpdate();
-          }
-          //this.....nodeSelected(vkNode);
-          //this.setEditing(newNode);
-        }.bind(this));
-      }
-    }
+  onVoteDownItem() {
+    this.ibisService.voteNodeDown();
+  }
 }

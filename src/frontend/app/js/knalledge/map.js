@@ -225,7 +225,9 @@ Map.prototype.init = function() {
 		name: "mapInteraction",
 		items: {
 			addNode: this.mapInteraction.addNode.bind(this.mapInteraction),
-			updateNodeDecoration: this.mapInteraction.updateNodeDecoration.bind(this.mapInteraction)
+			addChildNode: this.mapInteraction.addChildNode.bind(this.mapInteraction),
+			updateNodeDecoration: this.mapInteraction.updateNodeDecoration.bind(this.mapInteraction),
+			nodeVote: this.mapInteraction.nodeVote.bind(this.mapInteraction)
 		}
 	});
 

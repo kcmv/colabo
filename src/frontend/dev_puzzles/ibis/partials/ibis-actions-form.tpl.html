@@ -1,11 +1,32 @@
 <div class="ibis-actions-form">
-    <button md-fab class="md-mini md-primary" aria-label="Comment" (click)="onCommentItem()">
-      <i class="commentIcon" title="Comment" md-icon>comment</i>
+    <button md-fab class="md-mini md-primary" aria-label="Question" (click)="onQuestionItem()">
+      <i title="Question" md-icon>?</i>
     </button>
 
-    <button md-fab class="md-mini md-primary" aria-label="Question" (click)="onQuestionItem()">
-      <i class="questionIcon" title="Question" md-icon>?</i>
+    <button md-fab class="md-mini md-primary" aria-label="Idea" (click)="onIdeaItem()">
+      <i title="Idea" md-icon>lightbulb_outline</i>
     </button>
+
+    <button md-fab class="md-mini md-primary" aria-label="Argument" (click)="onArgumentItem()">
+      <i title="Argument" md-icon>compare_arrows</i>
+    </button>
+
+    <button md-fab class="md-mini md-primary" aria-label="Comment" (click)="onCommentItem()">
+      <i title="Comment" md-icon>comment</i>
+    </button>
+
+    <button md-fab class="md-mini md-primary" aria-label="Vote Up" (click)="onVoteUpItem()">
+      <i title="Vote Up" md-icon>thumb_up</i>
+    </button>
+
+    <button md-fab class="md-mini md-primary" aria-label="Vote Down" (click)="onVoteDownItem()">
+      <i title="Vote Down" md-icon>thumb_down</i>
+    </button>
+
+	<!--
+	flash_auto
+
+	-->
 
 <!-- 	<div class="content" [hidden]="!componentShown">
 		<table class="list">

@@ -89,13 +89,14 @@ export class CfPuzzlesIbisService {
         }
     };
     private mapStructure:any;
+    private addChildNode:Function;
+    private nodeVote:Function;
     private mapUpdate:Function;
     private positionToDatum:Function;
     private addKnownEdgeTypes:Function;
     private removeKnownEdgeTypes:Function;
     private addSystemEdgeTypes:Function;
     private removeSystemEdgeTypes:Function;
-
 
     /**
     * the namespace for core services for the Notify system
@@ -140,6 +141,15 @@ export class CfPuzzlesIbisService {
             callback: null,
             $promise: null
           },
+          mapInteraction: {
+            items: {
+              addChildNode: null,
+              nodeVote: null
+            },
+            $resolved: false,
+            callback: null,
+            $promise: null
+          },
           MapLayoutTree: {
             items: {
               addKnownEdgeTypes: null,
@@ -165,6 +175,12 @@ export class CfPuzzlesIbisService {
         that.positionToDatum = that.puzzleIbisPluginInfo.apis.map.items.positionToDatum;
       };
 
+      this.puzzleIbisPluginInfo.apis.mapInteraction.callback = function() {
+        that.puzzleIbisPluginInfo.apis.mapInteraction.$resolved = true;
+        that.addChildNode = that.puzzleIbisPluginInfo.apis.mapInteraction.items.addChildNode;
+        that.nodeVote = that.puzzleIbisPluginInfo.apis.mapInteraction.items.nodeVote;
+      };
+
       this.puzzleIbisPluginInfo.apis.MapLayoutTree.callback = function() {
         that.puzzleIbisPluginInfo.apis.MapLayoutTree.$resolved = true;
         that.addKnownEdgeTypes = that.puzzleIbisPluginInfo.apis.MapLayoutTree.items.addKnownEdgeTypes;
@@ -177,5 +193,36 @@ export class CfPuzzlesIbisService {
         // that.addSystemEdgeTypes([]);
       };
 
-      this.collaboPluginsService.registerPlugin(this.puzzleIbisPluginInfo);    }
+      this.collaboPluginsService.registerPlugin(this.puzzleIbisPluginInfo);    
+    }
+
+    createNodeQuestion(){
+      if (!this.mapStructure.getSelectedNode()){
+        window.alert('You have to select a node which you are addressing your comment to.');
+        return; // no parent node selected
+      }
+
+      if(this.addChildNode) this.addChildNode(knalledge.KNode.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_QUESTION);
+    }
+
+    createNodeIdea(){
+      if(this.addChildNode) this.addChildNode(knalledge.KNode.TYPE_IBIS_IDEA, knalledge.KEdge.TYPE_IBIS_IDEA);
+    }
+
+
+    createNodeArgument(){
+      if(this.addChildNode) this.addChildNode(knalledge.KNode.TYPE_IBIS_ARGUMENT, knalledge.KEdge.TYPE_IBIS_ARGUMENT);
+    }
+
+    createNodeComment(){
+      if(this.addChildNode) this.addChildNode(knalledge.KNode.TYPE_IBIS_COMMENT, knalledge.KEdge.TYPE_IBIS_COMMENT);
+    }
+
+    voteNodeUp(){
+      if(this.nodeVote) this.nodeVote(+1);
+    }
+
+    voteNodeDown(){
+      if(this.nodeVote) this.nodeVote(-1);
+    }
 }
