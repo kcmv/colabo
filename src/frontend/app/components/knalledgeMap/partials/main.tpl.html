@@ -1,7 +1,7 @@
 <!-- main container -->
 <div layout="column" layout-fill>
     <!-- content -->
-    <md-sidenav-layout layout="row" flex style="overflow: auto; height: 100%;">
+    <md-sidenav-layout class="main-content" layout="row" flex style="overflow: auto; height: 100%;">
         <!-- <md-sidenav #options align="left" layout="column" [style]="hasMedia('gt-sm') ? 'side' : 'over'"> -->
         <md-sidenav #options class="options" [opened]="true" align="end" mode="side" layout="column">
             <md-content>
@@ -224,7 +224,8 @@
         </md-content>
     </md-sidenav-layout>
     <brainstorming-form></brainstorming-form>
-    <presentation-show></presentation-show>
+    <div class="presentation-display reveal" style='display: none;'></div>
+    <presentation-actions-form></presentation-actions-form>
     <session-form></session-form>
     <media-show style="width:90%"></media-show>
     <user-dialog></user-dialog>

@@ -107,7 +107,7 @@ export class PresentationList implements OnInit, OnDestroy {
   }
 
   slideMoveDown (){
-    this.service.slideMoveDown();	
+    this.service.slideMoveDown();
   }
 
   showPresentation(){

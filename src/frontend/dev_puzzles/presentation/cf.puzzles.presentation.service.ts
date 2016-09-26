@@ -24,6 +24,8 @@ export class CfPuzzlesPresentationServices {
     puzzlePresentationPluginInfo:any;
     store:any = {
       enabled: false,
+      initialized: false,
+      presenting: false,
       presentations: [
 
       ],
@@ -84,7 +86,7 @@ export class CfPuzzlesPresentationServices {
     private removeKnownEdgeTypes:Function;
     private addSystemEdgeTypes:Function;
     private removeSystemEdgeTypes:Function;
-    private slideChangedEventListenerBinded:Fuction;
+    private slideChangedEventListenerBinded:Function;
     private disableKeyboard:Function;
     private enableKeyboard:Function;
 
@@ -173,7 +175,10 @@ export class CfPuzzlesPresentationServices {
       this.collaboPluginsService.registerPlugin(this.puzzlePresentationPluginInfo);
 
       this.slideChangedEventListenerBinded = this.slideChangedEventListener.bind(this);
-      this.initPresentation();
+    }
+
+    getStore():any{
+      return this.store;
     }
 
     isPresentationAvailable(){
@@ -325,7 +330,12 @@ export class CfPuzzlesPresentationServices {
 
     // enable presentation puzzle
     enable(){
+
       var that:CfPuzzlesPresentationServices = this;
+      if(!this.store.initialized){
+        this.initPresentation();
+        this.store.initialized = true;
+      }
       this.store.enabled = true;
       this.addKnownEdgeTypes([PRESENTATIONS_EDGE_TYPE, PRESENTATION_EDGE_TYPE]);
       this.addSystemEdgeTypes([SLIDE_EDGE_TYPE]);
@@ -423,16 +433,16 @@ export class CfPuzzlesPresentationServices {
 
     // creates place holder for slides for Reveal.js
     private generatePresentationHolder(callback){
-      // $('#presentation').remove();
+      // $('.presentation-display').remove();
       // var presentation = $("<div id='presentation'></div>")
       // $('body').append(presentation);
 
-      var presentation = $('#presentation');
-      // $('#presentation .slides').remove();
+      var presentation = $('.presentation-display');
+      // $('.presentation-display .slides').remove();
       // var slides = $("<div class='slides'></div>");
-      // $('#presentation').append(slides);
+      // $('.presentation-display').append(slides);
       // presentation.append(slides);
-      var slides = $('#presentation .slides');
+      var slides = $('.presentation-display .slides');
       slides.empty();
 
       if(callback){
@@ -554,9 +564,9 @@ export class CfPuzzlesPresentationServices {
           let vkEdge = vkEdges[i];
           if(vkEdge === slideVkEdge && i>0){
             // swap positions of two slides (edges)
-            this.mapStructure.updateEdge(slideVkEdge, knalledge.MapStructure.UPDATE_EDGE_VALUE, 
+            this.mapStructure.updateEdge(slideVkEdge, knalledge.MapStructure.UPDATE_EDGE_VALUE,
               slideVkEdge.kEdge.value-1);
-            this.mapStructure.updateEdge(vkEdges[i-1], knalledge.MapStructure.UPDATE_EDGE_VALUE, 
+            this.mapStructure.updateEdge(vkEdges[i-1], knalledge.MapStructure.UPDATE_EDGE_VALUE,
               vkEdges[i-1].kEdge.value+1);
           }
         }
@@ -580,9 +590,9 @@ export class CfPuzzlesPresentationServices {
           let vkEdge = vkEdges[i];
           if(vkEdge === slideVkEdge && i<(vkEdges.length-1)){
             // swap positions of two slides (edges)
-            this.mapStructure.updateEdge(slideVkEdge, knalledge.MapStructure.UPDATE_EDGE_VALUE, 
+            this.mapStructure.updateEdge(slideVkEdge, knalledge.MapStructure.UPDATE_EDGE_VALUE,
               slideVkEdge.kEdge.value+1);
-            this.mapStructure.updateEdge(vkEdges[i+1], knalledge.MapStructure.UPDATE_EDGE_VALUE, 
+            this.mapStructure.updateEdge(vkEdges[i+1], knalledge.MapStructure.UPDATE_EDGE_VALUE,
               vkEdges[i+1].kEdge.value-1);
           }
         }
@@ -631,9 +641,8 @@ export class CfPuzzlesPresentationServices {
     // configure Reveal.js, ...
     // NOTE: this is not idempotent
     initPresentation(callback?){
-      $('#presentation').remove();
-      var presentation = $("<div class='reveal' id='presentation' style='display: none;'></div>")
-      $('body').append(presentation);
+      var presentation = $('.presentation-display');
+      presentation.empty();
 
       var slides = $("<div class='slides'></div>");
       presentation.append(slides);
@@ -736,12 +745,13 @@ export class CfPuzzlesPresentationServices {
     // triggers presentation mode
     showPresentation(slideId?:number){
       if(typeof slideId !== 'number') slideId = 0;
+      this.store.presenting = true;
 
       this.generatePresentation(function(){
         console.log("hiding id='container'");
-        $('#container').css('display','none');
-        $('#container').css('display','none');
-        $('#presentation').css('display','block');
+        $('.main-content').css('display','none');
+        $('.main-content').css('display','none');
+        $('.presentation-display').css('display','block');
         $('body').addClass('reveal');
         console.log("Reveal-ing");
 
@@ -826,8 +836,9 @@ export class CfPuzzlesPresentationServices {
 
     // switches off presentation mode
     hidePresentation(){
-      $('#container').css('display','block');
-      $('#presentation').css('display','none');
+      this.store.presenting = false;
+      $('.main-content').css('display','block');
+      $('.presentation-display').css('display','none');
       $('body').removeClass('reveal');
       Reveal.removeEventListener('slidechanged', this.slideChangedEventListenerBinded);
       this.enableKeyboard();

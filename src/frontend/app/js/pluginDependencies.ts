@@ -29,6 +29,8 @@ import {IbisActionsForm} from '../../dev_puzzles/ibis/ibisActionsForm';
 components['cf.puzzles.ibis.actionsForm'] = IbisActionsForm;
 import {PresentationList} from '../../dev_puzzles/presentation/presentationList';
 components['cf.puzzles.presentation.list'] = PresentationList;
+import {PresentationActionsForm} from '../../dev_puzzles/presentation/presentationActionsForm';
+components['cf.puzzles.presentation.actionsForm'] = PresentationActionsForm;
 
 // service dependencies that other parts of the system depends on
 export var servicesDependencies:any = {};
