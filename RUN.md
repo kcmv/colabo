@@ -50,3 +50,27 @@ Naviagate to `KnAllEdge/src/frontend` and start the server:
 ```sh
 npm start
 ```
+
+### Linux server
+
+#### Port forking
+
+(`/etc/init/knalledge-fork.conf`)
+
+```sh
+start/status/stop knalledge-fork
+```
+
+#### backend
+
+(`/etc/init/knalledge-b-beta.conf` or `/etc/init/knalledge-b.conf`)
+
+```sh
+start/status/stop knalledge-b-beta
+```
+
+or
+
+```sh
+start/status/stop knalledge-b
+```

@@ -26,8 +26,8 @@ export class KnalledgeMapViewService {
             },
             filtering: {
               visbileTypes: {
-                ibis: false,
-                knalledge: false
+                ibis: true,
+                knalledge: true
               },
                 displayDistance	: -1, // if we wanna show them all visible we set it to -1
                 byAuthor: [] //array of iAmId. An empty means to see for all authors
