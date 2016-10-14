@@ -38,6 +38,7 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 				if(vkNode.visible === false) continue;
 				if(this.mapStructure.isNodeVisible(vkNode)){
 					children.push(vkNode);
+					vkNode.parent = d;
 				}
 			}
 			// else{
@@ -269,7 +270,7 @@ MapLayoutTree.prototype.MoveNodesToPositiveSpace = function(nodes) {
 	}
 	maxX += -minX + this.configTree.margin.bottom;
 	maxY += -minY + this.configTree.margin.right;
-	this.upperApi.setDomSize(maxY, maxX);
+	if(this.upperApi) this.upperApi.setDomSize(maxY, maxX);
 };
 
 }()); // end of 'use strict';
