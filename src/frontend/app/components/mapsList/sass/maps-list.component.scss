@@ -2,11 +2,6 @@
 @import "../../../sass/include";
 // @import "bourbon/bourbon";
 
-h1{
-	padding-bottom: 5px;
-	border-bottom: solid gray 2px;
-}
-
 $toolbar_bg_color: #009688;
 $heading_background_color: #aaaaff;
 $item_background_color: #e8e8e8;
@@ -85,6 +80,11 @@ $toolbar_height: 60px;
 
 .mapsList{
 	// height: 100%;
+
+	h1{
+		padding-bottom: 5px;
+		border-bottom: solid gray 2px;
+	}
 
 	.mapsToolbar{
 		/* for toolbar hovering */

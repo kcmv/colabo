@@ -16,10 +16,6 @@ $large: 1400px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-h1 {
-  padding-bottom: 5px;
-  border-bottom: solid gray 2px; }
-
 .my-drop-zone {
   border: dotted 3px lightgray; }
 
@@ -60,6 +56,9 @@ h1 {
   .button_icon.last {
     margin-right: 0px; }
 
+.mapsList h1 {
+  padding-bottom: 5px;
+  border-bottom: solid gray 2px; }
 .mapsList .mapsToolbar {
   /* for toolbar hovering */
   /* for toolbar hovering - end */
