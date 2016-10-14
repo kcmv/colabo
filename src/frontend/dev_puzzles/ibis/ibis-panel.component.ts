@@ -1,8 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MATERIAL_DIRECTIVES} from "ng2-material";
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-import {BrainstormingService} from "./brainstorming.service";
-import {BrainstormingPhase, BrainstormingPhaseNames} from './brainstorming';
+import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
 
 //declare var knalledge;
 declare var window;

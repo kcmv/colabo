@@ -27,7 +27,7 @@ import {CfPuzzlesIbisService} from './cf.puzzles.ibis.service';
     `]
 })
 export class IbisActionsForm {
-  public items:Array<any> = [];
+  public kNodesTypes:Array<any> = [];
   public selectedItem:any = null;
   private componentShown:boolean = true;
   private ibisTypesService;
@@ -46,7 +46,7 @@ export class IbisActionsForm {
       // console.log('[IbisActionsForm]');
       this.ibisTypesService = _IbisTypesService_;
 
-      this.items = this.ibisTypesService.getTypes();
+      this.kNodesTypes = this.ibisTypesService.getTypes();
       this.selectedItem = this.ibisTypesService.getActiveType();
       this.viewConfig = knalledgeMapViewService.get().config;
       this.policyConfig = knalledgeMapPolicyService.get().config;

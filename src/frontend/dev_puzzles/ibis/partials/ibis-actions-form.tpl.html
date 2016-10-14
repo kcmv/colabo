@@ -23,6 +23,10 @@
       <i title="Vote Down" md-icon>thumb_down</i>
     </button>
 
+    <select class="list">
+			<option *ngFor="let item of kNodesTypes" value="item._id">{{item.name}}</option>
+		</select>
+
 	<!--
 	flash_auto
 
