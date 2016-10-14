@@ -196,23 +196,16 @@
                         <top-panel></top-panel>
                     </div>
                     <!-- KnAllEdge Map -->
-                    <knalledge-map class="knalledge_map" flex style="overflow: auto; height: 100%;"></knalledge-map>
+                    <knalledge-map class="knalledge_map" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_tree' || viewConfig.visualization.viewspec === 'viewspec_manual'"></knalledge-map>
+
+                    <knalledge-list class="knalledge_list" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_list'"></knalledge-list>
+
                     <bottom-panel></bottom-panel>
 
                     <md-toolbar class="toolbar flexible md-theme-indigo" color="primary" style="width: 100%;">
                         <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
                             <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
-
-                                <button md-fab md-tooltip="Configuration" tooltip-position="below" class="md-mini md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
-                                    <i title="Settings" md-icon>settings</i>
-                                </button>
-                                <button md-fab class="md-mini md-primary" aria-label="Configuration" (click)="options.toggle()">
-                                    <i title="Configuration" md-icon>chrome_reader_mode</i>
-                                </button>
-                                <button md-fab class="md-mini md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
-                                    <i title="Top Panel" md-icon>view_agenda</i>
-                                </button>
-
+                                <rima-actions-form></rima-actions-form>
                                 <span class='horizontal-separator'></span>
                                 <ibis-actions-form></ibis-actions-form>
                             </section>

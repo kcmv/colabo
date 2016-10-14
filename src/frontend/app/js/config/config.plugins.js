@@ -149,6 +149,10 @@
                     'cf.puzzles.presentation.actionsForm': {
                         active: true,
                         path: "cf.puzzles.presentation.actionsForm"
+                    },
+                    'cf.puzzles.knalledgeList.component': {
+                        active: true,
+                        path: "cf.puzzles.knalledgeList.component"
                     }
                 }
             },
@@ -450,6 +454,10 @@
             presentation: {
                 active: true, // is active puzzle
                 path: 'dev_puzzles/presentation' // path to the puzzle folder, relative to the project (frontend) root
+            },
+            knalledge_list: {
+                active: true, // is active puzzle
+                path: 'dev_puzzles/knalledge_list' // path to the puzzle folder, relative to the project (frontend) root
             },
         }
     };

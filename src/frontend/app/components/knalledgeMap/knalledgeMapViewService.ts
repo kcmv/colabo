@@ -34,6 +34,7 @@ export class KnalledgeMapViewService {
             },
             visualization: {
               limitedRange: false,
+              // viewspec: 'viewspec_list'
               viewspec: 'viewspec_tree'
             },
             panels: {

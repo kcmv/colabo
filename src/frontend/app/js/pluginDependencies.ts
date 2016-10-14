@@ -32,6 +32,9 @@ components['cf.puzzles.presentation.list'] = PresentationList;
 import {PresentationActionsForm} from '../../dev_puzzles/presentation/presentationActionsForm';
 components['cf.puzzles.presentation.actionsForm'] = PresentationActionsForm;
 
+import {KnalledgeListComponent} from '../../dev_puzzles/knalledge_list/knalledge_list.component';
+components['cf.puzzles.knalledgeList.component'] = KnalledgeListComponent;
+
 // service dependencies that other parts of the system depends on
 export var servicesDependencies:any = {};
 
@@ -39,3 +42,7 @@ import {CfPuzzlesIbisService} from '../../dev_puzzles/ibis/cf.puzzles.ibis.servi
 servicesDependencies['cf.puzzles.ibis.service'] = CfPuzzlesIbisService;
 import {CfPuzzlesPresentationServices} from '../../dev_puzzles/presentation/cf.puzzles.presentation.service';
 servicesDependencies['cf.puzzles.presentation.service'] = CfPuzzlesPresentationServices;
+
+
+import {CfPuzzlesKnalledgeListService} from '../../dev_puzzles/knalledge_list/cf.puzzles.knalledge_list.service';
+servicesDependencies['cf.puzzles.knalledge_list.service'] = CfPuzzlesKnalledgeListService;

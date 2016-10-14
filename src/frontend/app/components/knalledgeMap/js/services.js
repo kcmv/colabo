@@ -1640,11 +1640,6 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 					that.mapStructure.init(that);
 					that.mapStructure.processData(result);
 
-					var modelLoadedEventName = "modelLoadedEvent";
-					//console.log("result:" + JSON.stringify(result));
-					GlobalEmitterServicesArray.register(modelLoadedEventName);
-					GlobalEmitterServicesArray.get(modelLoadedEventName).broadcast('KnalledgeMapVOsService', result);
-
 					// Add active user to the map
 					// ToDo: this is
 					if(RimaService){
@@ -1659,6 +1654,11 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 					}else{
 						if(typeof callback === 'function') callback();
 					}
+
+					var modelLoadedEventName = "modelLoadedEvent";
+					//console.log("result:" + JSON.stringify(result));
+					GlobalEmitterServicesArray.register(modelLoadedEventName);
+					GlobalEmitterServicesArray.get(modelLoadedEventName).broadcast('KnalledgeMapVOsService', result);
 
 					if(that.configData.broadcastMapUsers){
 						var whoIamIdsUpdatedEventName = "whoIamIdsUpdatedEvent";

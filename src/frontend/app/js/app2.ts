@@ -179,6 +179,9 @@ angular.module('Config')
 import { HTTP_PROVIDERS } from '@angular/http';
 upgradeAdapter.addProvider(HTTP_PROVIDERS);
 
+// import { ActivatedRoute } from '@angular/router';
+// upgradeAdapter.addProvider(ActivatedRoute);
+
 // upgradeAdapter.addProvider(DemoPuzzleService);
 // var demoPuzzleServices = angular.module('demoPuzzleServices');
 // demoPuzzleServices
