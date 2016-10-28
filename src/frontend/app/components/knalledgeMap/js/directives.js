@@ -733,6 +733,11 @@
 								console.log("[knalledgeMap.controller::$on] event: %s", viewConfigChangedEvent);
 								if (msg.path == 'config.visualization.viewspec') {
 									config.tree.viewspec = msg.value;
+									KnalledgeMapViewService.provider.config.tree.viewspec = msg.value;
+								}
+								if (msg.path == 'config.edges.orderBy') {
+									config.edges.orderBy = msg.value;
+									KnalledgeMapViewService.provider.config.edges.orderBy = msg.value;
 								}
 								toolsChange(KnRealTimeviewConfigChangedEvent, msg);
 							};
@@ -822,7 +827,10 @@
 											KnalledgeMapViewService.provider.config.edges.showTypes = msg.value;
 											break;
 										case 'config.visualization.viewspec':
-											KnalledgeMapViewService.provider.config.visualization.viewspec = config.tree.viewspec = msg.value;
+											KnalledgeMapViewService.provider.config.visualization.viewspec = config.visualization.viewspec = msg.value;
+											break;
+										case 'config.edges.orderBy':
+											KnalledgeMapViewService.provider.config.edges.orderBy = config.edges.orderBy = msg.value;
 											break;
 										case 'config.filtering.displayDistance':
 											KnalledgeMapViewService.provider.config.filtering.displayDistance = msg.value;
@@ -942,8 +950,12 @@
 						$scope.policyConfig = KnalledgeMapPolicyService.provider.config;
 						$scope.viewConfig = KnalledgeMapViewService.provider.config;
 
-						$scope.enableEditing = function() {
-							$scope.nodeContent.editing = true;
+						$scope.enableEditing = function(enable) {
+							if(typeof enable === 'undefined') enable = true;
+							if($scope.nodeContent.editing && !enable){
+								$scope.nodeContent.htmlProperty = marked($scope.nodeContent.property);
+							}
+							$scope.nodeContent.editing = enable;
 						};
 
 						// $scope.nodeState = {

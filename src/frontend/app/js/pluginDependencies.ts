@@ -29,11 +29,16 @@ import {IbisActionsForm} from '../../dev_puzzles/ibis/ibisActionsForm';
 components['cf.puzzles.ibis.actionsForm'] = IbisActionsForm;
 import {PresentationList} from '../../dev_puzzles/presentation/presentationList';
 components['cf.puzzles.presentation.list'] = PresentationList;
+
 import {PresentationActionsForm} from '../../dev_puzzles/presentation/presentationActionsForm';
 components['cf.puzzles.presentation.actionsForm'] = PresentationActionsForm;
 
 import {KnalledgeListComponent} from '../../dev_puzzles/knalledge_list/knalledge_list.component';
 components['cf.puzzles.knalledgeList.component'] = KnalledgeListComponent;
+
+
+import {TrendmasterActionsForm} from '../../dev_puzzles/coevoludens/trendmasterActionsForm';
+components['cf.puzzles.coevoludens.trendmaster-actions-form'] = TrendmasterActionsForm;
 
 // service dependencies that other parts of the system depends on
 export var servicesDependencies:any = {};
@@ -43,6 +48,8 @@ servicesDependencies['cf.puzzles.ibis.service'] = CfPuzzlesIbisService;
 import {CfPuzzlesPresentationServices} from '../../dev_puzzles/presentation/cf.puzzles.presentation.service';
 servicesDependencies['cf.puzzles.presentation.service'] = CfPuzzlesPresentationServices;
 
+import {CfPuzzlesCoevoludensServices} from '../../dev_puzzles/coevoludens/cf.puzzles.coevoludens.service';
+servicesDependencies['cf.puzzles.coevoludens.service'] = CfPuzzlesCoevoludensServices;
 
 import {CfPuzzlesKnalledgeListService} from '../../dev_puzzles/knalledge_list/cf.puzzles.knalledge_list.service';
 servicesDependencies['cf.puzzles.knalledge_list.service'] = CfPuzzlesKnalledgeListService;

@@ -206,4 +206,9 @@ export class KnalledgeMapTools {
         this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
           .broadcast('KnalledgeMapTools', 'cf.puzzles.presentation.list');
     }
+
+    showCoevoludensTrendMasterActions(){
+        this.globalEmitterServicesArray.get(this.showSubComponentInBottomPanelEvent)
+          .broadcast('KnalledgeMapTools', 'cf.puzzles.coevoludens.trendMasterActions');
+    }
 }

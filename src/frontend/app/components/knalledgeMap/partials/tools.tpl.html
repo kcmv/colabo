@@ -59,6 +59,17 @@
             </md-radio-group>
         </div>
 
+        <div class="subgroup">
+            <div><b>Edge order</b></div>
+            <md-radio-group [(value)]="viewConfig.edges.orderBy">
+                <md-radio-button value=undefined class="md-primary" (click)="viewConfigChanged('config.edges.orderBy', undefined)">-</md-radio-button>
+                <md-radio-button value="vote" class="md-primary" (click)="viewConfigChanged('config.edges.orderBy','vote')">V</md-radio-button>
+                <md-radio-button value="vote" class="md-primary" (click)="viewConfigChanged('config.edges.orderBy','personal_vote')">pV</md-radio-button>
+                <md-radio-button value="name" class="md-primary" (click)="viewConfigChanged('config.edges.orderBy', 'name')">N</md-radio-button>
+                <!-- <md-radio-button value="viewspec_flat" class="md-primary" (click)="viewConfigChanged('config.visualization.viewspec','viewspec_flat')">F</md-radio-button> -->
+            </md-radio-group>
+        </div>
+
         <!-- <div class="btn-group"> -->
         <!-- <button md-raised-button (click)="selectUser(user)" class="md-accent md-hue-1" ng-class="{'selected' : user === selected }">
   		{{user.name}}
@@ -115,6 +126,8 @@
 </div>
 
 <button md-raised-button (click)="showPresentationList()" class="md-accent md-hue-1">Presentation</button>
+<button md-raised-button (click)="showCoevoludensTrendMasterActions()" class="md-accent md-hue-1">CoEvoLudens</button>
+
 <div *ngIf="policyConfig.moderating.enabled">
     <h4>Behaviours:</h4>
     <!-- <div class="btn-group">

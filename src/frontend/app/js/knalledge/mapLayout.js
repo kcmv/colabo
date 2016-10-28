@@ -11,7 +11,7 @@ var MapLayout =  knalledge.MapLayout = function(){
 }
 
 var ID=0;
-MapLayout.prototype.construct = function(className, mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
+MapLayout.prototype.construct = function(className, mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService, knalledgeMapViewService, rimaService){
 	this.destroyed = false;
 	this.className = className;
 	this.id = ID++;
@@ -24,6 +24,8 @@ MapLayout.prototype.construct = function(className, mapStructure, collaboPlugins
 	this.upperApi = upperApi;
 	this.knalledgeState = knalledgeState;
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
+	this.knalledgeMapViewService = knalledgeMapViewService;
+	this.rimaService = rimaService;
 	this.nodes = null;
 	this.links = null;
 	this.nodeWeightSumMin = 0;

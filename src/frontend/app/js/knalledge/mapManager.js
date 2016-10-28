@@ -137,7 +137,7 @@ var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStruct
 	// Layout
 	this.layouts.viewspec_tree = this.layouts.viewspec_manual = new knalledge.MapLayoutTree(this.mapStructure,
 		this.collaboPluginsService, this.configNodes, this.configTree, this.layoutApis.viewspec_tree, this.knalledgeState,
-		this.knAllEdgeRealTimeService);
+		this.knAllEdgeRealTimeService, knalledgeMapViewService, this.rimaService);
 
 /***********************************
 * Creating Flat (currently Tree)
@@ -166,7 +166,7 @@ var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStruct
 
 	// Layout
 	this.layouts.viewspec_flat = new knalledge.MapLayoutTree(this.mapStructure, this.collaboPluginsService, this.configNodes,
-		this.configTree, this.layoutApis.viewspec_flat, this.knalledgeState, this.knAllEdgeRealTimeService);
+		this.configTree, this.layoutApis.viewspec_flat, this.knalledgeState, this.knAllEdgeRealTimeService, knalledgeMapViewService);
 */
 
 
@@ -197,7 +197,7 @@ var MapManager =  knalledge.MapManager = function(upperApi, parentDom, mapStruct
 
 	// Layout
 	this.layouts.viewspec_graph = new knalledge.MapLayoutGraph(this.mapStructure, this.collaboPluginsService, this.configNodes,
-		this.configTree, this.layoutApis.viewspec_graph, this.knalledgeState, this.knAllEdgeRealTimeService);
+		this.configTree, this.layoutApis.viewspec_graph, this.knalledgeState, this.knAllEdgeRealTimeService, knalledgeMapViewService, this.rimaService);
 
 	// Setting default
 	this.activeVisualization = this.visualizations[this.configTree.viewspec]
