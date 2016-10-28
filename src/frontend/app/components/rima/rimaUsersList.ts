@@ -1,15 +1,12 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import {NgIf, CORE_DIRECTIVES} from "@angular/common";
 import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
-import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
-import {MdCheckbox} from '@angular2-material/checkbox';
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 
 import { Pipe, PipeTransform } from '@angular/core';
 
-// import {MdRadioButton, MdRadioGroup, MdRadioDispatcher} from '@angular2-material/radio';
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 // import {KnalledgeMapViewService} from './knalledgeMapViewService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
@@ -54,9 +51,6 @@ export class SortUsersByDisplayNamePipe implements PipeTransform {
         MATERIAL_DIRECTIVES,
         // MdList, MdListItem, MdContent, MdButton, MdSwitch,
         NgIf, FORM_DIRECTIVES,
-        // MdRadioButton, MdRadioGroup,
-        //
-        MD_INPUT_DIRECTIVES, MdCheckbox
    ],
    pipes: [SortUsersByDisplayNamePipe],
    styles: [`

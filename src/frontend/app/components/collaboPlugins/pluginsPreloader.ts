@@ -52,7 +52,7 @@ export class PluginsPreloader {
           }
           if(service.isGlobal){
             // upgradeAdapter
-            upgradeAdapter.addProvider(serviceClass);
+            // upgradeAdapter.addProvider(serviceClass);
           }
         }
         if(service.isAvailableInNG1){

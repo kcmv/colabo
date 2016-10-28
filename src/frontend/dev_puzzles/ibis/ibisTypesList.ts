@@ -2,7 +2,6 @@ import {Component, Inject} from '@angular/core';
 import {NgIf, CORE_DIRECTIVES} from "@angular/common";
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {FORM_DIRECTIVES} from '@angular/forms';
-import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 
 import {KnalledgeMapViewService} from '../../app/components/knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../../app/components/knalledgeMap/knalledgeMapPolicyService';
@@ -17,9 +16,7 @@ import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/Gl
       MATERIAL_DIRECTIVES,
       // MdList, MdListItem, MdContent, MdButton, MdSwitch,
       NgIf, FORM_DIRECTIVES,
-      // MdRadioButton, MdRadioGroup,
       //
-      MD_INPUT_DIRECTIVES
    ],
     moduleId: module.id,
     templateUrl: 'partials/ibisTypes-list.tpl.html',

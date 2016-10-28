@@ -1,14 +1,9 @@
 import {FORM_DIRECTIVES, NgForm} from '@angular/forms';
-import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 
 import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
-import {MdToolbar} from '@angular2-material/toolbar';
-
-import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 
 import { Router, ROUTER_DIRECTIVES} from '@angular/router';
 
@@ -21,7 +16,6 @@ import {ImportMapFormComponent} from './import-map-form.component';
 
 // import {ViewChild, ViewChildren} from '@angular/core';
 // import {Media, MdContent, MdButton} from 'ng2-material';
-//import {MdDialog} from '@angular2-material/dialog';
 
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
@@ -65,19 +59,15 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
     templateUrl: 'partials/maps-list.tpl.html',
     providers: [
         // MATERIAL_PROVIDERS,
-        OVERLAY_PROVIDERS
         // provideRouter
         // RequestService
         // ROUTER_PROVIDERS
     ],
     directives: [
         MATERIAL_DIRECTIVES,
-        MD_SIDENAV_DIRECTIVES,
         ROUTER_DIRECTIVES,
-        MdToolbar,
         // cloneDialog,
         // MdDialog,
-        MD_INPUT_DIRECTIVES,
         // FORM_DIRECTIVES,
         // MdContent, MdButton,
         //   LoginStatusComponent,

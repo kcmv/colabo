@@ -2,7 +2,6 @@ import {Component, ViewEncapsulation, Inject, Input} from '@angular/core';
 //import {FORM_DIRECTIVES} from '@angular/forms';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
-import {MD_TABS_DIRECTIVES} from '@angular2-material/tabs';
 // import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import { DatePipe } from "@angular/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
@@ -45,7 +44,6 @@ export interface ITabData {
       HTTP_PROVIDERS
     ],
     directives: [
-        MD_TABS_DIRECTIVES,
         MATERIAL_DIRECTIVES,
         RequestComponent,
         SuggestionComponent,

@@ -1,8 +1,6 @@
 import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
 import { Component, ViewChild, Inject } from '@angular/core';
-import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
-//import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
@@ -16,11 +14,9 @@ declare var knalledge;
   templateUrl: 'partials/user-dialog-component.tpl.html',
   providers: [
       // MATERIAL_PROVIDERS,
-//      OVERLAY_PROVIDERS
   ],
   directives: [
       MATERIAL_DIRECTIVES,
-      MD_INPUT_DIRECTIVES
   ]
 })
 export class UserDialogComponent {

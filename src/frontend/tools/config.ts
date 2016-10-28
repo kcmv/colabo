@@ -537,7 +537,6 @@ if (ENABLE_HOT_LOADING) {
 const NPM_DEPENDENCIES: IDependency[] = [
     { src: 'systemjs/dist/system-polyfills.src.js', inject: 'shims' },
     { src: 'reflect-metadata/Reflect.js', inject: 'shims' },
-    { src: 'es6-shim/es6-shim.js', inject: 'shims' },
     { src: 'systemjs/dist/system.src.js', inject: 'shims' },
 
     { src: join(APP_SRC, 'js/lib/jquery/jquery.js'), inject: 'libs', noNorm: true },
@@ -611,7 +610,9 @@ var config = {
     "map": {
         "ng2-material": "ng2-material/index.js",
         // "symbol-observable": "symbol-observable/index.js",
-        "components/knalledgeMap/main": "components/knalledgeMap/main.js"
+        "components/knalledgeMap/main": "components/knalledgeMap/main.js",
+
+        "@ng-bootstrap/ng-bootstrap": "node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js"
     },
 
     // TODO: should we add all dependencies to the all components

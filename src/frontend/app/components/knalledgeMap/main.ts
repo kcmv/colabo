@@ -1,12 +1,9 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 // import {LoginStatusComponent} from '../login/login-status-component';
 // import {Media, MdContent, MdButton} from 'ng2-material';
 import {MATERIAL_DIRECTIVES, Media, MdDialog} from "ng2-material";
-import {MdToolbar} from '@angular2-material/toolbar';
 import {InfoForDialog} from '../../js/interaction/infoForDialog';
-//import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
 import { Router, ROUTER_DIRECTIVES} from '@angular/router';
@@ -61,9 +58,7 @@ import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
 var componentDirectives = [
     MATERIAL_DIRECTIVES,
-    MD_SIDENAV_DIRECTIVES,
     ROUTER_DIRECTIVES,
-    MdToolbar,
     // MdContent, MdButton,
     //   LoginStatusComponent,
     upgradeAdapter.upgradeNg1Component('knalledgeMap'),
@@ -84,7 +79,6 @@ PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', comp
     templateUrl: 'partials/main.tpl.html',
     providers: [
         // MATERIAL_PROVIDERS,
-      //  OVERLAY_PROVIDERS,
         // DbAuditService,
         // ChangeService
         // provideRouter

@@ -1,3 +1,5 @@
+import {MATERIAL_DIRECTIVES} from 'ng2-material';
+
 // https://github.com/angular/angular/blob/master/modules/@angular/src/upgrade/upgrade_adapter.ts
 import {upgradeAdapter} from './upgrade_adapter';
 
@@ -12,22 +14,19 @@ import {KnalledgeMapViewService} from '../components/knalledgeMap/knalledgeMapVi
 import {TopiChatReports} from '../components/topiChat/reports';
 import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterService';
 import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmitterServicesArray';
-import {BrainstormingService} from '../components/brainstorming/brainstorming.service';
-import {SessionService} from '../components/session/session.service';
-import {CollaboGrammarService} from '../components/collaboPlugins/CollaboGrammarService';
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
 import {RequestService} from '../components/request/request.service';
 import {ApprovalNodeService} from '../components/gardening/approval.node.service';
 import {SuggestionService} from '../components/suggestion/suggestion.service';
-import {ChangeService} from '../components/change/change.service';
 
 import {MATERIAL_PROVIDERS} from 'ng2-material';
 // import {provide} from '@angular/core';
-// import {OVERLAY_CONTAINER_TOKEN} from '@angular2-material/core/overlay/overlay';
-// import {createOverlayContainer} from '@angular2-material/core/overlay/overlay-container';
 
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
+
+// Bootstrap 4 + ng2
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 // import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
 import { MapInteraction } from './interaction/mapInteraction';
@@ -55,7 +54,7 @@ for(let puzzleName in Config.Plugins.external){
 * https://github.com/justindujardin/ng2-material/issues/271
 */
 //upgradeAdapter.addProvider(provide(OVERLAY_CONTAINER_TOKEN, {useValue: createOverlayContainer()}));
-upgradeAdapter.addProvider(MATERIAL_PROVIDERS);
+// upgradeAdapter.addProvider(MATERIAL_PROVIDERS);
 
 /** for Angular Forms:
 * instead of
@@ -65,8 +64,8 @@ upgradeAdapter.addProvider(MATERIAL_PROVIDERS);
 * ])`
 * that cannot be used until we bootstrap as Angular 2
 */
-upgradeAdapter.addProvider(disableDeprecatedForms());
-upgradeAdapter.addProvider(provideForms());
+// upgradeAdapter.addProvider(disableDeprecatedForms());
+// upgradeAdapter.addProvider(provideForms());
 
 
 var topiChatServices = angular.module('topiChatServices');
@@ -165,8 +164,6 @@ upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
 // injector.addPath("collaboPlugins.globalEmitterService", GlobalEmitterService);
 injector.addPath("utils.globalEmitterService", Injector);
 injector.addPath("interaction.MapInteraction", MapInteraction);
-// not working :( since it injects class not service singletone instance
-// injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
 
 angular.module('Config')
 	.constant("injector", injector)
@@ -177,7 +174,7 @@ angular.module('Config')
 // provide provider necessary in the DbAuditService service
 // http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html
 import { HTTP_PROVIDERS } from '@angular/http';
-upgradeAdapter.addProvider(HTTP_PROVIDERS);
+// upgradeAdapter.addProvider(HTTP_PROVIDERS);
 
 // import { ActivatedRoute } from '@angular/router';
 // upgradeAdapter.addProvider(ActivatedRoute);
@@ -188,25 +185,31 @@ upgradeAdapter.addProvider(HTTP_PROVIDERS);
 //     .service('DemoPuzzleService', upgradeAdapter.downgradeNg2Provider(DemoPuzzleService))
 //     ;
 
-upgradeAdapter.addProvider(ChangeService);
+import {ChangeService} from '../components/change/change.service';
+// upgradeAdapter.addProvider(ChangeService);
 var changeServices =
     angular.module('changeServices');
 changeServices.
     service('ChangeService', upgradeAdapter.downgradeNg2Provider(ChangeService));
 
-upgradeAdapter.addProvider(CollaboGrammarService);
+import {CollaboGrammarService} from '../components/collaboPlugins/CollaboGrammarService';
+// not working :( since it injects class not service singletone instance
+// injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
+// upgradeAdapter.addProvider(CollaboGrammarService);
 var collaboServices =
     angular.module('collaboPluginsServices');
 collaboServices.
     service('CollaboGrammarService', upgradeAdapter.downgradeNg2Provider(CollaboGrammarService));
 
-upgradeAdapter.addProvider(BrainstormingService);
+import {BrainstormingService} from '../components/brainstorming/brainstorming.service';
+// upgradeAdapter.addProvider(BrainstormingService);
 var brainstormingServices = angular.module('brainstormingServices');
 brainstormingServices
     .service('BrainstormingService', upgradeAdapter.downgradeNg2Provider(BrainstormingService))
     ;
 
-upgradeAdapter.addProvider(SessionService);
+import {SessionService} from '../components/session/session.service';
+// upgradeAdapter.addProvider(SessionService);
 var sessionServices = angular.module('sessionServices');
 sessionServices
   .service('SessionService', upgradeAdapter.downgradeNg2Provider(SessionService))

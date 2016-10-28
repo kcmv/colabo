@@ -36,7 +36,7 @@ In folder `src/frontend/app/js/`
   + here we include our NG2 service file with `import {DemoPuzzleService} from '../components/demoPuzzle/demoPuzzle.service';`
   + then we add our NG2 DemoPuzzleService as a provider to NG2 world and also we add it (downgraded to NG1) to our NG1 service (created in demoPuzzle/js/services.js) and thus to NG1 world
   ```
-  upgradeAdapter.addProvider(DemoPuzzleService);
+  // upgradeAdapter.addProvider(DemoPuzzleService);
   var demoPuzzleServices = angular.module('demoPuzzleServices');
   demoPuzzleServices
       .service('DemoPuzzleService', upgradeAdapter.downgradeNg2Provider(DemoPuzzleService))
