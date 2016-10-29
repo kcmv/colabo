@@ -1,4 +1,4 @@
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
+// import {MATERIAL_DIRECTIVES} from 'ng2-material';
 
 // https://github.com/angular/angular/blob/master/modules/@angular/src/upgrade/upgrade_adapter.ts
 import {upgradeAdapter} from './upgrade_adapter';
@@ -20,10 +20,10 @@ import {RequestService} from '../components/request/request.service';
 import {ApprovalNodeService} from '../components/gardening/approval.node.service';
 import {SuggestionService} from '../components/suggestion/suggestion.service';
 
-import {MATERIAL_PROVIDERS} from 'ng2-material';
+// import {MATERIAL_PROVIDERS} from 'ng2-material';
 // import {provide} from '@angular/core';
 
-import { disableDeprecatedForms, provideForms } from '@angular/forms';
+// import { disableDeprecatedForms, provideForms } from '@angular/forms';
 
 // Bootstrap 4 + ng2
 // import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -67,6 +67,95 @@ for(let puzzleName in Config.Plugins.external){
 // upgradeAdapter.addProvider(disableDeprecatedForms());
 // upgradeAdapter.addProvider(provideForms());
 
+declare var angular;
+
+// In Angular 2, we have to add a provider configuration for the component’s injector,
+// but since we don’t bootstrap using Angular 2, there’s no way to do so.
+// ngUpgrade allows us to add a provider using the addProvider() method to solve this scenario.
+// upgradeAdapter.addProvider(GlobalEmitterServicesArray);
+
+// registering ng1 services (written in TypeScript) into/as ng1 services
+var knalledgeMapServicesModule = angular.module('knalledgeMapServices');
+knalledgeMapServicesModule
+  .service('KnalledgeMapPolicyService', KnalledgeMapPolicyService)
+  .service('KnalledgeMapViewService', KnalledgeMapViewService)
+ // .service('GlobalEmitterService', upgradeAdapter.downgradeNg2Provider(GlobalEmitterService))
+ // .service('GlobalEmitterService', GlobalEmitterService)
+ .service('GlobalEmitterServicesArray', GlobalEmitterServicesArray)
+ // .service('BroadcastManagerService', BroadcastManagerService)
+  ;
+
+import {ChangeService} from '../components/change/change.service';
+// upgradeAdapter.addProvider(ChangeService);
+var changeServices =
+    angular.module('changeServices');
+changeServices.
+    service('ChangeService', upgradeAdapter.downgradeNg2Provider(ChangeService));
+
+import {CollaboGrammarService} from '../components/collaboPlugins/CollaboGrammarService';
+// not working :( since it injects class not service singletone instance
+// injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
+// upgradeAdapter.addProvider(CollaboGrammarService);
+var collaboServices =
+    angular.module('collaboPluginsServices');
+collaboServices.
+    service('CollaboGrammarService', upgradeAdapter.downgradeNg2Provider(CollaboGrammarService));
+
+import {BrainstormingService} from '../components/brainstorming/brainstorming.service';
+// upgradeAdapter.addProvider(BrainstormingService);
+var brainstormingServices = angular.module('brainstormingServices');
+brainstormingServices
+    .service('BrainstormingService', upgradeAdapter.downgradeNg2Provider(BrainstormingService))
+    ;
+
+import {SessionService} from '../components/session/session.service';
+// upgradeAdapter.addProvider(SessionService);
+var sessionServices = angular.module('sessionServices');
+sessionServices
+  .service('SessionService', upgradeAdapter.downgradeNg2Provider(SessionService))
+  ;
+
+
+// upgrading ng1 services into ng2 space
+upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
+upgradeAdapter.upgradeNg1Provider('RimaService');
+
+upgradeAdapter.upgradeNg1Provider('CollaboPluginsService');
+
+upgradeAdapter.upgradeNg1Provider('Plugins');
+upgradeAdapter.upgradeNg1Provider('ENV');
+// upgradeAdapter.upgradeNg1Provider('$injector');
+upgradeAdapter.upgradeNg1Provider('KnalledgeMapService');
+upgradeAdapter.upgradeNg1Provider('KnalledgeMapVOsService');
+// upgradeAdapter.upgradeNg1Provider('BroadcastManagerService');
+upgradeAdapter.upgradeNg1Provider('TopiChatConfigService');
+upgradeAdapter.upgradeNg1Provider('TopiChatService');
+upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
+upgradeAdapter.upgradeNg1Provider('RequestService');
+upgradeAdapter.upgradeNg1Provider('ApprovalNodeService');
+upgradeAdapter.upgradeNg1Provider('SuggestionService');
+upgradeAdapter.upgradeNg1Provider('IbisTypesService');
+
+// upgradeAdapter.addProvider(GlobalEmitterService);
+// upgradeAdapter.upgradeNg1Provider(GlobalEmitterService);
+// upgradeAdapter.addProvider(GlobalEmitterService);
+
+// knalledgeMapServicesModule
+//     .service('GlobalEmitterServicesArray', upgradeAdapter.downgradeNg2Provider(GlobalEmitterServicesArray));
+
+// upgrading ng1 services (written in TS) into ng2 space
+upgradeAdapter.upgradeNg1Provider('KnalledgeMapPolicyService');
+upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
+
+
+// injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
+// injector.addPath("collaboPlugins.globalEmitterService", GlobalEmitterService);
+injector.addPath("utils.globalEmitterService", Injector);
+injector.addPath("interaction.MapInteraction", MapInteraction);
+
+angular.module('Config')
+	.constant("injector", injector)
+;
 
 var topiChatServices = angular.module('topiChatServices');
 topiChatServices
@@ -112,68 +201,11 @@ angular.module('knalledgeMapDirectives')
   })
     ;
 
-// In Angular 2, we have to add a provider configuration for the component’s injector,
-// but since we don’t bootstrap using Angular 2, there’s no way to do so.
-// ngUpgrade allows us to add a provider using the addProvider() method to solve this scenario.
-// upgradeAdapter.addProvider(GlobalEmitterServicesArray);
-
-// registering ng1 services (written in TypeScript) into/as ng1 services
-var knalledgeMapServicesModule = angular.module('knalledgeMapServices');
-knalledgeMapServicesModule
-  .service('KnalledgeMapPolicyService', KnalledgeMapPolicyService)
-  .service('KnalledgeMapViewService', KnalledgeMapViewService)
- // .service('GlobalEmitterService', upgradeAdapter.downgradeNg2Provider(GlobalEmitterService))
- // .service('GlobalEmitterService', GlobalEmitterService)
- .service('GlobalEmitterServicesArray', GlobalEmitterServicesArray)
- // .service('BroadcastManagerService', BroadcastManagerService)
-  ;
-
-// upgrading ng1 services into ng2 space
-upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
-upgradeAdapter.upgradeNg1Provider('RimaService');
-
-upgradeAdapter.upgradeNg1Provider('CollaboPluginsService');
-
-upgradeAdapter.upgradeNg1Provider('Plugins');
-upgradeAdapter.upgradeNg1Provider('ENV');
-// upgradeAdapter.upgradeNg1Provider('$injector');
-upgradeAdapter.upgradeNg1Provider('KnalledgeMapService');
-upgradeAdapter.upgradeNg1Provider('KnalledgeMapVOsService');
-// upgradeAdapter.upgradeNg1Provider('BroadcastManagerService');
-upgradeAdapter.upgradeNg1Provider('TopiChatConfigService');
-upgradeAdapter.upgradeNg1Provider('TopiChatService');
-upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
-upgradeAdapter.upgradeNg1Provider('RequestService');
-upgradeAdapter.upgradeNg1Provider('ApprovalNodeService');
-upgradeAdapter.upgradeNg1Provider('SuggestionService');
-upgradeAdapter.upgradeNg1Provider('IbisTypesService');
-
-// upgradeAdapter.addProvider(GlobalEmitterService);
-// upgradeAdapter.upgradeNg1Provider(GlobalEmitterService);
-// upgradeAdapter.addProvider(GlobalEmitterService);
-
-// knalledgeMapServicesModule
-//     .service('GlobalEmitterServicesArray', upgradeAdapter.downgradeNg2Provider(GlobalEmitterServicesArray));
-
-// upgrading ng1 services (written in TS) into ng2 space
-upgradeAdapter.upgradeNg1Provider('KnalledgeMapPolicyService');
-upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
-
-
-// injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
-// injector.addPath("collaboPlugins.globalEmitterService", GlobalEmitterService);
-injector.addPath("utils.globalEmitterService", Injector);
-injector.addPath("interaction.MapInteraction", MapInteraction);
-
-angular.module('Config')
-	.constant("injector", injector)
-;
-
 // console.log('GOTOVO ng2 a');
 
 // provide provider necessary in the DbAuditService service
 // http://blog.thoughtram.io/angular/2015/10/24/upgrading-apps-to-angular-2-using-ngupgrade.html
-import { HTTP_PROVIDERS } from '@angular/http';
+// import { HTTP_PROVIDERS } from '@angular/http';
 // upgradeAdapter.addProvider(HTTP_PROVIDERS);
 
 // import { ActivatedRoute } from '@angular/router';
@@ -185,39 +217,7 @@ import { HTTP_PROVIDERS } from '@angular/http';
 //     .service('DemoPuzzleService', upgradeAdapter.downgradeNg2Provider(DemoPuzzleService))
 //     ;
 
-import {ChangeService} from '../components/change/change.service';
-// upgradeAdapter.addProvider(ChangeService);
-var changeServices =
-    angular.module('changeServices');
-changeServices.
-    service('ChangeService', upgradeAdapter.downgradeNg2Provider(ChangeService));
-
-import {CollaboGrammarService} from '../components/collaboPlugins/CollaboGrammarService';
-// not working :( since it injects class not service singletone instance
-// injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
-// upgradeAdapter.addProvider(CollaboGrammarService);
-var collaboServices =
-    angular.module('collaboPluginsServices');
-collaboServices.
-    service('CollaboGrammarService', upgradeAdapter.downgradeNg2Provider(CollaboGrammarService));
-
-import {BrainstormingService} from '../components/brainstorming/brainstorming.service';
-// upgradeAdapter.addProvider(BrainstormingService);
-var brainstormingServices = angular.module('brainstormingServices');
-brainstormingServices
-    .service('BrainstormingService', upgradeAdapter.downgradeNg2Provider(BrainstormingService))
-    ;
-
-import {SessionService} from '../components/session/session.service';
-// upgradeAdapter.addProvider(SessionService);
-var sessionServices = angular.module('sessionServices');
-sessionServices
-  .service('SessionService', upgradeAdapter.downgradeNg2Provider(SessionService))
-  ;
-
-
-
 // bootstrapping app
-upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false});
+upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: true});
 
 // console.log('GOTOVO ng2 b');

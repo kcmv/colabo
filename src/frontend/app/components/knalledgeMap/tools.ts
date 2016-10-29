@@ -1,9 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {NgIf} from '@angular/common';
-import {FORM_DIRECTIVES} from '@angular/forms';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MdRadioButton, MdRadioGroup, MdRadioDispatcher} from '@angular2-material/radio';
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
@@ -21,10 +18,8 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
 var componentDirectives = [
-    MATERIAL_DIRECTIVES,
     // MdList, MdListItem, MdContent, MdButton, MdSwitch,
-    NgIf, FORM_DIRECTIVES,
-    MdRadioButton, MdRadioGroup,
+    NgIf,
     //upgradeAdapter.upgradeNg1Component('rimaUsersList'),
     // upgradeAdapter.upgradeNg1Component('ibisTypesList')
 ];
@@ -54,11 +49,8 @@ if (PluginsPreloader.components.IbisTypesList) {
 
 @Component({
     selector: 'knalledge-map-tools',
-    providers: [MdRadioDispatcher],
-    directives: [
-      componentDirectives
-      //, IbisTypesList
-    ],
+    providers: [],
+    directives: componentDirectives,
     styles: [`
         .msg {
             font-size: 0.5em;

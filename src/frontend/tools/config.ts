@@ -535,6 +535,7 @@ if (ENABLE_HOT_LOADING) {
 
 // Declare NPM dependencies (Note that globs should not be injected).
 const NPM_DEPENDENCIES: IDependency[] = [
+    { src: 'core-js/client/shim.min.js', inject: 'shims' },
     { src: 'systemjs/dist/system-polyfills.src.js', inject: 'shims' },
     { src: 'reflect-metadata/Reflect.js', inject: 'shims' },
     { src: 'systemjs/dist/system.src.js', inject: 'shims' },

@@ -52,6 +52,7 @@ export class PluginsPreloader {
           }
           if(service.isGlobal){
             // upgradeAdapter
+            // TODO: @mprinc: i think we need to fix it
             // upgradeAdapter.addProvider(serviceClass);
           }
         }

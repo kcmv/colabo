@@ -4,7 +4,7 @@
 
 import {UpgradeAdapter} from '@angular/upgrade';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser-dynamic';
+import { BrowserModule } from '@angular/platform-browser';
 
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
@@ -14,8 +14,29 @@ import {MaterialModule} from '@angular/material';
 // import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2MaterialModule} from 'ng2-material';
 
+// providers
+import {ChangeService} from '../components/change/change.service';
+// upgradeAdapter.addProvider(ChangeService);
+import {CollaboGrammarService} from '../components/collaboPlugins/CollaboGrammarService';
+import {BrainstormingService} from '../components/brainstorming/brainstorming.service';
+import {SessionService} from '../components/session/session.service';
+
+var moduleProviders = [
+  // MATERIAL_PROVIDERS,
+  // DbAuditService,
+  // ChangeService
+  // provideRouter
+  // RequestService
+  // ROUTER_PROVIDERS
+  // BrainstormingService
+
+    // ChangeService,
+    // CollaboGrammarService,
+    // BrainstormingService,
+    // SessionService
+];
+
 @NgModule({
-//   imports: [ NgbModule ]
   imports: [
     BrowserModule,
     FormsModule,
@@ -27,9 +48,10 @@ import {Ng2MaterialModule} from 'ng2-material';
   declarations: [
     // DemoApp,
   ],
-  entryComponents: [
-    // DemoApp,
-  ],
+  providers: moduleProviders,
+  // entryComponents: [
+  //   // DemoApp,
+  // ],
 })
 export class AppModule {}
 

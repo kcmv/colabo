@@ -2,11 +2,11 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {LoginStatusComponent} from '../login/login-status-component';
 // import {Media, MdContent, MdButton} from 'ng2-material';
-import {MATERIAL_DIRECTIVES, Media, MdDialog} from "ng2-material";
+import {Media, MdDialog} from "ng2-material";
 import {InfoForDialog} from '../../js/interaction/infoForDialog';
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
-import { Router, ROUTER_DIRECTIVES} from '@angular/router';
+import { Router} from '@angular/router';
 
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
@@ -17,7 +17,7 @@ import {MediaShowComponent} from '../mediaShow/mediaShow.component';
 import {BottomPanel} from '../bottomPanel/bottomPanel';
 import {UserDialogComponent} from '../rima/user-dialog-component';
 
-import {ChangeService} from '../change/change.service';
+// import {ChangeService} from '../change/change.service';
 
 declare var window;
 declare var Config;
@@ -54,11 +54,25 @@ declare var knalledge;
 // ])
 //
 
+
+var componentProviders = [
+  // MATERIAL_PROVIDERS,
+  // DbAuditService,
+  // ChangeService
+  // provideRouter
+  // RequestService
+  // ROUTER_PROVIDERS
+  // BrainstormingService
+
+    // ChangeService,
+    // CollaboGrammarService,
+    // BrainstormingService,
+    // SessionService
+];
+
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
 var componentDirectives = [
-    MATERIAL_DIRECTIVES,
-    ROUTER_DIRECTIVES,
     // MdContent, MdButton,
     //   LoginStatusComponent,
     upgradeAdapter.upgradeNg1Component('knalledgeMap'),
@@ -77,15 +91,7 @@ PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', comp
     selector: 'knalledge-map-main',
     moduleId: module.id,
     templateUrl: 'partials/main.tpl.html',
-    providers: [
-        // MATERIAL_PROVIDERS,
-        // DbAuditService,
-        // ChangeService
-        // provideRouter
-        // RequestService
-        // ROUTER_PROVIDERS
-        // BrainstormingService
-    ],
+    providers: componentProviders,
     directives: componentDirectives,
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
@@ -121,7 +127,7 @@ export class KnalledgeMapMain implements OnInit{
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray//,
-        @Inject('CollaboPluginsService') private collaboPluginsService
+        // @Inject('CollaboPluginsService') private collaboPluginsService
         // public dbAuditService: DbAuditService
         ) {
         let that:KnalledgeMapMain = this;
