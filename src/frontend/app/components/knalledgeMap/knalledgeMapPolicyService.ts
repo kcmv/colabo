@@ -7,6 +7,9 @@
 export class KnalledgeMapPolicyService {
   private provider: any = {
     config: {
+      running: {
+        ng1ng2Ready: false,
+      },
       broadcasting: {
           enabled: false, //broaadcasting toward receviers
           receiveNavigation: true, //going through map (changing selected nodes), ...
