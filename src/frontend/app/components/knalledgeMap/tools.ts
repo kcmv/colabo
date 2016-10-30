@@ -1,6 +1,5 @@
 import {Component, Inject} from '@angular/core';
 import {NgIf} from '@angular/common';
-import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
@@ -19,7 +18,6 @@ import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
 var componentDirectives = [
     // MdList, MdListItem, MdContent, MdButton, MdSwitch,
-    NgIf,
     //upgradeAdapter.upgradeNg1Component('rimaUsersList'),
     // upgradeAdapter.upgradeNg1Component('ibisTypesList')
 ];
@@ -47,10 +45,16 @@ if (PluginsPreloader.components.IbisTypesList) {
     console.warn("[KnalledgeMapTools] Not loading IbisTypesList");
 }
 
+import { NgModule } from '@angular/core';
+// @NgModule for tools
+@NgModule({
+  declarations: componentDirectives
+})
+export class ToolsModule {}
+
 @Component({
     selector: 'knalledge-map-tools',
     providers: [],
-    directives: componentDirectives,
     styles: [`
         .msg {
             font-size: 0.5em;

@@ -73,6 +73,7 @@ var componentProviders = [
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
 var componentDirectives = [
+    // KnalledgeMapMain,
     // MdContent, MdButton,
     //   LoginStatusComponent,
     upgradeAdapter.upgradeNg1Component('knalledgeMap'),
@@ -86,13 +87,26 @@ var componentDirectives = [
 ];
 
 PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', componentDirectives);
+import {ToolsModule} from './tools';
 
+import { NgModule } from '@angular/core';
+// @NgModule for tools
+@NgModule({
+  imports: [
+    // CF modules
+    ToolsModule
+  ],
+  // http://stackoverflow.com/questions/39454379/angular-2-directives-argument-of-type-is-not-assignable-to
+  declarations: componentDirectives
+})
+export class MainModule {}
+
+// https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html
 @Component({
     selector: 'knalledge-map-main',
     moduleId: module.id,
     templateUrl: 'partials/main.tpl.html',
     providers: componentProviders,
-    directives: componentDirectives,
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
     // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
