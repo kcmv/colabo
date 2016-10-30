@@ -228,17 +228,20 @@ import {MaterialModule} from '@angular/material';
 // import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2MaterialModule} from 'ng2-material';
 
+// import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
+
 var moduleProviders = [
   // MATERIAL_PROVIDERS,
-  // DbAuditService,
-  // ChangeService
   // provideRouter
-  // RequestService
   // ROUTER_PROVIDERS
+
+  // DbAuditService,
+  // RequestService
   // BrainstormingService
 
-    // ChangeService,
-    // CollaboGrammarService,
+  // NG2 TS services
+    ChangeService,
+    CollaboGrammarService,
     // BrainstormingService,
     // SessionService
 ];
@@ -261,7 +264,7 @@ var moduleDeclarations = [
     HttpModule,
     // RouterModule.forRoot(DEMO_APP_ROUTES),
     MaterialModule.forRoot(),
-    Ng2MaterialModule,
+    Ng2MaterialModule.forRoot(),
 
     // CF modules
     MainModule
