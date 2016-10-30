@@ -217,7 +217,74 @@ angular.module('knalledgeMapDirectives')
 //     .service('DemoPuzzleService', upgradeAdapter.downgradeNg2Provider(DemoPuzzleService))
 //     ;
 
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+
+import {MaterialModule} from '@angular/material';
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {Ng2MaterialModule} from 'ng2-material';
+
+var moduleProviders = [
+  // MATERIAL_PROVIDERS,
+  // DbAuditService,
+  // ChangeService
+  // provideRouter
+  // RequestService
+  // ROUTER_PROVIDERS
+  // BrainstormingService
+
+    // ChangeService,
+    // CollaboGrammarService,
+    // BrainstormingService,
+    // SessionService
+];
+
+// import {KnalledgeMapTools} from '../components/knalledgeMap/tools';
+import {MainModule} from '../components/knalledgeMap/main';
+
+var moduleDeclarations = [
+  // NG1 components
+    // upgradeAdapter.upgradeNg1Component('ng1DirectivesTest'),
+
+  // NG2 components
+    KnalledgeMapMain,
+];
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    // RouterModule.forRoot(DEMO_APP_ROUTES),
+    MaterialModule.forRoot(),
+    Ng2MaterialModule,
+
+    // CF modules
+    MainModule
+  ],
+  declarations: moduleDeclarations,
+  providers: moduleProviders,
+  // entryComponents: [
+  //   // DemoApp,
+  // ],
+})
+export class AppModule {}
+
+// patching fake NgModule with a real one
+// TODO: NOTE: this part is implementation speciffic and needs to be checked against new angular versions
+upgradeAdapter['ng2AppModule'] = AppModule;
+
 // bootstrapping app
-upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: true});
+upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: true})
+.ready((ref) => {
+  var knalledgeMapPolicyService = ref.ng1Injector.get('KnalledgeMapPolicyService');
+  alert('KnalledgeMapPolicyService: ' + knalledgeMapPolicyService);
+  // knalledgeMapPolicyService.provider.config.info.ready = true;
+});
+
 
 // console.log('GOTOVO ng2 b');
