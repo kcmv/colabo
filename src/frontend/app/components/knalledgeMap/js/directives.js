@@ -40,10 +40,9 @@
 	 * @memberof knalledge.knalledgeMap.knalledgeMapDirectives
 	 */
 	.directive('knalledgeMap', ['$injector', '$rootScope', '$compile', '$route', '$routeParams', '$timeout', '$location', '$window',
-			'KnalledgeNodeService', 'KnalledgeEdgeService', 'KnalledgeMapVOsService',
-			'KnalledgeMapService', 'KnalledgeMapViewService',
+			'KnalledgeMapViewService',
 			'KnAllEdgeSelectItemService', 'KnalledgeMapPolicyService',
-			'CollaboPluginsService', 'SyncingService', 'injector', 'Plugins',
+			'CollaboPluginsService', 'injector', 'Plugins',
 			/**
 			 * @memberof knalledge.knalledgeMap.knalledgeMapDirectives.knalledgeMap#
 			 * @constructor
@@ -61,97 +60,10 @@
 			 */
 
 			function($injector, $rootScope, $compile, $route, $routeParams, $timeout, $location, $window,
-				KnalledgeNodeService, KnalledgeEdgeService, KnalledgeMapVOsService,
-				KnalledgeMapService, KnalledgeMapViewService,
+				KnalledgeMapViewService,
 				KnAllEdgeSelectItemService, KnalledgeMapPolicyService,
-				CollaboPluginsService, SyncingService, injector, Plugins) {
+				CollaboPluginsService, injector, Plugins) {
 
-				// getting services dinamicaly by injecting
-				// TODO: here we can inject config object/service
-				// that will pull/provide services across the system
-				// depending on available (which is configurabe) components/plugins
-				// and services
-				try {
-					// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
-					var IbisTypesService = $injector.get('IbisTypesService');
-				} catch (err) {
-					console.warn("Error while trying to retrieve the IbisTypesService service:", err);
-				}
-				try {
-					// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
-					var NotifyService = $injector.get('NotifyService');
-				} catch (err) {
-					console.warn("Error while trying to retrieve the NotifyService service:", err);
-				}
-				var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
-
-				try {
-					// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
-					var KnAllEdgeRealTimeService = Plugins.puzzles.knalledgeMap.config.knAllEdgeRealTimeService.available ?
-						$injector.get('KnAllEdgeRealTimeService') : null;
-				} catch (err) {
-					console.warn("Error while trying to retrieve the KnAllEdgeRealTimeService service:", err);
-				}
-				try {
-					// * @param  {rima.rimaServices.RimaService}  RimaService
-					var RimaService = Plugins.puzzles.rima.config.rimaService.available ?
-						$injector.get('RimaService') : null;
-				} catch (err) {
-					console.warn(err);
-				}
-
-				try {
-					// * @param {knalledge.collaboPluginsServices.CollaboGrammarService} CollaboGrammarService
-					var CollaboGrammarService = Plugins.puzzles.collaboGrammar.config.collaboGrammarService.available ?
-						$injector.get('CollaboGrammarService') : null;
-				} catch (err) {
-					console.warn(err);
-				}
-
-				injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
-
-				//duplikat: var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
-				var changeKnalledgePropertyEvent = "changeKnalledgePropertyEvent";
-				GlobalEmitterServicesArray.register(changeKnalledgePropertyEvent);
-				var knalledgeMapUpdateEvent = "knalledgeMapUpdateEvent";
-				GlobalEmitterServicesArray.register(knalledgeMapUpdateEvent);
-				var mapEntitySelectedEvent = "mapEntitySelectedEvent";
-				GlobalEmitterServicesArray.register(mapEntitySelectedEvent);
-				var changeKnalledgeRimaEvent = "changeKnalledgeRimaEvent";
-				GlobalEmitterServicesArray.register(changeKnalledgeRimaEvent);
-				var changeSelectedNodeEvent = "changeSelectedNodeEvent";
-				GlobalEmitterServicesArray.register(changeSelectedNodeEvent);
-				var selectedNodeChangedEvent = "selectedNodeChangedEvent";
-				GlobalEmitterServicesArray.register(selectedNodeChangedEvent);
-
-				var KnRealTimeNodeCreatedEvent = "node-created-to-visual";
-				GlobalEmitterServicesArray.register(KnRealTimeNodeCreatedEvent);
-				var KnRealTimeNodeDeletedEvent = "node-deleted-to-visual";
-				GlobalEmitterServicesArray.register(KnRealTimeNodeDeletedEvent);
-				var KnRealTimeNodeUpdatedEvent = "node-updated-to-visual";
-				GlobalEmitterServicesArray.register(KnRealTimeNodeUpdatedEvent);
-
-				var KnRealTimeEdgeCreatedEvent = "edge-created-to-visual";
-				GlobalEmitterServicesArray.register(KnRealTimeEdgeCreatedEvent);
-				var KnRealTimeEdgeUpdatedEvent = "edge-updated-to-visual";
-				GlobalEmitterServicesArray.register(KnRealTimeEdgeUpdatedEvent);
-				var KnRealTimeEdgeDeletedEvent = "edge-deleted-to-visual";
-				GlobalEmitterServicesArray.register(KnRealTimeEdgeDeletedEvent);
-
-				var modelLoadedEvent = "modelLoadedEvent";
-				GlobalEmitterServicesArray.register(modelLoadedEvent);
-				var knalledgePropertyChangedEvent = "knalledgePropertyChangedEvent";
-				GlobalEmitterServicesArray.register(knalledgePropertyChangedEvent);
-				var behaviourChangedEvent = "behaviourChangedEvent";
-				GlobalEmitterServicesArray.register(behaviourChangedEvent);
-
-				var nodeMediaClickedEvent = "nodeMediaClickedEvent";
-				GlobalEmitterServicesArray.register(nodeMediaClickedEvent);
-
-				var PRESENTER_CHANGED = "PRESENTER_CHANGED";
-				GlobalEmitterServicesArray.register(PRESENTER_CHANGED);
-
-				// http://docs.angularjs.org/guide/directive
 				console.log("[knalledgeMap] loading directive");
 				return {
 					restrict: 'EA',
@@ -164,6 +76,119 @@
 					// expression: http://docs.angularjs.org/guide/expression
 					templateUrl: 'components/knalledgeMap/partials/knalledgeMap.tpl.html',
 					controller: function($scope, $element) {
+						// getting services dinamicaly by injecting
+						try {
+							var KnalledgeNodeService = $injector.get('KnalledgeNodeService');
+						} catch (err) {
+							console.warn("[knalledgeMapDirectives:knalledgeMap] Error while trying to retrieve the KnalledgeNodeService service:", err);
+						}
+						try {
+							var KnalledgeEdgeService = $injector.get('KnalledgeEdgeService');
+						} catch (err) {
+							console.warn("[knalledgeMapDirectives:knalledgeMap] Error while trying to retrieve the KnalledgeEdgeService service:", err);
+						}
+						try {
+							var KnalledgeMapVOsService = $injector.get('KnalledgeMapVOsService');
+						} catch (err) {
+							console.warn("[knalledgeMapDirectives:knalledgeMap] Error while trying to retrieve the KnalledgeMapVOsService service:", err);
+						}
+						try {
+							var KnalledgeMapService = $injector.get('KnalledgeMapService');
+						} catch (err) {
+							console.warn("[knalledgeMapDirectives:knalledgeMap] Error while trying to retrieve the KnalledgeMapService service:", err);
+						}
+						try {
+							var SyncingService = $injector.get('SyncingService');
+						} catch (err) {
+							console.warn("[knalledgeMapDirectives:knalledgeMap] Error while trying to retrieve the SyncingService service:", err);
+						}
+
+						// TODO: here we can inject config object/service
+						// that will pull/provide services across the system
+						// depending on available (which is configurabe) components/plugins
+						// and services
+						try {
+							// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
+							var IbisTypesService = $injector.get('IbisTypesService');
+						} catch (err) {
+							console.warn("Error while trying to retrieve the IbisTypesService service:", err);
+						}
+						try {
+							// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
+							var NotifyService = $injector.get('NotifyService');
+						} catch (err) {
+							console.warn("Error while trying to retrieve the NotifyService service:", err);
+						}
+						var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
+						try {
+							// * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
+							var KnAllEdgeRealTimeService = Plugins.puzzles.knalledgeMap.config.knAllEdgeRealTimeService.available ?
+								$injector.get('KnAllEdgeRealTimeService') : null;
+						} catch (err) {
+							console.warn("Error while trying to retrieve the KnAllEdgeRealTimeService service:", err);
+						}
+						try {
+							// * @param  {rima.rimaServices.RimaService}  RimaService
+							var RimaService = Plugins.puzzles.rima.config.rimaService.available ?
+								$injector.get('RimaService') : null;
+						} catch (err) {
+							console.warn(err);
+						}
+
+						try {
+							// * @param {knalledge.collaboPluginsServices.CollaboGrammarService} CollaboGrammarService
+							var CollaboGrammarService = Plugins.puzzles.collaboGrammar.config.collaboGrammarService.available ?
+								$injector.get('CollaboGrammarService') : null;
+						} catch (err) {
+							console.warn(err);
+						}
+
+						injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);
+
+						//duplikat: var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+						var changeKnalledgePropertyEvent = "changeKnalledgePropertyEvent";
+						GlobalEmitterServicesArray.register(changeKnalledgePropertyEvent);
+						var knalledgeMapUpdateEvent = "knalledgeMapUpdateEvent";
+						GlobalEmitterServicesArray.register(knalledgeMapUpdateEvent);
+						var mapEntitySelectedEvent = "mapEntitySelectedEvent";
+						GlobalEmitterServicesArray.register(mapEntitySelectedEvent);
+						var changeKnalledgeRimaEvent = "changeKnalledgeRimaEvent";
+						GlobalEmitterServicesArray.register(changeKnalledgeRimaEvent);
+						var changeSelectedNodeEvent = "changeSelectedNodeEvent";
+						GlobalEmitterServicesArray.register(changeSelectedNodeEvent);
+						var selectedNodeChangedEvent = "selectedNodeChangedEvent";
+						GlobalEmitterServicesArray.register(selectedNodeChangedEvent);
+
+						var KnRealTimeNodeCreatedEvent = "node-created-to-visual";
+						GlobalEmitterServicesArray.register(KnRealTimeNodeCreatedEvent);
+						var KnRealTimeNodeDeletedEvent = "node-deleted-to-visual";
+						GlobalEmitterServicesArray.register(KnRealTimeNodeDeletedEvent);
+						var KnRealTimeNodeUpdatedEvent = "node-updated-to-visual";
+						GlobalEmitterServicesArray.register(KnRealTimeNodeUpdatedEvent);
+
+						var KnRealTimeEdgeCreatedEvent = "edge-created-to-visual";
+						GlobalEmitterServicesArray.register(KnRealTimeEdgeCreatedEvent);
+						var KnRealTimeEdgeUpdatedEvent = "edge-updated-to-visual";
+						GlobalEmitterServicesArray.register(KnRealTimeEdgeUpdatedEvent);
+						var KnRealTimeEdgeDeletedEvent = "edge-deleted-to-visual";
+						GlobalEmitterServicesArray.register(KnRealTimeEdgeDeletedEvent);
+
+						var modelLoadedEvent = "modelLoadedEvent";
+						GlobalEmitterServicesArray.register(modelLoadedEvent);
+						var knalledgePropertyChangedEvent = "knalledgePropertyChangedEvent";
+						GlobalEmitterServicesArray.register(knalledgePropertyChangedEvent);
+						var behaviourChangedEvent = "behaviourChangedEvent";
+						GlobalEmitterServicesArray.register(behaviourChangedEvent);
+
+						var nodeMediaClickedEvent = "nodeMediaClickedEvent";
+						GlobalEmitterServicesArray.register(nodeMediaClickedEvent);
+
+						var PRESENTER_CHANGED = "PRESENTER_CHANGED";
+						GlobalEmitterServicesArray.register(PRESENTER_CHANGED);
+
+						// http://docs.angularjs.org/guide/directive
+
 						$scope.subscriptions = [];
 
 						$scope.$on('$destroy', function() {

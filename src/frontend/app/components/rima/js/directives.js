@@ -170,42 +170,9 @@
 	// 	};
 	// }])
 
-	.directive('rimaRelevantWhatsList', ['$rootScope', '$injector', 'KnalledgeMapVOsService', 'RimaService',
-		function($rootScope, $injector, KnalledgeMapVOsService, RimaService) {
+	.directive('rimaRelevantWhatsList', ['$rootScope', '$injector',
+		function($rootScope, $injector) {
 			console.log("[rimaRelevantWhatsList] loading directive");
-			var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
-
-			var changeSelectedNodeEventName = "changeSelectedNodeEvent";
-			GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
-
-			var nodeUpdatedEventName = "node-updated-to-visual";
-			GlobalEmitterServicesArray.register(nodeUpdatedEventName);
-			GlobalEmitterServicesArray.get(nodeUpdatedEventName).subscribe('rimaWhats',
-				//checking if the node change is relevant to the logged_in user:
-				function(ch) {
-					//if(ch.changes.nodes[0].actionType === MapStructure.UPDATE_NODE_NAME){
-					//if(KnalledgeMapVOsService.mapStructure.isStructuralChange(ch.changes.nodes[0].actionType)){
-					var kNode = ch.changes.nodes[0].node;
-					console.log('nodeUpdatedEventName detected for node "', kNode.name, '". id: ' + kNode._id);
-					var vkNode = KnalledgeMapVOsService.mapStructure.getVKNodeByKId(kNode._id);
-					var ancestors = KnalledgeMapVOsService.mapStructure.getAllAncestorsPaths(vkNode);
-					var userHows = RimaService.howAmIs[RimaService.loggedInWhoAmI._id]; //RimaService.getActiveUserId()
-					var found = false;
-					for (var ancestorI in ancestors) {
-						var ancestor = ancestors[ancestorI];
-						if (ancestor.kNode.dataContent && ancestor.kNode.dataContent.rima) {
-							var nodeWhats = ancestor.kNode.dataContent.rima.whats;
-							if (RimaService.doHowsWhatsOverlap(userHows, nodeWhats)) {
-								found = true;
-								break;
-							}
-						}
-					}
-					if (found) {
-						console.log('found change in descendants of a node relevant to the logged_in user ');
-					}
-					//}
-				});
 
 			return {
 				restrict: 'AE',
@@ -217,6 +184,51 @@
 				// expression: http://docs.angularjs.org/guide/expression
 				templateUrl: 'components/rima/partials/rima-relevant_whats_list.tpl.html',
 				controller: function($scope, $element) {
+					try {
+						var KnalledgeMapVOsService = $injector.get('KnalledgeMapVOsService');
+					} catch (err) {
+						console.warn("[rimaDirectives:rimaRelevantWhatsList] Error while trying to retrieve the KnalledgeMapVOsService service:", err);
+					}
+					try {
+						var RimaService = $injector.get('RimaService');
+					} catch (err) {
+						console.warn("[rimaDirectives:rimaRelevantWhatsList] Error while trying to retrieve the RimaService service:", err);
+					}
+
+					var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
+					var changeSelectedNodeEventName = "changeSelectedNodeEvent";
+					GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
+
+					var nodeUpdatedEventName = "node-updated-to-visual";
+					GlobalEmitterServicesArray.register(nodeUpdatedEventName);
+					GlobalEmitterServicesArray.get(nodeUpdatedEventName).subscribe('rimaWhats',
+						//checking if the node change is relevant to the logged_in user:
+						function(ch) {
+							//if(ch.changes.nodes[0].actionType === MapStructure.UPDATE_NODE_NAME){
+							//if(KnalledgeMapVOsService.mapStructure.isStructuralChange(ch.changes.nodes[0].actionType)){
+							var kNode = ch.changes.nodes[0].node;
+							console.log('nodeUpdatedEventName detected for node "', kNode.name, '". id: ' + kNode._id);
+							var vkNode = KnalledgeMapVOsService.mapStructure.getVKNodeByKId(kNode._id);
+							var ancestors = KnalledgeMapVOsService.mapStructure.getAllAncestorsPaths(vkNode);
+							var userHows = RimaService.howAmIs[RimaService.loggedInWhoAmI._id]; //RimaService.getActiveUserId()
+							var found = false;
+							for (var ancestorI in ancestors) {
+								var ancestor = ancestors[ancestorI];
+								if (ancestor.kNode.dataContent && ancestor.kNode.dataContent.rima) {
+									var nodeWhats = ancestor.kNode.dataContent.rima.whats;
+									if (RimaService.doHowsWhatsOverlap(userHows, nodeWhats)) {
+										found = true;
+										break;
+									}
+								}
+							}
+							if (found) {
+								console.log('found change in descendants of a node relevant to the logged_in user ');
+							}
+							//}
+						});
+
 					$scope.bindings = {};
 
 					$scope.items = [];
