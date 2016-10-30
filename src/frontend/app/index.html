@@ -156,7 +156,7 @@
 
 			<% if (ENV === 'dev') { %>
 				<script>
-					console.warn("[collaboPlugins] Loading pluginsPreloader");
+					console.info("[collaboPlugins] Loading pluginsPreloader");
 					var pluginsPreloaderImportPromise =
 						System.import('./components/collaboPlugins/pluginsPreloader');
 					pluginsPreloaderImportPromise.catch(function(e) {
@@ -167,10 +167,10 @@
 					});
 
 					pluginsPreloaderImportPromise.then(function(pluginsPreloaderImport){
-						console.warn("[collaboPlugins] Waiting for plugins' components to load before loading the rest of the CollaboFramework System - MCM Tool");
+						console.info("[collaboPlugins] Waiting for plugins' components to load before loading the rest of the CollaboFramework System");
 						var pluginsPreloaderClass = pluginsPreloaderImport.PluginsPreloader;
 						pluginsPreloaderClass.componentsPromise.then(function(){
-							console.warn("[collaboPlugins] Loading rest of the CollaboFramework System - MCM Tool");
+							console.info("[collaboPlugins] Loading rest of the CollaboFramework System");
 							System.import('./js/app2')
 								.catch(function(e) {
 									console.error(e,
