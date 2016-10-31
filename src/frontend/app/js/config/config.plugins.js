@@ -142,18 +142,18 @@
                     //     active: true,
                     //     path: "/components/session/session-form.component"
                     // },
-                    // 'cf.puzzles.ibis.actionsForm': {
-                    //     active: true,
-                    //     path: "cf.puzzles.ibis.actionsForm"
-                    // },
-                    // 'cf.puzzles.presentation.actionsForm': {
-                    //     active: true,
-                    //     path: "cf.puzzles.presentation.actionsForm"
-                    // },
-                    // 'cf.puzzles.knalledgeList.component': {
-                    //     active: true,
-                    //     path: "cf.puzzles.knalledgeList.component"
-                    // }
+                    'cf.puzzles.ibis.actionsForm': {
+                        active: true,
+                        path: "cf.puzzles.ibis.actionsForm"
+                    },
+                    'cf.puzzles.presentation.actionsForm': {
+                        active: true,
+                        path: "cf.puzzles.presentation.actionsForm"
+                    },
+                    'cf.puzzles.knalledgeList.component': {
+                        active: true,
+                        path: "cf.puzzles.knalledgeList.component"
+                    }
                 }
             },
 
