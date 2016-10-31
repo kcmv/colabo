@@ -1,0 +1,33 @@
+<div class="presentation-list">
+	Presentation
+	<div class="switch" (click)="hideShowCommands()">
+		<button md-mini-fab md-tooltip="New Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="New Presentation" (click)="createPresentation()" *ngIf="!isPresentationAvailable()">
+				<md-icon title="New Presentation">add_to_queue</md-icon>
+		</button>
+		<button md-mini-fab md-tooltip="Show Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="Show Presentation" (click)="showPresentation()" *ngIf="isPresentationAvailable()">
+				<md-icon title="Show Presentation">play_circle_filled</md-icon>
+		</button>
+		<button md-mini-fab md-tooltip="Show Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="Show Presentation" (click)="showPresentationFromCurrentSlide()" *ngIf="isPresentationAvailable()">
+				<md-icon title="Show Presentation">play_circle_outline</md-icon>
+		</button>
+		<button md-mini-fab md-tooltip="Add Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Add Slide" (click)="addSlide()" *ngIf="isPresentationAvailable() && selectedItem() && !isSelectedItemInSlides()">
+				<md-icon title="Add Slide">add</md-icon>
+		</button>
+		<button md-mini-fab md-tooltip="Remove Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Remove Slide" (click)="removeSlide()" *ngIf="isPresentationAvailable() && isSelectedItemInSlides()">
+				<md-icon title="Remove Slide">remove</md-icon>
+		</button>
+		<button md-mini-fab md-tooltip="Move slide up" tooltip-position="below" class="md-mini md-primary" aria-label="Move slide up" (click)="slideMoveUp()" *ngIf="selectedItem() && !isFirst()">
+				<md-icon title="Move slide up">keyboard_arrow_up</md-icon>
+		</button>
+		<button md-mini-fab md-tooltip="Move slide down" tooltip-position="below" class="md-mini md-primary" aria-label="Move slide down" (click)="slideMoveDown()" *ngIf="selectedItem() && !isLast()">
+				<md-icon title="Move slide down">keyboard_arrow_down</md-icon>
+		</button>
+	</div>
+	({{getSlides().length}} slides)
+	<section class="slides" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+		<div class="slide clickable" (click)="selectSlide(slide)" *ngFor="let slide of getSlides()"
+		[ngClass]="{'active-selection': slide?.kNode?._id === selectedSlide?.kNode?._id}">
+			<div>{{slide?.kNode.name}}</div>
+		</div>
+	</section>
+</div>

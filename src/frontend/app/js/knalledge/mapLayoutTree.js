@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct("MapLayoutTree", mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService);
+var MapLayoutTree =  knalledge.MapLayoutTree = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService, knalledgeMapViewService, rimaService){
+	this.construct("MapLayoutTree", mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService, knalledgeMapViewService, rimaService);
 	this.tree = null;
 };
 
@@ -17,6 +17,7 @@ MapLayoutTree.prototype._super = function(){
 };
 
 MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not to compute array each time, but to update it upon changes
+	var that = this;
 	var children = [];
 	if(d.isOpen === false) return children;
 
@@ -24,6 +25,27 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 	// 	return children;
 	// }
 
+	function getPersonalNodeWeight(vkNode){
+		var iAmId = that.rimaService.getActiveUserId();
+
+		var vote = (vkNode.kNode.dataContent && vkNode.kNode.dataContent.ibis && vkNode.kNode.dataContent.ibis.votes && vkNode.kNode.dataContent.ibis.votes[iAmId]) ?
+			vkNode.kNode.dataContent.ibis.votes[iAmId] : 0;
+
+		return vote;
+	}
+
+	function getNodeWeight(vkNode){
+		var sum = 0;
+		if(vkNode.kNode.dataContent && vkNode.kNode.dataContent.ibis && vkNode.kNode.dataContent.ibis.votes){
+			for(var vote in vkNode.kNode.dataContent.ibis.votes){
+				sum+=vkNode.kNode.dataContent.ibis.votes[vote];
+			}
+		}
+
+		return sum;
+	}
+
+	var orderBy = this.knalledgeMapViewService.provider.config.edges.orderBy;
 	for(var i in this.mapStructure.edgesById){
 		var vkEdge = this.mapStructure.edgesById[i];
 		// if defined and set to false the vkEdge and its vkNode should not be presented
@@ -37,6 +59,18 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 				// if defined and set to false the vkNode should not be presented
 				if(vkNode.visible === false) continue;
 				if(this.mapStructure.isNodeVisible(vkNode)){
+					if(orderBy){
+						switch(orderBy){
+							case 'name':
+								break;
+							case 'vote':
+								vkNode.weight = getNodeWeight(vkNode);
+								break;
+							case 'personal_vote':
+								vkNode.weight = getPersonalNodeWeight(vkNode);
+								break;
+						}
+					}
 					children.push(vkNode);
 					vkNode.parent = d;
 				}
@@ -46,6 +80,22 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 			// }
 		}
 	}
+	if(orderBy){
+		children.sort(function(vkNode1, vkNode2){
+			switch(orderBy){
+				case 'name':
+					var name1=vkNode1.kNode.name.toLowerCase();
+					var name2=vkNode2.kNode.name.toLowerCase();
+					if (name1 < name2) return -1; //sort string ascending
+					else if (name1 > name2) return 1;
+					else return 0; //default return value (no sorting)
+				case 'vote':
+				case 'personal_vote':
+					return vkNode2.weight - vkNode1.weight;
+			}
+		});
+	}
+
 	return children;
 };
 

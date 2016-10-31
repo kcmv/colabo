@@ -1,15 +1,12 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 // import {LoginStatusComponent} from '../login/login-status-component';
 // import {Media, MdContent, MdButton} from 'ng2-material';
-import {MATERIAL_DIRECTIVES, Media, MdDialog} from "ng2-material";
-import {MdToolbar} from '@angular2-material/toolbar';
+import {Media, MdDialog} from "ng2-material";
 import {InfoForDialog} from '../../js/interaction/infoForDialog';
-//import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
-import { Router, ROUTER_DIRECTIVES} from '@angular/router';
+import { Router} from '@angular/router';
 
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
@@ -17,7 +14,7 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
-import {BottomPanel} from '../bottomPanel/bottomPanel';
+import {BottomPanel, BottomPanelModule, bottomPanelComponentDirectives} from '../bottomPanel/bottomPanel';
 import {UserDialogComponent} from '../rima/user-dialog-component';
 
 import {ChangeService} from '../change/change.service';
@@ -25,10 +22,6 @@ import {ChangeService} from '../change/change.service';
 declare var window;
 declare var Config;
 declare var knalledge;
-
-// import {DbAuditService} from './dbAudit.service';
-// import {Change} from '../change/change';
-// import {ChangeService} from "../change/change.service";
 
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
@@ -57,19 +50,21 @@ declare var knalledge;
 // ])
 //
 
+
+var componentProviders = [
+  // MATERIAL_PROVIDERS,
+  // provideRouter
+  // ROUTER_PROVIDERS
+];
+
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
 var componentDirectives = [
-    MATERIAL_DIRECTIVES,
-    MD_SIDENAV_DIRECTIVES,
-    ROUTER_DIRECTIVES,
-    MdToolbar,
-    // MdContent, MdButton,
-    //   LoginStatusComponent,
     upgradeAdapter.upgradeNg1Component('knalledgeMap'),
-    //  upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
+    // upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
 //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
+ // UNCOMMENT
     KnalledgeMapTools,
     MediaShowComponent,
     BottomPanel,
@@ -77,22 +72,50 @@ var componentDirectives = [
 ];
 
 PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', componentDirectives);
+import {ToolsModule} from './tools';
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+
+import {MaterialModule} from '@angular/material';
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {Ng2MaterialModule} from 'ng2-material';
+
+var moduleImports = [];
+moduleImports.push(BrowserModule);
+moduleImports.push(FormsModule);
+moduleImports.push(HttpModule);
+// moduleImports.push(RouterModule.forRoot(DEMO_APP_ROUTES));
+moduleImports.push(MaterialModule.forRoot());
+moduleImports.push(Ng2MaterialModule.forRoot());
+moduleImports.push(ToolsModule);
+moduleImports.push(BottomPanelModule);
+
+let componentExportDirectives = [];
+for (let i=0; i<componentDirectives.length; i++){
+  componentExportDirectives.push(componentDirectives[i]);
+}
+
+for (let i=0; i<bottomPanelComponentDirectives.length; i++){
+  componentExportDirectives.push(bottomPanelComponentDirectives[i]);
+}
+
+// @NgModule for tools
+@NgModule({
+  imports: moduleImports,
+  exports: componentExportDirectives,
+  declarations: componentDirectives
+})
+export class MainModule {}
 
 @Component({
     selector: 'knalledge-map-main',
     moduleId: module.id,
     templateUrl: 'partials/main.tpl.html',
-    providers: [
-        // MATERIAL_PROVIDERS,
-      //  OVERLAY_PROVIDERS,
-        // DbAuditService,
-        // ChangeService
-        // provideRouter
-        // RequestService
-        // ROUTER_PROVIDERS
-        // BrainstormingService
-    ],
-    directives: componentDirectives,
+    providers: componentProviders,
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
     // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
@@ -127,8 +150,7 @@ export class KnalledgeMapMain implements OnInit{
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray//,
-        @Inject('CollaboPluginsService') private collaboPluginsService
-        // public dbAuditService: DbAuditService
+        // @Inject('CollaboPluginsService') private collaboPluginsService
         ) {
         let that:KnalledgeMapMain = this;
 
@@ -159,28 +181,6 @@ export class KnalledgeMapMain implements OnInit{
         this.globalEmitterServicesArray.get(this.SHOW_INFO).subscribe('KnalledgeMapMain',
         this.showInfo.bind(this));
     };
-
-    // testMain() {
-      // this.dbAuditService.hello();
-      // this.dbAuditService.getOne('577d5cb55be86321489aacaa')
-      //     .subscribe(
-      //     audit => alert("audit: " +
-      //         JSON.stringify(audit)),
-      //     error => alert("error: " +
-      //         JSON.stringify(error))
-      //     );
-      //
-      // //POST:
-      // var change = new Change();
-      // change.value = {name:'from NG2 TS service'};
-      // this.dbAuditService.create(change)
-      //     .subscribe(
-      //     result => alert("result: " +
-      //         JSON.stringify(result)),
-      //     error => alert("error: " +
-      //         JSON.stringify(error))
-      //     );
-    // }
 
     customClose(interesting: boolean) {
         if (interesting) {

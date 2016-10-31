@@ -126,10 +126,10 @@
         "ViewComponents": {
             "knalledgeMap.Main": {
                 components: {
-                    TopPanel: {
-                        active: true,
-                        path: "/components/topPanel/topPanel"
-                    },
+                    // TopPanel: {
+                    //     active: true,
+                    //     path: "/components/topPanel/topPanel"
+                    // },
                     'ontov.OntovComponent': {
                         active: true,
                         path: "/components/ontov/ontov.component"
@@ -167,6 +167,10 @@
                         active: true,
                         path: "cf.puzzles.presentation.list"
                     },
+                    'cf.puzzles.coevoludens.trendmaster-actions-form': {
+                        active: true,
+                        path: "cf.puzzles.coevoludens.trendmaster-actions-form"
+                    }
                 }
             },
             "knalledgeMap.KnalledgeMapTools": {
@@ -459,6 +463,10 @@
                 active: true, // is active puzzle
                 path: 'dev_puzzles/knalledge_list' // path to the puzzle folder, relative to the project (frontend) root
             },
+            coevoludens: {
+                active: true, // is active puzzle
+                path: 'dev_puzzles/coevoludens' // path to the puzzle folder, relative to the project (frontend) root
+            }
         }
     };
 

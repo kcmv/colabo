@@ -17,6 +17,7 @@ export class MapLoader {
         var that = this;
 
         var modelLoadedEventName = "modelLoadedEvent";
+        this.GlobalEmitterServicesArray.register(modelLoadedEventName);
         this.GlobalEmitterServicesArray.get(modelLoadedEventName).subscribe('knalledge.MapLoader', function(eventModel) {
             // there is only one listener so we can stop further propagation of the event
             // e.stopPropagation();

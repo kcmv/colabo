@@ -16,7 +16,11 @@ export class KnalledgeMapViewService {
             },
             edges: {
                 showNames: true,
-                showTypes: false
+                showTypes: false,
+                orderBy: 'name'
+                // orderBy: 'vote'
+                // orderBy: 'personal_vote'
+                // orderBy: undefined
             },
             type: {
                 // name: "collabo_science"

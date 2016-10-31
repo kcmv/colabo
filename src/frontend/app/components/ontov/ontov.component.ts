@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation, Inject, OnInit, OnDestroy} from '@angular/core';
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
+// import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 import {OntovService, ISearchParam} from './ontov.service';
@@ -18,7 +18,7 @@ declare var $;
 */
 
 var componentDirectives = [
-  MATERIAL_DIRECTIVES
+  // MATERIAL_DIRECTIVES
 ];
 
 var componentProviders = [
@@ -27,10 +27,10 @@ var componentProviders = [
 
 @Component({
   selector: 'ontov',
-  encapsulation: ViewEncapsulation.None,
+  // encapsulation: ViewEncapsulation.None,
   // directives and providers are not explicitly provided but dynamically built and provided
   providers: componentProviders,
-  directives: componentDirectives,
+  // directives: componentDirectives,
   moduleId: module.id, // necessary for having relative paths for templateUrl
   templateUrl: 'partials/ontov.component.tpl.html'
 })

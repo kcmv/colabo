@@ -1,7 +1,7 @@
 import {Component, Inject, EventEmitter, Output, Input} from '@angular/core';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
+import {Media} from "ng2-material";
 import {MdDialog} from "ng2-material";
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
@@ -21,9 +21,6 @@ declare var window;
     moduleId: module.id,
     templateUrl: 'partials/media-show-component.tpl.html',
     providers: [
-    ],
-    directives: [
-        MATERIAL_DIRECTIVES
     ],
     styles: [`
     `]

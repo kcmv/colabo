@@ -1,4 +1,4 @@
-<md-content class="knalledge_map_index" flex>
+<md-content class="knalledge_map_index" flex *ngIf='policyConfig.running.ng1ng2Ready'>
   <div layout-fill layout-align="stretch stretch">
     <div class="knalledge_map_middle mapsList" layout-fill layout="column">
 
@@ -7,11 +7,11 @@
         <span class="map-title">{{title}}</span>
         <section class="toolbar-front" layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
           <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
-            <!-- <button md-fab class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
-                  <i title="Settings" md-icon>settings</i>
+            <!-- <button md-mini-fab class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
+                  <md-icon title="Settings">settings</md-icon>
               </button>
-              <button md-fab class="md-primary" aria-label="Configuration" (click)="options.toggle()">
-                  <i title="Configuration" md-icon>chrome_reader_mode</i>
+              <button md-mini-fab class="md-primary" aria-label="Configuration" (click)="options.toggle()">
+                  <md-icon title="Configuration">chrome_reader_mode</md-icon>
               </button> -->
           </section>
           <!-- <span>There are -->
@@ -44,8 +44,8 @@
         </span> -->
           <button (click)="go('login')" class="whoAmI" layout-gt-md="row" layout="column" layout-align="right center" layout-wrap class="btn btn-primary borderGroup" aria-label="User management" type="button">
             <i title="User management" class="fa fa-user button_icon" aria-hidden="true"></i>
-            <!-- <button md-fab class="md-primary" aria-label="Person" (click)="go('login')">
-              <i title="Login" md-icon>person</i>
+            <!-- <button md-mini-fab class="md-primary" aria-label="Person" (click)="go('login')">
+              <md-icon title="Login">person</md-icon>
           </button> -->
             <div class="loggedIn">
               <span [ngSwitch]="!isRegularUserName()">
@@ -59,8 +59,8 @@
               </span>
             </div>
           </button>
-          <!-- <button md-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
-              <i title="Logout" md-icon>directions run</i>
+          <!-- <button md-mini-fab class="md-primary" aria-label="Logout" (click)="go('logout')">
+              <md-icon title="Logout">directions run</md-icon>
           </button> -->
         </section>
       </md-toolbar>

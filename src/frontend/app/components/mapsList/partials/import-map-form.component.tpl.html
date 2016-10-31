@@ -12,7 +12,7 @@
               <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                Name is required
              </div> -->
-             <md-switch [(checked)]="giveNewName" (checkedChange)="giveNewNameChanged($event)" aria-label="give a new name to the map">give a new name to the map</md-switch>
+             <md-slide-toggle [(checked)]="giveNewName" (checkedChange)="giveNewNameChanged($event)" aria-label="give a new name to the map">give a new name to the map</md-slide-toggle>
              <md-input [disabled]="!giveNewName" [hidden]="true" placeholder="Map Name" [(ngModel)]="mapName" name="name" #name="ngModel"></md-input>
                 <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                  Name is required

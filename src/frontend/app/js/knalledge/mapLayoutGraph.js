@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService){
-	this.construct("MapLayoutGraph", mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService);
+var MapLayoutGraph =  knalledge.MapLayoutGraph = function(mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService, knalledgeMapViewService, rimaService){
+	this.construct("MapLayoutGraph", mapStructure, collaboPluginsService, configNodes, configTree, upperApi, knalledgeState, knAllEdgeRealTimeService, knalledgeMapViewService, rimaService);
 	this.graph = null;
 };
 
@@ -295,7 +295,7 @@ MapLayoutGraph.prototype.generateGraph = function(source){
 
 	if(this.nodes.length==0){return;}
 
-	// positions node 
+	// positions node
 	for(var i =0; i<this.nodes.length; i++){
 		var vkNode = this.nodes[i];
 		if(!("x" in vkNode) || vkNode.x == undefined) vkNode.x = 0;

@@ -17,7 +17,8 @@ http://nontroppo.org/test/tab1.html
 			<div rima-whats class="rima-whats" node="nodeContent.node"></div>
 
 			<b>Additional Info</b>
-			<button ng-if="!nodeContent.editing && nodeContent.node" class="btn btn-primary" type="button" ng-click="enableEditing()">Edit</button>
+			<button ng-if="!nodeContent.editing && nodeContent.node" class="btn btn-primary" type="button" ng-click="enableEditing(true)">Edit</button>
+      <button ng-if="nodeContent.editing && nodeContent.node" class="btn btn-primary" type="button" ng-click="enableEditing(false)">Finish</button>
 		</div>
 		<div class="content">
 			<div ng-if="viewConfig.editors.defaultType === 'text/html' && nodeContent.editing" text-angular name="htmlcontent" ng-model="nodeContent.htmlProperty" ng-change="propertyChanged()" ta-disabled='disabled' class="knalledge-properties knalledge-edit" text-angular-name="KN-Properties"></div>

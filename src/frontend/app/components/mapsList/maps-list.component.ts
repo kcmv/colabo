@@ -1,16 +1,11 @@
-import {FORM_DIRECTIVES, NgForm} from '@angular/forms';
-import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
+import {NgForm} from '@angular/forms';
 
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 
 import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
-import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
-import {MdToolbar} from '@angular2-material/toolbar';
+import {Media} from "ng2-material";
 
-import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
-
-import { Router, ROUTER_DIRECTIVES} from '@angular/router';
+import { Router} from '@angular/router';
 
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
@@ -21,7 +16,6 @@ import {ImportMapFormComponent} from './import-map-form.component';
 
 // import {ViewChild, ViewChildren} from '@angular/core';
 // import {Media, MdContent, MdButton} from 'ng2-material';
-//import {MdDialog} from '@angular2-material/dialog';
 
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
@@ -64,26 +58,7 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
     moduleId: module.id,
     templateUrl: 'partials/maps-list.tpl.html',
     providers: [
-        // MATERIAL_PROVIDERS,
-        OVERLAY_PROVIDERS
-        // provideRouter
-        // RequestService
-        // ROUTER_PROVIDERS
     ],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        MD_SIDENAV_DIRECTIVES,
-        ROUTER_DIRECTIVES,
-        MdToolbar,
-        // cloneDialog,
-        // MdDialog,
-        MD_INPUT_DIRECTIVES,
-        // FORM_DIRECTIVES,
-        // MdContent, MdButton,
-        //   LoginStatusComponent,
-        MapFormComponent,
-        ImportMapFormComponent
-    ]
     // necessary for having relative paths for templateUrl
     // http://schwarty.com/2015/12/22/angular2-relative-paths-for-templateurl-and-styleurls/
     // t_emplateUrl: 'components/knalledgeMap/partials/main.tpl.html',
@@ -560,3 +535,46 @@ export class MapsList implements OnInit {
     // 	}
     // }
 }
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+
+import {MaterialModule} from '@angular/material';
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {Ng2MaterialModule} from 'ng2-material';
+
+import {ImportMapFormModule, importMapFormComponentExportDirectives} from './import-map-form.component';
+
+var moduleImports = [];
+moduleImports.push(BrowserModule);
+moduleImports.push(FormsModule);
+moduleImports.push(HttpModule);
+// moduleImports.push(RouterModule.forRoot(DEMO_APP_ROUTES));
+moduleImports.push(MaterialModule.forRoot());
+moduleImports.push(Ng2MaterialModule.forRoot());
+moduleImports.push(ImportMapFormModule);
+
+var componentDirectives = [
+  MapFormComponent,
+  MapsList
+];
+
+let componentExportDirectives = [];
+for (let i=0; i<componentDirectives.length; i++){
+  componentExportDirectives.push(componentDirectives[i]);
+}
+
+for (let i=0; i<importMapFormComponentExportDirectives.length; i++){
+  componentExportDirectives.push(importMapFormComponentExportDirectives[i]);
+}
+
+// @NgModule for tools
+@NgModule({
+  imports: moduleImports,
+  exports: componentExportDirectives,
+  declarations: componentDirectives
+})
+export class MapsListModule {}
