@@ -1,7 +1,7 @@
 // import {MATERIAL_DIRECTIVES} from 'ng2-material';
 
 // https://github.com/angular/angular/blob/master/modules/@angular/src/upgrade/upgrade_adapter.ts
-import {upgradeAdapter} from './upgrade_adapter';
+import {upgradeAdapter, moduleProviders, moduleDeclarations, moduleImports} from './upgrade_adapter';
 
 import {ROUTER_PROVIDERS} from '@angular/router-deprecated';
 
@@ -230,45 +230,39 @@ import {Ng2MaterialModule} from 'ng2-material';
 
 // import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
 
-var moduleProviders = [
-  // MATERIAL_PROVIDERS,
-  // provideRouter
-  // ROUTER_PROVIDERS
+// moduleProviders.push(MATERIAL_PROVIDERS);
+// moduleProviders.push(provideRouter);
+// moduleProviders.push(ROUTER_PROVIDERS);
+// moduleProviders.push(DbAuditService);
+// moduleProviders.push(RequestService);
 
-  // DbAuditService,
-  // RequestService
-  // BrainstormingService
-
-  // NG2 TS services
-    ChangeService,
-    CollaboGrammarService,
-    // BrainstormingService,
-    // SessionService
-];
+// NG2 TS services
+moduleProviders.push(ChangeService);
+moduleProviders.push(CollaboGrammarService);
+moduleProviders.push(BrainstormingService);
+moduleProviders.push(SessionService);
 
 // import {KnalledgeMapTools} from '../components/knalledgeMap/tools';
 import {MainModule} from '../components/knalledgeMap/main';
 
-var moduleDeclarations = [
-  // NG1 components
-    // upgradeAdapter.upgradeNg1Component('ng1DirectivesTest'),
+// NG1 components
 
-  // NG2 components
-    KnalledgeMapMain,
-];
+// NG2 components
+moduleDeclarations.push(KnalledgeMapMain);
+
+moduleImports.push();
+moduleImports.push(BrowserModule);
+moduleImports.push(FormsModule);
+moduleImports.push(HttpModule);
+// moduleImports.push(RouterModule.forRoot(DEMO_APP_ROUTES));
+moduleImports.push(MaterialModule.forRoot());
+moduleImports.push(Ng2MaterialModule.forRoot());
+
+// CF modules
+moduleImports.push(MainModule);
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    // RouterModule.forRoot(DEMO_APP_ROUTES),
-    MaterialModule.forRoot(),
-    Ng2MaterialModule.forRoot(),
-
-    // CF modules
-    MainModule
-  ],
+  imports: moduleImports,
   declarations: moduleDeclarations,
   providers: moduleProviders,
   // entryComponents: [
@@ -282,11 +276,11 @@ export class AppModule {}
 upgradeAdapter['ng2AppModule'] = AppModule;
 
 // bootstrapping app
-upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: true})
+upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false})
 .ready((ref) => {
   var knalledgeMapPolicyService = ref.ng1Injector.get('KnalledgeMapPolicyService');
   alert('KnalledgeMapPolicyService: ' + knalledgeMapPolicyService);
-  // knalledgeMapPolicyService.provider.config.info.ready = true;
+  knalledgeMapPolicyService.get().config.running.ng1ng2Ready = true;
 });
 
 

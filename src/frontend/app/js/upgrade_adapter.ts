@@ -11,3 +11,7 @@ import { NgModule } from '@angular/core';
 export class AppModuleFake {}
 
 export const upgradeAdapter = new UpgradeAdapter(AppModuleFake);
+
+export var moduleProviders = [];
+export var moduleDeclarations = [];
+export var moduleImports = [];
