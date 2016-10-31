@@ -1,5 +1,4 @@
 import {Component, Inject} from '@angular/core';
-import {NgIf} from '@angular/common';
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
@@ -37,6 +36,7 @@ if (Config.Plugins.puzzles.rima.active && PluginsPreloader.components.RimaUsersL
 } else {
     console.warn("[KnalledgeMapTools] Not loading RimaUsersList");
 }
+import {RimaUsersListModule} from '../rima/rimaUsersList';
 
 if (PluginsPreloader.components.IbisTypesList) {
     console.warn("[KnalledgeMapTools] Loading IbisTypesList");
@@ -46,8 +46,24 @@ if (PluginsPreloader.components.IbisTypesList) {
 }
 
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import {MaterialModule} from '@angular/material';
+import {Ng2MaterialModule} from 'ng2-material';
+
+var moduleImports = [];
+moduleImports.push(BrowserModule);
+moduleImports.push(FormsModule);
+moduleImports.push(HttpModule);
+moduleImports.push(MaterialModule.forRoot());
+moduleImports.push(Ng2MaterialModule.forRoot());
+moduleImports.push(RimaUsersListModule);
+
 // @NgModule for tools
 @NgModule({
+  imports: moduleImports,
+  exports: componentDirectives,
   declarations: componentDirectives
 })
 export class ToolsModule {}

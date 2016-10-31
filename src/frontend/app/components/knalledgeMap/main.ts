@@ -71,13 +71,12 @@ var componentDirectives = [
     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
 //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
  // UNCOMMENT
-    // KnalledgeMapTools,
+    KnalledgeMapTools,
     // MediaShowComponent,
     // BottomPanel,
     // UserDialogComponent
 ];
 
-// UNCOMMENT
 PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', componentDirectives);
 import {ToolsModule} from './tools';
 
@@ -98,7 +97,7 @@ moduleImports.push(HttpModule);
 // moduleImports.push(RouterModule.forRoot(DEMO_APP_ROUTES));
 moduleImports.push(MaterialModule.forRoot());
 moduleImports.push(Ng2MaterialModule.forRoot());
-// moduleImports.push(ToolsModule);
+moduleImports.push(ToolsModule);
 
 // @NgModule for tools
 @NgModule({

@@ -1,8 +1,4 @@
 import {Component, OnInit, Inject} from '@angular/core';
-import {CORE_DIRECTIVES} from "@angular/common";
-
-import {NgIf} from '@angular/common';
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {ApprovalNodeService} from './approval.node.service';
 
@@ -27,11 +23,6 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
     providers: [
         //MATERIAL_PROVIDERS
     ],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        // MdList, MdListItem, MdContent, MdButton, MdSwitch,
-        NgIf,
-   ],
    styles: [`
     `],
     moduleId: module.id,

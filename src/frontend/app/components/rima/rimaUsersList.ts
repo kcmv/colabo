@@ -1,7 +1,4 @@
 import {Component, OnInit, Inject} from '@angular/core';
-import {NgIf, CORE_DIRECTIVES} from "@angular/common";
-import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 
@@ -42,17 +39,38 @@ export class SortUsersByDisplayNamePipe implements PipeTransform {
   }
 }
 
+var componentDirectives = [
+  SortUsersByDisplayNamePipe
+];
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import {MaterialModule} from '@angular/material';
+import {Ng2MaterialModule} from 'ng2-material';
+
+var moduleImports = [];
+moduleImports.push(BrowserModule);
+moduleImports.push(FormsModule);
+moduleImports.push(HttpModule);
+moduleImports.push(MaterialModule.forRoot());
+moduleImports.push(Ng2MaterialModule.forRoot());
+// moduleImports.push(ToolsModule);
+
+// @NgModule for tools
+@NgModule({
+  imports: moduleImports,
+  exports: componentDirectives,
+  declarations: componentDirectives
+})
+export class RimaUsersListModule {}
+
 @Component({
     selector: 'rima-users-list',
     providers: [
         // MATERIAL_PROVIDERS
     ],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        // MdList, MdListItem, MdContent, MdButton, MdSwitch,
-        NgIf, FORM_DIRECTIVES,
-   ],
-   pipes: [SortUsersByDisplayNamePipe],
    styles: [`
         // .msg {
         //     font-size: 0.5em;
