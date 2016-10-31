@@ -67,7 +67,7 @@ var componentDirectives = [
     // MdContent, MdButton,
     //   LoginStatusComponent,
     upgradeAdapter.upgradeNg1Component('knalledgeMap'),
-    //  upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
+    // upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
 //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
  // UNCOMMENT
@@ -78,7 +78,7 @@ var componentDirectives = [
 ];
 
 // UNCOMMENT
-// PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', componentDirectives);
+PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', componentDirectives);
 import {ToolsModule} from './tools';
 
 import { NgModule } from '@angular/core';
@@ -89,6 +89,7 @@ import { NgModule } from '@angular/core';
     // UNCOMMENT
     // ToolsModule
   ],
+  exports: componentDirectives,
   declarations: componentDirectives
 })
 export class MainModule {}
