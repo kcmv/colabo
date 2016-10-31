@@ -1,6 +1,6 @@
-import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
+import {NgForm} from '@angular/forms';
 import { Component, Inject, ViewChild, OnInit} from '@angular/core';
-import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
+import {Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
@@ -22,9 +22,6 @@ export interface ITabData {
     // MATERIAL_PROVIDERS,
     //    BrainstormingService
     ],
-    directives: [
-        MATERIAL_DIRECTIVES
-    ]
 })
 export class BrainstormingFormComponent implements OnInit{
     public brainstormingFormActive = true;

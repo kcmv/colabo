@@ -14,7 +14,7 @@ import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
-import {BottomPanel} from '../bottomPanel/bottomPanel';
+import {BottomPanel, BottomPanelModule, bottomPanelComponentDirectives} from '../bottomPanel/bottomPanel';
 import {UserDialogComponent} from '../rima/user-dialog-component';
 
 import {ChangeService} from '../change/change.service';
@@ -22,10 +22,6 @@ import {ChangeService} from '../change/change.service';
 declare var window;
 declare var Config;
 declare var knalledge;
-
-// import {DbAuditService} from './dbAudit.service';
-// import {Change} from '../change/change';
-// import {ChangeService} from "../change/change.service";
 
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
@@ -72,9 +68,9 @@ var componentDirectives = [
 //  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
  // UNCOMMENT
     KnalledgeMapTools,
-    // MediaShowComponent,
-    // BottomPanel,
-    // UserDialogComponent
+    MediaShowComponent,
+    BottomPanel,
+    UserDialogComponent
 ];
 
 PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', componentDirectives);
@@ -98,11 +94,21 @@ moduleImports.push(HttpModule);
 moduleImports.push(MaterialModule.forRoot());
 moduleImports.push(Ng2MaterialModule.forRoot());
 moduleImports.push(ToolsModule);
+moduleImports.push(BottomPanelModule);
+
+let componentExportDirectives = [];
+for (let i=0; i<componentDirectives.length; i++){
+  componentExportDirectives.push(componentDirectives[i]);
+}
+
+for (let i=0; i<bottomPanelComponentDirectives.length; i++){
+  componentExportDirectives.push(bottomPanelComponentDirectives[i]);
+}
 
 // @NgModule for tools
 @NgModule({
   imports: moduleImports,
-  exports: componentDirectives,
+  exports: componentExportDirectives,
   declarations: componentDirectives
 })
 export class MainModule {}
@@ -147,7 +153,6 @@ export class KnalledgeMapMain implements OnInit{
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray//,
         // @Inject('CollaboPluginsService') private collaboPluginsService
-        // public dbAuditService: DbAuditService
         ) {
         let that:KnalledgeMapMain = this;
 
@@ -178,28 +183,6 @@ export class KnalledgeMapMain implements OnInit{
         this.globalEmitterServicesArray.get(this.SHOW_INFO).subscribe('KnalledgeMapMain',
         this.showInfo.bind(this));
     };
-
-    // testMain() {
-      // this.dbAuditService.hello();
-      // this.dbAuditService.getOne('577d5cb55be86321489aacaa')
-      //     .subscribe(
-      //     audit => alert("audit: " +
-      //         JSON.stringify(audit)),
-      //     error => alert("error: " +
-      //         JSON.stringify(error))
-      //     );
-      //
-      // //POST:
-      // var change = new Change();
-      // change.value = {name:'from NG2 TS service'};
-      // this.dbAuditService.create(change)
-      //     .subscribe(
-      //     result => alert("result: " +
-      //         JSON.stringify(result)),
-      //     error => alert("error: " +
-      //         JSON.stringify(error))
-      //     );
-    // }
 
     customClose(interesting: boolean) {
         if (interesting) {

@@ -134,14 +134,14 @@
                         active: true,
                         path: "/components/ontov/ontov.component"
                     },
-                    // 'brainstorming.BrainstormingFormComponent': {
-                    //     active: true,
-                    //     path: "/components/brainstorming/brainstorming-form.component"
-                    // },
-                    // 'session.SessionFormComponent': {
-                    //     active: true,
-                    //     path: "/components/session/session-form.component"
-                    // },
+                    'brainstorming.BrainstormingFormComponent': {
+                        active: true,
+                        path: "/components/brainstorming/brainstorming-form.component"
+                    },
+                    'session.SessionFormComponent': {
+                        active: true,
+                        path: "/components/session/session-form.component"
+                    },
                     'cf.puzzles.ibis.actionsForm': {
                         active: true,
                         path: "cf.puzzles.ibis.actionsForm"

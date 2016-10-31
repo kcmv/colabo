@@ -1,6 +1,6 @@
-import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
+import {NgForm} from '@angular/forms';
 import { Component, ViewChild, Inject } from '@angular/core';
-import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
+import {Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
@@ -15,9 +15,6 @@ declare var knalledge;
   providers: [
       // MATERIAL_PROVIDERS,
   ],
-  directives: [
-      MATERIAL_DIRECTIVES,
-  ]
 })
 export class UserDialogComponent {
   public userFormActive = true;

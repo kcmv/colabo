@@ -1,22 +1,15 @@
 import {Component, Inject, OnInit, OnDestroy} from '@angular/core';
-import {NgIf, CORE_DIRECTIVES} from "@angular/common";
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
-import {FORM_DIRECTIVES} from '@angular/forms';
 
 import {KnalledgeMapViewService} from '../../app/components/knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../../app/components/knalledgeMap/knalledgeMapPolicyService';
 import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
 
-import {CfPuzzlesPresentationServices} from './cf.puzzles.presentation.service'
+import {CfPuzzlesCoevoludensServices} from './cf.puzzles.coevoludens.service'
 
 @Component({
     selector: 'presentation-list',
     providers: [
     ],
-    directives: [
-      MATERIAL_DIRECTIVES,
-      NgIf, FORM_DIRECTIVES,
-   ],
     moduleId: module.id,
     templateUrl: 'partials/presentation-list.tpl.html',
     styles: [`
@@ -32,7 +25,7 @@ export class PresentationList implements OnInit, OnDestroy {
   private selectedNodeChangedEvent: string = "selectedNodeChangedEvent";
 
   constructor(
-    private service:CfPuzzlesPresentationServices,
+    private service:CfPuzzlesCoevoludensServices,
     @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
     @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
     @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
@@ -53,14 +46,6 @@ export class PresentationList implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.service.disable();
-  }
-
-  isPresentationAvailable():boolean {
-    return this.service.isPresentationAvailable();
-  }
-
-  createPresentation():any {
-    return this.service.createPresentation();
   }
 
   selectedItem(){ // :knalledge.VKNode

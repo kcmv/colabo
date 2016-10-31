@@ -10,7 +10,7 @@
             <!-- {{diagnostic}} -->
 
             <md-tab-group #sessionFormTabs (focusChange) = "focusChanged(sessionFormTabs.selectedIndex)" [selectedIndex] = "selectedIndex()" (selectChange) = "selectedChanged(sessionFormTabs.selectedIndex)">
-                <md-tab [disabled]="isDisabled(0)">
+                <md-tab ng-disabled="isDisabled(0)">
                     <template md-tab-label>{{getTitle(0)}}</template>
                     <template md-tab-content>
                         <md-content class="md-padding">
@@ -23,7 +23,7 @@
                     </template>
                 </md-tab>
 
-                <md-tab ng-disabled="true" [ng-disabled]="true" disabled="true" [disabled]="true">
+                <md-tab ng-disabled="true">
                     <template md-tab-label>{{getTitle(1)}}</template>
                     <template md-tab-content>
                         <md-content class="md-padding">
@@ -32,7 +32,7 @@
                     </template>
                 </md-tab>
 
-                <md-tab [disabled]="isDisabled(2)">
+                <md-tab ng-disabled="isDisabled(2)">
                     <template md-tab-label>{{getTitle(2)}}</template>
                     <template md-tab-content>
                         <md-content class="md-padding">
@@ -41,7 +41,7 @@
                     </template>
                 </md-tab>
 
-                <!-- <md-tab [disabled]="isDisabled(3)">
+                <!-- <md-tab ng-disabled="isDisabled(3)">
                     <template md-tab-label>{{getTitle(3)}}</template>
                     <template md-tab-content>
                         <md-content class="md-padding">
@@ -50,7 +50,7 @@
                     </template>
                 </md-tab>
 
-                <md-tab [disabled]="isDisabled(4)">
+                <md-tab ng-disabled="isDisabled(4)">
                     <template md-tab-label>{{getTitle(4)}}</template>
                     <template md-tab-content>
                         <md-content class="md-padding">
@@ -106,7 +106,7 @@
               <button md-button type="button" (click)="close(false)">Cancel</button>
               <!-- <button md-button type="button" (click)="nextPhase()">Next Phase</button> -->
               <span *ngIf="showStartFinish(sessionFormTabs.selectedIndex)">
-                <button md-button type="submit" [disabled]="!sessionForm.form.valid">
+                <button md-button type="submit" ng-disabled="!sessionForm.form.valid">
                   <span class="warning" *ngIf="sessionFormTabs.selectedIndex + 1 < model.phase">Restart This Phase</span>
                   <span *ngIf="sessionFormTabs.selectedIndex + 1 >= model.phase">Start This Phase</span>
                 </button>
