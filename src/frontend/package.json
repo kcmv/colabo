@@ -176,7 +176,6 @@
     "slash": "~1.0.0",
     "stream-series": "^0.1.1",
     "systemjs": "^0.19.39",
-    "systemjs-builder": "^0.15.10",
     "tiny-lr": "^0.2.1",
     "traceur": "0.0.91",
     "tslint": "^3.7.4",
