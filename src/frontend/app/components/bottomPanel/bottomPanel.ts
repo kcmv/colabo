@@ -1,5 +1,4 @@
 import {Component, ViewEncapsulation, Inject} from '@angular/core';
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
 /**
@@ -12,14 +11,35 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
  * @constructor
 */
 
-var componentDirectives = [
-  MATERIAL_DIRECTIVES
+export var bottomPanelComponentDirectives = [
 ];
 
 declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
-PluginsPreloader.addDirectivesDependenciesForComponent('bottomPanel.BottomPanel', componentDirectives);
+PluginsPreloader.addDirectivesDependenciesForComponent('bottomPanel.BottomPanel', bottomPanelComponentDirectives);
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import {MaterialModule} from '@angular/material';
+import {Ng2MaterialModule} from 'ng2-material';
+
+var moduleImports = [];
+moduleImports.push(BrowserModule);
+moduleImports.push(FormsModule);
+moduleImports.push(HttpModule);
+moduleImports.push(MaterialModule.forRoot());
+moduleImports.push(Ng2MaterialModule.forRoot());
+
+// @NgModule for tools
+@NgModule({
+  imports: moduleImports,
+  exports: bottomPanelComponentDirectives,
+  declarations: bottomPanelComponentDirectives
+})
+export class BottomPanelModule {}
 
 @Component({
     selector: 'bottom-panel',
@@ -27,7 +47,6 @@ PluginsPreloader.addDirectivesDependenciesForComponent('bottomPanel.BottomPanel'
     providers: [
     ],
     // directives are not explicitly provided but dynamically built and provided
-    directives: componentDirectives,
     moduleId: module.id, // necessary for having relative paths for templateUrl
     templateUrl: 'partials/bottom_panel.tpl.html'
 })

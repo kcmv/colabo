@@ -126,10 +126,10 @@
         "ViewComponents": {
             "knalledgeMap.Main": {
                 components: {
-                    TopPanel: {
-                        active: true,
-                        path: "/components/topPanel/topPanel"
-                    },
+                    // TopPanel: {
+                    //     active: true,
+                    //     path: "/components/topPanel/topPanel"
+                    // },
                     'ontov.OntovComponent': {
                         active: true,
                         path: "/components/ontov/ontov.component"

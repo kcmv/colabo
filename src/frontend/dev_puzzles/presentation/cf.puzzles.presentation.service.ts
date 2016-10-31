@@ -547,7 +547,7 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
-    slideMoveUp (callback){
+    slideMoveUp (callback?){
       if(this.mapStructure){
         let presentationNode = this._getPresentationNode();
         if(!presentationNode){
@@ -573,7 +573,7 @@ export class CfPuzzlesPresentationServices {
       }
     }
 
-    slideMoveDown (callback){
+    slideMoveDown (callback?){
       if(this.mapStructure){
         let presentationNode = this._getPresentationNode();
         if(!presentationNode){

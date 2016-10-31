@@ -2,14 +2,13 @@
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
-        "declaration": false,
-        "noImplicitAny": false,
-        "removeComments": false,
-        "noLib": false,
+        "moduleResolution": "node",
+        "sourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "sourceMap": true,
-        "allowSyntheticDefaultImports": false
+        "removeComments": false,
+        "noImplicitAny": false,
+        "listFiles": true
     },
     "allowSyntheticDefaultImports": false,
     "exclude": [

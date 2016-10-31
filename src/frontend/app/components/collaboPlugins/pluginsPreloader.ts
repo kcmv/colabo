@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {components, servicesDependencies} from '../../js/pluginDependencies';
-import {upgradeAdapter} from '../../js/upgrade_adapter';
+import {upgradeAdapter, moduleProviders} from '../../js/upgrade_adapter';
 declare var Config:any;
 
 /**
@@ -51,8 +51,8 @@ export class PluginsPreloader {
               serviceName, service.path);
           }
           if(service.isGlobal){
-            // upgradeAdapter
-            upgradeAdapter.addProvider(serviceClass);
+            // upgradeAdapter.addProvider(serviceClass);
+            moduleProviders.push(serviceClass);
           }
         }
         if(service.isAvailableInNG1){

@@ -1,12 +1,9 @@
-import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
+import {NgForm} from '@angular/forms';
 import { Component, Inject, ViewChild, OnInit} from '@angular/core';
-import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
-import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
-//import {OVERLAY_PROVIDERS} from '@angular2-material/core/overlay/overlay';
+import {Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-import {MD_TABS_DIRECTIVES} from '@angular2-material/tabs';
 import {BrainstormingService} from "./brainstorming.service";
 import {Brainstorming, BrainstormingPhaseNames, BrainstormingPhase} from './brainstorming';
 
@@ -23,14 +20,8 @@ export interface ITabData {
     templateUrl: 'partials/brainstorming-form.component.tpl.html',
     providers: [
     // MATERIAL_PROVIDERS,
-    //      OVERLAY_PROVIDERS
     //    BrainstormingService
     ],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        MD_INPUT_DIRECTIVES,
-        MD_TABS_DIRECTIVES
-    ]
 })
 export class BrainstormingFormComponent implements OnInit{
     public brainstormingFormActive = true;

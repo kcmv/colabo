@@ -547,7 +547,7 @@ export class CfPuzzlesCoevoludensServices {
       }
     }
 
-    slideMoveUp (callback){
+    slideMoveUp (callback?){
       if(this.mapStructure){
         let coevoludensNode = this._getCoevoludensNode();
         if(!coevoludensNode){
@@ -573,7 +573,7 @@ export class CfPuzzlesCoevoludensServices {
       }
     }
 
-    slideMoveDown (callback){
+    slideMoveDown (callback?){
       if(this.mapStructure){
         let coevoludensNode = this._getCoevoludensNode();
         if(!coevoludensNode){

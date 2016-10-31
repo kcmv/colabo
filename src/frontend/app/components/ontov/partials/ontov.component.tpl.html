@@ -1,7 +1,9 @@
-<div class="ontov" *ngIf="shown">
+<!-- ontov container -->
+<!-- <div class="ontov" *ngIf='shown'> -->
+<div class="ontov" *ngIf='shown'>
   <section layout="row" layout-align="space-between center" layout-wrap style="width: 100%;">
     <div flex class="ontov_visual_search_new"></div>
-    <button md-fab class="md-mini md-primary" (click)="operationToggled()" aria-label="Change operation">
+    <button md-mini-fab class="md-mini md-primary" (click)="operationToggled()" aria-label="Change operation">
       {{ searchParam.operationType === 1 ? "&amp; &amp;" : "| |"}}
     </button>
   </section>

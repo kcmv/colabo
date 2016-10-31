@@ -322,6 +322,8 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         // KNALLEDGE PLUGINS, TODO: we want to avoid hardoced registering plugins here
 
         // (NG2-) MATERIAL
+        // @angular/material theme
+        { src: '@angular/material/core/theming/prebuilt/purple-green.css', inject: true, dest: CSS_DEST },
         { src: 'ng2-material/ng2-material.css', inject: true, dest: CSS_DEST },
         { src: 'ng2-material/font/font.css', inject: true, dest: CSS_DEST }
     ],
@@ -535,9 +537,9 @@ if (ENABLE_HOT_LOADING) {
 
 // Declare NPM dependencies (Note that globs should not be injected).
 const NPM_DEPENDENCIES: IDependency[] = [
+    { src: 'core-js/client/shim.min.js', inject: 'shims' },
     { src: 'systemjs/dist/system-polyfills.src.js', inject: 'shims' },
     { src: 'reflect-metadata/Reflect.js', inject: 'shims' },
-    { src: 'es6-shim/es6-shim.js', inject: 'shims' },
     { src: 'systemjs/dist/system.src.js', inject: 'shims' },
 
     { src: join(APP_SRC, 'js/lib/jquery/jquery.js'), inject: 'libs', noNorm: true },
@@ -561,6 +563,7 @@ const NPM_DEPENDENCIES: IDependency[] = [
     // { src: join(APP_SRC, 'js/lib/ng2-file-upload/ng2-file-upload.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/socket.io/angular.socket.io.js'), inject: 'libs', noNorm: true },
 
+    { src: 'hammerjs/hammer.js', inject: 'libs' },
     { src: 'rxjs/bundles/Rx.js', inject: 'libs' },
 ];
 
@@ -611,7 +614,9 @@ var config = {
     "map": {
         "ng2-material": "ng2-material/index.js",
         // "symbol-observable": "symbol-observable/index.js",
-        "components/knalledgeMap/main": "components/knalledgeMap/main.js"
+        "components/knalledgeMap/main": "components/knalledgeMap/main.js",
+
+        "@ng-bootstrap/ng-bootstrap": "node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js"
     },
 
     // TODO: should we add all dependencies to the all components

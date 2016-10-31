@@ -1,16 +1,10 @@
 <!-- main container -->
-<div layout="column" layout-fill>
+<div layout="column" layout-fill *ngIf='policyConfig.running.ng1ng2Ready'>
     <!-- content -->
     <md-sidenav-layout class="main-content" layout="row" flex style="overflow: auto; height: 100%;">
         <!-- <md-sidenav #options align="left" layout="column" [style]="hasMedia('gt-sm') ? 'side' : 'over'"> -->
         <md-sidenav #options class="options" [opened]="true" align="end" mode="side" layout="column">
             <md-content>
-                <!-- <form>
-                <md-input-container class="md-block">
-                    <label for="testInput">Test input</label>
-                    <input type="text" id="testInput" md-input #input [(value)]="data" md-autofocus>
-                </md-input-container>
-                </form> -->
                 <div style="text-align: right;">
                     <button md-raised-button (click)="options.close()" align="right" class="md-mini md-primary" hide-gt-md>
                         Close
@@ -68,30 +62,31 @@
                     <md-toolbar class="toolbar flexible md-theme-indigo" color="primary" style="width: 100%;">
                         <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
                             <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
-                                <button md-fab md-tooltip="Configuration" tooltip-position="below" class="md-mini md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
-                                    <i title="Settings" md-icon>settings</i>
+                                <button md-mini-fab md-tooltip="Configuration" tooltip-position="below" class="md-mini md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
+                                    <md-icon title="Settings">settings</md-icon>
                                 </button>
-                                <button md-fab class="md-mini md-primary" aria-label="Configuration" (click)="options.toggle()">
-                                    <i title="Configuration" md-icon>chrome_reader_mode</i>
+                                <button md-mini-fab class="md-mini md-primary" aria-label="Configuration" (click)="options.toggle()">
+                                    <md-icon title="Configuration">chrome_reader_mode</md-icon>
+
                                 </button>
-                                <!-- <button md-fab class="md-mini md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
-                                    <i title="Top Panel" md-icon>view_agenda</i>
+                                <!-- <button md-mini-fab class="md-mini md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
+                                    <md-icon title="Top Panel">view_agenda</md-icon>
                                 </button> -->
 
-                                <button md-fab md-tooltip="Maps" tooltip-position="below" class="md-mini md-primary" aria-label="Maps" (click)="go('maps')">
-                                    <i title="Maps List" md-icon>map</i>
+                                <button md-mini-fab md-tooltip="Maps" tooltip-position="below" class="md-mini md-primary" aria-label="Maps" (click)="go('maps')">
+                                    <md-icon title="Maps List">map</md-icon>
                                 </button>
 
-                                <button md-fab class="md-mini md-primary" aria-label="Plugins" (click)="go('plugins')" *ngIf="policyConfig.moderating.enabled">
-                                    <i title="Plugins" md-icon>extension</i>
+                                <button md-mini-fab class="md-mini md-primary" aria-label="Plugins" (click)="go('plugins')" *ngIf="policyConfig.moderating.enabled">
+                                    <md-icon title="Plugins">extension</md-icon>
                                 </button>
 
-                                <button md-fab class="md-mini md-primary" aria-label="Ontov Search" (click)="state('plugins')">
-                                    <i title="Ontov Search" md-icon>search</i>
+                                <button md-mini-fab class="md-mini md-primary" aria-label="Ontov Search" (click)="state('plugins')">
+                                    <md-icon title="Ontov Search">search</md-icon>
                                 </button>
 
-                                <button *ngIf="pluginsConfig?.knalledgeMap?.config?.externalInterface?.backFromMap" md-fab class="md-mini md-primary" aria-label="Navigate Back" (click)="navigateBack()">
-                                  <i title="Back" md-icon>navigate_before</i>
+                                <button *ngIf="pluginsConfig?.knalledgeMap?.config?.externalInterface?.backFromMap" md-mini-fab class="md-mini md-primary" aria-label="Navigate Back" (click)="navigateBack()">
+                                  <md-icon title="Back">navigate_before</md-icon>
                                 </button>
 
                             </section>
@@ -100,65 +95,49 @@
                               <span class="small">{{following}}</span>
                             </div>
 
-                            <!-- <span class="fa-stack fa-lg">
-                              <i class="fa fa-camera fa-stack-1x"></i>
-                              <i class="fa fa-ban fa-stack-2x text-danger"></i>
-                            </span> -->
-
                             <section class="status" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
                                 <div class="name" layout="column">
                                     {{policyConfig.state.name}}
-                                    <!-- ({{policyConfig.state.id}}) -->
                                 </div>
-                                <!-- <div *ngIf="!policyConfig.moderating.enabled"> -->
-                                <!-- <span>{{policyConfig.broadcasting.enabled}}</span> -->
                                 <div *ngIf="!policyConfig.broadcasting.enabled">
                                     <span *ngIf="policyConfig.broadcasting.receiveNavigation">
-                                      <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter() && !policyConfig.moderating.enabled" md-fab class="md-mini md-primary" (click)="followBroadcast(false)">
+                                      <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter() && !policyConfig.moderating.enabled" md-mini-fab class="md-mini md-primary" (click)="followBroadcast(false)">
                                         <span class="fa-stack fa-lg">
                                           <i class="fa fa-phone fa-stack-1x"></i>
-                                          <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
                                         </span>
                                       </button>
                                     </span>
                                     <span *ngIf="!policyConfig.broadcasting.receiveNavigation">
                                       <!-- <span class="warning">You are not following a presentation!</span> -->
-                                      <button md-fab class="md-mini md-primary" (click)="followBroadcast(true)">
+                                      <button md-mini-fab class="md-mini md-primary" (click)="followBroadcast(true)">
                                         <span class="fa-stack fa-lg">
-                                          <!-- <i class="fa fa-ban text-danger" style="font-size: 2.3em"></i> -->
                                           <i  style="font-size: 2em" class="fa fa-times text-danger"></i>
                                           <i class="fa fa-phone disabled fa-stack-1x"></i>
-
-                                          <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
                                         </span>
                                       </button>
                                     </span>
                                 </div>
                                 <div *ngIf="policyConfig.moderating.enabled">
                                     <span *ngIf="policyConfig.broadcasting.enabled">
-                                      <button md-fab class="md-mini md-primary" (click)="broadcast(false)">
+                                      <button md-mini-fab class="md-mini md-primary" (click)="broadcast(false)">
                                         <span class="fa-stack fa-lg">
                                           <i class="fa fa-desktop fa-stack-1x"></i>
-                                          <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
                                         </span>
                                       </button>
                                     </span>
                                     <span *ngIf="!policyConfig.broadcasting.enabled">
-                                      <button md-fab class="md-mini md-primary" (click)="broadcast(true)">
+                                      <button md-mini-fab class="md-mini md-primary" (click)="broadcast(true)">
                                         <span class="fa-stack fa-lg">
-                                          <!-- <i class="fa fa-ban" style="font-size: 2.3em"></i> -->
                                           <i class="fa fa-desktop fa-stack-1x disabled"></i>
                                           <i style="margin-top: -0.1em; margin-left: 0.3em; font-size: 1.3em" class="fa fa-times text-danger"></i>
-                                          <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
-                                          <!-- <i class="fa fa-arrow-right fa-stack-1x"></i> -->
                                         </span>
                                       </button>
                                     </span>
                                 </div>
                             </section>
                             <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
-                                <button md-fab class="md-mini md-primary" aria-label="Person" (click)="userPanel()">
-                                    <i [ngClass]="{warning: !amILoggedIn()}" title="Login" md-icon>person</i>
+                                <button md-mini-fab class="md-mini md-primary" aria-label="Person" (click)="userPanel()">
+                                    <md-icon [ngClass]="{warning: !amILoggedIn()}" title="Login">person</md-icon>
                                 </button>
 
                                 <div class="names" layout="column">
@@ -175,16 +154,6 @@
                                     </div>
                                 </div>
 
-                                <!-- <div>TESTING
-                                  <span *ngIf="policyConfig.moderating.enabled">
-                                    policyConfig.moderating.enabled = {{policyConfig.moderating.enabled}} = true
-                                  </span>
-                                  ||
-                                  <span *ngIf="!policyConfig.moderating.enabled">
-                                    policyConfig.moderating.enabled = {{policyConfig.moderating.enabled}} = false
-                                  </span>
-                                </div> -->
-
                             </section>
                         </section>
                     </md-toolbar>
@@ -193,19 +162,19 @@
                     <!-- top panel -->
                     <div class="knalledge_map_middle_bottom" *ngIf="viewConfig.panels.topPanel.visible">
                         <!--<rima-relevant-list class="rima_relevant_list"></rima-relevant-list>-->
-                        <top-panel></top-panel>
+                        <!-- <top-panel></top-panel> -->
                     </div>
                     <!-- KnAllEdge Map -->
                     <knalledge-map class="knalledge_map" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_tree' || viewConfig.visualization.viewspec === 'viewspec_manual'"></knalledge-map>
 
-                    <knalledge-list class="knalledge_list" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_list'"></knalledge-list>
+                    <!-- <knalledge-list class="knalledge_list" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_list'"></knalledge-list> -->
 
                     <bottom-panel></bottom-panel>
 
                     <md-toolbar class="toolbar flexible md-theme-indigo" color="primary" style="width: 100%;">
                         <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
                             <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
-                                <rima-actions-form></rima-actions-form>
+                                <!-- <rima-actions-form></rima-actions-form> -->
                                 <span class='horizontal-separator'></span>
                                 <ibis-actions-form></ibis-actions-form>
                             </section>
@@ -227,6 +196,5 @@
       <md-dialog-title>{{info.title}}</md-dialog-title>
       <div [innerHTML]=info.message></div>
       <md-dialog-actions (click)="infoDialog.close()" ok="{{info.buttons[0]}}"></md-dialog-actions>
-      <!-- <md-dialog-actions (click)="infoDialogClose()" ok="C:{{info.buttons[0]}}"></md-dialog-actions> -->
     </md-dialog>
 </div>

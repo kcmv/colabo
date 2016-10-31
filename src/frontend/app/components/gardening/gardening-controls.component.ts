@@ -1,15 +1,9 @@
 import {Component, OnInit, Inject} from '@angular/core';
-import {CORE_DIRECTIVES} from "@angular/common";
-
-import {NgIf} from '@angular/common';
-import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {ApprovalNodeService} from './approval.node.service';
 
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
-// import {MdRadioButton, MdRadioGroup, MdRadioDispatcher} from '@angular2-material/radio';
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 // import {KnalledgeMapViewService} from './knalledgeMapViewService';
 // import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
@@ -29,14 +23,6 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
     providers: [
         //MATERIAL_PROVIDERS
     ],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        // MdList, MdListItem, MdContent, MdButton, MdSwitch,
-        NgIf,
-        // MdRadioButton, MdRadioGroup,
-        //
-        MD_INPUT_DIRECTIVES
-   ],
    styles: [`
     `],
     moduleId: module.id,
