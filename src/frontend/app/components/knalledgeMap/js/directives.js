@@ -925,12 +925,6 @@
 		.directive('knalledgeMapList', ['$rootScope', '$injector', '$timeout', 'KnalledgeMapPolicyService', 'KnalledgeMapViewService',
 			/*, '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', */
 			function($rootScope, $injector, $timeout, KnalledgeMapPolicyService, KnalledgeMapViewService /*, $window, KnalledgeNodeService, KnalledgeEdgeService, $q*/ ) {
-				// http://docs.angularjs.org/guide/directive
-				var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
-				var knalledgePropertyChangedEvent = "knalledgePropertyChangedEvent";
-				GlobalEmitterServicesArray.register(knalledgePropertyChangedEvent);
-				var changeKnalledgePropertyEvent = "changeKnalledgePropertyEvent";
-				GlobalEmitterServicesArray.register(changeKnalledgePropertyEvent);
 				return {
 					restrict: 'AE',
 					// crashes here
@@ -945,6 +939,13 @@
 					// expression: http://docs.angularjs.org/guide/expression
 					templateUrl: 'components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
 					link: function($scope, $element, $attrs, simplemde) {
+						// http://docs.angularjs.org/guide/directive
+						var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+						var knalledgePropertyChangedEvent = "knalledgePropertyChangedEvent";
+						GlobalEmitterServicesArray.register(knalledgePropertyChangedEvent);
+						var changeKnalledgePropertyEvent = "changeKnalledgePropertyEvent";
+						GlobalEmitterServicesArray.register(changeKnalledgePropertyEvent);
+
 						/*
 						var simplemdeInstance = simplemde.get(); // => SimpleMDE instance
       			// simplemde.rerenderPreview();
