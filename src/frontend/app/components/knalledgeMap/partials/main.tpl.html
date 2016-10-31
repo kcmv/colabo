@@ -1,5 +1,5 @@
 <!-- main container -->
-<div layout="column" layout-fill>
+<div layout="column" layout-fill *ngIf='policyConfig.running.ng1ng2Ready'>
     <!-- content -->
     <md-sidenav-layout class="main-content" layout="row" flex style="overflow: auto; height: 100%;">
         <!-- <md-sidenav #options align="left" layout="column" [style]="hasMedia('gt-sm') ? 'side' : 'over'"> -->
@@ -27,7 +27,7 @@
                         Close
                     </button>
                 </div>
-                <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
+                <!-- <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools> -->
             </md-content>
         </md-sidenav>
 
@@ -193,21 +193,21 @@
                     <!-- top panel -->
                     <div class="knalledge_map_middle_bottom" *ngIf="viewConfig.panels.topPanel.visible">
                         <!--<rima-relevant-list class="rima_relevant_list"></rima-relevant-list>-->
-                        <top-panel></top-panel>
+                        <!-- <top-panel></top-panel> -->
                     </div>
                     <!-- KnAllEdge Map -->
                     <knalledge-map class="knalledge_map" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_tree' || viewConfig.visualization.viewspec === 'viewspec_manual'"></knalledge-map>
 
-                    <knalledge-list class="knalledge_list" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_list'"></knalledge-list>
+                    <!-- <knalledge-list class="knalledge_list" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_list'"></knalledge-list> -->
 
-                    <bottom-panel></bottom-panel>
+                    <!-- <bottom-panel></bottom-panel> -->
 
                     <md-toolbar class="toolbar flexible md-theme-indigo" color="primary" style="width: 100%;">
                         <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
                             <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
-                                <rima-actions-form></rima-actions-form>
+                                <!-- <rima-actions-form></rima-actions-form>
                                 <span class='horizontal-separator'></span>
-                                <ibis-actions-form></ibis-actions-form>
+                                <ibis-actions-form></ibis-actions-form> -->
                             </section>
 
                         </section>
@@ -216,13 +216,13 @@
             </div>
         </md-content>
     </md-sidenav-layout>
-    <brainstorming-form></brainstorming-form>
+    <!-- <brainstorming-form></brainstorming-form>
     <div class="presentation-display reveal" style='display: none;'></div>
     <presentation-actions-form></presentation-actions-form>
     <session-form></session-form>
     <media-show style="width:90%"></media-show>
     <user-dialog></user-dialog>
-
+ -->
     <md-dialog #infoDialog>
       <md-dialog-title>{{info.title}}</md-dialog-title>
       <div [innerHTML]=info.message></div>
