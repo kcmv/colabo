@@ -60,8 +60,6 @@ var componentProviders = [
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
 var componentDirectives = [
-    // MdContent, MdButton,
-    //   LoginStatusComponent,
     upgradeAdapter.upgradeNg1Component('knalledgeMap'),
     // upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),

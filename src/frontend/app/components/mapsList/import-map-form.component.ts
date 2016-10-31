@@ -1,19 +1,17 @@
-import {CORE_DIRECTIVES, NgClass, NgStyle} from '@angular/common';
+import {NgClass, NgStyle} from '@angular/common';
 
 import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 
-import {NgForm, FORM_DIRECTIVES} from '@angular/forms';
+import {NgForm} from '@angular/forms';
 import { Component, ViewChild } from '@angular/core';
 
-import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
+import {Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
 
 declare var knalledge;
 
 const URL = 'http://localhost:8001/mapImport.json';//'http://localhost:3000/mapImport'; //'kmaps.json:8001';
-
-//using https://github.com/valor-software/ng2-file-upload
 
 @Component({
   selector: 'import-map-form',
@@ -22,11 +20,6 @@ const URL = 'http://localhost:8001/mapImport.json';//'http://localhost:3000/mapI
   providers: [
       // MATERIAL_PROVIDERS,
   ],
-  directives: [
-      MATERIAL_DIRECTIVES,
-
-      FILE_UPLOAD_DIRECTIVES,
-  ]
 })
 export class ImportMapFormComponent {
   public importMapFormActive = true;
@@ -88,3 +81,40 @@ export class ImportMapFormComponent {
     }
   }
 }
+
+//using https://github.com/valor-software/ng2-file-upload
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {FormsModule} from '@angular/forms';
+
+import {MaterialModule} from '@angular/material';
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {Ng2MaterialModule} from 'ng2-material';
+
+var moduleImports = [];
+moduleImports.push(BrowserModule);
+moduleImports.push(FormsModule);
+moduleImports.push(MaterialModule.forRoot());
+moduleImports.push(Ng2MaterialModule.forRoot());
+
+var componentDirectives = [
+  FILE_UPLOAD_DIRECTIVES,
+  ImportMapFormComponent
+];
+
+export let importMapFormComponentExportDirectives = [];
+for (let i=0; i<componentDirectives.length; i++){
+  importMapFormComponentExportDirectives.push(componentDirectives[i]);
+}
+
+// for (let i=0; i<bottomPanelComponentDirectives.length; i++){
+//   importMapFormComponentExportDirectives.push(bottomPanelComponentDirectives[i]);
+// }
+
+// @NgModule for tools
+@NgModule({
+  imports: moduleImports,
+  exports: importMapFormComponentExportDirectives,
+  declarations: componentDirectives
+})
+export class ImportMapFormModule {}

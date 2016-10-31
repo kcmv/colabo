@@ -83,7 +83,7 @@
     "marked": "^0.3.6",
     "medium-editor": "^5.21.1",
     "medium-editor-markdown": "^2.4.1",
-    "ng2-file-upload": "^1.0.3",
+    "ng2-file-upload": "=1.0.3",
     "ng2-material": "^0.8.1",
     "ngstorage": "^0.3.10",
     "object-assign": "^4.0.1",

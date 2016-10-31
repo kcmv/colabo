@@ -245,8 +245,9 @@ moduleProviders.push(SessionService);
 // import {KnalledgeMapTools} from '../components/knalledgeMap/tools';
 import {MainModule} from '../components/knalledgeMap/main';
 
+import {MapsListModule} from '../components/mapsList/maps-list.component';
 // NG1 components
-
+// moduleDeclarations.push(upgradeAdapter.upgradeNg1Component('knalledgeMapsList'));
 // NG2 components
 moduleDeclarations.push(KnalledgeMapMain);
 
@@ -259,6 +260,7 @@ moduleImports.push(Ng2MaterialModule.forRoot());
 
 // CF modules
 moduleImports.push(MainModule);
+moduleImports.push(MapsListModule);
 
 @NgModule({
   imports: moduleImports,
@@ -277,8 +279,10 @@ upgradeAdapter['ng2AppModule'] = AppModule;
 // bootstrapping app
 upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false})
 .ready((ref) => {
+  // notify to the rest of the system that ng1 and ng2 ratrace is finished and
+  // that services ara available so loading of the system can start
   var knalledgeMapPolicyService = ref.ng1Injector.get('KnalledgeMapPolicyService');
-  alert('KnalledgeMapPolicyService: ' + knalledgeMapPolicyService);
+  // alert('KnalledgeMapPolicyService: ' + knalledgeMapPolicyService);
   knalledgeMapPolicyService.get().config.running.ng1ng2Ready = true;
 });
 

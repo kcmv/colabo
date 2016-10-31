@@ -322,6 +322,8 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         // KNALLEDGE PLUGINS, TODO: we want to avoid hardoced registering plugins here
 
         // (NG2-) MATERIAL
+        // @angular/material theme
+        { src: '@angular/material/core/theming/prebuilt/indigo-pink.css', inject: true, dest: CSS_DEST },
         { src: 'ng2-material/ng2-material.css', inject: true, dest: CSS_DEST },
         { src: 'ng2-material/font/font.css', inject: true, dest: CSS_DEST }
     ],
