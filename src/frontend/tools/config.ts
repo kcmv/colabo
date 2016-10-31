@@ -561,6 +561,7 @@ const NPM_DEPENDENCIES: IDependency[] = [
     // { src: join(APP_SRC, 'js/lib/ng2-file-upload/ng2-file-upload.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/socket.io/angular.socket.io.js'), inject: 'libs', noNorm: true },
 
+    { src: 'hammerjs/hammer.js', inject: 'libs' },
     { src: 'rxjs/bundles/Rx.js', inject: 'libs' },
 ];
 

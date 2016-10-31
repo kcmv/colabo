@@ -62,6 +62,7 @@
     "@angular2-material/tabs": "^2.0.0-alpha.8-2",
     "@angular2-material/toolbar": "^2.0.0-alpha.8-2",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.9",
+    "@types/hammerjs": "^2.0.33",
     "angular": "^1.5.8",
     "angular-animate": "^1.5.8",
     "angular-resource": "^1.5.8",
