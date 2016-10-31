@@ -8,7 +8,7 @@
 	</div>
 	<div class="content" [hidden]="!componentShown">
 		<div class="btn-group">
-			<md-switch class="md-primary" aria-label="show creators" (checkedChange)="changedShowCreators()" [(checked)]="showUsers">show creators</md-switch>
+			<md-slide-toggle class="md-primary" aria-label="show creators" (checkedChange)="changedShowCreators()" [(checked)]="showUsers">show creators</md-slide-toggle>
 		</div>
 		<button *ngIf="policyConfig?.moderating?.enabled" (click)="prepareForParticipants(); addParticipantQuickDialog.show()" class="btn btn-primary button_icon last" aria-label="Add Participant"
 		type="button"><i title="Add Participant" class="fa fa-plus-square" aria-hidden="true"></i></button>
@@ -40,7 +40,7 @@
 	           displayName is required
 	         </div>
 					<!-- <span> -->
-						<md-switch #assigned [(checked)]="assignedE_mail" (checkedChange)="assignedE_mailChanged($event)" aria-label="assigned">automatically assign email:<BR/><i>displayName@{{automaticEmailDomain}}</i></md-switch>
+						<md-slide-toggle #assigned [(checked)]="assignedE_mail" (checkedChange)="assignedE_mailChanged($event)" aria-label="assigned">automatically assign email:<BR/><i>displayName@{{automaticEmailDomain}}</i></md-slide-toggle>
 						<md-input [disabled]="assignedE_mail" placeholder="E-mail" [(ngModel)]="newParticipant.e_mail" required name="e_mail" #e_mail="ngModel"></md-input>
 		          <div [hidden]="e_mail.valid || e_mail.pristine" class="alert alert-danger">
 		           E-mail is required

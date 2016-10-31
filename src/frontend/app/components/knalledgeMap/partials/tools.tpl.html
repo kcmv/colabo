@@ -44,8 +44,8 @@
         <!-- <div class="subgroup">
             <div><b>Components</b></div>
             <div class="btn-group">
-                <md-switch class="md-primary" aria-label="RIMA-Insights" (checkedChange)="toggleComponentView('rima-insights')">RIMA-Ins</md-switch>
-                <md-switch class="md-primary" aria-label="CollaboStuff-Right" (checkedChange)="toggleComponentView('collabostuf-right')">CollaboStuff</md-switch>
+                <md-slide-toggle class="md-primary" aria-label="RIMA-Insights" (checkedChange)="toggleComponentView('rima-insights')">RIMA-Ins</md-slide-toggle>
+                <md-slide-toggle class="md-primary" aria-label="CollaboStuff-Right" (checkedChange)="toggleComponentView('collabostuf-right')">CollaboStuff</md-slide-toggle>
             </div>
         </div> -->
 
@@ -82,17 +82,17 @@
         <div class="subgroup">
             <div><b>Display</b></div>
             <div class="btn-group">
-                <md-switch class="md-primary" aria-label="Node Types" [(checked)]="viewConfig.nodes.showTypes" (checkedChange)="viewConfigChanged('config.nodes.showTypes', viewConfig.nodes.showTypes)">Node Types</md-switch>
+                <md-slide-toggle class="md-primary" aria-label="Node Types" [(checked)]="viewConfig.nodes.showTypes" (checkedChange)="viewConfigChanged('config.nodes.showTypes', viewConfig.nodes.showTypes)">Node Types</md-slide-toggle>
 
-                <md-switch class="md-primary" aria-label="Images" [(checked)]="viewConfig.nodes.showImages" (checkedChange)="viewConfigChanged('config.nodes.showImages', viewConfig.nodes.showImages)">Images</md-switch>
+                <md-slide-toggle class="md-primary" aria-label="Images" [(checked)]="viewConfig.nodes.showImages" (checkedChange)="viewConfigChanged('config.nodes.showImages', viewConfig.nodes.showImages)">Images</md-slide-toggle>
 
-                <md-switch class="md-primary" aria-label="Thumbnails" [(checked)]="viewConfig.nodes.showImagesAsThumbnails" (checkedChange)="viewConfigChanged('config.nodes.showImagesAsThumbnails', viewConfig.nodes.showImagesAsThumbnails)">Thumbnails</md-switch>
+                <md-slide-toggle class="md-primary" aria-label="Thumbnails" [(checked)]="viewConfig.nodes.showImagesAsThumbnails" (checkedChange)="viewConfigChanged('config.nodes.showImagesAsThumbnails', viewConfig.nodes.showImagesAsThumbnails)">Thumbnails</md-slide-toggle>
 
-                <!-- <md-switch class="md-primary" aria-label="Edge Names" [(checked)]="viewConfig.edges.showTypes" (checkedChange)="viewConfigChanged('config.edges.showTypes', viewConfig.edges.showTypes)">Edge Names</md-switch>
+                <!-- <md-slide-toggle class="md-primary" aria-label="Edge Names" [(checked)]="viewConfig.edges.showTypes" (checkedChange)="viewConfigChanged('config.edges.showTypes', viewConfig.edges.showTypes)">Edge Names</md-slide-toggle>
 
-        <md-switch class="md-primary" aria-label="Edge Types" [(checked)]="viewConfig.edges.showNames" (checkedChange)="viewConfigChanged('config.edges.showNames', viewConfig.edges.showNames)">Edge Types</md-switch> -->
+        <md-slide-toggle class="md-primary" aria-label="Edge Types" [(checked)]="viewConfig.edges.showNames" (checkedChange)="viewConfigChanged('config.edges.showNames', viewConfig.edges.showNames)">Edge Types</md-slide-toggle> -->
 
-                <md-switch class="md-primary" aria-label="Limit range" [(checked)]="limitedRangeCheckBoxValue" (checkedChange)="limitDisplayChanged('config.filtering.displayDistance', limitedRangeCheckBoxValue)">Limit range</md-switch>
+                <md-slide-toggle class="md-primary" aria-label="Limit range" [(checked)]="limitedRangeCheckBoxValue" (checkedChange)="limitDisplayChanged('config.filtering.displayDistance', limitedRangeCheckBoxValue)">Limit range</md-slide-toggle>
 
                 <!-- <select [(value)]=“viewConfig.filtering.displayDistance”>
           <option [value]="'1'">1</option>
@@ -121,7 +121,7 @@
     <!-- </div> -->
 
     <div class="btn-group">
-        <md-switch class="md-primary" aria-label="show IBIS" [(checked)]="viewConfig.filtering.visbileTypes.ibis" (checkedChange)="viewConfigChanged('config.filtering.visbileTypes.ibis', viewConfig.filtering.visbileTypes.ibis)">show IBIS</md-switch>
+        <md-slide-toggle class="md-primary" aria-label="show IBIS" [(checked)]="viewConfig.filtering.visbileTypes.ibis" (checkedChange)="viewConfigChanged('config.filtering.visbileTypes.ibis', viewConfig.filtering.visbileTypes.ibis)">show IBIS</md-slide-toggle>
     </div>
 </div>
 
@@ -166,21 +166,21 @@
 
       <div class="subgroup">
           <div><b>Receive changes</b></div>
-          <!-- <md-switch class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-switch> -->
-          <md-switch *ngIf="!policyConfig.broadcasting.enabled" class="md-primary" aria-label="Navigation"[disabled]="knalledgeMapPolicyService.mustFollowPresenter() && !policyConfig.moderating.enabled"
-          [(checked)]="policyConfig.broadcasting.receiveNavigation">Navigations</md-switch>
+          <!-- <md-slide-toggle class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-slide-toggle> -->
+          <md-slide-toggle *ngIf="!policyConfig.broadcasting.enabled" class="md-primary" aria-label="Navigation"[disabled]="knalledgeMapPolicyService.mustFollowPresenter() && !policyConfig.moderating.enabled"
+          [(checked)]="policyConfig.broadcasting.receiveNavigation">Navigations</md-slide-toggle>
           <!-- (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveNavigation', policyConfig.broadcasting.receiveNavigation)" -->
-          <!-- <md-switch class="md-primary" aria-label="Structural" [(checked)]="policyConfig.broadcasting.receiveStructural" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveStructural', policyConfig.broadcasting.receiveStructural)">Structural</md-switch> -->
-          <md-switch class="md-primary" aria-label="Visualization" [(checked)]="policyConfig.broadcasting.receiveVisualization" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveVisualization', policyConfig.broadcasting.receiveVisualization)">Visualization</md-switch>
-          <md-switch class="md-primary" *ngIf="policyConfig.moderating.enabled" aria-label="Behaviours" [(checked)]="policyConfig.broadcasting.receiveBehaviours" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveBehaviours', policyConfig.broadcasting.receiveBehaviours)">Behaviours</md-switch>
+          <!-- <md-slide-toggle class="md-primary" aria-label="Structural" [(checked)]="policyConfig.broadcasting.receiveStructural" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveStructural', policyConfig.broadcasting.receiveStructural)">Structural</md-slide-toggle> -->
+          <md-slide-toggle class="md-primary" aria-label="Visualization" [(checked)]="policyConfig.broadcasting.receiveVisualization" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveVisualization', policyConfig.broadcasting.receiveVisualization)">Visualization</md-slide-toggle>
+          <md-slide-toggle class="md-primary" *ngIf="policyConfig.moderating.enabled" aria-label="Behaviours" [(checked)]="policyConfig.broadcasting.receiveBehaviours" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.receiveBehaviours', policyConfig.broadcasting.receiveBehaviours)">Behaviours</md-slide-toggle>
       </div>
 
       <div *ngIf="policyConfig.moderating.enabled" class="subgroup">
           <div><b>Session</b></div>
-          <!-- <md-switch class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-switch> -->
+          <!-- <md-slide-toggle class="md-primary" aria-label="Pool Changes" [(checked)]="policyConfig.syncing.poolChanges" (checkedChange)="syncingChanged()">Pool Changes</md-slide-toggle> -->
           <button md-raised-button (click)="showSession()" class="md-accent md-hue-1">Session</button>
-          <!-- <md-switch class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled" (checkedChange)="moderatorToggled()">Moderator</md-switch> -->
-          <md-switch class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)">Presenter</md-switch>
+          <!-- <md-slide-toggle class="md-primary" aria-label="Moderator" [(checked)]="policyConfig.moderating.enabled" (checkedChange)="moderatorToggled()">Moderator</md-slide-toggle> -->
+          <md-slide-toggle class="md-primary" aria-label="Presenter" [(checked)]="policyConfig.broadcasting.enabled" (checkedChange)="broadcastingChanged('policyConfig.broadcasting.enabled', policyConfig.broadcasting.enabled)">Presenter</md-slide-toggle>
 
           <button md-raised-button (click)="broadcastUpdateMaps()" class="md-accent md-hue-1">Update Maps</button>
 
