@@ -306,6 +306,104 @@
 					};
 
 					updateList();
+
+					//connections through interests:
+					$scope.items.length = 0;
+
+					var participants = RimaService.getUsers();
+
+					var participantConnections = {};
+					for(var i=0; i<participants.length;i++){
+						participantConnections[participants[i].displayName] = {};
+						var userIHows = RimaService.howAmIs[participants[i]._id];
+						console.warn('userIHows',userIHows);
+						for(var j=0; j<participants.length;j++){
+							if(participants[i]._id == participants[j]._id){
+								participantConnections[participants[i].displayName][participants[j].displayName] = 0;
+							}
+							else{
+								var userJHows = RimaService.howAmIs[participants[j]._id];
+								// participantConnections[2]=4;
+								// participantConnections[8]=5;
+								//participants[i].displayName
+								var hows=[];
+								if(userIHows){
+									for(var h=0; h<userIHows.length;h++){
+										if(userJHows){
+											for(var hj=0; hj<userJHows.length;hj++){
+												if(userIHows[h].whatAmI._id == userJHows[hj].whatAmI._id)
+												hows.push(userIHows[h].whatAmI.name);
+											}
+										}
+									}
+								}
+								participantConnections[participants[i].displayName][participants[j].displayName] = hows;
+							}
+						}
+					}
+
+					var table = "<table class='connections_table' border='1'>";
+
+					//header:
+					var th="<tr><th>-/-</th>";
+					for(var pi in participantConnections){
+						th  += "<TH><B>"+pi+"</B></TH>";
+					}
+					th+="</tr>";
+					table+=th;
+
+					for(var pi in participantConnections){
+						var tr ="<TR>";
+						tr += "<TD><B>"+pi+"</B></TD>";
+						for(var pj in participantConnections[pi]){
+							var howsStr = ""; var first = true;
+							for(var hc = 0; hc<participantConnections[pi][pj].length;hc++){
+								howsStr += (first ? "" : "<br/>") + participantConnections[pi][pj][hc];
+								first = false;
+							}
+							table +="<TD>"+howsStr+"</TD>";
+						}
+						table +="</TR>";
+						table += tr;
+					}
+					table += "</table>";
+					$scope.participantsConnectionsDisplay = table;
+					//$scope.tracing = userIHows;
+
+					// var userHows = RimaService.howAmIs[RimaService.getActiveUserId()]; // TODO: Sasa want logged in user also [RimaService.loggedInWhoAmI._id];
+					// for (var i in KnalledgeMapVOsService.mapStructure.nodesById) { //for all nodes in the map
+					// 	var vkNode = KnalledgeMapVOsService.mapStructure.nodesById[i];
+					// 	var nodeWhats = (vkNode && vkNode.kNode.dataContent && vkNode.kNode.dataContent.rima && vkNode.kNode.dataContent.rima.whats) ?
+					// 		vkNode.kNode.dataContent.rima.whats : []; //getting all whats from the node
+					//
+					// 	var relevantWhats = []; //here are kept all found relevant whats
+						// TODO: can be optimized by hash of userHows
+						// for (var i = 0; i < nodeWhats.length; i++) { //through all the whats of the node
+						// 	var nodeWhat = nodeWhats[i];
+						// 	for (var j in userHows) { //for each how of the user:
+						// 		var userHow = userHows[j];
+						// 		if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name)) {
+						// 			relevantWhats.push(userHow.whatAmI);
+						// 		}
+						// 	}
+						// }
+						// if (relevantWhats.length != 0) {
+						// 	var whats = [{
+						// 		name: "knalledge",
+						// 		relevant: true
+						// 	}, {
+						// 		name: "science",
+						// 		relevant: false
+						// 	}]
+						// 	$scope.items.push({
+						// 		_id: vkNode.kNode._id,
+						// 		name: vkNode.kNode.name,
+						// 		vkNode: vkNode,
+						// 		whats: relevantWhats
+						// 	});
+						// }
+					// }
+
 				}
 			};
 		}

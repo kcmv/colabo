@@ -217,8 +217,8 @@ Map.prototype.init = function() {
 			update: this.mapVisualization.update.bind(this.mapVisualization),
 			positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
 			nodeSelected: this.nodeSelected.bind(this),
-			disableKeyboard: this.keyboardInteraction.disable.bind(this.keyboardInteraction),
-			enableKeyboard: this.keyboardInteraction.enable.bind(this.keyboardInteraction)
+			disableKeyboard: (this.keyboardInteraction ? this.keyboardInteraction.disable.bind(this.keyboardInteraction) : null),
+			enableKeyboard: (this.keyboardInteraction ? this.keyboardInteraction.enable.bind(this.keyboardInteraction) : null)
 		}
 	});
 	this.collaboPluginsService.provideApi("mapInteraction", {

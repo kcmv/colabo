@@ -71,6 +71,12 @@ wizard {
   -moz-border-radius: 10px / 10px;
   -webkit-border-radius: 10px 10px;
   border-radius: 10px / 10px; }
+  /*.rima-relevant_whats_list{*/
+    .connections_table{
+      padding: 10px !important;
+      /*color: red;*/
+    }
+  /*}*/
   .rima_relevant_list .rima-relevant_whats_list .title {
     font-weight: bold;
     text-align: center; }
