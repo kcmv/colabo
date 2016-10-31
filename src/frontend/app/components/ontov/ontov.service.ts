@@ -190,7 +190,7 @@ export class OntovService {
  * }
  * ```
  */
-  setSearch(searchArr:Array){
+  setSearch(searchArr:Array<any>){
     this.searchParam.searchArr = searchArr;
     this.filterByFacets(this.searchParam.searchArr);
 
