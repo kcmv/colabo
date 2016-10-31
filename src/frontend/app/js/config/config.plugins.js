@@ -126,34 +126,34 @@
         "ViewComponents": {
             "knalledgeMap.Main": {
                 components: {
-                    TopPanel: {
-                        active: true,
-                        path: "/components/topPanel/topPanel"
-                    },
+                    // TopPanel: {
+                    //     active: true,
+                    //     path: "/components/topPanel/topPanel"
+                    // },
                     'ontov.OntovComponent': {
                         active: true,
                         path: "/components/ontov/ontov.component"
                     },
-                    'brainstorming.BrainstormingFormComponent': {
-                        active: true,
-                        path: "/components/brainstorming/brainstorming-form.component"
-                    },
-                    'session.SessionFormComponent': {
-                        active: true,
-                        path: "/components/session/session-form.component"
-                    },
-                    'cf.puzzles.ibis.actionsForm': {
-                        active: true,
-                        path: "cf.puzzles.ibis.actionsForm"
-                    },
-                    'cf.puzzles.presentation.actionsForm': {
-                        active: true,
-                        path: "cf.puzzles.presentation.actionsForm"
-                    },
-                    'cf.puzzles.knalledgeList.component': {
-                        active: true,
-                        path: "cf.puzzles.knalledgeList.component"
-                    }
+                    // 'brainstorming.BrainstormingFormComponent': {
+                    //     active: true,
+                    //     path: "/components/brainstorming/brainstorming-form.component"
+                    // },
+                    // 'session.SessionFormComponent': {
+                    //     active: true,
+                    //     path: "/components/session/session-form.component"
+                    // },
+                    // 'cf.puzzles.ibis.actionsForm': {
+                    //     active: true,
+                    //     path: "cf.puzzles.ibis.actionsForm"
+                    // },
+                    // 'cf.puzzles.presentation.actionsForm': {
+                    //     active: true,
+                    //     path: "cf.puzzles.presentation.actionsForm"
+                    // },
+                    // 'cf.puzzles.knalledgeList.component': {
+                    //     active: true,
+                    //     path: "cf.puzzles.knalledgeList.component"
+                    // }
                 }
             },
 
