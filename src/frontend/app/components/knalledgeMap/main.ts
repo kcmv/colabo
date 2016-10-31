@@ -82,13 +82,27 @@ PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', comp
 import {ToolsModule} from './tools';
 
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+
+import {MaterialModule} from '@angular/material';
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {Ng2MaterialModule} from 'ng2-material';
+
+var moduleImports = [];
+moduleImports.push(BrowserModule);
+moduleImports.push(FormsModule);
+moduleImports.push(HttpModule);
+// moduleImports.push(RouterModule.forRoot(DEMO_APP_ROUTES));
+moduleImports.push(MaterialModule.forRoot());
+moduleImports.push(Ng2MaterialModule.forRoot());
+// moduleImports.push(ToolsModule);
+
 // @NgModule for tools
 @NgModule({
-  imports: [
-    // CF modules
-    // UNCOMMENT
-    // ToolsModule
-  ],
+  imports: moduleImports,
   exports: componentDirectives,
   declarations: componentDirectives
 })

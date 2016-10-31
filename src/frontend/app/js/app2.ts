@@ -250,7 +250,6 @@ import {MainModule} from '../components/knalledgeMap/main';
 // NG2 components
 moduleDeclarations.push(KnalledgeMapMain);
 
-moduleImports.push();
 moduleImports.push(BrowserModule);
 moduleImports.push(FormsModule);
 moduleImports.push(HttpModule);
