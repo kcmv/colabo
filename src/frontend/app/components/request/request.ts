@@ -9,7 +9,8 @@ export const enum RequestVisibility {
 export const enum RequestType {
 	UNDEFINED,
 	REPLICA,
-	CLARIFICATION
+	CLARIFICATION,
+	QUESTION
 }
 
 export const enum RequestState {

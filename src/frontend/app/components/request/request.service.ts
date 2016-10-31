@@ -83,6 +83,7 @@ export class RequestService {
     private globalEmitterServicesArray: GlobalEmitterServicesArray;
     private requests: Request[] = [];
     private _onChangeHandlers: Function[] = [];
+    private SHOW_INFO: string = "SHOW_INFO";
 
     /**
      * Service constructor
@@ -102,6 +103,9 @@ export class RequestService {
         this.knalledgeMapPolicyService = KnalledgeMapPolicyService;
         this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
         this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
+
+        this.globalEmitterServicesArray.register(this.SHOW_INFO);
+        this.globalEmitterServicesArray.register(this.REQUEST_TO_CHANGE_SESSION_PARAMETER);
 
         let requestPluginOptions: any = {
             name: "RequestService",
@@ -183,11 +187,20 @@ export class RequestService {
         return this.requests;
     }
 
+    requestforAnswerMockup(){
+      let ra:Request = new Request();
+      ra.type = RequestType.QUESTION;
+    }
+
+    processReferences(request:Request):void{
+      request.who = this.rimaService.getUserById(request.who); //can be null!
+      request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!
+    }
+
     receivedRequest(eventName: string, request: Request) {
       if (this.filterRequest(request)) {
         this.requests.push(request);
-        request.who = this.rimaService.getUserById(request.who); //can be null!
-        request.reference = this.knalledgeMapVOsService.getNodeById(request.reference); //can be null!
+        this.processReferences(request);
       //  console.log('[RequestService:receivedRequest] request:', JSON.stringify(request));
         if (request.type === RequestType.REPLICA) {
             console.log(' requested REPLICA for ');
