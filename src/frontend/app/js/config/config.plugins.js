@@ -146,6 +146,10 @@
                         active: true,
                         path: "cf.puzzles.ibis.actionsForm"
                     },
+                    'cf.puzzles.rima.actionsForm': {
+                        active: true,
+                        path: "cf.puzzles.rima.actionsForm"
+                    },
                     'cf.puzzles.presentation.actionsForm': {
                         active: true,
                         path: "cf.puzzles.presentation.actionsForm"

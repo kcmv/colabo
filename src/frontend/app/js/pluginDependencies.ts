@@ -25,8 +25,13 @@ components['/components/brainstorming/brainstorming'] = BrainstormingPhase;
 
 import {IbisTypesList} from '../../dev_puzzles/ibis/ibisTypesList';
 components['cf.puzzles.ibis.typesList'] = IbisTypesList;
+
 import {IbisActionsForm} from '../../dev_puzzles/ibis/ibisActionsForm';
 components['cf.puzzles.ibis.actionsForm'] = IbisActionsForm;
+
+import {RimaActionsForm} from '../components/rima/rimaActionsForm';
+components['cf.puzzles.rima.actionsForm'] = RimaActionsForm;
+
 import {PresentationList} from '../../dev_puzzles/presentation/presentationList';
 components['cf.puzzles.presentation.list'] = PresentationList;
 
