@@ -13,61 +13,6 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
  * @constructor
 */
 
-import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
-
-var componentDirectives = [
-    // MdList, MdListItem, MdContent, MdButton, MdSwitch,
-    //upgradeAdapter.upgradeNg1Component('rimaUsersList'),
-    // upgradeAdapter.upgradeNg1Component('ibisTypesList')
-];
-
-declare var Config: any; // src/frontend/app/js/config/config.plugins.js
-
-if (Config.Plugins.puzzles.gardening.active && PluginsPreloader.components.GardeningControls) {
-    console.warn("[KnalledgeMapTools] Loading GardeningControls");
-    componentDirectives.push(PluginsPreloader.components.GardeningControls);
-} else {
-    console.warn("[KnalledgeMapTools] Not loading GardeningControls");
-}
-
-if (Config.Plugins.puzzles.rima.active && PluginsPreloader.components.RimaUsersList) {
-    console.warn("[KnalledgeMapTools] Loading RimaUsersList");
-    componentDirectives.push(PluginsPreloader.components.RimaUsersList);
-} else {
-    console.warn("[KnalledgeMapTools] Not loading RimaUsersList");
-}
-import {RimaUsersListModule} from '../rima/rimaUsersList';
-
-if (PluginsPreloader.components.IbisTypesList) {
-    console.warn("[KnalledgeMapTools] Loading IbisTypesList");
-    componentDirectives.push(PluginsPreloader.components.IbisTypesList);
-} else {
-    console.warn("[KnalledgeMapTools] Not loading IbisTypesList");
-}
-
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import {HttpModule} from '@angular/http';
-import {FormsModule} from '@angular/forms';
-import {MaterialModule} from '@angular/material';
-import {Ng2MaterialModule} from 'ng2-material';
-
-var moduleImports = [];
-moduleImports.push(BrowserModule);
-moduleImports.push(FormsModule);
-moduleImports.push(HttpModule);
-moduleImports.push(MaterialModule);
-moduleImports.push(Ng2MaterialModule);
-moduleImports.push(RimaUsersListModule);
-
-// @NgModule for tools
-@NgModule({
-  imports: moduleImports,
-  exports: componentDirectives,
-  declarations: componentDirectives
-})
-export class ToolsModule {}
-
 @Component({
     selector: 'knalledge-map-tools',
     providers: [],
@@ -224,3 +169,58 @@ export class KnalledgeMapTools {
           .broadcast('KnalledgeMapTools', 'cf.puzzles.coevoludens.trendMasterActions');
     }
 }
+
+import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
+
+var componentDirectives = [
+    // MdList, MdListItem, MdContent, MdButton, MdSwitch,
+    //upgradeAdapter.upgradeNg1Component('rimaUsersList'),
+    // upgradeAdapter.upgradeNg1Component('ibisTypesList')
+];
+
+declare var Config: any; // src/frontend/app/js/config/config.plugins.js
+
+if (Config.Plugins.puzzles.gardening.active && PluginsPreloader.components.GardeningControls) {
+    console.warn("[KnalledgeMapTools] Loading GardeningControls");
+    componentDirectives.push(PluginsPreloader.components.GardeningControls);
+} else {
+    console.warn("[KnalledgeMapTools] Not loading GardeningControls");
+}
+
+if (Config.Plugins.puzzles.rima.active && PluginsPreloader.components.RimaUsersList) {
+    console.warn("[KnalledgeMapTools] Loading RimaUsersList");
+    componentDirectives.push(PluginsPreloader.components.RimaUsersList);
+} else {
+    console.warn("[KnalledgeMapTools] Not loading RimaUsersList");
+}
+import {RimaUsersListModule} from '../rima/rimaUsersList';
+
+if (PluginsPreloader.components.IbisTypesList) {
+    console.warn("[KnalledgeMapTools] Loading IbisTypesList");
+    componentDirectives.push(PluginsPreloader.components.IbisTypesList);
+} else {
+    console.warn("[KnalledgeMapTools] Not loading IbisTypesList");
+}
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {HttpModule} from '@angular/http';
+import {FormsModule} from '@angular/forms';
+import {MaterialModule} from '@angular/material';
+import {Ng2MaterialModule} from 'ng2-material';
+
+var moduleImports = [];
+moduleImports.push(BrowserModule);
+moduleImports.push(FormsModule);
+moduleImports.push(HttpModule);
+moduleImports.push(MaterialModule);
+moduleImports.push(Ng2MaterialModule);
+moduleImports.push(RimaUsersListModule);
+
+// @NgModule for tools
+@NgModule({
+  imports: moduleImports,
+  exports: componentDirectives,
+  declarations: componentDirectives
+})
+export class ToolsModule {}

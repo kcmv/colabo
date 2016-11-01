@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {LoginStatusComponent} from '../login/login-status-component';
-// import {Media, MdContent, MdButton} from 'ng2-material';
 import {Media, MdDialog} from "ng2-material";
 import {InfoForDialog} from '../../js/interaction/infoForDialog';
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
@@ -11,14 +10,13 @@ import { Router} from '@angular/router';
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
-// import {RequestService} from '../request/request.service';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
 import {BottomPanel, BottomPanelModule, bottomPanelComponentDirectives} from '../bottomPanel/bottomPanel';
 import {UserDialogComponent} from '../rima/user-dialog-component';
 
 import {ChangeService} from '../change/change.service';
-
+import {TopPanelModule} from '../topPanel/topPanel';
 declare var window;
 declare var Config;
 declare var knalledge;
@@ -61,10 +59,7 @@ import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
 var componentDirectives = [
     upgradeAdapter.upgradeNg1Component('knalledgeMap'),
-    // upgradeAdapter.upgradeNg1Component('knalledgeMapTools'),
     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
-//  upgradeAdapter.upgradeNg1Component('ibisTypesList'),
- // UNCOMMENT
     KnalledgeMapTools,
     MediaShowComponent,
     BottomPanel,
@@ -93,6 +88,7 @@ moduleImports.push(MaterialModule);
 moduleImports.push(Ng2MaterialModule);
 moduleImports.push(ToolsModule);
 moduleImports.push(BottomPanelModule);
+moduleImports.push(TopPanelModule);
 
 let componentExportDirectives = [];
 for (let i=0; i<componentDirectives.length; i++){

@@ -2,7 +2,6 @@ import {Component, Inject, OnInit, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription }     from 'rxjs/Subscription';
 
-import {MATERIAL_DIRECTIVES} from "ng2-material";
 import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
 
 import {CfPuzzlesKnalledgeListService} from './cf.puzzles.knalledge_list.service';
@@ -18,9 +17,6 @@ declare var marked:Function;
     providers: [
       CfPuzzlesKnalledgeListService
     ],
-    directives: [
-        MATERIAL_DIRECTIVES
-    ]
 })
 export class KnalledgeListComponent implements OnInit, OnDestroy{
   public showOnlyBrainstorming: boolean = true;

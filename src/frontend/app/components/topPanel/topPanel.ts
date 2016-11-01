@@ -184,9 +184,9 @@ export class TopPanel {
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
 var componentDirectives = [
-  // RequestComponent,
-  // SuggestionComponent,
-  // ChangeComponent,
+  RequestComponent,
+  SuggestionComponent,
+  ChangeComponent,
   upgradeAdapter.upgradeNg1Component('rimaRelevantList'),
 
   // pipes
