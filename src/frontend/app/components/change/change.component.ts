@@ -2,10 +2,7 @@ import {Component, Inject, OnInit, EventEmitter, Output, Input} from '@angular/c
 //import {NgIf, NgFor} from '@angular/common';
 //import {FORM_DIRECTIVES} from '@angular/forms';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-import { DatePipe } from "@angular/common";
-import { OrderArrayPipe } from "../utils/orderArrayPipe";
 import {Change, State} from "./change";
 import {ChangeService} from "./change.service";
 //import {KNode} from "KNode";
@@ -17,11 +14,6 @@ import {ChangeService} from "./change.service";
     providers: [
         // ChangeService
     ],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        //NgIf, NgFor, FORM_DIRECTIVES,
-   ],
-   pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
    templateUrl: 'change.component.html'
 })

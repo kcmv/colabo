@@ -1,10 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 // import {FORM_DIRECTIVES} from '@angular/forms';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-import { DatePipe } from "@angular/common";
-import { OrderArrayPipe } from "../utils/orderArrayPipe";
 import {Suggestion, SuggestionState} from "./suggestion";
 import {SuggestionService} from "./suggestion.service";
 //import {KNode} from "KNode";
@@ -16,11 +13,6 @@ declare var knalledge;
     // since it is comming from ng1 space we need to use explicit injection decorator
     // so we cannot put it here
     providers: [],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        //NgIf, NgFor, FORM_DIRECTIVES,
-   ],
-   pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
    templateUrl: 'suggestion.component.html'
 })
