@@ -1,5 +1,4 @@
 import {Component, ViewEncapsulation, Inject, Input} from '@angular/core';
-import { DatePipe } from "@angular/common";
 import { OrderArrayPipe } from "../utils/orderArrayPipe";
 import {RequestComponent} from '../request/request.component';
 import {SuggestionComponent} from '../suggestion/suggestion.component';
@@ -188,14 +187,16 @@ var componentDirectives = [
   // RequestComponent,
   // SuggestionComponent,
   // ChangeComponent,
-  // upgradeAdapter.upgradeNg1Component('rimaRelevantList'),
+  upgradeAdapter.upgradeNg1Component('rimaRelevantList'),
 
   // pipes
-  // DatePipe, OrderArrayPipe
+  // DatePipe,
+  OrderArrayPipe
 ];
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {MaterialModule} from '@angular/material';
@@ -203,6 +204,7 @@ import {Ng2MaterialModule} from 'ng2-material';
 
 var moduleImports = [];
 moduleImports.push(BrowserModule);
+moduleImports.push(CommonModule);
 moduleImports.push(FormsModule);
 moduleImports.push(HttpModule);
 moduleImports.push(MaterialModule);
