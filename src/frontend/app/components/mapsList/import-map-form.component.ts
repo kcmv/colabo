@@ -94,8 +94,8 @@ import {Ng2MaterialModule} from 'ng2-material';
 var moduleImports = [];
 moduleImports.push(BrowserModule);
 moduleImports.push(FormsModule);
-moduleImports.push(MaterialModule.forRoot());
-moduleImports.push(Ng2MaterialModule.forRoot());
+moduleImports.push(MaterialModule);
+moduleImports.push(Ng2MaterialModule);
 
 var componentDirectives = [
   FILE_UPLOAD_DIRECTIVES,

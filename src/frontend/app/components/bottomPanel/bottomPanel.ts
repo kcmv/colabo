@@ -30,8 +30,8 @@ var moduleImports = [];
 moduleImports.push(BrowserModule);
 moduleImports.push(FormsModule);
 moduleImports.push(HttpModule);
-moduleImports.push(MaterialModule.forRoot());
-moduleImports.push(Ng2MaterialModule.forRoot());
+moduleImports.push(MaterialModule);
+moduleImports.push(Ng2MaterialModule);
 
 // @NgModule for tools
 @NgModule({

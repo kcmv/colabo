@@ -89,8 +89,8 @@ moduleImports.push(BrowserModule);
 moduleImports.push(FormsModule);
 moduleImports.push(HttpModule);
 // moduleImports.push(RouterModule.forRoot(DEMO_APP_ROUTES));
-moduleImports.push(MaterialModule.forRoot());
-moduleImports.push(Ng2MaterialModule.forRoot());
+moduleImports.push(MaterialModule);
+moduleImports.push(Ng2MaterialModule);
 moduleImports.push(ToolsModule);
 moduleImports.push(BottomPanelModule);
 
