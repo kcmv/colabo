@@ -25,9 +25,6 @@ import {SuggestionService} from '../components/suggestion/suggestion.service';
 
 // import { disableDeprecatedForms, provideForms } from '@angular/forms';
 
-// Bootstrap 4 + ng2
-// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
 // import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
 import { MapInteraction } from './interaction/mapInteraction';
 
@@ -225,7 +222,8 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
 import {MaterialModule} from '@angular/material';
-// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+// Bootstrap 4 + ng2
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2MaterialModule} from 'ng2-material';
 
 // import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
@@ -257,6 +255,7 @@ moduleImports.push(HttpModule);
 // moduleImports.push(RouterModule.forRoot(DEMO_APP_ROUTES));
 moduleImports.push(MaterialModule.forRoot());
 moduleImports.push(Ng2MaterialModule.forRoot());
+moduleImports.push(NgbModule.forRoot());
 
 // CF modules
 moduleImports.push(MainModule);
