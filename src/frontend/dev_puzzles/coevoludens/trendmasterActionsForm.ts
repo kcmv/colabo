@@ -69,8 +69,9 @@ export class TrendmasterActionsForm {
     this.componentShown = !this.componentShown;
   }
 
-  onQuestionItem() {
-    this.ibisService.createNodeQuestion();
+  togglePyramid() {
+    console.log('togglePyramid');
+    //this.ibisService.createNodeQuestion();
   }
 
   onIdeaItem() {
