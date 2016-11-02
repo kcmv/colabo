@@ -9,6 +9,8 @@ let runServer = () => {
     [`/${APP_DEST}`]: APP_DEST,
     '/node_modules': 'node_modules',
     '/bower_components': 'bower_components',
+    // fixes problems with refering /app/components files from dev_puzzles
+    '/app': join(APP_DEST),
     '/app/images': join(APP_DEST, 'images'),
     // '/dev_puzzles': join(APP_DEST, 'dev_puzzles'),
     '/dev_puzzles': 'dev_puzzles',

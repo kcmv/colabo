@@ -157,7 +157,11 @@
                     'cf.puzzles.knalledgeList.component': {
                         active: true,
                         path: "cf.puzzles.knalledgeList.component"
-                    }
+                    },
+                    'cf.puzzles.coevoludens.coevoludens-trendspyramid': {
+                        active: true,
+                        path: "cf.puzzles.coevoludens.coevoludens-trendspyramid"
+                    },
                 }
             },
 
@@ -174,6 +178,10 @@
                     'cf.puzzles.coevoludens.trendmaster-actions-form': {
                         active: true,
                         path: "cf.puzzles.coevoludens.trendmaster-actions-form"
+                    },
+                    'cf.puzzles.coevoludens.coevoludens-actions-form': {
+                        active: true,
+                        path: "cf.puzzles.coevoludens.coevoludens-actions-form"
                     }
                 }
             },

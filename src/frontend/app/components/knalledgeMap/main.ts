@@ -99,9 +99,16 @@ for (let i=0; i<bottomPanelComponentDirectives.length; i++){
   componentExportDirectives.push(bottomPanelComponentDirectives[i]);
 }
 
+// needed for coevoludens, temporarily
+// import {BrainstormingService} from '../brainstorming/brainstorming.service';
+var moduleProviders = [
+];
+
+
 // @NgModule for tools
 @NgModule({
   imports: moduleImports,
+  providers: moduleProviders,
   exports: componentExportDirectives,
   declarations: componentDirectives
 })

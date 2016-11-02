@@ -7,15 +7,15 @@ import {CfPuzzlesIbisService} from '../ibis/cf.puzzles.ibis.service';
 import {CfPuzzlesCoevoludensServices} from './cf.puzzles.coevoludens.service'
 
 @Component({
-    selector: 'coevoludens-trendmaster-actions',
+    selector: 'coevoludens-coevoludens-actions',
     providers: [
     ],
     moduleId: module.id,
-    templateUrl: 'partials/trendmaster-actions-form.tpl.html',
+    templateUrl: 'partials/coevoludens-actions-form.tpl.html',
     styles: [`
     `]
 })
-export class TrendmasterActionsForm {
+export class CoEvoLudensActionsForm {
   public items:Array<any> = [];
   public selectedItem:any = null;
   private componentShown:boolean = true;
@@ -33,7 +33,7 @@ export class TrendmasterActionsForm {
     private coevoludensService:CfPuzzlesCoevoludensServices,
     private ibisService:CfPuzzlesIbisService
   ) {
-      // console.log('[TrendmasterActionsForm]');
+      // console.log('[CoEvoLudensActionsForm]');
       this.ibisTypesService = _IbisTypesService_;
 
       this.items = this.ibisTypesService.getTypes();
@@ -41,7 +41,7 @@ export class TrendmasterActionsForm {
       this.viewConfig = knalledgeMapViewService.get().config;
       this.policyConfig = knalledgeMapPolicyService.get().config;
       this.globalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
-      // this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('TrendmasterActionsForm', function(vkNode,type) {
+      // this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('CoEvoLudensActionsForm', function(vkNode,type) {
       //     console.log("knalledgeNodeTypeChanged: ", vkNode.kNode.name, type);
       // });
   }
@@ -60,7 +60,7 @@ export class TrendmasterActionsForm {
 
     if(this.viewConfig.states.editingNode){
       this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged)
-      .broadcast('TrendmasterActionsForm',{node:this.viewConfig.states.editingNode,type:item.type});
+      .broadcast('CoEvoLudensActionsForm',{node:this.viewConfig.states.editingNode,type:item.type});
       //, this.selectedItem
     }
   }

@@ -45,6 +45,12 @@ components['cf.puzzles.knalledgeList.component'] = KnalledgeListComponent;
 import {TrendmasterActionsForm} from '../../dev_puzzles/coevoludens/trendmasterActionsForm';
 components['cf.puzzles.coevoludens.trendmaster-actions-form'] = TrendmasterActionsForm;
 
+import {CoEvoLudensActionsForm} from '../../dev_puzzles/coevoludens/coevoludensActionsForm';
+components['cf.puzzles.coevoludens.coevoludens-actions-form'] = CoEvoLudensActionsForm;
+
+import {TrendspyramidComponent} from '../../dev_puzzles/coevoludens/trendspyramid.component';
+components['cf.puzzles.coevoludens.coevoludens-trendspyramid'] = TrendspyramidComponent;
+
 // service dependencies that other parts of the system depends on
 export var servicesDependencies:any = {};
 
