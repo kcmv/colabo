@@ -68,7 +68,7 @@
     "angular-resource": "^1.5.8",
     "angular-route": "^1.5.8",
     "angular-sanitize": "^1.5.8",
-    "bootstrap": "^3.3.6",
+    "bootstrap": "^4.0.0-alpha.5",
     "core-js": "^2.4.0",
     "debug": "^2.2.0",
     "deep-assign": "^2.0.0",

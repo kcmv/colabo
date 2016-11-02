@@ -76,7 +76,7 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
 import {MaterialModule} from '@angular/material';
-// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2MaterialModule} from 'ng2-material';
 
 var moduleImports = [];
@@ -86,6 +86,7 @@ moduleImports.push(HttpModule);
 // moduleImports.push(RouterModule.forRoot(DEMO_APP_ROUTES));
 moduleImports.push(MaterialModule);
 moduleImports.push(Ng2MaterialModule);
+moduleImports.push(NgbModule);
 moduleImports.push(ToolsModule);
 moduleImports.push(BottomPanelModule);
 moduleImports.push(TopPanelModule);

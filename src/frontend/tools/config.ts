@@ -312,6 +312,10 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         // CSS
         // LIBS
         { src: join(APP_SRC, 'css/libs/bootstrap/bootstrap.css'), inject: true, dest: CSS_DEST, noNorm: true },
+        // bootstrap 4
+        { src: 'bootstrap/dist/css/bootstrap.css', inject: true, dest: CSS_DEST },
+
+        { src: join(APP_SRC, 'css/libs/bootstrap/bootstrap.css'), inject: true, dest: CSS_DEST, noNorm: true },
 
         // KNALLEDGE CORE
         { src: join(APP_SRC, 'css/libs/wizard/ngWizard.css'), inject: true, dest: CSS_DEST, noNorm: true },

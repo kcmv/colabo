@@ -1,4 +1,4 @@
-<div class="ibis-actions-form">
+<div class="rima-actions-form">
     <button md-mini-fab class="md-mini md-primary" aria-label="Question" (click)="onQuestionItem()">
       <md-icon title="Question">?</md-icon>
     </button>
@@ -7,30 +7,14 @@
       <md-icon title="Idea">lightbulb_outline</md-icon>
     </button>
 
-    <button md-mini-fab class="md-mini md-primary" aria-label="Argument" (click)="onArgumentItem()">
-      <md-icon title="Argument">compare_arrows</md-icon>
-    </button>
-
-    <button md-mini-fab class="md-mini md-primary" aria-label="Comment" (click)="onCommentItem()">
-      <md-icon title="Comment">comment</md-icon>
-    </button>
-
-    <button md-mini-fab class="md-mini md-primary" aria-label="Vote Up" (click)="onVoteUpItem()">
-      <md-icon title="Vote Up">thumb_up</md-icon>
-    </button>
-
-    <button md-mini-fab class="md-mini md-primary" aria-label="Vote Down" (click)="onVoteDownItem()">
-      <md-icon title="Vote Down">thumb_down</md-icon>
-    </button>
-
     <select class="list">
 			<option *ngFor="let item of kNodesTypes" value="item._id">{{item.name}}</option>
 		</select>
 
-	<!--
-	flash_auto
+    <input type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [editable]="false" focusFirst="true"/>
 
-	-->
+    <pre>Model: {{ model | json }}</pre>
+
 
 <!-- 	<div class="content" [hidden]="!componentShown">
 		<table class="list">
