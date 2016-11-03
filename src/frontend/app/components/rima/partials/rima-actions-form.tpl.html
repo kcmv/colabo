@@ -7,22 +7,15 @@
       <md-icon title="Idea">lightbulb_outline</md-icon>
     </button>
 
-    <select class="list">
-			<option *ngFor="let item of kNodesTypes" value="item._id">{{item.name}}</option>
-		</select>
+    <template #rimaUsersResultTemplate let-whoAmI="result" let-searchTerm="term">
+      {{ whoAmI.displayName }} ({{ whoAmI.firstname +
+         " " + whoAmI.familyname }})
+    </template>
 
-    <input type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [editable]="false" focusFirst="true"/>
-
-    <pre>Model: {{ model | json }}</pre>
-
-
-<!-- 	<div class="content" [hidden]="!componentShown">
-		<table class="list">
-			<tr (click)="selectItem(item)" *ngFor="let item of items"
-			[ngClass]="{'row': true, 'active-selection': item._id === selectedItem._id}">
-				<td>{{item.name}}</td>
-			</tr>
-		</table>
-	</div>
- -->
+    <span *ngIf="editingUser">
+      <input type="text" class="" [(ngModel)]="selectedWhoAmI" [ngbTypeahead]="rimaUsersSearchBouded" [editable]="false" focusFirst="true" [inputFormatter]="rimaUsersFormatter" (selectItem)="rimaUsersSelected($event)" [resultTemplate]="rimaUsersResultTemplate"/>
+    </span>
+    <span *ngIf="!editingUser" (click)="editingUser = true">
+      active: <b>{{ selectedWhoAmI.displayName }}</b>
+    </span>
  </div>

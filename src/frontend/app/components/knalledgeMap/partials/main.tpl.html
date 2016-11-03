@@ -158,18 +158,6 @@
                         </section>
                     </md-toolbar>
 
-                    <ontov style="height: 2em"></ontov>
-                    <!-- top panel -->
-                    <div class="knalledge_map_middle_bottom" *ngIf="viewConfig.panels.topPanel.visible">
-                        <top-panel></top-panel>
-                    </div>
-                    <!-- KnAllEdge Map -->
-                    <knalledge-map class="knalledge_map" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_tree' || viewConfig.visualization.viewspec === 'viewspec_manual'"></knalledge-map>
-
-                    <!-- <knalledge-list class="knalledge_list" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_list'"></knalledge-list> -->
-
-                    <bottom-panel></bottom-panel>
-
                     <md-toolbar class="toolbar flexible md-theme-indigo" color="primary" style="width: 100%;">
                         <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
                             <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
@@ -180,6 +168,19 @@
 
                         </section>
                     </md-toolbar>
+
+                    <ontov style="height: 2em"></ontov>
+
+                    <!-- top panel -->
+                    <div class="knalledge_map_middle_bottom" *ngIf="viewConfig.panels.topPanel.visible">
+                        <top-panel></top-panel>
+                    </div>
+                    <!-- KnAllEdge Map -->
+                    <knalledge-map class="knalledge_map" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_tree' || viewConfig.visualization.viewspec === 'viewspec_manual'"></knalledge-map>
+
+                    <!-- <knalledge-list class="knalledge_list" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_list'"></knalledge-list> -->
+
+                    <bottom-panel></bottom-panel>
                 </div>
             </div>
         </md-content>

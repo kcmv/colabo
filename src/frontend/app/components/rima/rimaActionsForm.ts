@@ -3,21 +3,18 @@ import {Component, Inject} from '@angular/core';
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
-import {CfPuzzlesIbisService} from '../../dev_puzzles/ibis/cf.puzzles.ibis.service';
+
+
+import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-
-const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
-  'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
-  'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
-  'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana',
-  'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island',
-  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia',
-  'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
     selector: 'rima-actions-form',
@@ -31,63 +28,71 @@ const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'C
 })
 export class RimaActionsForm {
   public kNodesTypes:Array<any> = [];
-  public selectedItem:any = null;
 
-  public model: any;
+  public selectedWhoAmI: any;
+  public searching: boolean = false;
+  public searchFailed: boolean = false;
+  public rimaUsersSearchBouded: Function;
+  public editingUser:boolean = false;
 
   private componentShown:boolean = true;
-  private ibisTypesService;
   private viewConfig:any;
   private policyConfig:any;
-  private knalledgeNodeTypeChanged: string = "knalledgeNodeTypeChanged";
-
-  search = (text$: Observable<string>) =>
-    text$
-      // .debounceTime(200)
-      .distinctUntilChanged()
-      .map(term => term.length < 2 ? []
-        : states.filter(v => new RegExp(term, 'gi').test(v)).splice(0, 10));
+  private knalledgeNodeCreatorChanged: string = "knalledgeNodeCreatorChanged";
 
   constructor(
     @Inject('IbisTypesService') _IbisTypesService_,
     @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
     @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
     @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
-    private ibisService:CfPuzzlesIbisService
+    @Inject('RimaService') private rimaService
   ) {
-      // console.log('[RimaActionsForm]');
-      this.ibisTypesService = _IbisTypesService_;
-
-      this.kNodesTypes = this.ibisTypesService.getTypes();
-      this.selectedItem = this.ibisTypesService.getActiveType();
       this.viewConfig = knalledgeMapViewService.get().config;
       this.policyConfig = knalledgeMapPolicyService.get().config;
-      this.globalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
       // this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('RimaActionsForm', function(vkNode,type) {
       //     console.log("knalledgeNodeTypeChanged: ", vkNode.kNode.name, type);
       // });
+      this.rimaUsersSearchBouded = this.rimaUsersSearch.bind(this);
+      this.globalEmitterServicesArray.register(this.knalledgeNodeCreatorChanged);
   }
 
-  selectItem (item) {
-    this.selectedItem = item;
-    this.ibisTypesService.selectActiveType(item);
+  ngOnInit() {
+    this.selectedWhoAmI = this.rimaService.getActiveUser();
+  }
 
-    if(this.policyConfig.knalledgeMap){
-      this.policyConfig.knalledgeMap.nextNodeType = null;
+  rimaUsersSearch(text$: Observable<string>){
+    var that = this;
+    return text$
+      // .debounceTime(300)
+      .distinctUntilChanged()
+      .do(() => that.searching = true)
+      .switchMap(term => {
+        let items:Array<any> = that.rimaService.whoAmIs;
+        that.searchFailed = !!items;
+        var results = items ? items : [];
+        results = results.filter(v => new RegExp(term, 'gi').test(v.displayName)).slice(0, 10);
+        return Observable.of(results);
+      })
+      .do(() => that.searching = false);
+  }
+
+  rimaUsersFormatter(rimaUser) {
+    return rimaUser.displayName;
+  }
+
+  rimaUsersSelected(event:NgbTypeaheadSelectItemEvent){
+    let whoAmI = event.item;
+    this.selectedWhoAmI = whoAmI;
+    this.editingUser = false;
+
+    if(this.policyConfig.moderating.enabled){
+      this.rimaService.setActiveUser(whoAmI);
+
+      if(this.viewConfig.states.editingNode){
+        this.globalEmitterServicesArray.get(this.knalledgeNodeCreatorChanged)
+        .broadcast('RimaActionForm',{node:this.viewConfig.states.editingNode,creator:whoAmI._id});
+      }
     }
 
-    if(this.viewConfig.states.editingNode){
-      this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged)
-      .broadcast('RimaActionsForm',{node:this.viewConfig.states.editingNode,type:item.type});
-      //, this.selectedItem
-    }
-  }
-
-  hideShowComponent (){
-    this.componentShown = !this.componentShown;
-  }
-
-  onQuestionItem() {
-    this.ibisService.createNodeQuestion();
   }
 }

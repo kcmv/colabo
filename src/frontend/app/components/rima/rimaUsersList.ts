@@ -133,6 +133,7 @@ export class RimaUsersList implements OnInit{
         this.knalledgeMapVOsService = _KnalledgeMapVOsService_;
         this.globalEmitterServicesArray.register(this.SHOW_USER_DIALOG);
         this.globalEmitterServicesArray.register(this.knalledgeMapUpdateEventName);
+        this.globalEmitterServicesArray.register(this.knalledgeNodeCreatorChanged);
         // $scope.items.sort(compare);
 
         this.selectedItem = this.rimaService.getActiveUser();
