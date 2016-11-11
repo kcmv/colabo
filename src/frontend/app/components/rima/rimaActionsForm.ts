@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
@@ -26,7 +26,7 @@ import 'rxjs/add/operator/switchMap';
     styles: [`
     `]
 })
-export class RimaActionsForm {
+export class RimaActionsForm implements OnInit {
   public kNodesTypes:Array<any> = [];
 
   public selectedWhoAmI: any;

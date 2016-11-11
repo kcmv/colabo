@@ -57,9 +57,14 @@ var componentProviders = [
 
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
+import {RimaVotingForm} from '../rima/rimaVotingForm';
+
 var componentDirectives = [
     upgradeAdapter.upgradeNg1Component('knalledgeMap'),
+    // for knalledgeMapList and inside
     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
+    RimaVotingForm,
+
     KnalledgeMapTools,
     MediaShowComponent,
     BottomPanel,

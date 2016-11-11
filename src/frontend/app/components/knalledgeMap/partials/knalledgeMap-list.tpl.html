@@ -14,7 +14,10 @@ http://nontroppo.org/test/tab1.html
 		</tab-heading>
 
 	    <div class="heading">
+
 			<div rima-whats class="rima-whats" node="nodeContent.node"></div>
+
+      <rima-voting-form [node]="nodeContent.node"></rima-voting-form>
 
 			<b>Additional Info</b>
 			<button ng-if="!nodeContent.editing && nodeContent.node" class="btn btn-primary" type="button" ng-click="enableEditing(true)">Edit</button>

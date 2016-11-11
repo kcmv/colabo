@@ -19,14 +19,32 @@ $large: 1400px;
 /* ------------------------
  bootstrap wizard
 ------------------------ */
+.totalScore {
+  display: inline-block; }
+
+.rima_voting_up_background {
+  padding: 3px;
+  background-color: #88ff88;
+  -moz-border-radius: 5px / 5px;
+  -webkit-border-radius: 5px 5px;
+  border-radius: 5px / 5px; }
+
+.rima_voting_down_background {
+  padding: 3px;
+  background-color: #ff8888;
+  -moz-border-radius: 5px / 5px;
+  -webkit-border-radius: 5px 5px;
+  border-radius: 5px / 5px; }
+
+.rima_voting_up_color {
+  color: #88ff88; }
+
+.rima_voting_down_color {
+  color: #ff8888; }
+
 .switch {
   cursor: pointer;
   background-color: #009688; }
-
-.title {
-  padding-bottom: 3px;
-  border-bottom: 1px solid black;
-  margin-bottom: 7px; }
 
 .wizard-main {
   position: relative; }
@@ -71,12 +89,6 @@ wizard {
   -moz-border-radius: 10px / 10px;
   -webkit-border-radius: 10px 10px;
   border-radius: 10px / 10px; }
-  /*.rima-relevant_whats_list{*/
-    .connections_table{
-      padding: 10px !important;
-      /*color: red;*/
-    }
-  /*}*/
   .rima_relevant_list .rima-relevant_whats_list .title {
     font-weight: bold;
     text-align: center; }
@@ -591,5 +603,13 @@ wizard {
   /*background-color: blue;
   width: 500px;
   height: 300px;*/ }
+
+.rima-voting-form .title {
+  font-weight: bold;
+  margin-bottom: 5px; }
+.rima-voting-form .up {
+  color: #88ff88; }
+.rima-voting-form .down {
+  color: #ff8888; }
 
 /*# sourceMappingURL=default.css.map */

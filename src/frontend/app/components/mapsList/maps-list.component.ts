@@ -29,8 +29,8 @@ declare var Config: any; // src/frontend/app/js/config/config.plugins.js
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
  *
- * Selector: `knalledge-map-main`
- * @class KnalledgeMapMain
+ * Selector: `maps-list`
+ * @class MapsList
  * @memberof knalledge.knalledgeMap
  * @constructor
 */
