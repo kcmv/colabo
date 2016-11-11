@@ -558,3 +558,73 @@ Here are
             + modules/topiChat/node_modules
             + modules/topiChat-knalledge/node_modules
 + now you can do symbolic linking
+
+## Proxying - Nginx
+
++ http://stackoverflow.com/questions/33055212/nginx-multiple-server-blocks-listening-to-same-port
++ http://stackoverflow.com/questions/11773544/nginx-different-domains-on-same-ip
++ https://laracasts.com/discuss/channels/forge/two-sites-on-same-server
+
+Install the nginx proxy and:
+
++ remove default from sites-enabled
+
+```
+api.knalledge.org
+```
+# TopiChat
+server {
+  listen 80;
+  # alias for two subdomains
+  server_name topichat.knalledge.org;
+
+  location / {
+    proxy_pass http://localhost:8002;
+  }
+}
+
+# API
+server {
+  listen 80;
+  # alias for two subdomains
+  server_name api.knalledge.org;
+
+  location / {
+    proxy_pass http://localhost:8001;
+  }
+}
+
+server {
+  listen 80;
+  # alias for two subdomains
+  server_name knalledge.org www.knalledge.org;
+  # root /var/www/domain1;
+
+  location / {
+    proxy_pass http://localhost:8000;
+  }
+}
+```
+
+```sh
+cd /etc/nginx
+rm /sites-available/default
+joe /sites-enabled/knalledge.org
+ln -s  ../sites-available/knalledge.org knalledge.org
+sudo service nginx restart
+# if necessary
+sudo shutdown -h now
+```
+
+Big files
+
+[How to Find Out Top Directories and Files](http://www.tecmint.com/find-top-large-directories-and-files-sizes-in-linux/)
+
+```sh
+du -a | sort -n -r | head -n 5
+du -hs * | sort -rh | head -5
+# To display the largest folders/files including the sub-directories, run:
+du -Sh | sort -rh | head -5
+# Top File Sizes Only
+find -type f -exec du -Sh {} + | sort -rh | head -n 5
+```

@@ -61,6 +61,20 @@ npm start
 start/status/stop knalledge-fork
 ```
 
+or in a testing mode:
+
+```sh
+exec sudo -u www-data /usr/bin/nodejs /var/www/web_fork/index.js
+```
+
+check port listening processes:
+```sh
+sudo netstat -tulpn | grep ':80'
+sudo netstat -tulpn | grep ':8088'
+```
+
+[more info](http://www.cyberciti.biz/faq/what-process-has-open-linux-port/)
+
 #### backend
 
 (`/etc/init/knalledge-b-beta.conf` or `/etc/init/knalledge-b.conf`)
