@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
@@ -221,6 +221,7 @@ moduleImports.push(RimaUsersListModule);
 @NgModule({
   imports: moduleImports,
   exports: componentDirectives,
-  declarations: componentDirectives
+  declarations: componentDirectives,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ToolsModule {}

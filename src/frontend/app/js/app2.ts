@@ -221,7 +221,7 @@ angular.module('rimaDirectives')
 //     .service('DemoPuzzleService', upgradeAdapter.downgradeNg2Provider(DemoPuzzleService))
 //     ;
 
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import {HttpModule} from '@angular/http';
@@ -264,6 +264,7 @@ moduleImports.push(MapsListModule);
   imports: moduleImports,
   declarations: moduleDeclarations,
   providers: moduleProviders,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   // entryComponents: [
   //   // DemoApp,
   // ],

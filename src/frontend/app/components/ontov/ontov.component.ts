@@ -26,7 +26,7 @@ var componentProviders = [
 ];
 
 @Component({
-  selector: 'ontov',
+  selector: 'search-ontov',
   // encapsulation: ViewEncapsulation.None,
   // directives and providers are not explicitly provided but dynamically built and provided
   providers: componentProviders,
@@ -37,7 +37,7 @@ var componentProviders = [
 export class OntovComponent implements OnInit {
   shown: boolean = true;
   visualSearch:any;
-  operationType:Number = 0;
+  operationType:number = 0.0;
   searchParam:ISearchParam;
 
   constructor(
