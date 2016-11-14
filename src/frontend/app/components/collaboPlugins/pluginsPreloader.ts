@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {components, servicesDependencies} from '../../js/pluginDependencies';
+import {components, modules, servicesDependencies} from '../../js/pluginDependencies';
 import {upgradeAdapter, moduleProviders} from '../../js/upgrade_adapter';
 declare var Config:any;
 
@@ -252,6 +252,38 @@ export class PluginsPreloader {
             }
         } else {
             console.info("["+componentName+"] Not loading pluggableSubComponent: ", pluggableSubComponentName);
+        }
+      }
+    }
+
+    // adds to the component's directives list componentDirectives
+    // all components that are dinamically loaded through puzzles
+    // and described in Config.Plugins.ViewComponents[componentName]
+    static addModulesDependenciesForComponent(componentName, componentModules){
+      // get the config for ourselves
+      var puzzleHostingConfig = Config.Plugins.ViewComponents[componentName];
+      if(!puzzleHostingConfig){
+        console.error("[addModulesDependenciesForComponent] ViewComponents %s is missing", componentName);
+        return;
+      }
+
+      var pluggableSubModulesConfig = puzzleHostingConfig.modules;
+
+      // go through all pluggable sub components
+      for(var pluggableSubModuleName in pluggableSubModulesConfig){
+        var pluggableSubModuleConfig = pluggableSubModulesConfig[pluggableSubModuleName];
+        if (pluggableSubModuleConfig.active) {
+            console.info("["+componentName+"] Loading pluggableSubModule: ", pluggableSubModuleName);
+            // get reference to the pluggable sub component class
+            var pluggableSubModule = modules[pluggableSubModuleConfig.path];
+            if(pluggableSubModule){
+              // add to other directives that puzzle-hosting view component will contain
+              componentModules.push(pluggableSubModule);
+            }else{
+              console.error("["+componentName+"] Error loading pluggableSubModule: ", pluggableSubModuleName);
+            }
+        } else {
+            console.info("["+componentName+"] Not loading pluggableSubModule: ", pluggableSubModuleName);
         }
       }
     }

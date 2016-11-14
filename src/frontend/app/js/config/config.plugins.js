@@ -125,13 +125,19 @@
     var plugins = {
         "ViewComponents": {
             "knalledgeMap.Main": {
+                modules: {
+                  TopPanel: {
+                      active: true,
+                      path: "/components/topPanel/topPanel"
+                  },
+                },
                 components: {
                     TopPanel: {
                         active: true,
                         path: "/components/topPanel/topPanel"
                     },
                     'ontov.OntovComponent': {
-                        active: true,
+                        active: false,
                         path: "/components/ontov/ontov.component"
                     },
                     'brainstorming.BrainstormingFormComponent': {

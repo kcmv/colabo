@@ -2,9 +2,6 @@
 // but are not explicitly imported from any file reachable
 // from the app entry file (in our case `js/app2.js`)
 
-import {TopPanel} from '../components/topPanel/topPanel';
-import {GardeningControls} from '../components/gardening/gardening-controls.component';
-import {RimaUsersList} from '../components/rima/rimaUsersList';
 import {BrainstormingFormComponent} from '../components/brainstorming/brainstorming-form.component';
 import {BrainstormingPanelComponent} from
 '../components/brainstorming/brainstorming-panel.component';
@@ -14,9 +11,15 @@ import {BrainstormingPhase} from '../components/brainstorming/brainstorming';
 
 export var components:any = {};
 
+import {TopPanel} from '../components/topPanel/topPanel';
 components['/components/topPanel/topPanel'] = TopPanel;
+
+import {GardeningControls} from '../components/gardening/gardening-controls.component';
 components['/components/gardening/gardening-controls.component'] = GardeningControls;
+
+import {RimaUsersList} from '../components/rima/rimaUsersList';
 components['/components/rima/rimaUsersList'] = RimaUsersList;
+
 components['/components/brainstorming/brainstorming-form.component'] = BrainstormingFormComponent;
 components['/components/brainstorming/brainstorming-panel.component'] = BrainstormingPanelComponent;
 components['/components/ontov/ontov.component'] = OntovComponent;
@@ -64,3 +67,7 @@ servicesDependencies['cf.puzzles.coevoludens.service'] = CfPuzzlesCoevoludensSer
 
 import {CfPuzzlesKnalledgeListService} from '../../dev_puzzles/knalledge_list/cf.puzzles.knalledge_list.service';
 servicesDependencies['cf.puzzles.knalledge_list.service'] = CfPuzzlesKnalledgeListService;
+
+export var modules:any = {};
+import {TopPanelModule} from '../components/topPanel/topPanel';
+modules['/components/topPanel/topPanel'] = TopPanelModule;
