@@ -1,5 +1,3 @@
-import {NgForm} from '@angular/forms';
-
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 
 import {upgradeAdapter} from '../../js/upgrade_adapter';
