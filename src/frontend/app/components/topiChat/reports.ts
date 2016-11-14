@@ -1,7 +1,5 @@
 import {Component, Inject} from '@angular/core';
 import {NgIf, NgFor} from '@angular/common';
-import {FORM_DIRECTIVES} from '@angular/forms';
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 import {TopiChatService} from '../topiChat/topiChatService';
 import {TopiChatConfigService} from './topiChatConfigService';
@@ -23,11 +21,7 @@ import { OrderArrayPipe } from "../utils/orderArrayPipe";
 @Component({
     selector: 'topichat-reports',
     providers: [],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        NgIf, NgFor, FORM_DIRECTIVES
-   ],
-   pipes: [DatePipe, OrderArrayPipe],
+    pipes: [DatePipe, OrderArrayPipe],
    moduleId: module.id, // necessary for having relative paths for templateUrl
    templateUrl: 'partials/reports.tpl.html',
     // t_emplateUrl: 'components/topiChat/partials/reports.tpl.html',

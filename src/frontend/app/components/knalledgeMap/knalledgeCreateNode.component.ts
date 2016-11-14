@@ -2,12 +2,12 @@ import {Component, Inject, EventEmitter, Output, Input} from '@angular/core';
 import { AfterViewInit, ViewChild } from '@angular/core';
 // import {FORM_DIRECTIVES} from '@angular/forms';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
+import {Media} from "ng2-material";
 import {MdDialog} from "ng2-material";
 //import {MdDialog} from "ng2-material/components/dialog/dialog";
 // http://stackoverflow.com/questions/35533783/angular2-unable-to-navigate-to-url-using-location-gourl
 
-import { Router, ROUTER_DIRECTIVES} from '@angular/router';
+import { Router} from '@angular/router';
 
 import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
 
@@ -27,11 +27,6 @@ declare var window;
     moduleId: module.id,
     templateUrl: 'partials/knalledge-create-node-component.tpl.html',
     providers: [
-        //MATERIAL_PROVIDERS,
-    ],
-    directives: [
-        MATERIAL_DIRECTIVES,
-        ROUTER_DIRECTIVES,
     ],
     styles: [`
     `]

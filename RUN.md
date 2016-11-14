@@ -75,6 +75,49 @@ sudo netstat -tulpn | grep ':8088'
 
 [more info](http://www.cyberciti.biz/faq/what-process-has-open-linux-port/)
 
+#### Database (MongoDB)
+
+[official install](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
+
++ log: `/var/log/mongodb/*`
++ upstart config: `/etc/mongod.conf`
++ mongod config: `etc/init/mongod.conf `
++ data: ``
++ service: `/etc/init.d/mongod`
+
+repair:
+
+```sh
+rm /data/db/mongod.lock
+rm /var/lib/mongodb/mongod.lock
+mongod --repair
+```
+
+relevant files:
+
+/var/log/upstart/
+/data/db/mongod.lock
+/etc/init.d/.#mongod
+/usr/bin/mongod
+/var/lib/mongodb
+/var/lib/mongodb/EarthCube.0
+/var/log/mongodb
+
+services:
+```sh
+chkconfig --list
+runlevel
+```
+
+Upstart logs your service execution in a log file by the same name in `/var/log/upstart/your-service-name.log`. It should be helpful.
+
+service
+```sh
+status mongodb
+stop mongodb
+start mongodb
+```
+
 #### backend
 
 (`/etc/init/knalledge-b-beta.conf` or `/etc/init/knalledge-b.conf`)
