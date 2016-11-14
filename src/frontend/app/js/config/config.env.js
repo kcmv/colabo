@@ -24,8 +24,8 @@ var envs = {
 	"server_beta": {
 		"server": {
 			"frontend": "http://knalledge.org/beta",
-			"backend": "http://knalledge.org:8889",
-			"topichat": "http://knalledge.org:8061",
+			"backend": "http://api.knalledge.org",
+			"topichat": "http://topichat.knalledge.org",
 			"parseResponse": true,
 			"jsonPrefixed": ")]}',\n"
 		},
