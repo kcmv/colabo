@@ -215,6 +215,12 @@ $provideLayout: 'hide';
 	}
 }
 
+knalledge-map-main{
+	.md-sidenav-content{
+		width: 100%;
+	}
+}
+
 md-sidenav{
 	&.options{
 		max-width: 25%;
