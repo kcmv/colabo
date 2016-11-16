@@ -99,8 +99,8 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		getSelectedNode: function(){
 			return this.mapStructure.getSelectedNode();
 		}.bind(this),
-		updateName: function(nodeView){
-			this.mapVisualization.updateName(nodeView);
+		updateName: function(nodeView, isFinal){
+			this.mapVisualization.updateName(nodeView, isFinal);
 		}.bind(this),
 		getNodeName: function(nodeView){
 			return this.mapVisualization.getNodeName(nodeView);
