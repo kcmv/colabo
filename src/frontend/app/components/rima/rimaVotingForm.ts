@@ -94,6 +94,8 @@ export class RimaVotingForm  implements OnInit /* , OnChanges */ {
 
     getVotes():any{
       this.votes.users.length = 0;
+      this.votes.up = 0;
+      this.votes.down = 0;
       if (this.node && this.node.kNode &&
         this.node.kNode.dataContent &&
         this.node.kNode.dataContent.ibis &&

@@ -137,7 +137,7 @@
                         path: "/components/topPanel/topPanel"
                     },
                     'ontov.OntovComponent': {
-                        active: false,
+                        active: true,
                         path: "/components/ontov/ontov.component"
                     },
                     'brainstorming.BrainstormingFormComponent': {
@@ -213,7 +213,23 @@
                 directive: {
                     path: [APP_SRC_STR, 'components/knalledgeMap'],
                     injectJs: [
-                        'js/directives.js', 'js/services.js'
+                        'js/directives/index.js',
+                        'js/directives/knalledgeMap.js',
+                        'js/directives/knalledgeMapList.js',
+                        'js/directives/knalledgeMapImageEditing.js',
+                        'js/directives/knalledgeMapSelectItem.js',
+
+
+                        'js/services/index.js',
+                        'js/services/ibisTypesService.js',
+                        'js/services/knalledgeEdgeService.js',
+                        'js/services/knalledgeMapQueue.js',
+                        'js/services/knalledgeMapService.js',
+                        'js/services/knalledgeMapVOsService.js',
+                        'js/services/knalledgeNodeService.js',
+                        'js/services/knAllEdgeRealTimeService.js',
+                        'js/services/knAllEdgeSelectItemService.js',
+                        'js/services/syncingService.js'
                     ],
                     injectCss: ['css/default.css', 'css/graph.css']
                 },

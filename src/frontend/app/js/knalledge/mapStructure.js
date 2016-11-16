@@ -82,6 +82,7 @@
 	// Lists of constants that describes what type of updates are made on node
 	MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
 	MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT"; //depricated, should be more specialized
+	MapStructure.UPDATE_DATA_CONTENT_FINAL = "UPDATE_DATA_CONTENT_FINAL"; //depricated, should be more specialized
 	MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
 	MapStructure.UPDATE_NODE_VISUAL_OPEN = "UPDATE_NODE_VISUAL_OPEN";
 	MapStructure.UPDATE_NODE_TYPE = "UPDATE_NODE_TYPE";
@@ -121,7 +122,7 @@
 	};
 
 	MapStructure.prototype.isStructuralChange = function(actionType) {
-		return actionType === MapStructure.UPDATE_NODE_NAME || actionType === MapStructure.UPDATE_DATA_CONTENT;
+		return actionType === MapStructure.UPDATE_NODE_NAME || actionType === MapStructure.UPDATE_DATA_CONTENT || actionType === UPDATE_DATA_CONTENT_FINAL;
 	}
 
 	MapStructure.prototype.removeImage = function(vkNode) {
@@ -911,6 +912,7 @@
 				patch.decorations[change.decoration] = change.value;
 			break;
 			case MapStructure.UPDATE_DATA_CONTENT:
+			case MapStructure.UPDATE_DATA_CONTENT_FINAL:
 				break;
 			case MapStructure.UPDATE_NODE_NAME:
 			default:

@@ -716,12 +716,31 @@ cd /etc/nginx
 rm /sites-available/default
 joe /sites-enabled/knalledge.org
 ln -s  ../sites-available/knalledge.org knalledge.org
+# test configuration
+nginx -t
 sudo service nginx restart
 # if necessary
 sudo shutdown -h now
 ```
 
-Big files
+## Errors
+
+### Could not build the server_names_hash, you should increase server_names_hash_bucket_size
+
++ http://charles.lescampeurs.org/2008/11/14/fix-nginx-increase-server_names_hash_bucket_size
+
+```sh
+joe /etc/nginx/nginx.conf
+```
+
+uncoment and increase
+```
+http{
+  server_names_hash_bucket_size 256;
+}
+```
+
+# Big files
 
 [How to Find Out Top Directories and Files](http://www.tecmint.com/find-top-large-directories-and-files-sizes-in-linux/)
 
