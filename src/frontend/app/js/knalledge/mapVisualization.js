@@ -246,7 +246,7 @@
         return newName;
     };
 
-    MapVisualization.prototype.updateName = function(nodeView) {
+    MapVisualization.prototype.updateName = function(nodeView, isFinal) {
         if (!nodeView) return;
 
         var nodeSpan = nodeView.select("span");
@@ -256,7 +256,7 @@
             nodeSpan.text(newName);
         }
         var d = nodeView.datum();
-        this.mapStructure.updateName(d, newName);
+        this.mapStructure.updateName(d, newName, isFinal);
     };
 
     MapVisualization.prototype.updateNodeDimensions = function() {

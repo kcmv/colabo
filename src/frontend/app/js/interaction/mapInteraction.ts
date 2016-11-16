@@ -328,7 +328,7 @@ export class MapInteraction {
         if (this.editingNodeHtml) {
             var nodeSpan = this.editingNodeHtml.select("span");
             nodeSpan.attr("contenteditable", false);
-            this.clientApi.updateName(this.editingNodeHtml);
+            this.clientApi.updateName(this.editingNodeHtml, true);
             nodeSpan.node().blur();
             this.editingNodeHtml = null;
             this.clientApi.setEditingNode(null);

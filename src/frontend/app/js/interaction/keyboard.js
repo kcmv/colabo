@@ -1,8 +1,8 @@
 (function () { // This prevents problems when concatenating scripts that aren't strict.
 'use strict';
 
-//http://robertwhurst.github.io/keyboardJS/
-//	https://github.com/RobertWHurst/keyboardJS
+// http://robertwhurst.github.io/keyboardJS/
+// https://github.com/RobertWHurst/keyboardJS
 
 /**
 @classdesc Provides keyboard interaction for the KnAllEdge system
@@ -113,7 +113,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	this.keyboardLib[this.keyboardCommand](this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "1", function(){
 		if(this.enabled){
 			console.log(this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "1");
-			this.mapInteraction.switchToMap();			
+			this.mapInteraction.switchToMap();
 		}
 	}.bind(this));
 
