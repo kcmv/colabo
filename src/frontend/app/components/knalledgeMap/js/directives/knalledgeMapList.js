@@ -5,28 +5,16 @@
 	 * the namespace for core services for the KnAllEdge system
 	 * @namespace knalledge.knalledgeMap.knalledgeMapDirectives
 	 */
-
    angular.module('knalledgeMapDirectives')
-
 
 	 .directive('knalledgeMapList', ['$rootScope', '$injector', '$timeout', 'KnalledgeMapPolicyService', 'KnalledgeMapViewService',
 		 /*, '$window', 'KnalledgeNodeService', 'KnalledgeEdgeService', '$q', */
 		 function($rootScope, $injector, $timeout, KnalledgeMapPolicyService, KnalledgeMapViewService /*, $window, KnalledgeNodeService, KnalledgeEdgeService, $q*/ ) {
 			 return {
 				 restrict: 'AE',
-				 // crashes here
-				 // https://toddmotto.com/directive-to-directive-communication-with-require/
-				 // http://stackoverflow.com/questions/15672709/how-to-require-a-controller-in-an-angularjs-directive
-				 // https://demisx.github.io/angularjs/directives/2014/11/25/angular-directive-require-property-options.html
-				 // http://websystique.com/angularjs/angularjs-custom-directives-controllers-require-option-guide/
-				 // https://docs.angularjs.org/guide/directive
-				 //  require: 'simplemde',
 				 scope: {},
-				 // ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
-				 // expression: http://docs.angularjs.org/guide/expression
 				 templateUrl: 'components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
 				 link: function($scope, $element, $attrs, simplemde) {
-					 // http://docs.angularjs.org/guide/directive
 					 var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
 					 var knalledgePropertyChangedEvent = "knalledgePropertyChangedEvent";
 					 GlobalEmitterServicesArray.register(knalledgePropertyChangedEvent);
@@ -100,6 +88,11 @@
 
 					 // notification on node or its content changed
 					 GlobalEmitterServicesArray.get(changeKnalledgePropertyEvent).subscribe('knalledgeMapList', function(nodeContent) {
+
+						 if($scope.nodeContent){
+							 GlobalEmitterServicesArray.get(knalledgePropertyChangedFinishedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
+						 }
+
 						 //console.warn('nodeContent.node:'+nodeContent.node);
 						 console.info("[knalledgeMapList] [on:%s] nodeContent.node: %s (%s), property: %s", changeKnalledgePropertyEvent, (nodeContent.node ? nodeContent.node.id : null),
 							 (nodeContent.node ? nodeContent.node.kNode._id : null), nodeContent.property);
@@ -132,4 +125,4 @@
 		 }
 	 ])
 
-   }()); // end of 'use strict';
+}()); // end of 'use strict';

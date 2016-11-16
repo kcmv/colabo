@@ -8,6 +8,8 @@ http://nontroppo.org/test/tab1.html
 <!-- <login-status></login-status> -->
 
  <tabset>
+
+  <!-- PROPERTIES -->
 	<tab select="alertMe()">
 		<tab-heading>
 			<i style="margin:0.2em;" class="fa fa-pencil"></i> Prop.
@@ -33,6 +35,8 @@ http://nontroppo.org/test/tab1.html
 			<div ng-if="!nodeContent.editing" ng-bind-html="nodeContent.htmlProperty" class="knalledge-properties knalledge-view"></div>
 		</div>
 	</tab>
+
+  <!-- RIMA hows (logged in) -->
 	<tab select="alertMe()">
 		<tab-heading>
 			<i style="margin:0.2em;" class="fa fa-suitcase"></i> Me
@@ -40,6 +44,8 @@ http://nontroppo.org/test/tab1.html
 
 	    <div rima-hows class="rima-hows" who-am-i-type="'logged_in'"></div>
 	</tab>
+
+  <!-- RIMA hows (active) -->
 	<tab ng-if="policyConfig.moderating.enabled" select="alertMe()">
 		<tab-heading>
 			<i style="margin:0.2em;" class="fa fa-suitcase"></i> Active
@@ -48,6 +54,7 @@ http://nontroppo.org/test/tab1.html
 	    <div rima-hows class="rima-hows" who-am-i-type="'active'"></div>
 	</tab>
 
+  <!-- TopiChat -->
 	<tab>
 		<tab-heading>
 			<i style="margin:0.2em;" class="fa fa-weixin"></i> TC
