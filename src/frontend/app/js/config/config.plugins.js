@@ -219,7 +219,6 @@
                         'js/directives/knalledgeMapImageEditing.js',
                         'js/directives/knalledgeMapSelectItem.js',
 
-
                         'js/services/index.js',
                         'js/services/ibisTypesService.js',
                         'js/services/knalledgeEdgeService.js',
