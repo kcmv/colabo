@@ -39,14 +39,6 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 	// currently updates can be in the parallel
 	// this.updateInProgress = true;
 
-	// If source is missing try with rootNode
-	if(!source){
-		source = this.mapStructure.rootNode;
-	}
-	// If rootNode is missing try with the first node in the mapStructure (if any exist)
-	if(!source && Object.keys(this.mapStructure.nodesById).length > 0){
-		source = this.mapStructure.nodesById[Object.keys(this.mapStructure.nodesById)[0]];
-	}
 	// filter out invisible nodes (hideIBIS, limit range, ...)
 	this.mapStructure.setVisibility();
 
@@ -56,6 +48,15 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 	var nodeHtmlDatasets = this.updateHtml(source);
 	var that = this;
 	window.setTimeout(function() {
+		// If source is missing try with rootNode
+		if(!source){
+			source = that.mapStructure.rootNode;
+		}
+		// If rootNode is missing try with the first node in the mapStructure (if any exist)
+		if(!source && Object.keys(that.mapStructure.nodesById).length > 0){
+			source = that.mapStructure.nodesById[Object.keys(that.mapStructure.nodesById)[0]];
+		}
+
 		that.updateNodeDimensions();
 		that.updateHtmlTransitions(source, nodeHtmlDatasets); // all transitions are put here to be in the same time-slot as links, labels, etc
 
@@ -809,7 +810,7 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 				return that.knalledgeMapViewService.provider.config.edges.showNames ? edge.kEdge.name : "";
 			});
 
-	// set opacity to 0 at the innitial 
+	// set opacity to 0 at the innitial
 	if(this.configTransitions.enter.animate.opacity){
 		linkLabelHtmlEnter
 			.style("opacity", 1e-6);
@@ -926,7 +927,7 @@ MapVisualizationTree.prototype.updateLinks = function(source) {
 	*************/
 	var link = this.dom.svg.selectAll("path.link")
 	.data(this.mapLayout.links, function(d) {
-		// TODO: this will need to evolve after adding bouquet links 
+		// TODO: this will need to evolve after adding bouquet links
 		return d.vkEdge.id;
 	});
 
