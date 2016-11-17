@@ -1,4 +1,5 @@
 import {Component, Inject, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {LoginStatusComponent} from '../login/login-status-component';
 import {Media, MdDialog} from "ng2-material";
@@ -163,7 +164,8 @@ export class KnalledgeMapMain implements OnInit {
         @Inject('Plugins') private Plugins,
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray//,
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+        title:Title//,
         // @Inject('CollaboPluginsService') private collaboPluginsService
     ) {
         let that: KnalledgeMapMain = this;
@@ -194,6 +196,18 @@ export class KnalledgeMapMain implements OnInit {
         this.globalEmitterServicesArray.register(this.SHOW_INFO);
         this.globalEmitterServicesArray.get(this.SHOW_INFO).subscribe('KnalledgeMapMain',
             this.showInfo.bind(this));
+
+        var modelLoadedEvent = "modelLoadedEvent";
+				this.globalEmitterServicesArray.register(modelLoadedEvent);
+
+        this.globalEmitterServicesArray.get(modelLoadedEvent).subscribe('KnalledgeMapMain', function(eventModel) {
+          console.log("[KnalledgeMapMain::modelLoadedEvent] ModelMap  nodes(len: %d)",
+            eventModel.map.nodes.length);
+          console.log("[KnalledgeMapMain::modelLoadedEvent] ModelMap  edges(len: %d)",
+            eventModel.map.edges.length);
+            // https://angular.io/docs/ts/latest/api/platform-browser/index/Title-class.html
+            title.setTitle(eventModel.properties.name);
+        });
     };
 
     customClose(interesting: boolean) {
