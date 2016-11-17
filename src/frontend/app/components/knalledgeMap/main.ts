@@ -165,7 +165,7 @@ export class KnalledgeMapMain implements OnInit {
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
         @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
-        title:Title//,
+        private titleService:Title//,
         // @Inject('CollaboPluginsService') private collaboPluginsService
     ) {
         let that: KnalledgeMapMain = this;
@@ -206,7 +206,7 @@ export class KnalledgeMapMain implements OnInit {
           console.log("[KnalledgeMapMain::modelLoadedEvent] ModelMap  edges(len: %d)",
             eventModel.map.edges.length);
             // https://angular.io/docs/ts/latest/api/platform-browser/index/Title-class.html
-            title.setTitle(eventModel.properties.name);
+            that.titleService.setTitle(eventModel.properties.name);
         });
     };
 

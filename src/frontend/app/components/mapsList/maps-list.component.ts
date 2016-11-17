@@ -1,4 +1,5 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {Media} from "ng2-material";
@@ -96,7 +97,8 @@ export class MapsList implements OnInit {
         @Inject('RimaService') _RimaService_,
         @Inject('KnalledgeMapService') _KnalledgeMapService_,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+        private titleService:Title
         // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
     ) {
         console.log('[MapsList]');
@@ -123,6 +125,7 @@ export class MapsList implements OnInit {
 
     ngOnInit() {
         this.init();
+        this.titleService.setTitle("CF Maps list");
         console.log("Config.Plugins.puzzles.mapsList.config.title:", Config.Plugins.puzzles.mapsList.config.title);
         this.title =
             Config.Plugins.puzzles.mapsList.config &&
