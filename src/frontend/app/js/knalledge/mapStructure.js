@@ -814,6 +814,7 @@
 	};
 
 	MapStructure.prototype.updateName = function(vkNode, newName, isFinal) {
+		// console.info("MapStructure.prototype.updateName (isFinal: %s): %s", isFinal, newName);
 		if (!this.mapService) return;
 
 		vkNode.kNode.name = newName;

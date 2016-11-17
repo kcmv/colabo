@@ -264,6 +264,7 @@ export class MapInteraction {
     };
 
     exitEditingNode() {
+        // console.info('exitEditingNode');
         if (this.editingNodeHtml) {
             this._exitEditingNode();
         }
@@ -293,13 +294,17 @@ export class MapInteraction {
         this.createCaretPlacer(nodeSpan.node(), false);
 
         function onblur() {
-            console.log("editing bluring");
+            // console.info("editing bluring");
             // http://www.w3schools.com/jsref/met_element_removeeventlistener.asp
+
             if (nodeSpan.node().removeEventListener) {// For all major browsers, except IE 8 and earlier
                 nodeSpan.node().removeEventListener("blur", onblur);
+                nodeSpan.node().removeEventListener("input", onInput);
             } else if (nodeSpan.node().detachEvent) { // For IE 8 and earlier versions
                 nodeSpan.node().detachEvent("blur", onblur);
+                nodeSpan.node().detachEvent("input", onInput);
             }
+
             that._exitEditingNode();
         }
 
@@ -324,13 +329,14 @@ export class MapInteraction {
     };
 
     _exitEditingNode() {
-        console.log("_exitEditingNode");
+        // console.info("_exitEditingNode");
         if (this.editingNodeHtml) {
             var nodeSpan = this.editingNodeHtml.select("span");
             nodeSpan.attr("contenteditable", false);
+
             this.clientApi.updateName(this.editingNodeHtml, true);
-            nodeSpan.node().blur();
             this.editingNodeHtml = null;
+            nodeSpan.node().blur();
             this.clientApi.setEditingNode(null);
             this.clientApi.update(this.clientApi.getSelectedNode(), function() {
                 // that.clientApi.nodeSelected(null); //TODO: set to parent
