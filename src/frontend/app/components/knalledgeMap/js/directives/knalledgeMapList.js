@@ -16,12 +16,16 @@
 				 templateUrl: 'components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
 				 link: function($scope, $element, $attrs, simplemde) {
 					 var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+
+					 // notofication to external world that node property is changed and still in the editing mode
 					 var knalledgePropertyChangedEvent = "knalledgePropertyChangedEvent";
 					 GlobalEmitterServicesArray.register(knalledgePropertyChangedEvent);
 
+					 // notofication to external world that node property is changed and finished editing
 					 var knalledgePropertyChangedFinishedEvent = "knalledgePropertyChangedFinishedEvent";
 					 GlobalEmitterServicesArray.register(knalledgePropertyChangedFinishedEvent);
 
+					 // notification from external world that node property is changed and has to be updated
 					 var changeKnalledgePropertyEvent = "changeKnalledgePropertyEvent";
 					 GlobalEmitterServicesArray.register(changeKnalledgePropertyEvent);
 
@@ -60,7 +64,9 @@
 						 if($scope.nodeContent.editing && !enable){
 							 $scope.nodeContent.htmlProperty = marked($scope.nodeContent.property);
 
-							 GlobalEmitterServicesArray.get(knalledgePropertyChangedFinishedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
+							 if($scope.nodeContent.node){
+								 GlobalEmitterServicesArray.get(knalledgePropertyChangedFinishedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
+							 }
 						 }
 						 $scope.nodeContent.editing = enable;
 					 };
@@ -89,7 +95,7 @@
 					 // notification on node or its content changed
 					 GlobalEmitterServicesArray.get(changeKnalledgePropertyEvent).subscribe('knalledgeMapList', function(nodeContent) {
 
-						 if($scope.nodeContent){
+						 if($scope.nodeContent.editing && $scope.nodeContent && $scope.nodeContent.node){
 							 GlobalEmitterServicesArray.get(knalledgePropertyChangedFinishedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
 						 }
 
@@ -101,9 +107,6 @@
 						 $scope.nodeContent.property = nodeContent.property;
 						 $scope.nodeContent.htmlProperty = nodeContent.property;
 						 $scope.nodeContent.propertyType = nodeContent.propertyType;
-						 marked.setOptions({
-							 gfm: true // this should be true by default
-						 });
 						 switch(nodeContent.propertyType){
 							 case 'text/markdown':
 								 $scope.nodeContent.htmlProperty = marked(nodeContent.property);

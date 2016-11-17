@@ -718,7 +718,8 @@
  								}, true);
 
  							function knalledgePropertyCallback(nodeContentChanged, isFinal){
- 								var vkNode = $scope.knalledgeMap.mapStructure.getSelectedNode();
+ 								// 	var vkNode = $scope.knalledgeMap.mapStructure.getSelectedNode();
+								var vkNode = nodeContentChanged.node;
 
  								var knalledgePropertyBefore = undefined;
  								var knalledgeProperty = nodeContentChanged.property;
@@ -736,7 +737,7 @@
  									var updateType = knalledge.MapStructure.UPDATE_DATA_CONTENT;
  									if(!isFinal){
  										if (knalledgePropertyBefore === knalledgeProperty && knalledgeProperty === knalledgePropertyTypeBefore) return;
- 										if (!knalledgePropertyBefore && !knalledgeProperty && !knalledgePropertyTypeBefore && !knalledgeProperty) return;
+ 										if (!knalledgePropertyBefore && !knalledgeProperty) return;
  									}else{
  										updateType = knalledge.MapStructure.UPDATE_DATA_CONTENT_FINAL;
  									}
