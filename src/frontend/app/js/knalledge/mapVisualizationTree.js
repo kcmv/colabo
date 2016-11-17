@@ -35,9 +35,10 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 	if(this.updateInProgress){
 		return;
 	}
-
 	// currently updates can be in the parallel
 	// this.updateInProgress = true;
+
+	if(!source) source = this.getSourceAlternative();
 
 	// filter out invisible nodes (hideIBIS, limit range, ...)
 	this.mapStructure.setVisibility();
@@ -48,15 +49,7 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 	var nodeHtmlDatasets = this.updateHtml(source);
 	var that = this;
 	window.setTimeout(function() {
-		// If source is missing try with rootNode
-		if(!source){
-			source = that.mapStructure.rootNode;
-		}
-		// If rootNode is missing try with the first node in the mapStructure (if any exist)
-		if(!source && Object.keys(that.mapStructure.nodesById).length > 0){
-			source = that.mapStructure.nodesById[Object.keys(that.mapStructure.nodesById)[0]];
-		}
-
+		if(!source) source = that.getSourceAlternative();
 		that.updateNodeDimensions();
 		that.updateHtmlTransitions(source, nodeHtmlDatasets); // all transitions are put here to be in the same time-slot as links, labels, etc
 
