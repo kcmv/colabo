@@ -4,7 +4,9 @@
 
       <!-- <div class="mapsList" layout-fill layout="column"> -->
       <md-toolbar class="mapsToolbar md-theme-indigo" color="primary">
-        <span class="map-title">{{title}}</span>
+        <!-- <a href="http://www.colabo.space"> -->
+          <span class="map-title">{{title}}</span>
+        <!-- </a> -->
         <section class="toolbar-front" layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
           <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
             <!-- <button md-mini-fab class="md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
@@ -75,7 +77,7 @@
         <div flex='15' class="item_property creation_date">Created</div>
       </div>
 
-      <!-- TODO : maybe add in wider mode <h1>CollaboFramework/KnAllEdge Maps</h1> -->
+      <!-- TODO : maybe add in wider mode <h1>ColaboFramework/KnAllEdge Maps</h1> -->
       <!-- <div flex layout="column" class="list"> -->
       <div class="list">
         <div layout-align-gt-md="start center" class='item data_item' *ngFor="let item of items" layout-gt-md="row" layout="column" (click)="selectItem(item)" (dblclick)="openMap(item)" [ngClass]="{'active-selection': (selectedItem && item._id === selectedItem._id)}">

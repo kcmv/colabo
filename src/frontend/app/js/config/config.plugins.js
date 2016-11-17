@@ -382,7 +382,7 @@
             mapsList: {
                 active: true,
                 config: {
-                    title: 'CollaboFramework',
+                    title: 'www.Colabo.space',
                     //map_path,
                     //
                     openMap: {
