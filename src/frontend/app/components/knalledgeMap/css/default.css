@@ -42,7 +42,7 @@ $large: 1400px;
   font-weight: bold; }
 
 .tools-controls-group {
-  border: 1px solid #c0c0c0;
+  /* border-bottom: 1px solid #c0c0c0; */
   margin-top: 3px;
   margin-right: 2px;
   padding: 2px; }
