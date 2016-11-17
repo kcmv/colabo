@@ -62,7 +62,7 @@
 					 $scope.enableEditing = function(enable) {
 						 if(typeof enable === 'undefined') enable = true;
 						 if($scope.nodeContent.editing && !enable){
-							 $scope.nodeContent.htmlProperty = marked($scope.nodeContent.property);
+							 $scope.nodeContent.htmlProperty = marked($scope.nodeContent.property, {renderer: marked.nodeEditor.renderer});
 
 							 if($scope.nodeContent.node){
 								 GlobalEmitterServicesArray.get(knalledgePropertyChangedFinishedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
@@ -109,7 +109,7 @@
 						 $scope.nodeContent.propertyType = nodeContent.propertyType;
 						 switch(nodeContent.propertyType){
 							 case 'text/markdown':
-								 $scope.nodeContent.htmlProperty = marked(nodeContent.property);
+								 $scope.nodeContent.htmlProperty = marked(nodeContent.property, {renderer: marked.nodeEditor.renderer});
 								 break;
 
 							 case 'text/html':
