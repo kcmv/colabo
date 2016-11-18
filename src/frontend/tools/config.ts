@@ -273,6 +273,8 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         { src: join(APP_SRC, 'js/lib/debug.js'), inject: 'libs', noNorm: true },
         { src: join(APP_SRC, '../bower_components/debugpp/index.js'), inject: 'libs', noNorm: true },
         { src: join(APP_SRC, '../bower_components/halo/index.js'), inject: 'libs', noNorm: true },
+        // https://github.com/asvd/dragscroll
+        { src: join(APP_SRC, '../node_modules/dragscroll/dragscroll.js'), inject: 'libs', noNorm: true },
 
         // KNALLEDGE APP
         { src: join(APP_SRC, 'js/config/config.js'), inject: true, noNorm: true },

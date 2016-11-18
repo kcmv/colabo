@@ -72,6 +72,7 @@
     "core-js": "^2.4.0",
     "debug": "^2.2.0",
     "deep-assign": "^2.0.0",
+    "dragscroll": "0.0.7",
     "es6-module-loader": "^0.17.8",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.35.0",

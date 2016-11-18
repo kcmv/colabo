@@ -203,7 +203,7 @@
  								$scope.subscriptions[i].unsubscribe();
  							}
  							$scope.knalledgeMap.destroy();
- 						})
+ 						});
 
  						if ($routeParams.route) {
  							$scope.route = decodeRoute($routeParams.route);

@@ -21,6 +21,7 @@ import {ChangeService} from '../change/change.service';
 declare var window;
 declare var Config;
 declare var knalledge;
+declare var dragscroll;
 
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
@@ -299,9 +300,15 @@ export class KnalledgeMapMain implements OnInit {
     }
 
     ngOnInit() {
-        if (!this.amILoggedIn()) {
-            window.alert("Please, log in to be albe to follow the session");
-        }
+      // update scrolling areas
+      // https://github.com/asvd/dragscroll
+      setTimeout(function() {
+        dragscroll.reset();
+      }, 0);
+
+      if (!this.amILoggedIn()) {
+          window.alert("Please, log in to be albe to follow the session");
+      }
     }
 
     get following(): string {
