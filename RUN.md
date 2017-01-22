@@ -62,7 +62,10 @@ status mongodb
 stop mongodb
 start mongodb
 ```
-
+temporary:
+```sh
+mongod --fork --config /etc/mongod.conf
+```
 #### backend
 
 (`/etc/init/knalledge-b-beta.conf` or `/etc/init/knalledge-b.conf`)

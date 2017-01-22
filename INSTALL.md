@@ -195,6 +195,7 @@ sudo npm install -g typescript
 # sudo npm install ts-node -g
 # sudo npm install typescript-node -g
 # sudo npm install node-gyp -g
+npm install -g bower
 sudo npm install marked -g
 
 # it could be necessary to do the following as well
@@ -234,7 +235,7 @@ The majority of server and client components are built on **MEAN stack** so the 
 Install tools:
 
 ```sh
-npm install -g bower
+
 ```
 
 ### NPM privileges problem
@@ -711,7 +712,7 @@ server {
 }
 ```
 
-```sh
+​```sh
 cd /etc/nginx
 rm /sites-available/default
 joe /sites-enabled/knalledge.org
