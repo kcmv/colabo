@@ -6,15 +6,43 @@
  bootstrap wizard
 ------------------------ */
 
+$rima_voting_up_color: #88ff88;
+$rima_voting_down_color: #ff8888;
+
+.totalScore{
+	display: inline-block;
+}
+
+.rima_voting_up_background{
+	padding: 3px;
+	background-color: $rima_voting_up_color;
+	@include border-radius(5px, 5px);
+}
+
+.rima_voting_down_background{
+	padding: 3px;
+	background-color: $rima_voting_down_color;
+	@include border-radius(5px, 5px);
+}
+
+.rima_voting_up_color{
+		color: $rima_voting_up_color;
+}
+
+.rima_voting_down_color{
+		color: $rima_voting_down_color;
+}
+
 .switch{
 	cursor: pointer;
 	background-color: #009688;
 }
-.title{
-	padding-bottom: 3px;
-	border-bottom: 1px solid black;
-	margin-bottom: 7px;
-}
+
+// .title{
+// 	padding-bottom: 3px;
+// 	border-bottom: 1px solid black;
+// 	margin-bottom: 7px;
+// }
 
 .user_dialog{
 
@@ -784,5 +812,28 @@ wizard{
 		width: 500px;
 		height: 300px;*/
 	}
+}
 
+.rima-voting-form{
+
+	.title{
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
+
+	.user{
+
+	}
+
+	.score{
+
+	}
+
+	.up{
+		color: $rima_voting_up_color;
+	}
+
+	.down{
+		color: $rima_voting_down_color;
+	}
 }

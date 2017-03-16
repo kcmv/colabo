@@ -80,8 +80,12 @@
 	};
 
 	// Lists of constants that describes what type of updates are made on node
-	MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME";
-	MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT"; //depricated, should be more specialized
+	MapStructure.UPDATE_NODE_NAME = "UPDATE_NODE_NAME"; // node name is updated and still in editing mode
+	MapStructure.UPDATE_NODE_NAME_FINAL = "UPDATE_NODE_NAME_FINAL"; // node name is updated and exited updating
+//depricated, should be more specialized
+	MapStructure.UPDATE_DATA_CONTENT = "UPDATE_DATA_CONTENT"; // node property is updated and still in editing mode
+	MapStructure.UPDATE_DATA_CONTENT_FINAL = "UPDATE_DATA_CONTENT_FINAL"; // node property is updated and exited updating
+
 	MapStructure.UPDATE_NODE_DIMENSIONS = "UPDATE_NODE_DIMENSIONS";
 	MapStructure.UPDATE_NODE_VISUAL_OPEN = "UPDATE_NODE_VISUAL_OPEN";
 	MapStructure.UPDATE_NODE_TYPE = "UPDATE_NODE_TYPE";
@@ -121,7 +125,7 @@
 	};
 
 	MapStructure.prototype.isStructuralChange = function(actionType) {
-		return actionType === MapStructure.UPDATE_NODE_NAME || actionType === MapStructure.UPDATE_DATA_CONTENT;
+		return actionType === MapStructure.UPDATE_NODE_NAME || actionType === MapStructure.UPDATE_DATA_CONTENT || actionType === UPDATE_DATA_CONTENT_FINAL;
 	}
 
 	MapStructure.prototype.removeImage = function(vkNode) {
@@ -809,14 +813,15 @@
 		return vkEdge;
 	};
 
-	MapStructure.prototype.updateName = function(vkNode, newName) {
+	MapStructure.prototype.updateName = function(vkNode, newName, isFinal) {
+		// console.info("MapStructure.prototype.updateName (isFinal: %s): %s", isFinal, newName);
 		if (!this.mapService) return;
 
 		vkNode.kNode.name = newName;
 		var patch = {
 			name: newName
 		};
-		this.updateNode(vkNode, MapStructure.UPDATE_NODE_NAME, patch);
+		this.updateNode(vkNode, isFinal ? MapStructure.UPDATE_NODE_NAME_FINAL : MapStructure.UPDATE_NODE_NAME, patch);
 	};
 
 	/**
@@ -911,6 +916,7 @@
 				patch.decorations[change.decoration] = change.value;
 			break;
 			case MapStructure.UPDATE_DATA_CONTENT:
+			case MapStructure.UPDATE_DATA_CONTENT_FINAL:
 				break;
 			case MapStructure.UPDATE_NODE_NAME:
 			default:

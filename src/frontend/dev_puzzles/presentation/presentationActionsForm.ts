@@ -1,7 +1,4 @@
 import {Component, Inject} from '@angular/core';
-import {NgIf, CORE_DIRECTIVES} from "@angular/common";
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
-import {FORM_DIRECTIVES} from '@angular/forms';
 
 import {KnalledgeMapViewService} from '../../app/components/knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../../app/components/knalledgeMap/knalledgeMapPolicyService';
@@ -14,12 +11,6 @@ import {CfPuzzlesPresentationServices} from './cf.puzzles.presentation.service'
     providers: [
         //MATERIAL_PROVIDERS
     ],
-    directives: [
-      MATERIAL_DIRECTIVES,
-      // MdList, MdListItem, MdContent, MdButton, MdSwitch,
-      NgIf, FORM_DIRECTIVES,
-      //
-   ],
     moduleId: module.id,
     templateUrl: 'partials/presentation-actions-form.tpl.html',
     styles: [`

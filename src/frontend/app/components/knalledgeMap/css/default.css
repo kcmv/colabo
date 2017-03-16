@@ -42,7 +42,7 @@ $large: 1400px;
   font-weight: bold; }
 
 .tools-controls-group {
-  border: 1px solid #c0c0c0;
+  /* border-bottom: 1px solid #c0c0c0; */
   margin-top: 3px;
   margin-right: 2px;
   padding: 2px; }
@@ -109,8 +109,18 @@ $large: 1400px;
       .knalledge_map_index .logo_background h2 .title_edge {
         color: #880000; }
 
+knalledge-map-main .md-sidenav-content {
+  width: 100%; }
+
 md-sidenav.options {
   max-width: 25%; }
+  md-sidenav.options.full {
+    max-width: 90%;
+    width: 80%; }
+md-sidenav.settings {
+  min-width: 200px;
+  max-width: 300px;
+  width: 30%; }
 
 /* ------------------------
  knalledge_map_tools

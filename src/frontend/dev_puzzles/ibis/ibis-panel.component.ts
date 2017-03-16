@@ -1,5 +1,4 @@
 import {Component, Inject} from '@angular/core';
-import {MATERIAL_DIRECTIVES} from "ng2-material";
 import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
 
 //declare var knalledge;
@@ -8,13 +7,10 @@ declare var window;
 @Component({
     selector: 'brainstorming-panel',
     moduleId: module.id,
-    templateUrl: 'partials/brainstorming-panel.component.tpl.html',
+    templateUrl: 'partials/ibis-panel.component.tpl.html',
     providers: [
         //BrainstormingService
     ],
-    directives: [
-        MATERIAL_DIRECTIVES
-    ]
 })
 export class BrainstormingPanelComponent {
   public showOnlyBrainstorming: boolean = true;

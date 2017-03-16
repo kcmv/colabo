@@ -58,7 +58,7 @@ update:
 ```css
 .reveal p {
   margin: 20px 0;
-  line-height: 1.2; 
+  line-height: 1.2;
   text-align: justify;
   font-size: 0.8em;
 }
@@ -149,3 +149,15 @@ We can order them by ordering nodes that are referenced from presentation-node
 - keep them, order them and visualize them through nodes hierarchy under the presentation-node
 - provide presentation-list as a separate way of ordering them in non-dustruptive way regarding node hierarchy
 - support indes for each node when on presentation
+
+# Slides markers
+
+--horizontal--
+--vertical--
+--notes--
+
+```js
+export const DATA_SEPARATOR_HORIZONTAL:string = '--horizontal--';
+export const DATA_SEPARATOR_VERTICAL:string = '--vertical--';
+export const DATA_SEPARATOR_NOTES:string = '--notes--';
+```

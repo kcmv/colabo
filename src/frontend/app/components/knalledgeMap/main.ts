@@ -1,4 +1,5 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 // import {LoginStatusComponent} from '../login/login-status-component';
 import {Media, MdDialog} from "ng2-material";
@@ -16,10 +17,11 @@ import {BottomPanel, BottomPanelModule, bottomPanelComponentDirectives} from '..
 import {UserDialogComponent} from '../rima/user-dialog-component';
 
 import {ChangeService} from '../change/change.service';
-import {TopPanelModule} from '../topPanel/topPanel';
+// import {TopPanelModule} from '../topPanel/topPanel';
 declare var window;
 declare var Config;
 declare var knalledge;
+declare var dragscroll;
 
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
@@ -50,16 +52,21 @@ declare var knalledge;
 
 
 var componentProviders = [
-  // MATERIAL_PROVIDERS,
-  // provideRouter
-  // ROUTER_PROVIDERS
+    // MATERIAL_PROVIDERS,
+    // provideRouter
+    // ROUTER_PROVIDERS
 ];
 
 import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
 
+import {RimaVotingForm} from '../rima/rimaVotingForm';
+
 var componentDirectives = [
     upgradeAdapter.upgradeNg1Component('knalledgeMap'),
+    // for knalledgeMapList and inside
     upgradeAdapter.upgradeNg1Component('knalledgeMapList'),
+    RimaVotingForm,
+
     KnalledgeMapTools,
     MediaShowComponent,
     BottomPanel,
@@ -67,6 +74,7 @@ var componentDirectives = [
 ];
 
 PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', componentDirectives);
+
 import {ToolsModule} from './tools';
 
 import { NgModule } from '@angular/core';
@@ -80,6 +88,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2MaterialModule} from 'ng2-material';
 
 var moduleImports = [];
+
+PluginsPreloader.addModulesDependenciesForComponent('knalledgeMap.Main', moduleImports);
+
 moduleImports.push(BrowserModule);
 moduleImports.push(FormsModule);
 moduleImports.push(HttpModule);
@@ -89,15 +100,15 @@ moduleImports.push(Ng2MaterialModule);
 moduleImports.push(NgbModule);
 moduleImports.push(ToolsModule);
 moduleImports.push(BottomPanelModule);
-moduleImports.push(TopPanelModule);
+// moduleImports.push(TopPanelModule);
 
 let componentExportDirectives = [];
-for (let i=0; i<componentDirectives.length; i++){
-  componentExportDirectives.push(componentDirectives[i]);
+for (let i = 0; i < componentDirectives.length; i++) {
+    componentExportDirectives.push(componentDirectives[i]);
 }
 
-for (let i=0; i<bottomPanelComponentDirectives.length; i++){
-  componentExportDirectives.push(bottomPanelComponentDirectives[i]);
+for (let i = 0; i < bottomPanelComponentDirectives.length; i++) {
+    componentExportDirectives.push(bottomPanelComponentDirectives[i]);
 }
 
 // needed for coevoludens, temporarily
@@ -108,12 +119,13 @@ var moduleProviders = [
 
 // @NgModule for tools
 @NgModule({
-  imports: moduleImports,
-  providers: moduleProviders,
-  exports: componentExportDirectives,
-  declarations: componentDirectives
+    imports: moduleImports,
+    providers: moduleProviders,
+    exports: componentExportDirectives,
+    declarations: componentDirectives,
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class MainModule {}
+export class MainModule { }
 
 @Component({
     selector: 'knalledge-map-main',
@@ -128,17 +140,18 @@ export class MainModule {}
     `]
 })
 
-export class KnalledgeMapMain implements OnInit{
+export class KnalledgeMapMain implements OnInit {
     userUrl: String = "www.CollaboScience.com"; //TODO: CF?!
     policyConfig: any;
     viewConfig: any;
     public pluginsConfig: any;
     topPanelVisible: boolean = true;
+    _isOptionsFullscreen:boolean = false;
     status: String;
     navigator = window.navigator;
     checkConnectionFailed: boolean = false;
     public connectivityIssues: boolean = false;
-    public info:InfoForDialog = new InfoForDialog();
+    public info: InfoForDialog = new InfoForDialog();
     private rimaService;
     private knalledgeMapVOsService;
     private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
@@ -153,10 +166,11 @@ export class KnalledgeMapMain implements OnInit{
         @Inject('Plugins') private Plugins,
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray//,
+        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+        private titleService:Title//,
         // @Inject('CollaboPluginsService') private collaboPluginsService
-        ) {
-        let that:KnalledgeMapMain = this;
+    ) {
+        let that: KnalledgeMapMain = this;
 
         console.log('[KnalledgeMapMain] loaded');
         this.viewConfig = knalledgeMapViewService.get().config;
@@ -179,11 +193,23 @@ export class KnalledgeMapMain implements OnInit{
         //
         this.globalEmitterServicesArray.register(ChangeService.CONNECTIVITY_ISSUE_EVENT);
         this.globalEmitterServicesArray.get(ChangeService.CONNECTIVITY_ISSUE_EVENT).subscribe('KnalledgeMapMain',
-        this.displayConnectivityIssues.bind(this));
+            this.displayConnectivityIssues.bind(this));
         this.globalEmitterServicesArray.register(this.PRESENTER_CHANGED);
         this.globalEmitterServicesArray.register(this.SHOW_INFO);
         this.globalEmitterServicesArray.get(this.SHOW_INFO).subscribe('KnalledgeMapMain',
-        this.showInfo.bind(this));
+            this.showInfo.bind(this));
+
+        var modelLoadedEvent = "modelLoadedEvent";
+				this.globalEmitterServicesArray.register(modelLoadedEvent);
+
+        this.globalEmitterServicesArray.get(modelLoadedEvent).subscribe('KnalledgeMapMain', function(eventModel) {
+          console.log("[KnalledgeMapMain::modelLoadedEvent] ModelMap  nodes(len: %d)",
+            eventModel.map.nodes.length);
+          console.log("[KnalledgeMapMain::modelLoadedEvent] ModelMap  edges(len: %d)",
+            eventModel.map.edges.length);
+            // https://angular.io/docs/ts/latest/api/platform-browser/index/Title-class.html
+            that.titleService.setTitle(eventModel.properties.name);
+        });
     };
 
     customClose(interesting: boolean) {
@@ -194,33 +220,41 @@ export class KnalledgeMapMain implements OnInit{
         }
     }
 
-    isOffline(): boolean{
-      return !this.navigator.onLine || this.checkConnectionFailed;
+    isOptionsFullscreen(): boolean {
+        return this._isOptionsFullscreen;
     }
 
-    userPanel():void{
-      if(confirm("You are about to leave this map an go to the user panel ...")){
-        this.go('login');
-      }
+    toggleOptionsFullscreen() {
+        this._isOptionsFullscreen = !this._isOptionsFullscreen;
     }
 
-    displayConnectivityIssues(error: any):void {
-      this.connectivityIssues = true;
-      var that = this;
-      switch(error.type){
-          case ChangeService.CONNECTIVITY_ISSUE_TYPE_LATENCY_WARNING_SINGLE:
-            setTimeout(function(){
-              that.connectivityIssues = false;
-            }, 7000);
-          break;
+    isOffline(): boolean {
+        return !this.navigator.onLine || this.checkConnectionFailed;
+    }
 
-          case ChangeService.CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_FAILED:
-            this.checkConnectionFailed = true;
-          break;
+    userPanel(): void {
+        if (confirm("You are about to leave this map an go to the user panel ...")) {
+            this.go('login');
+        }
+    }
 
-          case ChangeService.CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_SUCCEEDED:
-            this.checkConnectionFailed = false;
-      }
+    displayConnectivityIssues(error: any): void {
+        this.connectivityIssues = true;
+        var that = this;
+        switch (error.type) {
+            case ChangeService.CONNECTIVITY_ISSUE_TYPE_LATENCY_WARNING_SINGLE:
+                setTimeout(function() {
+                    that.connectivityIssues = false;
+                }, 7000);
+                break;
+
+            case ChangeService.CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_FAILED:
+                this.checkConnectionFailed = true;
+                break;
+
+            case ChangeService.CONNECTIVITY_ISSUE_TYPE_CHECK_CONNECTION_SUCCEEDED:
+                this.checkConnectionFailed = false;
+        }
     }
 
     navigateBack() {
@@ -232,13 +266,13 @@ export class KnalledgeMapMain implements OnInit{
         window.location.href = "#/" + mapRoute + "/id/" + mapId;
     }
 
-    showInfo(info:InfoForDialog):void{
-      this.info = info;
-      // this.info.title = info.title ? info.title : "";
-      // this.info.message = info.message ? info.message : "";
-      // this.info.buttons = info.buttons ? info.buttons : "ok";
-      this.infoDialog.show();
-      //this.infoDialog.ngOnDestroy = function(){window.alert('closing');};
+    showInfo(info: InfoForDialog): void {
+        this.info = info;
+        // this.info.title = info.title ? info.title : "";
+        // this.info.message = info.message ? info.message : "";
+        // this.info.buttons = info.buttons ? info.buttons : "ok";
+        this.infoDialog.show();
+        //this.infoDialog.ngOnDestroy = function(){window.alert('closing');};
     }
 
     // infoDialogClose():void{
@@ -263,37 +297,43 @@ export class KnalledgeMapMain implements OnInit{
 
     broadcast(value: boolean): any {
         this.globalEmitterServicesArray.get(this.PRESENTER_CHANGED)
-        .broadcast('KnalledgeMapMain', {'user': this.rimaService.getWhoAmIid(), 'value': value});
+            .broadcast('KnalledgeMapMain', { 'user': this.rimaService.getWhoAmIid(), 'value': value });
     }
 
     // toggleTopPanel(): any {
     //     this.viewConfig.panels.topPanel.visible = !this.viewConfig.panels.topPanel.visible;
     // }
 
-    amILoggedIn() : boolean{
-      return this.rimaService && this.rimaService.getWhoAmI() !== null;
+    amILoggedIn(): boolean {
+        return this.rimaService && this.rimaService.getWhoAmI() !== null;
     }
 
     ngOnInit() {
-      if(!this.amILoggedIn()){
-        window.alert("Please, log in to be albe to follow the session");
+      // update scrolling areas
+      // https://github.com/asvd/dragscroll
+      setTimeout(function() {
+        dragscroll.reset();
+      }, 0);
+
+      if (!this.amILoggedIn()) {
+          window.alert("Please, log in to be albe to follow the session");
       }
     }
 
-    get following():string{
-      if(this.policyConfig.session && this.policyConfig.session.presenter){
-        if(this.policyConfig.session.presenter._id === this.rimaService.getWhoAmIid()){
-          return "you are presenting";
-        }else{
-        if(this.policyConfig.broadcasting.receiveNavigation){
-              return "following " + this.policyConfig.session.presenter.displayName;
-          }else{
-            return "you can follow " + this.policyConfig.session.presenter.displayName;
-          }
+    get following(): string {
+        if (this.policyConfig.session && this.policyConfig.session.presenter) {
+            if (this.policyConfig.session.presenter._id === this.rimaService.getWhoAmIid()) {
+                return "you are presenting";
+            } else {
+                if (this.policyConfig.broadcasting.receiveNavigation) {
+                    return "following " + this.policyConfig.session.presenter.displayName;
+                } else {
+                    return "you can follow " + this.policyConfig.session.presenter.displayName;
+                }
+            }
+        } else {
+            return "";
         }
-      }else{
-        return "";
-      }
     }
 
     getLoggedInUserName(): any {

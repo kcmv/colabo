@@ -40,6 +40,14 @@ function setListeningForKeyCommands(){
       buildProject(undefined, undefined, true);
     }
 
+    // ctrl-g
+    if(key === '\u0007'){
+      console.log("[build.dev.smart] reconfiGuring - loading again all configuration files");
+      // TODO
+      // http://stackoverflow.com/questions/9210542/node-js-require-cache-possible-to-invalidate
+      // https://www.npmjs.com/package/decache
+    }
+
     // ctrl-i
     if(key === '\u0009'){
       WATCH_CHANGED['build.assets.dev'] = true;
@@ -86,6 +94,7 @@ export function printCommands(){
   console.log("  - CTRL+C: quit");
   console.log("  - CTRL+E: is every build full (%s)", WATCH_BUILD_STATE.everyBuildIsFull);
   console.log("  - CTRL+F: full build");
+  console.log("  - CTRL+G: reconfiG - load again all configuration files");
   console.log("  - CTRL+I: add tasks necessary to reinject files into index.html (build.assets.dev, build.index.dev)");
   console.log("  - CTRL+L: show list of files to be reload");
   console.log("  - CTRL+Q: clear the list of tasks waiting to be built");

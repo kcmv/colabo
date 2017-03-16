@@ -273,6 +273,8 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         { src: join(APP_SRC, 'js/lib/debug.js'), inject: 'libs', noNorm: true },
         { src: join(APP_SRC, '../bower_components/debugpp/index.js'), inject: 'libs', noNorm: true },
         { src: join(APP_SRC, '../bower_components/halo/index.js'), inject: 'libs', noNorm: true },
+        // https://github.com/asvd/dragscroll
+        { src: join(APP_SRC, '../node_modules/dragscroll/dragscroll.js'), inject: 'libs', noNorm: true },
 
         // KNALLEDGE APP
         { src: join(APP_SRC, 'js/config/config.js'), inject: true, noNorm: true },
@@ -294,9 +296,6 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
 
         // COMPONENTS
         { src: join(APP_SRC, 'components/puzzles.js'), inject: true, noNorm: true },
-
-
-        { src: join(APP_SRC, 'components/knalledgeMap/js/services.js'), inject: true, noNorm: true },
 
         // PLUGINS: TODO: We want to avoid hardoced registering plugins here!
         // TODO: should we add all dependencies to the all components
@@ -613,14 +612,25 @@ console.log(chalk.bgWhite.blue.bold(' DEPENDENCIES: '), chalk.blue(JSON.stringif
 // SystemsJS Configuration.
 
 var config = {
-    "defaultJSExtensions": true,
-    "defaultExtension": "js",
-    "map": {
-        "ng2-material": "ng2-material/index.js",
-        // "symbol-observable": "symbol-observable/index.js",
-        "components/knalledgeMap/main": "components/knalledgeMap/main.js",
+    defaultJSExtensions: true,
+    defaultExtension: "js",
+    map: {
+      app: 'app',
+      '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
+      '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
+      '@angular/compiler': 'npm:@angular/compiler/bundles/compiler.umd.js',
+      '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
+      '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
+      // '@angular/material': 'npm:@angular/material/bundles/material.umd.js',
+      '@angular/platform-browser': 'npm:@angular/platform-browser/bundles/platform-browser.umd.js',
+      '@angular/platform-browser-dynamic': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
+      '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
+      '@angular/upgrade': 'npm:@angular/upgrade/bundles/upgrade.umd.js',
 
-        "@ng-bootstrap/ng-bootstrap": "node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js"
+      'rxjs': 'npm:rxjs',
+      "ng2-material": "ng2-material/index.js",
+      "components/knalledgeMap/main": "components/knalledgeMap/main.js",
+      "@ng-bootstrap/ng-bootstrap": "npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js"
     },
 
     // TODO: should we add all dependencies to the all components
@@ -642,17 +652,33 @@ var config = {
     },
     packageConfigPaths: ['./node_modules/*/package.json',
         './node_modules/@angular/*/package.json',
-        './node_modules/@angular2-material/*/package.json'
+        './node_modules/@angular2-material/*/package.json',
+        './node_modules/@ng-bootstrap/ng-bootstrap/package.json'
     ],
     packages: {
-        rxjs: { defaultExtension: 'js' },
-        "symbol-observable": { main: "index.js" }
+        "symbol-observable": {
+          main: "index.js"
+        },
+        app: {
+          main: './js/app2.js',
+          defaultExtension: 'js'
+        },
+        rxjs: {
+          defaultExtension: 'js'
+        },
+        '@angular/material': {
+          format: 'cjs',
+          main: 'material.umd.js'
+        },
     },
     paths: {
         [BOOTSTRAP_MODULE]: `${APP_BASE}${BOOTSTRAP_MODULE}`,
         // 'rxjs/*': `${APP_BASE}rxjs/*`,
         '*': `./node_modules/*`,
         'dist/*': `./dist/*`,
+
+        "bootstrap": "/bootstrap",
+        'npm:': 'node_modules/',
     }
 };
 

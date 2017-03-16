@@ -3,8 +3,6 @@
 // https://github.com/angular/angular/blob/master/modules/@angular/src/upgrade/upgrade_adapter.ts
 import {upgradeAdapter, moduleProviders, moduleDeclarations, moduleImports} from './upgrade_adapter';
 
-import {ROUTER_PROVIDERS} from '@angular/router-deprecated';
-
 //import {DemoPuzzleService} from '../components/demoPuzzle/demoPuzzle.service';
 import {LoginStatusComponent} from '../components/login/login-status-component';
 import {KnalledgeMapMain} from '../components/knalledgeMap/main';
@@ -116,6 +114,7 @@ sessionServices
 // upgrading ng1 services into ng2 space
 upgradeAdapter.upgradeNg1Provider('KnAllEdgeRealTimeService');
 upgradeAdapter.upgradeNg1Provider('RimaService');
+upgradeAdapter.upgradeNg1Provider('WhoAmIService');
 
 upgradeAdapter.upgradeNg1Provider('CollaboPluginsService');
 
@@ -198,6 +197,14 @@ angular.module('knalledgeMapDirectives')
   })
     ;
 
+import {RimaVotingForm} from '../components/rima/rimaVotingForm';
+angular.module('rimaDirectives')
+     .directive({
+        'rimaVotingForm':
+            upgradeAdapter.downgradeNg2Component(RimaVotingForm)
+    })
+    ;
+
 // console.log('GOTOVO ng2 a');
 
 // provide provider necessary in the DbAuditService service
@@ -214,7 +221,7 @@ angular.module('knalledgeMapDirectives')
 //     .service('DemoPuzzleService', upgradeAdapter.downgradeNg2Provider(DemoPuzzleService))
 //     ;
 
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import {HttpModule} from '@angular/http';
@@ -225,14 +232,6 @@ import {MaterialModule} from '@angular/material';
 // Bootstrap 4 + ng2
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2MaterialModule} from 'ng2-material';
-
-// import {MATERIAL_DIRECTIVES, Media} from "ng2-material";
-
-// moduleProviders.push(MATERIAL_PROVIDERS);
-// moduleProviders.push(provideRouter);
-// moduleProviders.push(ROUTER_PROVIDERS);
-// moduleProviders.push(DbAuditService);
-// moduleProviders.push(RequestService);
 
 // NG2 TS services
 moduleProviders.push(ChangeService);
@@ -265,6 +264,7 @@ moduleImports.push(MapsListModule);
   imports: moduleImports,
   declarations: moduleDeclarations,
   providers: moduleProviders,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   // entryComponents: [
   //   // DemoApp,
   // ],
@@ -284,6 +284,5 @@ upgradeAdapter.bootstrap(document.body, ['KnAllEdgeApp'], {strictDi: false})
   // alert('KnalledgeMapPolicyService: ' + knalledgeMapPolicyService);
   knalledgeMapPolicyService.get().config.running.ng1ng2Ready = true;
 });
-
 
 // console.log('GOTOVO ng2 b');

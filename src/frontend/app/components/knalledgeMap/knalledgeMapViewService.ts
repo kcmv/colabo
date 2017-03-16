@@ -12,12 +12,14 @@ export class KnalledgeMapViewService {
                 showImagesAsThumbnails: true,
                 imagesThumbnailsWidth: 50,
                 imagesThumbnailsHeight: 50,
-                showTypes: false
+                showTypes: false,
+                showUnknownNodes: false
             },
             edges: {
                 showNames: true,
                 showTypes: false,
-                orderBy: 'name'
+                orderBy: 'name',
+                showUnknownEdges: false,
                 // orderBy: 'vote'
                 // orderBy: 'personal_vote'
                 // orderBy: undefined

@@ -36,6 +36,8 @@ md c:/data/db
 
 ### Running
 
+#### Windows
+
 Navigate to `c:/mongodb/bin/`in command prompt and start the server:
 
 ```sh
@@ -48,6 +50,49 @@ When server starts, windows firewall system will ask you for granting access. Al
 
 Mongod should start on **27017 port**.
 
+#### Checking
+
+```sh
+sudo netstat -tulpn | grep ':27017'
+```
+
+### Info
+
+[official install](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
+
++ log: `/var/log/mongodb/*`
++ upstart config: `/etc/mongod.conf`
++ mongod config: `etc/init/mongod.conf `
++ data: ``
++ service: `/etc/init.d/mongod`
+
+relevant files:
+
+```
+/var/log/upstart/
+/data/db/mongod.lock
+/etc/init.d/.#mongod
+/usr/bin/mongod
+/var/lib/mongodb
+/var/lib/mongodb/EarthCube.0
+/var/log/mongodb
+```
+
+running services:
+```sh
+chkconfig --list
+runlevel
+```
+
+Upstart logs your service execution in a log file by the same name in `/var/log/upstart/your-service-name.log`. It should be helpful.
+
+### repair
+
+```sh
+rm /data/db/mongod.lock
+rm /var/lib/mongodb/mongod.lock
+mongod --repair
+```
 
 ### MongoChef
 
@@ -150,6 +195,7 @@ sudo npm install -g typescript
 # sudo npm install ts-node -g
 # sudo npm install typescript-node -g
 # sudo npm install node-gyp -g
+npm install -g bower
 sudo npm install marked -g
 
 # it could be necessary to do the following as well
@@ -189,7 +235,7 @@ The majority of server and client components are built on **MEAN stack** so the 
 Install tools:
 
 ```sh
-npm install -g bower
+
 ```
 
 ### NPM privileges problem
@@ -447,7 +493,19 @@ brew install mongodb --with-openssl
 
 To have launchd start mongodb now and restart at login: `brew services start mongodb`
 
-Or, if you don't want/need a background service you can just run: `mongod --config /usr/local/etc/mongod.conf`
+Or, if you don't want/need a background service you can just run:
+
+`mongod --config /etc/mongod.conf`
+
+To start it in background (forked)
+`mongod --fork --config /etc/mongod.conf`
+
+After that you need to restart all services listening to it
+```sh
+restart knalledge-b
+```
+
+TODO: we need to make backend smart enough to detect new/restart/crash of the database
 
 ## Installing SASS support
 
@@ -558,3 +616,140 @@ Here are
             + modules/topiChat/node_modules
             + modules/topiChat-knalledge/node_modules
 + now you can do symbolic linking
+
+## Proxying
+
+### system rerouting 80 -> 8088
+
+- http://stackoverflow.com/questions/16573668/best-practices-when-running-node-js-with-port-80-ubuntu-linode
+- http://eastmond.org/blog/?p=45
+
+#### One time
+
+```sh
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8088
+```
+
+#### Continuous
+
+```sh
+joe /etc/rc.local
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8088
+```
+Enable it
+sudo chown root /etc/rc.local
+sudo chmod 755 /etc/rc.local
+sudo /etc/init.d/rc.local start
+Check services and ports
+
+### Proxying - node-fork
+
+(`/etc/init/knalledge-fork.conf`)
+
+```sh
+start/status/stop knalledge-fork
+```
+
+or in a testing mode:
+
+```sh
+/usr/bin/nodejs /var/www/web_fork/index.js
+exec sudo -u www-data /usr/bin/nodejs /var/www/web_fork/index.js
+```
+
+check port listening processes:
+```sh
+sudo netstat -tulpn | grep ':80'
+sudo netstat -tulpn | grep ':8088'
+```
+
+[more info](http://www.cyberciti.biz/faq/what-process-has-open-linux-port/)
+
+### Proxying - Nginx
+
++ http://stackoverflow.com/questions/33055212/nginx-multiple-server-blocks-listening-to-same-port
++ http://stackoverflow.com/questions/11773544/nginx-different-domains-on-same-ip
++ https://laracasts.com/discuss/channels/forge/two-sites-on-same-server
+
+Install the nginx proxy and:
+
++ remove default from sites-enabled
+
+```
+api.knalledge.org
+```
+# TopiChat
+server {
+  listen 80;
+  # alias for two subdomains
+  server_name topichat.knalledge.org;
+
+  location / {
+    proxy_pass http://localhost:8002;
+  }
+}
+
+# API
+server {
+  listen 80;
+  # alias for two subdomains
+  server_name api.knalledge.org;
+
+  location / {
+    proxy_pass http://localhost:8001;
+  }
+}
+
+server {
+  listen 80;
+  # alias for two subdomains
+  server_name knalledge.org www.knalledge.org;
+  # root /var/www/domain1;
+
+  location / {
+    proxy_pass http://localhost:8000;
+  }
+}
+```
+
+​```sh
+cd /etc/nginx
+rm /sites-available/default
+joe /sites-enabled/knalledge.org
+ln -s  ../sites-available/knalledge.org knalledge.org
+# test configuration
+nginx -t
+sudo service nginx restart
+# if necessary
+sudo shutdown -h now
+```
+
+## Errors
+
+### Could not build the server_names_hash, you should increase server_names_hash_bucket_size
+
++ http://charles.lescampeurs.org/2008/11/14/fix-nginx-increase-server_names_hash_bucket_size
+
+```sh
+joe /etc/nginx/nginx.conf
+```
+
+uncoment and increase
+```
+http{
+  server_names_hash_bucket_size 256;
+}
+```
+
+# Big files
+
+[How to Find Out Top Directories and Files](http://www.tecmint.com/find-top-large-directories-and-files-sizes-in-linux/)
+
+```sh
+du -a | sort -n -r | head -n 5
+du -hs * | sort -rh | head -5
+# To display the largest folders/files including the sub-directories, run:
+du -Sh | sort -rh | head -5
+# Top File Sizes Only
+find -type f -exec du -Sh {} + | sort -rh | head -n 5
+```

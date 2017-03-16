@@ -45,6 +45,7 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 		return sum;
 	}
 
+	var showUnknownEdges = this.knalledgeMapViewService.provider.config.edges.showUnknownEdges;
 	var orderBy = this.knalledgeMapViewService.provider.config.edges.orderBy;
 	for(var i in this.mapStructure.edgesById){
 		var vkEdge = this.mapStructure.edgesById[i];
@@ -52,7 +53,7 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 		if(vkEdge.visible === false) continue;
 		if(vkEdge.kEdge.sourceId === d.kNode._id){
 			if(this.systemEdgeTypes.indexOf(vkEdge.kEdge.type) >= 0) continue;
-			if(!this.showUnknownEdges && this.knownEdgeTypes.indexOf(vkEdge.kEdge.type) < 0) continue;
+			if(!showUnknownEdges && this.knownEdgeTypes.indexOf(vkEdge.kEdge.type) < 0) continue;
 
 			var vkNode = this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId);
 			if(vkNode){ //vkNode can be null - e.g. when deleting node (e.g. when deleted from other client 'Presenter') and edge is still not deleted

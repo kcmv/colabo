@@ -186,6 +186,24 @@
     };
 
     /**
+     * Gets source alternative from rootNode or first node in the nodes list
+     * @function getSourceAlternative
+     * @memberof knalledge.MapVisualization
+     * @return {knalledge.VKNode}
+     */
+    MapVisualization.prototype.getSourceAlternative = function() {
+      // try with rootNode
+  		var source = this.mapStructure.rootNode;
+
+  		// If rootNode is missing try with the first node in the mapStructure (if any exist)
+  		if(!source && Object.keys(this.mapStructure.nodesById).length > 0){
+  			source = this.mapStructure.nodesById[Object.keys(this.mapStructure.nodesById)[0]];
+  		}
+
+      return source;
+    }
+
+    /**
      * Returns all D3 entities that are related to the provided node
      * (this for example can be the D3 node representation of halo around the node)
      * @function getNodeRelatedD3Entities
@@ -246,7 +264,7 @@
         return newName;
     };
 
-    MapVisualization.prototype.updateName = function(nodeView) {
+    MapVisualization.prototype.updateName = function(nodeView, isFinal) {
         if (!nodeView) return;
 
         var nodeSpan = nodeView.select("span");
@@ -256,7 +274,7 @@
             nodeSpan.text(newName);
         }
         var d = nodeView.datum();
-        this.mapStructure.updateName(d, newName);
+        this.mapStructure.updateName(d, newName, isFinal);
     };
 
     MapVisualization.prototype.updateNodeDimensions = function() {

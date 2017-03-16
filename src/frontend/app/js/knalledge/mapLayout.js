@@ -32,13 +32,8 @@ MapLayout.prototype.construct = function(className, mapStructure, collaboPlugins
 	this.nodeWeightSumMax = 0;
 
 	this.nodesToAvoid = [];
-
-	this.showUnknownEdges = false; // TODO: provide UX switch, migrate to external store
 	this.knownEdgeTypes = [knalledge.KEdge.TYPE_KNOWLEDGE];
 	this.systemEdgeTypes = [];
-
-	// TODO
-	this.showUnknownNodes = false; // TODO: provide UX switch, migrate to external store
 	this.knownNodeTypes = [knalledge.KNode.TYPE_KNOWLEDGE];
 	this.systemNodeTypes = [];
 

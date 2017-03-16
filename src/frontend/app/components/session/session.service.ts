@@ -6,7 +6,7 @@ import {Session, SessionPhase, State} from './session';
 import {Change, ChangeType, Domain, Event} from '../change/change';
 import {ChangeService} from '../change/change.service';
 
-import { Http, HTTP_PROVIDERS, Response } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import { Headers, RequestOptions } from '@angular/http';
 import {Participant} from './participant';

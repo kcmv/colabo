@@ -20,7 +20,10 @@ var puzzles = {
       path: [APP_SRC_STR, '..'],
       css: false,
 
-      injectJs: 'node_modules/marked/lib/marked.js'
+      injectJs: [
+        'node_modules/marked/lib/marked.js',
+        'dev_puzzles/editors/js/marked-extensions.js'
+      ]
     },
     mdParsingToMarkdown: {
       path: [APP_SRC_STR, '..'],

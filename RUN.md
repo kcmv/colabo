@@ -53,14 +53,19 @@ npm start
 
 ### Linux server
 
-#### Port forking
 
-(`/etc/init/knalledge-fork.conf`)
+#### Database (MongoDB)
 
+service
 ```sh
-start/status/stop knalledge-fork
+status mongodb
+stop mongodb
+start mongodb
 ```
-
+temporary:
+```sh
+mongod --fork --config /etc/mongod.conf
+```
 #### backend
 
 (`/etc/init/knalledge-b-beta.conf` or `/etc/init/knalledge-b.conf`)

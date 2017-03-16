@@ -716,7 +716,8 @@ export class CfPuzzlesPresentationServices {
 
           // More info https://github.com/hakimel/reveal.js#dependencies
           dependencies: [
-            { src: '../../dev_puzzles/presentation/lib/reveal.js/plugin/markdown/marked.js' },
+            // we already have it in the editor component
+            // { src: '../../dev_puzzles/presentation/lib/reveal.js/plugin/markdown/marked.js' },
             { src: '../../dev_puzzles/presentation/lib/reveal.js/plugin/markdown/markdown.js' },
             { src: '../../dev_puzzles/presentation/lib/reveal.js/plugin/notes/notes.js', async: true },
             { src: '../../dev_puzzles/presentation/lib/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
