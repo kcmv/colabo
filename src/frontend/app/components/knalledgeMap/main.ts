@@ -146,6 +146,7 @@ export class KnalledgeMapMain implements OnInit {
     viewConfig: any;
     public pluginsConfig: any;
     topPanelVisible: boolean = true;
+    _isOptionsFullscreen:boolean = false;
     status: String;
     navigator = window.navigator;
     checkConnectionFailed: boolean = false;
@@ -217,6 +218,14 @@ export class KnalledgeMapMain implements OnInit {
         } else {
             this.status = 'Look for something else.';
         }
+    }
+
+    isOptionsFullscreen(): boolean {
+        return this._isOptionsFullscreen;
+    }
+
+    toggleOptionsFullscreen() {
+        this._isOptionsFullscreen = !this._isOptionsFullscreen;
     }
 
     isOffline(): boolean {

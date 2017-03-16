@@ -224,9 +224,16 @@ knalledge-map-main{
 md-sidenav{
 	&.options{
 		max-width: 25%;
+
+		&.full{
+			max-width: 90%;
+			width: 80%;
+		}
 	}
 	&.settings{
-
+		min-width: 200px;
+		max-width: 300px;
+		width: 30%;
 	}
 }
 /* ------------------------

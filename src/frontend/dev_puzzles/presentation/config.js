@@ -23,7 +23,7 @@ var puzzles = {
         'lib/reveal.js/plugin/notes/notes.js',
         'lib/reveal.js/plugin/markdown/markdown.js'
         // no need for it, it is already part of knalledge editor
-        //, 'lib/reveal.js/plugin/markdown/marked.js'
+        , 'lib/reveal.js/plugin/markdown/marked.js'
       ],
       injectCss: ['css/presentation.css',
         'lib/reveal.js/css/reveal.css',
