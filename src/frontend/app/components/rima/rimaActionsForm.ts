@@ -17,82 +17,86 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
-    selector: 'rima-actions-form',
-    providers: [
-        //MATERIAL_PROVIDERS
-    ],
-    moduleId: module.id,
-    templateUrl: 'partials/rima-actions-form.tpl.html',
-    styles: [`
-    `]
+		selector: 'rima-actions-form',
+		providers: [
+				//MATERIAL_PROVIDERS
+		],
+		moduleId: module.id,
+		templateUrl: 'partials/rima-actions-form.tpl.html',
+		styles: [`
+		`]
 })
 export class RimaActionsForm {
-  public kNodesTypes:Array<any> = [];
+	public kNodesTypes:Array<any> = [];
 
-  public selectedWhoAmI: any;
-  public searching: boolean = false;
-  public searchFailed: boolean = false;
-  public rimaUsersSearchBouded: Function;
-  public editingUser:boolean = false;
+	public selectedWhoAmI: any;
+	public searching: boolean = false;
+	public searchFailed: boolean = false;
+	public rimaUsersSearchBouded: Function;
+	public editingUser:boolean = false;
 
-  private componentShown:boolean = true;
-  private viewConfig:any;
-  private policyConfig:any;
-  private knalledgeNodeCreatorChanged: string = "knalledgeNodeCreatorChanged";
+	private componentShown:boolean = true;
+	private viewConfig:any;
+	private policyConfig:any;
+	private knalledgeNodeCreatorChanged: string = "knalledgeNodeCreatorChanged";
 
-  constructor(
-    @Inject('IbisTypesService') _IbisTypesService_,
-    @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
-    @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
-    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
-    @Inject('RimaService') private rimaService
-  ) {
-      this.viewConfig = knalledgeMapViewService.get().config;
-      this.policyConfig = knalledgeMapPolicyService.get().config;
-      // this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('RimaActionsForm', function(vkNode,type) {
-      //     console.log("knalledgeNodeTypeChanged: ", vkNode.kNode.name, type);
-      // });
-      this.rimaUsersSearchBouded = this.rimaUsersSearch.bind(this);
-      this.globalEmitterServicesArray.register(this.knalledgeNodeCreatorChanged);
-  }
+	constructor(
+		@Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
+		@Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
+		@Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
+		@Inject('RimaService') private rimaService
+	) {
+			this.viewConfig = knalledgeMapViewService.get().config;
+			this.policyConfig = knalledgeMapPolicyService.get().config;
+			// this.globalEmitterServicesArray.get(this.knalledgeNodeTypeChanged).subscribe('RimaActionsForm', function(vkNode,type) {
+			//     console.log("knalledgeNodeTypeChanged: ", vkNode.kNode.name, type);
+			// });
+			this.rimaUsersSearchBouded = this.rimaUsersSearch.bind(this);
+			this.globalEmitterServicesArray.register(this.knalledgeNodeCreatorChanged);
+	}
 
-  ngOnInit() {
-    this.selectedWhoAmI = this.rimaService.getActiveUser();
-  }
+	ngOnInit() {
+		this.selectedWhoAmI = this.rimaService.getActiveUser();
+	}
 
-  rimaUsersSearch(text$: Observable<string>){
-    var that = this;
-    return text$
-      // .debounceTime(300)
-      .distinctUntilChanged()
-      .do(() => that.searching = true)
-      .switchMap(term => {
-        let items:Array<any> = that.rimaService.whoAmIs;
-        that.searchFailed = !!items;
-        var results = items ? items : [];
-        results = results.filter(v => new RegExp(term, 'gi').test(v.displayName)).slice(0, 10);
-        return Observable.of(results);
-      })
-      .do(() => that.searching = false);
-  }
+	rimaUsersSearch(text$: Observable<string>){
+		var that = this;
+		return text$
+			// .debounceTime(300)
+			.distinctUntilChanged()
+			.do(() => that.searching = true)
+			.switchMap(term => {
+				let items:Array<any> = that.rimaService.whoAmIs;
+				that.searchFailed = !!items;
+				var results = items ? items : [];
+				results = results.filter(v => new RegExp(term, 'gi').test(v.displayName)).slice(0, 10);
+				return Observable.of(results);
+			})
+			.do(() => that.searching = false);
+	}
 
-  rimaUsersFormatter(rimaUser) {
-    return rimaUser.displayName;
-  }
+	rimaUsersFormatter(rimaUser) {
+		return rimaUser.displayName;
+	}
 
-  rimaUsersSelected(event:NgbTypeaheadSelectItemEvent){
-    let whoAmI = event.item;
-    this.selectedWhoAmI = whoAmI;
-    this.editingUser = false;
+	rimaUsersSelected(event:NgbTypeaheadSelectItemEvent){
+		let whoAmI = event.item;
+		this.selectedWhoAmI = whoAmI;
+		this.editingUser = false;
 
-    if(this.policyConfig.moderating.enabled){
-      this.rimaService.setActiveUser(whoAmI);
+		if(this.policyConfig.moderating.enabled){
+			this.rimaService.setActiveUser(whoAmI);
 
-      if(this.viewConfig.states.editingNode){
-        this.globalEmitterServicesArray.get(this.knalledgeNodeCreatorChanged)
-        .broadcast('RimaActionForm',{node:this.viewConfig.states.editingNode,creator:whoAmI._id});
-      }
-    }
+			if(this.viewConfig.states.editingNode){
+				this.globalEmitterServicesArray.get(this.knalledgeNodeCreatorChanged)
+				.broadcast('RimaActionForm',{node:this.viewConfig.states.editingNode,creator:whoAmI._id});
+			}
+		}
+	}
 
-  }
+	rimaUserEditing(){
+		this.editingUser = true;
+		this.selectedWhoAmI = null;
+	}
+
 }
