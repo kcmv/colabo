@@ -68,6 +68,18 @@ Keyboard.prototype.initializeKeyboard = function() {
 	this.mapDom = this.mapInteraction.getMapDom();
 	this.enabled = true;
 
+	// interaction contexts
+	this.contextStacks = ['cf.map'];
+	this.currentContext = 'cf.map';
+	// contextualized interaction handlers
+
+	this.contextualizedHandlers = {
+		cf.map: {
+			name: 'cf.map',
+			handlers: []
+		}
+	}
+
 	switch(this.keyboardLibType){
 		case 'KeyboardJS':
 			this.keyboardLib = keyboardJS;
@@ -90,46 +102,109 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	Keyboard.KEY_PREFIX = "ctrl" + this.keyboardSequenceKey;
 
-	this.keyboardLib[this.keyboardCommand]("right", function(){
-		if(this.enabled) this.mapInteraction.navigateRight();
-	}.bind(this));
+	Keyboard.prototype.enable = function(){
+		this.enabled = true;
+	};
 
-	this.keyboardLib[this.keyboardCommand]("left", function(){
-		if(this.enabled) this.mapInteraction.navigateLeft();
-	}.bind(this));
+	Keyboard.prototype.disable = function(){
+		this.enabled = false;
+	};
 
-	this.keyboardLib[this.keyboardCommand]("down", function(){
-		if(this.enabled) this.mapInteraction.navigateDown();
-	}.bind(this));
+	Keyboard.prototype.registerKey = function(key, event, callback){
+		this.keyboardLib[this.keyboardCommand](key, function(){
+			if(typeof callback === 'function') callback();
+		}.bind(this));
+	};
 
-	this.keyboardLib[this.keyboardCommand]("up", function(){
-		if(this.enabled) this.mapInteraction.navigateUp();
+	/*
+	COLLABORATION HANDLERS
+	*/
+
+	/**
+	 * toggling moderator
+	 */
+	this.registerKey('*', Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "m", null, function(){
+		if(this.enabled){
+			if(this.mapInteraction.isEditingNode()) return;
+
+			this.mapInteraction.toggleModerator();
+		}
 	}.bind(this));
 
 	/**
-	 * opening node
+	 * toggling presenter
 	 */
+	this.registerKey('*', Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "p", null, function(){
+		if(this.enabled){
+			if(this.mapInteraction.isEditingNode()) return;
 
-	this.keyboardLib[this.keyboardCommand](this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "1", function(){
+			this.mapInteraction.togglePresenter();
+		}
+	}.bind(this));
+
+
+	/*
+	CONTEXTUALIZATION INTERACTION HANDLERS
+	*/
+	this.registerKey('*', this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "1", function(){
 		if(this.enabled){
 			console.log(this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "1");
 			this.mapInteraction.switchToMap();
 		}
 	}.bind(this));
 
-	this.keyboardLib[this.keyboardCommand](this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "2", function(){
+	this.registerKey('*', this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "2", function(){
 		if(this.enabled){
 			console.log(this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "2");
 			this.mapInteraction.switchToProperties();
 		}
 	}.bind(this));
 
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"enter", function(){
+
+	/* ===================================
+	KNALLEDGE RELATED HANDLERS
+	====================================== */
+
+	/*
+	NAVIGATION HANDLERS
+	*/
+
+	this.registerKey('cf.map', "right", function(){
+		if(this.enabled) this.mapInteraction.navigateRight();
+	}.bind(this));
+
+	this.registerKey('cf.map', "left", function(){
+		if(this.enabled) this.mapInteraction.navigateLeft();
+	}.bind(this));
+
+	this.registerKey('cf.map', "down", function(){
+		if(this.enabled) this.mapInteraction.navigateDown();
+	}.bind(this));
+
+	this.registerKey('cf.map', "up", function(){
+		if(this.enabled) this.mapInteraction.navigateUp();
+	}.bind(this));
+
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"enter", function(){
 		if(this.enabled){
 			console.log("ctrl" + this.keyboardSequenceKey + "enter");
 			this.mapInteraction.toggleNode();
 		}
 	}.bind(this));
+
+	/**
+	 * search for the node name
+	 */
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"f", function(){
+		if(this.enabled){
+			if(this.mapInteraction.isEditingNode()) return;
+			this.mapInteraction.searchNodeByName();
+		}
+	}.bind(this));
+
+	 /*
+ 	CONTENT CHANGE handlers
+ 	*/
 
 	/**
 	 * starting node editing
@@ -154,76 +229,23 @@ Keyboard.prototype.initializeKeyboard = function() {
 		this.keyboardLib[this.keyboardCommandUp](
 			Keyboard.KEY_PREFIX+"space", keyboardSpaceUp);
 	}else{
-		this.keyboardLib[this.keyboardCommand](
+		this.registerKey('cf.map',
 			Keyboard.KEY_PREFIX+"space", keyboardSpaceDown,
 			Keyboard.KEY_PREFIX+"space", keyboardSpaceUp);
 	}
 
 	/**
-	 * search for the node name
-	 */
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"f", function(){
-		if(this.enabled){
-			if(this.mapInteraction.isEditingNode()) return;
-			this.mapInteraction.searchNodeByName();
-		}
-	}.bind(this));
-
-	/**
-	 * toggling moderator
-	 */
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "m", function(){
-		if(this.enabled){
-			if(this.mapInteraction.isEditingNode()) return;
-
-			this.mapInteraction.toggleModerator();
-		}
-	}.bind(this));
-
-	/**
-	 * toggling presenter
-	 */
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "p", function(){
-		if(this.enabled){
-			if(this.mapInteraction.isEditingNode()) return;
-
-			this.mapInteraction.togglePresenter();
-		}
-	}.bind(this));
-
-	/**
 	 * finishing node editing
 	 */
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+this.keyboardSequenceKeyEsc, function(){
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+this.keyboardSequenceKeyEsc, function(){
 		if(this.enabled){
 			console.log("editing escaping");
 			this.mapInteraction.exitEditingNode();
 		}
 	}.bind(this));
 
-	// IBIS
-	// Vote up
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "up", function(){
-		if(this.enabled){
-			if(this.mapInteraction.isEditingNode()) return;
-
-			this.mapInteraction.nodeVote(1);
-			return false;
-		}
-	}.bind(this));
-
-	// Vote up
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "down", function(){
-		if(this.enabled){
-			if(this.mapInteraction.isEditingNode()) return;
-
-			this.mapInteraction.nodeVote(-1);
-			return false;
-		}
-	}.bind(this));
-
 	// Add Image
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"i", function(){
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"i", function(){
 		if(this.enabled){
 			// window.prompt("Kmek");
 			if(this.mapInteraction.isEditingNode()) return;
@@ -233,7 +255,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}.bind(this));
 
 	// Remove Image
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + "i", function(){
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + "i", function(){
 		if(this.enabled){
 			if(this.mapInteraction.isEditingNode()) return;
 
@@ -241,8 +263,108 @@ Keyboard.prototype.initializeKeyboard = function() {
 		}
 	}.bind(this));
 
+	/*
+	IBIS HANDLERS
+	*/
+
+	// Vote up
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "up", function(){
+		if(this.enabled){
+			if(this.mapInteraction.isEditingNode()) return;
+
+			this.mapInteraction.nodeVote(1);
+			return false;
+		}
+	}.bind(this));
+
+	// Vote down
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "down", function(){
+		if(this.enabled){
+			if(this.mapInteraction.isEditingNode()) return;
+
+			this.mapInteraction.nodeVote(-1);
+			return false;
+		}
+	}.bind(this));
+
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "1", function(){
+		if(this.enabled){
+			if(!this.mapInteraction.isStatusMap()) return;
+			this.mapInteraction.addChildNode(knalledge.KNode.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_QUESTION);
+		}
+	}.bind(this));
+
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "2", function(){
+		if(this.enabled){
+			if(!this.mapInteraction.isStatusMap()) return;
+			this.mapInteraction.addChildNode(knalledge.KNode.TYPE_IBIS_IDEA, knalledge.KEdge.TYPE_IBIS_IDEA);
+		}
+	}.bind(this));
+
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "3", function(){
+		if(this.enabled){
+			if(!this.mapInteraction.isStatusMap()) return;
+			this.mapInteraction.addChildNode(knalledge.KNode.TYPE_IBIS_ARGUMENT, knalledge.KEdge.TYPE_IBIS_ARGUMENT);
+		}
+	}.bind(this));
+
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "4", function(){
+		if(this.enabled){
+			if(!this.mapInteraction.isStatusMap()) return;
+			this.mapInteraction.addChildNode(knalledge.KNode.TYPE_IBIS_COMMENT, knalledge.KEdge.TYPE_IBIS_COMMENT);
+		}
+	}.bind(this));
+
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "1", function(){
+		if(this.enabled){
+			if(!this.mapInteraction.isStatusMap()) return;
+			this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_QUESTION);
+		}
+	}.bind(this));
+
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "2", function(){
+		if(this.enabled){
+			if(!this.mapInteraction.isStatusMap()) return;
+			this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_IDEA, knalledge.KEdge.TYPE_IBIS_IDEA);
+		}
+	}.bind(this));
+
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "3", function(){
+		if(this.enabled){
+			if(!this.mapInteraction.isStatusMap()) return;
+			this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_ARGUMENT, knalledge.KEdge.TYPE_IBIS_ARGUMENT);
+		}
+	}.bind(this));
+
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "4", function(){
+		if(this.enabled){
+			if(!this.mapInteraction.isStatusMap()) return;
+			this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_COMMENT, knalledge.KEdge.TYPE_IBIS_COMMENT);
+		}
+	}.bind(this));
+
+	/*
+	KNALLEDGE STRUCTURE HANDLERS
+	*/
+
+	// Add new child node
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"n", function(){
+		if(this.enabled){
+			if(!this.mapInteraction.isStatusMap()) return;
+			this.mapInteraction.addChildNode();
+		}
+	}.bind(this));
+
+	// Add new sibling node
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + "n", function(){
+		if(this.enabled){
+			if(!this.mapInteraction.isStatusMap()) return;
+			this.mapInteraction.addSiblingNode();
+		}
+	}.bind(this));
+
 	// Add Link
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"l", function(){
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"l", function(){
 		if(this.enabled){
 			if(this.mapInteraction.isEditingNode()) return;
 
@@ -250,90 +372,18 @@ Keyboard.prototype.initializeKeyboard = function() {
 		}
 	}.bind(this));
 
-	// Add new child node
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"n", function(){
-		if(this.enabled){
-			if(!this.mapInteraction.isStatusMap()) return;
-			this.mapInteraction.addChildNode();
-		}
-	}.bind(this));
-
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "1", function(){
-		if(this.enabled){
-			if(!this.mapInteraction.isStatusMap()) return;
-			this.mapInteraction.addChildNode(knalledge.KNode.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_QUESTION);
-		}
-	}.bind(this));
-
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "2", function(){
-		if(this.enabled){
-			if(!this.mapInteraction.isStatusMap()) return;
-			this.mapInteraction.addChildNode(knalledge.KNode.TYPE_IBIS_IDEA, knalledge.KEdge.TYPE_IBIS_IDEA);
-		}
-	}.bind(this));
-
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "3", function(){
-		if(this.enabled){
-			if(!this.mapInteraction.isStatusMap()) return;
-			this.mapInteraction.addChildNode(knalledge.KNode.TYPE_IBIS_ARGUMENT, knalledge.KEdge.TYPE_IBIS_ARGUMENT);
-		}
-	}.bind(this));
-
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "4", function(){
-		if(this.enabled){
-			if(!this.mapInteraction.isStatusMap()) return;
-			this.mapInteraction.addChildNode(knalledge.KNode.TYPE_IBIS_COMMENT, knalledge.KEdge.TYPE_IBIS_COMMENT);
-		}
-	}.bind(this));
-
-	// Add new sibling node
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + "n", function(){
-		if(this.enabled){
-			if(!this.mapInteraction.isStatusMap()) return;
-			this.mapInteraction.addSiblingNode();
-		}
-	}.bind(this));
-
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "1", function(){
-		if(this.enabled){
-			if(!this.mapInteraction.isStatusMap()) return;
-			this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_QUESTION, knalledge.KEdge.TYPE_IBIS_QUESTION);
-		}
-	}.bind(this));
-
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "2", function(){
-		if(this.enabled){
-			if(!this.mapInteraction.isStatusMap()) return;
-			this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_IDEA, knalledge.KEdge.TYPE_IBIS_IDEA);
-		}
-	}.bind(this));
-
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "3", function(){
-		if(this.enabled){
-			if(!this.mapInteraction.isStatusMap()) return;
-			this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_ARGUMENT, knalledge.KEdge.TYPE_IBIS_ARGUMENT);
-		}
-	}.bind(this));
-
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"shift" + this.keyboardSequenceKey + this.keyboardSequenceKeyCommand + this.keyboardSequenceKey + "4", function(){
-		if(this.enabled){
-			if(!this.mapInteraction.isStatusMap()) return;
-			this.mapInteraction.addSiblingNode(knalledge.KNode.TYPE_IBIS_COMMENT, knalledge.KEdge.TYPE_IBIS_COMMENT);
-		}
-	}.bind(this));
-
 	// Relinks the node:
 	// PreAction: select the node to relink
 	// PostAction: select new parent node
 	//TODO: this UI will not work when we will have more parents of node!
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"k", function(){
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"k", function(){
 		if(this.enabled){
 			this.mapInteraction.relinkNode();
 		}
 	}.bind(this));
 
 	// Delete node:
-	this.keyboardLib[this.keyboardCommand](Keyboard.KEY_PREFIX+"delete", function(){
+	this.registerKey('cf.map', Keyboard.KEY_PREFIX+"delete", function(){
 		if(this.enabled){
 			console.log("ctrl" + this.keyboardSequenceKey + "delete");
 			if(this.mapInteraction.isEditingNode()) return; // in typing mode
@@ -353,20 +403,5 @@ Keyboard.prototype.initializeKeyboard = function() {
 		}
 	}
 };
-
-Keyboard.prototype.enable = function(){
-	this.enabled = true;
-};
-
-Keyboard.prototype.disable = function(){
-	this.enabled = false;
-};
-
-Keyboard.prototype.registerKey = function(key, event, callback){
-	this.keyboardLib[this.keyboardCommand](key, function(){
-		if(typeof callback === 'function') callback();
-	}.bind(this));
-};
-
 
 }()); // end of 'use strict';

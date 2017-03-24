@@ -500,6 +500,13 @@ Or, if you don't want/need a background service you can just run:
 To start it in background (forked)
 `mongod --fork --config /etc/mongod.conf`
 
+Linux
+```sh
+sudo service mongod stop
+sudo service mongod start
+sudo service mongod restart
+```
+
 After that you need to restart all services listening to it
 ```sh
 restart knalledge-b
