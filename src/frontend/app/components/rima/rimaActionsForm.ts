@@ -17,15 +17,16 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
-    selector: 'rima-actions-form',
-    providers: [
-        //MATERIAL_PROVIDERS
-    ],
-    moduleId: module.id,
-    templateUrl: 'partials/rima-actions-form.tpl.html',
-    styles: [`
-    `]
+		selector: 'rima-actions-form',
+		providers: [
+				//MATERIAL_PROVIDERS
+		],
+		moduleId: module.id,
+		templateUrl: 'partials/rima-actions-form.tpl.html',
+		styles: [`
+		`]
 })
+
 export class RimaActionsForm implements OnInit {
   public kNodesTypes:Array<any> = [];
 

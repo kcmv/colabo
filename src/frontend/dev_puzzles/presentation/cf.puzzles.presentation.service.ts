@@ -394,8 +394,8 @@ export class CfPuzzlesPresentationServices {
     }
 
     // get all nodes that belongs to presentation
-    getSlides(){
-      let slides = [];
+    getSlideNodes(){
+      let slideNodes = [];
       if(this.mapStructure){
         let presentationNode = this._getPresentationNode();
         if(presentationNode){
@@ -403,11 +403,11 @@ export class CfPuzzlesPresentationServices {
           vkEdges.sort(this._sortEdgesByWeight);
           for(let i=0; i<vkEdges.length; i++){
             let vkEdge = vkEdges[i];
-            slides.push(this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId));
+            slideNodes.push(this.mapStructure.getVKNodeByKId(vkEdge.kEdge.targetId));
           }
         }
       }
-      return slides;
+      return slideNodes;
     }
 
     // adds currently selected node to presentation
@@ -442,12 +442,12 @@ export class CfPuzzlesPresentationServices {
       // var slides = $("<div class='slides'></div>");
       // $('.presentation-display').append(slides);
       // presentation.append(slides);
-      var slides = $('.presentation-display .slides');
-      slides.empty();
+      var slidesHtml = $('.presentation-display .slides');
+      slidesHtml.empty();
 
       if(callback){
         window.setTimeout(function(){
-          callback(slides);
+          callback(slidesHtml);
         }, 500);
       }
     }
@@ -502,10 +502,10 @@ export class CfPuzzlesPresentationServices {
 
     // generates slides ready for Reveal.js to present them
     generatePresentationSlides(slidesDom, callback){
-      var slides = this.getSlides();
+      var slideNodes = this.getSlideNodes();
 
-      for(var sI=0; sI<slides.length; sI++){
-        var slide = slides[sI];
+      for(var sI=0; sI<slideNodes.length; sI++){
+        var slideVKNode = slideNodes[sI];
 
         // slide 1
         // each slide is contained in section
@@ -532,10 +532,10 @@ export class CfPuzzlesPresentationServices {
 
         // TODO: we need to add node embeded photo
         var slideContent =
-          "# " + slide.kNode.name + "\r\n\r\n";
-        if(slide.kNode.dataContent && slide.kNode.dataContent.property &&
-          slide.kNode.dataContent.propertyType === 'text/markdown'){
-          slideContent += slide.kNode.dataContent.property;
+          "# " + slideVKNode.kNode.name + "\r\n\r\n";
+        if(slideVKNode.kNode.dataContent && slideVKNode.kNode.dataContent.property &&
+          slideVKNode.kNode.dataContent.propertyType === 'text/markdown'){
+          slideContent += slideVKNode.kNode.dataContent.property;
         }
         // vkNode.kNode.dataContent.propertyType
 
@@ -545,6 +545,37 @@ export class CfPuzzlesPresentationServices {
       if(callback){
         window.setTimeout(callback, 500);
       }
+    }
+
+    // generates slides ready to present as an visual document
+    getPresentationSlidesAsMarkdown(){
+      var slidesMarkdown = [];
+      var slideNodes = this.getSlideNodes();
+
+      for(var sI=0; sI<slideNodes.length; sI++){
+        var slideVKNode = slideNodes[sI];
+        // TODO
+        // treat this properly
+        // (like, horizontal replace with '<hr/>' etc)
+
+        // section.attr('data-separator-vertical', DATA_SEPARATOR_VERTICAL);
+        // section.attr('data-separator', DATA_SEPARATOR_HORIZONTAL);
+        // section.attr('data-separator-notes', DATA_SEPARATOR_NOTES);
+
+        // TODO: we need to add node embeded photo
+        var slideContent =
+          "# " + slideVKNode.kNode.name + "\r\n\r\n";
+        if(slideVKNode.kNode.dataContent && slideVKNode.kNode.dataContent.property &&
+          slideVKNode.kNode.dataContent.propertyType === 'text/markdown'){
+          slideContent += slideVKNode.kNode.dataContent.property;
+        }else{
+          slideContent += "Content is not available or not markdown";
+        }
+
+        slidesMarkdown.push(slideContent);
+      }
+
+      return slidesMarkdown;
     }
 
     slideMoveUp (callback?){
@@ -627,8 +658,8 @@ export class CfPuzzlesPresentationServices {
 
     // generate presentation from slides inside the presentation
     generatePresentation(callback){
-      this.generatePresentationHolder(function(slides){
-        this.generatePresentationSlides(slides, function(){
+      this.generatePresentationHolder(function(slidesHtml){
+        this.generatePresentationSlides(slidesHtml, function(){
           this.updateReveal(function(){
             if(callback) callback();
           }.bind(this));
@@ -776,7 +807,7 @@ export class CfPuzzlesPresentationServices {
 
     // returns indexh position
     getSlidePositionForSlideNode(positionedSlideNode):number{
-      let slides = this.getSlides();
+      let slides = this.getSlideNodes();
       let positionedSlideId = 0;
       // returns total cumulative position
       // var re = new RegExp('('+DATA_SEPARATOR_HORIZONTAL+'|'+DATA_SEPARATOR_VERTICAL+')', "g");
@@ -800,7 +831,7 @@ export class CfPuzzlesPresentationServices {
 
     // gets indexh as input
     getNodeFromSlidePosition(positionedSlideId){
-      let slides = this.getSlides();
+      let slides = this.getSlideNodes();
       // slide id of the node that is currently processed
       let processingSlideStartingSlideId = 0;
       // returns total cumulative position

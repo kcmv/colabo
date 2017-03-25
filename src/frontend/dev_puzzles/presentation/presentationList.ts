@@ -23,6 +23,7 @@ export class PresentationList implements OnInit, OnDestroy {
   private policyConfig:any;
   private changeSelectedNodeEvent: string = "changeSelectedNodeEvent";
   private selectedNodeChangedEvent: string = "selectedNodeChangedEvent";
+  private mediaShowContentEventName : string = "mediaShowContentEventName";
 
   constructor(
     private service:CfPuzzlesPresentationServices,
@@ -38,6 +39,8 @@ export class PresentationList implements OnInit, OnDestroy {
       this.globalEmitterServicesArray.register(this.selectedNodeChangedEvent);
     	this.globalEmitterServicesArray.get(this.selectedNodeChangedEvent).subscribe(
        'cf.puzzles.presentation.PresentationList', this.selectPotentialSlide.bind(this));
+
+      this.globalEmitterServicesArray.register(this.mediaShowContentEventName);
   }
 
   ngOnInit() {
@@ -68,7 +71,7 @@ export class PresentationList implements OnInit, OnDestroy {
   }
 
   getSlides(){
-    return this.service.getSlides();
+    return this.service.getSlideNodes();
   }
 
   addSlide(){
@@ -99,6 +102,13 @@ export class PresentationList implements OnInit, OnDestroy {
 
   slideMoveDown (){
     this.service.slideMoveDown();
+  }
+
+  showPresentationFlatContent(){
+    var slidesMarkdown = this.service.getPresentationSlidesAsMarkdown();
+    slidesMarkdown = "Hello!";
+    this.globalEmitterServicesArray.get(this.mediaShowContentEventName)
+      .broadcast('PresentationList', slidesMarkdown, 'text/html');
   }
 
   showPresentation(){

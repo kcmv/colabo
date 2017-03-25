@@ -10,6 +10,9 @@
 		<button md-mini-fab md-tooltip="Show Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="Show Presentation" (click)="showPresentationFromCurrentSlide()" *ngIf="isPresentationAvailable()">
 				<md-icon class="md-24" title="Show Presentation">play_circle_outline</md-icon>
 		</button>
+		<button md-mini-fab md-tooltip="Show Presentation Flat" tooltip-position="below" class="md-mini md-primary" aria-label="Show Presentation Flat" (click)="showPresentationFlatContent()" *ngIf="isPresentationAvailable()">
+				<md-icon class="md-24" title="Show Presentation Flat">featured_play_list</md-icon>
+		</button>
 		<button md-mini-fab md-tooltip="Add Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Add Slide" (click)="addSlide()" *ngIf="isPresentationAvailable() && selectedItem() && !isSelectedItemInSlides()">
 				<md-icon class="md-24" title="Add Slide">add</md-icon>
 		</button>
