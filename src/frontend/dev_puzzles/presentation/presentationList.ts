@@ -106,9 +106,16 @@ export class PresentationList implements OnInit, OnDestroy {
 
   showPresentationFlatContent(){
     var slidesMarkdown = this.service.getPresentationSlidesAsMarkdown();
-    slidesMarkdown = "Hello!";
+    var slidesContent = "";
+    for(var sI=0; sI<slidesMarkdown.length; sI++){
+      slidesContent += slidesMarkdown[sI] + "\r\n---------------------------------\r\n";
+    }
+
     this.globalEmitterServicesArray.get(this.mediaShowContentEventName)
-      .broadcast('PresentationList', slidesMarkdown, 'text/html');
+      .broadcast('PresentationList', {
+      content: slidesContent,
+      type: 'text/markdown'
+      });
   }
 
   showPresentation(){

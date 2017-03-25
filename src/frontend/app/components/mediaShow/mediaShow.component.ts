@@ -32,6 +32,7 @@ export class MediaShowComponent implements AfterViewInit {
     showCallback: Function;
     vkNode;
     mediaContent : string = null;
+    mediaType : string = null;
     mediaImageUrl : string = null;
     // https://angular.io/docs/ts/latest/cookbook/component-communication.html#!#child-to-parent
     @ViewChild(MdDialog) private mediaShowDialog: MdDialog;
@@ -50,8 +51,8 @@ export class MediaShowComponent implements AfterViewInit {
         this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('MediaShowComponent', function(vkNode) {
             this.show(vkNode);
         }.bind(this));
-        this.globalEmitterServicesArray.get(mediaShowContentEventName).subscribe('MediaShowComponent', function(content, type) {
-            this.showContent(content, type);
+        this.globalEmitterServicesArray.get(mediaShowContentEventName).subscribe('MediaShowComponent', function(contentObj) {
+            this.showContent(contentObj);
         }.bind(this));
     };
 
@@ -59,6 +60,7 @@ export class MediaShowComponent implements AfterViewInit {
     }
 
     clear() {
+      this.mediaType = null;
       this.mediaTitle = null;
       this.mediaContent = null;
       this.mediaImageUrl = null;
@@ -76,13 +78,17 @@ export class MediaShowComponent implements AfterViewInit {
       this.mediaShowDialog.show();
     }
 
-    showContent(content, type) {
+    showContent(contentObj) {
       this.clear();
-      console.log("[media-show] showing media content for the type: ", type);
+      console.log("[media-show] showing media content for the type: ", contentObj.type);
       this.mediaTitle = "Presentation";
-      switch(type){
+      this.mediaType = contentObj.type;
+      switch(contentObj.type){
         case 'text/html':
-          this.mediaContent = content;
+          this.mediaContent = contentObj.content;
+          break;
+        case 'text/markdown':
+          this.mediaContent = contentObj.content;
           break;
       }
       this.mediaShowDialog.show();

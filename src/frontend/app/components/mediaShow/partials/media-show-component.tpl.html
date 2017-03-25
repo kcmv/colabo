@@ -3,7 +3,8 @@
         <md-dialog-title>{{mediaTitle}}</md-dialog-title>
         <div layout="column" style="width:90%">
             <img *ngIf="mediaImageUrl" [attr.src]="mediaImageUrl" width="100%" (click)="mediaShowDialog.close(false)" [attr.alt]="mediaTitle"/>
-            <div *ngIf="mediaContent" [innerHTML]="mediaContent"></div>
+            <div *ngIf="mediaType === 'text/html'" [innerHTML]="mediaContent"></div>
+            <textarea *ngIf="mediaType === 'text/markdown'">{{mediaContent}}</textarea>
         </div>
 
         <md-dialog-actions>
