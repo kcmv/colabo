@@ -31,6 +31,8 @@ export class MediaShowComponent implements AfterViewInit {
     mediaTitle: string = "Media Show";
     showCallback: Function;
     vkNode;
+    mediaContent : string = null;
+    mediaImageUrl : string = null;
     // https://angular.io/docs/ts/latest/cookbook/component-communication.html#!#child-to-parent
     @ViewChild(MdDialog) private mediaShowDialog: MdDialog;
 
@@ -41,24 +43,51 @@ export class MediaShowComponent implements AfterViewInit {
         console.log('[MediaShowComponent]');
 
         var nodeMediaClickedEventName = "nodeMediaClickedEvent";
+        var mediaShowContentEventName = "mediaShowContentEventName";
         this.globalEmitterServicesArray.register(nodeMediaClickedEventName);
+        this.globalEmitterServicesArray.register(mediaShowContentEventName);
 
-        this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('knalledgeMap.Main', function(vkNode) {
+        this.globalEmitterServicesArray.get(nodeMediaClickedEventName).subscribe('MediaShowComponent', function(vkNode) {
             this.show(vkNode);
+        }.bind(this));
+        this.globalEmitterServicesArray.get(mediaShowContentEventName).subscribe('MediaShowComponent', function(content, type) {
+            this.showContent(content, type);
         }.bind(this));
     };
 
     ngAfterViewInit() {
     }
 
+    clear() {
+      this.mediaTitle = null;
+      this.mediaContent = null;
+      this.mediaImageUrl = null;
+      this.vkNode = null;
+    }
+
     show(vkNode) {
-        this.vkNode = vkNode;
-        console.log("[media-show] media showing for node: ", vkNode.kNode.name);
-        this.mediaTitle = vkNode.kNode.name;
-        this.mediaShowDialog.show();
+      this.clear();
+      this.vkNode = vkNode;
+      if(!this.vkNode) return;
+
+      console.log("[media-show] media showing for node: ", vkNode.kNode.name);
+      this.mediaTitle = vkNode.kNode.name;
+      this.mediaImageUrl = vkNode.kNode.dataContent.image.url;
+      this.mediaShowDialog.show();
+    }
+
+    showContent(content, type) {
+      this.clear();
+      console.log("[media-show] showing media content for the type: ", type);
+      this.mediaTitle = "Presentation";
+      switch(type){
+        case 'text/html':
+          this.mediaContent = content;
+          break;
+      }
+      this.mediaShowDialog.show();
     }
 
     onMediaShowCloseClicked() {
-
     }
 }
