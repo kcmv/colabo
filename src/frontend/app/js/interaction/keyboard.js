@@ -85,7 +85,7 @@ Keyboard.prototype.initializeKeyboard = function() {
 	}
 	*/
 	this.contextualizedHandlers = {
-		cf.map: {
+		'cf.map': {
 			name: 'cf.map',
 			handlers: []
 		}
@@ -135,7 +135,15 @@ Keyboard.prototype.initializeKeyboard = function() {
 			key: key,
 			callback: callback
 		};
-		this.contextualizedHandlers[context].push(handler);
+
+		if(!(context in this.contextualizedHandlers)){
+			this.contextualizedHandlers[context] =
+			{
+				name: context,
+				handlers: []
+			};
+		}
+		this.contextualizedHandlers[context].handlers.push(handler);
 
 		if(context == '*' || context == '' || context === this.currentContext){
 			this.activateHandler(handler);

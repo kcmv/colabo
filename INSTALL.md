@@ -195,7 +195,7 @@ sudo npm install -g typescript
 # sudo npm install ts-node -g
 # sudo npm install typescript-node -g
 # sudo npm install node-gyp -g
-npm install -g bower
+sudo npm install -g bower
 sudo npm install marked -g
 
 # it could be necessary to do the following as well
