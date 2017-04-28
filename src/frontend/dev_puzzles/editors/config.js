@@ -43,7 +43,8 @@ var puzzles = {
 
       injectCss: [
         'css/default.css',
-        'css/textAngular/textAngular.css'
+        'css/textAngular/textAngular.css',
+        'css/academic_writing.css'
       ]
     },
     mediumEditor: {
