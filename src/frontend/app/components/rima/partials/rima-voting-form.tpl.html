@@ -4,7 +4,7 @@
         rima_voting_up_background:
           (votes.up + votes.down > 0),
         rima_voting_down_background: (votes.up + votes.down < 0)
-      }">Votes: {{votes.up + votes.down}}</span>
+      }">Votes sum: {{votes.up + votes.down}}</span>
       (
       <span class="up">
         <span class="">
@@ -19,6 +19,9 @@
         {{votes.down}}
       </span>
         )
+    </div>
+    <div class="small">
+      Voters num: {{votes.users.length}}
     </div>
     <div *ngFor="let vote of votes.users" [ngSwitch]="vote.score != 0">
     <template [ngSwitchCase]="true">
