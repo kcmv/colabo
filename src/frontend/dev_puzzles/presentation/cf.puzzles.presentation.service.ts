@@ -196,11 +196,24 @@ export class CfPuzzlesPresentationServices {
 
     // get node that holds 'default' presentation (note, there might be many of them but currently we are supporting only one)
     _getPresentationNode(){
-      let presentationNode;
+      let presentationNodes, presentationNode, activePresentationNode, sumMax = -1;
       if(this.mapStructure){
-        presentationNode = this.mapStructure.getVKNodeByType(PRESENTATION_NODE_TYPE);
+        presentationNodes = this.mapStructure.getVKNodesByType(PRESENTATION_NODE_TYPE);
+        for(var pI=0; pI<presentationNodes.length; pI++){
+          presentationNode = presentationNodes[pI];
+          var sum = 0;
+          if(presentationNode.kNode.dataContent && presentationNode.kNode.dataContent.ibis && presentationNode.kNode.dataContent.ibis.votes){
+            for(var vote in presentationNode.kNode.dataContent.ibis.votes){
+              sum+=presentationNode.kNode.dataContent.ibis.votes[vote];
+            }
+          }
+          if(sum > sumMax){
+            activePresentationNode = presentationNode;
+            sumMax = sum;
+          }
+        }
       }
-      return presentationNode;
+      return activePresentationNode;
     }
 
     // is node in the currently selected presentation
@@ -567,7 +580,16 @@ export class CfPuzzlesPresentationServices {
           "# " + slideVKNode.kNode.name + "\r\n\r\n";
         if(slideVKNode.kNode.dataContent && slideVKNode.kNode.dataContent.property &&
           slideVKNode.kNode.dataContent.propertyType === 'text/markdown'){
-          slideContent += slideVKNode.kNode.dataContent.property;
+          var innerContent = slideVKNode.kNode.dataContent.property;
+
+          // indenting inner headings for one level
+          // TODO: we would need to detect if it has space AFTER the last '#'
+          var re = /(\n\s*#)/;
+          innerContent = innerContent.replace(re, '\n ');
+          re = /(\r\s*#)/;
+          innerContent = innerContent.replace(re, '\r ');
+
+          slideContent += innerContent;
         }else{
           slideContent += "Content is not available or not markdown";
         }
