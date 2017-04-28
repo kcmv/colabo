@@ -259,9 +259,11 @@ bower install
 With installing bower packages on OSX you might need xcode, here are some hints what might be happening and how to resolve it:
 
 if you get the error:
+
 ```
 "xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun"
 ```
+
 This is a problem with 'OS X El Capitan', you should run: `xcode-select --install`
 
 More on:
