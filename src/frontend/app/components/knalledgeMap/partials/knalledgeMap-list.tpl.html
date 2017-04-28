@@ -5,9 +5,7 @@ https://css-tricks.com/functional-css-tabs-revisited/
 http://nontroppo.org/test/tab1.html
  -->
 
-<!-- <login-status></login-status> -->
-
- <tabset>
+<tabset>
 
   <!-- PROPERTIES -->
 	<tab select="alertMe()">
@@ -15,7 +13,17 @@ http://nontroppo.org/test/tab1.html
 			<i style="margin:0.2em;" class="fa fa-pencil"></i> Prop.
 		</tab-heading>
 
-	    <div class="heading">
+    <div class="heading">
+
+      <div class="heading">
+        <b>{{nodeContent.node.kNode.name}}</b>
+      </div>
+
+      <div class="back_info">
+        <b>type:</b> {{nodeContent.node.kNode.type}}
+      </div>
+
+      <br/>
 
 			<div rima-whats class="rima-whats" node="nodeContent.node"></div>
 
