@@ -1,4 +1,7 @@
 <!-- main container -->
+<presentation-actions-form></presentation-actions-form>
+<div class="presentation-display reveal" style='display: none;'></div>
+
 <div layout="column" layout-fill *ngIf='policyConfig.running.ng1ng2Ready'>
     <!-- content -->
     <!-- toolbar -->
@@ -188,8 +191,6 @@
     </md-sidenav-layout>
     <brainstorming-form></brainstorming-form>
     <coevoludens-trendspyramid></coevoludens-trendspyramid>
-    <div class="presentation-display reveal" style='display: none;'></div>
-    <presentation-actions-form></presentation-actions-form>
     <session-form></session-form>
     <media-show style="width:90%"></media-show>
     <user-dialog></user-dialog>
