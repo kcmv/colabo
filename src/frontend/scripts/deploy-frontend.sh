@@ -3,7 +3,7 @@
 timestamp=`(date +'%Y.%m.%d-%H.%M')`
 #timestamp='2016.07.07-04.48'
 # cd frontend
-deploy_folder_base="/var/www/knalledge_frontend"
+deploy_folder_base="/var/www/colabo/framework"
 
 echo "[deploy] deploying started"
 

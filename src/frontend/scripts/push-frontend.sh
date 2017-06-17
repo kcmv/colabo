@@ -2,7 +2,7 @@
 
 # Setting up paremeters
 #http://linux.die.net/man/1/date
-deploy_folder_base="/var/www/knalledge_frontend"
+deploy_folder_base="/var/www/colabo/framework"
 deploy_folder_sub="prod"
 
 echo "[push] Command: $0"
