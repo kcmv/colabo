@@ -3,22 +3,22 @@ echo "[push:$deploy_folder_sub] zip name: $zipname"
 echo "[push:$deploy_folder_sub] remote_zip_path: $remote_zip_path"
 
 # http://www.gabrielserafini.com/blog/2008/08/19/mac-os-x-voices-for-using-with-the-say-command/
-say -v Whisper "provide password!"&
+say -v Whisper "provide password"&
 
 local_zip_path=$zipname
 # http://unix.stackexchange.com/questions/105667/upload-file-to-ftp-server-using-commands-in-shell-script
 # http://stackoverflow.com/questions/11744547/sftp-to-send-file-with-bash-script
 # http://stackoverflow.com/questions/4937792/using-variables-inside-a-bash-heredoc
 # sftp
-# sftp -v -oIdentityFile=path "$user@knalledge.org" <<EOF
+# sftp -v -oIdentityFile=path "$user@colabo.space" <<EOF
 echo "[push:$deploy_folder_sub] SFTP login as $user"
-sftp -v "$user@knalledge.org" <<EOF
+sftp -v "$user@colabo.space" <<EOF
 put $local_zip_path $remote_zip_path
 EOF
 
-say -v Whisper "project uploaded! provide password!"&
+say -v Whisper "project uploaded! provide password"&
 echo "[push:$deploy_folder_sub] Terminal login as $user"
-ssh -v "$user@knalledge.org" <<EOF
+ssh -v "$user@colabo.space" <<EOF
 cd $deploy_folder_base/$deploy_folder_sub
 rm -f ../done.txt
 rm -rf components/ css/ data/ dist/ fonts/ img/ images/ js/ sass/ index.html
@@ -39,4 +39,4 @@ EOF
 
 echo "[push:$deploy_folder_sub] pushing to server finished. Pushed file: $zipname"
 
-say -v Whisper "I finished deploying oh master!"&
+say -v Whisper "I finished deploying oh master"&

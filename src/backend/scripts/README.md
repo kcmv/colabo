@@ -19,7 +19,7 @@ on **production** server run
 ```
 after this, you will be informed that you have to execute the following commands on your own:
 ```
-ssh mprinc@knalledge.org
+ssh mprinc@colabo.space
 su
 restart knalledge-b
 exit
@@ -32,7 +32,7 @@ and on **beta** server run
 ```
 after this, you will be informed that you have to execute the following commands on your own:
 ```
-ssh mprinc@knalledge.org
+ssh mprinc@colabo.space
 su
 restart knalledge-b-beta
 exit

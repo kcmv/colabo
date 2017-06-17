@@ -1,11 +1,11 @@
 # <span style='font-weight:bold'><span style='color: #550000'>Collabo</span><span style='color: #bb0000'>Framework</span>
 ## (<span style='color: #550000'>Collabo</span><span style='color: #8888ff;'>Science</span> + <span style='color: #550000'>Collabo</span><span style='color: #bb0000'>Arte</span>)</span>
 
-[Register for the BunB'16 workshop](http://knalledge.org/prod/#/register/route/whoAmI___0route___0map___1id___15732ba0d051e2f6f47c6558f___1route___1http%3A___2___2knalledge.org___2bunb-registered.html)
+[Register for the BunB'16 workshop](http://colabo.space/prod/#/register/route/whoAmI___0route___0map___1id___15732ba0d051e2f6f47c6558f___1route___1http%3A___2___2colabo.space___2bunb-registered.html)
 
-[BunB'16 Map with login](http://knalledge.org/prod/#/login/route/map___0id___05732ba0d051e2f6f47c6558f)
+[BunB'16 Map with login](http://colabo.space/prod/#/login/route/map___0id___05732ba0d051e2f6f47c6558f)
 
-[BunB'16 Map](http://knalledge.org/prod/#/map/id/5732ba0d051e2f6f47c6558f)
+[BunB'16 Map](http://colabo.space/prod/#/map/id/5732ba0d051e2f6f47c6558f)
 
 
 ![BunB'16 logo](../../../documents/images/BunB2015data-science-300x290.jpg)
@@ -26,7 +26,7 @@ The outcome of the workshop will be used in the ***post-event period*** which wi
 
 In order to fully participate in the workshop, you need to ***register*** in CollaboFramework and ***describe*** yourself through your interests in order to help the system to match your expertises and interests with other participants and integrate you with knowledge gardening process.
 
-[Register for the BunB'16 workshop](http://knalledge.org/prod/#/register/route/whoAmI___0route___0map___1id___15732ba0d051e2f6f47c6558f___1route___1http%3A___2___2knalledge.org___2bunb-registered.html)
+[Register for the BunB'16 workshop](http://colabo.space/prod/#/register/route/whoAmI___0route___0map___1id___15732ba0d051e2f6f47c6558f___1route___1http%3A___2___2colabo.space___2bunb-registered.html)
 
 -----
 

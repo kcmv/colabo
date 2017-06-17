@@ -96,7 +96,7 @@ export class RimaUsersList implements OnInit{
     public selectedItem:any = null;
     public assignedE_mail:boolean = true;
     public newParticipant = new knalledge.WhoAmI();
-    public automaticEmailDomain:string = "knalledge.org";
+    public automaticEmailDomain:string = "colabo.space";
 
     //This is a temporary workaround while we await a proper form reset feature https://angular.io/docs/ts/latest/guide/forms.html:
     public active_addParticipantToMapForm: boolean = true;

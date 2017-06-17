@@ -12,14 +12,14 @@ local_zip_path=$zipname
 # http://stackoverflow.com/questions/11744547/sftp-to-send-file-with-bash-script
 # http://stackoverflow.com/questions/4937792/using-variables-inside-a-bash-heredoc
 # sftp
-# sftp -v -oIdentityFile=path "$user@knalledge.org" <<EOF
-sftp -v "$user@knalledge.org" <<EOF
+# sftp -v -oIdentityFile=path "$user@colabo.space" <<EOF
+sftp -v "$user@colabo.space" <<EOF
 put $local_zip_path $remote_zip_path
 EOF
 
 say -v Whisper "project uploaded! provide password!"&
 if [ $new_packages -eq 0 ];  then
-    ssh -v "$user@knalledge.org" <<EOF
+    ssh -v "$user@colabo.space" <<EOF
     cd $deploy_folder_base/$deploy_folder_sub
     unzip $remote_zip_path
 
@@ -48,7 +48,7 @@ cat <<EOF
 For TESTING: need to execute this commands on your own:
 
 # Login
-ssh mprinc@knalledge.org
+ssh mprinc@colabo.space
 
 # now switch to the root user
 su
@@ -72,7 +72,7 @@ exit
 
 You need to execute this commands on your own:
 ======
-ssh mprinc@knalledge.org
+ssh mprinc@colabo.space
 su
 restart knalledge-b
 exit
@@ -84,7 +84,7 @@ cat <<EOF
 For TESTING: need to execute this commands on your own:
 
 # Login
-ssh mprinc@knalledge.org
+ssh mprinc@colabo.space
 
 # now switch to the root user
 su
@@ -108,7 +108,7 @@ exit
 
 You need to execute this commands on your own:
 ======
-ssh mprinc@knalledge.org
+ssh mprinc@colabo.space
 su
 restart knalledge-b-beta
 exit

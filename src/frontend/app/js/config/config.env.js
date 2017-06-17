@@ -5,27 +5,27 @@
 var envs = {
 	// "server_prod": {
 	// 	"server": {
-	// 		"frontend": "http://knalledge.org/prod",
-	// 		"backend": "http://knalledge.org:8888",
-	// 		"topichat": "http://knalledge.org:8060",
+	// 		"frontend": "http://colabo.space/prod",
+	// 		"backend": "http://colabo.space:8888",
+	// 		"topichat": "http://colabo.space:8060",
 	// 		"parseResponse": true,
 	// 		"jsonPrefixed": ")]}',\n"
 	// 	},
 	// },
 	"server_prod": {
 		"server": {
-			"frontend": "http://knalledge.org/prod",
-			"backend": "http://api.knalledge.org",
-			"topichat": "http://topichat.knalledge.org",
+			"frontend": "http://colabo.space/prod",
+			"backend": "http://api.colabo.space",
+			"topichat": "http://topichat.colabo.space",
 			"parseResponse": true,
 			"jsonPrefixed": ")]}',\n"
 		},
 	},
 	"server_beta": {
 		"server": {
-			"frontend": "http://knalledge.org/beta",
-			"backend": "http://api.knalledge.org",
-			"topichat": "http://topichat.knalledge.org",
+			"frontend": "http://colabo.space/beta",
+			"backend": "http://api.colabo.space",
+			"topichat": "http://topichat.colabo.space",
 			"parseResponse": true,
 			"jsonPrefixed": ")]}',\n"
 		},
@@ -42,9 +42,9 @@ var envs = {
 	},
 	"forking": {
 		"server": {
-			"frontend": "http://_www.knalledge.org:8088/app",
-			"backend": "http://_api.knalledge.org:8088",
-			"topichat": "http://_topichat.knalledge.org:8088",
+			"frontend": "http://_www.colabo.space:8088/app",
+			"backend": "http://_api.colabo.space:8088",
+			"topichat": "http://_topichat.colabo.space:8088",
 			"parseResponse": true,
 			"jsonPrefixed": ")]}',\n"
 		},

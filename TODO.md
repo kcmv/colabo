@@ -12,6 +12,10 @@ Sasa Rudan: mada za sada mislim da nemamo RIMA poziv ka serveru koji prima listu
 
 # MISC
 
++ export
+  + to PDF
+    + http://pdfkit.org/docs/images.html
+    + https://parall.ax/products/jspdf
 + conflict
   if we both are presenters
 + editor
@@ -177,9 +181,3 @@ Open Innovation
 Structured Democratic Dialogue
 
 Demonstration
-
-
-INF9120
-Model Based System Development
-Spring 2015: Pass
-10

@@ -5,9 +5,10 @@
 Production backend server is manged through service script at: `/etc/init/knalledge-b.conf`.
 
 Beta backend server is manged through service script at: `/etc/init/knalledge-b-beta.conf`.
+
 ## Procedure
 
-Follow instructions in the src/backend/scripts/README.md
+Follow instructions in the ***`src/backend/scripts/README.md`***
 
 #### Compress on the local machine
 
@@ -29,7 +30,7 @@ open .
 + load with a SFTP client and upload the prod zip to a temp folder or `/var/www/knalledge/src/backend/`
 
 ```sh
-ssh mprinc@knalledge.org
+ssh mprinc@colabo.space
 ```
 
 If there is a new module required you need to install them and backup node_modules folders:
@@ -83,6 +84,9 @@ exit
 ```
 
 ### Production deployment
+
+Follow instructions in the ***`src/frontend/scripts/README.md`***
+
 There are two groups of actions to be done. First on local machine, then on the server
 
 #### Build system on the local machine:
@@ -107,7 +111,7 @@ Start a SFTP client and upload the zip file to a production folder on server:
 Login to the server and unpack CF system and configure it:
 
 ```sh
-ssh mprinc@knalledge.org
+ssh mprinc@colabo.space
 cd /var/www/knalledge_frontend/prod
 rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
 unzip prod-frontend-2016.07.06-2.zip
@@ -174,7 +178,7 @@ Start a SFTP client and upload the zip file to a production folder on server:  `
 Login to the server and unpack CF system and configure it:
 
 ```sh
-ssh mprinc@knalledge.org
+ssh mprinc@colabo.space
 cd /var/www/knalledge_frontend/prod
 rm -rf components/ css/ data/ dist/ fonts/ images/ js/ sass/
 unzip prod-frontend-2016.07.06-2.zip

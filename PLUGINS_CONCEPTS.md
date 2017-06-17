@@ -6,7 +6,7 @@ KnAllEdge is aiming with to fulfill the following paradigm:
 
 <div style='border: 1px solid gray; padding: 5px; margin: 5%'>
 
-[__<span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span>__ system](http://www.knalledge.org) is a general agnostic knowledge layer, that can serve as a separate knowledge-mapping service, but it is mostly user as an underlying layer for the  [__<span style='color: gray; font-style: italic;'>ColLabo</span><span
+[__<span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span>__ system](http://cf.colabo.space) is a general agnostic knowledge layer, that can serve as a separate knowledge-mapping service, but it is mostly user as an underlying layer for the  [__<span style='color: gray; font-style: italic;'>ColLabo</span><span
  style='color: black'>Framework</span>__ ecosystem](http://www.collaboscience.com).
 </div>
 

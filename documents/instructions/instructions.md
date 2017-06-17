@@ -2,7 +2,7 @@
 
 ## Introduction
 
-All your practicing with ColaboFramework should happen inside the [ColaboFramework Sandbox map](http://knalledge.org/prod/#/map/id/5761f004b751936843205bc5) (Please, consider [registering](http://knalledge.org/prod/#/register) or [logging](http://knalledge.org/prod/#/login) into the system before continuing) and then continue to the [ColaboFramework Sandbox map](http://knalledge.org/prod/#/map/id/5761f004b751936843205bc5).
+All your practicing with ColaboFramework should happen inside the [ColaboFramework Sandbox map](http://colabo.space/prod/#/map/id/5761f004b751936843205bc5) (Please, consider [registering](http://colabo.space/prod/#/register) or [logging](http://colabo.space/prod/#/login) into the system before continuing) and then continue to the [ColaboFramework Sandbox map](http://colabo.space/prod/#/map/id/5761f004b751936843205bc5).
 
 ## General
 
@@ -115,4 +115,4 @@ ColaboFramework is built to support collaboration. It supports concurent work on
 
 _____
 
-All your practicing with ColaboFramework should happen inside the [ColaboFramework Sandbox map](http://knalledge.org/prod/#/map/id/5761f004b751936843205bc5) (Please, consider [registering](http://knalledge.org/prod/#/register) or [logging](http://knalledge.org/prod/#/login) into the system before continuing) and then continue to the [ColaboFramework Sandbox map](http://knalledge.org/prod/#/map/id/5761f004b751936843205bc5)
+All your practicing with ColaboFramework should happen inside the [ColaboFramework Sandbox map](http://colabo.space/prod/#/map/id/5761f004b751936843205bc5) (Please, consider [registering](http://colabo.space/prod/#/register) or [logging](http://colabo.space/prod/#/login) into the system before continuing) and then continue to the [ColaboFramework Sandbox map](http://colabo.space/prod/#/map/id/5761f004b751936843205bc5)

@@ -292,7 +292,7 @@ cd src/backend/
     # sudo npm cache clean
     # rm -rf node_modules
 
-joe /etc/apache2/sites-enabled/knalledge.org
+joe /etc/apache2/sites-enabled/framework.colabo.space
 # DocumentRoot /var/www/knalledge/src/frontend
 # ->
 # DocumentRoot /var/www/knalledge_frontend
@@ -450,7 +450,7 @@ npm ERR! enoent and is related to npm not being able to find a file.
 npm ERR! enoent
 ```
 
-## Collabo Server
+## Colabo Server
 
 ### users
 
@@ -685,13 +685,13 @@ Install the nginx proxy and:
 + remove default from sites-enabled
 
 ```
-api.knalledge.org
+api.colabo.space
 ```
 # TopiChat
 server {
   listen 80;
   # alias for two subdomains
-  server_name topichat.knalledge.org;
+  server_name topichat.colabo.space;
 
   location / {
     proxy_pass http://localhost:8002;
@@ -702,7 +702,7 @@ server {
 server {
   listen 80;
   # alias for two subdomains
-  server_name api.knalledge.org;
+  server_name api.colabo.space;
 
   location / {
     proxy_pass http://localhost:8001;
@@ -712,7 +712,7 @@ server {
 server {
   listen 80;
   # alias for two subdomains
-  server_name knalledge.org www.knalledge.org;
+  server_name cf.colabo.space framework.colabo.space map.colabo.space;
   # root /var/www/domain1;
 
   location / {
@@ -724,8 +724,8 @@ server {
 ​```sh
 cd /etc/nginx
 rm /sites-available/default
-joe /sites-enabled/knalledge.org
-ln -s  ../sites-available/knalledge.org knalledge.org
+joe /sites-enabled/framework.colabo.space
+ln -s  ../sites-available/framework.colabo.space framework.colabo.space
 # test configuration
 nginx -t
 sudo service nginx restart

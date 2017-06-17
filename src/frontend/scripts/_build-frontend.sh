@@ -15,4 +15,4 @@ zipcommand="zip -r -X $zipname dist/prod"
 # http://stackoverflow.com/questions/4668640/how-to-execute-command-stored-in-a-variable
 eval "$zipcommand"
 echo "[build:$deploy_folder_sub] building finished. zipped into: $zipname."
-say -v Whisper "project is built and zipped!"
+say -v Whisper "project is built and zipped"
