@@ -1,7 +1,7 @@
 # Mac. Condensed steps for Devs
 + create development folder
 + open the terminal and navigate to that folder, then run:
-```sh
++ ```sh
 git clone https://github.com/mprinc/Knalledge
 ``` 
 
