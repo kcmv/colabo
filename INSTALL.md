@@ -5,12 +5,12 @@
 git clone https://github.com/mprinc/Knalledge
 ``` 
 + Install mongodb server
- + we use Brew for its installation, so first:
+	+ we use Brew for its installation, so first:
 ```sh
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 ```
- + then
+	+ then
 ```sh
 brew install mongodb
 ```
