@@ -1,9 +1,29 @@
 # Mac. Condensed steps for Devs
 + create development folder
 + open the terminal and navigate to that folder, then run:
-+ ```sh
+```sh
 git clone https://github.com/mprinc/Knalledge
 ``` 
++ Install mongodb server
+ + we use Brew for its installation, so first:
+```sh
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew update
+```
+ + then
+```sh
+brew install mongodb
+```
++ Install backend
+```sh
+cd c:/data/development/Knalledge/
+cd src/backend
+npm install
+cd modules/topiChat
+npm install
+cd ../topiChat-knalledge
+npm install
+```
 
 # Windows
 
