@@ -16,7 +16,7 @@ brew install mongodb
 ```
 + Install backend
 ```sh
-cd c:/data/development/Knalledge/
+cd /Users/sir/Documents/data/development/Knalledge/ c:/data/development/Knalledge/
 cd src/backend
 npm install
 cd modules/topiChat
@@ -24,6 +24,10 @@ npm install
 cd ../topiChat-knalledge
 npm install
 ```
+# Win. Condensed steps for Devs
++ .....
++ cd c:/data/development/Knalledge/
++ .....
 
 # Windows
 
