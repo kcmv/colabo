@@ -4,6 +4,11 @@
 	```sh 
 	brew install node
 	```
+	+ after this, you can test if you have installed successfully node and containing npm, by running:
+	```sh 
+	node -v
+	npm -v
+	```
 + create development folder
 + open the terminal and navigate to that folder, then run:
 ```sh
