@@ -1,4 +1,8 @@
 # Mac. Condensed steps for Devs
++ Installing Node.JS
+	+ ```sh 
+	brew install node
+	```
 + create development folder
 + open the terminal and navigate to that folder, then run:
 ```sh
