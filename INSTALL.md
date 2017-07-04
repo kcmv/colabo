@@ -39,13 +39,9 @@ npm install
 + install frontend:
 ```sh
 sudo npm install node-gyp -g
-# sudo npm install npm -g
 sudo npm install gulp -g
 sudo npm i typings -g
 sudo npm install -g typescript
-# sudo npm install ts-node -g
-# sudo npm install typescript-node -g
-# sudo npm install node-gyp -g
 sudo npm install -g bower
 sudo npm install marked -g
 
