@@ -1,6 +1,7 @@
 # Mac. Condensed steps for Devs
 + Installing Node.JS
-	+
+	+ https://nodejs.org/en/download/
+	+ instead of
 	```sh 
 	brew install node
 	```
@@ -23,6 +24,7 @@ brew update
 	+ then
 ```sh
 brew install mongodb
+sudo mkdir -p /data/db
 ```
 + Install backend
 ```sh
