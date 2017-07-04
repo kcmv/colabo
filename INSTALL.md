@@ -36,6 +36,25 @@ npm install
 cd ../topiChat-knalledge
 npm install
 ```
++ install frontend:
+```sh
+sudo npm install node-gyp -g
+# sudo npm install npm -g
+sudo npm install gulp -g
+sudo npm i typings -g
+sudo npm install -g typescript
+# sudo npm install ts-node -g
+# sudo npm install typescript-node -g
+# sudo npm install node-gyp -g
+sudo npm install -g bower
+sudo npm install marked -g
+
+# it could be necessary to do the following as well
+cd /usr/local/lib/node_modules
+sudo chmod -R o+rx .
+sudo chmod g+s .
+```
+
 # Win. Condensed steps for Devs
 + .....
 + cd c:/data/development/Knalledge/
