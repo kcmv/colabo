@@ -147,8 +147,6 @@ and do npm install there
 and (re)start the server
 
     npm start
-
-
 ### Run backend server
 
 ```sh
@@ -493,7 +491,7 @@ brew install mongodb
 brew install mongodb --with-openssl
 ```
 
-To have launchd start mongodb now and restart at login: `brew services start mongodb`
+To have launchd start mongodb now and restart it at login: `brew services start mongodb`
 
 Or, if you don't want/need a background service you can just run:
 
@@ -514,7 +512,7 @@ After that you need to restart all services listening to it
 restart knalledge-b
 ```
 
-TODO: we need to make backend smart enough to detect new/restart/crash of the database
+**TODO**: we need to make backend smart enough to detect new/restart/crash of the database
 
 ## Installing SASS support
 
