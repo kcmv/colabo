@@ -20,6 +20,8 @@ var whoAmISchema = mongoose.Schema({
 	language: String,
 	origin: String,
 	status: Number, //TODO: added just here, support through the rest of the system
+	photoUrl: String,
+	bio: String,
 	extensions: {
 		contacts:{}
 	}

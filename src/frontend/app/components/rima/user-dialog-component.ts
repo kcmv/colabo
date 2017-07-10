@@ -7,6 +7,7 @@ import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterService
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 
 declare var knalledge;
+declare var marked;
 
 @Component({
   selector: 'user-dialog',
@@ -54,6 +55,12 @@ export class UserDialogComponent {
     setTimeout(() => this.userFormActive = true, 0.1);
     // if we do: `this.user = user;`, our changes in the form would directly change user prior confirming, i.e. despite canceling.
     this.user = knalledge.WhoAmI.whoAmIFactory(user);
+
+    var markedOptions = {};
+    if (marked.nodeEditor && marked.nodeEditor.renderer)
+      markedOptions.renderer = marked.nodeEditor.renderer;
+    this.user.bioHtml = marked(this.user.bio, markedOptions);
+
     this.forUser = user;
   }
 

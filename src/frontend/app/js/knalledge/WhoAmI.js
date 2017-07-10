@@ -20,6 +20,9 @@ var WhoAmI =  knalledge.WhoAmI = function(){
 	this.locationUpdatedAt = null;
 	this.language = "";
 	this.origin = "";
+	this.photoUrl = "";
+	this.bio = "";
+
 	this.extensions = {
 		contacts: {}
 	};
@@ -79,6 +82,8 @@ WhoAmI.prototype.fill = function(obj){
 		if("locationUpdatedAt" in obj){this.locationUpdatedAt = obj.locationUpdatedAt;}
 		if("language" in obj){this.language = obj.language;}
 		if("origin" in obj){this.origin = obj.origin;}
+		if("photoUrl" in obj){this.photoUrl = obj.photoUrl;}
+		if("bio" in obj){this.bio = obj.bio;}
 		if("extensions" in obj){
 			this.extensions = {}; //TODO: see how to copy this
 			if("contacts" in obj.extensions){

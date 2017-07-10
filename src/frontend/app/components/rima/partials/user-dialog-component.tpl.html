@@ -2,23 +2,30 @@
   <md-dialog #userDialog class="user_dialog">
       <md-dialog-title>User</md-dialog-title>
         <form *ngIf="userFormActive" (ngSubmit)="onSubmit()" #userForm="ngForm" layout="column" class="inline-form">
-            <md-input [disabled]="!policyConfig?.moderating?.enabled" placeholder="displayName" [(ngModel)]="user.displayName" name="displayName" required #name="ngModel"></md-input>
-              <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-               displayName is required
-             </div>
-             <span [hidden]="!policyConfig?.moderating?.enabled">
-               <md-input placeholder="E-mail" required [(ngModel)]="user.e_mail" name="e_mail" #e_mail="ngModel"></md-input>
-               <div [hidden]="e_mail.valid || e_mail.pristine" class="alert alert-danger">
-                E-mail is required
-              </div>
-             </span>
-            <md-input [disabled]="!policyConfig?.moderating?.enabled" placeholder="First Name" [(ngModel)]="user.firstname" name="firstname" #firstname="ngModel"></md-input>
-            <md-input [disabled]="!policyConfig?.moderating?.enabled" placeholder="Family Name" [(ngModel)]="user.familyname" name="familyname" #familyname="ngModel"></md-input>
-            <!-- <md-input placeholder="Map Type" [(ngModel)]="user.type" name="type"></md-input>
-            <md-slide-toggle [(checked)]="user.isPublic" aria-label="public">public</md-slide-toggle> -->
-            <!-- <label for="name">Name</label>
+            <table><tr>
+              <td>
+                <md-input [disabled]="!policyConfig?.moderating?.enabled" placeholder="displayName" [(ngModel)]="user.displayName" name="displayName" required #name="ngModel" style="display: block"></md-input>
+                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                   displayName is required
+                 </div>
+                 <span [hidden]="!policyConfig?.moderating?.enabled">
+                   <md-input placeholder="E-mail" required [(ngModel)]="user.e_mail" name="e_mail" #e_mail="ngModel"></md-input>
+                   <div [hidden]="e_mail.valid || e_mail.pristine" class="alert alert-danger">
+                    E-mail is required
+                  </div>
+                 </span>
+                <md-input [disabled]="!policyConfig?.moderating?.enabled" placeholder="First Name" [(ngModel)]="user.firstname" name="firstname" #firstname="ngModel" style="display: block"></md-input>
+                <md-input [disabled]="!policyConfig?.moderating?.enabled" placeholder="Family Name" [(ngModel)]="user.familyname" name="familyname" #familyname="ngModel" style="display: block"></md-input>
+              </td>
+                <!-- <md-input placeholder="Map Type" [(ngModel)]="user.type" name="type"></md-input>
+                <md-slide-toggle [(checked)]="user.isPublic" aria-label="public">public</md-slide-toggle> -->
+                <!-- <label for="name">Name</label>
+              <br>TODO: remove this: {{spy.className}} -->
 
-          <br>TODO: remove this: {{spy.className}} -->
+              <td><img src="{{user.photoUrl}}" height="300"/></td>
+            </tr></table>
+            <hr/>
+            <div [innerHTML]="user.bioHtml"></div>
           <div layout="row">
             <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
             <button md-button *ngIf="policyConfig?.moderating?.enabled" type="submit" [disabled]="!userForm.form.valid">Update</button>
