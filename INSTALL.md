@@ -1,3 +1,61 @@
+# Mac. Condensed steps for Devs
++ Installing Node.JS
+	+ https://nodejs.org/en/download/
+	+ instead of
+	```sh 
+	brew install node
+	```
+	+ after this, you can test if you have installed successfully node and containing npm, by running:
+	```sh 
+	node -v
+	npm -v
+	```
++ create development folder
++ open the terminal and navigate to that folder, then run:
+```sh
+git clone https://github.com/mprinc/Knalledge
+``` 
++ Install mongodb server
+	+ we use Brew for its installation, so first:
+```sh
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew update
+```
+	+ then
+```sh
+brew install mongodb
+sudo mkdir -p /data/db
+```
++ Install backend
+```sh
+cd /Users/sir/Documents/data/development/Knalledge/ c:/data/development/Knalledge/
+cd src/backend
+npm install
+cd modules/topiChat
+npm install
+cd ../topiChat-knalledge
+npm install
+```
++ install frontend:
+```sh
+sudo npm install node-gyp -g
+sudo npm install gulp -g
+sudo npm i typings -g
+sudo npm install -g typescript
+sudo npm install -g bower
+sudo npm install marked -g
+
+# it could be necessary to do the following as well
+cd /usr/local/lib/node_modules
+sudo chmod -R o+rx .
+sudo chmod g+s .
+```
+
+# Win. Condensed steps for Devs
++ .....
++ cd c:/data/development/Knalledge/
++ .....
+
 # Windows
 
 + create/get-in development folder
