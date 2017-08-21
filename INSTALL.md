@@ -1,32 +1,74 @@
 # Mac. Condensed steps for Devs
-+ Installing Node.JS
-	+ https://nodejs.org/en/download/
-	+ instead of
-	```sh 
-	brew install node
-	```
-	+ after this, you can test if you have installed successfully node and containing npm, by running:
-	```sh 
-	node -v
-	npm -v
-	```
++ Installing **Node.JS**
+  + https://nodejs.org/en/download/
+
+
+  + after this, you can test if you have installed successfully node and containing npm, by running:
+  ```sh 
+  node -v
+  npm -v
+  ```
+
+  + tested versions: node: v6.11.2, nom: 3.10.10
+
 + create development folder
+
 + open the terminal and navigate to that folder, then run:
 ```sh
 git clone https://github.com/mprinc/Knalledge
-``` 
-+ Install mongodb server
-	+ we use Brew for its installation, so first:
-```sh
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew update
 ```
-	+ then
++ install **brew**
+
+  + https://brew.sh/
+
+  + ```sh
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew update
+    ```
+
+  + it will download and install Command Line Tools for **Xcode**
+
++ Install **mongodb** server
 ```sh
 brew install mongodb
 sudo mkdir -p /data/db
 ```
-+ Install backend
++ install **node-gyp**
+
+  + https://github.com/nodejs/node-gyp
+
+  + node-gyp is a cross-platform command-line tool written in Node.js for compiling native addon modules for Node.js
+
+  + ```sh
+    npm install -g node-gyp
+    ```
+
+  + tested version v3.6.2
+
++ install **node-inspector**
+
+  + https://github.com/node-inspector/node-inspector
+
+  + Node.js debugger based on Blink Developer Tools
+
+  + ```sh
+    npm install -g node-inspector
+    ```
+
++ install **v8-profiler**
+
+  + https://www.npmjs.com/package/v8-profiler
+
+  + ```sh
+    npm install -g v8-profiler
+    ```
+
++ install **Xcode**
+
+  + after installing execute: `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
+    + https://github.com/nodejs/node-gyp/issues/569
+## Install backend
+
 ```sh
 cd /Users/sir/Documents/data/development/Knalledge/ c:/data/development/Knalledge/
 cd src/backend
@@ -36,14 +78,24 @@ npm install
 cd ../topiChat-knalledge
 npm install
 ```
-+ install frontend:
+### Problems
+
+- [`npm install v8-profiler` fails with node v7.0.0 on osx #98](https://github.com/node-inspector/v8-profiler/issues/98)
+- [Pre-built binaries not found for v8-debug@0.7.7 and node@7.1.0](https://github.com/node-inspector/node-inspector/issues/950)
+- [fetch fails with 404 when trying to retrieve https://registry.npmjs.org/i/-/i-0.3.2.tgz against node4-lts](https://github.com/npm/npm/issues/14025)
+- ​
+
+## install frontend
+
 ```sh
 sudo npm install node-gyp -g
 sudo npm install gulp -g
 sudo npm i typings -g
-sudo npm install -g typescript
 sudo npm install -g bower
 sudo npm install marked -g
+
+sudo npm install -g typescript
+
 
 # it could be necessary to do the following as well
 cd /usr/local/lib/node_modules
@@ -51,7 +103,27 @@ sudo chmod -R o+rx .
 sudo chmod g+s .
 ```
 
+### code
+
+```sh
+cd development/Knalledge/
+cd src/frontend
+npm install
+npm run typings install
+# or
+typings -v
+node_modules/typings/dist/bin.js -v
+
+node_modules/typings/dist/bin.js install
+```
+
+#### Typings issues
+
+- open `src\frontend\typings\globals\angular-protractor\index.d.ts` and
+- go to the bottom of the file and comment the line `declare var $: cssSelectorHelper;` => `// declare var $: cssSelectorHelper;`
+
 # Win. Condensed steps for Devs
+
 + .....
 + cd c:/data/development/Knalledge/
 + .....

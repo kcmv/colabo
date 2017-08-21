@@ -1,3 +1,35 @@
+# Packages problems
+- ng2lint@0.0.10
+  - https://www.npmjs.com/package/ng2lint
+  - not compatible with tslint@5.6.0
+  - i have disabled it in `KnAllEdge/src/frontend/tslint.json` until they update it
+  - maybe codelyzer could replace
+    - https://www.npmjs.com/package/codelyzer
+    - https://stackoverflow.com/questions/39943403/how-to-use-codelyzer-in-angular-2#
+    - https://github.com/mgechev/codelyzer
+- checking availability of packages
+  - https://registry.npmjs.org/ansi-styles/-/ansi-styles-2.2.0.tgz
+
+# Critical developer packages for updating
+
+- https://www.npmjs.com/package/typescript
+- https://www.npmjs.com/package/ts-node
+- https://www.npmjs.com/package/gulp-typescript
+- https://www.npmjs.com/package/tslint
+- https://www.npmjs.com/package/gulp-tslint
+- https://www.npmjs.com/package/gulp-tslint-stylish
+- https://www.npmjs.com/package/babel
+- https://www.npmjs.com/package/ghooks
+- https://www.npmjs.com/package/gulp
+- https://www.npmjs.com/package/gulp-typedoc
+- https://www.npmjs.com/package/gulp-uglify
+- https://www.npmjs.com/package/gulp-util
+- https://www.npmjs.com/package/traceur
+- https://www.npmjs.com/package/typedoc
+- https://www.npmjs.com/package/@types/core-js
+- https://www.npmjs.com/package/@types/node
+- https://www.npmjs.com/package/typescript-require
+
 # RIMA
 
 Sasa Rudan: gledam malo za ono map->rima
