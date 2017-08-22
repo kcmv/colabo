@@ -61,6 +61,7 @@ let changed = files => {
   // if (ENABLE_HOT_LOADING) {
   //   ng2HotLoader.onChange(files);
   // } else {
+    console.log("[code_change tools] reloading browser with files: ", files);
     browserSync.reload(files);
   //}
 };

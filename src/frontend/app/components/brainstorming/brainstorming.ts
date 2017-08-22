@@ -1,5 +1,5 @@
 declare var puzzles;
-declare var knalledge;
+declare var knalledge:any;
 
 export const BrainstormingPhase:any = {
 	INACTIVE:0,
@@ -126,7 +126,7 @@ export class Brainstorming {
 			//if("presenter" in obj){this.presenter = obj.presenter;}
 
 		}
-	};
+	}
 
 	/** when object is updated on server we override local object by server version using this function **/
 	public overrideFromServer(obj){
@@ -137,7 +137,7 @@ export class Brainstorming {
 		}
 		this.state = State.SYNCED;
 		//this.phase = BrainstormingPhase.UNDISPLAYED;
-	};
+	}
 
 	/** before sending to object to server we clean it and fix it for server **/
 	public toServerCopy(){

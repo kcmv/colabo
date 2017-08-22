@@ -63,7 +63,7 @@ export class TopiChatService {
 
         // a bit dirty (pointless)
         this.init();
-    };
+    }
 
     /**
      * Initializes service
@@ -90,7 +90,7 @@ export class TopiChatService {
             timestamp: Math.floor(new Date().getTime() / 1000)
         };
         this.emit('tc:client-hello', msg);
-    };
+    }
 
     setWhoAmI(whoAmI){
       this.whoAmI = whoAmI;
@@ -99,7 +99,7 @@ export class TopiChatService {
     clientInit(eventName, msg, tcPackage) {
         console.log('[TopiChatService:clientInit] Client id: %s', tcPackage.clientId);
         this.clientInfo.clientId = tcPackage.clientId;
-    };
+    }
 
     /**
      * Emits message through the eventName
@@ -118,7 +118,7 @@ export class TopiChatService {
         this._socket.emit(eventName, tcPackage);
 
         return this;
-    };
+    }
 
     /**
      * Registers plugin
@@ -150,7 +150,7 @@ export class TopiChatService {
             eventByPlugins.push(pluginOptions);
         }
         return this;
-    };
+    }
 
     /**
      * returns registered plugins
@@ -159,7 +159,7 @@ export class TopiChatService {
     getPlugins() {
         if(!this._isActive) return undefined;
         return this.plugins;
-    };
+    }
 
     /**
      * returns registered events
@@ -170,7 +170,7 @@ export class TopiChatService {
     getEvents() {
         if(!this._isActive) return undefined;
         return this.eventsByPlugins;
-    };
+    }
 
     /**
      * returns messages for particular event
@@ -180,7 +180,7 @@ export class TopiChatService {
     getMessagesForEvent(eventName) {
         if(!this._isActive) return undefined;
         return this.messagesByEvents[eventName];
-    };
+    }
 
     /**
      * Registers new event type.
@@ -198,7 +198,7 @@ export class TopiChatService {
             this._socket.on(eventName, this._dispatchEvent.bind(this, eventName));
         // }
         return this;
-    };
+    }
 
     /**
      * Dispatches event received from the lower layer
@@ -237,5 +237,5 @@ export class TopiChatService {
                 pluginCallback(eventName, tcPackage.msg, tcPackage);
             }
         }
-    };
+    }
 }

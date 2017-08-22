@@ -121,7 +121,7 @@ export class MapsList implements OnInit {
         // });
         this.mapToCreate = new knalledge.KMap();
         this.mapRoutes = Config.Plugins.puzzles.mapsList.config.openMap.routes;
-    };
+    }
 
     ngOnInit() {
         this.init();
@@ -223,7 +223,7 @@ export class MapsList implements OnInit {
         // hour12: false}
         //   date = new Intl.DateTimeFormat('en-GB').format(date);
 
-    };
+    }
 
     itemsLength() {
         return false ? this.items.length : '<i class="fa fa-refresh fa-spin"></i><span class="sr-only">Loading...</span>';

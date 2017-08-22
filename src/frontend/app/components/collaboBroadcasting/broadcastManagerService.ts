@@ -34,7 +34,7 @@ export class BroadcastManagerService {
 
   		broadcastManagerServicePluginOptions.events[this.knRealTimeNodeSelectedEventName] = this.receiveBroadcast.bind(this);
   		this.knAllEdgeRealTimeService.registerPlugin(broadcastManagerServicePluginOptions);
-    };
+    }
 
 
     receiveBroadcast(eventName:string, msg:any) {
@@ -45,5 +45,5 @@ export class BroadcastManagerService {
       this.globalEmitterServicesArray.get(eventName).broadcast('BroadcastManagerService', msg);
 
       return;
-    };
+    }
 }

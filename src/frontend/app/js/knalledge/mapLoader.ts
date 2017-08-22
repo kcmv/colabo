@@ -11,7 +11,7 @@ export class MapLoader {
     private onMapLoadedCallback;
 
     constructor(private mapId: string, private KnalledgeMapService, private KnalledgeMapVOsService, private GlobalEmitterServicesArray) {
-    };
+    }
 
     init() {
         var that = this;
@@ -36,7 +36,7 @@ export class MapLoader {
         }.bind(this));
 
         this.loadMapWithId(this.mapId);
-    };
+    }
 
     onMapLoaded(callback){
         this.onMapLoadedCallback = callback;
@@ -79,7 +79,7 @@ export class MapLoader {
         // TODO: FIX: promise doesn't work well, we need callback
         // this.KnalledgeMapService.getById(mapId).$promise.then(gotMap);
         this.KnalledgeMapService.getById(this.mapId, gotMap.bind(this));
-    };
+    }
 
     /**
      * This is necessary since ng2 injects some object into $scope.mapData
@@ -133,7 +133,7 @@ export class MapLoader {
         //     // 	knalledgeMap.mapLayout.selectNode(vkNode, null, true, true, true);
         //     // }
         // });
-    };
+    }
 
     delayedFunc(){
         // this.init();
@@ -143,7 +143,7 @@ export class MapLoader {
         // }else{
         //     this.loadMapWithId($routeParams.id);
         // }
-    };
+    }
 }
 
 if (typeof knalledge !== 'undefined') knalledge.MapLoader = MapLoader;

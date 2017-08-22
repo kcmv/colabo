@@ -153,7 +153,7 @@ export class Change {
 			if("phase" in obj){this.phase = obj.phase;}
 			if("sessionId" in obj){this.sessionId = obj.sessionId;}
 		}
-	};
+	}
 
 	/** when object is updated on server we override local object by server version using this function **/
 	public overrideFromServer(obj){
@@ -164,7 +164,7 @@ export class Change {
 		}
 		this.state = State.SYNCED;
 		this.phase = ChangePhase.UNDISPLAYED;
-	};
+	}
 
 	/** before sending to object to server we clean it and fix it for server **/
 	public toServerCopy(){

@@ -76,7 +76,7 @@ export class KnalledgeMapTools {
        globalEmitterServicesArray.register(this.showSubComponentInBottomPanelEvent);
 
         this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
-    };
+    }
 
     // bindings:Object = {
     //     viewspec: 'viewspec_manual'
@@ -90,7 +90,7 @@ export class KnalledgeMapTools {
         this.viewConfig.filtering.displayDistance = (value) ? 3 : -1;
         this.viewConfigChanged(path, this.viewConfig.filtering.displayDistance);
         //this.globalEmitterServicesArray.get(this.viewConfigChangedEventName).broadcast('KnalledgeMapTools', msg);
-    };
+    }
 
     // switchClicked:Function = function($el){
     //   var elSwitch = $element.find('.content');
@@ -118,13 +118,13 @@ export class KnalledgeMapTools {
 
     // brainstormingChanged(path, value) {
     //     this.sendChange(path, value, this.behaviourChangedEventName);
-    // };
+    // }
 
     broadcastingChanged(path, value) {
         //this.sendChange(path, value, this.broadcastingChangedEventName);
         this.globalEmitterServicesArray.get(this.PRESENTER_CHANGED)
         .broadcast('Tools', {'user': null, 'value': value});
-    };
+    }
 
     hideShowVisualizationControls(){
       this.visualizationControlsShown = !this.visualizationControlsShown;
@@ -141,15 +141,15 @@ export class KnalledgeMapTools {
             value: value
         };
         this.globalEmitterServicesArray.get(eventName).broadcast('KnalledgeMapTools', msg);
-    };
+    }
 
     broadcastUpdateMaps() {
         this.knAllEdgeRealTimeService.emit(this.knRealTimeBroadcastUpdateMaps);
-    };
+    }
 
     broadcastReloadMaps() {
         this.knAllEdgeRealTimeService.emit(this.knRealTimeBroadcastReloadMaps);
-    };
+    }
 
     showBrainstorming(){
       this.globalEmitterServicesArray.get(this.setUpBroadcastingRequest).broadcast('KnalledgeMapTools');

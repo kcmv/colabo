@@ -318,10 +318,11 @@ export class OntovService {
 
     var nodesById = this.getNodesById();
 
+    var vkNode;
     // there are facet filters active
     if (searchCollectionArray.length > 0) {
       for (let id in nodesById) {
-        var vkNode = nodesById[id];
+        vkNode = nodesById[id];
         // 0 - or, 1 - and
         var visible =
           this.searchParam.operationType ? true : false;
@@ -350,7 +351,7 @@ export class OntovService {
       }
     } else {
       for (let id in nodesById) {
-        var vkNode = nodesById[id];
+        vkNode = nodesById[id];
         delete vkNode.visible;
       }
     }
@@ -731,4 +732,4 @@ export class OntovService {
       return false;
     }
   }
-};
+}

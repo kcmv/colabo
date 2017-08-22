@@ -54,7 +54,7 @@ export class MediaShowComponent implements AfterViewInit {
         this.globalEmitterServicesArray.get(mediaShowContentEventName).subscribe('MediaShowComponent', function(contentObj) {
             this.showContent(contentObj);
         }.bind(this));
-    };
+    }
 
     ngAfterViewInit() {
     }

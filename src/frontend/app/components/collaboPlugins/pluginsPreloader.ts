@@ -97,6 +97,7 @@ export class PluginsPreloader {
       configPlugins, serviceRefs, pluginsToLoad, injectorAngular, injectorPartial
     ) {
       // iterating through components
+      var serviceId;
       for (var componentName in configPlugins) {
         var component = configPlugins[componentName];
         // if disabled skip
@@ -114,13 +115,13 @@ export class PluginsPreloader {
 
           var plugins = component.plugins[pluginId];
           for (var pId in plugins) {
-            var serviceId = plugins[pId];
+            serviceId = plugins[pId];
             serviceIds.push(serviceId);
           }
         }
         // injecting reuqired services
         for (var sId in serviceIds) {
-          var serviceId = serviceIds[sId];
+          serviceId = serviceIds[sId];
           if (serviceRefs[componentName][serviceId]) continue;
           var serviceConfig = component.services[serviceId];
           // injecting
@@ -308,9 +309,10 @@ export class PluginsPreloader {
 
         // Currently not supported because it we do not know the way
         // how to tell system.js to preload js/ts files
+        var componentPromise;
         if(PluginsPreloader.useSystemJsImport){
             var componentImport = System.import(componentPath);
-            var componentPromise = new Promise(function(resolve, reject) {
+            componentPromise = new Promise(function(resolve, reject) {
                 componentImport.then(function(result){
                     console.info("[PluginsPreloader] component", componentName, " is loaded: ", result);
                     var ComponentClass = result[componentName];
@@ -330,7 +332,7 @@ export class PluginsPreloader {
               console.error("[PluginsPreloader] component", componentName, " is missing among the plugindDependencies components");
             }
 
-            var componentPromise = new Promise(function(resolve, reject) {
+            componentPromise = new Promise(function(resolve, reject) {
                 resolve(true);
             });
             PluginsPreloader.componentsPromises.push(componentPromise);

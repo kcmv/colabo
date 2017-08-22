@@ -127,9 +127,11 @@ function addFilesToBeReloaded(files){
 }
 
 // adds files to the to-be-reloaded set
-function fileObjsToBeReloadedToList(): String[]{
-  let fileObjs:String[] = [];
+function fileObjsToBeReloadedToList(): any[]{
+  let fileObjs:any[] = [];
   for(var filePath in WATCH_BUILD_CHANGED_FILES){
+    // console.log("[build.dev.smart] filePath: ", filePath);
+    // console.log("[build.dev.smart] WATCH_BUILD_CHANGED_FILES[filePath]: ", WATCH_BUILD_CHANGED_FILES[filePath]);
     var fileObj = WATCH_BUILD_CHANGED_FILES[filePath];
     fileObjs.push(fileObj);
   }
@@ -152,7 +154,8 @@ function reloadBrowser(){
   let filesList = filesToBeReloadedToList();
   cleanFilesToBeReloaded();
   console.log("[build.dev.smart] reloading browser with files: ", filesList);
-  notifyLiveReload(fileObjs);
+  // console.log("[build.dev.smart] reloading browser with files (objects): ", fileObjs);
+  notifyLiveReload(filesList);
 }
 
 /*

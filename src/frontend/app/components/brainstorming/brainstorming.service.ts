@@ -564,4 +564,4 @@ export class BrainstormingService {
         this.setUpBrainstormingChange(false);
     }
 
-};
+}

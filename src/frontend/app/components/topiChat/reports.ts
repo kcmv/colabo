@@ -57,11 +57,11 @@ export class TopiChatReports {
         this.topiChatService = topiChatService;
         this.topiChatConfigService = topiChatConfigService;
         this.plugins = this.getPlugins();
-    };
+    }
 
     configChanged(path, value) {
         return;
-    };
+    }
 
     addPlugin():any {
         var pluginOptions: any = {
@@ -73,7 +73,7 @@ export class TopiChatReports {
         };
 
         this.topiChatService.registerPlugin(pluginOptions);
-    };
+    }
 
     /**
      * Transforms hash array of plugins and events into array
@@ -100,7 +100,7 @@ export class TopiChatReports {
             pluginObj.events = eventsArray;
         }
         return pluginsArray;
-    };
+    }
 
     /**
     * Transforms hash array of event into array
@@ -125,11 +125,11 @@ export class TopiChatReports {
             }
         }
         return eventsArray;
-    };
+    }
 
     getMessagesForEvent(eventName):Object[] {
         var messages = this.topiChatService.getMessagesForEvent(eventName);
         return messages;
-    };
+    }
 
 }

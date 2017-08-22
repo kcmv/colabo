@@ -9,9 +9,9 @@ export function serveSPA() {
   codeChangeTool.listen();
 }
 
-export function notifyLiveReload(e) {
-  let fileName = e.path;
-  codeChangeTool.changed(fileName);
+export function notifyLiveReload(f) {
+  if('path' in f) f = f.path;
+  codeChangeTool.changed(f);
 }
 
 export function serveDocs() {
