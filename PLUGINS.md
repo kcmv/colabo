@@ -46,9 +46,9 @@ in the angular router we have:
 })
 ```
 
-## Creating a new IBIS PUZZLE
+## Creating a new PUZZLE
 
-We will create it in a separeate folder, `src/frontend/dev_puzzles/ibis`.
+We will create an IBIS (Issue Based Information System) in a separeate folder, `src/frontend/dev_puzzles/ibis`.
 
 It is always good practice to create `README.md` file with each puzzle.
 
@@ -251,37 +251,7 @@ nodeHtmlUpdate.select(".node_type")
                 case "type_ibis_idea":
                     type = "ibis:IDEA";
                     break;
-                case "type_ibis_argument":
-                    type = "ibis:ARGUMENT";
-                    break;
-                case "type_ibis_comment":
-                    type = "ibis:COMMENT";
-                    break;
-                case "type_knowledge":
-                    type = "kn:KnAllEdge";
-                    break;
-
-                case "model_component":
-                    type = "csdms:COMPONENT";
-                    break;
-                case "object":
-                    type = "csdms:OBJECT";
-                    break;
-                case "variable":
-                    type = "csdms:VARIABLE";
-                    break;
-                case "assumption":
-                    type = "csdms:ASSUMPTION";
-                    break;
-                case "grid_desc":
-                    type = "csdms:GRID DESC";
-                    break;
-                case "grid":
-                    type = "csdms:GRID";
-                    break;
-                case "process":
-                    type = "csdms:PROCESS";
-                    break;
+                // ...
             }
             label = "%" + type;
         }
@@ -757,4 +727,3 @@ gardening: {
 to config.ts
 
 ## TODO
-
