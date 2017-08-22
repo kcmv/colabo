@@ -71,7 +71,7 @@ export class BottomPanel {
         this.globalEmitterServicesArray.get(hideBottomPanelEvent)
             .subscribe('knalledgeMap.BottomPanel',
             this.hideBottomPanel.bind(this));
-    };
+    }
 
     showPluggableSubComponent(path){
         this.shown = true;

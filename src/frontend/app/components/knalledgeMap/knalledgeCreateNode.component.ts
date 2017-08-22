@@ -50,7 +50,7 @@ export class KnalledgeCreateNodeComponent implements AfterViewInit{
         @Inject('McmMapObjectService') private mcmMapObjectService
     ) {
         console.log('[KnalledgeCreateNodeComponent]');
-    };
+    }
 
     ngAfterViewInit() {
     }

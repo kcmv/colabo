@@ -23,8 +23,8 @@
     "passport-twitter": "latest"
   },
   "devDependencies": {
-    "ghooks": "^1.0.3",
-    "istanbul": "^0.4.2",
-    "node-inspector": "~0.8.3"
+    "ghooks": "^2.0.0",
+    "istanbul": "^0.4.5",
+    "node-inspector": "~1.1.1"
   }
 }

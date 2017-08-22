@@ -260,7 +260,7 @@ interface IDependencyStructure {
     NPM_DEPENDENCIES: IDependency[];
     DEV_NPM_DEPENDENCIES: IDependency[];
     PROD_NPM_DEPENDENCIES: IDependency[];
-};
+}
 
 // Declare local files that needs to be injected
 export const SUB_PROJECTS_FILE:IDependencyStructure = {
@@ -486,9 +486,10 @@ function injectExternalPuzzle(externalPuzzleName:string, puzzle:any){
   var puzzlesConfig = puzzlesContainerConfig.puzzles;
   console.log("external puzzlesBuild: ", puzzlesBuild);
 
+  var puzzleName;
   // inject 'config.js' if not already injected
   // we need this to be accessable during the runtime
-  for(var puzzleName in puzzlesBuild){
+  for(puzzleName in puzzlesBuild){
     var puzzleBuild = puzzlesBuild[puzzleName];
 
     // if not configured or set as unavailable do not inject it
@@ -519,7 +520,7 @@ function injectExternalPuzzle(externalPuzzleName:string, puzzle:any){
  * injects them
  * 1. EXTERNAL PUZZLES - BUILD PHASE
  */
-for(var puzzleName in puzzles){
+for(puzzleName in puzzles){
     var puzzle = puzzles[puzzleName];
     if('path' in puzzle && !!puzzle.active){
       injectExternalPuzzle(puzzleName, puzzle);

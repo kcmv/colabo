@@ -25,7 +25,7 @@ export class Injectants extends Array<Injectant> {
         }
         return false;
     }
-};
+}
 
 /**
  * @classdesc a value that is possible to be injected. It contains uniquely addressable path and value that stands behind the path
@@ -39,13 +39,13 @@ export class Injectant {
     constructor(path:string, value:any) {
         this.path = path;
         this.value = value;
-    };
+    }
 
     clone():Injectant {
         let newInjectant:Injectant = new Injectant(this.path, this.value);
         return newInjectant;
-    };
-};
+    }
+}
 
 /**
  * @classdesc It holds a set(s) of Injectant(s) that can be asked for or injected new ones
@@ -61,12 +61,12 @@ export class Injector {
 
     constructor() {
         // console.log('[Injector]');
-    };
+    }
 
     add(item: Injector|Injectant):Injector {
         this.items.push(item);
         return this;
-    };
+    }
 
     addPath(path:string, value:any):Injector {
         var i = this.indexOf(path);
@@ -80,7 +80,7 @@ export class Injector {
           }
         }
         return this;
-    };
+    }
 
     prepare(requiredItems:Array<string>, results:Injectants = new Injectants()):Injectants {
         for(let i in this.items) {

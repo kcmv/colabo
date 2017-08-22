@@ -92,7 +92,7 @@ export class Participant {
 	// 		if("presenter" in obj){this.presenter = obj.presenter;}
 	//
 	// 	}
-	};
+	}
 
 	/** when object is updated on server we override local object by server version using this function **/
 	public overrideFromServer(obj){
@@ -102,7 +102,7 @@ export class Participant {
 			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 		}
 		this.state = State.SYNCED;
-	};
+	}
 
 	/** before sending to object to server we clean it and fix it for server **/
 	public toServerCopy(){

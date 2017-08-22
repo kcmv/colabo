@@ -65,7 +65,9 @@ if(typeof angular !== 'undefined'){
 
 if(typeof global !== 'undefined'){
 	if(typeof global.Config === 'undefined') global.Config = {};
-	global.Config.Plugins = puzzles;
+  if(typeof global.Config.Plugins === 'undefined') global.Config.Plugins = {};
+  if(typeof global.Config.Plugins.external === 'undefined') global.Config.Plugins.external = {};
+  global.Config.Plugins.external[puzzles.name] = puzzles;
 }
 
 // node.js world

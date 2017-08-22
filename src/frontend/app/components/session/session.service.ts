@@ -248,13 +248,12 @@ export class SessionService {
     }
 
     create(session:Session, callback?: Function): void{
-        this.post(session.toServerCopy())
-            .subscribe(
-        sessionFromServer => this.sessionCreated(sessionFromServer, callback),
-        error => console.error("error: " +
-            JSON.stringify(error))
-        );
-      ;
+      this.post(session.toServerCopy())
+          .subscribe(
+      sessionFromServer => this.sessionCreated(sessionFromServer, callback),
+      error => console.error("error: " +
+          JSON.stringify(error))
+      );
     }
 
     changeParameter(change:any):void{
@@ -320,7 +319,7 @@ export class SessionService {
     					window.localStorage['session'] = JSON.stringify(session);
               console.log("sendSession:: window.localStorage['session']",window.localStorage['session']);
             }
-            if(typeof callback === 'function'){callback(true);;}
+            if(typeof callback === 'function'){callback(true);}
           } else {
             if(typeof callback === 'function'){callback(false, 'SERVICE_UNAVAILABLE');}
           }
@@ -475,4 +474,4 @@ export class SessionService {
       if(typeof callback === 'function'){callback(this.session);}
     }
 
-};
+}

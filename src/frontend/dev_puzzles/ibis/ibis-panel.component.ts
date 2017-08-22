@@ -1,5 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
+import {BrainstormingPhase} from '../../app/components/brainstorming/brainstorming';
 
 //declare var knalledge;
 declare var window;

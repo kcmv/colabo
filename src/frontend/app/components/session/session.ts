@@ -130,7 +130,7 @@ export class Session {
 		}
 		this.state = State.SYNCED;
 		//this.phase = SessionPhase.UNDISPLAYED;
-	};
+	}
 
 	/** before sending to object to server we clean it and fix it for server **/
 	public toServerCopy(){
@@ -154,8 +154,9 @@ export class Session {
 			// }
 			//
 
+			var i;
 			if(id === 'collaboSpace'){
-				for (var id in this['collaboSpace']){
+				for (i in this['collaboSpace']){
 					if(typeof this['collaboSpace'].id.toServerCopy === 'function') {
 						forServer['collaboSpace'].id = this['collaboSpace'].id.toServerCopy();
 					}
@@ -166,7 +167,7 @@ export class Session {
 				//TODO: we should see in the future if we want to save presenter objects too
 				forServer['participants'] = {};
 				//var participantsForServer:any = {};
-				for (var id in this['participants']){
+				for (i in this['participants']){
 					if(this['participants'].id instanceof Participant){
 						forServer['participants'].id = this['participants'].id.isPresenter;
 					}

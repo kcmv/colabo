@@ -59,7 +59,7 @@ export class OntovComponent implements OnInit {
     this.globalEmitterServicesArray.get(hideOntovComponentEvent)
       .subscribe('knalledgeMap.OntovComponent',
       this.close.bind(this));
-  };
+  }
 
   ngOnInit() {
     var that:OntovComponent = this;

@@ -210,7 +210,7 @@ export class KnalledgeMapMain implements OnInit {
             // https://angular.io/docs/ts/latest/api/platform-browser/index/Title-class.html
             that.titleService.setTitle(eventModel.properties.name);
         });
-    };
+    }
 
     customClose(interesting: boolean) {
         if (interesting) {
@@ -368,5 +368,5 @@ export class KnalledgeMapMain implements OnInit {
         // https://angular.io/docs/ts/latest/api/common/index/Location-class.html
         // this.location.go('#/' + path);
         window.location.href = '#/' + path;
-    };
+    }
 }

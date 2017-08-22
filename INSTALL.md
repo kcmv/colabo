@@ -1,32 +1,90 @@
 # Mac. Condensed steps for Devs
-+ Installing Node.JS
- + https://nodejs.org/en/download/
- + instead of
- ```sh 
- brew install node
- ```
- + after this, you can test if you have installed successfully node and containing npm, by running:
- ```sh 
- node -v
- npm -v
- ```
+
++ Installing **Node.JS**
+  + https://nodejs.org/en/download/
+
+
+  + after this, you can test if you have installed successfully node and containing npm, by running:
+  ```sh 
+  node -v
+  npm -v
+  ```
+
+  + tested versions: node: v6.11.2, nom: 3.10.10
+
 + create development folder
+
 + open the terminal and navigate to that folder, then run:
 ```sh
 git clone https://github.com/mprinc/Knalledge
+<<<<<<< HEAD
 ```
 + Install mongodb server
  + we use Brew for its installation, so first:
 ```sh
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
+=======
+>>>>>>> e949184050634d7347e04cda6dd4fd473e8b400b
 ```
-	+ then
++ install **brew**
+
+  + https://brew.sh/
+
+  + ```sh
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew update
+    ```
+
++ Install **mongodb** server
 ```sh
 brew install mongodb
 sudo mkdir -p /data/db
 ```
-+ Install backend
++ ?! install **node-gyp**
+
+  + https://github.com/nodejs/node-gyp
+
+  + node-gyp is a cross-platform command-line tool written in Node.js for compiling native addon modules for Node.js
+
+  + ```sh
+    npm install -g node-gyp
+    ```
+
+  + tested version v3.6.2
+
++ install **node-inspector**
+
+  + https://github.com/node-inspector/node-inspector
+
+  + Node.js debugger based on Blink Developer Tools
+
+  + ```sh
+    npm install -g node-inspector
+    ```
+
++ !? install **v8-profiler**
+
+  + https://www.npmjs.com/package/v8-profiler
+
+  + ```sh
+    npm install -g v8-profiler
+    ```
+
++ install **Xcode (Command Line Tools)** (smaller)
+
+  + http://railsapps.github.io/xcode-command-line-tools.html
+  + `xcode-select --install`
+  + choose "***install***" to install **Xcode Command Line Tools**
+  + or choose "***Get XCode***" to install **Xcode** (big)
+  + verify that you’ve successfully installed Xcode Command Line Tools
+    + `xcode-select -p`
+  + Just to be certain, verify that gcc is installed
+    + `gcc —version`
+  + after installing execute: `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
+    + https://github.com/nodejs/node-gyp/issues/569
+## Install backend
+
 ```sh
 cd /Users/sir/Documents/data/development/Knalledge/ c:/data/development/Knalledge/
 cd src/backend
@@ -36,14 +94,39 @@ npm install
 cd ../topiChat-knalledge
 npm install
 ```
-+ install frontend:
+### Additional packages
+
+**NOTE**: Backend needs a special ```express-resource``` package on steroids. You can download it as a separate package [here](http://colabo.space/downloads/express-resource.zip). After or even before issuing ```npm install``` you should (re)place the content of the archive:
+
+in your ```backend/node_modules``` folder
+
+It is similar with deep-assign package which you can find [here](http://colabo.space/downloads/deep-assign.zip).
+
+then you should go to 2. in ```backend/modules/topiChat```
+and do npm install there
+
+and (re)start the server
+
+```
+npm start
+```
+
+### Problems
+
+- [`npm install v8-profiler` fails with node v7.0.0 on osx #98](https://github.com/node-inspector/v8-profiler/issues/98)
+- [Pre-built binaries not found for v8-debug@0.7.7 and node@7.1.0](https://github.com/node-inspector/node-inspector/issues/950)
+- [fetch fails with 404 when trying to retrieve https://registry.npmjs.org/i/-/i-0.3.2.tgz against node4-lts](https://github.com/npm/npm/issues/14025)
+
+## install frontend
+
 ```sh
-sudo npm install node-gyp -g
+!? sudo npm install node-gyp -g
 sudo npm install gulp -g
 sudo npm i typings -g
-sudo npm install -g typescript
 sudo npm install -g bower
 sudo npm install marked -g
+sudo npm install -g typescript
+
 
 # it could be necessary to do the following as well
 cd /usr/local/lib/node_modules
@@ -51,10 +134,82 @@ sudo chmod -R o+rx .
 sudo chmod g+s .
 ```
 
+### code
+
+```sh
+cd development/Knalledge/
+cd src/frontend
+npm install
+npm run typings install
+# or
+typings -v
+node_modules/typings/dist/bin.js -v
+
+node_modules/typings/dist/bin.js install
+bower install
+```
+
+#### Typings issues
+
+- open `src\frontend\typings\globals\angular-protractor\index.d.ts` and
+- go to the bottom of the file and comment the line `declare var $: cssSelectorHelper;` => `// declare var $: cssSelectorHelper;`
+
+## Installing SASS support
+
+```sh
+ruby -v
+sudo gem install sass
+sudo gem install compass
+sudo gem install susy
+sudo gem install breakpoint
+sudo gem install normalize-scss
+sudo gem install font-awesome-sass -v 4.7.0
+```
+
+(NOTE: we have to have speciffic version for font-awesome-sass because it is reffered in the `app/sass/default.scss`)
+
+if different version is installed you can uninstall it with:
+
+```sh
+sudo gem uninstall font-awesome-sass -v 4.6.2
+```
+
+On some machines it might be necessary to do:
+
+```sh
+sudo chmod -R og+rx /Library/Ruby/Gems/2.0.0/
+```
+
+in order to provide reading access.
+
+### Bower install issues
+
+```sh
+bower install
+```
+
+***Halo*** package is not published so we need to download from [here](http://colabo.space/downloads/halo.zip) it and place it in the bower folder: `KnAllEdge/src/frontend/bower_components/`.
+
+With installing bower packages on OSX you might need xcode, here are some hints what might be happening and how to resolve it:
+
+if you get the error:
+
+```
+"xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun"
+```
+
+This is a problem with 'OS X El Capitan', you should run: `xcode-select --install`
+
+More on:
+
+- [invalid-active-developer-path-on-mac-os-x-after-installing-ruby](http://stackoverflow.com/questions/28706428/invalid-active-developer-path-on-mac-os-x-after-installing-ruby)
+- [xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/](http://tips.tutorialhorizon.com/2015/10/01/xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/)
+
+
+
 # Win. Condensed steps for Devs
-+ .....
+
 + cd c:/data/development/Knalledge/
-+ .....
 
 # Windows
 
@@ -191,20 +346,6 @@ cd ../topiChat-knalledge
 npm install
 ```
 
-### Additional packages
-
-**NOTE**: Backend needs a special ```express-resource``` package on steroids. You can download it as a separate package [here](http://magicheads.info/downloads/express-resource.zip). After or even before issuing ```npm install``` you should (re)place the content of the archive:
-
-in your ```backend/node_modules``` folder
-
-It is similar with deep-assign package which you can find [here](http://magicheads.info/downloads/deep-assign.zip).
-
-then you should go to 2. in ```backend/modules/topiChat```
-and do npm install there
-
-and (re)start the server
-
-    npm start
 ### Run backend server
 
 ```sh
@@ -308,26 +449,6 @@ sudo chmod o+rx  node_modules/
 ```
 
 This didn't work: [solution?](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
-
-### Bower install issues
-
-```sh
-bower install
-```
-
-With installing bower packages on OSX you might need xcode, here are some hints what might be happening and how to resolve it:
-
-if you get the error:
-
-```
-"xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun"
-```
-
-This is a problem with 'OS X El Capitan', you should run: `xcode-select --install`
-
-More on:
-+ [invalid-active-developer-path-on-mac-os-x-after-installing-ruby](http://stackoverflow.com/questions/28706428/invalid-active-developer-path-on-mac-os-x-after-installing-ruby)
-+ [xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/](http://tips.tutorialhorizon.com/2015/10/01/xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/)
 
 ## Server
 Server is at the moment completely built as **node.js** environment. Therefore you need node and npm tools installed to run it properly. When you have them installed all you need to do is to install necessary packages with
@@ -574,29 +695,6 @@ restart knalledge-b
 ```
 
 **TODO**: we need to make backend smart enough to detect new/restart/crash of the database
-
-## Installing SASS support
-
-```sh
-ruby -v
-sudo gem install sass
-sudo gem install compass
-sudo gem install susy
-sudo gem install breakpoint
-sudo gem install normalize-scss
-sudo gem install font-awesome-sass -v 4.3.2.1
-```
-
-if different version is installed you can uninstall it with:
-```sh
-sudo gem uninstall font-awesome-sass -v 4.6.2
-```
-
-On some machines it might be necessary to do:
-```sh
-sudo chmod -R og+rx /Library/Ruby/Gems/2.0.0/
-```
-in order to provide reading access.
 
 # Running the backend
 

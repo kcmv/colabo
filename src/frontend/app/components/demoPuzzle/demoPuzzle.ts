@@ -67,7 +67,7 @@ export class DemoPuzzle {
 			if("name" in obj){this.name = obj.name;}
 
 		}
-	};
+	}
 
 	/** when object is updated on server we override local object by server version using this function **/
 	public overrideFromServer(obj){
@@ -77,7 +77,7 @@ export class DemoPuzzle {
 			if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
 		}
 		this.state = State.SYNCED;
-	};
+	}
 
 	/** before sending to object to server we clean it and fix it for server **/
 	public toServerCopy(){

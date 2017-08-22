@@ -38,7 +38,7 @@ export class MapInteraction {
         this.debug = debugpp.debug('interaction.MapInteraction');
         this.destroyed = false;
         this.clientApi.collaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = this.addNode;
-    };
+    }
 
     init() {
         var that = this;
@@ -55,7 +55,7 @@ export class MapInteraction {
             that.setStatus(STATUS_MAP);
             console.info("Switching to the map");
         });
-    };
+    }
 
     /**
      * The function that is called when we are destroying parent.
@@ -85,11 +85,11 @@ export class MapInteraction {
 
     setStatus(status) {
         this.status = status;
-    };
+    }
 
     getStatus() {
         return this.status;
-    };
+    }
 
     createCaretPlacer(el, atStart) {
         // http://www.w3schools.com/jsref/met_html_focus.asp
@@ -140,7 +140,7 @@ export class MapInteraction {
             // https://msdn.microsoft.com/en-us/library/ie/ms536735(v=vs.85).aspx
             textRange.select();
         }
-    };
+    }
 
     switchToProperties() {
         var editor = d3.select(".ta-bind");
@@ -149,7 +149,7 @@ export class MapInteraction {
         map.node().blur();
         editor.node().focus();
         $(editor.node()).click();
-    };
+    }
 
     switchToMap() {
         var editor = d3.select(".ta-bind");
@@ -157,23 +157,23 @@ export class MapInteraction {
         editor.node().blur();
         map.node().focus();
         $(map.node()).click();
-    };
+    }
 
     searchNodeByName() {
         // if(!this.isStatusMap()) return;
 
         this.clientApi.searchNodeByName();
-    };
+    }
 
     toggleModerator() {
         // if(!this.isStatusMap()) return;
         this.clientApi.toggleModerator();
-    };
+    }
 
     togglePresenter() {
         // if(!this.isStatusMap()) return;
         this.clientApi.togglePresenter();
-    };
+    }
 
     nodeVote(vote, node) {
       if(!this.isStatusMap()) return;
@@ -211,14 +211,14 @@ export class MapInteraction {
         // if (node) { // if source node is selected
         //     this.clientApi.knalledgeState.addingLinkFrom = node;
         // }
-    };
+    }
 
     relinkNode() {//this process is finished by clickint to a new target node afterwards ...
         //... in `Map.prototype.nodeSelected_WithoutRTBroadcasting`
         if (!this.isStatusMap()) return;
         if (!this.clientApi.getSelectedNode()) return; // no parent node selected
         this.clientApi.knalledgeState.relinkingFrom = this.clientApi.getSelectedNode();
-    };
+    }
 
     invokePluginMethod(pluginPath:string, methodName:string, paramsArray:Array<any>) {
         if (this.mapPlugins && this.mapPlugins.mapInteractionPlugins &&
@@ -229,7 +229,7 @@ export class MapInteraction {
             method.apply(this.mapPlugins.mapInteractionPlugins[pluginPath],
                 paramsArray);
         }
-    };
+    }
 
     deleteNode() {
         if (!this.isStatusMap()) return;
@@ -248,20 +248,20 @@ export class MapInteraction {
               // that.clientApi.nodeSelected(null); //TODO: set to parent
           });
         });
-    };
+    }
 
     addImage() {
         if (!this.isStatusMap()) return;
         var node = this.clientApi.getSelectedNode();
 
         this.clientApi.addImage(node);
-    };
+    }
 
     removeImage() {
         if (!this.isStatusMap()) return;
         console.log("Removing image");
         this.clientApi.removeImage();
-    };
+    }
 
     exitEditingNode() {
         // console.info('exitEditingNode');
@@ -275,7 +275,7 @@ export class MapInteraction {
         if (this.editingNodeHtml) return;
         if (!this.isStatusMap()) return;
         this._setEditing(this.clientApi.getSelectedNode());
-    };
+    }
 
     _setEditing(node) {
         if (!node) return;
@@ -326,7 +326,7 @@ export class MapInteraction {
         }
 
         nodeSpan.node().addEventListener("input", onInput, false);
-    };
+    }
 
     _exitEditingNode() {
         // console.info("_exitEditingNode");
@@ -342,7 +342,7 @@ export class MapInteraction {
                 // that.clientApi.nodeSelected(null); //TODO: set to parent
             });
         }
-    };
+    }
 
     navigateLeft() {
         if (this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
@@ -352,7 +352,7 @@ export class MapInteraction {
         if (this.clientApi.getSelectedNode().parent) {
             this.clientApi.nodeSelected(this.clientApi.getSelectedNode().parent);
         }
-    };
+    }
 
     navigateRight() {
         if (this.editingNodeHtml || !this.clientApi.getSelectedNode()) return;
@@ -361,7 +361,7 @@ export class MapInteraction {
         if (this.clientApi.getSelectedNode().children) {
             this.clientApi.nodeSelected(this.clientApi.getSelectedNode().children[0]);
         }
-    };
+    }
 
     _iterateThroughSiblings(shouldConsiderNodeFunc) {
         // currently selected node
@@ -377,7 +377,8 @@ export class MapInteraction {
 
         // position of the current node among siblings
         var currentNodeIndex = null;
-        for (var i = 0; i < siblings.length; i++) {
+        var i;
+        for (i = 0; i < siblings.length; i++) {
             if (siblings[i] === currentNode) {
                 currentNodeIndex = i;
             }
@@ -386,7 +387,7 @@ export class MapInteraction {
         var chosenSibling = null;
         var chosenSiblingPos = null;
         var chosenSiblingIndex = null;
-        for (var i = 0; i < siblings.length; i++) {
+        for (i = 0; i < siblings.length; i++) {
             var sibling = siblings[i];
             if (sibling === currentNode) continue;
 
@@ -401,7 +402,7 @@ export class MapInteraction {
         }
 
         if (chosenSibling) this.clientApi.nodeSelected(chosenSibling);
-    };
+    }
 
     navigateDown() {
         var shouldConsiderNodeFunc: Function = function(currentNode, currentNodePos,
@@ -420,7 +421,7 @@ export class MapInteraction {
             return consider;
         };
         this._iterateThroughSiblings(shouldConsiderNodeFunc);
-    };
+    }
 
     navigateUp() {
         var shouldConsiderNodeFunc: Function = function(currentNode, currentNodePos,
@@ -439,7 +440,7 @@ export class MapInteraction {
             return consider;
         };
         this._iterateThroughSiblings(shouldConsiderNodeFunc);
-    };
+    }
 
     toggleNode() {
         if (this.editingNodeHtml) return;
@@ -448,19 +449,19 @@ export class MapInteraction {
         node.isOpen = !node.isOpen;
         this.clientApi.updateNode(node, knalledge.MapStructure.UPDATE_NODE_VISUAL_OPEN, node.isOpen);
         this.clientApi.update(node);
-    };
+    }
 
     addSiblingNode(nodeType?, edgeType?) {
         var parentNode = this.clientApi.getSelectedNode().parent;
         this.addNode(parentNode, nodeType, edgeType);
-    };
+    }
 
     addChildNode(nodeType?, edgeType?) {
         if (!this.isStatusMap()) return;
 
         var parentNode = this.clientApi.getSelectedNode();
         this.addNode(parentNode, nodeType, edgeType);
-    };
+    }
 
     addNode(parentNode, nodeType?, edgeType?) {
         if (!this.isStatusMap()) return;
@@ -539,11 +540,11 @@ export class MapInteraction {
                 });
             });
         });
-    };
+    }
 
     newNode() {
         return;
-    };
-};
+    }
+}
 
 if (typeof interaction !== 'undefined') interaction.MapInteraction = MapInteraction;

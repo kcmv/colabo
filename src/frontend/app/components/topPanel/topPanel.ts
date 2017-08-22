@@ -114,7 +114,7 @@ export class TopPanel {
             };
           }
         }
-    };
+    }
 
     // @Input()
     // set selectedIndex(value: number) {
