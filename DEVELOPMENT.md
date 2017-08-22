@@ -121,7 +121,140 @@ If there is some "garbage" in the dev branch that you didn't want to commit and 
 git branch -D cf-puzzle-ibis
 ```
 
-# TODO
+# Install Virtual Box with Ubuntu on OSX
+
+- Some of [extra tips](https://www.lifewire.com/run-ubuntu-within-windows-virtualbox-2202098)
+- Download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+- Download [Server Ubuntu](https://www.ubuntu.com/download/server)
+
+Settings
+
+- devices > shared clipboard > bidirectional
+- devices > drag and drop > bidirectional
+
+```sh
+sudo updatedb
+locate development
+```
+
+
+
+Tests
+
+```sh
+uname -a
+sudo apt-get update
+sudo apt-get install joe
+```
+
+## Mounting
+
+Install guest tools
+
+copy from the Applications/VirtualBox.app/Contents/MacOS the file **VBoxGuestAdditions.iso** somewhere else where it is accessible
+
+mount it in the optical disk
+
+```sh
+sudo mount /dev/cdrom /media/cdrom
+```
+
+install build support
+
+```sh
+sudo apt-get install -y dkms build-essential linux-headers-generic linux-headers-$(uname -r)
+```
+
+
+
+install guest tools
+
+```sh
+sudo /media/cdrom/VBoxLinuxAdditions.ru
+sudo adduser colabo vboxsf
+logout
+```
+
+Add shared folder inside the VirtualBox:
+
+- go to settings > Shared Folders , ad add the folder (make it auto-mount ad permanent)
+- for example: development
+
+Locate shared folder inside the virtual guest system
+
+```sh
+cd /media/sf_development
+```
+
+## Node
+
+- https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
+
+``````sh
+curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+sudo apt-get install -y nodejs
+``````
+
+## Git
+
+```sh
+sudo apt-get install git
+```
+
+## Mongodb
+
+```sh
+sudo apt-get install -y mongodb
+```
+
+Start MongoDB: 
+
+```sh
+sudo service mongod start
+```
+
+Verify that MongoDB has started successfully:
+
+```sh
+grep "waiting for connections" /var/log/mongodb/mongod.log
+```
+
+Logs: `/var/log/mongodb`
+**Databases**: `/var/lib/mongodb`
+
+## Node
+
+- https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
+
+```sh
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+node -v
+```
+
+## Frontend
+
+```sh
+sudo npm install gulp -g
+sudo npm i typings -g
+sudo npm install -g bower
+```
+
+
+
+# Installing SASS support
+
+```sh
+sudo apt-get install -y ruby
+sudo apt-get install -y ruby-all-dev
+ruby -v
+sudo gem install sass
+sudo gem install compass
+sudo gem install susy
+sudo gem install breakpoint
+sudo gem install normalize-scss
+sudo gem install font-awesome-sass -v 4.3.2.1
+```
 
 ## Zhenia
 
