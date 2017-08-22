@@ -16,7 +16,8 @@
     More information: http://dev.ivogabe.com/gulp-typescript-3/
 
 - Backend problematic packages
-- Updating (partially) angular will produce error like `Error: Can't resolve all parameters for Storage: (?, ?)`
+- Updating angular will produce error of redirecting to `http://localhost:8000/#!/login` instead of `http://localhost:8000/#!/maps#%2Flogin`
+- Updating (partially) angular2 will produce error like `Error: Can't resolve all parameters for Storage: (?, ?)`
   - https://github.com/ionic-team/ionic-storage/issues/71
   - https://github.com/angular/angular-cli/issues/5007
 
