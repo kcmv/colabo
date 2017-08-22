@@ -12,6 +12,13 @@ Sasa Rudan: mada za sada mislim da nemamo RIMA poziv ka serveru koji prima listu
 
 # MISC
 
++ import PDF annotations
+  + https://mozilla.github.io/pdf.js/
+    + https://mozilla.github.io/pdf.js/
+    + https://github.com/mozilla/pdf.js/blob/master/src/display/api.js
+      + GetAnnotationsParameters
+  + http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/PDF32000_2008.pdf
+  + http://pdfkit.org/
 + export
   + to PDF
     + http://pdfkit.org/docs/images.html
