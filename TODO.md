@@ -1,95 +1,3 @@
-# Packages problems
-- ng2lint@0.0.10
-  - https://www.npmjs.com/package/ng2lint
-  - not compatible with tslint@5.6.0
-  - i have disabled it in `KnAllEdge/src/frontend/tslint.json` until they update it
-  - maybe codelyzer could replace
-    - https://www.npmjs.com/package/codelyzer
-    - https://stackoverflow.com/questions/39943403/how-to-use-codelyzer-in-angular-2#
-    - https://github.com/mgechev/codelyzer
-- checking availability of packages
-  - https://registry.npmjs.org/ansi-styles/-/ansi-styles-2.2.0.tgz
-
-- gulp-typescript
-  gulp-typescript: ts(tsProject) has been deprecated - use .pipe(tsProject()) instead
-    As of gulp-typescript 3.0, .pipe(ts(tsProject)) should be written as .pipe(tsProject()).
-    More information: http://dev.ivogabe.com/gulp-typescript-3/
-
-- Backend problematic packages
-- Updating angular will produce error of redirecting to `http://localhost:8000/#!/login` instead of `http://localhost:8000/#!/maps#%2Flogin`
-- Updating (partially) angular2 will produce error like `Error: Can't resolve all parameters for Storage: (?, ?)`
-  - https://github.com/ionic-team/ionic-storage/issues/71
-  - https://github.com/angular/angular-cli/issues/5007
-
-```sh
-npm WARN deprecated lingo@0.0.5: This project is abandoned
-npm WARN deprecated mongodb@1.4.12: Please upgrade to 2.2.19 or higher
-npm WARN deprecated ghooks@2.0.0: Use npmjs.com/husky instead, see https://github.com/gtramontina/ghooks/issues/166
-```
-
-- Frontend problematic packages
-
-```sh
-npm WARN deprecated es6-module-loader@0.17.11: This project has been deprecated for "npm install es-module-loader" based on the newer loader spec.
-
-npm WARN deprecated minimatch@2.0.10: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
-
-npm WARN deprecated minimatch@0.2.14: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
-
-npm WARN deprecated graceful-fs@1.2.3: graceful-fs v3.0.0 and before will fail on node releases >= v7.0. Please update to graceful-fs@^4.0.0 as soon as possible. Use 'npm ls graceful-fs' to find it in the tree.
-
-npm WARN deprecated gulp-tslint-stylish@1.1.1: Replaced by core tslint formatter
-
-npm WARN deprecated ghooks@2.0.0: Use npmjs.com/husky instead, see https://github.com/gtramontina/ghooks/issues/166
-
-npm WARN deprecated typings@2.1.1: Typings is deprecated in favor of NPM @types -- see README for more information
-
-npm WARN deprecated babel@6.23.0: In 6.x, the babel package has been deprecated in favor of babel-cli. Check https://opencollective.com/babel to support the Babel maintainers
-
-npm WARN deprecated express@2.5.11: express 2.x series is deprecated
-
-npm WARN deprecated connect@1.9.2: connect 1.x series is deprecated
-
-npm WARN deprecated minimatch@0.4.0: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
-
-npm WARN prefer global node-gyp@3.6.2 should be installed with -g
-```
-
-in addition compatibility issues:
-
-```sh
-npm WARN bootstrap@4.0.0-beta requires a peer of jquery@>=3.0.0 but none was installed.
-npm WARN bootstrap@4.0.0-beta requires a peer of popper.js@^1.11.0 but none was installed.
-npm WARN @ng-bootstrap/ng-bootstrap@1.0.0-beta.1 requires a peer of @angular/core@^4.0.3 but none was installed.
-npm WARN @ng-bootstrap/ng-bootstrap@1.0.0-beta.1 requires a peer of @angular/common@^4.0.3 but none was installed.
-npm WARN @ng-bootstrap/ng-bootstrap@1.0.0-beta.1 requires a peer of @angular/forms@^4.0.3 but none was installed.
-npm WARN @angular/core@2.4.10 requires a peer of zone.js@^0.7.2 but none was installed.
-npm WARN ng2lint@0.0.10 requires a peer of tslint@^3.5.0 but none was installed.
-npm WARN ng2lint@0.0.10 requires a peer of typescript@~1.8.0 but none was installed.
-```
-
-
-
-# Critical developer packages for updating
-
-- https://www.npmjs.com/package/typescript
-- https://www.npmjs.com/package/ts-node
-- https://www.npmjs.com/package/gulp-typescript
-- https://www.npmjs.com/package/tslint
-- https://www.npmjs.com/package/gulp-tslint
-- https://www.npmjs.com/package/gulp-tslint-stylish
-- https://www.npmjs.com/package/babel
-- https://www.npmjs.com/package/ghooks
-- https://www.npmjs.com/package/gulp
-- https://www.npmjs.com/package/gulp-typedoc
-- https://www.npmjs.com/package/gulp-uglify
-- https://www.npmjs.com/package/gulp-util
-- https://www.npmjs.com/package/traceur
-- https://www.npmjs.com/package/typedoc
-- https://www.npmjs.com/package/@types/core-js
-- https://www.npmjs.com/package/@types/node
-- https://www.npmjs.com/package/typescript-require
-
 # RIMA
 
 Sasa Rudan: gledam malo za ono map->rima
@@ -104,13 +12,6 @@ Sasa Rudan: mada za sada mislim da nemamo RIMA poziv ka serveru koji prima listu
 
 # MISC
 
-+ import PDF annotations
-  + https://mozilla.github.io/pdf.js/
-    + https://mozilla.github.io/pdf.js/
-    + https://github.com/mozilla/pdf.js/blob/master/src/display/api.js
-      + GetAnnotationsParameters
-  + http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/PDF32000_2008.pdf
-  + http://pdfkit.org/
 + export
   + to PDF
     + http://pdfkit.org/docs/images.html
@@ -126,7 +27,7 @@ Sasa Rudan: mada za sada mislim da nemamo RIMA poziv ka serveru koji prima listu
     + https://en.wikipedia.org/wiki/ReStructuredText
     + https://en.wikipedia.org/wiki/MultiMarkdown
     + https://en.wikipedia.org/wiki/Comparison_of_document_markup_languages
-      +
+    +
 + properties
   + show node name
   + show node type
@@ -181,7 +82,7 @@ Academic Form
 - reflect to them and say
 - we are doing this and this
 - they (academics) feel comfortable
-  -
+-
 
 
 - потресаюшча
@@ -210,3 +111,77 @@ Poliscopy
     - it is not real and objectiveness of world, but it affecting world through its information
 - systemic epistemology
   - how
+
+
+
+The Russian event we mentioned you has officially finished and we had a very cool international poetic and drawing art reflection to journalist reportage, a kind of cross-discipline and society feedback loop. The event became viral in Russia and we want to extend it with few more invitation-only poets like you. We will also join it with 24h Literature Marathon in Belgrade, Serbia. Are you interested to take part in any of them?
+
+Dear Saumya,
+
+How are you doing? I just saw a poem about her Majesty Vagina! pretty cool :) In Serbian vagina is called "рибица" = 'little fish' :D
+
+I am currently in Russia, Sinisha just came back and there in snowy Siberia we just finished a first round of an interesting trans-disciplinary and inter-national artistic experiment.
+
+It was a CoLaboArthon between journalists and artists. We invited international artists to make their artistic reflections on instant/short-form of journalism. It was an event of few hundred journalists. We see it really important and interesting to engage poets and other artists with that flow of real and touching journalistic stories and a dialogue and exchange of emotions across nations.
+
+We want to do a 2nd round tomorrow and introduce more artists. We sent a post on your FB group. Could you please approve the post?
+
+We will soon do more exotic practices and keep you updated.
+
+Best,
+Siniha and Sasha
+
+
+=====
+
+
+I am currently in Russia, Sinisha just came back and there in snowy Siberia we just finished a first round of an interesting trans-disciplinary and inter-national artistic experiment.
+
+It was a CoLaboArthon between journalists and artists. We invited international artists to make their artistic reflections on instant/short-form of journalism. It was an event of few hundred journalists. We see it really important and interesting to engage poets and painters with that flow of real and touching journalistic stories and a dialogue and exchange of emotions across nations.
+
+We will do it much
+
+
+=====
+
+here is an official description:
+in short, it's an interesting, but a time-limited (and now, invitation-only) offer for international poetic collaboration 🙂
+Our ChaOS organization is organizing an international CoLaboArthon event at a big journalist event.
+Journalists were going around the Siberian, Russian city of Tyumen and collecting stories/photos.
+Your task is to choose a story that inspires you and give your short poetic reflection.
+So, if you want to make an interesting yet simple collaboration with journalists and other poets/artist; if you want some of your verses to be published in Russia;
+and later read at the 24h Literature Marathon in Belgrade, Serbia, here is our event - just join it and all explanation is there:
+https://www.facebook.com/events/169175616936761/
+BUT you have some 48hrs, till Friday, 23:59 CET 😉
+what is more than enough, because we expect just few impressionistic verses as you will see in comments on photos, done by other poets already
+I’m here for any question!
+you can write in your own language 😉
+
+===
+
+- We are proposing an OPEN competition for participants, to get generic and more international groups
+- interviewing them
+- each group should have a concrete issue of conflict so
+  - it can be input for us so our lab can work on real problems
+  - participant will be more involved
+- we need to identify what we are
+- each event
+- participants can split
+- motivating other stakeholders
+- big LARS game for practicing
+- we have NGO
+Socio-technical solutions for collaboration and dialogical and artistical resolution of conflicts/
+
+Colaboarthon
+  EVS need supporters, how they can motivate them and inspire them
+DialoGame
+Open Innovation
+  - an online solution for innovating ideas (of i.e. conflict resolution)
+
+Structured Democratic Dialogue
+
+Demonstration
+
+Integrate flow of actions with the support for rolling-back, undoing, redoing, ...
+
+Support for supper-fast loading of a single node (when you are sharing document with someone who is not into CF)

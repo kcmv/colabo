@@ -5,7 +5,7 @@
 
 
   + after this, you can test if you have installed successfully node and containing npm, by running:
-  ```sh 
+  ```sh
   node -v
   npm -v
   ```
@@ -17,15 +17,6 @@
 + open the terminal and navigate to that folder, then run:
 ```sh
 git clone https://github.com/mprinc/Knalledge
-<<<<<<< HEAD
-```
-+ Install mongodb server
- + we use Brew for its installation, so first:
-```sh
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew update
-=======
->>>>>>> e949184050634d7347e04cda6dd4fd473e8b400b
 ```
 + install **brew**
 
