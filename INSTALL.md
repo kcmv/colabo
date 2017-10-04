@@ -10,7 +10,7 @@
   npm -v
   ```
 
-  + tested versions: node: v6.11.2, nom: 3.10.10
+  + tested versions: node: v6.11.2, npm: 3.10.10
 
 + create development folder
 
