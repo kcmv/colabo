@@ -11,6 +11,7 @@
   ```
 
   + tested versions: node: v6.11.2, nom: 3.10.10
+  + if old, just download and reinstall newer version
 
 + create development folder
 
@@ -31,7 +32,14 @@ git clone https://github.com/mprinc/Knalledge
 ```sh
 brew install mongodb
 sudo mkdir -p /data/db
+mongod --version
 ```
+
+if old:
+```sh
+brew upgrade mongodb
+```
+
 + ?! install **node-gyp**
 
   + https://github.com/nodejs/node-gyp
@@ -63,7 +71,9 @@ sudo mkdir -p /data/db
     ```
 
 + install **Xcode (Command Line Tools)** (smaller)
-
+  + If you had the full XCode installed before and want to downgrade to **Xcode Command Line Tools** then you should do
+    - uninstall the XCode
+    - set the CLT path `xcode-select --switch /Library/Developer/CommandLineTools/`
   + http://railsapps.github.io/xcode-command-line-tools.html
   + `xcode-select --install`
   + choose "***install***" to install **Xcode Command Line Tools**
@@ -93,7 +103,8 @@ in your ```backend/node_modules``` folder
 
 It is similar with deep-assign package which you can find [here](http://colabo.space/downloads/deep-assign.zip).
 
-then you should go to 2. in ```backend/modules/topiChat```
+then you should go to both  ```backend/modules/topiChat``` and ```backend/modules/topiChat-knalledge```
+
 and do npm install there
 
 and (re)start the server
