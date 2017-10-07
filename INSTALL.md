@@ -93,7 +93,7 @@ in your ```backend/node_modules``` folder
 
 It is similar with deep-assign package which you can find [here](http://colabo.space/downloads/deep-assign.zip).
 
-then you should go to 2. in ```backend/modules/topiChat```
+then you should go to both  ```backend/modules/topiChat``` and ```backend/modules/topiChat-knalledge```
 and do npm install there
 
 and (re)start the server
