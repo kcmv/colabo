@@ -84,6 +84,29 @@ brew upgrade mongodb
     + `gcc —version`
   + after installing execute: `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
     + https://github.com/nodejs/node-gyp/issues/569
+
+To check if gcc is properly working, you can create simple C++ file `test.cpp` at any convinient place:
+
+```cpp
+#include <stdio.h>
+
+int main(){
+	printf("Hello world!\n");
+}
+```
+
+Then you can compile it with the gcc compiler:
+
+```sh
+gcc test.cpp
+```
+
+and run it:
+
+```sh
+./a.out
+```
+
 ## Install backend
 
 ```sh
