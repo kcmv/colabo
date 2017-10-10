@@ -70,28 +70,36 @@ brew upgrade mongodb
     npm install -g v8-profiler
     ```
 
-+ install **Xcode (Command Line Tools)** (smaller)
-  + If you had the full XCode installed before and want to downgrade to **Xcode Command Line Tools** then you should do
-    - uninstall the XCode
-    - set the CLT path `xcode-select --switch /Library/Developer/CommandLineTools/`
-  + http://railsapps.github.io/xcode-command-line-tools.html
-  + `xcode-select --install`
-  + choose "***install***" to install **Xcode Command Line Tools**
-  + or choose "***Get XCode***" to install **Xcode** (big)
-  + verify that you’ve successfully installed Xcode Command Line Tools
-    + `xcode-select -p`
-  + Just to be certain, verify that gcc is installed
-    + `gcc —version`
-  + after installing execute: `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
-    + https://github.com/nodejs/node-gyp/issues/569
+### install Xcode
 
-To check if gcc is properly working, you can create simple C++ file `test.cpp` at any convinient place:
+http://railsapps.github.io/xcode-command-line-tools.html
+
+If you had the full XCode installed before and want to downgrade to **Xcode Command Line Tools** (smaller) then you should do
+- uninstall the XCode
+- set the CLT path `xcode-select --switch /Library/Developer/CommandLineTools/`
+
+If you do not have XCode installed you should do
++ `xcode-select --install`
++ choose "***install***" to install **Xcode Command Line Tools**
++ or choose "***Get XCode***" to install **Xcode** (big)
++ after installing execute:
+  - `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
+  + https://github.com/nodejs/node-gyp/issues/569
+
+**Verify** that you’ve successfully installed Xcode Command Line Tools
++ `xcode-select -p`
++ Just to be certain, verify that gcc is installed
+  - `gcc —version`
+  - this might report error, but at least gcc will be available
+
+
+To **check if gcc is properly working**, you can create simple C++ file `test.cpp` at any convinient place:
 
 ```cpp
 #include <stdio.h>
 
 int main(){
-	printf("Hello world!\n");
+printf("Hello world!\n");
 }
 ```
 
@@ -107,6 +115,7 @@ and run it:
 ./a.out
 ```
 
+You should get the message: `Hello world!`
 ## Install backend
 
 ```sh
