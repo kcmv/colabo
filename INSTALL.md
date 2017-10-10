@@ -176,11 +176,25 @@ cd development/Knalledge/
 cd src/frontend
 npm install
 npm run typings install
-typings -v
-# or instead global it safer to run the local version:
-./node_modules/typings/dist/bin.js -v
+```
 
-node_modules/typings/dist/bin.js install
+Build typings using **global** `typings` module:
+
+```sh
+typings -v
+typings install
+```
+
+or safer instead of using global to use the **local** version of the module:
+
+```sh
+./node_modules/typings/dist/bin.js -v
+./node_modules/typings/dist/bin.js install
+```
+
+Install bower modules:
+
+```sh
 bower install
 ```
 
