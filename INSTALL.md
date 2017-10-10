@@ -179,7 +179,7 @@ npm run typings install
 ```
 
 Build typings, either:
- 1) using **global** `typings` module:
+1. using **global** `typings` module:
 
 ```sh
 typings -v
@@ -187,7 +187,7 @@ typings install
 ```
 
 or 
- 2) instead of using global, do it in a safer mode, by using the **local** version of the module:
+2. instead of using global, do it in a safer mode, by using the **local** version of the module:
 
 ```sh
 ./node_modules/typings/dist/bin.js -v
