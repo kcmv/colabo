@@ -116,10 +116,11 @@ and run it:
 ```
 
 You should get the message: `Hello world!`
+
 ## Install backend
 
 ```sh
-cd /Users/sir/Documents/data/development/Knalledge/ c:/data/development/Knalledge/
+cd <your knalledge deployed folder>
 cd src/backend
 npm install
 cd modules/topiChat
@@ -153,6 +154,7 @@ npm start
 ## install frontend
 
 ```sh
+cd ../frontend
 !? sudo npm install node-gyp -g
 sudo npm install gulp -g
 sudo npm i typings -g
@@ -174,9 +176,9 @@ cd development/Knalledge/
 cd src/frontend
 npm install
 npm run typings install
-# or
 typings -v
-node_modules/typings/dist/bin.js -v
+# or instead global it safer to run the local version:
+./node_modules/typings/dist/bin.js -v
 
 node_modules/typings/dist/bin.js install
 bower install
