@@ -256,7 +256,24 @@ More on:
 - [invalid-active-developer-path-on-mac-os-x-after-installing-ruby](http://stackoverflow.com/questions/28706428/invalid-active-developer-path-on-mac-os-x-after-installing-ruby)
 - [xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/](http://tips.tutorialhorizon.com/2015/10/01/xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/)
 
+### Starting for the first time:
++ first we start mongo, by
+```sh
+sudo mongod
+```
++ then we start the server, from "backend" folder by typing
+```sh
+npm start
+```
++ at the end, we start the frontend from by typing
+```sh
+npm start
+```
+at "fronted" folder. It will start the browser.
+THen we press CTRL + F, back in the console. This will cause the first full build of the fronted. After its finished, we will probably have to kill the started browser tab, stop frontend from the console with CTRL + C and then restart it "npm start".
 
+With this, our dev environment and *CoLaboFramework* should be working
++ then we start the server, bu
 
 # Win. Condensed steps for Devs
 
