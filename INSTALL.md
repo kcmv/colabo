@@ -239,7 +239,7 @@ in order to provide reading access.
 bower install
 ```
 
-***Halo*** package is not published so we need to download from [here](http://colabo.space/downloads/halo.zip) it and place it in the bower folder: `KnAllEdge/src/frontend/bower_components/`.
+***Halo*** package is not published so we need to download from [here](http://colabo.space/downloads/halo.zip) it, and place the extracted "halo" folder into the bower folder: `KnAllEdge/src/frontend/bower_components/`.
 
 With installing bower packages on OSX you might need xcode, here are some hints what might be happening and how to resolve it:
 
