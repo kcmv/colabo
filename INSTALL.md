@@ -272,8 +272,8 @@ npm start
 at "fronted" folder. It will start the browser.
 THen we press CTRL + F, back in the console. This will cause the first full build of the fronted. After its finished, we will probably have to kill the started browser tab, stop frontend from the console with CTRL + C and then restart it "npm start".
 
+
 With this, our dev environment and *CoLaboFramework* should be working
-+ then we start the server, bu
 
 # Win. Condensed steps for Devs
 
