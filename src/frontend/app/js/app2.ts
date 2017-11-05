@@ -252,6 +252,8 @@ moduleImports.push(BrowserModule);
 moduleImports.push(FormsModule);
 moduleImports.push(HttpModule);
 // moduleImports.push(RouterModule.forRoot(DEMO_APP_ROUTES));
+// NOTE: it is removed in later versions
+// see: https://github.com/angular/material2/blob/master/CHANGELOG.md#materialmodule
 moduleImports.push(MaterialModule.forRoot());
 moduleImports.push(Ng2MaterialModule.forRoot());
 moduleImports.push(NgbModule.forRoot());
