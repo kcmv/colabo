@@ -178,14 +178,16 @@ npm install
 npm run typings install
 ```
 
-Build typings using **global** `typings` module:
+Build typings, either:
+1. using **global** `typings` module:
 
 ```sh
 typings -v
 typings install
 ```
 
-or safer instead of using global to use the **local** version of the module:
+or 
+2. instead of using global, do it in a safer mode, by using the **local** version of the module:
 
 ```sh
 ./node_modules/typings/dist/bin.js -v
@@ -237,7 +239,7 @@ in order to provide reading access.
 bower install
 ```
 
-***Halo*** package is not published so we need to download from [here](http://colabo.space/downloads/halo.zip) it and place it in the bower folder: `KnAllEdge/src/frontend/bower_components/`.
+***Halo*** package is not published so we need to download from [here](http://colabo.space/downloads/halo.zip) it, and place the extracted "halo" folder into the bower folder: `KnAllEdge/src/frontend/bower_components/`.
 
 With installing bower packages on OSX you might need xcode, here are some hints what might be happening and how to resolve it:
 
@@ -254,7 +256,24 @@ More on:
 - [invalid-active-developer-path-on-mac-os-x-after-installing-ruby](http://stackoverflow.com/questions/28706428/invalid-active-developer-path-on-mac-os-x-after-installing-ruby)
 - [xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/](http://tips.tutorialhorizon.com/2015/10/01/xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/)
 
+### Starting for the first time:
++ first we start mongo, by
+```sh
+sudo mongod
+```
++ then we start the server, from "backend" folder by typing
+```sh
+npm start
+```
++ at the end, we start the frontend from by typing
+```sh
+npm start
+```
+at "fronted" folder. It will start the browser.
+THen we press CTRL + F, back in the console. This will cause the first full build of the fronted. After its finished, we will probably have to kill the started browser tab, stop frontend from the console with CTRL + C and then restart it "npm start".
 
+
+With this, our dev environment and *CoLaboFramework* should be working
 
 # Win. Condensed steps for Devs
 
