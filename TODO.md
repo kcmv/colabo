@@ -145,7 +145,7 @@ We will do it much
 =====
 
 here is an official description:
-in short, it's an interesting, but a time-limited (and now, invitation-only) offer for international poetic collaboration 🙂
+in short, it's an interesting, but a time-limited (and now, invitation-only) offer for international poetic collaboration  🙂
 Our ChaOS organization is organizing an international CoLaboArthon event at a big journalist event.
 Journalists were going around the Siberian, Russian city of Tyumen and collecting stories/photos.
 Your task is to choose a story that inspires you and give your short poetic reflection.
