@@ -292,7 +292,6 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         { src: join(APP_SRC, 'js/knalledge/vkNode.js'), inject: true, noNorm: true },
         { src: join(APP_SRC, 'js/knalledge/vkEdge.js'), inject: true, noNorm: true },
         { src: join(APP_SRC, 'js/knalledge/state.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'js/knalledge/mapStructure.js'), inject: true, noNorm: true },
 
         // COMPONENTS
         { src: join(APP_SRC, 'components/puzzles.js'), inject: true, noNorm: true },

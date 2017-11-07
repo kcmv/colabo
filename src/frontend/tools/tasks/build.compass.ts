@@ -72,8 +72,10 @@ export = function buildCss(gulp, plugins) {
     var distPathCss;
     var scssFiles;
 
-    if (COMPASS_CONFIG.GENERIC) { // NOTE: !!!This will output css files into sass folder!!!
-        // due to [issue-61](https://github.com/appleboy/gulp-compass/issues/61)
+    if (COMPASS_CONFIG.GENERIC) {
+      // NOTE: !!!This will output css files into sass folder!!!
+      // due to [issue-61](https://github.com/appleboy/gulp-compass/issues/61)
+      // therefore we avoid this option ...
       appPath = APP_SRC;
 
       projectPath = join(__dirname, '../..', appPath);
@@ -84,6 +86,7 @@ export = function buildCss(gulp, plugins) {
       var task = compassTask(scssFiles, distPathCss, projectPath);
       return task;
     } else {
+      // ... and use this one
       // drawback: we have to run compass for each path separately
       var tasks = Object.keys(COMPASS_CONFIG.PATHS).map(function(path){
           let pathVal = COMPASS_CONFIG.PATHS[path];
@@ -95,11 +98,10 @@ export = function buildCss(gulp, plugins) {
           }
           if(pathVal.isPathFull){
             appPath = path;
-            projectPath = join(__dirname, '../..', path, 'sass');
           }else{
             appPath = join(APP_SRC, path);
-            projectPath = join(__dirname, '../..', appPath, 'sass');
           }
+          projectPath = join(__dirname, '../..', appPath, 'sass');
           distPath = join(destDir, path);
           distPathCss = join(distPath, cssDir);
           scssFiles = ['*.scss'];

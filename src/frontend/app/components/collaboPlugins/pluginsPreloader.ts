@@ -179,11 +179,15 @@ export class PluginsPreloader {
     // inject plugins from puzzles-container
     static populateInPluginsFromPuzzles(pluginName, populatedPlugins, serviceRefs, puzzlesInfo){
 
+      // Searches for the reference of the plugin pluginName
+      // inside the all active puzzles in the `puzzles` configuration part
       for (var componentName in puzzlesInfo) {
         var component = puzzlesInfo[componentName];
         if (component.active && component.plugins &&
           component.plugins[pluginName]
         ) {
+          // for the each puzzle reffering to the plugin pluginName
+          // get all services in the puzzle that injects in that plugin space
           for (var sId in component.plugins[pluginName]) {
             var serviceId = component.plugins[pluginName][sId];
             var serviceConfig = component.services[serviceId];

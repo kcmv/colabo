@@ -1,4 +1,12 @@
+# Intro
 
+Colabo supports two type of extension. One is run-time and other is a puzzle - a new component addition.
+
+A ***run-time extension*** means that inside the code that is already part of our Colabo ecosystem we want to offer either a new feature available for the rest of the system or to hook to some other component and extend it. Please read more under the ***Registering runtime plugins*** chapter.
+
+A ***puzzle extension*** is a way of adding new component as a new code, through additional npm package and integration within the Colabo ecosystem. Please read more under the ***Colabo Puzzles*** chapter.
+
+# Registering runtime plugins
 
 ## Examples
 
@@ -9,6 +17,8 @@
 Plugin API is provided within the ```collaboPluginsServices module``` that currently has only one service: ```CollaboPluginsService``` that does the whole hard job.
 
 ### Registering plugins
+
+
 
 It registers plugin with structure
 
@@ -46,28 +56,357 @@ in the angular router we have:
 })
 ```
 
-## Creating a new PUZZLE
+# Colabo Puzzles
 
-We will create an IBIS (Issue Based Information System) in a separeate folder, `src/frontend/dev_puzzles/ibis`.
+This chapter refers to components/puzzles that are not about just run-time enabling a plugin, but rather providing it as an additional component, mostly as a separate npm package that you should install and register the component inside the Colabo ecosystem.
 
-It is always good practice to create `README.md` file with each puzzle.
+## Introduction to the config.plugins.js file
 
-### Config
+The file `config.plugins.js` sits in the `src/frontend/app/js/config/` folder. It is responsible for the most of Colabo ecosystem configuration. It's structure looks like:
 
-Config file `config.js` contains all info about the puzzle, how it is integrated inside the system, which resources it needs, etc.
+```js
+var project = {
+  // decscribes project and sub projects
+}
+
+// set of variables and path shortcuts/aliases
+
+// for each sub-project you should have a similar configuration
+project.subProjects.KNALLEDGE.COMPILATION = {
+  // configuring paths (src. )
+  COMPASS: {
+    PATHS: {
+      'components/collaboPlugins': {
+        destDir: APP_SRC,
+        cssDir: 'css',
+        isPathFull: false
+      },
+      // the rest of components
+    }
+  }
+};
+
+/* Configuration */
+var plugins = {
+  // a set of modules and view components that should be added for each of components
+  "ViewComponents": {
+    // ...
+  },
+  
+  puzzlesBuild: {
+    // ...
+  },
+  
+  puzzles: {
+    // ...
+  }
+};
+
+
+
+```
+
+### ViewComponents configuration
+
+```js
+"ViewComponents": {
+  "knalledgeMap.Main": {
+    modules: {
+      TopPanel: {
+        active: true,
+          path: "/components/topPanel/topPanel"
+      },
+        // ...
+    },
+      components: {
+        TopPanel: {
+          active: true,
+            path: "/components/topPanel/topPanel"
+        },
+        // ...
+        'cf.puzzles.ibis.actionsForm': {
+          active: true,
+          path: "cf.puzzles.ibis.actionsForm"
+        },
+      }
+  },
+    // ...
+},
+```
+
+
+
+This part of the configuration tells which (angular 2+) **modules** and (angular 2+) **components** should injected for each enlisted **hosting component**. This helps us to extend hosting components dynamically and without need for changing them. The code responsible for loading extensions is located in `src/frontend/app/components/collaboPlugins/pluginsPreloader.ts`
+
+One of the enlisted hosting components is `"knalledgeMap.Main"` and inside of it is injected one module `TopPanel` and few components where `TopPanel` where is one of them.
+
+For **modules** there is an `active` parameter that can disable the injection, and a `path` parameter, that tells where the module is located.
+
+For **components** there is an `active` parameter that can disable the injection, and a `path` parameter, that tells where the component is located.
+
+As we can see with the injecting component `cf.puzzles.ibis.actionsForm`, the path is a preset string, rather than a real path. All paths are defined in the `src/frontend/app/js/pluginDependencies.ts` file. Due to the angular (System.js ?) importing problems, making impossible to import a file with a path programmatically set, we need to have this file with **explicit imports**.
+
+The hosting angular component "knalledgeMap.Main" (placed in the `src/frontend/app/components/knalledgeMap/main.ts` file) has to be extension friendly and to ask `pluginsPreloader` to load extensions for them:
+
+```js
+var componentDirectives = [
+  // ...
+];
+
+PluginsPreloader.addDirectivesDependenciesForComponent('knalledgeMap.Main', componentDirectives);
+
+var moduleImports = [];
+
+PluginsPreloader.addModulesDependenciesForComponent('knalledgeMap.Main', moduleImports);
+
+// @NgModule for tools
+@NgModule({
+    imports: moduleImports,
+    providers: moduleProviders,
+    exports: componentExportDirectives,
+    declarations: componentDirectives,
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+```
+
+The crucial are two calls to `PluginsPreloader.addDirectivesDependenciesForComponent()` and `PluginsPreloader.addModulesDependenciesForComponent()` and proper treatment of lists of modules and components.
+
+### Compass configuration
+
+For the Compass configuration, the hash key (for example `'components/collaboPlugins'`) is used to form the source path as
+
+<cf_frontend_folder_>/\${path}/sass
+
+in the case `isPathFull == true` or otherwise as
+
+<cf_frontend_folder_>/\${APP_SRC}/\${path}/sass
+
+where the `APP_SRC` var is usually set to `app`.
+
+The `destDir` and `cssDir` parameters determines destination of the sass/compass compilation:
+
+`<cf_frontend_folder_>/${destDir}/${path}/${cssDir}`
+
+**NOTE**: by default, `isPathFull` is set to `true` for each external puzzle (described with a separate `config.js` file) since they themselves are referred to the `<cf_frontend_folder_>` inside the  `config.plugins.js` anyway, and the same **key** used to form the compass source path. This means that one external puzzles CANNOT have multiple source paths at the moment. The extension should be simple as adding suffixes for the each sub-compass folder inside the puzzle. Check for more details: `tools/config.ts:injectExternalPuzzle`.
+
+**NOTE**: External puzzles do not have their registries in this main COMPASS configuration, but they have separate COMPASS configuration inside their own `config.js` file.
+
+### puzzlesBuild configuration
+
+
+
+```js
+puzzlesBuild: {
+  knalledgeMap: {
+    directive: {
+      path: [APP_SRC_STR, 'components/knalledgeMap'],
+      injectJs: [
+        'js/directives/index.js',
+        // ...
+      ],
+      injectCss: ['css/default.css', 'css/graph.css']
+    },
+    interaction: {
+      path: [APP_SRC_STR, 'js/interaction'],
+      injectJs: ['interaction.js', 'moveAndDrag.js', 'keyboard.js']
+    },
+    knalledge: {
+      path: [APP_SRC_STR, 'js/knalledge'],
+      injectJs: ['mapLayout.js', /* ... */]
+    }
+  },
+  collaboPlugins: {
+    path: [APP_SRC_STR, 'components/collaboPlugins'],
+    injectJs: ['js/directives.js', 'js/services.js'],
+    injectCss: 'css/default.css'
+  },
+  // ...
+}
+```
+
+puzzlesBuild configuration provides configuration necessary to build each of the components.
+
+At the example above we see two scenarios, the `knalledgeMap` puzzle with 3 subcomponents: directive, interaction, and knalledge, and the collaboPlugins single puzzle.
+
+In both cases there are 3 parameters:
+
++ `path`: path to the component, relatively to the `<cf_frontend_folder>`. `APP_SRC_STR` is in the run-time replaced with the `APP_SRC` variable, that is usually rendered into the `app` folder.
++ `injectJs` (string | array of strings): a list of JS files (relative to the `path`) that should be injected
++ `injectCss` (string | array of strings): a list of CSS files (relative to the `path`) that should be injected
+
+**NOTE**: External puzzles do not have their registries in this main puzzlesBuild configuration, but they have separate puzzlesBuild configuration inside their own `config.js` file.
+
+?! what is the boolean **css** parameter ?!
+
+### puzzles configuration
+
+```js
+puzzles: {
+  mapsList: {
+    active: true,
+    config: {
+      title: 'www.Colabo.space',
+      openMap: {
+        routes: [{
+          route: 'map',
+          name: 'map',
+          icon: ''
+        }]
+      }
+    }
+  },
+  request: {
+    active: true,
+    services: {
+      requestService: {
+        name: 'RequestService',
+        path: 'request.RequestService'
+        // icons: {
+        // 	showRequests: {
+        // 		position: "nw",
+        // 		iconClass: "fa-bell",
+        // 		action: "showRequests"
+        // 	}
+        // }
+      }
+    },
+    plugins: {
+      mapVisualizeHaloPlugins: ['requestService'],
+      // mapInteractionPlugins: ['requestService'],
+      keboardPlugins: ['requestService']
+    }
+  },
+  notify: {
+    active: true,
+    services: {
+      NotifyNodeService: {}
+    },
+    plugins: {
+      mapVisualizePlugins: ['NotifyNodeService']
+    }
+  },
+
+  // ...
+
+  ibis: {
+    active: true, // is active puzzle
+    path: 'dev_puzzles/ibis' // path to the puzzle folder, relative to the project (frontend) root
+  },
+  // ...
+}
+```
+
+Puzzles configuration describes each puzzle, its configuration, activity state, etc. Here is the more detailed list of paremeters:
+
++ `active` (Boolean): tells if the puzzle is active or not. **NOTE**: even if there are sub-puzzles, like in the knalledgeMap case, we still have only one parameter, that enables/disables the main puzzle and all sub-puzzles.
++ `config` (any): this is an object that is available and provided to puzzles. [TODO: write more how they are available, except direct access to the global config object]
++ `services` (hash of objects): it enlists services that are provided within the puzzle.
+  + Each hash entry represents one service. It is possible to have
+    + parameters inside the entry (like in the case of the `RequestService` service)
+      + `name`: a reference name to the service
+      + `path`: a reference path of the service (under which it will be stored and reffered as)
+    + an empty service entry (like in the case of the `NotifyNodeService` service). In this case hash entry key is used as the service name, and `${componentName}.{${serviceConfig.name} || serviceId}` as path
+  + The code responsible for loading services is locate in the file: `src/frontend/app/components/collaboPlugins/pluginsPreloader.ts` under functions `_retrieveServicesForPluginsFromConfig()`
++ `plugins`
+  + The code responsible for loading plugins is locate in the file: `src/frontend/app/components/collaboPlugins/pluginsPreloader.ts:_retrieveServicesForPluginsFromConfig()`
++ `path` (string): this parameter is only available in the case of external puzzles and it tells where the external puzzle resides (relatively to the  `<cf_frontend_folder>` folder)
+  + **NOTE**: Most likely we will introduce special prefixes paths (like `npm:knalledge_core` meaning that the puzzle is in the `knalledge_core` folder inside the npm floder `node_modules`)
+
+## Creating a new external PUZZLE
+
+We will create an IBIS (Issue Based Information System) in a separate folder `src/frontend/dev_puzzles/ibis`.
+
+**NOTE**: `dev_puzzles` is a folder that contains separately developed puzzles.
+
+It is always a good practice to create a `README.md` file for each puzzle.
 
 ### Registering
 
-Inside the `src/frontend/js/config/config.plugins.js` add
+First we need to tell the Colabo ecosystem that our puzzle exists and is active. 
+
+Inside the main Colabo config file `src/frontend/js/config/config.plugins.js` add the following registration entrance inside the `puzzles` property:
 
 ```js
   ibis: {
     active: true,
     // relative to the project root
-    path: 'dev_puzzles/ibis'
+    path: 'dev_puzzles/ibis'  
 ```
 
-inside the `puzzles` property.
+This tells about our new puzzle, that it is active and where it is located.
+
+
+
+### Config
+
+The config file `config.js` contains all info about the puzzle, how it is integrated inside the system, which resources it needs, etc.
+
+```js
+var puzzles = {
+  name: 'ibis',
+  COMPASS: {
+    PATHS: {
+      '.': {
+        destDir: '.',
+        cssDir: 'css'
+      }
+    }
+  },
+
+  puzzlesBuild: {
+    ibis: {
+      path: '.',
+      css: true,
+      injectJs: 'js/services.js',
+      injectCss: 'css/default.css'
+    }
+  },
+
+  puzzles: {
+    ibis: {
+      active: true,
+      services: { // list of services that are available in this puzzle
+        CfPuzzlesIbisService: { // service name
+          isTS: true, // is written in TS
+          isNG2: true, // is written as NG2
+          isAvailableInNG1: true, // should it be available in NG1 world?
+          isGlobal: true, // should we add it at the top level as addProvider in app2
+          module: 'ibisServices', // NG1 module the service is inserted in
+          path: 'cf.puzzles.ibis.service' // unique id/path that is addressing the service
+        }
+      },
+      plugins: { // list of plugins that are available in this puzzle
+        mapVisualizePlugins: ['CfPuzzlesIbisService']
+      }
+    }
+  }
+}
+```
+
++ `COMPASS` section tells where are the sass files that should be compiled into css. The structure is similar to internal components configuration section and can be found under the [***Compass configuration***](#Compass configuration)  section above.
+
++ `puzzlesBuild` section is equal to the internal components configuration section and can be found under the [***puzzlesBuild configuration***](#puzzlesBuild configuration)  section above.
+
++ `puzzles` section is **similar** to the internal components configuration section and can be found under the [***puzzles configuration***](#puzzles configuration)  section above. The main **difference** is in the `services` subsection which has more elaborative parameters for each service:
+
+  + `isTS` (Boolean): is the service written in TS
+  + `isNG2` (Boolean): is the service written as NG2+ (and not as NG1 service)
+  + `isAvailableInNG1` (Boolean): should it be available in NG1 world? If `true` and it is NG2+ service it will be **downgraded** and injected in the NG1 space
+  + `isGlobal` (Boolean): should we add it as top level providers, adding them at the top level component (in our case the `app/components/knalledgeMap/main.ts` component) as providers (`moduleProviders` is the external list where they will be added) :
+
+  ```js
+  @NgModule({
+      imports: moduleImports,
+      providers: moduleProviders,
+      exports: componentExportDirectives,
+      declarations: componentDirectives,
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  })
+  ```
+
+  + `module` (String): a NG1 module name where the service will be inserted in
+
+  **NOTE**: If we recall the only reason why there are not so many elaborative parameters for the internal puzzles is because they were introduced earlier  during the NG1-only era and after the NG2 era started, all development is developed through external puzzles anyway. We will reconsider the reason for having internal puzzles and should we extend their capabilities as well
 
 ### Service
 

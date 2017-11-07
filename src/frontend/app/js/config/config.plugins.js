@@ -25,6 +25,7 @@
     var APP_SRC_STR = 'APP_SRC_STR';
     var APP_DEST_STR = 'APP_DEST_STR';
 
+    // for each sub-project you should have a similar configuration
     project.subProjects.KNALLEDGE.COMPILATION = {
         ADD_ANTICACHE_SUFIX: false,
         INLINE_NG1: {
@@ -39,6 +40,7 @@
         INLINE: {
             USE_RELATIVE_PATHS: true
         },
+        //
         COMPASS: {
             // NOTE: !!!if true, this will output css files into sass folder!!!
             // due to [issue-61](https://github.com/appleboy/gulp-compass/issues/61)
@@ -58,10 +60,6 @@
                 // 	cssDir: 'css'
                 // }
                 'components/change': {
-                    destDir: APP_SRC,
-                    cssDir: 'css'
-                },
-                'components/knalledgeMap': {
                     destDir: APP_SRC,
                     cssDir: 'css'
                 },
@@ -123,6 +121,7 @@
 
     /* Configuration */
     var plugins = {
+        // a set of modules and view components that should be added for each of components
         "ViewComponents": {
             "knalledgeMap.Main": {
                 modules: {
@@ -214,7 +213,6 @@
                     path: [APP_SRC_STR, 'components/knalledgeMap'],
                     injectJs: [
                         'js/directives/index.js',
-                        'js/directives/knalledgeMap.js',
                         'js/directives/knalledgeMapList.js',
                         'js/directives/knalledgeMapImageEditing.js',
                         'js/directives/knalledgeMapSelectItem.js',
@@ -230,15 +228,11 @@
                         'js/services/knAllEdgeSelectItemService.js',
                         'js/services/syncingService.js'
                     ],
-                    injectCss: ['css/default.css', 'css/graph.css']
+                    injectCss: []
                 },
                 interaction: {
                     path: [APP_SRC_STR, 'js/interaction'],
                     injectJs: ['interaction.js', 'moveAndDrag.js', 'keyboard.js']
-                },
-                knalledge: {
-                    path: [APP_SRC_STR, 'js/knalledge'],
-                    injectJs: ['mapLayout.js', 'mapVisualization.js', 'mapLayoutTree.js', 'mapVisualizationTree.js', 'mapLayoutFlat.js', 'mapVisualizationFlat.js', 'mapLayoutGraph.js', 'mapVisualizationGraph.js', 'mapManager.js', 'map.js']
                 }
             },
 
@@ -499,10 +493,19 @@
             coevoludens: {
                 active: true, // is active puzzle
                 path: 'dev_puzzles/coevoludens' // path to the puzzle folder, relative to the project (frontend) root
+            },
+            'knalledge.knalledge_core': {
+                active: true, // is active puzzle
+                path: 'dev_puzzles/knalledge/knalledge_core' // path to the puzzle folder, relative to the project (frontend) root
+            },
+            'knalledge.knalledge_view_enginee': {
+                active: true, // is active puzzle
+                path: 'dev_puzzles/knalledge/knalledge_view_enginee' // path to the puzzle folder, relative to the project (frontend) root
             }
         }
     };
 
+    // Part responsible for injecting and making available the config inside of different JS environments and frameworks
 
     if (typeof window !== 'undefined') {
         if (typeof window.Config === 'undefined') window.Config = {};

@@ -2,7 +2,7 @@
 'use strict';
 
 var puzzles = {
-  name: 'ibis',
+  name: 'knalledge.knalledge_view_enginee',
   COMPASS: {
     PATHS: {
       '.': {
@@ -13,30 +13,17 @@ var puzzles = {
   },
 
   puzzlesBuild: {
-    ibis: {
+    'knalledge.knalledge_view_enginee': {
       path: '.',
       css: true,
-      injectJs: 'js/services.js',
-      injectCss: 'css/default.css'
+      injectJs: ['code/knalledge/map.js', 'code/knalledge/mapLayout.js', 'code/knalledge/mapLayoutTree.js', 'code/knalledge/mapLayoutFlat.js', 'code/knalledge/mapLayoutGraph.js', 'code/knalledge/mapVisualization.js', 'code/knalledge/mapVisualizationTree.js', 'code/knalledge/mapVisualizationFlat.js', 'code/knalledge/mapVisualizationGraph.js', 'code/knalledge/mapManager.js', 'code/knalledge/mapStructure.js', 'directives/knalledgeMap.js'],
+      injectCss: ['css/default.css', 'css/graph.css']
     }
   },
 
   puzzles: {
-    ibis: {
-      active: true,
-      services: { // list of services that are available in this puzzle
-        CfPuzzlesIbisService: { // service name
-          isTS: true, // is written in TS
-          isNG2: true, // is written as NG2
-          isAvailableInNG1: true, // should it be available in NG1 world?
-          isGlobal: true, // should we add it at the top level as addProvider in app2
-          module: 'ibisServices', // NG1 module the service is inserted in
-          path: 'cf.puzzles.ibis.service' // unique id/path that is addressing the service
-        }
-      },
-      plugins: { // list of plugins that are available in this puzzle
-        mapVisualizePlugins: ['CfPuzzlesIbisService']
-      }
+    'knalledge.knalledge_view_enginee': {
+      active: true
     }
   }
 }

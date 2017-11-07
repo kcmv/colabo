@@ -2,6 +2,10 @@
 
 This page describes the process of developing extra component.
 
+## Linked puzzles / components
+
+If you want to develop all components, you should remove some of npm packages, that can be linked instead from local folders containing them. Please see in the [DEVELOPMENT CHEATSHEET](DEVELOPMENT_CHEATSHEET.md) document.
+
 ## Branching
 
 If you want to develop additional feature, the safest procedure is to create a separate git branch. **NOTE**: This requires developer write access to the CF project.
@@ -207,7 +211,7 @@ sudo apt-get install git
 sudo apt-get install -y mongodb
 ```
 
-Start MongoDB: 
+Start MongoDB:
 
 ```sh
 sudo service mongod start

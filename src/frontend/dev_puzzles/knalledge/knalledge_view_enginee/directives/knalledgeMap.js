@@ -65,6 +65,13 @@
  				CollaboPluginsService, injector, Plugins) {
 
  				console.log("[knalledgeMap] loading directive");
+
+				// TODO: it should not be hardcoded
+				// it will be fixed when moved to NG2+ world
+				var templateUrl = 'dev_puzzles/knalledge/knalledge_view_enginee/partials/knalledgeMap.tpl.html';
+
+				console.log("[knalledgeMap] templateUrl: %s", templateUrl);
+
  				return {
  					restrict: 'EA',
  					scope: {
@@ -74,7 +81,7 @@
  					},
  					// ng-if directive: http://docs.angularjs.org/api/ng.directive:ngIf
  					// expression: http://docs.angularjs.org/guide/expression
- 					templateUrl: 'components/knalledgeMap/partials/knalledgeMap.tpl.html',
+ 					templateUrl: templateUrl,
  					controller: function($scope, $element) {
  						// getting services dinamicaly by injecting
  						try {
