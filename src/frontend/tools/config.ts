@@ -3,6 +3,22 @@ import {argv} from 'yargs';
 import {normalize, join} from 'path';
 import * as chalk from 'chalk';
 
+export interface IDependency {
+    src: string;
+    inject?: string | boolean;
+    asset?: boolean; // if set to true it will be copied to final destination
+    dest?: string;
+    noNorm?: boolean; // if true, dependency will not get normalize with normalizeDependencies()
+}
+
+// http://stackoverflow.com/questions/12787781/type-definition-in-object-literal-in-typescript
+export interface IDependencyStructure {
+    APP_ASSETS: IDependency[];
+    NPM_DEPENDENCIES: IDependency[];
+    DEV_NPM_DEPENDENCIES: IDependency[];
+    PROD_NPM_DEPENDENCIES: IDependency[];
+}
+
 var PluginsConfig = require('../app/js/config/config.plugins');
 
 console.log("Plugins.gardening: ", PluginsConfig.plugins.gardening);
@@ -212,7 +228,7 @@ export var WATCH_CHANGED:any = {
  * @param  {string[]|string} pathArray array of pa
  * @return {string} substituted path
  */
-function replaceStrPaths(pathArray:string[]|string, parentPath?:string):string{
+export function replaceStrPaths(pathArray:string[]|string, parentPath?:string):string{
     if(typeof pathArray === 'string') pathArray = [<string>pathArray];
 
     var path = "";
@@ -246,22 +262,6 @@ for(var i in inlineNg1){
 
 export const NG2LINT_RULES = customRules();
 
-interface IDependency {
-    src: string;
-    inject?: string | boolean;
-    asset?: boolean; // if set to true it will be copied to final destination
-    dest?: string;
-    noNorm?: boolean; // if true, dependency will not get normalize with normalizeDependencies()
-}
-
-// http://stackoverflow.com/questions/12787781/type-definition-in-object-literal-in-typescript
-interface IDependencyStructure {
-    APP_ASSETS: IDependency[];
-    NPM_DEPENDENCIES: IDependency[];
-    DEV_NPM_DEPENDENCIES: IDependency[];
-    PROD_NPM_DEPENDENCIES: IDependency[];
-}
-
 // Declare local files that needs to be injected
 export const SUB_PROJECTS_FILE:IDependencyStructure = {
     APP_ASSETS: [
@@ -281,17 +281,6 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         { src: join(APP_SRC, 'js/config/config.env.js'), inject: true, noNorm: true },
         { src: join(APP_SRC, 'js/config/config.plugins.js'), inject: true, noNorm: true },
 
-        // KNALLEDGE CORE
-        { src: join(APP_SRC, 'js/knalledge/index.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'js/knalledge/kNode.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'js/knalledge/kEdge.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'js/knalledge/kMap.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'js/knalledge/WhoAmI.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'js/knalledge/HowAmI.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'js/knalledge/WhatAmI.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'js/knalledge/vkNode.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'js/knalledge/vkEdge.js'), inject: true, noNorm: true },
-        { src: join(APP_SRC, 'js/knalledge/state.js'), inject: true, noNorm: true },
 
         // COMPONENTS
         { src: join(APP_SRC, 'components/puzzles.js'), inject: true, noNorm: true },
@@ -302,10 +291,6 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
         // Example: components/knalledgeMap/main.js imports
         // components/topPanel/topPanel.js only if the config.plugins.js says so
 
-
-        // ng1 registration and bootstrap
-        // { src: join(TMP_DIR, 'components/knalledgeMap/knalledgeMapPolicyService.js'), inject: true, noNorm: true},
-        // { src: join(TMP_DIR, 'components/knalledgeMap/knalledgeMapViewService.js'), inject: true, noNorm: true},
 
         // CSS
         // LIBS
@@ -338,193 +323,13 @@ export const SUB_PROJECTS_FILE:IDependencyStructure = {
     ]
 };
 
+// injecting puzzle dependencies
 var npmDependencies = SUB_PROJECTS_FILE.NPM_DEPENDENCIES;
-var puzzlesBuild = PluginsConfig.plugins.puzzlesBuild;
 var puzzlesConfig = PluginsConfig.plugins.puzzles;
+var puzzlesBuild = PluginsConfig.plugins.puzzlesBuild;
 
-// Example
-
-/**
- * Analyzes puzzleBuild and extracts and injects JavaScript build dependencies in dependencies
- * @param  {IDependency[]} dependencies dependencies in which puzzle dependencies will be added
- * @param  {any}           puzzleBuild  config object describing build aspects of the puzzle
- */
-function injectJsDependencyFactory(dependencies:IDependency[], puzzleBuild:any, parentPath?:string){
-    // Example
-    // { src: join('components/gardening/js/services.js'), inject: true, noNorm: true },
-
-    var jsDpendencyTemplate = { src: null,
-        inject: true, noNorm: true
-    };
-
-    var path = replaceStrPaths(puzzleBuild.path, parentPath);
-    path = normalize(path);
-
-    function injectJsDependency(injectJs:string){
-        var dPath = injectJs[0] === '.' ? parentPath : path;
-        // console.log("injectJs: ", injectJs, "dPath: ", dPath, "parentPath: ", parentPath, "path: ", path);
-        var dependency:any = {};
-        Object.assign(dependency, jsDpendencyTemplate);
-        dependency.src = (dPath) ?
-          dPath + "/" + injectJs : injectJs;
-        dependency.src = normalize(dependency.src);
-        console.log("[injectJsDependencyFactory] dependency=", dependency);
-        dependencies.push(dependency);
-    }
-    return injectJsDependency;
-}
-
-/**
- * Analyzes puzzleBuild and extracts and injects CSS build dependencies in dependencies
- * @param  {IDependency[]} dependencies dependencies in which puzzle dependencies will be added
- * @param  {any}           puzzleBuild  config object describing build aspects of the puzzle
- */
-function injectCssDependencyFactory(dependencies:IDependency[], puzzleBuild:any, parentPath?:string){
-    // Example
-    // { src: join(APP_SRC, 'components/gardening/css/default.css'), inject: true, dest: CSS_DEST, noNorm: true },
-
-    var cssDpendencyTemplate = { src: null, dest: CSS_DEST,
-        inject: true, noNorm: true
-    };
-
-    var path = replaceStrPaths(puzzleBuild.path, parentPath);
-    path = normalize(path);
-
-    function injectCssDependency(injectCss:string){
-      var dPath = injectCss[0] === '.' ? parentPath : path;
-        var dependency:any = {};
-        Object.assign(dependency, cssDpendencyTemplate);
-        dependency.src = (dPath) ?
-          dPath + "/" + injectCss : injectCss;
-        dependency.src = normalize(dependency.src);
-        console.log("[injectCssDependencyFactory] dependency=", dependency);
-        dependencies.push(dependency);
-    }
-    return injectCssDependency;
-}
-
-/**
- * Analyzes puzzleBuild and extracts and injects all build dependencies in dependencies
- * @param  {IDependency[]} dependencies dependencies in which puzzle dependencies will be added
- * @param  {any}           puzzleBuild  config object describing build aspects of the puzzle
- */
-function injectPuzzle(dependencies:IDependency[], puzzleBuild:any, parentPath?:string){
-
-    let injectJsDependency = injectJsDependencyFactory(dependencies, puzzleBuild, parentPath);
-
-    if(Array.isArray(puzzleBuild.injectJs)){
-        for(let i in puzzleBuild.injectJs){
-            let injectJs = puzzleBuild.injectJs[i];
-            injectJsDependency(injectJs);
-        }
-    }else if(puzzleBuild.injectJs){
-        let injectJs = puzzleBuild.injectJs;
-        injectJsDependency(injectJs);
-    }
-
-    let injectCssDependency = injectCssDependencyFactory(dependencies, puzzleBuild, parentPath);
-
-    if(Array.isArray(puzzleBuild.injectCss)){
-        for(let i in puzzleBuild.injectCss){
-            let injectCss = puzzleBuild.injectCss[i];
-            injectCssDependency(injectCss);
-        }
-    }else if(puzzleBuild.injectCss){
-        let injectCss = puzzleBuild.injectCss;
-        injectCssDependency(injectCss);
-    }
-}
-
-
-/**
- * Analyzes if there are additional sub puzzles/build-folders in the puzzleBuild
- * and calls injectPuzzle on appropriate builds
- * @param  {IDependency[]} dependencies dependencies in which puzzle dependencies will be added
- * @param  {any}           puzzleBuild  config object describing build aspects of the puzzle
- */
-function injectPuzzleWithPossibleSubPuzzles(dependencies:IDependency[], puzzleBuild:any, parentPath?:string){
-  if('path' in puzzleBuild){
-      injectPuzzle(dependencies, puzzleBuild, parentPath);
-  }else{
-      for(var subPuzzleName in puzzleBuild){
-          var subPuzzleBuild = puzzleBuild[subPuzzleName];
-          console.log("subPuzzleBuild: ", subPuzzleBuild);
-          if('path' in subPuzzleBuild){
-              injectPuzzle(dependencies, subPuzzleBuild, parentPath);
-          }
-      }
-  }
-}
-
-/*
- * Iterates through all puzzles inside the puzzlesBuild and injects them in dependencies
- */
-for(var puzzleName in puzzlesBuild){
-    var puzzleBuild = puzzlesBuild[puzzleName];
-    console.log("puzzleBuild: ", puzzleBuild);
-
-    // if not configured or set as unavailable do not inject it
-    if(!(puzzleName in puzzlesConfig) || !puzzlesConfig[puzzleName].active) continue;
-    injectPuzzleWithPossibleSubPuzzles(npmDependencies, puzzleBuild);
-}
-
-var puzzles = PluginsConfig.plugins.puzzles;
-
-
-/*
- * INJECTING EXTERNAL PUZZLES
- */
-
-function injectExternalPuzzle(externalPuzzleName:string, puzzle:any){
-  console.log("[injectExternalPuzzle] Injecting external puzzle: ", externalPuzzleName);
-  var puzzlePath = puzzle.path;
-  var puzzlesContainerConfig = require(join(PROJECT_ROOT, puzzlePath, 'config.js'));
-
-  // injecting dependencies
-  var puzzlesBuild = puzzlesContainerConfig.puzzlesBuild;
-  var puzzlesConfig = puzzlesContainerConfig.puzzles;
-  console.log("external puzzlesBuild: ", puzzlesBuild);
-
-  var puzzleName;
-  // inject 'config.js' if not already injected
-  // we need this to be accessable during the runtime
-  for(puzzleName in puzzlesBuild){
-    var puzzleBuild = puzzlesBuild[puzzleName];
-
-    // if not configured or set as unavailable do not inject it
-    if(!(puzzleName in puzzlesConfig) || !puzzlesConfig[puzzleName].active) continue;
-
-    if(typeof puzzleBuild.injectJs === 'string') puzzleBuild.injectJs = [puzzleBuild.injectJs];
-    if(puzzleBuild.injectJs.indexOf('config.js') < 0){
-      puzzleBuild.injectJs.push('./config.js');
-    }
-
-    // if not configured or set as unavailable do not inject it
-    injectPuzzleWithPossibleSubPuzzles(npmDependencies, puzzleBuild, puzzlePath);
-  }
-
-
-  // injecting compass building
-  var compassPaths = COMPASS_CONFIG.PATHS;
-  var compassPathsPuzzle = puzzlesContainerConfig.COMPASS.PATHS;
-  for(var cppPath in compassPathsPuzzle){
-    var compassPathPuzzle = compassPathsPuzzle[cppPath];
-    compassPathPuzzle.isPathFull = true;
-    compassPaths[puzzlePath] = compassPathPuzzle;
-  }
-}
-
-/*
- * Iterates through all puzzles inside the puzzles config and if they are external
- * injects them
- * 1. EXTERNAL PUZZLES - BUILD PHASE
- */
-for(puzzleName in puzzles){
-    var puzzle = puzzles[puzzleName];
-    if('path' in puzzle && !!puzzle.active){
-      injectExternalPuzzle(puzzleName, puzzle);
-    }
-}
+import {injectPuzzlesDependencies} from './colabo/puzzleLoader';
+injectPuzzlesDependencies(npmDependencies, puzzlesConfig, puzzlesBuild, COMPASS_CONFIG);
 
 // add app.js after all other external puzzles-containers' configs are provided
 // so app.js is capable of accessing external puzzles-containers' configs
@@ -577,16 +382,6 @@ const DEV_NPM_DEPENDENCIES: IDependency[] = [
 
 const PROD_NPM_DEPENDENCIES: IDependency[] = [
     { src: 'zone.js/dist/zone.js', inject: 'shims' },
-    // { src: 'angular2/bundles/angular2.min.js', inject: 'libs' },
-    // { src: '@angular/common/index.js', inject: 'libs' },
-    // { src: '@angular/compiler/index.js', inject: 'libs' },
-    // { src: '@angular/core/index.js', inject: 'libs' },
-    // { src: '@angular/http/index.js', inject: 'libs' },
-    // { src: '@angular/platform-browser/index.js', inject: 'libs' },
-    // { src: '@angular/platform-browser-dynamic/index.js', inject: 'libs' },
-    // { src: '@angular/router/index.js', inject: 'libs' },
-    // { src: '@angular/router-deprecated/index.js', inject: 'libs' },
-    // { src: '@angular/upgrade/index.js', inject: 'libs' }
 ];
 
 console.log("NPM_DEPENDENCIES: ", NPM_DEPENDENCIES);

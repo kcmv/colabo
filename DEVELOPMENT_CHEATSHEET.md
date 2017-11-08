@@ -7,6 +7,11 @@ However to increase development speed and to avoid fix-publish-update loop we ar
 + https://docs.npmjs.com/cli/link
 + https://github.com/npm/npm/issues/7742
 
+There will be a script `src/frontend/scripts/development-prepare-npm-links.js` that should help with the process of exporting and importing npm packages.
+
+**NOTE for develoers**: After creating any new external puzzle
+* you HAVE to add it in the `npm_linked_puzzles` hash array bellow
+
 ## "Exporting the package"
 
 ```sh
@@ -32,10 +37,20 @@ So we would do something like this:
 npm link @colabo-knalledge/knalledge_view_enginee
 ```
 
-## @colabo-knalledge/knalledge_core
+```js
+var npm_linked_puzzles
+{
+  "@colabo-knalledge/knalledge_core": {
+    path: "dev_puzzles/knalledge/knalledge_core"
 
-- Location: dev_puzzles/knalledge/knalledge_core
+  },
+  "@colabo-knalledge/knalledge_view_enginee": {
+    path: "dev_puzzles/knalledge/knalledge_view_enginee"
 
-## @colabo-knalledge/knalledge_view_enginee
+  },
+  "@colabo-rima/rima_core": {
+    path: "dev_puzzles/rima/rima_core"
 
-- Location: dev_puzzles/knalledge/knalledge_view_enginee
+  }
+}
+```
