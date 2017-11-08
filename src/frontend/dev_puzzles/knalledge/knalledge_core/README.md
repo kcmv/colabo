@@ -1,5 +1,5 @@
 # Intro
 
-knalledge_core is a Colabo puzzle that provides visualization of a knowledge inside the KnAllEdge system.
+knalledge_core is a Colabo puzzle that provides a core support for the KnAllEdge component of the Colabo ecosystem.
 
-It is generic component in a sense it provides general support for visualizing knowledge, which should be supported with more speciffic visualization like knalledge_map, knalledge_list, ...)
+It is contains core entities of KnAllEdge, description of a node, edge, map, etc

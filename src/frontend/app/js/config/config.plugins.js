@@ -40,7 +40,7 @@
         INLINE: {
             USE_RELATIVE_PATHS: true
         },
-        //
+        // a config object describing how sass files of internals puzzles are built
         COMPASS: {
             // NOTE: !!!if true, this will output css files into sass folder!!!
             // due to [issue-61](https://github.com/appleboy/gulp-compass/issues/61)
@@ -207,12 +207,12 @@
                 }
             }
         },
+        // config object describing build aspects of internal puzzles
         puzzlesBuild: {
             knalledgeMap: {
                 directive: {
                     path: [APP_SRC_STR, 'components/knalledgeMap'],
                     injectJs: [
-                        'js/directives/index.js',
                         'js/directives/knalledgeMapList.js',
                         'js/directives/knalledgeMapImageEditing.js',
                         'js/directives/knalledgeMapSelectItem.js',
@@ -340,168 +340,173 @@
                 injectCss: 'css/default.css'
             }
         },
+        // config object describing each internal puzzle, its configuration, activity state, etc, and pointing to external puzzles config files
         puzzles: {
-            knalledgeMap: {
-                active: true,
-                config: {
-                    knalledgeMapVOsService: {
-                        // should map participants be broadcasted after loading map
-                        broadcastMapUsers: true
-                    },
-                    knAllEdgeRealTimeService: {
-                        available: true
-                    }
-                }
-            },
-            collaboPlugins: {
+          'knalledge.knalledge_core': {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/knalledge/knalledge_core' // path to the puzzle folder, relative to the project (frontend) root
+          },
+          'knalledge.knalledge_view_enginee': {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/knalledge/knalledge_view_enginee' // path to the puzzle folder, relative to the project (frontend) root
+          },
+          knalledgeMap: {
+              active: true,
+              config: {
+                  knalledgeMapVOsService: {
+                      // should map participants be broadcasted after loading map
+                      broadcastMapUsers: true
+                  },
+                  knAllEdgeRealTimeService: {
+                      available: true
+                  }
+              }
+          },
+          collaboPlugins: {
+            active: true
+          },
+          'rima.rima_core': {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/rima/rima_core' // path to the puzzle folder, relative to the project (frontend) root
+          },
+          topPanel: {
+              active: true,
+              config: {
+                  suggestion: {
+                      available: false
+                  },
+                  request: {
+                      available: false
+                  },
+              }
+          },
+          change: {
+            active: true
+          },
+          login: {
+            active: true
+          },
+          mapsList: {
+              active: true,
+              config: {
+                  title: 'www.Colabo.space',
+                  //map_path,
+                  //
+                  openMap: {
+                      routes: [{
+                          route: 'map',
+                          name: 'map',
+                          icon: ''
+                      }]
+                  }
+              }
+          },
+          ontov: {
               active: true
-            },
-            topPanel: {
-                active: true,
-                config: {
-                    suggestion: {
-                        available: false
-                    },
-                    request: {
-                        available: false
-                    },
-                }
-            },
-            change: {
+          },
+          mcMap: {
               active: true
-            },
-            login: {
+          },
+          topiChat: {
               active: true
-            },
-            mapsList: {
-                active: true,
-                config: {
-                    title: 'www.Colabo.space',
-                    //map_path,
-                    //
-                    openMap: {
-                        routes: [{
-                            route: 'map',
-                            name: 'map',
-                            icon: ''
-                        }]
-                    }
-                }
-            },
-            ontov: {
-                active: true
-            },
-            mcMap: {
-                active: true
-            },
-            topiChat: {
-                active: true
-            },
-            rima: {
-                active: true,
-                config: {
-                    rimaService: {
-                        available: true,
-                        ANONYMOUS_USER_ID: "55268521fb9a901e442172f8",
-                        // should the service wait for users be broadcasted from other components
-                        // (like KnalledgeMapVOsService) or request loading all of them?
-                        waitToReceiveRimaList: true
-                    }
-                }
-            },
-            request: {
-                active: true,
-                services: {
-                    requestService: {
-                        name: 'RequestService',
-                        path: 'request.RequestService'
-                            // icons: {
-                            // 	showRequests: {
-                            // 		position: "nw",
-                            // 		iconClass: "fa-bell",
-                            // 		action: "showRequests"
-                            // 	}
-                            // }
-                    }
-                },
-                plugins: {
-                    mapVisualizeHaloPlugins: ['requestService'],
-                    // mapInteractionPlugins: ['requestService'],
-                    keboardPlugins: ['requestService']
-                }
-            },
-            notify: {
-                active: true,
-                services: {
-                    NotifyNodeService: {}
-                },
-                plugins: {
-                    mapVisualizePlugins: ['NotifyNodeService']
-                }
-            },
-            collaboGrammar: {
-                active: true,
-                config: {
-                    collaboGrammarService: {
-                        available: true
-                    }
-                }
-            },
-            gardening: {
-                active: true,
-                services: {
-                    ApprovalNodeService: {}
-                },
-                plugins: {
-                    mapVisualizePlugins: ['ApprovalNodeService']
-                }
-            },
-            suggestion: {
-              active: true
-            },
-            bottomPanel: {
-              active: true
-            },
-            brainstorming: {
-                active: true,
-                services: {
-                    BrainstormingService: {}
-                },
-                plugins: {
-                    mapVisualizePlugins: ['BrainstormingService']
-                }
-            },
-            session: {
-              active: true
-            },
-            ibis: {
-                active: true, // is active puzzle
-                path: 'dev_puzzles/ibis' // path to the puzzle folder, relative to the project (frontend) root
-            },
-            editors: {
-                active: true, // is active puzzle
-                path: 'dev_puzzles/editors' // path to the puzzle folder, relative to the project (frontend) root
-            },
-            presentation: {
-                active: true, // is active puzzle
-                path: 'dev_puzzles/presentation' // path to the puzzle folder, relative to the project (frontend) root
-            },
-            knalledge_list: {
-                active: true, // is active puzzle
-                path: 'dev_puzzles/knalledge_list' // path to the puzzle folder, relative to the project (frontend) root
-            },
-            coevoludens: {
-                active: true, // is active puzzle
-                path: 'dev_puzzles/coevoludens' // path to the puzzle folder, relative to the project (frontend) root
-            },
-            'knalledge.knalledge_core': {
-                active: true, // is active puzzle
-                path: 'dev_puzzles/knalledge/knalledge_core' // path to the puzzle folder, relative to the project (frontend) root
-            },
-            'knalledge.knalledge_view_enginee': {
-                active: true, // is active puzzle
-                path: 'dev_puzzles/knalledge/knalledge_view_enginee' // path to the puzzle folder, relative to the project (frontend) root
-            }
+          },
+          rima: {
+              active: true,
+              config: {
+                  rimaService: {
+                      available: true,
+                      ANONYMOUS_USER_ID: "55268521fb9a901e442172f8",
+                      // should the service wait for users be broadcasted from other components
+                      // (like KnalledgeMapVOsService) or request loading all of them?
+                      waitToReceiveRimaList: true
+                  }
+              }
+          },
+          request: {
+              active: true,
+              services: {
+                  requestService: {
+                      name: 'RequestService',
+                      path: 'request.RequestService'
+                          // icons: {
+                          // 	showRequests: {
+                          // 		position: "nw",
+                          // 		iconClass: "fa-bell",
+                          // 		action: "showRequests"
+                          // 	}
+                          // }
+                  }
+              },
+              plugins: {
+                  mapVisualizeHaloPlugins: ['requestService'],
+                  // mapInteractionPlugins: ['requestService'],
+                  keboardPlugins: ['requestService']
+              }
+          },
+          notify: {
+              active: true,
+              services: {
+                  NotifyNodeService: {}
+              },
+              plugins: {
+                  mapVisualizePlugins: ['NotifyNodeService']
+              }
+          },
+          collaboGrammar: {
+              active: true,
+              config: {
+                  collaboGrammarService: {
+                      available: true
+                  }
+              }
+          },
+          gardening: {
+              active: true,
+              services: {
+                  ApprovalNodeService: {}
+              },
+              plugins: {
+                  mapVisualizePlugins: ['ApprovalNodeService']
+              }
+          },
+          suggestion: {
+            active: true
+          },
+          bottomPanel: {
+            active: true
+          },
+          brainstorming: {
+              active: true,
+              services: {
+                  BrainstormingService: {}
+              },
+              plugins: {
+                  mapVisualizePlugins: ['BrainstormingService']
+              }
+          },
+          session: {
+            active: true
+          },
+          ibis: {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/ibis' // path to the puzzle folder, relative to the project (frontend) root
+          },
+          editors: {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/editors' // path to the puzzle folder, relative to the project (frontend) root
+          },
+          presentation: {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/presentation' // path to the puzzle folder, relative to the project (frontend) root
+          },
+          knalledge_list: {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/knalledge_list' // path to the puzzle folder, relative to the project (frontend) root
+          },
+          coevoludens: {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/coevoludens' // path to the puzzle folder, relative to the project (frontend) root
+          }
         }
     };
 
