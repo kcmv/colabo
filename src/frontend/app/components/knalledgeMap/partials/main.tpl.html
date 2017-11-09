@@ -11,11 +11,11 @@
                 <button md-mini-fab md-tooltip="Configuration" tooltip-position="below" class="md-mini md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
                     <md-icon title="Settings">settings</md-icon>
                 </button>
-                <button md-mini-fab class="md-mini md-primary" aria-label="Options Visibility" (click)="options.toggle()">
+                <button md-mini-fab md-tooltip="Options Visibility" tooltip-position="below" class="md-mini md-primary" aria-label="Options Visibility" (click)="options.toggle()">
                     <md-icon title="Options Visibility">chrome_reader_mode</md-icon>
 
                 </button>
-                <!-- <button md-mini-fab class="md-mini md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
+                <!-- <button md-mini-fab md-tooltip="Toggle Top Panel" tooltip-position="below" class="md-mini md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
                     <md-icon title="Top Panel">view_agenda</md-icon>
                 </button> -->
 
@@ -23,15 +23,15 @@
                     <md-icon title="Maps List">map</md-icon>
                 </button>
 
-                <button md-mini-fab class="md-mini md-primary" aria-label="Plugins" (click)="go('plugins')" *ngIf="policyConfig.moderating.enabled">
+                <button md-mini-fab md-tooltip="Plugins" tooltip-position="below" class="md-mini md-primary" aria-label="Plugins" (click)="go('plugins')" *ngIf="policyConfig.moderating.enabled">
                     <md-icon title="Plugins">extension</md-icon>
                 </button>
 
-                <button md-mini-fab class="md-mini md-primary" aria-label="Ontov Search" (click)="state('plugins')">
+                <button md-mini-fab md-tooltip="Ontov Search" tooltip-position="below" class="md-mini md-primary" aria-label="Ontov Search" (click)="state('plugins')">
                     <md-icon title="Ontov Search">search</md-icon>
                 </button>
 
-                <button *ngIf="pluginsConfig?.knalledgeMap?.config?.externalInterface?.backFromMap" md-mini-fab class="md-mini md-primary" aria-label="Navigate Back" (click)="navigateBack()">
+                <button *ngIf="pluginsConfig?.knalledgeMap?.config?.externalInterface?.backFromMap" md-mini-fab md-tooltip="Navigate Back" tooltip-position="below" class="md-mini md-primary" aria-label="Navigate Back" (click)="navigateBack()">
                   <md-icon title="Back">navigate_before</md-icon>
                 </button>
 
@@ -47,7 +47,7 @@
                 </div>
                 <div *ngIf="!policyConfig.broadcasting.enabled">
                     <span *ngIf="policyConfig.broadcasting.receiveNavigation">
-                      <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter() && !policyConfig.moderating.enabled" md-mini-fab class="md-mini md-primary" (click)="followBroadcast(false)">
+                      <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter() && !policyConfig.moderating.enabled" md-mini-fab md-tooltip="Click to stop following broadcasting" tooltip-position="below" class="md-mini md-primary" (click)="followBroadcast(false)">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-phone fa-stack-1x"></i>
                         </span>
@@ -55,7 +55,7 @@
                     </span>
                     <span *ngIf="!policyConfig.broadcasting.receiveNavigation">
                       <!-- <span class="warning">You are not following a presentation!</span> -->
-                      <button md-mini-fab class="md-mini md-primary" (click)="followBroadcast(true)">
+                      <button md-mini-fab md-tooltip="Click to follow broadcasting" tooltip-position="below" class="md-mini md-primary" (click)="followBroadcast(true)">
                         <span class="fa-stack fa-lg">
                           <i  style="font-size: 2em" class="fa fa-times text-danger"></i>
                           <i class="fa fa-phone disabled fa-stack-1x"></i>
@@ -65,14 +65,14 @@
                 </div>
                 <div *ngIf="policyConfig.moderating.enabled">
                     <span *ngIf="policyConfig.broadcasting.enabled">
-                      <button md-mini-fab class="md-mini md-primary" (click)="broadcast(false)">
+                      <button md-mini-fab md-tooltip="Stop broadcasting" tooltip-position="below" class="md-mini md-primary" (click)="broadcast(false)">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-desktop fa-stack-1x"></i>
                         </span>
                       </button>
                     </span>
                     <span *ngIf="!policyConfig.broadcasting.enabled">
-                      <button md-mini-fab class="md-mini md-primary" (click)="broadcast(true)">
+                      <button md-mini-fab md-tooltip="Start broadcasting" tooltip-position="below" class="md-mini md-primary" (click)="broadcast(true)">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-desktop fa-stack-1x disabled"></i>
                           <i style="margin-top: -0.1em; margin-left: 0.3em; font-size: 1.3em" class="fa fa-times text-danger"></i>
@@ -82,7 +82,7 @@
                 </div>
             </section>
             <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
-                <button md-mini-fab class="md-mini md-primary" aria-label="Person" (click)="userPanel()">
+                <button md-mini-fab md-tooltip="Person" tooltip-position="below" class="md-mini md-primary" aria-label="Person" (click)="userPanel()">
                     <md-icon [ngClass]="{warning: !amILoggedIn()}" title="Login">person</md-icon>
                 </button>
 
