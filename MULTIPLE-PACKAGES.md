@@ -30,6 +30,9 @@
   + [How to Create and Publish an npm module in TypeScript](https://codeburst.io/https-chidume-nnamdi-com-npm-module-in-typescript-12b3b22f0724)
   + https://docs.npmjs.com/cli/link
   + https://docs.npmjs.com/cli/dedupe
++ Typescript compiler
+  - The flexibility of **`rootDirs`** is not limited to specifying a list of physical source directories that are logically merged. The supplied array may include any number of **ad hoc, arbitrary directory names, regardless of whether they exist or not**. This allows the compiler to capture sophisticated bundling and runtime features such as *conditional inclusion* and **project specific loader plugins** in a type safe way.
+    - [typescriptlang - module-resolution - path-mapping](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
 + monorepo
   + [Advantages of monolithic version control](https://danluu.com/monorepo/)
   + [Scaling Mercurial at Facebook](https://code.facebook.com/posts/218678814984400/scaling-mercurial-at-facebook/)
