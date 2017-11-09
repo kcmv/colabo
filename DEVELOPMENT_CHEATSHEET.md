@@ -10,7 +10,7 @@ However to increase development speed and to avoid fix-publish-update loop we ar
 There will be a script `src/frontend/scripts/development-prepare-npm-links.js` that should help with the process of exporting and importing npm packages.
 
 **NOTE for develoers**: After creating any new external puzzle
-* you HAVE to add it in the `npm_packaged_puzzles` hash array bellow
+* you HAVE to add it in the `npm_packaged_puzzles` hash array in the [src/frontend/packaged_puzzles.js](src/frontend/packaged_puzzles.js) file. This file is used both for the refference, but also for the automated tasks of npm linking, etc.
 
 ## "Exporting the package"
 
@@ -37,20 +37,6 @@ So we would do something like this:
 npm link @colabo-knalledge/knalledge_view_enginee
 ```
 
-```js
-var npm_packaged_puzzles
-{
-  "@colabo-knalledge/knalledge_core": {
-    path: "dev_puzzles/knalledge/knalledge_core"
+# List of npm-packaged puzzles
 
-  },
-  "@colabo-knalledge/knalledge_view_enginee": {
-    path: "dev_puzzles/knalledge/knalledge_view_enginee"
-
-  },
-  "@colabo-rima/rima_core": {
-    path: "dev_puzzles/rima/rima_core"
-
-  }
-}
-```
+You can find them in the [src/frontend/packaged_puzzles.js](src/frontend/packaged_puzzles.js) file
