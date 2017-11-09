@@ -116,7 +116,7 @@ for (let i = 0; i < bottomPanelComponentDirectives.length; i++) {
 var moduleProviders = [
 ];
 
-// @NgModule for tools
+// @NgModule for main
 @NgModule({
     imports: moduleImports,
     providers: moduleProviders,
