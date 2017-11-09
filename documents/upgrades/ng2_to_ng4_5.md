@@ -1,5 +1,10 @@
 **current version**: "@angular/common": "=2.1.2", with parts of the code in NG1
 
++ **5.1.0-beta.0 (2017-11-08)**
+
+  + **Reverts**
+    - feat(elements): implement `[@angular](https://github.com/angular)/elements` [#19469](https://github.com/angular/angular/issues/19469) ([#20152](https://github.com/angular/angular/issues/20152)) ([3997d97](https://github.com/angular/angular/commit/3997d97))
+
 + **5.0.0 pentagonal-donut (2017-11-01)**
 
   + **BREAKING CHANGES**
