@@ -41,7 +41,7 @@
             USE_RELATIVE_PATHS: true
         },
         // a config object describing how sass files of internals puzzles are built
-        COMPASS: {
+        COMPASS: { //for internal puzzles only
             // NOTE: !!!if true, this will output css files into sass folder!!!
             // due to [issue-61](https://github.com/appleboy/gulp-compass/issues/61)
             GENERIC: false,
@@ -208,7 +208,7 @@
             }
         },
         // config object describing build aspects of internal puzzles
-        puzzlesBuild: {
+        puzzlesBuild: { //for internal puzzles only
             knalledgeMap: {
                 directive: {
                     path: [APP_SRC_STR, 'components/knalledgeMap'],
@@ -341,7 +341,8 @@
             }
         },
         // config object describing each internal puzzle, its configuration, activity state, etc, and pointing to external puzzles config files
-        puzzles: {
+        puzzles: { //for external and internal puzzles
+        //! if the puzzle's entry contains 'path' property, it means it's the external one, otherwise it's an internal
           'knalledge.knalledge_core': {
               active: true, // is active puzzle
               path: 'dev_puzzles/knalledge/knalledge_core' // path to the puzzle folder, relative to the project (frontend) root
