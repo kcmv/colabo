@@ -343,6 +343,11 @@
         // config object describing each internal puzzle, its configuration, activity state, etc, and pointing to external puzzles config files
         puzzles: { //for external and internal puzzles
         //! if the puzzle's entry contains 'path' property, it means it's the external one, otherwise it's an internal
+          'knalledge.knalledge_store_core': {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/knalledge/knalledge_store_core' // path to the puzzle folder, relative to the project (frontend) root
+          },
+
           'knalledge.knalledge_core': {
               active: true, // is active puzzle
               path: 'dev_puzzles/knalledge/knalledge_core' // path to the puzzle folder, relative to the project (frontend) root
