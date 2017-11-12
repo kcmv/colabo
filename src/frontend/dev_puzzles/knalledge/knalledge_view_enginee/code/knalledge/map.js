@@ -56,7 +56,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.knAllEdgeRealTimeService = knAllEdgeRealTimeService;
 	this.injector = injector;
 
-	this.collaboGrammarService = this.injector.get("collaboPlugins.CollaboGrammarService");
+	this.collaboGrammarService = this.injector.get("collaboPlugins.CollaboGrammarService", null);
 	this.collaboGrammarService.puzzles.knalledgeMap.actions['getActiveIbisType'] = Map.prototype.getActiveIbisType;
 
 	this.knalledgeState = new knalledge.State();
@@ -135,7 +135,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 		//isParent: this.mapStructure.isParent.bind(this.mapStructure)
 	};
 
-	var MapInteraction = this.injector.get("interaction.MapInteraction");
+	var MapInteraction = this.injector.get("interaction.MapInteraction", null);
 
 	this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
 

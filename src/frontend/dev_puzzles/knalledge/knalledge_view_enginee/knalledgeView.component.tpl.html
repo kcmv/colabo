@@ -1,14 +1,14 @@
-<!-- Bacground logos/trade-marks -->
-<div class="logo_background">
-    <div class="titles">
-        <div ng-template="ngIf:true">
-            <h1><span class="title_web" style="opacity: 0.3;"></span><span class="title_collabo">Map Content: </span><span class="title_science">{{getMapName()}}</span><span class="title_web"></span></h1>
-        </div>
-    </div>
+<div style="
+    position: absolute;
+    z-index: 2000;
+    top: 10px;
+    right: 10px;
+    color: blue;
+    opacity: 0.5;
+">
+  <b>NOTE</b>: You can <br/>
+  drag and <b>scroll</b> map
 </div>
-<div layout-fill layout-align="stretch stretch">
-    <div class="knalledge_map_middle" layout-fill layout="column">
-        <!-- KnAllEdge Map -->
-        <!-- <knalledge-map class="knalledge_map" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_tree' || viewConfig.visualization.viewspec === 'viewspec_manual'"></knalledge-map> -->
-    </div>
+
+<div class="knalledge_map_container dragscroll">
 </div>

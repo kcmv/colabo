@@ -3,6 +3,7 @@
 
 /**
 @classdesc Deals with visualization of the KnAllEdge map. It is a specialization of the `knalledge.MapVisualization` class
+
 @class MapVisualizationTree
 @memberof knalledge
 */

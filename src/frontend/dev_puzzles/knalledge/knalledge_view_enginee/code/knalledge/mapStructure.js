@@ -5,8 +5,9 @@
 	@classdesc Provides the interface for manipulating with the knalledge map structure,
 	it is used as a prerequisite for the map visualization.
 
-	**NOTE**: It handles VKNodes and VKEdges,
+	**NOTE**: It operates with VKNodes and VKEdges,
 	not KNodes nor KEdges
+
 	@class MapStructure
 	@memberof knalledge
 	*/
