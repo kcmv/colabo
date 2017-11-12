@@ -498,9 +498,9 @@ Keyboard.prototype.initializeKeyboard = function() {
 
 	//TODO: Delete edge
 
-	if(that.mapPlugins && that.mapPlugins.keboardPlugins){
-		for(var pluginName in that.mapPlugins.keboardPlugins){
-			var plugin = that.mapPlugins.keboardPlugins[pluginName];
+	if(that.mapPlugins && that.mapPlugins.keyboardPlugins){
+		for(var pluginName in that.mapPlugins.keyboardPlugins){
+			var plugin = that.mapPlugins.keyboardPlugins[pluginName];
 			if(typeof plugin.init === 'function'){
 				plugin.init(this, that.mapInteraction);
 			}

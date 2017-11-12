@@ -342,6 +342,10 @@
         },
         // config object describing each internal puzzle, its configuration, activity state, etc, and pointing to external puzzles config files
         puzzles: {
+          'puzzles.puzzles_core': {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/puzzles/puzzles_core' // path to the puzzle folder, relative to the project (frontend) root
+          },
           'knalledge.knalledge_core': {
               active: true, // is active puzzle
               path: 'dev_puzzles/knalledge/knalledge_core' // path to the puzzle folder, relative to the project (frontend) root
@@ -440,7 +444,7 @@
               plugins: {
                   mapVisualizeHaloPlugins: ['requestService'],
                   // mapInteractionPlugins: ['requestService'],
-                  keboardPlugins: ['requestService']
+                  keyboardPlugins: ['requestService']
               }
           },
           notify: {

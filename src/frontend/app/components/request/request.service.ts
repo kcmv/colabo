@@ -53,7 +53,7 @@ export class RequestService {
         },
 */
 
-        keboardPlugins: {
+        keyboardPlugins: {
             service: this,
             init: function init(keyboard:any, mapInteraction:any) {
                 let that = this;

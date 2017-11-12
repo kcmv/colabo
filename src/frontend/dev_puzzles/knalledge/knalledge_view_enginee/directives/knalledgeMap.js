@@ -54,7 +54,6 @@
  			 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeSelectItemService} KnAllEdgeSelectItemService
  			 * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapPolicyService} KnalledgeMapPolicyService
  			 * @param  {knalledge.collaboPluginsServices.CollaboPluginsService} CollaboPluginsService
- 			 * @param  {knalledge.knalledgeMap.knalledgeMapServices.SyncingService} SyncingService
  			 * @param  {utils.Injector} injector
  			 * @param  {config.Plugins}  Plugins
  			 */
@@ -578,7 +577,7 @@
  								mapVisualizePlugins: true,
  								mapVisualizeHaloPlugins: true,
  								mapInteractionPlugins: true,
- 								keboardPlugins: true
+ 								keyboardPlugins: true
  							};
  							var PluginsPreloader = injector.get("puzzles.collaboPlugins.PluginsPreloader");
  							/**
