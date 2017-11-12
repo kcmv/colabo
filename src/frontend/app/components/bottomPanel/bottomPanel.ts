@@ -15,7 +15,7 @@ export var bottomPanelComponentDirectives = [
 ];
 
 declare var Config: any; // src/frontend/app/js/config/config.plugins.js
-import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
+import {PluginsPreloader} from '../../../dev_puzzles/puzzles/puzzles_core/code/puzzles/pluginsPreloader';
 
 PluginsPreloader.addDirectivesDependenciesForComponent('bottomPanel.BottomPanel', bottomPanelComponentDirectives);
 

@@ -10,8 +10,8 @@ import {MapsList} from '../components/mapsList/maps-list.component';
 import {KnalledgeMapPolicyService} from '../components/knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../components/knalledgeMap/knalledgeMapViewService';
 import {TopiChatReports} from '../components/topiChat/reports';
-import {GlobalEmitterService} from '../components/collaboPlugins/globalEmitterService';
-import {GlobalEmitterServicesArray} from '../components/collaboPlugins/globalEmitterServicesArray';
+import {GlobalEmitterService} from '../../dev_puzzles/puzzles/puzzles_core/code/puzzles/globalEmitterService';
+import {GlobalEmitterServicesArray} from '../../dev_puzzles/puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
 import {RequestService} from '../components/request/request.service';
@@ -35,7 +35,7 @@ var injector:Injector = new Injector();
 // Loading external puzzles-containers dependencies
 // like injecting services, providers, etc
 import './pluginDependencies';
-import {PluginsPreloader} from '../components/collaboPlugins/pluginsPreloader';
+import {PluginsPreloader} from '../../dev_puzzles/puzzles/puzzles_core/code/puzzles/pluginsPreloader';
 injector.addPath("puzzles.collaboPlugins.PluginsPreloader", PluginsPreloader);
 declare var Config:any;
 for(let puzzleName in Config.Plugins.external){

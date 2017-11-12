@@ -22,6 +22,7 @@ declare var window;
 declare var Config;
 declare var knalledge;
 declare var dragscroll;
+declare var setTimeout:function;
 
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface
@@ -57,7 +58,7 @@ var componentProviders = [
     // ROUTER_PROVIDERS
 ];
 
-import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
+import {PluginsPreloader} from '../../../dev_puzzles/puzzles/puzzles_core/code/puzzles/pluginsPreloader';
 
 import {RimaVotingForm} from '../rima/rimaVotingForm';
 

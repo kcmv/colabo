@@ -181,7 +181,7 @@ export class TopPanel {
     }
 }
 
-import {PluginsPreloader} from '../collaboPlugins/pluginsPreloader';
+import {PluginsPreloader} from '../../../dev_puzzles/puzzles/puzzles_core/code/puzzles/pluginsPreloader';
 
 var componentDirectives = [
   RequestComponent,
