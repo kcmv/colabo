@@ -44,6 +44,8 @@ npm link <package-name> #  create a symbolic link from globally-installed packag
 cd
 ```
 
+**NOTE**: `package-name` is a name of the npm package, as declared under the `name` parameter in the packages's `package.json` file
+
 So we would do something like this:
 
 ```sh
