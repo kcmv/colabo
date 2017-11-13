@@ -6,14 +6,10 @@ It is generic component in a sense it provides general support for visualizing k
 
 # TODO
 
-+ provide in peerDependencies or in dependencies references for:
-  - d3
 - do .bind() for all local functions that use this.
 - fix the rest of $scope methods
 - move inside the puzzle: knalledgeMapPolicyService.ts and knalledgeMapViewService.ts
 - figure out how it will work without NG1+NG2 hybrid
-  - for example, there will be NO NG1 system nor user services ($injector, RimaService, ...)
 - go inside inner classes of knalledge.Map (MapLayout, ...) and check
-  - what do they depend on from the NG1 world
   - what services that might not be availalbe they crash on
   - are there any NG1 service that we really need?

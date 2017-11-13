@@ -57,7 +57,7 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.injector = injector;
 
 	this.collaboGrammarService = this.injector.get("collaboPlugins.CollaboGrammarService", null);
-	this.collaboGrammarService.puzzles.knalledgeMap.actions['getActiveIbisType'] = Map.prototype.getActiveIbisType;
+	if(this.collaboGrammarService) this.collaboGrammarService.puzzles.knalledgeMap.actions['getActiveIbisType'] = Map.prototype.getActiveIbisType;
 
 	this.knalledgeState = new knalledge.State();
 	this.mapStructure = this.mapStructureExternal ? this.mapStructureExternal : new knalledge.MapStructure(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins, this.collaboGrammarService);
@@ -147,9 +147,10 @@ var Map =  knalledge.Map = function(parentDom, config, upperApi, entityStyles, m
 	this.GlobalEmitterServicesArray.register(this.knalledgeNodeCreatorChanged);
 	this.GlobalEmitterServicesArray.get(this.knalledgeNodeCreatorChanged).subscribe('Map', this.nodeCreatorChanged.bind(this));
 
-	this.mapInteraction = new MapInteraction(mapInterface, this.mapPlugins);
-	this.mapInteraction.init();
-	this.injector.addPath("mapInteraction", this.mapInteraction);
+	if(MapInteraction){
+		this.mapInteraction = new MapInteraction(mapInterface, this.mapPlugins);
+		this.mapInteraction.init();
+	}
 
 	this.keyboardInteraction = null;
 	// this.syncingInterval = 1000;
@@ -162,7 +163,7 @@ Map.prototype.getActiveIbisType = function() {
 	this.knalledgeMapPolicyService.provider.config.knalledgeMap && this.knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType){
 				return this.knalledgeMapPolicyService.provider.config.knalledgeMap.nextNodeType;
 	}else{
-		if(this.collaboGrammarService.puzzles.brainstorming &&
+		if(this.collaboGrammarService && this.collaboGrammarService.puzzles.brainstorming &&
 			this.collaboGrammarService.puzzles.brainstorming.state &&
 		 (this.collaboGrammarService.puzzles.brainstorming.state.phase ===  puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION ||
 		  (this.collaboGrammarService.puzzles.brainstorming.state.phase === puzzles.brainstormings.BrainstormingPhase.SHARING_IDEAS &&
@@ -183,9 +184,18 @@ Map.prototype.getActiveIbisType = function() {
 
 Map.prototype.init = function() {
 	//var that = this;
+	var mapWidth = 500;
+	var mapHeight = 800;
+	if(this.parentDom && this.parentDom.node() &&
+		this.parentDom.node().getBoundingClientRect()){
+		mapWidth = this.parentDom.node().getBoundingClientRect().width;
+		mapHeight = this.parentDom.node().getBoundingClientRect().height;
+	}else{
+		console.error("[Map.prototype.init] Error, no access to this.parentDom.node().getBoundingClientRect()");
+	}
 	this.mapSize = [
-		this.parentDom.node().getBoundingClientRect().width - this.config.tree.margin.right - this.config.tree.margin.left,
-		this.parentDom.node().getBoundingClientRect().height - this.config.tree.margin.bottom - this.config.tree.margin.top
+		mapWidth - this.config.tree.margin.right - this.config.tree.margin.left,
+		mapHeight - this.config.tree.margin.bottom - this.config.tree.margin.top
 	];
 
 	// we do this only if we created an mapStructure in our class
@@ -196,53 +206,57 @@ Map.prototype.init = function() {
 	// related posts
 	//	http://stackoverflow.com/questions/17847131/generate-multilevel-flare-json-data-format-from-flat-json
 	//	http://stackoverflow.com/questions/20940854/how-to-load-data-from-an-internal-json-array-rather-than-from-an-external-resour
-	this.mapVisualization.init(this.mapLayout, this.mapSize, this.injector);
+	this.mapVisualization.init(this.mapLayout, this.mapSize, this.mapInteraction);
 	this.scales = this.mapVisualization.scales;
 	this.mapLayout.init(this.mapSize, this.scales);
 	this.initializeKeyboard();
 	this.initializeManipulation();
 
-	// providing references and api to collabo plugins
-	this.collaboPluginsService.provideReferences("map", {
-		name: "map",
-		items: {
-			config: this.config,
-			mapStructure: this.mapStructure
-		}
-	});
-	this.collaboPluginsService.provideApi("map", {
-		name: "map",
-		items: {
-			/* update(source, callback) */
-			update: this.mapVisualization.update.bind(this.mapVisualization),
-			positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
-			nodeSelected: this.nodeSelected.bind(this),
-			disableKeyboard: (this.keyboardInteraction ? this.keyboardInteraction.disable.bind(this.keyboardInteraction) : null),
-			enableKeyboard: (this.keyboardInteraction ? this.keyboardInteraction.enable.bind(this.keyboardInteraction) : null)
-		}
-	});
-	this.collaboPluginsService.provideApi("mapInteraction", {
-		name: "mapInteraction",
-		items: {
-			addNode: this.mapInteraction.addNode.bind(this.mapInteraction),
-			addChildNode: this.mapInteraction.addChildNode.bind(this.mapInteraction),
-			updateNodeDecoration: this.mapInteraction.updateNodeDecoration.bind(this.mapInteraction),
-			nodeVote: this.mapInteraction.nodeVote.bind(this.mapInteraction)
-		}
-	});
+	if(this.collaboPluginsService){
+		// providing references and api to collabo plugins
+		this.collaboPluginsService.provideReferences("map", {
+			name: "map",
+			items: {
+				config: this.config,
+				mapStructure: this.mapStructure
+			}
+		});
+		this.collaboPluginsService.provideApi("map", {
+			name: "map",
+			items: {
+				/* update(source, callback) */
+				update: this.mapVisualization.update.bind(this.mapVisualization),
+				positionToDatum: this.mapVisualization.positionToDatum.bind(this.mapVisualization),
+				nodeSelected: this.nodeSelected.bind(this),
+				disableKeyboard: (this.keyboardInteraction ? this.keyboardInteraction.disable.bind(this.keyboardInteraction) : null),
+				enableKeyboard: (this.keyboardInteraction ? this.keyboardInteraction.enable.bind(this.keyboardInteraction) : null)
+			}
+		});
+		this.collaboPluginsService.provideApi("mapInteraction", {
+			name: "mapInteraction",
+			items: {
+				addNode: this.mapInteraction.addNode.bind(this.mapInteraction),
+				addChildNode: this.mapInteraction.addChildNode.bind(this.mapInteraction),
+				updateNodeDecoration: this.mapInteraction.updateNodeDecoration.bind(this.mapInteraction),
+				nodeVote: this.mapInteraction.nodeVote.bind(this.mapInteraction)
+			}
+		});
+	}
 
-	// realtime listener registration
-	var NodeChangedPluginOptions = {
-		name: "nodeChangedPlugin",
-		events: {
-		}
-	};
+	if(this.knAllEdgeRealTimeService){
+		// realtime listener registration
+		var NodeChangedPluginOptions = {
+			name: "nodeChangedPlugin",
+			events: {
+			}
+		};
 
-	NodeChangedPluginOptions.events[Map.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
-	NodeChangedPluginOptions.events[Map.KnRealTimeNodeUnselectedEventName] = this.realTimeNodeUnselected.bind(this);
-	NodeChangedPluginOptions.events[Map.KnRealTimeNodeClickedEventName] = this.realTimeNodeClicked.bind(this);
-	if(this.knAllEdgeRealTimeService)
-		this.knAllEdgeRealTimeService.registerPlugin(NodeChangedPluginOptions);
+		NodeChangedPluginOptions.events[Map.KnRealTimeNodeSelectedEventName] = this.realTimeNodeSelected.bind(this);
+		NodeChangedPluginOptions.events[Map.KnRealTimeNodeUnselectedEventName] = this.realTimeNodeUnselected.bind(this);
+		NodeChangedPluginOptions.events[Map.KnRealTimeNodeClickedEventName] = this.realTimeNodeClicked.bind(this);
+		if(this.knAllEdgeRealTimeService)
+			this.knAllEdgeRealTimeService.registerPlugin(NodeChangedPluginOptions);
+	}
 };
 
 // realtime distribution
@@ -683,8 +697,10 @@ Map.prototype.initializeKeyboard = function() {
 
 	if(!this.config.keyboardInteraction.enabled) return;
 
-	this.keyboardInteraction = new interaction.Keyboard(this.mapInteraction, this.mapPlugins);
-	this.keyboardInteraction.init();
+	if(typeof interaction !== 'undefined' && interaction && interaction.Keyboard){
+		this.keyboardInteraction = new interaction.Keyboard(this.mapInteraction, this.mapPlugins);
+		this.keyboardInteraction.init();
+	}
 };
 
 // http://interactjs.io/
@@ -693,6 +709,7 @@ Map.prototype.initializeManipulation = function() {
 	var that = this;
 
 	if(!this.config.draggingConfig.enabled) return;
+	if(typeof interaction === 'undefined' || !interaction || !interaction.MoveAndDrag) return;
 
 /**
  * called after dragging a node

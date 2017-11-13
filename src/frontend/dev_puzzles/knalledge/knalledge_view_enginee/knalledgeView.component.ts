@@ -1,6 +1,7 @@
-import { Component, Injector, Inject, Optional, NgModule, OnInit, OnDestroy } from '@angular/core';
+import { Component, ReflectiveInjector, Injector, Inject, Optional, NgModule, OnInit, OnDestroy } from '@angular/core';
 
-import {KMapClientInterface} from './code/knalledge/KMapClientInterface'
+import {KMapClientInterface} from './code/knalledge/KMapClientInterface';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray'
 /**
 TODO: See how does this kind of documentation work with TS, NG2+, ...
  * the namespace for core services for the KnAllEdge system
@@ -171,10 +172,14 @@ export class KnalledgeViewComponent implements OnInit, OnDestroy{
     this.loadDynamicServices();
     this.registerToGlobalEvents();
 
+    /**
+    TODO:ng2 find equivalent
     if (this.$routeParams.route) {
       this.route = decodeRoute(this.$routeParams.route);
     }
+    */
 
+    this.subscriptions = [];
     setTimeout(function() {
       this.delayedFunc();
     }.bind(this), 500);
@@ -231,7 +236,8 @@ export class KnalledgeViewComponent implements OnInit, OnDestroy{
       this.config, this.kMapClientInterface, null,
       this.config.tree.mapService.enabled ? this.KnalledgeMapVOsService : null,
       // if this.mapData is set, we do not use KnalledgeMapVOsService.mapStructure but let knalledge.Map to create a new mapStructure and build VKs from Ks
-      this.checkData(this.mapData) ? null : this.KnalledgeMapVOsService.mapStructure,
+      this.checkData(this.mapData) ? null :
+      (this.KnalledgeMapVOsService ? this.KnalledgeMapVOsService.mapStructure : null),
       this.CollaboPluginsService, this.RimaService, this.IbisTypesService, this.NotifyService, mapPlugins, this.KnalledgeMapViewService, this.SyncingService, this.KnAllEdgeRealTimeService, this.KnalledgeMapPolicyService, this.knalledgeMapInjector, this.Plugins
     );
     this.knalledgeMap.init();
@@ -324,7 +330,7 @@ export class KnalledgeViewComponent implements OnInit, OnDestroy{
     } catch (err) {
       console.warn("Error while trying to retrieve the NotifyService service:", err);
     }
-    this.GlobalEmitterServicesArray = this.$injector ? this.$injector.get('GlobalEmitterServicesArray') : null;
+    this.GlobalEmitterServicesArray = this.ng2injector.get(GlobalEmitterServicesArray, null);
 
     try {
       // * @param  {knalledge.knalledgeMap.knalledgeMapServices.KnAllEdgeRealTimeService} KnAllEdgeRealTimeService
@@ -351,13 +357,19 @@ export class KnalledgeViewComponent implements OnInit, OnDestroy{
 
     // bring additional dependencies for the knalledge.Map instance
 
-    // https://angular.io/api/core/Injector
-    this.knalledgeMapInjector = Injector.create([
+
+    var providers = [
       // TODO:ng2 clean-out any use of $timeout, we can use native now
       // {provide: "timeout", useValue: $timeout},
       {provide: "collaboPlugins.CollaboGrammarService", useValue: this.CollaboGrammarService},
       {provide: "collaboPlugins.globalEmitterServicesArray", useValue: this.GlobalEmitterServicesArray}
-    ]);
+    ];
+    // this is for ng5
+    // https://angular.io/api/core/Injector
+    // this.knalledgeMapInjector = Injector.create(providers);
+
+    // this is for ng4
+    this.knalledgeMapInjector = ReflectiveInjector.resolveAndCreate(providers);
   }
 
   private registerToGlobalEvents(){
@@ -408,7 +420,10 @@ export class KnalledgeViewComponent implements OnInit, OnDestroy{
         if (this.route) {
           // alert("redirecting to: " + this.route);
           if (this.route.indexOf("http") < 0) {
+            /**
+            TODO:ng2 find equivalent
             this.$location.path(this.route);
+            */
           } else {
             window.location.href = this.route;
           }
@@ -420,16 +435,24 @@ export class KnalledgeViewComponent implements OnInit, OnDestroy{
 
     // TODO: FIX: promise doesn't work well, we need callback
     // KnalledgeMapService.getById(mapId).$promise.then(gotMap);
-    this.KnalledgeMapService.getById(mapId, gotMap);
+    if(this.KnalledgeMapService) this.KnalledgeMapService.getById(mapId, gotMap);
+    else{
+      console.error("[knalledgeView.component] Error: this.KnalledgeMapService service is not available")
+    }
   }
 
   delayedFunc() {
+    this.init();
     this.initKnalledgeMap();
     if (this.checkData(this.mapData)) {
       // console.warn('have this.mapData:' + JSON.stringify(this.mapData));
       this.setData(this.mapData);
     } else {
+      /**
+      TODO:ng2 find equivalent
       this.loadMapWithId(this.$routeParams.id);
+      */
+      this.loadMapWithId("fake_id_until_TODO:ng2_solved");
     }
 
     this.subscriptions.push(this.GlobalEmitterServicesArray.get(this.modelLoadedEvent).subscribe('knalledgeMap', function(eventModel) {
@@ -625,7 +648,11 @@ export class KnalledgeViewComponent implements OnInit, OnDestroy{
 
       mapViewPluginOptions.events[this.KnRealTimeBroadcastUpdateMaps] = this.knalledgeMap.update.bind(this.knalledgeMap);
 
+      /**
+      TODO:ng2 find equivalent ("fake_id_until_TODO:ng2_solved")
       mapViewPluginOptions.events[this.KnRealTimeBroadcastReloadMaps] = this.loadMapWithId.bind(null, this.$routeParams.id);
+      */
+      mapViewPluginOptions.events[this.KnRealTimeBroadcastReloadMaps] = this.loadMapWithId.bind(null, "fake_id_until_TODO:ng2_solved");
 
       mapViewPluginOptions.events[this.KnRealTimeviewConfigChangedEvent] = realTimeviewConfigChanged.bind(this);
 
@@ -813,7 +840,10 @@ export class KnalledgeViewComponent implements OnInit, OnDestroy{
     if (!this.checkData(data)) return;
 
     var selectedKNodeId = null;
+    /**
+    TODO:ng2 find equivalent ("fake_id_until_TODO:ng2_solved")
     if (this.$routeParams.node_id) selectedKNodeId = this.$routeParams.node_id;
+    */
     if (this.mapData && this.mapData.selectedNode) {
       selectedKNodeId = this.mapData.selectedNode._id;
     }

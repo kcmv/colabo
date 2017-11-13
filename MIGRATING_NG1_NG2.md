@@ -100,6 +100,7 @@ declare var Plugins:any;
 ```
 
 + `ERROR in Error: Error encountered resolving symbol values statically. Reference to a local (non-exported) symbol 'Plugins'. Consider exporting the symbol (position 34:13 in the original .ts file), resolving symbol AppModule in /Users/sasha/Documents/data/development/FDB/fdGraph/src/app/app.module.ts`
+  + [Angular deprecates ReflectiveInjector and introduces StaticInjector. Should you care?](https://blog.angularindepth.com/angular-introduces-staticinjector-should-you-care-4e059eca030c)
 
 ## If component is a main component
 

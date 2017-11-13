@@ -1,29 +1,29 @@
-(function () { // This prevents problems when concatenating scripts that aren't strict.
-'use strict';
+(function () { // This prevents problems when concatenating scripts that aren"t strict.
+"use strict";
 
 var puzzles = {
-  name: 'puzzles.puzzles_core',
+  name: "puzzles.puzzles_core",
   COMPASS: {
     PATHS: {
-      // '.': {
-      //   destDir: '.',
-      //   cssDir: 'css'
+      // ".": {
+      //   destDir: ".",
+      //   cssDir: "css"
       // }
     }
   },
 
   puzzlesBuild: {
-    'puzzles.puzzles_core': {
-      path: '.',
+    "puzzles.puzzles_core": {
+      path: ".",
       css: true,
       injectJs: [
       ],
-      injectCss: ''
+      injectCss: ""
     }
   },
 
   puzzles: {
-    'puzzles.puzzles_core': {
+    "puzzles.puzzles_core": {
       active: true
     }
   }
@@ -31,28 +31,28 @@ var puzzles = {
 
 // Part responsible for injecting and making available the config inside of different JS environments and frameworks
 
-if(typeof window !== 'undefined'){
-	if(typeof window.Config === 'undefined') window.Config = {};
-  if(typeof window.Config.Plugins === 'undefined') window.Config.Plugins = {};
-  if(typeof window.Config.Plugins.external === 'undefined') window.Config.Plugins.external = {};
+if(typeof window !== "undefined"){
+	if(typeof window.Config === "undefined") window.Config = {};
+  if(typeof window.Config.Plugins === "undefined") window.Config.Plugins = {};
+  if(typeof window.Config.Plugins.external === "undefined") window.Config.Plugins.external = {};
 	window.Config.Plugins.external[puzzles.name] = puzzles;
 }
 
-if(typeof angular !== 'undefined'){
-	angular.module('Config')
+if(typeof angular !== "undefined"){
+	angular.module("Config")
 		.constant("Plugins", puzzles);
 }
 
-if(typeof global !== 'undefined'){
-	if(typeof global.Config === 'undefined') global.Config = {};
-  if(typeof global.Config.Plugins === 'undefined') global.Config.Plugins = {};
-  if(typeof global.Config.Plugins.external === 'undefined') global.Config.Plugins.external = {};
+if(typeof global !== "undefined"){
+	if(typeof global.Config === "undefined") global.Config = {};
+  if(typeof global.Config.Plugins === "undefined") global.Config.Plugins = {};
+  if(typeof global.Config.Plugins.external === "undefined") global.Config.Plugins.external = {};
   global.Config.Plugins.external[puzzles.name] = puzzles;
 }
 
 // node.js world
-if(typeof module !== 'undefined'){
+if(typeof module !== "undefined"){
 	module.exports = puzzles;
 }
 
-}()); // end of 'use strict';
+}()); // end of "use strict";

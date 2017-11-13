@@ -14,8 +14,10 @@
 
 	var MapStructure = knalledge.MapStructure = function(rimaService, knalledgeMapViewService, knalledgeMapPolicyService, Plugins, CollaboGrammarService) {
 		this.collaboGrammarService = CollaboGrammarService;
-		this.collaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = MapStructure.prototype.nodeDecoration;
-		this.collaboGrammarService.puzzles.knalledgeMap.actions['brainstormingVisibility'] = MapStructure.prototype.brainstormingVisibility;
+		if(this.collaboGrammarService){
+			this.collaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = MapStructure.prototype.nodeDecoration;
+			this.collaboGrammarService.puzzles.knalledgeMap.actions['brainstormingVisibility'] = MapStructure.prototype.brainstormingVisibility;
+		}
 
 		this.rootNode = null;
 		this.destroyed = false;
@@ -100,7 +102,8 @@
 	 * @var {debugPP} debug - namespaced debug for the class
 	 * @memberof knalledge.MapStructure#
 	 */
-	MapStructure.debug = debugpp.debug('knalledge.MapStructure');
+	// TODO:ng1, need to figure out about it, currently it is not used
+	// MapStructure.debug = debugpp.debug('knalledge.MapStructure');
 
 	/**
 	 * Initializes MapStructure

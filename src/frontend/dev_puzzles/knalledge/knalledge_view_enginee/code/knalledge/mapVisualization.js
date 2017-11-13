@@ -33,14 +33,13 @@
         this.notifyService = notifyService;
         this.mapPlugins = mapPlugins;
         this.knalledgeMapViewService = knalledgeMapViewService;
-        this.injector = null;
         this.mapInteraction = null;
         this.upperAPI = upperAPI;
         this.halo = null;
         this.updateInProgress = false;
     };
 
-    MapVisualization.prototype.init = function(mapLayout, mapSize, injector) {
+    MapVisualization.prototype.init = function(mapLayout, mapSize, mapInteraction) {
         var that = this;
 
         this.mapSize = mapSize;
@@ -48,8 +47,7 @@
 
         this.mapLayout = mapLayout;
 
-        this.injector = injector;
-        this.mapInteraction = this.injector.get("mapInteraction");
+        this.mapInteraction = mapInteraction;
 
         this.dom.divMap = this.dom.parentDom.append("div")
             .attr("class", "div_map");
@@ -98,7 +96,6 @@
         this.notifyService = null;
         this.mapPlugins = null;
         this.knalledgeMapViewService = null;
-        this.injector = null;
         this.mapInteraction = null;
         this.upperAPI = null;
         if(this.halo) this.halo.destroy();
@@ -108,7 +105,7 @@
     MapVisualization.prototype._initHalo = function() {
         var that = this;
 
-        this.halo = (interaction && interaction.Halo) ? new interaction.Halo() : null;
+        this.halo = (typeof interaction !== 'undefined' && interaction.Halo) ? new interaction.Halo() : null;
 
         if (this.halo) {
             var haloOptions = {

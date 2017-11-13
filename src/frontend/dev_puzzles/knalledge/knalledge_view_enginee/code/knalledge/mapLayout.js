@@ -37,29 +37,36 @@ MapLayout.prototype.construct = function(className, mapStructure, collaboPlugins
 	this.knownNodeTypes = [knalledge.KNode.TYPE_KNOWLEDGE];
 	this.systemNodeTypes = [];
 
-	this.collaboPluginsService.provideApi(className, {
-		name: className,
-		items: {
-			/* distribute() */
-			distribute: this.distribute.bind(this),
-			/* filterGraph(options) */
-			filterGraph: this.filterGraph.bind(this),
-			/* getNodes() */
-			getNodes: this.getNodes.bind(this),
-			/* getLinks() */
-			getLinks: this.getLinks.bind(this),
-			/* calculateNodeWeights() */
-			calculateNodeWeights: this.calculateNodeWeights.bind(this),
-			/* updateNodeSizes() */
-			updateNodeSizes: this.updateNodeSizes.bind(this),
-			// updateNodesToAvoid(nodesToAvoid)
-			updateNodesToAvoid: this.updateNodesToAvoid.bind(this),
-			addKnownEdgeTypes: this.addKnownEdgeTypes.bind(this),
-			removeKnownEdgeTypes: this.removeKnownEdgeTypes.bind(this),
-			addSystemEdgeTypes: this.addSystemEdgeTypes.bind(this),
-			removeSystemEdgeTypes: this.removeSystemEdgeTypes.bind(this)
-		}
-	});
+	// TODO:ng2, not related with ng2 change, but need to be checked
+	// since currently for each instance of MapLayout* we are creating one plugin and  API
+	// which is probably OK, but need to be sure and check everything
+	// also when destroying instances, etc
+
+	if(this.collaboPluginsService){
+		this.collaboPluginsService.provideApi(className, {
+			name: className,
+			items: {
+				/* distribute() */
+				distribute: this.distribute.bind(this),
+				/* filterGraph(options) */
+				filterGraph: this.filterGraph.bind(this),
+				/* getNodes() */
+				getNodes: this.getNodes.bind(this),
+				/* getLinks() */
+				getLinks: this.getLinks.bind(this),
+				/* calculateNodeWeights() */
+				calculateNodeWeights: this.calculateNodeWeights.bind(this),
+				/* updateNodeSizes() */
+				updateNodeSizes: this.updateNodeSizes.bind(this),
+				// updateNodesToAvoid(nodesToAvoid)
+				updateNodesToAvoid: this.updateNodesToAvoid.bind(this),
+				addKnownEdgeTypes: this.addKnownEdgeTypes.bind(this),
+				removeKnownEdgeTypes: this.removeKnownEdgeTypes.bind(this),
+				addSystemEdgeTypes: this.addSystemEdgeTypes.bind(this),
+				removeSystemEdgeTypes: this.removeSystemEdgeTypes.bind(this)
+			}
+		});
+	}
 };
 
 /**
