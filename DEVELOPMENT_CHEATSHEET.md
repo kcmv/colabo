@@ -95,7 +95,9 @@ in this way you should be fine building lib in many scenarios
   
 ## "Un-Importing the package"
 ```sh
-rm \<folder where we linked the (local) package>
+cd node_modules
+
+rm \node<folder where we linked the (local) package>
 #example:
 rm \@colabo-knalledge/knalledge_view_enginee
 ```
