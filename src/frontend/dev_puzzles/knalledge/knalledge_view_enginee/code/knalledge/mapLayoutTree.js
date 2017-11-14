@@ -45,8 +45,8 @@ MapLayoutTree.prototype.getChildren = function(d){ //TODO: improve probably, not
 		return sum;
 	}
 
-	var showUnknownEdges = this.knalledgeMapViewService.provider.config.edges.showUnknownEdges;
-	var orderBy = this.knalledgeMapViewService.provider.config.edges.orderBy;
+	var showUnknownEdges = this.knalledgeMapViewService ? this.knalledgeMapViewService.provider.config.edges.showUnknownEdges : false;
+	var orderBy = this.knalledgeMapViewService ? this.knalledgeMapViewService.provider.config.edges.orderBy : 'name';
 	for(var i in this.mapStructure.edgesById){
 		var vkEdge = this.mapStructure.edgesById[i];
 		// if defined and set to false the vkEdge and its vkNode should not be presented

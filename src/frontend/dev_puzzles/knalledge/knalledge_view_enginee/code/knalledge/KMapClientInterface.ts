@@ -68,8 +68,9 @@ export class KMapClientInterface {
    * @param  {string} selectionSource - source of node selection (internal, external)
    */
   nodeSelected(vkNode, dom, selectionSource:string=null) {
-    if (selectionSource === knalledge.Map.INTERNAL_SOURCE && !this.KnalledgeMapPolicyService.mustFollowPresenter()) {
-      this.KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation = false;
+    if (selectionSource === knalledge.Map.INTERNAL_SOURCE &&
+      (!this.KnalledgeMapPolicyService || !this.KnalledgeMapPolicyService.mustFollowPresenter())) {
+      if(this.KnalledgeMapPolicyService) this.KnalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation = false;
     }
 
     var processNodeSelected = function() {
@@ -181,8 +182,8 @@ export class KMapClientInterface {
 
   toggleModerator() {
     // scope.$apply (before)
-    this.KnalledgeMapPolicyService.provider.config.moderating.enabled = !this.KnalledgeMapPolicyService.provider.config.moderating.enabled;
-    if (this.KnalledgeMapPolicyService.provider.config.moderating.enabled){
+    if(this.KnalledgeMapPolicyService) this.KnalledgeMapPolicyService.provider.config.moderating.enabled = !this.KnalledgeMapPolicyService.provider.config.moderating.enabled;
+    if (this.KnalledgeMapPolicyService && this.KnalledgeMapPolicyService.provider.config.moderating.enabled){
       if(window.confirm('Do you want to create a new session?')) {
         //TODO: this code is probably temporary, so even registration is put here:
         var SETUP_SESSION_REQUEST_EVENT = "SETUP_SESSION_REQUEST_EVENT";
@@ -190,14 +191,20 @@ export class KMapClientInterface {
         this.GlobalEmitterServicesArray.get(SETUP_SESSION_REQUEST_EVENT).broadcast('KnalledgeMap');
       }
     }else{
-      this.RimaService.setActiveUser(this.RimaService.getWhoAmI());
+      if(this.RimaService) this.RimaService.setActiveUser(this.RimaService.getWhoAmI());
     }
   }
 
   togglePresenter() {
     // scope.$apply (before)
+    var rimaUserId = "unknown_iAm_ID";
+    if(this.RimaService) rimaUserId = this.RimaService.getWhoAmIid();
+    var broadcastingEnabled = true;
+    if(this.KnalledgeMapPolicyService){
+      broadcastingEnabled = !this.KnalledgeMapPolicyService.provider.config.broadcasting.enabled;
+    }
     this.GlobalEmitterServicesArray.get(this.PRESENTER_CHANGED)
-    .broadcast('KnalledgeMapMain', {'user': this.RimaService.getWhoAmIid(), 'value': !this.KnalledgeMapPolicyService.provider.config.broadcasting.enabled});
+    .broadcast('KnalledgeMapMain', {'user': rimaUserId, 'value': broadcastingEnabled});
   }
 
   mapEntityClicked(mapEntity /*, mapEntityDom*/ ) {

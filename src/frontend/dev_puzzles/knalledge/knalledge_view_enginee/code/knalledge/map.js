@@ -181,7 +181,6 @@ Map.prototype.getActiveIbisType = function() {
 	}
 }
 
-
 Map.prototype.init = function() {
 	//var that = this;
 	var mapWidth = 500;
@@ -654,21 +653,24 @@ Map.prototype.update = function(node, callback, shouldGenerateGraph) {
 Map.prototype.processData = function(mapData, selectedKNodeId, callback) {
 	var that = this;
 
+	// we do this only if we created an mapStructure in our class
+	if(!this.mapStructureExternal) this.mapStructure.processData(mapData, undefined, undefined, selectedKNodeId);
+
+	// decide on the map's selected Node
 	var selectedVKNode = null;
 	if(selectedKNodeId){
 		selectedVKNode = this.mapStructure.getVKNodeByKId(selectedKNodeId);
 	}else{
 		selectedVKNode = this.mapStructure.rootNode;
 	}
-	// we do this only if we created an mapStructure in our class
-	if(!this.mapStructureExternal) this.mapStructure.processData(mapData, undefined, undefined, selectedKNodeId);
-	else{
-		// set default selected node
-		if(selectedVKNode){
-			this.mapStructure.setSelectedNode(selectedVKNode);
-		}
+
+	// set default selected node
+	if(selectedVKNode){
+		this.mapStructure.setSelectedNode(selectedVKNode);
 	}
+
 	this.mapLayout.processData(0, this.parentDom.attr("height") / 2, function(){
+		// TODO:ng2 see how many of that.update we need, and can we speed up
 		that.update(null, function(){
 			if(selectedVKNode) that.mapVisualization.nodeSelected(selectedVKNode);
 			if(typeof callback === 'function') callback();

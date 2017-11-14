@@ -157,7 +157,7 @@
 	};
 
 	MapStructure.prototype.debugNode = function(node) {
-		if (this.knalledgeMapPolicyService.provider.config.moderating.enabled) {
+		if (this.knalledgeMapPolicyService && this.knalledgeMapPolicyService.provider.config.moderating.enabled) {
 			console.log("DEBUG-NODE:", node);
 			for (var i in this.edgesById) {
 				if (this.edgesById[i].kEdge.targetId === node.kNode._id) {
@@ -345,7 +345,7 @@
 					parentIsKn = true;
 				}
 			}
-			visibleIBIS = this.knalledgeMapViewService.provider.config.filtering.visbileTypes.ibis || parentIsKn;
+			visibleIBIS = (this.knalledgeMapViewService && this.knalledgeMapViewService.provider.config.filtering.visbileTypes.ibis) || parentIsKn;
 		}
 
 		var result = node.presentation.visibleByDistance && visibleIBIS && this.brainstormingVisibility(node);
@@ -354,7 +354,7 @@
 	}
 
 	MapStructure.prototype.brainstormingVisibility = function(node) {
-		if (this.collaboGrammarService.puzzles.brainstorming && this.collaboGrammarService.puzzles.brainstorming.state &&
+		if (this.collaboGrammarService && this.collaboGrammarService.puzzles.brainstorming && this.collaboGrammarService.puzzles.brainstorming.state &&
 			(this.collaboGrammarService.puzzles.brainstorming.state.phase === puzzles.brainstormings.BrainstormingPhase.IDEAS_GENERATION ||
 				this.collaboGrammarService.puzzles.brainstorming.state.phase === puzzles.brainstormings.BrainstormingPhase.SHARING_IDEAS)
 		) {
@@ -379,7 +379,7 @@
 		}
 
 		//calling functions for all the types of visibility:
-		this.setVisibilityByDistance(this.selectedNode, this.knalledgeMapViewService.provider.config.filtering.displayDistance);
+		if(this.knalledgeMapViewService) this.setVisibilityByDistance(this.selectedNode, this.knalledgeMapViewService.provider.config.filtering.displayDistance);
 		//setVisibilityByAuthor();
 		//..
 
@@ -728,7 +728,7 @@
 	};
 
 	MapStructure.prototype.nodeDecoration = function(node) {
-		if (this.collaboGrammarService.puzzles.brainstorming && this.collaboGrammarService.puzzles.brainstorming.state &&
+		if (this.collaboGrammarService && this.collaboGrammarService.puzzles.brainstorming && this.collaboGrammarService.puzzles.brainstorming.state &&
 			this.collaboGrammarService.puzzles.brainstorming.state !== puzzles.brainstormings.BrainstormingPhase.INACTIVE){
 				if (this.collaboGrammarService.puzzles.brainstorming.state.createPrivateIdeas) {
 					node.kNode.decorations.brainstorming = puzzles.brainstormings.BrainstrormingDecorations.PRIVATE;
@@ -981,7 +981,7 @@
 
 	MapStructure.prototype.deleteNode = function(vnode, callback) {
 		console.log("this.rimaService.getWhoAmI():",this.rimaService.getWhoAmI());
-		if(!this.isMyNode(vnode) &&	!this.knalledgeMapPolicyService.provider.config.moderating.enabled){
+		if(!this.isMyNode(vnode) &&	(this.knalledgeMapPolicyService && !this.knalledgeMapPolicyService.provider.config.moderating.enabled)){
 			window.alert('You are only allowed to delete content created by youself');
 			return null;
 		}
@@ -1163,7 +1163,8 @@
 		// pulling vkNodes' parameters from kNode.visual
 		// it puts vkNodes into this.nodesById
 		for (var i = 0; i < kMapData.map.nodes.length; i++) {
-			kNode = kMapData.map.nodes[i];
+			kNode = knalledge.KNode.nodeFactory(
+				kMapData.map.nodes[i]);
 			if (!("isOpen" in kNode.visual)) {
 				kNode.visual.isOpen = false;
 			}
@@ -1184,7 +1185,8 @@
 		// and creates corresponding vkEdges
 		// it puts vkNodes into this.edgesById
 		for (i = 0; i < kMapData.map.edges.length; i++) {
-			kEdge = kMapData.map.edges[i];
+			kEdge = knalledge.KEdge.edgeFactory(
+				kMapData.map.edges[i]);
 			var vkEdge = new knalledge.VKEdge();
 			vkEdge.kEdge = kEdge;
 			this.edgesById[vkEdge.id] = vkEdge;
@@ -1302,7 +1304,7 @@
 			/* this is delegated to broadcaster to send navigation message upon delete:
 			//we focus on the last changed node. It is used for next functions in calls. This is executed even when changes
 			// are only upon edges, but is idempotent then, because of setting 'var newestNode = this.selectedNode'
-			// if(this.knalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
+			// if(this.knalledgeMapPolicyService && this.knalledgeMapPolicyService.provider.config.broadcasting.receiveNavigation){
 			// 	this.setSelectedNode(newestNode);
 			// }
 			// this.selectedNode = newestNode;

@@ -70,7 +70,8 @@ MapVisualizationTree.prototype.update = function(source, callback) {
 };
 
 function isShowingFullSizeImage(d){
-	return !this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width;
+	// !this.knalledgeMapViewService => showImagesAsThumbnails == true
+	return (this.knalledgeMapViewService && !this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails) && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width;
 }
 
 /**
@@ -81,9 +82,10 @@ function isShowingFullSizeImage(d){
 function getNodeWidth(d){
 // .style("min-width", function(d){
 		var width = null;
-		if(this.knalledgeMapViewService.provider.config.nodes.showImages){
+		// !this.knalledgeMapViewService => show images
+		if(!this.knalledgeMapViewService || this.knalledgeMapViewService.provider.config.nodes.showImages){
 			var width = isShowingFullSizeImage.bind(this)(d) ?
-				d.kNode.dataContent.image.width : this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth;
+				d.kNode.dataContent.image.width : (this.knalledgeMapViewService ? this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth : 100);
 		}
 		// if width is not set or if it is narrower than
 		// this.configNodes.html.dimensions.sizes.width
@@ -102,9 +104,12 @@ function getNodeWidth(d){
 function getNodeMarginLeft(d){
 		// centering the node (set margin to half the width of the node)
 		var width = null;
-		if(this.knalledgeMapViewService.provider.config.nodes.showImages){
-			var width = (!this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
-				d.kNode.dataContent.image.width : this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth;
+		// !this.knalledgeMapViewService => show images
+		if(!this.knalledgeMapViewService || this.knalledgeMapViewService.provider.config.nodes.showImages){
+
+			// !this.knalledgeMapViewService => showImagesAsThumbnails == true
+			var width = (this.knalledgeMapViewService && !this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails && d.kNode.dataContent && d.kNode.dataContent.image && d.kNode.dataContent.image.width) ?
+				d.kNode.dataContent.image.width : (this.knalledgeMapViewService ? this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth : 100);
 		}
 
 		// if width is not set or if it is narrower than
@@ -130,7 +135,10 @@ function getNodeMarginLeft(d){
  * 	the image width for
  * */
 function getImageWidthForNode(d){
-	var width = this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails ? this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth : d.kNode.dataContent.image.width;
+	// !this.knalledgeMapViewService => showImagesAsThumbnails == true
+	var width = (!this.knalledgeMapViewService || this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails) ?
+		(this.knalledgeMapViewService ? this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsWidth : 100)
+		: d.kNode.dataContent.image.width;
 	return this.scales.width(width) + "px";
 }
 
@@ -143,7 +151,10 @@ function getImageWidthForNode(d){
  * 	the image height for
  * */
  function getImageHeightForNode(d){
- 	var height = this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails ? this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsHeight : d.kNode.dataContent.image.height;
+	 // !this.knalledgeMapViewService => showImagesAsThumbnails == true
+ 	var height = (!this.knalledgeMapViewService || this.knalledgeMapViewService.provider.config.nodes.showImagesAsThumbnails) ?
+		(this.knalledgeMapViewService ? this.knalledgeMapViewService.provider.config.nodes.imagesThumbnailsHeight : 100)
+		 : d.kNode.dataContent.image.height;
  	return this.scales.height(height) + "px";
  }
 
@@ -175,23 +186,28 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 	// we create a div that will contain both visual representation of a node
 	var nodeHtmlEnter = nodeHtml.enter().append("div")
 		.attr("class", function(d){
-				var userHows = that.rimaService.howAmIs;
-				var nodeWhats = (d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats) ?
-					d.kNode.dataContent.rima.whats : [];
-				var relevant = false;
-				for(var i in nodeWhats){
-					var nodeWhat = nodeWhats[i];
-					for(var j in userHows){
-						var userHow = userHows[j];
-						if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name))
-						{
-							relevant = true;
-							break;
+				var classes = "node_html node_unselected draggable " + d.kNode.type;
+
+				// find if the node is relevant for the user
+				var userHows = null;
+				if (that.rimaService){
+					that.rimaService.howAmIs;
+					var nodeWhats = (d.kNode.dataContent && d.kNode.dataContent.rima && d.kNode.dataContent.rima.whats) ?
+						d.kNode.dataContent.rima.whats : [];
+					var relevant = false;
+					for(var i in nodeWhats){
+						var nodeWhat = nodeWhats[i];
+						for(var j in userHows){
+							var userHow = userHows[j];
+							if (userHow && userHow.whatAmI && (userHow.whatAmI.name == nodeWhat.name))
+							{
+								relevant = true;
+								break;
+							}
 						}
 					}
+					if(relevant) classes += " rima_relevant"
 				}
-				var classes = "node_html node_unselected draggable " + d.kNode.type;
-				if(relevant) classes += " rima_relevant"
 				return classes;
 			})
 		// .on("dblclick", function(d){
@@ -242,7 +258,9 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 		.style("width", getNodeWidth.bind(this))
 		.style("margin-left", getNodeMarginLeft.bind(this));
 
-	nodeHtmlEnter.filter(function(d) { return that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image; })
+	nodeHtmlEnter.filter(function(d) {
+		// !that.knalledgeMapViewService => showImages == true
+		return (!that.knalledgeMapViewService || that.knalledgeMapViewService.provider.config.nodes.showImages) && d.kNode.dataContent && d.kNode.dataContent.image; })
 		.append("img")
 			.attr("src", function(d){
 				return d.kNode.dataContent.image.url;
@@ -264,7 +282,7 @@ MapVisualizationTree.prototype.updateHtml = function(source) {
 			.attr("class", "open_close_status");
 
 	// TODO: we cannot optimize
-	// if(this.rimaService.config.showUsers){
+	// if(this.rimaService && this.rimaService.config.showUsers){
 		nodeHtmlEnter
 			.append("div")
 				.attr("class", "rima_user");
@@ -373,7 +391,8 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 	// updating image state
 	// image exists in data but not in the view
 	nodeHtmlUpdate.filter(function(d) {
-		return (that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image && (d3.select(this).select("img").size() <= 0));
+		// !that.knalledgeMapViewService => showImages == true
+		return ((!that.knalledgeMapViewService || that.knalledgeMapViewService.provider.config.nodes.showImages) && d.kNode.dataContent && d.kNode.dataContent.image && (d3.select(this).select("img").size() <= 0));
 	})
 		.append("img")
 			.attr("src", function(d){
@@ -398,31 +417,36 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 
 	// image does not exist in data but does exist in the view
 	nodeHtmlUpdate.select("img").filter(function(d) {
-		return (!(that.knalledgeMapViewService.provider.config.nodes.showImages && d.kNode.dataContent && d.kNode.dataContent.image) );
+		// !that.knalledgeMapViewService => showImages == true
+		return !(
+			(!that.knalledgeMapViewService || that.knalledgeMapViewService.provider.config.nodes.showImages)
+		&& d.kNode.dataContent && d.kNode.dataContent.image);
 	})
 		.remove();
 
 	nodeHtmlUpdate.select(".vote_up")
 		.style("opacity", function(d){
-			var iAmId = that.rimaService.getActiveUserId();
-			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.votes && d.kNode.dataContent.ibis.votes[iAmId]) ?
-				1.0 : 0.5;
-			// return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ?
-			// 	1.0 : 0.1;
+			if(that.rimaService){
+				var iAmId = that.rimaService.getActiveUserId();
+				return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.votes && d.kNode.dataContent.ibis.votes[iAmId]) ?
+					1.0 : 0.5;
+			}else{
+				return 1.0;
+			}
 		})
 		.on("click", function(d){
 			d3.event.stopPropagation();
 			that.upperAPI.nodeVote(1, d);
 		})
 		.html(function(d){
-			// if(!('dataContent' in d.kNode) || !d.kNode.dataContent) d.kNode.dataContent = {};
-			// if(!('ibis' in d.kNode.dataContent) || !d.kNode.dataContent.ibis) d.kNode.dataContent.ibis = {};
-			// if(!('voteUp' in d.kNode.dataContent.ibis)) d.kNode.dataContent.ibis.voteUp = 1;
-			var iAmId = that.rimaService.getActiveUserId();
-			return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.votes && d.kNode.dataContent.ibis.votes[iAmId]) ?
-				d.kNode.dataContent.ibis.votes[iAmId] : "&nbsp";
-			//return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.voteUp) ?
-			//	d.kNode.dataContent.ibis.voteUp : "&nbsp";
+			var noVote = "&nbsp"
+			if(that.rimaService){
+				var iAmId = that.rimaService.getActiveUserId();
+				return (d.kNode.dataContent && d.kNode.dataContent.ibis && d.kNode.dataContent.ibis.votes && d.kNode.dataContent.ibis.votes[iAmId]) ?
+					d.kNode.dataContent.ibis.votes[iAmId] : noVote;
+			}else{
+				return noVote;
+			}
 		});
 
 	nodeHtmlUpdate.select(".vote_down")
@@ -467,14 +491,16 @@ MapVisualizationTree.prototype.updateHtmlTransitions = function(source, nodeHtml
 		});
 	nodeHtmlUpdate.select(".rima_user")
 		.style("display", function(d){
-			return that.rimaService.config.showUsers && that.rimaService.getUserById(d.kNode.iAmId) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')
+			return (that.rimaService && that.rimaService.config.showUsers && that.rimaService.getUserById(d.kNode.iAmId)) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')
 
 		})
 		.html(function(d){
-			var user = that.rimaService.getUserById(d.kNode.iAmId);
 			var label = "";
-			if(user){
-				label = "@" + user.displayName;
+			if(that.rimaService){
+				var user = that.rimaService.getUserById(d.kNode.iAmId);
+				if(user){
+					label = "@" + user.displayName;
+				}
 			}
 			return label;
 		})
@@ -801,7 +827,8 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 			//.html("<span>Hello</span>");
 			.html(function(d) {
 				var edge = that.mapStructure.getEdge(d.source.id, d.target.id); //TODO: replace with added kEdge
-				return that.knalledgeMapViewService.provider.config.edges.showNames ? edge.kEdge.name : "";
+				// !that.knalledgeMapViewService => showNames == true
+				return (!that.knalledgeMapViewService || that.knalledgeMapViewService.provider.config.edges.showNames) ? edge.kEdge.name : "";
 			});
 
 	// set opacity to 0 at the innitial
@@ -826,7 +853,8 @@ MapVisualizationTree.prototype.updateLinkLabels = function(source) {
 	linkLabelHtmlUpdate.select("span")
 			.html(function(d) {
 				var edge = that.mapStructure.getEdge(d.source.id, d.target.id); //TODO: replace with added kEdge
-				return that.knalledgeMapViewService.provider.config.edges.showNames ? edge.kEdge.name : "";
+				// !that.knalledgeMapViewService => showNames == true
+				return (!that.knalledgeMapViewService || that.knalledgeMapViewService.provider.config.edges.showNames) ? edge.kEdge.name : "";
 			});
 
 	// animate position to the middle between source and target position

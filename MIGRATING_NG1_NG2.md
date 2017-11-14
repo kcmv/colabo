@@ -15,6 +15,8 @@ Much more on that in our [gDoc - Migration/Integration ng1/ng2](https://docs.goo
 
 #### NG1
 
+##### Misc
+
 + system or user-space services should be added with special decorator `@Inject`:
 + user-space example:  
   + `@Inject('RimaService') private RimaService`
@@ -24,10 +26,14 @@ Much more on that in our [gDoc - Migration/Integration ng1/ng2](https://docs.goo
 + some of the NG1 "workaround" services are not necessary anymore in the NG2 world, because a lifecycle of updating components is improved and we do not need to run $digest after any change
   + $window -> window
   + $timeout -> setTimeout
-+ **$scope**
-  + parameters and methods move simply to the directive's class public (or private if it is not used outside the code part) parameters and methods. In that way they will become available in the directive's template
-    + for example: `$scope.route` becomes `this.route` and it is declared as `public route:string;`
-  + $apply is not necessary anymore (all changes are done in zones anyway in ng2+ su you are safe). Something as complex and annoying as this:
+
+
+
+##### `$scope`
+
++ parameters and methods move simply to the directive's class public (or private if it is not used outside the code part) parameters and methods. In that way they will become available in the directive's template
+  + for example: `$scope.route` becomes `this.route` and it is declared as `public route:string;`
++ $apply is not necessary anymore (all changes are done in zones anyway in ng2+ su you are safe). Something as complex and annoying as this:
 
 ```js
 if (commingFromAngular) processNodeUnselected();
@@ -36,8 +42,7 @@ else {
 }
 ```
 
-+ ​
-  + will become as simple as this
++ will become as simple as this
 ```js
 processNodeUnselected()
 ```
@@ -46,7 +51,7 @@ processNodeUnselected()
   + more details at https://angular.io/guide/lifecycle-hooks
 +  providing $sope
   +  [Angular 2: subscribe to AngularJS $scope.$broadcast / $scope.$emit messages?](https://stackoverflow.com/questions/37823201/angular-2-subscribe-to-angularjs-scope-broadcast-scope-emit-messages)
-  +  this should not be done if REALY NOT NECESSARY.
+  +  this should not be done if REALY NOT NECESSARY
 +  `$scope.$watch`
   +  [How to watch on complex object in Angular 2 like we did in Angular 1 using $watch](https://stackoverflow.com/questions/37888772/how-to-watch-on-complex-object-in-angular-2-like-we-did-in-angular-1-using-watc)
   +  [What is replacing $watch in Angular 2.0?](https://www.quora.com/What-is-replacing-watch-in-Angular-2-0)
@@ -62,13 +67,36 @@ processNodeUnselected()
      +  [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
   +  https://angular.io/api/core/DoCheck
 +  `angular.element` and `$element.find()`
-+  `$injector`
-   +  [Dependency Injection in Angular 2](https://pascalprecht.github.io/slides/di-in-angular-2/)
-   +  not relevant to the problem
-      +  https://angular.io/api/core/Injector
-      +  https://angular.io/guide/ngmodule-faq
-      +  https://codecraft.tv/courses/angular/dependency-injection-and-providers/ngmodule-providers-vs-component-providers-vs-component-viewproviders/
-   +  https://v2.angular.io/docs/ts/latest/api/core/index/ModuleWithProviders-interface.html#!#providers-anchor
+   +  [How can I select an element in a component template?](https://stackoverflow.com/questions/32693061/how-can-i-select-an-element-in-a-component-template)
+   +  [How do you access the element HTML from within an Angular 2 attribute directive?](https://stackoverflow.com/questions/38002640/how-do-you-access-the-element-html-from-within-an-angular-2-attribute-directive)
+   +  https://angular.io/api/core/Renderer2
+
+```ts
+import { AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+
+export class KnalledgeViewComponent implements AfterViewInit{
+  @ViewChild('map_container', { read: ElementRef }) mapContainer: ElementRef;
+
+  ngAfterViewInit(){
+	console.log(this.mapContainer.nativeElement);
+  }
+}
+```
+
+
+
+##### `$injector`
+
++  [Dependency Injection in Angular 2](https://pascalprecht.github.io/slides/di-in-angular-2/)
+   +  https://blog.thoughtram.io/angular/2015/05/18/dependency-injection-in-angular-2.html
++  MULTI PROVIDERS IN ANGULAR
+   +  https://blog.thoughtram.io/angular2/2015/11/23/multi-providers-in-angular-2.html
++  not relevant to the problem
+   +  https://angular.io/api/core/Injector
+   +  https://angular.io/guide/ngmodule-faq
+   +  https://codecraft.tv/courses/angular/dependency-injection-and-providers/ngmodule-providers-vs-component-providers-vs-component-viewproviders/
++  https://v2.angular.io/docs/ts/latest/api/core/index/ModuleWithProviders-interface.html#!#providers-anchor
++  https://angular.io/api/core/ReflectiveInjector
 
 ```ts
 import { Injector } from '@angular/core';
