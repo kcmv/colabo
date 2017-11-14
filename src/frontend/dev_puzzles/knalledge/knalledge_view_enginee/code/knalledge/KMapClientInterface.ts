@@ -116,7 +116,7 @@ export class KMapClientInterface {
     }
 
     // scope.$apply (before)
-    processNodeSelected();
+    processNodeSelected.bind(this)();
   }
 
   /**
