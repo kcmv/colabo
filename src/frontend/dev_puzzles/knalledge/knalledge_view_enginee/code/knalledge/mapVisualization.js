@@ -565,6 +565,13 @@
     	positions map to specific 'datum'
     */
     MapVisualization.prototype.positionToDatum = function(datum) {
+      // TODO:ng2 we are disabling this
+      // because we do not want (?) to use jQuery anymore
+      // For example:
+      // https://stackoverflow.com/questions/10063380/smooth-scroll-without-the-use-of-jquery
+      // https://coderwall.com/p/hujlhg/smooth-scrolling-without-jquery
+      return;
+
       if(datum === null || typeof datum === 'undefined'){
         datum = this.mapStructure.getSelectedNode();
         if(datum === null || typeof datum === 'undefined'){

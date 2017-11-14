@@ -225,7 +225,8 @@ export class KnalledgeViewComponent implements OnInit, AfterViewInit, OnDestroy{
       this.changeKnalledgePropertyEvent,
       this.selectedNodeChangedEvent,
       this.mapEntitySelectedEvent,
-      this.nodeMediaClickedEvent
+      this.nodeMediaClickedEvent,
+      this.nodeSelected
     );
 
     // a reference of a dom element

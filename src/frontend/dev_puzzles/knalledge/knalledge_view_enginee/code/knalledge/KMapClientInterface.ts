@@ -1,6 +1,17 @@
 declare var knalledge:any;
 declare var window:Window;
 
+export class KNodeNew{
+  name = "Hello KNodeNew";
+}
+knalledge.KNodeNew = KNodeNew;
+
+var k1 = new KNodeNew();
+var k2 = new knalledge.KNodeNew();
+k2.name = "Hello KNodeNew (k2)"
+console.log("[KNodeNew] k1: ", k1.name);
+console.log("[KNodeNew] k2: ", k2.name);
+
 /**
  * API Interface for the knalledge.Map object and sub objects
  * It is provided from the map hosting directive to knalledge.Map instance
@@ -26,7 +37,8 @@ export class KMapClientInterface {
     private changeKnalledgePropertyEvent,
     private selectedNodeChangedEvent,
     private mapEntitySelectedEvent,
-    private nodeMediaClickedEvent
+    private nodeMediaClickedEvent,
+    private nodeSelectedUpper
   ){
     this.PRESENTER_CHANGED = "PRESENTER_CHANGED";
     this.GlobalEmitterServicesArray.register(this.PRESENTER_CHANGED);
@@ -80,7 +92,7 @@ export class KMapClientInterface {
       // here we call a parent directive listener interested
       // in clicking the node
       // This is mostly used in the case when top directive provides map data and listens for response from the this (this.knalledgeMap) directive
-      this.nodeSelected({
+      if(this.nodeSelectedUpper) this.nodeSelectedUpper({
         "vkNode": vkNode,
         "dom": dom
       });
@@ -91,10 +103,12 @@ export class KMapClientInterface {
       // at the moment `knalledgeMapList` directive listens for this event
       // and presents the property inside the editor
       if (vkNode) {
+        /* TODO:ng2
         if (this.$routeParams.node_id !== vkNode.kNode._id) {
           this.$routeParams.node_id = vkNode.kNode._id;
           this.$route.updateParams(this.$routeParams);
         }
+        */
         // http://www.historyrundown.com/did-galileo-really-say-and-yet-it-moves/
         if (vkNode.kNode.dataContent){
           property = vkNode.kNode.dataContent.property;
