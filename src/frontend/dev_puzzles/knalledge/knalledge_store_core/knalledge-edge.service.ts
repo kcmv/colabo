@@ -7,7 +7,9 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-class Edge {
+export class Edge {
+  id: string;
+  name: string;
 }
 
 @Injectable()
@@ -20,5 +22,12 @@ export class KnalledgeEdgeService {
     private http: HttpClient
   ){
     console.log('KnalledgeEdgeService:constructor');
+  }
+
+  getEdge(id:string):Edge{
+    var edge:Edge = new Edge();
+    edge.id = id;
+    edge.name = (id == '5') ? "PET" : "NE ZNAM";
+    return edge;
   }
 }
