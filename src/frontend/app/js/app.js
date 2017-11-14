@@ -38,11 +38,12 @@ requiresList.push('sessionServices');
 requiresList.push('topiChatServices');
 requiresList.push('topiChatDirectives');
 
-// we want to avoid hardoced registering plugins here
+// we want to avoid hardcoced registering plugins here
 
 requiresList.push('requestServices');
 requiresList.push('suggestionServices');
 requiresList.push('changeServices');
+requiresList.push('knalledgeStoreServices');
 
 // This code loads all external puzzles-containers and scans for any ng1 module
 // and adds it as a requirement to the main module
