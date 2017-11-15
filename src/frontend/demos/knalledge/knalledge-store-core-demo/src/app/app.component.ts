@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {KnalledgeEdgeService, Edge} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
+import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
+
+import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
+
+declare var knalledge:any;
 
 @Component({
   selector: 'app-root',
@@ -9,7 +13,9 @@ import {KnalledgeEdgeService, Edge} from '@colabo-knalledge/knalledge_store_core
 })
 export class AppComponent {
   title = 'app';
-  edge:Edge
+  // testing namespacing access,
+  // as it will be in code written in JS
+  edge:KEdge = new knalledge.KEdge();
 
   constructor(
     private http: HttpClient,
