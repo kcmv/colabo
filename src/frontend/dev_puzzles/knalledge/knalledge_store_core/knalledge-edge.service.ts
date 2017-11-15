@@ -3,14 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
-
-export class Edge {
-  id: string;
-  name: string;
-}
 
 @Injectable()
 export class KnalledgeEdgeService {
@@ -24,10 +21,10 @@ export class KnalledgeEdgeService {
     console.log('KnalledgeEdgeService:constructor');
   }
 
-  getEdge(id:string):Edge{
-    var edge:Edge = new Edge();
-    edge.id = id;
-    edge.name = (id == '5') ? "PET" : "NE ZNAM";
+  getEdge(id:string):KEdge{
+    var edge:KEdge = new KEdge();
+    edge.name = (edge._id == '3')
+      ? "AHHHHAA: 3!!!" : "NE ZNAM";
     return edge;
   }
 }
