@@ -11,19 +11,19 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "types": [
-      "hammerjs"
-    ],
     "lib": [
       "es2017",
       "dom"
     ],
     "baseUrl": "./",
-    "note1": "these paths are relative to the `baseUrl` path.",
     "paths": {
       "@angular/*": [
         "node_modules/@angular/*"
       ]
     }
-  }
+  },
+  "include": [
+      "src/**/*",
+      "node_modules/@colabo-knalledge/**/*"
+  ]
 }

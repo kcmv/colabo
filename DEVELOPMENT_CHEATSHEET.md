@@ -56,7 +56,9 @@ If you want to let developers build the lib through the hosting app this method 
 
 More details at [stories linked library](https://github.com/angular/angular-cli/wiki/stories-linked-library)
 
-2. in the host's `tsconfig.json` (some are suggesting `tsconfig.app.json`, but it should work for tests as well ?) direct the TS compiler to point all mutual (lib vs. host) dependencies or in other words all libraries the lib is using, but are not compiled into the lib (they are listed in the lib's `peerDependencies` section in the `package.json`) since they will and should be provided with our/the hosting app (like all @angular, angular material, etc) to point and be used your local (host) dependencies:
+2. in the host's `tsconfig.json` (some are suggesting `tsconfig.app.json`, but it should work for tests as well ?)
+  1. direct (with parameter `paths` (that is relative to `baseUrl` parameter)) the TS compiler to point all mutual (lib vs. host) dependencies or in other words all libraries the lib is using, but are not compiled into the lib (they are listed in the lib's `peerDependencies` section in the `package.json`), since they will and should be provided with our/the hosting app (like all @angular, angular material, etc) to point and be used your local (host) dependencies
+  2. include libs that are linked (this still need to be investigated) into compilation path with `include` parameter
 
 ```json
 {
@@ -71,7 +73,12 @@ More details at [stories linked library](https://github.com/angular/angular-cli/
       ]
     }
     ...
-  }
+  },
+  ,
+  "include": [
+      "src/**/*",
+      "node_modules/@colabo-knalledge/**/*"
+  ]
   ...
 }
 ```

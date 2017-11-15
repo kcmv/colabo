@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('fd-graph App', () => {
+describe('knalledge-store-core-demo App', () => {
   let page: AppPage;
 
   beforeEach(() => {

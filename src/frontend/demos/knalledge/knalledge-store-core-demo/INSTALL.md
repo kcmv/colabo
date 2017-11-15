@@ -27,7 +27,19 @@ You need to:
 3. import them in this project with:
 
 ```sh
-npm link @colabo-puzzles/puzzles_core
+# npm link @colabo-puzzles/puzzles_core
 npm link @colabo-knalledge/knalledge_core
 npm link @colabo-knalledge/knalledge_store_core
 ```
+
+# Updating
+
+https://stackoverflow.com/questions/43931986/how-to-upgrade-angular-cli-to-the-latest-version
+
+## angular
+
+`yarn add @angular/animations@5.0.1 @angular/common@5.0.1 @angular/compiler@5.0.1 @angular/core@5.0.1 @angular/forms@5.0.1 @angular/http@5.0.1 @angular/platform-browser@5.0.1 @angular/platform-browser-dynamic@5.0.1 @angular/router@5.0.1`
+
+` @angular/material@5.0.1
+@angular/cdk@
+@angular/flex@`
