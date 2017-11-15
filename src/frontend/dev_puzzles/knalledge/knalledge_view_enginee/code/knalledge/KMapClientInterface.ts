@@ -168,7 +168,7 @@ export class KMapClientInterface {
     }
 
     // scope.$apply (before)
-    processNodeUnselected();
+    processNodeUnselected.bind(this)();
   }
 
   searchNodeByName() {
