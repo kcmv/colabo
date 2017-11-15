@@ -1,6 +1,6 @@
 # Intro
 
-This is MEAN stack app so you should have node + npm installed and then do a standard npm install based on the `package.json`
+This is a MEAN stack app so you should have node + npm installed and then do a standard npm install based on the `package.json`
 
 `npm install`
 
@@ -8,13 +8,13 @@ or even better
 
 `yarn install`
 
-You can set yarn as angular-cli default:
+You can set the yarn as an angular-cli default:
 
 `ng set --global packageManager=yarn`
 
 # linked npm packages
 
-Some of the packages are not available (or not the latests) at the npm repository, so you should link them localy from the corresponding local repositories.
+Some of the packages are not available (or not the latests) at the npm repository, so you should link them locally from the corresponding local repositories.
 
 ## Colabo packages
 
