@@ -314,7 +314,6 @@ Map.prototype.realTimeNodeSelected = function(eventName, msg){
 	// }
 
 	var repeatNum = 3;
-	var timeout = this.injector.get('timeout');
 
 	(function realTimeNodeSelectedInner(){
 		var kNode = that.mapStructure.getVKNodeByKId(kId);
@@ -323,7 +322,7 @@ Map.prototype.realTimeNodeSelected = function(eventName, msg){
 		}else if(repeatNum>0){
 			repeatNum--;
 			console.warn("[knalledge.Map] we didnt get getVKNodeByKId in the first iteration!");
-			timeout(realTimeNodeSelectedInner, 50);
+			window.setTimeout(realTimeNodeSelectedInner, 50);
 		}
 	})();
 };
@@ -489,14 +488,13 @@ Map.prototype.nodeSelected_WithoutRTBroadcasting = function(vkNode, selectionSou
 	}
 
 	this.update(vkNode, function(){
-		var timeout = that.injector.get('timeout');
 		var success = true;
 
 		(function selectNodeInner(){
 			success = that.mapVisualization.nodeSelected(vkNode);
 			if(!success && repeatNum>0){
 				repeatNum--;
-				timeout(selectNodeInner, 50);
+				window.setTimeout(selectNodeInner, 50);
 			}
 		})();
 	});
