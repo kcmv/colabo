@@ -1,6 +1,9 @@
 import { Component, ReflectiveInjector, Injector, Inject, Optional, NgModule, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import {KMapClientInterface} from './code/knalledge/KMapClientInterface';
 import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray'
+
+import {Map} from './code/knalledge/map'
+
 /**
 TODO: See how does this kind of documentation work with TS, NG2+, ...
  * the namespace for core services for the KnAllEdge system
@@ -66,7 +69,7 @@ export class KnalledgeViewComponent implements OnInit, AfterViewInit, OnDestroy{
   private route: string;
   private subscriptions: any[];
   /** @var {knalledge.Map} knalledgeMap */
-  private knalledgeMap:any = null;
+  private knalledgeMap:Map = null;
   private model:any = null;
   private config:any = null;
   private kMapClientInterface:KMapClientInterface;
@@ -245,7 +248,7 @@ export class KnalledgeViewComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     // initialize the knalledge.Map instance
-    this.knalledgeMap = new knalledge.Map(
+    this.knalledgeMap = new Map(
       knalledgeMapDomVisualContainerD3,
       this.config, this.kMapClientInterface, null,
       this.config.tree.mapService.enabled ? this.KnalledgeMapVOsService : null,
