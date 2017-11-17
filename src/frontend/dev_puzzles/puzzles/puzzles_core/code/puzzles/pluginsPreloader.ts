@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {components, modules, servicesDependencies} from '../../js/pluginDependencies';
-import {upgradeAdapter, moduleProviders} from '../../js/upgrade_adapter';
+// TODO:ng2 TODO:puzzle figure out how to fix this
+import {components, modules, servicesDependencies} from '../../../../../app/js/pluginDependencies';
+import {upgradeAdapter, moduleProviders} from '../../../../../app/js/upgrade_adapter';
 declare var Config:any;
 
 /**

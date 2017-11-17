@@ -358,8 +358,6 @@ const NPM_DEPENDENCIES: IDependency[] = [
     { src: 'angular-animate/angular-animate.js', inject: 'libs' },
     { src: 'ngstorage/ngStorage.js', inject: 'libs' },
 
-    { src: join(APP_SRC, 'js/lib/d3/d3.js'), inject: 'libs', noNorm: true },
-    { src: join(APP_SRC, 'js/lib/keyboard.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/deepAssign.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/tween/tween.js'), inject: 'libs', noNorm: true },
     { src: join(APP_SRC, 'js/lib/socket.io/socket.io.js'), inject: 'libs', noNorm: true },
