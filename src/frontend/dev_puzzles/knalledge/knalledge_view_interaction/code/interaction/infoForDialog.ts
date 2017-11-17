@@ -1,5 +1,5 @@
 export class InfoForDialog{
-  public title: string = "CollaboFramework";
+  public title: string = "Colabo";
   public message: string = "";
   public buttons: string[] = ["ok"];
 

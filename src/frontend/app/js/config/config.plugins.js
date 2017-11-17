@@ -229,10 +229,6 @@
                         'js/services/syncingService.js'
                     ],
                     injectCss: []
-                },
-                interaction: {
-                    path: [APP_SRC_STR, 'js/interaction'],
-                    injectJs: ['interaction.js', 'moveAndDrag.js', 'keyboard.js']
                 }
             },
 
@@ -353,6 +349,10 @@
           'knalledge.knalledge_view_enginee': {
               active: true, // is active puzzle
               path: 'dev_puzzles/knalledge/knalledge_view_enginee' // path to the puzzle folder, relative to the project (frontend) root
+          },
+          'knalledge.knalledge_view_interaction': {
+              active: true, // is active puzzle
+              path: 'dev_puzzles/knalledge/knalledge_view_interaction' // path to the puzzle folder, relative to the project (frontend) root
           },
           knalledgeMap: {
               active: true,

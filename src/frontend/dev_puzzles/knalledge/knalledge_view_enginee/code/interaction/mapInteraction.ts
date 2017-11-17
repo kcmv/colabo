@@ -1,4 +1,11 @@
+/*
+This is an interaction interface that the knalledge.Map provides to
+all other interface implementers (like keyboard, mouse, drag and drop, etc)
+*/
+
+/* TODO:ng2 TODO:puzzle see how to resolve and avoid this here
 import {Actions} from '../../components/change/change';
+*/
 // external from the JS world
 declare var interaction;
 declare var knalledge;
@@ -6,10 +13,11 @@ declare var d3;
 declare var window:Window;
 declare var debugpp;
 
+/* TODO:ng2 TODO:puzzle see how to resolve and avoid this here
 import {components} from '../../js/pluginDependencies';
 var BrainstormingPhase =
   components['/components/brainstorming/brainstorming'];
-
+*/
 const STATUS_DESTROYED: string = "STATUS_DESTROYED";
 const STATUS_MAP: string = "STATUS_MAP";
 const STATUS_EDITOR: string = "STATUS_EDITOR";
@@ -37,7 +45,7 @@ export class MapInteraction {
         this.clientApi = clientApi;
         this.debug = debugpp.debug('interaction.MapInteraction');
         this.destroyed = false;
-        this.clientApi.collaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = this.addNode;
+        if(this.clientApi.collaboGrammarService) this.clientApi.collaboGrammarService.puzzles.knalledgeMap.actions['nodeDecoration'] = this.addNode;
     }
 
     init() {
@@ -148,7 +156,9 @@ export class MapInteraction {
         // editor.remove();
         map.node().blur();
         editor.node().focus();
+        /* TODO:ng2 TODO:puzzle see how to resolve and avoid this here
         $(editor.node()).click();
+        */
     }
 
     switchToMap() {
@@ -156,7 +166,9 @@ export class MapInteraction {
         var map = d3.select(".knalledge_map_container");
         editor.node().blur();
         map.node().focus();
+        /* TODO:ng2 TODO:puzzle see how to resolve and avoid this here
         $(map.node()).click();
+        */
     }
 
     searchNodeByName() {
@@ -199,7 +211,13 @@ export class MapInteraction {
     updateNodeDecoration(node, decoration, value, callback){
       //TODO:
       if(node){
+      /* TODO:ng2 TODO:puzzle see how to resolve and avoid this here
         this.clientApi.updateNode(node, Actions.UPDATE_NODE_DECORATION, {'decoration':decoration, 'value':value}, callback);
+        this.clientApi.update(this.clientApi.getSelectedNode());
+      // This is a curent replacement:
+      */
+        this.clientApi.updateNode(node, /*Actions.UPDATE_NODE_DECORATION*/
+          "UPDATE_NODE_DECORATION", {'decoration':decoration, 'value':value}, callback);
         this.clientApi.update(this.clientApi.getSelectedNode());
       }
     }
@@ -473,6 +491,7 @@ export class MapInteraction {
         if (typeof edgeType === 'undefined') edgeType = this.clientApi.getActiveIbisType();
         if (typeof edgeType === 'undefined') edgeType = knalledge.KEdge.TYPE_KNOWLEDGE;
 
+        /* TODO:ng2 TODO:puzzle see how to resolve and avoid this here
         if(this.clientApi.collaboGrammarService.puzzles.brainstorming && this.clientApi.collaboGrammarService.puzzles.brainstorming.state
           && this.clientApi.collaboGrammarService.puzzles.brainstorming.state.phase === BrainstormingPhase.SHARING_IDEAS
           && !this.clientApi.collaboGrammarService.puzzles.brainstorming.state.allowAddingWhileSharingIdeas
@@ -485,7 +504,9 @@ export class MapInteraction {
               return;
             }
         }
+        */
 
+        /* TODO:ng2 TODO:puzzle see how to resolve and avoid this here
         //CollaboGrammar:
         //allow only addition of ideas to the brainstorming question node - no free knowledge gardening
         //allow adding arguments to ideas:
@@ -507,7 +528,7 @@ export class MapInteraction {
               }
           }
         }
-
+        */
 
         console.log("exitEditingNode");
         this.debug.log("on('tab'): this.editingNodeHtml: ", this.editingNodeHtml);
