@@ -17,6 +17,9 @@ var puzzles = {
       path: ".",
       css: true,
       injectJs: [
+        "lib/debug.js",
+        "lib/debugpp/index.js",
+
         "code/knalledge/index.js",
         // migrated into TypeScript
         // "code/knalledge/kNode.js",
