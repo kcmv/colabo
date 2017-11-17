@@ -16,7 +16,10 @@ var puzzles = {
     "knalledge.knalledge_view_enginee": {
       path: ".",
       css: true,
-      injectJs: ["code/knalledge/map.js", "code/knalledge/mapLayout.js", "code/knalledge/mapLayoutTree.js", "code/knalledge/mapLayoutFlat.js", "code/knalledge/mapLayoutGraph.js", "code/knalledge/mapVisualization.js", "code/knalledge/mapVisualizationTree.js", "code/knalledge/mapVisualizationFlat.js", "code/knalledge/mapVisualizationGraph.js", "code/knalledge/mapManager.js", "code/knalledge/mapStructure.js",
+      injectJs: [
+        "node_modules/d3/d3.js",
+
+        "code/knalledge/map.js", "code/knalledge/mapLayout.js", "code/knalledge/mapLayoutTree.js", "code/knalledge/mapLayoutFlat.js", "code/knalledge/mapLayoutGraph.js", "code/knalledge/mapVisualization.js", "code/knalledge/mapVisualizationTree.js", "code/knalledge/mapVisualizationFlat.js", "code/knalledge/mapVisualizationGraph.js", "code/knalledge/mapManager.js", "code/knalledge/mapStructure.js",
 
       "directives/index.js", "directives/knalledgeMap.js"],
       injectCss: ["css/default.css", "css/graph.css"]

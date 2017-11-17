@@ -1,6 +1,7 @@
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {KMapClientInterface} from './KMapClientInterface';
+import {MapInteraction} from '../interaction/mapInteraction';
 
 declare var knalledge:any;
 declare var puzzles:any;
@@ -203,8 +204,6 @@ export class Map{
 			isDescendantInDistance: this.mapStructure.isDescendantInDistance.bind(this.mapStructure)
 		};
 
-		var MapInteraction = this.injector.get("interaction.MapInteraction", null);
-
 		this.GlobalEmitterServicesArray = this.injector.get('collaboPlugins.globalEmitterServicesArray');
 
 		this.GlobalEmitterServicesArray.register(this.knalledgeNodeTypeChanged);
@@ -239,7 +238,7 @@ export class Map{
 						return KNode.TYPE_IBIS_ARGUMENT;
 					}
 			}else{
-				return this.ibisTypesService.getActiveType().type;
+				return this.ibisTypesService ? this.ibisTypesService.getActiveType().type : "type_knowledge";
 			}
 		}
 	}
