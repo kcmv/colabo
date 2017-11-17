@@ -37,7 +37,8 @@ export class KnalledgeEdgeService {
   /* ToDO: this one is needed? */
   getEdge(id:string):KEdge{
     var edge:KEdge = new KEdge();
-    this.getById(edge._id);
+    //'5543e78e645912db4fee96f0'
+    this.getById('5543e730645912db4fee96ea'); //edge._id
     edge.name = (edge._id == '3')
       ? "AHHHHAA: 3!!!" : "NE ZNAM";
     return edge;
