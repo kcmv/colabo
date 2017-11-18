@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/toPromise';
 
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
+import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -34,6 +35,10 @@ export class KnalledgeEdgeService {
     this.apiUrl = serverAP + '/' + edgeAP + '/';
   }
 
+  private extractEdge(sd:ServerData):KEdge{
+    return sd.data as KEdge;
+  }
+
   getById(id, callback?:Function, returnPromise:boolean = false): any // change to "Observable<KEdge>" after Promises are eliminated
   {
     console.log('getById('+id+')');
@@ -42,12 +47,14 @@ export class KnalledgeEdgeService {
     //url = 'http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json';
     //url = 'http://localhost:8001/kedges/';
     console.log('url: '+url+')');
-    var result:Observable<KEdge> = this.http.get<KEdge>(url)
+    //TODO: we cannot still use get<KEdge>(url) because server returns the object as ServerData
+    var result:Observable<ServerData> = this.http.get<ServerData>(url)
       .pipe(
-        tap(edge => console.log(`fetched edge`)),
+        // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
+        map(edge => edge.data), //edge => this.extractEdge(edge)),
         catchError(this.handleError('KnalledgeEdgeService::getById', null))
       );
-    console.log('result: ');
+    console.log('result:');
     console.log(result);
     return returnPromise ? result.toPromise() : result;
 

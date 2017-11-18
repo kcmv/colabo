@@ -31,10 +31,11 @@ export class AppComponent {
       //   .subscribe(hero => this.hero = hero);
       //this.edge =
       this.knalledgeEdgeService.getById('5543e730645912db4fee96ea')
-        .subscribe(this.edgeReceived); //as KEdge
+        .subscribe(edge => this.edgeReceived(edge)); //as KEdge
   }
   edgeReceived(edgeS:any):void{
-    this.edge = edgeS.data;
+    // this.edge = edgeS.data;
+    this.edge.fill(edgeS); //this.edge = edgeS.data;
     this.edge.name = 'test';
     console.log('edge: ' + this.edge);
     console.log('2) edge:');
