@@ -15,7 +15,7 @@ export class AppComponent {
   title = 'app';
   // testing namespacing access,
   // as it will be in code written in JS
-  edge:KEdge = new knalledge.KEdge();
+  edge:KEdge = new KEdge();
 
   constructor(
     private http: HttpClient,
@@ -25,6 +25,20 @@ export class AppComponent {
   }
 
   getEdge(){
-    this.edge = this.knalledgeEdgeService.getEdge('5');
+      //var edge:KEdge = new KEdge();
+      //'5543e78e645912db4fee96f0'
+      // this.heroService.getHero(id)
+      //   .subscribe(hero => this.hero = hero);
+      //this.edge =
+      this.knalledgeEdgeService.getById('5543e730645912db4fee96ea')
+        .subscribe(this.edgeReceived); //as KEdge
+  }
+  edgeReceived(edgeS:any):void{
+    this.edge = edgeS.data;
+    this.edge.name = 'test';
+    console.log('edge: ' + this.edge);
+    console.log('2) edge:');
+    console.log(this.edge);
+    console.log('edge: ' + this.edge._id + ':'+ this.edge.sourceId+'->'+ this.edge.targetId);
   }
 }

@@ -84,6 +84,9 @@ exports._index = function(id, id2, type, callback){
 			console.log("find: mapId: %s, type: %s", id, id2);
 			KNodeModel.find({ $and: [{ mapId: id}, { type: id2}] }, found);
 			break;
+		default:
+			console.log("[modules/kNode.js:index] unsuported req.params.type: %s", req.params.type);
+			resSendJsonProtected(res, {data: [], accessId : accessId, message: 'unsuported req type \''+req.params.type + '\'', success: false});
 	}
 }
 

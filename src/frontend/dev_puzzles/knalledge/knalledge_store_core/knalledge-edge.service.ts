@@ -34,20 +34,13 @@ export class KnalledgeEdgeService {
     this.apiUrl = serverAP + '/' + edgeAP + '/';
   }
 
-  /* ToDO: this one is needed? */
-  getEdge(id:string):KEdge{
-    var edge:KEdge = new KEdge();
-    //'5543e78e645912db4fee96f0'
-    this.getById('5543e730645912db4fee96ea'); //edge._id
-    edge.name = (edge._id == '3')
-      ? "AHHHHAA: 3!!!" : "NE ZNAM";
-    return edge;
-  }
-
   getById(id, callback?:Function, returnPromise:boolean = false): any // change to "Observable<KEdge>" after Promises are eliminated
   {
     console.log('getById('+id+')');
-    var url: string = this.apiUrl+'id/'+id;
+    var url: string = this.apiUrl+'one/'+id;
+    //url = 'http://localhost:8001/howAmIs/all/.json';
+    //url = 'http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json';
+    //url = 'http://localhost:8001/kedges/';
     console.log('url: '+url+')');
     var result:Observable<KEdge> = this.http.get<KEdge>(url)
       .pipe(
