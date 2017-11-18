@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule }    from '@angular/common/http';
 
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 
 import { AppComponent } from './app.component';
 
@@ -16,7 +17,7 @@ import { AppComponent } from './app.component';
     BrowserModule,
     HttpClientModule
   ],
-  providers: [KnalledgeEdgeService],
+  providers: [KnalledgeEdgeService, KnalledgeNodeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

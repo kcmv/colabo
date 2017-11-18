@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
+import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
 declare var knalledge:any;
 
@@ -16,10 +18,12 @@ export class AppComponent {
   // testing namespacing access,
   // as it will be in code written in JS
   edge:KEdge = new KEdge();
+  node:KNode = new KNode();
 
   constructor(
     private http: HttpClient,
-    private knalledgeEdgeService: KnalledgeEdgeService
+    private knalledgeEdgeService: KnalledgeEdgeService,
+    private knalledgeNodeService: KnalledgeNodeService
   ){
     console.log('AppComponent:constructor');
   }
@@ -41,5 +45,24 @@ export class AppComponent {
     console.log('2) edge:');
     console.log(this.edge);
     console.log('edge: ' + this.edge._id + ':'+ this.edge.sourceId+'->'+ this.edge.targetId);
+  }
+
+  getNode(){
+      //var node:KNode = new KNode();
+      //'5543e78e645912db4fee96f0'
+      // this.heroService.getHero(id)
+      //   .subscribe(hero => this.hero = hero);
+      //this.node =
+      this.knalledgeNodeService.getById('56e8c60e913d88af03e9d188')
+        .subscribe(node => this.nodeReceived(node)); //as KNode
+  }
+  nodeReceived(nodeS:any):void{
+    // this.node = nodeS.data;
+    this.node.fill(nodeS); //this.node = nodeS.data;
+    //this.node.name = 'test';
+    console.log('node: ' + this.node);
+    console.log('2) node:');
+    console.log(this.node);
+    console.log('node: ' + this.node._id + ':'+ this.node.name);
   }
 }

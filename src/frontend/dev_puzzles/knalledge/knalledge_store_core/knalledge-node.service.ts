@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/toPromise';
 
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -21,36 +22,42 @@ export class KnalledgeNodeService {
   // "http://127.0.0.1:888/knodes/";
 
   private apiUrl: string;
+  private defaultAction:string = 'default';
 
 	private knalledgeMapQueue:any = null;
 	private knAllEdgeRealTimeService:any = null;
 
 	constructor(
-    private http: HttpClient,
+    private http: HttpClient
     //@Inject('ENV') private ENV
-    private ENV = undefined
+    //private ENV = undefined
   ){
     console.log('KnalledgeNodeService:constructor');
     //this.apiUrl = this.ENV.server.backend + '/' + nodeAP + '/';
     this.apiUrl = serverAP + '/' + nodeAP + '/';
   }
 
-  /* ToDO: this one is needed? */
-  getNode(id:string):KNode{
-    var node:KNode = new KNode();
-    node.name = (node._id == '3')
-      ? "AHHHHAA: 3!!!" : "NE ZNAM";
-    return node;
+  private extractNode(sd:ServerData):KNode{
+    return sd.data as KNode;
   }
 
-  getById(id, callback:Function, returnPromise:boolean = false): any // change to "Observable<KNode>" after Promises are eliminated
+  getById(id, callback?:Function, returnPromise:boolean = false): any // change to "Observable<KNode>" after Promises are eliminated
   {
-
-    var result:Observable<KNode> = this.http.get<KNode>(this.apiUrl+'id/'+id)
+    console.log('getById('+id+')');
+    var url: string = this.apiUrl+'one/'+this.defaultAction+'/'+id;
+    //url = 'http://localhost:8001/howAmIs/all/.json';
+    //url = 'http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json';
+    //url = 'http://localhost:8001/kedges/';
+    console.log('url: '+url+')');
+    //TODO: we cannot still use get<KEdge>(url) because server returns the object as ServerData
+    var result:Observable<ServerData> = this.http.get<ServerData>(url)
       .pipe(
-        tap(node => console.log(`fetched node`)),
+        // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
+        map(node => this.extractNode(node)), //edge => this.extractEdge(edge)),
         catchError(this.handleError('KnalledgeNodeService::getById', null))
       );
+    console.log('result:');
+    console.log(result);
     return returnPromise ? result.toPromise() : result;
 
     //return this.getPlain({ searchParam:id, type:'one' }, callback);
@@ -71,7 +78,7 @@ export class KnalledgeNodeService {
       if(callback) callback(nodes);
     }
 
-    var result:Observable<KNode[]> = this.http.get<KNode[]>(this.apiUrl+'in_map/'+id)
+    var result:Observable<KNode[]> = this.http.get<KNode[]>(this.apiUrl+'in_map/'+this.defaultAction+'/'+id)
       .pipe(
         tap(nodesFromServer => processNodes(nodesFromServer)),
         catchError(this.handleError('KnalledgeNodeService::queryInMap', []))

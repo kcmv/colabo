@@ -51,7 +51,7 @@ export class KnalledgeEdgeService {
     var result:Observable<ServerData> = this.http.get<ServerData>(url)
       .pipe(
         // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
-        map(edge => edge.data), //edge => this.extractEdge(edge)),
+        map(edge => this.extractEdge(edge)), //edge => this.extractEdge(edge)),
         catchError(this.handleError('KnalledgeEdgeService::getById', null))
       );
     console.log('result:');
