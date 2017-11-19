@@ -41,6 +41,7 @@ export class KnalledgeEdgeService {
 
   getById(id, callback?:Function, returnPromise:boolean = false): any // change to "Observable<KEdge>" after Promises are eliminated
   {
+    //TODO: check 'callback' support
     console.log('getById('+id+')');
     var url: string = this.apiUrl+'one/'+id;
     //url = 'http://localhost:8001/howAmIs/all/.json';
@@ -56,6 +57,7 @@ export class KnalledgeEdgeService {
       );
     console.log('result:');
     console.log(result);
+    if(callback){result.subscribe(node => callback(node));}
     return returnPromise ? result.toPromise() : result;
 
     //return this.getPlain({ searchParam:id, type:'one' }, callback);

@@ -9,12 +9,14 @@ import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knall
 
 import { AppComponent } from './app.component';
 import { GetNodeEdgeComponent } from './get-node-edge/get-node-edge.component';
+import { GetMapComponent } from './get-map/get-map.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    GetNodeEdgeComponent
+    GetNodeEdgeComponent,
+    GetMapComponent
   ],
   imports: [
     BrowserModule,

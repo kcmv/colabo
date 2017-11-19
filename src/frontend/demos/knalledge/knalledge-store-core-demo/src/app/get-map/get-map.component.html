@@ -1,0 +1,11 @@
+<h3>Get Map</h3>
+<label>map_id (should be equal to the id of an existing map in your db):
+  <input [(ngModel)]="map_id" placeholder="name"/>
+</label>
+<button (click)="getMapContent()">getMapContent</button>
+<div>
+  <label><B>Nodes from the map</B></label>
+  <li *ngFor="let node of nodes">
+      <span class="badge">{{node.name}}</span> {{node._id}}
+  </li>
+</div>

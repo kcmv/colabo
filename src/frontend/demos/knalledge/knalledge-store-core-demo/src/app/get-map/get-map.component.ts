@@ -7,19 +7,19 @@ import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
-//declare var knalledge:any;
+
 
 @Component({
-  selector: 'app-get-node-edge',
-  templateUrl: './get-node-edge.component.html',
-  styleUrls: ['./get-node-edge.component.css'],
+  selector: 'app-get-map',
+  templateUrl: './get-map.component.html',
+  styleUrls: ['./get-map.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class GetNodeEdgeComponent implements OnInit {
-  edge:KEdge = new KEdge();
-  node:KNode = new KNode();
-  @Input() edge_id:string;
-  @Input() node_id:string;
+export class GetMapComponent implements OnInit {
+
+  edges:KEdge[] = [];
+  nodes:KNode[] = [];
+  @Input() map_id:string;
 
   constructor(
     private http: HttpClient,
@@ -28,10 +28,31 @@ export class GetNodeEdgeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.edge_id = '5543e730645912db4fee96ea'; //'5543e78e645912db4fee96f0'
-    this.node_id = '56e8c60e913d88af03e9d188';
+    this.map_id = '56eac6bd913d88af03e9d1cb'; //'56ebeabb913d88af03e9d2d6'
+    //this.nodes = [new KNode(),new KNode(),new KNode()];
   }
 
+  getMapContent(){
+      //var node:KNode = new KNode();
+      // this.heroService.getHero(id)
+      //   .subscribe(hero => this.hero = hero);
+      //this.node =
+      this.knalledgeNodeService.queryInMap(this.map_id)
+        .subscribe(nodes => this.nodesReceived(nodes)); //as KNode
+  }
+
+  nodesReceived(nodesS:Array<KNode>):void{
+    // this.nodes = nodesS.data;
+    //this.nodes.fill(nodesS); //this.nodes = nodesS.data;
+    //this.nodes.name = 'test';
+    console.log('nodes: ' + this.nodes);
+    this.nodes = nodesS;
+    // console.log('2) nodes:');
+    // console.log(this.nodes);
+    // console.log('node: ' + this.node._id + ':'+ this.node.name);
+  }
+
+  /*
   getEdge(){
       //var edge:KEdge = new KEdge();
       // this.heroService.getHero(id)
@@ -49,24 +70,6 @@ export class GetNodeEdgeComponent implements OnInit {
     console.log(this.edge);
     console.log('edge: ' + this.edge._id + ':'+ this.edge.sourceId+'->'+ this.edge.targetId);
   }
-
-  getNode(){
-      //var node:KNode = new KNode();
-      // this.heroService.getHero(id)
-      //   .subscribe(hero => this.hero = hero);
-      //this.node =
-      this.knalledgeNodeService.getById(this.node_id)
-        .subscribe(node => this.nodeReceived(node)); //as KNode
-  }
-
-  nodeReceived(nodeS:any):void{
-    // this.node = nodeS.data;
-    this.node.fill(nodeS); //this.node = nodeS.data;
-    //this.node.name = 'test';
-    console.log('node: ' + this.node);
-    console.log('2) node:');
-    console.log(this.node);
-    console.log('node: ' + this.node._id + ':'+ this.node.name);
-  }
+  */
 
 }

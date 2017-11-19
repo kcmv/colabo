@@ -41,8 +41,9 @@ export class KnalledgeNodeService {
     return sd.data as KNode;
   }
 
-  getById(id, callback?:Function, returnPromise:boolean = false): any // change to "Observable<KNode>" after Promises are eliminated
+  getById(id, callback?:Function, returnPromise:boolean = false): any //TODO: change to "Observable<KNode>" after Promises are eliminated
   {
+    //TODO: check 'callback' support
     console.log('getById('+id+')');
     var url: string = this.apiUrl+'one/'+this.defaultAction+'/'+id;
     //url = 'http://localhost:8001/howAmIs/all/.json';
@@ -58,30 +59,35 @@ export class KnalledgeNodeService {
       );
     console.log('result:');
     console.log(result);
+    if(callback){result.subscribe(node => callback(node));}
     return returnPromise ? result.toPromise() : result;
 
     //return this.getPlain({ searchParam:id, type:'one' }, callback);
   }
 
-  queryInMap(id, callback:Function, returnPromise:boolean = false): any // change to "Observable<KNode[]>" after Promises are eliminated
+  /*
+  Example: http://localhost:8001/knodes/in_map/default/579811d88e12abfa556f6b59.json
+  */
+  queryInMap(id, callback?:Function, returnPromise:boolean = false): any //TODO: change to "Observable<KNode[]>" after Promises are eliminated
   {
-    function processNodes(nodes){
-      console.log("processNodes("+nodes+")");
+    //TODO: check 'callback' support
+    function processNodes(nodesS):Array<KNode>{
+      console.log("processNodes");
+      var nodes:Array<KNode> = nodesS.data as Array<KNode>;
       for(var id=0; id<nodes.length; id++){
-        /* not needed now, because the response from servers is typed now to KNode unlike in previous versions
-        var kNode = KNode.nodeFactory(nodes[id]);
+        //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to KNode unlike in previous versions
+        var kNode:KNode = KNode.nodeFactory(nodes[id]);
+        kNode.state = KNode.STATE_SYNCED;
+        console.log(kNode);
         nodes[id] = kNode;
-        */
-        nodes[id].state = KNode.STATE_SYNCED;
       }
-
-      if(callback) callback(nodes);
+      return nodes;
     }
 
-    var result:Observable<KNode[]> = this.http.get<KNode[]>(this.apiUrl+'in_map/'+this.defaultAction+'/'+id)
+    var result:Observable<ServerData> = this.http.get<ServerData>(this.apiUrl+'in_map/'+this.defaultAction+'/'+id)
       .pipe(
-        tap(nodesFromServer => processNodes(nodesFromServer)),
-        catchError(this.handleError('KnalledgeNodeService::queryInMap', []))
+        map(nodesFromServer => processNodes(nodesFromServer)),
+        catchError(this.handleError('KnalledgeNodeService::queryInMap', null))
       );
 
 			// var nodes = this.queryPlain({ actionType:'default', searchParam:id, type:'in_map' }, function(nodesFromServer){
@@ -93,10 +99,15 @@ export class KnalledgeNodeService {
 			//
 			// 	if(callback) callback(nodesFromServer);
 			// });
-
+    if(callback){result.subscribe(nodes => callback(nodes));}
     return returnPromise ? result.toPromise() : result;
   }
 
+  //KnalledgeNodeService.create((newNode, callback)
+
+  //KnalledgeNodeService.update(node, actionType, patch, callback)
+
+  //KnalledgeNodeService.destroy(id)
 
   /**
    * Handle Http operation that failed.
