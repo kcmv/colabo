@@ -1,0 +1,17 @@
+<div>
+  <label>edge_id (should be equal to id of an existing edge in your db):
+    <input [(ngModel)]="edge_id" placeholder="name"/>
+  </label>
+  Edge id: {{edge?._id}}<br/>
+  Edge name: {{edge?.name}}<br/>
+  connecting: {{edge?.sourceId}}->{{edge?.targetId}}<br/>
+  <button (click)="getEdge()">getEdge</button>
+</div>
+<div>
+  <label>node_id (should be equal to id of an existing node in your db):
+    <input [(ngModel)]="node_id" placeholder="name"/>
+  </label>
+  Node id: {{node?._id}}<br/>
+  Node name: {{node?.name}}<br/>
+  <button (click)="getNode()">getNode</button>
+</div>
