@@ -4,8 +4,20 @@
 </label>
 <button (click)="getMapContent()">getMapContent</button>
 <div>
-  <label><B>Nodes from the map</B></label>
-  <li *ngFor="let node of nodes">
-      <span class="badge">{{node.name}}</span> {{node._id}}
-  </li>
+  <table>
+    <tr>
+      <td>
+        <label class="padding"><B>Nodes from the map</B></label>
+        <li *ngFor="let node of nodes">
+            <span class="badge">{{node.name}}</span> {{node._id}}
+        </li>
+      </td>
+      <td>
+        <label class="padding"><B>Edges from the map</B></label>
+        <li *ngFor="let edge of edges">
+            <span class="badge">{{edge._id}}</span> {{edge.sourceId}} -> {{edge.targetId}}
+        </li>
+      </td>
+    </tr>
+  </table>
 </div>

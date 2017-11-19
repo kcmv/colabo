@@ -57,10 +57,39 @@ export class KnalledgeEdgeService {
       );
     console.log('result:');
     console.log(result);
-    if(callback){result.subscribe(node => callback(node));}
+    if(callback){result.subscribe(edge => callback(edge));}
     return returnPromise ? result.toPromise() : result;
 
     //return this.getPlain({ searchParam:id, type:'one' }, callback);
+  }
+
+  /*
+  Example: http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json
+  */
+  queryInMap(id, callback?:Function, returnPromise:boolean = false): any //TODO: change to "Observable<KEdge[]>" after Promises are eliminated
+  {
+    //TODO: check 'callback' support
+    function processEdges(edgesS):Array<KEdge>{
+      console.log("processEdges");
+      var edges:Array<KEdge> = edgesS.data as Array<KEdge>;
+      for(var id=0; id<edges.length; id++){
+        //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to KEdge unlike in previous versions
+        var kEdge:KEdge = KEdge.edgeFactory(edges[id]);
+        kEdge.state = KEdge.STATE_SYNCED;
+        console.log(kEdge);
+        edges[id] = kEdge;
+      }
+      return edges;
+    }
+
+    var result:Observable<ServerData> = this.http.get<ServerData>(this.apiUrl+'in_map/'+id)
+      .pipe(
+        map(edgesFromServer => processEdges(edgesFromServer)),
+        catchError(this.handleError('KnalledgeEdgeService::queryInMap', null))
+      );
+
+    if(callback){result.subscribe(edges => callback(edges));}
+    return returnPromise ? result.toPromise() : result;
   }
 
   /*

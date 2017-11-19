@@ -39,6 +39,8 @@ export class GetMapComponent implements OnInit {
       //this.node =
       this.knalledgeNodeService.queryInMap(this.map_id)
         .subscribe(nodes => this.nodesReceived(nodes)); //as KNode
+      this.knalledgeEdgeService.queryInMap(this.map_id)
+        .subscribe(edges => this.edgesReceived(edges)); //as KNode
   }
 
   nodesReceived(nodesS:Array<KNode>):void{
@@ -47,9 +49,14 @@ export class GetMapComponent implements OnInit {
     //this.nodes.name = 'test';
     console.log('nodes: ' + this.nodes);
     this.nodes = nodesS;
-    // console.log('2) nodes:');
-    // console.log(this.nodes);
-    // console.log('node: ' + this.node._id + ':'+ this.node.name);
+  }
+
+  edgesReceived(edgesS:Array<KEdge>):void{
+    // this.edges = edgesS.data;
+    //this.edges.fill(edgesS); //this.edges = edgesS.data;
+    //this.edges.name = 'test';
+    console.log('edges: ' + this.edges);
+    this.edges = edgesS;
   }
 
   /*

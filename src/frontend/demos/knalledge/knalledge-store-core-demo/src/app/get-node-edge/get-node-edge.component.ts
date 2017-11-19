@@ -28,8 +28,8 @@ export class GetNodeEdgeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.edge_id = '5543e730645912db4fee96ea'; //'5543e78e645912db4fee96f0'
-    this.node_id = '56e8c60e913d88af03e9d188';
+    this.node_id = '56eade22913d88af03e9d282';
+    this.edge_id = '56eac765913d88af03e9d1cf'; //'5543e78e645912db4fee96f0'
   }
 
   getEdge(){
@@ -43,7 +43,7 @@ export class GetNodeEdgeComponent implements OnInit {
   edgeReceived(edgeS:any):void{
     // this.edge = edgeS.data;
     this.edge.fill(edgeS); //this.edge = edgeS.data;
-    this.edge.name = 'test';
+    //this.edge.name = 'test';
     console.log('edge: ' + this.edge);
     console.log('2) edge:');
     console.log(this.edge);

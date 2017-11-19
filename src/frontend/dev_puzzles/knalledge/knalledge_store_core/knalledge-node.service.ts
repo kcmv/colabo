@@ -90,15 +90,6 @@ export class KnalledgeNodeService {
         catchError(this.handleError('KnalledgeNodeService::queryInMap', null))
       );
 
-			// var nodes = this.queryPlain({ actionType:'default', searchParam:id, type:'in_map' }, function(nodesFromServer){
-			// 	for(var id=0; id<nodesFromServer.length; id++){
-			// 		var kNode = knalledge.KNode.nodeFactory(nodesFromServer[id]);
-			// 		kNode.state = knalledge.KNode.STATE_SYNCED;
-			// 		nodesFromServer[id] = kNode;
-			// 	}
-			//
-			// 	if(callback) callback(nodesFromServer);
-			// });
     if(callback){result.subscribe(nodes => callback(nodes));}
     return returnPromise ? result.toPromise() : result;
   }
