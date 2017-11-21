@@ -2,21 +2,20 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/toPromise';
 
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
+import {CFService} from './cf.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 const nodeAP = "knodes";
-const serverAP = "http://127.0.0.1:8001";
 
 @Injectable()
-export class KnalledgeNodeService {
+export class KnalledgeNodeService extends CFService{
 
   //http://api.colabo.space/knodes/
   // "http://127.0.0.1:888/knodes/";
@@ -32,16 +31,18 @@ export class KnalledgeNodeService {
     //@Inject('ENV') private ENV
     //private ENV = undefined
   ){
+    super();
     console.log('KnalledgeNodeService:constructor');
     //this.apiUrl = this.ENV.server.backend + '/' + nodeAP + '/';
-    this.apiUrl = serverAP + '/' + nodeAP + '/';
+    this.apiUrl = CFService.serverAP + '/' + nodeAP + '/';
   }
 
   private extractNode(sd:ServerData):KNode{
     return sd.data as KNode;
   }
 
-  getById(id, callback?:Function, returnPromise:boolean = false): any //TODO: change to "Observable<KNode>" after Promises are eliminated
+  //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
+  getById(id, callback?:Function): Observable<KNode>
   {
     //TODO: check 'callback' support
     console.log('getById('+id+')');
@@ -50,8 +51,8 @@ export class KnalledgeNodeService {
     //url = 'http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json';
     //url = 'http://localhost:8001/kedges/';
     console.log('url: '+url+')');
-    //TODO: we cannot still use get<KEdge>(url) because server returns the object as ServerData
-    var result:Observable<ServerData> = this.http.get<ServerData>(url)
+    //TODO: we cannot still use get<KNode>(url) because server returns the object as ServerData
+    var result:Observable<KNode> = this.http.get<ServerData>(url)
       .pipe(
         // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
         map(node => this.extractNode(node)), //edge => this.extractEdge(edge)),
@@ -60,7 +61,7 @@ export class KnalledgeNodeService {
     console.log('result:');
     console.log(result);
     if(callback){result.subscribe(node => callback(node));}
-    return returnPromise ? result.toPromise() : result;
+    return result; //return returnPromise ? result.toPromise() : result;
 
     //return this.getPlain({ searchParam:id, type:'one' }, callback);
   }
@@ -68,7 +69,9 @@ export class KnalledgeNodeService {
   /*
   Example: http://localhost:8001/knodes/in_map/default/579811d88e12abfa556f6b59.json
   */
-  queryInMap(id, callback?:Function, returnPromise:boolean = false): any //TODO: change to "Observable<KNode[]>" after Promises are eliminated
+  //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
+  //queryInMap(id, callback?:Function, returnPromise:boolean = false): Observable<KNode[]>
+  queryInMap(id, callback?:Function): Observable<KNode[]>
   {
     //TODO: check 'callback' support
     function processNodes(nodesS):Array<KNode>{
@@ -84,14 +87,14 @@ export class KnalledgeNodeService {
       return nodes;
     }
 
-    var result:Observable<ServerData> = this.http.get<ServerData>(this.apiUrl+'in_map/'+this.defaultAction+'/'+id)
+    var result:Observable<KNode[]> = this.http.get<ServerData>(this.apiUrl+'in_map/'+this.defaultAction+'/'+id)
       .pipe(
         map(nodesFromServer => processNodes(nodesFromServer)),
         catchError(this.handleError('KnalledgeNodeService::queryInMap', null))
       );
 
     if(callback){result.subscribe(nodes => callback(nodes));}
-    return returnPromise ? result.toPromise() : result;
+    return result; //returnPromise ? result.toPromise() : result;
   }
 
   //KnalledgeNodeService.create((newNode, callback)
@@ -99,26 +102,6 @@ export class KnalledgeNodeService {
   //KnalledgeNodeService.update(node, actionType, patch, callback)
 
   //KnalledgeNodeService.destroy(id)
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      //this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
 }
 
 // /**

@@ -196,6 +196,9 @@ function($resource, $q, ENV, KnalledgeMapQueue){
 		return maps;
 	};
 
+	/* Example:
+	http://localhost:8001/kmaps/by-participant/556760847125996dc1a4a24f.json
+	*/
 	resource.queryByParticipant = function(participantId, callback){
 		if(participantId === null){
 			window.alert("You're not logged in. Until you login, you will only see public maps");
