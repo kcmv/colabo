@@ -39,6 +39,8 @@ export class VO {
   `let vo: T = new T();`
   Namely it could not be translated to JS.
 
+  Official Typ Documentation: https://www.typescriptlang.org/docs/handbook/generics.html under the 'Using Type Parameters in Generic Constraints' paragraph
+
   More about the solution here:
   https://stackoverflow.com/a/26696476/4742336
   https://stackoverflow.com/a/39623422/4742336
