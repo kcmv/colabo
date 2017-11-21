@@ -3,11 +3,11 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
+import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 
+import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-
-
 
 @Component({
   selector: 'app-get-map',
@@ -17,6 +17,7 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 })
 export class GetMapComponent implements OnInit {
 
+  map:KMap = new KMap();
   edges:KEdge[] = [];
   nodes:KNode[] = [];
   @Input() map_id:string;
@@ -24,7 +25,8 @@ export class GetMapComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private knalledgeEdgeService: KnalledgeEdgeService,
-    private knalledgeNodeService: KnalledgeNodeService
+    private knalledgeNodeService: KnalledgeNodeService,
+    private knalledgeMapService: KnalledgeMapService
   ) { }
 
   ngOnInit() {
@@ -32,8 +34,25 @@ export class GetMapComponent implements OnInit {
     //this.nodes = [new KNode(),new KNode(),new KNode()];
   }
 
-  getMapContent(){
-      //var node:KNode = new KNode();
+  getMap():void{
+      //var map:KMap = new KMap();
+      // this.heroService.getHero(id)
+      //   .subscribe(hero => this.hero = hero);
+      //this.map =
+      this.knalledgeMapService.getById(this.map_id)
+        .subscribe(map => this.mapReceived(map)); //as KMap
+  }
+
+  mapReceived(mapS:any):void{
+    // this.map = mapS.data;
+    this.map.fill(mapS); //this.map = mapS.data;
+    //this.map.name = 'test';
+    console.log('map:');
+    console.log(this.map);
+  }
+
+  getMapContent():void{
+      //var map:KNode = new KNode();
       // this.heroService.getHero(id)
       //   .subscribe(hero => this.hero = hero);
       //this.node =

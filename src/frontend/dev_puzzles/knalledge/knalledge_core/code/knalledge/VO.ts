@@ -58,17 +58,24 @@ export class VO {
   	return vo;
   }
 
+  static factory(obj:any):VO {
+    //to be implemented by each class inheriting VO
+    return VO.VOfactory<VO>(obj, VO);
+  }
+
   fill(obj:any):void {
-    if("_id" in obj){this._id = obj._id;}
-    if("name" in obj){this.name = obj.name;}
-    if("type" in obj){this.type = obj.type;}
-    if("iAmId" in obj){this.iAmId = obj.iAmId;}
-    if("ideaId" in obj){this.ideaId = obj.ideaId;}
-    if("activeVersion" in obj){this.activeVersion = obj.activeVersion;}
-    if("version" in obj){this.version = obj.version;}
-    if("isPublic" in obj){this.isPublic = obj.isPublic;}
-    if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
-    if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
+    if(obj){
+      if("_id" in obj){this._id = obj._id;}
+      if("name" in obj){this.name = obj.name;}
+      if("type" in obj){this.type = obj.type;}
+      if("iAmId" in obj){this.iAmId = obj.iAmId;}
+      if("ideaId" in obj){this.ideaId = obj.ideaId;}
+      if("activeVersion" in obj){this.activeVersion = obj.activeVersion;}
+      if("version" in obj){this.version = obj.version;}
+      if("isPublic" in obj){this.isPublic = obj.isPublic;}
+      if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
+      if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
+    }
   }
 
   /** when object is updated on server we override local object by server version using this function **/

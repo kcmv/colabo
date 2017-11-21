@@ -37,10 +37,6 @@ export class KnalledgeNodeService extends CFService{
     this.apiUrl = CFService.serverAP + '/' + nodeAP + '/';
   }
 
-  private extractNode(sd:ServerData):KNode{
-    return sd.data as KNode;
-  }
-
   //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
   getById(id, callback?:Function): Observable<KNode>
   {
@@ -55,7 +51,7 @@ export class KnalledgeNodeService extends CFService{
     var result:Observable<KNode> = this.http.get<ServerData>(url)
       .pipe(
         // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
-        map(node => this.extractNode(node)), //edge => this.extractEdge(edge)),
+        map(node => this.extractVO<KNode>(node,KNode)),
         catchError(this.handleError('KnalledgeNodeService::getById', null))
       );
     console.log('result:');
@@ -79,7 +75,7 @@ export class KnalledgeNodeService extends CFService{
       var nodes:Array<KNode> = nodesS.data as Array<KNode>;
       for(var id=0; id<nodes.length; id++){
         //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to KNode unlike in previous versions
-        var kNode:KNode = KNode.nodeFactory(nodes[id]);
+        var kNode:KNode = KNode.factory(nodes[id]);
         kNode.state = KNode.STATE_SYNCED;
         console.log(kNode);
         nodes[id] = kNode;
@@ -149,7 +145,7 @@ export class KnalledgeNodeService extends CFService{
 // 				// console.log("[KnalledgeNodeService] serverResponse: %s", JSON.stringify(serverResponse));
 // 				// console.log("[knalledgeMapServices] accessId: %s", (serverResponse ? serverResponse.accessId : 'serverResponse undefined'));
 // 				/* there is no use of transforming it to VO here, because it is transformed back to Resource by this method, so we do it in wrapper func that calls this one:
-// 				var data = knalledge.KNode.nodeFactory(serverResponse.data[0]);
+// 				var data = knalledge.KNode.factory(serverResponse.data[0]);
 // 				data.state = knalledge.KNode.STATE_SYNCED;
 // 				return data;
 // 				*/
@@ -172,7 +168,7 @@ export class KnalledgeNodeService extends CFService{
 // 				var data = serverResponse.data;
 // 				var VOs = [];
 // 				for(var datumId in serverResponse.data){
-// 					var VO = knalledge.KNode.nodeFactory(data[datumId]);
+// 					var VO = knalledge.KNode.factory(data[datumId]);
 // 					VO.state = knalledge.KNode.STATE_SYNCED;
 // 					VOs.push(VO);
 // 				}
@@ -280,7 +276,7 @@ export class KnalledgeNodeService extends CFService{
 // 	{
 // 		var nodes = this.queryPlain({ actionType:'default', searchParam:id, type:'in_map' }, function(nodesFromServer){
 // 			for(var id=0; id<nodesFromServer.length; id++){
-// 				var kNode = knalledge.KNode.nodeFactory(nodesFromServer[id]);
+// 				var kNode = knalledge.KNode.factory(nodesFromServer[id]);
 // 				kNode.state = knalledge.KNode.STATE_SYNCED;
 // 				nodesFromServer[id] = kNode;
 // 			}
@@ -296,7 +292,7 @@ export class KnalledgeNodeService extends CFService{
 // 	resource.getInMapNodesOfType = function(mapId, kNodeType, callback){
 // 		var nodes = this.queryPlain({ actionType:'default', searchParam:mapId, type:'in_map', searchParam2:kNodeType  }, function(nodesFromServer){
 // 			for(var id=0; id<nodesFromServer.length; id++){
-// 				var kNode = knalledge.KNode.nodeFactory(nodesFromServer[id]);
+// 				var kNode = knalledge.KNode.factory(nodesFromServer[id]);
 // 				kNode.state = knalledge.KNode.STATE_SYNCED;
 // 				nodesFromServer[id] = kNode;
 // 			}

@@ -36,10 +36,6 @@ export class KnalledgeEdgeService extends CFService{
     this.apiUrl = CFService.serverAP + '/' + edgeAP + '/';
   }
 
-  private extractEdge(sd:ServerData):KEdge{
-    return sd.data as KEdge;
-  }
-
   //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
   getById(id, callback?:Function): Observable<KEdge>
   {
@@ -54,7 +50,7 @@ export class KnalledgeEdgeService extends CFService{
     var result:Observable<KEdge> = this.http.get<ServerData>(url)
       .pipe(
         // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
-        map(edge => this.extractEdge(edge)), //edge => this.extractEdge(edge)),
+        map(edge => this.extractVO<KEdge>(edge,KEdge)),
         catchError(this.handleError('KnalledgeEdgeService::getById', null))
       );
     console.log('result:');
@@ -77,7 +73,7 @@ export class KnalledgeEdgeService extends CFService{
       var edges:Array<KEdge> = edgesS.data as Array<KEdge>;
       for(var id=0; id<edges.length; id++){
         //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to KEdge unlike in previous versions
-        var kEdge:KEdge = KEdge.edgeFactory(edges[id]);
+        var kEdge:KEdge = KEdge.factory(edges[id]);
         kEdge.state = KEdge.STATE_SYNCED;
         console.log(kEdge);
         edges[id] = kEdge;

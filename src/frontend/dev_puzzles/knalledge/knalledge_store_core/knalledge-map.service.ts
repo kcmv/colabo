@@ -53,29 +53,13 @@ export class KnalledgeMapService extends CFService{
     let result:Observable<KMap> = this.http.get<ServerData>(url)
       .pipe(
         // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
-        map(map => this.extractVO<KMap>(map)), //edge => this.extractEdge(edge)),
+        map(map => this.extractVO<KMap>(map,KMap)),
         catchError(this.handleError('KnalledgeMapService::getById', null))
       );
     console.log('result:');
     console.log(result);
     if(callback){result.subscribe(map => callback(map));}
     return result; //return returnPromise ? result.toPromise() : result;
-
-    //return this.getPlain({ searchParam:id, type:'one' }, callback);
-
-
-		// TODO:
-    // var that = this;
-		// var map = this.getPlain({ searchParam:id, type:'one' }, function(mapFromServer){
-		// 	mapFromServer = knalledge.KMap.mapFactory(mapFromServer);
-		// 	mapFromServer.state = knalledge.KMap.STATE_SYNCED;
-		// 	//that.map = mapFromServer;
-		// 	if(callback) callback(mapFromServer);
-    //
-		// 	return mapFromServer;
-		// });
-    //
-		// return map;
   }
 
   /* Example:
@@ -94,7 +78,7 @@ export class KnalledgeMapService extends CFService{
 	// 	}
 	// 	var maps = this.queryPlain({type:'by-participant', searchParam: participantId}, function(mapsFromServer){
 	// 		for(var id=0; id<mapsFromServer.length; id++){
-	// 			var kMap = knalledge.KMap.mapFactory(mapsFromServer[id]);
+	// 			var kMap = knalledge.KMap.factory(mapsFromServer[id]);
 	// 			kMap.state = knalledge.KMap.STATE_SYNCED;
 	// 			mapsFromServer[id] = kMap;
 	// 		}
@@ -118,7 +102,7 @@ export class KnalledgeMapService extends CFService{
   //     let maps:Array<KMap> = mapsS.data as Array<KMap>;
   //     for(let id=0; id<maps.length; id++){
   //       //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to KMap unlike in previous versions
-  //       let kMap:KMap = KMap.mapFactory(maps[id]);
+  //       let kMap:KMap = KMap.factory(maps[id]);
   //       kMap.state = KMap.STATE_SYNCED;
   //       console.log(kMap);
   //       maps[id] = kMap;

@@ -1,7 +1,17 @@
 <h3>Get Map</h3>
-<label>map_id (should be equal to the id of an existing map in your db):
+<label>map_id (should be equal to the id of an existing map in your db):</label>
   <input [(ngModel)]="map_id" placeholder="name"/>
-</label>
+<div class='demo_sub_block'>
+  Map id: {{map?._id}}<br/>
+  Map name: {{map?.name}}<br/>
+  <div *ngIf="map?.participants && map?.participants.length > 0" class="bordered_light">
+    <label class="padding">Participants</label>
+      <li *ngFor="let participant of map.participants">
+          <span class="badge">{{participant}}</span>
+      </li>
+  </div>
+  <button (click)="getMap()">getMap</button>
+</div>
 <button (click)="getMapContent()">getMapContent</button>
 <div>
   <table>

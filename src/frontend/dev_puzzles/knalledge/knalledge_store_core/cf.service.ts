@@ -10,19 +10,27 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
+interface IConstructor<T> {
+    new (...args: any[]): T;
+    factory(obj:any):T;
+}
+
 @Injectable()
 export class CFService {
   static serverAP = "http://127.0.0.1:8001";
-  
+
   constructor() { }
 
-  protected extractVO<T>(sd:ServerData): T{
-    return null;
-    //TODO:
-    // var vo: T = new T();
-    // (T as VO).factory<T>(sd.data);
-    // (vo as VO).state = VO.STATE_SYNCED;
-    // return vo;
+  /**
+   * extracts VO from the server response `ServerData` and sets it up
+   * @param sd - data received from server
+   * @param typeT - type (class) of the object expected to be received
+   */
+  protected extractVO<T extends VO>(sd:ServerData, typeT:IConstructor<T>): T{
+    //let vo: T = new typeT();
+    let vo: T = typeT.factory(sd.data);
+    vo.state = VO.STATE_SYNCED;
+    return vo;
   }
 
   /**

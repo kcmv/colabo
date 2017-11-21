@@ -6,6 +6,7 @@ import { HttpClientModule }    from '@angular/common/http';
 
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
+import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 
 import { AppComponent } from './app.component';
 import { GetNodeEdgeComponent } from './get-node-edge/get-node-edge.component';
@@ -23,7 +24,7 @@ import { GetMapComponent } from './get-map/get-map.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [KnalledgeEdgeService, KnalledgeNodeService],
+  providers: [KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
