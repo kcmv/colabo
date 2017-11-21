@@ -9,10 +9,21 @@
   <button (click)="getEdge()">getEdge</button>
 </div>
 <div class='demo_sub_block'>
-  <label>node_id (should be equal to id of an existing node in your db):
-    <input [(ngModel)]="node_id" placeholder="name"/>
-  </label>
-  Node id: {{node?._id}}<br/>
-  Node name: {{node?.name}}<br/>
-  <button (click)="getNode()">getNode</button>
+  <div class="bordered_light">
+    <label>node_id (should be equal to id of an existing node in your db):
+      <input [(ngModel)]="node_id" placeholder="name"/>
+    </label>
+    Node id: {{node?._id}}<br/>
+    Node name: {{node?.name}}<br/>
+    <button (click)="getNode()">getNode</button>
+  </div>
+  <div class="bordered_light">
+    <div *ngIf="nodesCreated.length > 0" class="bordered_light">
+      <label class="padding">Generated nodes</label>
+        <li *ngFor="let node of nodesCreated">
+            <span class="badge">{{node._id}}</span>{{node.name}}
+        </li>
+    </div>
+    <button (click)="createNode()">createNode</button>
+  </div>
 </div>

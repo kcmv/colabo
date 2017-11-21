@@ -40,7 +40,7 @@ export class KnalledgeMapService extends CFService{
   example: http://localhost:8001/kmaps/one/56e8b66b913d88af03e9d17f.json
   */
   //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
-  getById(id, callback?:Function): Observable<KMap>
+  getById(id:string, callback?:Function): Observable<KMap>
   {
     //TODO: check 'callback' support
     console.log('KnalledgeMapService::getById('+id+')');
@@ -65,7 +65,10 @@ export class KnalledgeMapService extends CFService{
   /* Example:
 	http://localhost:8001/kmaps/by-participant/556760847125996dc1a4a24f.json
 	*/
-	// resource.queryByParticipant = function(participantId, callback){
+	queryByParticipant(participantId:string, callback?:Function): Observable<KMap[]>
+  {
+    //TODO:
+    var result: Observable<KMap[]> = null;
 	// 	if(participantId === null){
 	// 		window.alert("You're not logged in. Until you login, you will only see public maps");
 	// 	}else{
@@ -87,38 +90,9 @@ export class KnalledgeMapService extends CFService{
 	// 	// for(var i in maps){
 	// 	// 	//TODO fix maps.state, etc
 	// 	// }
-	// 	return maps;
-	// };
-  //
-  // /*
-  // Example: http://localhost:8001/kmaps/in_map/default/579811d88e12abfa556f6b59.json
-  // */
-  //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
-  // queryInMap(id, callback?:Function): Observable<KMap[]>
-  // {
-  //   //TODO: check 'callback' support
-  //   function processMaps(mapsS):Array<KMap>{
-  //     console.log("processMaps");
-  //     let maps:Array<KMap> = mapsS.data as Array<KMap>;
-  //     for(let id=0; id<maps.length; id++){
-  //       //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to KMap unlike in previous versions
-  //       let kMap:KMap = KMap.factory(maps[id]);
-  //       kMap.state = KMap.STATE_SYNCED;
-  //       console.log(kMap);
-  //       maps[id] = kMap;
-  //     }
-  //     return maps;
-  //   }
-  //
-  //   let result:Observable<KMap[]> = this.http.get<ServerData>(this.apiUrl+'in_map/'+this.defaultAction+'/'+id)
-  //     .pipe(
-  //       map(mapsFromServer => processMaps(mapsFromServer)),
-  //       catchError(this.handleError('KnalledgeMapService::queryInMap', null))
-  //     );
-  //
-  //   if(callback){result.subscribe(maps => callback(maps));}
-  //   return result; //return returnPromise ? result.toPromise() : result;
-  // }
+	 return result;
+	}
+
 
   //KnalledgeMapService.create((newMap, callback)
 

@@ -150,21 +150,21 @@ export class KNode extends VO {
   		kNode.dataContent.rima.whats = whatsNew;
   	}
 
-    //done in super() :
-  	// /* deleting properties that should be set created to default value on server */
-  	// if (kNode.createdAt === undefined || kNode.createdAt === null) {
-  	// 	delete kNode.createdAt;
-  	// }
-  	// if (kNode.updatedAt === undefined || kNode.updatedAt === null) {
-  	// 	delete kNode.updatedAt;
-  	// }
-    //
-  	// if (kNode.state == VO.STATE_LOCAL) {
-  	// 	delete kNode._id;
-  	// }
-    //
-  	// /* deleting local-frontend parameters */
-  	// delete kNode.state;
+    //TODO:NG2: done in super(), but overriden in the current method
+  	/* deleting properties that should be set created to default value on server */
+  	if (kNode.createdAt === undefined || kNode.createdAt === null) {
+  		delete kNode.createdAt;
+  	}
+  	if (kNode.updatedAt === undefined || kNode.updatedAt === null) {
+  		delete kNode.updatedAt;
+  	}
+
+  	if (kNode.state == VO.STATE_LOCAL) {
+  		delete kNode._id;
+  	}
+
+  	/* deleting local-frontend parameters */
+  	delete kNode.state;
 
   	return kNode;
   }

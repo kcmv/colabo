@@ -18,6 +18,7 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 export class GetNodeEdgeComponent implements OnInit {
   edge:KEdge = new KEdge();
   node:KNode = new KNode();
+  nodesCreated:KNode[] = [];
   @Input() edge_id:string;
   @Input() node_id:string;
 
@@ -32,7 +33,7 @@ export class GetNodeEdgeComponent implements OnInit {
     this.edge_id = '56eac765913d88af03e9d1cf'; //'5543e78e645912db4fee96f0'
   }
 
-  getEdge(){
+  getEdge():void{
       //var edge:KEdge = new KEdge();
       // this.heroService.getHero(id)
       //   .subscribe(hero => this.hero = hero);
@@ -50,7 +51,7 @@ export class GetNodeEdgeComponent implements OnInit {
     console.log('edge: ' + this.edge._id + ':'+ this.edge.sourceId+'->'+ this.edge.targetId);
   }
 
-  getNode(){
+  getNode():void{
       //var node:KNode = new KNode();
       // this.heroService.getHero(id)
       //   .subscribe(hero => this.hero = hero);
@@ -67,6 +68,22 @@ export class GetNodeEdgeComponent implements OnInit {
     console.log('2) node:');
     console.log(this.node);
     console.log('node: ' + this.node._id + ':'+ this.node.name);
+  }
+
+  createNode():void{
+    let node:KNode = new KNode();
+    node.name = 'Demo generated Node';
+    node.iAmId = '556760847125996dc1a4a24f';
+    node.mapId = '56eac6bd913d88af03e9d1cb'; //'56ebeabb913d88af03e9d2d6'
+    //TODO: iAmId, createdAt, updatedAt
+    this.knalledgeNodeService.create(node)
+    .subscribe(node => this.nodeCreated(node));
+  }
+
+  nodeCreated(node:KNode):void{
+    console.log('nodeCreated');
+    console.log(node);
+    this.nodesCreated.push(node);
   }
 
 }

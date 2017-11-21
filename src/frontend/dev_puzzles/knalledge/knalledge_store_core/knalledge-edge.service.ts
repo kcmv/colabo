@@ -37,7 +37,7 @@ export class KnalledgeEdgeService extends CFService{
   }
 
   //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
-  getById(id, callback?:Function): Observable<KEdge>
+  getById(id:string, callback?:Function): Observable<KEdge>
   {
     //TODO: check 'callback' support
     console.log('getById('+id+')');
@@ -65,7 +65,7 @@ export class KnalledgeEdgeService extends CFService{
   Example: http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json
   */
   //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
-  queryInMap(id, callback?:Function): Observable<KEdge[]>
+  queryInMap(id:string, callback?:Function): Observable<KEdge[]>
   {
     //TODO: check 'callback' support
     function processEdges(edgesS):Array<KEdge>{
@@ -92,12 +92,12 @@ export class KnalledgeEdgeService extends CFService{
   }
 
 
-  queryBetween(id, callback?:Function)
+  queryBetween(id:string, callback?:Function)
   {
     // return this.queryPlain({ searchParam:id, type:'between' }, callback);
   }
 
-  queryConnected(id, callback?:Function)
+  queryConnected(id:string, callback?:Function)
   {
     // return this.queryPlain({ searchParam:id, type:'connected' }, callback);
   }
