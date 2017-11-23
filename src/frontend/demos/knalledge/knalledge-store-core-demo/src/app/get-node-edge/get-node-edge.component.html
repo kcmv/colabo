@@ -22,6 +22,8 @@
       <label class="padding">Generated nodes</label>
         <li *ngFor="let node of nodesCreated">
             <span class="badge">{{node._id}}</span>{{node.name}}
+            <button class="delete" title="delete node"
+            (click)="deleteNode(node)">X</button>
         </li>
     </div>
     <button (click)="createNode()">createNode</button>

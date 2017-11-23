@@ -95,6 +95,8 @@ export class KnalledgeNodeService extends CFService{
 
   create(kNode:KNode, callback?:Function): Observable<KNode>
   {
+    //TODO:NG2 check 'callback' support
+    //another callback approach: map(nodeS => {if(callback) {callback(nodeS)}}), //TODO:NG2 Test if this callback call works
   	console.log("KnalledgeNodeService.create");
     let result: Observable<KNode> = null;
 
@@ -149,14 +151,46 @@ export class KnalledgeNodeService extends CFService{
 		}
 		//we return this value to caller as a dirty one, and then set its value to nodeFromServer when upper callback is called
 		//TODO: a problem may occur if promise is resolved BEFORE callback is called
+    if(callback){result.subscribe(nodes => callback(nodes));}
   	return result;
   }
 
-  //KnalledgeNodeService.create((newNode, callback)
+  /**
+    deletes the KNode from the server
+    In server's response, the ServerData.data is equal to the _id of the deleted VO.  ServerData.data will be equal to null, if there is no data we intended to delete. In both cases `ServerData.success` will be eq `true`
+    URL:http://localhost:8001/knodes/one/default/5a156965d0b7970f365e1a4b.json
+  */
+  destroy(id:string, callback?:Function): Observable<boolean>
+	{
+      //TODO:NG2 fix usage of this function to expect boolean
+    var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'one/'+this.defaultAction+'/'+id, httpOptions).pipe(
+      tap(_ => console.log(`deleted hero id=${id}`)),
+      map(serverData => serverData.success),
+      catchError(this.handleError<boolean>('deleteHero'))
+    );
+
+		if(this.knAllEdgeRealTimeService){ // realtime distribution
+      // //TODO:NG2
+			// let change = new puzzles.changes.Change();
+			// change.value = null;
+			// change.valueBeforeChange = null; //TODO
+			// change.reference = id;
+			// change.type = puzzles.changes.ChangeType.STRUCTURAL;
+			// change.event = Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeDeletedEventName;
+			// // change.action = null;
+			// change.domain = puzzles.changes.Domain.NODE;
+			// change.visibility = puzzles.changes.ChangeVisibility.ALL;
+			// change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
+      //
+			// this.knAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeDeletedEventName, change);//{'_id':id});
+		}
+    if(callback){result.subscribe(success => callback(success));}
+		return result;
+	}
 
   //KnalledgeNodeService.update(node, actionType, patch, callback)
 
-  //KnalledgeNodeService.destroy(id)
+
 }
 
 // /**
@@ -447,34 +481,7 @@ export class KnalledgeNodeService extends CFService{
 // 		}
 // 	};
 //
-// 	resource.destroy = function(id, callback)
-// 	{
-// 		let result = this.destroyPlain({actionType:'default', searchParam:id, type:'one'},
-// 			function(){ //TODO: add error check
-// 			// realtime distribution
-// 			if(KnAllEdgeRealTimeService){
-// 				let change = new puzzles.changes.Change();
-// 				change.value = null;
-// 				change.valueBeforeChange = null; //TODO
-// 				change.reference = id;
-// 				change.type = puzzles.changes.ChangeType.STRUCTURAL;
-// 				change.event = Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeDeletedEventName;
-// 				// change.action = null;
-// 				change.domain = puzzles.changes.Domain.NODE;
-// 				change.visibility = puzzles.changes.ChangeVisibility.ALL;
-// 				change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
-//
-// 				KnAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeDeletedEventName, change);//{'_id':id});
-// 			}
-// 			if(callback){callback()};
-// 		},
-// 		function(error){
-// 			//console.error('NODE: DELETE: ',error,' for ',id,actionType,kNodeForServer);
-// 			ChangeService.logActionLost({'type:': 'NODE: DELETE', 'error': error, 'id':id});
-// 		}
-// 	);
-// 		return result;
-// 	};
+
 //
 // 	resource.destroyByModificationSource = function(mapId, modificationSource, callback)
 // 	{
@@ -488,6 +495,7 @@ export class KnalledgeNodeService extends CFService{
 // 		return result;
 // 	};
 //
+
 // 	resource.execute = function(request){ //example:: request = {data: kNode, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}};
 // 		// let kNode;
 // 		switch(request.method){

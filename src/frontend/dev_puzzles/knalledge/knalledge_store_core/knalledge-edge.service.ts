@@ -101,4 +101,9 @@ export class KnalledgeEdgeService extends CFService{
   {
     // return this.queryPlain({ searchParam:id, type:'connected' }, callback);
   }
+
+  /*
+    URL:http://localhost:8001/kedges/connected/5a156965d0b7970f365e1a4b.json
+  */
+  //TODO: destroyConnected
 }

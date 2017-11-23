@@ -72,7 +72,7 @@ export class GetNodeEdgeComponent implements OnInit {
 
   createNode():void{
     let node:KNode = new KNode();
-    node.name = 'Demo generated Node';
+    node.name = 'Demo generated Node ' + node._id;
     node.iAmId = '556760847125996dc1a4a24f';
     node.mapId = '56eac6bd913d88af03e9d1cb'; //'56ebeabb913d88af03e9d2d6'
     //TODO: iAmId, createdAt, updatedAt
@@ -84,6 +84,17 @@ export class GetNodeEdgeComponent implements OnInit {
     console.log('nodeCreated');
     console.log(node);
     this.nodesCreated.push(node);
+  }
+
+  nodeDeleted(id:string, success:boolean){
+    if(success){
+      this.nodesCreated = this.nodesCreated.filter(h => h._id !== id);
+    }
+  }
+
+  deleteNode(node: KNode): void {
+    let id:string = node._id;
+    this.knalledgeNodeService.destroy(id).subscribe(success => this.nodeDeleted(id,success));
   }
 
 }

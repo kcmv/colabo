@@ -107,12 +107,19 @@ exports.create = function(req, res){
 
 exports._create = function(data, callback){
 	console.log("[modules/kNode.js:_create] data: ", data);
-	var knode = new KNodeModel(data);
+	try{  //TODO: to catch errors when unpropriate data is sent for creation, including missing or inapropriate reference keys (iAmId, mapId), etc that are uncaught so far:
+		//console.log("Before create data: %s", data.toString());
+		var knode = new KNodeModel(data);
+		//console.log("After create data: %s", data.toString());
 
-	knode.save(function(err){
-		if (err) throw err;
-		callback(knode, err);
-	});
+		knode.save(function(err){
+			if (err) throw err;
+			callback(knode, err);
+		});
+	}
+	catch(ex){
+		console.log("create exception: %s", ex);
+	}
 }
 
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/knodes/one/55266618cce5af993fe8675f
@@ -260,6 +267,7 @@ exports._update = function(data, id, actionType, callback){
 }
 
 // curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8888/knodes/one/551bdcda1763e3f0eb749bd4
+// for type `one`: In the server's response, the ServerData.data is equal to the _id of the deleted VO.  ServerData.data will be equal to null, if there is no data we intended to delete. In both cases `ServerData.success` will be eq `true`
 exports.destroy = function(req, res){
 	//TODO: should we destroy edges connected to this node? or is it done automatically? or error is risen?
 	var type = req.params.type;
@@ -268,8 +276,9 @@ exports.destroy = function(req, res){
 
 	switch (type){
 	case 'one':
-		exports._destroyOne(searchParam, function (err, countOfRemoved) {
-			var data = {countOfRemoved:countOfRemoved}; //ToDo: check this, it looks like it returns deleted Document
+		exports._destroyOne(searchParam, function (err, removedItem) {
+			//console.log("[modules/kNode.js:destroy] removedItem:" + JSON.stringify(removedItem));
+			var data = removedItem ? removedItem._id : null; // if removedItem is null it means that there is no data we intended to delete
 			console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
 			resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 		});
