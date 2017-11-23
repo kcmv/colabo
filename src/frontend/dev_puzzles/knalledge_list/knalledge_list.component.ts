@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription }     from 'rxjs/Subscription';
 
-import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 import {CfPuzzlesKnalledgeListService} from './cf.puzzles.knalledge_list.service';
 

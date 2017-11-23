@@ -3,7 +3,7 @@ import { AfterViewInit, ViewChild } from '@angular/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {Media} from "ng2-material";
 import {MdDialog} from "ng2-material";
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 /**
  * Directive that handles shows node's media

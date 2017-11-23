@@ -8,6 +8,15 @@ let runServer = () => {
   let routes:any = {
     [`/${APP_DEST}`]: APP_DEST,
     '/node_modules': 'node_modules',
+
+    // TODO: definitelly wrong :(, but it works at least :)
+    '/node_modules/traceur.js': 'node_modules/traceur/bin/traceur.js',
+    // npm-scopes for different colabo puzzles
+    // TODO: hopefully we can avoid it
+    // (with the ng cli and webpack it is not necessary)
+    '/node_modules/@colabo-knalledge': join(APP_DEST, 'dev_puzzles/knalledge'),
+    '/node_modules/@colabo-puzzles': join(APP_DEST, 'dev_puzzles/puzzles'),
+
     '/bower_components': 'bower_components',
     // fixes problems with refering /app/components files from dev_puzzles
     '/app': join(APP_DEST),

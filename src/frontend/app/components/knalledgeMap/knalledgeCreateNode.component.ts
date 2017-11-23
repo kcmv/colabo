@@ -9,7 +9,7 @@ import {MdDialog} from "ng2-material";
 
 import { Router} from '@angular/router';
 
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 /**
  * Directive that handles the main KnAllEdge or rather CollaboFramework user interface

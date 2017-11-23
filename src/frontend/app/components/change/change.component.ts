@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, EventEmitter, Output, Input} from '@angular/c
 //import {NgIf, NgFor} from '@angular/common';
 //import {FORM_DIRECTIVES} from '@angular/forms';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {Change, State} from "./change";
 import {ChangeService} from "./change.service";
 //import {KNode} from "KNode";

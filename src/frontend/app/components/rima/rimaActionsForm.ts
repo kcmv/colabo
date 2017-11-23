@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';

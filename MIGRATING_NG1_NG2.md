@@ -28,7 +28,6 @@ Much more on that in our [gDoc - Migration/Integration ng1/ng2](https://docs.goo
   + $timeout -> setTimeout
 
 
-
 ##### `$scope`
 
 + parameters and methods move simply to the directive's class public (or private if it is not used outside the code part) parameters and methods. In that way they will become available in the directive's template
@@ -52,20 +51,30 @@ processNodeUnselected()
 +  providing $sope
   +  [Angular 2: subscribe to AngularJS $scope.$broadcast / $scope.$emit messages?](https://stackoverflow.com/questions/37823201/angular-2-subscribe-to-angularjs-scope-broadcast-scope-emit-messages)
   +  this should not be done if REALY NOT NECESSARY
-+  `$scope.$watch`
-  +  [How to watch on complex object in Angular 2 like we did in Angular 1 using $watch](https://stackoverflow.com/questions/37888772/how-to-watch-on-complex-object-in-angular-2-like-we-did-in-angular-1-using-watc)
-  +  [What is replacing $watch in Angular 2.0?](https://www.quora.com/What-is-replacing-watch-in-Angular-2-0)
-  +  [Observing a change in an object property in Angular 2](https://stackoverflow.com/questions/38280489/observing-a-change-in-an-object-property-in-angular-2)
-  +  [Angular2 watch object/array changes (Angular2 final >= 2.1.1)](https://stackoverflow.com/questions/40784195/angular2-watch-object-array-changes-angular2-final-2-1-1)
-  +  Observables
-     +  https://angular.io/guide/component-interaction
-     +  https://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
-  +  Object.observe()
-     +  [Object.observe ECMAScript Proposal to be Withdrawn](https://www.infoq.com/news/2015/11/object-observe-withdrawn)
-     +  [An update on Object.observe](https://esdiscuss.org/topic/an-update-on-object-observe)
-     +  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/observe
-     +  [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
-  +  https://angular.io/api/core/DoCheck
+
+###### `$scope.$watch`
+
++  https://angular.io/guide/lifecycle-hooks#docheck
++  [Fine grained change detection with Angular](https://juristr.com/blog/2016/04/angular2-change-detection/)
++  https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/
++  http://blog.rangle.io/observables-and-reactive-programming-in-angular-2/
++  https://angular-2-training-book.rangle.io/handout/observables/using_observables.html
++  https://angular.io/guide/component-interaction
++  [How to watch on complex object in Angular 2 like we did in Angular 1 using $watch](https://stackoverflow.com/questions/37888772/how-to-watch-on-complex-object-in-angular-2-like-we-did-in-angular-1-using-watc)
++  [What is replacing $watch in Angular 2.0?](https://www.quora.com/What-is-replacing-watch-in-Angular-2-0)
++  [Observing a change in an object property in Angular 2](https://stackoverflow.com/questions/38280489/observing-a-change-in-an-object-property-in-angular-2)
++  [Angular2 watch object/array changes (Angular2 final >= 2.1.1)](https://stackoverflow.com/questions/40784195/angular2-watch-object-array-changes-angular2-final-2-1-1)
++  Observables
+   +  https://angular.io/guide/component-interaction
+   +  https://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
++  Object.observe()
+   +  [Object.observe ECMAScript Proposal to be Withdrawn](https://www.infoq.com/news/2015/11/object-observe-withdrawn)
+   +  [An update on Object.observe](https://esdiscuss.org/topic/an-update-on-object-observe)
+   +  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/observe
+   +  [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
++  https://angular.io/api/core/DoCheck
+
+
 +  `angular.element` and `$element.find()`
    +  [How can I select an element in a component template?](https://stackoverflow.com/questions/32693061/how-can-i-select-an-element-in-a-component-template)
    +  [How do you access the element HTML from within an Angular 2 attribute directive?](https://stackoverflow.com/questions/38002640/how-do-you-access-the-element-html-from-within-an-angular-2-attribute-directive)

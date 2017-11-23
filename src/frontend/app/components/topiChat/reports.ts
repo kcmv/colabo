@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {NgIf, NgFor} from '@angular/common';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {TopiChatService} from '../topiChat/topiChatService';
 import {TopiChatConfigService} from './topiChatConfigService';
 import { DatePipe } from "@angular/common";

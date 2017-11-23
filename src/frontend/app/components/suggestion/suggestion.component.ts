@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 // import {FORM_DIRECTIVES} from '@angular/forms';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {Suggestion, SuggestionState} from "./suggestion";
 import {SuggestionService} from "./suggestion.service";
 //import {KNode} from "KNode";

@@ -24,7 +24,16 @@ import {SuggestionService} from '../components/suggestion/suggestion.service';
 // import { disableDeprecatedForms, provideForms } from '@angular/forms';
 
 // import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
-import { MapInteraction } from './interaction/mapInteraction';
+
+import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
+
+var n = new KNode();
+var e = new KEdge();
+
+import {MapInteraction} from '@colabo-knalledge/knalledge_view_enginee/code/interaction/mapInteraction';
+
+var i = new MapInteraction(null, null);
 
 import { Injector } from '../components/utils/injector';
 var injector:Injector = new Injector();
@@ -147,7 +156,6 @@ upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
 // injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
 // injector.addPath("collaboPlugins.globalEmitterService", GlobalEmitterService);
 injector.addPath("utils.globalEmitterService", Injector);
-injector.addPath("interaction.MapInteraction", MapInteraction);
 
 angular.module('Config')
 	.constant("injector", injector)

@@ -1,11 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 //import {CollaboPluginsService} from 'collabo';
 import {Brainstorming, BrainstormingPhase, BrainstormingPhaseNames, BrainstrormingDecorations} from './brainstorming';
 import {Change, ChangeType, Domain, Event} from '../change/change';
 import {CollaboGrammarService} from '../collaboPlugins/CollaboGrammarService';
-import {InfoForDialog} from '../../js/interaction/infoForDialog';
+import {InfoForDialog} from '@colabo-knalledge/knalledge_view_interaction/code/interaction/infoForDialog';
+
 
 declare var d3:any;
 declare var knalledge;

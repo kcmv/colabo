@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 
-import {GlobalEmitterServicesArray} from '../../app/components/collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 declare var d3: any;
 declare var knalledge: any;

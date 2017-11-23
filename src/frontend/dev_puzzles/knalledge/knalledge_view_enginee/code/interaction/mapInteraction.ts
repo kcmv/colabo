@@ -12,6 +12,11 @@ declare var knalledge;
 declare var d3;
 declare var window:Window;
 declare var debugpp;
+declare var global:any;
+
+// node support (import)
+interaction = (typeof global !== 'undefined' && global['interaction']) || (typeof window !== 'undefined' && window['interaction']);
+
 
 /* TODO:ng2 TODO:puzzle see how to resolve and avoid this here
 import {components} from '../../js/pluginDependencies';
@@ -22,8 +27,8 @@ const STATUS_DESTROYED: string = "STATUS_DESTROYED";
 const STATUS_MAP: string = "STATUS_MAP";
 const STATUS_EDITOR: string = "STATUS_EDITOR";
 
-var ID=0;
 export class MapInteraction {
+    static ID:number=0;
     public destroyed;
     private status: string;
     private editingNodeHtml: any = null;
@@ -33,13 +38,13 @@ export class MapInteraction {
     * @memberof interaction.Keyboard
     */
     private debug;
-    private id;
+    private id:number;
 
     constructor(
         public clientApi,
         public mapPlugins
     ) {
-        this.id = ID++;
+        this.id = MapInteraction.ID++;
       	console.log("[MapInteraction] instance-id: ", this.id);
 
         this.clientApi = clientApi;
@@ -568,4 +573,16 @@ export class MapInteraction {
     }
 }
 
-if (typeof interaction !== 'undefined') interaction.MapInteraction = MapInteraction;
+var MapInteractionClass = interaction.MapInteraction = MapInteraction;
+
+// node support (export)
+if (typeof module !== 'undefined'){
+  // workarround for TypeScript's `module.exports` readonly
+  if('exports' in module){
+    if (typeof module['exports'] !== 'undefined'){
+      module['exports'].MapInteraction = MapInteraction;
+    }
+  }else{
+    module['exports'] = MapInteraction;
+  }
+}

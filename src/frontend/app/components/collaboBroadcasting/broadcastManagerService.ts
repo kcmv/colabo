@@ -1,5 +1,5 @@
 import {KnalledgeMapPolicyService} from  '../knalledgeMap/knalledgeMapPolicyService';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 /**
  * THIS IS CLASS IS NOT USED FOR NOW - CURRENTLY DEPRICATED

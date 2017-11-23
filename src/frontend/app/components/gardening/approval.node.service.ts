@@ -1,7 +1,7 @@
 import {Injectable
 } from '@angular/core';
 
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {NodeGardened, ApprovalState} from './NodeGardened';
 
 declare var d3:any;

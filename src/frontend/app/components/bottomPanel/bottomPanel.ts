@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation, Inject} from '@angular/core';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 /**
  * Directive that

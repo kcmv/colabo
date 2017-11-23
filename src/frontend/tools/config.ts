@@ -404,6 +404,7 @@ console.log(chalk.bgWhite.blue.bold(' DEPENDENCIES: '), chalk.blue(JSON.stringif
 var config = {
     defaultJSExtensions: true,
     defaultExtension: "js",
+    // map tells the System loader where to look for things
     map: {
       app: 'app',
       '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
@@ -417,10 +418,15 @@ var config = {
       '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
       '@angular/upgrade': 'npm:@angular/upgrade/bundles/upgrade.umd.js',
 
+      // '@colabo-puzzles': '/dev_puzzles/puzzles/',
+
       'rxjs': 'npm:rxjs',
       "ng2-material": "ng2-material/index.js",
       "components/knalledgeMap/main": "components/knalledgeMap/main.js",
-      "@ng-bootstrap/ng-bootstrap": "npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js"
+      "@ng-bootstrap/ng-bootstrap": "npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js",
+      // TODO: probably not working, clean out or fix
+      "traceur":"npm:traceur/bin/traceur.js",
+      "traceur.js":"npm:traceur/bin/traceur.js"
     },
 
     // TODO: should we add all dependencies to the all components
@@ -445,6 +451,7 @@ var config = {
         './node_modules/@angular2-material/*/package.json',
         './node_modules/@ng-bootstrap/ng-bootstrap/package.json'
     ],
+    // packages tells the System loader how to load when no filename and/or no extension
     packages: {
         "symbol-observable": {
           main: "index.js"
@@ -460,7 +467,12 @@ var config = {
           format: 'cjs',
           main: 'material.umd.js'
         },
+        // TODO: probably not working, clean out or fix
+        traceur:{
+          main: 'traceur'
+        }
     },
+    // paths serve as alias
     paths: {
         [BOOTSTRAP_MODULE]: `${APP_BASE}${BOOTSTRAP_MODULE}`,
         // 'rxjs/*': `${APP_BASE}rxjs/*`,

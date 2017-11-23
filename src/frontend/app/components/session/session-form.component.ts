@@ -3,7 +3,7 @@ import { Component, Inject, ViewChild, OnInit} from '@angular/core';
 import {Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {SessionService} from "./session.service";
 import {Session, SessionPhaseNames, SessionPhase} from './session';
 

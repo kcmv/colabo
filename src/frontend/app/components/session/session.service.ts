@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import {GlobalEmitterServicesArray} from '../collaboPlugins/GlobalEmitterServicesArray';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 //import {CollaboPluginsService} from 'collabo';
 import {Session, SessionPhase, State} from './session';

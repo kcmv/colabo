@@ -4,7 +4,7 @@ declare var global:any;
 declare var module:any;
 
 // node support (import)
-var knalledge = (typeof global !== 'undefined' && global['knalledge']) || (typeof window !== 'undefined' && window['knalledge']);
+knalledge = (typeof global !== 'undefined' && global['knalledge']) || (typeof window !== 'undefined' && window['knalledge']);
 
 /**
  * @classdesc KEdge is data representation of the knowledge (KnAllEdge) edge.
@@ -152,10 +152,10 @@ var KEdgeClass =  knalledge.KEdge = KEdge;
 if (typeof module !== 'undefined'){
   // workarround for TypeScript's `module.exports` readonly
   if('exports' in module){
-    if (typeof module.exports !== 'undefined'){
-      module.exports.KEdge = KEdge;
+    if (typeof module['exports'] !== 'undefined'){
+      module['exports'].KEdge = KEdge;
     }
   }else{
-    module.exports = KEdge;
+    module['exports'] = KEdge;
   }
 }
