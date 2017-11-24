@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import 'rxjs/add/operator/toPromise';
 
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {VO} from '@colabo-knalledge/knalledge_core/code/knalledge/VO';
 import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
 import {CFService} from './cf.service';
 
@@ -25,6 +26,9 @@ export class KnalledgeNodeService extends CFService{
 
 	private knalledgeMapQueue:any = null;
 	private knAllEdgeRealTimeService:any = null;
+
+  static UPDATE_NODE_NAME_FINAL:string = 'UPDATE_NODE_NAME_FINAL';
+  static UPDATE_NODE_NAME:string = 'UPDATE_NODE_NAME';
 
 	constructor(
     private http: HttpClient
@@ -188,8 +192,115 @@ export class KnalledgeNodeService extends CFService{
 		return result;
 	}
 
-  //KnalledgeNodeService.update(node, actionType, patch, callback)
+  /*
+    http://localhost:8001/knodes/one/UPDATE_NODE_NAME/5a156935d0b7970f365e1a42.json
+    http://localhost:8001/knodes/one/UPDATE_NODE_NAME_FINAL/5a156935d0b7970f365e1a42.json
+  */
+  update(kNode:KNode, actionType:string, patch:any, callback?:Function): Observable<KNode>
+	{
+    function updateResponse(nodeFromServer){
+      let responseTime = new Date();
+      /*TODO:NG2:
+      //console.log("UPDATE: responseTime - requestTime:", (responseTime - requestTime));
+      ChangeService.logRequestResponseTiming(responseTime - requestTime);
+      // realtime distribution
+      if(this.nAllEdgeRealTimeService){
 
+        let change = new puzzles.changes.Change();
+        change.value = kNodeForServer;
+        change.valueBeforeChange = null; //TODO
+        change.reference = nodeFromServer._id;
+        change.type = puzzles.changes.ChangeType.STRUCTURAL;
+        change.event = Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeUpdatedEventName;
+        change.action = actionType;
+        change.domain = puzzles.changes.Domain.NODE;
+        change.visibility = puzzles.changes.ChangeVisibility.ALL;
+        change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
+
+        // let emitObject = {
+        // 	id: nodeFromServer._id,
+        // 	actionType: actionType,
+        // 	data: nodeFromServer,
+        // 	actionTime: nodeFromServer.updatedAt
+        // }
+        KnAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeUpdatedEventName, change);
+      }
+      if(callback){callback(nodeFromServer);}
+      */
+    }
+
+    let result:Observable<KNode> = null;
+    let id = kNode._id;
+    let kNodeForServer:any = patch ? patch : kNode.toServerCopy();
+    actionType = actionType !== null ? actionType : KnalledgeNodeService.UPDATE_NODE_NAME_FINAL;
+		//console.log("KnalledgeNodeService.update");
+		if(kNode.state == VO.STATE_LOCAL){//TODO: fix it by going throgh queue
+			window.alert(`Please, wait while the entity '${kNode.name}' is being saved, before updating it`);
+      //TODO: we should move this UI code out of the service logics
+		}
+    else{
+  		if(false) {
+      /*TODO:NG2: it was: if(Plugins.puzzles.knalledgeMap.config.services.QUEUE && false)
+
+  			KnalledgeMapQueue.execute({data: kNode, patch: patch, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"}); //TODO: support 'patch' in Queue
+  			//updatePlain: {method:'PUT', params:{type:'one', actionType:knalledge.KNode.UPDATE_TYPE_ALL, searchParam:''},
+  			return this.updatePlain({searchParam:id, type:'one', actionType:actionType}, kNodeForServer, function(nodeFromServer){
+  				// realtime distribution
+  				if(this.knAllEdgeRealTimeService){
+
+  					// let change = new change.Change();
+  					// change.value = nodeFromServer;
+  					// change.valueBeforeChange = nodeFromServer;
+  					// change.reference = nodeFromServer._id;
+  					// change.type = puzzles.changes.ChangeType.STRUCTURAL;
+  					// change.action = actionType;
+  					// change.domain = puzzles.changes.Domain.NODE;
+  					// //TODO:
+  					// // change.mapId = null;
+  					// // change.iAmId = null;
+  					// change.visibility = ChangeVisibility.ALL;
+  					// change.phase = ChangePhase.UNDISPLAYED;
+
+  					let emitObject = {
+  						id: nodeFromServer._id,
+  						actionType: actionType,
+  						data: nodeFromServer,
+  						actionTime: nodeFromServer.updatedAt
+  					}
+  					KnAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeUpdatedEventName, emitObject);
+  					// let change = new
+  					// GlobalEmitterServicesArray.get(Plugins.puzzles.knalledgeMap.config.services.structuralChangeEventName).broadcast('KnalledgeMapVOsService', {'change_typ':changes,'event':eventName});
+  				}
+  				if(callback){callback(nodeFromServer);}
+  			});
+      */
+  		}
+  		else{
+        /** PUT: update the hero on the server */
+        // updateHero (hero: Hero): Observable<any> {
+        //   return this.http.put(this.heroesUrl, hero, httpOptions).pipe(
+        //     tap(_ => this.log(`updated hero id=${hero.id}`)),
+        //     catchError(this.handleError<any>('updateHero'))
+        //   );
+        // }
+
+  			let requestTime:Date = new Date();
+
+        result = this.http.put<ServerData>(this.apiUrl+'one/'+actionType+'/'+id, kNodeForServer, httpOptions).pipe(
+          tap(_ => console.log(`updated kNode id=${kNodeForServer._id}`)),
+          map(nodeS => this.extractVO<KNode>(nodeS,KNode)), //the sever returns `ServerData` object
+          catchError(this.handleError<any>('update'))
+        );
+  				// TODO:NG2:
+          // function(error){
+  				// 	//console.error('NODE: UPDATE: ',error,' for ',id,actionType,kNodeForServer);
+  				// 	ChangeService.logActionLost({'type:': 'NODE: UPDATE', 'error': error, 'id':id, 'actionType' : actionType, 'kNodeForServer' : kNodeForServer});
+  				// }
+  			  // );
+  		}
+  	}
+    return result;
+  }
 
 }
 
@@ -399,88 +510,7 @@ export class KnalledgeNodeService extends CFService{
 // 	};
 //
 //
-// 	resource.update = function(kNode, actionType, patch, callback)
-// 	{
-//
-// 		console.log("resource.update");
-// 		if(kNode.state == knalledge.KNode.STATE_LOCAL){//TODO: fix it by going throgh queue
-// 			window.alert("Please, wait while entity is being saved, before updating it:\n"+kNode.name);
-// 			return null;
-// 		}
-// 		let id = kNode._id;
-// 		let kNodeForServer = patch ? patch : kNode.toServerCopy();
-// 		if(Plugins.puzzles.knalledgeMap.config.services.QUEUE && false){
-// 			KnalledgeMapQueue.execute({data: kNode, patch: patch, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "update"}); //TODO: support 'patch' in Queue
-// 			//updatePlain: {method:'PUT', params:{type:'one', actionType:knalledge.KNode.UPDATE_TYPE_ALL, searchParam:''},
-// 			return this.updatePlain({searchParam:id, type:'one', actionType:actionType}, kNodeForServer, function(nodeFromServer){
-// 				// realtime distribution
-// 				if(KnAllEdgeRealTimeService){
-//
-// 					// let change = new change.Change();
-// 					// change.value = nodeFromServer;
-// 					// change.valueBeforeChange = nodeFromServer;
-// 					// change.reference = nodeFromServer._id;
-// 					// change.type = puzzles.changes.ChangeType.STRUCTURAL;
-// 					// change.action = actionType;
-// 					// change.domain = puzzles.changes.Domain.NODE;
-// 					// //TODO:
-// 					// // change.mapId = null;
-// 					// // change.iAmId = null;
-// 					// change.visibility = ChangeVisibility.ALL;
-// 					// change.phase = ChangePhase.UNDISPLAYED;
-//
-// 					let emitObject = {
-// 						id: nodeFromServer._id,
-// 						actionType: actionType,
-// 						data: nodeFromServer,
-// 						actionTime: nodeFromServer.updatedAt
-// 					}
-// 					KnAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeUpdatedEventName, emitObject);
-// 					// let change = new
-// 					// GlobalEmitterServicesArray.get(Plugins.puzzles.knalledgeMap.config.services.structuralChangeEventName).broadcast('KnalledgeMapVOsService', {'change_typ':changes,'event':eventName});
-// 				}
-// 				if(callback){callback(nodeFromServer);}
-// 			});
-//
-// 		}
-// 		else{
-// 			let requestTime = new Date();
-// 			return this.updatePlain({searchParam:id, type:'one', actionType:actionType}, kNodeForServer,
-// 				function(nodeFromServer){
-// 					let responseTime = new Date();
-// 					//console.log("UPDATE: responseTime - requestTime:", (responseTime - requestTime));
-// 					ChangeService.logRequestResponseTiming(responseTime - requestTime);
-// 					// realtime distribution
-// 					if(KnAllEdgeRealTimeService){
-// 						let change = new puzzles.changes.Change();
-// 						change.value = kNodeForServer;
-// 						change.valueBeforeChange = null; //TODO
-// 						change.reference = nodeFromServer._id;
-// 						change.type = puzzles.changes.ChangeType.STRUCTURAL;
-// 						change.event = Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeUpdatedEventName;
-// 						change.action = actionType;
-// 						change.domain = puzzles.changes.Domain.NODE;
-// 						change.visibility = puzzles.changes.ChangeVisibility.ALL;
-// 						change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
-//
-// 						// let emitObject = {
-// 						// 	id: nodeFromServer._id,
-// 						// 	actionType: actionType,
-// 						// 	data: nodeFromServer,
-// 						// 	actionTime: nodeFromServer.updatedAt
-// 						// }
-// 						KnAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeUpdatedEventName, change);
-// 					}
-// 					if(callback){callback(nodeFromServer);}
-// 				},
-// 				function(error){
-// 					//console.error('NODE: UPDATE: ',error,' for ',id,actionType,kNodeForServer);
-// 					ChangeService.logActionLost({'type:': 'NODE: UPDATE', 'error': error, 'id':id, 'actionType' : actionType, 'kNodeForServer' : kNodeForServer});
-// 				}
-// 			);
-// 		}
-// 	};
-//
+
 
 //
 // 	resource.destroyByModificationSource = function(mapId, modificationSource, callback)

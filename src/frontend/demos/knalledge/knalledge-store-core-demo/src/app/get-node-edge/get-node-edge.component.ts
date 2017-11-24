@@ -97,4 +97,11 @@ export class GetNodeEdgeComponent implements OnInit {
     this.knalledgeNodeService.destroy(id).subscribe(success => this.nodeDeleted(id,success));
   }
 
+  nodeUpdated(node: KNode):void{
+    console.log('nodeUpdated');
+  }
+  updateNode(node: KNode): void {
+    this.knalledgeNodeService.update(node,null,null).subscribe(nodeS => this.nodeUpdated(nodeS));
+  }
+
 }

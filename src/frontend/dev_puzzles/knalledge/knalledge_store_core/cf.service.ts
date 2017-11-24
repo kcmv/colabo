@@ -44,6 +44,7 @@ export class CFService {
 
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
+      window.alert(error);
 
       // TODO: better job of transforming error for user consumption
       //this.log(`${operation} failed: ${error.message}`);
