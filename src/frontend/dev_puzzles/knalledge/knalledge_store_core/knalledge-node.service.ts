@@ -74,22 +74,10 @@ export class KnalledgeNodeService extends CFService{
   queryInMap(id:string, callback?:Function): Observable<KNode[]>
   {
     //TODO: check 'callback' support
-    function processNodes(nodesS):Array<KNode>{
-      console.log("processNodes");
-      let nodes:Array<KNode> = nodesS.data as Array<KNode>;
-      for(let id=0; id<nodes.length; id++){
-        //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to KNode unlike in previous versions
-        let kNode:KNode = KNode.factory(nodes[id]);
-        kNode.state = KNode.STATE_SYNCED;
-        console.log(kNode);
-        nodes[id] = kNode;
-      }
-      return nodes;
-    }
 
     let result:Observable<KNode[]> = this.http.get<ServerData>(this.apiUrl+'in_map/'+this.defaultAction+'/'+id)
       .pipe(
-        map(nodesFromServer => processNodes(nodesFromServer)),
+        map(nodesFromServer => CFService.processVOs(nodesFromServer, KNode)),
         catchError(this.handleError('KnalledgeNodeService::queryInMap', null))
       );
 

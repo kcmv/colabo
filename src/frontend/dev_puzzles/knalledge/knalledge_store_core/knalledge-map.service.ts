@@ -12,6 +12,10 @@ import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
 import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
 import {CFService} from './cf.service';
 
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
+
 const mapAP = "kmaps";
 
 @Injectable()
@@ -62,6 +66,28 @@ export class KnalledgeMapService extends CFService{
     return result; //return returnPromise ? result.toPromise() : result;
   }
 
+  /*
+  example: http://localhost:8001/kmaps/by-name/Demo%20Map.json
+  */
+  getByName(name:string, callback?:Function): Observable<KMap[]>
+  {
+    //TODO: check 'callback' support
+
+    console.log('KnalledgeMapService::getByName('+name+')');
+    let url: string = this.apiUrl+'by-name/'+name;
+  
+    let result:Observable<KMap[]> = this.http.get<ServerData>(url)
+      .pipe(
+        // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
+        map(mapsFromServer => CFService.processVOs(mapsFromServer, KMap)),
+        catchError(this.handleError('KnalledgeMapService::getByName', null))
+      );
+    console.log('result:');
+    console.log(result);
+    if(callback){result.subscribe(maps => callback(maps));}
+    return result; //return returnPromise ? result.toPromise() : result;
+  }
+
   /* Example:
 	http://localhost:8001/kmaps/by-participant/556760847125996dc1a4a24f.json
 	*/
@@ -94,7 +120,67 @@ export class KnalledgeMapService extends CFService{
 	}
 
 
-  //KnalledgeMapService.create((newMap, callback)
+  create(kMap:KMap, callback?:Function): Observable<KMap>
+  {
+    //TODO:NG2 check 'callback' support
+    //another callback approach: map(mapS => {if(callback) {callback(mapS)}}), //TODO:NG2 Test if this callback call works
+  	console.log("KnalledgeMapService.create");
+    let result: Observable<KMap> = null;
+
+		if(false) // TODO:NG2: if(Plugins.puzzles.knalledgeMap.config.services.QUEUE)
+    {
+			// kMap.$promise = null;
+			// kMap.$resolved = false;
+      //
+			// kMap.$promise = $q(function(resolve, reject) {
+			// 	KnalledgeMapQueue.execute({data: kMap, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
+			// });
+		}
+		else{
+			let kMapForServer:any = kMap.toServerCopy();
+			//we return kMap:kMap, because 'map' is of type 'Resource
+
+      /*
+      TODO:NG2: in the line
+        `result = this.http.post<KMap>(this.apiUrl, kMapForServer, httpOptions)`
+      we had to replace Genric type stting <KMap> with <ServerData> because it defines the return valuse
+      (and probably the posted value), becasuse server returns the `ServerData` object
+      */
+      result = this.http.post<ServerData>(this.apiUrl, kMapForServer, httpOptions)
+      .pipe(
+        //tap((mapS: KMap) => console.log(`CREATED 'map'${mapS}`)), // not needed - it's just for logging
+        map(mapS => this.extractVO<KMap>(mapS,KMap)), //the sever returns `ServerData` object
+        catchError(this.handleError<KMap>('KnalledgeMapService::create'))
+      );
+
+      // addHero (hero: Hero): Observable<Hero> {
+      //   return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
+      //     tap((hero: Hero) => this.log(`added hero w/ id=${hero.id}`)),
+      //     catchError(this.handleError<Hero>('addHero'))
+      //   );
+      // }
+      //
+			// let map = this.createPlain({
+			// 	//actionType:'default'
+			// 	}, kMapForServer, function(mapFromServer){
+			// 	kMap.$resolved = map.$resolved;
+			// 	kMap.overrideFromServer(mapFromServer);
+			// 	if(callback) callback(kMap);
+			// });
+      //
+			// //createPlain manages promises for its returning value, in our case 'map', so we need to  set its promise to the value we return
+			// kMap.$promise = map.$promise;
+			// kMap.$resolved = map.$resolved;
+      //
+			// if(map.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
+			// 	kMap.overrideFromServer(map);
+			// }
+		}
+		//we return this value to caller as a dirty one, and then set its value to mapFromServer when upper callback is called
+		//TODO: a problem may occur if promise is resolved BEFORE callback is called
+    if(callback){result.subscribe(maps => callback(maps));}
+  	return result;
+  }
 
   //KnalledgeMapService.update(map, actionType, patch, callback)
 

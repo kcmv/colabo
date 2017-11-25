@@ -9,6 +9,8 @@ import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
+const demoMapName:string = 'Demo Map';
+
 @Component({
   selector: 'app-get-map',
   templateUrl: './get-map.component.html',
@@ -32,6 +34,28 @@ export class GetMapComponent implements OnInit {
   ngOnInit() {
     this.map_id = '56eac6bd913d88af03e9d1cb'; //'56ebeabb913d88af03e9d2d6'
     //this.nodes = [new KNode(),new KNode(),new KNode()];
+    this.knalledgeMapService.getByName(demoMapName)
+    .subscribe(maps => this.demoMapReceived(maps));
+  }
+
+  demoMapReceived(mapS:KMap[]):void{
+    // this.map = mapS.data;
+    console.log(`demoMapReceived:${mapS}`);
+    if(mapS.length>0){
+      this.mapReceived(mapS[0]);
+    }
+    else{
+        console.log('there is no `Demo Map`. Creating it ...');
+        this.map.name = demoMapName;
+        //TODO:NG2: add Demo User at the beginning and use Demo Map
+        this.map.iAmId = '556760847125996dc1a4a24f';
+        this.knalledgeMapService.create(this.map)
+        .subscribe(map => this.mapCreated(map));
+    }
+  }
+
+  mapCreated(map:KMap):void{
+    console.log('mapCreated');
   }
 
   getMap():void{
@@ -40,7 +64,7 @@ export class GetMapComponent implements OnInit {
       //   .subscribe(hero => this.hero = hero);
       //this.map =
       this.knalledgeMapService.getById(this.map_id)
-        .subscribe(map => this.mapReceived(map)); //as KMap
+        .subscribe(map => this.mapReceived(map));
   }
 
   mapReceived(mapS:any):void{

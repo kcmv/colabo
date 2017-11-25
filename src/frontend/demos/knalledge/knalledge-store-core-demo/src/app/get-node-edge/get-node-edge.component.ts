@@ -73,8 +73,9 @@ export class GetNodeEdgeComponent implements OnInit {
   createNode():void{
     let node:KNode = new KNode();
     node.name = 'Demo generated Node ' + node._id;
+    //TODO:NG2: add Demo User at the beginning and use Demo Map Id
     node.iAmId = '556760847125996dc1a4a24f';
-    node.mapId = '56eac6bd913d88af03e9d1cb'; //'56ebeabb913d88af03e9d2d6'
+    node.mapId = '56eac6bd913d88af03e9d1cb'; //'56ebeabb913d88af03e9d2d6' //TODO:NG2 - use 'Demo Map' id
     //TODO: iAmId, createdAt, updatedAt
     this.knalledgeNodeService.create(node)
     .subscribe(node => this.nodeCreated(node));

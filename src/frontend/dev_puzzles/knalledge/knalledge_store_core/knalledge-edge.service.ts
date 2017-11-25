@@ -68,22 +68,10 @@ export class KnalledgeEdgeService extends CFService{
   queryInMap(id:string, callback?:Function): Observable<KEdge[]>
   {
     //TODO: check 'callback' support
-    function processEdges(edgesS):Array<KEdge>{
-      console.log("processEdges");
-      var edges:Array<KEdge> = edgesS.data as Array<KEdge>;
-      for(var id=0; id<edges.length; id++){
-        //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to KEdge unlike in previous versions
-        var kEdge:KEdge = KEdge.factory(edges[id]);
-        kEdge.state = KEdge.STATE_SYNCED;
-        console.log(kEdge);
-        edges[id] = kEdge;
-      }
-      return edges;
-    }
 
     var result:Observable<KEdge[]> = this.http.get<ServerData>(this.apiUrl+'in_map/'+id)
       .pipe(
-        map(edgesFromServer => processEdges(edgesFromServer)),
+        map(edgesFromServer => CFService.processVOs(edgesFromServer, KEdge)),
         catchError(this.handleError('KnalledgeEdgeService::queryInMap', null))
       );
 

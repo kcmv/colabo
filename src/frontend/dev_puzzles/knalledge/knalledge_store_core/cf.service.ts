@@ -33,6 +33,19 @@ export class CFService {
     return vo;
   }
 
+  static processVOs<T extends VO>(voS:ServerData, typeT:IConstructor<T>):Array<T>{
+    console.log("processVOs");
+    let vos:Array<T> = voS.data as Array<T>;
+    for(let id=0; id<vos.length; id++){
+      //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to VO unlike in previous versions
+      let vo:T = typeT.factory(vos[id]);
+      vo.state = VO.STATE_SYNCED;
+      console.log(vo);
+      vos[id] = vo;
+    }
+    return vos;
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -44,7 +57,7 @@ export class CFService {
 
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-      window.alert(error);
+      window.alert('error: ' + error);
 
       // TODO: better job of transforming error for user consumption
       //this.log(`${operation} failed: ${error.message}`);
