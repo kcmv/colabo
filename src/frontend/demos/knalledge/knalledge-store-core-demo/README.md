@@ -28,4 +28,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 2. **map** is something you should be familiar with
    http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
    **map** applies a given project function to each value emitted by the source Observable, and emits the resulting values as an Observable.
-3. ​
+3. to learn basics of working with the server by using HttpClient read:
+   1. https://angular.io/tutorial/toh-pt6
+   2. https://angular.io/api/common/http/HttpClient

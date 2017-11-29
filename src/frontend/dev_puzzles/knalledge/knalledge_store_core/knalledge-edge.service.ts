@@ -35,10 +35,10 @@ export class KnalledgeEdgeService extends CFService{
   }
 
   /**
-   * Get an KN Edge from the server by its id
+   * Gets an KN Edge from the server by its id
    * @param {string} id id of the edge
    * @param {function} callback Function to be called when the edge is retrieved
-   * @returns {Observable<KEdge[]>} array of the edges
+   * @returns {Observable<KEdge>} retreived edge
    */
   getById(id:string, callback?:Function): Observable<KEdge>
   {
@@ -58,7 +58,7 @@ export class KnalledgeEdgeService extends CFService{
   }
 
   /**
-   * Gets from the serverall the KN Edges that are contained in the map
+   * Gets from the server all the KN Edges that are contained in the map
    * @param {string} id id of the map
    * @param {function} callback Function to be called when the edges are retrieved
    * @returns {Observable<KEdge[]>} array of the edges
@@ -66,8 +66,6 @@ export class KnalledgeEdgeService extends CFService{
    */
   queryInMap(id:string, callback?:Function): Observable<KEdge[]>
   {
-    //TODO: check 'callback' support
-
     var result:Observable<KEdge[]> = this.http.get<ServerData>(this.apiUrl+'in_map/'+id)
       .pipe(
         map(edgesFromServer => CFService.processVOs(edgesFromServer, KEdge)),
