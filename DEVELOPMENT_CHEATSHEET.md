@@ -92,6 +92,15 @@ in this way you should be fine building lib in many scenarios
   - build it separatelly
   - build it throuh (and with) hosting app
   - load it (as prebuilt) to hosting app
+  
+## "Un-Importing the package"
+```sh
+cd node_modules
+
+rm \node<folder where we linked the (local) package>
+#example:
+rm \@colabo-knalledge/knalledge_view_enginee
+```
 
 # List of npm-packaged puzzles
 
