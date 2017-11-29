@@ -21,6 +21,8 @@ var puzzles = {
         'code/knalledge/kNode.js', 'code/knalledge/kEdge.js', 'code/knalledge/kMap.js', 'code/knalledge/vkNode.js', 'code/knalledge/vkEdge.js',
         // TODO: Not sure where it fits (probable not here in the core) ...
         'code/knalledge/state.js',
+
+        'lib/debugpp/index.js'
       ],
       injectCss: ''
     }
