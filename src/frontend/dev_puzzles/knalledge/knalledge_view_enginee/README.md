@@ -21,7 +21,7 @@ you need also to install local dependencies while package is local only: `yarn i
 - move inside the puzzle: knalledgeMapPolicyService.ts and knalledgeMapViewService.ts
 - figure out how it will work without NG1+NG2 hybrid
 - fine tune
-  - se on which hooks what can be run
+  - see on which hooks what can be run
     - for example accessing db and backend and generating data can be done earlier, but accessing DOM elements should be done in ngAfterViewInit() or afterwards, etc
     - providing a reference for the
 - when migration is finished

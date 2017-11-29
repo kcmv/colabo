@@ -88,7 +88,7 @@ However, the problem is with our linking and using
     - [typescriptlang - module-resolution - path-mapping](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
   - in the lib's package.json
     - in the `peerDependencies` (this is for using the built library) and `devDependencies` (yes twice :), this is for building library separately, not through hosting app ) add all mutual (lib vs. host) dependencies (like all @angular, material, etc)
-    - in the host's `tsconfig.json` (some are suggesting `tsconfig.app.json`, but it should work for tests as well ?) direct TS compiler to your local (host) dependencies of the mutual dependencies
+  - in the host's `tsconfig.json` (some are suggesting `tsconfig.app.json`, but it should work for tests as well ?) direct TS compiler to your local (host) dependencies of the mutual dependencies
 
 ```json
 {
@@ -107,7 +107,7 @@ However, the problem is with our linking and using
   ...
 }
 ```
-    - configure angular-cli build to follow symlinks:
+  - configure angular-cli build to follow symlinks:
       - in the `.angular-cli.json` add:
 
 ```json

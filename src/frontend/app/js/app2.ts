@@ -96,6 +96,13 @@ var changeServices =
 changeServices.
     service('ChangeService', upgradeAdapter.downgradeNg2Provider(ChangeService));
 
+import {KnalledgeEdgeService} from '../../dev_puzzles/knalledge/knalledge_store_core/knalledge-edge.service';
+// upgradeAdapter.addProvider(ChangeService);
+var knalledgeStoreServices =
+    angular.module('knalledgeStoreServices');
+knalledgeStoreServices.
+    service('KnalledgeEdgeService', upgradeAdapter.downgradeNg2Provider(KnalledgeEdgeService));
+
 import {CollaboGrammarService} from '../components/collaboPlugins/CollaboGrammarService';
 // not working :( since it injects class not service singletone instance
 // injector.addPath("collaboPlugins.CollaboGrammarService", CollaboGrammarService);

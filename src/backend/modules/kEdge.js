@@ -81,6 +81,9 @@ exports.index = function(req, res){
 		case 'in_map': //all edges in specific map
 			KEdgeModel.find({ 'mapId': req.params.searchParam}, found);
 			break;
+		default:
+			console.log("[modules/kEdge.js:index] unsuported req.params.type: %s", req.params.type);
+			resSendJsonProtected(res, {data: [], accessId : accessId, message: 'unsuported req type \''+req.params.type + '\'', success: false});
 	}
 }
 
