@@ -1,4 +1,5 @@
 import { Component, ReflectiveInjector, Injector, Inject, Optional, NgModule, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {KMapClientInterface} from './code/knalledge/KMapClientInterface';
 import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
@@ -150,6 +151,7 @@ export class KnalledgeViewComponent implements OnInit, AfterViewInit, OnDestroy{
 
   constructor(
     private ng2injector:Injector,
+    private activatedRoute: ActivatedRoute
     // @Optional @Inject('$injector') private $injector:any,
     // @Optional @Inject('$rootScope') private $rootScope:any,
     // @Optional @Inject('$route') private $route:any,
@@ -174,7 +176,13 @@ export class KnalledgeViewComponent implements OnInit, AfterViewInit, OnDestroy{
     this.Plugins = this.ng2injector.get('Plugins', null);
   }
 
+  getInitialParams() {
+      const nodeId = this.activatedRoute.snapshot.paramMap.get('nodeId');
+      console.log("[KnalledgeViewComponent] nodeId: ", nodeId);
+  }
+
   ngOnInit() {
+    this.getInitialParams();
     this.loadDynamicServices();
     this.registerToGlobalEvents();
 
