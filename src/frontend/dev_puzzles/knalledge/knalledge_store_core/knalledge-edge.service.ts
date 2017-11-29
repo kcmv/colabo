@@ -20,7 +20,6 @@ export class KnalledgeEdgeService extends CFService{
 
   //http://api.colabo.space/kedges/
   // "http://127.0.0.1:888/kedges/";
-
   private apiUrl: string;
 
 	private knalledgeMapQueue:any = null;
@@ -32,39 +31,39 @@ export class KnalledgeEdgeService extends CFService{
   ){
     super();
     console.log('KnalledgeEdgeService:: constructor NG 4.++');
-    //this.apiUrl = this.ENV.server.backend + '/' + edgeAP + '/';
-    this.apiUrl = CFService.serverAP + '/' + edgeAP + '/';
+    this.apiUrl = CFService.serverAP + '/' + edgeAP + '/'; //TODO:NG2: this.apiUrl = this.ENV.server.backend + '/' + edgeAP + '/';
   }
 
-  //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
+  /**
+   * Get an KN Edge from the server by its id
+   * @param {string} id id of the edge
+   * @param {function} callback Function to be called when the edge is retrieved
+   * @returns {Observable<KEdge[]>} array of the edges
+   */
   getById(id:string, callback?:Function): Observable<KEdge>
   {
     //TODO: check 'callback' support
     console.log('getById('+id+')');
     var url: string = this.apiUrl+'one/'+id;
-    //url = 'http://localhost:8001/howAmIs/all/.json';
-    //url = 'http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json';
-    //url = 'http://localhost:8001/kedges/';
     console.log('url: '+url+')');
-    //TODO: we cannot still use get<KEdge>(url) because server returns the object as ServerData
     var result:Observable<KEdge> = this.http.get<ServerData>(url)
       .pipe(
-        // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
         map(edge => this.extractVO<KEdge>(edge,KEdge)),
         catchError(this.handleError('KnalledgeEdgeService::getById', null))
       );
     console.log('result:');
     console.log(result);
     if(callback){result.subscribe(edge => callback(edge));}
-    return result; //return returnPromise ? result.toPromise() : result;
-
-    //return this.getPlain({ searchParam:id, type:'one' }, callback);
+    return result;
   }
 
-  /*
-  Example: http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json
-  */
-  //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
+  /**
+   * Gets from the serverall the KN Edges that are contained in the map
+   * @param {string} id id of the map
+   * @param {function} callback Function to be called when the edges are retrieved
+   * @returns {Observable<KEdge[]>} array of the edges
+     @example URL: http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json
+   */
   queryInMap(id:string, callback?:Function): Observable<KEdge[]>
   {
     //TODO: check 'callback' support
@@ -76,22 +75,30 @@ export class KnalledgeEdgeService extends CFService{
       );
 
     if(callback){result.subscribe(edges => callback(edges));}
-    return result; //return returnPromise ? result.toPromise() : result;
+    return result;
   }
 
+  /*
+  TODO:
+  When needed, we could develop these fucntions that are already supported on backend:
 
-  queryBetween(id:string, callback?:Function)
+  //gets all edges between 2 specific nodes:
+  queryBetween(sourceId:string, targetId:string, callback?:Function)
   {
     // return this.queryPlain({ searchParam:id, type:'between' }, callback);
   }
 
+  //gets all edges connected to the specifi node (with the provided id) (both those edges whose it's source node and those whose this is a target node)
+  // @example URL: URL:http://localhost:8001/kedges/connected/5a156965d0b7970f365e1a4b.json
   queryConnected(id:string, callback?:Function)
   {
     // return this.queryPlain({ searchParam:id, type:'connected' }, callback);
   }
 
-  /*
-    URL:http://localhost:8001/kedges/connected/5a156965d0b7970f365e1a4b.json
+  //destroys all the edges connected to the specific node
+  //destroyConnected(id:string)
+  {
+
+  }
   */
-  //TODO: destroyConnected
 }
