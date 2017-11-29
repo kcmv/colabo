@@ -88,7 +88,7 @@ export class KnalledgeNodeService extends CFService{
    * @returns {Observable<KNode>} the created node (now with the id and other specific data allocated to it by server, so the caller should fill the original node with it)
      @example http://localhost:8001/knodes/in_map/default/579811d88e12abfa556f6b59.json
    */
-  create(:KNode, callback?:Function): Observable<KNode>
+  create(kNode:KNode, callback?:Function): Observable<KNode>
   {
     //another callback approach: map(nodeS => {if(callback) {callback(nodeS)}}), //TODO:NG2 Test if this callback call works
   	console.log("KnalledgeNodeService.create");
