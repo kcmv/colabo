@@ -39,7 +39,7 @@ Some of the main motivations behind developing <span style='color: #550000'>Co</
 * support fuzzy-knowledge
 * support personalized knowledge
 
-An outmost goal was succeeding in development of the collaborative-system with unobtrusive and continuous **knowledge-dialogue-decision-action-learn** cycle:
+An outmost goal is development of the collaborative-system with unobtrusive and continuous **knowledge-dialogue-decision-action-learn** cycle:
 
 <img alt='CollaboScience spiral' src='documents/diagrams/Colabo-spiral.png' width='60%'>
 
