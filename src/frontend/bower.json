@@ -28,12 +28,10 @@
     "tests"
   ],
   "dependencies": {
-    "debugpp": "~1.1.13",
     "angular-medium-editor": "^1.1.1",
     "simplemde-angular": "^0.0.3",
     "simplemde": "^1.11.2"
   },
   "resolutions": {
-    "debugpp": "~1.2.0"
   }
 }
