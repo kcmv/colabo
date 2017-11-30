@@ -16,7 +16,9 @@
     "@angular/material": "^2.0.0-beta.12",
     "@angular/platform-browser": "^4.4.6",
     "@angular/platform-browser-dynamic": "^4.4.6",
-    "@angular/router": "^4.4.6",
+    "@angular/router": "^4.4.6"
+  },
+  "peerDependenciesLocal": {
     "@colabo-puzzles/puzzles_core": "^0.0.1",
     "@colabo-knalledge/knalledge_core": "^0.0.1"
   },
@@ -32,7 +34,9 @@
     "@angular/material": "^2.0.0-beta.12",
     "@angular/platform-browser": "^4.4.6",
     "@angular/platform-browser-dynamic": "^4.4.6",
-    "@angular/router": "^4.4.6",
+    "@angular/router": "^4.4.6"
+  },
+  "devDependenciesLocal": {
     "@colabo-puzzles/puzzles_core": "^0.0.1",
     "@colabo-knalledge/knalledge_core": "^0.0.1"
   }
