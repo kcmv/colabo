@@ -47,10 +47,8 @@ export class KnalledgeNodeService extends CFService{
    */
   getById(id:string, callback?:Function): Observable<KNode>
   {
-    //TODO: check 'callback' support
     console.log('getById('+id+')');
     let url: string = this.apiUrl+'one/'+this.defaultAction+'/'+id;
-    console.log('url: '+url+')');
     let result:Observable<KNode> = this.http.get<ServerData>(url)
       .pipe(
         map(node => this.extractVO<KNode>(node,KNode)),
@@ -82,15 +80,14 @@ export class KnalledgeNodeService extends CFService{
   }
 
   /**
-   * Gets from the server all the KN Nodes that are contained in the map
+   * Creates the provided node on the server and returns its server-updated appearance
    * @param {KNode} kNode the pre-populated node to be created on the server
-   * @param {function} callback Function to be called when the nodes are retrieved
+   * @param {function} callback Function to be called when the node is created
    * @returns {Observable<KNode>} the created node (now with the id and other specific data allocated to it by server, so the caller should fill the original node with it)
      @example http://localhost:8001/knodes/in_map/default/579811d88e12abfa556f6b59.json
    */
   create(kNode:KNode, callback?:Function): Observable<KNode>
   {
-    //another callback approach: map(nodeS => {if(callback) {callback(nodeS)}}), //TODO:NG2 Test if this callback call works
   	console.log("KnalledgeNodeService.create");
     let result: Observable<KNode> = null;
 
@@ -146,10 +143,11 @@ export class KnalledgeNodeService extends CFService{
   }
 
   /**
-    deletes the KNode from the server
-    In server's response, the ServerData.data is equal to the _id of the deleted VO.  ServerData.data will be equal to null, if there is no data we intended to delete. In both cases `ServerData.success` will be eq `true`
-    @param {string} id id of the node to be deleted
-    @example URL:http://localhost:8001/knodes/one/default/5a156965d0b7970f365e1a4b.json
+  * Deletes the KNode from the server
+  * In server's response, the ServerData.data is equal to the _id of the deleted VO.  ServerData.data will be equal to null, if there is no data we intended to delete. In both cases `ServerData.success` will be eq `true`
+  * @param {string} id id of the node to be deleted
+  * @param {function} callback Function to be called when the node is deleted
+  * @example URL:http://localhost:8001/knodes/one/default/5a156965d0b7970f365e1a4b.json
   */
   destroy(id:string, callback?:Function): Observable<boolean>
 	{
@@ -182,11 +180,11 @@ export class KnalledgeNodeService extends CFService{
 	}
 
   /**
-   * Gets from the server all the KN Nodes that are contained in the map
+   * Updates the provided node on the server and returns its server-updated appearance
    * @param {KNode} kNode the pre-populated node to update the content of the existing node on the server
    * @param {string} actionType type of the update action (e.g. UPDATE_NODE_NAME_FINAL, UPDATE_NODE_NAME)
    * @param {any} patch if we provide null here, the `kNode` param is used, but if we provide here an object, it will be patched 'over' the existing node on the server
-   * @param {function} callback Function to be called when the nodes are retrieved
+   * @param {function} callback Function to be called when the node is updated
    * @returns {Observable<KNode>} the updated node (now with some specific data updated by the server, so the caller should fill the original node with it)
     @example URLs: http://localhost:8001/knodes/one/UPDATE_NODE_NAME/5a156935d0b7970f365e1a42.json
     http://localhost:8001/knodes/one/UPDATE_NODE_NAME_FINAL/5a156935d0b7970f365e1a42.json

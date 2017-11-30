@@ -31,3 +31,30 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 3. to learn basics of working with the server by using HttpClient read:
    1. https://angular.io/tutorial/toh-pt6
    2. https://angular.io/api/common/http/HttpClient
+
+### Using Knalledge Services
+
+#### Calling methods
+
+methods return **Observables**. We should subsrcibe our methods on their result.
+
+**IMPORTANT**: Even if we don't want to treat the result in any manner, we still have to subsrcribe, because until subscribed, the HttpClient call would not be executed at all
+
+```typescript
+   this.knalledgeMapService.getById(this.map_id)
+   	.subscribe(map => this.mapReceived(map));
+```
+Other (**depricated**) approach is to pass a callback function:
+
+```typescript
+this.knalledgeMapService.getById(this.map_id, this.mapReceived.bind(this));
+```
+
+because (so far) Knalledge Service methods have this kind of singature
+
+```typescript
+getById(id:string, callback?:Function): Observable<KMap>
+```
+
+This approach, often requires binding the callback method, as you can see in the upper example, in order to have access to the callback's context (*this*)
+

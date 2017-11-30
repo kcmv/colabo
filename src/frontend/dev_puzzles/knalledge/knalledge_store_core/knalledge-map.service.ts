@@ -23,7 +23,6 @@ export class KnalledgeMapService extends CFService{
 
   //http://api.colabo.space/kmaps/
   // "http://127.0.0.1:888/kmaps/";
-
   private apiUrl: string;
 
 	private knalledgeMapQueue:any = null;
@@ -32,7 +31,6 @@ export class KnalledgeMapService extends CFService{
 	constructor(
     private http: HttpClient
     //@Inject('ENV') private ENV
-    //private ENV = undefined
   ){
     super();
     console.log('KnalledgeMapService:constructor');
@@ -40,57 +38,58 @@ export class KnalledgeMapService extends CFService{
     this.apiUrl = CFService.serverAP + '/' + mapAP + '/';
   }
 
-  /*
-  example: http://localhost:8001/kmaps/one/56e8b66b913d88af03e9d17f.json
-  */
-  //TODO: all the old (expecting Promises) code calling this will have to call .toPromise() on the reuslt
+  /**
+   * Gets an KN Map from the server by its id
+   * @param {string} id id of the map
+   * @param {function} callback Function to be called when the map is retrieved
+   * @returns {Observable<KMap>} retreived map
+   * @example: http://localhost:8001/kmaps/one/56e8b66b913d88af03e9d17f.json
+   */
   getById(id:string, callback?:Function): Observable<KMap>
   {
-    //TODO: check 'callback' support
     console.log('KnalledgeMapService::getById('+id+')');
     let url: string = this.apiUrl+'one/'+id;
-    //url = 'http://localhost:8001/howAmIs/all/.json';
-    //url = 'http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json';
-    //url = 'http://localhost:8001/kedges/';
-    console.log('url: '+url+')');
-    //TODO: we cannot still use get<KMap>(url) because server returns the object as ServerData
     let result:Observable<KMap> = this.http.get<ServerData>(url)
       .pipe(
-        // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
         map(map => this.extractVO<KMap>(map,KMap)),
         catchError(this.handleError('KnalledgeMapService::getById', null))
       );
     console.log('result:');
     console.log(result);
     if(callback){result.subscribe(map => callback(map));}
-    return result; //return returnPromise ? result.toPromise() : result;
+    return result;
   }
 
-  /*
-  example: http://localhost:8001/kmaps/by-name/Demo%20Map.json
-  */
+  /**
+   * Gets all KN Maps from the server that have a specific name
+   * @param {string} name name of the map
+   * @param {function} callback Function to be called when the map is retrieved
+   * @returns {Observable<KMap[]>} array of maps retreived (there could be multiple maps with the same name)
+   * @example: http://localhost:8001/kmaps/by-name/Demo%20Map.json
+   */
   getByName(name:string, callback?:Function): Observable<KMap[]>
   {
-    //TODO: check 'callback' support
-
     console.log('KnalledgeMapService::getByName('+name+')');
     let url: string = this.apiUrl+'by-name/'+name;
-  
+
     let result:Observable<KMap[]> = this.http.get<ServerData>(url)
       .pipe(
-        // http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map
         map(mapsFromServer => CFService.processVOs(mapsFromServer, KMap)),
         catchError(this.handleError('KnalledgeMapService::getByName', null))
       );
     console.log('result:');
     console.log(result);
     if(callback){result.subscribe(maps => callback(maps));}
-    return result; //return returnPromise ? result.toPromise() : result;
+    return result;
   }
 
-  /* Example:
-	http://localhost:8001/kmaps/by-participant/556760847125996dc1a4a24f.json
-	*/
+  /**
+   * Gets all KN Map from the server that are accessible to the participant (both public ones and his private ones)
+   * @param {string} participantId participant's id
+   * @param {function} callback Function to be called when the map is retrieved
+   * @returns {Observable<KMap[]>} array of maps retreived
+   * @example: http://localhost:8001/kmaps/by-participant/556760847125996dc1a4a24f.json
+   */
 	queryByParticipant(participantId:string, callback?:Function): Observable<KMap[]>
   {
     //TODO:
@@ -119,12 +118,15 @@ export class KnalledgeMapService extends CFService{
 	 return result;
 	}
 
-
+  /**
+   * Creates the provided map on the server and returns its server-updated appearance
+   * @param {KMap} kMap the pre-populated map to be created on the server
+   * @param {function} callback Function to be called when the map is created
+   * @returns {Observable<KMap>} the created map (now with the id and other specific data allocated to it by server, so the caller should fill the original map with it)
+     @example http://localhost:8001/kmaps/in_map/default/579811d88e12abfa556f6b59.json
+   */
   create(kMap:KMap, callback?:Function): Observable<KMap>
   {
-    //TODO:NG2 check 'callback' support
-    //another callback approach: map(mapS => {if(callback) {callback(mapS)}}), //TODO:NG2 Test if this callback call works
-  	console.log("KnalledgeMapService.create");
     let result: Observable<KMap> = null;
 
 		if(false) // TODO:NG2: if(Plugins.puzzles.knalledgeMap.config.services.QUEUE)
@@ -149,32 +151,27 @@ export class KnalledgeMapService extends CFService{
       result = this.http.post<ServerData>(this.apiUrl, kMapForServer, httpOptions)
       .pipe(
         //tap((mapS: KMap) => console.log(`CREATED 'map'${mapS}`)), // not needed - it's just for logging
-        map(mapS => this.extractVO<KMap>(mapS,KMap)), //the sever returns `ServerData` object
+        map(mapS => this.extractVO<KMap>(mapS,KMap)),
         catchError(this.handleError<KMap>('KnalledgeMapService::create'))
       );
 
-      // addHero (hero: Hero): Observable<Hero> {
-      //   return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
-      //     tap((hero: Hero) => this.log(`added hero w/ id=${hero.id}`)),
-      //     catchError(this.handleError<Hero>('addHero'))
-      //   );
-      // }
-      //
-			// let map = this.createPlain({
-			// 	//actionType:'default'
-			// 	}, kMapForServer, function(mapFromServer){
-			// 	kMap.$resolved = map.$resolved;
-			// 	kMap.overrideFromServer(mapFromServer);
-			// 	if(callback) callback(kMap);
-			// });
-      //
-			// //createPlain manages promises for its returning value, in our case 'map', so we need to  set its promise to the value we return
-			// kMap.$promise = map.$promise;
-			// kMap.$resolved = map.$resolved;
-      //
-			// if(map.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
-			// 	kMap.overrideFromServer(map);
-			// }
+      /* TODO:NG2 : remain of the NG1 Promise code to be integrated:
+			let map = this.createPlain({
+				//actionType:'default'
+				}, kMapForServer, function(mapFromServer){
+				kMap.$resolved = map.$resolved;
+				kMap.overrideFromServer(mapFromServer);
+				if(callback) callback(kMap);
+			});
+
+			//createPlain manages promises for its returning value, in our case 'map', so we need to  set its promise to the value we return
+			kMap.$promise = map.$promise;
+			kMap.$resolved = map.$resolved;
+
+			if(map.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
+				kMap.overrideFromServer(map);
+			}
+      */
 		}
 		//we return this value to caller as a dirty one, and then set its value to mapFromServer when upper callback is called
 		//TODO: a problem may occur if promise is resolved BEFORE callback is called

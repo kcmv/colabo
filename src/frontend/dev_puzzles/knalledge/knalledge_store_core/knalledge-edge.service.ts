@@ -42,10 +42,8 @@ export class KnalledgeEdgeService extends CFService{
    */
   getById(id:string, callback?:Function): Observable<KEdge>
   {
-    //TODO: check 'callback' support
     console.log('getById('+id+')');
     var url: string = this.apiUrl+'one/'+id;
-    console.log('url: '+url+')');
     var result:Observable<KEdge> = this.http.get<ServerData>(url)
       .pipe(
         map(edge => this.extractVO<KEdge>(edge,KEdge)),

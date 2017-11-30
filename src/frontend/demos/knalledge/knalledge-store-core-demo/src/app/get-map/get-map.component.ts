@@ -63,8 +63,10 @@ export class GetMapComponent implements OnInit {
       // this.heroService.getHero(id)
       //   .subscribe(hero => this.hero = hero);
       //this.map =
+
       this.knalledgeMapService.getById(this.map_id)
         .subscribe(map => this.mapReceived(map));
+      // an example of using a callback: this.knalledgeMapService.getById(this.map_id, this.mapReceived.bind(this));
   }
 
   mapReceived(mapS:any):void{
