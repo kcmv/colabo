@@ -1,3 +1,52 @@
+# KnAllEdge
+
+- link on the node name in properties
+  - or shortcut/icon on node itself
+  - so we can copy a node name with link
+## Automatic backing up / exporting
+
+## offline
+
+## Improve MD editor
+
+## Crowlers/robots friendly
+
++ render content for deep links
+  - either use backend rendering (headless browsers) and cache output or
+  - generate some basic content not identical to fully rendered browser-content
+- for a deep link
+  - allow to integrate name of the map (and node) in the path together with ids
+  - through metadata and html content for Crowlers
+    - show the name of the map
+    - or if it is a node, show node content, even image, ...
+
+## pre/post focus, pre/post change
++ Be sure if we change a focus or content that our visual experience and interactions are as expected/corrected
++ i.e.
+  - if we create a new node and start typing the node name we should not loose first few characters but ***deliver*** them into the node name
+  - if we are re-selecting node, other components, like tag-managing component should not deliver tags' interaction into an old node
+  - if we go back to the maps list and click on a new map to open it, we shouldn't see an old map until the new one flushes it away (the same problem happens with youtube checked lists for the current playing video)
+
+## Temp context
+A set of nodes that are relevant to me and which I am currently working on
+
+## ContextualWalker
+
+Integrate it with KnAllEdge background (and move it into angular)
+So contexts are stored on server, accessible anywhere and they can naturally extend into something bigger, but still keeping SEPARATION strongly between the TEMP-CURRENT-FOCUS and KNOWLEDGE that is built during that process
+
+## Export/Import
+
+* An easy way of importing Markdown
+  - file into bunch of nodes
+  - additional aspects as tags annotation should be recognized and matched against existing tags
+  - not too many questions, AI should help and do some reasonable assumptions
+  - AI should offer some ambiguous assumptions and matchings, and also some potentially usefull matchings/corrections that it assumed/learned from the external knowledge
+* Exporting and reimporitng should be intuitive
+  - it should be simple to export a part of knowledge space (branch, or sequence (presentation)) to the plain text, work on it, change, move arround, and safely rematch it and recover back to the repository
+    - maybe some special export-knowledge should be kept either in the system (and then ID or user choose when imports) or at the bottom of the file
+    - or even more exciting, user can interact with knowledge through regular editor, like Atom, sublime, or some other markdown editor and in the background in the realtime, KnAllEdge will correspond and map it into the kn-space
+
 # RIMA
 
 Sasa Rudan: gledam malo za ono map->rima
