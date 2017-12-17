@@ -24,6 +24,10 @@ var puzzles = {
       npm: "@colabo-knalledge/knalledge_store_core",
       path: "dev_puzzles/knalledge/knalledge_store_core"
     },
+    "@colabo-knalledge/knalledge_search": {
+      npm: "@colabo-knalledge/knalledge_search",
+      path: "dev_puzzles/knalledge/knalledge_search"
+    },
     "@colabo-knalledge/knalledge_view_enginee": {
       npm: "@colabo-knalledge/knalledge_view_enginee",
       path: "dev_puzzles/knalledge/knalledge_view_enginee"

@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { KnalledgeMapService } from './knalledge-map.service';
+import { KnalledgeSearchService } from './knalledge-Search.service';
 
 /*
 TODO:
@@ -18,14 +18,14 @@ https://github.com/angular/angular-cli/issues/7341
 https://github.com/angular/angular-cli/issues/8243
 https://stackoverflow.com/questions/39020022/angular-2-unit-tests-cannot-find-name-describe
 
-describe('KnalledgeMapService', () => {
+describe('KnalledgeSearchService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [KnalledgeMapService]
+      providers: [KnalledgeSearchService]
     });
   });
 
-  it('should be created', inject([KnalledgeMapService], (service: KnalledgeMapService) => {
+  it('should be created', inject([KnalledgeSearchService], (service: KnalledgeSearchService) => {
     expect(service).toBeTruthy();
   }));
 });
