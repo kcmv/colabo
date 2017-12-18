@@ -1,8 +1,17 @@
 # KnAllEdge
 
+# Misc
 - link on the node name in properties
   - or shortcut/icon on node itself
   - so we can copy a node name with link
+
+## Versioning
+
+- make node version
+- return old version
+- support multiple versions for different users
+
+
 ## Automatic backing up / exporting
 
 ## offline
