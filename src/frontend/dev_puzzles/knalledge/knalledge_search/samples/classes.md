@@ -1,5 +1,8 @@
+```sh
 curl --header "Accept: application/sparql-results+json"  -G  'http://fdbsun1.cs.umu.se:3030/demo3models/query' --data-urlencode query='prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT DISTINCT ?class ?label ?description WHERE {  ?class a owl:Class.  OPTIONAL { ?class rdfs:label ?label}  OPTIONAL { ?class rdfs:comment ?description}}'
+```
 
+```js
 {
   "head": {
     "vars": [ "class" , "label" , "description" ]
@@ -144,3 +147,4 @@ curl --header "Accept: application/sparql-results+json"  -G  'http://fdbsun1.cs.
     ]
   }
 }
+```
