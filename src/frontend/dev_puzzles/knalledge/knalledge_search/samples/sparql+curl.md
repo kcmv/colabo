@@ -1,3 +1,8 @@
+# Sparql
+
++ SOH (SPARQL Over HTTP)
++ https://www.w3.org/TR/2013/REC-sparql11-http-rdf-update-20130321/
+
 # cURL command
 
 ## SPARQL (POST) example
