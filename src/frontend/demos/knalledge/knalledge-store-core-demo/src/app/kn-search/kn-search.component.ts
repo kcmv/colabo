@@ -16,14 +16,14 @@ export class KnSearchComponent implements OnInit {
   ngOnInit() {
   }
 
-  sparqlReceived():void{
-
+  sparqlReceived(map:any):void{
+    console.log(map.toString());
   }
 
   getBySparql():void{
     console.log('getBySparql');
     this.knalledgeSearchService.getBySparql()
-    .subscribe(this.sparqlReceived);
+    .subscribe(map => this.sparqlReceived(map));
   }
 
 }

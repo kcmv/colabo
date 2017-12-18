@@ -9,7 +9,15 @@ import { catchError, map, tap } from 'rxjs/operators';
 //import 'rxjs/add/operator/toPromise';
 
 //import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
-import {CFService} from './cf.service';
+import {CFService} from '@colabo-knalledge/knalledge_store_core/cf.service';
+
+import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
+import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
+
+import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
+import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
+import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
 const httpOptions = {
   /*
@@ -17,7 +25,8 @@ const httpOptions = {
   Protocol clients may send protocol requests via the HTTP POST method by including the query directly and unencoded as the HTTP request message body. When using this approach, clients must include the SPARQL query string, unencoded, and nothing else as the message body of the request. Clients MUST set the content type header of the HTTP request to application/sparql-query. Clients may include the optional default-graph-uri and named-graph-uri parameters as HTTP query string parameters in the request URI. Note that UTF-8 is the only valid charset here.
   */
   headers: new HttpHeaders({ 'Content-Type':
-  'application/sparql-query'
+  'application/sparql-query',
+  'Accept': 'application/sparql-results+json'
   //'application/x-www-form-urlencoded'
   //'application/sparql-results'
   //'application/json'
@@ -29,7 +38,7 @@ const httpOptions = {
 const SearchAP = "search";
 
 @Injectable()
-export class KnalledgeSearchService //extends CFService
+export class KnalledgeSearchService extends CFService
 {
 
   //http://api.colabo.space/kSearchs/
@@ -41,7 +50,7 @@ export class KnalledgeSearchService //extends CFService
     private http: HttpClient
     //@Inject('ENV') private ENV
   ){
-    //super();
+    super();
     console.log('KnalledgeSearchService:constructor');
     //this.apiUrl = this.ENV.server.backend + '/' + SearchAP + '/';
     this.apiUrl = 'http://fdbsun1.cs.umu.se:3030/demo3models/query';
@@ -61,20 +70,91 @@ export class KnalledgeSearchService //extends CFService
    */
 
   private rdfToKN(fromServer):any{
-      console.log(fromServer);
-      let fromServerJSON = JSON.parse(fromServer);
-      for( let binding in fromServer.results.bindings){
+    //TODO: to add safe-failing (if there is no result, no parameter, etc)
+     //TODO: check if we do fill mapData in a OK format CF (KN) - as required by visualization code
+      let mapData:any = {
+        'selectedNode':null,
+        'map': {
+          'nodes':[], 'edges':[], 'properties':new KMap()
+        }
+      };
+      //let map:KMap = new KMap();
+      // map.name = 'Personalities';
+      let mapId:string = mapData.map.properties._id;
+      mapData.map.properties.name = 'Personalities';
+      let rootNode:KNode = new KNode();
+      rootNode.name = 'Personalities';
+      rootNode.mapId = mapId;
+      mapData.map.nodes.push(rootNode);
+      mapData.selectedNode = rootNode;
+      //let edges:
+      let personalities:any = {};
+      console.log(fromServer.results.bindings.length);
+      //let fromServerJSON = JSON.parse(fromServer);
+
+      /*
+        in this for-loop we fill hasf of Personalities Objects that is indexed by their 'UserId'
+        with all found properties added to objects
+      */
+      for( let i in fromServer.results.bindings){
+      let binding:any = fromServer.results.bindings[i];
         console.log(binding);
+        let id:string = binding.subject.value.substring(binding.subject.value.lastIndexOf("/") + 1);
+        if(!(id in personalities)){
+          personalities[id] = {};
+        }
+        let predicate:string = binding.predicate.value.substring(binding.predicate.value.lastIndexOf("/") + 1);
+        personalities[id][predicate] = binding.object.value.substring(binding.object.value.lastIndexOf("/") + 1);
       }
-      return "TODO";
+
+      for(let id in personalities){
+        let nodePerson:KNode = new KNode();
+        nodePerson.name = id;
+        nodePerson.mapId = mapId;
+        mapData.map.nodes.push(nodePerson);
+        let edgePerson:KEdge = new KEdge();
+        edgePerson.mapId = mapId;
+        edgePerson.sourceId = rootNode._id;
+        edgePerson.targetId = nodePerson._id;
+        mapData.map.edges.push(edgePerson);
+        //TODO: to see if we want to set here: `edge.name = `
+        for(let key in personalities[id]){
+          //ommitting unwanted values:
+          if(key === 'userid'){continue;} //TODO: check if we want to ommit it
+          /* TODO:
+          should we also do:
+          `if(key === '22-rdf-syntax-ns#type'){continue;}`
+          that is, we should see how to treat `type` predicate:
+          {
+            "subject": { "type": "uri" , "value": "http://mypersonality.ddm.cs.umu.se/525972ece5cf44c2a7619ee809e92cb5" } ,
+            "predicate": { "type": "uri" , "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" } ,
+            "object": { "type": "uri" , "value": "http://xmlns.com/foaf/0.1/Person" }
+          } ,
+          */
+          let nodeProperty:KNode = new KNode();
+          nodeProperty.name = personalities[id][key];
+          nodeProperty.mapId = mapId;
+          mapData.map.nodes.push(nodeProperty);
+
+          let edgeProperty:KEdge = new KEdge();
+          edgeProperty.mapId = mapId;
+          edgeProperty.sourceId = nodePerson._id;
+          edgeProperty.targetId = nodeProperty._id;
+          edgeProperty.name = key;
+          mapData.map.edges.push(edgeProperty);
+        }
+      }
+
+      return mapData;
   }
 
-  getBySparql(): Observable<any[]>
+  getBySparql(): Observable<any>
   {
     console.log('KnalledgeSearchService::getByName('+name+')');
     let url: string = this.apiUrl;//+'by-name/'+name;
-    let query:string = 'SELECT ?subject ?predicate ?object WHERE {?subject ?predicate ?object} LIMIT 100';
-    let result:Observable<any[]> =  this.http.post<any>(url, query, httpOptions)
+    // TODO 'LIMIT 100';
+    let query:string = 'SELECT ?subject ?predicate ?object WHERE {?subject ?predicate ?object} LIMIT 5';
+    let result:Observable<any> =  this.http.post<any>(url, query, httpOptions)
       .pipe(
         map( fromServer => this.rdfToKN(fromServer) )
         // catchError(this.handleError('KnalledgeSearchService::getByName', null))
