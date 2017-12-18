@@ -148,6 +148,9 @@ export class KnalledgeSearchService extends CFService
       return mapData;
   }
 
+  /**
+  * @returns {any} mapData, where in `map.nodes array` each sub-node of the rootNode is representing each class received (with node.name = class_name). Each sub-node of the class-node represents received label of that class (with node.name = label_name).
+  */
   private rdfSchemaToKN(fromServer):any{
     //TODO: to add safe-failing (if there is no result, no parameter, etc)
      //TODO: check if we do fill mapData in a OK format CF (KN) - as required by visualization code
@@ -160,14 +163,14 @@ export class KnalledgeSearchService extends CFService
       //let map:KMap = new KMap();
       // map.name = 'Personalities';
       let mapId:string = mapData.map.properties._id;
-      mapData.map.properties.name = 'Personalities';
+      mapData.map.properties.name = 'Classes';
       let rootNode:KNode = new KNode();
-      rootNode.name = 'Personalities';
+      rootNode.name = 'Classes';
       rootNode.mapId = mapId;
       mapData.map.nodes.push(rootNode);
       mapData.selectedNode = rootNode;
       //let edges:
-      let personalities:any = {};
+      let classes:any = {};
       console.log(fromServer.results.bindings.length);
       //let fromServerJSON = JSON.parse(fromServer);
 
@@ -177,50 +180,48 @@ export class KnalledgeSearchService extends CFService
       */
       for( let i in fromServer.results.bindings){
       let binding:any = fromServer.results.bindings[i];
-        console.log(binding);
-        let id:string = binding.subject.value.substring(binding.subject.value.lastIndexOf("/") + 1);
-        if(!(id in personalities)){
-          personalities[id] = {};
+        //console.log(binding);
+        let cls:string = binding.class.value.substring(binding.class.value.lastIndexOf("/") + 1);
+        if(!(cls in classes)){
+          classes[cls] = {};
         }
-        let predicate:string = binding.predicate.value.substring(binding.predicate.value.lastIndexOf("/") + 1);
-        personalities[id][predicate] = binding.object.value.substring(binding.object.value.lastIndexOf("/") + 1);
+        let label:string = binding.label.value.substring(binding.label.value.lastIndexOf("/") + 1);
+        classes[cls][label] = 1;
       }
 
-      for(let id in personalities){
-        let nodePerson:KNode = new KNode();
-        nodePerson.name = id;
-        nodePerson.mapId = mapId;
-        mapData.map.nodes.push(nodePerson);
-        let edgePerson:KEdge = new KEdge();
-        edgePerson.mapId = mapId;
-        edgePerson.sourceId = rootNode._id;
-        edgePerson.targetId = nodePerson._id;
-        mapData.map.edges.push(edgePerson);
-        //TODO: to see if we want to set here: `edge.name = `
-        for(let key in personalities[id]){
-          //ommitting unwanted values:
-          if(key === 'userid'){continue;} //TODO: check if we want to ommit it
-          /* TODO:
-          should we also do:
-          `if(key === '22-rdf-syntax-ns#type'){continue;}`
-          that is, we should see how to treat `type` predicate:
-          {
-            "subject": { "type": "uri" , "value": "http://mypersonality.ddm.cs.umu.se/525972ece5cf44c2a7619ee809e92cb5" } ,
-            "predicate": { "type": "uri" , "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" } ,
-            "object": { "type": "uri" , "value": "http://xmlns.com/foaf/0.1/Person" }
-          } ,
-          */
-          let nodeProperty:KNode = new KNode();
-          nodeProperty.name = personalities[id][key];
-          nodeProperty.mapId = mapId;
-          mapData.map.nodes.push(nodeProperty);
+      for(let id in classes){
 
-          let edgeProperty:KEdge = new KEdge();
-          edgeProperty.mapId = mapId;
-          edgeProperty.sourceId = nodePerson._id;
-          edgeProperty.targetId = nodeProperty._id;
-          edgeProperty.name = key;
-          mapData.map.edges.push(edgeProperty);
+        //nodeClass is named by the `class` it represents
+        let nodeClass:KNode = new KNode();
+        nodeClass.name = id;
+        nodeClass.mapId = mapId;
+        mapData.map.nodes.push(nodeClass);
+
+        //edgeClass connects nodeClass with the rootNode
+        let edgeClass:KEdge = new KEdge();
+        edgeClass.mapId = mapId;
+        edgeClass.sourceId = rootNode._id;
+        edgeClass.targetId = nodeClass._id;
+        mapData.map.edges.push(edgeClass);
+        //TODO: to see if we want to set here: `edge.name = `
+        for(let key in classes[id]){
+          /* TODO: eventual ommitting unwanted values, like this:
+          if(key === 'userid'){continue;} //TODO: check if we want to ommit it
+          */
+
+          //nodeLabel is named by the `label`
+          let nodeLabel:KNode = new KNode();
+          nodeLabel.name = key;
+          nodeLabel.mapId = mapId;
+          mapData.map.nodes.push(nodeLabel);
+
+          //edgeLabel connects nodeLabel with the nodeClass it belongs to
+          let edgeLabel:KEdge = new KEdge();
+          edgeLabel.mapId = mapId;
+          edgeLabel.sourceId = nodeClass._id;
+          edgeLabel.targetId = nodeLabel._id;
+          //edgeLabel.name = key;
+          mapData.map.edges.push(edgeLabel);
         }
       }
 
@@ -231,7 +232,7 @@ export class KnalledgeSearchService extends CFService
   {
     console.log('KnalledgeSearchService::getSchemaBySparql()');
     let url: string = this.apiUrl;//+'by-name/'+name;
-    var limit =  'LIMIT 100';
+    var limit =  ' LIMIT 100';
     let query:string = 'prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT DISTINCT ?class ?label ?description WHERE {  ?class a owl:Class.  OPTIONAL { ?class rdfs:label ?label}  OPTIONAL { ?class rdfs:comment ?description}}';
     query += limit;
     let result:Observable<any> =  this.http.post<any>(url, query, httpOptions)
@@ -249,7 +250,7 @@ export class KnalledgeSearchService extends CFService
   {
     console.log('KnalledgeSearchService::getDataBySparql()');
     let url: string = this.apiUrl;//+'by-name/'+name;
-    var limit =  'LIMIT 100';
+    var limit =  ' LIMIT 100';
     let query:string = 'prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?subject ?predicate ?object WHERE {?subject ?predicate ?object}';
     query += limit;
     let result:Observable<any> =  this.http.post<any>(url, query, httpOptions)
