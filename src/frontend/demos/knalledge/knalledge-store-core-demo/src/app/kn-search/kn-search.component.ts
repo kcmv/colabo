@@ -20,9 +20,15 @@ export class KnSearchComponent implements OnInit {
     console.log(map.toString());
   }
 
-  getBySparql():void{
-    console.log('getBySparql');
-    this.knalledgeSearchService.getBySparql()
+  getSchemaBySparql():void{
+    console.log('getSchemaBySparql');
+    this.knalledgeSearchService.getSchemaBySparql()
+    .subscribe(map => this.sparqlReceived(map));
+  }
+
+  getDataBySparql():void{
+    console.log('getDataBySparql');
+    this.knalledgeSearchService.getDataBySparql()
     .subscribe(map => this.sparqlReceived(map));
   }
 
