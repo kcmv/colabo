@@ -12,7 +12,18 @@ import { catchError, map, tap } from 'rxjs/operators';
 import {CFService} from './cf.service';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  /*
+  https://www.w3.org/TR/sparql11-protocol/#query-operation
+  Protocol clients may send protocol requests via the HTTP POST method by including the query directly and unencoded as the HTTP request message body. When using this approach, clients must include the SPARQL query string, unencoded, and nothing else as the message body of the request. Clients MUST set the content type header of the HTTP request to application/sparql-query. Clients may include the optional default-graph-uri and named-graph-uri parameters as HTTP query string parameters in the request URI. Note that UTF-8 is the only valid charset here.
+  */
+  headers: new HttpHeaders({ 'Content-Type':
+  'application/sparql-query'
+  //'application/x-www-form-urlencoded'
+  //'application/sparql-results'
+  //'application/json'
+  //'application/sparql-results+json'
+})
+  //'application/json' })
 };
 
 const SearchAP = "search";
@@ -33,7 +44,8 @@ export class KnalledgeSearchService //extends CFService
     //super();
     console.log('KnalledgeSearchService:constructor');
     //this.apiUrl = this.ENV.server.backend + '/' + SearchAP + '/';
-    this.apiUrl = 'https://query.wikidata.org/sparql'; //CFService.serverAP + '/' + SearchAP + '/';
+    this.apiUrl = 'http://fdbsun1.cs.umu.se:3030/demo3models/query';
+    //'https://query.wikidata.org/sparql'; //CFService.serverAP + '/' + SearchAP + '/';
   }
 
 
@@ -47,16 +59,26 @@ export class KnalledgeSearchService //extends CFService
    SELECT ?subject ?predicate ?object WHERE {?subject ?predicate ?object} LIMIT 25'
 
    */
-  getByName(name:string, callback?:Function): Observable<any[]>
+
+  private rdfToKN(fromServer):any{
+      console.log(fromServer);
+      let fromServerJSON = JSON.parse(fromServer);
+      for( let binding in fromServer.results.bindings){
+        console.log(binding);
+      }
+      return "TODO";
+  }
+
+  getBySparql(): Observable<any[]>
   {
     console.log('KnalledgeSearchService::getByName('+name+')');
     let url: string = this.apiUrl;//+'by-name/'+name;
-
-    let result:Observable<any[]> = this.http.get<any>(url);
-      // .pipe(
-        // map(SearchsFromServer => CFService.processVOs(SearchsFromServer, KSearch)),
+    let query:string = 'SELECT ?subject ?predicate ?object WHERE {?subject ?predicate ?object} LIMIT 100';
+    let result:Observable<any[]> =  this.http.post<any>(url, query, httpOptions)
+      .pipe(
+        map( fromServer => this.rdfToKN(fromServer) )
         // catchError(this.handleError('KnalledgeSearchService::getByName', null))
-      // );
+      );
     console.log('result:');
     console.log(result);
     //if(callback){result.subscribe(Searchs => callback(Searchs));}

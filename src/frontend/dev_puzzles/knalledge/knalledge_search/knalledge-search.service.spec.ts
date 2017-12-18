@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { KnalledgeSearchService } from './knalledge-Search.service';
+import { KnalledgeSearchService } from './knalledge-search.service';
 
 /*
 TODO:
