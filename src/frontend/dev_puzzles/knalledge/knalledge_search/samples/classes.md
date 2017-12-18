@@ -1,6 +1,66 @@
+# Query
+
 ```sh
 curl --header "Accept: application/sparql-results+json"  -G  'http://fdbsun1.cs.umu.se:3030/demo3models/query' --data-urlencode query='prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT DISTINCT ?class ?label ?description WHERE {  ?class a owl:Class.  OPTIONAL { ?class rdfs:label ?label}  OPTIONAL { ?class rdfs:comment ?description}}'
 ```
+
+# Result
+
+## myPersonality
+
+From this sample:
+
+```js
+{
+  "class": { "type": "uri" , "value": "http://mypersonality.ddm.cs.umu.se/myPersonality" } ,
+  "label": { "type": "literal" , "xml:lang": "en" , "value": "userid" } ,
+  "description": { "type": "literal" , "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral" , "value": "Human readable property of Facebook user. Datatype: String" }
+} ,
+
+{
+  "class": { "type": "uri" , "value": "http://mypersonality.ddm.cs.umu.se/myPersonality" } ,
+  "label": { "type": "literal" , "xml:lang": "en" , "value": "status" } ,
+  "description": { "type": "literal" , "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral" , "value": "Human readable property of Facebook user. Datatype: String" }
+} ,
+```
+
+we care about:
+
++ myPersonality:Class -> userid:literal
++ myPersonality:Class -> status:literal
+
+## Demographic
+
+From this sample:
+
+
+```js
+{
+  "class": { "type": "uri" , "value": "http://mypersonality.ddm.cs.umu.se/Demographic" } ,
+  "label": { "type": "literal" , "xml:lang": "en" , "value": "relationship_status" } ,
+  "description": { "type": "literal" , "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral" , "value": "Human readable property of Facebook user. Datatype: String" }
+} ,
+{
+  "class": { "type": "uri" , "value": "http://mypersonality.ddm.cs.umu.se/Demographic" } ,
+  "label": { "type": "literal" , "xml:lang": "en" , "value": "birthday" } ,
+  "description": { "type": "literal" , "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral" , "value": "Human readable property of Facebook user. Datatype: String" }
+} ,
+{
+  "class": { "type": "uri" , "value": "http://mypersonality.ddm.cs.umu.se/Demographic" } ,
+  "label": { "type": "literal" , "xml:lang": "en" , "value": "userid" } ,
+  "description": { "type": "literal" , "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral" , "value": "Human readable property of Facebook user. Datatype: String" }
+} ,
+```
+
+we care about:
+
++ Demographic:Class -> relationship_status:literal
++ myPersonality:Class -> birthday:literal
+  - **NOTE**: this should not be literal, but something like datetime, ...
++ myPersonality:Class -> userid:literal
+  - **NOTE**: this should connect to myPersonality class
+
+## Full result
 
 ```js
 {
