@@ -1,0 +1,33 @@
+<h3>Get Node & Edge</h3>
+<div class='demo_sub_block'>
+  <label>edge_id (should be equal to id of an existing edge in your db):
+    <input [(ngModel)]="edge_id" placeholder="name"/>
+  </label>
+  Edge id: {{edge?._id}}<br/>
+  Edge name: {{edge?.name}}<br/>
+  connecting: {{edge?.sourceId}}->{{edge?.targetId}}<br/>
+  <button (click)="getEdge()">getEdge</button>
+</div>
+<div class='demo_sub_block'>
+  <div class="bordered_light">
+    <label>node_id (should be equal to id of an existing node in your db):
+      <input [(ngModel)]="node_id" placeholder="name"/>
+    </label>
+    Node id: {{node?._id}}<br/>
+    Node name: {{node?.name}}<br/>
+    <button (click)="getNode()">getNode</button>
+  </div>
+  <div class="bordered_light">
+    <div *ngIf="nodesCreated.length > 0" class="bordered_light">
+      <label class="padding">Generated nodes</label>
+        <li *ngFor="let node of nodesCreated">
+            <span class="badge">{{node._id}}</span><input [(ngModel)]="node.name" placeholder="name"/>
+            <button class="delete" title="delete node"
+            (click)="deleteNode(node)">X</button>
+            <button class="delete" title="update node"
+            (click)="updateNode(node)">update name</button>
+        </li>
+    </div>
+    <button (click)="createNode()">createNode</button>
+  </div>
+</div>
