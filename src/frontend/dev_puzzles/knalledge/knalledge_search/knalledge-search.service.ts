@@ -37,24 +37,24 @@ const httpOptions = {
 
 const SearchAP = "search";
 
+export function provideKnalledgeSearchService(apiUrl){
+  return {
+    provide: KnalledgeSearchService,
+    useFactory: (http: HttpClient) => new KnalledgeSearchService(apiUrl, http),
+    deps: [HttpClient]
+  }
+}
+
 @Injectable()
 export class KnalledgeSearchService extends CFService
 {
-
-  //http://api.colabo.space/kSearchs/
-  // "http://127.0.0.1:888/kSearchs/";
-  private apiUrl: string;
-
-
 	constructor(
+    private apiUrl:string,
     private http: HttpClient
     //@Inject('ENV') private ENV
   ){
     super();
     console.log('KnalledgeSearchService:constructor');
-    //this.apiUrl = this.ENV.server.backend + '/' + SearchAP + '/';
-    this.apiUrl = 'http://fdbsun1.cs.umu.se:3030/demo3models/query';
-    //'https://query.wikidata.org/sparql'; //CFService.serverAP + '/' + SearchAP + '/';
   }
 
 
