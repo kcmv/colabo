@@ -19,6 +19,25 @@ npm link @colabo-knalledge/knalledge_view_enginee
 npm link @colabo-knalledge/knalledge_view_interaction
 ```
 
++ in newer versions of ts compiler we need explicitly to include all external TS files, otherwise we would get error: **Error**: XXX is not part of the compilation output. Please check the other error messages for details.
++ solution:
+  - add all TS code (`@angular`, ``@colabo-*`... libs) into path
+  - in `tsconfig.json`
+
+```json
+{
+  //...
+  "include": [
+    "src/**/*",
+    "node_modules/@colabo-puzzles/**/*",
+    "node_modules/@colabo-knalledge/**/*",
+    "node_modules/@fdb-stats/**/*",
+    "node_modules/@fdb-graph/**/*"
+  ]
+}
+```
+
+
 Currently for the each npm scope (`@colabo-puzzles`, `@colabo-knalledge`, ...) we should make a route at the browser file `src/frontend/tools/utils/code_change_tools.ts`:
 
 ```js

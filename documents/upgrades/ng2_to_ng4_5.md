@@ -1,3 +1,23 @@
+**Error**: XXX is not part of the compilation output. Please check the other error messages for details.
++ https://github.com/angular/angular/issues/20091
++ https://github.com/angular/angular-cli/issues/8284#issuecomment-341417325
++ solution (for us, not general):
+  - add all TS code (`@angular`, ``@colabo-*`... libs) into path
+  - in `tsconfig.json`
+
+```json
+{
+  //...
+  "include": [
+    "src/**/*",
+    "node_modules/@colabo-puzzles/**/*",
+    "node_modules/@colabo-knalledge/**/*",
+    "node_modules/@fdb-stats/**/*",
+    "node_modules/@fdb-graph/**/*"
+  ]
+}
+```
+
 **current version**: "@angular/common": "=2.1.2", with parts of the code in NG1
 
 + **5.1.0-beta.0 (2017-11-08)**
