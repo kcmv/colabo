@@ -150,88 +150,127 @@ export class KnalledgeSearchService extends CFService
   /**
   * @returns {any} mapData, where in `map.nodes array` each sub-node of the rootNode is representing each class received (with node.name = class_name). Each sub-node of the class-node represents received label of that class (with node.name = label_name).
   */
-  private rdfSchemaToKN(fromServer:any):any{
+  private rdfSchemaToKN(fromServer:any, fillStatistics:boolean):any{
     //TODO: to add safe-failing (if there is no result, no parameter, etc)
-     //TODO: check if we do fill mapData in a OK format CF (KN) - as required by visualization code
-      let mapData:any = {
-        'selectedNode':null,
-        'map': {
-          'nodes':[], 'edges':[], 'properties':new KMap()
-        }
-      };
-      //let map:KMap = new KMap();
-      // map.name = 'Personalities';
-      let mapId:string = mapData.map.properties._id;
-      mapData.map.properties.name = 'Classes';
-      let rootNode:KNode = new KNode();
-      rootNode.name = 'Classes';
-      rootNode.mapId = mapId;
-      mapData.map.nodes.push(rootNode);
-      mapData.selectedNode = rootNode;
-      //let edges:
-      let classes:any = {};
-      console.log(fromServer.results.bindings.length);
-      //let fromServerJSON = JSON.parse(fromServer);
+    //TODO: check if we do fill mapData in a OK format CF (KN) - as required by visualization code
 
-      /*
-        in this for-loop we fill hasf of Personalities Objects that is indexed by their 'UserId'
-        with all found properties added to objects
-      */
-      for( let i in fromServer.results.bindings){
-      let binding:any = fromServer.results.bindings[i];
-        //console.log(binding);
-        let cls:string = binding.class.value.substring(binding.class.value.lastIndexOf("/") + 1);
-        if(!(cls in classes)){
-          classes[cls] = {};
-        }
-        let label:string = binding.label.value.substring(binding.label.value.lastIndexOf("/") + 1);
-        classes[cls][label] = 1;
+    var attributeForStatistics:string = 'gender';
+    var nodeForStatistics:KNode = null;
+    var fillingNamesTranslation:any = {'1':'Male','0':'Female','-1':'undef'}; //TODO: check real values
+    var mapData:any = {
+      'selectedNode':null,
+      'map': {
+        'nodes':[], 'edges':[], 'properties':new KMap()
+      }
+    };
+    //let map:KMap = new KMap();
+    // map.name = 'Personalities';
+    var mapId:string = mapData.map.properties._id;
+
+
+    function fillingStatistics(statistics):void{
+      console.log('fillingStatistics');
+      // gender: [
+      //   {value: '-1', count: 150},
+      let count:number = 0; //total count for percentage
+      for(let i:number=0; i<statistics[attributeForStatistics].length; i++){
+        count += parseInt(statistics[attributeForStatistics][i].count);
       }
 
-      for(let id in classes){
+      for(let i:number=0;i<statistics[attributeForStatistics].length;i++){
+        //nodeLabel is named by the `label`
+        let nodeStatVal:KNode = new KNode();
+        nodeStatVal.name = fillingNamesTranslation[statistics[attributeForStatistics][i].value] + ' (' + Math.round(100 * parseInt(statistics[attributeForStatistics][i].count) / count) + '%)';
+        nodeStatVal.mapId = mapId;
+        mapData.map.nodes.push(nodeStatVal);
 
-        //nodeClass is named by the `class` it represents
-        let nodeClass:KNode = new KNode();
-        nodeClass.name = id;
-        nodeClass.mapId = mapId;
-        mapData.map.nodes.push(nodeClass);
-
-        //edgeClass connects nodeClass with the rootNode
-        let edgeClass:KEdge = new KEdge();
-        edgeClass.mapId = mapId;
-        edgeClass.sourceId = rootNode._id;
-        edgeClass.targetId = nodeClass._id;
-        mapData.map.edges.push(edgeClass);
-        //TODO: to see if we want to set here: `edge.name = `
-        for(let key in classes[id]){
-          /* TODO: eventual ommitting unwanted values, like this:
-          if(key === 'userid'){continue;} //TODO: check if we want to ommit it
-          */
-
-          //nodeLabel is named by the `label`
-          let nodeLabel:KNode = new KNode();
-          nodeLabel.name = key;
-          nodeLabel.mapId = mapId;
-          mapData.map.nodes.push(nodeLabel);
-
-          //edgeLabel connects nodeLabel with the nodeClass it belongs to
-          let edgeLabel:KEdge = new KEdge();
-          edgeLabel.mapId = mapId;
-          edgeLabel.sourceId = nodeClass._id;
-          edgeLabel.targetId = nodeLabel._id;
-          //edgeLabel.name = key;
-          mapData.map.edges.push(edgeLabel);
-        }
+        //edgeStatVal connects nodeStatVal with the nodeForStatistics which percentage it represents
+        let edgeStatVal:KEdge = new KEdge();
+        edgeStatVal.mapId = mapId;
+        edgeStatVal.sourceId = nodeForStatistics._id;
+        edgeStatVal.targetId = nodeStatVal._id;
+        //edgeStatVal.name = key;
+        mapData.map.edges.push(edgeStatVal);
       }
+    }
 
-      return mapData;
+
+    mapData.map.properties.name = 'Classes';
+    let rootNode:KNode = new KNode();
+    rootNode.name = 'Classes';
+    rootNode.mapId = mapId;
+    mapData.map.nodes.push(rootNode);
+    mapData.selectedNode = rootNode;
+    //let edges:
+    let classes:any = {};
+    console.log(fromServer.results.bindings.length);
+    //let fromServerJSON = JSON.parse(fromServer);
+
+    /*
+      in this for-loop we fill hasf of Personalities Objects that is indexed by their 'UserId'
+      with all found properties added to objects
+    */
+    for( let i in fromServer.results.bindings){
+    let binding:any = fromServer.results.bindings[i];
+      //console.log(binding);
+      let cls:string = binding.class.value.substring(binding.class.value.lastIndexOf("/") + 1);
+      if(!(cls in classes)){
+        classes[cls] = {};
+      }
+      let label:string = binding.label.value.substring(binding.label.value.lastIndexOf("/") + 1);
+      classes[cls][label] = 1;
+    }
+
+    for(let id in classes){
+      //nodeClass is named by the `class` it represents
+      let nodeClass:KNode = new KNode();
+      nodeClass.name = id;
+      nodeClass.mapId = mapId;
+      mapData.map.nodes.push(nodeClass);
+
+      //edgeClass connects nodeClass with the rootNode
+      let edgeClass:KEdge = new KEdge();
+      edgeClass.mapId = mapId;
+      edgeClass.sourceId = rootNode._id;
+      edgeClass.targetId = nodeClass._id;
+      mapData.map.edges.push(edgeClass);
+      //TODO: to see if we want to set here: `edge.name = `
+      for(let key in classes[id]){
+        /* TODO: eventual ommitting unwanted values, like this:
+        if(key === 'userid'){continue;} //TODO: check if we want to ommit it
+        */
+
+        //nodeLabel is named by the `label`
+        let nodeLabel:KNode = new KNode();
+        nodeLabel.name = key;
+        nodeLabel.mapId = mapId;
+        mapData.map.nodes.push(nodeLabel);
+
+        if(fillStatistics && key === attributeForStatistics){
+          nodeForStatistics = nodeLabel;
+        }
+
+        //edgeLabel connects nodeLabel with the nodeClass it belongs to
+        let edgeLabel:KEdge = new KEdge();
+        edgeLabel.mapId = mapId;
+        edgeLabel.sourceId = nodeClass._id;
+        edgeLabel.targetId = nodeLabel._id;
+        //edgeLabel.name = key;
+        mapData.map.edges.push(edgeLabel);
+      }
+    }
+
+    if(fillStatistics && nodeForStatistics !== null){
+        this.getAttributeStatistics(attributeForStatistics)
+        .subscribe(statistics => fillingStatistics(statistics));
+    }
+
+    return mapData;
   }
 
   /**
    * Gets all statistics for the specified attribute
    * @param {any} fromServer RDF response from the server
-   * @param {string} attribute name of the attribute which statistics we work on
-   * @returns {??}
    * @example fromServer:
    "results": {
       "bindings": [
@@ -243,6 +282,8 @@ export class KnalledgeSearchService extends CFService
        "attribute": { "type": "literal" , "datatype": "http://www.w3.org/2001/XMLSchema#int" , "value": "0" } ,
        ".1": { "type": "literal" , "datatype": "http://www.w3.org/2001/XMLSchema#integer" , "value": "74272" }
       } ,
+   * @param {string} attribute name of the attribute which statistics we work on
+   * @returns {any}
    * @example result:
          {
            gender: [
@@ -281,6 +322,7 @@ export class KnalledgeSearchService extends CFService
    */
   getAttributeStatistics(attribute:string, limit:number = 100, querySparql:string = null):Observable<any>
   {
+    //TODO: add conditional statistics, e.g: statistic for gender of people with age=<AGE>
     console.log('KnalledgeSearchService::getAttributeStatistics()');
     let url: string = this.apiUrl;//+'by-name/'+name;
     let query:string = 'prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> prefix mp: <http://mypersonality.ddm.cs.umu.se/0.1/>';
@@ -338,9 +380,10 @@ export class KnalledgeSearchService extends CFService
     query+= "SELECT DISTINCT * WHERE {  ?class a owl:Class.  OPTIONAL { ?class rdfs:label ?label}  OPTIONAL { ?class rdfs:comment ?description}}";
     query += limit;
     console.log('query:'+query);
+
     let result:Observable<any> =  this.http.post<any>(url, query, httpOptions)
       .pipe(
-        map( fromServer => this.rdfSchemaToKN(fromServer) )
+        map( fromServer => this.rdfSchemaToKN(fromServer, fillStatistics) )
         // catchError(this.handleError('KnalledgeSearchService::getByName', null))
       );
     console.log('result:');

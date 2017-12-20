@@ -29,7 +29,8 @@ export class KnSearchComponent implements OnInit {
 
   getSchemaBySparql():void{
     console.log('getSchemaBySparql');
-    this.knalledgeSearchService.getSchemaBySparql()
+    //TODO: add a checkbox for fillStatistics parameter
+    this.knalledgeSearchService.getSchemaBySparql(true)
     .subscribe(map => this.sparqlReceived(map));
   }
 
