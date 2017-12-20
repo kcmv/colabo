@@ -37,6 +37,7 @@ const httpOptions = {
 
 const SearchAP = "search";
 
+// http://blog.rangle.io/configurable-services-in-angular-2/
 export function provideKnalledgeSearchService(apiUrl){
   return {
     provide: KnalledgeSearchService,
@@ -79,8 +80,8 @@ export class KnalledgeSearchService extends CFService
       };
       //let map:KMap = new KMap();
       // map.name = 'Personalities';
-      let mapId:string = mapData.map.properties._id;
-      mapData.map.properties.name = 'Personalities';
+      let mapId:string = mapData.properties._id;
+      mapData.properties.name = 'Personalities';
       let rootNode:KNode = new KNode();
       rootNode.name = 'Personalities';
       rootNode.mapId = mapId;
@@ -150,6 +151,7 @@ export class KnalledgeSearchService extends CFService
   /**
   * @returns {any} mapData, where in `map.nodes array` each sub-node of the rootNode is representing each class received (with node.name = class_name). Each sub-node of the class-node represents received label of that class (with node.name = label_name).
   */
+
   private rdfSchemaToKN(fromServer:any, fillStatistics:boolean):any{
     //TODO: to add safe-failing (if there is no result, no parameter, etc)
     //TODO: check if we do fill mapData in a OK format CF (KN) - as required by visualization code
@@ -160,13 +162,20 @@ export class KnalledgeSearchService extends CFService
     var mapData:any = {
       'selectedNode':null,
       'map': {
-        'nodes':[], 'edges':[], 'properties':new KMap()
-      }
+        'nodes':[], 'edges':[]
+      },
+      'properties':new KMap()
     };
+
+    var blackList = [
+      // myPersonality
+      'cNEU', 'cCON', 'sEXT', 'cEXT', 'cAGR', 'sOPN', 'cOPN', 'sCON', 'sAGR', 'sNEU',
+      // Demographic
+      'mf_random', 'mf_whatever', 'mf_networking', 'mf_relationship', 'mf_friendship', 'mf_dating'];
+
     //let map:KMap = new KMap();
     // map.name = 'Personalities';
-    var mapId:string = mapData.map.properties._id;
-
+    var mapId:string = mapData.properties._id;
 
     function fillingStatistics(statistics):void{
       console.log('fillingStatistics');
@@ -194,15 +203,37 @@ export class KnalledgeSearchService extends CFService
       }
     }
 
-
-    mapData.map.properties.name = 'Classes';
+    mapData.properties.name = 'Classes';
     let rootNode:KNode = new KNode();
     rootNode.name = 'Classes';
     rootNode.mapId = mapId;
+    rootNode.visual = {isOpen: true};
     mapData.map.nodes.push(rootNode);
     mapData.selectedNode = rootNode;
+
+    mapData.properties.rootNodeId = mapData.selectedNode._id;
+    mapData.properties.type = "cf";
+    mapData.properties.participants = [];
+    mapData.properties.dataContent = {
+      "mcm":{"authors":"S.Rudan"}
+    };
+    mapData.properties.visual = {};
+    mapData.properties.state = "STATE_SYNCED";
+
     //let edges:
     let classes:any = {};
+
+    classes['myPersonality'] = {};
+    classes['myPersonality']['ExtrovertScore'] = -1;
+    classes['myPersonality']['IntrovertScore'] = -1;
+    classes['myPersonality']['Agreeableness_Score'] = -1;
+    classes['myPersonality']['Age'] = -1;
+
+    classes['fbPhotos'] = {};
+    classes['fbPhotos']['Locale'] = -1;
+    classes['fbPhotos']['User_Topic_Membership'] = -1;
+    classes['fbPhotos']['User_Group_Diads'] = -1;
+    classes['fbPhotos']['Like_Id'] = -1;
     console.log(fromServer.results.bindings.length);
     //let fromServerJSON = JSON.parse(fromServer);
 
@@ -211,13 +242,14 @@ export class KnalledgeSearchService extends CFService
       with all found properties added to objects
     */
     for( let i in fromServer.results.bindings){
-    let binding:any = fromServer.results.bindings[i];
+      let binding:any = fromServer.results.bindings[i];
       //console.log(binding);
       let cls:string = binding.class.value.substring(binding.class.value.lastIndexOf("/") + 1);
       if(!(cls in classes)){
         classes[cls] = {};
       }
       let label:string = binding.label.value.substring(binding.label.value.lastIndexOf("/") + 1);
+      if(blackList.indexOf(label) >= 0) continue;
       classes[cls][label] = 1;
     }
 
