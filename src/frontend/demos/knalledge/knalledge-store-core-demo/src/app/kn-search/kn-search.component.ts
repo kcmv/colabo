@@ -9,6 +9,8 @@ import {KnalledgeSearchService} from '@colabo-knalledge/knalledge_search/knalled
 })
 export class KnSearchComponent implements OnInit {
 
+  public querySchema:string = "SELECT DISTINCT * WHERE {  ?class a owl:Class.  OPTIONAL { ?class rdfs:label ?label}  OPTIONAL { ?class rdfs:comment ?description}}";
+  public attribute:string = 'gender';
   constructor(
     private knalledgeSearchService: KnalledgeSearchService
   ) { }
@@ -22,7 +24,7 @@ export class KnSearchComponent implements OnInit {
 
   getSchemaBySparql():void{
     console.log('getSchemaBySparql');
-    this.knalledgeSearchService.getSchemaBySparql()
+    this.knalledgeSearchService.getSchemaBySparql(this.querySchema)
     .subscribe(map => this.sparqlReceived(map));
   }
 
@@ -32,4 +34,9 @@ export class KnSearchComponent implements OnInit {
     .subscribe(map => this.sparqlReceived(map));
   }
 
+  getAttributeStatistics():void{
+    console.log('getAttributeStatistics');
+    this.knalledgeSearchService.getAttributeStatistics(this.attribute)
+    .subscribe(map => this.sparqlReceived(map));
+  }
 }
