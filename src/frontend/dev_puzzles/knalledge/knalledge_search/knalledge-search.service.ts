@@ -375,7 +375,7 @@ export class KnalledgeSearchService extends CFService
     query+=
     "SELECT ?attribute count(*)\
        WHERE {\
-         ?person mp:age ?attribute . " +
+         ?person mp:"+attribute+" ?attribute . " +
           (filterAtr !==null ? ("?person mp:"+filterAtr+" ?filterVar .\
           filter(xsd:int(?filterVar) = '"+filterVal+"'^^xsd:int)") : "" ) +
         "}\
