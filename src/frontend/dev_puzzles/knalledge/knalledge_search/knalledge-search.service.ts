@@ -361,10 +361,11 @@ export class KnalledgeSearchService extends CFService
 
   /**
    * Gets all statistics for the specified attribute
-   * @param {string} attribute name of the Search
+   * @param {string} attribute name of the attribute we want to get statistics for (e.g. 'age' or 'gender')
+   * @param {string} filterAtr name of the attribute by which we want to filter statistics (e.g. 'age' or 'gender')
+   * @param {string} filterVal value for which we check `filterAtr` and return only rows that have `filterAtr` equal to filterVal (e.g. for 'gender' we would provide here 1 or 0)
    * @param {number} limit if <=0, than unlimiteed
-   * @returns {??}
-   * //@ example:
+   * @returns {Observable<any>} For the form of the result check the `rdfStatisticsToKN` method
    */
   getAttributeStatistics(attribute:string, filterAtr:string = null, filterVal:number = null, limit:number = 100):Observable<any>
   {
