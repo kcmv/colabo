@@ -293,8 +293,15 @@ export class KnalledgeSearchService extends CFService
     }
 
     if(fillStatistics && nodeForStatistics !== null){
-        this.getAttributeStatistics(attributeForStatistics)
-        .subscribe(statistics => fillingStatistics(statistics));
+      let statistics:any = {'gender': [
+        {value: "1", count: "135814"},
+        {value: "0", count: "74272"},
+        {value: "-1", count: "4057"}
+      ]};
+      fillingStatistics(statistics);
+      //TODO: do it like this when serialization of Observeables is done:
+        // this.getAttributeStatistics(attributeForStatistics)
+        // .subscribe(statistics => fillingStatistics(statistics));
     }
 
     return mapData;
