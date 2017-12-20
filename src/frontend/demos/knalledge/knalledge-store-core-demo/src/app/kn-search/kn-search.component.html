@@ -1,9 +1,19 @@
 <h2 style="text-align: center;">SPARQL</h2>
 
 <p>
+  <input size="130" [(ngModel)]="queryDemo" placeholder="Sparql Query ..."/>
+  <button (click)="doDemoSparql()">Execute</button>
+</p>
+
+<p>
   <button (click)="getSchemaBySparql()">get Schema</button>
 </p>
 
 <p>
   <button (click)="getDataBySparql()">get Data</button>
+</p>
+
+<p>
+  <input size="30" [(ngModel)]="attribute" placeholder="attribute ..."/>
+  <button (click)="getAttributeStatistics()">get Attribute Statistics </button>
 </p>

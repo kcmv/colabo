@@ -69,8 +69,7 @@ export class KnalledgeSearchService extends CFService
    SELECT ?subject ?predicate ?object WHERE {?subject ?predicate ?object} LIMIT 25'
 
    */
-
-  private rdfDataToKN(fromServer):any{
+  private rdfDataToKN(fromServer:any):any{
     //TODO: to add safe-failing (if there is no result, no parameter, etc)
      //TODO: check if we do fill mapData in a OK format CF (KN) - as required by visualization code
       let mapData:any = {
@@ -152,7 +151,7 @@ export class KnalledgeSearchService extends CFService
   /**
   * @returns {any} mapData, where in `map.nodes array` each sub-node of the rootNode is representing each class received (with node.name = class_name). Each sub-node of the class-node represents received label of that class (with node.name = label_name).
   */
-  private rdfSchemaToKN(fromServer):any{
+  private rdfSchemaToKN(fromServer:any):any{
     var blackList = [
       // myPersonality
       'cNEU', 'cCON', 'sEXT', 'cEXT', 'cAGR', 'sOPN', 'cOPN', 'sCON', 'sAGR', 'sNEU',
@@ -259,13 +258,117 @@ export class KnalledgeSearchService extends CFService
       return mapData;
   }
 
-  getSchemaBySparql(): Observable<any>
+  /**
+   * Gets all statistics for the specified attribute
+   * @param {any} fromServer RDF response from the server
+   * @param {string} attribute name of the attribute which statistics we work on
+   * @returns {??}
+   * @example fromServer:
+   "results": {
+      "bindings": [
+      {
+       "attribute": { "type": "literal" , "datatype": "http://www.w3.org/2001/XMLSchema#int" , "value": "1" } ,
+       ".1": { "type": "literal" , "datatype": "http://www.w3.org/2001/XMLSchema#integer" , "value": "135814" }
+      } ,
+      {
+       "attribute": { "type": "literal" , "datatype": "http://www.w3.org/2001/XMLSchema#int" , "value": "0" } ,
+       ".1": { "type": "literal" , "datatype": "http://www.w3.org/2001/XMLSchema#integer" , "value": "74272" }
+      } ,
+   * @example result:
+         {
+           gender: [
+             {value: '-1', count: 150},
+             {value: '0', count: 110},
+             {value: '1', count: 230},
+           ]
+         }
+   */
+  rdfStatisticsToKN(fromServer:any, attribute:string):any{
+    let statistics:any = {};
+    statistics[attribute] = [];
+    console.log('fromServer.results.bindings.length:'+fromServer.results.bindings.length);
+    //let fromServerJSON = JSON.parse(fromServer);
+
+    /*
+      in this for-loop we fill hasf of Personalities Objects that is indexed by their 'UserId'
+      with all found properties added to objects
+    */
+    for( let i in fromServer.results.bindings){
+      let binding:any = fromServer.results.bindings[i];
+      //console.log(binding);
+      let value:string = binding.attribute.value;
+      let count:string = binding[".1"].value;
+      statistics[attribute].push({'value':value, 'count':count});
+    }
+    return statistics;
+  }
+
+  /**
+   * Gets all statistics for the specified attribute
+   * @param {string} attribute name of the Search
+   * @param {number} limit if <=0, than unlimiteed
+   * @returns {??}
+   * //@ example:
+   */
+  getAttributeStatistics(attribute:string, limit:number = 100, querySparql:string = null):Observable<any>
+  {
+    console.log('KnalledgeSearchService::getAttributeStatistics()');
+    let url: string = this.apiUrl;//+'by-name/'+name;
+    let query:string = 'prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> prefix mp: <http://mypersonality.ddm.cs.umu.se/0.1/>';
+    query+= (querySparql !== null ?
+      querySparql :
+      "SELECT ?attribute count(*)\
+       WHERE {\
+         ?person mp:"+attribute+" ?attribute .\
+       }\
+      GROUP BY ?attribute\
+      ORDER BY DESC (count(*))"
+    );
+
+      // "SELECT ?subject ?predicate ?object WHERE {?subject ?predicate ?object . FILTER (?name='http://mypersonality.ddm.cs.umu.se/0.1/gender')";
+      // regex(?predicate,“http://mypersonality.ddm.cs.umu.se/0.1/gender”)
+      //COUNT(?person) AS alices
+      //"SELECT ?subject ?predicate ?object WHERE {?subject ?predicate ?object . regex(?predicate,“http://mypersonality.ddm.cs.umu.se/0.1/gender”)}");
+      //"SELECT ?predicate count(?predicate) WHERE {?subject ?predicate ?object} GROUP BY ?predicate");
+      //"SELECT ?subject ?predicate ?object WHERE {?subject ?predicate ?object}");
+    query += (limit > 0 ? 'LIMIT '+limit : '');
+    console.log('query:'+query);
+    let result:Observable<any> =  this.http.post<any>(url, query, httpOptions)
+      .pipe(
+        map( fromServer => this.rdfStatisticsToKN(fromServer,attribute) )
+        // catchError(this.handleError('KnalledgeSearchService::getByName', null))
+      );
+    console.log('result:');
+    console.log(result);
+    //if(callback){result.subscribe(Searchs => callback(Searchs));}
+    return result;
+  }
+
+  demoSparql(querySparql:string):Observable<any>{
+    console.log('KnalledgeSearchService::demoSparql()');
+    let url: string = this.apiUrl;//+'by-name/'+name;
+    let query:string = 'prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> prefix mp: <http://mypersonality.ddm.cs.umu.se/0.1/>';
+    query+= querySparql;
+    console.log('query:'+query);
+    let result:Observable<any> =  this.http.post<any>(url, query, httpOptions)
+      // .pipe(
+      //   map( fromServer => this.rdfSchemaToKN(fromServer) )
+      //   // catchError(this.handleError('KnalledgeSearchService::getByName', null))
+      // );
+    console.log('result:');
+    console.log(result);
+    return result;
+  }
+
+  getSchemaBySparql(fillStatistics:boolean = false): Observable<any>
   {
     console.log('KnalledgeSearchService::getSchemaBySparql()');
     let url: string = this.apiUrl;//+'by-name/'+name;
     var limit =  ' LIMIT 100';
-    let query:string = 'prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT DISTINCT ?class ?label ?description WHERE {  ?class a owl:Class.  OPTIONAL { ?class rdfs:label ?label}  OPTIONAL { ?class rdfs:comment ?description}}';
+    let query:string = 'prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>';
+    query+= "SELECT DISTINCT * WHERE {  ?class a owl:Class.  OPTIONAL { ?class rdfs:label ?label}  OPTIONAL { ?class rdfs:comment ?description}}";
     query += limit;
+    console.log('query:'+query);
     let result:Observable<any> =  this.http.post<any>(url, query, httpOptions)
       .pipe(
         map( fromServer => this.rdfSchemaToKN(fromServer) )
