@@ -29,7 +29,10 @@ var apiUrl = 'http://fdbsun1.cs.umu.se:3030/demo3models/query';
     HttpClientModule,
     FormsModule
   ],
-  providers: [KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService, provideKnalledgeSearchService(apiUrl)],
+  providers: [KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService,
+    // http://blog.rangle.io/configurable-services-in-angular-2/
+    provideKnalledgeSearchService(apiUrl)
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
