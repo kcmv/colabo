@@ -279,7 +279,8 @@ export class KnalledgeSearchService extends CFService
    * @returns {??}
    * //@ example:
    */
-  getAttributeStatistics(attribute:string, limit:number = 100, querySparql:string = null){
+  getAttributeStatistics(attribute:string, limit:number = 100, querySparql:string = null):Observable<any>
+  {
     console.log('KnalledgeSearchService::getAttributeStatistics()');
     let url: string = this.apiUrl;//+'by-name/'+name;
     let query:string = 'prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> prefix mp: <http://mypersonality.ddm.cs.umu.se/0.1/>';
@@ -312,13 +313,29 @@ export class KnalledgeSearchService extends CFService
     return result;
   }
 
-  getSchemaBySparql(querySparql:string = null): Observable<any>
+  demoSparql(querySparql:string):Observable<any>{
+    console.log('KnalledgeSearchService::demoSparql()');
+    let url: string = this.apiUrl;//+'by-name/'+name;
+    let query:string = 'prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> prefix mp: <http://mypersonality.ddm.cs.umu.se/0.1/>';
+    query+= querySparql;
+    console.log('query:'+query);
+    let result:Observable<any> =  this.http.post<any>(url, query, httpOptions)
+      // .pipe(
+      //   map( fromServer => this.rdfSchemaToKN(fromServer) )
+      //   // catchError(this.handleError('KnalledgeSearchService::getByName', null))
+      // );
+    console.log('result:');
+    console.log(result);
+    return result;
+  }
+
+  getSchemaBySparql(fillStatistics:boolean = false): Observable<any>
   {
     console.log('KnalledgeSearchService::getSchemaBySparql()');
     let url: string = this.apiUrl;//+'by-name/'+name;
     var limit =  ' LIMIT 100';
     let query:string = 'prefix owl: <http://www.w3.org/2002/07/owl#> prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>';
-    query+= (querySparql !== null ? querySparql : "SELECT DISTINCT * WHERE {  ?class a owl:Class.  OPTIONAL { ?class rdfs:label ?label}  OPTIONAL { ?class rdfs:comment ?description}}");
+    query+= "SELECT DISTINCT * WHERE {  ?class a owl:Class.  OPTIONAL { ?class rdfs:label ?label}  OPTIONAL { ?class rdfs:comment ?description}}";
     query += limit;
     console.log('query:'+query);
     let result:Observable<any> =  this.http.post<any>(url, query, httpOptions)
