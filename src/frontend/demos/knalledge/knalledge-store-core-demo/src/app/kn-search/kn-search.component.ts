@@ -45,7 +45,7 @@ export class KnSearchComponent implements OnInit {
   */
   getAttributeStatistics(gender:number=null):void{
     console.log('getAttributeStatistics');
-    this.knalledgeSearchService.getAttributeStatistics(this.attribute,'gender',gender)
+    this.knalledgeSearchService.getAttributeStatistics(this.attribute, (gender!==null ? 'gender' : null),gender)
     .subscribe(map => this.sparqlReceived(map));
   }
 }
