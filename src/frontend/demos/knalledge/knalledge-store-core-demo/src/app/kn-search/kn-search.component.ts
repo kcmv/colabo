@@ -40,9 +40,12 @@ export class KnSearchComponent implements OnInit {
     .subscribe(map => this.sparqlReceived(map));
   }
 
-  getAttributeStatistics():void{
+  /*
+    if we provide the `gender` parameter, we will get statistics filtered by that gender value
+  */
+  getAttributeStatistics(gender:number=null):void{
     console.log('getAttributeStatistics');
-    this.knalledgeSearchService.getAttributeStatistics(this.attribute)
+    this.knalledgeSearchService.getAttributeStatistics(this.attribute,'gender',gender)
     .subscribe(map => this.sparqlReceived(map));
   }
 }
