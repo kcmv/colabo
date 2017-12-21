@@ -1,3 +1,22 @@
+## D3 + D4
++ https://news.ycombinator.com/item?id=11994885
++ https://stackoverflow.com/questions/41365567/using-d3-js-v3-and-v4
+
+
+## D3 -> D4
++ https://github.com/d3/d3/blob/master/CHANGES.md#scales-d3-scale
++ file name d3/d3.js -> d3/build/d3.js
++ d3.scale.linear -> d3.scaleLinear
++ d3.layout.tree ↦ d3.tree
++ node was a new required type in `tsconfig.json`
+  + https://github.com/TypeStrong/typedoc/issues/320
+
+```js
+"types": [
+  "node"
+],
+```
+
 **Error**: XXX is not part of the compilation output. Please check the other error messages for details.
 + https://github.com/angular/angular/issues/20091
 + https://github.com/angular/angular-cli/issues/8284#issuecomment-341417325
