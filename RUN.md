@@ -160,7 +160,7 @@ sudo -u www-data /usr/bin/nodejs /var/www/knalledge/src/backend/prod/KnAllEdgeBa
 
 ```sh
 # Test
-sudo ps -ax | grep mongo
+sudo ps ax | grep mongo
 # Kill
 sudo kill -TERM <mongo_pid>
 # manual start in the background
