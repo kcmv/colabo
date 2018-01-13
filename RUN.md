@@ -104,6 +104,11 @@ TODO: add some non-Database page responding with HELO to se if server is alive
 
 if none of colabo.space websites are not available this is the reason
 
+**<u>The current problem state is</u>**: server is naturally **automatically restarting** sometimes. After that:
+
++ our mongo database currently has to be started manually (some issues with auto)
++ our backend server needs to be started **after** the database is up and running
+
 ### proxy
 
 - info
