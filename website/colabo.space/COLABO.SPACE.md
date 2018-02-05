@@ -1,6 +1,6 @@
-**Colabo.Space** is socio-technologically augmented prototype of the Collective Mind. The ***Collective Mind*** is both a concept and a hope. The ***hope*** is that a community, a society, or the humanity as a whole can naturally ***co-evolve*** and achieve a higher level of knowledge, coordination, decision-, and action-making and higher level of consciousness after all. 
+**Colabo.Space** is socio-technologically augmented prototype of the Collective Mind. The ***Collective Mind*** is both a concept and a hope. The ***hope*** is that a community, a society, or the humanity as a whole can naturally ***co-evolve*** and achieve a higher level of knowledge, coordination, decision- and action-making, and, ultimately, higher level of consciousness.
 
-Co-evolution addresses ***trans-discipline***: society, inter-relationships, social, technical, democratic, geographical, racial, religious, psychological, scientific, artistic, and many other *"disciplines"*.
+Co-evolution addresses a ***trans-domain***, which spans over society, inter-relationships, as well as social, technical, democratic, geographical, racial, religious, psychological, scientific, artistic, and many other "*domains*" or fields of inquiry.
 
 <img alt='colabo-logo-url' src='http://colabo.space/images/colabo-logo.png' width='15%'>
 
@@ -14,7 +14,7 @@ Before discussing in greater details, **WHAT** the Colabo.Space is about, please
 
 Thanks for watching! So, the Colabo.Space ecosystem consists of a set of principles, socio-technical methodologies and online tools for supporting efficient collective collaboration. Among others aspects (spaces), it aims to provide the user with a ***knowledge*** space, together with an ***action*** space and a ***dialogical*** space, all coexisting in one ecosystem.
 
-At the top level Colabo.space central role is a "***moving***" role between all "*stakeholders*" of humanity. We want to keep a continuous dialogue and exchange of values across humanity both in order to give a power of each stakeholder to contribute and change the world for better, but also to keep the momentum of sustainability and thrivability  as shown on the following diagram:
+At the top level Colabo.space central role is a "***moving***" role between all "*stakeholders*" of humanity. We want to keep a continuous dialogue and exchange of values across humanity both in order to give a power to each stakeholder to contribute and change the world for better, but also to keep the momentum of sustainability and thrivability  as shown on the following diagram:
 
 <img alt='Colabo-spiral' src='https://farm5.staticflickr.com/4645/25683835348_791037ae6b_b.jpg' width='50%'/>
 
