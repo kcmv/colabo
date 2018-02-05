@@ -8,7 +8,7 @@ At the (*fig. KnAllEdge-frontend-classes*) we see a whole diagram of KnAllEdge r
 
 
 
-![KnAllEdge - class - diagram](docs/KnAllEdge - class - diagram.jpg)
+![KnAllEdge - class - diagram](docs/KnAllEdge%20-%20class%20-%20diagram.jpg)
 
 ***Figure KnAllEdge-frontend-classes:*** A hierarchy of KnAllEdge frontend classes, core, storage and interaction
 
@@ -22,7 +22,7 @@ Bush also voices the idea of multiple references to a single knowledge item - " 
 
 More generally, Bush's concept of memex introduces the 2 most important aspects of this chapter -  collective knowledge/memory and knowledge liberation.
 
-![KnAllEdge Entities - Example](docs/KnAllEdge Entities - Example.png)
+![KnAllEdge Entities - Example](docs/KnAllEdge%20Entities%20-%20Example.png)
 
 ***Figure knalledge-entities-example***: Knowledge Pool Entities - Example
 
@@ -38,7 +38,7 @@ Collective memory needs to provide transparency and continuous transition betwee
 
 Another important mis-design of the knowledge systems comes with the separation of knowledge entities, knowledge structure and meta-data into separate categories (*fig. nurnberg-knowledge-personalization*)
 
-![KnAllEdge-cooncepts-poliscopy](docs/Nurnberg - 2003 - knowledge personalization.png)
+![KnAllEdge-cooncepts-poliscopy](docs/Nurnberg%20-%202003%20-%20knowledge%20personalization.png)
 
 **Figure nurnberg-knowledge-personalization**: Figure 10. from the (Nürnberg, 2003) showing UML-diagram of the knowledge personalization
 
@@ -64,7 +64,7 @@ Understanding the importance of dialogue expressed with D. Bohm’s work (Bohm, 
 
 > ***Dialogue*** is any form of interaction between two or more *actants* through any means of information exchange processes most likely resulting in the production of new *knowledge* (either external or within the actants' personal domain) and call for *action* (*fig. colabo-dialogue*).
 
-<img alt='ColaboScience - dialogue' src='docs/CollaboScience - dialogue.png' width='40%'/>
+<img alt='ColaboScience - dialogue' src='docs/CollaboScience%20-%20dialogue.png' width='40%'/>
 
 
 
@@ -90,7 +90,7 @@ One important aspect of the extended dialog definition (*fig. colabo-dialogue*) 
 
 Therefore, we propose ***ColaboDialogue*** - a concept that unites all three spaces (dimensions): dialogical, knowledge and action spaces into a single and continuous space where interactions across domains are natural, fluent, frictionless, and coexisting (*fig. colabo-dialogue-conceptual*). In essence, the main or rather the most solid and long-term dimension is the knowledge dimension, which is continuously evolving — it represents the collective memory of the collective mind. The aim of each community is to evolve its collective memory. That evolution can run solely across the knowledge dimension, but it can be supported by expansions in other dimensions. These expansions (based on their nature, evolution and life-time) we call ***bubbles***.
 
-![Dialogical science - cross-dimensions - conceptual](docs/Dialogical science - cross-dimensions - conceptual.png)
+![Dialogical science - cross-dimensions - conceptual](docs/Dialogical%20science%20-%20cross-dimensions%20-%20conceptual.png)
 
 ***Figure colabo-dialogue-conceptual***: A conceptual view on the three dimensions of ColaboDialogue
 
@@ -98,7 +98,7 @@ Therefore, we propose ***ColaboDialogue*** - a concept that unites all three spa
 
 On the other hand, a dialogue provokes (real-world) actions and creation of an ***action bubble*** (i.e. Question 1 → Action 1). However, an action result can affect the knowledge space (Action 3 → Fact 3) or the (original) dialogical bubble (Action 2.2 → Idea 2). In this way, actions introduce changes into the system and provide new information that calls to be processed and understood. This can go the whole way back to a call-for-dialogue for “plumbing” and evolving the original knowledge space.
 
-![Dialogical science - cross-dimensions - detailed](docs/Dialogical science - cross-dimensions - detailed.png)
+![Dialogical science - cross-dimensions - detailed](docs/Dialogical%20science%20-%20cross-dimensions%20-%20detailed.png)
 
 ***Figure colabo-dialogue-detailed***: A detailed view of three dimensions of the ColaboDialogue - an example of the dialogical and action bubble 1
 
@@ -195,7 +195,7 @@ At the following diagram (*fig. KnAllEdge-createNode*) we see a process of **cre
 - multi-paths - we see that some parts of the activity diagram are initiated locally, some are coming from remote node manipulation, and some of actions are common
 - system-wide notification - either change (node created) originates locally or remotely it
 
-![KnAllEdge - createNode - interaction - diagram](docs/KnAllEdge - createNode - interaction - diagram.jpg)
+![KnAllEdge - createNode - interaction - diagram](docs/KnAllEdge%20-%20createNode%20-%20interaction%20-%20diagram.jpg)
 
 ***Figure KnAllEdge-createNode:*** KnAllEdge ***createNode*** - interaction diagram
 

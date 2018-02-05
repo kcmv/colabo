@@ -23,7 +23,7 @@
 9. **Tools incremental improving of collective mind**
 10. **Co-evolution**
 
-![Types of Intelligence](documents/images/Types of Intelligence.png)
+![Types of Intelligence](documents/images/Types%20of%20Intelligence.png)
 
 ***Figure intelligence-types***: Types of intelligence and their relationships across individuals and community
 
@@ -37,19 +37,19 @@ An outmost goal was succeeding in development of the collaborative-system with u
 
 KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: **Topic maps** (@see on [Wikipedia]{@link https://en.wikipedia.org/wiki/Topic_Maps}) and __SocioTM__ (please @see [abstract]{@link http://tmra.de/2008/talks/socioTM-relevancies-collaboration-and-socio-knowledge-in-topic-maps.html} and [paper]{@link http://tmra.de/2008/talks/pdf/309-323.pdf}).
 
-![ColaboFramework - MindStuff](documents/diagrams/KnAllEdge + MindStuff.png)
+![ColaboFramework - MindStuff](documents/diagrams/KnAllEdge%20+%20MindStuff.png)
 
 ***Figure mindstuff***: MindStuff - a conceptual "metaphor" of tools for incremental evolution of the collective mind
 
 ***MindStuff*** (End-user tools) are realized through the composition of the basic building blocks; for example ***IBIS*** and ***Presentation*** MindStuff are realized as a composition of KnAllEdge and ColaboGrammar, while the ***CoEvoLudens*** methodology is realized as a composition of ColaboFlow, KnAllEdge, RIMA, and ColaboFramework. Some of the MindStuff we will discuss in the following sections.
 
-<img alt="colabo - core stack" src="documents/images/colabo - core stack.jpg" width="100%"/>
+<img alt="colabo - core stack" src="documents/images/colabo%20-%20core stack.jpg" width="100%"/>
 
 ***Figure colabo-core-set***: 3rd party libraries **stack** for the core of the Colabo.Space ecosystem
 
 At the (*fig. colabo-core-set*) a reader can find
 
-![Colabo.Space components and puzzles](documents/images/Colabo.Space components and puzzles.jpg)
+![Colabo.Space components and puzzles](documents/images/Colabo.Space%20components%20and%20puzzles.jpg)
 
 ***Figure colabo-components***: Colabo.Space components and puzzles
 
@@ -115,6 +115,6 @@ However, same as Colabo.Space ecosystem consists of Colabo puzzles in a same way
 
 In other words, we would like to see the CF as its name suggests (*Colabo**Framework***) - a *framework for collaboration* - or a collective mind framework. Therefore our design principle is that a community designer or developer will take a CF as a framework to build community designated collective mind. In that way it contain all fundamental components. Still, CF is highly adjustable - all its puzzles or even tools are not existential part of the CF - the system doesn't have a hard dependency on them, it can be built without them, and even KnAllEdge tool is built as many puzzles. In that way, someone can develop a very narrow and specialized community collective mind, focusing only on one aspect, or develop an light app that will support just particular practice of the community or collective mind, for example, just let members to search for KnAllEdge artifacts, or just provide IBIS interaction with them - they are covered due to CF (and Colabo.Space) systems granularity. To adjustify this with more detailed example we show at the (*fig. CF-visual-components*) a detailed scheme of all separable components of the CF main view presented at the (*fig. CF-example*).
 
-![ColaboFramework - Visual Components, Puzzles, Pannels](documents/images/ColaboFramework - Visual Components, Puzzles, Pannels.jpg)
+![ColaboFramework - Visual Components, Puzzles, Pannels](documents/images/ColaboFramework%20-%20Visual%20Components,%20Puzzles,%20Pannels.jpg)
 
 **Figure CF-visual-components**: ColaboFramework - Visual Components, Puzzles, Pannels
