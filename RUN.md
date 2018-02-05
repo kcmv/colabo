@@ -1,4 +1,4 @@
-# Creating map
+<!-- # Creating map -->
 
 + name: <choose the one you want> CF-SandBox
 + map type: `CollaboArte/CollaboScience/CollaboBusiness`
@@ -102,13 +102,6 @@ TODO: add some non-Database page responding with HELO to se if server is alive
 
 ## PROBLEM - all servers are unavailable
 
-if none of colabo.space websites are not available this is the reason
-
-**<u>The current problem state is</u>**: server is naturally **automatically restarting** sometimes. After that:
-
-+ our mongo database currently has to be started manually (some issues with auto)
-+ our backend server needs to be started **after** the database is up and running
-
 ### proxy
 
 - info
@@ -118,9 +111,10 @@ if none of colabo.space websites are not available this is the reason
 #### SOLUTION
 
 ```sh
-sudo status knalledge-fork
-sudo start knalledge-fork
+sudo start/status/stop knalledge-fork
 ```
+
+if none of colabo.space websites are not available this is the reason
 
 ### Apache
 
@@ -131,11 +125,12 @@ sudo apache2ctl restart
 sudo apache2ctl status
 ```
 
-
-
-
-
 ## PROBLEM - map is not visible
+
+**<u>NOTE: The current problem state is</u>**: server is naturally **automatically restarting** sometimes. After that:
+
++ our mongo database currently has to be started manually (some issues with auto)
++ our backend server needs to be started **after** the database is up and running
 
 if CF is not showing the map try to check if server is working
 

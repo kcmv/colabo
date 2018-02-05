@@ -1,21 +1,33 @@
-# <span style='font-weight:bold'><span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span>
+<img alt="relativity-lattice" src="documents/images/relativity-lattice.jpg" width="80%"/>
 
-__<span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span>__ is a general knowledge layer, that can serve as a separate knowledge mapping service (please @see [KnAllEdge Homepage]{@link http://cf.colabo.space}), but it also serves as an underlying layer for the __<span style='color: gray; font-style: italic;'>Collabo</span><span style='color: black'>Science</span>__ ecosystem (@see [CollaboSceince Homepage]{@link http://www.collaboscience.com}).
+***Figure escher-relativity-lattice***: M.C. Escher - Relativity lattice (1953)
+
+# Colabo.Space - An Ecosystem of The Collective Mind
 
 ![KnAllEdge - Tesla example](documents/diagrams/KnAllEdge-Tesla-Example.png)
 
-**Figure 1**: KnAllEdge example - Modeling the open table dialogue on the topic of the Tesla's Nature of Creativity at the Tesla Conference (2015)
+**Figure KnAllEdge-map-example**: KnAllEdge Map example - Modeling the open table dialogue on the topic of the Tesla's Nature of Creativity at the Tesla Conference (2015)
 
-Some of the main motivations behind developing <span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span> are the following:
+## Colabo.Space Manifesto
 
-* support of collective "knowledge-gardening" (thanks to Jack Park for the term)
-* create a semantic-agnostic knowledge model
-* create a universal knowledge layer with zero-friction between SoA system components
-* create extendable knowledge semantics
-* support dialogical process of knowledge creation
-* support multi-truth knowledge
-* support fuzzy-knowledge
-* support personalized knowledge
+
+
+1. **Self-evolving collective mind**
+2. **A cycle of sustainability is a spiral of thrivability (dialogue, social domains)**
+3. **Individual in collective (multiview, polyscopy)**
+4. **Social and collective intelligence**
+5. **Creativity and innovation**
+6. **Dialogical science**
+7. **Fuzzy systems - knowledge, flows, and UIX**
+8. **Homogeneous heterogeneity**
+9. **Tools incremental improving of collective mind**
+10. **Co-evolution**
+
+![Types of Intelligence](documents/images/Types of Intelligence.png)
+
+***Figure intelligence-types***: Types of intelligence and their relationships across individuals and community
+
+
 
 An outmost goal was succeeding in development of the collaborative-system with unobtrusive and continuous **knowledge-dialogue-decision-action-learn** cycle:
 
@@ -25,211 +37,84 @@ An outmost goal was succeeding in development of the collaborative-system with u
 
 KnAllEdge is inspired with __ISO__ standard (ISO/IEC 13250:2003) of Mind-maps: **Topic maps** (@see on [Wikipedia]{@link https://en.wikipedia.org/wiki/Topic_Maps}) and __SocioTM__ (please @see [abstract]{@link http://tmra.de/2008/talks/socioTM-relevancies-collaboration-and-socio-knowledge-in-topic-maps.html} and [paper]{@link http://tmra.de/2008/talks/pdf/309-323.pdf}).
 
+![ColaboFramework - MindStuff](documents/diagrams/KnAllEdge + MindStuff.png)
 
-## Product
+***Figure mindstuff***: MindStuff - a conceptual "metaphor" of tools for incremental evolution of the collective mind
 
-[www.**<span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span>**.org]{@link http://cf.colabo.space} is a product running on the top of the KnAllEdge service, and provides intuitive interface to the KnAllEdge.
+***MindStuff*** (End-user tools) are realized through the composition of the basic building blocks; for example ***IBIS*** and ***Presentation*** MindStuff are realized as a composition of KnAllEdge and ColaboGrammar, while the ***CoEvoLudens*** methodology is realized as a composition of ColaboFlow, KnAllEdge, RIMA, and ColaboFramework. Some of the MindStuff we will discuss in the following sections.
 
-# Semantic plugins
+<img alt="colabo - core stack" src="documents/images/colabo - core stack.jpg" width="100%"/>
 
-## RIMA
+***Figure colabo-core-set***: 3rd party libraries **stack** for the core of the Colabo.Space ecosystem
 
-[RIMA service] (rima.collaboscience.com)
-[RIMA draft discussion] (https://docs.google.com/document/d/1krMfz7G0iFgNc538tzblAwOov2w2JXvoit_UPhndL1Q/edit?usp=sharing)
+At the (*fig. colabo-core-set*) a reader can find
 
-## Multi-truth
+![Colabo.Space components and puzzles](documents/images/Colabo.Space components and puzzles.jpg)
 
-![KnAllEdge-cooncepts-topics](documents/diagrams/KnAllEdge-cooncepts-topics.png)
+***Figure colabo-components***: Colabo.Space components and puzzles
 
-**Figure 3**: KnAllEdge - a set of related topics
+## ColaboFramework Architecture
 
-### Poliscopy
+In this section, we will discuss more on the foundations of the ColaboFramework architecture. ColaboFramework is a modular infrastructure, following the principles of Model Driven Architecture (MDA) (Brambilla, 2012). Although conceptually conforming with MDA, our approach is more focused on the human side of knowledge workers, self-evolving systems and fuzziness among others. Therefore, it is more correct to say that it follows the Collective Mind (Colabo) Manifesto, but conforming to MDA principles at the same time. Our architecture proposal we call Trans-Domain System Layered Architecture (TDS-LA).
 
-![KnAllEdge-cooncepts-poliscopy](documents/diagrams/KnAllEdge-cooncepts-poliscopy.png)
+### Introduction to TDS and TDS-LA [^tds-la-source]
 
-**Figure 4**: Poloscopy - multiple alternatives/perspectives/views
+We introduce ***Trans-Domain Systems (TDS)*** as a possible evolutionary step beyond Socio-Technical Systems (STS), modeled through socio-technical theory (Trist, 1981) that attempts to map the complexity of a regular technical system and the necessary reference to the social component present in any technical system.
 
-+ Some facts/truths have multiple alternatives/perspectives/views
-	+ religion
-	+ morality
-	+ duality of matter and light
-	+ ...
-+ We need to support providing multiple "dimensions" or knowledge representations of the same fact/topic/node.
-+ We also need to provide multiple projections of the ***"truth-branch"***
-	+ all nodes that polyscopic or do exist only in some scope, must transform / appear / disappear according to chosen scope of the truth
+The model/theory of the Trans-Domain systems brings some important extensions to the socio-technical model.
 
-![KnAllEdge-cooncepts-poliscopy-view-1](documents/diagrams/KnAllEdge-cooncepts-poliscopy-view-1.png)
+First of all, TDS clarifies terminology and processes that constitute the use of the system. Therefore, we introduce the notion of the **Trans-Domain Process (TDP)** (*fig. TDP*) as a process that describes user usage of the system and represents, from the user's perspective, the unit of work that could bring benefits back to the user and be recognized as a rounded off/complete system interaction.
 
-**Figure 5**: Poloscopy - multiple alternatives/perspectives/views
+ <img alt="A generic example of Trans-Domain process" src="documents/images/TDP.jpg" width="75%"/>
 
-### Truth-evolution
-+ truth might not be known, and we might let community to provide multiple truths until it evolves into the right one
-+ we need to provide discussion before merging into one truth
-	+ discussion should be ortogonal to knowledge
+**Figure TDP**. A generic example of a Trans-Domain process (TDP)
 
-## Boundary-objects
+TDPs are further split and described with **Trans-Domain Activities (TDA)** that represent the minimal possible interaction between the user and the TDS; *an interaction quant*. TDPs include diverse classes of TDAs: economic, entrepreneurial, business, management, environmental, humanistic, and geo activities, among others. The extension of activities is an important extension of socio-technical systems. The concepts of the TDP and the TDA strongly relate to social interaction processes (Taveter, 2001).
 
-+ How to talk across discipliness
+TDSs are systems where TDPs and TDAs are the *first-level-citizens*. Having introduced TDSs, we can now proceed to present TDS-LA.
 
-![KnAllEdge-cooncepts-transdisciplinarity](documents/diagrams/KnAllEdge-cooncepts-transdisciplinarity.png)
+The types of TDS we focus on in this research are mostly mashups and highly heterogeneous, loosely orchestrated (distributed, collaborative, and multi-vendor) trans-domain systems. There are at least two reasons why these systems are our main focus. First, they are the present and most likely the future of complex online systems. Secondly, we believe that these systems, having been part of CSCW (Computer-supported cooperative work)/Groupware for many decades (starting with the legendary Douglas Engelbart’s vision and his famous presentation “The Mother of All Demos”), are key changers in complex society issues today and one of the strongest candidates when it comes to helping solve global wicked problems.
 
-**Figure 6**: Transdisciplinarity
+***Trans-Domain System Layered Architecture (TDS-LA)*** is our proposed architecture designed to provide real-time, located and dislocated infrastructure for collaboration. At the same time, our research question is how to design an infrastructure that will help the augmentation of the collective mind by motivating and engaging community. The intended result of this work is to increase the collective-mind outcome, personalizing it for each community member and orchestrating the interactions between community members.
 
-+ trans-disciplinarity
-+ multi-definitions
-+ connecting different topics and unites them
-+ long- and trans-disciplinary- leaps for discovering topics, ideas, ...
+The set of relevant layers of the TDS-LA system is presented in the (*fig. TDS-LA*).
 
-![KnAllEdge-cooncepts-boundary-objects](documents/diagrams/KnAllEdge-cooncepts-boundary-objects.png)
+![Trans-Domain System Layered Architecture](documents/images/TDS-LA.jpg)
 
-**Figure 6**: Boundary objects
+**Figure TDS-LA: ** Trans-Domain System Layered Architecture
 
-## Fuzziness
+A short overview (TL;DR;) — L1, L2, <c ?>and adapters</c> are necessary in the case of a heterogeneous system that bridges multiple vendors with different implementations of the underlying structure of the Collective Mind system. L2 is a layer that provides collective knowledge, L3-L4 cares about trans-domain processes between collective mind actors. L3-L4 observes, learns and orchestrates community member interactions. They help capture user actions inside the system in a form similar to (*fig. tdp*). This representation is reminiscent of the UML Communication diagram [^uml].
 
-+ Support distance between topics
-+ Support bidirectionality, different distances between topics
+The most promising initiative so far that aligns with our architecture is a stack of Business Processes (BP) Languages (BPEL, BPMN, BPEL4People) and some bridging support (namely, BPEL and Java) supported with underlying orchestration and architecture modeling stack, like SoaML.
 
-## SocioTM / Personalization
+If we continue to make parallels between BP (Business Process) and TDP (Trans-Domain Process), then our first focus is on mapping business processes onto the domain of trans-domain systems, and recognizing BPMN-like modeling language as ***the-programming-in-large*** modeling language (DeRemer, F., & Kron, H. H., 1976) of the trans-domain systems.
 
-+ How each person can ***"see"*** her/his own truth?
+To provide a unified and homogeneous picture of the highly heterogeneous (many-vendors/technologies/protocol/AAA...) underlying systems, we introduce the Service Unification Layer that provides unified-system support for higher layers, but also provides the end-user with a unified knowledge model and low-frictions usage of trans-domain systems.
 
-## Hierarchy
+Finally, to make everything feasible, at the bottom of the TDS-LA we have the Service Orchestration Layer with the SoaML modeling language to link all the components of the TDS and describe their functionality, but also their dependencies and message flows between them.
 
-+ Support relationship between entities
-	+ TopicMap's support generalization
+Concluding notes on the TDS-LA would be that it is a proactive socio-technical system consisting of both human and autonomous agents that, together, create a complex socio-technical setting with demanding moral and ethical requirements put on the collective mind stakeholders; community members (human actors); autonomous actors (TDS-LA optimizing components); domain experts that design system behavior; and TDS-LA designers behind its infrastructure and its "*laws of physics*".
 
-## Semantical sugger
+At the following figure (*fig. TDS-stack*), the reader can see a stack of different artifacts and constituents at each business layer of the TDS system.
 
-+ TopicMap's support specialized semantic
-+ some standards provide as well
+![trans-domain System Stack](documents/images/TDS%20Stack.jpg)
+**Figure TDS-stack:** trans-domain System Stack
 
-## IBIS
+### ColaboFramework
 
-@see [IBIS plugin] (ibis.collaboscience.com)
+It is relatively difficult to put hard boundaries around the ***ColaboFramework (CF)*** and describe it precisely, but we will try to do our best. The problem comes from the deffiniton of the ColaboFramework and its distinction from the Colabo.Space ecosystem. Similarly it is hard to distinguish it from MindStuff (Colabo.Space Puzzles).
 
-### Conceptual difference from standard implementations of IBIS
+> If Colabo.Space ecosystem is an instance/prototype of the Collective Mind, then ColaboFramework is an instance/prototype of TDS-LA,
+> ​	it is an infrastructure of the Collective Mind.
 
-**IBIS module** implemented on the top of KnAllEdge differs from the standard implementation of IBIS (please @see for the reference: )[reference to IBIS] ).
+However, same as Colabo.Space ecosystem consists of Colabo puzzles in a same way ColaboFramework (***CF***) consists of them - it itself is designed following the same principles. Therefore we have Colabo Puzzles that are constituting parts of the CF tool: like Session, Broadcasting, KnAllEdge property, KnAllEdge content, IBIS, etc. On the other hand, some Colabo.Space tools are also constituting parts of the CF: like KnAllEdge and RIMA tools - they are basically a fundamental part of the Collective Mind infrastructure (*fig. CF-example*)
 
-The main reason for diverging from the original IBIS implementation is that original IBIS system(s) are designed as an independent systems that provides dialogue mapping. CollaboScience promotes frictionless services integration and knowledge sharing among the services.
+![ColaboFramework-example](documents/images/ColaboFramework-example.jpg)
 
-The fundamental problem with the most of standards IBIS implementation is that although if they were intended to support ***dialogue mapping*** around different topic of interests of a community, naturally the process of argumentative dialogue necessarily introduce new knowledge artifacts which transforms semantically clean IBIS space into space cognitively polluted with knowledge. This in addition to confusion at information level brings confusion at the level of community procedures (i.e. where to search for knowledge, or what is the consensus status regarding some topic, etc.). It also introduce additional ***articulation work*** of managing knowledge products and migrating it into a knowledge repository, or updating the repository based on the agreed census.
+**Figure CF-example**: ColaboFramework real example snapshot of the Collective Mind map
 
-Obviously, this is not the wanted scenario, which brings us to integrate IBIS differently in the CollaboScience ecosystem.
+In other words, we would like to see the CF as its name suggests (*Colabo**Framework***) - a *framework for collaboration* - or a collective mind framework. Therefore our design principle is that a community designer or developer will take a CF as a framework to build community designated collective mind. In that way it contain all fundamental components. Still, CF is highly adjustable - all its puzzles or even tools are not existential part of the CF - the system doesn't have a hard dependency on them, it can be built without them, and even KnAllEdge tool is built as many puzzles. In that way, someone can develop a very narrow and specialized community collective mind, focusing only on one aspect, or develop an light app that will support just particular practice of the community or collective mind, for example, just let members to search for KnAllEdge artifacts, or just provide IBIS interaction with them - they are covered due to CF (and Colabo.Space) systems granularity. To adjustify this with more detailed example we show at the (*fig. CF-visual-components*) a detailed scheme of all separable components of the CF main view presented at the (*fig. CF-example*).
 
-First of all, IBIS (Issue Based Information System) loses its status of an information system, and it becomes a *component* that deals with particular knowledge-transformation procedures.
+![ColaboFramework - Visual Components, Puzzles, Pannels](documents/images/ColaboFramework - Visual Components, Puzzles, Pannels.jpg)
 
-Secondly, IBIS is integrated with regular knowledge, and represented with regular KnAllEdge artifacts. However, IBIS is still both ***semantically and procedurally isolated*** from the regular knowledge.
-
-### Practices of using IBIS in the KnAllEdge / CollaboScience
-
-Here we present some of more structured practices of using IBIS plugin inside the CollaboScience ecosystem.
-
-#### IBIS as a knowledge consensus mechanism
-
-The most clear example is a scenario where knowledge workers do not have a consensus on a particular topic or are lacking enough insights on the topic.
-
-In this scenario, a member of the community that recognizes a problem will "***burst***" an instance of a dialogue mapped through the IBIS component addressing particular topic of knowledge.
-
-In that sense, discussion is orthogonal (isolated with unique semantic ***"%IBIS.*" namespace***) to the regular knowledge space. After consensus or required level of insights are collected in the IBIS space, the insights/consensus is "***contracted back***" to (it updates back to) the knowledge-space.
-
-#### IBIS as knowledge multi(-truth/-opinion) polarization and argumentation
-
-It is very often the case that some pieces of knowledge cannot be expressed either factually or uniquely, either due to the *the very nature of the konwledge domain* (take for example religious-related questions, or even art, morality, etc) or simply due to the conflicting opinions/attitudes of knowledge workers (take the list of controversial issues on Wikipedia, a largest online encyclopedia, as an example: [Wikipedia:List of controversial issues](https://en.wikipedia.org/wiki/Wikipedia:List_of_controversial_issues)).
-
-In these cases IBIS serves as *a mechanism for polarizing and argumenting polarized knowledge(-workers) attitudes*. Through the IBIS constructs, community express their opinions and attitudes regarding mutiple knowledge truths and offer foundation for future knowledge explorers and consumers as stands behind their own interests, or as a semantic footprint usable for smart-filtering, matching and personalization of knowledge for knowledge explores.
-
-In this scenario it is obviousely benefitial to leave the IBIS constructs coexisting with coresponding knowledge (otherwise, ***edit-war*** could occur - please @see [He says, she says: conflict and coordination in Wikipedia][Kittur, 2007], [Edit wars in Wikipedia][Sumi, 2011]).
-
-#### Dialogical-process of knowledge production
-
-Finally, we are addressing scenarios where knowledge evolves and gets produced through dialogical prorocess, inside the IBIS scope.
-
-In this scenario knowledge workers are discussing issues through the IBIS system and through ideas and arguments they are building knowledge which gets encoded inside the IBIS space.
-
-Therefore, <span style='font-weight:bold'><span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span> is putting an effort to "***extract***" the knowledge from IBIS space, but in addition span style='font-weight:bold'><span style='color: #550000'>Kn</span><span style='color: #bb0000'>All</span><span style='color: #8888ff; font-style: italic;'>Edge</span></span> restricts rules and allow interlacing IBIS and regular knowledge space.
-
-In the practical sense, this means that IBIS artifacts (nodes) can be be supported with regular KnAllEdge nodes, but it also means that IBIS ontology is relaxed as well:
-
-1. ***IBIS questions*** can contain additional question nodes either in order to
-	1. specialize or fine grain the original question and help to answer it partially
-	1. generalize the original question (which means that question-question realtionship are directed)
-	1. question previos question (i.e. meta-dialogue about the need for the question at the first place)
-1. ***IBIS ideas*** can generalize or specialize other Ideas, which is claimed in a same way as for IBIS questions.
-1. Questions ***may question*** other Ideas and Arguments, providing ***recursion*** to the original IBIS model. This also helps avoiding ***negative socio-technical translation*** - for example if users' needs to question an IBIS Idea and system forbids them that by semantic, users might be tempted to still "*encode*" that social need in wrong technical implementation (for example prefixing IBIS Argument with text: "question", etc)
-1. ***IBIS Arguments*** can generalize or specialize other Arguments (the same reason as IBIS Questions and Ideas can do similar)
-
-***[TODO]***: provide additional ilustrations of IBIS extensions or IBIS scenarios in general.
-
-Still, other aspects of the IBIS grammar like "*Ideas can only respond to Questions*" "*Arguments can only support or object to Ideas*" are still in the place to support structured dialogue and healthy progress of discussion.
-
-At this moment we do not rely strongly on automatic reasoning and therefore we benefit more from relaxing IBIS ontology and making users easier expressing their statements and letting us understand their needs, while trying to keep the basic structure necessary for the ***structured dialogue mapping***.
-
-# <span style='color: gray; font-style: italic;'>Collabo</span><span style='color: black'>Science</span> Manifesto
-
-***TBD***
-
-@see the [CollaboSceince Homepage](http://www.collaboscience.com).
-
-1. ecosystem should be frictionless
-	1. activities can be seemingly performed across different services
-	1. data and produced knowledge should be available in any service
-1. knowledge produced should be cultivated across the time to avoid saturation and information glut
-1. Artificial Intelligence should explain claims behind decision
-1. Domain experts should be able to change processes
-1. It should be highly modular and based on socio-technical processes
-
-## Structure
-
-KnAllEdge structure is implemented as a ***directed graph*** which **data representation** is consisting of the set of:
-
-* **kNode** - representing a graph node and
-* **kEdge** - representing a graph edge
-
-Currently, nodes and edges are explicitly organized into containers, called **kMaps** which represent a third construct. We recognize maps as a temporal solution for more advanced and real-time filtering, cropping and domain isolation.
-
-Finally, we have a separate **visual representation** of knowledge that provides both visual isolation of knowledge, supporting multiple visual representation, both multi-perspective and personalized:
-
-* **vkNode** - representing a visual representation of the graph node and
-* **vkEdge** - representing a visual representation of the graph edge
-
-### NOTE:
-
-Backend needs a special **express-resource** package on steroids. You can download it as a separate package [here]{@link http://magicheads.info/downloads/express-resource.zip}. After or even before issuing "**npm install**" you should (re)place the content of the archive into your  backend/node_modules folder.
-
-## Service
-
-KnAllEdge service is implemented as a full JSON ***RESTful*** web service. It relies on and it is integrated with ***WhoAmI*** service for user authentication and authorization, but it is fairly easy to integrate it with other user management components.
-
-## Team
-
-* Sasha Mile Rudan
-* Sinisha Rudan
-* Jack Park
-* Dino Karabeg
-* Knowledge Federation
-
-## Documents
-
-* [KnAllEdge - User Guide] (https://docs.google.com/document/d/1hEVIKLQqV_cEnZgHZUGFiqa20XmbhDmmOMvi6iGnGR8/edit?usp=sharing)
-* [KnAllEdge - Technical Guide](https://docs.google.com/document/d/1MluIPyw9eRz3rBM4eXysrs1WX_IIrGkaHLgmGON-s6E/edit?usp=sharing)
-
-[Kittur, 2007]: http://dl.acm.org/citation.cfm?id=1240698
-[Sumi, 2011]: http://arxiv.org/abs/1107.3689
-
-# History
-
-## DataTalks
-
-## KnAllEdge
-
-### TopicMaps
-#### Mindmup
-#### RFD
-
-
-# Open Questions
-
-## Can we (humans) be node in the Collective Mind/Knowledge
-
-##
+**Figure CF-visual-components**: ColaboFramework - Visual Components, Puzzles, Pannels

@@ -37,6 +37,9 @@ const httpOptions = {
 
 const SearchAP = "search";
 
+// fix for the ` Error encountered resolving symbol values statically. Function calls are not supported. Consider replacing the function or lambda with a reference to an exported function`
+https://github.com/angular/angular-cli/issues/4956
+
 // http://blog.rangle.io/configurable-services-in-angular-2/
 export function provideKnalledgeSearchService(apiUrl){
   return {
