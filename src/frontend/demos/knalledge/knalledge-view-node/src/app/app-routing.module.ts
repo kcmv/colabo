@@ -28,6 +28,10 @@ const routes: Routes = [
   {
     path: 'map/id/:mapId',
     component: GetMapComponent
+  },
+  {
+    path: 'maps',
+    component: GetMapComponent
   }
 ];
 

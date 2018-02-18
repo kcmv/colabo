@@ -1,5 +1,10 @@
 # KnalledgeViewNode
 
+## entry points
+
++ [view node 59d3dba173a8d7b33b00972c](http://localhost:4200/node/id/59d3dba173a8d7b33b00972c)
+
+
 ## localhost (Sasha)
 
 ### maps

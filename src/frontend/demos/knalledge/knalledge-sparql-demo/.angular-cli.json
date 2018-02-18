@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "knalledge-store-core-demo"
+    "name": "knalledge-sparql-demo"
   },
   "apps": [
     {
@@ -22,7 +22,7 @@
         "styles.css"
       ],
       "scripts": [
-        "../node_modules/@colabo-knalledge/knalledge_core/code/knalledge/index.js"        
+        "../node_modules/@colabo-knalledge/knalledge_core/code/knalledge/index.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
