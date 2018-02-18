@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
+import { ActivatedRoute } from '@angular/router';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
@@ -24,16 +25,22 @@ export class GetMapComponent implements OnInit {
   @Input() map_id:string;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private knalledgeEdgeService: KnalledgeEdgeService,
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeMapService: KnalledgeMapService
   ) { }
 
   ngOnInit() {
-    this.map_id = '56eac6bd913d88af03e9d1cb'; //'56ebeabb913d88af03e9d2d6'
-    //this.nodes = [new KNode(),new KNode(),new KNode()];
-    this.knalledgeMapService.getByName(demoMapName)
-    .subscribe(maps => this.demoMapReceived(maps));
+    const mapId = this.activatedRoute.snapshot.paramMap.get('mapId');
+    console.log("[KnalledgeViewComponent] mapId: ", mapId);
+    if(mapId){
+      this.map_id = mapId;
+    }else{
+      this.map_id = '58068a04a37162160341d402';
+    }
+    this.getMap();
+    this.getMapContent();
   }
 
   demoMapReceived(mapS:KMap[]):void{
