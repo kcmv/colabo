@@ -1,0 +1,20 @@
+{
+  "name": "@colabo-knalledge/knalledge_view_node",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+  },
+  "peerDependencies": {
+  },
+  "peerDependenciesLocal": {
+    "@colabo-puzzles/puzzles_core": "^0.0.1",
+    "@colabo-knalledge/knalledge_core": "^0.0.1"
+  },
+  "devDependencies": {
+  },
+  "devDependenciesLocal": {
+    "@colabo-puzzles/puzzles_core": "^0.0.1",
+    "@colabo-knalledge/knalledge_core": "^0.0.1"
+  }
+}

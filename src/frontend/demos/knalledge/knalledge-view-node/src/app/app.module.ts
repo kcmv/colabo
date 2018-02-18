@@ -39,13 +39,21 @@ var moduleImports = [
 
 moduleImports.push(AppRoutingModule);
 
-var apiUrl = 'http://fdbsun1.cs.umu.se:3030/demo3models/query';
-// var apiUrl = 'http://dbpedia.org/sparql';
+import {GlobalEmitterService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterService';
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+
+declare var window:any;
+export var Plugins:any = window.Config.Plugins;
+
 @NgModule({
   declarations: moduleDeclarations,
   imports: moduleImports,
   entryComponents: [],
-  providers: [KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService
+  providers: [
+    KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService,
+    {provide: "Plugins", useValue: Plugins},
+    {provide: GlobalEmitterService, useClass: GlobalEmitterService},
+    {provide: GlobalEmitterServicesArray, useClass: GlobalEmitterServicesArray}
   ],
   bootstrap: [AppComponent]
 })

@@ -12,7 +12,7 @@ If you are integrating with angular CLI you should add in `.angular-cli.json`
 
 both of them are specified in `config.js` file. With our Colabo builder that is colabo-puzzle-friendly we do not need to do that
 
-you need also to install local dependencies while package is local only: `yarn install`
+You also need to install puzzle's interal dependencies. This is necessary only while package is local only (not published on npm services and not installed through npm services): `yarn install`
 
 # TODO
 
