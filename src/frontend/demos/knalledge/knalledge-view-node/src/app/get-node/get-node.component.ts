@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 
@@ -22,14 +23,25 @@ export class GetNodeComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private activatedRoute: ActivatedRoute,
     private knalledgeEdgeService: KnalledgeEdgeService,
     private knalledgeNodeService: KnalledgeNodeService
   ) { }
 
   ngOnInit() {
-    this.node_id = '580c0513d50bfd4f0ceacade';
+    this.getInitialParams();
   }
 
+  getInitialParams() {
+    const nodeId = this.activatedRoute.snapshot.paramMap.get('nodeId');
+    console.log("[KnalledgeViewComponent] nodeId: ", nodeId);
+    if(nodeId){
+      this.node_id = nodeId;
+      this.getNode();
+    }else{
+      this.node_id = '580c0513d50bfd4f0ceacade';
+    }
+  }
   getNode():void{
       //var node:KNode = new KNode();
       // this.heroService.getHero(id)
