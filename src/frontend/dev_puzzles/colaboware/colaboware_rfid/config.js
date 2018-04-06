@@ -17,6 +17,7 @@ var puzzles = {
       path: ".",
       css: true,
       injectJs: [
+        "lib/keyboard.js"
       ],
       injectCss: ""
     }
