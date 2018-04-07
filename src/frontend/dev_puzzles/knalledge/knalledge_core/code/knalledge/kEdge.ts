@@ -21,6 +21,8 @@ export class KEdge extends VO{
   static TYPE_IBIS_IDEA:string = "type_ibis_idea";
   static TYPE_IBIS_ARGUMENT:string = "type_ibis_argument";
   static TYPE_IBIS_COMMENT:string = "type_ibis_comment";
+  static TYPE_USERS = "type_users";
+  static TYPE_USER = "type_user";
 
 	mapId:string = null; // id of map this object belongs to
 	sourceId:string = null; // id of the source node this edge is connected to
