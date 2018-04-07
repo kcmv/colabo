@@ -19,8 +19,17 @@ export class GetNodeEdgeComponent implements OnInit {
   edge:KEdge = new KEdge();
   node:KNode = new KNode();
   nodesCreated:KNode[] = [];
-  @Input() edge_id:string;
+  edgesCreated:KEdge[] = [];
+  @Input() map_id:string;
   @Input() node_id:string;
+  @Input() node_name:string;
+  @Input() node_type:string;
+
+  @Input() edge_id:string;
+  @Input() edge_name:string;
+  @Input() edge_type:string;
+  @Input() edge_source_id:string;
+  @Input() edge_target_id:string;
 
   constructor(
     private http: HttpClient,
@@ -29,8 +38,10 @@ export class GetNodeEdgeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.map_id = 'f7baf6923c0c84b84f0d402a';
     this.node_id = '56eade22913d88af03e9d282';
     this.edge_id = '56eac765913d88af03e9d1cf'; //'5543e78e645912db4fee96f0'
+    this.node_type = 'type_knowledge';
   }
 
   getEdge():void{
@@ -72,10 +83,11 @@ export class GetNodeEdgeComponent implements OnInit {
 
   createNode():void{
     let node:KNode = new KNode();
-    node.name = 'Demo generated Node ' + node._id;
     //TODO:NG2: add Demo User at the beginning and use Demo Map Id
     node.iAmId = '556760847125996dc1a4a24f';
-    node.mapId = '56eac6bd913d88af03e9d1cb'; //'56ebeabb913d88af03e9d2d6' //TODO:NG2 - use 'Demo Map' id
+    node.mapId = this.map_id; //'56ebeabb913d88af03e9d2d6' //TODO:NG2 - use 'Demo Map' id
+    node.name = this.node_name;
+    node.type = this.node_type;
     //TODO: iAmId, createdAt, updatedAt
     this.knalledgeNodeService.create(node)
     .subscribe(node => this.nodeCreated(node));
@@ -105,4 +117,34 @@ export class GetNodeEdgeComponent implements OnInit {
     this.knalledgeNodeService.update(node,null,null).subscribe(nodeS => this.nodeUpdated(nodeS));
   }
 
+  createEdge():void{
+    let edge:KEdge = new KEdge();
+    //TODO:NG2: add Demo User at the beginning and use Demo Map Id
+    edge.iAmId = '556760847125996dc1a4a24f';
+    edge.mapId = this.map_id; //'56ebeabb913d88af03e9d2d6' //TODO:NG2 - use 'Demo Map' id
+    edge.name = this.edge_name;
+    edge.type = this.edge_type;
+    edge.sourceId = this.edge_source_id;
+    edge.targetId = this.edge_target_id;
+    //TODO: iAmId, createdAt, updatedAt
+    this.knalledgeEdgeService.create(edge)
+    .subscribe(edge => this.edgeCreated(edge));
+  }
+
+  edgeCreated(edge:KEdge):void{
+    console.log('edgeCreated');
+    console.log(edge);
+    this.edgesCreated.push(edge);
+  }
+
+  edgeDeleted(id:string, success:boolean){
+    if(success){
+      this.edgesCreated = this.edgesCreated.filter(h => h._id !== id);
+    }
+  }
+
+  deleteEdge(edge: KEdge): void {
+    let id:string = edge._id;
+    this.knalledgeEdgeService.destroy(id).subscribe(success => this.edgeDeleted(id,success));
+  }
 }

@@ -153,7 +153,7 @@ export class KnalledgeNodeService extends CFService{
 	{
     //TODO:NG2 fix usage of this function to expect boolean
     var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'one/'+this.defaultAction+'/'+id, httpOptions).pipe(
-      tap(_ => console.log(`deleted hero id=${id}`)),
+      tap(_ => console.log(`deleted node id=${id}`)),
       map(serverData => serverData.success),
       catchError(this.handleError<boolean>('deleteHero'))
     );

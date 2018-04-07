@@ -21,6 +21,7 @@ export class KnalledgeEdgeService extends CFService{
   //http://api.colabo.space/kedges/
   // "http://127.0.0.1:888/kedges/";
   private apiUrl: string;
+  private defaultAction:string = 'default';
 
 	private knalledgeMapQueue:any = null;
 	private knAllEdgeRealTimeService:any = null;
@@ -73,6 +74,106 @@ export class KnalledgeEdgeService extends CFService{
     if(callback){result.subscribe(edges => callback(edges));}
     return result;
   }
+
+  /**
+   * Creates the provided edge on the server and returns its server-updated appearance
+   * @param {KEdge} kEdge the pre-populated edge to be created on the server
+   * @param {function} callback Function to be called when the edge is created
+   * @returns {Observable<KEdge>} the created edge (now with the id and other specific data allocated to it by server, so the caller should fill the original edge with it)
+     @example http://localhost:8001/kedges/in_map/default/579811d88e12abfa556f6b59.json
+   */
+  create(kEdge:KEdge, callback?:Function): Observable<KEdge>
+  {
+  	console.log("KnalledgeEdgeService.create");
+    let result: Observable<KEdge> = null;
+
+		if(false) // TODO:NG2: if(Plugins.puzzles.knalledgeMap.config.services.QUEUE)
+    {
+			/*
+      kEdge.$promise = null;
+			kEdge.$resolved = false;
+
+			kEdge.$promise = $q(function(resolve, reject) {
+				KnalledgeMapQueue.execute({data: kEdge, callback:callback, resource_type:resource.RESOURCE_TYPE, method: "create", processing: {"RESOLVE":resolve, "REJECT":reject, "EXECUTE": resource.execute, "CHECK": resource.check}});
+			});
+      */
+		}
+		else{
+			let kEdgeForServer:any = kEdge.toServerCopy();
+
+      /*
+      TODO:NG2: in the line
+        `result = this.http.post<KEdge>(this.apiUrl, kEdgeForServer, httpOptions)`
+      we had to replace Genric type stting <KEdge> with <ServerData> because it defines the return valuse
+      (and probably the posted value), becasuse server returns the `ServerData` object
+      */
+      result = this.http.post<ServerData>(this.apiUrl, kEdgeForServer, httpOptions)
+      .pipe(
+        //tap((edgeS: KEdge) => console.log(`CREATED 'edge'${edgeS}`)), // not needed - it's just for logging
+        map(edgeS => this.extractVO<KEdge>(edgeS,KEdge)), //the sever returns `ServerData` object
+        catchError(this.handleError<KEdge>('KnalledgeEdgeService::create'))
+      );
+
+      /* TODO:NG2 : remain of the NG1 Promise code to be integrated:
+			let edge = this.createPlain({
+				//actionType:'default'
+      }, kEdgeForServer, function(edgeFromServer){
+				kEdge.$resolved = edge.$resolved;
+				kEdge.overrideFromServer(edgeFromServer);
+				if(callback) callback(kEdge);
+			});
+
+			//createPlain manages promises for its returning value, in our case 'edge', so we need to  set its promise to the value we return
+			kEdge.$promise = edge.$promise;
+			kEdge.$resolved = edge.$resolved;
+
+			if(edge.$resolved){// for the case promise was resolved immediatelly (in synchonous manner) instead synchronously
+				kEdge.overrideFromServer(edge);
+			}
+      */
+		}
+		//we return this value to caller as a dirty one, and then set its value to edgeFromServer when upper callback is called
+		//TODO: a problem may occur if promise is resolved BEFORE callback is called
+    if(callback){result.subscribe(edges => callback(edges));}
+  	return result;
+  }
+
+  /**
+  * Deletes the KEdge from the server
+  * In server's response, the ServerData.data is equal to the _id of the deleted VO.  ServerData.data will be equal to null, if there is no data we intended to delete. In both cases `ServerData.success` will be eq `true`
+  * @param {string} id id of the edge to be deleted
+  * @param {function} callback Function to be called when the edge is deleted
+  * @example URL:http://localhost:8001/kedges/one/default/5a156965d0b7970f365e1a4b.json
+  */
+  destroy(id:string, callback?:Function): Observable<boolean>
+	{
+    //TODO:NG2 fix usage of this function to expect boolean
+    var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'one/'+this.defaultAction+'/'+id, httpOptions).pipe(
+      tap(_ => console.log(`deleted edge id=${id}`)),
+      map(serverData => serverData.success),
+      catchError(this.handleError<boolean>('deleteHero'))
+    );
+
+		/* TODO:NG2
+      if(this.knAllEdgeRealTimeService){ // realtime distribution
+      //
+			// let change = new puzzles.changes.Change();
+			// change.value = null;
+			// change.valueBeforeChange = null; //TODO
+			// change.reference = id;
+			// change.type = puzzles.changes.ChangeType.STRUCTURAL;
+			// change.event = Plugins.puzzles.knalledgeMap.config.services.KnRealTimeEdgeDeletedEventName;
+			// // change.action = null;
+			// change.domain = puzzles.changes.Domain.NODE;
+			// change.visibility = puzzles.changes.ChangeVisibility.ALL;
+			// change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
+      //
+			// this.knAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeEdgeDeletedEventName, change);//{'_id':id});
+		}*/
+
+    if(callback){result.subscribe(success => callback(success));}
+		return result;
+	}
 
   /*
   TODO:
