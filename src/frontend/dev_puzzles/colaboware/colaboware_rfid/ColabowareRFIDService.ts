@@ -15,6 +15,8 @@ export class ColabowareRFIDService {
   enabled:boolean = true;
   keyboardHandler:any;
   keyID:string = "";
+
+  // global event that is sent when RFID card is pressed
   colabowareIDProvided:string = "colabowareIDProvided";
 
   constructor(
@@ -25,6 +27,7 @@ export class ColabowareRFIDService {
     this.globalEmitterServicesArray.register(this.colabowareIDProvided);
   }
 
+  // is the id a proper RFID
   checkRFID(id:string){
     if(id.length != RFID_LENGTH) return false;
 
@@ -43,9 +46,11 @@ export class ColabowareRFIDService {
     this.enabled = false;
   }
 
-  keyIsReceived(event){
+  // new key is received
+  keyReceived(event){
     if(this.enabled){
       console.log("Key: " + event.key);
+      // enter is signal that the whole RFID sequence is sent
       if(event.key.toLowerCase() === 'enter'){
         if(this.checkRFID(this.keyID)){
           console.log("Sending RFID: " + this.keyID);
@@ -71,6 +76,6 @@ export class ColabowareRFIDService {
     /**
      * toggling moderator
      */
-    this.keyboardHandler = this.keyboard.registerKey('*', ['enter', 'any number'], null, this.keyIsReceived.bind(this));
+    this.keyboardHandler = this.keyboard.registerKey('*', ['enter', 'any number'], null, this.keyReceived.bind(this));
   }
 }

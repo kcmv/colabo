@@ -25,6 +25,7 @@ const MAP_ID = "f7baf6923c0c84b84f0d402a";
 export class UsersProfilingComponent implements OnInit {
   edges:KEdge[] = [];
   nodes:KNode[] = [];
+  // global event name that is sent by @colabo-colaboware/colaboware_rfid/ColabowareRFIDService when RFID card is pressed
   colabowareIDProvided:string = "colabowareIDProvided";
 
   @Input() new_user_name:string;
@@ -40,14 +41,17 @@ export class UsersProfilingComponent implements OnInit {
   ngOnInit() {
     this.new_user_name = 'Unicorn';
 
+    // load map nodes and edges
     this.getMapContent();
 
     // TODO: better to wait for the map got fully loaded
+    // listen for RFID cards pressed
     this.globalEmitterServicesArray.register(this.colabowareIDProvided);
 
     this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.createNewUser.bind(this));
   }
 
+  // create new user after RFID card is pressed
   createNewUser(coLaboWareData){
     console.log("[createNewUser] New user id provided: ", coLaboWareData);
     let usersNode = this.getFirstNodeForType(KNode.TYPE_USERS);
@@ -59,6 +63,8 @@ export class UsersProfilingComponent implements OnInit {
     userNode.name = this.new_user_name;
     userNode.type = KNode.TYPE_USER;
     userNode.iAmId = "556760847125996dc1a4a24f";
+    // later to access the RFID you would need to do:
+    // let rfid = userNode.dataContent.coLaboWareData.value;
     userNode.dataContent = {
       coLaboWareData: coLaboWareData
     }
@@ -66,10 +72,12 @@ export class UsersProfilingComponent implements OnInit {
     this.knalledgeNodeService.create(userNode)
     .subscribe(newUserCreated.bind(this));
 
+    // callback after the new user is created
     function newUserCreated(userNode:KNode):void{
       console.log('newUserCreated', userNode);
       this.nodes.push(userNode);
 
+      // creating edge between new user and node with type KNode.TYPE_USERS
       let userEdge:KEdge = new KEdge();
       userEdge.mapId = MAP_ID;
       userEdge.name = "User";
@@ -82,12 +90,14 @@ export class UsersProfilingComponent implements OnInit {
       .subscribe(userEdgeCreated.bind(this));
     }
 
+    // callback after an edge to the new user is created
     function userEdgeCreated(userEdge:KEdge):void{
       console.log('userEdgeCreated', userEdge);
       this.edges.push(userEdge);
     }
   }
 
+  // get first (if there are many) node that has the provided type
   getFirstNodeForType(type:string){
     for(var i=0; i<this.nodes.length; i++){
       var node = this.nodes[i];
@@ -96,6 +106,7 @@ export class UsersProfilingComponent implements OnInit {
     return null;
   }
 
+  // get map nodes and edges
   getMapContent():void{
       //var map:KNode = new KNode();
       // this.heroService.getHero(id)
