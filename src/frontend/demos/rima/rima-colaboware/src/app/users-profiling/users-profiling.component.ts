@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {CoLaboWareData} from './coLaboWareData';
 import {CoLaboWareType} from './coLaboWareData';
+import {UserProfilingData} from './userProfilingData';
 
 import {MatRadioModule} from '@angular/material/radio';
 
@@ -19,7 +20,7 @@ enum ProfilingStateType {
 })
 export class UsersProfilingComponent implements OnInit {
 
-  ProfilingStateTypeNames:String[] = [
+  ProfilingStateTypeNames:string[] = [
     'OFF',
     'USER_ID',
     'ATTRIBUTE'
@@ -29,7 +30,9 @@ export class UsersProfilingComponent implements OnInit {
 
   users:KNode[] = [];
 
-  profilingState: String = ProfilingStateType.OFF;
+  activeUser:KNode = null;
+
+  profilingState: string = ProfilingStateType.OFF;
 
   constructor() { }
 
@@ -42,24 +45,30 @@ export class UsersProfilingComponent implements OnInit {
     this.profilingState = ProfilingStateType.USER_ID;
   }
 
-  setUserId(id:String):void
+  setUserId(id:string):void
   {
     console.log('setUserId');
     //TODO: +mprinc check if user exists
     this.createUser(id);
   }
 
-  createUser(id:String):void{
+  createUser(id:string):void{
     console.log('createUser');
     let user:KNode = new KNode();
     user.type = KNode.TYPE_USER;
+    user.name = 'u_'+id;
     this.users.push(user);
-    this.profilingState = ProfilingStateType.ATTRIBUTE;
-    //set RFID: = id;
+    this.profilingState = ProfilingStateType.ATTRIBUTE; //after setting up user, we set up its attributes
+    this.activeUser = user;
+    console.log('this.activeUser:'+this.activeUser.name);
+    let userProfilingData:UserProfilingData = new UserProfilingData();
+    userProfilingData.rfid = id;
+    user.dataContent.userProfilingData = userProfilingData;
   }
 
-  setUserAttribute(attr:String):void{
-
+  setUserAttribute(attr:string):void{
+    let userProfilingData:UserProfilingData = (<UserProfilingData>this.activeUser.dataContent.userProfilingData);
+    userProfilingData.attributes.push(attr); //TODO
   }
 
   inputUserProfile():void{
