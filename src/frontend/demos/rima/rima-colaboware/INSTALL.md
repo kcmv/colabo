@@ -36,6 +36,115 @@ npm link @colabo-colaboware/colaboware_core
 npm link @colabo-colaboware/colaboware_rfid
 ```
 
+# KnAllEdge content
+
+Add map in kmaps (`right button > insert document`):
+
+```json
+{
+    "_id" : ObjectId("f7baf6923c0c84b84f0d402a"),
+    "name" : "Play Perform Learn Grow Conference 2018 - Thessaloniki",
+    "rootNodeId" : ObjectId("f7baf6913c0c84b84f0d4028"),
+    "type" : "CollaboArte",
+    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "ideaId" : NumberInt(0),
+    "parentMapId" : "",
+    "dataContent" : null,
+    "__v" : NumberInt(0),
+    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "isPublic" : false,
+    "participants" : [
+    ],
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1)
+}
+```
+
+Add root node in knodes (`right button > insert document`):
+
+```json
+{
+    "_id" : ObjectId("f7baf6913c0c84b84f0d4028"),
+    "name" : "CoLaboArthon Map",
+    "type" : "type_knowledge",
+    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
+    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0),
+    "decorations" : {
+
+    },
+    "up" : {
+
+    },
+    "dataContent" : {
+        "propertyType" : "text/markdown",
+        "property" : "Welcome to CoLaboArthon"
+    }
+}
+```
+
+Add users node in knodes (`right button > insert document`):
+
+```json
+{
+    "_id" : ObjectId("f7baf6913c0c84b84f0d4029"),
+    "name" : "Users",
+    "type" : "type_users",
+    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
+    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0),
+    "decorations" : {
+
+    },
+    "up" : {
+
+    },
+    "dataContent" : {
+    }
+}
+```
+
+Add users edge in kedges (`right button > insert document`):
+
+```json
+{
+    "_id" : ObjectId("fa379b0f800f2fdd33d2d978"),
+    "name" : "Users",
+    "type" : "type_users",
+    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
+    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("f7baf6913c0c84b84f0d4028"),
+    "targetId" : ObjectId("f7baf6913c0c84b84f0d4029"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
+    "__v" : NumberInt(0)
+}
+```
+
 # Updating
 
 https://stackoverflow.com/questions/43931986/how-to-upgrade-angular-cli-to-the-latest-version
