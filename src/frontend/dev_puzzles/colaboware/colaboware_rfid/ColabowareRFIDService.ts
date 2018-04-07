@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { KeyboardRFIDInterface} from './KeyboardRFIDInterface';
+import { CoLaboWareType } from '@colabo-colaboware/colaboware_core/coLaboWareData';
+import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareData';
 
 declare var ColabowareKeyboard;
 
@@ -28,6 +30,10 @@ export class ColabowareRFIDService {
       if(event.key.toLowerCase() === 'enter'){
         if(this.checkRFID(this.keyID)){
           console.log("Sending RFID: " + this.keyID);
+          var data:CoLaboWareData = new CoLaboWareData();
+          data.type = CoLaboWareType.RFID;
+          data.value = this.keyID;
+          console.log("CoLaboWareData: ", data);
         }else{
           console.log("Error with RFID format");
         }

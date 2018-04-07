@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {CoLaboWareData} from './coLaboWareData';
-import {CoLaboWareType} from './coLaboWareData';
+import { CoLaboWareType } from '@colabo-colaboware/colaboware_core/coLaboWareData';
+import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareData';
 
 @Component({
   selector: 'app-users-profiling',
