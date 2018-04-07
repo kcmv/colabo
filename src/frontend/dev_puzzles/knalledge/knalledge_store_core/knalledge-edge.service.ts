@@ -76,7 +76,7 @@ export class KnalledgeEdgeService extends CFService{
 
   /*
   TODO:
-  When needed, we could develop these fucntions that are already supported on backend:
+  When needed, we could develop these functions that are already supported on backend:
 
   //gets all edges between 2 specific nodes:
   queryBetween(sourceId:string, targetId:string, callback?:Function)

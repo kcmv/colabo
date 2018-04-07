@@ -22,6 +22,7 @@ export class KNode extends VO {
   static TYPE_IBIS_IDEA = "type_ibis_idea";
   static TYPE_IBIS_ARGUMENT = "type_ibis_argument";
   static TYPE_IBIS_COMMENT = "type_ibis_comment";
+  static TYPE_USER = "type_user";
 
   static UPDATE_TYPE_ALL = 'UPDATE_NODE_TYPE_ALL';
   static UPDATE_TYPE_IMAGE = 'UPDATE_NODE_TYPE_IMAGE';
