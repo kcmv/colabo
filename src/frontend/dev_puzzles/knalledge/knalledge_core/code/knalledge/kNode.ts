@@ -35,10 +35,6 @@ export class KNode extends VO {
   static CREATE_TYPE = 'CREATE_NODE_TYPE';
 
 	mapId:string = null; // id of map this object belongs to
-	// TODO:ng2 TS needs dataContent declared,
-  // we should check if this makes dataContent ending up
-  // at the server even when is it empty
-	dataContent:any = null; //additional data is stored in this object
 	// dataContent.property = null; // value of node content (Additional Info)
 
 	decorations:any = {
@@ -98,7 +94,6 @@ export class KNode extends VO {
   	if (obj) {
       super.fill(obj);
       if ("mapId" in obj) { this.mapId = obj.mapId; }
-  		if ("dataContent" in obj) { this.dataContent = obj.dataContent; } //TODO: deep copy?
   		if ("decorations" in obj) { this.decorations = obj.decorations; } //TODO: deep copy?
   		if ("up" in obj) { this.up = obj.up; } //TODO: deep copy?
   		if ("visual" in obj) {

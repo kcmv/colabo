@@ -6,5 +6,5 @@ export enum CoLaboWareType {
 export class CoLaboWareData{
 
   type: CoLaboWareType;
-  value: String;
+  value: string;
 }

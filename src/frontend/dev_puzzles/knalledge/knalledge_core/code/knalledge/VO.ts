@@ -19,6 +19,11 @@ export class VO {
 	createdAt:Date = null; //when the object is created
 	updatedAt:Date = null; //when the obect is
 
+  // TODO:ng2 TS needs dataContent declared,
+  // we should check if this makes dataContent ending up
+  // at the server even when is it empty
+  dataContent:any = {}; //additional data is stored in this object
+
   /* local-to-frontend */
 	state:string = VO.STATE_LOCAL; //state of the object, responding to some of the VO.STATE_... constants
 
@@ -73,6 +78,7 @@ export class VO {
       if("activeVersion" in obj){this.activeVersion = obj.activeVersion;}
       if("version" in obj){this.version = obj.version;}
       if("isPublic" in obj){this.isPublic = obj.isPublic;}
+      if("dataContent" in obj){this.dataContent = obj.dataContent;} //TODO: deep copy?
       if("createdAt" in obj){this.createdAt = new Date(obj.createdAt);}
       if("updatedAt" in obj){this.updatedAt = new Date(obj.updatedAt);}
     }

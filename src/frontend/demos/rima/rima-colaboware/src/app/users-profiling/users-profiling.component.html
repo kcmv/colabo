@@ -1,13 +1,32 @@
-<p>
+<div>
+  <p>User Creation</p>
+
   <label>New user name:
     <input [(ngModel)]="new_user_name" placeholder="new_user_name"/>
   </label>
 
-  <button (click)="profileNewUser()">profile New User</button>
-
-  <button (click)="sendDemoColabowareInput()">send Demo Colaboware Input</button>
-
   <button (click)="rfidEnable()">Enable RFID</button>
   <button (click)="rfidDisable()">Disable RFID</button>
 
-</p>
+</div>
+
+<div>
+  <p>User Profiling</p>
+  <button (click)="profileNewUser()">profile New User</button>
+
+  <div class="example-selected-value">Active User for Profiling: {{activeUser?.name}}</div>
+
+  <mat-radio-group class="example-radio-group" [(ngModel)]="profilingState">
+    <mat-radio-button class="example-radio-button" *ngFor="let state of ProfilingStateTypeNames" [value]="state">
+      {{state}}
+    </mat-radio-button>
+  </mat-radio-group>
+
+  <div class="example-selected-value">Profiling state is: {{profilingState}}</div>
+
+
+  <div>
+    <input [(ngModel)]="cw_data" placeholder="name"/>
+    <button (click)="sendDemoColabowareInput()">send Demo Colaboware Input</button>
+  </div>
+<div>
