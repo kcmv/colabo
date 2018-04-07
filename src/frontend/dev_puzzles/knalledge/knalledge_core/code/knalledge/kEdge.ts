@@ -25,7 +25,6 @@ export class KEdge extends VO{
 	mapId:string = null; // id of map this object belongs to
 	sourceId:string = null; // id of the source node this edge is connected to
 	targetId:string = null; // id of the target node this edge is connected to
-	dataContent:string = null; //additional data is stored in this object
 	value:any = 0; //value assigned to the edge
 
 	// next higher level of abstraction
@@ -81,7 +80,6 @@ export class KEdge extends VO{
   		if("mapId" in obj){this.mapId = obj.mapId;}
   		if("sourceId" in obj){this.sourceId = obj.sourceId;}
   		if("targetId" in obj){this.targetId = obj.targetId;}
-  		if("dataContent" in obj){this.dataContent = obj.dataContent;} //TODO: deep copy?
   		if("value" in obj){this.value = obj.value;}
   		if("visual" in obj){this.visual = obj.visual;} // Still Visual is not used so we are not filling it like for kNode
   	}
