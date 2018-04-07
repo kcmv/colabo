@@ -11,6 +11,7 @@ const RFID_LENGTH:number = 10;
 export class ColabowareRFIDService {
   keyboard:KeyboardRFIDInterface;
   enabled:boolean = true;
+  keyboardHandler:any;
   keyID:string = "";
 
   constructor() {
@@ -22,6 +23,18 @@ export class ColabowareRFIDService {
     if(id.length != RFID_LENGTH) return false;
 
     return true;
+  }
+
+  enable(){
+    if(this.enabled) return;
+    this.keyboard.activateHandler(this.keyboardHandler);
+    this.enabled = true;
+  }
+
+  disable(){
+    if(!this.enabled) return;
+    this.keyboard.deactivateHandler(this.keyboardHandler);
+    this.enabled = false;
   }
 
   keyIsReceived(event){
@@ -49,6 +62,6 @@ export class ColabowareRFIDService {
     /**
      * toggling moderator
      */
-    this.keyboard.registerKey('*', ['enter', 'any number'], null, this.keyIsReceived.bind(this));
+    this.keyboardHandler = this.keyboard.registerKey('*', ['enter', 'any number'], null, this.keyIsReceived.bind(this));
   }
 }

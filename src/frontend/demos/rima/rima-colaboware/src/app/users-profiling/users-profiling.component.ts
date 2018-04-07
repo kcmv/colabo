@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CoLaboWareType } from '@colabo-colaboware/colaboware_core/coLaboWareData';
 import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareData';
 
+import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/ColabowareRFIDService';
+
 @Component({
   selector: 'app-users-profiling',
   templateUrl: './users-profiling.component.html',
@@ -9,7 +11,7 @@ import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareDat
 })
 export class UsersProfilingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private colabowareRFIDService:ColabowareRFIDService) { }
 
   ngOnInit() {
   }
@@ -20,7 +22,6 @@ export class UsersProfilingComponent implements OnInit {
   }
 
   inputUserProfile():void{
-
   }
 
   sendDemoColabowareInput():void{
@@ -30,9 +31,17 @@ export class UsersProfilingComponent implements OnInit {
       this.colabowareInput(cwData);
   }
 
+  rfidEnable(){
+    this.colabowareRFIDService.enable();
+  }
+
+  rfidDisable(){
+    this.colabowareRFIDService.disable();
+  }
+
   colabowareInput(cwData:CoLaboWareData){
     if(cwData.type === CoLaboWareType.RFID){
-        console.log('cwData:'+cwData.value);
+        console.log('RFID cwData:'+cwData.value);
     }
   }
 

@@ -141,7 +141,7 @@ export class KeyboardRFIDInterface{
 
   // registers a keyboard key handler inside the particular context
   // the handler is activated if it is in global or current context
-  registerKey(context, key, type, callback){
+  registerKey(context, key, type, callback):any{
     var handler = {
       type: type,
       key: key,
@@ -160,6 +160,8 @@ export class KeyboardRFIDInterface{
     if(context == '*' || context == '' || context === this.currentContext){
       this.activateHandler(handler);
     }
+
+    return handler;
   };
 
   // activate handler
@@ -232,7 +234,7 @@ export class KeyboardRFIDInterface{
   // pops the previous context from the context stack and sets it as an active one
   // (used when we are closing a window popup that is over an active map, or similar scenarious)
   popContext(){
-    var context = this.contextStacks.pop();
-    this.activateContext(context);
+    this.currentContext = this.contextStacks.pop();
+    this.activateContext(this.currentContext);
   }
 }
