@@ -3,6 +3,8 @@ import { KeyboardRFIDInterface} from './KeyboardRFIDInterface';
 import { CoLaboWareType } from '@colabo-colaboware/colaboware_core/coLaboWareData';
 import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareData';
 
+import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+
 declare var ColabowareKeyboard;
 
 const RFID_LENGTH:number = 10;
@@ -13,10 +15,14 @@ export class ColabowareRFIDService {
   enabled:boolean = true;
   keyboardHandler:any;
   keyID:string = "";
+  colabowareIDProvided:string = "colabowareIDProvided";
 
-  constructor() {
+  constructor(
+    private globalEmitterServicesArray: GlobalEmitterServicesArray
+  ) {
     this.keyboard = new KeyboardRFIDInterface();
     this.initializeKeyboard();
+    this.globalEmitterServicesArray.register(this.colabowareIDProvided);
   }
 
   checkRFID(id:string){
@@ -47,6 +53,9 @@ export class ColabowareRFIDService {
           data.type = CoLaboWareType.RFID;
           data.value = this.keyID;
           console.log("CoLaboWareData: ", data);
+
+          this.globalEmitterServicesArray.get(this.colabowareIDProvided)
+          .broadcast('ColabowareRFIDService', data);
         }else{
           console.log("Error with RFID format");
         }
