@@ -20,10 +20,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { GetNodeComponent } from './get-node/get-node.component';
 import { GetMapComponent } from './get-map/get-map.component';
 
+import { UsersProfilingComponent } from './users-profiling/users-profiling.component';
+
 var moduleDeclarations = [
   AppComponent,
   GetNodeComponent,
-  GetMapComponent
+  GetMapComponent,
+  UsersProfilingComponent
 ];
 
 var moduleImports = [
