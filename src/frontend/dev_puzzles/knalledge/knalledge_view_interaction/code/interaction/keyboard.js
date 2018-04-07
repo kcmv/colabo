@@ -220,8 +220,8 @@ Keyboard.prototype.initializeKeyboard = function() {
 	// pops the previous context from the context stack and sets it as an active one
 	// (used when we are closing a window popup that is over an active map, or similar scenarious)
 	Keyboard.prototype.popContext = function(){
-		var context = this.contextStacks.pop();
-		this.activateContext(context);
+		this.currentContext = this.contextStacks.pop();
+    this.activateContext(this.currentContext);
 	}
 
 	/*
