@@ -31,6 +31,8 @@ npm link @colabo-puzzles/puzzles_core
 npm link @colabo-knalledge/knalledge_core
 npm link @colabo-knalledge/knalledge_store_core
 npm link @colabo-knalledge/knalledge_view_node
+npm link @colabo-knalledge/knalledge_search
+npm link @colabo-colaboware/colaboware_rfid
 ```
 
 # Updating

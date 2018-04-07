@@ -1,3 +1,4 @@
+// https://github.com/marquete/kibo
 var Kibo = function(element) {
   this.element = element || window.document;
   this.initialize();
