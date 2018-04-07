@@ -25,6 +25,7 @@ enum ProfilingStateType {
   USER_ID = 'USER_ID',
   ATTRIBUTE = 'ATTRIBUTE'
 }
+const AttributesPerUser:number = 2;
 
 @Component({
   selector: 'app-users-profiling',
@@ -49,6 +50,8 @@ export class UsersProfilingComponent implements OnInit {
   users:KNode[] = [];
 
   activeUser:KNode = null;
+
+  currentAttributeIndex:number =  0;
 
   profilingState: string = ProfilingStateType.OFF;
 
@@ -175,17 +178,28 @@ export class UsersProfilingComponent implements OnInit {
     user.type = KNode.TYPE_USER;
     user.name = 'u_'+id;
     this.users.push(user);
-    this.profilingState = ProfilingStateType.ATTRIBUTE; //after setting up user, we set up its attributes
     this.activeUser = user;
     console.log('this.activeUser:'+this.activeUser.name);
     let userProfilingData:UserProfilingData = new UserProfilingData();
     userProfilingData.rfid = id;
     user.dataContent.userProfilingData = userProfilingData;
+
+    this.switchToAttributeSetting();
   }
 
-  setUserAttribute(attr:string):void{
+  switchToAttributeSetting(){
+    this.profilingState = ProfilingStateType.ATTRIBUTE; //after setting up user, we set up its attributes
+    this.currentAttributeIndex = 0;
+  }
+
+  setUserAttribute(attrVal:string):void{
+    console.log('setUserAttribute:' + attrVal);
     let userProfilingData:UserProfilingData = (<UserProfilingData>this.activeUser.dataContent.userProfilingData);
-    userProfilingData.attributes.push(attr); //TODO
+    userProfilingData.attributes[this.currentAttributeIndex++] = attrVal;
+
+    if(this.currentAttributeIndex>=AttributesPerUser){
+      this.profilingState = ProfilingStateType.USER_ID;
+    }
   }
 
   inputUserProfile():void{
