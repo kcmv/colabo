@@ -1,21 +1,14 @@
-# KnalledgeViewNode
+# RIMA-CoLaboWare
 
 ## entry points
 
-+ [view node 59d3dba173a8d7b33b00972c](http://localhost:4200/node/id/59d3dba173a8d7b33b00972c)
++ http://localhost:8888/users-profiling
 
+# Install
 
-## localhost (Sasha)
+Before running the demo, you need to prepolate the database.
 
-### maps
-58068a04a37162160341d402 (Playing Guitar Msic)
-
-### nodes
-580c0513d50bfd4f0ceacade Није лако бубамарцу
-580c10bed50bfd4f0ceacb1c Крокодил Гена
-58069bd6a37162160341d6e0 Беле Руже
-59d3fb284b077e6c540f758e Ти ж мене підманула
-59d3dba173a8d7b33b00972c Любо, братцы, любо!
+See the [INSTALL](INSTALL.md) file for details.
 
 ## Building. CLI
 
