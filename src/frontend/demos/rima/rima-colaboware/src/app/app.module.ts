@@ -13,6 +13,7 @@ import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/ColabowareRFIDService';
+import {UsersProfilingService} from './users-profiling/users-profiling.service';
 
 import { AppComponent } from './app.component';
 
@@ -58,7 +59,8 @@ export var Plugins:any = window.Config.Plugins;
     {provide: "Plugins", useValue: Plugins},
     {provide: GlobalEmitterService, useClass: GlobalEmitterService},
     {provide: GlobalEmitterServicesArray, useClass: GlobalEmitterServicesArray},
-    ColabowareRFIDService
+    ColabowareRFIDService,
+    UsersProfilingService
   ],
   bootstrap: [AppComponent]
 })
