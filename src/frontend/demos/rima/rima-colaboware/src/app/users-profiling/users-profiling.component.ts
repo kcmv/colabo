@@ -73,7 +73,8 @@ export class UsersProfilingComponent implements OnInit {
     // listen for RFID cards pressed
     this.globalEmitterServicesArray.register(this.colabowareIDProvided);
 
-    this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.createNewUser.bind(this));
+    //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.createNewUser.bind(this));
+    this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.colabowareInput.bind(this));
   }
 
   // create new user after RFID card is pressed

@@ -18,15 +18,15 @@ import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { GetNodeComponent } from './get-node/get-node.component';
-import { GetMapComponent } from './get-map/get-map.component';
+// import { GetNodeComponent } from './get-node/get-node.component';
+// import { GetMapComponent } from './get-map/get-map.component';
 
 import { UsersProfilingComponent } from './users-profiling/users-profiling.component';
 
 var moduleDeclarations = [
   AppComponent,
-  GetNodeComponent,
-  GetMapComponent,
+  // GetNodeComponent,
+  // GetMapComponent,
   UsersProfilingComponent
 ];
 

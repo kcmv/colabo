@@ -25,7 +25,15 @@ export class UsersClusteringComponent implements OnInit {
     - tries to make it balanced, to avoid COMMON INFORMATION EFFECT
     - should try to avoid disciplinary faultlines
     - tries to gather users based on shared interest to foster motiviation for shared work, and motivation regarding the topic of collective work
+
+    In this version:
+    - we are considering the case when we have exactly one diversity attribute (the role of the player)
+    and the group size is equal to the number of different roles/options for that attribute
+    - we consider diversification/roles more important than similarity in this scenario,
+    so we first divide all participants in groups on the criteria of the role.
+    - 
   */
+
   clusterDiverseBackgroundSharedInterests(users:KNode[]):ClusterVO{
     let cluster:ClusterVO = new ClusterVO();
     //TODO: ...
