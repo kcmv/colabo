@@ -9,6 +9,12 @@ declare var ColabowareKeyboard;
 
 const RFID_LENGTH:number = 10;
 
+/**
+ * @classdesc ColabowareRFIDService is a service that provides RFID support.
+ * It listens (through the KeyboardRFIDInterface interface) for a user providing RFID card at the reader and it emmits received card through the "colabowareIDProvided" event (by GlobalEmitterServicesArray) as a CoLaboWareData object
+ * @class KeyboardRFIDInterface
+ */
+
 @Injectable()
 export class ColabowareRFIDService {
   keyboard:KeyboardRFIDInterface;
