@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes} from '@angular/router';
 
 import { UsersProfilingComponent } from './users-profiling/users-profiling.component';
+import { UsersClusteringComponent } from './users-clustering/users-clustering.component';
 
 const routes: Routes = [
   // default route
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'users-profiling',
     component: UsersProfilingComponent
+  },
+  {
+    path: 'users-clustering',
+    component: UsersClusteringComponent
   }
 ];
 

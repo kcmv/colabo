@@ -14,6 +14,7 @@ import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/ColabowareRFIDService';
 import {UsersProfilingService} from './users-profiling/users-profiling.service';
+import { UsersClusteringComponent } from './users-clustering/users-clustering.component';
 
 import { AppComponent } from './app.component';
 
@@ -26,15 +27,17 @@ import { UsersProfilingComponent } from './users-profiling/users-profiling.compo
 
 import {UsersPopulationComponent} from './users-population/users-population.component';
 
-import {UserInfoComponent} from './user-info/user-info.component';
+//import {UserInfoComponent} from './user-info/user-info.component';
 
 var moduleDeclarations = [
   AppComponent,
   // GetNodeComponent,
   // GetMapComponent,
   UsersProfilingComponent,
-  UsersPopulationComponent,
-  UserInfoComponent
+  UsersClusteringComponent,
+  UsersPopulationComponent
+  // ,
+  // UserInfoComponent
 ];
 
 var moduleImports = [

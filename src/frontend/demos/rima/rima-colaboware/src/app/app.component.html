@@ -1,3 +1,5 @@
+<!-- <button routerLink="/">Go to </button> -->
+
 <!-- main container -->
 
 <div layout="column" layout-fill style="height: 100%;">
@@ -95,4 +97,10 @@ https://material.io/icons/#ic_rate_review
 
 <!-- Main content -->
 <!-- the <router-outlet> tells the router where to display routed views -->
+
+<nav>
+  <a routerLink="/users-profiling" routerLinkActive="active">Users Profiling</a>
+  <a routerLink="/users-clustering" routerLinkActive="active">Users Clustering</a>
+</nav>
+
 <router-outlet></router-outlet>
