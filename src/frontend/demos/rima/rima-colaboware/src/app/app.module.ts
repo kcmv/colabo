@@ -20,24 +20,18 @@ import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-// import { GetNodeComponent } from './get-node/get-node.component';
-// import { GetMapComponent } from './get-map/get-map.component';
-
 import { UsersProfilingComponent } from './users-profiling/users-profiling.component';
 
 import {UsersPopulationComponent} from './users-population/users-population.component';
 
-//import {UserInfoComponent} from './user-info/user-info.component';
+import {UserInfoComponent} from './user-info/user-info.component';
 
 var moduleDeclarations = [
   AppComponent,
-  // GetNodeComponent,
-  // GetMapComponent,
   UsersProfilingComponent,
   UsersClusteringComponent,
-  UsersPopulationComponent
-  // ,
-  // UserInfoComponent
+  UsersPopulationComponent,
+  UserInfoComponent
 ];
 
 var moduleImports = [
