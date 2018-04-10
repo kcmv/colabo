@@ -27,7 +27,7 @@ import { UsersProfilingComponent } from './users-profiling/users-profiling.compo
 
 import {UsersPopulationComponent} from './users-population/users-population.component';
 
-import {UserInfoComponent} from './user-info/user-info.component';
+//import {UserInfoComponent} from './user-info/user-info.component';
 
 var moduleDeclarations = [
   AppComponent,
@@ -35,8 +35,9 @@ var moduleDeclarations = [
   // GetMapComponent,
   UsersProfilingComponent,
   UsersClusteringComponent,
-  UsersPopulationComponent,
-  UserInfoComponent
+  UsersPopulationComponent
+  // ,
+  // UserInfoComponent
 ];
 
 var moduleImports = [
