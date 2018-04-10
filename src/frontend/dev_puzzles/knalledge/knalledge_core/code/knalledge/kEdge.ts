@@ -21,8 +21,12 @@ export class KEdge extends VO{
   static TYPE_IBIS_IDEA:string = "type_ibis_idea";
   static TYPE_IBIS_ARGUMENT:string = "type_ibis_argument";
   static TYPE_IBIS_COMMENT:string = "type_ibis_comment";
-  static TYPE_USERS = "type_users";
-  static TYPE_USER = "type_user";
+  static TYPE_USERS = "rima.users";
+  static TYPE_USERS_GROUP = "rima.users_group";
+  static TYPE_USER = "rima.user";
+  static TYPE_TAGS = "rima.tags";
+  static TYPE_TAGS_GROUP = "rima.tags_group";
+  static TYPE_TAG = "rima.tag";
 
 	mapId:string = null; // id of map this object belongs to
 	sourceId:string = null; // id of the source node this edge is connected to

@@ -48,7 +48,7 @@ export class UsersProfilingService {
   currentAttributeIndex:number =  0;
 
   profilingState: ProfilingStateType = ProfilingStateType.OFF;
-  static SINISHA:boolean = true;
+  static SINISHA:boolean = false;
 
   constructor(
     private colabowareRFIDService: ColabowareRFIDService,
@@ -66,24 +66,44 @@ export class UsersProfilingService {
     this.globalEmitterServicesArray.register(this.colabowareIDProvided);
 
     if(UsersProfilingService.SINISHA) this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.colabowareInput.bind(this));
-    else this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.createNewUser.bind(this));
+    else this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.selectUser.bind(this));
+    // this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.createNewUser.bind(this));
 
   }
+
+  // select user that matches the RFID card pressed
+  selectUser(coLaboWareData:CoLaboWareData){
+    for(var i=0; i<this.users.length; i++){
+      var user = this.users[i];
+      if(user.dataContent && user.dataContent.coLaboWareData && user.dataContent.coLaboWareData.value === coLaboWareData.value){
+        this.activeUser = user;
+        return this.activeUser;
+      }
+    }
+    this.activeUser = null;
+    return this.activeUser;
+  }
+
   // create new user after RFID card is pressed
-  createNewUser(coLaboWareData){
-    console.log("[createNewUser] New user id provided: ", coLaboWareData);
+  createNewUser(newUserData:any, callback:Function=null){
+    console.log("[createNewUser] newUserData: ", newUserData);
     let usersNode = this.getFirstNodeForType(KNode.TYPE_USERS);
     console.log("usersNode:", usersNode);
 
     // creating new user node
     let userNode:KNode = new KNode();
     userNode.mapId = MAP_ID;
-    // userNode.name = this.new_user_name;
+    userNode.name = newUserData.name;
     userNode.type = KNode.TYPE_USER;
-    // later to access the RFID you would need to do:
+    // later to access the RFID value you would need to do:
     // let rfid = userNode.dataContent.coLaboWareData.value;
     userNode.dataContent = {
-      coLaboWareData: coLaboWareData
+      coLaboWareData: newUserData.coLaboWareData,
+      image: {
+        url: newUserData.image.url
+        // width: image.width,
+        // height: image.height
+      }
     }
 
     // creating edge between new user and users node (with type KNode.TYPE_USERS)
@@ -92,11 +112,12 @@ export class UsersProfilingService {
     userEdge.name = "User";
     userEdge.type = KEdge.TYPE_USER;
 
-    this.createNewNodeWithEdge(userNode, userEdge, usersNode._id, this.newUserCreated.bind(this));
-  }
+    this.createNewNodeWithEdge(userNode, userEdge, usersNode._id, newUserCreated.bind(this));
 
-  newUserCreated(newUser:KNode, newUserEdge:KEdge){
-    this.users.push(newUser);
+    function newUserCreated(newUser:KNode, newUserEdge:KEdge){
+      this.users.push(newUser);
+      if(callback) callback(newUser, newUserEdge);
+    }
   }
 
   profileNewUser():void
@@ -208,6 +229,14 @@ export class UsersProfilingService {
     return null;
   }
 
+  extractNodesOfType(type:string, extractedNodes:KNode[]){
+    for(var i=0; i<this.nodes.length; i++){
+      var node = this.nodes[i];
+      if(node.type === type) extractedNodes.push(node);
+    }
+    return extractedNodes;
+  }
+
   // get map nodes and edges
   getMapContent():void{
       //var map:KNode = new KNode();
@@ -226,6 +255,9 @@ export class UsersProfilingService {
     //this.nodes.name = 'test';
     console.log('nodes: ', nodesS);
     this.nodes = nodesS;
+
+    this.users = [];
+    this.extractNodesOfType(KNode.TYPE_USER, this.users);
   }
 
   edgesReceived(edgesS:Array<KEdge>):void{

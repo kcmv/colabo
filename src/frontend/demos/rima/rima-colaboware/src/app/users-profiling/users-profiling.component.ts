@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgModule } from '@angular/core';
 import {MatRadioModule} from '@angular/material/radio';
 
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
@@ -10,6 +10,11 @@ import {UsersProfilingService, ProfilingStateType} from './users-profiling.servi
 
 import { CoLaboWareType } from '@colabo-colaboware/colaboware_core/coLaboWareData';
 import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareData';
+
+
+// @NgModule({
+//   declarations: [ UsersPopulationComponent ]
+// })
 
 @Component({
   selector: 'app-users-profiling',
@@ -52,7 +57,7 @@ export class UsersProfilingComponent implements OnInit {
       cwData.value = this.cw_data;
 
       if(UsersProfilingService.SINISHA)  this.usersProfilingService.colabowareInput(cwData);
-      else this.usersProfilingService.createNewUser(cwData);
+      else this.usersProfilingService.selectUser(cwData);
   }
 
 }

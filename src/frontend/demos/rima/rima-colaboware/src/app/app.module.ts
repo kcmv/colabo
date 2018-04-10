@@ -25,12 +25,18 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { UsersProfilingComponent } from './users-profiling/users-profiling.component';
 
+import {UsersPopulationComponent} from './users-population/users-population.component';
+
+import {UserInfoComponent} from './user-info/user-info.component';
+
 var moduleDeclarations = [
   AppComponent,
   // GetNodeComponent,
   // GetMapComponent,
   UsersProfilingComponent,
-  UsersClusteringComponent
+  UsersClusteringComponent,
+  UsersPopulationComponent,
+  UserInfoComponent
 ];
 
 var moduleImports = [
