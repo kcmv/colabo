@@ -22,8 +22,12 @@ export class KNode extends VO {
   static TYPE_IBIS_IDEA = "type_ibis_idea";
   static TYPE_IBIS_ARGUMENT = "type_ibis_argument";
   static TYPE_IBIS_COMMENT = "type_ibis_comment";
-  static TYPE_USERS = "type_users";
-  static TYPE_USER = "type_user";
+  static TYPE_USERS = "rima.users";
+  static TYPE_USERS_GROUP = "rima.users_group";
+  static TYPE_USER = "rima.user";
+  static TYPE_TAGS = "rima.tags";
+  static TYPE_TAGS_GROUP = "rima.tags_group";
+  static TYPE_TAG = "rima.tag";
 
   static UPDATE_TYPE_ALL = 'UPDATE_NODE_TYPE_ALL';
   static UPDATE_TYPE_IMAGE = 'UPDATE_NODE_TYPE_IMAGE';
