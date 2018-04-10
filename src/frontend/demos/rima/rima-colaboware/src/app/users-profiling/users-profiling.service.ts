@@ -48,7 +48,7 @@ export class UsersProfilingService {
   currentAttributeIndex:number =  0;
 
   profilingState: ProfilingStateType = ProfilingStateType.OFF;
-  static SINISHA:boolean = false;
+  static SINISHA:boolean = true;
 
   constructor(
     private colabowareRFIDService: ColabowareRFIDService,

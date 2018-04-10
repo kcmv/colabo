@@ -40,6 +40,10 @@ export class UsersProfilingComponent implements OnInit {
     return this.usersProfilingService.profilingState;
   }
 
+  get activeUser():KNode{
+    return this.usersProfilingService.activeUser;
+  }
+
   set profilingState(state:ProfilingStateType){
     this.usersProfilingService.profilingState = state;
   }
