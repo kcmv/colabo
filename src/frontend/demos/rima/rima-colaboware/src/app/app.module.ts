@@ -26,12 +26,15 @@ import { UsersProfilingComponent } from './users-profiling/users-profiling.compo
 
 import {UsersPopulationComponent} from './users-population/users-population.component';
 
+import {UserInfoComponent} from './user-info/user-info.component';
+
 var moduleDeclarations = [
   AppComponent,
   // GetNodeComponent,
   // GetMapComponent,
   UsersProfilingComponent,
-  UsersPopulationComponent
+  UsersPopulationComponent,
+  UserInfoComponent
 ];
 
 var moduleImports = [

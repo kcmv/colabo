@@ -49,6 +49,10 @@ export class UsersPopulationComponent implements OnInit {
 
   }
 
+  get users():KNode[]{
+    return this.usersProfilingService.users;
+  }
+
   createNewUsers():void{
     let newUserId = 0;
     let newUsers = JSON.parse(this.new_users_list);

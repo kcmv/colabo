@@ -57,7 +57,7 @@ export class UsersProfilingComponent implements OnInit {
       cwData.value = this.cw_data;
 
       if(UsersProfilingService.SINISHA)  this.usersProfilingService.colabowareInput(cwData);
-      else this.usersProfilingService.createNewUser(cwData);
+      else this.usersProfilingService.selectUser(cwData);
   }
 
 }
