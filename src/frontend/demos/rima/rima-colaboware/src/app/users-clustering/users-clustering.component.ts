@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ClusterVO} from './clusterVO';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {UsersProfilingService} from '../users-profiling/users-profiling.service';
 
 @Component({
   selector: 'app-users-clustering',
@@ -9,7 +10,13 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 })
 export class UsersClusteringComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private usersProfilingService: UsersProfilingService
+  ) { }
+
+  clusterUsers():void{
+    console.log('users:',this.usersProfilingService.users)
+  }
 
   ngOnInit() {
   }
