@@ -24,11 +24,14 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { UsersProfilingComponent } from './users-profiling/users-profiling.component';
 
+import {UsersPopulationComponent} from './users-population/users-population.component';
+
 var moduleDeclarations = [
   AppComponent,
   // GetNodeComponent,
   // GetMapComponent,
-  UsersProfilingComponent
+  UsersProfilingComponent,
+  UsersPopulationComponent
 ];
 
 var moduleImports = [

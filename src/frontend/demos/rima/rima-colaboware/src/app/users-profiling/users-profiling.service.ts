@@ -70,20 +70,25 @@ export class UsersProfilingService {
 
   }
   // create new user after RFID card is pressed
-  createNewUser(coLaboWareData){
-    console.log("[createNewUser] New user id provided: ", coLaboWareData);
+  createNewUser(newUserData:any, callback:Function=null){
+    console.log("[createNewUser] newUserData: ", newUserData);
     let usersNode = this.getFirstNodeForType(KNode.TYPE_USERS);
     console.log("usersNode:", usersNode);
 
     // creating new user node
     let userNode:KNode = new KNode();
     userNode.mapId = MAP_ID;
-    // userNode.name = this.new_user_name;
+    userNode.name = newUserData.name;
     userNode.type = KNode.TYPE_USER;
-    // later to access the RFID you would need to do:
+    // later to access the RFID value you would need to do:
     // let rfid = userNode.dataContent.coLaboWareData.value;
     userNode.dataContent = {
-      coLaboWareData: coLaboWareData
+      coLaboWareData: newUserData.coLaboWareData,
+      image: {
+        url: newUserData.image.url
+        // width: image.width,
+        // height: image.height
+      }
     }
 
     // creating edge between new user and users node (with type KNode.TYPE_USERS)
@@ -92,11 +97,12 @@ export class UsersProfilingService {
     userEdge.name = "User";
     userEdge.type = KEdge.TYPE_USER;
 
-    this.createNewNodeWithEdge(userNode, userEdge, usersNode._id, this.newUserCreated.bind(this));
-  }
+    this.createNewNodeWithEdge(userNode, userEdge, usersNode._id, newUserCreated.bind(this));
 
-  newUserCreated(newUser:KNode, newUserEdge:KEdge){
-    this.users.push(newUser);
+    function newUserCreated(newUser:KNode, newUserEdge:KEdge){
+      this.users.push(newUser);
+      if(callback) callback(newUser, newUserEdge);
+    }
   }
 
   profileNewUser():void
