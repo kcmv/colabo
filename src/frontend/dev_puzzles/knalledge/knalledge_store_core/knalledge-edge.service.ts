@@ -21,7 +21,7 @@ export class KnalledgeEdgeService extends CFService{
   //http://api.colabo.space/kedges/
   // "http://127.0.0.1:888/kedges/";
   private apiUrl: string;
-  private defaultAction:string = 'default';
+  //private defaultAction:string = 'default'; not used here - only for nodes is used
 
 	private knalledgeMapQueue:any = null;
 	private knAllEdgeRealTimeService:any = null;
@@ -148,7 +148,7 @@ export class KnalledgeEdgeService extends CFService{
   destroy(id:string, callback?:Function): Observable<boolean>
 	{
     //TODO:NG2 fix usage of this function to expect boolean
-    var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'one/'+this.defaultAction+'/'+id, httpOptions).pipe(
+    var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'one/'+id, httpOptions).pipe(
       tap(_ => console.log(`deleted edge id=${id}`)),
       map(serverData => serverData.success),
       catchError(this.handleError<boolean>('deleteHero'))
