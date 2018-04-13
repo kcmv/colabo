@@ -62,6 +62,10 @@ export class UsersProfilingComponent implements OnInit {
     return this.usersProfilingService.profilingState;
   }
 
+  fillDemoUsers():void{
+    this.usersProfilingService.fillDemoUsers();
+  }
+
   set profilingState(state:ProfilingStateType){
     this.usersProfilingService.profilingState = state;
   }

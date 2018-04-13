@@ -41,6 +41,9 @@ export class UsersPopulationComponent implements OnInit {
   ]
   `;
 
+  newUserId:number = 0;
+  newUsers:KNode[];
+
   constructor(
     private usersProfilingService: UsersProfilingService
   ) { }
@@ -54,16 +57,16 @@ export class UsersPopulationComponent implements OnInit {
   }
 
   createNewUsers():void{
-    let newUserId = 0;
-    let newUsers = JSON.parse(this.new_users_list);
+    this.newUserId = 0;
+    this.newUsers = JSON.parse(this.new_users_list);
 
-    if(newUserId < newUsers.length){
-      this.usersProfilingService.createNewUser(newUsers[newUserId++], newUserCreated.bind(this));
+    if(this.newUserId < this.newUsers.length){
+      this.usersProfilingService.createNewUser(this.newUsers[this.newUserId++], newUserCreated.bind(this));
     }
 
     function newUserCreated(newUser:KNode, newUserEdge:KEdge){
-      if(newUserId < newUsers.length){
-        this.usersProfilingService.createNewUser(newUsers[newUserId++], newUserCreated.bind(this));
+      if(this.newUserId < this.newUsers.length){
+        this.usersProfilingService.createNewUser(this.newUsers[this.newUserId++], newUserCreated.bind(this));
       }
     }
   }

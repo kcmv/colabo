@@ -1,3 +1,5 @@
+<user-info></user-info>
+
 <div>
   <h2>Users Population</h2>
 
@@ -33,6 +35,9 @@
     <textarea rows="10" cols="80" [(ngModel)]="new_users_list" placeholder="Place JSON list of users you want to create">
     </textarea>
   </label>
+  <p>
+    {{newUserId}} of {{newUsers ? newUsers.length : 0}} <b>users</b> created
+  </p>
   <p>
     <button (click)="createNewUsers()">Create</button>
   </p>
