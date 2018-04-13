@@ -24,6 +24,17 @@ export enum ProfilingStateType {
   USER_ID = 'USER_ID',
   ATTRIBUTE = 'ATTRIBUTE'
 }
+
+export enum Roles {
+  REFUGEE = '0009705484',
+  LOCAL = '0009672284',
+  ACTIVIST = '0009671736'
+}
+
+const userRFIDs:string[] = ['0009892855', '0009893200', '0009610151', '0009706236', '0009610890', '0009725754', '0009593526', '0009593216', '0009608698'];
+
+const attributes:string[][] = [['0009609788', '0009597333', '0009668945'], ['0003739468', '0003678978', '0003736466']];
+
 const AttributesPerUser:number = 2;
 
 @Injectable()
@@ -69,6 +80,32 @@ export class UsersProfilingService {
     else this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.selectUser.bind(this));
     // this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.createNewUser.bind(this));
 
+  }
+
+  fillDemoUsers(set:number=1):void{
+    let demoAttributes:number[][] = [];
+    switch(set){
+      case 1:
+        demoAttributes = [[0,0],[1,2],[0,1],[2,2],[1,1],[1,2],[1,1],[1,2],[0,1]];
+        this.users = [];
+        for (var i=0;i<9;i++){
+          let user:KNode = new KNode();
+          user.type = KNode.TYPE_USER;
+          // later to access the RFID value you would need to do:
+          // let rfid = userNode.dataContent.coLaboWareData.value;
+
+          user.dataContent = {
+            userProfilingData: new UserProfilingData(userRFIDs[i], [attributes[0][demoAttributes[i][0]], attributes[1][demoAttributes[i][1]]]),
+            coLaboWareData: null,
+            image: {
+              url: ""
+              // width: image.width,
+              // height: image.height
+            }
+          }
+        }
+      break;
+    }
   }
 
   // select user that matches the RFID card pressed
