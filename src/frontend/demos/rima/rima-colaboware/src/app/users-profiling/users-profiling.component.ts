@@ -23,8 +23,11 @@ import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareDat
 })
 export class UsersProfilingComponent implements OnInit {
 
-  @Input() new_user_name:string = 'Unicorn';
-  @Input() cw_data:string = '0009610521';
+  @Input() cw_data:string = '0009592295';
+
+  relevantTagsGroupsNames:string[] = [
+    'Diversity Background', 'Interest Helping', 'Interest 2'
+  ]
 
   constructor(
     private usersProfilingService: UsersProfilingService
@@ -34,14 +37,29 @@ export class UsersProfilingComponent implements OnInit {
 
   }
 
+  get activeUser():KNode{
+    return this.usersProfilingService.activeUser;
+  }
+
+  get tagsGroups():KNode[]{
+    return this.usersProfilingService.tagsGroups;
+  }
+
+  get relevantTagsGroups():KNode[]{
+    var relevantTagsGroups:KNode[] = [];
+    for(var i=0; i<this.usersProfilingService.tagsGroups.length; i++){
+      var tagsGroup = this.usersProfilingService.tagsGroups[i];
+      if(this.relevantTagsGroupsNames.indexOf(tagsGroup.name)>=0){
+        relevantTagsGroups.push(tagsGroup);
+      }
+    }
+    return relevantTagsGroups;
+  }
+
   ProfilingStateTypeNames:string[] = this.usersProfilingService.ProfilingStateTypeNames;
 
   get profilingState():ProfilingStateType{
     return this.usersProfilingService.profilingState;
-  }
-
-  get activeUser():KNode{
-    return this.usersProfilingService.activeUser;
   }
 
   set profilingState(state:ProfilingStateType){
@@ -61,7 +79,11 @@ export class UsersProfilingComponent implements OnInit {
       cwData.value = this.cw_data;
 
       if(UsersProfilingService.SINISHA)  this.usersProfilingService.colabowareInput(cwData);
-      else this.usersProfilingService.selectUser(cwData);
+      else this.usersProfilingService.selectUserByCoLaboWare(cwData);
   }
 
+  getTagsAssociations(user:KNode, tagsGroup:KNode):KNode[]{
+    let tags:KNode[] = [];
+    return tags;
+  }
 }

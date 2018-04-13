@@ -1,17 +1,18 @@
 <div>
-  <p>User Creation</p>
-
-  <label>New user name:
-    <input [(ngModel)]="new_user_name" placeholder="new_user_name"/>
-  </label>
-
-  <button (click)="rfidEnable()">Enable RFID</button>
-  <button (click)="rfidDisable()">Disable RFID</button>
+  <h2>CoLaboWare - RFID</h2>
+  <p>
+    <button (click)="rfidEnable()">Enable RFID</button>
+    <button (click)="rfidDisable()">Disable RFID</button>
+  </p>
+  <div>
+    <input [(ngModel)]="cw_data" placeholder="name"/>
+    <button (click)="sendDemoColabowareInput()">send Demo Colaboware Input</button>
+  </div>
 
 </div>
 
 <div>
-  <p>User Profiling</p>
+  <h2>User Profiling</h2>
   <button (click)="profileNewUser()">profile New User</button>
 
   <div class="example-selected-value">Active User for Profiling: {{activeUser?.name}}</div>
@@ -24,13 +25,19 @@
 
   <div class="example-selected-value">Profiling state is: {{profilingState}}</div>
 
+  <user-info></user-info>
 
-  <div>
-    <input [(ngModel)]="cw_data" placeholder="name"/>
-    <button (click)="sendDemoColabowareInput()">send Demo Colaboware Input</button>
+  <div *ngFor="let tagsGroup of relevantTagsGroups">
+    <h4>{{tagsGroup.name}}</h4>
+
+    <div *ngFor="let tag of getTagsAssociations(activeUser, tagsGroup)">
+      <h4>{{tag.name}}</h4>
+      <img src="{{tag?.dataContent?.image?.url}}" width="100px"/>
+      <button class="delete" title="delete"
+        (click)="deleteTagAssociation(tag)">X</button>
+    </div>
+
   </div>
+
+
 <div>
-
-<user-info></user-info>
-
-<users-population></users-population>

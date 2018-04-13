@@ -35,6 +35,9 @@ export class UsersProfilingService {
   // all users in the map
   users:KNode[] = [];
   activeUser:KNode = null;
+  // all tag groups in the map
+  tagsGroups:KNode[] = [];
+  tags:KNode[] = [];
 
   // global event name that is sent by @colabo-colaboware/colaboware_rfid/ColabowareRFIDService when RFID card is pressed
   colabowareIDProvided:string = "colabowareIDProvided";
@@ -48,7 +51,7 @@ export class UsersProfilingService {
   currentAttributeIndex:number =  0;
 
   profilingState: ProfilingStateType = ProfilingStateType.OFF;
-  static SINISHA:boolean = true;
+  static SINISHA:boolean = false;
 
   constructor(
     private colabowareRFIDService: ColabowareRFIDService,
@@ -66,13 +69,13 @@ export class UsersProfilingService {
     this.globalEmitterServicesArray.register(this.colabowareIDProvided);
 
     if(UsersProfilingService.SINISHA) this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.colabowareInput.bind(this));
-    else this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.selectUser.bind(this));
+    else this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.selectUserByCoLaboWare.bind(this));
     // this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.createNewUser.bind(this));
 
   }
 
   // select user that matches the RFID card pressed
-  selectUser(coLaboWareData:CoLaboWareData){
+  selectUserByCoLaboWare(coLaboWareData:CoLaboWareData){
     for(var i=0; i<this.users.length; i++){
       var user = this.users[i];
       if(user.dataContent && user.dataContent.coLaboWareData && user.dataContent.coLaboWareData.value === coLaboWareData.value){
@@ -84,7 +87,18 @@ export class UsersProfilingService {
     return this.activeUser;
   }
 
-  // create new user after RFID card is pressed
+  // select user that matches the RFID card pressed
+  selectTagByCoLaboWare(coLaboWareData:CoLaboWareData){
+    for(var i=0; i<this.tags.length; i++){
+      var tag = this.tags[i];
+      if(tag.dataContent && tag.dataContent.coLaboWareData && tag.dataContent.coLaboWareData.value === coLaboWareData.value){
+        return tag;
+      }
+    }
+    return null;
+  }
+
+  // create new user
   createNewUser(newUserData:any, callback:Function=null){
     console.log("[createNewUser] newUserData: ", newUserData);
     let usersNode = this.getFirstNodeForType(KNode.TYPE_USERS);
@@ -117,6 +131,87 @@ export class UsersProfilingService {
     function newUserCreated(newUser:KNode, newUserEdge:KEdge){
       this.users.push(newUser);
       if(callback) callback(newUser, newUserEdge);
+    }
+  }
+
+  // create new tags group
+  createNewTagsGroup(newTagsGroupData:any, callback:Function=null){
+    console.log("[createNewTagsGroup] newTagsGroupData: ", newTagsGroupData);
+    let parentTagsGroupNode;
+    if(newTagsGroupData.parentTagsGroup){
+      parentTagsGroupNode = this.getFirstNodeForNameAndType(newTagsGroupData.parentTagsGroup, KNode.TYPE_TAGS_GROUP);
+    }else{
+      parentTagsGroupNode = this.getFirstNodeForType(KNode.TYPE_TAGS);
+    }
+    console.log("parentTagsGroupNode:", parentTagsGroupNode);
+
+    // creating new tagsGroup node
+    let tagsGroupNode:KNode = new KNode();
+    tagsGroupNode.mapId = MAP_ID;
+    tagsGroupNode.name = newTagsGroupData.name;
+    tagsGroupNode.type = KNode.TYPE_TAGS_GROUP;
+    // later to access the RFID value you would need to do:
+    // let rfid = tagsGroupNode.dataContent.coLaboWareData.value;
+    tagsGroupNode.dataContent = {
+      image: {
+        url: newTagsGroupData.image.url
+        // width: image.width,
+        // height: image.height
+      }
+    }
+
+    // creating edge between new tagsGroup and tagsGroups node (with type KNode.TYPE_USERS)
+    let tagsGroupEdge:KEdge = new KEdge();
+    tagsGroupEdge.mapId = MAP_ID;
+    tagsGroupEdge.name = "TagsGroup";
+    tagsGroupEdge.type = KEdge.TYPE_TAGS_GROUP;
+
+    this.createNewNodeWithEdge(tagsGroupNode, tagsGroupEdge, parentTagsGroupNode._id, newTagsGroupCreated.bind(this));
+
+    function newTagsGroupCreated(newTagsGroup:KNode, newTagsGroupEdge:KEdge){
+      this.tagsGroups.push(newTagsGroup);
+      if(callback) callback(newTagsGroup, newTagsGroupEdge);
+    }
+  }
+
+  // create new tag
+  createNewTag(newTagData:any, callback:Function=null){
+    console.log("[createNewTag] newTagData: ", newTagData);
+    let tagsGroupNode;
+    if(newTagData.tagGroup){
+      tagsGroupNode = this.getFirstNodeForNameAndType(newTagData.tagGroup, KNode.TYPE_TAGS_GROUP);
+    }else{
+      tagsGroupNode = this.getFirstNodeForType(KNode.TYPE_TAGS);
+    }
+    console.log("tagsGroupNode:", tagsGroupNode);
+
+    // creating new tag node
+    let tagNode:KNode = new KNode();
+    tagNode.mapId = MAP_ID;
+    tagNode.name = newTagData.name;
+    tagNode.type = KNode.TYPE_TAG;
+    // later to access the RFID value you would need to do:
+    // let rfid = tagNode.dataContent.coLaboWareData.value;
+    tagNode.dataContent = {
+      coLaboWareData: newTagData.coLaboWareData,
+      image: {
+        url: newTagData.image.url
+        // width: image.width,
+        // height: image.height
+      }
+    }
+
+    // creating edge between new tag and tags node (with type KNode.TYPE_USERS)
+    let tagEdge:KEdge = new KEdge();
+    tagEdge.mapId = MAP_ID;
+    tagEdge.name = "Tag";
+    tagEdge.type = KEdge.TYPE_TAG;
+
+    this.createNewNodeWithEdge(tagNode, tagEdge, tagsGroupNode._id, newTagCreated.bind(this));
+
+    function newTagCreated(newTag:KNode, newTagEdge:KEdge){
+      this.tags.push(newTag);
+      if(callback) callback(newTag, newTagEdge);
     }
   }
 
@@ -220,11 +315,19 @@ export class UsersProfilingService {
     }
   }
 
-  // get first (if there are many) node that has the provided type
+  // get the first (if there are many) node that has the provided type
   getFirstNodeForType(type:string){
     for(var i=0; i<this.nodes.length; i++){
       var node = this.nodes[i];
       if(node.type === type) return node;
+    }
+    return null;
+  }
+  // get the first (if there are many) node that has the provided name and type
+  getFirstNodeForNameAndType(name:string, type:string){
+    for(var i=0; i<this.nodes.length; i++){
+      var node = this.nodes[i];
+      if(node.type === type && node.name === name) return node;
     }
     return null;
   }
@@ -258,6 +361,11 @@ export class UsersProfilingService {
 
     this.users = [];
     this.extractNodesOfType(KNode.TYPE_USER, this.users);
+
+    this.tagsGroups = [];
+    this.extractNodesOfType(KNode.TYPE_TAGS_GROUP, this.tagsGroups);
+    this.tags = [];
+    this.extractNodesOfType(KNode.TYPE_TAG, this.tags);
   }
 
   edgesReceived(edgesS:Array<KEdge>):void{
