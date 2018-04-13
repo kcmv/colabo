@@ -26,12 +26,15 @@ import {UsersPopulationComponent} from './users-population/users-population.comp
 
 import {UserInfoComponent} from './user-info/user-info.component';
 
+import {TagsPopulationComponent} from './tags-population/tags-population.component';
+
 var moduleDeclarations = [
   AppComponent,
   UsersProfilingComponent,
   UsersClusteringComponent,
   UsersPopulationComponent,
-  UserInfoComponent
+  UserInfoComponent,
+  TagsPopulationComponent
 ];
 
 var moduleImports = [

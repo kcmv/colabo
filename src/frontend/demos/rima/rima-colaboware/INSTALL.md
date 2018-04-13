@@ -61,7 +61,7 @@ Add map in kmaps (`right button > insert document`):
 }
 ```
 
-Add root node in knodes (`right button > insert document`):
+Add ROOT node in knodes (`right button > insert document`):
 
 ```json
 {
@@ -93,13 +93,13 @@ Add root node in knodes (`right button > insert document`):
 }
 ```
 
-Add users node in knodes (`right button > insert document`):
+Add USERS node in knodes (`right button > insert document`):
 
 ```json
 {
     "_id" : ObjectId("f7baf6913c0c84b84f0d4029"),
     "name" : "Users",
-    "type" : "type_users",
+    "type" : "rima.users",
     "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
     "iAmId" : ObjectId("556760847125996dc1a4a241"),
     "ideaId" : NumberInt(0),
@@ -123,18 +123,70 @@ Add users node in knodes (`right button > insert document`):
 }
 ```
 
-Add users edge in kedges (`right button > insert document`):
+Add USERS edge in kedges (`right button > insert document`):
 
 ```json
 {
     "_id" : ObjectId("fa379b0f800f2fdd33d2d978"),
     "name" : "Users",
-    "type" : "type_users",
+    "type" : "rima.users",
     "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
     "iAmId" : ObjectId("556760847125996dc1a4a241"),
     "ideaId" : NumberInt(0),
     "sourceId" : ObjectId("f7baf6913c0c84b84f0d4028"),
     "targetId" : ObjectId("f7baf6913c0c84b84f0d4029"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
+    "__v" : NumberInt(0)
+}
+```
+
+Add TAGS node in knodes (`right button > insert document`):
+
+```json
+{
+    "_id" : ObjectId("f7baf6913c0c84b84f0d4030"),
+    "name" : "Tags",
+    "type" : "rima.tags",
+    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
+    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0),
+    "decorations" : {
+
+    },
+    "up" : {
+
+    },
+    "dataContent" : {
+    }
+}
+```
+
+Add TAGS edge in kedges (`right button > insert document`):
+
+```json
+{
+    "_id" : ObjectId("fa379b0f800f2fdd33d2d979"),
+    "name" : "Tags",
+    "type" : "rima.tags",
+    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
+    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("f7baf6913c0c84b84f0d4028"),
+    "targetId" : ObjectId("f7baf6913c0c84b84f0d4030"),
     "dataContent" : null,
     "visual" : null,
     "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
@@ -172,6 +224,81 @@ Add users edge in kedges (`right button > insert document`):
     }
   }
 ]
+```
+
+# Interests population
+
+Interesting images
++ https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn0.iconfinder.com%2Fdata%2Ficons%2Fpositive-and-neutral-character-traits-alphabet-v-w%2F281%2Fpositive-wxyz003-512.png&imgrefurl=https%3A%2F%2Fwww.iconfinder.com%2Ficons%2F2306705%2Fhobbies_hobby_interests_man_skill_skillful_well-rounded_icon&docid=CNrs61HBDNW4JM&tbnid=60jNBkVYemEYdM%3A&vet=10ahUKEwixouGogLDaAhUODKwKHQY-B8UQMwjHASgdMB0..i&w=466&h=512&bih=780&biw=1440&q=interests&ved=0ahUKEwixouGogLDaAhUODKwKHQY-B8UQMwjHASgdMB0&iact=mrc&uact=8#h=512&imgdii=60jNBkVYemEYdM:&vet=10ahUKEwixouGogLDaAhUODKwKHQY-B8UQMwjHASgdMB0..i&w=466
+
+```JSON
+{
+  "tagsGroups": [
+    {
+      "name": "Diversity Background",
+      "parentTagsGroup": null,
+      "image": {
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuuUi6NLEdnBBJxtgrclUt2o5orAvHNc79vV01mfr39wtF_6Hq"
+      }
+    },
+    {
+      "name": "Interests",
+      "parentTagsGroup": null,
+      "image": {
+        "url": "https://thumbs.dreamstime.com/z/woman-favorite-interests-dream-head-process-vector-flat-line-illustration-thought-what-women-wanted-idea-desire-wish-73352797.jpg"
+      }
+    },
+    {
+      "name": "Interest Helping",
+      "parentTagsGroup": "Interests",
+      "image": {
+        "url": "https://thumbs.dreamstime.com/z/woman-favorite-interests-dream-head-process-vector-flat-line-illustration-thought-what-women-wanted-idea-desire-wish-73352797.jpg"
+      }
+    },
+    {
+      "name": "Interest 2",
+      "parentTagsGroup": "Interests",
+      "image": {
+        "url": "https://thumbs.dreamstime.com/z/woman-favorite-interests-dream-head-process-vector-flat-line-illustration-thought-what-women-wanted-idea-desire-wish-73352797.jpg"
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "Art",
+      "tagGroup": "Diversity Background",
+      "image": {
+        "url": "https://images.fineartamerica.com/images-medium-large-5/hummingbird-of-watercolor-rainbow-olga-shvartsur.jpg"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0009592295"
+      }
+    },
+    {
+      "name": "Refugee",
+      "tagGroup": "Diversity Background",
+      "image": {
+        "url": "http://www.refugeesarewelcome.org/wp-content/uploads/2016/04/RS4622_jordan2012jeffrey-2675-copy.jpg"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0009595752"
+      }
+    },
+    {
+      "name": "Hunger",
+      "tagGroup": "Interest Helping",
+      "image": {
+        "url": "https://i.ndtvimg.com/i/2015-12/hunger-problem-india-istock_650x400_51449064006.jpg"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0009595752"
+      }
+    }
+  ]
+}
 ```
 
 # Updating

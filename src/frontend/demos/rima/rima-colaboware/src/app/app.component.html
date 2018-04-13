@@ -98,9 +98,23 @@ https://material.io/icons/#ic_rate_review
 <!-- Main content -->
 <!-- the <router-outlet> tells the router where to display routed views -->
 
+<div style="
+    position: absolute;
+    z-index: -2000;
+    top: 100px;
+    right: 10px;
+    color: blue;
+    opacity: 0.5;
+    width: 100%;
+">
+  <img src="http://www.colabo.space/images/logos/colabo/colabo-logo-url-square.jpg" width="50%"/>
+</div>
+
 <nav>
   <a routerLink="/users-profiling" routerLinkActive="active">Users Profiling</a>
   <a routerLink="/users-clustering" routerLinkActive="active">Users Clustering</a>
+  <a routerLink="/users-population" routerLinkActive="active">Users Population</a>
+  <a routerLink="/tags-population" routerLinkActive="active">Tags Population</a>
 </nav>
 
 <router-outlet></router-outlet>
