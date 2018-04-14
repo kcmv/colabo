@@ -5,7 +5,9 @@ import { UsersProfilingComponent } from './users-profiling/users-profiling.compo
 import { UsersClusteringComponent } from './users-clustering/users-clustering.component';
 import { UsersPopulationComponent } from './users-population/users-population.component';
 import { TagsPopulationComponent } from './tags-population/tags-population.component';
+import {UsersGroupsComponent} from './users-groups/users-groups.component';
 
+UsersGroupsComponent
 const routes: Routes = [
   // default route
   {
@@ -28,6 +30,10 @@ const routes: Routes = [
   {
     path: 'tags-population',
     component: TagsPopulationComponent
+  },
+  {
+    path: 'users-groups',
+    component: UsersGroupsComponent
   }
 ];
 
