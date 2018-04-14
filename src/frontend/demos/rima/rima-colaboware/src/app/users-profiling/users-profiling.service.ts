@@ -45,7 +45,7 @@ const userRFIDs:string[] =
 
 const attributes:string[][] = [['0009609788', '0009597333', '0009668945'], ['0003739468', '0003678978', '0003736466']];
 
-const AttributesPerUser:number = 2;
+export const AttributesPerUser:number = 2;
 
 @Injectable()
 export class UsersProfilingService {
@@ -102,7 +102,7 @@ export class UsersProfilingService {
     let demoAttributes:number[][] = [];
     switch(set){
       case 1:
-        demoAttributes = [[0,0],[1,2],[0,1],[2,2],[1,1],[1,2],[1,1],[1,2],[0,1]];
+        demoAttributes = [[0,0],[0,0],[0,1],[2,2],[1,1],[1,2],[1,1],[1,2],[0,1]];
         this.users = [];
         for (var i=0;i<9;i++){
           let user:KNode = new KNode();

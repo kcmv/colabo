@@ -9,6 +9,11 @@ export enum ConnectionStatus{
 export class ClusteringConnection{
   from: string;
   to: string;
-  strength: number;
-  status: number;
+  strength: number = 1;
+  status: number = ConnectionStatus.NORMAL;
+
+  constructor(from:string,to:string){
+    this.from = from;
+    this.to = to;
+  }
 }
