@@ -199,6 +199,8 @@ Add TAGS edge in kedges (`right button > insert document`):
 
 # Users Population
 
+(TEST ONLY)
+
 ```JSON
 [
   {
@@ -230,6 +232,8 @@ Add TAGS edge in kedges (`right button > insert document`):
 
 Interesting images
 + https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn0.iconfinder.com%2Fdata%2Ficons%2Fpositive-and-neutral-character-traits-alphabet-v-w%2F281%2Fpositive-wxyz003-512.png&imgrefurl=https%3A%2F%2Fwww.iconfinder.com%2Ficons%2F2306705%2Fhobbies_hobby_interests_man_skill_skillful_well-rounded_icon&docid=CNrs61HBDNW4JM&tbnid=60jNBkVYemEYdM%3A&vet=10ahUKEwixouGogLDaAhUODKwKHQY-B8UQMwjHASgdMB0..i&w=466&h=512&bih=780&biw=1440&q=interests&ved=0ahUKEwixouGogLDaAhUODKwKHQY-B8UQMwjHASgdMB0&iact=mrc&uact=8#h=512&imgdii=60jNBkVYemEYdM:&vet=10ahUKEwixouGogLDaAhUODKwKHQY-B8UQMwjHASgdMB0..i&w=466
+
+(TEST ONLY)
 
 ```JSON
 {
@@ -300,6 +304,41 @@ Interesting images
   ]
 }
 ```
+
+(TEST ONLY)
+Here is also a test interest between the user and tag:
+USER_ID: 5acd58f603c526c90d8b124a
+TAG_ID: 5acd65aa03c526c90d8b1254
+```json
+{
+    "_id" : ObjectId("fa379b0f800f2fdd33d2d980"),
+    "name" : "Interest",
+    "type" : "rima.user_interest",
+    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
+    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("5acd58f603c526c90d8b124a"),
+    "targetId" : ObjectId("5acd65aa03c526c90d8b1254"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
+    "__v" : NumberInt(0)
+}
+
+```
+
+Users:
+01. Hawskbill Turtle, 0009592295
+02. Giant Panda, 0009595752
+
+Tags:
+Art, 0009876540
+Refugee, 0009876541
+Hunger, 0009876551
+Health, 0009876552
 
 # Updating
 
