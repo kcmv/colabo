@@ -7,6 +7,9 @@
   <div>
     <input [(ngModel)]="cw_data" placeholder="name"/>
     <button (click)="sendDemoColabowareInput()">send Demo Colaboware Input</button>
+    <p>
+      RFID: {{RFIDreport}}
+    </p>
   </div>
 
 </div>
@@ -29,17 +32,18 @@
 
   <user-info></user-info>
 
-  <div *ngFor="let tagsGroup of relevantTagsGroups">
-    <h4>{{tagsGroup.name}}</h4>
+  <div *ngIf="activeUser">
+    <div *ngFor="let tagsGroup of relevantTagsGroups">
+      <h4>Interests group: {{tagsGroup.name}}</h4>
 
-    <div *ngFor="let tag of getTagsAssociations(activeUser, tagsGroup)">
-      <h4>{{tag.name}}</h4>
-      <img src="{{tag?.dataContent?.image?.url}}" width="100px"/>
-      <button class="delete" title="delete"
-        (click)="deleteTagAssociation(tag)">X</button>
+      <div *ngFor="let tag of getTagsAssociations(activeUser, tagsGroup)">
+        <h5>Interest: {{tag.name}}</h5>
+        <img src="{{tag?.dataContent?.image?.url}}" width="100px"/>
+        <button class="delete" title="delete"
+          (click)="deleteTagAssociation(tag)">X</button>
+      </div>
+
     </div>
-
   </div>
-
 
 <div>

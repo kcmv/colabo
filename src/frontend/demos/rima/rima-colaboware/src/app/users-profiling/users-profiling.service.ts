@@ -49,6 +49,8 @@ export class UsersProfilingService {
   // all tag groups in the map
   tagsGroups:KNode[] = [];
   tags:KNode[] = [];
+  interests:KEdge[] = [];
+  RFIDreport:string;
 
   // global event name that is sent by @colabo-colaboware/colaboware_rfid/ColabowareRFIDService when RFID card is pressed
   colabowareIDProvided:string = "colabowareIDProvided";
@@ -80,8 +82,9 @@ export class UsersProfilingService {
     this.globalEmitterServicesArray.register(this.colabowareIDProvided);
 
     if(UsersProfilingService.SINISHA) this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.colabowareInput.bind(this));
-    else this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.selectUserByCoLaboWare.bind(this));
-    // this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.createNewUser.bind(this));
+    else
+    // this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.selectUserByCoLaboWare.bind(this));
+    this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
 
   }
 
@@ -111,21 +114,43 @@ export class UsersProfilingService {
     }
   }
 
-  // select user that matches the RFID card pressed
-  selectUserByCoLaboWare(coLaboWareData:CoLaboWareData){
-    for(var i=0; i<this.users.length; i++){
-      var user = this.users[i];
-      if(user.dataContent && user.dataContent.coLaboWareData && user.dataContent.coLaboWareData.value === coLaboWareData.value){
-        this.activeUser = user;
-        return this.activeUser;
+  coLaboWareProvidedData(coLaboWareData:CoLaboWareData){
+    let user;
+    let tag;
+
+    user = this.getUserByCoLaboWare(coLaboWareData);
+    if(user){
+      this.activeUser = user;
+      this.RFIDreport = "Active user: " + this.activeUser.name;
+    }else{
+      tag = this.getTagByCoLaboWare(coLaboWareData);
+      if(tag){
+        this.RFIDreport = "Tag: " + tag.name;
+        if(this.activeUser){
+          this.switchTagAssociationForUser(this.activeUser, tag);
+        }
+      }else{
+        this.RFIDreport = "Unknown RFID";
       }
     }
-    this.activeUser = null;
+  }
+  // select user that matches the RFID card pressed
+  selectUserByCoLaboWare(coLaboWareData:CoLaboWareData){
+    this.activeUser = this.getUserByCoLaboWare(coLaboWareData);
     return this.activeUser;
   }
 
-  // select user that matches the RFID card pressed
-  selectTagByCoLaboWare(coLaboWareData:CoLaboWareData){
+  getUserByCoLaboWare(coLaboWareData:CoLaboWareData){
+    for(var i=0; i<this.users.length; i++){
+      var user = this.users[i];
+      if(user.dataContent && user.dataContent.coLaboWareData && user.dataContent.coLaboWareData.value === coLaboWareData.value){
+        return user;
+      }
+    }
+    return null;
+  }
+  // get tag that matches the RFID card pressed
+  getTagByCoLaboWare(coLaboWareData:CoLaboWareData){
     for(var i=0; i<this.tags.length; i++){
       var tag = this.tags[i];
       if(tag.dataContent && tag.dataContent.coLaboWareData && tag.dataContent.coLaboWareData.value === coLaboWareData.value){
@@ -133,6 +158,42 @@ export class UsersProfilingService {
       }
     }
     return null;
+  }
+
+  switchTagAssociationForUser(user:KNode, tag:KNode){
+    let edge = this.getEdgeBetweenNodes(user, tag);
+
+    function edgeCreated(edge:KEdge):void{
+      console.log('edgeCreated');
+      console.log(edge);
+      this.edges.push(edge);
+      this.interests.push(edge);
+    }
+
+    function edgeDeleted(success:boolean){
+      if(success){
+        let edge_id:string = edge._id;
+        this.edges = this.edges.filter(h => h._id !== edge_id);
+        this.interests = this.interests.filter(h => h._id !== edge_id);
+      }
+    }
+
+    if(edge){
+      let edge_id:string = edge._id;
+      this.knalledgeEdgeService.destroy(edge_id).subscribe(edgeDeleted.bind(this));
+    }else{
+      let edge:KEdge = new KEdge();
+      //TODO:NG2: add Demo User at the beginning and use Demo Map Id
+      edge.iAmId = '556760847125996dc1a4a24f';
+      edge.mapId = MAP_ID; //'56ebeabb913d88af03e9d2d6' //TODO:NG2 - use 'Demo Map' id
+      edge.name = "Interest";
+      edge.type = KEdge.TYPE_USER_INTEREST;
+      edge.sourceId = user._id;
+      edge.targetId = tag._id;
+      //TODO: iAmId, createdAt, updatedAt
+      this.knalledgeEdgeService.create(edge)
+      .subscribe(edgeCreated.bind(this));
+    }
   }
 
   // create new user
@@ -324,6 +385,49 @@ export class UsersProfilingService {
   /** Code for dealing with maps, probably repetition from KnAllEdge code :(
   */
 
+  /**
+  get all children nodes of a parentNode of a type childrenType, that are connected with the nodeOfInterest
+  */
+  getChildrenNodeConnectedToNodeOfInterest(nodeOfInterest:KNode, childrenType:string, parentNode:KNode):KNode[]{
+    let connectedChildNodes:KNode[] = [];
+    // go through all nodes and find relevant children
+    for(var i=0; i<this.nodes.length; i++){
+      let child = this.nodes[i];
+      if(child.type !== childrenType) continue;
+      if(!this.isChildNode(parentNode, child)) continue;
+
+      // OK, it is a child of parentNode and of type childrenType
+      // let's see if it is connected with the nodeOfInterest
+      if(this.areNodesConnected(nodeOfInterest, child)) connectedChildNodes.push(child);
+    }
+
+    return connectedChildNodes;
+  }
+
+  isChildNode(parentNode:KNode, node:KNode):boolean{
+    for(var i=0; i<this.edges.length; i++){
+      var edge = this.edges[i];
+      if(edge.sourceId === parentNode._id && edge.targetId === node._id) return true;
+    }
+    return false;
+  }
+
+  getEdgeBetweenNodes(sourceNode:KNode, targetNode:KNode):KEdge{
+    for(var i=0; i<this.edges.length; i++){
+      var edge = this.edges[i];
+      if(edge.sourceId === sourceNode._id && edge.targetId === targetNode._id) return edge;
+    }
+    return null;
+  }
+
+  areNodesConnected(sourceNode:KNode, targetNode:KNode):boolean{
+    for(var i=0; i<this.edges.length; i++){
+      var edge = this.edges[i];
+      if(edge.sourceId === sourceNode._id && edge.targetId === targetNode._id) return true;
+    }
+    return false;
+  }
+
   createNewNodeWithEdge(newNode:KNode, newEdge:KEdge, parentNodeId:string, listener){
     newNode.iAmId = "556760847125996dc1a4a24f";
     newEdge.iAmId = "556760847125996dc1a4a24f";
@@ -377,6 +481,14 @@ export class UsersProfilingService {
     return extractedNodes;
   }
 
+  extractEdgesOfType(type:string, extractedEdges:KEdge[]){
+    for(var i=0; i<this.edges.length; i++){
+      var edge = this.edges[i];
+      if(edge.type === type) extractedEdges.push(edge);
+    }
+    return extractedEdges;
+  }
+
   // get map nodes and edges
   getMapContent():void{
       //var map:KNode = new KNode();
@@ -411,6 +523,8 @@ export class UsersProfilingService {
     //this.edges.name = 'test';
     console.log('edges: ', edgesS);
     this.edges = edgesS;
+
+    this.extractEdgesOfType(KEdge.TYPE_USER_INTEREST, this.interests);
   }
 
 }

@@ -77,17 +77,20 @@ export class UsersProfilingComponent implements OnInit {
     console.log('inputUserProfile');
   }
 
+  get RFIDreport():string{
+    return this.usersProfilingService.RFIDreport;
+  }
+
   sendDemoColabowareInput():void{
       let cwData = new CoLaboWareData();
       cwData.type = CoLaboWareType.RFID;
       cwData.value = this.cw_data;
 
       if(UsersProfilingService.SINISHA)  this.usersProfilingService.colabowareInput(cwData);
-      else this.usersProfilingService.selectUserByCoLaboWare(cwData);
+      else this.usersProfilingService.coLaboWareProvidedData(cwData);
   }
 
   getTagsAssociations(user:KNode, tagsGroup:KNode):KNode[]{
-    let tags:KNode[] = [];
-    return tags;
+    return this.usersProfilingService.getChildrenNodeConnectedToNodeOfInterest(user, KNode.TYPE_TAG, tagsGroup);
   }
 }
