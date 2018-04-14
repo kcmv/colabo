@@ -27,6 +27,7 @@ export class KEdge extends VO{
   static TYPE_TAGS = "rima.tags";
   static TYPE_TAGS_GROUP = "rima.tags_group";
   static TYPE_TAG = "rima.tag";
+  static TYPE_USER_INTEREST = "rima.user_interest";
 
 	mapId:string = null; // id of map this object belongs to
 	sourceId:string = null; // id of the source node this edge is connected to
