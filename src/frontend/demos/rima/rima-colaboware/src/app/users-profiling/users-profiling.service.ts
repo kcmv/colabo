@@ -26,12 +26,22 @@ export enum ProfilingStateType {
 }
 
 export enum Roles {
+  REFUGEE = 1,
+  LOCAL = 2,
+  ACTIVIST = 3
+}
+
+export enum RolesRFIDs {
   REFUGEE = '0009705484',
   LOCAL = '0009672284',
   ACTIVIST = '0009671736'
 }
 
-const userRFIDs:string[] = ['0009892855', '0009893200', '0009610151', '0009706236', '0009610890', '0009725754', '0009593526', '0009593216', '0009608698'];
+const userRFIDs:string[] =
+['0009892855', '0009893200', '0009610151', '0009706236', '0009610890', '0009725754', '0009593526', '0009593216', '0009608698', '0009595428',
+'0009894227', '0009705858', '0009610521', '0009707369', '0009609424', '0003739519', '0003701999', '0003736478', '0003736516', '0009671466',
+'0009669671', '0009669921', '0009596702', '0009669427', '0009597653', '0009592905', '0009669183', '0003701945', '0009597019', '0003739495',
+'0009726100'];
 
 const attributes:string[][] = [['0009609788', '0009597333', '0009668945'], ['0003739468', '0003678978', '0003736466']];
 
@@ -97,11 +107,25 @@ export class UsersProfilingService {
         for (var i=0;i<9;i++){
           let user:KNode = new KNode();
           user.type = KNode.TYPE_USER;
+          user.name = user.name = 'u_'+ userRFIDs[i];
           // later to access the RFID value you would need to do:
           // let rfid = userNode.dataContent.coLaboWareData.value;
 
+          let role:number = Roles.REFUGEE;
+          switch(i%3){
+            case 0:
+              role = Roles.REFUGEE;
+              break;
+            case 1:
+              role = Roles.LOCAL;
+              break;
+            case 2:
+              role = Roles.ACTIVIST;
+              break;
+          }
+
           user.dataContent = {
-            userProfilingData: new UserProfilingData(userRFIDs[i], [attributes[0][demoAttributes[i][0]], attributes[1][demoAttributes[i][1]]]),
+            userProfilingData: new UserProfilingData(userRFIDs[i], [attributes[0][demoAttributes[i][0]], attributes[1][demoAttributes[i][1]]], role),
             coLaboWareData: null,
             image: {
               url: ""
@@ -109,9 +133,11 @@ export class UsersProfilingService {
               // height: image.height
             }
           }
+          this.users.push(user);
         }
       break;
     }
+    console.log('users:'+this.users);
   }
 
   coLaboWareProvidedData(coLaboWareData:CoLaboWareData){
