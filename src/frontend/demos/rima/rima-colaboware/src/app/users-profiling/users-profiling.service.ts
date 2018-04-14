@@ -26,6 +26,12 @@ export enum ProfilingStateType {
 }
 
 export enum Roles {
+  REFUGEE = 1,
+  LOCAL = 2,
+  ACTIVIST = 3
+}
+
+export enum RolesRFIDs {
   REFUGEE = '0009705484',
   LOCAL = '0009672284',
   ACTIVIST = '0009671736'
@@ -98,10 +104,11 @@ export class UsersProfilingService {
         for (var i=0;i<9;i++){
           let user:KNode = new KNode();
           user.type = KNode.TYPE_USER;
+          user.name = user.name = 'u_'+ userRFIDs[i];
           // later to access the RFID value you would need to do:
           // let rfid = userNode.dataContent.coLaboWareData.value;
 
-          let role:string = Roles.REFUGEE;
+          let role:number = Roles.REFUGEE;
           switch(i%3){
             case 0:
               role = Roles.REFUGEE;
