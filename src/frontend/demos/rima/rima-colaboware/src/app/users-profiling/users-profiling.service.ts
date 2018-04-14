@@ -97,8 +97,21 @@ export class UsersProfilingService {
           // later to access the RFID value you would need to do:
           // let rfid = userNode.dataContent.coLaboWareData.value;
 
+          let role:string = Roles.REFUGEE;
+          switch(i%3){
+            case 0:
+              role = Roles.REFUGEE;
+              break;
+            case 1:
+              role = Roles.LOCAL;
+              break;
+            case 2:
+              role = Roles.ACTIVIST;
+              break;
+          }
+
           user.dataContent = {
-            userProfilingData: new UserProfilingData(userRFIDs[i], [attributes[0][demoAttributes[i][0]], attributes[1][demoAttributes[i][1]]]),
+            userProfilingData: new UserProfilingData(userRFIDs[i], [attributes[0][demoAttributes[i][0]], attributes[1][demoAttributes[i][1]]], role),
             coLaboWareData: null,
             image: {
               url: ""
@@ -106,9 +119,11 @@ export class UsersProfilingService {
               // height: image.height
             }
           }
+          this.users.push(user);
         }
       break;
     }
+    console.log('users:'+this.users);
   }
 
   // select user that matches the RFID card pressed
