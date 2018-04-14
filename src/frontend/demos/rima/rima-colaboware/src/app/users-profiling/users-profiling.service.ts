@@ -45,6 +45,11 @@ const userRFIDs:string[] =
 
 const attributes:string[][] = [['0009609788', '0009597333', '0009668945'], ['0003739468', '0003678978', '0003736466']];
 
+// we need it to hide tagGroups that are not needed, like parent groups, i.e. non-leaf groups
+export const RelevantTagsGroupsNames:string[] = [
+    'Roles', 'Interest Helping', 'Interest 2'
+  ];
+
 export const AttributesPerUser:number = 2;
 
 @Injectable()
@@ -146,8 +151,13 @@ export class UsersProfilingService {
 
     user = this.getUserByCoLaboWare(coLaboWareData);
     if(user){
-      this.activeUser = user;
-      this.RFIDreport = "Active user: " + this.activeUser.name;
+      if(this.activeUser !== user){
+        this.activeUser = user;
+        this.RFIDreport = "Active user: " + this.activeUser.name;
+      }else{
+        this.activeUser = null;
+        this.RFIDreport = "";
+      }
     }else{
       tag = this.getTagByCoLaboWare(coLaboWareData);
       if(tag){

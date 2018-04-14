@@ -1,10 +1,13 @@
-<div>
-  <h2>User Info</h2>
+<div class="component">
+  <div class="user_title">User Info</div>
+  <div *ngIf="!activeUser">Unset</div>
+  <div *ngIf="activeUser">
+    <div class="user_name">{{activeUser?.name}}</div>
+    <div class="user_image">
+      <img src="{{activeUser?.dataContent?.image?.url}}" width="200px"/>
+    </div>
 
-  <h3>{{activeUser?.name}}</h3>
-  <p>
-    <img src="{{activeUser?.dataContent?.image?.url}}" width="100px"/>
-  </p>
-  <p>ID: {{activeUser?._id}}</p>
-  <p><b>RFID</b>: {{activeUser?.dataContent?.coLaboWareData?.value}}</p>
+    <p>ID: {{activeUser?._id}}</p>
+    <p><b>RFID</b>: {{activeUser?.dataContent?.coLaboWareData?.value}}</p>
+  </div>
 </div>

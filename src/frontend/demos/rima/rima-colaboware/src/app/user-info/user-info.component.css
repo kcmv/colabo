@@ -1,3 +1,22 @@
+.component{
+  background-color: #eeeeff;
+  border: solid #8888ff 1px;
+  padding: 3px;
+  margin: 25px;
+  margin-bottom: 35px;
+}
+
+.user_title{
+    font-weight: bold;
+    font-size: 2em;
+    background-color: #ddddff;
+}
+
+.user_name{
+    font-weight: bold;
+    font-size: 3em;
+}
+
 .example-radio-group {
   display: inline-flex;
   flex-direction: column;

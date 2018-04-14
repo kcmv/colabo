@@ -1,18 +1,43 @@
 <div>
-  <h2>CoLaboWare - RFID</h2>
-  <p>
-    <button (click)="rfidEnable()">Enable RFID</button>
-    <button (click)="rfidDisable()">Disable RFID</button>
-  </p>
-  <div>
-    <input [(ngModel)]="cw_data" placeholder="name"/>
-    <button (click)="sendDemoColabowareInput()">send Demo Colaboware Input</button>
-    <p>
-      RFID: {{RFIDreport}}
-    </p>
-  </div>
+  <table>
+    <tr>
+      <td>
+        <user-info></user-info>
+      </td>
+      <td>
+        <div *ngIf="activeUser">
+          <div class="tagGroup_user" *ngFor="let tagsGroup of relevantTagsGroups">
+            <div class="tagGroup_name">{{tagsGroup.name}}</div>
 
+            <div class="tag" *ngFor="let tag of getTagsAssociations(activeUser, tagsGroup)">
+              <div class="tag_name">{{tag.name}}</div>
+              <img src="{{tag?.dataContent?.image?.url}}" width="100px"/>
+              <button class="delete" title="delete"
+                (click)="deleteTagAssociation(tag)">X</button>
+            </div>
+
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+<hr/>
+
+
+<h2>CoLaboWare - RFID</h2>
+<p>
+  <button (click)="rfidEnable()">Enable RFID</button>
+  <button (click)="rfidDisable()">Disable RFID</button>
+</p>
+<div>
+  <input [(ngModel)]="cw_data" placeholder="name"/>
+  <button (click)="sendDemoColabowareInput()">send Demo Colaboware Input</button>
+  <p>
+    RFID: {{RFIDreport}}
+  </p>
 </div>
+
 
 <div>
   <h2>User Profiling</h2>
@@ -30,20 +55,6 @@
 
   <div class="example-selected-value">Profiling state is: {{profilingState}}</div>
 
-  <user-info></user-info>
-
-  <div *ngIf="activeUser">
-    <div *ngFor="let tagsGroup of relevantTagsGroups">
-      <h4>Interests group: {{tagsGroup.name}}</h4>
-
-      <div *ngFor="let tag of getTagsAssociations(activeUser, tagsGroup)">
-        <h5>Interest: {{tag.name}}</h5>
-        <img src="{{tag?.dataContent?.image?.url}}" width="100px"/>
-        <button class="delete" title="delete"
-          (click)="deleteTagAssociation(tag)">X</button>
-      </div>
-
-    </div>
-  </div>
+<hr/>
 
 <div>

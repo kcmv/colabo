@@ -22,7 +22,6 @@
               <mat-icon [ngClass]="{warning: false}" title="Map">ic_device_hub</mat-icon>
             </button>
 
-
 <!--
 https://material.io/icons/#ic_dvr
 https://material.io/icons/#ic_storage
@@ -93,22 +92,22 @@ https://material.io/icons/#ic_rate_review
               CoLabo.Space
             </h1>
       </mat-toolbar>
+
+      <div style="
+          position: fixed;
+          z-index: -2000;
+          top: 100px;
+          right: 10px;
+          color: blue;
+          opacity: 0.5;
+      ">
+        <img src="http://www.colabo.space/images/logos/colabo/colabo-logo-url-square.jpg" width="500px"/>
+      </div>
+
 </div>
 
 <!-- Main content -->
 <!-- the <router-outlet> tells the router where to display routed views -->
-
-<div style="
-    position: absolute;
-    z-index: -2000;
-    top: 100px;
-    right: 10px;
-    color: blue;
-    opacity: 0.5;
-    width: 100%;
-">
-  <img src="http://www.colabo.space/images/logos/colabo/colabo-logo-url-square.jpg" width="50%"/>
-</div>
 
 <nav>
   <a routerLink="/users-profiling" routerLinkActive="active">Users Profiling</a>
