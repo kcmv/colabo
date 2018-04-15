@@ -6,6 +6,11 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
 import {UsersProfilingService} from '../users-profiling/users-profiling.service';
 
+import {UserProfilingData} from '../users-profiling/userProfilingData';
+
+import {UsersClusteringService} from '../users-clustering/users-clustering.service';
+
+import {Group} from '../users-clustering/group';
 
 @Component({
   selector: 'users-groups',
@@ -21,15 +26,44 @@ export class UsersGroupsComponent implements OnInit {
   newUsers:KNode[];
 
   constructor(
-    private usersProfilingService: UsersProfilingService
+    private usersProfilingService: UsersProfilingService,
+    private usersClusteringService: UsersClusteringService
   ) { }
 
   ngOnInit() {
 
   }
 
+  get groupsNumber():number{
+    return this.usersProfilingService.groupsNumber;
+  }
+  set groupsNumber(groupsNumber:number){
+    this.usersProfilingService.groupsNumber = groupsNumber;
+  }
+
+  // get groups():KNode[]{
+  get groups():Group[]{
+    // return this.usersProfilingService.groups;
+    return this.usersClusteringService.groups;
+  }
+
   get users():KNode[]{
     return this.usersProfilingService.users;
+  }
+
+  get usersWithoutGroups():KNode[]{
+    let users = [];
+
+    for(var i=0; i<this.usersProfilingService.users.length; i++){
+      let user = this.usersProfilingService.users[i];
+      let userProfilingData = (user.dataContent.userProfilingData as UserProfilingData);
+      if(!userProfilingData.group)
+      {
+        users.push(user);
+      }
+    }
+
+    return users;
   }
 
   createNewUsers():void{
