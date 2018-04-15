@@ -35,6 +35,13 @@ export class UsersProfilingComponent implements OnInit {
 
   }
 
+  get groupsNumber():number{
+    return this.usersProfilingService.groupsNumber;
+  }
+  set groupsNumber(groupsNumber:number){
+    this.usersProfilingService.groupsNumber = groupsNumber;
+  }
+
   get activeUser():KNode{
     return this.usersProfilingService.activeUser;
   }
@@ -89,6 +96,6 @@ export class UsersProfilingComponent implements OnInit {
   }
 
   getTagsAssociations(user:KNode, tagsGroup:KNode):KNode[]{
-    return this.usersProfilingService.getChildrenNodeConnectedToNodeOfInterest(user, KNode.TYPE_TAG, tagsGroup);
+    return this.usersProfilingService.getTagsAssociations(user, tagsGroup);
   }
 }

@@ -31,6 +31,9 @@ export enum Roles {
   ACTIVIST = 3
 }
 
+export let RolesNames:string[] = ["Refugee", "Local", "Activist"];
+
+
 export enum RolesRFIDs {
   REFUGEE = '0009705484',
   LOCAL = '0009672284',
@@ -47,7 +50,7 @@ const attributes:string[][] = [['0009609788', '0009597333', '0009668945'], ['000
 
 // we need it to hide tagGroups that are not needed, like parent groups, i.e. non-leaf groups
 export const RelevantTagsGroupsNames:string[] = [
-    'Roles', 'Interest Helping', 'Interest 2'
+    'Roles', 'Interest 1', 'Interest 2'
   ];
 
 export const AttributesPerUser:number = 2;
@@ -60,12 +63,15 @@ export class UsersProfilingService {
   nodes:KNode[] = [];
   // all users in the map
   users:KNode[] = [];
+  groups:KNode[] = [];
   activeUser:KNode = null;
   // all tag groups in the map
   tagsGroups:KNode[] = [];
   tags:KNode[] = [];
   interests:KEdge[] = [];
+  groupMembers:KEdge[] = [];
   RFIDreport:string;
+  groupsNumber:number = 7;
 
   // global event name that is sent by @colabo-colaboware/colaboware_rfid/ColabowareRFIDService when RFID card is pressed
   colabowareIDProvided:string = "colabowareIDProvided";
@@ -101,6 +107,48 @@ export class UsersProfilingService {
     // this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.selectUserByCoLaboWare.bind(this));
     this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
 
+  }
+
+  convertUserInterestsForAlgorithm(){
+    for(let u=0; u<this.users.length; u++){
+      let user=this.users[u];
+
+      let tagsForUser = this.getChildrenOfType(user, KEdge.TYPE_USER_INTEREST);
+
+      let role:number = -1;
+
+      for(let t=0; t<tagsForUser.length; t++){
+        let tag = tagsForUser[t];
+        let roleId = RolesNames.indexOf(tag.name);
+        if(roleId >= 0){
+          // adjusting to Roles enum
+          role = roleId+1;
+        }
+      }
+
+      let tagGroupNameInterest1:string = RelevantTagsGroupsNames[1];
+      let tagGroupInterest1:KNode = this.getFirstNodeForNameAndType(tagGroupNameInterest1, KNode.TYPE_TAGS_GROUP);
+
+      let tagGroupNameInterest2:string = RelevantTagsGroupsNames[2];
+      let tagGroupInterest2:KNode = this.getFirstNodeForNameAndType(tagGroupNameInterest2, KNode.TYPE_TAGS_GROUP);
+
+      let tagsInterest1 = this.getTagsAssociations(user, tagGroupInterest1);
+
+      let tagInterest1RFID = null;
+      if(tagsInterest1.length>0){
+        tagInterest1RFID = tagsInterest1[0].dataContent.coLaboWareData.value;
+      }
+
+      let tagsInterest2 = this.getTagsAssociations(user, tagGroupInterest2);
+
+      let tagInterest2RFID = null;
+      if(tagsInterest2.length>0){
+        tagInterest2RFID = tagsInterest2[0].dataContent.coLaboWareData.value;
+      }
+
+      user.dataContent.userProfilingData = new UserProfilingData(
+        user.dataContent.coLaboWareData.value, [tagInterest1RFID, tagInterest2RFID], role);
+    }
   }
 
   fillDemoUsers(set:number=1):void{
@@ -230,6 +278,10 @@ export class UsersProfilingService {
       this.knalledgeEdgeService.create(edge)
       .subscribe(edgeCreated.bind(this));
     }
+  }
+
+  getTagsAssociations(user:KNode, tagsGroup:KNode):KNode[]{
+    return this.getChildrenNodeConnectedToNodeOfInterest(user, KNode.TYPE_TAG, tagsGroup);
   }
 
   // create new user
@@ -456,6 +508,23 @@ export class UsersProfilingService {
     return null;
   }
 
+  getNodeById(id:string):KNode{
+    for(var i=0; i<this.nodes.length; i++){
+      var node = this.nodes[i];
+      if(node._id === id) return node;
+    }
+    return null;
+  }
+
+  getChildrenOfType(parentNode:KNode, childType:string):KNode[]{
+    let children:KNode[] = [];
+    for(var i=0; i<this.edges.length; i++){
+      var edge = this.edges[i];
+      if(edge.sourceId === parentNode._id && edge.type === childType) children.push(this.getNodeById(edge.targetId));
+    }
+    return children;
+  }
+
   areNodesConnected(sourceNode:KNode, targetNode:KNode):boolean{
     for(var i=0; i<this.edges.length; i++){
       var edge = this.edges[i];
@@ -551,6 +620,8 @@ export class UsersProfilingService {
     this.extractNodesOfType(KNode.TYPE_TAGS_GROUP, this.tagsGroups);
     this.tags = [];
     this.extractNodesOfType(KNode.TYPE_TAG, this.tags);
+    this.groups = [];
+    this.extractNodesOfType(KNode.TYPE_USERS_GROUP, this.groups);
   }
 
   edgesReceived(edgesS:Array<KEdge>):void{
@@ -560,7 +631,10 @@ export class UsersProfilingService {
     console.log('edges: ', edgesS);
     this.edges = edgesS;
 
+    this.interests = [];
     this.extractEdgesOfType(KEdge.TYPE_USER_INTEREST, this.interests);
+    this.groupMembers = [];
+    this.extractEdgesOfType(KEdge.TYPE_USERS_GROUP, this.interests);
   }
 
 }

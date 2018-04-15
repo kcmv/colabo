@@ -21,6 +21,10 @@ export class UsersClusteringComponent implements OnInit {
     this.usersClusteringService.clusterDiverseBackgroundSharedInterests(this.usersProfilingService.users);
   }
 
+  convertUserInterestsForAlgorithm():void{
+    this.usersProfilingService.convertUserInterestsForAlgorithm();
+  }
+
   ngOnInit() {
   }
 }
