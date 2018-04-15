@@ -98,11 +98,21 @@ export class UsersProfilingService {
 
   }
 
+  getUserById(id:string):KNode{
+    for (var i=0;i<this.users.length;i++){
+      if(this.users[i]._id === id){
+        return this.users[i];
+      }
+    }
+    return null;
+  }
+
   fillDemoUsers(set:number=1):void{
     let demoAttributes:number[][] = [];
     switch(set){
       case 1:
-        demoAttributes = [[0,0],[0,0],[0,1],[2,2],[1,1],[1,2],[1,1],[1,2],[0,1]];
+        //roles:            R:1   L:2  A:3   R:1   L:2  A:3     R:1   L:2  A:3
+        demoAttributes = [[0,0],[0,0],[0,1],[2,2],[1,1],[1,2],[1,1],[3,2],[3,4]];
         this.users = [];
         for (var i=0;i<9;i++){
           let user:KNode = new KNode();

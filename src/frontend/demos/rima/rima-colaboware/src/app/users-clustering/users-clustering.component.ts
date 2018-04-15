@@ -18,7 +18,7 @@ export class UsersClusteringComponent implements OnInit {
 
   clusterUsers():void{
     console.log('users:',this.usersProfilingService.users);
-    this.usersClusteringService.clusterDiverseBackgroundSharedInterests(this.usersProfilingService.users);
+    this.usersClusteringService.clusterDiverseBackgroundSharedInterestsLight(this.usersProfilingService.users);
   }
 
   ngOnInit() {

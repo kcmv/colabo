@@ -4,10 +4,15 @@ import {ClusterVO} from './clusterVO';
 import {AttributesPerUser} from '../users-profiling/users-profiling.service';
 import {ClusteringUser} from './clusteringUser';
 import {Group} from './group';
+import {ClusteringConnection} from './clusteringConnection';
+import {ConnectionStatus} from './clusteringConnection';
+import {Roles} from '../users-profiling/users-profiling.service';
+import {UserProfilingData} from '../users-profiling/userProfilingData';
 
 @Injectable()
 export class UsersClusteringService {
-  //clusterVO:ClusterVO = new ClusterVO();
+  cluster:ClusterVO = new ClusterVO();
+  groups:Group[] = [];
 
   /*
     the **GOAL** of this clustering is to find communities (groups) focused on improving collective creativity
@@ -56,12 +61,178 @@ export class UsersClusteringService {
     return cluster;
   }
 
+  getUserById(users:KNode[], id:string):KNode{
+    for (var i=0;i<users.length;i++){
+      if(users[i]._id === id){
+        return users[i];
+      }
+    }
+    return null;
+  }
+
+  getConnectionsToUsersWithDifferentRole(clUser:ClusteringUser, users:KNode[]){
+    let connections:ClusteringConnection[] = [];
+    let myRole:Roles = clUser.user.dataContent.userProfilingData.role;
+    for(var connection in clUser.connections){
+      let destinationUserId:string = (clUser.connections[connection] as ClusteringConnection).to;
+      //TODO: should be this.usersProfilingService.getUserById(destinationUserId)):
+      if((this.getUserById(users,destinationUserId).dataContent.userProfilingData.role
+      !== myRole) && clUser.connections[connection].status == ConnectionStatus.NORMAL){
+        connections.push(clUser.connections[connection]);
+      }
+    }
+    return connections;
+  }
+
+  printConnections(cluster:ClusterVO):void{
+    //   1 2 3 4 5 6 7 8 9
+    // 1 x   y
+    // 2   z
+    // 3
+    // 4
+    let connection:ClusteringConnection = null;
+    let str:string = "    ";
+    const MAX_USER_ID:number = 11;
+    for(var j:number=1;j<=MAX_USER_ID;j++){
+      str+=j+"  ";
+    }
+    console.log(str);
+    for(let i:number = 0; i<cluster.clusteringUsers.length;i++){
+      let clUser:ClusteringUser = cluster.clusteringUsers[i];
+      let role:Roles = (clUser.user.dataContent.userProfilingData as UserProfilingData).role;
+      let roleS:string = "R";
+      if(role === Roles.LOCAL){roleS = 'L';}
+      if(role === Roles.ACTIVIST){roleS = 'A';}
+      str = clUser.user._id +  roleS + ': ';
+      for(var j:number=1;j<=MAX_USER_ID;j++){ //TODO: working with node ids, not the hardcoded ones:
+        connection = clUser.getConnectionTo(j+"");
+        let strengthS:string = "N";
+        if(connection !== null){
+          if(connection.status == ConnectionStatus.DISABLED){strengthS = "D";}
+          if(connection.status == ConnectionStatus.SEALED){strengthS = "S";}
+        }
+        str += (connection === null ? (j>9 ? "    " : "   ") : connection.strength+strengthS + (j>9 ? "   " : "  "));
+      }
+      console.log(str);
+    }
+  }
+
+  //these users don't have only one user of a different role to be connected into a group
+  //that means that we have to treat them in first place
+  sealAllwithOneAvailableConnection(users:KNode[], cluster:ClusterVO):ClusterVO{
+    for(let i:number = 0; i<cluster.clusteringUsers.length;i++){
+      let clUser:ClusteringUser = cluster.clusteringUsers[i];
+      let connections:ClusteringConnection[] = this.getConnectionsToUsersWithDifferentRole(clUser,users);
+        if(connections.length === 1){
+          //TODO: what if the connection leads to th user with the same role as of one to whom we're already sealed?
+            connections[0].status = ConnectionStatus.SEALED;
+        }
+      }
+    return cluster;
+  }
+
   clusterDiverseBackgroundSharedInterests(users:KNode[]):ClusterVO{
-    let cluster:ClusterVO = new ClusterVO();
-    let groups:Group[] = [];
-    cluster = this.buildInterestBasedConnections(users, cluster);
+    this.cluster = new ClusterVO();
+    this.groups = [];
+    this.cluster = this.buildInterestBasedConnections(users, this.cluster);
+    this.printConnections(this.cluster);
+    this.sealAllwithOneAvailableConnection(users,this.cluster);
 
     //TODO: ...
-    return cluster;
+    return this.cluster;
+  }
+
+  /**
+  1. chaning roles to make equal roles number
+  2. in the rest of the process we don't examine interest-connections between users with the same role
+
+  */
+  clusterDiverseBackgroundSharedInterestsLight(users:KNode[]):ClusterVO{
+    this.cluster = new ClusterVO();
+    this.groups = [];
+
+    this.cluster = this.buildInterestBasedConnections(users, this.cluster);
+    this.printConnections(this.cluster);
+    //adding refugees to the groups they "lead":
+    for(let i:number = 0; i<users.length;i++){
+      if(users[i].dataContent.userProfilingData.role === Roles.REFUGEE){
+        let group:Group = new Group();
+        group.refugee = users[i];
+        (users[i].dataContent.userProfilingData as UserProfilingData).group = group._id;
+        this.groups.push(group);
+      }
+
+    //adding LOCALS to the group - 1nd round:
+    for(let i:number = 0; i<this.groups.length;i++){
+      let group:Group = this.groups[i];
+      let refugee:KNode = group.refugee;
+      for(let u:number = 0; u<users.length;u++){
+        let user:KNode = users[u];
+        if(user.dataContent.userProfilingData.role === Roles.LOCAL &&
+          (user.dataContent.userProfilingData as UserProfilingData).group === null){ // if local, not yet in a group
+          let refugeeCLU:ClusteringUser = this.cluster.getClusteringUserbyUserId(refugee._id);
+          if(refugeeCLU && refugeeCLU.isConnectedTo(user._id)){
+              group.local = user;
+              (user.dataContent.userProfilingData as UserProfilingData).group = group._id;
+          }
+        }
+      }
+    }
+
+    //adding LOCALS to the group - 2nd round:
+    for(let i:number = 0; i<this.groups.length;i++){
+      let group:Group = this.groups[i];
+      let refugee:KNode = group.refugee;
+      if(group.local === null){ // if the group doesn't already have a local:
+        for(let u:number = 0; u<users.length;u++){
+          let user:KNode = users[u];
+          if(user.dataContent.userProfilingData.role === Roles.LOCAL &&
+            (user.dataContent.userProfilingData as UserProfilingData).group === null){ // we add the first local, that is not yet in a group
+              group.local = user;
+              (user.dataContent.userProfilingData as UserProfilingData).group = group._id;
+            }
+          }
+        }
+      }
+    } //!!! after this, a local still may be null if there was less locals then refugees
+
+    //adding ACTIVIST to the group - 1st round:
+    for(let i:number = 0; i<this.groups.length;i++){
+      let group:Group = this.groups[i];
+      let refugee:KNode = group.refugee;
+      let local:KNode = group.local;
+      for(let u:number = 0; u<users.length;u++){
+        let user:KNode = users[u];
+        if(user.dataContent.userProfilingData.role === Roles.ACTIVIST &&
+          (user.dataContent.userProfilingData as UserProfilingData).group === null){ // if activist, not yet in a group
+          let refugeeCLU:ClusteringUser = this.cluster.getClusteringUserbyUserId(refugee._id);
+          let localCLU:ClusteringUser = ((local !== null) ? this.cluster.getClusteringUserbyUserId(local._id) : null); //local may be null if there was less locals then refugees
+
+          if((refugeeCLU && refugeeCLU.isConnectedTo(user._id)) || (localCLU && localCLU.isConnectedTo(user._id))){ // if a refugee or a local is connected to the activist, add the activist
+              group.activist = user;
+              (user.dataContent.userProfilingData as UserProfilingData).group = group._id;
+          }
+        }
+      }
+    }
+
+    //adding ACTIVIST to the group - 2nd round:
+    for(let i:number = 0; i<this.groups.length;i++){
+      let group:Group = this.groups[i];
+      let refugee:KNode = group.refugee;
+      let local:KNode = group.local;
+      for(let u:number = 0; u<users.length;u++){
+        let user:KNode = users[u];
+        if(user.dataContent.userProfilingData.role === Roles.ACTIVIST &&
+          (user.dataContent.userProfilingData as UserProfilingData).group === null){ // if activist, not yet in a group
+            group.activist = user;
+            (user.dataContent.userProfilingData as UserProfilingData).group = group._id;
+        }
+      }
+    }
+
+    //TODO: see what to return. We need group and not cluster, but maybe cluster may contain the group
+    console.log('groups:', this.groups);
+    return this.cluster;
   }
 }
