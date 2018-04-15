@@ -167,12 +167,12 @@ export class UsersClusteringService {
     //adding refugees to the groups they "lead":
     for(let uR:number = 0; uR<users.length;uR++){
       let userR = users[uR];
-      let userProfilingData = (userR.dataContent.userProfilingData as UserProfilingData);
+      let userProfilingDataR = (userR.dataContent.userProfilingData as UserProfilingData);
 
       if(userR.dataContent.userProfilingData.role === Roles.REFUGEE){
         let group:Group = new Group();
         group.refugee = userR;
-        userProfilingData.group = group._id;
+        userProfilingDataR.group = group._id;
         this.groups.push(group);
         group.name = "" + this.groups.length;
         console.log("[clusterDiverseBackgroundSharedInterestsLight] created new group: ", group.name);
@@ -182,16 +182,21 @@ export class UsersClusteringService {
     // console.log("[clusterDiverseBackgroundSharedInterestsLight] adding LOCALS to the groups, 1st round.");
     //adding LOCALS to the group - 1st round:
     for(let gL1:number = 0; gL1<this.groups.length;gL1++){
-      let group:Group = this.groups[gL1];
-      let refugee:KNode = group.refugee;
+      let groupL1:Group = this.groups[gL1];
+      let refugeeL1:KNode = groupL1.refugee;
+      // // if the group does already have a local
+      if(groupL1.local !== null) break;
       for(let uL1:number = 0; uL1<users.length; uL1++){
         let userL1:KNode = users[uL1];
-        if(userL1.dataContent.userProfilingData.role === Roles.LOCAL &&
-          (userL1.dataContent.userProfilingData as UserProfilingData).group === null){ // if local, not yet in a group
-          let refugeeCLU:ClusteringUser = this.cluster.getClusteringUserbyUserId(refugee._id);
-          if(refugeeCLU && refugeeCLU.isConnectedTo(userL1._id)){
-              group.local = userL1;
-              (userL1.dataContent.userProfilingData as UserProfilingData).group = group._id;
+        let userProfilingDataL1:UserProfilingData = (userL1.dataContent.userProfilingData as UserProfilingData);
+        if(userProfilingDataL1.role === Roles.LOCAL &&
+          userProfilingDataL1.group === null)
+        { // if local, not yet in a group
+          let refugeeCLUL1:ClusteringUser = this.cluster.getClusteringUserbyUserId(refugeeL1._id);
+          if(refugeeCLUL1 && refugeeCLUL1.isConnectedTo(userL1._id)){
+              groupL1.local = userL1;
+              userProfilingDataL1.group = groupL1._id;
+              break;
           }
         }
       }
@@ -200,17 +205,19 @@ export class UsersClusteringService {
     // console.log("[clusterDiverseBackgroundSharedInterestsLight] adding LOCALS to the groups, 2nd round.");
     //adding LOCALS to the group - 2nd round:
     for(let gL2:number = 0; gL2<this.groups.length;gL2++){
-      let group:Group = this.groups[gL2];
-      let refugee:KNode = group.refugee;
-      if(group.local === null){ // if the group doesn't already have a local:
-        for(let u:number = 0; u<users.length;u++){
-          let userL2:KNode = users[u];
-          if(userL2.dataContent.userProfilingData.role === Roles.LOCAL &&
-            (userL2.dataContent.userProfilingData as UserProfilingData).group === null)
-          { // we add the first local, that is not yet in a group
-            group.local = userL2;
-            (userL2.dataContent.userProfilingData as UserProfilingData).group = group._id;
-          }
+      let groupL2:Group = this.groups[gL2];
+      let refugeeL2:KNode = groupL2.refugee;
+      // if the group does already have a local
+      if(groupL2.local !== null) break;
+      for(let uL2:number = 0; uL2<users.length;uL2++){
+        let userL2:KNode = users[uL2];
+        let userProfilingDataL2:UserProfilingData = userL2.dataContent.userProfilingData;
+        if(userProfilingDataL2.role === Roles.LOCAL &&
+          userProfilingDataL2.group === null)
+        { // we add the first local, that is not yet in a group
+          groupL2.local = userL2;
+          userProfilingDataL2.group = groupL2._id;
+          break;
         }
       }
     }
@@ -218,21 +225,25 @@ export class UsersClusteringService {
     //adding ACTIVIST to the group - 1st round:
     // console.log("[clusterDiverseBackgroundSharedInterestsLight] adding ACTIVIST to the groups, 1st round.");
     for(let gA1:number = 0; gA1<this.groups.length; gA1++){
-      let group:Group = this.groups[gA1];
-      let refugee:KNode = group.refugee;
-      let local:KNode = group.local;
+      let groupA1:Group = this.groups[gA1];
+      let refugeeA1:KNode = groupA1.refugee;
+      let localA1:KNode = groupA1.local;
+      // // if the group does already have a activist
+      if(groupA1.activist !== null) break;
       for(let uA1:number = 0; uA1<users.length;uA1++){
         let userA1:KNode = users[uA1];
-        if(userA1.dataContent.userProfilingData.role === Roles.ACTIVIST &&
-          (userA1.dataContent.userProfilingData as UserProfilingData).group === null)
+        let userProfilingDataA1:UserProfilingData = (userA1.dataContent.userProfilingData as UserProfilingData);
+        if(userProfilingDataA1.role === Roles.ACTIVIST &&
+          userProfilingDataA1.group === null)
         { // if activist, not yet in a group
-          let refugeeCLU:ClusteringUser = this.cluster.getClusteringUserbyUserId(refugee._id);
-          let localCLU:ClusteringUser = ((local !== null) ? this.cluster.getClusteringUserbyUserId(local._id) : null); //local may be null if there was less locals then refugees
+          let refugeeCLUA1:ClusteringUser = this.cluster.getClusteringUserbyUserId(refugeeA1._id);
+          let localCLUA1:ClusteringUser = ((localA1 !== null) ? this.cluster.getClusteringUserbyUserId(localA1._id) : null); //local may be null if there was less locals then refugees
 
-          if((refugeeCLU && refugeeCLU.isConnectedTo(userA1._id)) || (localCLU && localCLU.isConnectedTo(userA1._id)))
+          if((refugeeCLUA1 && refugeeCLUA1.isConnectedTo(userA1._id)) || (localCLUA1 && localCLUA1.isConnectedTo(userA1._id)))
           { // if a refugee or a local is connected to the activist, add the activist
-            group.activist = userA1;
-            (userA1.dataContent.userProfilingData as UserProfilingData).group = group._id;
+            groupA1.activist = userA1;
+            userProfilingDataA1.group = groupA1._id;
+            break;
           }
         }
       }
@@ -241,17 +252,19 @@ export class UsersClusteringService {
     //adding ACTIVIST to the group - 2nd round:
     // console.log("[clusterDiverseBackgroundSharedInterestsLight] adding ACTIVIST to the groups, 2nd round.");
     for(let gA2:number = 0; gA2<this.groups.length;gA2++){
-      let group:Group = this.groups[gA2];
-      let refugee:KNode = group.refugee;
-      let activist:KNode = group.activist;
-      if(group.activist === null){ // if the group doesn't already have an activist:
-        for(let uA2:number = 0; uA2<users.length;uA2++){
-          let userA2:KNode = users[uA2];
-          if(userA2.dataContent.userProfilingData.role === Roles.ACTIVIST &&
-            (userA2.dataContent.userProfilingData as UserProfilingData).group === null){ // if activist, not yet in a group
-              group.activist = userA2;
-              (userA2.dataContent.userProfilingData as UserProfilingData).group = group._id;
-          }
+      let groupA2:Group = this.groups[gA2];
+      let refugeeA2:KNode = groupA2.refugee;
+      let activistA2:KNode = groupA2.activist;
+      // if the group does already have an activist
+      if(groupA2.activist !== null) break;
+      for(let uA2:number = 0; uA2<users.length;uA2++){
+        let userA2:KNode = users[uA2];
+        let userProfilingDataA2:UserProfilingData = (userA2.dataContent.userProfilingData as UserProfilingData);
+        if(userProfilingDataA2.role === Roles.ACTIVIST &&
+          userProfilingDataA2.group === null){ // if activist, not yet in a group
+            groupA2.activist = userA2;
+            userProfilingDataA2.group = groupA2._id;
+            break;
         }
       }
     }
