@@ -8,11 +8,11 @@ import {UsersProfilingService} from '../users-profiling/users-profiling.service'
 
 
 @Component({
-  selector: 'users-population',
-  templateUrl: './users-population.component.html',
-  styleUrls: ['./users-population.component.css']
+  selector: 'users-groups',
+  templateUrl: './users-groups.component.html',
+  styleUrls: ['./users-groups.component.css']
 })
-export class UsersPopulationComponent implements OnInit {
+export class UsersGroupsComponent implements OnInit {
 
   @Input() new_users_list:string = `
   `;

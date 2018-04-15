@@ -6,7 +6,7 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
 import {UserProfilingData} from './userProfilingData';
 
-import {UsersProfilingService, ProfilingStateType} from './users-profiling.service';
+import {UsersProfilingService, ProfilingStateType, RelevantTagsGroupsNames} from './users-profiling.service';
 
 import { CoLaboWareType } from '@colabo-colaboware/colaboware_core/coLaboWareData';
 import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareData';
@@ -25,9 +25,7 @@ export class UsersProfilingComponent implements OnInit {
 
   @Input() cw_data:string = '0009592295';
 
-  relevantTagsGroupsNames:string[] = [
-    'Diversity Background', 'Interest Helping', 'Interest 2'
-  ]
+  relevantTagsGroupsNames:string[] = RelevantTagsGroupsNames;
 
   constructor(
     private usersProfilingService: UsersProfilingService

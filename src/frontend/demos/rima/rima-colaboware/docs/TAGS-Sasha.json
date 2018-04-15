@@ -1,0 +1,133 @@
+{
+  "tagsGroups": [
+    {
+      "name": "Roles",
+      "parentTagsGroup": null,
+      "image": {
+        "url": "https://www.advancedproductdelivery.com/uploads/images/Viking_Boat_1.png"
+      }
+    },
+    {
+      "name": "Interests",
+      "parentTagsGroup": null,
+      "image": {
+        "url": "https://thumbs.dreamstime.com/z/woman-favorite-interests-dream-head-process-vector-flat-line-illustration-thought-what-women-wanted-idea-desire-wish-73352797.jpg"
+      }
+    },
+    {
+      "name": "Interest Helping",
+      "parentTagsGroup": "Interests",
+      "image": {
+        "url": "https://thumbs.dreamstime.com/z/woman-favorite-interests-dream-head-process-vector-flat-line-illustration-thought-what-women-wanted-idea-desire-wish-73352797.jpg"
+      }
+    },
+    {
+      "name": "Interest 2",
+      "parentTagsGroup": "Interests",
+      "image": {
+        "url": "https://thumbs.dreamstime.com/z/woman-favorite-interests-dream-head-process-vector-flat-line-illustration-thought-what-women-wanted-idea-desire-wish-73352797.jpg"
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "Refugee",
+      "tagGroup": "Roles",
+      "image": {
+        "url": "http://colabo.space/images/colaboarthon/2018.Thessaloniki/roles/Role-Refugee.png"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0009592295"
+      }
+    },
+    {
+      "name": "Local",
+      "tagGroup": "Roles",
+      "image": {
+        "url": "http://colabo.space/images/colaboarthon/2018.Thessaloniki/roles/Role-Local.png"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0009672284"
+      }
+    },
+    {
+      "name": "Activist",
+      "tagGroup": "Roles",
+      "image": {
+        "url": "http://colabo.space/images/colaboarthon/2018.Thessaloniki/roles/Role-Activist.png"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0009671736"
+      }
+    },
+    {
+      "name": "Hunger",
+      "tagGroup": "Interest Helping",
+      "image": {
+        "url": "https://i.ndtvimg.com/i/2015-12/hunger-problem-india-istock_650x400_51449064006.jpg"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0009609788"
+      }
+    },
+    {
+      "name": "Health",
+      "tagGroup": "Interest Helping",
+      "image": {
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4LkCy_p_YLkdBbYNjbXB-KVHkwUgLNjZ2Ow6BOrWjyHp8Dchu"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0009595752"
+      }
+    },
+    {
+      "name": "Food",
+      "tagGroup": "Interest Helping",
+      "image": {
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4LkCy_p_YLkdBbYNjbXB-KVHkwUgLNjZ2Ow6BOrWjyHp8Dchu"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0009668945"
+      }
+    },
+    {
+      "name": "Interest A1",
+      "tagGroup": "Interest 2",
+      "image": {
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4LkCy_p_YLkdBbYNjbXB-KVHkwUgLNjZ2Ow6BOrWjyHp8Dchu"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0003739468"
+      }
+    },
+    {
+      "name": "Interest A2",
+      "tagGroup": "Interest 2",
+      "image": {
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4LkCy_p_YLkdBbYNjbXB-KVHkwUgLNjZ2Ow6BOrWjyHp8Dchu"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0003678978"
+      }
+    },
+    {
+      "name": "Interest A3",
+      "tagGroup": "Interest 2",
+      "image": {
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4LkCy_p_YLkdBbYNjbXB-KVHkwUgLNjZ2Ow6BOrWjyHp8Dchu"
+      },
+      "coLaboWareData": {
+          "type": 1,
+          "value": "0003736466"
+      }
+    }
+  ]
+}

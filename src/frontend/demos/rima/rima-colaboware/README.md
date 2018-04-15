@@ -1,5 +1,10 @@
 # RIMA-CoLaboWare
 
+[CoLaboWare - RFID - Selecting user and interests with RFID cards](https://www.youtube.com/watch?v=NYGhMlx46Bo&feature=youtu.be)
+
+[CoLaboWare - RFID - Selecting user and interests with SIMULATED RFID cards](https://www.youtube.com/watch?v=dSh96Cow09s&feature=youtu.be)
+
+
 ## entry points
 
 + http://localhost:8888/users-profiling

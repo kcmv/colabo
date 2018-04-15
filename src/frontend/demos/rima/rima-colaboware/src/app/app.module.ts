@@ -29,13 +29,16 @@ import {UserInfoComponent} from './user-info/user-info.component';
 
 import {TagsPopulationComponent} from './tags-population/tags-population.component';
 
+import {UsersGroupsComponent} from './users-groups/users-groups.component';
+
 var moduleDeclarations = [
   AppComponent,
   UsersProfilingComponent,
   UsersClusteringComponent,
   UsersPopulationComponent,
   UserInfoComponent,
-  TagsPopulationComponent
+  TagsPopulationComponent,
+  UsersGroupsComponent
 ];
 
 var moduleImports = [
