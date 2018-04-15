@@ -166,12 +166,12 @@ export class UsersClusteringService {
     this.printConnections(this.cluster);
     //adding refugees to the groups they "lead":
     for(let uR:number = 0; uR<users.length;uR++){
-      let user = users[uR];
-      let userProfilingData = (user.dataContent.userProfilingData as UserProfilingData);
+      let userR = users[uR];
+      let userProfilingData = (userR.dataContent.userProfilingData as UserProfilingData);
 
-      if(user.dataContent.userProfilingData.role === Roles.REFUGEE){
+      if(userR.dataContent.userProfilingData.role === Roles.REFUGEE){
         let group:Group = new Group();
-        group.refugee = user;
+        group.refugee = userR;
         userProfilingData.group = group._id;
         this.groups.push(group);
         group.name = "" + this.groups.length;
@@ -181,17 +181,17 @@ export class UsersClusteringService {
 
     // console.log("[clusterDiverseBackgroundSharedInterestsLight] adding LOCALS to the groups, 1st round.");
     //adding LOCALS to the group - 1st round:
-    for(let gL:number = 0; gL<this.groups.length;gL++){
-      let group:Group = this.groups[gL];
+    for(let gL1:number = 0; gL1<this.groups.length;gL1++){
+      let group:Group = this.groups[gL1];
       let refugee:KNode = group.refugee;
-      for(let uL:number = 0; uL<users.length; uL++){
-        let user:KNode = users[uL];
-        if(user.dataContent.userProfilingData.role === Roles.LOCAL &&
-          (user.dataContent.userProfilingData as UserProfilingData).group === null){ // if local, not yet in a group
+      for(let uL1:number = 0; uL1<users.length; uL1++){
+        let userL1:KNode = users[uL1];
+        if(userL1.dataContent.userProfilingData.role === Roles.LOCAL &&
+          (userL1.dataContent.userProfilingData as UserProfilingData).group === null){ // if local, not yet in a group
           let refugeeCLU:ClusteringUser = this.cluster.getClusteringUserbyUserId(refugee._id);
-          if(refugeeCLU && refugeeCLU.isConnectedTo(user._id)){
-              group.local = user;
-              (user.dataContent.userProfilingData as UserProfilingData).group = group._id;
+          if(refugeeCLU && refugeeCLU.isConnectedTo(userL1._id)){
+              group.local = userL1;
+              (userL1.dataContent.userProfilingData as UserProfilingData).group = group._id;
           }
         }
       }
@@ -204,12 +204,12 @@ export class UsersClusteringService {
       let refugee:KNode = group.refugee;
       if(group.local === null){ // if the group doesn't already have a local:
         for(let u:number = 0; u<users.length;u++){
-          let user:KNode = users[u];
-          if(user.dataContent.userProfilingData.role === Roles.LOCAL &&
-            (user.dataContent.userProfilingData as UserProfilingData).group === null)
+          let userL2:KNode = users[u];
+          if(userL2.dataContent.userProfilingData.role === Roles.LOCAL &&
+            (userL2.dataContent.userProfilingData as UserProfilingData).group === null)
           { // we add the first local, that is not yet in a group
-            group.local = user;
-            (user.dataContent.userProfilingData as UserProfilingData).group = group._id;
+            group.local = userL2;
+            (userL2.dataContent.userProfilingData as UserProfilingData).group = group._id;
           }
         }
       }
@@ -222,17 +222,17 @@ export class UsersClusteringService {
       let refugee:KNode = group.refugee;
       let local:KNode = group.local;
       for(let uA1:number = 0; uA1<users.length;uA1++){
-        let user:KNode = users[uA1];
-        if(user.dataContent.userProfilingData.role === Roles.ACTIVIST &&
-          (user.dataContent.userProfilingData as UserProfilingData).group === null)
+        let userA1:KNode = users[uA1];
+        if(userA1.dataContent.userProfilingData.role === Roles.ACTIVIST &&
+          (userA1.dataContent.userProfilingData as UserProfilingData).group === null)
         { // if activist, not yet in a group
           let refugeeCLU:ClusteringUser = this.cluster.getClusteringUserbyUserId(refugee._id);
           let localCLU:ClusteringUser = ((local !== null) ? this.cluster.getClusteringUserbyUserId(local._id) : null); //local may be null if there was less locals then refugees
 
-          if((refugeeCLU && refugeeCLU.isConnectedTo(user._id)) || (localCLU && localCLU.isConnectedTo(user._id)))
+          if((refugeeCLU && refugeeCLU.isConnectedTo(userA1._id)) || (localCLU && localCLU.isConnectedTo(userA1._id)))
           { // if a refugee or a local is connected to the activist, add the activist
-            group.activist = user;
-            (user.dataContent.userProfilingData as UserProfilingData).group = group._id;
+            group.activist = userA1;
+            (userA1.dataContent.userProfilingData as UserProfilingData).group = group._id;
           }
         }
       }
@@ -243,13 +243,15 @@ export class UsersClusteringService {
     for(let gA2:number = 0; gA2<this.groups.length;gA2++){
       let group:Group = this.groups[gA2];
       let refugee:KNode = group.refugee;
-      let local:KNode = group.local;
-      for(let uA2:number = 0; uA2<users.length;uA2++){
-        let user:KNode = users[uA2];
-        if(user.dataContent.userProfilingData.role === Roles.ACTIVIST &&
-          (user.dataContent.userProfilingData as UserProfilingData).group === null){ // if activist, not yet in a group
-            group.activist = user;
-            (user.dataContent.userProfilingData as UserProfilingData).group = group._id;
+      let activist:KNode = group.activist;
+      if(group.activist === null){ // if the group doesn't already have an activist:
+        for(let uA2:number = 0; uA2<users.length;uA2++){
+          let userA2:KNode = users[uA2];
+          if(userA2.dataContent.userProfilingData.role === Roles.ACTIVIST &&
+            (userA2.dataContent.userProfilingData as UserProfilingData).group === null){ // if activist, not yet in a group
+              group.activist = userA2;
+              (userA2.dataContent.userProfilingData as UserProfilingData).group = group._id;
+          }
         }
       }
     }
