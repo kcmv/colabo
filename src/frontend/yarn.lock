@@ -5,7 +5,7 @@
 "@angular-devkit/build-optimizer@0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-optimizer/-/build-optimizer-0.3.1.tgz#6a26a46c58858c7b67833c6d8a81198fa17d23e7"
-  dependencies:
+  dependencies: 
     loader-utils "^1.1.0"
     source-map "^0.5.6"
     typescript "~2.6.2"
