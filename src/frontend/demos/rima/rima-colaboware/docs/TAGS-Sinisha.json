@@ -15,7 +15,7 @@
       }
     },
     {
-      "name": "Interest Helping",
+      "name": "Interest 1",
       "parentTagsGroup": "Interests",
       "image": {
         "url": "https://thumbs.dreamstime.com/z/woman-favorite-interests-dream-head-process-vector-flat-line-illustration-thought-what-women-wanted-idea-desire-wish-73352797.jpg"
@@ -65,7 +65,7 @@
     },
     {
       "name": "Hunger",
-      "tagGroup": "Interest Helping",
+      "tagGroup": "Interest 1",
       "image": {
         "url": "https://i.ndtvimg.com/i/2015-12/hunger-problem-india-istock_650x400_51449064006.jpg"
       },
@@ -76,7 +76,7 @@
     },
     {
       "name": "Health",
-      "tagGroup": "Interest Helping",
+      "tagGroup": "Interest 1",
       "image": {
         "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4LkCy_p_YLkdBbYNjbXB-KVHkwUgLNjZ2Ow6BOrWjyHp8Dchu"
       },
@@ -87,7 +87,7 @@
     },
     {
       "name": "Food",
-      "tagGroup": "Interest Helping",
+      "tagGroup": "Interest 1",
       "image": {
         "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4LkCy_p_YLkdBbYNjbXB-KVHkwUgLNjZ2Ow6BOrWjyHp8Dchu"
       },
