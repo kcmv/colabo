@@ -185,7 +185,8 @@ export class UsersClusteringService {
       let groupL1:Group = this.groups[gL1];
       let refugeeL1:KNode = groupL1.refugee;
       // // if the group does already have a local
-      if(groupL1.local !== null) break;
+      if(groupL1.local !== null) continue;
+
       for(let uL1:number = 0; uL1<users.length; uL1++){
         let userL1:KNode = users[uL1];
         let userProfilingDataL1:UserProfilingData = (userL1.dataContent.userProfilingData as UserProfilingData);
@@ -208,7 +209,8 @@ export class UsersClusteringService {
       let groupL2:Group = this.groups[gL2];
       let refugeeL2:KNode = groupL2.refugee;
       // if the group does already have a local
-      if(groupL2.local !== null) break;
+      if(groupL2.local !== null) continue;
+
       for(let uL2:number = 0; uL2<users.length;uL2++){
         let userL2:KNode = users[uL2];
         let userProfilingDataL2:UserProfilingData = userL2.dataContent.userProfilingData;
@@ -229,7 +231,8 @@ export class UsersClusteringService {
       let refugeeA1:KNode = groupA1.refugee;
       let localA1:KNode = groupA1.local;
       // // if the group does already have a activist
-      if(groupA1.activist !== null) break;
+      if(groupA1.activist !== null) continue;
+
       for(let uA1:number = 0; uA1<users.length;uA1++){
         let userA1:KNode = users[uA1];
         let userProfilingDataA1:UserProfilingData = (userA1.dataContent.userProfilingData as UserProfilingData);
@@ -256,7 +259,8 @@ export class UsersClusteringService {
       let refugeeA2:KNode = groupA2.refugee;
       let activistA2:KNode = groupA2.activist;
       // if the group does already have an activist
-      if(groupA2.activist !== null) break;
+      if(groupA2.activist !== null) continue;
+
       for(let uA2:number = 0; uA2<users.length;uA2++){
         let userA2:KNode = users[uA2];
         let userProfilingDataA2:UserProfilingData = (userA2.dataContent.userProfilingData as UserProfilingData);
