@@ -275,6 +275,28 @@ export class UsersProfilingService {
       let edge_id:string = edge._id;
       this.knalledgeEdgeService.destroy(edge_id).subscribe(edgeDeleted.bind(this));
     }else{
+      let role;
+      let roleId = RolesNames.indexOf(tag.name);
+
+      // we are setting role
+      // we need to check if there is available for
+      // the adding role value
+      if(roleId >= 0){
+        // adjusting to Roles enum
+        role = roleId+1;
+
+        let roleNum = 0;
+        for(let i=0; i<this.interests.length; i++){
+          let interestEdge = this.interests[i];
+          let interestTag = this.getNodeById(interestEdge.targetId);
+          if(interestTag.name === tag.name) roleNum++;
+        }
+        if(roleNum >= this.groupsNumber){
+          alert("Role '" + tag.name + "' has already reached the limit: " + this.groupsNumber + ". Canceled.\nPlease choose another role.");
+          return;
+        }
+      }
+
       let edge:KEdge = new KEdge();
       //TODO:NG2: add Demo User at the beginning and use Demo Map Id
       edge.iAmId = '556760847125996dc1a4a24f';
@@ -544,7 +566,9 @@ export class UsersProfilingService {
 
   createNewNodeWithEdge(newNode:KNode, newEdge:KEdge, parentNodeId:string, listener){
     newNode.iAmId = "556760847125996dc1a4a24f";
+    newNode.visual = {};
     newEdge.iAmId = "556760847125996dc1a4a24f";
+    newEdge.visual = {};
 
     //TODO: iAmId, createdAt, updatedAt
     this.knalledgeNodeService.create(newNode)
