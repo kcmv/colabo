@@ -18,6 +18,9 @@ export class UsersClusteringComponent implements OnInit {
 
   clusterUsers():void{
     console.log('users:',this.usersProfilingService.users);
+    console.log('convertUserInterestsForAlgorithm...');
+    this.usersProfilingService.convertUserInterestsForAlgorithm();
+    console.log('users:',this.usersProfilingService.users);
     this.usersClusteringService.clusterDiverseBackgroundSharedInterestsLight(this.usersProfilingService.users);
   }
 

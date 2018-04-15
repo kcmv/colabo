@@ -7,6 +7,7 @@ export class Group{
   static MaxId = 0;
 
   _id:string = "" + (++Group.MaxId);
+  name:string = "";
 
   refugee:KNode = null;
   local:KNode = null;
