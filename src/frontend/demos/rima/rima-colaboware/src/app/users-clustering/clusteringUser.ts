@@ -6,11 +6,12 @@ import {ClusteringConnection} from './clusteringConnection';
 
 export class ClusteringUser{
   user: KNode;
-  desiredRole: string;
+  desiredRole: string; // role is contained in 'user.dataContent.userProfilingData.role', but here we store the old role, the one desired by user, after the algorithm assigm him a new role (because the desired is not available for him)
   connections:ClusteringConnection[] = [];//IDictionary = {};
 
   constructor(user:KNode){
     this.user = user;
+    this.desiredRole = user.dataContent.userProfilingData.role;
   }
 
   isConnectedTo(id:string):boolean{
@@ -20,6 +21,15 @@ export class ClusteringUser{
       }
     }
     return false;
+  }
+
+  getConnectionTo(id:string):ClusteringConnection{
+    for(var connection in this.connections){
+      if((this.connections[connection] as ClusteringConnection).to == id){
+        return this.connections[connection];
+      }
+    }
+    return null;
   }
 
   addConnection(to:string, increaseStrengthForExisting:boolean = false):void{
