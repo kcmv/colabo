@@ -102,6 +102,12 @@ export class KNode extends VO {
   		if ("up" in obj) { this.up = obj.up; } //TODO: deep copy?
   		if ("visual" in obj) {
         if (!('visual' in this)) this.visual = {};
+        if(obj.visual === null){
+          console.log('obj is null',obj);
+        }
+        if(this.visual === null){
+          console.log('this is null',this);
+        }
     		if ("isOpen" in obj.visual) { 	this.visual.isOpen = obj.visual.isOpen; }
     		if ("xM" in obj.visual) { 	this.visual.xM = obj.visual.xM; }
     		if ("yM" in obj.visual) { 	this.visual.yM = obj.visual.yM; }
