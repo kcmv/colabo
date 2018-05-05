@@ -36,7 +36,7 @@ At the following diagram, we are presented the majority of methodologies we have
 
 <img alt='Colabo-spiral' src='https://farm4.staticflickr.com/3753/33559816566_255b13fcdf_z.jpg' width='100%'/>
 
-## Colabo.Space tools
+### Colabo.Space tools
 
 Colabo.Space tools represent mainly ***virtual tools*** that are realized in the scope of the Colabo.space or integrated as best solutions from external vendors or open-source solutions. Some tools (like *creative cards*), are purely ***physical tools*** and others (like *CoLaboWare*) are ***mix*** of physical and virtual tools.
 
@@ -49,6 +49,12 @@ The following diagram shows building blocks, fundamental tools or infrastructura
 <img alt='Colabo-spiral' src='https://farm4.staticflickr.com/3845/33443686762_6912008b91_z.jpg' width='100%'/>
 
 
+
+## Usage
+
+Colabo.Space has been used around the world:
+
+<img alt='colabo-logo-url' src='http://colabo.space/images/CoLabo.Space-Usage-WorldMap.png' width='100%'>
 
 ***
 
