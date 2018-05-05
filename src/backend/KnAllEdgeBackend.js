@@ -87,6 +87,8 @@ var session = app.resource('session', require('./modules/session'), {id: 'type?/
 
 var session = app.resource('mapImport', require('./modules/mapImport'), {id: 'type?/:searchParam?'});
 
+//var smsapi = app.resource('smsapi', require('./modules/kNode'), {id: 'type?/:actionType?/:searchParam?/:searchParam2?'});
+
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Listening on " + app.get('port'));
 });

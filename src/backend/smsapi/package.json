@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node smsapi 8001 8002"
+    "start": "node smsapi 8003"
   },
   "dependencies": {
     "async": "x",
@@ -20,7 +20,7 @@
     "passport-google-oauth": "latest",
     "passport-local": "latest",
     "passport-twitter": "latest"
-  }, 
+  },
   "devDependencies": {
     "ghooks": "^2.0.0",
     "istanbul": "^0.4.5",

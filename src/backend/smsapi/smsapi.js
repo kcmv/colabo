@@ -4,11 +4,15 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.post("/message", function (request, response) {
+  console.log('request:',request);
+  console.log('response:',response);
   console.log(request.body);
-  response.send("<Response><Message>Hello from Twilio!</Message></Response>")
+  response.send("<Response><Message>Hello from the CoLaboArthon - SMS Service!</Message></Response>")
 });
 
 app.get("/", function (request, response) {
+  console.log('request:',request);
+  console.log('response:',response);
   response.sendFile(__dirname + '/views/index.html');
 });
 
