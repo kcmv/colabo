@@ -103,12 +103,6 @@ export class KNode extends VO {
   		if ("visual" in obj) {
 
         if (!('visual' in this) || this.visual == null) this.visual = {};
-
-    		if ("isOpen" in obj.visual) { 	this.visual.isOpen = obj.visual.isOpen; }
-    		if ("xM" in obj.visual) { 	this.visual.xM = obj.visual.xM; }
-    		if ("yM" in obj.visual) { 	this.visual.yM = obj.visual.yM; }
-    		if ("widthM" in obj.visual) { 	this.visual.widthM = obj.visual.widthM; }
-    		if ("heightM" in obj.visual) { 	this.visual.heightM = obj.visual.heightM; }
   		}
   	}
   }
