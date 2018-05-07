@@ -1,4 +1,4 @@
-# CoLaboArthon / Poetry-art-alogue
+# CoLaboArthon / Poetry-art-dialogue
 
 
 ## entry points
