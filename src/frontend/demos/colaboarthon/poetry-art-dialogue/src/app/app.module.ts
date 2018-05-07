@@ -16,6 +16,7 @@ import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/Colabowa
 import {UsersProfilingService} from './users-profiling/users-profiling.service';
 import {UsersClusteringService} from './users-clustering/users-clustering.service';
 import { UsersClusteringComponent } from './users-clustering/users-clustering.component';
+import {UiSmsComponent} from './ui-sms/ui-sms.component';
 
 import { AppComponent } from './app.component';
 
@@ -33,6 +34,7 @@ import {UsersGroupsComponent} from './users-groups/users-groups.component';
 
 var moduleDeclarations = [
   AppComponent,
+  UiSmsComponent,
   UsersProfilingComponent,
   UsersClusteringComponent,
   UsersPopulationComponent,

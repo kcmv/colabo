@@ -6,14 +6,19 @@ import { UsersClusteringComponent } from './users-clustering/users-clustering.co
 import { UsersPopulationComponent } from './users-population/users-population.component';
 import { TagsPopulationComponent } from './tags-population/tags-population.component';
 import {UsersGroupsComponent} from './users-groups/users-groups.component';
+import {UiSmsComponent} from './ui-sms/ui-sms.component';
 
 UsersGroupsComponent
 const routes: Routes = [
   // default route
   {
     path: '',
-    redirectTo: '/users-profiling',
+    redirectTo: '/ui-sms',
     pathMatch: 'full'
+  },
+  {
+    path: 'ui-sms',
+    component: UiSmsComponent
   },
   {
     path: 'users-profiling',
