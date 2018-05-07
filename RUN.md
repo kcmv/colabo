@@ -163,3 +163,43 @@ sudo kill -TERM <mongo_pid>
 # but that is how it is working now since service is crashing
 sudo mongod --fork --config /etc/mongod.conf
 ```
+
+# Updating
+
+## Backend
+
++ Track backend through services:
+
+```bash
+cat /etc/init/knalledge-b.conf
+cat /etc/init/knalledge-b-beta.conf
+```
+
+there are 2 services:
+```bash
+# /etc/init/knalledge-b.conf
+exec sudo -u www-data /usr/bin/nodejs /var/www/knalledge/src/backend/prod/KnAllEdgeBackend.js 8001 8002
+
+# /etc/init/knalledge-b-beta.conf
+exec sudo -u www-data /usr/bin/nodejs /var/www/knalledge/src/backend/beta/KnAllEdgeBackend.js 8889 8061
+```
+
+checking the proxy that is routing our *:80 services we can find out which one is active:
+```bash
+cat /var/www/web_fork/index.js
+```
+
+we see
+```javascript
+// node backend
+  case 'api.'+server:
+     proxy.web(req, res, { target: 'http://localhost:8001' });
+     break;
+```
+so the `/etc/init/knalledge-b-beta.conf` is active `/var/www/knalledge/src/backend/prod/` is the right path.
+
+We can replace content there (even manually, file by file) and restart the server:
+
+```bash
+sudo restart knalledge-b
+```
