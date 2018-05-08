@@ -46,9 +46,33 @@ var KMapModel = mongoose.model('kMap', global.db.kMap.Schema);
 
 /* connecting */
 var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
-mongoose.connect('mongodb://127.0.0.1/' + dbName);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+var newConnect=true;
+if(newConnect){
+	var opts = {
+		server: { auto_reconnect: true }
+		// , user: 'username', pass: 'mypassword'
+	};
+	var db = mongoose.createConnection();
+	db.on('error', function (err) {
+	  if (err){ // couldn't connect
+			console.error("kMap DB error: ", err);
+		  // hack the driver to allow re-opening after initial network error
+		  db.close();
+
+			// retry if desired
+		  connect();
+		}
+	});
+
+	function connect () {
+	  db.open('localhost', dbName, 27017, opts);
+	}
+
+	connect();
+}else{
+	mongoose.connect('mongodb://127.0.0.1/' + dbName);
+	var db = mongoose.connection;
+}
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/kmaps/one/551bdcda1763e3f0eb749bd4
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/kmaps/all
