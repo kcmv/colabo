@@ -196,7 +196,7 @@ We see
      proxy.web(req, res, { target: 'http://localhost:8001' });
      break;
 ```
-so the `/etc/init/knalledge-b-beta.conf` is active `/var/www/knalledge/src/backend/prod/` is the right path.
+so the `/etc/init/knalledge-b.conf` is active, and the `/var/www/knalledge/src/backend/prod/` is the right path.
 
 We can replace content there (even manually, file by file) and restart the server:
 
