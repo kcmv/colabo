@@ -40,8 +40,6 @@ function resSendJsonProtected(res, data){
 // };
 
 
-var KMapModel = mongoose.model('kMap', global.db.kMap.Schema);
-
 // module.exports = KMapModel; //then we can use it by: var User = require('./app/models/KMapModel');
 
 /* connecting */
@@ -52,12 +50,12 @@ if(newConnect){
 		server: { auto_reconnect: true }
 		// , user: 'username', pass: 'mypassword'
 	};
-	var db = mongoose.createConnection();
-	db.on('error', function (err) {
+	var dbConnection = mongoose.createConnection();
+	dbConnection.on('error', function (err) {
 	  if (err){ // couldn't connect
 			console.error("kMap DB error: ", err);
 		  // hack the driver to allow re-opening after initial network error
-		  db.close();
+		  dbConnection.close();
 
 			// retry if desired
 		  connect();
@@ -65,14 +63,16 @@ if(newConnect){
 	});
 
 	function connect () {
-	  db.open('localhost', dbName, 27017, opts);
+	  dbConnection.open('localhost', dbName, 27017, opts);
 	}
 
 	connect();
 }else{
 	mongoose.connect('mongodb://127.0.0.1/' + dbName);
-	var db = mongoose.connection;
+	var dbConnection = mongoose.connection;
 }
+
+var KMapModel = dbConnection.model('kMap', global.db.kMap.Schema);
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/kmaps/one/551bdcda1763e3f0eb749bd4
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/kmaps/all
@@ -327,8 +327,8 @@ exports.update = function(req, res){
 					console.log('[found] No map found');
 					finished(null);
 				}else{
-					var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
-					var KNodeModel = mongoose.model('kNode', global.db.kNode.Schema);
+					var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
+					var KNodeModel = dbConnection.model('kNode', global.db.kNode.Schema);
 					var rootNodeId = kMap.rootNodeId;
 					if(rootNodeId === null){
 						console.log('[found] ERROR: map.rootNodeId === null!!');
@@ -390,8 +390,8 @@ exports.update = function(req, res){
 					console.log('[found] No map found');
 					finished(null);
 				}else{
-					var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
-					var KNodeModel = mongoose.model('kNode', global.db.kNode.Schema);
+					var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
+					var KNodeModel = dbConnection.model('kNode', global.db.kNode.Schema);
 
 					// var rootNodeId = kMap.rootNodeId;
 					// if(rootNodeId === null){
@@ -454,9 +454,9 @@ exports.destroy = function(req, res){
 				console.log("[deleteMapAndContent]");
 				//deleting map's content (nodes + edge)
 
-				var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
+				var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
 				console.log('KEdgeModel:',KEdgeModel);
-				var KNodeModel = mongoose.model('kNode', global.db.kNode.Schema);
+				var KNodeModel = dbConnection.model('kNode', global.db.kNode.Schema);
 				console.log('KNodeModel:',KNodeModel);
 
 				var nodes = KNodeModel.remove({ 'mapId': mapId}).exec();
