@@ -189,7 +189,7 @@ checking the proxy that is routing our *:80 services we can find out which one i
 cat /var/www/web_fork/index.js
 ```
 
-we see
+We see
 ```javascript
 // node backend
   case 'api.'+server:

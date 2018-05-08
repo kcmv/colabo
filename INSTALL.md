@@ -3,7 +3,6 @@
 + Installing **Node.JS**
   + https://nodejs.org/en/download/
 
-
   + after this, you can test if you have installed successfully node and containing npm, by running:
   ```sh
   node -v
@@ -186,7 +185,7 @@ typings -v
 typings install
 ```
 
-or 
+or
 2. instead of using global, do it in a safer mode, by using the **local** version of the module:
 
 ```sh
