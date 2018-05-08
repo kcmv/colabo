@@ -1,3 +1,5 @@
+console.log("[src/backend/models/index.js] Building up 'global.db'");
+
 if (!global.hasOwnProperty('db')) {
 	var mDbAudit = require('./mDbAudit');
 	var mSession = require('./mSession');
@@ -25,3 +27,7 @@ if (!global.hasOwnProperty('db')) {
 	};
 	module.exports = global.db;
 }
+
+console.log("[src/backend/models/index.js] Built up 'global.db'");
+
+console.log("global.db.kEdge.Schema: " + global.db.kEdge.Schema);

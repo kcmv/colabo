@@ -21,7 +21,12 @@ if (!global.hasOwnProperty('paths')) {
 if (!global.hasOwnProperty('dbConfig')) {
 	console.log("Setting up global.dbConfig");
 	global.dbConfig = {
-		name: "KnAllEdge"
+		newConnect: true,
+		dbName: "KnAllEdge",
+		domain: '127.0.0.1',
+		port: 27017,
+		user: 'user',
+		pass: 'pass'
 	};
 }
 

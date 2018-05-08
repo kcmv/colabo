@@ -3,14 +3,13 @@
 /**
  * New whatAmI file
  */
-var mongoose = require('mongoose');
 //var Promise = require("bluebird");
 
 var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
 
 function resSendJsonProtected(res, data){
-	// http://tobyho.com/2011/01/28/checking-types-in-javascript/	
+	// http://tobyho.com/2011/01/28/checking-types-in-javascript/
 	if(data !== null && typeof data === 'object'){ // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
 		res.set('Content-Type', 'application/json');
 		// JSON Vulnerability Protection
@@ -24,16 +23,12 @@ function resSendJsonProtected(res, data){
 	}
 };
 
+var dbService = require('./dbService');
+var dbConnection = dbService.connect();
 
-var WhatAmIModel = mongoose.model('WhatAmI', global.db.whatAmI.Schema);
+var WhatAmIModel = dbConnection.model('WhatAmI', global.db.whatAmI.Schema);
 
 // module.exports = WhatAmIModel; //then we can use it by: var User = require('./app/models/WhatAmIModel');
-
-/* connecting */
-var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
-mongoose.connect('mongodb://127.0.0.1/' + dbName);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/whatAmIs/one/5544aedea7592efb3e3c561d
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/whatAmIs/in_map/552678e69ad190a642ad461c
@@ -49,7 +44,7 @@ exports.index = function(req, res){
 			resSendJsonProtected(res, {data: whatAmIs, accessId : accessId, success: true});
 		}
 	}
-	
+
 	var id = req.params.searchParam;
 	var id2 = req.params.searchParam2;
 	if(mockup && mockup.db && mockup.db.data){
@@ -66,7 +61,7 @@ exports.index = function(req, res){
 	// 	console.log(whatAmIs);
 	// 	//resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
 	// });
-	
+
 	console.log("[modules/whatAmI.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
 	switch (req.params.type){
 		case 'one': //by id:
@@ -111,9 +106,9 @@ exports.index = function(req, res){
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/whatAmIs
 exports.create = function(req, res){
 	console.log("[modules/whatAmI.js:create] req.body: %s", JSON.stringify(req.body));
-	
+
 	var data = req.body;
-	
+
 	console.log(data);
 	var whatAmI = new WhatAmIModel(data);
 
@@ -121,7 +116,7 @@ exports.create = function(req, res){
 		if (err) throw err;
 		console.log("[modules/WhatAmI.js:create] id:%s, whatAmI data: %s", whatAmI._id, JSON.stringify(whatAmI));
 		resSendJsonProtected(res, {success: true, data: whatAmI, accessId : accessId});
-	});				
+	});
 }
 
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/whatAmIs/one/55266618cce5af993fe8675f
@@ -130,11 +125,11 @@ exports.update = function(req, res){
 
 	var data = req.body;
 	var id = req.params.searchParam;
-	
+
 	/* this is wrong because it creates default-values populated object (including id) first and then populate it with paremeter object:
 	 * var whatAmI = new WhatAmIModel(req.body);
 	 */
-	
+
 	console.log("[modules/WhatAmI.js:update] id : %s", id );
 	console.log("[modules/WhatAmI.js:update] data, : %s", JSON.stringify(data));
 	// console.log("[modules/WhatAmI.js:update] whatAmI.toObject(), : %s", JSON.stringify(whatAmI.toObject());
@@ -147,15 +142,15 @@ exports.update = function(req, res){
 		data._id = id;
 		resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 	});
-	
+
 	//TODO: check this: multi (boolean) whether multiple documents should be updated (false)
 	//TODO: fix: numberAffected vraca 0, a raw vraca undefined. pitanje je da li su ispravni parametri callback f-je
 	// WhatAmIModel.findByIdAndUpdate(id , data, { /* multi: true */ }, function (err, numberAffected, raw) {
 	// 	  if (err) throw err;
 	// 	  console.log('The number of updated documents was %d', numberAffected);
 	// 	  console.log('The raw response from Mongo was ', raw);
-	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
-	// });			
+	// 	  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+	// });
 }
 
 // curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8888/whatAmIs/one/551bdcda1763e3f0eb749bd4

@@ -3,7 +3,6 @@
 /**
  * New map file
  */
-var mongoose = require('mongoose');
 var Promise = require("bluebird");
 
 var mockup = {fb: {authenticate: false}, db: {data:false}};
@@ -42,42 +41,14 @@ function resSendJsonProtected(res, data){
 
 // module.exports = KMapModel; //then we can use it by: var User = require('./app/models/KMapModel');
 
-/* connecting */
-var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
-var newConnect=true;
-if(newConnect){
-	var opts = {
-		server: { auto_reconnect: true }
-		// , user: 'username', pass: 'mypassword'
-	};
-	var dbConnection = mongoose.createConnection();
-	dbConnection.on('error', function (err) {
-	  if (err){ // couldn't connect
-			console.error("kMap DB error: ", err);
-		  // hack the driver to allow re-opening after initial network error
-		  dbConnection.close();
-
-			// retry if desired
-		  connect();
-		}
-	});
-
-	function connect () {
-	  dbConnection.open('localhost', dbName, 27017, opts);
-	}
-
-	connect();
-}else{
-	mongoose.connect('mongodb://127.0.0.1/' + dbName);
-	var dbConnection = mongoose.connection;
-}
+var dbService = require('./dbService');
+var dbConnection = dbService.connect();
 
 var KMapModel = dbConnection.model('kMap', global.db.kMap.Schema);
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/kmaps/one/551bdcda1763e3f0eb749bd4
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/kmaps/all
 exports.index = function(req, res){
-console.log("dbName: %s", dbName);
 	console.log("[modules/kMap.js:index]");
 	var found = function(err,kMaps){
 		//console.log("[modules/kMap.js:index] in 'found'");

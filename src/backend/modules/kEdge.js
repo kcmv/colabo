@@ -22,15 +22,12 @@ function resSendJsonProtected(res, data){
 	}
 };
 
-var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
+var dbService = require('./dbService');
+var dbConnection = dbService.connect();
+
+var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
 
 // module.exports = KEdgeModel; //then we can use it by: var User = require('./app/models/KEdgeModel');
-
-/* connecting */
-var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
-mongoose.connect('mongodb://127.0.0.1/' + dbName);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6

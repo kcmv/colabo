@@ -3,14 +3,13 @@
 /**
  * New map file
  */
-var mongoose = require('mongoose');
 var Promise = require("bluebird");
 
 var mockup = {fb: {authenticate: false}, db: {data:false}};
 var accessId = 0;
 
 function resSendJsonProtected(res, data){
-	// http://tobyho.com/2011/01/28/checking-types-in-javascript/	
+	// http://tobyho.com/2011/01/28/checking-types-in-javascript/
 	if(data !== null && typeof data === 'object'){ // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
 		res.set('Content-Type', 'application/json');
 		// JSON Vulnerability Protection
@@ -24,28 +23,24 @@ function resSendJsonProtected(res, data){
 	}
 };
 
+var dbService = require('./dbService');
+var dbConnection = dbService.connect();
 
-//var SyncingModel = mongoose.model('Syncing', global.db.Syncing.Schema);
-var KNodeModel = mongoose.model('KNode', global.db.kNode.Schema);
-var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
+//var SyncingModel = dbConnection.model('Syncing', global.db.Syncing.Schema);
+var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);
+var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
 
 // module.exports = SyncingModel; //then we can use it by: var User = require('./app/models/SyncingModel');
-
-/* connecting */
-var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
-mongoose.connect('mongodb://127.0.0.1/' + dbName);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/syncing/one/551bdcda1763e3f0eb749bd4
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/syncing/all
 exports.index = function(req, res){
 	console.log("[modules/Syncing.js:index]");
-	
+
 	var mapId = req.params.searchParam;
 	var time = new Date(parseInt(req.params.searchParam2,10));
 	var type = req.params.type;
-	
+
 	console.log("[modules/Syncing.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
 	switch (type){
 		case 'in_map_after': //:
@@ -63,7 +58,7 @@ exports.index = function(req, res){
 					changes.nodes.push(nodes[i]);
 					// console.log("nodes[i].updatedAt instanceof Date:"+ (nodes[i].updatedAt instanceof Date));
 					//NOTE: mongoose returns here JavaScript Date object so we can compare it regularly (note: in MongoDb dates are stored as ISODate object but mongoose takes care of conversions)
-					if(nodes[i].updatedAt > changes.last_change){ 
+					if(nodes[i].updatedAt > changes.last_change){
 						// console.log("nodes[i].updatedAt [%s] > changes.last_change [%s]", nodes[i].updatedAt, changes.last_change);
 						changes.last_change = nodes[i].updatedAt;
 					}
@@ -92,9 +87,9 @@ exports.index = function(req, res){
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8042/syncing
 // exports.create = function(req, res){
 // 	console.log("[modules/Syncing.js:create] req.body: %s", JSON.stringify(req.body));
-	
+
 // 	var data = req.body;
-	
+
 // 	console.log(data);
 // 	var syncing = new SyncingModel(data);
 
@@ -102,7 +97,7 @@ exports.index = function(req, res){
 // 		if (err) throw err;
 // 		console.log("[modules/Syncing.js:create] id:%s, kmap data: %s", syncing._id, JSON.stringify(syncing));
 // 		resSendJsonProtected(res, {success: true, data: syncing, accessId : accessId});
-// 	});				
+// 	});
 // }
 
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8042/syncing/one/55266618cce5af993fe8675f
@@ -111,11 +106,11 @@ exports.index = function(req, res){
 
 // 	var data = req.body;
 // 	var id = req.params.searchParam;
-	
+
 // 	/* this is wrong because it creates default-values populated object (including id) first and then populate it with paremeter object:
 // 	 * var syncing = new SyncingModel(req.body);
 // 	 */
-	
+
 // 	console.log("[modules/syncing.js:update] id : %s", id );
 // 	console.log("[modules/syncing.js:update] data, : %s", JSON.stringify(data));
 // 	// console.log("[modules/syncing.js:update] syncing.toObject(), : %s", JSON.stringify(syncing.toObject());
@@ -126,8 +121,8 @@ exports.index = function(req, res){
 // 		  if (err) throw err;
 // 		  console.log('The number of updated documents was %d', numberAffected);
 // 		  console.log('The raw response from Mongo was ', raw);
-// 		  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});	
-// 	});			
+// 		  resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+// 	});
 // }
 
 // curl -v -H "Content-Type: application/json" -X DELETE http://127.0.0.1:8042/syncing/one/553fa6ed4f05fdb0311a10cb
@@ -136,7 +131,7 @@ exports.index = function(req, res){
 // 	var type = req.params.type;
 // 	var dataId = req.params.searchParam;
 // 	console.log("[modules/Syncing.js:destroy] dataId:%s, type:%s, req.body: %s", dataId, type, JSON.stringify(req.body));
-	
+
 // 	SyncingModel.findByIdAndRemove(dataId, function (err) {
 // 			if (err) throw err;
 // 			var data = {id:dataId};

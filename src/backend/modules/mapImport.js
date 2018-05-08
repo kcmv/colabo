@@ -3,12 +3,14 @@
 /**
  * New map file
  */
-var mongoose = require('mongoose');
 var Promise = require("bluebird");
 var fs = require('fs');
 
-var KNodeModel = mongoose.model('KNode', global.db.kNode.Schema);
-var KEdgeModel = mongoose.model('kEdge', global.db.kEdge.Schema);
+var dbService = require('./dbService');
+var dbConnection = dbService.connect();
+
+var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);
+var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
 
 var accessId = 0;
 
@@ -169,13 +171,7 @@ function populateEdgeDemo(mapData){
 	});
 }
 
-var KMapModel = mongoose.model('kMap', global.db.kMap.Schema);
-
-/* connecting */
-var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
-mongoose.connect('mongodb://127.0.0.1/' + dbName);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+var KMapModel = dbConnection.model('kMap', global.db.kMap.Schema);
 
 // curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Map", "iAmId":5, "visual": {}}' http://127.0.0.1:8042/kmaps
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8042/kmaps

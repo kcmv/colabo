@@ -3,7 +3,6 @@
 /**
  * New dbAudit file
  */
-var mongoose = require('mongoose');
 //var Promise = require("bluebird");
 
 //var mockup = {fb: {authenticate: false}, db: {data:false}};
@@ -24,16 +23,12 @@ function resSendJsonProtected(res, data){
 	}
 };
 
+var dbService = require('./dbService');
+var dbConnection = dbService.connect();
 
-var DbAuditModel = mongoose.model('DbAudit', global.db.dbAudit.Schema);
+var DbAuditModel = dbConnection.model('DbAudit', global.db.dbAudit.Schema);
 
 // module.exports = DbAuditModel; //then we can use it by: var User = require('./app/models/DbAuditModel');
-
-/* connecting */
-var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
-mongoose.connect('mongodb://127.0.0.1/' + dbName);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/dbAudits/one/5544aedea7592efb3e3c561d
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/dbAudits/in_map/552678e69ad190a642ad461c

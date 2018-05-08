@@ -3,7 +3,6 @@
 /**
  * New node file
  */
-var mongoose = require('mongoose');
 var deepAssign = require('deep-assign');
 //var Promise = require("bluebird");
 
@@ -26,15 +25,12 @@ function resSendJsonProtected(res, data){
 };
 
 
-var KNodeModel = mongoose.model('KNode', global.db.kNode.Schema);
+var dbService = require('./dbService');
+var dbConnection = dbService.connect();
+
+var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);
 
 // module.exports = KNodeModel; //then we can use it by: var User = require('./app/models/KNodeModel');
-
-/* connecting */
-var dbName = (global.dbConfig && global.dbConfig.name) || "KnAllEdge";
-mongoose.connect('mongodb://127.0.0.1/' + dbName);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/knodes/one/551bdcda1763e3f0eb749bd4
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/knodes/in_map/552678e69ad190a642ad461c
