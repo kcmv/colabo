@@ -34,25 +34,12 @@ var SMSApi = /** @class */ (function () {
         var sms = this.prepareSMS(req.body);
         res.send("<Response><Message>Hello from the CoLaboArthon - SMS Service!</Message></Response>");
     };
-    // app.post("/message", function (req, response) {
-    //   console.log('req:',req);
-    //   console.log('response:',response);
-    //   console.log(req.body);
-    //   response.send("<Response><Message>Hello from the CoLaboArthon - SMS Service!</Message></Response>")
-    // });
-    SMSApi.prototype.index = function (req, res) {
-        console.log("[modules/smsapi.js:index] req: %s", JSON.stringify(req));
-        res.send('<HTML><body>HELLO from SMSAPI</body></HTML>');
-    };
     return SMSApi;
 }());
-
-/*
-added manually by Sinisa:
-
-exports.create = SMSApi.prototype.create ;
-exports.index = SMSApi.prototype.index ;
-
-*/
-
-exports.SMSApi = SMSApi;
+// https://stackoverflow.com/questions/15651510/can-typescript-export-a-function
+// https://www.sitepoint.com/understanding-module-exports-exports-node-js/
+function index(req, res) {
+    console.log("[modules/smsapi.js:index] req: %s", JSON.stringify(req.params));
+    res.send('<HTML><body>HELLO from SMSAPI</body></HTML>');
+}
+exports.index = index;
