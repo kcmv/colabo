@@ -6,6 +6,8 @@
 
 ## Help
 
+code: "**hlp**"
+
 + EN: You can interact in CoLaboArthon by sending some of the following codes
 
 ## Unrecognized code

@@ -17,6 +17,7 @@ import {UsersProfilingService} from './users-profiling/users-profiling.service';
 import {UsersClusteringService} from './users-clustering/users-clustering.service';
 import { UsersClusteringComponent } from './users-clustering/users-clustering.component';
 import {UiSmsComponent} from './ui-sms/ui-sms.component';
+import {SMSApiService} from './ui-sms/sms-api.service';
 
 import { AppComponent } from './app.component';
 
@@ -73,7 +74,8 @@ export var Plugins:any = window.Config.Plugins;
     {provide: GlobalEmitterServicesArray, useClass: GlobalEmitterServicesArray},
     ColabowareRFIDService,
     UsersProfilingService,
-    UsersClusteringService
+    UsersClusteringService,
+    SMSApiService
   ],
   bootstrap: [AppComponent]
 })

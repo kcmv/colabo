@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SMSApiService} from './sms-api.service';
 
 @Component({
   selector: 'app-ui-sms',
@@ -11,7 +12,9 @@ export class UiSmsComponent implements OnInit {
   public name:string =  "Sinisa Rudan";
   public background:string = 'poet';
 
-  constructor() { }
+  constructor(
+    private sMSApiService:SMSApiService
+  ) { }
 
   ngOnInit() {
   }
@@ -22,7 +25,12 @@ export class UiSmsComponent implements OnInit {
     let smsBody:string = code + '. ' + this.name + '. ' + this.background;
     let twillioSendJSON:string = "from: " + this.mobileNo + "; body:" + smsBody;
     console.log(twillioSendJSON);
+
+    this.sMSApiService.create(twillioSendJSON)
+      .subscribe(response => this.responseReceived(response));
   }
 
-
+  responseReceived(response:string):void{
+    console.log(response);
+  }
 }
