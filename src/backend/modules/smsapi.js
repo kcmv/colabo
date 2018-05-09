@@ -96,6 +96,7 @@ var SMSApi = /** @class */ (function () {
                 }
                 break;
             case CODES.REPLY:
+                //TODO CHECK if the participant is not registered yet, tell him to do it first (maybe save his message so that he doesn't have to resend it)
                 //TODO CHECK if this is a reply on a PROMPT and then acty differently!
                 if (this.processParticipantsReply()) {
                     //TODO support name of the sender in the response message
@@ -126,8 +127,9 @@ var SMSApi = /** @class */ (function () {
         console.log("name:", name);
         var background = this.smsTxt.substring(endOfNameI + 1);
         console.log("background:", background);
-        //TODO: memorizing the participant:
         //TODO: check if already registered:
+        //TODO: memorizing the participant:
+        //rimaService.saveParticipant(name, background);
         return true;
     };
     /**
@@ -135,12 +137,13 @@ var SMSApi = /** @class */ (function () {
     */
     SMSApi.prototype.processParticipantsReply = function () {
         var endOfID = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH + 1);
-        var reference_id = Number(this.smsTxt.substring(CODE_LENGTH + 1, endOfID));
-        console.log("reference_id:", reference_id);
-        var verse = this.smsTxt.substring(endOfID + 1);
-        console.log("verse:", verse);
-        //TODO: check if the reference_id exists!:
+        var referenceId = Number(this.smsTxt.substring(CODE_LENGTH + 1, endOfID));
+        console.log("referenceId:", referenceId);
+        var reply = this.smsTxt.substring(endOfID + 1);
+        console.log("reply:", reply);
+        //TODO: check if the referenceId exists!:
         //TODO: memorizing the reply:
+        //saveReply(referenceId, reply);
         //TODO return the ID of his new reply to the participant (so he might share it with someone)
         return true;
     };
@@ -168,8 +171,11 @@ curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToStat
 //UNKNOWN CODE
 curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REGL Sinisa poet","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
 
-
+//REGISTER
 curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REG Sinisa poet","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://api.colabo.space/smsapi'
+
+//REPLY
+curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REP 2 we have taken the immortality out of their proud hearts, because ...","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
 
 */
 function create(req, res) {

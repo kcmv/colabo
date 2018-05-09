@@ -117,6 +117,7 @@ class SMSApi {
 					}
 				break;
 				case CODES.REPLY:
+					//TODO CHECK if the participant is not registered yet, tell him to do it first (maybe save his message so that he doesn't have to resend it)
 					//TODO CHECK if this is a reply on a PROMPT and then acty differently!
 					if(this.processParticipantsReply()){
 						//TODO support name of the sender in the response message
@@ -149,8 +150,10 @@ class SMSApi {
 		let background:string = this.smsTxt.substring(endOfNameI+1);
 		console.log("background:", background);
 
-		//TODO: memorizing the participant:
 		//TODO: check if already registered:
+
+		//TODO: memorizing the participant:
+		//rimaService.saveParticipant(name, background);
 
 		return true;
 	}
@@ -160,13 +163,14 @@ class SMSApi {
 	*/
 	protected processParticipantsReply():boolean{
 		let endOfID:number = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH+1);
-		let reference_id:number = Number(this.smsTxt.substring(CODE_LENGTH+1,endOfID));
-		console.log("reference_id:", reference_id);
-		let verse:string = this.smsTxt.substring(endOfID+1);
-		console.log("verse:", verse);
+		let referenceId:number = Number(this.smsTxt.substring(CODE_LENGTH+1,endOfID));
+		console.log("referenceId:", referenceId);
+		let reply:string = this.smsTxt.substring(endOfID+1);
+		console.log("reply:", reply);
 
-		//TODO: check if the reference_id exists!:
+		//TODO: check if the referenceId exists!:
 		//TODO: memorizing the reply:
+		//saveReply(referenceId, reply);
 		//TODO return the ID of his new reply to the participant (so he might share it with someone)
 
 		return true;
