@@ -115,12 +115,33 @@ var SMSApi = /** @class */ (function () {
         return responseMessage;
     };
     /**
-    example
+    example:
+
     */
     SMSApi.prototype.registerParticipant = function () {
+        //TODO: cover situation where they used ENTER instead of " " as a delimiter
         console.log('registerParticipant:', this.smsTxt);
-        var name = this.smsTxt;
-        var background = this.smsTxt;
+        var endOfNameI = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH + 1);
+        var name = this.smsTxt.substring(CODE_LENGTH + 1, endOfNameI);
+        console.log("name:", name);
+        var background = this.smsTxt.substring(endOfNameI + 1);
+        console.log("background:", background);
+        //TODO: memorizing the participant:
+        //TODO: check if already registered:
+        return true;
+    };
+    /**
+        SMS format: REP  ID_of_the_prompt  your_verse
+    */
+    SMSApi.prototype.processParticipantsReply = function () {
+        var endOfID = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH + 1);
+        var reference_id = Number(this.smsTxt.substring(CODE_LENGTH + 1, endOfID));
+        console.log("reference_id:", reference_id);
+        var verse = this.smsTxt.substring(endOfID + 1);
+        console.log("verse:", verse);
+        //TODO: check if the reference_id exists!:
+        //TODO: memorizing the reply:
+        //TODO return the ID of his new reply to the participant (so he might share it with someone)
         return true;
     };
     return SMSApi;

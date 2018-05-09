@@ -137,16 +137,40 @@ class SMSApi {
 	}
 
 	/**
-	example
+	example:
+
 	*/
 	protected registerParticipant():boolean{
+		//TODO: cover situation where they used ENTER instead of " " as a delimiter
 		console.log('registerParticipant:', this.smsTxt);
-		let name:string = this.smsTxt;
-		let background:string = this.smsTxt;
+		let endOfNameI:number = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH+1);
+		let name:string = this.smsTxt.substring(CODE_LENGTH+1,endOfNameI);
+		console.log("name:", name);
+		let background:string = this.smsTxt.substring(endOfNameI+1);
+		console.log("background:", background);
+
+		//TODO: memorizing the participant:
+		//TODO: check if already registered:
+
 		return true;
 	}
 
-	processParticipantsReply
+	/**
+		SMS format: REP  ID_of_the_prompt  your_verse
+	*/
+	protected processParticipantsReply():boolean{
+		let endOfID:number = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH+1);
+		let reference_id:number = Number(this.smsTxt.substring(CODE_LENGTH+1,endOfID));
+		console.log("reference_id:", reference_id);
+		let verse:string = this.smsTxt.substring(endOfID+1);
+		console.log("verse:", verse);
+
+		//TODO: check if the reference_id exists!:
+		//TODO: memorizing the reply:
+		//TODO return the ID of his new reply to the participant (so he might share it with someone)
+
+		return true;
+	}
 
 // app.post("/message", function (req, response) {
 //   console.log('req:',req);
@@ -188,8 +212,11 @@ curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToStat
 //UNKNOWN CODE
 curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REGL Sinisa poet","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
 
-
+//REGISTER
 curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REG Sinisa poet","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://api.colabo.space/smsapi'
+
+//REPLY
+curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REP 2 we have taken the immortality out of their proud hearts, because ...","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
 
 */
 export function create(req:any, res:any){
