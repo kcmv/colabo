@@ -28,8 +28,6 @@ function getCode(sms){
 }
 
 // curl -v -XPOST -H "Content-type: application/json" -d '{"sms": "from: +381 64 2830738; body:reg. Sinisa Rudan. poet"}' 'http://127.0.0.1:8001/smsapi'
-// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8001/kmaps/all
-// curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"5548038779743f2504b8941f", "mapId":"5548038779743f2504b89420", "name":"Collective Intelligence", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/knodes
 exports.create = function(req, res){
 	console.log("[modules/smsapi.js:create] req: %s", req);
 	console.log("[modules/smsapi.js:create] req.body: %s", JSON.stringify(req.body));

@@ -32,12 +32,12 @@ code: "**reg**"
 
 ##### Name
 
-+ EN: Your name is missing. The registration SMS should be in the format ''REG. First_name Last_name. your_background'"'. E.g: 'REG. Giosuè Carducci. Poet'
++ EN: Your name is missing. The registration SMS should be in the format ''REG. First_name Last_name. your_background'"'. E.g: 'REG Marco Poet'
 + IT: 
 
 ##### Background
 
-- EN: Your background is missing. The registration SMS should be in the format ''REG. First_name Last_name. your_background'"'. E.g: 'REG. Giosuè Carducci. Poet'
+- EN: Your background is missing. The registration SMS should be in the format ''REG. First_name Last_name. your_background'"'. E.g: 'REG Marco Poet'
 - IT: 
 
 ## Reply
