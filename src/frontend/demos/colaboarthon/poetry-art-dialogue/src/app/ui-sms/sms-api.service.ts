@@ -79,7 +79,7 @@ export class SMSApiService // extends CFService
    * @returns {Observable<KNode>} the created node (now with the id and other specific data allocated to it by server, so the caller should fill the original node with it)
      @example http://localhost:8001/knodes/in_map/default/579811d88e12abfa556f6b59.json
    */
-  create(sms:string, callback?:Function): Observable<String>
+  create(sms:string, callback?:Function): Observable<string>
   {
   	console.log("SMSApiService.create");
     let result: Observable<string> = null;

@@ -61,6 +61,8 @@ class SMSApi {
 
 // https://stackoverflow.com/questions/15651510/can-typescript-export-a-function
 // https://www.sitepoint.com/understanding-module-exports-exports-node-js/
+// https://www.typescriptlang.org/docs/handbook/modules.html
+// https://stackoverflow.com/questions/12696236/module-exports-in-typescript
 export function index(req, res){
 		console.log("[modules/smsapi.js:index] req: %s", JSON.stringify(req.params));
     res.send('<HTML><body>HELLO from SMSAPI</body></HTML>')
