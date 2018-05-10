@@ -27,4 +27,32 @@ export class RimaService {
       if(callback) callback(newUser, newUserEdge);
     }
   }
+
+  addReply(referenceId:string, newData:any, callback:Function=null):string{
+    console.log("[addReply] newData: ", newData);
+  	newData.type = //RimaService.TYPE_USER;
+  	newData.mapId = this.MAP_ID;
+  	//newData.iAmId = this.AUTHOR_ID;
+
+    //TODO: find the node to be related
+    //TODO create an edge and connect its source to the referenceId-node and target to this newData-node
+    //TODO new Humane ID (=ß maxiId+1) to be added and returned
+    var result = this.kNodeService.createNewNode(newData);
+    return "CoLaboArthon: Your reply is auccesfully saved";
+
+    function newNodeCreated(newUser:KNode, newUserEdge:KEdge){
+      this.users.push(newUser);
+      if(callback) callback(newUser, newUserEdge);
+    }
+  }
+
+  //TODO:
+  getNodeByHumanID(humaneID:number):KNode{
+    return null;
+  }
+
+  //TODO:
+  getUserByPhoneNo(phoneNo:string):KNode{
+    return null;
+  }
 }
