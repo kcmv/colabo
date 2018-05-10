@@ -9,21 +9,39 @@ var CoLaboArthonService = /** @class */ (function () {
     function CoLaboArthonService() {
         this.rimaService = new rimaService_1.RimaService(MAP_ID, AUTHOR_ID);
     }
-    //TODO: maxiId
-    //TODO create in DB node for replies
-    CoLaboArthonService.prototype.getNodeByHumanID = function () {
-        return null;
-    };
-    CoLaboArthonService.prototype.saveParticipant = function (name, background, callback) {
+    CoLaboArthonService.prototype.saveParticipant = function (name, occupation, phoneNo, callback) {
         var newUser = {
             name: name,
             isPublic: true,
             dataContent: {
-                background: background
+                occupation: occupation,
+                phoneNo: phoneNo
             }
         };
         var result = this.rimaService.createNewUser(newUser, callback);
         return "CoLaboArthonService:" + result;
+    };
+    CoLaboArthonService.prototype.saveReply = function (referenceHumanId, reply, phoneNo) {
+        var newData = {
+            name: reply,
+            isPublic: true,
+            iAmId: null
+            // dataContent: {
+            //   background: background
+            // }
+        };
+        var user = this.rimaService.getUserByPhoneNo(phoneNo);
+        if (user === null) {
+            return "CoLaboArthon: You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'";
+        } //TODO: extract message and translate it
+        newData.iAmId = user.iAmId;
+        var referenceNode = this.rimaService.getNodeByHumanID(referenceHumanId);
+        if (referenceNode === null) {
+            return "CoLaboArthon: Content with the " + referenceHumanId + ", that you are replying on, is not found";
+        } //TODO: extract message and translate it
+        newData.iAmId = user.iAmId;
+        var result = this.rimaService.addReply(referenceNode._id, newData);
+        return "CoLaboArthon:" + result;
     };
     return CoLaboArthonService;
 }());

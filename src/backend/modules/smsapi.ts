@@ -37,7 +37,7 @@ enum PUSH_MESSAGES {
 }
 
 enum HELP_MESSAGES {
-	REGISTER = "REG your_name your_background",
+	REGISTER = "REG your_name your_occupation",
 	REPLY = "REP ID_of_the_message_that_you_are_replying_on your_message"
 }
 
@@ -55,8 +55,8 @@ class SMSApi {
 	//public lang:string = LANGUAGES.EN;
 	protected res:any;
 	protected twimlBody:any;
-	public from:string;
-	public to:string;
+	public phoneNoFrom:string;
+	public phoneNoTo:string;
 	public smsTxt:string;
 	public code:string;
 	public coLaboArthonService:CoLaboArthonService;
@@ -64,8 +64,8 @@ class SMSApi {
 	constructor(twimlBody:any){
 		this.coLaboArthonService = new CoLaboArthonService();
 		this.twimlBody = twimlBody;
-		this.from = twimlBody.From;
-		this.to = twimlBody.To;
+		this.phoneNoFrom = twimlBody.From;
+		this.phoneNoTo = twimlBody.To;
 		this.smsTxt = twimlBody.Body;
 		this.prepareSMS();
 	}
@@ -159,12 +159,14 @@ class SMSApi {
 		let endOfNameI:number = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH+1);
 		let name:string = this.smsTxt.substring(CODE_LENGTH+1,endOfNameI);
 		console.log("name:", name);
-		let background:string = this.smsTxt.substring(endOfNameI+1);
-		console.log("background:", background);
+		let occupation:string = this.smsTxt.substring(endOfNameI+1);
+		console.log("occupation:", occupation);
 
 		//TODO: check if the participant is already registered - to avoid creation of a double entry
 		//TODO: memorizing the participant:
-		var result = this.coLaboArthonService.saveParticipant(name, background, callback);
+
+		var result = this.coLaboArthonService.saveParticipant(name, occupation, this.phoneNoFrom, callback);
+
 		return result;
 		// return true;
 	}
@@ -179,12 +181,11 @@ class SMSApi {
 		let reply:string = this.smsTxt.substring(endOfID+1);
 		console.log("reply:", reply);
 
-		// TODO check if the reply exceeds the REPLY_MAX_WORDS
-
+		//TODO: check if the reply exceeds the REPLY_MAX_WORDS
+		//TODO: !!! set iAmid based on the user found by the this.phoneNoFrom (of this reply message)
 		//TODO: check if the referenceId exists!:
-		//TODO: memorizing the reply:
 		//TODO: manage "\n" in the SMSs with Enters
-		//this.coLaboArthonService.saveReply(referenceId, reply);
+		var result = this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom);
 		//TODO return the ID of his new reply to the participant (so he might share it with someone)
 
 		return true;

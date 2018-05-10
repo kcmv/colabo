@@ -29,7 +29,7 @@ var PUSH_MESSAGES;
 })(PUSH_MESSAGES || (PUSH_MESSAGES = {}));
 var HELP_MESSAGES;
 (function (HELP_MESSAGES) {
-    HELP_MESSAGES["REGISTER"] = "REG your_name your_background";
+    HELP_MESSAGES["REGISTER"] = "REG your_name your_occupation";
     HELP_MESSAGES["REPLY"] = "REP ID_of_the_message_that_you_are_replying_on your_message";
 })(HELP_MESSAGES || (HELP_MESSAGES = {}));
 var LANGUAGES;
@@ -45,8 +45,8 @@ var SMSApi = /** @class */ (function () {
         this.lang = LANGUAGES.IT;
         this.coLaboArthonService = new coLaboArthonService_1.CoLaboArthonService();
         this.twimlBody = twimlBody;
-        this.from = twimlBody.From;
-        this.to = twimlBody.To;
+        this.phoneNoFrom = twimlBody.From;
+        this.phoneNoTo = twimlBody.To;
         this.smsTxt = twimlBody.Body;
         this.prepareSMS();
     }
@@ -132,11 +132,11 @@ var SMSApi = /** @class */ (function () {
         var endOfNameI = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH + 1);
         var name = this.smsTxt.substring(CODE_LENGTH + 1, endOfNameI);
         console.log("name:", name);
-        var background = this.smsTxt.substring(endOfNameI + 1);
-        console.log("background:", background);
+        var occupation = this.smsTxt.substring(endOfNameI + 1);
+        console.log("occupation:", occupation);
         //TODO: check if the participant is already registered - to avoid creation of a double entry
         //TODO: memorizing the participant:
-        var result = this.coLaboArthonService.saveParticipant(name, background, callback);
+        var result = this.coLaboArthonService.saveParticipant(name, occupation, this.phoneNoFrom, callback);
         return result;
         // return true;
     };
@@ -149,11 +149,11 @@ var SMSApi = /** @class */ (function () {
         console.log("referenceId:", referenceId);
         var reply = this.smsTxt.substring(endOfID + 1);
         console.log("reply:", reply);
-        // TODO check if the reply exceeds the REPLY_MAX_WORDS
+        //TODO: check if the reply exceeds the REPLY_MAX_WORDS
+        //TODO: !!! set iAmid based on the user found by the this.phoneNoFrom (of this reply message)
         //TODO: check if the referenceId exists!:
-        //TODO: memorizing the reply:
         //TODO: manage "\n" in the SMSs with Enters
-        //this.coLaboArthonService.saveReply(referenceId, reply);
+        var result = this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom);
         //TODO return the ID of his new reply to the participant (so he might share it with someone)
         return true;
     };
@@ -202,7 +202,7 @@ function create(req, res) {
     function processedRequest(knode, err) {
         if (err)
             throw err;
-        console.log("[modules/KNode.js:create] id:%s, knode data: %s", knode._id, JSON.stringify(knode));
+        console.log("[smsapi:processedRequest] id:%s, knode data: %s", knode._id, JSON.stringify(knode));
         var twiml = new MessagingResponse();
         twiml.message(responseMessage + ".\n user id: " + knode._id);
         res.writeHead(200, { 'Content-Type': 'text/xml' });

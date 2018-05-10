@@ -22,6 +22,31 @@ var RimaService = /** @class */ (function () {
                 callback(newUser, newUserEdge);
         }
     };
+    RimaService.prototype.addReply = function (referenceId, newData, callback) {
+        if (callback === void 0) { callback = null; }
+        console.log("[addReply] newData: ", newData);
+        newData.type = //RimaService.TYPE_USER;
+            newData.mapId = this.MAP_ID;
+        //newData.iAmId = this.AUTHOR_ID;
+        //TODO: find the node to be related
+        //TODO create an edge and connect its source to the referenceId-node and target to this newData-node
+        //TODO new Humane ID (=ß maxiId+1) to be added and returned
+        var result = this.kNodeService.createNewNode(newData);
+        return "CoLaboArthon: Your reply is auccesfully saved";
+        function newNodeCreated(newUser, newUserEdge) {
+            this.users.push(newUser);
+            if (callback)
+                callback(newUser, newUserEdge);
+        }
+    };
+    //TODO:
+    RimaService.prototype.getNodeByHumanID = function (humaneID) {
+        return null;
+    };
+    //TODO:
+    RimaService.prototype.getUserByPhoneNo = function (phoneNo) {
+        return null;
+    };
     RimaService.TYPE_USER = "rima.user";
     return RimaService;
 }());
