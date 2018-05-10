@@ -10,6 +10,14 @@ const AUTHOR_ID:string = "556760847125996dc1a4a24f";
 
 //export public class CoLaboArthonService {
 export class CoLaboArthonService {
+
+  //TODO: maxiId
+  //TODO create in DB node for replies
+
+  getNodeByHumanID():KNode{
+    return null;
+  }
+
   protected rimaService:RimaService;
   constructor(){
     this.rimaService = new RimaService(MAP_ID, AUTHOR_ID);

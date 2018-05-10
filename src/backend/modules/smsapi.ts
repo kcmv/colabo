@@ -163,8 +163,6 @@ class SMSApi {
 		console.log("background:", background);
 
 		//TODO: check if the participant is already registered - to avoid creation of a double entry
-
-
 		//TODO: memorizing the participant:
 		var result = this.coLaboArthonService.saveParticipant(name, background);
 		return result;
@@ -220,8 +218,6 @@ export function index(req:any, res:any){
 }
 
 /*
-curl -v -XPOST -H "Content-type: application/json" -d '{"from": "+381 64 2830738", "sms": "REG Sinisa poet"}' 'http://127.0.0.1:8001/smsapi'
-curl -v -XPOST -H "Content-type: application/json" -d '{"from": "+381 64 2830738", "sms": "REG Sinisa poet"}' 'http://api.colabo.space/smsapi'
 
 //CORRECT REG:
 curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REG Sinisa poet","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
