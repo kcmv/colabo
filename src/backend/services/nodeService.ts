@@ -35,4 +35,34 @@ export class NodeService {
     this.createNewNodeWithEdge(userNode, userEdge, usersNode._id, callback);
   }
 
+  createNewNodeWithEdge(newNode:KNode, newEdge:KEdge, parentNodeId:string, listener){
+    newNode.iAmId = "556760847125996dc1a4a24f";
+    newNode.visual = {};
+    newEdge.iAmId = "556760847125996dc1a4a24f";
+    newEdge.visual = {};
+
+    //TODO: iAmId, createdAt, updatedAt
+    this.knalledgeNodeService.create(newNode)
+    .subscribe(newNodeCreated.bind(this));
+
+    // callback after the new user is created
+    function newNodeCreated(newNode:KNode):void{
+      console.log('newUserCreated', newNode);
+      this.nodes.push(newNode);
+
+      newEdge.sourceId = parentNodeId;
+      newEdge.targetId = newNode._id;
+      //TODO: iAmId, createdAt, updatedAt
+      this.knalledgeEdgeService.create(newEdge)
+      .subscribe(newEdgeCreated.bind(this));
+
+      // callback after an edge to the new node is created
+      function newEdgeCreated(newEdge:KEdge):void{
+        console.log('newEdgeCreated', newEdge);
+        listener(newNode, newEdge);
+        this.edges.push(newEdge);
+      }
+    }
+  }
+
 }
