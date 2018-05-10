@@ -129,7 +129,7 @@ var SMSApi = /** @class */ (function () {
         console.log("background:", background);
         //TODO: check if already registered:
         //TODO: memorizing the participant:
-        //rimaService.saveParticipant(name, background);
+        //createNewUser.saveParticipant(name, background);
         return true;
     };
     /**
