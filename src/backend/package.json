@@ -20,7 +20,8 @@
     "passport-facebook": "latest",
     "passport-google-oauth": "latest",
     "passport-local": "latest",
-    "passport-twitter": "latest"
+    "passport-twitter": "latest",
+    "twilio": "^3.16.0"
   },
   "devDependencies": {
     "ghooks": "^2.0.0",
