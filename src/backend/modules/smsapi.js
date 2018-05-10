@@ -1,6 +1,8 @@
 "use strict";
 exports.__esModule = true;
 var MessagingResponse = require('twilio').twiml.MessagingResponse;
+// const CoLaboArthonService = require('../services/coLaboArthonService').CoLaboArthonService;
+var coLaboArthonService_1 = require("../services/coLaboArthonService");
 //import twilio = require('twilio');
 //const twilio = require('twilio');
 // import twilio from 'twilio';
@@ -35,11 +37,13 @@ var LANGUAGES;
     LANGUAGES["EN"] = "EN";
     LANGUAGES["IT"] = "IT";
 })(LANGUAGES || (LANGUAGES = {}));
+var REPLY_MAX_WORDS = 30;
 var CODE_LENGTH = 3;
 var CODE_DELIMITER = ' ';
 var SMSApi = /** @class */ (function () {
     function SMSApi(twimlBody) {
         this.lang = LANGUAGES.IT;
+        this.coLaboArthonService = new coLaboArthonService_1.CoLaboArthonService();
         this.twimlBody = twimlBody;
         this.from = twimlBody.From;
         this.to = twimlBody.To;
@@ -85,11 +89,14 @@ var SMSApi = /** @class */ (function () {
     SMSApi.prototype.processRequest = function () {
         var responseMessage;
         //TODO: if this is not the REGISTER code, than to check if the sender is regeistered. If not, send him reply to register first
+        console.log("[processRequest] this.code: ", this.code);
         switch (this.code) {
             case CODES.REGISTER:
-                if (this.registerParticipant()) {
+                console.log("[processRequest] registering ...");
+                var result = this.registerParticipant();
+                if (result) {
                     //TODO support name of the sender in the response message
-                    responseMessage = "Welcome to the CoLaboArthon! You registered successfully";
+                    responseMessage = "Welcome to the CoLaboArthon! You've registered successfully (" + result + ")";
                 }
                 else {
                     responseMessage = "Sorry! There was an error in your registration. Please, send the SMS in the format: " + HELP_MESSAGES.REGISTER;
@@ -127,10 +134,11 @@ var SMSApi = /** @class */ (function () {
         console.log("name:", name);
         var background = this.smsTxt.substring(endOfNameI + 1);
         console.log("background:", background);
-        //TODO: check if already registered:
+        //TODO: check if the participant is already registered - to avoid creation of a double entry
         //TODO: memorizing the participant:
-        //createNewUser.saveParticipant(name, background);
-        return true;
+        var result = this.coLaboArthonService.saveParticipant(name, background);
+        return result;
+        // return true;
     };
     /**
         SMS format: REP  ID_of_the_prompt  your_verse
@@ -141,9 +149,11 @@ var SMSApi = /** @class */ (function () {
         console.log("referenceId:", referenceId);
         var reply = this.smsTxt.substring(endOfID + 1);
         console.log("reply:", reply);
+        // TODO check if the reply exceeds the REPLY_MAX_WORDS
         //TODO: check if the referenceId exists!:
         //TODO: memorizing the reply:
-        //saveReply(referenceId, reply);
+        //TODO: manage "\n" in the SMSs with Enters
+        //this.coLaboArthonService.saveReply(referenceId, reply);
         //TODO return the ID of his new reply to the participant (so he might share it with someone)
         return true;
     };
@@ -177,6 +187,11 @@ curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToStat
 //REPLY
 curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REP 2 we have taken the immortality out of their proud hearts, because ...","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
 
+//REPLY with the Enter:
+curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REP 2 we have taken\nthe immortality out\nof their proud hearts\nbecause ...","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
+
+//REPLY - long SMS with 2 segments and Enters:
+curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM2edeeca395fba4df49165e0919f280c2","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM2edeeca395fba4df49165e0919f280c2","FromState":"","SmsStatus":"received","FromCity":"","Body":"REP 1 le nostre tremendamente grandi\nmani\nnon furono grandi\nabbastanza\n\nda proteggerci\nda tremendamente grandi mezzo secolo lunghi coltelli\ncoltelli\n\nfacendo il loro lavoro\nnella preparazione \ndella zuppa dei Balcani\nperché ...","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"2","MessageSid":"SM2edeeca395fba4df49165e0919f280c2","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381642830738","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
 */
 function create(req, res) {
     //console.log("[modules/smsapi.js:create] req: %s", req);
@@ -185,6 +200,7 @@ function create(req, res) {
     var smsApi = new SMSApi(req.body);
     console.log('smsApi.smsTxt:', smsApi.smsTxt);
     var responseMessage = 'Welcome to the CoLaboArthon!';
+    console.log("[create] smsApi.code: ", smsApi.code);
     responseMessage = smsApi.processRequest();
     var twiml = new MessagingResponse();
     twiml.message(responseMessage);
