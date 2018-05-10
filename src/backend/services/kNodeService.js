@@ -5,9 +5,10 @@ var KNodeModule = require("../modules/kNode");
 var KNodeService = /** @class */ (function () {
     function KNodeService() {
     }
-    KNodeService.prototype.createNewNode = function (newUserData) {
+    KNodeService.prototype.createNewNode = function (newUserData, callback) {
+        if (callback === void 0) { callback = null; }
         console.log("KNodeModule: ", KNodeModule);
-        KNodeModule._create(newUserData);
+        KNodeModule._create(newUserData, callback);
         return "KNodeService:" + newUserData;
     };
     return KNodeService;

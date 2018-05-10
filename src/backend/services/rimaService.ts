@@ -19,7 +19,7 @@ export class RimaService {
   	newUserData.mapId = this.MAP_ID;
   	newUserData.iAmId = this.AUTHOR_ID;
 
-    var result = this.kNodeService.createNewNode(newUserData);
+    var result = this.kNodeService.createNewNode(newUserData, callback);
     return "RimaService:"+result;
 
     function newUserCreated(newUser:KNode, newUserEdge:KEdge){

@@ -86,14 +86,14 @@ var SMSApi = /** @class */ (function () {
         }
         console.log('code:', this.code);
     };
-    SMSApi.prototype.processRequest = function () {
+    SMSApi.prototype.processRequest = function (callback) {
         var responseMessage;
         //TODO: if this is not the REGISTER code, than to check if the sender is regeistered. If not, send him reply to register first
         console.log("[processRequest] this.code: ", this.code);
         switch (this.code) {
             case CODES.REGISTER:
                 console.log("[processRequest] registering ...");
-                var result = this.registerParticipant();
+                var result = this.registerParticipant(callback);
                 if (result) {
                     //TODO support name of the sender in the response message
                     responseMessage = "Welcome to the CoLaboArthon! You've registered successfully (" + result + ")";
@@ -126,7 +126,7 @@ var SMSApi = /** @class */ (function () {
     example:
 
     */
-    SMSApi.prototype.registerParticipant = function () {
+    SMSApi.prototype.registerParticipant = function (callback) {
         //TODO: cover situation where they used ENTER instead of " " as a delimiter
         console.log('registerParticipant:', this.smsTxt);
         var endOfNameI = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH + 1);
@@ -136,7 +136,7 @@ var SMSApi = /** @class */ (function () {
         console.log("background:", background);
         //TODO: check if the participant is already registered - to avoid creation of a double entry
         //TODO: memorizing the participant:
-        var result = this.coLaboArthonService.saveParticipant(name, background);
+        var result = this.coLaboArthonService.saveParticipant(name, background, callback);
         return result;
         // return true;
     };
@@ -169,8 +169,6 @@ function index(req, res) {
 }
 exports.index = index;
 /*
-curl -v -XPOST -H "Content-type: application/json" -d '{"from": "+381 64 2830738", "sms": "REG Sinisa poet"}' 'http://127.0.0.1:8001/smsapi'
-curl -v -XPOST -H "Content-type: application/json" -d '{"from": "+381 64 2830738", "sms": "REG Sinisa poet"}' 'http://api.colabo.space/smsapi'
 
 //CORRECT REG:
 curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REG Sinisa poet","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
@@ -201,11 +199,17 @@ function create(req, res) {
     console.log('smsApi.smsTxt:', smsApi.smsTxt);
     var responseMessage = 'Welcome to the CoLaboArthon!';
     console.log("[create] smsApi.code: ", smsApi.code);
-    responseMessage = smsApi.processRequest();
-    var twiml = new MessagingResponse();
-    twiml.message(responseMessage);
-    res.writeHead(200, { 'Content-Type': 'text/xml' });
-    res.end(twiml.toString());
+    function processedRequest(knode, err) {
+        if (err)
+            throw err;
+        console.log("[modules/KNode.js:create] id:%s, knode data: %s", knode._id, JSON.stringify(knode));
+        var twiml = new MessagingResponse();
+        twiml.message(responseMessage + ".\n user id: " + knode._id);
+        res.writeHead(200, { 'Content-Type': 'text/xml' });
+        res.end(twiml.toString());
+    }
+    ;
+    responseMessage = smsApi.processRequest(processedRequest);
     /*
     let sms:string = SMSApi.prepareSMS(req.body);
     let code:string = SMSApi.getCode(sms);

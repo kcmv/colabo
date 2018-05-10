@@ -14,7 +14,7 @@ var RimaService = /** @class */ (function () {
         newUserData.type = RimaService.TYPE_USER;
         newUserData.mapId = this.MAP_ID;
         newUserData.iAmId = this.AUTHOR_ID;
-        var result = this.kNodeService.createNewNode(newUserData);
+        var result = this.kNodeService.createNewNode(newUserData, callback);
         return "RimaService:" + result;
         function newUserCreated(newUser, newUserEdge) {
             this.users.push(newUser);

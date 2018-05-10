@@ -53,13 +53,13 @@ const CODE_DELIMITER:string = ' ';
 class SMSApi {
 	public lang:string = LANGUAGES.IT;
 	//public lang:string = LANGUAGES.EN;
+	protected res:any;
 	protected twimlBody:any;
 	public from:string;
 	public to:string;
 	public smsTxt:string;
 	public code:string;
 	public coLaboArthonService:CoLaboArthonService;
-
 
 	constructor(twimlBody:any){
 		this.coLaboArthonService = new CoLaboArthonService();
@@ -111,7 +111,7 @@ class SMSApi {
 		console.log('code:',this.code);
 	}
 
-	public processRequest():string {
+	public processRequest(callback:Function):string {
 		let responseMessage:string;
 
 		//TODO: if this is not the REGISTER code, than to check if the sender is regeistered. If not, send him reply to register first
@@ -119,7 +119,7 @@ class SMSApi {
 		switch(this.code){
 				case CODES.REGISTER:
 				console.log("[processRequest] registering ...");
-					var result = this.registerParticipant();
+					var result = this.registerParticipant(callback);
 					if(result){
 						//TODO support name of the sender in the response message
 						responseMessage = "Welcome to the CoLaboArthon! You've registered successfully ("+result+")";
@@ -153,7 +153,7 @@ class SMSApi {
 	example:
 
 	*/
-	protected registerParticipant():string{
+	protected registerParticipant(callback:Function):string{
 		//TODO: cover situation where they used ENTER instead of " " as a delimiter
 		console.log('registerParticipant:', this.smsTxt);
 		let endOfNameI:number = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH+1);
@@ -164,7 +164,7 @@ class SMSApi {
 
 		//TODO: check if the participant is already registered - to avoid creation of a double entry
 		//TODO: memorizing the participant:
-		var result = this.coLaboArthonService.saveParticipant(name, background);
+		var result = this.coLaboArthonService.saveParticipant(name, background, callback);
 		return result;
 		// return true;
 	}
@@ -252,14 +252,20 @@ export function create(req:any, res:any){
 
 	console.log("[create] smsApi.code: ", smsApi.code);
 
-	responseMessage = smsApi.processRequest();
+	function processedRequest(knode, err) {
+		if (err) throw err;
 
-	const twiml = new MessagingResponse();
+		console.log("[smsapi:processedRequest] id:%s, knode data: %s", knode._id, JSON.stringify(knode));
 
-  twiml.message(responseMessage);
+		const twiml = new MessagingResponse();
+	  twiml.message(responseMessage + ".\n user id: " + knode._id);
 
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
+	  res.writeHead(200, {'Content-Type': 'text/xml'});
+	  res.end(twiml.toString());
+	};
+
+	responseMessage = smsApi.processRequest(processedRequest);
+
 
 	/*
 	let sms:string = SMSApi.prepareSMS(req.body);

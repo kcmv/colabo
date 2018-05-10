@@ -8,9 +8,9 @@ export class KNodeService {
   constructor(){
   }
 
-  createNewNode(newUserData:any):string{
+  createNewNode(newUserData:any, callback:Function=null):string{
     console.log("KNodeModule: ", KNodeModule);
-    KNodeModule._create(newUserData);
+    KNodeModule._create(newUserData, callback);
     return "KNodeService:"+newUserData;
   }
 

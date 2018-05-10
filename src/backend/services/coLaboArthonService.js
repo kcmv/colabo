@@ -9,7 +9,12 @@ var CoLaboArthonService = /** @class */ (function () {
     function CoLaboArthonService() {
         this.rimaService = new rimaService_1.RimaService(MAP_ID, AUTHOR_ID);
     }
-    CoLaboArthonService.prototype.saveParticipant = function (name, background) {
+    //TODO: maxiId
+    //TODO create in DB node for replies
+    CoLaboArthonService.prototype.getNodeByHumanID = function () {
+        return null;
+    };
+    CoLaboArthonService.prototype.saveParticipant = function (name, background, callback) {
         var newUser = {
             name: name,
             isPublic: true,
@@ -17,7 +22,7 @@ var CoLaboArthonService = /** @class */ (function () {
                 background: background
             }
         };
-        var result = this.rimaService.createNewUser(newUser);
+        var result = this.rimaService.createNewUser(newUser, callback);
         return "CoLaboArthonService:" + result;
     };
     return CoLaboArthonService;

@@ -23,7 +23,7 @@ export class CoLaboArthonService {
     this.rimaService = new RimaService(MAP_ID, AUTHOR_ID);
   }
 
-  saveParticipant(name:string, background:string){
+  saveParticipant(name:string, background:string, callback:Function){
     var newUser = {
       name: name,
     	isPublic: true,
@@ -32,7 +32,7 @@ export class CoLaboArthonService {
       }
     }
 
-    var result = this.rimaService.createNewUser(newUser);
+    var result = this.rimaService.createNewUser(newUser, callback);
     return "CoLaboArthonService:"+result;
   }
 }
