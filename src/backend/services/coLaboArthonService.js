@@ -10,7 +10,7 @@ var CoLaboArthonService = /** @class */ (function () {
     }
     CoLaboArthonService.prototype.saveParticipant = function (name, background) {
         var result = this.rimaService.createNewUser(name + ":" + background);
-        return result;
+        return "CoLaboArthonService:" + result;
     };
     return CoLaboArthonService;
 }());

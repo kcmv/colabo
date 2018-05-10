@@ -1,12 +1,20 @@
 import {KNode} from './kNode';
 import {KEdge} from './kEdge';
 
-//export public class NodeService {
-export class NodeService {
+//export public class KNodeService {
+export class KNodeService {
+  constructor(private MAP_ID:string){
+  }
+
+  createNewNode(newUserData:any):string{
+    return "KNodeService:"+newUserData;
+  }
+
+  /*
   createNewUser(newUserData:any, mapId:string, callback:Function=null){
     console.log("[createNewUser] newUserData: ", newUserData);
 
-    //this should be migrated to the CoLaboArthonService - NodeService shouldn't know about some specific users of the app
+    //this should be migrated to the CoLaboArthonService - KNodeService shouldn't know about some specific users of the app
     let usersNode = this.getFirstNodeForType(KNode.TYPE_USERS);
     console.log("usersNode:", usersNode);
 
@@ -64,5 +72,5 @@ export class NodeService {
       }
     }
   }
-
+*/
 }
