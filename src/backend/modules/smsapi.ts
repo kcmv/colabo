@@ -155,7 +155,7 @@ class SMSApi {
 
 
 		//TODO: memorizing the participant:
-		//rimaService.saveParticipant(name, background);
+		//this.coLaboArthonService.saveParticipant(name, background);
 
 		return true;
 	}
@@ -175,7 +175,7 @@ class SMSApi {
 		//TODO: check if the referenceId exists!:
 		//TODO: memorizing the reply:
 		//TODO: manage "\n" in the SMSs with Enters
-		//saveReply(referenceId, reply);
+		//this.coLaboArthonService.saveReply(referenceId, reply);
 		//TODO return the ID of his new reply to the participant (so he might share it with someone)
 
 		return true;
