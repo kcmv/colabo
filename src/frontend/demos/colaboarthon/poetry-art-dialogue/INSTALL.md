@@ -42,22 +42,23 @@ Add map in kmaps (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("f7baf6923c0c84b84f0d402a"),
-    "name" : "Play Perform Learn Grow Conference 2018 - Thessaloniki",
-    "rootNodeId" : ObjectId("f7baf6913c0c84b84f0d4028"),
-    "type" : "CollaboArte",
-    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "_id" : ObjectId("5af39ce82843ddf04b459cb0"),
+    "name" : "Poesia in strada - Collaborazione poetica sui rifugiati",
+    "rootNodeId" : ObjectId("5af39ce82843ddf04b459cae"),
+    "type" : "CoLaboArthon",
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
     "parentMapId" : "",
     "dataContent" : null,
-    "__v" : NumberInt(0),
-    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
-    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
-    "isPublic" : false,
+    "updatedAt" : ISODate("2018-05-10T01:14:16.401+0000"),
+    "createdAt" : ISODate("2018-05-10T01:14:16.400+0000"),
+    "isPublic" : true,
     "participants" : [
+        ObjectId("556760847125996dc1a4a24f")
     ],
     "version" : NumberInt(1),
-    "activeVersion" : NumberInt(1)
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
 }
 ```
 
@@ -65,16 +66,18 @@ Add ROOT node in knodes (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("f7baf6913c0c84b84f0d4028"),
-    "name" : "CoLaboArthon Map",
-    "type" : "type_knowledge",
-    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
-    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "_id" : ObjectId("5af39ce82843ddf04b459cae"),
+    "name" : "Poesia in strada - Collaborazione poetica sui rifugiati",
+    "type" : "model_component",
+    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
-    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
-    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "updatedAt" : ISODate("2018-05-10T01:14:16.063+0000"),
+    "createdAt" : ISODate("2018-05-10T01:14:16.061+0000"),
     "visual" : {
-        "isOpen" : true
+        "isOpen" : true,
+        "yM" : NumberInt(0),
+        "xM" : NumberInt(0)
     },
     "isPublic" : true,
     "version" : NumberInt(1),
@@ -97,14 +100,14 @@ Add USERS node in knodes (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("f7baf6913c0c84b84f0d4029"),
+    "_id" : ObjectId("5af39ddc2843ddf04b459cb3"),
     "name" : "Users",
     "type" : "rima.users",
-    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
-    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
-    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
-    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "updatedAt" : ISODate("2018-05-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-05-10T01:18:20.439+0000"),
     "visual" : {
         "isOpen" : true
     },
@@ -127,18 +130,18 @@ Add USERS edge in kedges (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("fa379b0f800f2fdd33d2d978"),
+    "_id" : ObjectId("5af39ddc2843ddf04b459cb5"),
     "name" : "Users",
     "type" : "rima.users",
-    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
-    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
-    "sourceId" : ObjectId("f7baf6913c0c84b84f0d4028"),
-    "targetId" : ObjectId("f7baf6913c0c84b84f0d4029"),
+    "sourceId" : ObjectId("5af39ce82843ddf04b459cae"),
+    "targetId" : ObjectId("5af39ddc2843ddf04b459cb3"),
     "dataContent" : null,
     "visual" : null,
-    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
-    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "updatedAt" : ISODate("2018-05-10T01:18:20.619+0000"),
+    "createdAt" : ISODate("2018-05-10T01:18:20.618+0000"),
     "value" : NumberInt(0),
     "isPublic" : true,
     "__v" : NumberInt(0)
@@ -149,14 +152,14 @@ Add TAGS node in knodes (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("f7baf6913c0c84b84f0d4030"),
+    "_id" : ObjectId("5af39f8e2843ddf04b459cba"),
     "name" : "Tags",
     "type" : "rima.tags",
-    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
-    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
-    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
-    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "updatedAt" : ISODate("2018-05-10T01:25:34.694+0000"),
+    "createdAt" : ISODate("2018-05-10T01:25:34.693+0000"),
     "visual" : {
         "isOpen" : true
     },
@@ -179,18 +182,18 @@ Add TAGS edge in kedges (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("fa379b0f800f2fdd33d2d979"),
+    "_id" : ObjectId("5af39f8e2843ddf04b459cbc"),
     "name" : "Tags",
     "type" : "rima.tags",
-    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
-    "iAmId" : ObjectId("556760847125996dc1a4a241"),
+    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
-    "sourceId" : ObjectId("f7baf6913c0c84b84f0d4028"),
-    "targetId" : ObjectId("f7baf6913c0c84b84f0d4030"),
+    "sourceId" : ObjectId("5af39ce82843ddf04b459cae"),
+    "targetId" : ObjectId("5af39f8e2843ddf04b459cba"),
     "dataContent" : null,
     "visual" : null,
-    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
-    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
+    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"),
     "value" : NumberInt(0),
     "isPublic" : true,
     "__v" : NumberInt(0)
