@@ -110,7 +110,7 @@ exports._create = function(data, callback){
 
 		knode.save(function(err){
 			if (err) throw err;
-			callback(knode, err);
+			if(callback) callback(knode, err);
 		});
 	}
 	catch(ex){

@@ -1,12 +1,16 @@
 import {KNode} from './kNode';
 import {KEdge} from './kEdge';
 
+import * as KNodeModule from '../modules/kNode';
+
 //export public class KNodeService {
 export class KNodeService {
-  constructor(private MAP_ID:string){
+  constructor(){
   }
 
   createNewNode(newUserData:any):string{
+    console.log("KNodeModule: ", KNodeModule);
+    KNodeModule._create(newUserData);
     return "KNodeService:"+newUserData;
   }
 
