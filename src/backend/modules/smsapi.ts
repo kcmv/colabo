@@ -1,6 +1,8 @@
 declare var require: any
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
+const CoLaboArthonService = require('../services/coLaboArthonService').CoLaboArthonService;
+
 //import twilio = require('twilio');
 
 //const twilio = require('twilio');
@@ -53,8 +55,11 @@ class SMSApi {
 	public to:string;
 	public smsTxt:string;
 	public code:string;
+	public coLaboArthonService;
+
 
 	constructor(twimlBody:any){
+		this.coLaboArthonService = new CoLaboArthonService();
 		this.twimlBody = twimlBody;
 		this.from = twimlBody.From;
 		this.to = twimlBody.To;
@@ -107,11 +112,14 @@ class SMSApi {
 		let responseMessage:string;
 
 		//TODO: if this is not the REGISTER code, than to check if the sender is regeistered. If not, send him reply to register first
+		console.log("[processRequest] this.code: ", this.code);
 		switch(this.code){
 				case CODES.REGISTER:
-					if(this.registerParticipant()){
+				console.log("[processRequest] registering ...");
+					var result = this.registerParticipant();
+					if(result){
 						//TODO support name of the sender in the response message
-						responseMessage = "Welcome to the CoLaboArthon! You've registered successfully";
+						responseMessage = "Welcome to the CoLaboArthon! You've registered successfully ("+result+")";
 					}
 					else{
 						responseMessage = `Sorry! There was an error in your registration. Please, send the SMS in the format: ${HELP_MESSAGES.REGISTER}`;
@@ -142,7 +150,7 @@ class SMSApi {
 	example:
 
 	*/
-	protected registerParticipant():boolean{
+	protected registerParticipant():string{
 		//TODO: cover situation where they used ENTER instead of " " as a delimiter
 		console.log('registerParticipant:', this.smsTxt);
 		let endOfNameI:number = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH+1);
@@ -155,9 +163,9 @@ class SMSApi {
 
 
 		//TODO: memorizing the participant:
-		//this.coLaboArthonService.saveParticipant(name, background);
-
-		return true;
+		var result = this.coLaboArthonService.saveParticipant(name, background);
+		return result;
+		// return true;
 	}
 
 	/**
@@ -242,6 +250,8 @@ export function create(req:any, res:any){
 	console.log('smsApi.smsTxt:', smsApi.smsTxt);
 
 	let responseMessage:string = 'Welcome to the CoLaboArthon!';
+
+	console.log("[create] smsApi.code: ", smsApi.code);
 
 	responseMessage = smsApi.processRequest();
 
