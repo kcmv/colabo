@@ -1,7 +1,8 @@
 "use strict";
 exports.__esModule = true;
 var MessagingResponse = require('twilio').twiml.MessagingResponse;
-var CoLaboArthonService = require('../services/coLaboArthonService').CoLaboArthonService;
+// const CoLaboArthonService = require('../services/coLaboArthonService').CoLaboArthonService;
+var coLaboArthonService_1 = require("../services/coLaboArthonService");
 //import twilio = require('twilio');
 //const twilio = require('twilio');
 // import twilio from 'twilio';
@@ -42,7 +43,7 @@ var CODE_DELIMITER = ' ';
 var SMSApi = /** @class */ (function () {
     function SMSApi(twimlBody) {
         this.lang = LANGUAGES.IT;
-        this.coLaboArthonService = new CoLaboArthonService();
+        this.coLaboArthonService = new coLaboArthonService_1.CoLaboArthonService();
         this.twimlBody = twimlBody;
         this.from = twimlBody.From;
         this.to = twimlBody.To;

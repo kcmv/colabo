@@ -1,26 +1,21 @@
+declare var require: any;
+
 import {KNode} from './kNode';
 import {KEdge} from './kEdge';
+// const RimaService = require('../services/rimaService').RimaService;
+import {RimaService} from '../services/rimaService';
 
 const MAP_ID:string = "5af39ce82843ddf04b459cb0";
 
 //export public class CoLaboArthonService {
 export class CoLaboArthonService {
+  protected rimaService:RimaService;
   constructor(){
+    this.rimaService = new RimaService(MAP_ID);
   }
 
   saveParticipant(name:string, background:string){
-    //this.createNewUser();
-    return name+":"+background;
+    var result = this.rimaService.createNewUser(name+":"+background);
+    return "CoLaboArthonService:"+result;
   }
-
-  createNewUser(newUserData:any, MAP_ID, callback:Function=null){
-    console.log("[createNewUser] newUserData: ", newUserData);
-    // this.nodeService.createNewUser(newUserData, newUserCreated.bind(this));
-
-    function newUserCreated(newUser:KNode, newUserEdge:KEdge){
-      this.users.push(newUser);
-      if(callback) callback(newUser, newUserEdge);
-    }
-  }
-
 }

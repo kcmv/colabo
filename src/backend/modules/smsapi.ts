@@ -1,7 +1,10 @@
-declare var require: any
+declare var require: any;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
-const CoLaboArthonService = require('../services/coLaboArthonService').CoLaboArthonService;
+// const CoLaboArthonService = require('../services/coLaboArthonService').CoLaboArthonService;
+
+import {CoLaboArthonService} from '../services/coLaboArthonService';
+
 
 //import twilio = require('twilio');
 
@@ -55,7 +58,7 @@ class SMSApi {
 	public to:string;
 	public smsTxt:string;
 	public code:string;
-	public coLaboArthonService;
+	public coLaboArthonService:CoLaboArthonService;
 
 
 	constructor(twimlBody:any){
