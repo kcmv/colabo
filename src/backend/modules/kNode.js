@@ -60,9 +60,9 @@ exports._index = function(id, id2, type, callback){
 		if (err){
 			throw err;
 			var msg = JSON.stringify(err);
-			if(callback) callback(err);
+			if(callback) callback(null, err);
 		}else{
-			if(callback) callback(null, kNodes);
+			if(callback) callback(kNodes, null);
 		}
 	}
 

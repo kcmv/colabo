@@ -124,6 +124,8 @@ class SMSApi {
 				case CODES.REGISTER:
 				console.log("[processRequest] registering ...");
 					var result = this.registerParticipant(callback);
+
+					/*TODO: use this!
 					if(result){
 						//TODO support name of the sender in the response message
 						responseMessage = "Welcome to the CoLaboArthon! You've registered successfully ("+result+")";
@@ -131,17 +133,14 @@ class SMSApi {
 					else{
 						responseMessage = `Sorry! There was an error in your registration. Please, send the SMS in the format: ${HELP_MESSAGES.REGISTER}`;
 					}
+					*/
+
 				break;
 				case CODES.REPLY:
 					//TODO CHECK if the participant is not registered yet, tell him to do it first (maybe save his message so that he doesn't have to resend it)
 					//TODO CHECK if this is a reply on a PROMPT and then acty differently!
-					if(this.processParticipantsReply(callback)){
-						//TODO support name of the sender in the response message
-						responseMessage = "Thank you for your reply!";
-					}
-					else{
-						responseMessage = `Sorry! There was an error in processing. Please, send the SMS in the format: ${HELP_MESSAGES.REPLY}`;
-					}
+					this.processParticipantsReply(callback);
+
 				break;
 				default:
 				case CODES.WRONG_CODE:
@@ -198,28 +197,21 @@ class SMSApi {
 		//TODO: !!! set iAmid based on the user found by the this.phoneNoFrom (of this reply message)
 		//TODO: check if the referenceId exists!:
 		//TODO: manage "\n" in the SMSs with Enters
-		var result = this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom, callback);
+		var result = this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom, replyProcessed);
 		//TODO return the ID of his new reply to the participant (so he might share it with someone)
+
+		function replyProcessed(msg:string, err:any):void{
+			if(err === null){
+					//TODO support name of the sender in the response message
+					callback(msg, null);
+			}
+			else{
+				callback(msg, err);
+			}
+		}
 
 		return true;
 	}
-
-// app.post("/message", function (req, response) {
-//   console.log('req:',req);
-//   console.log('response:',response);
-//   console.log(req.body);
-//   response.send("<Response><Message>Hello from the CoLaboArthon - SMS Service!</Message></Response>")
-// });
-
-// app.get("/", function (req, response) {
-//   console.log('req:',req);
-//   console.log('response:',response);
-//   response.sendFile(__dirname + '/views/index.html');
-// });
-//
-// var listener = app.listen(process.env.PORT, function () {
-//   console.log('Your app is listening on port ' + listener.address().port);
-// });
 } // CLASS END
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8001/smsapi/index
@@ -244,7 +236,7 @@ export function create(req:any, res:any){
 	console.log("[create] smsApi.code: ", smsApi.code);
 
 	function processedRequest(msg:any, err:any) {
-		if (err) throw err;
+		if (err) console.error(err);
 
 		console.log("[smsapi:processedRequest] msg",msg);//id:%s, knode data: %s", knode._id, JSON.stringify(knode));
 
