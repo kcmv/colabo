@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { HttpClientModule }    from '@angular/common/http';
 
@@ -18,6 +19,7 @@ import {UsersClusteringService} from './users-clustering/users-clustering.servic
 import { UsersClusteringComponent } from './users-clustering/users-clustering.component';
 import {UiSmsComponent} from './ui-sms/ui-sms.component';
 import {SMSApiService} from './ui-sms/sms-api.service';
+import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
 
 import { AppComponent } from './app.component';
 
@@ -36,6 +38,7 @@ import {UsersGroupsComponent} from './users-groups/users-groups.component';
 var moduleDeclarations = [
   AppComponent,
   UiSmsComponent,
+  PromptsPresentationComponent,
   UsersProfilingComponent,
   UsersClusteringComponent,
   UsersPopulationComponent,
@@ -51,7 +54,8 @@ var moduleImports = [
 
   // Material
   BrowserAnimationsModule,
-  MaterialModule
+  MaterialModule,
+  FlexLayoutModule
 ];
 // moduleImports.push(MainModule);
 
