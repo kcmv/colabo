@@ -200,6 +200,70 @@ Add TAGS edge in kedges (`right button > insert document`):
 }
 ```
 
+# Prompts Population
+
+```JSON
+[
+  {
+      "_id" : ObjectId("5af5fa2f054a87e71f4ed862"),
+      "name" : "i nostri occhi sono terribilmente enormi perché ...",
+      "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
+      "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+      "type" : "5af39ce82843ddf04b459cb0",
+      "dataContent" : {
+          "humanID" : 1.0
+      },
+      "updatedAt" : ISODate("2018-05-11T20:16:47.306+0000"),
+      "createdAt" : ISODate("2018-05-11T20:16:47.301+0000"),
+      "visual" : {
+          "isOpen" : false
+      },
+      "isPublic" : true,
+      "version" : NumberInt(1),
+      "activeVersion" : NumberInt(1),
+      "__v" : NumberInt(0)
+  }
+  {
+      "_id" : ObjectId("5af5fafa8580c921207b5070"),
+      "name" : "Negli occhi dei migranti, persino. Ci guardano come immortali, perché ...",
+      "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
+      "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+      "type" : "5af39ce82843ddf04b459cb0",
+      "updatedAt" : ISODate("2018-05-11T20:20:10.469+0000"),
+      "createdAt" : ISODate("2018-05-11T20:20:10.465+0000"),
+      "visual" : {
+          "isOpen" : false
+      },
+      "dataContent" : {
+          "humanID" : 2.0
+      },
+      "isPublic" : true,
+      "version" : NumberInt(1),
+      "activeVersion" : NumberInt(1),
+      "__v" : NumberInt(0)
+  }
+  {
+      "_id" : ObjectId("5af5fbe031b2ef4220e0bbdc"),
+      "name" : "Dove sei diretto? Perché vergognarsi di morire sulla tua porta di casa? Perché ...",
+      "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
+      "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+      "type" : "5af39ce82843ddf04b459cb0",
+      "dataContent" : {
+          "humanID" : 3.0
+      },
+      "updatedAt" : ISODate("2018-05-11T20:24:00.939+0000"),
+      "createdAt" : ISODate("2018-05-11T20:24:00.935+0000"),
+      "visual" : {
+          "isOpen" : false
+      },
+      "isPublic" : true, 
+      "version" : NumberInt(1),
+      "activeVersion" : NumberInt(1),
+      "__v" : NumberInt(0)
+  }
+]
+```
+
 # Users Population
 
 (TEST ONLY)
