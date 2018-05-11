@@ -7,6 +7,7 @@ import { UsersPopulationComponent } from './users-population/users-population.co
 import { TagsPopulationComponent } from './tags-population/tags-population.component';
 import {UsersGroupsComponent} from './users-groups/users-groups.component';
 import {UiSmsComponent} from './ui-sms/ui-sms.component';
+import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
 
 UsersGroupsComponent
 const routes: Routes = [
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'ui-sms',
     component: UiSmsComponent
+  },
+  {
+    path: 'prompts-presentation',
+    component: PromptsPresentationComponent
   },
   {
     path: 'users-profiling',
