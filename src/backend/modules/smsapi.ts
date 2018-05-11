@@ -3,6 +3,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 // const CoLaboArthonService = require('../services/coLaboArthonService').CoLaboArthonService;
 
+import {KNode} from '../services/kNode';
 import {CoLaboArthonService} from '../services/coLaboArthonService';
 
 
@@ -64,8 +65,11 @@ class SMSApi {
 	constructor(twimlBody:any){
 		this.coLaboArthonService = new CoLaboArthonService();
 		this.twimlBody = twimlBody;
-		this.phoneNoFrom = twimlBody.From;
-		this.phoneNoTo = twimlBody.To;
+
+		// console.log('twimlBody.From',twimlBody.From);
+		// console.log('typeof twimlBody.From', typeof twimlBody.From);
+		this.phoneNoFrom = twimlBody.From.replace(" ","");
+		this.phoneNoTo = twimlBody.To.replace(" ","");
 		this.smsTxt = twimlBody.Body;
 		this.prepareSMS();
 	}
@@ -111,7 +115,7 @@ class SMSApi {
 		console.log('code:',this.code);
 	}
 
-	public processRequest(callback:Function):string {
+	public processRequest(callback:Function):string { //callback back to create
 		let responseMessage:string;
 
 		//TODO: if this is not the REGISTER code, than to check if the sender is regeistered. If not, send him reply to register first
@@ -131,7 +135,7 @@ class SMSApi {
 				case CODES.REPLY:
 					//TODO CHECK if the participant is not registered yet, tell him to do it first (maybe save his message so that he doesn't have to resend it)
 					//TODO CHECK if this is a reply on a PROMPT and then acty differently!
-					if(this.processParticipantsReply()){
+					if(this.processParticipantsReply(callback)){
 						//TODO support name of the sender in the response message
 						responseMessage = "Thank you for your reply!";
 					}
@@ -153,7 +157,7 @@ class SMSApi {
 	example:
 
 	*/
-	protected registerParticipant(callback:Function):string{
+	protected registerParticipant(callback:Function):string{ //calback back to processRequest
 		//TODO: cover situation where they used ENTER instead of " " as a delimiter
 		console.log('registerParticipant:', this.smsTxt);
 		let endOfNameI:number = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH+1);
@@ -165,7 +169,16 @@ class SMSApi {
 		//TODO: check if the participant is already registered - to avoid creation of a double entry
 		//TODO: memorizing the participant:
 
-		var result = this.coLaboArthonService.saveParticipant(name, occupation, this.phoneNoFrom, callback);
+		var result = this.coLaboArthonService.saveParticipant(name, occupation, this.phoneNoFrom, participantRegeistered);
+
+		function participantRegeistered(kNode:KNode, err:any):void{
+			if(err === null){
+					callback(`Successful registration. Your ID is: ${kNode._id}`, null);
+			}
+			else{
+					callback(`There was a problem with registration. Please try again and check your SMS format`, err);
+			}
+		}
 
 		return result;
 		// return true;
@@ -174,7 +187,7 @@ class SMSApi {
 	/**
 		SMS format: REP  ID_of_the_prompt  your_verse
 	*/
-	protected processParticipantsReply():boolean{
+	protected processParticipantsReply(callback:Function):boolean{ //TODO see about the return value
 		let endOfID:number = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH+1);
 		let referenceId:number = Number(this.smsTxt.substring(CODE_LENGTH+1,endOfID));
 		console.log("referenceId:", referenceId);
@@ -185,7 +198,7 @@ class SMSApi {
 		//TODO: !!! set iAmid based on the user found by the this.phoneNoFrom (of this reply message)
 		//TODO: check if the referenceId exists!:
 		//TODO: manage "\n" in the SMSs with Enters
-		var result = this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom);
+		var result = this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom, callback);
 		//TODO return the ID of his new reply to the participant (so he might share it with someone)
 
 		return true;
@@ -218,29 +231,6 @@ export function index(req:any, res:any){
     res.send('<HTML><body>HELLO from SMSAPI</body></HTML>')
 }
 
-/*
-
-//CORRECT REG:
-curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REG Sinisa poet","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
-
-//REG with EXTRA SPACES:
-curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REG   Sinisa       poet   ","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
-
-//UNKNOWN CODE
-curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REGL Sinisa poet","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
-
-//REGISTER
-curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REG Sinisa poet","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://api.colabo.space/smsapi'
-
-//REPLY
-curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REP 2 we have taken the immortality out of their proud hearts, because ...","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
-
-//REPLY with the Enter:
-curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM1423555f50af9ac75a1b48b9836f431a","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM1423555f50af9ac75a1b48b9836f431a","FromState":"","SmsStatus":"received","FromCity":"","Body":"REP 2 we have taken\nthe immortality out\nof their proud hearts\nbecause ...","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"1","MessageSid":"SM1423555f50af9ac75a1b48b9836f431a","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381628317008","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
-
-//REPLY - long SMS with 2 segments and Enters:
-curl -v -XPOST -H "Content-type: application/json" -d '{"ToCountry":"GB","ToState":"","SmsMessageSid":"SM2edeeca395fba4df49165e0919f280c2","NumMedia":"0","ToCity":"","FromZip":"","SmsSid":"SM2edeeca395fba4df49165e0919f280c2","FromState":"","SmsStatus":"received","FromCity":"","Body":"REP 1 le nostre tremendamente grandi\nmani\nnon furono grandi\nabbastanza\n\nda proteggerci\nda tremendamente grandi mezzo secolo lunghi coltelli\ncoltelli\n\nfacendo il loro lavoro\nnella preparazione \ndella zuppa dei Balcani\nperché ...","FromCountry":"RS","To":"+447480487843","ToZip":"","NumSegments":"2","MessageSid":"SM2edeeca395fba4df49165e0919f280c2","AccountSid":"AC3ce3ec0158e2b2f0a6857d973e42c2f1","From":"+381642830738","ApiVersion":"2010-04-01"}' 'http://127.0.0.1:8001/smsapi'
-*/
 export function create(req:any, res:any){
 
 	//console.log("[modules/smsapi.js:create] req: %s", req);
@@ -249,23 +239,26 @@ export function create(req:any, res:any){
 	let smsApi:SMSApi = new SMSApi(req.body);
 	console.log('smsApi.smsTxt:', smsApi.smsTxt);
 
-	let responseMessage:string = 'Welcome to the CoLaboArthon!';
+	let responseMessage:string = 'CoLaboArthon: ';
 
 	console.log("[create] smsApi.code: ", smsApi.code);
 
-	function processedRequest(knode, err) {
+	function processedRequest(msg:any, err:any) {
 		if (err) throw err;
 
-		console.log("[smsapi:processedRequest] id:%s, knode data: %s", knode._id, JSON.stringify(knode));
+		console.log("[smsapi:processedRequest] msg",msg);//id:%s, knode data: %s", knode._id, JSON.stringify(knode));
 
 		const twiml = new MessagingResponse();
-	  twiml.message(responseMessage + ".\n user id: " + knode._id);
+		responseMessage+=msg;
+		console.log('responseMessage:', responseMessage);
+	  twiml.message(responseMessage); // + result)
 
 	  res.writeHead(200, {'Content-Type': 'text/xml'});
 	  res.end(twiml.toString());
 	};
 
-	responseMessage = smsApi.processRequest(processedRequest);
+	//responseMessage =
+	smsApi.processRequest(processedRequest);
 
 
 	/*

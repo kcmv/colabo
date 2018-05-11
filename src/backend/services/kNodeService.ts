@@ -10,8 +10,14 @@ export class KNodeService {
 
   createNewNode(newUserData:any, callback:Function=null):string{
     console.log("KNodeModule: ", KNodeModule);
+    //TODO shouldn't newUserData be 'translated' into server format or cleaned at least?
     KNodeModule._create(newUserData, callback);
     return "KNodeService:"+newUserData;
+  }
+
+  findByDataContent(name:string, value:any, callback:Function=null):boolean{
+    KNodeModule._index(name, value, 'in_content_data', callback);
+    return true;
   }
 
   /*

@@ -114,7 +114,7 @@ var VO = /** @class */ (function () {
             if (typeof this[id] == 'function')
                 continue;
             //console.log("cloning: %s", id);
-            if (this[id] !== undefined) {
+            if (this[id] !== undefined) { //JSON.parse breaks at "undefined"
                 vo[id] = (JSON.parse(JSON.stringify(this[id])));
             }
         }

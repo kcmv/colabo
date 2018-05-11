@@ -22,10 +22,10 @@ export class RimaService {
     var result = this.kNodeService.createNewNode(newUserData, callback);
     return "RimaService:"+result;
 
-    function newUserCreated(newUser:KNode, newUserEdge:KEdge){
-      this.users.push(newUser);
-      if(callback) callback(newUser, newUserEdge);
-    }
+    // function newUserCreated(newUser:KNode, newUserEdge:KEdge){
+    //   this.users.push(newUser);
+    //   if(callback) callback(newUser, newUserEdge);
+    // }
   }
 
   addReply(referenceId:string, newData:any, callback:Function=null):string{
@@ -36,23 +36,23 @@ export class RimaService {
 
     //TODO: find the node to be related
     //TODO create an edge and connect its source to the referenceId-node and target to this newData-node
-    //TODO new Humane ID (=ß maxiId+1) to be added and returned
+    //TODO new Human ID (=ß maxiId+1) to be added and returned
     var result = this.kNodeService.createNewNode(newData);
     return "CoLaboArthon: Your reply is auccesfully saved";
 
-    function newNodeCreated(newUser:KNode, newUserEdge:KEdge){
-      this.users.push(newUser);
-      if(callback) callback(newUser, newUserEdge);
-    }
+    // function newNodeCreated(newUser:KNode, newUserEdge:KEdge){
+    //   this.users.push(newUser);
+    //   if(callback) callback(newUser, newUserEdge);
+    // }
   }
 
   //TODO:
-  getNodeByHumanID(humaneID:number):KNode{
-    return null;
+  getNodeByHumanID(humanID:number, callback:Function=null):any{
+    return this.kNodeService.findByDataContent('humanID', humanID, callback);
   }
 
   //TODO:
-  getUserByPhoneNo(phoneNo:string):KNode{
-    return null;
+  getUserByPhoneNo(phoneNo:string, callback:Function=null):any{
+    return this.kNodeService.findByDataContent('phoneNo', phoneNo, callback);
   }
 }

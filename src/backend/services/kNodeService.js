@@ -8,8 +8,14 @@ var KNodeService = /** @class */ (function () {
     KNodeService.prototype.createNewNode = function (newUserData, callback) {
         if (callback === void 0) { callback = null; }
         console.log("KNodeModule: ", KNodeModule);
+        //TODO shouldn't newUserData be 'translated' into server format or cleaned at least?
         KNodeModule._create(newUserData, callback);
         return "KNodeService:" + newUserData;
+    };
+    KNodeService.prototype.findByDataContent = function (name, value, callback) {
+        if (callback === void 0) { callback = null; }
+        KNodeModule._index(name, value, 'in_content_data', callback);
+        return true;
     };
     return KNodeService;
 }());

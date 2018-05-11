@@ -56,7 +56,7 @@ exports.index = function(req, res){
 
 exports._index = function(id, id2, type, callback){
 	var found = function(err,kNodes){
-		console.log("[modules/kNode.js:index] in 'found'");
+		console.log("[modules/kNode.js:index] in 'found'", kNodes);
 		if (err){
 			throw err;
 			var msg = JSON.stringify(err);
@@ -79,6 +79,13 @@ exports._index = function(id, id2, type, callback){
 		case 'in_map_of_type': //all nodes of particular type in specific map
 			console.log("find: mapId: %s, type: %s", id, id2);
 			KNodeModel.find({ $and: [{ mapId: id}, { type: id2}] }, found);
+			break;
+		case 'in_content_data':
+			console.log("find: in_content_data:: name: %s, value: %s", id, id2);
+			var searchObj = {};
+			searchObj['dataContent.'+id] = id2;
+			KNodeModel.find(searchObj, found);
+			//KNodeModel.find({ 'dataContent.phoneNo': "+385989813852" }, found);
 			break;
 		default:
 			console.log("[modules/kNode.js:index] unsuported req.params.type: %s", req.params.type);
@@ -109,6 +116,7 @@ exports._create = function(data, callback){
 		//console.log("After create data: %s", data.toString());
 
 		knode.save(function(err){
+			console.log('knode.save',err);
 			if (err) throw err;
 			if(callback) callback(knode, err);
 		});

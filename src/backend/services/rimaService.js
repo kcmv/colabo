@@ -16,11 +16,10 @@ var RimaService = /** @class */ (function () {
         newUserData.iAmId = this.AUTHOR_ID;
         var result = this.kNodeService.createNewNode(newUserData, callback);
         return "RimaService:" + result;
-        function newUserCreated(newUser, newUserEdge) {
-            this.users.push(newUser);
-            if (callback)
-                callback(newUser, newUserEdge);
-        }
+        // function newUserCreated(newUser:KNode, newUserEdge:KEdge){
+        //   this.users.push(newUser);
+        //   if(callback) callback(newUser, newUserEdge);
+        // }
     };
     RimaService.prototype.addReply = function (referenceId, newData, callback) {
         if (callback === void 0) { callback = null; }
@@ -30,22 +29,23 @@ var RimaService = /** @class */ (function () {
         //newData.iAmId = this.AUTHOR_ID;
         //TODO: find the node to be related
         //TODO create an edge and connect its source to the referenceId-node and target to this newData-node
-        //TODO new Humane ID (=ß maxiId+1) to be added and returned
+        //TODO new Human ID (=ß maxiId+1) to be added and returned
         var result = this.kNodeService.createNewNode(newData);
         return "CoLaboArthon: Your reply is auccesfully saved";
-        function newNodeCreated(newUser, newUserEdge) {
-            this.users.push(newUser);
-            if (callback)
-                callback(newUser, newUserEdge);
-        }
+        // function newNodeCreated(newUser:KNode, newUserEdge:KEdge){
+        //   this.users.push(newUser);
+        //   if(callback) callback(newUser, newUserEdge);
+        // }
     };
     //TODO:
-    RimaService.prototype.getNodeByHumanID = function (humaneID) {
-        return null;
+    RimaService.prototype.getNodeByHumanID = function (humanID, callback) {
+        if (callback === void 0) { callback = null; }
+        return this.kNodeService.findByDataContent('humanID', humanID, callback);
     };
     //TODO:
-    RimaService.prototype.getUserByPhoneNo = function (phoneNo) {
-        return null;
+    RimaService.prototype.getUserByPhoneNo = function (phoneNo, callback) {
+        if (callback === void 0) { callback = null; }
+        return this.kNodeService.findByDataContent('phoneNo', phoneNo, callback);
     };
     RimaService.TYPE_USER = "rima.user";
     return RimaService;
