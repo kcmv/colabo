@@ -2,7 +2,7 @@
   <h2>Prompts Presentation</h2>
 
   <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
-    <mat-card class="card-picture" *ngFor="let picture of pictures">
+    <mat-card class="card-picture" [@promptState]="picture.state" (click)="pictureToggleState(picture)" *ngFor="let picture of pictures">
       <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
         <span fxFlex="80%">{{picture.title}}</span>
         <mat-icon fxFlex="10%">mode_edit</mat-icon>
