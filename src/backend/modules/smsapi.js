@@ -111,9 +111,10 @@ var SMSApi = /** @class */ (function () {
                 break;
             default:
             case CODES.WRONG_CODE:
-                responseMessage = "You have sent the wrong code. Available codes: " + this.getCodesString();
+                var msg = "You have sent a wrong code. Available codes: " + this.getCodesString();
                 //TODO: make it like below, so that the original sent code is contained in message and not like this: "Wrong code 'ERR'. Available codes: reg rep hlp"
                 // responseMessage = `Wrong code '${this.code}'. Available codes: ${this.getCodesString()}`;
+                callback(msg);
                 break;
         }
         return responseMessage;
