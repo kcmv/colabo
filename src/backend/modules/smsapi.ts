@@ -24,8 +24,8 @@ enum PUSH_MESSAGES {
 }
 
 enum HELP_MESSAGES {
-	REGISTER = "REG your_name your_occupation",
-	REPLY = "REP ID_of_the_message_that_you_are_replying_on your_message"
+	REGISTER = "REG " + "your_name your_occupation",
+	REPLY = "REP prompt_ID your_verse"
 }
 
 enum RESPONSE_MESSAGES {
@@ -237,10 +237,7 @@ export function create(req:any, res:any){
 
 	function processedRequest(msg:any, err:any) {
 		if (err) console.error(err);
-
 		console.log("[smsapi:processedRequest] msg",msg);//id:%s, knode data: %s", knode._id, JSON.stringify(knode));
-
-
 		responseMessage+=msg;
 		sendMessage(msg);
 	};
@@ -259,11 +256,4 @@ export function create(req:any, res:any){
 	else{
 			smsApi.processRequest(processedRequest);
 	}
-
-	/*
-	let sms:string = SMSApi.prepareSMS(req.body);
-	let code:string = SMSApi.getCode(sms);
-	console.log('code:', code);
-	res.send("<Response><Message>Hello from the CoLaboArthon - SMS Service!</Message></Response>");
-	*/
 }
