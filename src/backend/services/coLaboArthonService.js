@@ -19,8 +19,7 @@ var CoLaboArthonService = /** @class */ (function () {
                 phoneNo: phoneNo
             }
         };
-        var result = this.rimaService.createNewUser(newUser, callback);
-        return "CoLaboArthonService:" + result;
+        this.rimaService.createNewUser(newUser, callback);
     };
     CoLaboArthonService.prototype.saveReply = function (referenceHumanId, reply, phoneNo, callback) {
         if (callback === void 0) { callback = null; }
@@ -46,7 +45,7 @@ var CoLaboArthonService = /** @class */ (function () {
         function referenceNodeFound(referenceNodes) {
             if (referenceNodes === null || referenceNodes.length === 0) {
                 //TODO: extract message and translate it
-                var msg = "CoLaboArthon: Content with the ID " + referenceHumanId + ", that you are replying on, is not found";
+                var msg = "Content with the ID " + referenceHumanId + ", that you are replying on, is not found";
                 console.warn(msg);
                 callback(msg, 'REFERENCED_NODE_NOT_FOUND');
             }
@@ -62,7 +61,7 @@ var CoLaboArthonService = /** @class */ (function () {
             //console.log('typeof users', typeof users);
             if (users === null || users.length === 0) {
                 //TODO: extract message and translate it
-                var msg = "CoLaboArthon: You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'";
+                var msg = "You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'";
                 console.warn(msg);
                 callback(msg, 'REPLY_BY_NONREGISTERED_USER');
             }

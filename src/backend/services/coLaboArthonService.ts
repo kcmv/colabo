@@ -16,7 +16,7 @@ export class CoLaboArthonService {
     this.rimaService = new RimaService(MAP_ID, AUTHOR_ID);
   }
 
-  saveParticipant(name:string, occupation:string, phoneNo:string, callback:Function = null){
+  saveParticipant(name:string, occupation:string, phoneNo:string, callback:Function = null):void{
     var newUser = {
       name: name,
     	isPublic: true,
@@ -26,8 +26,7 @@ export class CoLaboArthonService {
       }
     }
 
-    var result = this.rimaService.createNewUser(newUser, callback);
-    return "CoLaboArthonService:"+result;
+    this.rimaService.createNewUser(newUser, callback);
   }
 
   saveReply(referenceHumanId:number, reply:string, phoneNo:string, callback:Function = null):void{
@@ -55,7 +54,7 @@ export class CoLaboArthonService {
     function referenceNodeFound(referenceNodes:KNode[]){
       if(referenceNodes === null ||  referenceNodes.length === 0) {
         //TODO: extract message and translate it
-        let msg:string = `CoLaboArthon: Content with the ID ${referenceHumanId}, that you are replying on, is not found`;
+        let msg:string = `Content with the ID ${referenceHumanId}, that you are replying on, is not found`;
         console.warn(msg);
         callback(msg,'REFERENCED_NODE_NOT_FOUND');
       }
@@ -72,7 +71,7 @@ export class CoLaboArthonService {
       //console.log('typeof users', typeof users);
       if(users === null ||  users.length === 0) {
          //TODO: extract message and translate it
-         let msg:string = "CoLaboArthon: You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'";
+         let msg:string = "You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'";
         console.warn(msg);
         callback(msg,'REPLY_BY_NONREGISTERED_USER');
       }

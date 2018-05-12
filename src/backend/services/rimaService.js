@@ -29,8 +29,7 @@ var RimaService = /** @class */ (function () {
         newData.mapId = this.MAP_ID;
         newData.dataContent['replyOnId'] = referenceId;
         //TODO create an EDGE and connect its source to the referenceId-node and target to this newData-node
-        var result = this.kNodeService.createNewNode(newData);
-        return "CoLaboArthon: Your reply is auccesfully saved";
+        this.kNodeService.createNewNode(newData, callback);
         // function newNodeCreated(newUser:KNode, newUserEdge:KEdge){
         //   this.users.push(newUser);
         //   if(callback) callback(newUser, newUserEdge);

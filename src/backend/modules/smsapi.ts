@@ -6,7 +6,10 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 import {KNode} from '../services/kNode';
 import {CoLaboArthonService} from '../services/coLaboArthonService';
 
-const SERVER_IN_TESTING_MODE:boolean = true;
+const SERVER_IN_TESTING_MODE:boolean =
+//false;
+true;
+
 const REPLY_MAX_WORDS:number = 30;
 const CODE_LENGTH:number = 3;
 const CODE_DELIMITER:string = ' ';
@@ -114,7 +117,7 @@ class SMSApi {
 		switch(this.code){
 				case CODES.REGISTER:
 				console.log("[processRequest] registering ...");
-					var result = this.registerParticipant(callback);
+					this.registerParticipant(callback);
 
 					/*TODO: use this!
 					if(result){
@@ -147,7 +150,7 @@ class SMSApi {
 	example:
 
 	*/
-	protected registerParticipant(callback:Function):string{ //calback back to processRequest
+	protected registerParticipant(callback:Function):void{ //calback back to processRequest
 		//TODO: cover situation where they used ENTER instead of " " as a delimiter
 		console.log('registerParticipant:', this.smsTxt);
 		let endOfNameI:number = this.smsTxt.indexOf(CODE_DELIMITER, CODE_LENGTH+1);
@@ -159,18 +162,16 @@ class SMSApi {
 		//TODO: check if the participant is already registered - to avoid creation of a double entry
 		//TODO: memorizing the participant:
 
-		var result = this.coLaboArthonService.saveParticipant(name, occupation, this.phoneNoFrom, participantRegeistered);
+		this.coLaboArthonService.saveParticipant(name, occupation, this.phoneNoFrom, participantRegeistered);
 
 		function participantRegeistered(kNode:KNode, err:any):void{
 			if(err === null){
-					callback(`Successful registration. Your ID is: ${kNode._id}`, null);
+					callback(`Successful registration. Your ID is: ${kNode.dataContent.humanID}`, null);
 			}
 			else{
 					callback(`There was a problem with registration. Please try again and check your SMS format`, err);
 			}
 		}
-
-		return result;
 		// return true;
 	}
 
@@ -188,7 +189,7 @@ class SMSApi {
 		//TODO: !!! set iAmid based on the user found by the this.phoneNoFrom (of this reply message)
 		//TODO: check if the referenceId exists!:
 		//TODO: manage "\n" in the SMSs with Enters
-		var result = this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom, replyProcessed);
+		this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom, replyProcessed);
 		//TODO return the ID of his new reply to the participant (so he might share it with someone)
 
 		function replyProcessed(msg:string, err:any):void{
@@ -229,8 +230,8 @@ export function create(req:any, res:any){
 	function sendMessage(msg:string):void{
 		console.log('responseMessage:', responseMessage);
 		const twiml = new MessagingResponse();
+		responseMessage+=msg;
 		twiml.message(responseMessage); // + result)
-
 		res.writeHead(200, {'Content-Type': 'text/xml'});
 		res.end(twiml.toString());
 	}
@@ -238,7 +239,6 @@ export function create(req:any, res:any){
 	function processedRequest(msg:any, err:any) {
 		if (err) console.error(err);
 		console.log("[smsapi:processedRequest] msg",msg);//id:%s, knode data: %s", knode._id, JSON.stringify(knode));
-		responseMessage+=msg;
 		sendMessage(msg);
 	};
 
@@ -246,7 +246,7 @@ export function create(req:any, res:any){
 	if(SERVER_IN_TESTING_MODE){
 		console.warn(`SERVER_IN_TESTING_MODE`);
 		if(NUMBERS_FOR_TESTING_MODE.indexOf(smsApi.phoneNoFrom) > -1){
-			responseMessage+="TST_MOD:"
+			responseMessage+="TST_MOD:";
 			smsApi.processRequest(processedRequest);
 		}
 		else{

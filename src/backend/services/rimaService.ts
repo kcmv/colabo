@@ -34,15 +34,14 @@ export class RimaService {
   }
 
   //TODO migrate to CoLaboArthonService:
-  addReply(referenceId:string, newData:any, callback:Function=null):string{
+  addReply(referenceId:string, newData:any, callback:Function=null):void{
     console.log("[addReply] newData: ", newData);
   	newData.type = RimaService.TYPE_COLABOARTHON_CONTENT_REPLY;
   	newData.mapId = this.MAP_ID;
     newData.dataContent['replyOnId'] = referenceId;
 
     //TODO create an EDGE and connect its source to the referenceId-node and target to this newData-node
-    var result = this.kNodeService.createNewNode(newData);
-    return "CoLaboArthon: Your reply is auccesfully saved";
+    this.kNodeService.createNewNode(newData, callback);
 
     // function newNodeCreated(newUser:KNode, newUserEdge:KEdge){
     //   this.users.push(newUser);

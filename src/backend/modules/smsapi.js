@@ -2,7 +2,9 @@
 exports.__esModule = true;
 var MessagingResponse = require('twilio').twiml.MessagingResponse;
 var coLaboArthonService_1 = require("../services/coLaboArthonService");
-var SERVER_IN_TESTING_MODE = true;
+var SERVER_IN_TESTING_MODE = 
+//false;
+true;
 var REPLY_MAX_WORDS = 30;
 var CODE_LENGTH = 3;
 var CODE_DELIMITER = ' ';
@@ -91,7 +93,7 @@ var SMSApi = /** @class */ (function () {
         switch (this.code) {
             case CODES.REGISTER:
                 console.log("[processRequest] registering ...");
-                var result = this.registerParticipant(callback);
+                this.registerParticipant(callback);
                 /*TODO: use this!
                 if(result){
                     //TODO support name of the sender in the response message
@@ -130,16 +132,15 @@ var SMSApi = /** @class */ (function () {
         console.log("occupation:", occupation);
         //TODO: check if the participant is already registered - to avoid creation of a double entry
         //TODO: memorizing the participant:
-        var result = this.coLaboArthonService.saveParticipant(name, occupation, this.phoneNoFrom, participantRegeistered);
+        this.coLaboArthonService.saveParticipant(name, occupation, this.phoneNoFrom, participantRegeistered);
         function participantRegeistered(kNode, err) {
             if (err === null) {
-                callback("Successful registration. Your ID is: " + kNode._id, null);
+                callback("Successful registration. Your ID is: " + kNode.dataContent.humanID, null);
             }
             else {
                 callback("There was a problem with registration. Please try again and check your SMS format", err);
             }
         }
-        return result;
         // return true;
     };
     /**
@@ -155,7 +156,7 @@ var SMSApi = /** @class */ (function () {
         //TODO: !!! set iAmid based on the user found by the this.phoneNoFrom (of this reply message)
         //TODO: check if the referenceId exists!:
         //TODO: manage "\n" in the SMSs with Enters
-        var result = this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom, replyProcessed);
+        this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom, replyProcessed);
         //TODO return the ID of his new reply to the participant (so he might share it with someone)
         function replyProcessed(msg, err) {
             if (err === null) {
@@ -190,6 +191,7 @@ function create(req, res) {
     function sendMessage(msg) {
         console.log('responseMessage:', responseMessage);
         var twiml = new MessagingResponse();
+        responseMessage += msg;
         twiml.message(responseMessage); // + result)
         res.writeHead(200, { 'Content-Type': 'text/xml' });
         res.end(twiml.toString());
@@ -198,7 +200,6 @@ function create(req, res) {
         if (err)
             console.error(err);
         console.log("[smsapi:processedRequest] msg", msg); //id:%s, knode data: %s", knode._id, JSON.stringify(knode));
-        responseMessage += msg;
         sendMessage(msg);
     }
     ;
