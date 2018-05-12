@@ -8,16 +8,35 @@ export class KNodeService {
   constructor(){
   }
 
-  createNewNode(newUserData:any, callback:Function=null):string{
-    console.log("KNodeModule: ", KNodeModule);
-    //TODO shouldn't newUserData be 'translated' into server format or cleaned at least?
-    KNodeModule._create(newUserData, callback);
-    return "KNodeService:"+newUserData;
+  createNewNode(newData:any, callback:Function=null):void{
+    function maxHumanIDFound(val:number,err:any){
+      if(err===null){
+        console.log('maxHumanIDFound::val',val);
+        if(val === null){val = 0;}
+        console.log('newData', newData);
+        if(!newData.dataContent){
+          newData.dataContent = {};
+        }
+        newData.dataContent.humanID = ++val;
+        console.log('maxHumanIDFound::humanID:',val);
+        //TODO shouldn't newData be 'translated' into server format or cleaned at least?
+        KNodeModule._create(newData, callback);
+      }
+      else{
+        callback(null,err);
+      }
+    }
+    //console.log("KNodeModule: ", KNodeModule);
+    //this should be added to Model or as a hook as we did for 'date of update'
+    this.findMaxVal('dataContent.humanID', maxHumanIDFound); // this
   }
 
-  findByDataContent(name:string, value:any, callback:Function=null):boolean{
+  findByDataContent(name:string, value:any, callback:Function=null):void{
     KNodeModule._index(name, value, 'in_content_data', callback);
-    return true;
+  }
+
+  findMaxVal(name:string, callback:Function=null):void{
+    KNodeModule._index(name, null, 'max_val', callback);
   }
 
   /*

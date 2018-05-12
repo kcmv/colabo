@@ -46,13 +46,15 @@ export class RimaService {
     // }
   }
 
-  //TODO:
   getNodeByHumanID(humanID:number, callback:Function=null):any{
     return this.kNodeService.findByDataContent('humanID', humanID, callback);
   }
 
-  //TODO:
   getUserByPhoneNo(phoneNo:string, callback:Function=null):any{
     return this.kNodeService.findByDataContent('phoneNo', phoneNo, callback);
   }
+
+  // findMaxVal(name:string, callback:Function=null):void{
+  //   this.kNodeService.findMaxVal(name, callback);
+  // }
 }

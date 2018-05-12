@@ -27,10 +27,10 @@ var CoLaboArthonService = /** @class */ (function () {
         var newData = {
             name: reply,
             isPublic: true,
-            iAmId: null
-            // dataContent: {
-            //   background: background
-            // }
+            iAmId: null,
+            dataContent: {
+            // background: background
+            }
         };
         var user = null;
         var referenceNode = null;

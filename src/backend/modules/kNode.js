@@ -87,6 +87,32 @@ exports._index = function(id, id2, type, callback){
 			KNodeModel.find(searchObj, found);
 			//KNodeModel.find({ 'dataContent.phoneNo': "+385989813852" }, found);
 			break;
+		case 'max_val':
+		//TODO: make it to work for any parameter instead of the fixed one 'dataContent.humanID':
+			console.log("find: max_val: name: %s", id);
+			//KNodeModel.findOne().where({id: 1}).sort('-LAST_MOD').exec(function(err, doc)
+			KNodeModel.findOne().sort('-dataContent.humanID').exec(function(err, doc)
+		    {
+						if(err){
+							console.console.error('max_val:error', err);
+							throw err;
+						}
+						else{
+							if(doc){
+								//var max = doc.LAST_MOD;
+								console.log("find: max_val - found:", doc.dataContent.humanID);
+								found(err, doc.dataContent.humanID);
+							}
+							else{
+								console.log("find: max_val - not found, returning null");
+								found(err, null);
+							}
+						}
+
+		    }
+);
+			KNodeModel.find().sort({id:-1}).limit(1)
+			break;
 		default:
 			console.log("[modules/kNode.js:index] unsuported req.params.type: %s", req.params.type);
 			resSendJsonProtected(res, {data: [], accessId : accessId, message: 'unsuported req type \''+req.params.type + '\'', success: false});

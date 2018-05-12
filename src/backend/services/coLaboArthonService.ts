@@ -34,10 +34,10 @@ export class CoLaboArthonService {
     var newData = {
       name: reply, //TODO: check if we want to put just a substring in the name and the rest in the 'dataContent'
       isPublic: true,
-      iAmId: null
-      // dataContent: {
-      //   background: background
-      // }
+      iAmId: null,
+      dataContent: {
+        // background: background
+      }
     }
     var user:KNode = null;
     var referenceNode:KNode = null;
