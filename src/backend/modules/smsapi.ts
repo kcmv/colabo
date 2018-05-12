@@ -24,7 +24,7 @@ enum PUSH_MESSAGES {
 }
 
 enum HELP_MESSAGES {
-	REGISTER = "REG " + "your_name your_occupation",
+	REGISTER = "REG your_name your_occupation",
 	REPLY = "REP prompt_ID your_verse"
 }
 

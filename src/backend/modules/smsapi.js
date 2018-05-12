@@ -21,7 +21,7 @@ var PUSH_MESSAGES;
 var HELP_MESSAGES;
 (function (HELP_MESSAGES) {
     HELP_MESSAGES["REGISTER"] = "REG your_name your_occupation";
-    HELP_MESSAGES["REPLY"] = "REP ID_of_the_message_that_you_are_replying_on your_message";
+    HELP_MESSAGES["REPLY"] = "REP prompt_ID your_verse";
 })(HELP_MESSAGES || (HELP_MESSAGES = {}));
 var RESPONSE_MESSAGES;
 (function (RESPONSE_MESSAGES) {
@@ -216,11 +216,5 @@ function create(req, res) {
     else {
         smsApi.processRequest(processedRequest);
     }
-    /*
-    let sms:string = SMSApi.prepareSMS(req.body);
-    let code:string = SMSApi.getCode(sms);
-    console.log('code:', code);
-    res.send("<Response><Message>Hello from the CoLaboArthon - SMS Service!</Message></Response>");
-    */
 }
 exports.create = create;
