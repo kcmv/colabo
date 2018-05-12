@@ -30,31 +30,58 @@ export class CoLaboArthonService {
     return "CoLaboArthonService:"+result;
   }
 
-  saveReply(referenceHumanId:number, reply:string, phoneNo:string, callback:Function = null):boolean{
+  saveReply(referenceHumanId:number, reply:string, phoneNo:string, callback:Function = null):void{
     var newData = {
       name: reply, //TODO: check if we want to put just a substring in the name and the rest in the 'dataContent'
       isPublic: true,
-      iAmId: null
-      // dataContent: {
-      //   background: background
-      // }
-    }
-    var user:KNode = this.rimaService.getUserByPhoneNo(phoneNo, userFound);
-    function userFound(user:KNode){
-      if(user === null) {
-         //TODO: extract message and translate it
-        console.warn("CoLaboArthon: You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'");
-        callback("CoLaboArthon: You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'",'REPLY_BY_NONREGISTERED_USER');
+      iAmId: null,
+      dataContent: {
+        // background: background
       }
-      newData.iAmId = user.iAmId;
-      let referenceNode:KNode = this.rimaService.getNodeByHumanID(referenceHumanId);
-      if(referenceNode === null) {return `CoLaboArthon: Content with the ${referenceHumanId}, that you are replying on, is not found`;} //TODO: extract message and translate it
-      newData.iAmId = user.iAmId;
-      var result = this.rimaService.addReply(referenceNode._id, newData, callback);
-      return "CoLaboArthon:"+result;
+    }
+    var user:KNode = null;
+    var referenceNode:KNode = null;
+    this.rimaService.getUserByPhoneNo(phoneNo, userFound.bind(this));
 
+    function replyAdded(reply:KNode,err:any):void{
+      if(reply === null){
+        callback(null,'ERROR_IN_ADDING');
+      }
+      else{
+        callback(`Thank you for your reply! It's ID is ${reply.dataContent.humanID}`, null);
+      }
     }
 
-    return true;
+    function referenceNodeFound(referenceNodes:KNode[]){
+      if(referenceNodes === null ||  referenceNodes.length === 0) {
+        //TODO: extract message and translate it
+        let msg:string = `CoLaboArthon: Content with the ID ${referenceHumanId}, that you are replying on, is not found`;
+        console.warn(msg);
+        callback(msg,'REFERENCED_NODE_NOT_FOUND');
+      }
+      else{
+        referenceNode = referenceNodes[0];
+        console.log(`Found referenceNode  (${referenceHumanId})'${referenceNode.name}' that user ${user.name} is replying on`);
+        this.rimaService.addReply(referenceNode._id, newData, replyAdded.bind(this));
+      }
+    }
+
+    function userFound(users:KNode[]){
+      //console.log('userFound:users',users);
+      //console.log('typeof users', typeof users);
+      if(users === null ||  users.length === 0) {
+         //TODO: extract message and translate it
+         let msg:string = "CoLaboArthon: You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'";
+        console.warn(msg);
+        callback(msg,'REPLY_BY_NONREGISTERED_USER');
+      }
+      else{
+        user = users[0];
+        newData.iAmId = user._id;
+        //console.log('found user:',user);
+        //console.log(`Found user ${user.name} that is replying`);
+        let referenceNode:KNode = this.rimaService.getNodeByHumanID(referenceHumanId, referenceNodeFound.bind(this));
+      }
+    }
   }
 }

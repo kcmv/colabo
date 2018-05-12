@@ -37,12 +37,10 @@ var RimaService = /** @class */ (function () {
         //   if(callback) callback(newUser, newUserEdge);
         // }
     };
-    //TODO:
     RimaService.prototype.getNodeByHumanID = function (humanID, callback) {
         if (callback === void 0) { callback = null; }
         return this.kNodeService.findByDataContent('humanID', humanID, callback);
     };
-    //TODO:
     RimaService.prototype.getUserByPhoneNo = function (phoneNo, callback) {
         if (callback === void 0) { callback = null; }
         return this.kNodeService.findByDataContent('phoneNo', phoneNo, callback);

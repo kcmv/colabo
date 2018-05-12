@@ -95,24 +95,20 @@ var SMSApi = /** @class */ (function () {
             case CODES.REGISTER:
                 console.log("[processRequest] registering ...");
                 var result = this.registerParticipant(callback);
-                if (result) {
+                /*TODO: use this!
+                if(result){
                     //TODO support name of the sender in the response message
-                    responseMessage = "Welcome to the CoLaboArthon! You've registered successfully (" + result + ")";
+                    responseMessage = "Welcome to the CoLaboArthon! You've registered successfully ("+result+")";
                 }
-                else {
-                    responseMessage = "Sorry! There was an error in your registration. Please, send the SMS in the format: " + HELP_MESSAGES.REGISTER;
+                else{
+                    responseMessage = `Sorry! There was an error in your registration. Please, send the SMS in the format: ${HELP_MESSAGES.REGISTER}`;
                 }
+                */
                 break;
             case CODES.REPLY:
                 //TODO CHECK if the participant is not registered yet, tell him to do it first (maybe save his message so that he doesn't have to resend it)
                 //TODO CHECK if this is a reply on a PROMPT and then acty differently!
-                if (this.processParticipantsReply(callback)) {
-                    //TODO support name of the sender in the response message
-                    responseMessage = "Thank you for your reply!";
-                }
-                else {
-                    responseMessage = "Sorry! There was an error in processing. Please, send the SMS in the format: " + HELP_MESSAGES.REPLY;
-                }
+                this.processParticipantsReply(callback);
                 break;
             default:
             case CODES.WRONG_CODE:
@@ -162,8 +158,17 @@ var SMSApi = /** @class */ (function () {
         //TODO: !!! set iAmid based on the user found by the this.phoneNoFrom (of this reply message)
         //TODO: check if the referenceId exists!:
         //TODO: manage "\n" in the SMSs with Enters
-        var result = this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom, callback);
+        var result = this.coLaboArthonService.saveReply(referenceId, reply, this.phoneNoFrom, replyProcessed);
         //TODO return the ID of his new reply to the participant (so he might share it with someone)
+        function replyProcessed(msg, err) {
+            if (err === null) {
+                //TODO support name of the sender in the response message
+                callback(msg, null);
+            }
+            else {
+                callback(msg, err);
+            }
+        }
         return true;
     };
     return SMSApi;
@@ -187,7 +192,7 @@ function create(req, res) {
     console.log("[create] smsApi.code: ", smsApi.code);
     function processedRequest(msg, err) {
         if (err)
-            throw err;
+            console.error(err);
         console.log("[smsapi:processedRequest] msg", msg); //id:%s, knode data: %s", knode._id, JSON.stringify(knode));
         var twiml = new MessagingResponse();
         responseMessage += msg;
