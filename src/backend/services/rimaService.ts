@@ -7,7 +7,11 @@ import {KNodeService} from '../services/kNodeService';
 //export public class CoLaboArthonService {
 export class RimaService {
   static TYPE_USER = "rima.user";
+
+  //TODO migrate to CoLaboArthonService:
   static TYPE_COLABOARTHON_CONTENT = "clathon.content";
+  static TYPE_COLABOARTHON_CONTENT_PROMPT = "clathon.content.prompt";
+  static TYPE_COLABOARTHON_CONTENT_REPLY = "clathon.content.reply";
 
   protected kNodeService:KNodeService;
   constructor(private MAP_ID:string, private AUTHOR_ID:string){
@@ -29,12 +33,13 @@ export class RimaService {
     // }
   }
 
+  //TODO migrate to CoLaboArthonService:
   addReply(referenceId:string, newData:any, callback:Function=null):string{
     console.log("[addReply] newData: ", newData);
-  	newData.type = RimaService.TYPE_COLABOARTHON_CONTENT;
+  	newData.type = RimaService.TYPE_COLABOARTHON_CONTENT_REPLY;
   	newData.mapId = this.MAP_ID;
 
-    //TODO create an edge and connect its source to the referenceId-node and target to this newData-node
+    //TODO create an EDGE and connect its source to the referenceId-node and target to this newData-node
     var result = this.kNodeService.createNewNode(newData);
     return "CoLaboArthon: Your reply is auccesfully saved";
 

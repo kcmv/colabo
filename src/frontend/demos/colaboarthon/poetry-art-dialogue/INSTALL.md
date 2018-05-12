@@ -255,6 +255,8 @@ Add CONTENT edge in kedges (`right button > insert document`):
 
 # Prompts Population
 
+**Nodes:**
+
 ```JSON
 [
   {
@@ -262,7 +264,7 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "name" : "i nostri occhi sono terribilmente enormi perché ...",
       "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
       "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
-      "type" : "5af39ce82843ddf04b459cb0",
+      "type" : "clathon.content.prompt",
       "dataContent" : {
           "humanID" : NumberInt(1)
       },
@@ -275,13 +277,13 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0)
-  }
+  },
   {
       "_id" : ObjectId("5af5fafa8580c921207b5070"),
       "name" : "Negli occhi dei migranti, persino. Ci guardano come immortali, perché ...",
       "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
       "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
-      "type" : "5af39ce82843ddf04b459cb0",
+      "type" : "clathon.content.prompt",
       "updatedAt" : ISODate("2018-05-11T20:20:10.469+0000"),
       "createdAt" : ISODate("2018-05-11T20:20:10.465+0000"),
       "visual" : {
@@ -294,13 +296,13 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0)
-  }
+  },
   {
       "_id" : ObjectId("5af5fbe031b2ef4220e0bbdc"),
       "name" : "Dove sei diretto? Perché vergognarsi di morire sulla tua porta di casa? Perché ...",
       "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
       "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
-      "type" : "5af39ce82843ddf04b459cb0",
+      "type" : "clathon.content.prompt",
       "dataContent" : {
           "humanID" : NumberInt(3)
       },
@@ -316,6 +318,67 @@ Add CONTENT edge in kedges (`right button > insert document`):
   }
 ]
 ```
+
+
+
+**Edges:**
+
+```json
+[
+  { 
+    "name" : "Prompt", 
+    "type" : "clathon.content.prompt", 
+    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"), 
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
+    "ideaId" : NumberInt(0), 
+    "sourceId" : ObjectId("5af6438da070880131440a23"), 
+    "targetId" : ObjectId("5af5fa2f054a87e71f4ed862"), 
+    "dataContent" : null, 
+    "visual" : null, 
+    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"), 
+    "value" : NumberInt(0), 
+    "isPublic" : true, 
+    "__v" : NumberInt(0)
+  },
+  { 
+    "name" : "Prompt", 
+    "type" : "clathon.content.prompt", 
+    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"), 
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
+    "ideaId" : NumberInt(0), 
+    "sourceId" : ObjectId("5af6438da070880131440a23"), 
+    "targetId" : ObjectId("5af5fafa8580c921207b5070"), 
+    "dataContent" : null, 
+    "visual" : null, 
+    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"), 
+    "value" : NumberInt(0), 
+    "isPublic" : true, 
+    "__v" : NumberInt(0)
+  },
+  { 
+    "name" : "Prompt", 
+    "type" : "clathon.content.prompt", 
+    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"), 
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
+    "ideaId" : NumberInt(0), 
+    "sourceId" : ObjectId("5af6438da070880131440a23"), 
+    "targetId" : ObjectId("5af5fbe031b2ef4220e0bbdc"), 
+    "dataContent" : null, 
+    "visual" : null, 
+    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"), 
+    "value" : NumberInt(0), 
+    "isPublic" : true, 
+    "__v" : NumberInt(0)
+  }
+]
+```
+
+
+
+
 
 # Users Population
 

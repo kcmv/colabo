@@ -21,15 +21,13 @@ var RimaService = /** @class */ (function () {
         //   if(callback) callback(newUser, newUserEdge);
         // }
     };
+    //TODO migrate to CoLaboArthonService:
     RimaService.prototype.addReply = function (referenceId, newData, callback) {
         if (callback === void 0) { callback = null; }
         console.log("[addReply] newData: ", newData);
-        newData.type = //RimaService.TYPE_USER;
-            newData.mapId = this.MAP_ID;
-        //newData.iAmId = this.AUTHOR_ID;
-        //TODO: find the node to be related
-        //TODO create an edge and connect its source to the referenceId-node and target to this newData-node
-        //TODO new Human ID (=ß maxiId+1) to be added and returned
+        newData.type = RimaService.TYPE_COLABOARTHON_CONTENT_REPLY;
+        newData.mapId = this.MAP_ID;
+        //TODO create an EDGE and connect its source to the referenceId-node and target to this newData-node
         var result = this.kNodeService.createNewNode(newData);
         return "CoLaboArthon: Your reply is auccesfully saved";
         // function newNodeCreated(newUser:KNode, newUserEdge:KEdge){
@@ -46,6 +44,10 @@ var RimaService = /** @class */ (function () {
         return this.kNodeService.findByDataContent('phoneNo', phoneNo, callback);
     };
     RimaService.TYPE_USER = "rima.user";
+    //TODO migrate to CoLaboArthonService:
+    RimaService.TYPE_COLABOARTHON_CONTENT = "clathon.content";
+    RimaService.TYPE_COLABOARTHON_CONTENT_PROMPT = "clathon.content.prompt";
+    RimaService.TYPE_COLABOARTHON_CONTENT_REPLY = "clathon.content.reply";
     return RimaService;
 }());
 exports.RimaService = RimaService;

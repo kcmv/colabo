@@ -6,24 +6,10 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 import {KNode} from '../services/kNode';
 import {CoLaboArthonService} from '../services/coLaboArthonService';
 
-
-//import twilio = require('twilio');
-
-//const twilio = require('twilio');
-
-// import twilio from 'twilio';
-// const MessagingResponse = twilio.twiml.MessagingResponse;
-
-// import twilio from 'twilio';
-// import {MessagingResponse} from 'twilio.twiml.MessagingResponse';
-//const MessagingResponse = twilio.twiml.MessagingResponse;
-
-//var exports = module.exports = {};
-
-// var express = require('express');
-// var app = express();
-// var bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({extended: false}));
+const SERVER_IN_TESTING_MODE:boolean = true;
+const REPLY_MAX_WORDS:number = 30;
+const CODE_LENGTH:number = 3;
+const CODE_DELIMITER:string = ' ';
 
 enum CODES {
 	WRONG_CODE = "ERR",
@@ -42,14 +28,19 @@ enum HELP_MESSAGES {
 	REPLY = "REP ID_of_the_message_that_you_are_replying_on your_message"
 }
 
+enum RESPONSE_MESSAGES {
+	TEST_MODE = "Please wait. The 'Poesia in strada - Collaborazione poetica sui rifugiati' starts at 22:15, May, 12th"
+}
+
 enum LANGUAGES {
 	EN = "EN",
 	IT = "IT"
 }
 
-const REPLY_MAX_WORDS:number = 30;
-const CODE_LENGTH:number = 3;
-const CODE_DELIMITER:string = ' ';
+const NUMBERS_FOR_TESTING_MODE:string[] = [
+	'+381628317008','+381642830738','+385989813852', //Sinisa
+	'+385996706742'//Sasa
+];
 
 class SMSApi {
 	public lang:string = LANGUAGES.IT;
@@ -235,23 +226,39 @@ export function create(req:any, res:any){
 
 	console.log("[create] smsApi.code: ", smsApi.code);
 
+	function sendMessage(msg:string):void{
+		console.log('responseMessage:', responseMessage);
+		const twiml = new MessagingResponse();
+		twiml.message(responseMessage); // + result)
+
+		res.writeHead(200, {'Content-Type': 'text/xml'});
+		res.end(twiml.toString());
+	}
+
 	function processedRequest(msg:any, err:any) {
 		if (err) console.error(err);
 
 		console.log("[smsapi:processedRequest] msg",msg);//id:%s, knode data: %s", knode._id, JSON.stringify(knode));
 
-		const twiml = new MessagingResponse();
-		responseMessage+=msg;
-		console.log('responseMessage:', responseMessage);
-	  twiml.message(responseMessage); // + result)
 
-	  res.writeHead(200, {'Content-Type': 'text/xml'});
-	  res.end(twiml.toString());
+		responseMessage+=msg;
+		sendMessage(msg);
 	};
 
 	//responseMessage =
-	smsApi.processRequest(processedRequest);
-
+	if(SERVER_IN_TESTING_MODE){
+		console.warn(`SERVER_IN_TESTING_MODE`);
+		if(NUMBERS_FOR_TESTING_MODE.indexOf(smsApi.phoneNoFrom) > -1){
+			responseMessage+="TST_MOD:"
+			smsApi.processRequest(processedRequest);
+		}
+		else{
+			sendMessage(RESPONSE_MESSAGES.TEST_MODE);
+		}
+	}
+	else{
+			smsApi.processRequest(processedRequest);
+	}
 
 	/*
 	let sms:string = SMSApi.prepareSMS(req.body);

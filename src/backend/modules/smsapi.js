@@ -2,18 +2,10 @@
 exports.__esModule = true;
 var MessagingResponse = require('twilio').twiml.MessagingResponse;
 var coLaboArthonService_1 = require("../services/coLaboArthonService");
-//import twilio = require('twilio');
-//const twilio = require('twilio');
-// import twilio from 'twilio';
-// const MessagingResponse = twilio.twiml.MessagingResponse;
-// import twilio from 'twilio';
-// import {MessagingResponse} from 'twilio.twiml.MessagingResponse';
-//const MessagingResponse = twilio.twiml.MessagingResponse;
-//var exports = module.exports = {};
-// var express = require('express');
-// var app = express();
-// var bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({extended: false}));
+var SERVER_IN_TESTING_MODE = true;
+var REPLY_MAX_WORDS = 30;
+var CODE_LENGTH = 3;
+var CODE_DELIMITER = ' ';
 var CODES;
 (function (CODES) {
     CODES["WRONG_CODE"] = "ERR";
@@ -31,14 +23,19 @@ var HELP_MESSAGES;
     HELP_MESSAGES["REGISTER"] = "REG your_name your_occupation";
     HELP_MESSAGES["REPLY"] = "REP ID_of_the_message_that_you_are_replying_on your_message";
 })(HELP_MESSAGES || (HELP_MESSAGES = {}));
+var RESPONSE_MESSAGES;
+(function (RESPONSE_MESSAGES) {
+    RESPONSE_MESSAGES["TEST_MODE"] = "Please wait. The 'Poesia in strada - Collaborazione poetica sui rifugiati' starts at 22:15, May, 12th";
+})(RESPONSE_MESSAGES || (RESPONSE_MESSAGES = {}));
 var LANGUAGES;
 (function (LANGUAGES) {
     LANGUAGES["EN"] = "EN";
     LANGUAGES["IT"] = "IT";
 })(LANGUAGES || (LANGUAGES = {}));
-var REPLY_MAX_WORDS = 30;
-var CODE_LENGTH = 3;
-var CODE_DELIMITER = ' ';
+var NUMBERS_FOR_TESTING_MODE = [
+    '+381628317008', '+381642830738', '+385989813852',
+    '+385996706742' //Sasa
+];
 var SMSApi = /** @class */ (function () {
     function SMSApi(twimlBody) {
         this.lang = LANGUAGES.IT;
@@ -190,20 +187,35 @@ function create(req, res) {
     console.log('smsApi.smsTxt:', smsApi.smsTxt);
     var responseMessage = 'CoLaboArthon: ';
     console.log("[create] smsApi.code: ", smsApi.code);
-    function processedRequest(msg, err) {
-        if (err)
-            console.error(err);
-        console.log("[smsapi:processedRequest] msg", msg); //id:%s, knode data: %s", knode._id, JSON.stringify(knode));
-        var twiml = new MessagingResponse();
-        responseMessage += msg;
+    function sendMessage(msg) {
         console.log('responseMessage:', responseMessage);
+        var twiml = new MessagingResponse();
         twiml.message(responseMessage); // + result)
         res.writeHead(200, { 'Content-Type': 'text/xml' });
         res.end(twiml.toString());
     }
+    function processedRequest(msg, err) {
+        if (err)
+            console.error(err);
+        console.log("[smsapi:processedRequest] msg", msg); //id:%s, knode data: %s", knode._id, JSON.stringify(knode));
+        responseMessage += msg;
+        sendMessage(msg);
+    }
     ;
     //responseMessage =
-    smsApi.processRequest(processedRequest);
+    if (SERVER_IN_TESTING_MODE) {
+        console.warn("SERVER_IN_TESTING_MODE");
+        if (NUMBERS_FOR_TESTING_MODE.indexOf(smsApi.phoneNoFrom) > -1) {
+            responseMessage += "TST_MOD:";
+            smsApi.processRequest(processedRequest);
+        }
+        else {
+            sendMessage(RESPONSE_MESSAGES.TEST_MODE);
+        }
+    }
+    else {
+        smsApi.processRequest(processedRequest);
+    }
     /*
     let sms:string = SMSApi.prepareSMS(req.body);
     let code:string = SMSApi.getCode(sms);
