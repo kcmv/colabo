@@ -14,7 +14,7 @@ const routes: Routes = [
   // default route
   {
     path: '',
-    redirectTo: '/ui-sms',
+    redirectTo: '/prompts-presentation',
     pathMatch: 'full'
   },
   {
