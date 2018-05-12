@@ -200,6 +200,59 @@ Add TAGS edge in kedges (`right button > insert document`):
 }
 ```
 
+Add CONTENT node in knodes (`right button > insert document`):
+
+```json
+{ 
+    "_id" : ObjectId("5af6438da070880131440a23"), 
+    "name" : "Content", 
+    "type" : "clathon.content", 
+    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"), 
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
+    "ideaId" : NumberInt(0), 
+    "visual" : {
+        "isOpen" : true
+    }, 
+    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"), 
+    "isPublic" : true, 
+    "version" : NumberInt(1), 
+    "activeVersion" : NumberInt(1), 
+    "__v" : NumberInt(0), 
+    "decorations" : {
+
+    }, 
+    "up" : {
+
+    }, 
+    "dataContent" : {
+
+    }
+}
+```
+
+Add CONTENT edge in kedges (`right button > insert document`):
+
+```json
+{ 
+    "name" : "Content", 
+    "type" : "clathon.content", 
+    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"), 
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
+    "ideaId" : NumberInt(0), 
+    "sourceId" : ObjectId("5af39ce82843ddf04b459cae"), 
+    "targetId" : ObjectId("5af6438da070880131440a23"), 
+    "dataContent" : null, 
+    "visual" : null, 
+    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"), 
+    "value" : NumberInt(0), 
+    "isPublic" : true, 
+    "__v" : NumberInt(0), 
+    "_id" : ObjectId("5af644c7a070880131440a2a")
+}
+```
+
 # Prompts Population
 
 ```JSON
@@ -211,7 +264,7 @@ Add TAGS edge in kedges (`right button > insert document`):
       "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
       "type" : "5af39ce82843ddf04b459cb0",
       "dataContent" : {
-          "humanID" : 1.0
+          "humanID" : NumberInt(1)
       },
       "updatedAt" : ISODate("2018-05-11T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-05-11T20:16:47.301+0000"),
@@ -235,7 +288,7 @@ Add TAGS edge in kedges (`right button > insert document`):
           "isOpen" : false
       },
       "dataContent" : {
-          "humanID" : 2.0
+          "humanID" : NumberInt(2)
       },
       "isPublic" : true,
       "version" : NumberInt(1),
@@ -249,7 +302,7 @@ Add TAGS edge in kedges (`right button > insert document`):
       "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
       "type" : "5af39ce82843ddf04b459cb0",
       "dataContent" : {
-          "humanID" : 3.0
+          "humanID" : NumberInt(3)
       },
       "updatedAt" : ISODate("2018-05-11T20:24:00.939+0000"),
       "createdAt" : ISODate("2018-05-11T20:24:00.935+0000"),
