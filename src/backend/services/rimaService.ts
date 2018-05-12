@@ -38,6 +38,7 @@ export class RimaService {
     console.log("[addReply] newData: ", newData);
   	newData.type = RimaService.TYPE_COLABOARTHON_CONTENT_REPLY;
   	newData.mapId = this.MAP_ID;
+    newData.dataContent['replyOnId'] = referenceId;
 
     //TODO create an EDGE and connect its source to the referenceId-node and target to this newData-node
     var result = this.kNodeService.createNewNode(newData);

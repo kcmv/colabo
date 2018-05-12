@@ -62,6 +62,7 @@ export class CoLaboArthonService {
       else{
         referenceNode = referenceNodes[0];
         console.log(`Found referenceNode  (${referenceHumanId})'${referenceNode.name}' that user ${user.name} is replying on`);
+        newData.dataContent['replyOnHumanId'] = referenceHumanId;
         this.rimaService.addReply(referenceNode._id, newData, replyAdded.bind(this));
       }
     }
