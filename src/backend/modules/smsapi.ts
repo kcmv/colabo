@@ -6,9 +6,8 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 import {KNode} from '../services/kNode';
 import {CoLaboArthonService} from '../services/coLaboArthonService';
 
-const SERVER_IN_TESTING_MODE:boolean =
-//false;
-true;
+const SERVER_IN_TESTING_MODE:boolean = false;
+//true;
 
 const REPLY_MAX_WORDS:number = 30;
 const CODE_LENGTH:number = 3;

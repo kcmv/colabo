@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+var messages_1 = require("./messages");
 // const RimaService = require('../services/rimaService').RimaService;
 var rimaService_1 = require("../services/rimaService");
 var MAP_ID = "5af39ce82843ddf04b459cb0";
@@ -23,6 +24,7 @@ var CoLaboArthonService = /** @class */ (function () {
     };
     CoLaboArthonService.prototype.saveReply = function (referenceHumanId, reply, phoneNo, callback) {
         if (callback === void 0) { callback = null; }
+        var msg = null;
         var newData = {
             name: reply,
             isPublic: true,
@@ -39,19 +41,23 @@ var CoLaboArthonService = /** @class */ (function () {
                 callback(null, 'ERROR_IN_ADDING');
             }
             else {
-                callback("Thank you for your reply! It's ID is " + reply.dataContent.humanID, null);
+                if (msg === null) {
+                    msg = "Thank you for your reply! It's ID is " + reply.dataContent.humanID;
+                }
+                callback(msg, null);
             }
         }
         function referenceNodeFound(referenceNodes) {
             if (referenceNodes === null || referenceNodes.length === 0) {
                 //TODO: extract message and translate it
-                var msg = "Content with the ID " + referenceHumanId + ", that you are replying on, is not found";
-                console.warn(msg);
-                callback(msg, 'REFERENCED_NODE_NOT_FOUND');
+                var msg_1 = "Content with the ID " + referenceHumanId + ", that you are replying on, is not found";
+                console.warn(msg_1);
+                callback(msg_1, 'REFERENCED_NODE_NOT_FOUND');
             }
             else {
                 referenceNode = referenceNodes[0];
-                console.log("Found referenceNode  (" + referenceHumanId + ")'" + referenceNode.name + "' that user " + user.name + " is replying on");
+                //TODO:
+                //console.log(`Found referenceNode  (${referenceHumanId})'${referenceNode.name}' that user {user.name} is replying on`);
                 newData.dataContent['replyOnHumanId'] = referenceHumanId;
                 this.rimaService.addReply(referenceNode._id, newData, replyAdded.bind(this));
             }
@@ -61,17 +67,23 @@ var CoLaboArthonService = /** @class */ (function () {
             //console.log('typeof users', typeof users);
             if (users === null || users.length === 0) {
                 //TODO: extract message and translate it
-                var msg = "You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'";
+                msg = messages_1.Messages.SMS_COLABOARTHON['REPLY_NOT_REGISTERED']['EN'];
+                //You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'";
                 console.warn(msg);
-                callback(msg, 'REPLY_BY_NONREGISTERED_USER');
+                //TODO: this causes bug
+                // user = new KNode();
+                // user.name ='unergistered_user';
+                newData.iAmId = null; //still unknown (not registered yet)
+                //msg = 'REPLY_BY_NONREGISTERED_USER';//callback(msg,'REPLY_BY_NONREGISTERED_USER');
             }
             else {
                 user = users[0];
                 newData.iAmId = user._id;
-                //console.log('found user:',user);
-                //console.log(`Found user ${user.name} that is replying`);
-                var referenceNode_1 = this.rimaService.getNodeByHumanID(referenceHumanId, referenceNodeFound.bind(this));
             }
+            //console.log('found user:',user);
+            //console.log(`Found user ${user.name} that is replying`);
+            //callback(msg,'REPLY_BY_NONREGISTERED_USER');
+            var referenceNode = this.rimaService.getNodeByHumanID(referenceHumanId, referenceNodeFound.bind(this));
         }
     };
     return CoLaboArthonService;

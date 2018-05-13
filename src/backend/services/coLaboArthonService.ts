@@ -2,6 +2,7 @@ declare var require: any;
 
 import {KNode} from './kNode';
 import {KEdge} from './kEdge';
+import {Messages} from './messages';
 // const RimaService = require('../services/rimaService').RimaService;
 import {RimaService} from '../services/rimaService';
 
@@ -30,6 +31,7 @@ export class CoLaboArthonService {
   }
 
   saveReply(referenceHumanId:number, reply:string, phoneNo:string, callback:Function = null):void{
+    let msg:string = null;
     var newData = {
       name: reply, //TODO: check if we want to put just a substring in the name and the rest in the 'dataContent'
       isPublic: true,
@@ -47,7 +49,10 @@ export class CoLaboArthonService {
         callback(null,'ERROR_IN_ADDING');
       }
       else{
-        callback(`Thank you for your reply! It's ID is ${reply.dataContent.humanID}`, null);
+        if(msg === null){
+          msg = `Thank you for your reply! It's ID is ${reply.dataContent.humanID}`
+        }
+        callback(msg, null);
       }
     }
 
@@ -60,7 +65,9 @@ export class CoLaboArthonService {
       }
       else{
         referenceNode = referenceNodes[0];
-        console.log(`Found referenceNode  (${referenceHumanId})'${referenceNode.name}' that user ${user.name} is replying on`);
+
+        //TODO:
+        //console.log(`Found referenceNode  (${referenceHumanId})'${referenceNode.name}' that user {user.name} is replying on`);
         newData.dataContent['replyOnHumanId'] = referenceHumanId;
         this.rimaService.addReply(referenceNode._id, newData, replyAdded.bind(this));
       }
@@ -71,17 +78,25 @@ export class CoLaboArthonService {
       //console.log('typeof users', typeof users);
       if(users === null ||  users.length === 0) {
          //TODO: extract message and translate it
-         let msg:string = "You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'";
+        msg = Messages.SMS_COLABOARTHON['REPLY_NOT_REGISTERED']['EN'];
+         //You should regeister first and then send your reply. Do it by sending SMS in this form: 'REG your_name your_occupation'";
         console.warn(msg);
-        callback(msg,'REPLY_BY_NONREGISTERED_USER');
+
+        //TODO: this causes bug
+        // user = new KNode();
+        // user.name ='unergistered_user';
+
+        newData.iAmId = null; //still unknown (not registered yet)
+        //msg = 'REPLY_BY_NONREGISTERED_USER';//callback(msg,'REPLY_BY_NONREGISTERED_USER');
       }
       else{
         user = users[0];
         newData.iAmId = user._id;
-        //console.log('found user:',user);
-        //console.log(`Found user ${user.name} that is replying`);
-        let referenceNode:KNode = this.rimaService.getNodeByHumanID(referenceHumanId, referenceNodeFound.bind(this));
       }
+      //console.log('found user:',user);
+      //console.log(`Found user ${user.name} that is replying`);
+      //callback(msg,'REPLY_BY_NONREGISTERED_USER');
+      let referenceNode:KNode = this.rimaService.getNodeByHumanID(referenceHumanId, referenceNodeFound.bind(this));
     }
   }
 }
