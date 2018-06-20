@@ -35,17 +35,6 @@ var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/knodes/one/551bdcda1763e3f0eb749bd4
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/knodes/in_map/552678e69ad190a642ad461c
 exports.index = function(req, res){
-	var found = function(err,kNodes){
-		console.log("[modules/kNode.js:index] in 'found'");
-		if (err){
-			throw err;
-			var msg = JSON.stringify(err);
-			resSendJsonProtected(res, {data: kNodes, accessId : accessId, message: msg, success: false});
-		}else{
-			//console.log("[modules/kNode.js:index] Data:\n%s", JSON.stringify(kNodes));
-		}
-	}
-
 	var id = req.params.searchParam;
 	var id2 = req.params.searchParam2;
 	var type = req.params.type;
@@ -60,9 +49,9 @@ exports._index = function(id, id2, type, callback){
 		if (err){
 			throw err;
 			var msg = JSON.stringify(err);
-			if(callback) callback(null, err);
+			if(callback) callback(err, null);
 		}else{
-			if(callback) callback(kNodes, null);
+			if(callback) callback(null, kNodes);
 		}
 	}
 
@@ -110,7 +99,7 @@ exports._index = function(id, id2, type, callback){
 						}
 
 		    }
-);
+			);
 			KNodeModel.find().sort({id:-1}).limit(1)
 			break;
 		default:
