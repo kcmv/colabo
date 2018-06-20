@@ -2,9 +2,8 @@
 exports.__esModule = true;
 var MessagingResponse = require('twilio').twiml.MessagingResponse;
 var coLaboArthonService_1 = require("../services/coLaboArthonService");
-var SERVER_IN_TESTING_MODE = 
-//false;
-true;
+var SERVER_IN_TESTING_MODE = false;
+//true;
 var REPLY_MAX_WORDS = 30;
 var CODE_LENGTH = 3;
 var CODE_DELIMITER = ' ';
