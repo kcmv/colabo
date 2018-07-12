@@ -4,7 +4,7 @@ import { Observable }     from 'rxjs/Observable';
 import { Headers, RequestOptions } from '@angular/http';
 
 import {Change, ChangeVisibility, ChangeType, State, Domain, Actions, Event} from './change';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 const LATENCY_WARNING_SINGLE: number = 300; //ms
 const LATENCY_WARNING_AVERAGE: number = 150; //ms
@@ -71,7 +71,7 @@ export class ChangeService {
       @Inject('$injector') private $injector,
       @Inject('ENV') private ENV,
       // @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
-      @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+      @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService,
       private http: Http
       ) {
       //console.log('RequestService:constructor');

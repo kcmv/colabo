@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 // import {KnalledgeMapViewService} from './knalledgeMapViewService';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 declare var knalledge;
 
@@ -119,7 +119,7 @@ export class RimaUsersList implements OnInit{
     constructor(
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
+        @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray:GlobalEmittersArrayService,
         @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_,
         @Inject('RimaService') _RimaService_,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_
@@ -230,7 +230,7 @@ export class RimaUsersList implements OnInit{
 
     changedShowCreators(){
       //TODO: started to work on this -
-      //GlobalEmitterServicesArray.get(viewConfigChangedEventName).broadcast('rimaUsersList');
+      //GlobalEmittersArrayService.get(viewConfigChangedEventName).broadcast('rimaUsersList');
       this.globalEmitterServicesArray.get(this.knalledgeMapUpdateEventName).broadcast('RimUsersList');
     }
 

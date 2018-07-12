@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import {MaterialModule} from './materialModule';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA,
   MatSnackBar, MAT_SNACK_BAR_DATA} from '@angular/material';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {KnalledgeSearchService} from '@colabo-knalledge/knalledge_search/knalledge-search.service';
 
 /**
@@ -40,7 +40,7 @@ export class NodePropertiesComponent implements OnInit, AfterViewInit, OnDestroy
   public selectedNodeChangedEvent = "selectedNodeChangedEvent";
   private Plugins:any;
   public vkNode: any;
-  private GlobalEmitterServicesArray:any;
+  private GlobalEmittersArrayService:any;
   private genderSelected:any = null;
 
   constructor(
@@ -51,7 +51,7 @@ export class NodePropertiesComponent implements OnInit, AfterViewInit, OnDestroy
     private knalledgeSearchService: KnalledgeSearchService
   ) {
     this.Plugins = this.ng2injector.get('Plugins', null);
-    this.GlobalEmitterServicesArray = this.ng2injector.get(GlobalEmitterServicesArray, null);
+    this.GlobalEmittersArrayService = this.ng2injector.get(GlobalEmittersArrayService, null);
   }
 
   getInitialParams() {
@@ -61,8 +61,8 @@ export class NodePropertiesComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit() {
     this.getInitialParams();
-    this.GlobalEmitterServicesArray.register(this.selectedNodeChangedEvent);
-    this.GlobalEmitterServicesArray.get(this.selectedNodeChangedEvent).subscribe('nodeProperties.component', vkNode => {
+    this.GlobalEmittersArrayService.register(this.selectedNodeChangedEvent);
+    this.GlobalEmittersArrayService.get(this.selectedNodeChangedEvent).subscribe('nodeProperties.component', vkNode => {
       var name = vkNode ? vkNode.kNode.name : null;
       this.vkNode = vkNode;
     });

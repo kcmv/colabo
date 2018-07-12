@@ -2,7 +2,7 @@ import {Injectable
 } from '@angular/core';
 
 import {Suggestion, SuggestionVisibility, SuggestionType, SuggestionState} from './suggestion';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {InfoForDialog} from '@colabo-knalledge/knalledge_view_interaction/code/interaction/infoForDialog';
 
 declare var knalledge;
@@ -14,7 +14,7 @@ export class SuggestionService {
   private knalledgeMapVOsService:any;
   private knAllEdgeRealTimeService:any;
   private knalledgeMapPolicyService:any;
-  private globalEmitterServicesArray:GlobalEmitterServicesArray;
+  private globalEmitterServicesArray:GlobalEmittersArrayService;
   private suggestionsByExpertise: Suggestion[] = [];
   private users:any[] = [];
   private SHOW_INFO: string = "SHOW_INFO";
@@ -29,14 +29,14 @@ export class SuggestionService {
    * @param  {Service} TopiChatConfigService - TopiChat Config service
    */
   constructor(RimaService, KnalledgeMapVOsService, KnalledgeMapPolicyService,
-      KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_
+      KnAllEdgeRealTimeService, _GlobalEmittersArrayService_
   ) {
       //console.log('RequestService:constructor');
       this.rimaService = RimaService;
       this.knalledgeMapVOsService = KnalledgeMapVOsService;
       this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
       this.knalledgeMapPolicyService = KnalledgeMapPolicyService;
-      this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
+      this.globalEmitterServicesArray = _GlobalEmittersArrayService_;
 
       // let suggestionPluginOptions: any = {
       //   name: "SuggestionService",

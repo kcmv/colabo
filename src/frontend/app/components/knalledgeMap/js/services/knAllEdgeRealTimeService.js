@@ -36,7 +36,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 		var provider = {
 			REQUEST_EVENT : 'REQUEST_EVENT',
 			EVENT_NAME_PARTICIPANT_REPLICA : 'PARTICIPANT_REPLICA_REQUEST',
-			GlobalEmitterServicesArray: null,
+			GlobalEmittersArrayService: null,
 			sessionId: null,
 			/**
 			 * hash array of plugins, where key is the plugin name
@@ -78,7 +78,7 @@ knalledgeMapServices.provider('KnAllEdgeRealTimeService', {
 			init: function(){
 				// registering chat plugin
 
-				//this.GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+				//this.GlobalEmittersArrayService = $injector.get('GlobalEmittersArrayService');
 
 				if(TopiChatService){
 					var knalledgeRealTimeServicePluginOptions = {

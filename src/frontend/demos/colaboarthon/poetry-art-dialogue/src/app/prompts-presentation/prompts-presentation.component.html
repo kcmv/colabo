@@ -1,78 +1,30 @@
 <div>
-  <h2>Prompts Presentation</h2>
-
   <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
-    <mat-card class="card-picture" [@promptState]="picture.state" (click)="pictureToggleState(picture)" *ngFor="let picture of pictures">
-      <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
-        <span fxFlex="80%">{{picture.title}}</span>
-        <mat-icon fxFlex="10%">mode_edit</mat-icon>
-        <mat-icon fxFlex="10%">delete</mat-icon>
+    <!-- <mat-card class="prompt" [@promptState]="prompt.state" (@promptState.done)="promptAnimationFinished($event)" (click)="promptNext(prompt)" *ngFor="let prompt of prompts"> -->
+    <mat-card class="prompt" [@promptState]="selectedPrompt.state" (@promptState.done)="promptAnimationFinished($event)" (click)="promptNext(selectedPrompt)">
+      <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column" class="title">
+        <span fxFlex="20%" class="title">{{selectedPrompt.title}}</span>
+        <span fxFlex="50%" class="contact">COLABOARTHON_NUMERO:
+          <span style="font-weight:bold; font-size: 1.2em">{{selectedPrompt.contact}}</span>
+        </span>
+        <span fxFlex="30%" class="message">SMS:
+          <span style="font-weight:bold; font-size: 1.2em">{{selectedPrompt.message}}</span>
+        </span>
+        <!-- <mat-icon fxFlex="10%">mode_edit</mat-icon>
+        <mat-icon fxFlex="10%">delete</mat-icon> -->
       </mat-card-title>
-      <img mat-card-image [src]="picture.img">
+      <div fxLayout.gt-xs="row" fxLayout.xs="column" class="picture_and_verse">
+        <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img">
+        <div fxFlex="50%" class="text">
+          <div class="text-1">
+            {{selectedPrompt.text['it']}}
+          </div>
+          <div class="text-2">
+            {{selectedPrompt.text['eng']}}
+          </div>
+        </div>
+      </div>
     </mat-card>
   </div>
-
-  <div class="group_user" *ngFor="let group of groups">
-    <div class="group_name">Group {{group.name}}</div>
-
-    <table border="1">
-    <tr>
-      <th>id</th>
-      <th>name</th>
-      <th>Refugee</th>
-      <th>Local</th>
-      <th>Activist</th>
-    </tr>
-    <tr>
-      <td>{{group._id}}</td>
-      <td>{{group.name}}</td>
-      <td>
-        <h4>{{group?.refugee?.name}}</h4>
-        <p>
-          RFID: {{group?.refugee?.dataContent?.coLaboWareData?.value}}
-        </p>
-        <img src="{{group?.refugee?.dataContent?.image?.url}}" width="100px"/>
-      </td>
-      <td>
-        <h4>{{group?.local?.name}}</h4>
-        <p>
-          RFID: {{group?.local?.dataContent?.coLaboWareData?.value}}
-        </p>
-        <img src="{{group?.local?.dataContent?.image?.url}}" width="100px"/>
-      </td>
-      <td>
-        <h4>{{group?.activist?.name}}</h4>
-        <p>
-          RFID: {{group?.activist?.dataContent?.coLaboWareData?.value}}
-        </p>
-        <img src="{{group?.activist?.dataContent?.image?.url}}" width="100px"/>
-      </td>
-      <td>
-        <button class="activate" title="activate"
-        (click)="activateGroup(group)">X</button>
-      </td>
-    </tr>
-  </table>
-
-  </div>
-
-  <h2>Users out of Groups</h2>
-
-  <table border="1">
-  <tr>
-    <th>id</th>
-    <th>name</th>
-    <th>rfid</th>
-    <th>image</th>
-  </tr>
-  <tr *ngFor="let user of usersWithoutGroups">
-    <td>{{user._id}}</td>
-    <td>{{user.name}}</td>
-    <td>{{user?.dataContent?.coLaboWareData?.value}}</td>
-    <td>
-      <img src="{{user?.dataContent?.image?.url}}" width="100px"/>
-    </td>
-  </tr>
-  </table>
 
 </div>

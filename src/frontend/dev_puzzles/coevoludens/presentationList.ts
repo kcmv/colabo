@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, OnDestroy} from '@angular/core';
 
 import {KnalledgeMapViewService} from '../../app/components/knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../../app/components/knalledgeMap/knalledgeMapPolicyService';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 import {CfPuzzlesCoevoludensServices} from './cf.puzzles.coevoludens.service'
 
@@ -28,7 +28,7 @@ export class PresentationList implements OnInit, OnDestroy {
     private service:CfPuzzlesCoevoludensServices,
     @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
     @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
-    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+    @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray:GlobalEmittersArrayService
   ) {
       // this.items = this.service.getTypes();
       // this.selectedItem = this.service.getActiveType();

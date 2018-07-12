@@ -3,7 +3,7 @@ import { AfterViewInit, ViewChild } from '@angular/core';
 import {upgradeAdapter} from '../../js/upgrade_adapter';
 import {Media} from "ng2-material";
 import {MdDialog} from "ng2-material";
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 /**
  * Directive that handles shows node's media
@@ -39,7 +39,7 @@ export class MediaShowComponent implements AfterViewInit {
 
     constructor(
         // public router: Router,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
+        @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService
         ) {
         console.log('[MediaShowComponent]');
 

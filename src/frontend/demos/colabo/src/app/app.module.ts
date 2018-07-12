@@ -40,7 +40,7 @@ var moduleImports = [
 moduleImports.push(AppRoutingModule);
 
 import {GlobalEmitterService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterService';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 declare var window:any;
 export var Plugins:any = window.Config.Plugins;
@@ -52,8 +52,9 @@ export var Plugins:any = window.Config.Plugins;
   providers: [
     KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService,
     {provide: "Plugins", useValue: Plugins},
-    {provide: GlobalEmitterService, useClass: GlobalEmitterService},
-    {provide: GlobalEmitterServicesArray, useClass: GlobalEmitterServicesArray}
+    // provide ng build error: "Can't resolve all parameters for GlobalEmitterService"
+    // {provide: GlobalEmitterService, useClass: GlobalEmitterService},
+    {provide: GlobalEmittersArrayService, useClass: GlobalEmittersArrayService}
   ],
   bootstrap: [AppComponent]
 })

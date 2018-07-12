@@ -2,7 +2,7 @@ import {Component, Inject, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 //import {IbisTypesList} from './ibisTypesList';
 /**
  * Directive that holds CollaboFramework tools on the left side of the map
@@ -50,16 +50,16 @@ export class KnalledgeMapTools {
     public sessionsControlsShown: boolean = true;
 
     private knAllEdgeRealTimeService;
-    private globalEmitterServicesArray: GlobalEmitterServicesArray;
+    private globalEmitterServicesArray: GlobalEmittersArrayService;
     private PRESENTER_CHANGED: string = "PRESENTER_CHANGED";
 
     constructor(
         @Inject('KnalledgeMapPolicyService') public knalledgeMapPolicyService: KnalledgeMapPolicyService,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
-        @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray: GlobalEmitterServicesArray,
+        @Inject('GlobalEmittersArrayService') globalEmitterServicesArray: GlobalEmittersArrayService,
         @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_
 
-        // globalEmitterServicesArray:GlobalEmitterServicesArray
+        // globalEmitterServicesArray:GlobalEmittersArrayService
     ) {
         console.log('[KnalledgeMapTools]');
         this.policyConfig = knalledgeMapPolicyService.get().config;

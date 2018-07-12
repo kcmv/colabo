@@ -3,7 +3,7 @@ import { Component, ViewChild, Inject } from '@angular/core';
 import {Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 
 declare var knalledge;
@@ -31,7 +31,7 @@ export class UserDialogComponent {
 
   constructor(
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
-      @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
+      @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService
       ) {
       this.policyConfig = knalledgeMapPolicyService.get().config;
 

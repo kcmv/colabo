@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 // import {FORM_DIRECTIVES} from '@angular/forms';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {Suggestion, SuggestionState} from "./suggestion";
 import {SuggestionService} from "./suggestion.service";
 //import {KNode} from "KNode";
@@ -20,7 +20,7 @@ export class SuggestionComponent implements OnInit {
   suggestionsByExpertise: Suggestion[] = [];
 
   constructor(
-      @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+      @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray:GlobalEmittersArrayService
       // @Inject('RimaService') private rimaService:RimaService
 
       // since it is comming from ng1 space we need to use explicit injection decorator

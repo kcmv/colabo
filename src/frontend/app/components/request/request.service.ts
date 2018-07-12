@@ -4,7 +4,7 @@ import {Injectable
 import {Request} from './request';
 import {RequestType} from './request';
 import {RequestVisibility} from './request';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 declare var interaction:any;
 
@@ -80,7 +80,7 @@ export class RequestService {
     private knalledgeMapVOsService: any;
     private knAllEdgeRealTimeService: any;
     private knalledgeMapPolicyService: any;
-    private globalEmitterServicesArray: GlobalEmitterServicesArray;
+    private globalEmitterServicesArray: GlobalEmittersArrayService;
     private requests: Request[] = [];
     private _onChangeHandlers: Function[] = [];
     private SHOW_INFO: string = "SHOW_INFO";
@@ -95,13 +95,13 @@ export class RequestService {
      * @param  {Service} TopiChatConfigService - TopiChat Config service
      */
     constructor(RimaService, KnalledgeMapVOsService, KnalledgeMapPolicyService,
-        KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_
+        KnAllEdgeRealTimeService, _GlobalEmittersArrayService_
         ) {
         this.rimaService = RimaService;
         this.knalledgeMapVOsService = KnalledgeMapVOsService;
         this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
         this.knalledgeMapPolicyService = KnalledgeMapPolicyService;
-        this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
+        this.globalEmitterServicesArray = _GlobalEmittersArrayService_;
         this.globalEmitterServicesArray.register(this.EMITTER_NAME_REQUEST);
 
         this.globalEmitterServicesArray.register(this.SHOW_INFO);

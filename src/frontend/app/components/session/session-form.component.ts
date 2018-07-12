@@ -3,7 +3,7 @@ import { Component, Inject, ViewChild, OnInit} from '@angular/core';
 import {Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {SessionService} from "./session.service";
 import {Session, SessionPhaseNames, SessionPhase} from './session';
 
@@ -46,7 +46,7 @@ export class SessionFormComponent implements OnInit{
 
     constructor(
         private sessionService: SessionService,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
+        @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService
         ) {
         this.globalEmitterServicesArray.register(this.SETUP_SESSION_REQUEST_EVENT);
         this.globalEmitterServicesArray.get(this.SETUP_SESSION_REQUEST_EVENT).subscribe('SessionFormComponent', this.show.bind(this));

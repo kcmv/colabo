@@ -277,7 +277,7 @@ function($injector, $resource, $q, Plugins, ENV, KnalledgeMapQueue, ChangeServic
 					}
 					KnAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeUpdatedEventName, emitObject);
 					// var change = new
-					// GlobalEmitterServicesArray.get(Plugins.puzzles.knalledgeMap.config.services.structuralChangeEventName).broadcast('KnalledgeMapVOsService', {'change_typ':changes,'event':eventName});
+					// GlobalEmittersArrayService.get(Plugins.puzzles.knalledgeMap.config.services.structuralChangeEventName).broadcast('KnalledgeMapVOsService', {'change_typ':changes,'event':eventName});
 				}
 				if(callback){callback(nodeFromServer);}
 			});

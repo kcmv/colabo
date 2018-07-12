@@ -1,5 +1,5 @@
 import {KnalledgeMapPolicyService} from  '../knalledgeMap/knalledgeMapPolicyService';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 /**
  * THIS IS CLASS IS NOT USED FOR NOW - CURRENTLY DEPRICATED
@@ -13,17 +13,17 @@ export class BroadcastManagerService {
     public knRealTimeNodeSelectedEventName:string = "node-selected"; // Sasa private? string vs String
     private knalledgeMapPolicyService:KnalledgeMapPolicyService;
     private knAllEdgeRealTimeService;
-    private globalEmitterServicesArray:GlobalEmitterServicesArray;
+    private globalEmitterServicesArray:GlobalEmittersArrayService;
 
-    constructor(_KnalledgeMapPolicyService_, _KnAllEdgeRealTimeService_, _GlobalEmitterServicesArray_
+    constructor(_KnalledgeMapPolicyService_, _KnAllEdgeRealTimeService_, _GlobalEmittersArrayService_
       // ,
-      // @Inject('GlobalEmitterServicesArray') globalEmitterServicesArray:GlobalEmitterServicesArray
+      // @Inject('GlobalEmittersArrayService') globalEmitterServicesArray:GlobalEmittersArrayService
     ) {
       this.knalledgeMapPolicyService = _KnalledgeMapPolicyService_;
       this.knAllEdgeRealTimeService = _KnAllEdgeRealTimeService_;
-      this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
+      this.globalEmitterServicesArray = _GlobalEmittersArrayService_;
 
-      //var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+      //var GlobalEmittersArrayService = $injector.get('GlobalEmittersArrayService');
   		this.globalEmitterServicesArray.register(this.knRealTimeNodeSelectedEventName);
 
       var broadcastManagerServicePluginOptions:any = {
