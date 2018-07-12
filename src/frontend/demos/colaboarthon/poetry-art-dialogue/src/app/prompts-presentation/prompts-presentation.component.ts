@@ -17,7 +17,7 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 @Component({
   selector: 'prompts-presentation',
@@ -94,7 +94,7 @@ Why so ashamed to die on your own doorstep? Because ...`
     private knalledgeEdgeService: KnalledgeEdgeService,
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeMapService: KnalledgeMapService,
-    private globalEmitterServicesArray: GlobalEmitterServicesArray
+    private globalEmittersArrayService: GlobalEmittersArrayService
   ) { }
 
   ngOnInit() {
