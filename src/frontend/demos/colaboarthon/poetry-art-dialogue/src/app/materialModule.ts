@@ -32,6 +32,8 @@ import {
   MatTooltipModule,
   MatSortModule,
   MatPaginatorModule
+  //,
+  //MatFormFieldControl
 } from '@angular/material';
 
 /**
@@ -75,6 +77,7 @@ import {
     MatNativeDateModule,
     MatSortModule,
     MatPaginatorModule
+    //MatFormFieldControl
   ]
 })
 export class MaterialModule {}

@@ -17,7 +17,9 @@ export class CoLaboArthonService {
     this.rimaService = new RimaService(MAP_ID, AUTHOR_ID);
   }
 
-  saveParticipant(name:string, occupation:string, phoneNo:string, callback:Function = null):void{
+  protcted lang:string = 'EN';
+
+  saveParticipant(name:string, occupation:string, phoneNo:string, registeAfterReply:boolean = false, callback:Function = null):void{
     var newUser = {
       name: name,
     	isPublic: true,
@@ -26,8 +28,24 @@ export class CoLaboArthonService {
         phoneNo: phoneNo
       }
     }
+    if(registeAfterReply){
 
-    this.rimaService.createNewUser(newUser, callback);
+      //TODO: check if the user sent a uregistered-reply earlier
+      // newUser.dataContent['phoneNo'] //delete this field afterward
+    }
+    function replyFoundByPhone(replies:KNode[]):void{
+      //console.log('userFound:users',users);
+      //console.log('typeof users', typeof users);
+      if(replies !== null &&  replies.length > 0) {
+        console.log('replyFoundByPhone:replies',replies);
+        this.rimaService.createNewUser(newUser, callback);
+      }
+      else{
+        console.error('replyFoundByPhone:: unknown code or a user tried to register by providing his name, even though he haven\'t sent a reply earlier');
+        callback(Messages.SMS_COLABOARTHON['UNKNOWN_CODE'][lang],);
+      }
+    }
+    this.rimaService.getReplyByPhoneNo(phoneNo, replyFoundByPhone);
   }
 
   saveReply(referenceHumanId:number, reply:string, phoneNo:string, callback:Function = null):void{
@@ -87,6 +105,7 @@ export class CoLaboArthonService {
         // user.name ='unergistered_user';
 
         newData.iAmId = null; //still unknown (not registered yet)
+        newData.dataContent['phoneNo'] = phoneNo; // we will need this to identify user (later when registered properly)
         //msg = 'REPLY_BY_NONREGISTERED_USER';//callback(msg,'REPLY_BY_NONREGISTERED_USER');
       }
       else{

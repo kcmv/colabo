@@ -10,7 +10,8 @@ var CoLaboArthonService = /** @class */ (function () {
     function CoLaboArthonService() {
         this.rimaService = new rimaService_1.RimaService(MAP_ID, AUTHOR_ID);
     }
-    CoLaboArthonService.prototype.saveParticipant = function (name, occupation, phoneNo, callback) {
+    CoLaboArthonService.prototype.saveParticipant = function (name, occupation, phoneNo, registeAfterReply, callback) {
+        if (registeAfterReply === void 0) { registeAfterReply = false; }
         if (callback === void 0) { callback = null; }
         var newUser = {
             name: name,
@@ -20,6 +21,10 @@ var CoLaboArthonService = /** @class */ (function () {
                 phoneNo: phoneNo
             }
         };
+        if (registeAfterReply) {
+            //TODO: check if the user sent a uregistered-reply
+            // newUser.dataContent['phoneNo'] //delete this field afterward
+        }
         this.rimaService.createNewUser(newUser, callback);
     };
     CoLaboArthonService.prototype.saveReply = function (referenceHumanId, reply, phoneNo, callback) {
@@ -74,6 +79,7 @@ var CoLaboArthonService = /** @class */ (function () {
                 // user = new KNode();
                 // user.name ='unergistered_user';
                 newData.iAmId = null; //still unknown (not registered yet)
+                newData.dataContent['phoneNo'] = phoneNo; // we will need this to identify user (later when registered properly)
                 //msg = 'REPLY_BY_NONREGISTERED_USER';//callback(msg,'REPLY_BY_NONREGISTERED_USER');
             }
             else {

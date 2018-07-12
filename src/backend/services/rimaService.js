@@ -41,6 +41,11 @@ var RimaService = /** @class */ (function () {
     };
     RimaService.prototype.getUserByPhoneNo = function (phoneNo, callback) {
         if (callback === void 0) { callback = null; }
+        //TODO filter by type === TYPE_USER
+        return this.kNodeService.findByDataContent('phoneNo', phoneNo, callback);
+    };
+    RimaService.prototype.getReplyByPhoneNo = function (phoneNo, callback) {
+        if (callback === void 0) { callback = null; }
         return this.kNodeService.findByDataContent('phoneNo', phoneNo, callback);
     };
     RimaService.TYPE_USER = "rima.user";

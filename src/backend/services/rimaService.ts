@@ -54,6 +54,11 @@ export class RimaService {
   }
 
   getUserByPhoneNo(phoneNo:string, callback:Function=null):any{
+    //TODO filter by type === TYPE_USER
+    return this.kNodeService.findByDataContent('phoneNo', phoneNo, callback);
+  }
+
+  getReplyByPhoneNo(phoneNo:string, callback:Function=null):any{
     return this.kNodeService.findByDataContent('phoneNo', phoneNo, callback);
   }
 

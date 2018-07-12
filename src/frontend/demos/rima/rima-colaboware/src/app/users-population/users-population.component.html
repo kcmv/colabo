@@ -5,6 +5,59 @@
 
   <h3>Existing Users</h3>
 
+  <!-- https://material.angular.io/components/expansion/examples -->
+  <mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Sinisa
+      </mat-panel-title>
+      <!-- <mat-panel-description>
+        Type your name and age
+      </mat-panel-description> -->
+    </mat-expansion-panel-header>
+    <button mat-raised-button>Message</button>
+    <!-- <mat-form-field>
+      <input matInput placeholder="First name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Age">
+    </mat-form-field> -->
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Sasha
+      </mat-panel-title>
+      <!-- <mat-panel-description>
+        Currently I am {{panelOpenState ? 'open' : 'closed'}}
+      </mat-panel-description> -->
+    </mat-expansion-panel-header>
+    <button mat-raised-button>Message</button>
+    <!-- <p>I'm visible because I am open</p> -->
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Dino
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <button mat-raised-button>Message</button>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Дејан
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <button mat-raised-button>Message</button>
+</mat-expansion-panel>
+</mat-accordion>
+
   <table border="1">
   <tr>
     <th>id</th>

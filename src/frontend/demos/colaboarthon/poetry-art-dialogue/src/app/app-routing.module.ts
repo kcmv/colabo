@@ -8,6 +8,7 @@ import { TagsPopulationComponent } from './tags-population/tags-population.compo
 import {UsersGroupsComponent} from './users-groups/users-groups.component';
 import {UiSmsComponent} from './ui-sms/ui-sms.component';
 import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
+import {RimaRegisterComponent} from './rima-register/rima-register.component';
 
 UsersGroupsComponent
 const routes: Routes = [
@@ -44,6 +45,10 @@ const routes: Routes = [
   {
     path: 'users-groups',
     component: UsersGroupsComponent
+  },
+  {
+    path: 'rima-register',
+    component: RimaRegisterComponent
   }
 ];
 

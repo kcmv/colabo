@@ -612,11 +612,16 @@ export class UsersProfilingService {
   }
 
   extractNodesOfType(type:string, extractedNodes:KNode[]){
-    for(var i=0; i<this.nodes.length; i++){
-      var node = this.nodes[i];
-      if(node.type === type) extractedNodes.push(node);
+    if(extractedNodes === null){
+      return null;
     }
-    return extractedNodes;
+    else{
+      for(var i=0; i<this.nodes.length; i++){
+        var node = this.nodes[i];
+        if(node.type === type) extractedNodes.push(node);
+      }
+      return extractedNodes;
+    }
   }
 
   extractEdgesOfType(type:string, extractedEdges:KEdge[]){

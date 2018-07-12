@@ -9,6 +9,10 @@ import {CoLaboArthonService} from '../services/coLaboArthonService';
 const SERVER_IN_TESTING_MODE:boolean = false;
 //true;
 
+//if we want users to send replies on prompts, prior registering, and to register afterwards, by just sending their name
+const ALLOW_NO_CODE_REGISTRATION:boolean = true;
+//true;
+
 const REPLY_MAX_WORDS:number = 30;
 const CODE_LENGTH:number = 3;
 const CODE_DELIMITER:string = ' ';
@@ -18,7 +22,8 @@ enum CODES {
 	HELP = "HLP",
   REGISTER = "REG",
   REPLY = "REP",
-	UNSUBSCRIBE = "UNS" //TODO: to support the unsubscribe message
+	UNSUBSCRIBE = "UNS", //TODO: to support the unsubscribe message
+	NO_CODE_NAME = "NCN" // if: ALLOW_NO_CODE_REGISTRATION
 }
 
 enum PUSH_MESSAGES {
@@ -105,6 +110,13 @@ class SMSApi {
 		if(this.code != CODES.REGISTER && this.code != CODES.REPLY && this.code != CODES.HELP && this.code != CODES.UNSUBSCRIBE){
 			this.code = CODES.WRONG_CODE;
 		}
+		if(ALLOW_NO_CODE_REGISTRATION){
+			if(this.smsTxt.length < 30 //if it's a name should not be too long (like a verse)
+				 && (this.smsTxt.split(" ").length-1)<=2 //if it's a name, should not have more than 2 spaces (if not a Latin America, Spaniard or African :) )
+			 ){
+			 		this.code = CODES.NO_CODE_NAME;
+			}
+		}
 		console.log('code:',this.code);
 	}
 
@@ -142,6 +154,8 @@ class SMSApi {
 					// responseMessage = `Wrong code '${this.code}'. Available codes: ${this.getCodesString()}`;
 					callback(msg)
 				break;
+				case CODES.NO_CODE_NAME:
+					this.registerAfterReplied(callback);
 		}
 		return responseMessage;
 	}
@@ -162,7 +176,30 @@ class SMSApi {
 		//TODO: check if the participant is already registered - to avoid creation of a double entry
 		//TODO: memorizing the participant:
 
-		this.coLaboArthonService.saveParticipant(name, occupation, this.phoneNoFrom, participantRegeistered);
+		this.coLaboArthonService.saveParticipant(name, occupation, this.phoneNoFrom, false, participantRegeistered);
+
+		function participantRegeistered(kNode:KNode, err:any):void{
+			if(err === null){
+					callback(`Successful registration. Your ID is: ${kNode.dataContent.humanID}`, null);
+			}
+			else{
+					callback(`There was a problem with registration. Please try again and check your SMS format`, err);
+			}
+		}
+		// return true;
+	}
+
+	protected registerAfterReplied(callback:Function):void{ //calback back to processRequest
+		console.log('registerAfterReplied:', this.smsTxt);
+		let name:string = this.smsTxt;
+		console.log("name:", name);
+		//let occupation:string = this.smsTxt.substring(endOfNameI+1);
+		//console.log("occupation:", occupation);
+
+		//TODO: check if the participant is already registered - to avoid creation of a double entry
+		//TODO: memorizing the participant:
+
+		this.coLaboArthonService.saveParticipant(name, null, this.phoneNoFrom, true, participantRegeistered);
 
 		function participantRegeistered(kNode:KNode, err:any):void{
 			if(err === null){

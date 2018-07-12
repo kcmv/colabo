@@ -17,6 +17,8 @@ export class UsersPopulationComponent implements OnInit {
   @Input() new_users_list:string = `
   `;
 
+  panelOpenState: boolean = false;
+
   newUserId:number = 0;
   newUsers:KNode[];
 

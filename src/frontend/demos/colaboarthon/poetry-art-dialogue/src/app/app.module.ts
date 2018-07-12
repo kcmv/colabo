@@ -9,6 +9,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import 'hammerjs';
 import {MaterialModule} from './materialModule';
+//import {MatInputModule, MatFormFieldControl} from '@angular/material';
 
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
@@ -20,6 +21,7 @@ import { UsersClusteringComponent } from './users-clustering/users-clustering.co
 import {UiSmsComponent} from './ui-sms/ui-sms.component';
 import {SMSApiService} from './ui-sms/sms-api.service';
 import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
+import {RimaRegisterComponent} from './rima-register/rima-register.component';
 
 import { AppComponent } from './app.component';
 
@@ -44,7 +46,8 @@ var moduleDeclarations = [
   UsersPopulationComponent,
   UserInfoComponent,
   TagsPopulationComponent,
-  UsersGroupsComponent
+  UsersGroupsComponent,
+  RimaRegisterComponent
 ];
 
 var moduleImports = [
@@ -56,6 +59,9 @@ var moduleImports = [
   BrowserAnimationsModule,
   MaterialModule,
   FlexLayoutModule
+  // ,
+  // MatInputModule,
+  // MatFormFieldControl
 ];
 // moduleImports.push(MainModule);
 
