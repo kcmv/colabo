@@ -7,14 +7,14 @@
 $scope.$on
 $rootScope.$broadcast(eventName, changes);
 
-var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
-GlobalEmitterServicesArray.register(eventName);
+var GlobalEmittersArrayService = $injector.get('GlobalEmittersArrayService');
+GlobalEmittersArrayService.register(eventName);
 
 // $rootScope.$broadcast(eventName, $scope.node);
-GlobalEmitterServicesArray.get(eventName).broadcast('rimaWhats', $scope.node);
+GlobalEmittersArrayService.get(eventName).broadcast('rimaWhats', $scope.node);
 
 // $scope.$on(eventName, function(e, eventModel) {
-GlobalEmitterServicesArray.get(eventName).subscribe('knalledgeMap', function(newViewspec) {
+GlobalEmittersArrayService.get(eventName).subscribe('knalledgeMap', function(newViewspec) {
     console.log("[knalledgeMap.controller::$on] event: %s", viewspecChangedEventName);
     console.log("[knalledgeMap.controller::$on] newViewspec: %s", newViewspec);
 });
@@ -29,12 +29,12 @@ interface NameToService {
 
 /**
  * Global emitter services array
- * @class GlobalEmitterServicesArray
+ * @class GlobalEmittersArrayService
  * @memberof collaboframework.plugins
 */
 
 @Injectable()
-export class GlobalEmitterServicesArray {
+export class GlobalEmittersArrayService {
     services:NameToService = {};
 
     register(serviceName: string) {

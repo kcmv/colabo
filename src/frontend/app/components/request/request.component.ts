@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 // import {FORM_DIRECTIVES} from '@angular/forms';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {Request, RequestState} from "./request";
 import {RequestService} from "./request.service";
 
@@ -18,7 +18,7 @@ export class RequestComponent implements OnInit {
   private changeSelectedNodeEventName = "changeSelectedNodeEvent";
 
   constructor(
-      @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
+      @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray:GlobalEmittersArrayService,
 
       // since it is comming from ng1 space we need to use explicit injection decorator
       @Inject('RequestService') private _requestService:RequestService

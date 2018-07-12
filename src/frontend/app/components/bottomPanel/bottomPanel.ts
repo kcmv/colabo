@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation, Inject} from '@angular/core';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 /**
  * Directive that
@@ -55,7 +55,7 @@ export class BottomPanel {
     shown:boolean;
 
     constructor(
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
+        @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService
     ) {
 
         var showSubComponentInBottomPanelEvent = "showSubComponentInBottomPanelEvent";

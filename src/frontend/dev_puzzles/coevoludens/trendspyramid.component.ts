@@ -3,7 +3,7 @@ import { Component, Inject, ViewChild, OnInit} from '@angular/core';
 import {Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 //declare var knalledge;
 declare var window;
@@ -48,7 +48,7 @@ export class TrendspyramidComponent implements OnInit{
     ];
 
     constructor(
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
+        @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService
         ) {
         this.globalEmitterServicesArray.register(this.setUpBroadcastingRequest);
         this.globalEmitterServicesArray.get(this.setUpBroadcastingRequest).subscribe('TrendspyramidComponent', this.show.bind(this));

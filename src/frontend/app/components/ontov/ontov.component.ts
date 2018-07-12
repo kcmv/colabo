@@ -1,6 +1,6 @@
 import {Component, ViewEncapsulation, Inject, OnInit, OnDestroy} from '@angular/core';
 // import {MATERIAL_DIRECTIVES} from 'ng2-material';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 import {OntovService, ISearchParam} from './ontov.service';
 
@@ -42,7 +42,7 @@ export class OntovComponent implements OnInit {
 
   constructor(
     private ontovService:OntovService,
-    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray
+    @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService
     ) {
       this.searchParam = this.ontovService.searchParam;
 

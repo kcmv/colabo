@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription }     from 'rxjs/Subscription';
 
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 import {CfPuzzlesKnalledgeListService} from './cf.puzzles.knalledge_list.service';
 
@@ -41,7 +41,7 @@ export class KnalledgeListComponent implements OnInit, OnDestroy{
   // private paramsSub:Subscription;
 
     constructor(
-      @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
+      @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray:GlobalEmittersArrayService,
       private service:CfPuzzlesKnalledgeListService
       // private route: ActivatedRoute
         ) {

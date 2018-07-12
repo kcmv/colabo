@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 declare var knalledge;
 
@@ -29,7 +29,7 @@ export class OntovService {
    */
   constructor(
     @Inject('$injector') private $injector,
-    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+    @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService,
     @Inject('RimaService') private rimaService,
     @Inject('CollaboPluginsService') private collaboPluginsService
     ) {

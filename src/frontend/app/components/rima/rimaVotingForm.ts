@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnInit, OnChanges} from '@angular/core';
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
@@ -45,7 +45,7 @@ export class RimaVotingForm  implements OnInit /* , OnChanges */ {
         @Inject('IbisTypesService') _IbisTypesService_,
         @Inject('KnalledgeMapViewService') knalledgeMapViewService: KnalledgeMapViewService,
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService: KnalledgeMapPolicyService,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+        @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService,
         @Inject('RimaService') private rimaService,
         // @Inject('WhoAmIService') private whoAmIService,
         @Inject('CollaboPluginsService') private collaboPluginsService

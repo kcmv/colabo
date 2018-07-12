@@ -830,7 +830,7 @@ $init: function(configData){
 $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', 'HowAmIService', 'KnAllEdgeRealTimeService', /*'$rootScope', */
 	function($q, $window, $injector, ENV, WhoAmIService, WhatAmIService, HowAmIService, KnAllEdgeRealTimeService /*, $rootScope*/) {
 
-		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+		var GlobalEmittersArrayService = $injector.get('GlobalEmittersArrayService');
 
 		//this.configData = this.$configData;
 		var provider = {
@@ -891,8 +891,8 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 
 				var that = this;
 				var whoIamIdsUpdatedEventName = "whoIamIdsUpdatedEvent";
-				GlobalEmitterServicesArray.register(whoIamIdsUpdatedEventName);
-				GlobalEmitterServicesArray.get(whoIamIdsUpdatedEventName).subscribe('RimaService', function(whoIamIds) {
+				GlobalEmittersArrayService.register(whoIamIdsUpdatedEventName);
+				GlobalEmittersArrayService.get(whoIamIdsUpdatedEventName).subscribe('RimaService', function(whoIamIds) {
 				    console.log("[WhoAmIService::%s] whoIamIds: %s", whoIamIdsUpdatedEventName, whoIamIds);
 						that.loadUsersFromIDsList(whoIamIds);
 				});
@@ -1056,8 +1056,8 @@ $get: ['$q', '$window', '$injector', 'ENV', 'WhoAmIService', 'WhatAmIService', '
 					}
 
 					var whoIamIsUpdatedEventName = "whoIamIsUpdatedEvent";
-					GlobalEmitterServicesArray.register(whoIamIsUpdatedEventName);
-					GlobalEmitterServicesArray.get(whoIamIsUpdatedEventName).broadcast('RimaService', that.whoAmIs);
+					GlobalEmittersArrayService.register(whoIamIsUpdatedEventName);
+					GlobalEmittersArrayService.get(whoIamIsUpdatedEventName).broadcast('RimaService', that.whoAmIs);
 
 					if(callback){callback(that.whoAmIs);}
 				}

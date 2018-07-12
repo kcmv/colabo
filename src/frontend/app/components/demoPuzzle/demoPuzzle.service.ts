@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 //import {CollaboPluginsService} from 'collabo';
 import {DemoPuzzle, DemoPuzzleExampleConstants} from './demoPuzzle';
@@ -93,7 +93,7 @@ export class DemoPuzzleService {
         @Inject('$injector') private $injector,
         //  @Inject('RimaService') private rimaService,
         // @Inject('KnalledgeMapVOsService') private knalledgeMapVOsService,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+        @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService,
         @Inject('KnalledgeMapPolicyService') private knalledgeMapPolicyService: KnalledgeMapPolicyService,
         @Inject('CollaboPluginsService') private collaboPluginsService,
         private collaboGrammarService : CollaboGrammarService

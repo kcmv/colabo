@@ -11,7 +11,7 @@ import {KnalledgeMapPolicyService} from '../components/knalledgeMap/knalledgeMap
 import {KnalledgeMapViewService} from '../components/knalledgeMap/knalledgeMapViewService';
 import {TopiChatReports} from '../components/topiChat/reports';
 import {GlobalEmitterService} from '../../dev_puzzles/puzzles/puzzles_core/code/puzzles/globalEmitterService';
-import {GlobalEmitterServicesArray} from '../../dev_puzzles/puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '../../dev_puzzles/puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {TopiChatConfigService} from '../components/topiChat/topiChatConfigService';
 import {TopiChatService} from '../components/topiChat/topiChatService';
 import {RequestService} from '../components/request/request.service';
@@ -76,7 +76,7 @@ declare var angular;
 // In Angular 2, we have to add a provider configuration for the component’s injector,
 // but since we don’t bootstrap using Angular 2, there’s no way to do so.
 // ngUpgrade allows us to add a provider using the addProvider() method to solve this scenario.
-// upgradeAdapter.addProvider(GlobalEmitterServicesArray);
+// upgradeAdapter.addProvider(GlobalEmittersArrayService);
 
 // registering ng1 services (written in TypeScript) into/as ng1 services
 var knalledgeMapServicesModule = angular.module('knalledgeMapServices');
@@ -85,7 +85,7 @@ knalledgeMapServicesModule
   .service('KnalledgeMapViewService', KnalledgeMapViewService)
  // .service('GlobalEmitterService', upgradeAdapter.downgradeNg2Provider(GlobalEmitterService))
  // .service('GlobalEmitterService', GlobalEmitterService)
- .service('GlobalEmitterServicesArray', GlobalEmitterServicesArray)
+ .service('GlobalEmittersArrayService', GlobalEmittersArrayService)
  // .service('BroadcastManagerService', BroadcastManagerService)
   ;
 
@@ -142,7 +142,7 @@ upgradeAdapter.upgradeNg1Provider('KnalledgeMapVOsService');
 // upgradeAdapter.upgradeNg1Provider('BroadcastManagerService');
 upgradeAdapter.upgradeNg1Provider('TopiChatConfigService');
 upgradeAdapter.upgradeNg1Provider('TopiChatService');
-upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
+upgradeAdapter.upgradeNg1Provider('GlobalEmittersArrayService');
 upgradeAdapter.upgradeNg1Provider('RequestService');
 upgradeAdapter.upgradeNg1Provider('ApprovalNodeService');
 upgradeAdapter.upgradeNg1Provider('SuggestionService');
@@ -153,14 +153,14 @@ upgradeAdapter.upgradeNg1Provider('IbisTypesService');
 // upgradeAdapter.addProvider(GlobalEmitterService);
 
 // knalledgeMapServicesModule
-//     .service('GlobalEmitterServicesArray', upgradeAdapter.downgradeNg2Provider(GlobalEmitterServicesArray));
+//     .service('GlobalEmittersArrayService', upgradeAdapter.downgradeNg2Provider(GlobalEmittersArrayService));
 
 // upgrading ng1 services (written in TS) into ng2 space
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapPolicyService');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
 
 
-// injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmitterServicesArray);
+// injector.addPath("collaboPlugins.globalEmitterServicesArray", GlobalEmittersArrayService);
 // injector.addPath("collaboPlugins.globalEmitterService", GlobalEmitterService);
 injector.addPath("utils.globalEmitterService", Injector);
 

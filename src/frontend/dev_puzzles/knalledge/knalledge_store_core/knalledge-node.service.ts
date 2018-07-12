@@ -265,7 +265,7 @@ export class KnalledgeNodeService extends CFService{
   					}
   					KnAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeUpdatedEventName, emitObject);
   					// let change = new
-  					// GlobalEmitterServicesArray.get(Plugins.puzzles.knalledgeMap.config.services.structuralChangeEventName).broadcast('KnalledgeMapVOsService', {'change_typ':changes,'event':eventName});
+  					// GlobalEmittersArrayService.get(Plugins.puzzles.knalledgeMap.config.services.structuralChangeEventName).broadcast('KnalledgeMapVOsService', {'change_typ':changes,'event':eventName});
   				}
   				if(callback){callback(nodeFromServer);}
   			});

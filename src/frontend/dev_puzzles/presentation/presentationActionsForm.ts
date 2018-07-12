@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 
 import {KnalledgeMapViewService} from '../../app/components/knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../../app/components/knalledgeMap/knalledgeMapPolicyService';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {CfPuzzlesIbisService} from '../ibis/cf.puzzles.ibis.service';
 import {CfPuzzlesPresentationServices} from './cf.puzzles.presentation.service'
 
@@ -30,7 +30,7 @@ export class PresentationActionsForm {
     @Inject('IbisTypesService') _IbisTypesService_,
     @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
     @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
-    @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
+    @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray:GlobalEmittersArrayService,
     private presentationService:CfPuzzlesPresentationServices,
     private ibisService:CfPuzzlesIbisService
   ) {

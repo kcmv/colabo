@@ -13,7 +13,7 @@ import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareDat
 
 import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/ColabowareRFIDService';
 
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 import {UserProfilingData} from './userProfilingData';
 
@@ -92,7 +92,7 @@ export class UsersProfilingService {
     private knalledgeEdgeService: KnalledgeEdgeService,
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeMapService: KnalledgeMapService,
-    private globalEmitterServicesArray: GlobalEmitterServicesArray
+    private globalEmitterServicesArray: GlobalEmittersArrayService
   ) {
 
     // load map nodes and edges

@@ -85,7 +85,7 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 		}catch(err){
 			console.warn(err);
 		}
-		var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+		var GlobalEmittersArrayService = $injector.get('GlobalEmittersArrayService');
 
 		try{
 			// * @param {knalledge.collaboPluginsServices.CollaboGrammarService} CollaboGrammarService
@@ -167,7 +167,7 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 			 * are broadcasted.
 			 *
 			 * It wraps changes into a unified structure `changes` that is published
-			 * (through the GlobalEmitterServicesArray) to upper interested layers translated into events (like `node-created-to-visual`)
+			 * (through the GlobalEmittersArrayService) to upper interested layers translated into events (like `node-created-to-visual`)
 			 * @function externalChangesInMap
 			 * @memberof knalledge.knalledgeMap.knalledgeMapServices.KnalledgeMapVOsService#
 			 * @param  {string} eventName - event name that is sent by other client
@@ -294,8 +294,8 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 					break;
 				}
 				if(shouldBroadcast){
-					GlobalEmitterServicesArray.register(eventName);
-					GlobalEmitterServicesArray.get(eventName).broadcast('KnalledgeMapVOsService', {'changes':changes,'event':eventName});
+					GlobalEmittersArrayService.register(eventName);
+					GlobalEmittersArrayService.get(eventName).broadcast('KnalledgeMapVOsService', {'changes':changes,'event':eventName});
 				}
 
 					// for(id=0; id<changesFromServer.nodes.length; id++){
@@ -347,8 +347,8 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 
 			broadcastWhatsChange: function(kNode, action, what){
 				var rimaWhatsChangedEvent = "rimaWhatsChangedEvent";
-				GlobalEmitterServicesArray.register(rimaWhatsChangedEvent);
-				GlobalEmitterServicesArray.get(rimaWhatsChangedEvent).broadcast('mapService', {node:kNode, actionType:action, change:what});
+				GlobalEmittersArrayService.register(rimaWhatsChangedEvent);
+				GlobalEmittersArrayService.get(rimaWhatsChangedEvent).broadcast('mapService', {node:kNode, actionType:action, change:what});
 			},
 
 			getNodesList: function(){
@@ -751,13 +751,13 @@ function($q, $rootScope, $window, $injector, injector, Plugins, KnalledgeNodeSer
 
 					var modelLoadedEventName = "modelLoadedEvent";
 					//console.log("result:" + JSON.stringify(result));
-					GlobalEmitterServicesArray.register(modelLoadedEventName);
-					GlobalEmitterServicesArray.get(modelLoadedEventName).broadcast('KnalledgeMapVOsService', result);
+					GlobalEmittersArrayService.register(modelLoadedEventName);
+					GlobalEmittersArrayService.get(modelLoadedEventName).broadcast('KnalledgeMapVOsService', result);
 
 					if(that.configData.broadcastMapUsers){
 						var whoIamIdsUpdatedEventName = "whoIamIdsUpdatedEvent";
-						GlobalEmitterServicesArray.register(whoIamIdsUpdatedEventName);
-						GlobalEmitterServicesArray.get(whoIamIdsUpdatedEventName).broadcast('KnalledgeMapVOsService', kMap.participants);
+						GlobalEmittersArrayService.register(whoIamIdsUpdatedEventName);
+						GlobalEmittersArrayService.get(whoIamIdsUpdatedEventName).broadcast('KnalledgeMapVOsService', kMap.participants);
 					}
 				});
 				return result;

@@ -23,7 +23,7 @@ var knalledgeMapServicesModule = angular.module('knalledgeMapServices');
 knalledgeMapServicesModule
   .service('KnalledgeMapPolicyService', KnalledgeMapPolicyService)
   .service('KnalledgeMapViewService', KnalledgeMapViewService)
- .service('GlobalEmitterServicesArray', GlobalEmitterServicesArray)
+ .service('GlobalEmittersArrayService', GlobalEmittersArrayService)
    ;
 ```
 
@@ -31,7 +31,7 @@ upgrading ng1 services (written in TS) into ng2 space:
 ```
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapPolicyService');
 upgradeAdapter.upgradeNg1Provider('KnalledgeMapViewService');
-upgradeAdapter.upgradeNg1Provider('GlobalEmitterServicesArray');
+upgradeAdapter.upgradeNg1Provider('GlobalEmittersArrayService');
 ```
 
 # Registration of JS NG1 Services

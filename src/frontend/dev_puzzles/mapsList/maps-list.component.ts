@@ -8,7 +8,7 @@ import { Router} from '@angular/router';
 
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from '../knalledgeMap/knalledgeMapViewService';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 import {MapFormComponent} from './map-form.component';
 import {ImportMapFormComponent} from './import-map-form.component';
@@ -97,7 +97,7 @@ export class MapsList implements OnInit {
         @Inject('RimaService') _RimaService_,
         @Inject('KnalledgeMapService') _KnalledgeMapService_,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+        @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService,
         private titleService:Title
         // @Inject('BroadcastManagerService') broadcastManagerService:BroadcastManagerService
     ) {

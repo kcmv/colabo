@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {BrainstormingService} from "./brainstorming.service";
 import {BrainstormingPhase, BrainstormingPhaseNames} from './brainstorming';
 
@@ -17,7 +17,7 @@ declare var window;
 export class BrainstormingPanelComponent {
   public showOnlyBrainstorming: boolean = true;
     constructor(
-      @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray,
+      @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray:GlobalEmittersArrayService,
       private brainstormingService: BrainstormingService
         ) {
           //console.log("[BrainstormingPanelComponent] created");

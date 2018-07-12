@@ -16,7 +16,8 @@ type StringAnyTuple = [string, any];
  * @memberof collaboframework.plugins
 */
 
-@Injectable()
+// provide ng build error: "Can't resolve all parameters for GlobalEmitterService"
+// @Injectable()
 export class GlobalEmitterService {
     /**
      * queue of messages

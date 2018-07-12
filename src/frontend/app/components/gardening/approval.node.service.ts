@@ -1,7 +1,7 @@
 import {Injectable
 } from '@angular/core';
 
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {NodeGardened, ApprovalState} from './NodeGardened';
 
 declare var d3:any;
@@ -71,7 +71,7 @@ export class ApprovalNodeService {
     public interfaceConfig:Object = {showInterface:false, showNonAudited:true, showApproved:true, showDissaproved:true};
     private knalledgeMapVOsService: any;
     private knAllEdgeRealTimeService: any;
-    private globalEmitterServicesArray: GlobalEmitterServicesArray;
+    private globalEmitterServicesArray: GlobalEmittersArrayService;
     private knalledgeMapUpdateEventName:string = "knalledgeMapUpdateEvent";
     private rimaService: any;
 
@@ -85,11 +85,11 @@ export class ApprovalNodeService {
     * @class ApprovalNodeService
     * @memberof knalledge.gardening.gardeningServices
     */
-    constructor(KnalledgeMapVOsService, KnAllEdgeRealTimeService, _GlobalEmitterServicesArray_, RimaService
+    constructor(KnalledgeMapVOsService, KnAllEdgeRealTimeService, _GlobalEmittersArrayService_, RimaService
         ) {
         this.knalledgeMapVOsService = KnalledgeMapVOsService;
         this.knAllEdgeRealTimeService = KnAllEdgeRealTimeService;
-        this.globalEmitterServicesArray = _GlobalEmitterServicesArray_;
+        this.globalEmitterServicesArray = _GlobalEmittersArrayService_;
         this.rimaService = RimaService;
 
 		    this.globalEmitterServicesArray.register(this.knalledgeMapUpdateEventName);

@@ -2,11 +2,11 @@ import {Component, OnInit, Inject} from '@angular/core';
 import {KnalledgeMapPolicyService} from '../knalledgeMap/knalledgeMapPolicyService';
 import {ApprovalNodeService} from './approval.node.service';
 
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 // import {MdList, MdListItem, MdContent, MdButton, MdSwitch} from 'ng2-material';
 // import {KnalledgeMapViewService} from './knalledgeMapViewService';
-// import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+// import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 // declare var knalledge;
 
@@ -51,12 +51,12 @@ export class GardeningControls implements OnInit{
     constructor(
         @Inject('KnalledgeMapPolicyService') knalledgeMapPolicyService:KnalledgeMapPolicyService,
         @Inject('ApprovalNodeService') private approvalNodeService:ApprovalNodeService,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+        @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray:GlobalEmittersArrayService
         // @Inject('KnalledgeMapViewService') knalledgeMapViewService:KnalledgeMapViewService,
         // @Inject('KnAllEdgeRealTimeService') _KnAllEdgeRealTimeService_,
         // @Inject('RimaService') _RimaService_
 
-        // globalEmitterServicesArray:GlobalEmitterServicesArray
+        // globalEmitterServicesArray:GlobalEmittersArrayService
     ) {
         console.log('[GardeningControls]');
         this.policyConfig = knalledgeMapPolicyService.get().config;

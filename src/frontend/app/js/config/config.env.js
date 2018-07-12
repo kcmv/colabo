@@ -60,10 +60,10 @@ var envs = {
 };
 
 // var env = envs.json;
-var env = envs.localhost;
+// var env = envs.localhost;
 // var env = envs.forking;
 // var env = envs.server_prod;
-// var env = envs.server_beta;
+var env = envs.server_beta;
 
 if(typeof window.Config === 'undefined') window.Config = {};
 window.Config.ENV = env;

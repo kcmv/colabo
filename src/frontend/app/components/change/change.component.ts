@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, EventEmitter, Output, Input} from '@angular/c
 //import {NgIf, NgFor} from '@angular/common';
 //import {FORM_DIRECTIVES} from '@angular/forms';
 // import {upgradeAdapter} from '../../js/upgrade_adapter';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {Change, State} from "./change";
 import {ChangeService} from "./change.service";
 //import {KNode} from "KNode";
@@ -25,7 +25,7 @@ export class ChangeComponent implements OnInit {
 
   private changeSelectedNodeEventName: string = "changeSelectedNodeEvent";
   constructor(
-      @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray:GlobalEmitterServicesArray
+      @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray:GlobalEmittersArrayService
       // @Inject('RimaService') private rimaService:RimaService
 
       // since it is comming from ng1 space we need to use explicit injection decorator

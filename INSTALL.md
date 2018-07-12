@@ -986,3 +986,144 @@ du -Sh | sort -rh | head -5
 # Top File Sizes Only
 find -type f -exec du -Sh {} + | sort -rh | head -n 5
 ```
+
+# Deploying frontend
+
+https://angular.io/guide/deployment
+
+https://github.com/angular/angular-cli/wiki/build
+
+https://github.com/angular/angular-cli
+
+## Simplest deployment possible
+
+```sh
+# standard
+ng build
+
+# if it is not in the domain root
+ng build --base-href=/knalledge-view-node
+```
+
+Configure the server to redirect requests for missing files to `index.html` (server-side redirects).
+
+## Optimize for production
+
+```sh
+ng build --prod --base-href=/knalledge-view-node/
+```
+
+or
+
+```sh
+ng build --prod --base-href=/knalledge-view-node/ --build-optimizer
+```
+
+If you want to debug the erors:
+```sh
+ng build --prod --base-href=/knalledge-view-node/  --build-optimizer=false
+```
+## AngularCli: disable minification
+
+https://stackoverflow.com/questions/43557090/angularcli-disable-minification
+
+[Need to disable: Add support for minifying index.html #5753 #7179](https://github.com/angular/angular-cli/issues/7179)
+
+`node_modules/@angular/cli/models/webpack-configs/browser.js`
+`node_modules/@angular/cli/models/webpack-configs/production.js`
++ mask: `UglifyJSPlugin` plugin
++ HtmlWebpackPlugin
+
+### Problems
+
+#### Cannot resolve all parameters for (Service)
+
+https://github.com/angular/angular/issues/21526
+https://stackoverflow.com/questions/47222685/warning-cant-resolve-all-parameters-for-userspermissionsservice-this-will-beco?rq=1
+https://stackoverflow.com/questions/47926180/error-in-cant-resolve-all-parameters-for-service-when-build-with-ng-build-p?rq=1
+
+Solution: each class that is declared as injectible and/or provided as a provider MUST be injectible, so no any parameter that is not injectable in constructor, etc
+
+#### NullInjectorError: No provider for t!
+
++ https://github.com/angular/angular/blob/master/CHANGELOG.md#breaking-changes
++ https://github.com/ngrx/platform/issues/549
+
+```
+Error: StaticInjectorError(ju)[t -> t]: 
+  StaticInjectorError(Platform: core)[t -> t]: 
+    NullInjectorError: No provider for t!
+```
+
+```
+Error: StaticInjectorError(AppModule)[RouterLink -> Router]: 
+  StaticInjectorError(Platform: core)[RouterLink -> Router]: 
+    NullInjectorError: No provider for Router!
+```
+
+If you want to debug the erors:
+```sh
+ng build --prod --base-href=/knalledge-view-node/  --build-optimizer=false
+```
+
+Relevant
++ https://github.com/salemdar/angular2-cookie/issues/37
+
+***"Problem"*** was in the file `KnAllEdge/src/frontend/demos/knalledge/knalledge-view-node/src/app/app.module.ts`
+
+```ts
+
+var moduleImports = [
+  // ...
+  // Material
+  BrowserAnimationsModule,
+  MaterialModule
+];
+
+moduleImports.push(AppRoutingModule);
+
+// ...
+
+@NgModule({
+  declarations: moduleDeclarations,
+  imports: moduleImports,
+  entryComponents: [],
+  providers: [
+    // ...
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+The problem is the line: `moduleImports.push(AppRoutingModule);`
+
+Angular AOT (Ahead-Of-Time) compiler compiles code:
+1. finds `@NgModule({`
+2. finds `imports: moduleImports`
+3. looks for the `moduleImports` value, and 
+4. "folds" it with initialized value
+5. doesn't extends it by parsing the line: `moduleImports.push(AppRoutingModule);`
+6. AOT version doesn't find `Router` provider
+
+**"Solution"** is to provide all parameteres during the initialization:
+
+```ts
+var moduleImports = [
+  // ...
+  // Material
+  BrowserAnimationsModule,
+  MaterialModule,
+
+  AppRoutingModule
+];
+
+// moduleImports.push(AppRoutingModule);
+```
+
+We should:
+
+1. provide an issue in angular or
+2. find alternative way to help AOT to recognize additional injections or
+3. find an declarative way to tell AOT about additional injections
+4. avoid additional injections, but then we are much more hardcoded and we cannot make it working dynamically, based on the puzzles/components we are using

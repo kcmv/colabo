@@ -15,19 +15,19 @@
         scope: {},
         templateUrl: 'components/knalledgeMap/partials/knalledgeMap-list.tpl.html',
         link: function($scope, $element, $attrs, simplemde) {
-          var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+          var GlobalEmittersArrayService = $injector.get('GlobalEmittersArrayService');
 
           // notofication to external world that node property is changed and still in the editing mode
           var knalledgePropertyChangedEvent = "knalledgePropertyChangedEvent";
-          GlobalEmitterServicesArray.register(knalledgePropertyChangedEvent);
+          GlobalEmittersArrayService.register(knalledgePropertyChangedEvent);
 
           // notofication to external world that node property is changed and finished editing
           var knalledgePropertyChangedFinishedEvent = "knalledgePropertyChangedFinishedEvent";
-          GlobalEmitterServicesArray.register(knalledgePropertyChangedFinishedEvent);
+          GlobalEmittersArrayService.register(knalledgePropertyChangedFinishedEvent);
 
           // notification from external world that node property is changed and has to be updated
           var changeKnalledgePropertyEvent = "changeKnalledgePropertyEvent";
-          GlobalEmitterServicesArray.register(changeKnalledgePropertyEvent);
+          GlobalEmittersArrayService.register(changeKnalledgePropertyEvent);
 
           /*
 					 var simplemdeInstance = simplemde.get(); // => SimpleMDE instance
@@ -68,7 +68,7 @@
               $scope.nodeContent.htmlProperty = marked($scope.nodeContent.property, markedOptions);
 
               if ($scope.nodeContent.node) {
-                GlobalEmitterServicesArray.get(knalledgePropertyChangedFinishedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
+                GlobalEmittersArrayService.get(knalledgePropertyChangedFinishedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
               }
             }
             $scope.nodeContent.editing = enable;
@@ -92,14 +92,14 @@
             }
             console.info("[knalledgeMapList:propertyChanged] $scope.nodeContent.property: %s", $scope.nodeContent.property);
             //console.log("result:" + JSON.stringify(result));
-            GlobalEmitterServicesArray.get(knalledgePropertyChangedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
+            GlobalEmittersArrayService.get(knalledgePropertyChangedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
           };
 
           // notification on node or its content changed
-          GlobalEmitterServicesArray.get(changeKnalledgePropertyEvent).subscribe('knalledgeMapList', function(nodeContent) {
+          GlobalEmittersArrayService.get(changeKnalledgePropertyEvent).subscribe('knalledgeMapList', function(nodeContent) {
 
             if ($scope.nodeContent.editing && $scope.nodeContent && $scope.nodeContent.node) {
-              GlobalEmitterServicesArray.get(knalledgePropertyChangedFinishedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
+              GlobalEmittersArrayService.get(knalledgePropertyChangedFinishedEvent).broadcast('knalledgeMapList', $scope.nodeContent);
             }
 
             //console.warn('nodeContent.node:'+nodeContent.node);

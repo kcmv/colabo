@@ -100,9 +100,9 @@
 	// .directive('rimaUsersList', ["$rootScope", "$timeout", '$injector', "RimaService",
 	// 	function($rootScope, $timeout, $injector, RimaService){
 	// 	console.log("[rimaUsersList] loading directive");
-	// 	var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+	// 	var GlobalEmittersArrayService = $injector.get('GlobalEmittersArrayService');
 	// 	var viewConfigChangedEventName = "viewConfigChangedEvent";
-	// 	GlobalEmitterServicesArray.register(viewConfigChangedEventName);
+	// 	GlobalEmittersArrayService.register(viewConfigChangedEventName);
 	//
 	// 	return {
 	// 		restrict: 'AE',
@@ -143,7 +143,7 @@
 	// 			};
 	// 			$scope.config = RimaService.config;
 	// 			$scope.configChanged = function(){ //TODO: started to work on this -
-	// 				//GlobalEmitterServicesArray.get(viewConfigChangedEventName).broadcast('rimaUsersList');
+	// 				//GlobalEmittersArrayService.get(viewConfigChangedEventName).broadcast('rimaUsersList');
 	// 			};
 	// 			$scope.items = null;
 	// 			$scope.selectedItem = null;
@@ -195,14 +195,14 @@
 						console.warn("[rimaDirectives:rimaRelevantWhatsList] Error while trying to retrieve the RimaService service:", err);
 					}
 
-					var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+					var GlobalEmittersArrayService = $injector.get('GlobalEmittersArrayService');
 
 					var changeSelectedNodeEventName = "changeSelectedNodeEvent";
-					GlobalEmitterServicesArray.register(changeSelectedNodeEventName);
+					GlobalEmittersArrayService.register(changeSelectedNodeEventName);
 
 					var nodeUpdatedEventName = "node-updated-to-visual";
-					GlobalEmitterServicesArray.register(nodeUpdatedEventName);
-					GlobalEmitterServicesArray.get(nodeUpdatedEventName).subscribe('rimaWhats',
+					GlobalEmittersArrayService.register(nodeUpdatedEventName);
+					GlobalEmittersArrayService.get(nodeUpdatedEventName).subscribe('rimaWhats',
 						//checking if the node change is relevant to the logged_in user:
 						function(ch) {
 							//if(ch.changes.nodes[0].actionType === MapStructure.UPDATE_NODE_NAME){
@@ -314,7 +314,7 @@
 					$scope.selectItem = function(item) {
 						$scope.selectedItem = item;
 						console.log("$scope.selectedItem = %s", $scope.selectedItem.name);
-						GlobalEmitterServicesArray.get(changeSelectedNodeEventName).broadcast('rimaWhats', item.vkNode);
+						GlobalEmittersArrayService.get(changeSelectedNodeEventName).broadcast('rimaWhats', item.vkNode);
 					};
 
 					updateList();
@@ -972,10 +972,10 @@
 		function($rootScope, $injector, RimaService, KnalledgeMapPolicyService) {
 			console.log("[rimaWhats] loading directive");
 
-			var GlobalEmitterServicesArray = $injector.get('GlobalEmitterServicesArray');
+			var GlobalEmittersArrayService = $injector.get('GlobalEmittersArrayService');
 
 			var changeKnalledgeRimaEvent = "changeKnalledgeRimaEvent";
-			GlobalEmitterServicesArray.register(changeKnalledgeRimaEvent);
+			GlobalEmittersArrayService.register(changeKnalledgeRimaEvent);
 
 			return {
 				restrict: 'AE',
@@ -1124,7 +1124,7 @@
 							//kNode.dataContent.rima.whats.push(what);
 							$scope.asyncSelected = "";
 							if (what instanceof knalledge.WhatAmI) {
-								GlobalEmitterServicesArray.get(changeKnalledgeRimaEvent).broadcast('rimaWhats', {
+								GlobalEmittersArrayService.get(changeKnalledgeRimaEvent).broadcast('rimaWhats', {
 									actionType: 'what_added',
 									node: $scope.node,
 									what: what.toServerCopy()
@@ -1158,7 +1158,7 @@
 						for (var i = 0; i < $scope.items.length; i++) {
 							if ($scope.items[i]._id === whatId) {
 								$scope.items.splice(i, 1); //TODO: this deleting is redundant with the same deleting in service @ `updateNode` (but actions are idempotent)
-								GlobalEmitterServicesArray.get(changeKnalledgeRimaEvent).broadcast('rimaWhats', {
+								GlobalEmittersArrayService.get(changeKnalledgeRimaEvent).broadcast('rimaWhats', {
 									actionType: 'what_deleted',
 									node: $scope.node,
 									what: whatId

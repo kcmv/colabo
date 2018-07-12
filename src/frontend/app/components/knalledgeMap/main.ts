@@ -11,7 +11,7 @@ import { Router} from '@angular/router';
 import {KnalledgeMapTools} from './tools';
 import {KnalledgeMapPolicyService} from './knalledgeMapPolicyService';
 import {KnalledgeMapViewService} from './knalledgeMapViewService';
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import {MediaShowComponent} from '../mediaShow/mediaShow.component';
 import {BottomPanel, BottomPanelModule, bottomPanelComponentDirectives} from '../bottomPanel/bottomPanel';
 import {UserDialogComponent} from '../rima/user-dialog-component';
@@ -166,7 +166,7 @@ export class KnalledgeMapMain implements OnInit {
         @Inject('Plugins') private Plugins,
         @Inject('RimaService') private RimaService,
         @Inject('KnalledgeMapVOsService') _KnalledgeMapVOsService_,
-        @Inject('GlobalEmitterServicesArray') private globalEmitterServicesArray: GlobalEmitterServicesArray,
+        @Inject('GlobalEmittersArrayService') private globalEmitterServicesArray: GlobalEmittersArrayService,
         private titleService:Title//,
         // @Inject('CollaboPluginsService') private collaboPluginsService
     ) {

@@ -3,7 +3,7 @@ import { KeyboardRFIDInterface} from './KeyboardRFIDInterface';
 import { CoLaboWareType } from '@colabo-colaboware/colaboware_core/coLaboWareData';
 import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareData';
 
-import {GlobalEmitterServicesArray} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 declare var ColabowareKeyboard;
 
@@ -11,7 +11,7 @@ const RFID_LENGTH:number = 10;
 
 /**
  * @classdesc ColabowareRFIDService is a service that provides RFID support.
- * It listens (through the KeyboardRFIDInterface interface) for a user providing RFID card at the reader and it emmits received card through the "colabowareIDProvided" event (by GlobalEmitterServicesArray) as a CoLaboWareData object
+ * It listens (through the KeyboardRFIDInterface interface) for a user providing RFID card at the reader and it emmits received card through the "colabowareIDProvided" event (by GlobalEmittersArrayService) as a CoLaboWareData object
  * @class KeyboardRFIDInterface
  */
 
@@ -26,7 +26,7 @@ export class ColabowareRFIDService {
   colabowareIDProvided:string = "colabowareIDProvided";
 
   constructor(
-    private globalEmitterServicesArray: GlobalEmitterServicesArray
+    private globalEmitterServicesArray: GlobalEmittersArrayService
   ) {
     this.keyboard = new KeyboardRFIDInterface();
     this.initializeKeyboard();
