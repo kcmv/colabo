@@ -1,3 +1,6 @@
+// https://medium.com/@luukgruijs/validating-reactive-forms-with-default-and-custom-form-field-validators-in-angular-5586dc51c4ae
+// https://blog.angular-university.io/introduction-to-angular-2-forms-template-driven-vs-model-driven/
+
 import { Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
@@ -15,19 +18,24 @@ export class RimaRegisterComponent implements OnInit {
 
   form: FormGroup;
 
-  firstName = new FormControl("", Validators.required);
+  firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(3)]); //an exmaple of defining a form control as independet
 
   constructor(fb: FormBuilder) {
       this.form = fb.group({
+          // name: ['', [Validators.required,
+          //   CustomValidators.validateCharacters //example of using custom validator imported from other service
+          // ]],
+          "email": ['', [Validators.required, Validators.email]],
           "firstName": this.firstName,
-          "password":["", Validators.required]
+          "lastName":["", [Validators.required, Validators.minLength(3)]],
+          "password":["", [Validators.required, Validators.minLength(3)]]
       });
 
       this.form.valueChanges
-        .map((value) => {
-            value.firstName = value.firstName.toUpperCase();
-            return value;
-        })
+        // example .map((value) => {
+        //     value.firstName = value.firstName.toUpperCase();
+        //     return value;
+        // })
         .filter((value) => this.form.valid)
         .subscribe((value) => {
            console.log("Model Driven Form valid value: vm = ",

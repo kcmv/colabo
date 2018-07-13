@@ -2,10 +2,10 @@
 <!--TODO: to make localized (in Serbian) form field names and info -->
 
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()"> <!-- https://blog.angular-university.io/introduction-to-angular-2-forms-template-driven-vs-model-driven/ -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <p>
           <mat-form-field class="example-full-width">
-            <input matInput type="email" placeholder="E-mail" name="email" value="">
+            <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
           </mat-form-field>
       </p>
       <p>
@@ -24,7 +24,8 @@
         </mat-form-field>
       </p>
       <p>
-        <button type="submit" [disabled]="!form.valid">Submit</button>
+        <button mat-button type="submit" [disabled]="!form.valid">Sign up</button>
+        <!-- <button type="submit" [disabled]="!form.valid">Submit</button> -->
         <button (click)="partialUpdate()">Partial Update</button>
         <button (click)="fullUpdate()">Full Update</button>
         <button (click)="reset()">Cancel</button>
