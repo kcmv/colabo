@@ -1044,6 +1044,19 @@ https://stackoverflow.com/questions/47926180/error-in-cant-resolve-all-parameter
 
 Solution: each class that is declared as injectible and/or provided as a provider MUST be injectible, so no any parameter that is not injectable in constructor, etc
 
+#### 'router-outlet' is not a known element
+
+```txt
+ERROR in : 'router-outlet' is not a known element:
+1. If 'router-outlet' is an Angular component, then verify that it is part of this module.
+2. If 'router-outlet' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message. ("
+</nav>
+
+[ERROR ->]<router-outlet></router-outlet>
+")
+```
+
+the same problem as the (following) error: `NullInjectorError: No provider for t!`
 #### NullInjectorError: No provider for t!
 
 + https://github.com/angular/angular/blob/master/CHANGELOG.md#breaking-changes

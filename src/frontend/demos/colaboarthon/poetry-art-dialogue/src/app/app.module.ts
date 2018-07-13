@@ -58,14 +58,19 @@ var moduleImports = [
   // Material
   BrowserAnimationsModule,
   MaterialModule,
-  FlexLayoutModule
+  FlexLayoutModule,
+
+  // needed here statically because of AOT
+  AppRoutingModule
+
   // ,
   // MatInputModule,
   // MatFormFieldControl
 ];
 // moduleImports.push(MainModule);
 
-moduleImports.push(AppRoutingModule);
+// doesn't work with AOT
+// moduleImports.push(AppRoutingModule);
 
 // import {GlobalEmitterService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterService';
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
