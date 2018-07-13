@@ -50,6 +50,14 @@ export class UsersProfilingComponent implements OnInit {
     return this.usersProfilingService.tagsGroups;
   }
 
+  rfidEnable(){
+    this.usersProfilingService.rfidEnable();
+  }
+
+  rfidDisable(){
+    this.usersProfilingService.rfidDisable();
+  }
+
   get relevantTagsGroups():KNode[]{
     var relevantTagsGroups:KNode[] = [];
     for(var i=0; i<this.usersProfilingService.tagsGroups.length; i++){

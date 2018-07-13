@@ -1,0 +1,18 @@
+{
+  "name": "colabo-rabbit",
+  "version": "1.0.0",
+  "description": "support for messaging between colabo components through RabbitMQ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Colabo.Space",
+    "RabbitMQ"
+  ],
+  "author": "Sasha Rudan <mprinc@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.5.2"
+  }
+}
