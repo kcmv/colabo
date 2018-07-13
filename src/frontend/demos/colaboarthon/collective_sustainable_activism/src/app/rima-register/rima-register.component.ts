@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 
 @Component({
   selector: 'app-rima-register',
@@ -20,10 +22,34 @@ export class RimaRegisterComponent implements OnInit {
           "firstName": this.firstName,
           "password":["", Validators.required]
       });
+
+      this.form.valueChanges
+        .map((value) => {
+            value.firstName = value.firstName.toUpperCase();
+            return value;
+        })
+        .filter((value) => this.form.valid)
+        .subscribe((value) => {
+           console.log("Model Driven Form valid value: vm = ",
+                       JSON.stringify(value));
+        });
   }
-  onSubmitModelBased() {
-      console.log("model-based form submitted");
-      console.log(this.form);
+
+  fullUpdate() {
+    this.form.setValue({firstName: 'Partial', password: 'monkey'});
+  }
+
+  partialUpdate() {
+      this.form.patchValue({firstName: 'Partial'});
+  }
+
+  reset() {
+      this.form.reset();
+  }
+
+  onSubmit( ){
+    console.log("model-based form submitted");
+    console.log(this.form);
   }
 
   ngOnInit() {

@@ -1,7 +1,8 @@
 <div>
 <!--TODO: to make localized (in Serbian) form field names and info -->
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()"> <!-- https://blog.angular-university.io/introduction-to-angular-2-forms-template-driven-vs-model-driven/ -->
       <p>
           <label>First Name:</label>
           <input type="text" formControlName="firstName">
@@ -11,7 +12,10 @@
           <input type="password" formControlName="password">
       </p>
       <p>
-          <button type="submit" [disabled]="!form.valid">Submit</button>
+        <button type="submit" [disabled]="!form.valid">Submit</button>
+        <button (click)="partialUpdate()">Partial Update</button>
+        <button (click)="fullUpdate()">Full Update</button>
+        <button (click)="reset()">Cancel</button>
       </p>
   </form>
 
