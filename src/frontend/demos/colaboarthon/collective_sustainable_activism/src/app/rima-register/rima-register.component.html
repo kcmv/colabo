@@ -1,0 +1,30 @@
+<div>
+<!--TODO: to make localized (in Serbian) form field names and info -->
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput type="email" required placeholder="E-mail" name="email" value="">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="First Name" name="firstName" value="">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Last Name" name="lastName" value="">
+    </mat-form-field>
+<!--TODO: should we pre-select Serbia (than non-Serbians might leave it like that)? maybe to speed it up with a check-box "I'm from Serbia" that disable the country select -->
+    <mat-form-field>
+    <mat-select placeholder="Your Country" [(ngModel)]="selectedCountry" name="country">
+      <mat-option *ngFor="let country of getWorldCountries()" [value]="country">
+        {{country}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p> Selected value: {{selectedCountry}} </p>
+
+    <mat-form-field class="example-full-width">
+      <textarea matInput placeholder="Leave a comment"></textarea>
+    </mat-form-field>
+  </form>
+</div>

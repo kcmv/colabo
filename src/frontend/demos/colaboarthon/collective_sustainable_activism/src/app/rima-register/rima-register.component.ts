@@ -45,8 +45,4 @@ export class RimaRegisterComponent implements OnInit {
     ];
   }
 
-  // submitted = false;
-  //
-  // onSubmit() { this.submitted = true; }
-
 }
