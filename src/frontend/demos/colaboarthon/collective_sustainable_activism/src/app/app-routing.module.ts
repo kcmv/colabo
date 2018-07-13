@@ -12,10 +12,9 @@ import {RimaRegisterComponent} from './rima-register/rima-register.component';
 
 UsersGroupsComponent
 const routes: Routes = [
-  // default route
-  {
+  { // default route
     path: '',
-    redirectTo: '/prompts-presentation',
+    redirectTo: '/rima-register',
     pathMatch: 'full'
   },
   {
