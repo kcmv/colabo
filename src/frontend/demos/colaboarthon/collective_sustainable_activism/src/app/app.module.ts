@@ -18,7 +18,8 @@ import {MaterialModule} from './materialModule';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
-import{RimaService} from './rima-register/rima.service';
+import {SDGsService} from './select-sdgs/sdgs.service';
+
 // import {UsersProfilingService} from './users-profiling/users-profiling.service';
 // import {UsersClusteringService} from './users-clustering/users-clustering.service';
 // import { UsersClusteringComponent } from './users-clustering/users-clustering.component';
@@ -26,6 +27,8 @@ import{RimaService} from './rima-register/rima.service';
 // import {SMSApiService} from './ui-sms/sms-api.service';
 // import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
 import {RimaRegisterComponent} from './rima-register/rima-register.component';
+import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
+import {SdgCardComponent} from './sdg-card/sdg-card.component';
 
 import { AppComponent } from './app.component';
 
@@ -51,7 +54,9 @@ var moduleDeclarations = [
   // UserInfoComponent,
   // TagsPopulationComponent,
   // UsersGroupsComponent,
-  RimaRegisterComponent
+  RimaRegisterComponent,
+  SelectSdgsComponent,
+  SdgCardComponent
 ];
 
 var moduleImports = [
@@ -90,6 +95,7 @@ export var Plugins:any = window.Config.Plugins;
     // {provide: GlobalEmitterService, useClass: GlobalEmitterService},
     {provide: GlobalEmittersArrayService, useClass: GlobalEmittersArrayService},
     RimaService,
+    SDGsService
     // ColabowareRFIDService,
     // UsersProfilingService,
     // UsersClusteringService

@@ -51,6 +51,8 @@ ng build --prod --build-optimizer
 
 # KnAllEdge content
 
+## Map
+
 Add map in kmaps (`right button > insert document`):
 
 ```json
@@ -74,6 +76,8 @@ Add map in kmaps (`right button > insert document`):
     "__v" : NumberInt(0)
 }
 ```
+
+## ROOT node
 
 Add ROOT node in knodes (`right button > insert document`):
 
@@ -108,6 +112,8 @@ Add ROOT node in knodes (`right button > insert document`):
     }
 }
 ```
+
+## USERS
 
 Add USERS node in knodes (`right button > insert document`):
 
@@ -161,6 +167,8 @@ Add USERS edge in kedges (`right button > insert document`):
 }
 ```
 
+## SDGs
+
 Add SDG node in knodes (`right button > insert document`):
 
 ```json
@@ -212,6 +220,8 @@ Add SDG edge in kedges (`right button > insert document`):
     "__v" : NumberInt(0)
 }
 ```
+
+## CONTENT
 
 Add CONTENT node in knodes (`right button > insert document`):
 
@@ -266,7 +276,7 @@ Add CONTENT edge in kedges (`right button > insert document`):
 }
 ```
 
-# SDGs Population
+## SDGs Population
 
 **Nodes:**
 
@@ -353,8 +363,6 @@ Add CONTENT edge in kedges (`right button > insert document`):
 ]
 ```
 
-
-
 **Edges:**
 
 ```json
@@ -413,11 +421,7 @@ Add CONTENT edge in kedges (`right button > insert document`):
 ]
 ```
 
-
-
-
-
-# Users Population
+## Users Population
 
 (TEST ONLY)
 
