@@ -7,6 +7,9 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
+import {RimaService} from './rima.service';
+import {UserData} from './userData';
+
 @Component({
   selector: 'app-rima-register',
   templateUrl: './rima-register.component.html',
@@ -20,7 +23,10 @@ export class RimaRegisterComponent implements OnInit {
 
   firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(3)]); //an exmaple of defining a form control as independet
 
-  constructor(fb: FormBuilder) {
+  constructor(
+    fb: FormBuilder,
+    private rimaService: RimaService
+  ) {
       this.form = fb.group({
           // name: ['', [Validators.required,
           //   CustomValidators.validateCharacters //example of using custom validator imported from other service
@@ -41,6 +47,7 @@ export class RimaRegisterComponent implements OnInit {
            console.log("Model Driven Form valid value: vm = ",
                        JSON.stringify(value));
         });
+      //TODO: check if the user's email is already existing (offer sign-in instead and data updating)
   }
 
   fullUpdate() {
@@ -58,6 +65,15 @@ export class RimaRegisterComponent implements OnInit {
   onSubmit( ){
     console.log("model-based form submitted");
     console.log(this.form);
+    let userData:UserData = new UserData();
+    userData.firstName = this.form.value.firstName;
+    userData.lastName = this.form.value.lastName;
+    userData.email = this.form.value.email;
+    this.rimaService.createNewUser(userData, this.userCreated);
+  }
+
+  userCreated():void{
+    console.log('userCreated');
   }
 
   ngOnInit() {

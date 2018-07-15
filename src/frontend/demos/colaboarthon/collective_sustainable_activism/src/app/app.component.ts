@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/ColabowareRFIDService';
+// import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/ColabowareRFIDService';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,9 @@ export class AppComponent {
   // testing namespacing access,
   // as it will be in code written in JS
 
-  constructor(colabowareRFIDService:ColabowareRFIDService){
+  constructor(
+    //colabowareRFIDService:ColabowareRFIDService
+  ){
     console.log('AppComponent:constructor');
   }
 }
