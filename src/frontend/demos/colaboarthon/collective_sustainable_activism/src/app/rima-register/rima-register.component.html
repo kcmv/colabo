@@ -2,17 +2,30 @@
 <!--TODO: to make localized (in Serbian) form field names and info -->
 
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()"> <!-- https://blog.angular-university.io/introduction-to-angular-2-forms-template-driven-vs-model-driven/ -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <p>
-          <label>First Name:</label>
-          <input type="text" formControlName="firstName">
+          <mat-form-field class="example-full-width">
+            <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
+          </mat-form-field>
       </p>
       <p>
-          <label>Password:</label>
-          <input type="password" formControlName="password">
+        <mat-form-field class="example-full-width">
+          <input matInput type="text" placeholder="First Name" formControlName="firstName" value="">
+        </mat-form-field>
       </p>
       <p>
-        <button type="submit" [disabled]="!form.valid">Submit</button>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Last Name" formControlName="lastName" value="">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field class="example-full-width">
+          <input matInput type="password" placeholder="Password" formControlName="password" value="">
+        </mat-form-field>
+      </p>
+      <p>
+        <button mat-button type="submit" [disabled]="!form.valid">Sign up</button>
+        <!-- <button type="submit" [disabled]="!form.valid">Submit</button> -->
         <button (click)="partialUpdate()">Partial Update</button>
         <button (click)="fullUpdate()">Full Update</button>
         <button (click)="reset()">Cancel</button>

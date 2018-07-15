@@ -1,8 +1,14 @@
+// https://medium.com/@luukgruijs/validating-reactive-forms-with-default-and-custom-form-field-validators-in-angular-5586dc51c4ae
+// https://blog.angular-university.io/introduction-to-angular-2-forms-template-driven-vs-model-driven/
+
 import { Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+
+import {RimaService} from './rima.service';
+import {UserData} from './userData';
 
 @Component({
   selector: 'app-rima-register',
@@ -15,24 +21,33 @@ export class RimaRegisterComponent implements OnInit {
 
   form: FormGroup;
 
-  firstName = new FormControl("", Validators.required);
+  firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(3)]); //an exmaple of defining a form control as independet
 
-  constructor(fb: FormBuilder) {
+  constructor(
+    fb: FormBuilder,
+    private rimaService: RimaService
+  ) {
       this.form = fb.group({
+          // name: ['', [Validators.required,
+          //   CustomValidators.validateCharacters //example of using custom validator imported from other service
+          // ]],
+          "email": ['', [Validators.required, Validators.email]],
           "firstName": this.firstName,
-          "password":["", Validators.required]
+          "lastName":["", [Validators.required, Validators.minLength(3)]],
+          "password":["", [Validators.required, Validators.minLength(3)]]
       });
 
       this.form.valueChanges
-        .map((value) => {
-            value.firstName = value.firstName.toUpperCase();
-            return value;
-        })
+        // example .map((value) => {
+        //     value.firstName = value.firstName.toUpperCase();
+        //     return value;
+        // })
         .filter((value) => this.form.valid)
         .subscribe((value) => {
            console.log("Model Driven Form valid value: vm = ",
                        JSON.stringify(value));
         });
+      //TODO: check if the user's email is already existing (offer sign-in instead and data updating)
   }
 
   fullUpdate() {
@@ -50,6 +65,15 @@ export class RimaRegisterComponent implements OnInit {
   onSubmit( ){
     console.log("model-based form submitted");
     console.log(this.form);
+    let userData:UserData = new UserData();
+    userData.firstName = this.form.value.firstName;
+    userData.lastName = this.form.value.lastName;
+    userData.email = this.form.value.email;
+    this.rimaService.createNewUser(userData, this.userCreated);
+  }
+
+  userCreated():void{
+    console.log('userCreated');
   }
 
   ngOnInit() {

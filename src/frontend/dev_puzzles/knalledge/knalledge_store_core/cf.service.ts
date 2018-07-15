@@ -17,9 +17,10 @@ interface IConstructor<T> {
 
 @Injectable()
 export class CFService {
-  // static serverAP = "http://127.0.0.1:8001";
+  //DB Mongo AP
+  static serverAP = "http://127.0.0.1:8001";
   // static serverAP = "http://api.colabo.space";
-  static serverAP = "http://158.39.75.120:8001"; // colabo-space-1
+  //static serverAP = "http://158.39.75.120:8001"; // colabo-space-1
 
   constructor() { }
 

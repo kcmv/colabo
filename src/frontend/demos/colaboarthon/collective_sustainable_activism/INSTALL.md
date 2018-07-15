@@ -30,10 +30,10 @@ You need to:
 npm link @colabo-puzzles/puzzles_core
 npm link @colabo-knalledge/knalledge_core
 npm link @colabo-knalledge/knalledge_store_core
-npm link @colabo-knalledge/knalledge_view_node
-npm link @colabo-knalledge/knalledge_search
-npm link @colabo-colaboware/colaboware_core
-npm link @colabo-colaboware/colaboware_rfid
+# npm link @colabo-knalledge/knalledge_view_node
+# npm link @colabo-knalledge/knalledge_search
+# npm link @colabo-colaboware/colaboware_core
+# npm link @colabo-colaboware/colaboware_rfid
 ```
 
 # KnAllEdge content
@@ -41,23 +41,23 @@ npm link @colabo-colaboware/colaboware_rfid
 Add map in kmaps (`right button > insert document`):
 
 ```json
-{
-    "_id" : ObjectId("5af39ce82843ddf04b459cb0"),
-    "name" : "Poesia in strada - Collaborazione poetica sui rifugiati",
-    "rootNodeId" : ObjectId("5af39ce82843ddf04b459cae"),
-    "type" : "CoLaboArthon",
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
-    "ideaId" : NumberInt(0),
-    "parentMapId" : "",
-    "dataContent" : null,
-    "updatedAt" : ISODate("2018-05-10T01:14:16.401+0000"),
-    "createdAt" : ISODate("2018-05-10T01:14:16.400+0000"),
-    "isPublic" : true,
+{ 
+    "_id" : ObjectId("5b49e7f736390f03580ac9a7"), 
+    "name" : "Forum Vlasina + Remaking Tesla", 
+    "rootNodeId" : ObjectId("5b49e94636390f03580ac9a8"), 
+    "type" : "CoLaboArthon", 
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
+    "ideaId" : NumberInt(0), 
+    "parentMapId" : "", 
+    "dataContent" : null, 
+    "updatedAt" : ISODate("2018-07-10T01:07:10.401+0000"),
+    "createdAt" : ISODate("2018-07-10T01:07:10.400+0000"),
+    "isPublic" : true, 
     "participants" : [
         ObjectId("556760847125996dc1a4a24f")
-    ],
-    "version" : NumberInt(1),
-    "activeVersion" : NumberInt(1),
+    ], 
+    "version" : NumberInt(1), 
+    "activeVersion" : NumberInt(1), 
     "__v" : NumberInt(0)
 }
 ```
@@ -66,14 +66,14 @@ Add ROOT node in knodes (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("5af39ce82843ddf04b459cae"),
-    "name" : "Poesia in strada - Collaborazione poetica sui rifugiati",
+    "_id" : ObjectId("5b49e94636390f03580ac9a8"),
+    "name" : "Forum Vlasina + Remaking Tesla",
     "type" : "model_component",
-    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
     "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
-    "updatedAt" : ISODate("2018-05-10T01:14:16.063+0000"),
-    "createdAt" : ISODate("2018-05-10T01:14:16.061+0000"),
+    "updatedAt" : ISODate("2018-07-10T01:07:10.401+0000"),
+    "createdAt" : ISODate("2018-07-10T01:07:10.400+0000"),
     "visual" : {
         "isOpen" : true,
         "yM" : NumberInt(0),
@@ -91,7 +91,7 @@ Add ROOT node in knodes (`right button > insert document`):
     },
     "dataContent" : {
         "propertyType" : "text/markdown",
-        "property" : "Welcome to CoLaboArthon"
+        "property" : "Welcome to 'Networking for collective sustainable activism'"
     }
 }
 ```
@@ -100,14 +100,14 @@ Add USERS node in knodes (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("5af39ddc2843ddf04b459cb3"),
+    "_id" : ObjectId("5b4a16e800ea79029ca0c395"),
     "name" : "Users",
     "type" : "rima.users",
-    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
     "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
-    "updatedAt" : ISODate("2018-05-10T01:18:20.440+0000"),
-    "createdAt" : ISODate("2018-05-10T01:18:20.439+0000"),
+    "updatedAt" : ISODate("2018-07-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-07-10T01:18:20.439+0000"),
     "visual" : {
         "isOpen" : true
     },
@@ -130,36 +130,36 @@ Add USERS edge in kedges (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("5af39ddc2843ddf04b459cb5"),
+    "_id" : ObjectId("5b4a1b3c00ea79029ca0c39a"),
     "name" : "Users",
     "type" : "rima.users",
-    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
     "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
-    "sourceId" : ObjectId("5af39ce82843ddf04b459cae"),
-    "targetId" : ObjectId("5af39ddc2843ddf04b459cb3"),
+    "sourceId" : ObjectId("5b49e94636390f03580ac9a8"),
+    "targetId" : ObjectId("5b4a16e800ea79029ca0c395"),
     "dataContent" : null,
     "visual" : null,
-    "updatedAt" : ISODate("2018-05-10T01:18:20.619+0000"),
-    "createdAt" : ISODate("2018-05-10T01:18:20.618+0000"),
+    "updatedAt" : ISODate("2018-07-10T01:18:20.619+0000"),
+    "createdAt" : ISODate("2018-07-10T01:18:20.618+0000"),
     "value" : NumberInt(0),
     "isPublic" : true,
     "__v" : NumberInt(0)
 }
 ```
 
-Add TAGS node in knodes (`right button > insert document`):
+Add SDG node in knodes (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("5af39f8e2843ddf04b459cba"),
-    "name" : "Tags",
-    "type" : "rima.tags",
-    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
+    "_id" : ObjectId("5b4a91d800ea790a4738a6e5"),
+    "name" : "SDGs",
+    "type" : "const.sdgs",
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
     "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
-    "updatedAt" : ISODate("2018-05-10T01:25:34.694+0000"),
-    "createdAt" : ISODate("2018-05-10T01:25:34.693+0000"),
+    "updatedAt" : ISODate("2018-07-10T01:25:34.694+0000"),
+    "createdAt" : ISODate("2018-07-10T01:25:34.693+0000"),
     "visual" : {
         "isOpen" : true
     },
@@ -178,22 +178,22 @@ Add TAGS node in knodes (`right button > insert document`):
 }
 ```
 
-Add TAGS edge in kedges (`right button > insert document`):
+Add SDG edge in kedges (`right button > insert document`):
 
 ```json
 {
-    "_id" : ObjectId("5af39f8e2843ddf04b459cbc"),
-    "name" : "Tags",
-    "type" : "rima.tags",
-    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "_id" : ObjectId("5b4a922700ea790a4738a6e9"),
+    "name" : "SDGs",
+    "type" : "const.sdgs",
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
+    "iAmId" : ObjectId("5b4a91d800ea790a4738a6e5"),
     "ideaId" : NumberInt(0),
-    "sourceId" : ObjectId("5af39ce82843ddf04b459cae"),
+    "sourceId" : ObjectId("5b49e94636390f03580ac9a8"),
     "targetId" : ObjectId("5af39f8e2843ddf04b459cba"),
     "dataContent" : null,
     "visual" : null,
-    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"),
-    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"),
+    "updatedAt" : ISODate("2018-07-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-07-10T01:25:34.933+0000"),
     "value" : NumberInt(0),
     "isPublic" : true,
     "__v" : NumberInt(0)
@@ -204,17 +204,17 @@ Add CONTENT node in knodes (`right button > insert document`):
 
 ```json
 { 
-    "_id" : ObjectId("5af6438da070880131440a23"), 
+    "_id" : ObjectId("5b4a926600ea790a4738a6ea"), 
     "name" : "Content", 
     "type" : "clathon.content", 
-    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"), 
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"), 
     "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
     "ideaId" : NumberInt(0), 
     "visual" : {
         "isOpen" : true
     }, 
-    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"), 
+    "updatedAt" : ISODate("2018-07-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-07-10T01:25:34.933+0000"), 
     "isPublic" : true, 
     "version" : NumberInt(1), 
     "activeVersion" : NumberInt(1), 
@@ -235,41 +235,48 @@ Add CONTENT edge in kedges (`right button > insert document`):
 
 ```json
 { 
+    "_id" : ObjectId("5b4a92ca00ea790a4738a6eb"),
     "name" : "Content", 
     "type" : "clathon.content", 
-    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"), 
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"), 
     "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
     "ideaId" : NumberInt(0), 
-    "sourceId" : ObjectId("5af39ce82843ddf04b459cae"), 
-    "targetId" : ObjectId("5af6438da070880131440a23"), 
+    "sourceId" : ObjectId("5b49e94636390f03580ac9a8"), 
+    "targetId" : ObjectId("5b4a926600ea790a4738a6ea"), 
     "dataContent" : null, 
     "visual" : null, 
-    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"), 
+    "updatedAt" : ISODate("2018-07-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-07-10T01:25:34.933+0000"), 
     "value" : NumberInt(0), 
     "isPublic" : true, 
-    "__v" : NumberInt(0), 
-    "_id" : ObjectId("5af644c7a070880131440a2a")
+    "__v" : NumberInt(0)
 }
 ```
 
-# Prompts Population
+# SDGs Population
 
 **Nodes:**
 
 ```JSON
 [
   {
-      "_id" : ObjectId("5af5fa2f054a87e71f4ed862"),
-      "name" : "i nostri occhi sono terribilmente enormi perché ...",
-      "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
-      "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
-      "type" : "clathon.content.prompt",
+      "_id" : ObjectId("5b4b218c00ea790a4738a702"),
+      "name" : "1. NO POVERTY",
+      "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+      "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
+      "type" : "const.sdgs.sdg",
       "dataContent" : {
-          "humanID" : NumberInt(1)
+          "humanID" : NumberInt(1),
+          image: {
+              url: 'assets/images/sdg1.jpg'
+              // width: image.width,
+              // height: image.height
+          },
+          goal:  "To end poverty in all its forms everywhere by 2030",
+          desc: "More than 700 million people still live in extreme poverty and are struggling to fulfil the most basic needs like health, education, and access to water and sanitation, to name a few. The overwhelming majority of people living on less than $1.90 a day live in Southern Asia and sub-Saharan Africa. However, this issue also affects developed countries. Right now there are 30 million children growing up poor in the world’s richest countries."
       },
-      "updatedAt" : ISODate("2018-05-11T20:16:47.306+0000"),
-      "createdAt" : ISODate("2018-05-11T20:16:47.301+0000"),
+      "updatedAt" : ISODate("2018-07-10T20:16:47.306+0000"),
+      "createdAt" : ISODate("2018-07-10T20:16:47.301+0000"),
       "visual" : {
           "isOpen" : false
       },
@@ -279,18 +286,25 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "__v" : NumberInt(0)
   },
   {
-      "_id" : ObjectId("5af5fafa8580c921207b5070"),
-      "name" : "Negli occhi dei migranti, persino. Ci guardano come immortali, perché ...",
-      "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
-      "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
-      "type" : "clathon.content.prompt",
-      "updatedAt" : ISODate("2018-05-11T20:20:10.469+0000"),
-      "createdAt" : ISODate("2018-05-11T20:20:10.465+0000"),
+      "_id" : ObjectId("5b4b21b700ea790a4738a703"),
+      "name" : "2. ZERO HUNGER",
+      "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+      "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
+      "type" : "const.sdgs.sdg",
+      "dataContent" : {
+          "humanID" : NumberInt(2),
+          image: {
+              url: 'assets/images/sdg2.jpg'
+              // width: image.width,
+              // height: image.height
+          },
+          goal:  "To end hunger, achieve food security and improved nutrition and promote sustainable agriculture",
+          desc: "A profound change of the global food and agriculture system is needed to nourish today’s 795 million hungry and the additional 2 billion people expected by 2050. Extreme hunger and malnutrition remains a barrier to sustainable development and creates a trap from which people cannot easily escape. Hunger and malnutrition mean less productive individuals, who are more prone to disease and thus often unable to earn more and improve their livelihoods."
+      },
+      "updatedAt" : ISODate("2018-07-10T20:16:47.306+0000"),
+      "createdAt" : ISODate("2018-07-10T20:16:47.301+0000"),
       "visual" : {
           "isOpen" : false
-      },
-      "dataContent" : {
-          "humanID" : NumberInt(2)
       },
       "isPublic" : true,
       "version" : NumberInt(1),
@@ -298,24 +312,31 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "__v" : NumberInt(0)
   },
   {
-      "_id" : ObjectId("5af5fbe031b2ef4220e0bbdc"),
-      "name" : "Dove sei diretto? Perché vergognarsi di morire sulla tua porta di casa? Perché ...",
-      "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
-      "mapId" : ObjectId("5af39ce82843ddf04b459cb0"),
-      "type" : "clathon.content.prompt",
+      "_id" : ObjectId("5b4b21d900ea790a4738a704"),
+      "name" : "3. GOOD HEALTH AND WELL-BEING",
+      "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+      "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
+      "type" : "const.sdgs.sdg",
       "dataContent" : {
-          "humanID" : NumberInt(3)
+          "humanID" : NumberInt(3),
+          image: {
+              url: 'assets/images/sdg3.jpg'
+              // width: image.width,
+              // height: image.height
+          },
+          goal:  "Ensure healthy lives and promote well-being for all at all ages",
+          desc: "Мore than 6 million children still die before their fifth birthday every year. 16,000 children die each day from preventable diseases such as measles and tuberculosis. Every day hundreds of women die during pregnancy or from child-birth related complications. In many rural areas, only 56 percent of births are attended by skilled professionals. AIDS is now the leading cause of death among teenagers in sub-Saharan Africa, a region still severely devastated by the HIV epidemic."
       },
-      "updatedAt" : ISODate("2018-05-11T20:24:00.939+0000"),
-      "createdAt" : ISODate("2018-05-11T20:24:00.935+0000"),
+      "updatedAt" : ISODate("2018-07-10T20:16:47.306+0000"),
+      "createdAt" : ISODate("2018-07-10T20:16:47.301+0000"),
       "visual" : {
           "isOpen" : false
       },
-      "isPublic" : true, 
+      "isPublic" : true,
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0)
-  }
+  },
 ]
 ```
 
@@ -326,49 +347,52 @@ Add CONTENT edge in kedges (`right button > insert document`):
 ```json
 [
   { 
-    "name" : "Prompt", 
-    "type" : "clathon.content.prompt", 
-    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"), 
+    "_id" : ObjectId("5b4b22d900ea790a4738a705"),
+    "name" : "SDG", 
+    "type" : "const.sdgs.sdg", 
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"), 
     "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
     "ideaId" : NumberInt(0), 
     "sourceId" : ObjectId("5af6438da070880131440a23"), 
     "targetId" : ObjectId("5af5fa2f054a87e71f4ed862"), 
     "dataContent" : null, 
     "visual" : null, 
-    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"), 
+    "updatedAt" : ISODate("2018-07-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-07-10T01:25:34.933+0000"), 
     "value" : NumberInt(0), 
     "isPublic" : true, 
     "__v" : NumberInt(0)
   },
   { 
-    "name" : "Prompt", 
-    "type" : "clathon.content.prompt", 
-    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"), 
+    "_id" : ObjectId("5b4b22fd00ea790a4738a706"),
+    "name" : "SDG", 
+    "type" : "const.sdgs.sdg", 
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"), 
     "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
     "ideaId" : NumberInt(0), 
     "sourceId" : ObjectId("5af6438da070880131440a23"), 
-    "targetId" : ObjectId("5af5fafa8580c921207b5070"), 
+    "targetId" : ObjectId("5b4b21b700ea790a4738a703"), 
     "dataContent" : null, 
     "visual" : null, 
-    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"), 
+    "updatedAt" : ISODate("2018-07-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-07-10T01:25:34.933+0000"), 
     "value" : NumberInt(0), 
     "isPublic" : true, 
     "__v" : NumberInt(0)
   },
   { 
-    "name" : "Prompt", 
-    "type" : "clathon.content.prompt", 
-    "mapId" : ObjectId("5af39ce82843ddf04b459cb0"), 
+    "_id" : ObjectId("5b4b231e00ea790a4738a707"),
+    "name" : "SDG", 
+    "type" : "const.sdgs.sdg", 
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"), 
     "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
     "ideaId" : NumberInt(0), 
     "sourceId" : ObjectId("5af6438da070880131440a23"), 
-    "targetId" : ObjectId("5af5fbe031b2ef4220e0bbdc"), 
+    "targetId" : ObjectId("5b4b21d900ea790a4738a704"), 
     "dataContent" : null, 
     "visual" : null, 
-    "updatedAt" : ISODate("2018-05-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-05-10T01:25:34.933+0000"), 
+    "updatedAt" : ISODate("2018-07-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-07-10T01:25:34.933+0000"), 
     "value" : NumberInt(0), 
     "isPublic" : true, 
     "__v" : NumberInt(0)
