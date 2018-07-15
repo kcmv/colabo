@@ -130,7 +130,7 @@ export class SDGsService {
     // this.nodes = nodesS.data;
     //this.nodes.fill(nodesS); //this.nodes = nodesS.data;
     //this.nodes.name = 'test';
-    console.log('nodes: ', nodesS);
+    console.log('[sdgsReceived]nodes: ', nodesS);
     this.SDGs= nodesS;
 
     // this.users = [];

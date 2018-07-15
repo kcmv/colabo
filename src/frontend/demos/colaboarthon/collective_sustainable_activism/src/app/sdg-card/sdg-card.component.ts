@@ -9,6 +9,7 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 export class SdgCardComponent implements OnInit {
 
   @Input() sdg: KNode;
+  
   constructor() { }
 
   ngOnInit() {

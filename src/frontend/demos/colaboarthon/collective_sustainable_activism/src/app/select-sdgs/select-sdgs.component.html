@@ -3,8 +3,8 @@
   <h2>Select 3 out of 17 SDGs you care about</h2>
   <mat-list>
     <h3 mat-subheader>SDGs</h3>
-    <mat-list-item *ngFor="let sdg of sdgs">
-      <!-- <sdg-card [sdg]="sdg"></sdg-card> -->
+    <mat-list-item *ngFor="let sdgD of sdgs">
+      <sdg-card [sdg]="sdgD"></sdg-card>
     </mat-list-item>
   </mat-list>
 </div>
