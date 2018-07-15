@@ -318,9 +318,9 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
-          "humanID" : NumberInt(1),
+          "humanID" : NumberInt(3),
           image: {
-              url: 'assets/images/sdg1.jpg'
+              url: 'assets/images/sdg3.jpg'
               // width: image.width,
               // height: image.height
           },
