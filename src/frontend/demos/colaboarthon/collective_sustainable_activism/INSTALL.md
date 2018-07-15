@@ -36,6 +36,19 @@ npm link @colabo-knalledge/knalledge_store_core
 # npm link @colabo-colaboware/colaboware_rfid
 ```
 
+# Deploy
+
+Build
+
+```sh
+# set the server backend addr at
+# KnAllEdge/src/frontend/dev_puzzles/knalledge/knalledge_store_core/cf.service.ts
+# to
+# static serverAP = "http://158.39.75.120:8001"; // colabo-space-1
+ng build --prod --build-optimizer
+```
+
+
 # KnAllEdge content
 
 Add map in kmaps (`right button > insert document`):

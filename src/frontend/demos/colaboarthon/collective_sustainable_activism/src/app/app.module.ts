@@ -18,7 +18,6 @@ import {MaterialModule} from './materialModule';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
-//import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/ColabowareRFIDService';
 import{RimaService} from './rima-register/rima.service';
 // import {UsersProfilingService} from './users-profiling/users-profiling.service';
 // import {UsersClusteringService} from './users-clustering/users-clustering.service';
@@ -65,6 +64,7 @@ var moduleImports = [
   ,BrowserAnimationsModule
   ,MaterialModule
   ,FlexLayoutModule
+  , AppRoutingModule
   // ,
   // MatInputModule,
   // MatFormFieldControl
