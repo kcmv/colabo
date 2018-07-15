@@ -23,8 +23,7 @@
       ],
       "scripts": [
         "app/config/config.plugins.js",
-        "../node_modules/@colabo-knalledge/knalledge_core/code/knalledge/index.js",
-        "../node_modules/@colabo-colaboware/colaboware_rfid/lib/keyboard.js"
+        "../node_modules/@colabo-knalledge/knalledge_core/code/knalledge/index.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
