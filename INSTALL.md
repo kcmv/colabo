@@ -1010,6 +1010,10 @@ Configure the server to redirect requests for missing files to `index.html` (ser
 ## Optimize for production
 
 ```sh
+ng build --prod --build-optimizer
+```
+
+```sh
 ng build --prod --base-href=/knalledge-view-node/
 ```
 
@@ -1078,6 +1082,7 @@ If you want to debug the erors:
 ```sh
 ng build --prod --base-href=/knalledge-view-node/  --build-optimizer=false
 ```
+(NOTE: It doesn't work)
 
 Relevant
 + https://github.com/salemdar/angular2-cookie/issues/37
