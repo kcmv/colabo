@@ -80,6 +80,25 @@ export class KnalledgeNodeService extends CFService{
   }
 
   /**
+   * Gets from the server all the KN Nodes that are contained in the map
+   * @param {string} id id of the map
+   * @param {function} callback Function to be called when the nodes are retrieved
+   * @returns {Observable<KNode[]>} array of the nodes
+     @example http://localhost:8001/knodes/in_map/default/579811d88e12abfa556f6b59.json
+   */
+  queryInMapofType(id:string, type:string, callback?:Function): Observable<KNode[]>
+  {
+    let result:Observable<KNode[]> = this.http.get<ServerData>(this.apiUrl+'in_map_of_type/'+this.defaultAction+'/'+id+'/'+type)
+      .pipe(
+        map(nodesFromServer => CFService.processVOs(nodesFromServer, KNode)),
+        catchError(this.handleError('KnalledgeNodeService::queryInMap', null))
+      );
+
+    if(callback){result.subscribe(nodes => callback(nodes));}
+    return result;
+  }
+
+  /**
    * Creates the provided node on the server and returns its server-updated appearance
    * @param {KNode} kNode the pre-populated node to be created on the server
    * @param {function} callback Function to be called when the node is created

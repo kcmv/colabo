@@ -9,6 +9,7 @@ import { RouterModule, Routes} from '@angular/router';
 // import {UiSmsComponent} from './ui-sms/ui-sms.component';
 // import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
 import {RimaRegisterComponent} from './rima-register/rima-register.component';
+import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 
 const routes: Routes = [
   { // default route
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: 'rima-register',
     component: RimaRegisterComponent
+  },
+  {
+    path: 'select-sdgs',
+    component: SelectSdgsComponent
   }
 ];
 
