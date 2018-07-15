@@ -153,8 +153,8 @@ Add SDG node in knodes (`right button > insert document`):
 ```json
 {
     "_id" : ObjectId("5b4a91d800ea790a4738a6e5"),
-    "name" : "SDG",
-    "type" : "const.sdg",
+    "name" : "SDGs",
+    "type" : "const.sdgs",
     "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
     "iAmId" : ObjectId("556760847125996dc1a4a24f"),
     "ideaId" : NumberInt(0),
@@ -183,8 +183,8 @@ Add SDG edge in kedges (`right button > insert document`):
 ```json
 {
     "_id" : ObjectId("5b4a922700ea790a4738a6e9"),
-    "name" : "SDG",
-    "type" : "const.sdg",
+    "name" : "SDGs",
+    "type" : "const.sdgs",
     "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
     "iAmId" : ObjectId("5b4a91d800ea790a4738a6e5"),
     "ideaId" : NumberInt(0),
@@ -260,13 +260,20 @@ Add CONTENT edge in kedges (`right button > insert document`):
 ```JSON
 [
   {
-      "_id" : ObjectId("5af5fa2f054a87e71f4ed862"),
-      "name" : "i nostri occhi sono terribilmente enormi perché ...",
-      "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
+      "_id" : ObjectId("5b4b218c00ea790a4738a702"),
+      "name" : "1. NO POVERTY",
+      "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
-      "type" : "clathon.content.prompt",
+      "type" : "const.sdgs.sdg",
       "dataContent" : {
-          "humanID" : NumberInt(1)
+          "humanID" : NumberInt(1),
+          image: {
+              url: 'assets/images/sdg1.jpg'
+              // width: image.width,
+              // height: image.height
+          },
+          goal:  "To end poverty in all its forms everywhere by 2030",
+          desc: "More than 700 million people still live in extreme poverty and are struggling to fulfil the most basic needs like health, education, and access to water and sanitation, to name a few. The overwhelming majority of people living on less than $1.90 a day live in Southern Asia and sub-Saharan Africa. However, this issue also affects developed countries. Right now there are 30 million children growing up poor in the world’s richest countries."
       },
       "updatedAt" : ISODate("2018-07-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-07-10T20:16:47.301+0000"),
@@ -279,18 +286,25 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "__v" : NumberInt(0)
   },
   {
-      "_id" : ObjectId("5af5fafa8580c921207b5070"),
-      "name" : "Negli occhi dei migranti, persino. Ci guardano come immortali, perché ...",
-      "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
+      "_id" : ObjectId("5b4b21b700ea790a4738a703"),
+      "name" : "2. ZERO HUNGER",
+      "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
-      "type" : "clathon.content.prompt",
-      "updatedAt" : ISODate("2018-07-10T20:20:10.469+0000"),
-      "createdAt" : ISODate("2018-07-10T20:20:10.465+0000"),
+      "type" : "const.sdgs.sdg",
+      "dataContent" : {
+          "humanID" : NumberInt(2),
+          image: {
+              url: 'assets/images/sdg2.jpg'
+              // width: image.width,
+              // height: image.height
+          },
+          goal:  "To end hunger, achieve food security and improved nutrition and promote sustainable agriculture",
+          desc: "A profound change of the global food and agriculture system is needed to nourish today’s 795 million hungry and the additional 2 billion people expected by 2050. Extreme hunger and malnutrition remains a barrier to sustainable development and creates a trap from which people cannot easily escape. Hunger and malnutrition mean less productive individuals, who are more prone to disease and thus often unable to earn more and improve their livelihoods."
+      },
+      "updatedAt" : ISODate("2018-07-10T20:16:47.306+0000"),
+      "createdAt" : ISODate("2018-07-10T20:16:47.301+0000"),
       "visual" : {
           "isOpen" : false
-      },
-      "dataContent" : {
-          "humanID" : NumberInt(2)
       },
       "isPublic" : true,
       "version" : NumberInt(1),
@@ -298,24 +312,31 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "__v" : NumberInt(0)
   },
   {
-      "_id" : ObjectId("5af5fbe031b2ef4220e0bbdc"),
-      "name" : "Dove sei diretto? Perché vergognarsi di morire sulla tua porta di casa? Perché ...",
-      "iAmId" : ObjectId("5af498bc24dccbbc244c4f0c"),
+      "_id" : ObjectId("5b4b21d900ea790a4738a704"),
+      "name" : "3. GOOD HEALTH AND WELL-BEING",
+      "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
-      "type" : "clathon.content.prompt",
+      "type" : "const.sdgs.sdg",
       "dataContent" : {
-          "humanID" : NumberInt(3)
+          "humanID" : NumberInt(1),
+          image: {
+              url: 'assets/images/sdg1.jpg'
+              // width: image.width,
+              // height: image.height
+          },
+          goal:  "Ensure healthy lives and promote well-being for all at all ages",
+          desc: "Мore than 6 million children still die before their fifth birthday every year. 16,000 children die each day from preventable diseases such as measles and tuberculosis. Every day hundreds of women die during pregnancy or from child-birth related complications. In many rural areas, only 56 percent of births are attended by skilled professionals. AIDS is now the leading cause of death among teenagers in sub-Saharan Africa, a region still severely devastated by the HIV epidemic."
       },
-      "updatedAt" : ISODate("2018-07-10T20:24:00.939+0000"),
-      "createdAt" : ISODate("2018-07-10T20:24:00.935+0000"),
+      "updatedAt" : ISODate("2018-07-10T20:16:47.306+0000"),
+      "createdAt" : ISODate("2018-07-10T20:16:47.301+0000"),
       "visual" : {
           "isOpen" : false
       },
-      "isPublic" : true, 
+      "isPublic" : true,
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0)
-  }
+  },
 ]
 ```
 
@@ -326,8 +347,9 @@ Add CONTENT edge in kedges (`right button > insert document`):
 ```json
 [
   { 
-    "name" : "Prompt", 
-    "type" : "clathon.content.prompt", 
+    "_id" : ObjectId("5b4b22d900ea790a4738a705"),
+    "name" : "SDG", 
+    "type" : "const.sdgs.sdg", 
     "mapId" : ObjectId("5b49e7f736390f03580ac9a7"), 
     "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
     "ideaId" : NumberInt(0), 
@@ -342,13 +364,14 @@ Add CONTENT edge in kedges (`right button > insert document`):
     "__v" : NumberInt(0)
   },
   { 
-    "name" : "Prompt", 
-    "type" : "clathon.content.prompt", 
+    "_id" : ObjectId("5b4b22fd00ea790a4738a706"),
+    "name" : "SDG", 
+    "type" : "const.sdgs.sdg", 
     "mapId" : ObjectId("5b49e7f736390f03580ac9a7"), 
     "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
     "ideaId" : NumberInt(0), 
     "sourceId" : ObjectId("5af6438da070880131440a23"), 
-    "targetId" : ObjectId("5af5fafa8580c921207b5070"), 
+    "targetId" : ObjectId("5b4b21b700ea790a4738a703"), 
     "dataContent" : null, 
     "visual" : null, 
     "updatedAt" : ISODate("2018-07-10T01:25:34.934+0000"), 
@@ -358,13 +381,14 @@ Add CONTENT edge in kedges (`right button > insert document`):
     "__v" : NumberInt(0)
   },
   { 
-    "name" : "Prompt", 
-    "type" : "clathon.content.prompt", 
+    "_id" : ObjectId("5b4b231e00ea790a4738a707"),
+    "name" : "SDG", 
+    "type" : "const.sdgs.sdg", 
     "mapId" : ObjectId("5b49e7f736390f03580ac9a7"), 
     "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
     "ideaId" : NumberInt(0), 
     "sourceId" : ObjectId("5af6438da070880131440a23"), 
-    "targetId" : ObjectId("5af5fbe031b2ef4220e0bbdc"), 
+    "targetId" : ObjectId("5b4b21d900ea790a4738a704"), 
     "dataContent" : null, 
     "visual" : null, 
     "updatedAt" : ISODate("2018-07-10T01:25:34.934+0000"), 
