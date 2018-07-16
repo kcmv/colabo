@@ -40,20 +40,30 @@ npm link @colabo-knalledge/knalledge_store_core
 
 http://fv.colabo.space/ redirects to **/var/www/fv**
 
-## Code/Data Upload
-
-??
-
 ## Build
 
+this is done on the local dev machine
+
 ```sh
-# set the server backend addr at
+# set the server backend addr in the file
 # KnAllEdge/src/frontend/dev_puzzles/knalledge/knalledge_store_core/cf.service.ts
 # to
 # static serverAP = "http://158.39.75.120:8001"; // colabo-space-1
+cd Knalledge/src/frontend/demos/colaboarthon/collective_sustainable_activism
 ng build --prod --build-optimizer
+# reset the the server backend addr to the old value (for local computer)
 ```
 
+## Code/Data Upload
+
+uploading the build code on the server
+
+```sh
+#the code is built in the following folder:
+cd KnAllEdge/src/frontend/demos/colaboarthon/collective_sustainable_activism/dist
+#we put the content of this folder into the server folder:
+/var/www/fv
+```
 
 # KnAllEdge content
 
@@ -366,6 +376,32 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0)
   },
+  {
+      "_id" : ObjectId("5b4d1009280f6211059ff606"),
+      "name" : "4. QUALITY EDUCATION",
+      "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+      "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
+      "type" : "const.sdgs.sdg",
+      "dataContent" : {
+          "humanID" : NumberInt(4),
+          image: {
+              url: 'assets/images/sdg4.jpg'
+              // width: image.width,
+              // height: image.height
+          },
+          goal:  "Ensure inclusive and quality education for all and promote lifelong learning",
+          desc: "While Sub-Saharan Africa made the greatest progress in primary school enrolment among all developing regions – from 52 percent in 1990, up to 78 percent in 2012 – large disparities still remain. Children from the poorest households are up to four times more likely to be out of school than those of the richest households. Disparities between rural and urban areas also remain high"
+      },
+      "updatedAt" : ISODate("2018-07-10T20:16:47.306+0000"),
+      "createdAt" : ISODate("2018-07-10T20:16:47.301+0000"),
+      "visual" : {
+          "isOpen" : false
+      },
+      "isPublic" : true,
+      "version" : NumberInt(1),
+      "activeVersion" : NumberInt(1),
+      "__v" : NumberInt(0)
+  }
 ]
 ```
 
@@ -416,6 +452,23 @@ Add CONTENT edge in kedges (`right button > insert document`):
     "ideaId" : NumberInt(0), 
     "sourceId" : ObjectId("5af6438da070880131440a23"), 
     "targetId" : ObjectId("5b4b21d900ea790a4738a704"), 
+    "dataContent" : null, 
+    "visual" : null, 
+    "updatedAt" : ISODate("2018-07-10T01:25:34.934+0000"), 
+    "createdAt" : ISODate("2018-07-10T01:25:34.933+0000"), 
+    "value" : NumberInt(0), 
+    "isPublic" : true, 
+    "__v" : NumberInt(0)
+  },
+  { 
+    "_id" : ObjectId("5b4d105a280f6211059ff60c"),
+    "name" : "SDG", 
+    "type" : "const.sdgs.sdg", 
+    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"), 
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
+    "ideaId" : NumberInt(0), 
+    "sourceId" : ObjectId("5af6438da070880131440a23"), 
+    "targetId" : ObjectId("5b4d1009280f6211059ff606"), 
     "dataContent" : null, 
     "visual" : null, 
     "updatedAt" : ISODate("2018-07-10T01:25:34.934+0000"), 

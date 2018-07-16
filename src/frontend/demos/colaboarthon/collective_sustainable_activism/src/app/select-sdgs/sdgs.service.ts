@@ -152,7 +152,8 @@ export class SDGsService {
 
   //loadSDGs():void{
   getSDGs():Observable<any[]>{
-    return of(this.SDGsMockup);//this.knalledgeNodeService.queryInMapofType(MAP_ID, TYPE_SDGS);
+    //return of(this.SDGsMockup);
+    return this.knalledgeNodeService.queryInMapofType(MAP_ID, TYPE_SDGS);
        //.subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
   }
 

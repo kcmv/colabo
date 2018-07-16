@@ -30,6 +30,7 @@ import {SDGsService} from './select-sdgs/sdgs.service';
 import {RimaRegisterComponent} from './rima-register/rima-register.component';
 import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {SdgCardComponent} from './sdg-card/sdg-card.component';
+import {CwcComponent} from './cwc/cwc.component';
 
 import { AppComponent } from './app.component';
 
@@ -57,7 +58,8 @@ var moduleDeclarations = [
   // UsersGroupsComponent,
   RimaRegisterComponent,
   SelectSdgsComponent,
-  SdgCardComponent
+  SdgCardComponent,
+  CwcComponent
 ];
 
 var moduleImports = [

@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import {SDGsService} from './sdgs.service'
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
+const SDGS_TO_SELECT:number = 3;
+
 @Component({
   selector: 'app-select-sdgs',
   templateUrl: './select-sdgs.component.html',
@@ -13,7 +15,7 @@ export class SelectSdgsComponent implements OnInit {
   // mprinc: added to avoid AOT error
   sdgs:any[] = [];
 
-  selectedSDGs:any[] = [];
+  selectedSDGs:string[] = [];
   constructor(
     private sDGsService: SDGsService
   ) { }
@@ -34,13 +36,44 @@ export class SelectSdgsComponent implements OnInit {
     //this.sDGsService.loadSDGs();
   }
 
-  private sdgsReceived(sdgsD:any[]):void{
-    this.sdgs = sdgsD;
-    // console.log('sdgsReceived:', this.sdgs);
+  correctSelection():boolean{
+    return this.selectedSDGs.length == SDGS_TO_SELECT;
   }
 
-  select(id:string):void{
+  getActionMessage():string{
+    let msg:string='';
+
+    if(this.selectedSDGs.length < SDGS_TO_SELECT){
+        msg = 'You need to select ' + (SDGS_TO_SELECT - this.selectedSDGs.length) + ' more SDGs';
+    } else if (this.selectedSDGs.length == SDGS_TO_SELECT) {
+        msg = 'You have selected all SDGs. Please, submit now';
+    } else {
+        msg = 'You have selected ' + this.selectedSDGs.length + ' SDGs. You must select maximum of ' + SDGS_TO_SELECT;
+    }
+    return msg;
+  }
+
+  submit(){
+    console.log('submit');
+  }
+
+  private sdgsReceived(sdgsD:any[]):void{
+    this.sdgs = sdgsD;
+    // for (var sdg in this.sdgs) {
+    // console.log(item); // 0,1,2
+  }
+    // console.log('sdgsReceived:', this.sdgs)
+
+  onToggled(state: boolean, id:string) {
+    console.log('SelectSdgsComponent::onToggled',state, id);
+    if(state){
       this.selectedSDGs.push(id);
+    }
+    else{
+      let index = this.selectedSDGs.indexOf(id);
+      if (index !== -1) this.selectedSDGs.splice(index, 1);
+    }
+    console.log(this.selectedSDGs.toString());
   }
 
 }

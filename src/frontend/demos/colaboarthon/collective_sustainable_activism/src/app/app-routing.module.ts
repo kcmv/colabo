@@ -10,6 +10,7 @@ import { RouterModule, Routes} from '@angular/router';
 // import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
 import {RimaRegisterComponent} from './rima-register/rima-register.component';
 import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
+import {CwcComponent} from './cwc/cwc.component';
 
 const routes: Routes = [
   { // default route
@@ -52,6 +53,10 @@ const routes: Routes = [
   {
     path: 'select-sdgs',
     component: SelectSdgsComponent
+  },
+  {
+    path: 'cwc',
+    component: CwcComponent
   }
 ];
 
