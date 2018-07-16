@@ -25,10 +25,9 @@
       </p>
       <p>
         <button mat-button type="submit" [disabled]="!form.valid">Sign up</button>
-        <!-- <button type="submit" [disabled]="!form.valid">Submit</button> -->
-        <button (click)="partialUpdate()">Partial Update</button>
-        <button (click)="fullUpdate()">Full Update</button>
-        <button (click)="reset()">Cancel</button>
+        <button mat-button (click)="partialUpdate()">Partial Update</button>
+        <button mat-button (click)="fullUpdate()">Full Update</button>
+        <button mat-button (click)="reset()">Cancel</button>
       </p>
   </form>
 

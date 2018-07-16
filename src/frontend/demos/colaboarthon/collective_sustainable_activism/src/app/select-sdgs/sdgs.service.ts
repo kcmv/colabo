@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
 
+// In  Angular 6 / Rxjs 6 the import is like below
+// import { Observable, of } from 'rxjs';
+
+// but in Angular 5.2.x and Rxjs 5x is:
+import { Observable } from 'rxjs';
+import { of } from 'rxjs/observable/of';
+
 import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
@@ -19,7 +26,29 @@ const TYPE_SDGS:string = "const.sdgs.sdg";
 @Injectable()
 export class SDGsService {
 
-  SDGs:KNode[] = [];
+  SDGs:any[] = [];
+
+  SDGsMockup:any[] =
+  [
+    {
+        "name" : "1. NO POVERTY",
+        "dataContent" : {
+            desc: "More than 700 million people still live in extreme poverty and are struggling to fulfil the most basic needs like health, education, and access to water and sanitation, to name a few. The overwhelming majority of people living on less than $1.90 a day live in Southern Asia and sub-Saharan Africa. However, this issue also affects developed countries. Right now there are 30 million children growing up poor in the world’s richest countries."
+        }
+    },
+    {
+        "name" : "2. ZERO HUNGER",
+        "dataContent" : {
+            desc: "A profound change of the global food and agriculture system is needed to nourish today’s 795 million hungry and the additional 2 billion people expected by 2050. Extreme hunger and malnutrition remains a barrier to sustainable development and creates a trap from which people cannot easily escape. Hunger and malnutrition mean less productive individuals, who are more prone to disease and thus often unable to earn more and improve their livelihoods."
+        }
+    },
+    {
+        "name" : "3. GOOD HEALTH AND WELL-BEING",
+        "dataContent" : {
+            desc: "Мore than 6 million children still die before their fifth birthday every year. 16,000 children die each day from preventable diseases such as measles and tuberculosis. Every day hundreds of women die during pregnancy or from child-birth related complications. In many rural areas, only 56 percent of births are attended by skilled professionals. AIDS is now the leading cause of death among teenagers in sub-Saharan Africa, a region still severely devastated by the HIV epidemic."
+        }
+    }
+  ];
 
   constructor(
     // private colabowareRFIDService: ColabowareRFIDService,
@@ -121,15 +150,19 @@ export class SDGsService {
       //   .subscribe(edges => this.edgesReceived(edges)); //as KNode
   }
 
-  loadSDGs():void{
-    this.knalledgeNodeService.queryInMapofType(MAP_ID, TYPE_SDGS)
-      .subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
+  //loadSDGs():void{
+  getSDGs():Observable<any[]>{
+    return of(this.SDGsMockup);//this.knalledgeNodeService.queryInMapofType(MAP_ID, TYPE_SDGS);
+       //.subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
   }
 
-  getSDGs():KNode[]{
-    return this.SDGs;
-  }
+  //getSDGs():Observable<KNode[]>{
+  // getSDGs():any[]{
+  //   return this.SDGs;
+  // }
 
+  /*
+  //TODO: not used now:
   sdgsReceived(nodesS:Array<KNode>):void{
     // this.nodes = nodesS.data;
     //this.nodes.fill(nodesS); //this.nodes = nodesS.data;
@@ -148,4 +181,5 @@ export class SDGsService {
     // this.groups = [];
     // this.extractNodesOfType(KNode.TYPE_USERS_GROUP, this.groups);
   }
+  */
 }

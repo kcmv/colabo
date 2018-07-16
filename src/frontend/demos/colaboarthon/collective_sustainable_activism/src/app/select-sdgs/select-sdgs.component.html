@@ -1,6 +1,20 @@
 <div>
   <h1>United Nations Sustainable Development Goals (SDGs)</h1>
-  <h2>Select 3 out of 17 SDGs you care about</h2>
+  <h2>You need to select 3 SDGs</h2>
+
+  Test 1:
+  <ul *ngIf="sdgs">
+    <li *ngFor="let sdgD of sdgs">
+        {{sdg.name}}
+    </li>
+  </ul>
+
+  Test 2:
+  <div *ngFor="let sdgD of sdgs | async">
+    {{ sdgD | json }}
+  </div>
+
+  Real:
   <mat-list>
     <h3 mat-subheader>SDGs</h3>
     <mat-list-item *ngFor="let sdgD of sdgs">

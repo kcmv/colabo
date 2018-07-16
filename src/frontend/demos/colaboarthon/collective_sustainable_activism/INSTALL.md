@@ -38,7 +38,13 @@ npm link @colabo-knalledge/knalledge_store_core
 
 # Deploy
 
-Build
+http://fv.colabo.space/ redirects to **/var/www/fv**
+
+## Code/Data Upload
+
+??
+
+## Build
 
 ```sh
 # set the server backend addr at
