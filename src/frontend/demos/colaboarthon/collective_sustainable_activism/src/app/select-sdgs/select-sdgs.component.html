@@ -5,14 +5,14 @@
   Test 1:
   <ul *ngIf="sdgs">
     <li *ngFor="let sdgD of sdgs">
-        {{sdg.name}}
+        {{sdgD.name}}
     </li>
   </ul>
 
-  Test 2:
+  <!-- Test 2:
   <div *ngFor="let sdgD of sdgs | async">
     {{ sdgD | json }}
-  </div>
+  </div> -->
 
   Real:
   <mat-list>
