@@ -29,7 +29,16 @@
         <button mat-button (click)="fullUpdate()">Full Update</button>
         <button mat-button (click)="reset()">Cancel</button>
       </p>
-  </form>
+
+        <hr/>
+        Image from camera:<br/>
+        <input type="file" accept="image/*;capture=camera">
+        <hr/>
+
+        Image from camera/storage:<br/>
+        <input type="file" accept="image/*">
+
+    </form>
 
   <!-- <form class="example-form">
     <mat-form-field class="example-full-width">
