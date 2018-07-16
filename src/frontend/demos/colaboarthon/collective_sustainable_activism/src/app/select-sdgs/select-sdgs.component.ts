@@ -19,8 +19,16 @@ export class SelectSdgsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.sdgs = [{
+      name: "sdg a"
+    }, {
+      name: "sdg b"
+    },
+    {
+      name: "sdg b"
+    }];
     //TODO: !! we should migrate to the App-persisten Service this server-loads. RIGHT NOW each time we open this component, it loads it:
-    this.sDGsService.getSDGs().subscribe(this.sdgsReceived);
+    this.sDGsService.getSDGs().subscribe(this.sdgsReceived.bind(this));
       //.subscribe(sdgs => this.sdgs);
     //this.sdgs = this.sDGsService.getSDGs();
     //this.sDGsService.loadSDGs();
@@ -28,7 +36,7 @@ export class SelectSdgsComponent implements OnInit {
 
   private sdgsReceived(sdgsD:any[]):void{
     this.sdgs = sdgsD;
-    console.log('sdgsReceived:', this.sdgs);
+    // console.log('sdgsReceived:', this.sdgs);
   }
 
   select(id:string):void{
