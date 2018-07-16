@@ -9,6 +9,8 @@ import {SDGsService} from './sdgs.service'
 })
 export class SelectSdgsComponent implements OnInit {
 
+  // mprinc: added to avoid AOT error
+  sdgs = [];
   constructor(
     private sDGsService: SDGsService
   ) { }

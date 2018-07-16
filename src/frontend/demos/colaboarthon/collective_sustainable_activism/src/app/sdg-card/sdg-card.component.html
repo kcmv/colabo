@@ -8,7 +8,8 @@
 <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
 <mat-card-content>
   <p>
-    {{sdg.desc}}
+    <!-- mprinc: added to fix AOT error -->
+    {{sdg.dataContent.desc}}
   </p>
 </mat-card-content>
 <mat-card-actions>

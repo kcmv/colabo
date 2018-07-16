@@ -18,6 +18,7 @@ import {MaterialModule} from './materialModule';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
+import { RimaService } from './rima-register/rima.service';
 import {SDGsService} from './select-sdgs/sdgs.service';
 
 // import {UsersProfilingService} from './users-profiling/users-profiling.service';
