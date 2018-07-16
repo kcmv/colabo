@@ -66,6 +66,7 @@ exports._index = function(id, id2, type, callback){
 			KNodeModel.find({ 'mapId': id}, found);
 			break;
 		case 'in_map_of_type': //all nodes of particular type in specific map
+			id2 = id2 + '.sdg';
 			console.log("find: mapId: %s, type: %s", id, id2);
 			KNodeModel.find({ $and: [{ mapId: id}, { type: id2}] }, found);
 			break;

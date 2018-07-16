@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import {SDGsService} from './sdgs.service'
+import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
 @Component({
   selector: 'app-select-sdgs',
@@ -10,13 +11,14 @@ import {SDGsService} from './sdgs.service'
 export class SelectSdgsComponent implements OnInit {
 
   // mprinc: added to avoid AOT error
-  sdgs = [];
+  sdgs:KNode[] = [];
   constructor(
     private sDGsService: SDGsService
   ) { }
 
   ngOnInit() {
-    this.sDGsService.getSDGs();
+    this.sdgs = this.sDGsService.getSDGs();
+    this.sDGsService.loadSDGs();
   }
 
 }

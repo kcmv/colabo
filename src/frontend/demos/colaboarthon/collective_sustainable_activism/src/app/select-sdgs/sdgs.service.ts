@@ -121,17 +121,22 @@ export class SDGsService {
       //   .subscribe(edges => this.edgesReceived(edges)); //as KNode
   }
 
-  getSDGs():void{
+  loadSDGs():void{
     this.knalledgeNodeService.queryInMapofType(MAP_ID, TYPE_SDGS)
-      .subscribe(nodes => this.sdgsReceived(nodes)); //as KNode
+      .subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
+  }
+
+  getSDGs():KNode[]{
+    return this.SDGs;
   }
 
   sdgsReceived(nodesS:Array<KNode>):void{
     // this.nodes = nodesS.data;
     //this.nodes.fill(nodesS); //this.nodes = nodesS.data;
     //this.nodes.name = 'test';
-    console.log('[sdgsReceived]nodes: ', nodesS);
     this.SDGs= nodesS;
+
+    console.log('[sdgsReceived] this.SDGs: ', this.SDGs);
 
     // this.users = [];
     // this.extractNodesOfType(KNode.TYPE_USER, this.users);
