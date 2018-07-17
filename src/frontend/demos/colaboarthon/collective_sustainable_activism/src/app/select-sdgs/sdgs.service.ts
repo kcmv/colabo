@@ -19,7 +19,6 @@ import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzz
 
 //this consts are defined by INSTALL.MD data:
 const MAP_ID = "5b49e7f736390f03580ac9a7";
-const USERS_NODE_ID:string = "5b4a16e800ea79029ca0c395";
 export const TYPE_SDGS:string = "const.sdgs.sdg";
 export const SDG_SELECTION_NAME:string = "UN_SDG";
 export const SDG_SELECTION_TYPE:string = "rima.selected_UN_SDG";
@@ -28,8 +27,9 @@ export const SDGS_TO_SELECT:number = 3;
 @Injectable()
 export class SDGsService {
 
-  sdgsSaved:Observable<any> = new Observable<any>();
+  sdgsSavedObs:Observable<any> = new Observable<any>();
   SDGs:any[] = [];
+  sdgsLeftSave:number = SDGS_TO_SELECT;
 
   SDGsMockup:any[] =
   [
@@ -100,6 +100,7 @@ export class SDGsService {
     }
   }
 
+  /*
   // create new user
   createNewUser(newUserData:any, callback:Function=null){
     console.log("[createNewUser] newUserData: ", newUserData);
@@ -116,13 +117,13 @@ export class SDGsService {
       lastName: newUserData.lastName,
       email: newUserData.email,
 
-      /* TODO:
-      image: {
-        url: newUserData.image.url
-        // width: image.width,
-        // height: image.height
-      }
-      */
+      // TODO:
+      // image: {
+      //   url: newUserData.image.url
+      //   // width: image.width,
+      //   // height: image.height
+      // }
+      //
     }
 
     // creating edge between new user and users node (with type KNode.TYPE_USERS)
@@ -138,6 +139,7 @@ export class SDGsService {
       if(callback) callback(newUser, newUserEdge);
     }
   }
+  */
 
   /*
   TO MOVE into some AppService or InitService or ....
@@ -164,16 +166,30 @@ export class SDGsService {
   }
 
   saveSDGsSelection(sdgs:string[]):Observable<any>{
-    for (var sdg in sdgs) {
-      console.log(sdg);
+    let user_id:string = '5b4db0645381b24d03f908b6';
+    let sdgId:string;
+    this.sdgsLeftSave = sdgs.length;
+    for (var i in sdgs) {
+      sdgId = sdgs[i];
+      console.log(sdgId);
       let sdgSelection:KEdge = new KEdge();
-      sdgSelection.sourceId = //userNode;
-      sdgSelection.targetId = sdg;
+      sdgSelection.sourceId = user_id; //TODO: make this final solution
+      sdgSelection.targetId = sdgId;
+      sdgSelection.iAmId = user_id; //TODO: make this final solution
       sdgSelection.name = SDG_SELECTION_NAME;
       sdgSelection.type = SDG_SELECTION_TYPE;
-      this.knalledgeEdgeService.create(sdgSelection);
+      this.knalledgeEdgeService.create(sdgSelection).subscribe(this.sdgSaved.bind(this));
     }
-    return this.sdgsSaved;
+    return this.sdgsSavedObs;
+  }
+
+  sdgSaved(data:any):void{
+    this.sdgsLeftSave--;
+    console.log('SDGsService::sdgSaved:', this.sdgsLeftSave, data);
+    if(this.sdgsLeftSave === 0){
+      console.log('SDGsService::ALL sdgSaved');
+      //TODO emit Obstacle
+    }
   }
 
   //getSDGs():Observable<KNode[]>{

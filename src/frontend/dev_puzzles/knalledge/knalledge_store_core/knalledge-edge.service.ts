@@ -84,7 +84,7 @@ export class KnalledgeEdgeService extends CFService{
    */
   create(kEdge:KEdge, callback?:Function): Observable<KEdge>
   {
-  	console.log("KnalledgeEdgeService.create");
+  	//console.log("KnalledgeEdgeService.create");
     let result: Observable<KEdge> = null;
 
 		if(false) // TODO:NG2: if(Plugins.puzzles.knalledgeMap.config.services.QUEUE)

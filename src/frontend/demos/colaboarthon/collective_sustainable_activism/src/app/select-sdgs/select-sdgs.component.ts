@@ -13,9 +13,9 @@ export class SelectSdgsComponent implements OnInit {
 
   // mprinc: added to avoid AOT error
   sdgs:any[] = [];
+  saved:boolean = false;
 
   selectedSDGs:string[] = [];
-  sdgsLeftSave:number = SDGS_TO_SELECT;
   constructor(
     private sDGsService: SDGsService
   ) { }
@@ -56,14 +56,18 @@ export class SelectSdgsComponent implements OnInit {
     return msg;
   }
 
+  canSubmit():boolean{
+      return !this.saved && this.correctSelection();
+  }
+
   submit(){
     console.log('submit');
-    this.sdgsLeftSave = SDGS_TO_SELECT;
-    this.sDGsService.saveSDGsSelection(this.sdgs).subscribe(this.sdgsSaved.bind(this));
+    this.sDGsService.saveSDGsSelection(this.selectedSDGs).subscribe(this.sdgsSaved.bind(this));
   }
 
   private sdgsSaved():void{
-    console.log('sdgsSaved');
+    console.log('SelectSdgsComponent::sdgsSaved');
+    this.saved = true;
   }
 
   private sdgsReceived(sdgsD:any[]):void{
