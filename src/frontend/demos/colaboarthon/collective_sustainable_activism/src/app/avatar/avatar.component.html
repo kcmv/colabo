@@ -31,8 +31,8 @@
     <!-- TODO: to see if we want to remove submit, but I guess we should also
          TODO: enable selection which of the selected SDGs this photo-avatar illustrates -->
     <p>
-      <button mat-button type="submit" [disabled]="!form.valid">Submit</button>
-      <button mat-button (click)="reset()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
+      <button mat-raised-button (click)="reset()">Cancel</button>
     </p>
   </form>
 </div>
