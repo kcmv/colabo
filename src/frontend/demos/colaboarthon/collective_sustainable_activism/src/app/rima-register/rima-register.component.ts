@@ -69,6 +69,7 @@ export class RimaRegisterComponent implements OnInit {
     userData.firstName = this.form.value.firstName;
     userData.lastName = this.form.value.lastName;
     userData.email = this.form.value.email;
+    //TODO: this.form.value.password;
     this.rimaService.createNewUser(userData, this.userCreated);
   }
 

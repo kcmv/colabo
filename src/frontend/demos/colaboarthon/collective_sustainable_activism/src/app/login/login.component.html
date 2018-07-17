@@ -8,23 +8,11 @@
       </p>
       <p>
         <mat-form-field class="example-full-width">
-          <input matInput type="text" placeholder="First Name" formControlName="firstName" value="">
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Last Name" formControlName="lastName" value="">
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field class="example-full-width">
           <input matInput type="password" placeholder="Password" formControlName="password" value="">
         </mat-form-field>
       </p>
       <p>
-        <button mat-button type="submit" [disabled]="!form.valid">Sign up</button>
-        <button mat-button (click)="partialUpdate()">Partial Update</button>
-        <button mat-button (click)="fullUpdate()">Full Update</button>
+        <button mat-button type="submit" [disabled]="!form.valid">Login</button>
         <button mat-button (click)="reset()">Cancel</button>
       </p>
     </form>

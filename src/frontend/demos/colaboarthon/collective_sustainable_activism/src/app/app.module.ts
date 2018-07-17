@@ -31,6 +31,8 @@ import {RimaRegisterComponent} from './rima-register/rima-register.component';
 import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {SdgCardComponent} from './sdg-card/sdg-card.component';
 import {CwcComponent} from './cwc/cwc.component';
+import {LoginComponent} from './login/login.component';
+import {AvatarComponent} from './avatar/avatar.component';
 
 import { AppComponent } from './app.component';
 
@@ -59,7 +61,9 @@ var moduleDeclarations = [
   RimaRegisterComponent,
   SelectSdgsComponent,
   SdgCardComponent,
-  CwcComponent
+  CwcComponent,
+  LoginComponent,
+  AvatarComponent
 ];
 
 var moduleImports = [

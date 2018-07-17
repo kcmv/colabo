@@ -11,6 +11,8 @@ import { RouterModule, Routes} from '@angular/router';
 import {RimaRegisterComponent} from './rima-register/rima-register.component';
 import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {CwcComponent} from './cwc/cwc.component';
+import {LoginComponent} from './login/login.component';
+import {AvatarComponent} from './avatar/avatar.component';
 
 const routes: Routes = [
   { // default route
@@ -51,12 +53,20 @@ const routes: Routes = [
     component: RimaRegisterComponent
   },
   {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: 'select-sdgs',
     component: SelectSdgsComponent
   },
   {
     path: 'cwc',
     component: CwcComponent
+  },
+  {
+    path: 'avatar',
+    component: AvatarComponent
   }
 ];
 

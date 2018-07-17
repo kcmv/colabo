@@ -1,0 +1,38 @@
+<div>
+<!--TODO: to make localized (in Serbian) form field names and info -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <p>
+      <!--
+      TODO:
+        we could not use 'matInput' and '<mat-form-field>' and do it like this:
+
+          <mat-form-field class="example-full-width">
+            Image from camera:<br/>
+            <input matInput type="file" formControlName="cameraPhoto" accept="image/*;capture=camera">
+          </mat-form-field>
+
+        Because of the :        Error: Input type "file" isn't supported by matInput.
+        https://github.com/udos86/ng-dynamic-forms/issues/671
+        https://github.com/angular/material2/issues/3262
+        https://github.com/angular/material2/issues/2315
+      -->
+    <p>
+      <!-- <mat-form-field class="example-full-width">
+        Image from camera:<br/> -->
+        <input  type="file" formControlName="cameraPhoto" accept="image/*;capture=camera">
+      <!-- </mat-form-field> -->
+    </p>
+    <p>
+      <!-- <mat-form-field class="example-full-width"> -->
+      Image from camera/storage:<br/>
+      <input type="file" formControlName="storagePhoto" accept="image/*">
+      <!-- </mat-form-field> -->
+    </p>
+    <!-- TODO: to see if we want to remove submit, but I guess we should also
+         TODO: enable selection which of the selected SDGs this photo-avatar illustrates -->
+    <p>
+      <button mat-button type="submit" [disabled]="!form.valid">Submit</button>
+      <button mat-button (click)="reset()">Cancel</button>
+    </p>
+  </form>
+</div>
