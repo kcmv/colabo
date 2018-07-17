@@ -1,3 +1,6 @@
+import { MatDialog } from '@angular/material';
+import {Dialog2Btn} from '../util/dialog2Btn';
+
 import { Component, OnInit } from '@angular/core';
 
 import {SDGsService, SDG_SELECTION_NAME, SDG_SELECTION_TYPE, SDGS_TO_SELECT } from './sdgs.service'
@@ -17,7 +20,8 @@ export class SelectSdgsComponent implements OnInit {
 
   selectedSDGs:string[] = [];
   constructor(
-    private sDGsService: SDGsService
+    private sDGsService: SDGsService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -37,6 +41,19 @@ export class SelectSdgsComponent implements OnInit {
       //.subscribe(sdgs => this.sdgs);
     //this.sdgs = this.sDGsService.getSDGs();
     //this.sDGsService.loadSDGs();
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(Dialog2Btn, {
+      width: '80%',
+      disableClose: true,
+      data: {title: 'Submitting ...', info: 'please wait ...', button1: 'Cancel', button2: 'OK'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      //this.animal = result;
+    });
   }
 
   correctSelection():boolean{
@@ -67,7 +84,8 @@ export class SelectSdgsComponent implements OnInit {
 
   private sdgsSaved():void{
     console.log('SelectSdgsComponent::sdgsSaved');
-    this.saved = true;
+    this.saved = true; //TODO: see if we want to keep this
+    window.alert("Your selection is successfully saved");
   }
 
   private sdgsReceived(sdgsD:any[]):void{

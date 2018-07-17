@@ -27,7 +27,7 @@ export const SDGS_TO_SELECT:number = 3;
 @Injectable()
 export class SDGsService {
 
-  sdgsSavedObs:Observable<any> = new Observable<any>();
+  sdgsSavedObserver:any = {};//Observer
   SDGs:any[] = [];
   sdgsLeftSave:number = SDGS_TO_SELECT;
 
@@ -180,7 +180,15 @@ export class SDGsService {
       sdgSelection.type = SDG_SELECTION_TYPE;
       this.knalledgeEdgeService.create(sdgSelection).subscribe(this.sdgSaved.bind(this));
     }
-    return this.sdgsSavedObs;
+    // https://angular.io/guide/observables
+    return new Observable(this.sdgsSavedSubscriber.bind(this));;
+  }
+
+  //could be done as anonymous, but we made it this way to be more clear the logic of Oberver
+  sdgsSavedSubscriber(observer) { //:Observer) {
+    console.log('sdgsSavedSubscriber');
+    this.sdgsSavedObserver = observer;
+    return {unsubscribe() {}};
   }
 
   sdgSaved(data:any):void{
@@ -188,7 +196,10 @@ export class SDGsService {
     console.log('SDGsService::sdgSaved:', this.sdgsLeftSave, data);
     if(this.sdgsLeftSave === 0){
       console.log('SDGsService::ALL sdgSaved');
-      //TODO emit Obstacle
+
+      //emitting Obstacle:
+      this.sdgsSavedObserver.next(1); //TODO change value
+      this.sdgsSavedObserver.complete();
     }
   }
 
