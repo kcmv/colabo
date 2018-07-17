@@ -307,7 +307,7 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "dataContent" : {
           "humanID" : NumberInt(1),
           image: {
-              url: 'assets/images/sdg1.jpg'
+              url: 'sdg1.jpg'
               // width: image.width,
               // height: image.height
           },
@@ -333,7 +333,7 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "dataContent" : {
           "humanID" : NumberInt(2),
           image: {
-              url: 'assets/images/sdg2.jpg'
+              url: 'sdg2.jpg'
               // width: image.width,
               // height: image.height
           },
@@ -359,7 +359,7 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "dataContent" : {
           "humanID" : NumberInt(3),
           image: {
-              url: 'assets/images/sdg3.jpg'
+              url: 'sdg3.jpg'
               // width: image.width,
               // height: image.height
           },
@@ -385,7 +385,7 @@ Add CONTENT edge in kedges (`right button > insert document`):
       "dataContent" : {
           "humanID" : NumberInt(4),
           image: {
-              url: 'assets/images/sdg4.jpg'
+              url: 'sdg4.jpg'
               // width: image.width,
               // height: image.height
           },

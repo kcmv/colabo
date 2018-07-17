@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {SDGsService} from './select-sdgs/sdgs.service';
+import {RimaService} from './rima-register/rima.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,13 @@ export class AppComponent {
   // as it will be in code written in JS
 
   constructor(
+    private sDGsService: SDGsService,
+    private rimaService: RimaService,
   ){
     console.log('AppComponent:constructor');
+  }
+
+  ngOnInit() {
+    //this.sDGsService.
   }
 }

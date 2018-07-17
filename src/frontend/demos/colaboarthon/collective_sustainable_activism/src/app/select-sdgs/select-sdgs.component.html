@@ -18,10 +18,15 @@
   </div> -->
 
     <!-- Real: -->
-    <mat-list>
+    <div class='sdgs' fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
+
+    <!-- <mat-list>
         <h3 mat-subheader>SDGs</h3>
-        <mat-list-item  *ngFor="let sdgD of sdgs">
-            <sdg-card (toggled)="onToggled($event,sdgD._id)" [sdg]="sdgD"></sdg-card>
-        </mat-list-item>
-    </mat-list>
+        <mat-list-item  *ngFor="let sdgD of sdgs"> -->
+          <!-- <sdg-card class="card" (toggled)="onToggled($event,sdgD._id)" [sdg]="sdgD"></sdg-card> -->
+          <sdg-card *ngFor="let sdgD of sdgs" class="sdg" (toggled)="onToggled($event,sdgD._id)" [sdg]="sdgD"></sdg-card>
+
+        <!-- </mat-list-item>
+    </mat-list> -->
+    </div>
 </div>

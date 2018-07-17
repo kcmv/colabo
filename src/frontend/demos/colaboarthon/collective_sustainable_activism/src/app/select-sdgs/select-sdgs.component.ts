@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import {SDGsService} from './sdgs.service'
+import {SDGsService, SDG_SELECTION_NAME, SDG_SELECTION_TYPE, SDGS_TO_SELECT } from './sdgs.service'
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-
-const SDGS_TO_SELECT:number = 3;
+import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 
 @Component({
   selector: 'app-select-sdgs',
@@ -16,19 +15,23 @@ export class SelectSdgsComponent implements OnInit {
   sdgs:any[] = [];
 
   selectedSDGs:string[] = [];
+  sdgsLeftSave:number = SDGS_TO_SELECT;
   constructor(
     private sDGsService: SDGsService
   ) { }
 
   ngOnInit() {
-    this.sdgs = [{
-      name: "sdg a"
-    }, {
-      name: "sdg b"
-    },
-    {
-      name: "sdg b"
-    }];
+    //TODO: add loading of user's sdgs selections (and setting up states of sdg-cards) - if the user has already selected them in a previous session
+    //TODO: add deleting of old selections before submitting new ones () - if the user has already selected them in a previous session
+
+    // this.sdgs = [{
+    //   name: "sdg a"
+    // }, {
+    //   name: "sdg b"
+    // },
+    // {
+    //   name: "sdg b"
+    // }];
     //TODO: !! we should migrate to the App-persisten Service this server-loads. RIGHT NOW each time we open this component, it loads it:
     this.sDGsService.getSDGs().subscribe(this.sdgsReceived.bind(this));
       //.subscribe(sdgs => this.sdgs);
@@ -55,6 +58,12 @@ export class SelectSdgsComponent implements OnInit {
 
   submit(){
     console.log('submit');
+    this.sdgsLeftSave = SDGS_TO_SELECT;
+    this.sDGsService.saveSDGsSelection(this.sdgs).subscribe(this.sdgsSaved.bind(this));
+  }
+
+  private sdgsSaved():void{
+    console.log('sdgsSaved');
   }
 
   private sdgsReceived(sdgsD:any[]):void{
