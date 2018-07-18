@@ -4,7 +4,7 @@
     <h1>United Nations Sustainable Development Goals (SDGs)</h1>
     <div>
       {{getActionMessage()}}
-      <button color="primary" mat-raised-button (click)="submit()" [disabled]="!canSubmit()">Submit</button></div>
+      <button color="primary" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button></div>
       <br/><br/><br/><br/><br/>
     <!-- Test 1:
   <ul *ngIf="sdgs">
