@@ -1,4 +1,3 @@
-<!-- main container -->
 <div fxLayout="column" fxFlexFill style="height: 100%;">
 
     <!-- toolbar -->
@@ -20,6 +19,15 @@
         <h1>
             CoLabo.Space
         </h1>
+
+        <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
+        <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
+        <h1>United Nations Sustainable Development Goals (SDGs)</h1>
+        <div>
+            {{getActionMessage()}}
+            <button color="primary" mat-raised-button (click)="submit()" [disabled]="!canSubmit()">Submit</button></div>
+        <br/><br/><br/><br/><br/>
+
     </mat-toolbar>
 
     <div fxLayoutAlign="stretch stretch">
@@ -31,19 +39,6 @@
                 {{getActionMessage()}}
                 <button color="primary" mat-raised-button (click)="submit()" [disabled]="!canSubmit()">Submit</button></div>
             <br/><br/><br/><br/><br/>
-            <!-- Test 1:
-  <ul *ngIf="sdgs">
-    <li *ngFor="let sdgD of sdgs">
-        {{sdgD.name}}
-    </li>
-  </ul> -->
-
-            <!-- Test 2:
-  <div *ngFor="let sdgD of sdgs | async">
-    {{ sdgD | json }}
-  </div> -->
-
-            <!-- Real: -->
             <div class='sdgs' fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
 
                 <!-- <mat-list>

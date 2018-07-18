@@ -20,6 +20,7 @@ import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 import { RimaService } from './rima-register/rima.service';
 import {SDGsService} from './select-sdgs/sdgs.service';
+import {CWCService} from './cwc/cwc.service';
 
 // import {UsersProfilingService} from './users-profiling/users-profiling.service';
 // import {UsersClusteringService} from './users-clustering/users-clustering.service';
@@ -33,6 +34,8 @@ import {SdgCardComponent} from './sdg-card/sdg-card.component';
 import {CwcComponent} from './cwc/cwc.component';
 import {LoginComponent} from './login/login.component';
 import {AvatarComponent} from './avatar/avatar.component';
+
+import {Dialog1Btn, Dialog2Btn} from './util/dialog';
 
 import { AppComponent } from './app.component';
 
@@ -67,6 +70,8 @@ var moduleDeclarations = [
   CwcComponent,
   LoginComponent,
   AvatarComponent,
+  Dialog2Btn,
+  Dialog1Btn,
   // AdvancedDialogTest
 ];
 
@@ -103,6 +108,7 @@ export var Plugins:any = window.Config.Plugins;
     // @see: https://material.angular.io/components/dialog/overview#aot-compilation
     // AdvancedDialog,
     // NotificationComponent
+    Dialog2Btn, Dialog1Btn, //needed otherwise "Runtime Error: No component factory found for Dialog"
   ],
   providers: [
     KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService,
@@ -111,7 +117,8 @@ export var Plugins:any = window.Config.Plugins;
     // {provide: GlobalEmitterService, useClass: GlobalEmitterService},
     {provide: GlobalEmittersArrayService, useClass: GlobalEmittersArrayService},
     RimaService,
-    SDGsService
+    SDGsService,
+    CWCService
     // ColabowareRFIDService,
     // UsersProfilingService,
     // UsersClusteringService

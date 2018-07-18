@@ -16,6 +16,7 @@ import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {RimaService} from '../rima-register/rima.service';
 
 //this consts are defined by INSTALL.MD data:
 const MAP_ID = "5b49e7f736390f03580ac9a7";
@@ -58,7 +59,8 @@ export class SDGsService {
     private knalledgeEdgeService: KnalledgeEdgeService,
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeMapService: KnalledgeMapService,
-    private globalEmitterServicesArray: GlobalEmittersArrayService
+    private globalEmitterServicesArray: GlobalEmittersArrayService,
+    private rimaService: RimaService
   ) {
     //getting data for the user:
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
@@ -87,6 +89,7 @@ export class SDGsService {
 
       newEdge.sourceId = parentNodeId;
       newEdge.targetId = newNode._id;
+      newEdge.mapId = MAP_ID;
       //TODO: iAmId, createdAt, updatedAt
       this.knalledgeEdgeService.create(newEdge)
       .subscribe(newEdgeCreated.bind(this));
@@ -165,21 +168,28 @@ export class SDGsService {
        //.subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
   }
 
+  getSDGSSelectedByUser(iAmId:string):void{
+
+  }
+
   saveSDGsSelection(sdgs:string[]):Observable<any>{
-    let user_id:string = '5b4db0645381b24d03f908b6';
+    let user_id:string = this.rimaService.getUserId();
     let sdgId:string;
     this.sdgsLeftSave = sdgs.length;
-    for (var i in sdgs) {
-      sdgId = sdgs[i];
-      console.log(sdgId);
-      let sdgSelection:KEdge = new KEdge();
-      sdgSelection.sourceId = user_id; //TODO: make this final solution
-      sdgSelection.targetId = sdgId;
-      sdgSelection.iAmId = user_id; //TODO: make this final solution
-      sdgSelection.name = SDG_SELECTION_NAME;
-      sdgSelection.type = SDG_SELECTION_TYPE;
-      this.knalledgeEdgeService.create(sdgSelection).subscribe(this.sdgSaved.bind(this));
-    }
+    let that = this;
+    this.knalledgeEdgeService.destroyByTypeByUser(SDG_SELECTION_TYPE, user_id).subscribe(function(){
+      for (var i in sdgs) {
+        sdgId = sdgs[i];
+        console.log(sdgId);
+        let sdgSelection:KEdge = new KEdge();
+        sdgSelection.sourceId = user_id;
+        sdgSelection.targetId = sdgId;
+        sdgSelection.iAmId = user_id;
+        sdgSelection.name = SDG_SELECTION_NAME;
+        sdgSelection.type = SDG_SELECTION_TYPE;
+        that.knalledgeEdgeService.create(sdgSelection).subscribe(that.sdgSaved.bind(that));
+      }
+    });
     // https://angular.io/guide/observables
     return new Observable(this.sdgsSavedSubscriber.bind(this));;
   }

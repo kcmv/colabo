@@ -50,13 +50,13 @@ export class RimaRegisterComponent implements OnInit {
       //TODO: check if the user's email is already existing (offer sign-in instead and data updating)
   }
 
-  fullUpdate() {
-    this.form.setValue({firstName: 'Partial', password: 'monkey'});
-  }
-
-  partialUpdate() {
-      this.form.patchValue({firstName: 'Partial'});
-  }
+  // fullUpdate() {
+  //   this.form.setValue({firstName: 'Partial', password: 'monkey'});
+  // }
+  //
+  // partialUpdate() {
+  //     this.form.patchValue({firstName: 'Partial'});
+  // }
 
   reset() {
       this.form.reset();
@@ -70,7 +70,7 @@ export class RimaRegisterComponent implements OnInit {
     userData.lastName = this.form.value.lastName;
     userData.email = this.form.value.email;
     //TODO: this.form.value.password;
-    this.rimaService.createNewUser(userData, this.userCreated);
+    this.rimaService.createNewUser(userData, this.userCreated.bind(this));
   }
 
   userCreated():void{
