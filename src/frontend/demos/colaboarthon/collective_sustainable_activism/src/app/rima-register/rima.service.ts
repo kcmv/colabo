@@ -49,6 +49,11 @@ export class RimaService {
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
   }
 
+  getUserId():string{
+    //TODO: HACK:
+    return '5b4db0645381b24d03f908b6';
+  }
+
   createNewNodeWithEdge(newNode:KNode, newEdge:KEdge, parentNodeId:string, listener){
     newNode.iAmId = "556760847125996dc1a4a24f";
     newNode.visual = {};

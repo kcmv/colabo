@@ -20,6 +20,7 @@ import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 import { RimaService } from './rima-register/rima.service';
 import {SDGsService} from './select-sdgs/sdgs.service';
+import {CWCService} from './cwc/cwc.service';
 
 // import {UsersProfilingService} from './users-profiling/users-profiling.service';
 // import {UsersClusteringService} from './users-clustering/users-clustering.service';
@@ -106,7 +107,8 @@ export var Plugins:any = window.Config.Plugins;
     // {provide: GlobalEmitterService, useClass: GlobalEmitterService},
     {provide: GlobalEmittersArrayService, useClass: GlobalEmittersArrayService},
     RimaService,
-    SDGsService
+    SDGsService,
+    CWCService
     // ColabowareRFIDService,
     // UsersProfilingService,
     // UsersClusteringService

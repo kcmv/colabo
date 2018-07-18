@@ -62,13 +62,17 @@ export class SelectSdgsComponent implements OnInit {
 
   getActionMessage():string{
     let msg:string='';
-
-    if(this.selectedSDGs.length < SDGS_TO_SELECT){
-        msg = 'You need to select ' + (SDGS_TO_SELECT - this.selectedSDGs.length) + ' more SDGs';
-    } else if (this.selectedSDGs.length == SDGS_TO_SELECT) {
-        msg = 'You have selected all SDGs. Please, submit now';
-    } else {
-        msg = 'You have selected ' + this.selectedSDGs.length + ' SDGs. You must select maximum of ' + SDGS_TO_SELECT;
+    if(this.saved){
+      msg = 'you have finished this phase';
+    }
+    else{
+      if(this.selectedSDGs.length < SDGS_TO_SELECT){
+          msg = 'You need to select ' + (SDGS_TO_SELECT - this.selectedSDGs.length) + ' more SDGs';
+      } else if (this.selectedSDGs.length == SDGS_TO_SELECT) {
+          msg = 'You have selected all SDGs. Please, submit now';
+      } else {
+          msg = 'You have selected ' + this.selectedSDGs.length + ' SDGs. You must select maximum of ' + SDGS_TO_SELECT;
+      }
     }
     return msg;
   }
@@ -78,6 +82,7 @@ export class SelectSdgsComponent implements OnInit {
   }
 
   submit(){
+    this.saved = false;
     console.log('submit');
     this.openDialog(1, new DialogData('Submitting','please wait ...', 'Cancel'), {disableClose: true}
     , function(){
