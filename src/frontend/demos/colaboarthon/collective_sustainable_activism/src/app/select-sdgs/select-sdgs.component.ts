@@ -1,5 +1,5 @@
-import { MatDialog } from '@angular/material';
-import {Dialog2Btn} from '../util/dialog2Btn';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import {Dialog1Btn, Dialog2Btn, DialogData} from '../util/dialog';
 
 import { Component, OnInit } from '@angular/core';
 
@@ -17,6 +17,8 @@ export class SelectSdgsComponent implements OnInit {
   // mprinc: added to avoid AOT error
   sdgs:any[] = [];
   saved:boolean = false;
+  dialogRef: any; //TODO: type: MatDialogRef;
+
 
   selectedSDGs:string[] = [];
   constructor(
@@ -43,17 +45,15 @@ export class SelectSdgsComponent implements OnInit {
     //this.sDGsService.loadSDGs();
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(Dialog2Btn, {
-      width: '80%',
-      disableClose: true,
-      data: {title: 'Submitting ...', info: 'please wait ...', button1: 'Cancel', button2: 'OK'}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      //this.animal = result;
-    });
+  openDialog(buttons:number, data:DialogData, options:any = null, afterClosed:Function = null): void {
+    if(options === null){
+      options = {};
+    }
+    options['width'] = '95%'
+    options['data'] = data;
+    console.log('openDialog',options);
+    this.dialogRef = this.dialog.open((buttons == 1 ? Dialog1Btn : Dialog2Btn), options);
+    if(afterClosed){this.dialogRef.afterClosed().subscribe(afterClosed);}
   }
 
   correctSelection():boolean{
@@ -79,13 +79,22 @@ export class SelectSdgsComponent implements OnInit {
 
   submit(){
     console.log('submit');
+    this.openDialog(1, new DialogData('Submitting','please wait ...', 'Cancel'), {disableClose: true}
+    , function(){
+      console.log('The dialog NEW was closed');
+      //this.animal = result;
+    }
+    );
     this.sDGsService.saveSDGsSelection(this.selectedSDGs).subscribe(this.sdgsSaved.bind(this));
   }
 
   private sdgsSaved():void{
+    //TODO: change dialog info
     console.log('SelectSdgsComponent::sdgsSaved');
     this.saved = true; //TODO: see if we want to keep this
-    window.alert("Your selection is successfully saved");
+    this.dialogRef.close();
+    this.openDialog(1, new DialogData('Submitted','Thank you for your SDGs selection. You\'ve finished this phase', 'OK'));
+    //window.alert("Your selection is successfully saved");
   }
 
   private sdgsReceived(sdgsD:any[]):void{

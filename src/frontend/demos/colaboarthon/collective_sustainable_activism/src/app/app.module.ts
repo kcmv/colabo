@@ -34,6 +34,8 @@ import {CwcComponent} from './cwc/cwc.component';
 import {LoginComponent} from './login/login.component';
 import {AvatarComponent} from './avatar/avatar.component';
 
+import {Dialog1Btn, Dialog2Btn} from './util/dialog';
+
 import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -63,7 +65,9 @@ var moduleDeclarations = [
   SdgCardComponent,
   CwcComponent,
   LoginComponent,
-  AvatarComponent
+  AvatarComponent,
+  Dialog2Btn,
+  Dialog1Btn,
 ];
 
 var moduleImports = [
@@ -94,7 +98,7 @@ export var Plugins:any = window.Config.Plugins;
 @NgModule({
   declarations: moduleDeclarations,
   imports: moduleImports,
-  entryComponents: [],
+  entryComponents: [Dialog2Btn, Dialog1Btn], //needed otherwise "Runtime Error: No component factory found for Dialog"
   providers: [
     KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService,
     {provide: "Plugins", useValue: Plugins},
