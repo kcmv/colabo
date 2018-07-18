@@ -48,6 +48,9 @@ import { AppRoutingModule } from './app-routing.module';
 //
 // import {UsersGroupsComponent} from './users-groups/users-groups.component';
 
+// import { AdvancedDialog } from './advanced-dialog/advanced-dialog.component';
+// import { AdvancedDialogTest } from './advanced-dialog/advanced-dialog-test.component';
+
 var moduleDeclarations = [
   AppComponent,
   //UiSmsComponent,
@@ -63,7 +66,8 @@ var moduleDeclarations = [
   SdgCardComponent,
   CwcComponent,
   LoginComponent,
-  AvatarComponent
+  AvatarComponent,
+  // AdvancedDialogTest
 ];
 
 var moduleImports = [
@@ -94,7 +98,12 @@ export var Plugins:any = window.Config.Plugins;
 @NgModule({
   declarations: moduleDeclarations,
   imports: moduleImports,
-  entryComponents: [],
+  entryComponents: [
+    // You must include your dialog class in the list of entryComponents in your module definition so that the AOT compiler knows to create the ComponentFactory for it.
+    // @see: https://material.angular.io/components/dialog/overview#aot-compilation
+    // AdvancedDialog,
+    // NotificationComponent
+  ],
   providers: [
     KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService,
     {provide: "Plugins", useValue: Plugins},
