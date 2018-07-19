@@ -9,10 +9,8 @@
 
             <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
             <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
-            <h1>United Nations Sustainable Development Goals (SDGs)</h1>
             <div>
-                {{getActionMessage()}}
-                <button color="primary" mat-raised-button (click)="submit()" [disabled]="!canSubmit()">Submit</button>
+                <button color="primary" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button>{{getActionMessage()}}
             </div>
         </mat-toolbar>
     </div>
@@ -20,7 +18,7 @@
     <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
         <div>
             <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
-            <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button>
+            <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
             <h1>United Nations Sustainable Development Goals (SDGs)</h1>
             <div>
                 {{getActionMessage()}}
@@ -32,7 +30,6 @@
                 <sdg-card *ngFor="let sdgD of sdgs" class="sdg" (toggled)="onToggled($event,sdgD._id)" [sdg]="sdgD"></sdg-card>
 
             </div>
-
         </div>
     </div>
 </div>

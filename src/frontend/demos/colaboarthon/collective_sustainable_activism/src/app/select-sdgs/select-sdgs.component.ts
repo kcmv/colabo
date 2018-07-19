@@ -69,9 +69,9 @@ export class SelectSdgsComponent implements OnInit {
       if(this.selectedSDGs.length < SDGS_TO_SELECT){
           msg = 'You need to select ' + (SDGS_TO_SELECT - this.selectedSDGs.length) + ' more SDGs';
       } else if (this.selectedSDGs.length == SDGS_TO_SELECT) {
-          msg = 'You have selected all SDGs. Please, submit now';
+          msg = 'You have selected all SDGs. Please, submit ';
       } else {
-          msg = 'You have selected ' + this.selectedSDGs.length + ' SDGs. You must select maximum of ' + SDGS_TO_SELECT;
+          msg = 'You should select ' + SDGS_TO_SELECT + ' SDGs, not ' + this.selectedSDGs.length;
       }
     }
     return msg;
@@ -81,7 +81,7 @@ export class SelectSdgsComponent implements OnInit {
       return !this.saved && this.correctSelection();
   }
 
-  submit(){
+  onSubmit(){
     this.saved = false;
     console.log('submit');
     this.openDialog(1, new DialogData('Submitting','please wait ...', 'Cancel'), {disableClose: true}
@@ -94,7 +94,6 @@ export class SelectSdgsComponent implements OnInit {
   }
 
   private sdgsSaved():void{
-    //TODO: change dialog info
     console.log('SelectSdgsComponent::sdgsSaved');
     this.saved = true; //TODO: see if we want to keep this
     this.dialogRef.close();

@@ -318,6 +318,15 @@ exports.destroy = function(req, res){
 			resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 		});
 		break;
+	case 'by-type-n-user': // by type and user
+		//TODO: we must also filter by `mapId` but so far we are sending only 2 parameters!
+		console.log("[modules/kNode.js:destroy] deleting all Nodes of type %s by user %s", dataId, dataId2);
+		exports._destroyByTypenUser(searchParam, req.params.searchParam2, function (err) {
+			var data = {type:searchParam};
+			console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
+			resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+		});
+		break;
 	}
 };
 
@@ -348,6 +357,18 @@ exports._destroyInMap = function(searchParam, callback){
 exports._destroyByModificationSource = function(searchParam, callback){
 	console.log("[modules/kNode.js:destroy] deleting nodes in map %s", searchParam);
 	KNodeModel.remove({'mapId': searchParam}, function (err) {
+		if (err){
+			console.log("[modules/kNode.js:destroy] error:" + err);
+			throw err;
+		}
+		if(callback) callback(err);
+	});
+}
+
+//TODO: we must also filter by `mapId` but so far we are sending only 2 parameters!
+exports._destroyByTypenUser = function(type, iAmid, callback){
+	console.log("[modules/kNode.js:destroy] deleting nodes in map %s", searchParam);
+	exports.remove({ $and:[ {'type':type}, {'iAmId':iAmId}]}, function (err) {
 		if (err){
 			console.log("[modules/kNode.js:destroy] error:" + err);
 			throw err;
