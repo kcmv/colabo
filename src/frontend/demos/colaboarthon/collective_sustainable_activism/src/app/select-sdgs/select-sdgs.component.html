@@ -1,51 +1,35 @@
 <div fxLayout="column" fxFlexFill style="height: 100%;">
 
     <!-- toolbar -->
-    <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
-        <!-- <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
-          <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
-        </button> -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
+                <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
+            </button>
 
-        <!-- <button mat-mini-fab mat-tooltip="Back" tooltip-position="below" class="mat-mini mat-primary" aria-label="Back" (click)="goBack()" style="margin-right: 5px;">
-          <mat-icon [ngClass]="{warning: false}" title="Back">arrow_back</mat-icon>
-        </button> -->
+            <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
+            <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
+            <div>
+                <button color="primary" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button>{{getActionMessage()}}
+            </div>
+        </mat-toolbar>
+    </div>
 
-        <!-- <button mat-mini-fab mat-tooltip="Map" tooltip-position="below" class="mat-mini mat-primary" aria-label="Map" routerLink="/map" style="margin-right: 5px;">
-          <mat-icon [ngClass]="{warning: false}" title="Map">ic_device_hub</mat-icon>
-        </button> -->
-<!-- 
-        <h1>
-            CoLabo.Space
-        </h1> -->
-
-        <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
-        <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
         <div>
-            <button color="primary" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button>{{getActionMessage()}}
-        </div>
-        <br/><br/><br/><br/><br/>
-
-    </mat-toolbar>
-
-    <div fxLayoutAlign="stretch stretch">
-        <div style="overflow-y: scroll">
             <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
             <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
             <h1>United Nations Sustainable Development Goals (SDGs)</h1>
+            <div>
+                {{getActionMessage()}}
+                <button color="primary" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">Submit</button></div>
+            <br/><br/><br/><br/><br/>
 
             <div class='sdgs' fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
 
-                <!-- <mat-list>
-        <h3 mat-subheader>SDGs</h3>
-        <mat-list-item  *ngFor="let sdgD of sdgs"> -->
-                <!-- <sdg-card class="card" (toggled)="onToggled($event,sdgD._id)" [sdg]="sdgD"></sdg-card> -->
                 <sdg-card *ngFor="let sdgD of sdgs" class="sdg" (toggled)="onToggled($event,sdgD._id)" [sdg]="sdgD"></sdg-card>
 
-                <!-- </mat-list-item>
-    </mat-list> -->
             </div>
-
-            <!-- !Advanced dialog: -->
-            <!-- <advanced-dialog-test></advanced-dialog-test> -->
         </div>
     </div>
+</div>
