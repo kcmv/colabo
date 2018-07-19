@@ -22,6 +22,7 @@ import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzz
 const MAP_ID = "5b49e7f736390f03580ac9a7";
 export const CWC_TYPE:string = "rima.user.dream";
 export const CWC_EDGE_NAME:string = "CWC dream";
+//export const CWC_NODE_NAME:string = "CWC dream";
 
 export const CWCS_TO_FILL:number = 3;
 
@@ -116,21 +117,35 @@ export class CWCService {
 
   saveCWCs(cwcD:CWCData):Observable<any>{
     let user_id:string = this.rimaService.getUserId();
-    let cwcId:string;
+    let cwc:string;
     this.cwcsLeftSave = cwcD.cwcs.length;
     let that = this;
-    this.knalledgeEdgeService.destroyByTypeByUser(CWC_TYPE, user_id).subscribe(function(){
+    this.knalledgeEdgeService.destroyByTypeByUser(CWC_TYPE, user_id).subscribe(function(data:any){
+      console.log('oldCWCEdgesDeleted', data);
+
+      // this.knalledgeNodeService.destroyByTypeByUser(CWC_TYPE, user_id).subscribe(function(data:any){
+      //   console.log('oldCWCEdgesDeleted', data);
+
       for (var i in cwcD.cwcs) {
-        cwcId = cwcD.cwcs[i];
-        console.log(cwcId);
-        let cwcEdge:KEdge = new KEdge();
-        cwcEdge.sourceId = user_id;
-        cwcEdge.targetId = null;
-        cwcEdge.iAmId = user_id;
-        cwcEdge.mapId = MAP_ID;
-        cwcEdge.name = CWC_EDGE_NAME;
-        cwcEdge.type = CWC_TYPE;
-        that.knalledgeEdgeService.create(cwcEdge).subscribe(that.cwcSaved.bind(that));
+        cwc = cwcD.cwcs[i];
+
+        let cwcNode:KNode = new KNode();
+        cwcNode.iAmId = user_id;
+        cwcNode.mapId = MAP_ID;
+        cwcNode.name = cwc;
+        cwcNode.type = CWC_TYPE;
+        that.knalledgeNodeService.create(cwcNode).subscribe(function(node:KNode){
+          //nodesaved, now saving edges
+          console.log('cwcNodeCreated', node);
+          let cwcEdge:KEdge = new KEdge();
+          cwcEdge.sourceId = user_id;
+          cwcEdge.targetId = node._id;
+          cwcEdge.iAmId = user_id;
+          cwcEdge.mapId = MAP_ID;
+          cwcEdge.name = CWC_EDGE_NAME;
+          cwcEdge.type = CWC_TYPE;
+          that.knalledgeEdgeService.create(cwcEdge).subscribe(that.cwcESaved.bind(that));
+        });
       }
     });
     // https://angular.io/guide/observables
@@ -144,9 +159,10 @@ export class CWCService {
     return {unsubscribe() {}};
   }
 
-  cwcSaved(data:any):void{
+  cwcESaved(edge:any):void{
+    console.log('cwcEdgeCreated', edge);
     this.cwcsLeftSave--;
-    console.log('CWCsService::cwcSaved:', this.cwcsLeftSave, data);
+    console.log('CWCsService::cwcSaved:', this.cwcsLeftSave, edge);
     if(this.cwcsLeftSave === 0){
       console.log('CWCsService::ALL cwcSaved');
 

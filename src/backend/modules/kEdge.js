@@ -190,18 +190,18 @@ exports.destroy = function(req, res){
 				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
 			});
 			break;
-			case 'by-type-n-user': // by type and user
-			//TODO: we must also filter by `mapId` but so far we are sending only 2 parameters!
-				console.log("[modules/kEdge.js:destroy] deleting all edges of type %s by user %s", dataId, dataId2);
-				KEdgeModel.remove({ $and:[ {'type':dataId}, {'iAmId':dataId2}]}, function (err) {
-					if (err){
-						console.log("[modules/kEdge.js:destroy] error:" + err);
-						throw err;
-					}
-					var data = {id:dataId};
-					console.log("[modules/kEdge.js:destroy] data:" + JSON.stringify(data));
-					resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
-				});
-				break;
+		case 'by-type-n-user': // by type and user
+		//TODO: we must also filter by `mapId` but so far we are sending only 2 parameters!
+			console.log("[modules/kEdge.js:destroy] deleting all edges of type %s by user %s", dataId, dataId2);
+			KEdgeModel.remove({ $and:[ {'type':dataId}, {'iAmId':dataId2}]}, function (err) {
+				if (err){
+					console.log("[modules/kEdge.js:destroy] error:" + err);
+					throw err;
+				}
+				var data = {id:dataId};
+				console.log("[modules/kEdge.js:destroy] data:" + JSON.stringify(data));
+				resSendJsonProtected(res, {success: true, data: data, accessId : accessId});
+			});
+			break;
 	}
 };

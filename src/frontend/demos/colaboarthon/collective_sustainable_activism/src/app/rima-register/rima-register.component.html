@@ -2,25 +2,33 @@
 <!--TODO: to make localized (in Serbian) form field names and info -->
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <p>
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="full-width">
             <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
           </mat-form-field>
       </p>
       <p>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="full-width">
           <input matInput type="text" placeholder="First Name" formControlName="firstName" value="">
         </mat-form-field>
       </p>
       <p>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="full-width">
           <input matInput placeholder="Last Name" formControlName="lastName" value="">
         </mat-form-field>
       </p>
       <p>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="full-width">
           <input matInput type="password" placeholder="Password" formControlName="password" value="">
         </mat-form-field>
       </p>
+
+      <!-- <p>
+      TODO - ADD Country
+        <mat-form-field class="full-width">
+          Country select
+        </mat-form-field>
+      </p> -->
+
       <p>
         <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Sign up</button>
         <!-- <button mat-raised-button (click)="partialUpdate()">Partial Update</button>
