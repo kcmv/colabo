@@ -724,6 +724,8 @@ Default MongoDB installation should be good enough. The mongo database must be r
 
 # Installing mongodb server
 
+## OSX
+
 [MongoDB for OSX](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
 
 installing [brew](http://brew.sh/):
@@ -749,7 +751,44 @@ Or, if you don't want/need a background service you can just run:
 To start it in background (forked)
 `mongod --fork --config /etc/mongod.conf`
 
-Linux
+### Uprgrading Mongodb (OSX)
+
+https://docs.mongodb.com/manual/release-notes/4.0-upgrade-standalone/
+https://docs.mongodb.com/manual/release-notes/3.6/#upgrade-procedures
+https://stackoverflow.com/questions/30379127/how-to-install-earlier-version-of-mongodb-with-homebrew
+
+```sh
+brew search mongodb
+
+# 3.2 -> 3.4
+brew install mongodb@3.4
+sudo  /usr/local/Cellar/mongodb@3.4/3.4.14/bin/mongod
+/usr/local/Cellar/mongodb@3.4/3.4.14/bin/mongo
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+    db.adminCommand( { setFeatureCompatibilityVersion: "3.4" } )
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+
+# 3.4 -> 3.6
+brew install mongodb@3.6
+sudo  /usr/local/Cellar/mongodb@3.6/3.6.6/bin/mongod
+/usr/local/Cellar/mongodb@3.6/3.6.6/bin/mongo
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+    db.adminCommand( { setFeatureCompatibilityVersion: "3.6" } )
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+
+brew remove mongodb@3.4
+brew remove mongodb@3.6
+
+# 3.6 -> 4
+brew install mongodb --with-openssl
+sudo mongod
+mongo
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+    db.adminCommand( { setFeatureCompatibilityVersion: "4.0" } )
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+```
+
+## Linux
 ```sh
 sudo service mongod stop
 sudo service mongod start
