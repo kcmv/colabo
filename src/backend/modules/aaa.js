@@ -178,8 +178,9 @@ exports.create = function(req, res) {
         case 'checkUser':
             let email = data.email;
             let password = data.password;
-            console.log("findBy by e-mail '%s' and password: `%s'\n", email, password);
-            KNodeModel.findOne({ 'dataContent.email': email }, found);
+            let mapId = data.mapId;
+            console.log("findBy in map '%s' by e-mail '%s' and password: `%s'\n", mapId, email, password);
+            KNodeModel.findOne({ 'dataContent.email': email, mapId: mapId }, found);
             break;
     }
 }
