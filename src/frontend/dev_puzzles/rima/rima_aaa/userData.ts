@@ -11,6 +11,7 @@ export class UserData{
   group:string = null;
   rfid:string = null;
   action:String = null;
+  mapId:String = null;
 
   constructor(rfid:string = null, attributes:string[] = [],role:number = null){
     this.rfid = rfid;

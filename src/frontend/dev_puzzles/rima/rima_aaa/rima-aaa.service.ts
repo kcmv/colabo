@@ -111,7 +111,7 @@ export class RimaAAAService extends CFService{
     }
     
     function createdResponse(serverResponse:any):KNode{
-        console.log("[createUserNode]: created");
+        console.log("[createUserNode:createdResponse]: created");
         if(serverResponse.success){
             let node:KNode = _extractVO(serverResponse);
             this.loggedInUser = node;
@@ -140,7 +140,7 @@ export class RimaAAAService extends CFService{
       result = this.http.post<ServerData>(this.apiUrl, kNodeForServer, httpOptions)
       .pipe(
         //tap((nodeS: KNode) => console.log(`CREATED 'node'${nodeS}`)), // not needed - it's just for logging
-          map(serverResponse => createdResponse(serverResponse)), //the sever returns `ServerData` object
+          map(serverResponse => createdResponse.bind(this)(serverResponse)), //the sever returns `ServerData` object
         catchError(this.handleError<KNode>('RimaAAAService::create'))
       );
 
@@ -189,24 +189,50 @@ export class RimaAAAService extends CFService{
 
   // check existing user's credentials
   checkUser(userData:UserData, callback:Function=null){
-    function checked(node){
-        this.loggedInUser = node;
-        this._isRegistered = false;
-    }
+      let extractVO: Function = this.extractVO;
+
+      function _extractVO(serverResponse: any): KNode {
+          let vo: KNode = KNode.factory(serverResponse.data);
+          vo.state = VO.STATE_SYNCED;
+          return vo;
+      }
+
+      function checkedResponse(serverResponse: any): KNode {
+          console.log("[checkUser:checkedResponse]: created");
+          if (serverResponse.success) {
+              let node: KNode = _extractVO(serverResponse);
+              this.loggedInUser = node;
+              this._isRegistered = true;
+              return node;
+          } else {
+              this.loggedInUser = null;
+              this._isErrorLogingIn = true;
+              this._errorLogingMsg = serverResponse.message;
+
+              return null;
+          }
+      }
+
+
+    // give it another chance! ;)
+    this._isErrorLogingIn = false;
+    this._errorLogingMsg = null;
+
     // TODO: Avoid INJECTING action in the object
     // ather create a separate path or add additional encapsulation
     userData.action = 'checkUser';
+    userData.mapId = MAP_ID;
 
-    let result = this.http.post<ServerData>(this.apiUrl, userData, httpOptions)
+    let result: Observable<KNode> = null;
+    result = this.http.post<ServerData>(this.apiUrl, userData, httpOptions)
     .pipe(
         //tap((nodeS: KNode) => console.log(`CREATED 'node'${nodeS}`)), // not needed - it's just for logging
-        map(nodeS => this.extractVO<KNode>(nodeS,KNode)), //the sever returns `ServerData` object
+        map(serverResponse => checkedResponse.bind(this)(serverResponse)), //the sever returns `ServerData` object
         catchError(this.handleError<KNode>('RimaAAAService::create'))
     );
 
     console.log('result:');
     console.log(result);
-    result.subscribe(checked.bind(this));
     if(callback){result.subscribe(node => callback(node));}
     return result;
   }

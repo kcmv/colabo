@@ -11,7 +11,7 @@
             <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
             <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
             <div>
-                <button color="primary" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button>{{getActionMessage()}}
+                <button color="accent" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button> {{getActionMessage()}}
             </div>
         </mat-toolbar>
     </div>
@@ -22,14 +22,14 @@
                 To access this page you need:
             </p>
             <a routerLink="/rima-login">
-                <button mat-raised-button color="primary ">Login</button>
+                <button mat-raised-button color="primary">Login</button>
             </a>
 
             <p>
                 or
             </p>
             <a routerLink="/rima-register">
-                <button mat-raised-button color="primary ">Register</button>
+                <button mat-raised-button color="primary">Register</button>
             </a>
 
         </div>
@@ -40,17 +40,13 @@
                 <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
                 <h3>United Nations - Циљеви одрживог развоја (SDGs)</h3>
                 <!-- <h1>United Nations Sustainable Development Goals (SDGs)</h1> -->
-                <div>
-                    {{getActionMessage()}}
-                    <button color="primary " mat-raised-button (click)="onSubmit() " [disabled]="!canSubmit() ">Submit</button></div>
-            </div>
-            <br/><br/><br/><br/><br/>
+                <br/><br/><br/><br/><br/>
 
-            <div class='sdgs' fxLayout="row wrap " fxLayout.xs="column " fxLayoutGap="0.5% " fxLayoutAlign="center ">
+                <div class='sdgs' fxLayout="row wrap " fxLayout.xs="column " fxLayoutGap="0.5% " fxLayoutAlign="center ">
 
-                <sdg-card *ngFor="let sdgD of sdgs " class="sdg " (toggled)="onToggled($event,sdgD._id) " [sdg]="sdgD "></sdg-card>
+                    <sdg-card *ngFor="let sdgD of sdgs " class="sdg " (toggled)="onToggled($event,sdgD._id) " [sdg]="sdgD "></sdg-card>
 
+                </div>
             </div>
         </div>
     </div>
-</div>

@@ -6,12 +6,12 @@
     </mat-card-header>
 
     <!-- <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img"> -->
-    <img mat-card-image class="picture" src="{{sdgImagesPath+sdg.dataContent.image.url}}" alt="{{sdg.name}}" />
+    <img mat-card-image class="picture" src="{{sdgImagesPath+sdg?.dataContent?.image?.url}}" alt="{{sdg.name}}" />
 
     <mat-card-content>
-      <p>
-        {{sdg.dataContent.desc}}
-      </p>
+        <p>
+            {{sdg.dataContent.desc}}
+        </p>
     </mat-card-content>
     <!-- <mat-card-footer>
     </mat-card-footer>   -->
