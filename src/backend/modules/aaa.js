@@ -34,7 +34,7 @@ let setPassword = function(kNode) {
     if (kNode.dataContent.password) {
         kNode.dataContent.salt = crypto.randomBytes(16).toString('hex');
         kNode.dataContent.hash = crypto.pbkdf2Sync(kNode.dataContent.password, kNode.dataContent.salt, 1000, 64, 'sha512').toString('hex');
-        // delete kNode.dataContent.password;
+        delete kNode.dataContent.password;
     }
 };
 
