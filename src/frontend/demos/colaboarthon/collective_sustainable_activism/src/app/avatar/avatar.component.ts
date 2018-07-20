@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
 import {UserData} from '@colabo-rima/rima_aaa/userData';
+import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
 @Component({
   selector: 'app-avatar',
@@ -25,6 +26,14 @@ export class AvatarComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  get isLoggedIn():Boolean{
+    return this.RimaAAAService.getUser() !== null;
+  }
+
+  get loggedUser(): KNode {
+    return this.RimaAAAService.getUser();
   }
 
   reset() {

@@ -7,27 +7,31 @@
         </mat-toolbar>
     </div>
 
-    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px">
         <!--TODO: to make localized (in Serbian) form field names and info -->
         <div *ngIf="isLoggedIn">
             <p>
+                Hi,
+                <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You can:
+            </p>
+            <p>
                 <a routerLink="/select-sdgs">
-                    <button mat-raised-button color="primary">Select SDGs</button>
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Select SDGs</button>
                 </a>
             </p>
             <p>
                 <a routerLink="/cwc">
-                    <button mat-raised-button color="primary">Coaching</button>
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Coaching</button>
                 </a>
             </p>
             <p>
                 <a routerLink="/avatar">
-                    <button mat-raised-button color="primary">Avatar</button>
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Avatar</button>
                 </a>
             </p>
             <p>
                 <a routerLink="/rima-login">
-                    <button mat-raised-button color="primary">Me</button>
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Me</button>
                 </a>
             </p>
         </div>

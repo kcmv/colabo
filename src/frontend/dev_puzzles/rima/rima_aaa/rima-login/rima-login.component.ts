@@ -50,9 +50,7 @@ export class RimaLoginComponent implements OnInit {
     console.log(this.form);
     let userData:UserData = new UserData();
     userData.email = this.form.value.email;
+    userData.password = this.form.value.password;
     this.RimaAAAService.checkUser(userData).subscribe(this.userChecked.bind(this));;
-    //TODO: this.form.value.password;
-    // this.RimaAAAService.createNewUser(userData, this.userCreated);
   }
-
 }

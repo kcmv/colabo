@@ -5,6 +5,7 @@ export class UserData{
   firstName:string = null;
   lastName:string = null;
   email:string = null;
+  password:string = null;
   attributes:string[] = [];
   role:number = null;
   group:string = null;
