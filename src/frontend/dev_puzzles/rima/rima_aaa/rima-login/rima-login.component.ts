@@ -34,6 +34,14 @@ export class RimaLoginComponent implements OnInit {
     return this.RimaAAAService.getUser() !== null;
   }
 
+  get isErrorLogingIn():Boolean{
+      return this.RimaAAAService.isErrorLogingIn;
+  }
+
+  get errorLogingMsg():String{
+      return this.RimaAAAService.errorLogingMsg;
+  }
+
   get loggedUser(): KNode {
     return this.RimaAAAService.getUser();
   }

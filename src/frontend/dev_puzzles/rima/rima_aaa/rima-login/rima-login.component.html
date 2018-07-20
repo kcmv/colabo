@@ -26,6 +26,9 @@
 
         <div *ngIf="!isLoggedIn">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <p *ngIf="isErrorLogingIn">
+                    <b>Error while logging in:</b>{{errorLogingMsg}}
+                </p>
                 <p>
                     <mat-form-field class="example-full-width">
                         <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
