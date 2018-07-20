@@ -1,34 +1,52 @@
-<div>
-    <!--TODO: to make localized (in Serbian) form field names and info -->
-    <div *ngIf="isLoggedIn">
-        <a routerLink="/select-sdgs">
-            <button mat-raised-button color="primary">Select SDGs</button>
-        </a>
-        <a routerLink="/cwc">
-            <button mat-raised-button color="primary">Coaching</button>
-        </a>
-        <a routerLink="/avatar">
-            <button mat-raised-button color="primary">Avatar</button>
-        </a>
-        <a routerLink="/rima-login">
-            <button mat-raised-button color="primary">Me</button>
-        </a>
+<div fxLayout="column" fxFlexFill style="height: 100%;">
+
+    <!-- toolbar -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" /> Colabo.Space @ ФВ
+        </mat-toolbar>
     </div>
 
-    <div *ngIf="!isLoggedIn">
-        <p>
-            If you <b>have account</b> please:
-        </p>
-        <a routerLink="/rima-login">
-            <button mat-raised-button color="primary">Login</button>
-        </a>
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+        <!--TODO: to make localized (in Serbian) form field names and info -->
+        <div *ngIf="isLoggedIn">
+            <p>
+                <a routerLink="/select-sdgs">
+                    <button mat-raised-button color="primary">Select SDGs</button>
+                </a>
+            </p>
+            <p>
+                <a routerLink="/cwc">
+                    <button mat-raised-button color="primary">Coaching</button>
+                </a>
+            </p>
+            <p>
+                <a routerLink="/avatar">
+                    <button mat-raised-button color="primary">Avatar</button>
+                </a>
+            </p>
+            <p>
+                <a routerLink="/rima-login">
+                    <button mat-raised-button color="primary">Me</button>
+                </a>
+            </p>
+        </div>
 
-        <p>
-            or register first if you <b>do not have account:</b>
-        </p>
-        <a routerLink="/rima-register">
-            <button mat-raised-button color="primary">Register</button>
-        </a>
+        <div *ngIf="!isLoggedIn">
+            <p>
+                If you <b>have account</b> please:
+            </p>
+            <a routerLink="/rima-login">
+                <button mat-raised-button color="primary">Login</button>
+            </a>
 
+            <p>
+                or register first if you <b>do not have account:</b>
+            </p>
+            <a routerLink="/rima-register">
+                <button mat-raised-button color="primary">Register</button>
+            </a>
+
+        </div>
     </div>
 </div>

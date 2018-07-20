@@ -1,34 +1,47 @@
-<div>
-    <!--TODO: to make localized (in Serbian) form field names and info -->
-    <div *ngIf="isLoggedIn">
-        Hi,
-        <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You have successfully logged in.
+<div fxLayout="column" fxFlexFill style="height: 100%;">
 
-        <p>
-            <a routerLink="/">
-                <button mat-raised-button color="primary">Home</button>
-            </a>
-            <button mat-raised-button color="primary" (click)="logOut()">Log out</button>
-        </p>
+    <!-- toolbar -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+            <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
+                <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
+            </button> Colabo Login
+        </mat-toolbar>
     </div>
 
-    <div *ngIf="!isLoggedIn">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+        <!--TODO: to make localized (in Serbian) form field names and info -->
+        <div *ngIf="isLoggedIn">
+            Hi,
+            <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You have successfully logged in.
+
             <p>
-                <mat-form-field class="example-full-width">
-                    <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
-                </mat-form-field>
+                <a routerLink="/">
+                    <button mat-raised-button color="primary">Home</button>
+                </a>
+                <button mat-raised-button color="primary" (click)="logOut()">Log out</button>
             </p>
-            <p>
-                <mat-form-field class="example-full-width">
-                    <input matInput type="password" placeholder="Password" formControlName="password" value="">
-                </mat-form-field>
-            </p>
-            <p>
-                <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Login</button>
-                <button mat-raised-button (click)="reset()">Cancel</button>
-            </p>
-        </form>
-        If you do not have account, please <a routerLink="/rima-register">Register</a> first!
+        </div>
+
+        <div *ngIf="!isLoggedIn">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <p>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="password" placeholder="Password" formControlName="password" value="">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Login</button>
+                    <button mat-raised-button (click)="reset()">Cancel</button>
+                </p>
+            </form>
+            If you do not have account, please <a routerLink="/rima-register">Register</a> first!
+        </div>
     </div>
 </div>
