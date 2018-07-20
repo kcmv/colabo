@@ -10,6 +10,7 @@ export class UserData{
   role:number = null;
   group:string = null;
   rfid:string = null;
+  action:String = null;
 
   constructor(rfid:string = null, attributes:string[] = [],role:number = null){
     this.rfid = rfid;

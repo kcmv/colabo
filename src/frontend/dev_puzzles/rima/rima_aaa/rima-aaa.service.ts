@@ -46,7 +46,8 @@ export class RimaAAAService extends CFService{
 
   private loggedInUser:KNode;
   private _isRegistered:Boolean;
-
+  private _isErrorLogingIn:Boolean;
+  private _errorLogingMsg:String;
 
   ProfilingStateTypeNames:string[] = [
     'OFF',
@@ -101,24 +102,40 @@ export class RimaAAAService extends CFService{
   {
     // TODO, check create method in @colabo-knalledge/knalledge_store_core/knalledge-node.service.ts
     // to see all TODOS
-    function created(node){
+    function createdResponse(serverResponse){
         console.log("[createUserNode]: created");
-        this.loggedInUser = node;
-        this._isRegistered = true;
+        if(serverResponse.success){
+            let node = this.extractVO<KNode>(serverResponse, KNode);
+            this.loggedInUser = node;
+            this._isRegistered = true;
+            return node;
+        }else{
+            this.loggedInUser = null;
+            this._isRegistered = false;
+            this._isErrorLogingIn = true;
+            this._errorLogingMsg = serverResponse.message;
+
+            return null;
+        }
     }
     console.log("RimaAAAService.create");
+
+    // give it another chance! ;)
+    this._isErrorLogingIn = false;
+    this._errorLogingMsg = null;
+
     let result: Observable<KNode> = null;
 
     let kNodeForServer:any = kNode.toServerCopy();
+    kNodeForServer.action = 'createUser';
 
       result = this.http.post<ServerData>(this.apiUrl, kNodeForServer, httpOptions)
       .pipe(
         //tap((nodeS: KNode) => console.log(`CREATED 'node'${nodeS}`)), // not needed - it's just for logging
-        map(nodeS => this.extractVO<KNode>(nodeS,KNode)), //the sever returns `ServerData` object
+          map(createdResponse.bind(this)), //the sever returns `ServerData` object
         catchError(this.handleError<KNode>('RimaAAAService::create'))
       );
 
-    result.subscribe(created.bind(this));
     if(callback){result.subscribe(nodes => callback(nodes));}
   	return result;
   }
@@ -154,21 +171,31 @@ export class RimaAAAService extends CFService{
     }
   }
 
+  get isErrorLogingIn():Boolean{
+      return this._isErrorLogingIn;
+  }
+
+  get errorLogingMsg():String{
+      return this._errorLogingMsg;
+  }
+
   // check existing user's credentials
   checkUser(userData:UserData, callback:Function=null){
     function checked(node){
         this.loggedInUser = node;
         this._isRegistered = false;
     }
-    let id:string = userData.email;
-    let id2:string = userData.password;
-    console.log('getById('+id+')');
-      let url: string = this.apiUrl +'oneByEmail/'+'/'+id+'.json';
-    let result:Observable<KNode> = this.http.get<ServerData>(url)
-      .pipe(
-        map(node => this.extractVO<KNode>(node, KNode)),
-        catchError(this.handleError('RimaAAAService::checkUser', null))
-      );
+    // TODO: Avoid INJECTING action in the object
+    // ather create a separate path or add additional encapsulation
+    userData.action = 'checkUser';
+
+    let result = this.http.post<ServerData>(this.apiUrl, userData, httpOptions)
+    .pipe(
+        //tap((nodeS: KNode) => console.log(`CREATED 'node'${nodeS}`)), // not needed - it's just for logging
+        map(nodeS => this.extractVO<KNode>(nodeS,KNode)), //the sever returns `ServerData` object
+        catchError(this.handleError<KNode>('RimaAAAService::create'))
+    );
+
     console.log('result:');
     console.log(result);
     result.subscribe(checked.bind(this));
