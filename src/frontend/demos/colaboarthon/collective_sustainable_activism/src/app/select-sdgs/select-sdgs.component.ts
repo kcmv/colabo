@@ -4,6 +4,7 @@ import {Dialog1Btn, Dialog2Btn, DialogData} from '../util/dialog';
 import { Component, OnInit } from '@angular/core';
 
 import {SDGsService, SDG_SELECTION_NAME, SDG_SELECTION_TYPE, SDGS_TO_SELECT } from './sdgs.service'
+import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 
@@ -22,6 +23,7 @@ export class SelectSdgsComponent implements OnInit {
 
   selectedSDGs:string[] = [];
   constructor(
+    private RimaAAAService: RimaAAAService,
     private sDGsService: SDGsService,
     public dialog: MatDialog
   ) { }
@@ -43,6 +45,14 @@ export class SelectSdgsComponent implements OnInit {
       //.subscribe(sdgs => this.sdgs);
     //this.sdgs = this.sDGsService.getSDGs();
     //this.sDGsService.loadSDGs();
+  }
+
+  get isLoggedIn():Boolean{
+    return this.RimaAAAService.getUser() !== null;
+  }
+
+  get loggedUser(): KNode {
+    return this.RimaAAAService.getUser();
   }
 
   openDialog(buttons:number, data:DialogData, options:any = null, afterClosed:Function = null): void {

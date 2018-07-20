@@ -102,6 +102,7 @@ export class RimaAAAService extends CFService{
     // TODO, check create method in @colabo-knalledge/knalledge_store_core/knalledge-node.service.ts
     // to see all TODOS
     function created(node){
+        console.log("[createUserNode]: created");
         this.loggedInUser = node;
         this._isRegistered = true;
     }
@@ -160,8 +161,9 @@ export class RimaAAAService extends CFService{
         this._isRegistered = false;
     }
     let id:string = userData.email;
+    let id2:string = userData.password;
     console.log('getById('+id+')');
-      let url: string = this.apiUrl +'oneByEmail/'+this.defaultAction+'/'+id+'.json';
+      let url: string = this.apiUrl +'oneByEmail/'+'/'+id+'.json';
     let result:Observable<KNode> = this.http.get<ServerData>(url)
       .pipe(
         map(node => this.extractVO<KNode>(node, KNode)),
@@ -194,6 +196,7 @@ export class RimaAAAService extends CFService{
       firstName: newUserData.firstName,
       lastName: newUserData.lastName,
       email: newUserData.email,
+      password: newUserData.password,
 
       /* TODO:
       image: {

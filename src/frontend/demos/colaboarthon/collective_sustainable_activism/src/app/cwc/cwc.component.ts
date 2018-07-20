@@ -7,6 +7,9 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
+import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
+import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+
 // import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 import {CWCService, CWCData} from './cwc.service';
 
@@ -25,7 +28,7 @@ export class CwcComponent implements OnInit {
   constructor(
     fb: FormBuilder,
     private cwcService: CWCService,
-    // private RimaAAAService: RimaAAAService,
+    private RimaAAAService: RimaAAAService,
     public dialog: MatDialog
   ) {
       this.form = fb.group({
@@ -45,6 +48,14 @@ export class CwcComponent implements OnInit {
                        JSON.stringify(value));
         });
       //TODO: check if the user's email is already existing (offer sign-in instead and data updating)
+  }
+
+  get isLoggedIn(): Boolean {
+    return this.RimaAAAService.getUser() !== null;
+  }
+
+  get loggedUser(): KNode {
+    return this.RimaAAAService.getUser();
   }
 
   openDialog(buttons:number, data:DialogData, options:any = null, afterClosed:Function = null): void {

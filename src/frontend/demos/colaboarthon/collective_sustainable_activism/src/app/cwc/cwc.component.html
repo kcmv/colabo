@@ -11,28 +11,45 @@
         </mat-toolbar>
     </div>
 
-    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
-        <!--TODO: to make localized (in Serbian) form field names and info -->
-        <h1>Твоје визије идеалне будућности наше земље/света</h1>
-        (напиши их након што си завршио CWC снивање на радионици)
-        <!-- <h1>Your visions of the ideal future of our country/world</h1>
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;; margin: 15px">
+        <div *ngIf="!isLoggedIn">
+            <p>
+                To access this page you need:
+            </p>
+            <a routerLink="/rima-login">
+                <button mat-raised-button color="primary">Login</button>
+            </a>
+
+            <p>
+                or
+            </p>
+            <a routerLink="/rima-register">
+                <button mat-raised-button color="primary">Register</button>
+            </a>
+
+        </div>
+        <div *ngIf="isLoggedIn">
+            <!--TODO: to make localized (in Serbian) form field names and info -->
+            <h1>Твоје визије идеалне будућности наше земље/света</h1>
+            (напиши их након што си завршио CWC снивање на радионици)
+            <!-- <h1>Your visions of the ideal future of our country/world</h1>
 (write it after you have finished the CWC dreaming of the workshop) -->
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <p>
-                <mat-form-field class="example-full-width">
-                    <input matInput type="text" placeholder="Визија бр. 1" formControlName="cwcVision1" value="">
-                    <mat-error class="error-message">Визија мора бити дужине барем 3 карактера</mat-error>
-                </mat-form-field>
-            </p>
-            <p>
-                <mat-form-field class="example-full-width">
-                    <input matInput type="text" placeholder="Визија бр. 2" formControlName="cwcVision2" value="">
-                    <mat-error class="error-message">Визија мора бити дужине барем 3 карактера</mat-error>
-                </mat-form-field>
-            </p>
-            <p>
-                <mat-form-field class="example-full-width">
-                    <input matInput type="text" placeholder=Визија бр. 3 " formControlName="cwcVision3 " value=" ">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <p>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="text" placeholder="Визија бр. 1" formControlName="cwcVision1" value="">
+                        <mat-error class="error-message">Визија мора бити дужине барем 3 карактера</mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="text" placeholder="Визија бр. 2" formControlName="cwcVision2" value="">
+                        <mat-error class="error-message">Визија мора бити дужине барем 3 карактера</mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="text" placeholder=Визија бр. 3 " formControlName="cwcVision3 " value=" ">
           <mat-error class="error-message ">Визија мора бити дужине барем 3 карактера</mat-error>
         </mat-form-field>
       </p>
@@ -44,5 +61,6 @@
         <button mat-raised-button (click)="reset() ">Обриши</button>
       </p>
     </form>
+    </div>
     </div>
 </div>
