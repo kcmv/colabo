@@ -7,8 +7,8 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
-import {RimaService} from './rima.service';
-import {UserData} from './userData';
+import {RimaAAAService} from '../rima-aaa.service';
+import {UserData} from '../userData';
 
 @Component({
   selector: 'app-rima-register',
@@ -21,11 +21,11 @@ export class RimaRegisterComponent implements OnInit {
 
   form: FormGroup;
 
-  firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(3)]); //an exmaple of defining a form control as independet
+  firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(2)]); //an exmaple of defining a form control as independet
 
   constructor(
     fb: FormBuilder,
-    private rimaService: RimaService
+    private rimaAAAService: RimaAAAService
   ) {
       this.form = fb.group({
           // name: ['', [Validators.required,
@@ -33,7 +33,7 @@ export class RimaRegisterComponent implements OnInit {
           // ]],
           "email": ['', [Validators.required, Validators.email]],
           "firstName": this.firstName,
-          "lastName":["", [Validators.required, Validators.minLength(3)]],
+          "lastName":["", [Validators.required, Validators.minLength(2)]],
           "password":["", [Validators.required, Validators.minLength(3)]]
       });
 
@@ -70,7 +70,7 @@ export class RimaRegisterComponent implements OnInit {
     userData.lastName = this.form.value.lastName;
     userData.email = this.form.value.email;
     //TODO: this.form.value.password;
-    this.rimaService.createNewUser(userData, this.userCreated.bind(this));
+    this.rimaAAAService.createNewUser(userData, this.userCreated.bind(this));
   }
 
   userCreated():void{

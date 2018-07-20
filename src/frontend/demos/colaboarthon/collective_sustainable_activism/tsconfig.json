@@ -30,6 +30,6 @@
       "src/**/*",
       "node_modules/@colabo-puzzles/**/*",
       "node_modules/@colabo-knalledge/**/*",
-      "node_modules/@colabo-colaboware/**/*"
+      "node_modules/@colabo-rima/**/*"
   ]
 }

@@ -417,7 +417,7 @@
           rima: {
               active: true,
               config: {
-                  rimaService: {
+                  RimaAAAService: {
                       available: true,
                       ANONYMOUS_USER_ID: "55268521fb9a901e442172f8",
                       // should the service wait for users be broadcasted from other components

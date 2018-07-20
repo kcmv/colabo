@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import {RimaService} from '../rima-register/rima.service';
-import {UserData} from '../rima-register/userData';
+import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
+import {UserData} from '@colabo-rima/rima_aaa/userData';
+import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     fb: FormBuilder,
-    private rimaService: RimaService
+    private RimaAAAService: RimaAAAService
   ) {
     this.form = fb.group({
         "email": ['', [Validators.required, Validators.email]],
@@ -29,12 +30,29 @@ export class LoginComponent implements OnInit {
       this.form.reset();
   }
 
-  onSubmit( ){
+  isLoggedIn():Boolean{
+    return this.RimaAAAService.getUser() !== null;
+  }
+
+  get loggedUser(): KNode {
+    return this.RimaAAAService.getUser();
+  }
+
+  logOut(){
+    this.RimaAAAService.logOut();
+  }
+
+  userChecked(newNode: KNode){
+
+  }
+
+  onSubmit(){
     console.log(this.form);
     let userData:UserData = new UserData();
     userData.email = this.form.value.email;
+    this.RimaAAAService.checkUser(userData).subscribe(this.userChecked.bind(this));;
     //TODO: this.form.value.password;
-    // this.rimaService.createNewUser(userData, this.userCreated);
+    // this.RimaAAAService.createNewUser(userData, this.userCreated);
   }
 
 }

@@ -18,7 +18,7 @@ import {MaterialModule} from './materialModule';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
-import { RimaService } from './rima-register/rima.service';
+import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
 
@@ -28,11 +28,11 @@ import {CWCService} from './cwc/cwc.service';
 // import {UiSmsComponent} from './ui-sms/ui-sms.component';
 // import {SMSApiService} from './ui-sms/sms-api.service';
 // import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
-import {RimaRegisterComponent} from './rima-register/rima-register.component';
+import {RimaRegisterComponent} from '@colabo-rima/rima_aaa/rima-register/rima-register.component';
 import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {SdgCardComponent} from './sdg-card/sdg-card.component';
 import {CwcComponent} from './cwc/cwc.component';
-import {LoginComponent} from './login/login.component';
+import { LoginComponent } from '@colabo-rima/rima_aaa/rima-login/login.component';
 import {AvatarComponent} from './avatar/avatar.component';
 
 import {Dialog1Btn, Dialog2Btn} from './util/dialog';
@@ -116,7 +116,7 @@ export var Plugins:any = window.Config.Plugins;
     // provide ng build error: "Can't resolve all parameters for GlobalEmitterService"
     // {provide: GlobalEmitterService, useClass: GlobalEmitterService},
     {provide: GlobalEmittersArrayService, useClass: GlobalEmittersArrayService},
-    RimaService,
+    RimaAAAService,
     SDGsService,
     CWCService
     // ColabowareRFIDService,

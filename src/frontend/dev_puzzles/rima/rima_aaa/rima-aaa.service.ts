@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
-import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, map, tap } from 'rxjs/operators';
+import 'rxjs/add/operator/toPromise';
+
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
+import {VO} from '@colabo-knalledge/knalledge_core/code/knalledge/VO';
+import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
+import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
 
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
@@ -12,9 +19,15 @@ import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzz
 
 import {UserData} from './userData';
 
+import { CFService } from '@colabo-knalledge/knalledge_store_core/cf.service';
+
 //this consts are defined by INSTALL.MD data:
 const MAP_ID = "5b49e7f736390f03580ac9a7";
 const USERS_NODE_ID:string = "5b4a16e800ea79029ca0c395";
+
+const httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 export enum ProfilingStateType {
   OFF = 'OFF',
@@ -22,9 +35,16 @@ export enum ProfilingStateType {
   ATTRIBUTE = 'ATTRIBUTE'
 }
 
+const aaaAP = "aaa";
+
 @Injectable()
-export class RimaService {
+export class RimaAAAService extends CFService{
   activeUser:KNode = null;
+
+  private apiUrl: string;
+  private defaultAction:string = 'default';
+
+  private loggedInUser:KNode;
 
   ProfilingStateTypeNames:string[] = [
     'OFF',
@@ -37,6 +57,7 @@ export class RimaService {
   profilingState: ProfilingStateType = ProfilingStateType.OFF;
 
   constructor(
+    private http: HttpClient,
     // private colabowareRFIDService: ColabowareRFIDService,
     private knalledgeEdgeService: KnalledgeEdgeService,
     private knalledgeNodeService: KnalledgeNodeService,
@@ -44,14 +65,24 @@ export class RimaService {
     private globalEmitterServicesArray: GlobalEmittersArrayService
   ) {
 
+    super();
+    console.log('RimaAAAService:constructor'); //TODO:NG2: this.apiUrl = this.ENV.server.backend + '/' + nodeAP + '/';
+      this.apiUrl = CFService.serverAP + '/' + aaaAP + '/';
 
     //getting data for the user:
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
   }
 
   getUserId():string{
+      if(this.loggedInUser) return this.loggedInUser._id;
+      else return null;
     //TODO: HACK:
-    return '5b4db0645381b24d03f908b6';
+    // return '5b4db0645381b24d03f908b6';
+  }
+
+  getUser():KNode{
+      if(this.loggedInUser) return this.loggedInUser;
+      else return null;
   }
 
   createNewNodeWithEdge(newNode:KNode, newEdge:KEdge, parentNodeId:string, listener){
@@ -83,6 +114,27 @@ export class RimaService {
         //this.edges.push(newEdge);
       }
     }
+  }
+
+  // check existing user's credentials
+  checkUser(userData:UserData, callback:Function=null){
+    let id:string = userData.email;
+    console.log('getById('+id+')');
+      let url: string = this.apiUrl +'oneByEmail/'+this.defaultAction+'/'+id+'.json';
+    let result:Observable<KNode> = this.http.get<ServerData>(url)
+      .pipe(
+        map(node => this.extractVO<KNode>(node, KNode)),
+        catchError(this.handleError('RimaAAAService::checkUser', null))
+      );
+    console.log('result:');
+    console.log(result);
+      result.subscribe(node => this.loggedInUser = node);
+    if(callback){result.subscribe(node => callback(node));}
+    return result; 
+  }
+
+  logOut(){
+    this.loggedInUser = null;
   }
 
   // create new user
