@@ -9,6 +9,7 @@ import 'rxjs/add/operator/filter';
 
 import {RimaAAAService} from '../rima-aaa.service';
 import {UserData} from '../userData';
+import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
 @Component({
   selector: 'app-rima-register',
@@ -18,7 +19,6 @@ import {UserData} from '../userData';
 export class RimaRegisterComponent implements OnInit {
 
   public selectedCountry:String;
-
   form: FormGroup;
 
   firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(2)]); //an exmaple of defining a form control as independet
@@ -50,6 +50,9 @@ export class RimaRegisterComponent implements OnInit {
       //TODO: check if the user's email is already existing (offer sign-in instead and data updating)
   }
 
+  ngOnInit() {
+  }
+
   // fullUpdate() {
   //   this.form.setValue({firstName: 'Partial', password: 'monkey'});
   // }
@@ -58,8 +61,23 @@ export class RimaRegisterComponent implements OnInit {
   //     this.form.patchValue({firstName: 'Partial'});
   // }
 
+  get isRegistered(): Boolean {
+    return this.rimaAAAService.isRegistered;
+  }
+  
+  get isLoggedIn():Boolean{
+    return this.rimaAAAService.getUser() !== null;
+  }
+
+  get loggedUser(): KNode {
+    return this.rimaAAAService.getUser();
+  }
+
+  logOut(){
+    this.rimaAAAService.logOut();
+  }
   reset() {
-      this.form.reset();
+    this.form.reset();
   }
 
   onSubmit( ){
@@ -75,9 +93,6 @@ export class RimaRegisterComponent implements OnInit {
 
   userCreated():void{
     console.log('userCreated');
-  }
-
-  ngOnInit() {
   }
 
   getWorldCountries():String[]{

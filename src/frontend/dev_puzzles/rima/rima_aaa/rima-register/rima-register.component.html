@@ -1,52 +1,82 @@
 <div>
     <!--TODO: to make localized (in Serbian) form field names and info -->
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <p>
-            <mat-form-field class="full-width">
-                <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
-                <!-- TODO like this: https://material.angular.io/components/checkbox/examples -->
-                <mat-error class="error-message">E-mail је у неисправном формату</mat-error>
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field class="full-width">
-                <input matInput type="text" placeholder="First Name" formControlName="firstName" value="">
-                <mat-error class="error-message">Име мора бити дужине барем 2 карактера</mat-error>
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field class="full-width">
-                <input matInput placeholder="Last Name" formControlName="lastName" value="">
-                <mat-error class="error-message">Презиме мора бити дужине барем 2 карактера</mat-error>
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field class="full-width">
-                <input matInput type="password" placeholder="Password" formControlName="password" value="">
-                <mat-error class="error-message">Шифра мора бити дужине барем 2 карактера</mat-error>
-            </mat-form-field>
-        </p>
-        <p>
-            <!-- <mat-form-field class="full-width">
+    <div *ngIf="!isLoggedIn && !isRegistered">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <p>
+                <mat-form-field class="full-width">
+                    <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
+                    <!-- TODO like this: https://material.angular.io/components/checkbox/examples -->
+                    <mat-error class="error-message">E-mail је у неисправном формату</mat-error>
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field class="full-width">
+                    <input matInput type="text" placeholder="First Name" formControlName="firstName" value="">
+                    <mat-error class="error-message">Име мора бити дужине барем 2 карактера</mat-error>
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Last Name" formControlName="lastName" value="">
+                    <mat-error class="error-message">Презиме мора бити дужине барем 2 карактера</mat-error>
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field class="full-width">
+                    <input matInput type="password" placeholder="Password" formControlName="password" value="">
+                    <mat-error class="error-message">Шифра мора бити дужине барем 2 карактера</mat-error>
+                </mat-form-field>
+            </p>
+            <p>
+                <!-- <mat-form-field class="full-width">
           <mat-checkbox matInput formControlName="networkingOK">Желим да се моји контакт подаци деле са другим учесницима зарад умрежавања</mat-checkbox>
         </mat-form-field>
       </p> -->
 
-            <!-- <p>
+                <!-- <p>
       TODO - ADD Country
         <mat-form-field class="full-width">
           Country select
         </mat-form-field>
       </p> -->
 
-            <p>
-                <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Sign up</button>
-                <!-- <button mat-raised-button (click)="partialUpdate()">Partial Update</button>
+                <p>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Register</button>
+                    <!-- <button mat-raised-button (click)="partialUpdate()">Partial Update</button>
         <button mat-raised-button (click)="fullUpdate()">Full Update</button> -->
-                <button mat-raised-button (click)="reset()">Clear</button>
-            </p>
-    </form>
+                    <button mat-raised-button (click)="reset()">Clear</button>
+                </p>
+        </form>
+        If you already have account, please <a routerLink="/rima-login">Login</a> instead!
+    </div>
+    <div *ngIf="isRegistered">
+        Hi,
+        <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You have successfully registered.
 
+        <p>
+            <a routerLink="/">
+                <button mat-raised-button color="primary">Continue</button>
+            </a>
+        </p>
+        or
+        <p>
+            <button mat-raised-button color="primary" (click)="logOut()">Register as a new user</button>
+        </p>
+    </div>
+    <div *ngIf="isLoggedIn && !isRegistered">
+        Hi,
+        <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You are registered.
+
+        <p>
+            <a routerLink="/">
+                <button mat-raised-button color="primary">Home</button>
+            </a>
+        </p>
+        or
+        <p>
+            <button mat-raised-button color="primary" (click)="logOut()">Register as a new user</button>
+        </p>
+    </div>
 
     <!-- <form [formGroup]="userDetailsForm" (ngSubmit)="onSubmitUserDetails(userDetailsForm.value)">
         <mat-form-field class="full-width">

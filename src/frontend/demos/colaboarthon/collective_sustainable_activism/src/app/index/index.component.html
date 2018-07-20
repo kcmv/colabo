@@ -1,0 +1,34 @@
+<div>
+    <!--TODO: to make localized (in Serbian) form field names and info -->
+    <div *ngIf="isLoggedIn">
+        <a routerLink="/select-sdgs">
+            <button mat-raised-button color="primary">Select SDGs</button>
+        </a>
+        <a routerLink="/cwc">
+            <button mat-raised-button color="primary">Coaching</button>
+        </a>
+        <a routerLink="/avatar">
+            <button mat-raised-button color="primary">Avatar</button>
+        </a>
+        <a routerLink="/rima-login">
+            <button mat-raised-button color="primary">Me</button>
+        </a>
+    </div>
+
+    <div *ngIf="!isLoggedIn">
+        <p>
+            If you <b>have account</b> please:
+        </p>
+        <a routerLink="/rima-login">
+            <button mat-raised-button color="primary">Login</button>
+        </a>
+
+        <p>
+            or register first if you <b>do not have account:</b>
+        </p>
+        <a routerLink="/rima-register">
+            <button mat-raised-button color="primary">Register</button>
+        </a>
+
+    </div>
+</div>

@@ -5,11 +5,11 @@ import {UserData} from '@colabo-rima/rima_aaa/userData';
 import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-rima-login',
+  templateUrl: './rima-login.component.html',
+  styleUrls: ['./rima-login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class RimaLoginComponent implements OnInit {
 
   form: FormGroup;
 
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       this.form.reset();
   }
 
-  isLoggedIn():Boolean{
+  get isLoggedIn():Boolean{
     return this.RimaAAAService.getUser() !== null;
   }
 

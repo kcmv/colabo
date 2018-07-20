@@ -1,15 +1,18 @@
 <div>
     <!--TODO: to make localized (in Serbian) form field names and info -->
-    <div *ngIf="isLoggedIn()">
+    <div *ngIf="isLoggedIn">
         Hi,
-        <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You are successfully logged in.
+        <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You have successfully logged in.
 
         <p>
+            <a routerLink="/">
+                <button mat-raised-button color="primary">Home</button>
+            </a>
             <button mat-raised-button color="primary" (click)="logOut()">Log out</button>
         </p>
     </div>
 
-    <div *ngIf="!isLoggedIn()">
+    <div *ngIf="!isLoggedIn">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <p>
                 <mat-form-field class="example-full-width">
@@ -26,5 +29,6 @@
                 <button mat-raised-button (click)="reset()">Cancel</button>
             </p>
         </form>
+        If you do not have account, please <a routerLink="/rima-register">Register</a> first!
     </div>
 </div>

@@ -45,6 +45,8 @@ export class RimaAAAService extends CFService{
   private defaultAction:string = 'default';
 
   private loggedInUser:KNode;
+  private _isRegistered:Boolean;
+
 
   ProfilingStateTypeNames:string[] = [
     'OFF',
@@ -73,6 +75,9 @@ export class RimaAAAService extends CFService{
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
   }
 
+  get isRegistered():Boolean{
+    return this._isRegistered;
+  }
   getUserId():string{
       if(this.loggedInUser) return this.loggedInUser._id;
       else return null;
@@ -85,6 +90,38 @@ export class RimaAAAService extends CFService{
       else return null;
   }
 
+  /**
+   * Creates the provided user node on the server and returns its server-updated appearance
+   * @param {KNode} kNode the pre-populated node to be created on the server
+   * @param {function} callback Function to be called when the node is created
+   * @returns {Observable<KNode>} the created node (now with the id and other specific data allocated to it by server, so the caller should fill the original node with it)
+     @example http://localhost:8001/knodes/in_map/default/579811d88e12abfa556f6b59.json
+   */
+  createUserNode(kNode:KNode, callback?:Function): Observable<KNode>
+  {
+    // TODO, check create method in @colabo-knalledge/knalledge_store_core/knalledge-node.service.ts
+    // to see all TODOS
+    function created(node){
+        this.loggedInUser = node;
+        this._isRegistered = true;
+    }
+    console.log("RimaAAAService.create");
+    let result: Observable<KNode> = null;
+
+    let kNodeForServer:any = kNode.toServerCopy();
+
+      result = this.http.post<ServerData>(this.apiUrl, kNodeForServer, httpOptions)
+      .pipe(
+        //tap((nodeS: KNode) => console.log(`CREATED 'node'${nodeS}`)), // not needed - it's just for logging
+        map(nodeS => this.extractVO<KNode>(nodeS,KNode)), //the sever returns `ServerData` object
+        catchError(this.handleError<KNode>('RimaAAAService::create'))
+      );
+
+    result.subscribe(created.bind(this));
+    if(callback){result.subscribe(nodes => callback(nodes));}
+  	return result;
+  }
+
   createNewNodeWithEdge(newNode:KNode, newEdge:KEdge, parentNodeId:string, listener){
     newNode.iAmId = "556760847125996dc1a4a24f";
     newNode.visual = {};
@@ -92,7 +129,7 @@ export class RimaAAAService extends CFService{
     newEdge.visual = {};
 
     //TODO: iAmId, createdAt, updatedAt
-    this.knalledgeNodeService.create(newNode)
+    this.createUserNode(newNode)
     .subscribe(newNodeCreated.bind(this));
 
     // callback after the new user is created
@@ -118,6 +155,10 @@ export class RimaAAAService extends CFService{
 
   // check existing user's credentials
   checkUser(userData:UserData, callback:Function=null){
+    function checked(node){
+        this.loggedInUser = node;
+        this._isRegistered = false;
+    }
     let id:string = userData.email;
     console.log('getById('+id+')');
       let url: string = this.apiUrl +'oneByEmail/'+this.defaultAction+'/'+id+'.json';
@@ -128,13 +169,14 @@ export class RimaAAAService extends CFService{
       );
     console.log('result:');
     console.log(result);
-      result.subscribe(node => this.loggedInUser = node);
+    result.subscribe(checked.bind(this));
     if(callback){result.subscribe(node => callback(node));}
-    return result; 
+    return result;
   }
 
   logOut(){
     this.loggedInUser = null;
+    this._isRegistered = false;
   }
 
   // create new user
