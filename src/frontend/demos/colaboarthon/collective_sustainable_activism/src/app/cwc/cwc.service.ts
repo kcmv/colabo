@@ -150,7 +150,7 @@ export class CWCService {
       });
     });
     // https://angular.io/guide/observables
-    return new Observable(this.cwcsSavedSubscriber.bind(this));;
+    return new Observable(this.cwcsSavedSubscriber.bind(this));
   }
 
   //could be done as anonymous, but we made it this way to be more clear the logic of Oberver

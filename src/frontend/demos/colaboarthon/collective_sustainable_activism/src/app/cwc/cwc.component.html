@@ -49,18 +49,18 @@
                 </p>
                 <p>
                     <mat-form-field class="example-full-width">
-                        <input matInput type="text" placeholder=Визија бр. 3 " formControlName="cwcVision3 " value=" ">
-          <mat-error class="error-message ">Визија мора бити дужине барем 3 карактера</mat-error>
-        </mat-form-field>
-      </p>
+                        <input matInput type="text" placeholder="Визија бр. 3" formControlName="cwcVision3" value="">
+                        <mat-error class="error-message">Визија мора бити дужине барем 3 карактера</mat-error>
+                    </mat-form-field>
+                </p>
 
-      <p>
-        <button mat-raised-button color="primary " type="submit " [disabled]="!form.valid || saved ">{{saved ? 'Послато' : 'Пошаљи визије'}}</button>
-        <!-- <button mat-raised-button (click)="partialUpdate() ">Partial Update</button>
+                <p>
+                    <button mat-raised-button color="primary" type="submit " [disabled]="!form.valid || saved ">{{saved ? 'Послато' : 'Пошаљи визије'}}</button>
+                    <!-- <button mat-raised-button (click)="partialUpdate() ">Partial Update</button>
         <button mat-raised-button (click)="fullUpdate() ">Full Update</button> -->
-        <button mat-raised-button (click)="reset() ">Обриши</button>
-      </p>
-    </form>
-    </div>
+                    <button mat-raised-button (click)="reset() ">Обриши</button>
+                </p>
+            </form>
+        </div>
     </div>
 </div>
