@@ -77,11 +77,11 @@ export class SelectSdgsComponent implements OnInit {
     }
     else{
       if(this.selectedSDGs.length < SDGS_TO_SELECT){
-          msg = 'You need to select ' + (SDGS_TO_SELECT - this.selectedSDGs.length) + ' more SDGs';
+          msg = 'Select ' + (SDGS_TO_SELECT - this.selectedSDGs.length) + ' more SDGs';
       } else if (this.selectedSDGs.length == SDGS_TO_SELECT) {
-          msg = 'You have selected all SDGs. Please, submit ';
+          msg = 'Great! Please, submit ';
       } else {
-          msg = 'You should select ' + SDGS_TO_SELECT + ' SDGs, not ' + this.selectedSDGs.length;
+          msg = 'Too many SDGs selected! ' + SDGS_TO_SELECT + ' SDGs, not ' + this.selectedSDGs.length;
       }
     }
     return msg;

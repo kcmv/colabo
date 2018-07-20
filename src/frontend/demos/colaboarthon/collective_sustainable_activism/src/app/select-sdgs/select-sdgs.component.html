@@ -11,7 +11,8 @@
             <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
             <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
             <div>
-                <button color="accent" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button> {{getActionMessage()}}
+                <button color="accent" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button> 
+                <span class="sdg-title"> {{getActionMessage()}}</span>
             </div>
         </mat-toolbar>
     </div>
@@ -39,6 +40,7 @@
                 <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
                 <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
                 <h3>United Nations - Циљеви одрживог развоја (SDGs)</h3>
+                <h3 style="color:blue">You need to select <span style="color:red">THREE</span> SDGs</h3>
                 <!-- <h1>United Nations Sustainable Development Goals (SDGs)</h1> -->
                 <br/><br/><br/><br/><br/>
 
