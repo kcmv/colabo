@@ -4,14 +4,15 @@
     <div fxFlex="64px" style="overflow-y: hidden;">
         <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
             <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
-            <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
-                <mat-icon [ngClass]="{warning: false}" title="Home">Почетак</mat-icon>
+            <button mat-mini-fab mat-tooltip="Почетак" tooltip-position="below" class="mat-mini mat-primary" aria-label="Почетак" routerLink="/" style="margin-right: 5px;">
+                <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
             </button>
 
             <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
             <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
             <div>
-                <button color="accent" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button> {{getActionMessage()}}
+                <button color="accent" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button> 
+                <span class="sdg-title"> {{getActionMessage()}}</span>
             </div>
         </mat-toolbar>
     </div>
@@ -39,6 +40,7 @@
                 <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
                 <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
                 <h3>United Nations - Циљеви одрживог развоја (SDGs)</h3>
+                <h3 style="color:blue">You need to select <span style="color:red">THREE</span> SDGs</h3>
                 <!-- <h1>United Nations Sustainable Development Goals (SDGs)</h1> -->
                 <br/><br/><br/><br/><br/>
 
