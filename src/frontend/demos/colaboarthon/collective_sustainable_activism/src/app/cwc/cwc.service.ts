@@ -123,30 +123,31 @@ export class CWCService {
     this.knalledgeEdgeService.destroyByTypeByUser(CWC_TYPE, user_id).subscribe(function(data:any){
       console.log('oldCWCEdgesDeleted', data);
 
-      // this.knalledgeNodeService.destroyByTypeByUser(CWC_TYPE, user_id).subscribe(function(data:any){
-      //   console.log('oldCWCEdgesDeleted', data);
+      that.knalledgeNodeService.destroyByTypeByUser(CWC_TYPE, user_id).subscribe(function(data:any){
+        console.log('oldCWCNodesDeleted', data);
 
-      for (var i in cwcD.cwcs) {
-        cwc = cwcD.cwcs[i];
+        for (var i in cwcD.cwcs) {
+          cwc = cwcD.cwcs[i];
 
-        let cwcNode:KNode = new KNode();
-        cwcNode.iAmId = user_id;
-        cwcNode.mapId = MAP_ID;
-        cwcNode.name = cwc;
-        cwcNode.type = CWC_TYPE;
-        that.knalledgeNodeService.create(cwcNode).subscribe(function(node:KNode){
-          //nodesaved, now saving edges
-          console.log('cwcNodeCreated', node);
-          let cwcEdge:KEdge = new KEdge();
-          cwcEdge.sourceId = user_id;
-          cwcEdge.targetId = node._id;
-          cwcEdge.iAmId = user_id;
-          cwcEdge.mapId = MAP_ID;
-          cwcEdge.name = CWC_EDGE_NAME;
-          cwcEdge.type = CWC_TYPE;
-          that.knalledgeEdgeService.create(cwcEdge).subscribe(that.cwcESaved.bind(that));
-        });
-      }
+          let cwcNode:KNode = new KNode();
+          cwcNode.iAmId = user_id;
+          cwcNode.mapId = MAP_ID;
+          cwcNode.name = cwc;
+          cwcNode.type = CWC_TYPE;
+          that.knalledgeNodeService.create(cwcNode).subscribe(function(node:KNode){
+            //nodesaved, now saving edges
+            console.log('cwcNodeCreated', node);
+            let cwcEdge:KEdge = new KEdge();
+            cwcEdge.sourceId = user_id;
+            cwcEdge.targetId = node._id;
+            cwcEdge.iAmId = user_id;
+            cwcEdge.mapId = MAP_ID;
+            cwcEdge.name = CWC_EDGE_NAME;
+            cwcEdge.type = CWC_TYPE;
+            that.knalledgeEdgeService.create(cwcEdge).subscribe(that.cwcESaved.bind(that));
+          });
+        }
+      });
     });
     // https://angular.io/guide/observables
     return new Observable(this.cwcsSavedSubscriber.bind(this));;
