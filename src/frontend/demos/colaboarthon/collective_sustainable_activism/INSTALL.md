@@ -30,6 +30,7 @@ You need to:
 npm link @colabo-puzzles/puzzles_core
 npm link @colabo-knalledge/knalledge_core
 npm link @colabo-knalledge/knalledge_store_core
+npm link @colabo-rima/rima_aaa
 # npm link @colabo-knalledge/knalledge_view_node
 # npm link @colabo-knalledge/knalledge_search
 # npm link @colabo-colaboware/colaboware_core
@@ -296,6 +297,7 @@ Add CONTENT edge in kedges (`right button > insert document`):
 
 **Nodes:**
 
+Add SDG nodes in `knodes`  (`right button > Paste document(s)...`):
 ```JSON
 [
   {
@@ -407,6 +409,7 @@ Add CONTENT edge in kedges (`right button > insert document`):
 
 **Edges:**
 
+Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
 ```json
 [
   { 
