@@ -1,5 +1,7 @@
 'use strict';
 
+var crypto = require('crypto');
+
 /**
  * New aaa file
  */
@@ -27,6 +29,23 @@ var dbService = require('./dbService');
 var dbConnection = dbService.connect();
 
 var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);
+
+let setPassword = function(kNode) {
+    if (kNode.dataContent.password) {
+        kNode.dataContent.salt = crypto.randomBytes(16).toString('hex');
+        kNode.dataContent.hash = crypto.pbkdf2Sync(kNode.dataContent.password, kNode.dataContent.salt, 1000, 64, 'sha512').toString('hex');
+        // delete kNode.dataContent.password;
+    }
+};
+
+let validPassword = function(kNode, password) {
+    console.log("[modules/aaa.js:validPassword] password: '%s', kNode.dataContent.salt: '%s'", password, kNode.dataContent.salt);
+    if (password && kNode.dataContent.salt) {
+        var hash = crypto.pbkdf2Sync(password, kNode.dataContent.salt, 1000, 64, 'sha512').toString('hex');
+        return kNode.dataContent.hash === hash;
+    }
+    return false;
+};
 
 // curl -v -H "Content-Type: application/json" -X GET http://localhost:8001/aaa/one/default/5b50b14c735e9b2b499a3250
 // curl -v -H "Content-Type: application/json" -X GET http://localhost:8001/aaa/oneByEmail/default/mprinc@gmail.com.json
@@ -114,18 +133,55 @@ exports.index = function(req, res) {
 // curl -v -H "Content-Type: application/json" -X POST -d '{"firstname":"Sasha", "familyname": "Rudan", "displayName": "mPrinc"}' http://127.0.0.1:8888/aaa
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/aaa
 exports.create = function(req, res) {
+    /**
+     * [function called as a find callback]
+     * @param  {[type]} err     [description]
+     * @param  {[type]} whoAmIs [description]
+     * @return {[type]}         [description]
+     */
+    var found = function(err, whoAmIs) {
+        console.log("[modules/aaa.js:create] in 'found'");
+        if (err) {
+            throw err;
+            var msg = JSON.stringify(err);
+            resSendJsonProtected(res, { data: whoAmIs, accessId: accessId, message: msg, success: false });
+        } else {
+            console.log("[modules/aaa.js:create] Data:\n%s", JSON.stringify(whoAmIs));
+            let isValid = validPassword(whoAmIs, data.password);
+            console.log("[modules/aaa.js:create] isValid: %s", isValid);
+            if (isValid) {
+                resSendJsonProtected(res, { data: whoAmIs, accessId: accessId, success: true });
+            } else {
+                var msg = "Wrong user name or password";
+                resSendJsonProtected(res, { data: null, accessId: accessId, message: msg, success: false });
+            }
+        }
+    }
+
+    console.log("[modules/aaa.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
     console.log("[modules/aaa.js:create] req.body: %s", JSON.stringify(req.body));
 
     var data = req.body;
-
+    console.log("[modules/aaa.js:create] action (req.body.action): %s", req.body.action);
     console.log(data);
-    var whoAmI = new KNodeModel(data);
 
-    whoAmI.save(function(err) {
-        if (err) throw err;
-        console.log("[modules/aaa.js:create] id:%s, whoAmI data: %s", whoAmI._id, JSON.stringify(whoAmI));
-        resSendJsonProtected(res, { success: true, data: whoAmI, accessId: accessId });
-    });
+    switch (data.action) {
+        case 'createUser':
+            var whoAmI = new KNodeModel(data);
+            setPassword(whoAmI);
+            whoAmI.save(function(err) {
+                if (err) throw err;
+                console.log("[modules/aaa.js:create] id:%s, whoAmI data: %s", whoAmI._id, JSON.stringify(whoAmI));
+                resSendJsonProtected(res, { success: true, data: whoAmI, accessId: accessId });
+            });
+            break;
+        case 'checkUser':
+            let email = data.email;
+            let password = data.password;
+            console.log("findBy by e-mail '%s' and password: `%s'\n", email, password);
+            KNodeModel.findOne({ 'dataContent.email': email }, found);
+            break;
+    }
 }
 
 // curl -v -H "Content-Type: application/json" -X PUT -d '{"name": "Hello World Pt23", "iAmId": 5, "visual": {"isOpen": false}}' http://127.0.0.1:8888/aaa/one/55266618cce5af993fe8675f

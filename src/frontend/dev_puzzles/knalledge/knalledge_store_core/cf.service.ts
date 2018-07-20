@@ -23,20 +23,6 @@ export class CFService {
   // static serverAP = "http://158.39.75.120:8001"; // colabo-space-1 (old)
   // static serverAP = "https://fv.colabo.space/api"; // colabo-space-1 (https)
 
-  constructor() { }
-
-  /**
-   * extracts VO from the server response `ServerData` and sets it up
-   * @param sd - data received from server
-   * @param typeT - type (class) of the object expected to be received
-   */
-  protected extractVO<T extends VO>(sd:ServerData, typeT:IConstructor<T>): T{
-    //let vo: T = new typeT();
-    let vo: T = typeT.factory(sd.data);
-    vo.state = VO.STATE_SYNCED;
-    return vo;
-  }
-
   static processVOs<T extends VO>(voS:ServerData, typeT:IConstructor<T>):Array<T>{
     console.log("processVOs");
     let vos:Array<T> = voS.data as Array<T>;
@@ -49,6 +35,21 @@ export class CFService {
     }
     return vos;
   }
+
+  constructor() { }
+
+  /**
+ * extracts VO from the server response `ServerData` and sets it up
+ * @param sd - data received from server
+ * @param typeT - type (class) of the object expected to be received
+ */
+  protected extractVO<T extends VO>(sd: ServerData, typeT: IConstructor<T>): T {
+    //let vo: T = new typeT();
+    let vo: T = typeT.factory(sd.data);
+    vo.state = VO.STATE_SYNCED;
+    return vo;
+  }
+
 
   /**
    * Handle Http operation that failed.

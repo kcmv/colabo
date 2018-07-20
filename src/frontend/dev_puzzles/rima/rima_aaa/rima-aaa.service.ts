@@ -102,10 +102,18 @@ export class RimaAAAService extends CFService{
   {
     // TODO, check create method in @colabo-knalledge/knalledge_store_core/knalledge-node.service.ts
     // to see all TODOS
-    function createdResponse(serverResponse){
+    let extractVO:Function = this.extractVO;
+
+    function _extractVO(serverResponse: any):KNode {
+      let vo: KNode = KNode.factory(serverResponse.data);
+      vo.state = VO.STATE_SYNCED;
+      return vo;
+    }
+    
+    function createdResponse(serverResponse:any):KNode{
         console.log("[createUserNode]: created");
         if(serverResponse.success){
-            let node = this.extractVO<KNode>(serverResponse, KNode);
+            let node:KNode = _extractVO(serverResponse);
             this.loggedInUser = node;
             this._isRegistered = true;
             return node;
@@ -132,7 +140,7 @@ export class RimaAAAService extends CFService{
       result = this.http.post<ServerData>(this.apiUrl, kNodeForServer, httpOptions)
       .pipe(
         //tap((nodeS: KNode) => console.log(`CREATED 'node'${nodeS}`)), // not needed - it's just for logging
-          map(createdResponse.bind(this)), //the sever returns `ServerData` object
+          map(serverResponse => createdResponse(serverResponse)), //the sever returns `ServerData` object
         catchError(this.handleError<KNode>('RimaAAAService::create'))
       );
 
