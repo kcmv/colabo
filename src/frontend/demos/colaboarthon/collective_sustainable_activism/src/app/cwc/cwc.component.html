@@ -1,9 +1,21 @@
 <!-- CWC - Coaching with Compassion -->
-<div>
-<!--TODO: to make localized (in Serbian) form field names and info -->
-<h1>Твоје визије идеалне будућности наше земље/света</h1>
-(напиши их након што си завршио CWC снивање на радионици)
-<!-- <h1>Your visions of the ideal future of our country/world</h1>
+<div fxLayout="column" fxFlexFill style="height: 100%;">
+
+    <!-- toolbar -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+            <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
+                <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
+            </button> CWC - Dreaming
+        </mat-toolbar>
+    </div>
+
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+        <!--TODO: to make localized (in Serbian) form field names and info -->
+        <h1>Твоје визије идеалне будућности наше земље/света</h1>
+        (напиши их након што си завршио CWC снивање на радионици)
+        <!-- <h1>Your visions of the ideal future of our country/world</h1>
 (write it after you have finished the CWC dreaming of the workshop) -->
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <p>
@@ -26,10 +38,11 @@
       </p>
 
       <p>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || saved">{{saved ? 'Послато' : 'Пошаљи визије'}}</button>
-        <!-- <button mat-raised-button (click)="partialUpdate()">Partial Update</button>
-        <button mat-raised-button (click)="fullUpdate()">Full Update</button> -->
-        <button mat-raised-button (click)="reset()">Обриши</button>
+        <button mat-raised-button color="primary" type="submit " [disabled]="!form.valid || saved ">{{saved ? 'Послато' : 'Пошаљи визије'}}</button>
+        <!-- <button mat-raised-button (click)="partialUpdate() ">Partial Update</button>
+        <button mat-raised-button (click)="fullUpdate() ">Full Update</button> -->
+        <button mat-raised-button (click)="reset() ">Обриши</button>
       </p>
     </form>
+    </div>
 </div>

@@ -1,8 +1,20 @@
-<div>
-<!--TODO: to make localized (in Serbian) form field names and info -->
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <p>
-      <!--
+<div fxLayout="column" fxFlexFill style="height: 100%;">
+
+    <!-- toolbar -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+            <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
+                <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
+            </button> Colabo Avatar
+        </mat-toolbar>
+    </div>
+
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+        <!--TODO: to make localized (in Serbian) form field names and info -->
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <p>
+                <!--
       TODO:
         we could not use 'matInput' and '<mat-form-field>' and do it like this:
 
@@ -16,23 +28,24 @@
         https://github.com/angular/material2/issues/3262
         https://github.com/angular/material2/issues/2315
       -->
-    <p>
-      <!-- <mat-form-field class="example-full-width">
+                <p>
+                    <!-- <mat-form-field class="example-full-width">
         Image from camera:<br/> -->
-        <input  type="file" formControlName="cameraPhoto" accept="image/*;capture=camera">
-      <!-- </mat-form-field> -->
-    </p>
-    <p>
-      <!-- <mat-form-field class="example-full-width"> -->
-      Image from camera/storage:<br/>
-      <input type="file" formControlName="storagePhoto" accept="image/*">
-      <!-- </mat-form-field> -->
-    </p>
-    <!-- TODO: to see if we want to remove submit, but I guess we should also
+                    <input type="file" formControlName="cameraPhoto" accept="image/*;capture=camera">
+                    <!-- </mat-form-field> -->
+                </p>
+                <p>
+                    <!-- <mat-form-field class="example-full-width"> -->
+                    Image from camera/storage:<br/>
+                    <input type="file" formControlName="storagePhoto" accept="image/*">
+                    <!-- </mat-form-field> -->
+                </p>
+                <!-- TODO: to see if we want to remove submit, but I guess we should also
          TODO: enable selection which of the selected SDGs this photo-avatar illustrates -->
-    <p>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
-      <button mat-raised-button (click)="reset()">Cancel</button>
-    </p>
-  </form>
+                <p>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
+                    <button mat-raised-button (click)="reset()">Reset</button>
+                </p>
+        </form>
+    </div>
 </div>
