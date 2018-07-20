@@ -1,12 +1,12 @@
 <mat-card class="sdg">
     <mat-card-header>
         <!-- <div mat-card-avatar class="sdg-header-image"></div> -->
-        <mat-card-title class='title'>{{sdg.name}}</mat-card-title>
+        <mat-card-title class='title'>{{sdg.dataContent.humanID + '. ' + sdg.name}}</mat-card-title>
         <mat-card-subtitle>{{sdg.dataContent.goal}}</mat-card-subtitle>
     </mat-card-header>
 
     <!-- <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img"> -->
-    <img mat-card-image class="picture" src="{{sdgImagesPath+sdg?.dataContent?.image?.url}}" alt="{{sdg.name}}" />
+    <img mat-card-image class="picture" src="{{sdgImagesPath + 'sdg' + sdg?.dataContent?.humanID + '.jpg'}}" alt="{{sdg.name}}" />
 
     <mat-card-content>
         <p>
