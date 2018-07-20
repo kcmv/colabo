@@ -8,10 +8,10 @@ import { RouterModule, Routes} from '@angular/router';
 // import {UsersGroupsComponent} from './users-groups/users-groups.component';
 // import {UiSmsComponent} from './ui-sms/ui-sms.component';
 // import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
-import {RimaRegisterComponent} from './rima-register/rima-register.component';
+import {RimaRegisterComponent} from '@colabo-rima/rima_aaa/rima-register/rima-register.component';
 import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {CwcComponent} from './cwc/cwc.component';
-import {LoginComponent} from './login/login.component';
+import { LoginComponent } from '@colabo-rima/rima_aaa/rima-login/login.component';
 import {AvatarComponent} from './avatar/avatar.component';
 
 const routes: Routes = [

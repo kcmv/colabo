@@ -16,7 +16,7 @@ import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
-import {RimaService} from '../rima-register/rima.service';
+import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
 
 //this consts are defined by INSTALL.MD data:
 const MAP_ID = "5b49e7f736390f03580ac9a7";
@@ -60,7 +60,7 @@ export class SDGsService {
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeMapService: KnalledgeMapService,
     private globalEmitterServicesArray: GlobalEmittersArrayService,
-    private rimaService: RimaService
+    private RimaAAAService: RimaAAAService
   ) {
     //getting data for the user:
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
@@ -173,7 +173,7 @@ export class SDGsService {
   }
 
   saveSDGsSelection(sdgs:string[]):Observable<any>{
-    let user_id:string = this.rimaService.getUserId();
+    let user_id:string = this.RimaAAAService.getUserId();
     let sdgId:string;
     this.sdgsLeftSave = sdgs.length;
     let that = this;

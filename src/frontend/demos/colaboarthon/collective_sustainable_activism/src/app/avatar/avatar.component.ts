@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import {RimaService} from '../rima-register/rima.service';
-import {UserData} from '../rima-register/userData';
+import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
+import {UserData} from '@colabo-rima/rima_aaa/userData';
 
 @Component({
   selector: 'app-avatar',
@@ -14,7 +14,7 @@ export class AvatarComponent implements OnInit {
 
   constructor(
     fb: FormBuilder,
-    private rimaService: RimaService
+    private RimaAAAService: RimaAAAService
   ) {
     this.form = fb.group({
         // "cameraPhoto": ['', [Validators.required, Validators.email]],
@@ -35,7 +35,7 @@ export class AvatarComponent implements OnInit {
     console.log(this.form);
     let userData:UserData = new UserData();
     //TODO: userData.image.url = this.form.value.cameraPhoto;
-    // this.rimaService.createNewUser(userData, this.userCreated);
+    // this.RimaAAAService.createNewUser(userData, this.userCreated);
   }
 
 }

@@ -1,0 +1,30 @@
+<div>
+    <!--TODO: to make localized (in Serbian) form field names and info -->
+    <div *ngIf="isLoggedIn()">
+        Hi,
+        <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You are successfully logged in.
+
+        <p>
+            <button mat-raised-button color="primary" (click)="logOut()">Log out</button>
+        </p>
+    </div>
+
+    <div *ngIf="!isLoggedIn()">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <p>
+                <mat-form-field class="example-full-width">
+                    <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field class="example-full-width">
+                    <input matInput type="password" placeholder="Password" formControlName="password" value="">
+                </mat-form-field>
+            </p>
+            <p>
+                <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Login</button>
+                <button mat-raised-button (click)="reset()">Cancel</button>
+            </p>
+        </form>
+    </div>
+</div>

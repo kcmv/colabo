@@ -7,7 +7,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 
-// import {RimaService} from '../rima-register/rima.service';
+// import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 import {CWCService, CWCData} from './cwc.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class CwcComponent implements OnInit {
   constructor(
     fb: FormBuilder,
     private cwcService: CWCService,
-    // private rimaService: RimaService,
+    // private RimaAAAService: RimaAAAService,
     public dialog: MatDialog
   ) {
       this.form = fb.group({

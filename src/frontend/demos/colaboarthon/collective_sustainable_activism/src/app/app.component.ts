@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {SDGsService} from './select-sdgs/sdgs.service';
-import {RimaService} from './rima-register/rima.service';
+import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 import {CWCService} from './cwc/cwc.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class AppComponent {
 
   constructor(
     private sDGsService: SDGsService,
-    private rimaService: RimaService,
+    private RimaAAAService: RimaAAAService,
     private cwcService: CWCService
   ){
     console.log('AppComponent:constructor');

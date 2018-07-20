@@ -14,7 +14,7 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
-import {RimaService} from '../rima-register/rima.service';
+import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
@@ -48,7 +48,7 @@ export class CWCService {
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeMapService: KnalledgeMapService,
     private globalEmitterServicesArray: GlobalEmittersArrayService,
-    private rimaService: RimaService
+    private RimaAAAService: RimaAAAService
   ) {
     //getting data for the user:
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
@@ -116,7 +116,7 @@ export class CWCService {
   }
 
   saveCWCs(cwcD:CWCData):Observable<any>{
-    let user_id:string = this.rimaService.getUserId();
+    let user_id:string = this.RimaAAAService.getUserId();
     let cwc:string;
     this.cwcsLeftSave = cwcD.cwcs.length;
     let that = this;
