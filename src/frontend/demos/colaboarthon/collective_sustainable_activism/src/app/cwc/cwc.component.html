@@ -1,30 +1,35 @@
 <!-- CWC - Coaching with Compassion -->
 <div>
 <!--TODO: to make localized (in Serbian) form field names and info -->
-<h1>Your visions of the ideal future of our country/world</h1>
-(write it after you have finished the CWC dreaming of the workshop)
+<h1>Твоје визије идеалне будућности наше земље/света</h1>
+(напиши их након што си завршио CWC снивање на радионици)
+<!-- <h1>Your visions of the ideal future of our country/world</h1>
+(write it after you have finished the CWC dreaming of the workshop) -->
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <p>
         <mat-form-field class="example-full-width">
-          <input matInput type="text" placeholder="Your vision No 1" formControlName="cwcVision1" value="">
+          <input matInput type="text" placeholder="Визија бр. 1" formControlName="cwcVision1" value="">
+          <mat-error class="error-message">Визија мора бити дужине барем 3 карактера</mat-error>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field class="example-full-width">
-          <input matInput type="text" placeholder="Your vision No 2" formControlName="cwcVision2" value="">
+          <input matInput type="text" placeholder="Визија бр. 2" formControlName="cwcVision2" value="">
+          <mat-error class="error-message">Визија мора бити дужине барем 3 карактера</mat-error>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field class="example-full-width">
-          <input matInput type="text" placeholder="Your vision No 3" formControlName="cwcVision3" value="">
+          <input matInput type="text" placeholder=Визија бр. 3" formControlName="cwcVision3" value="">
+          <mat-error class="error-message">Визија мора бити дужине барем 3 карактера</mat-error>
         </mat-form-field>
       </p>
 
       <p>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || saved">{{saved ? 'Submitted' : 'Submit your visions'}}</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || saved">{{saved ? 'Послато' : 'Пошаљи визије'}}</button>
         <!-- <button mat-raised-button (click)="partialUpdate()">Partial Update</button>
         <button mat-raised-button (click)="fullUpdate()">Full Update</button> -->
-        <button mat-raised-button (click)="reset()">Clear</button>
+        <button mat-raised-button (click)="reset()">Обриши</button>
       </p>
     </form>
 </div>
