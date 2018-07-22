@@ -185,6 +185,7 @@ export class SDGsService {
         sdgSelection.sourceId = user_id;
         sdgSelection.targetId = sdgId;
         sdgSelection.iAmId = user_id;
+        sdgSelection.mapId = MAP_ID;
         sdgSelection.name = SDG_SELECTION_NAME;
         sdgSelection.type = SDG_SELECTION_TYPE;
         that.knalledgeEdgeService.create(sdgSelection).subscribe(that.sdgSaved.bind(that));
