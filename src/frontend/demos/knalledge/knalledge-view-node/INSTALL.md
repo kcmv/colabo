@@ -32,8 +32,41 @@ npm link @colabo-knalledge/knalledge_core
 npm link @colabo-knalledge/knalledge_store_core
 npm link @colabo-knalledge/knalledge_search
 npm link @colabo-knalledge/knalledge_view_node
-
 ```
+
+# Build
+
+```sh
+ng build --prod --build-optimizer
+```
+
+# Problems
+
+## Module build failed: Error: Missing binding Node Sass could not find a binding for your current environment: OS X 64-bit with Node.js 8.x
+
+For: `npm run dev` from host machine
+
+Detailed error:
+
+```txt
+ error  in ./resources/assets/sass/app.scss
+
+Module build failed: Error: Missing binding /Users/sasha/Documents/data/development/jobs/SEO/PayOnDelivery/pod/node_modules/node-sass/vendor/darwin-x64-57/binding.node
+Node Sass could not find a binding for your current environment: OS X 64-bit with Node.js 8.x
+
+Found bindings for the following environments:
+  - Linux 64-bit with Node.js 8.x
+```
+
+https://github.com/sass/node-sass/issues/2148
++ npm rebuild node-sass every time you switch. Or collect multiple binaries in the vendor directory.
+
+https://github.com/sass/node-sass/issues/1527
++ If is still not working, you can add manually the file : https://github.com/sass/node-sass/releases/tag/v4.2.0. This is what I did finally.
+    + https://github.com/sass/node-sass/releases/tag/v4.7.2
+
+darwin-x64-57_binding.node -> 
+    pod/node_modules/node-sass/vendor/darwin-x64-57/binding.node
 
 # Updating
 
@@ -43,6 +76,6 @@ https://stackoverflow.com/questions/43931986/how-to-upgrade-angular-cli-to-the-l
 
 `yarn add @angular/animations@5.0.1 @angular/common@5.0.1 @angular/compiler@5.0.1 @angular/core@5.0.1 @angular/forms@5.0.1 @angular/http@5.0.1 @angular/platform-browser@5.0.1 @angular/platform-browser-dynamic@5.0.1 @angular/router@5.0.1`
 
-` @angular/material@5.0.1
+`@angular/material@5.0.1
 @angular/cdk@
 @angular/flex@`

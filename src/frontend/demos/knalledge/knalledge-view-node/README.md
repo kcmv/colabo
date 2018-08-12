@@ -5,7 +5,7 @@
 + [view node 59d3dba173a8d7b33b00972c](http://localhost:4200/node/id/59d3dba173a8d7b33b00972c)
 
 
-## localhost (Sasha)
+## Test (localhost - Sasha)
 
 ### maps
 58068a04a37162160341d402 (Playing Guitar Msic)
@@ -16,6 +16,10 @@
 58069bd6a37162160341d6e0 Беле Руже
 59d3fb284b077e6c540f758e Ти ж мене підманула
 59d3dba173a8d7b33b00972c Любо, братцы, любо!
+
+http://localhost:4200/node/id/580c0513d50bfd4f0ceacade
+http://localhost:4200/node/id/580c10bed50bfd4f0ceacb1c
+http://localhost:4200/node/id/59d3b3f90d1f92de005c858e
 
 ## Building. CLI
 

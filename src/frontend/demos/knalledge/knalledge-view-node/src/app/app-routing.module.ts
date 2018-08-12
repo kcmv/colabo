@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes} from '@angular/router';
 
-import { GetNodeComponent } from './get-node/get-node.component';
+import { ViewNodePageComponent } from '@colabo-knalledge/knalledge_view_node/view-node-page/view-node-page.component';
 import { GetMapComponent } from './get-map/get-map.component';
 
 const routes: Routes = [
@@ -13,12 +13,12 @@ const routes: Routes = [
   },
   {
     path: 'node',
-    component: GetNodeComponent
+    component: ViewNodePageComponent
   },
   // same route but with the nodeId provided
   {
     path: 'node/id/:nodeId',
-    component: GetNodeComponent
+    component: ViewNodePageComponent
   },
   {
     path: 'map',

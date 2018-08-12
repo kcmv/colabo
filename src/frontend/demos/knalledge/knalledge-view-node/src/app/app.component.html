@@ -6,92 +6,29 @@
     <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
         <!-- <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;"> -->
         <!-- <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap> -->
+
+        <img src="/assets/images/colabo-logo-url-square-original.jpg" width="50px" />
+
         <span style="margin-left:10px; margin-right: 10px;"> : </span>
 
         <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
-              <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
-            </button>
+            <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
+        </button>
 
-        <!--            <button mat-mini-fab mat-tooltip="Back" tooltip-position="below" class="mat-mini mat-primary" aria-label="Back" (click)="goBack()" style="margin-right: 5px;">
-              <mat-icon [ngClass]="{warning: false}" title="Back">arrow_back</mat-icon>
-            </button>
--->
         <button mat-mini-fab mat-tooltip="Map" tooltip-position="below" class="mat-mini mat-primary" aria-label="Map" routerLink="/map" style="margin-right: 5px;">
-              <mat-icon [ngClass]="{warning: false}" title="Map">ic_device_hub</mat-icon>
-            </button>
+            <mat-icon [ngClass]="{warning: false}" title="Map">share</mat-icon>
+        </button>
 
-        <!--
-https://material.io/icons/#ic_dvr
-https://material.io/icons/#ic_storage
-https://material.io/icons/#ic_format_list_bulleted
-
-map:
-https://material.io/icons/#ic_device_hub
-https://material.io/icons/#ic_ac_unit
-map
-https://material.io/icons/#ic_share
-
-share:
-https://material.io/icons/#ic_share
-
-node:
-https://material.io/icons/#ic_insert_comment
-https://material.io/icons/#ic_mode_comment
-https://material.io/icons/#ic_developer_board
-
-edit:
-https://material.io/icons/#ic_brush
-https://material.io/icons/#ic_edit
-
-add:
-https://material.io/icons/#ic_control_point
-https://material.io/icons/#ic_add_location
-
-view:
-https://material.io/icons/#ic_remove_red_eye
-https://material.io/icons/#ic_local_library
-
-transform:
-https://material.io/icons/#ic_transform
-
-settings:
-https://material.io/icons/#ic_tune
-settings
-
-search:
-search
-
-options:
-chrome_reader_mode
-
-view type:
-https://material.io/icons/#ic_view_comfy
-https://material.io/icons/#ic_view_compact
-
-navigation:
-https://material.io/icons/#ic_directions
-https://material.io/icons/#ic_arrow_back
-https://material.io/icons/#ic_arrow_forward
-https://material.io/icons/#ic_arrow_upward
-https://material.io/icons/#ic_arrow_downward
-https://material.io/icons/#ic_cancel
-https://material.io/icons/#ic_arrow_drop_up
-https://material.io/icons/#ic_arrow_drop_down
-https://material.io/icons/#ic_chevron_left
-https://material.io/icons/#ic_chevron_right
-https://material.io/icons/#ic_check
-https://material.io/icons/#ic_first_page
-
-rate:
-https://material.io/icons/#ic_rate_review
-
--->
+        <span style="margin-left:10px; margin-right: 10px;"> : </span>
         <h1>
             CoLabo.Space
         </h1>
     </mat-toolbar>
 </div>
 
+<!-- 
+    https://material.io/tools/icons/?icon=share&style=baseline 
+-->
 <!-- Main content -->
 <!-- the <router-outlet> tells the router where to display routed views -->
 <router-outlet></router-outlet>
