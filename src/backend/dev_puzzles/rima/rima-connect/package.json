@@ -1,0 +1,15 @@
+{
+    "name": "@colabo-rima/rima-connect",
+    "description": "RIMA connect supports basic aspects of user management of Colabo.space clients.",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {},
+    "dependencies": {
+        "passport": "latest",
+        "passport-facebook": "latest",
+        "passport-google-oauth": "latest",
+        "passport-local": "latest",
+        "passport-twitter": "latest"
+    },
+    "devDependencies": {}
+}

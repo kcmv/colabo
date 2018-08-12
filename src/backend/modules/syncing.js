@@ -5,25 +5,25 @@
  */
 var Promise = require("bluebird");
 
-var mockup = {fb: {authenticate: false}, db: {data:false}};
+var mockup = { fb: { authenticate: false }, db: { data: false } };
 var accessId = 0;
 
-function resSendJsonProtected(res, data){
-	// http://tobyho.com/2011/01/28/checking-types-in-javascript/
-	if(data !== null && typeof data === 'object'){ // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
-		res.set('Content-Type', 'application/json');
-		// JSON Vulnerability Protection
-		// http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/
-		// https://docs.angularjs.org/api/ng/service/$http#description_security-considerations_cross-site-request-forgery-protection
-		res.send(")]}',\n" + JSON.stringify(data));
-	}else if(typeof data === 'string'){ // http://stackoverflow.com/questions/4059147/check-if-a-variable-is-a-string
-		res.send(data);
-	}else{
-		res.send(data);
-	}
+function resSendJsonProtected(res, data) {
+    // http://tobyho.com/2011/01/28/checking-types-in-javascript/
+    if (data !== null && typeof data === 'object') { // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
+        res.set('Content-Type', 'application/json');
+        // JSON Vulnerability Protection
+        // http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx/
+        // https://docs.angularjs.org/api/ng/service/$http#description_security-considerations_cross-site-request-forgery-protection
+        res.send(")]}',\n" + JSON.stringify(data));
+    } else if (typeof data === 'string') { // http://stackoverflow.com/questions/4059147/check-if-a-variable-is-a-string
+        res.send(data);
+    } else {
+        res.send(data);
+    }
 };
 
-var dbService = require('./dbService');
+var dbService = require('@colabo-knalledge/knalledge-storage-mongo/dbService');
 var dbConnection = dbService.connect();
 
 //var SyncingModel = dbConnection.model('Syncing', global.db.Syncing.Schema);
@@ -34,53 +34,53 @@ var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/syncing/one/551bdcda1763e3f0eb749bd4
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8042/syncing/all
-exports.index = function(req, res){
-	console.log("[modules/Syncing.js:index]");
+exports.index = function(req, res) {
+    console.log("[modules/Syncing.js:index]");
 
-	var mapId = req.params.searchParam;
-	var time = new Date(parseInt(req.params.searchParam2,10));
-	var type = req.params.type;
+    var mapId = req.params.searchParam;
+    var time = new Date(parseInt(req.params.searchParam2, 10));
+    var type = req.params.type;
 
-	console.log("[modules/Syncing.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
-	switch (type){
-		case 'in_map_after': //:
-			console.log("Syncing::get changes for map '%s', after timestamp: %s (%d)", mapId, time, time.getTime());
+    console.log("[modules/Syncing.js:index] req.params.searchParam: %s. req.params.searchParam2: %s", req.params.searchParam, req.params.searchParam2);
+    switch (type) {
+        case 'in_map_after': //:
+            console.log("Syncing::get changes for map '%s', after timestamp: %s (%d)", mapId, time, time.getTime());
 
-			var nodesEdgesReceived = function(nodes,edges){
-				var changes = {last_change:time, nodes:[],edges:[]};
-				console.log("[nodesEdgesReceived] %d nodes and %d edges :", nodes.length, edges.length);
-				//console.log(JSON.stringify(nodes));
-				//console.log(JSON.stringify(edges));
-				var i;
-				for(i=0; i<nodes.length; i++){
-					console.log("nodes[i]:"+nodes[i]);
-					console.log("nodes[i].time: %s (%d)",  nodes[i].updatedAt, nodes[i].updatedAt.getTime());
-					changes.nodes.push(nodes[i]);
-					// console.log("nodes[i].updatedAt instanceof Date:"+ (nodes[i].updatedAt instanceof Date));
-					//NOTE: mongoose returns here JavaScript Date object so we can compare it regularly (note: in MongoDb dates are stored as ISODate object but mongoose takes care of conversions)
-					if(nodes[i].updatedAt > changes.last_change){
-						// console.log("nodes[i].updatedAt [%s] > changes.last_change [%s]", nodes[i].updatedAt, changes.last_change);
-						changes.last_change = nodes[i].updatedAt;
-					}
-				}
-				for(i=0; i<edges.length; i++){
-					changes.edges.push(edges[i]);
-					// console.log("edges[i].updatedAt instanceof Date:"+ (edges[i].updatedAt instanceof Date));
-					if(edges[i].updatedAt > changes.last_change){
-						changes.last_change = edges[i].updatedAt;
-					}
-				}
-				console.log("changes: " + JSON.stringify(changes));
-				changes.last_change = changes.last_change.getTime();
-				resSendJsonProtected(res, {data: changes, accessId : accessId, success: true});
-			};
+            var nodesEdgesReceived = function(nodes, edges) {
+                var changes = { last_change: time, nodes: [], edges: [] };
+                console.log("[nodesEdgesReceived] %d nodes and %d edges :", nodes.length, edges.length);
+                //console.log(JSON.stringify(nodes));
+                //console.log(JSON.stringify(edges));
+                var i;
+                for (i = 0; i < nodes.length; i++) {
+                    console.log("nodes[i]:" + nodes[i]);
+                    console.log("nodes[i].time: %s (%d)", nodes[i].updatedAt, nodes[i].updatedAt.getTime());
+                    changes.nodes.push(nodes[i]);
+                    // console.log("nodes[i].updatedAt instanceof Date:"+ (nodes[i].updatedAt instanceof Date));
+                    //NOTE: mongoose returns here JavaScript Date object so we can compare it regularly (note: in MongoDb dates are stored as ISODate object but mongoose takes care of conversions)
+                    if (nodes[i].updatedAt > changes.last_change) {
+                        // console.log("nodes[i].updatedAt [%s] > changes.last_change [%s]", nodes[i].updatedAt, changes.last_change);
+                        changes.last_change = nodes[i].updatedAt;
+                    }
+                }
+                for (i = 0; i < edges.length; i++) {
+                    changes.edges.push(edges[i]);
+                    // console.log("edges[i].updatedAt instanceof Date:"+ (edges[i].updatedAt instanceof Date));
+                    if (edges[i].updatedAt > changes.last_change) {
+                        changes.last_change = edges[i].updatedAt;
+                    }
+                }
+                console.log("changes: " + JSON.stringify(changes));
+                changes.last_change = changes.last_change.getTime();
+                resSendJsonProtected(res, { data: changes, accessId: accessId, success: true });
+            };
 
-			var nodes = KNodeModel.findInMapAfterTime(mapId, time).exec();
-			var edges = KEdgeModel.findInMapAfterTime(mapId, time).exec();
-			Promise.join(nodes,edges, nodesEdgesReceived);
+            var nodes = KNodeModel.findInMapAfterTime(mapId, time).exec();
+            var edges = KEdgeModel.findInMapAfterTime(mapId, time).exec();
+            Promise.join(nodes, edges, nodesEdgesReceived);
 
-		break;
-	}
+            break;
+    }
 }
 
 // curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Map", "iAmId":5, "visual": {}}' http://127.0.0.1:8042/syncing

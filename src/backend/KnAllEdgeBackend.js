@@ -55,10 +55,13 @@ var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
 
 topiChat.connect();
 
+var bodyParser = require('body-parser');
+
 app.configure(function() {
     app.use(express.bodyParser());
     app.use(express.logger());
     app.use(express.cookieParser()); // cookie parser is used before the session
+    app.use(bodyParser.json());
     console.log("process.argv: %s", JSON.stringify(process.argv));
     app.set('port', portHttp);
 
@@ -80,7 +83,7 @@ var whoAmIs = app.resource('whoAmIs', require('./modules/whoAmI'), { id: 'type?/
 var howAmIs = app.resource('howAmIs', require('./modules/howAmI'), { id: 'type?/:searchParam?' });
 
 /* AAA */
-var aaa = app.resource('aaa', require('./modules/aaa'), { id: 'type?/:searchParam?/:searchParam2?' });
+var aaa = app.resource('aaa', require('@colabo-rima/rima-connect/aaa'), { id: 'type?/:searchParam?/:searchParam2?' });
 
 /* GENERAL */
 var syncing = app.resource('syncing', require('./modules/syncing'), { id: 'type?/:searchParam?/:searchParam2?' });
@@ -88,6 +91,8 @@ var dbAudits = app.resource('dbAudits', require('./modules/dbAudit'), { id: 'typ
 var session = app.resource('session', require('./modules/session'), { id: 'type?/:searchParam?' });
 
 var session = app.resource('mapImport', require('./modules/mapImport'), { id: 'type?/:searchParam?' });
+
+var upload = app.resource('upload', require('@colabo-media/media-upload/upload'), { id: 'type?/:searchParam?' });
 
 // var smsapi = app.resource('smsapi', require('./modules/smsapi_old_JS')); //JS
 var smsapi = app.resource('smsapi', require('./modules/smsapi')); //TS
