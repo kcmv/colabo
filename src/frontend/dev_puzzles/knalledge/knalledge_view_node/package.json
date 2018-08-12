@@ -4,15 +4,15 @@
   "private": true,
   "scripts": {},
   "dependencies": {
+    "@types/marked": "^0.4.0",
+    "marked": "^0.4.0"
   },
-  "peerDependencies": {
-  },
+  "peerDependencies": {},
   "peerDependenciesLocal": {
     "@colabo-puzzles/puzzles_core": "^0.0.1",
     "@colabo-knalledge/knalledge_core": "^0.0.1"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "devDependenciesLocal": {
     "@colabo-puzzles/puzzles_core": "^0.0.1",
     "@colabo-knalledge/knalledge_core": "^0.0.1"

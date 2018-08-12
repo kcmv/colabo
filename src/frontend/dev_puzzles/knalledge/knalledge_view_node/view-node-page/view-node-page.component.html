@@ -1,0 +1,12 @@
+<a [routerLink]="" *ngIf="node && !shouldShowNodeIdField" (click)="showNodeIdField()">(change node)</a>
+<a [routerLink]="" *ngIf="shouldShowNodeIdField" (click)="hideNodeIdField()">(cancel)</a>
+
+<div *ngIf="!node || shouldShowNodeIdField">
+    <label>node id:
+        <input [(ngModel)]="node_id" placeholder="node ID ..."/>
+    </label>
+
+    <button (click)="getNode()">getNode</button>
+</div>
+
+<knalledge-view-node [kNode]="node"></knalledge-view-node>

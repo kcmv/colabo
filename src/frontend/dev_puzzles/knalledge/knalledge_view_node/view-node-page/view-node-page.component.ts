@@ -1,29 +1,31 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+// import { Location } from '@angular/common';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
-//declare var knalledge:any;
-
 @Component({
-  selector: 'app-get-node',
-  templateUrl: './get-node.component.html',
-  styleUrls: ['./get-node.component.css'],
+  selector: 'knalledge-view-node-page',
+  templateUrl: './view-node-page.component.html',
+  styleUrls: ['./view-node-page.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class GetNodeComponent implements OnInit {
-  node:KNode = new KNode();
+export class ViewNodePageComponent implements OnInit {
+  public node:KNode;
+  shouldShowNodeIdField:boolean;
+  dataContentPropertyHTML:string;
   nodesCreated:KNode[] = [];
   @Input() node_id:string;
 
   constructor(
     private http: HttpClient,
-    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private route: ActivatedRoute,
+    // private location: Location,
     private knalledgeEdgeService: KnalledgeEdgeService,
     private knalledgeNodeService: KnalledgeNodeService
   ) { }
@@ -33,26 +35,47 @@ export class GetNodeComponent implements OnInit {
   }
 
   getInitialParams() {
-    const nodeId = this.activatedRoute.snapshot.paramMap.get('nodeId');
+    // subscribe to the parameters observable
+    this.route.paramMap.subscribe(params => {
+    const nodeId = this.route.snapshot.paramMap.get('nodeId');
     console.log("[KnalledgeViewComponent] nodeId: ", nodeId);
     if(nodeId){
-      this.node_id = nodeId;
-      this.getNode();
-    }else{
-      this.node_id = '580c0513d50bfd4f0ceacade';
+      this.getNodeByID(nodeId);
     }
+    });
   }
-  getNode():void{
+
+  showNodeIdField():void{
+    this.shouldShowNodeIdField = true;
+  }
+  hideNodeIdField(): void {
+    this.shouldShowNodeIdField = false;
+  }
+  getNode(): void {
+    // this.getNodeByID(this.node_id);
+    // const newUrlStr:string = this.router.createUrlTree([
+    //   Object.assign({ 'id': this.node_id }, this.route.snapshot.params)
+    // ], { relativeTo: this.route }).toString();
+    // this.location.go(newUrlStr);
+    // https://angular.io/api/router/Router#usage-3
+    // router.navigate(['team', 33, 'user', 11], { relativeTo: route });
+    // not working well :(
+    // just appending instead of replacing
+    // this.router.navigate(['id', this.node_id], { relativeTo: this.route });
+    this.router.navigateByUrl('/node/id/' + this.node_id);
+  }
+  getNodeByID(id:string):void{
       //var node:KNode = new KNode();
       // this.heroService.getHero(id)
       //   .subscribe(hero => this.hero = hero);
       //this.node =
-      this.knalledgeNodeService.getById(this.node_id)
+      this.knalledgeNodeService.getById(id)
         .subscribe(node => this.nodeReceived(node)); //as KNode
   }
 
   nodeReceived(nodeS:any):void{
     // this.node = nodeS.data;
+    this.node = new KNode();
     this.node.fill(nodeS); //this.node = nodeS.data;
     //this.node.name = 'test';
     console.log('node: ' + this.node);
@@ -61,6 +84,7 @@ export class GetNodeComponent implements OnInit {
     console.log('node: ' + this.node._id + ':'+ this.node.name);
   }
 
+  /*
   createNode():void{
     let node:KNode = new KNode();
     node.name = 'Demo generated Node ' + node._id;
@@ -95,5 +119,5 @@ export class GetNodeComponent implements OnInit {
   updateNode(node: KNode): void {
     this.knalledgeNodeService.update(node,null,null).subscribe(nodeS => this.nodeUpdated(nodeS));
   }
-
+*/
 }
