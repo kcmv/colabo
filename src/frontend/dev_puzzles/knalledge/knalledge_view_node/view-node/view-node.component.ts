@@ -32,20 +32,15 @@ export class ViewNodeComponent implements OnInit, AfterViewInit, OnDestroy{
   private Plugins:any;
   public _kNode:KNode;
   public dataContentPropertyHTML:string;
+  protected markedOptions:any;
   @Input() public set kNode(val) {
     this._kNode = val;
-      
-    if(this._kNode){
-      this.dataContentPropertyHTML = this._kNode.dataContent.property;
-      var markedOptions: any = {};
-      if (MarkedExtendsions.nodeEditor && MarkedExtendsions.nodeEditor.renderer)
-        markedOptions.renderer = MarkedExtendsions.nodeEditor.renderer;
-      if (this._kNode && this._kNode.dataContent && this._kNode.dataContent.property) {
-        this.dataContentPropertyHTML
-          = MarkedExtendsions.marked(this._kNode.dataContent.property, markedOptions);
-      }
-    }
+
+    this.renderProperty();
   }
+
+  public editingProperty:boolean;
+  public simpleMdeOptionsHtml:any = {};
   private GlobalEmittersArrayService:any;
   private genderSelected:any = null;
 
@@ -57,6 +52,11 @@ export class ViewNodeComponent implements OnInit, AfterViewInit, OnDestroy{
   ) {
     this.Plugins = this.ng2injector.get('Plugins', null);
     this.GlobalEmittersArrayService = this.ng2injector.get(GlobalEmittersArrayService, null);
+
+    if (MarkedExtendsions.nodeEditor && MarkedExtendsions.nodeEditor.renderer){
+      this.markedOptions = {};
+      this.markedOptions.renderer = MarkedExtendsions.nodeEditor.renderer;
+    }
   }
 
   ngOnInit() {
@@ -78,4 +78,24 @@ export class ViewNodeComponent implements OnInit, AfterViewInit, OnDestroy{
   initContent(){
 
   }
+
+  renderProperty(){
+    if (this._kNode) {
+      this.dataContentPropertyHTML = this._kNode.dataContent.property;
+      if (this._kNode && this._kNode.dataContent && this._kNode.dataContent.property) {
+        this.dataContentPropertyHTML
+          = MarkedExtendsions.marked(this._kNode.dataContent.property, this.markedOptions);
+      }
+    }
+  }
+
+  editProperty(){
+    this.editingProperty = true;
+  }
+
+  readOnlyProperty() {
+    this.renderProperty();
+    this.editingProperty = false;
+  }
+
 }

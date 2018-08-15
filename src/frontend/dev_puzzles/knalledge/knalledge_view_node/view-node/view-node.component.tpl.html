@@ -2,4 +2,12 @@
 
 <b>id</b>: {{_kNode?._id}}
 
-<div class='demo_sub_block' [innerHTML]="dataContentPropertyHTML"></div>
+<div *ngIf="!editingProperty">
+    <a [routerLink]="" (click)="editProperty()">(edit)</a>
+    <div class='demo_sub_block' [innerHTML]="dataContentPropertyHTML"></div>
+</div>
+<div *ngIf="editingProperty && _kNode && _kNode.dataContent && _kNode.dataContent.property">
+    <a [routerLink]="" (click)="readOnlyProperty()">(finish)</a>
+    <simplemde [(ngModel)]="_kNode.dataContent.property" [options]="simpleMdeOptionsHtml"></simplemde>
+    <!-- <simplemde [(ngModel)]="value" [options]="$options2"></simplemde> -->
+</div>

@@ -18,16 +18,12 @@ import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-// Migrate this in a separate NgModule for a knalledge-view-node puzzle that will be injected and not this components separately
-import { ViewNodePageComponent } from '@colabo-knalledge/knalledge_view_node/view-node-page/view-node-page.component';
-import { ViewNodeComponent } from '@colabo-knalledge/knalledge_view_node/view-node/view-node.component';
-
 import { GetMapComponent } from './get-map/get-map.component';
+
+import { KnaledgeViewNodeModule } from '@colabo-knalledge/knalledge_view_node/module';
 
 var moduleDeclarations = [
   AppComponent,
-  ViewNodePageComponent,
-  ViewNodeComponent,
   GetMapComponent
 ];
 
@@ -41,7 +37,8 @@ var moduleImports = [
   BrowserAnimationsModule,
   MaterialModule,
 
-  AppRoutingModule
+  AppRoutingModule, 
+  KnaledgeViewNodeModule
 ];
 // moduleImports.push(MainModule);
 

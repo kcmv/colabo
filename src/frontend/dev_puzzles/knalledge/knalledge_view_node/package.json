@@ -5,7 +5,8 @@
   "scripts": {},
   "dependencies": {
     "@types/marked": "^0.4.0",
-    "marked": "^0.4.0"
+    "marked": "^0.4.0",
+    "ng2-simplemde": "^2.0.2"
   },
   "peerDependencies": {},
   "peerDependenciesLocal": {
