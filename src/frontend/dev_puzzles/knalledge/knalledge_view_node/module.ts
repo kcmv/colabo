@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 // Material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'hammerjs';
@@ -22,6 +24,8 @@ var simpleMdeOptions: any = {};
 
 var moduleImports: any[] = [
     RouterModule,
+
+    FlexLayoutModule,
 
     // Material
     BrowserAnimationsModule,

@@ -30,6 +30,9 @@ export class ViewNodeRelativesComponent implements OnInit, AfterViewInit, OnDest
   public previousKnodes: KNode[] = [];
   public nextKnodes: KNode[] = [];
   public _kNode:KNode;
+  public shouldShowComponent:boolean;
+  public shouldShowNodeIdField:boolean;
+  public navigate_to_node_id:string;
 
   @Input() public set kNode(val) {
     this._kNode = val;
@@ -80,7 +83,21 @@ export class ViewNodeRelativesComponent implements OnInit, AfterViewInit, OnDest
 
   }
 
-  gotoKNode(kNode:KNode){
+  showComponent():void{
+    this.shouldShowComponent = true;
+  }
+  hideComponent(): void {
+    this.shouldShowComponent = false;
+  }
+
+  showNodeIdField():void{
+    this.shouldShowNodeIdField = true;
+  }
+  hideNodeIdField(): void {
+    this.shouldShowNodeIdField = false;
+  }
+
+  gotoKNode(knode_id:string){
     // const newUrlStr:string = this.router.createUrlTree([
     //   Object.assign({ 'id': this.node_id }, this.route.snapshot.params)
     // ], { relativeTo: this.route }).toString();
@@ -90,6 +107,6 @@ export class ViewNodeRelativesComponent implements OnInit, AfterViewInit, OnDest
     // not working well :(
     // just appending instead of replacing
     // this.router.navigate(['id', this.node_id], { relativeTo: this.route });
-    this.router.navigateByUrl('/node/id/' + kNode._id);
+    this.router.navigateByUrl('/node/id/' + knode_id);
   }
 }

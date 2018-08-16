@@ -1,22 +1,38 @@
-<a [routerLink]="" *ngIf="node && !shouldShowNodeIdField" (click)="showNodeIdField()">(change node)</a>
+<!-- main container -->
 
-<div *ngIf="!node || shouldShowNodeIdField">
-    <label>node id:
-        <button (click)="hideNodeIdField()" mat-icon-button [color]="'primary'" mat-tooltip="Cancel" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Cancel" style="margin-right: 5px;">
-            <mat-icon [ngClass]="{warning: false}" title="Cancel">cancel</mat-icon>
+<div fxLayout="column" fxFlexFill style="height: 100%;">
+    <!-- toolbar -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <!-- <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;"> -->
+            <!-- <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap> -->
+
+            <img src="/assets/images/colabo-logo-url-square-original.jpg" height="50px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+
+            <span style="margin-left:10px; margin-right: 10px;"> : </span>
+
+            <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
+                <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
+            </button>
+
+            <button mat-mini-fab mat-tooltip="Map" tooltip-position="below" class="mat-mini mat-primary" aria-label="Map" routerLink="/map" style="margin-right: 5px;">
+            <mat-icon [ngClass]="{warning: false}" title="Map">share</mat-icon>
         </button>
-        <mat-form-field>
-            <input matInput type="text" placeholder="Node id" [(ngModel)]="node_id" />
-        </mat-form-field>
-    </label>
 
-    <button (click)="getNode()" mat-raised-button [color]="'primary'" mat-tooltip="Finish" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Finish" style="margin-right: 5px;">
-        <mat-icon [ngClass]="{warning: false}" title="Finish">done</mat-icon> Get Node
-    </button>
+            <span style="margin-left:10px; margin-right: 10px;"> : </span>
+            <h1>
+                CoLabo.Space
+            </h1>
+        </mat-toolbar>
+    </div>
+
+    <!-- Main content -->
+
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+        <knalledge-view-node-relatives [kNode]="node"></knalledge-view-node-relatives>
+
+        <hr/>
+
+        <knalledge-view-node [kNode]="node"></knalledge-view-node>
+    </div>
 </div>
-
-<knalledge-view-node [kNode]="node"></knalledge-view-node>
-
-<hr/>
-
-<knalledge-view-node-relatives [kNode]="node"></knalledge-view-node-relatives>

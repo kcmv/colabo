@@ -1,1 +1,10 @@
 @import '~simplemde/dist/simplemde.min.css';
+
+/* flex layout; fixed header (and footer) scrolling content */
+
+knalledge-view-node-page {
+    height: 100%;
+    box-sizing: border-box; /* avoid additional scrollers for "over-100%" */
+    margin: 0;
+    padding: 0;
+}

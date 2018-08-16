@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 
 import { HttpClientModule }    from '@angular/common/http';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 // Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import 'hammerjs';
@@ -32,6 +34,8 @@ var moduleImports = [
   HttpClientModule,
   FormsModule,
   RouterModule,
+
+  FlexLayoutModule,
 
   // Material
   BrowserAnimationsModule,

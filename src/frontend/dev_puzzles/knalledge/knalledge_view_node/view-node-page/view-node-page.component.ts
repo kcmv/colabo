@@ -16,7 +16,6 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 })
 export class ViewNodePageComponent implements OnInit {
   public node:KNode;
-  shouldShowNodeIdField:boolean;
   dataContentPropertyHTML:string;
   nodesCreated:KNode[] = [];
   @Input() node_id:string;
@@ -45,12 +44,6 @@ export class ViewNodePageComponent implements OnInit {
     });
   }
 
-  showNodeIdField():void{
-    this.shouldShowNodeIdField = true;
-  }
-  hideNodeIdField(): void {
-    this.shouldShowNodeIdField = false;
-  }
   getNode(): void {
     // this.getNodeByID(this.node_id);
     // const newUrlStr:string = this.router.createUrlTree([
