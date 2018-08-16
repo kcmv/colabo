@@ -165,3 +165,7 @@ Currently manually placing the content of the failed imports
     padding: 2px;
     border: 1px solid gray;
 }
+
+.clickable {
+    cursor: pointer;
+}

@@ -1,0 +1,11 @@
+<h3>Previous</h3>
+
+<div *ngFor="let kNode of previousKnodes">
+    <a [routerLink]="" (click)="gotoKNode(kNode)">{{kNode?.name}}</a>
+</div>
+
+<h3>Children</h3>
+
+<div *ngFor="let kNode of nextKnodes">
+    <a [routerLink]="" (click)="gotoKNode(kNode)">{{kNode?.name}}</a>
+</div>

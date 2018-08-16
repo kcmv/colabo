@@ -70,7 +70,11 @@ export class ViewNodePageComponent implements OnInit {
       //   .subscribe(hero => this.hero = hero);
       //this.node =
       this.knalledgeNodeService.getById(id)
-        .subscribe(node => this.nodeReceived(node)); //as KNode
+      .subscribe(node => {
+        this.nodeReceived(node);
+        // document.body.scrollTop = 0;
+        window.scroll(0, 0);
+      }); //as KNode
   }
 
   nodeReceived(nodeS:any):void{

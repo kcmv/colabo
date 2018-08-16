@@ -31,6 +31,8 @@ export class ViewNodeComponent implements OnInit, AfterViewInit, OnDestroy{
   public selectedNodeChangedEvent = "selectedNodeChangedEvent";
   private Plugins:any;
   public _kNode:KNode;
+  protected oldTitle:string;
+  protected oldProperty:any;
   public dataContentPropertyHTML:string;
   protected markedOptions:any;
   @Input() public set kNode(val) {
@@ -39,6 +41,7 @@ export class ViewNodeComponent implements OnInit, AfterViewInit, OnDestroy{
     this.renderProperty();
   }
 
+  public editingTitle:boolean;
   public editingProperty:boolean;
   public simpleMdeOptionsHtml:any = {};
   private GlobalEmittersArrayService:any;
@@ -89,8 +92,36 @@ export class ViewNodeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
   }
 
+  deleteNode(){
+
+  }
+
+  editTitle(){
+    this.editingTitle = true;
+    this.oldTitle = this._kNode.name;
+  }
+
+  cancelEditingTitle(){
+    this.editingTitle = false;
+    this._kNode.name = this.oldTitle;
+  }
+
+  saveTitle(){
+    this.editingTitle = false;
+  }
+
   editProperty(){
     this.editingProperty = true;
+    if (this._kNode && this._kNode.dataContent && this._kNode.dataContent.property) {
+      this.oldProperty = this._kNode.dataContent.property;
+    }
+  }
+
+  cancelEditingProperty(){
+    this.editingProperty = false;
+    if (this._kNode && this._kNode.dataContent && this._kNode.dataContent.property) {
+      this._kNode.dataContent.property = this.oldProperty;
+    }
   }
 
   readOnlyProperty() {

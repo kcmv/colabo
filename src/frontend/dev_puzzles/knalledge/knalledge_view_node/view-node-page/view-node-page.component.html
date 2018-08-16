@@ -1,12 +1,22 @@
 <a [routerLink]="" *ngIf="node && !shouldShowNodeIdField" (click)="showNodeIdField()">(change node)</a>
-<a [routerLink]="" *ngIf="shouldShowNodeIdField" (click)="hideNodeIdField()">(cancel)</a>
 
 <div *ngIf="!node || shouldShowNodeIdField">
     <label>node id:
-        <input [(ngModel)]="node_id" placeholder="node ID ..."/>
+        <button (click)="hideNodeIdField()" mat-icon-button [color]="'primary'" mat-tooltip="Cancel" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Cancel" style="margin-right: 5px;">
+            <mat-icon [ngClass]="{warning: false}" title="Cancel">cancel</mat-icon>
+        </button>
+        <mat-form-field>
+            <input matInput type="text" placeholder="Node id" [(ngModel)]="node_id" />
+        </mat-form-field>
     </label>
 
-    <button (click)="getNode()">getNode</button>
+    <button (click)="getNode()" mat-raised-button [color]="'primary'" mat-tooltip="Finish" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Finish" style="margin-right: 5px;">
+        <mat-icon [ngClass]="{warning: false}" title="Finish">done</mat-icon> Get Node
+    </button>
 </div>
 
 <knalledge-view-node [kNode]="node"></knalledge-view-node>
+
+<hr/>
+
+<knalledge-view-node-relatives [kNode]="node"></knalledge-view-node-relatives>
