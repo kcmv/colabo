@@ -8,6 +8,9 @@ var config = require('./config/global'),
     http = require('http'),
     https = require('https'),
     flash = require('connect-flash'),
+
+    puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-knalledge-storage-mongo/models'),
+
     db = require('./models'),
     TopiChat = require('./modules/topiChat'),
     TopiChatKnAllEdge = require('./modules/topiChat-knalledge');
@@ -73,9 +76,8 @@ app.configure(function() {
     app.use(app.router);
 });
 /* Knalledge Maps */
-var knodes = app.resource('knodes', require('./modules/kNode'), { id: 'type?/:actionType?/:searchParam?/:searchParam2?' });
-var kedges = app.resource('kedges', require('./modules/kEdge'), { id: 'type?/:searchParam?/:searchParam2?' });
-var kmaps = app.resource('kmaps', require('./modules/kMap'), { id: 'type?/:searchParam?/:searchParam2?' });
+var puzzleKnalledgeCore = require('@colabo-knalledge/b-knalledge-core')(app);
+var puzzleKnalledgeSearch = require('@colabo-knalledge/b-knalledge-search')(app);
 
 /* RIMA */
 var whatAmIs = app.resource('whatAmIs', require('./modules/whatAmI'), { id: 'type?/:searchParam?' });

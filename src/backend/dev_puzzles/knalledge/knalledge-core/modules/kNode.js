@@ -5,6 +5,7 @@
  */
 var deepAssign = require('deep-assign');
 //var Promise = require("bluebird");
+var dbService = require('@colabo-knalledge/b-knalledge-storage-mongo/dbService');
 
 var mockup = { fb: { authenticate: false }, db: { data: false } };
 var accessId = 0;
@@ -24,8 +25,6 @@ function resSendJsonProtected(res, data) {
     }
 };
 
-
-var dbService = require('@colabo-knalledge/knalledge-storage-mongo/dbService');
 var dbConnection = dbService.connect();
 
 var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);

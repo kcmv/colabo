@@ -38,17 +38,7 @@ var KEdge = /** @class */ (function (_super) {
         _this.targetId = null; // id of the target node this edge is connected to
         _this.value = 0; //value assigned to the edge
         // next higher level of abstraction
-        _this.up = {
-        /*
-            Suggested elements:
-    
-            _id: undefined,
-            name: undefined,
-            type: undefined,
-            sourceId: undefined,
-            targetId: undefined
-        */
-        };
+        _this.up = {};
         _this.visual = null; //	visual is an object containing aspects of visual representation of the kNode object. VKNode object is related to it.
         _this.init();
         return _this;

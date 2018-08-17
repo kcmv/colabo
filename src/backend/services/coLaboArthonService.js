@@ -8,6 +8,7 @@ var AUTHOR_ID = "556760847125996dc1a4a24f";
 //export public class CoLaboArthonService {
 var CoLaboArthonService = /** @class */ (function () {
     function CoLaboArthonService() {
+        this.lang = 'EN';
         this.rimaService = new rimaService_1.RimaService(MAP_ID, AUTHOR_ID);
     }
     CoLaboArthonService.prototype.saveParticipant = function (name, occupation, phoneNo, registeAfterReply, callback) {
@@ -22,10 +23,22 @@ var CoLaboArthonService = /** @class */ (function () {
             }
         };
         if (registeAfterReply) {
-            //TODO: check if the user sent a uregistered-reply
+            //TODO: check if the user sent a uregistered-reply earlier
             // newUser.dataContent['phoneNo'] //delete this field afterward
         }
-        this.rimaService.createNewUser(newUser, callback);
+        function replyFoundByPhone(replies) {
+            //console.log('userFound:users',users);
+            //console.log('typeof users', typeof users);
+            if (replies !== null && replies.length > 0) {
+                console.log('replyFoundByPhone:replies', replies);
+                this.rimaService.createNewUser(newUser, callback);
+            }
+            else {
+                console.error('replyFoundByPhone:: unknown code or a user tried to register by providing his name, even though he haven\'t sent a reply earlier');
+                callback(messages_1.Messages.SMS_COLABOARTHON['UNKNOWN_CODE'][this.lang]);
+            }
+        }
+        this.rimaService.getReplyByPhoneNo(phoneNo, replyFoundByPhone);
     };
     CoLaboArthonService.prototype.saveReply = function (referenceHumanId, reply, phoneNo, callback) {
         if (callback === void 0) { callback = null; }
@@ -34,9 +47,7 @@ var CoLaboArthonService = /** @class */ (function () {
             name: reply,
             isPublic: true,
             iAmId: null,
-            dataContent: {
-            // background: background
-            }
+            dataContent: {}
         };
         var user = null;
         var referenceNode = null;

@@ -3,8 +3,10 @@
     "description": "KnAllEdge is a universal knowledge repository system.",
     "version": "0.0.5",
     "private": true,
+    "webSocketDebuggerUrl": "ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e",
     "scripts": {
-        "start": "node KnAllEdgeBackend 8001 8002"
+        "start": "node KnAllEdgeBackend 8001 8002",
+        "debug": "node --inspect-brk=5858 KnAllEdgeBackend 8001 8002"
     },
     "dependencies": {
         "async": "x",

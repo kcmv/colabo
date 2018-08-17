@@ -33,15 +33,7 @@ var KNode = /** @class */ (function (_super) {
         // dataContent.property = null; // value of node content (Additional Info)
         _this.decorations = {};
         // next higher level of abstraction
-        _this.up = {
-        /*
-            Suggested elements:
-
-            _id: undefined,
-            name: undefined,
-            type: undefined
-        */
-        };
+        _this.up = {};
         _this.visual = {
             //	visual is an object containing aspects of visual representation of the kNode object. VKNode object is related to it.
             //	NOTE: in the future, each user will have its one or more visual representations of kNode, so accordingly this object is going to be migrated to an independent object related to iAmId (user ID)!
@@ -107,7 +99,7 @@ var KNode = /** @class */ (function (_super) {
             if (typeof this[id] == 'function')
                 continue;
             //console.log("cloning: %s", id);
-            if (this[id] !== undefined) { //JSON.parse breaks at "undefined"
+            if (this[id] !== undefined) {
                 kNode[id] = (JSON.parse(JSON.stringify(this[id])));
             }
         }

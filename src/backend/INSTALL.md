@@ -11,9 +11,17 @@ You need to:
 3. import them in this project with:
 
 ```sh
-npm link @colabo-knalledge/knalledge-storage-mongo
+npm link @colabo-knalledge/b-knalledge-storage-mongo
+npm link @colabo-knalledge/b-knalledge-core
+npm link @colabo-knalledge/b-knalledge-search
 npm link @colabo-media/media-upload
 npm link @colabo-rima/rima-connect
+```
+
+# TypeScript
+
+```sh
+tsc modules/smsapi.ts
 ```
 
 # Test

@@ -10,7 +10,7 @@ var mockup = { fb: { authenticate: false }, db: { data: false } };
 var accessId = 0;
 
 var multer = require('multer');
-var dbService = require('@colabo-knalledge/knalledge-storage-mongo/dbService');
+var dbService = require('@colabo-knalledge/b-knalledge-storage-mongo/dbService');
 var dbConnection = dbService.connect();
 
 function resSendJsonProtected(res, data) {

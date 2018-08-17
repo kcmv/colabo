@@ -1,5 +1,5 @@
 {
-    "name": "@colabo-knalledge/knalledge-storage-mongo",
+    "name": "@colabo-knalledge/b-knalledge-storage-mongo",
     "description": "Mongo implementation of the KnAllEdge storage",
     "version": "0.0.1",
     "private": true,

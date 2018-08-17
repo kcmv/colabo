@@ -1,0 +1,9 @@
+{
+    "name": "@colabo-knalledge/b-knalledge-search",
+    "description": "Knalledge Search API for the KnAllEdge backend",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {},
+    "dependencies": {},
+    "devDependencies": {}
+}

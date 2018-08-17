@@ -1,0 +1,9 @@
+{
+    "name": "@colabo-knalledge/b-knalledge-core",
+    "description": "API (modules) implementation of the KnAllEdge backend",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {},
+    "dependencies": {},
+    "devDependencies": {}
+}

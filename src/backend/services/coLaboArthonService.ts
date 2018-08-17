@@ -17,7 +17,7 @@ export class CoLaboArthonService {
     this.rimaService = new RimaService(MAP_ID, AUTHOR_ID);
   }
 
-  protcted lang:string = 'EN';
+  protected lang:string = 'EN';
 
   saveParticipant(name:string, occupation:string, phoneNo:string, registeAfterReply:boolean = false, callback:Function = null):void{
     var newUser = {
@@ -42,7 +42,7 @@ export class CoLaboArthonService {
       }
       else{
         console.error('replyFoundByPhone:: unknown code or a user tried to register by providing his name, even though he haven\'t sent a reply earlier');
-        callback(Messages.SMS_COLABOARTHON['UNKNOWN_CODE'][lang],);
+        callback(Messages.SMS_COLABOARTHON['UNKNOWN_CODE'][this.lang],);
       }
     }
     this.rimaService.getReplyByPhoneNo(phoneNo, replyFoundByPhone);

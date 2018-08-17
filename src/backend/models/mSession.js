@@ -33,18 +33,18 @@ var mongoose = require('mongoose');
 
 /* SCHEMA */
 var sessionSchema = mongoose.Schema({
-	name: String,
-	participants: {type: mongoose.Schema.Types.Mixed},
-	mustFollowPresenter: { type: Boolean, default: false }, //control of participants option of (NOT) receiveNavigation (if **they CAN STOP FOLLOWing**)
-	readOnly: { type: Boolean, default: false },
-	phase: Number,
-	mapId: {type: mongoose.Schema.Types.ObjectId, ref: 'KMap'}, //map at which the session is happening
-	collaboSpace: {type: mongoose.Schema.Types.Mixed}, //representing state of all relevant puzzles in the Collabospace, e.g. Brainstorming, etc ...
-	creator: {type: mongoose.Schema.Types.ObjectId, ref: 'WhoAmI'}
+    name: String,
+    participants: { type: mongoose.Schema.Types.Mixed },
+    mustFollowPresenter: { type: Boolean, default: false }, //control of participants option of (NOT) receiveNavigation (if **they CAN STOP FOLLOWing**)
+    readOnly: { type: Boolean, default: false },
+    phase: Number,
+    mapId: { type: mongoose.Schema.Types.ObjectId, ref: 'KMap' }, //map at which the session is happening
+    collaboSpace: { type: mongoose.Schema.Types.Mixed }, //representing state of all relevant puzzles in the Collabospace, e.g. Brainstorming, etc ...
+    creator: { type: mongoose.Schema.Types.ObjectId, ref: 'WhoAmI' }
 });
 
 
-var pluginAuditing = require('./pluginAuditing');
+var pluginAuditing = require('@colabo-knalledge/b-knalledge-storage-mongo/models/pluginAuditing');
 sessionSchema.plugin(pluginAuditing, {});
 
 exports.Schema = sessionSchema;

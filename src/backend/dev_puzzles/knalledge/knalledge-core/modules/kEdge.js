@@ -3,6 +3,7 @@
 var ANONYMOUS_USER_ID = "55268521fb9a901e442172f8";
 var mongoose = require('mongoose');
 //var Promise = require("bluebird");
+var dbService = require('@colabo-knalledge/b-knalledge-storage-mongo/dbService');
 
 var mockup = { fb: { authenticate: false }, db: { data: false } };
 var accessId = 0;
@@ -22,7 +23,6 @@ function resSendJsonProtected(res, data) {
     }
 };
 
-var dbService = require('@colabo-knalledge/knalledge-storage-mongo/dbService');
 var dbConnection = dbService.connect();
 
 var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
