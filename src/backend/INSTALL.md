@@ -1,16 +1,37 @@
 # INSTALL
 
+```sh
+cd <your knalledge deployed folder>
+cd src/backend
+npm install
+cd modules/topiChat
+npm install
+cd ../topiChat-knalledge
+npm install
+```
+### Additional packages
+
+**NOTE**: Backend needs a special ```express-resource``` package on steroids. You can download it as a separate package [here](http://colabo.space/downloads/express-resource.zip). After or even before issuing ```npm install``` you should (re)place the content of the archive:
+
+in your ```backend/node_modules``` folder
+
+It is similar with deep-assign package which you can find [here](http://colabo.space/downloads/deep-assign.zip).
+
+then you should go to both  ```backend/modules/topiChat``` and ```backend/modules/topiChat-knalledge```
+and do npm install there
+
 ## Colabo packages
 
 This packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/cha-os/knalledge).
 
 You need to:
 
-1. install it locally
-2. export each of used packages as global npm packages (with `npm local` command)
-3. import them in this project with:
+1. install it locally: `yarn`
+2. export each of used puzzles as global npm packages (get in the puzzle folder and run `npm local` command)
+3. import puzzles in the backend part of the project with:
 
 ```sh
+cd src/backend
 npm link @colabo-knalledge/b-knalledge-storage-mongo
 npm link @colabo-knalledge/b-knalledge-core
 npm link @colabo-knalledge/b-knalledge-search
@@ -52,6 +73,20 @@ http://localhost:8001/knodes/one/default/59d3d92d73a8d7b33b00970b
 http://localhost:8001/knodes/one/default/59d3b3f90d1f92de005c858e
 ```
 
+# Running
+
+Start the server
+
+```
+npm start
+```
+
+### Problems
+
+- [`npm install v8-profiler` fails with node v7.0.0 on osx #98](https://github.com/node-inspector/v8-profiler/issues/98)
+- [Pre-built binaries not found for v8-debug@0.7.7 and node@7.1.0](https://github.com/node-inspector/node-inspector/issues/950)
+- [fetch fails with 404 when trying to retrieve https://registry.npmjs.org/i/-/i-0.3.2.tgz against node4-lts](https://github.com/npm/npm/issues/14025)
+
 # Changes
 
 `node-inspector` is removed since it is making problems
@@ -61,4 +96,3 @@ http://localhost:8001/knodes/one/default/59d3b3f90d1f92de005c858e
   "node-inspector": "~1.1.1"
 }
 ```
-

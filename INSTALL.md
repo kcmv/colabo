@@ -124,37 +124,7 @@ You should get the message: `Hello world!`
 
 ## Install backend
 
-```sh
-cd <your knalledge deployed folder>
-cd src/backend
-npm install
-cd modules/topiChat
-npm install
-cd ../topiChat-knalledge
-npm install
-```
-### Additional packages
-
-**NOTE**: Backend needs a special ```express-resource``` package on steroids. You can download it as a separate package [here](http://colabo.space/downloads/express-resource.zip). After or even before issuing ```npm install``` you should (re)place the content of the archive:
-
-in your ```backend/node_modules``` folder
-
-It is similar with deep-assign package which you can find [here](http://colabo.space/downloads/deep-assign.zip).
-
-then you should go to both  ```backend/modules/topiChat``` and ```backend/modules/topiChat-knalledge```
-and do npm install there
-
-and (re)start the server
-
-```
-npm start
-```
-
-### Problems
-
-- [`npm install v8-profiler` fails with node v7.0.0 on osx #98](https://github.com/node-inspector/v8-profiler/issues/98)
-- [Pre-built binaries not found for v8-debug@0.7.7 and node@7.1.0](https://github.com/node-inspector/node-inspector/issues/950)
-- [fetch fails with 404 when trying to retrieve https://registry.npmjs.org/i/-/i-0.3.2.tgz against node4-lts](https://github.com/npm/npm/issues/14025)
+It is described in a separate document [backend/INSTALL.md]()
 
 ## install frontend
 
