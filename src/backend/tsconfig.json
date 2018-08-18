@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "preserveConstEnums": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "removeComments": false,
+        "noImplicitAny": false,
+        "listFiles": true
+    },
+    "allowSyntheticDefaultImports": false,
+    "files": [
+        "KnAllEdgeBackend.ts"
+    ],
+    "include": [
+        "dev_puzzles"
+    ],
+    "exclude": [
+        "**/*d.ts"
+    ],
+    "compileOnSave": false
+}

@@ -20,9 +20,29 @@ npm link @colabo-rima/rima-connect
 
 # TypeScript
 
+There is `tsconfig.json` file describing what we are interested in compiling and how.
+
++ https://www.typescriptlang.org/docs/handbook/compiler-options.html
++ https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
+
+When you are developing you should update it if you are introducing new files/folders. You run compiler with
+
 ```sh
-tsc modules/smsapi.ts
+tsc
 ```
+
+or you can compile only one specific entry point:
+
+```sh
+tsc KnAllEdgeBackend.ts
+```
+
+but keep in mind that in our case it didn't follow symbolic paths in the `node_modules`, so we needed to compile it additionally:
+
+```sh
+tsc dev_puzzles/knalledge/knalledge-search/index.ts
+```
+Here is a reference on a [opposite :) case](https://github.com/Microsoft/TypeScript/issues/9552)
 
 # Test
 

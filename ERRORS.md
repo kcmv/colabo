@@ -125,3 +125,39 @@ However, the problem is with our linking and using
     - build it separatelly
     - build it throuh (and with) hosting app
     - load it (as prebuilt) to hosting app
+
+
+# No provider for String
+
+```txt
+Error: StaticInjectorError(AppModule)[KnalledgeSearchNodeService -> String]: 
+  StaticInjectorError(Platform: core)[KnalledgeSearchNodeService -> String]: 
+    NullInjectorError: No provider for String!
+```
+
+In the service constructor:
+
+```ts
+@Injectable()
+export class KnalledgeSearchNodeService extends CFService
+{
+	constructor(
+    private apiUrl:string,
+    private http: HttpClient
+  ){
+}
+```
+
+there was a problem of lefting over the non-injectable string parameter `apiUrl:string`
+
+Thi right signature is:
+
+```ts
+@Injectable()
+export class KnalledgeSearchNodeService extends CFService
+{
+	constructor(
+    private http: HttpClient
+  ){
+}
+```

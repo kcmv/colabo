@@ -179,8 +179,8 @@ sudo chmod g+s .
 ```sh
 cd development/colabo/
 cd src/frontend
-npm install
-npm run typings install
+yarn install
+yarn run typings install
 ```
 
 Build typings, either:
@@ -198,6 +198,10 @@ or
 ./node_modules/typings/dist/bin.js -v
 ./node_modules/typings/dist/bin.js install
 ```
+
+#### Bower modules
+
+NOTE: Try WITHOUT installing
 
 Install bower modules:
 
