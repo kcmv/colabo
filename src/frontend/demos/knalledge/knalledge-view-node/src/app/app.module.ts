@@ -15,6 +15,7 @@ import {MaterialModule} from './materialModule';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
+import { KnalledgeSearchNodeService } from '@colabo-knalledge/knalledge_search/knalledge-search-nodes.service';
 
 import { AppComponent } from './app.component';
 
@@ -59,7 +60,7 @@ export var Plugins:any = window.Config.Plugins;
   imports: moduleImports,
   entryComponents: [],
   providers: [
-    KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService,
+    KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService, KnalledgeSearchNodeService,
     {provide: "Plugins", useValue: Plugins},
     // provide ng build error: "Can't resolve all parameters for GlobalEmitterService"
     // {provide: GlobalEmitterService, useClass: GlobalEmitterService},

@@ -7,6 +7,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA,
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import { KnalledgeSearchNodeService } from '@colabo-knalledge/knalledge_search/knalledge-search-nodes.service';
 
 var moduleImports = [];
 var componentDirectives = [];
@@ -36,11 +37,23 @@ export class ViewNodeRelativesComponent implements OnInit, AfterViewInit, OnDest
 
   @Input() public set kNode(val) {
     this._kNode = val;
+    if(this._kNode){
+      this.knalledgeSearchNodeService.queryChildrenInMap(this._kNode._id, this._kNode.mapId)
+        .subscribe(nodes => {
+          this.childrenNodesReceived(nodes);
+        });
+
+      this.knalledgeSearchNodeService.queryParentsInMap(this._kNode._id, this._kNode.mapId)
+        .subscribe(nodes => {
+          this.parentNodesReceived(nodes);
+        });
+    }
   }
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private knalledgeSearchNodeService: KnalledgeSearchNodeService
   ) {
     var kNode = new KNode();
     kNode.name = "Није лако бубамарцу";
@@ -81,6 +94,14 @@ export class ViewNodeRelativesComponent implements OnInit, AfterViewInit, OnDest
 
   initContent(){
 
+  }
+
+  childrenNodesReceived(childrenNodes: KNode[]){
+    this.nextKnodes = childrenNodes;
+  }
+
+  parentNodesReceived(parentNodes: KNode[]) {
+    this.previousKnodes = parentNodes;
   }
 
   showComponent():void{
