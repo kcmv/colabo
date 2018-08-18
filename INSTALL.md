@@ -16,8 +16,13 @@
 
 + open the terminal and navigate to that folder, then run:
 ```sh
-git clone https://github.com/mprinc/Knalledge
+git clone https://github.com/Cha-OS/colabo
 ```
++ if we need to work on another branch, e.g. one named **cf-ng5**, we do  it this way:
+```sh
+ git checkout cf-ng5 
+```
+
 + install **brew**
 
   + https://brew.sh/
@@ -28,6 +33,7 @@ git clone https://github.com/mprinc/Knalledge
     ```
 
 + Install **mongodb** server
+
 ```sh
 brew install mongodb
 sudo mkdir -p /data/db
@@ -171,7 +177,7 @@ sudo chmod g+s .
 ### code
 
 ```sh
-cd development/Knalledge/
+cd development/colabo/
 cd src/frontend
 npm install
 npm run typings install
@@ -856,7 +862,7 @@ let routes:any = {
 jQuery and Protractor (Seleinum) both use the same global variable: ```$```. There fore TypeScript compiler complains:
 
     ⨯ Unable to compile TypeScript
-
+    
     typings/main/ambient/jquery/jquery.d.ts (3212,13): Subsequent variable declarations must have the same type.  Variable '$' must be of type 'cssSelectorHelper', but here has type 'JQueryStatic'. (2403)
 
 At the moment there is no simple solution except remove it from some of the tools, etc.
