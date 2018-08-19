@@ -152,6 +152,7 @@ sudo chmod g+s .
 cd development/colabo/
 cd src/frontend
 yarn install
+# probably not necessary
 yarn run typings install
 ```
 
