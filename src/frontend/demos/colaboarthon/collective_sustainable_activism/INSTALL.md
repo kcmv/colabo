@@ -1,3 +1,5 @@
+# INSTALL-App
+
 # Intro
 
 This is a MEAN stack app so you should have node + npm installed and then do a standard npm install based on the `package.json`
@@ -23,7 +25,7 @@ This packages come from the Colabo Ecosystem and from its [Colabo github reposit
 You need to:
 
 1. install it locally
-2. export each of used packages as global npm packages (with `npm local` command)
+2. export each of used packages as global npm packages (with `npm link` command)
 3. import them in this project with:
 
 ```sh
