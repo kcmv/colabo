@@ -5,6 +5,14 @@
 
 + http://localhost:8888/users-profiling
 
+# Structure
+
+## Database
+
+- 17 UN SDGs are connected to the node {"_id" : ObjectId("5b4a91d800ea790a4738a6e5"), "name" : "SDGs", "type" : "const.sdgs"}
+- 17 cons SDG nodes are of type "type" : "const.sdgs.sdg"
+- 
+
 # Install
 
 Before running the demo, you need to prepolate the database.
