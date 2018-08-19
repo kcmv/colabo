@@ -18,16 +18,16 @@ in your ```backend/node_modules``` folder
 It is similar with deep-assign package which you can find [here](http://colabo.space/downloads/deep-assign.zip).
 
 then you should go to both  ```backend/modules/topiChat``` and ```backend/modules/topiChat-knalledge```
-and do npm install there
+and do `npm install` there
 
 ## Colabo packages
 
-This packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/cha-os/knalledge).
+This packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/Cha-OS/colabo).
 
 You need to:
 
 1. install it locally: `yarn`
-2. export each of used puzzles as global npm packages (get in the puzzle folder and run `npm local` command)
+2. export each of used puzzles as global npm packages (get in the puzzle folder and run `npm link` command)
 3. import puzzles in the backend part of the project with:
 
 ```sh
