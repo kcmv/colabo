@@ -34,7 +34,7 @@
   },
   "devDependencies": {},
   "peerDevDependencies": {
-    "@angular/cli": "1.6.7",
+    "@angular/cli": "1.7.4",
     "@angular/compiler-cli": "=5.2.10",
     "@angular/language-service": "=5.2.10",
     "@types/hammerjs": "^2.0.35",
