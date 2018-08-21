@@ -1,45 +1,45 @@
 # 	INSTALL-Backend
 
 ```sh
-cd <your knalledge deployed folder>
+cd <your Colabo.Space deployed folder>
 cd src/backend
-npm install
-cd modules/topiChat
-npm install
-cd ../topiChat-knalledge
-npm install
+# NOTE: some of the packages will be installed as tarbales from the colabo.space website
+# - http://colabo.space/downloads/express-resource-1.0.0.tgz
+#   - it is the `express-resource` package on steroids
+# - http://colabo.space/downloads/deep-assign-2.0.0.tgz
+yarn
 ```
-### Additional packages
 
-**NOTE**: Backend needs a special ```express-resource``` package on steroids. You can download it as a separate package [here](http://colabo.space/downloads/express-resource.zip). After or even before issuing ```npm install``` you should (re)place the content of the archive:
-
-in your ```backend/node_modules``` folder
-
-It is similar with deep-assign package which you can find [here](http://colabo.space/downloads/deep-assign.zip).
-
-then you should go to both  ```backend/modules/topiChat``` and ```backend/modules/topiChat-knalledge```
-and do `npm install` there
-
-## Colabo packages
+## Colabo Puzzles (Packages)
 
 This packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/Cha-OS/colabo).
 
-You need to:
+We developed colabo tools for automating the task of managing colabo puzzles.
 
-1. install it locally: `yarn`
-2. export each of used puzzles as global npm packages (get in the puzzle folder and run `npm link` command)
-3. import puzzles in the backend part of the project with:
+After installing them (check [../tools/README.md]), you can just run inside the backend folder:
+
+```sh
+# show colabo config file and all puzzles
+colabo puzzles-info
+# export offered puzzles
+colabo puzzles-offer
+# install required puzzles
+colabo puzzles-install
+```
+
+### Explanation
+
+2. each offered puzzle is exported globally as a npm package (by getting inside the puzzle folder and running `npm link` command)
+3. each required puzzles is imported with something like:
 
 ```sh
 cd src/backend
 npm link @colabo-knalledge/b-knalledge-storage-mongo
-npm link @colabo-knalledge/b-knalledge-core
-npm link @colabo-knalledge/b-knalledge-search
-npm link @colabo-media/media-upload
-npm link @colabo-rima/rima-connect
 ```
 
-# TypeScript
+# Development
+
+## TypeScript
 
 There is `tsconfig.json` file describing what we are interested in compiling and how.
 
