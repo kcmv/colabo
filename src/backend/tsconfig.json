@@ -16,7 +16,8 @@
     },
     "allowSyntheticDefaultImports": false,
     "files": [
-        "KnAllEdgeBackend.ts"
+        "KnAllEdgeBackend.ts",
+        "modules/smsapi.ts"
     ],
     "include": [
         "dev_puzzles"

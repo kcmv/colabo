@@ -60,7 +60,7 @@ var app = express();
 
 // TopiChat
 var TopiChat = require('@colabo-topiChat/b-topiChat-core');
-var TopiChatKnAllEdge = require('./modules/topiChat-knalledge');
+var TopiChatKnAllEdge = require('@colabo-topiChat/b-topiChat-knalledge');
 var topiChat = new TopiChat(app, 'CollaboScience', portTC);
 var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
 topiChat.connect();
