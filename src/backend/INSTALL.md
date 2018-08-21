@@ -1,4 +1,6 @@
-# 	INSTALL-Backend
+# 	INSTALL
+
+## Install Colabo Backend Core
 
 ```sh
 cd <your Colabo.Space deployed folder>
@@ -10,7 +12,7 @@ cd src/backend
 yarn
 ```
 
-## Colabo Puzzles (Packages)
+## Install Backend Colabo Puzzles (Packages)
 
 This packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/Cha-OS/colabo).
 
@@ -29,8 +31,10 @@ colabo puzzles-install
 
 ### Explanation
 
-2. each offered puzzle is exported globally as a npm package (by getting inside the puzzle folder and running `npm link` command)
-3. each required puzzles is imported with something like:
+This is just an explanation and not necessary to be done manually, because it is done through the colabo commands.
+
+1. each offered puzzle is exported globally as a npm package (by getting inside the puzzle folder and running `npm link` command)
+2. each required puzzles is imported with something like:
 
 ```sh
 cd src/backend
