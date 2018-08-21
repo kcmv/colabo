@@ -8,6 +8,8 @@ logs
 .sass-cache
 node_modules
 
+# *.js.map
+
 # Runtime data
 pids
 *.pid
