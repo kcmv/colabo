@@ -1,0 +1,25 @@
+{
+    "name": "colabo-tools",
+    "description": "Tools necessary for building Colabo.Space",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "colabo": "colabo",
+        "prepare": "tsc",
+        "link": "npm link"
+    },
+    "dependencies": {
+        "@types/chalk": "^2.2.0",
+        "@types/es6-promise": "^3.3.0",
+        "@types/node": "^10.7.1",
+        "bson": "^0.4.22",
+        "chalk": "^2.4.1",
+        "mongoose": "^4.0.0"
+    },
+    "devDependencies": {
+        "ghooks": "^2.0.0"
+    },
+    "bin": {
+        "colabo": "./index.js"
+    }
+}
