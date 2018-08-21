@@ -1,43 +1,39 @@
-# INSTALL-Frontend
+# Install
 
-# Mac. Condensed steps for Devs
+## Environment (Mac)
 
-+ Installing **Node.JS**
-  + https://nodejs.org/en/download/
+### Installing **Node.JS**
 
-  + after this, you can test if you have installed successfully node and containing npm, by running:
-  ```sh
-  node -v
-  npm -v
-  ```
++ https://nodejs.org/en/download/
++ after this, you can test if you have installed successfully node and containing npm, by running:
 
-  + tested versions: node: v6.11.2, nom: 3.10.10
-  + if old, just download and reinstall newer version
-
-+ create development folder
-
-+ open the terminal and navigate to that folder, then run:
 ```sh
-git clone https://github.com/Cha-OS/colabo
-```
-+ if we need to work on another branch, e.g. one named **cf-ng5**, we do  it this way:
-```sh
- git checkout cf-ng5 
+node -v
+npm -v
 ```
 
-+ install **brew**
++ tested versions: node: v6.11.2, nom: 3.10.10
++ if old, just download and reinstall newer version
 
-  + https://brew.sh/
+### Installing brew
 
-  + ```sh
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew update
-    ```
-
-+ Install **mongodb** server
++ https://brew.sh/
 
 ```sh
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew update
+```
+
+### Installing mongodb server
+
+[MongoDB for OSX](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
+
+#### Installing
+
+```sh
+brew update
 brew install mongodb
+brew install mongodb --with-openssl
 sudo mkdir -p /data/db
 mongod --version
 ```
@@ -47,37 +43,103 @@ if old:
 brew upgrade mongodb
 ```
 
-+ ?! install **node-gyp**
+#### Running
 
-  + https://github.com/nodejs/node-gyp
+To have launchd start mongodb now and restart it at login: `brew services start mongodb`
 
-  + node-gyp is a cross-platform command-line tool written in Node.js for compiling native addon modules for Node.js
+Or, if you don't want/need a background service you can just run:
 
-  + ```sh
-    npm install -g node-gyp
-    ```
+`mongod --config /etc/mongod.conf`
 
-  + tested version v3.6.2
+To start it in background (forked):
 
-+ install **node-inspector**
+`mongod --fork --config /etc/mongod.conf`
 
-  + https://github.com/node-inspector/node-inspector
 
-  + Node.js debugger based on Blink Developer Tools
+#### Checking
 
-  + ```sh
-    npm install -g node-inspector
-    ```
+```sh
+sudo netstat -tulpn | grep ':27017'
+```
 
-+ !? install **v8-profiler**
+#### Info
 
-  + https://www.npmjs.com/package/v8-profiler
+[official install](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
 
-  + ```sh
-    npm install -g v8-profiler
-    ```
++ log: `/var/log/mongodb/*`
++ upstart config: `/etc/mongod.conf`
++ mongod config: `etc/init/mongod.conf `
++ data: ``
++ service: `/etc/init.d/mongod`
 
-### install Xcode
+relevant files:
+
+```
+/var/log/upstart/
+/data/db/mongod.lock
+/etc/init.d/.#mongod
+/usr/bin/mongod
+/var/lib/mongodb
+/var/lib/mongodb/EarthCube.0
+/var/log/mongodb
+```
+
+running services:
+```sh
+chkconfig --list
+runlevel
+```
+
+Upstart logs your service execution in a log file by the same name in `/var/log/upstart/your-service-name.log`. It should be helpful.
+
+#### repair
+
+```sh
+rm /data/db/mongod.lock
+rm /var/lib/mongodb/mongod.lock
+mongod --repair
+```
+
+#### Uprgrading Mongodb (OSX)
+
+https://docs.mongodb.com/manual/release-notes/4.0-upgrade-standalone/
+https://docs.mongodb.com/manual/release-notes/3.6/#upgrade-procedures
+https://stackoverflow.com/questions/30379127/how-to-install-earlier-version-of-mongodb-with-homebrew
+
+```sh
+brew search mongodb
+
+# 3.2 -> 3.4
+brew install mongodb@3.4
+sudo  /usr/local/Cellar/mongodb@3.4/3.4.14/bin/mongod
+/usr/local/Cellar/mongodb@3.4/3.4.14/bin/mongo
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+    db.adminCommand( { setFeatureCompatibilityVersion: "3.4" } )
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+
+# 3.4 -> 3.6
+brew install mongodb@3.6
+sudo  /usr/local/Cellar/mongodb@3.6/3.6.6/bin/mongod
+/usr/local/Cellar/mongodb@3.6/3.6.6/bin/mongo
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+    db.adminCommand( { setFeatureCompatibilityVersion: "3.6" } )
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+
+brew remove mongodb@3.4
+brew remove mongodb@3.6
+
+# 3.6 -> 4
+brew install mongodb --with-openssl
+sudo mongod
+mongo
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+    db.adminCommand( { setFeatureCompatibilityVersion: "4.0" } )
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+```
+
+### installing Xcode
+
+We install Xcode because we need the ***gcc compiler*** for native npm packages. It might be possible without it, but need to test. Also in that scenario some of the packages (like mongo driver), might be less efficient.
 
 http://railsapps.github.io/xcode-command-line-tools.html
 
@@ -124,121 +186,115 @@ and run it:
 
 You should get the message: `Hello world!`
 
+
+## Old (should not be necessary anymore)
+
+### installing node-gyp
+
+  + https://github.com/nodejs/node-gyp
+
+  + node-gyp is a cross-platform command-line tool written in Node.js for compiling native addon modules for Node.js
+
+  + ```sh
+    npm install -g node-gyp
+    ```
+
+  + tested version v3.6.2
+
+### installing node-inspector
+
+  + https://github.com/node-inspector/node-inspector
+
+  + Node.js debugger based on Blink Developer Tools
+
+  + ```sh
+    npm install -g node-inspector
+    ```
+
+### installing v8-profiler
+
+  + https://www.npmjs.com/package/v8-profiler
+
+  + ```sh
+    npm install -g v8-profiler
+    ```
+
+## Project related
+
+```sh
+# Create development folder
+mkdir <colabo-project-folder>
+# clone the colabo.space repo
+git clone https://github.com/Cha-OS/colabo
+# if we need to work on another branch, e.g. one named `cf-ng5`
+# change to it
+git checkout cf-ng5
+```
+
+```sh
+sudo npm install gulp -g
+# probably not necessary anymore
+# sudo npm i typings -g
+# sudo npm install -g bower
+# sudo npm install -g typescript
+# I assume not necessary 
+# sudo npm install marked -g
+
+# it could be necessary to do the following as well
+# but do it only if you have privileges issues
+cd /usr/local/lib/node_modules
+sudo chmod -R o+rx .
+sudo chmod g+s .
+```
+
+### NPM privileges problem
+
+```sh
+cd /usr/local/lib/node_modules
+sudo chmod o+rx npm
+cd npm
+sudo chmod -R o+r  *
+sudo chmod o+rx  node_modules/
+```
+
+This didn't work: [solution?](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
+
 ## Install backend
 
 It is described in a separate document [backend/INSTALL.md]()
 
 ## install frontend
 
-```sh
-cd ../frontend
-!? sudo npm install node-gyp -g
-sudo npm install gulp -g
-sudo npm i typings -g
-sudo npm install -g bower
-sudo npm install marked -g
-sudo npm install -g typescript
+It is described in a separate document [frontend/INSTALL.md]()
+
+# Database and collections
+
+## MongoChef
 
 
-# it could be necessary to do the following as well
-cd /usr/local/lib/node_modules
-sudo chmod -R o+rx .
-sudo chmod g+s .
-```
+[MongoChef](http://3t.io/mongochef/download/) is a great client for Mongo db.
 
-### code
+After installing it, you need to connect, and create new connection, it should be stright forward for the local server. Be sure that connection is with host: `localhost`, and port `27017`.
 
-```sh
-cd development/colabo/
-cd src/frontend
-yarn install
-# probably not necessary
-yarn run typings install
-```
+## Creating database and collections
 
-Build typings, either:
-1. using **global** `typings` module:
++ Start MongoChef
++ Connect to localhost
++ create database `KnAllEdge` (File > Add Database ...).
++ download [KnAllEdge DB samples]()
++ import them in Mongo
+    * select database in MongoChef
+    * import collections (***tables*** in relational DBS are called ***collections*** in Mongod Schemaless DBS)
+        - Database > Import Collections
+        - Click on plus and navigate to your demo KnAllEdge collections
+        - select all collections (each exported as a separate json file)
+        - **If you haven't installed KnAllEdge before and do not have important data** then chose option `Drop collection first if it allready exists`
+        - You can also select `Validate JSON before import`
+        - Import
++ Now you can explore collections through the MongoChef interface
 
-```sh
-typings -v
-typings install
-```
+# Starting for the first time
 
-or
-2. instead of using global, do it in a safer mode, by using the **local** version of the module:
-
-```sh
-./node_modules/typings/dist/bin.js -v
-./node_modules/typings/dist/bin.js install
-```
-
-#### Bower modules
-
-NOTE: Try WITHOUT installing
-
-Install bower modules:
-
-```sh
-bower install
-```
-
-#### Typings issues
-
-- open `src\frontend\typings\globals\angular-protractor\index.d.ts` and
-- go to the bottom of the file and comment the line `declare var $: cssSelectorHelper;` => `// declare var $: cssSelectorHelper;`
-
-## Installing SASS support
-
-```sh
-ruby -v
-sudo gem install sass
-sudo gem install compass
-sudo gem install susy
-sudo gem install breakpoint
-sudo gem install normalize-scss
-sudo gem install font-awesome-sass -v 4.7.0
-```
-
-(NOTE: we have to have speciffic version for font-awesome-sass because it is reffered in the `app/sass/default.scss`)
-
-if different version is installed you can uninstall it with:
-
-```sh
-sudo gem uninstall font-awesome-sass -v 4.6.2
-```
-
-On some machines it might be necessary to do:
-
-```sh
-sudo chmod -R og+rx /Library/Ruby/Gems/2.0.0/
-```
-
-in order to provide reading access.
-
-### Bower install issues
-
-```sh
-bower install
-```
-
-***Halo*** package is not published so we need to download from [here](http://colabo.space/downloads/halo.zip) it, and place the extracted "halo" folder into the bower folder: `KnAllEdge/src/frontend/bower_components/`.
-
-With installing bower packages on OSX you might need xcode, here are some hints what might be happening and how to resolve it:
-
-if you get the error:
-
-```
-"xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun"
-```
-
-This is a problem with 'OS X El Capitan', you should run: `xcode-select --install`
-
-More on:
-
-- [invalid-active-developer-path-on-mac-os-x-after-installing-ruby](http://stackoverflow.com/questions/28706428/invalid-active-developer-path-on-mac-os-x-after-installing-ruby)
-- [xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/](http://tips.tutorialhorizon.com/2015/10/01/xcrun-error-invalid-active-developer-path-library-developer-commandline-tools-missing-xcrun/)
-
-### Starting for the first time:
 + first we start mongo, by
 ```sh
 sudo mongod
@@ -254,14 +310,15 @@ npm start
 at "fronted" folder. It will start the browser.
 THen we press CTRL + F, back in the console. This will cause the first full build of the fronted. After its finished, we will probably have to kill the started browser tab, stop frontend from the console with CTRL + C and then restart it "npm start".
 
-
 With this, our dev environment and *CoLaboFramework* should be working
 
-# Win. Condensed steps for Devs
+# Windows Condensed steps for Devs (OBSOLATED)
+
+***NOTE***: This section is OBSOLATED. If you need Windows, please contact us to update it!
 
 + cd c:/data/development/Knalledge/
 
-# Windows
+## Project
 
 + create/get-in development folder
 + clone project from github
@@ -299,8 +356,6 @@ md c:/data/db
 
 ### Running
 
-#### Windows
-
 Navigate to `c:/mongodb/bin/`in command prompt and start the server:
 
 ```sh
@@ -312,75 +367,6 @@ mongod
 When server starts, windows firewall system will ask you for granting access. Allow full access to the server.
 
 Mongod should start on **27017 port**.
-
-#### Checking
-
-```sh
-sudo netstat -tulpn | grep ':27017'
-```
-
-### Info
-
-[official install](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
-
-+ log: `/var/log/mongodb/*`
-+ upstart config: `/etc/mongod.conf`
-+ mongod config: `etc/init/mongod.conf `
-+ data: ``
-+ service: `/etc/init.d/mongod`
-
-relevant files:
-
-```
-/var/log/upstart/
-/data/db/mongod.lock
-/etc/init.d/.#mongod
-/usr/bin/mongod
-/var/lib/mongodb
-/var/lib/mongodb/EarthCube.0
-/var/log/mongodb
-```
-
-running services:
-```sh
-chkconfig --list
-runlevel
-```
-
-Upstart logs your service execution in a log file by the same name in `/var/log/upstart/your-service-name.log`. It should be helpful.
-
-### repair
-
-```sh
-rm /data/db/mongod.lock
-rm /var/lib/mongodb/mongod.lock
-mongod --repair
-```
-
-### MongoChef
-
-
-[MongoChef](http://3t.io/mongochef/download/) is a great client for Mongo db.
-
-After installing it, you need to connect, and create new connection, it should be stright forward for the local server. Be sure that connection is with host: `localhost`, and port `27017`.
-
-### Creating database and collections
-
-+ Start MongoChef
-+ Connect to localhost
-+ create database `KnAllEdge` (File > Add Database ...).
-+ download [KnAllEdge DB samples]()
-+ import them in Mongo
-    * select database in MongoChef
-    * import collections (***tables*** in relational DBS are called ***collections*** in Mongod Schemaless DBS)
-        - Database > Import Collections
-        - Click on plus and navigate to your demo KnAllEdge collections
-        - select all collections (each exported as a separate json file)
-        - **If you haven't installed KnAllEdge before and do not have important data** then chose option `Drop collection first if it allready exists`
-        - You can also select `Validate JSON before import`
-        - Import
-+ Now you can explore collections through the MongoChef interface
-
 
 ## BACKEND
 
@@ -434,24 +420,19 @@ This is a positive signal that the backend is installed properly.
 ### building tools
 
 ```sh
-sudo npm install gulp -g
-sudo npm i typings -g
-sudo npm install -g bower
+npm install gulp -g
+npm i typings -g
+npm install -g bower
 
-sudo npm install -g typescript
-sudo npm install node-gyp -g
+npm install -g typescript
+npm install node-gyp -g
 
 
-# sudo npm install ts-node -g
-# sudo npm install typescript-node -g
-# sudo npm install node-gyp -g
+# npm install ts-node -g
+# npm install typescript-node -g
+# npm install node-gyp -g
 
-sudo npm install marked -g
-
-# it could be necessary to do the following as well
-cd /usr/local/lib/node_modules
-sudo chmod -R o+rx .
-sudo chmod g+s .
+npm install marked -g
 ```
 
 ### code
@@ -488,19 +469,10 @@ Install tools:
 
 ```
 
-### NPM privileges problem
+# Installing on Server
 
-```sh
-cd /usr/local/lib/node_modules
-sudo chmod o+rx npm
-cd npm
-sudo chmod -R o+r  *
-sudo chmod o+rx  node_modules/
-```
+This section is OBSOLATED
 
-This didn't work: [solution?](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
-
-## Server
 Server is at the moment completely built as **node.js** environment. Therefore you need node and npm tools installed to run it properly. When you have them installed all you need to do is to install necessary packages with
 
 ```sh
@@ -705,73 +677,7 @@ sudo apt-get install -y nodejs
 
 Default MongoDB installation should be good enough. The mongo database must be running before starting the server.
 
-# Installing mongodb server
-
-## OSX
-
-[MongoDB for OSX](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
-
-installing [brew](http://brew.sh/):
-
-```sh
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
-
-install mongodb:
-
-```sh
-brew update
-brew install mongodb
-brew install mongodb --with-openssl
-```
-
-To have launchd start mongodb now and restart it at login: `brew services start mongodb`
-
-Or, if you don't want/need a background service you can just run:
-
-`mongod --config /etc/mongod.conf`
-
-To start it in background (forked)
-`mongod --fork --config /etc/mongod.conf`
-
-### Uprgrading Mongodb (OSX)
-
-https://docs.mongodb.com/manual/release-notes/4.0-upgrade-standalone/
-https://docs.mongodb.com/manual/release-notes/3.6/#upgrade-procedures
-https://stackoverflow.com/questions/30379127/how-to-install-earlier-version-of-mongodb-with-homebrew
-
-```sh
-brew search mongodb
-
-# 3.2 -> 3.4
-brew install mongodb@3.4
-sudo  /usr/local/Cellar/mongodb@3.4/3.4.14/bin/mongod
-/usr/local/Cellar/mongodb@3.4/3.4.14/bin/mongo
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-    db.adminCommand( { setFeatureCompatibilityVersion: "3.4" } )
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-
-# 3.4 -> 3.6
-brew install mongodb@3.6
-sudo  /usr/local/Cellar/mongodb@3.6/3.6.6/bin/mongod
-/usr/local/Cellar/mongodb@3.6/3.6.6/bin/mongo
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-    db.adminCommand( { setFeatureCompatibilityVersion: "3.6" } )
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-
-brew remove mongodb@3.4
-brew remove mongodb@3.6
-
-# 3.6 -> 4
-brew install mongodb --with-openssl
-sudo mongod
-mongo
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-    db.adminCommand( { setFeatureCompatibilityVersion: "4.0" } )
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-```
-
-## Linux
+### Linux
 ```sh
 sudo service mongod stop
 sudo service mongod start
@@ -872,20 +778,20 @@ Here are
             + modules/topiChat-knalledge/node_modules
 + now you can do symbolic linking
 
-## Proxying
+# Proxying
 
-### system rerouting 80 -> 8088
+## system rerouting 80 -> 8088
 
 - http://stackoverflow.com/questions/16573668/best-practices-when-running-node-js-with-port-80-ubuntu-linode
 - http://eastmond.org/blog/?p=45
 
-#### One time
+### One time
 
 ```sh
 sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8088
 ```
 
-#### Continuous
+### Continuous
 
 ```sh
 joe /etc/rc.local
@@ -897,7 +803,7 @@ sudo chmod 755 /etc/rc.local
 sudo /etc/init.d/rc.local start
 Check services and ports
 
-### Proxying - node-fork
+## Proxying - node-fork
 
 (`/etc/init/knalledge-fork.conf`)
 
@@ -920,7 +826,7 @@ sudo netstat -tulpn | grep ':8088'
 
 [more info](http://www.cyberciti.biz/faq/what-process-has-open-linux-port/)
 
-### Proxying - Nginx
+## Proxying - Nginx
 
 + http://stackoverflow.com/questions/33055212/nginx-multiple-server-blocks-listening-to-same-port
 + http://stackoverflow.com/questions/11773544/nginx-different-domains-on-same-ip
@@ -1008,162 +914,3 @@ du -Sh | sort -rh | head -5
 # Top File Sizes Only
 find -type f -exec du -Sh {} + | sort -rh | head -n 5
 ```
-
-# Deploying frontend
-
-https://angular.io/guide/deployment
-
-https://github.com/angular/angular-cli/wiki/build
-
-https://github.com/angular/angular-cli
-
-## Simplest deployment possible
-
-```sh
-# standard
-ng build
-
-# if it is not in the domain root
-ng build --base-href=/knalledge-view-node
-```
-
-Configure the server to redirect requests for missing files to `index.html` (server-side redirects).
-
-## Optimize for production
-
-```sh
-ng build --prod --build-optimizer
-```
-
-```sh
-ng build --prod --base-href=/knalledge-view-node/
-```
-
-or
-
-```sh
-ng build --prod --base-href=/knalledge-view-node/ --build-optimizer
-```
-
-If you want to debug the erors:
-```sh
-ng build --prod --base-href=/knalledge-view-node/  --build-optimizer=false
-```
-## AngularCli: disable minification
-
-https://stackoverflow.com/questions/43557090/angularcli-disable-minification
-
-[Need to disable: Add support for minifying index.html #5753 #7179](https://github.com/angular/angular-cli/issues/7179)
-
-`node_modules/@angular/cli/models/webpack-configs/browser.js`
-`node_modules/@angular/cli/models/webpack-configs/production.js`
-+ mask: `UglifyJSPlugin` plugin
-+ HtmlWebpackPlugin
-
-### Problems
-
-#### Cannot resolve all parameters for (Service)
-
-https://github.com/angular/angular/issues/21526
-https://stackoverflow.com/questions/47222685/warning-cant-resolve-all-parameters-for-userspermissionsservice-this-will-beco?rq=1
-https://stackoverflow.com/questions/47926180/error-in-cant-resolve-all-parameters-for-service-when-build-with-ng-build-p?rq=1
-
-Solution: each class that is declared as injectible and/or provided as a provider MUST be injectible, so no any parameter that is not injectable in constructor, etc
-
-#### 'router-outlet' is not a known element
-
-```txt
-ERROR in : 'router-outlet' is not a known element:
-1. If 'router-outlet' is an Angular component, then verify that it is part of this module.
-2. If 'router-outlet' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message. ("
-</nav>
-
-[ERROR ->]<router-outlet></router-outlet>
-")
-```
-
-the same problem as the (following) error: `NullInjectorError: No provider for t!`
-#### NullInjectorError: No provider for t!
-
-+ https://github.com/angular/angular/blob/master/CHANGELOG.md#breaking-changes
-+ https://github.com/ngrx/platform/issues/549
-
-```
-Error: StaticInjectorError(ju)[t -> t]: 
-  StaticInjectorError(Platform: core)[t -> t]: 
-    NullInjectorError: No provider for t!
-```
-
-```
-Error: StaticInjectorError(AppModule)[RouterLink -> Router]: 
-  StaticInjectorError(Platform: core)[RouterLink -> Router]: 
-    NullInjectorError: No provider for Router!
-```
-
-If you want to debug the erors:
-```sh
-ng build --prod --base-href=/knalledge-view-node/  --build-optimizer=false
-```
-(NOTE: It doesn't work)
-
-Relevant
-+ https://github.com/salemdar/angular2-cookie/issues/37
-
-***"Problem"*** was in the file `KnAllEdge/src/frontend/demos/knalledge/knalledge-view-node/src/app/app.module.ts`
-
-```ts
-
-var moduleImports = [
-  // ...
-  // Material
-  BrowserAnimationsModule,
-  MaterialModule
-];
-
-moduleImports.push(AppRoutingModule);
-
-// ...
-
-@NgModule({
-  declarations: moduleDeclarations,
-  imports: moduleImports,
-  entryComponents: [],
-  providers: [
-    // ...
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-```
-
-The problem is the line: `moduleImports.push(AppRoutingModule);`
-
-Angular AOT (Ahead-Of-Time) compiler compiles code:
-1. finds `@NgModule({`
-2. finds `imports: moduleImports`
-3. looks for the `moduleImports` value, and 
-4. "folds" it with initialized value
-5. doesn't extends it by parsing the line: `moduleImports.push(AppRoutingModule);`
-6. AOT version doesn't find `Router` provider
-
-**"Solution"** is to provide all parameteres during the initialization:
-
-```ts
-var moduleImports = [
-  // ...
-  // Material
-  BrowserAnimationsModule,
-  MaterialModule,
-
-  AppRoutingModule
-];
-
-// moduleImports.push(AppRoutingModule);
-```
-
-We should:
-
-1. provide an issue in angular or
-2. find alternative way to help AOT to recognize additional injections or
-3. find an declarative way to tell AOT about additional injections
-4. avoid additional injections, but then we are much more hardcoded and we cannot make it working dynamically, based on the puzzles/components we are using

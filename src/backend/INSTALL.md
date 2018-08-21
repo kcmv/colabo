@@ -14,7 +14,7 @@ yarn
 
 ## Install Backend Colabo Puzzles (Packages)
 
-This packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/Cha-OS/colabo).
+These packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/Cha-OS/colabo).
 
 We developed colabo tools for automating the task of managing colabo puzzles.
 

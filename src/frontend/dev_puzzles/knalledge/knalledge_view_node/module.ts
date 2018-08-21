@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Material
@@ -25,6 +26,7 @@ var simpleMdeOptions: any = {};
 var moduleImports: any[] = [
     RouterModule,
 
+    FormsModule,
     FlexLayoutModule,
 
     // Material
