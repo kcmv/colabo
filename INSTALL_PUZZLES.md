@@ -1,3 +1,7 @@
+# Colabo Tools
+
+There are ***colabo tools*** for offering and injecting puzzles. They are in the `tools` folder. Read more in the [README.md](tools/README.md)
+
 # Linked npm packages
 
 Some of the packages are not available (or not the latests) at the npm repository, so you should link them locally from the corresponding local repositories.
@@ -48,4 +52,29 @@ let routes:any = {
   // (with the ng cli and webpack it is not necessary)
   '/node_modules/@colabo-knalledge': join(APP_DEST, 'dev_puzzles/knalledge'),
   '/node_modules/@colabo-puzzles': join(APP_DEST, 'dev_puzzles/puzzles'),
+```
+
+# INFO
+
+## NPM packages
+
++ [package.json - Specifics of npm's package.json handling](https://docs.npmjs.com/files/package.json)
++ [Understanding Packages and Modules](https://docs.npmjs.com/getting-started/packages)
++ Packing package into a tarball
+  + [npm-pack](https://docs.npmjs.com/cli/pack)
+  + go inside the package and run `npm pack`
+  + to unpack and check you can do: `tar zxvf express-resource-1.0.0.tgz`
+Reffering to tarball packages (`package.json`):
+
+```json
+{
+  // ...
+    "dependencies": {
+        // ...
+        "deep-assign": "http://colabo.space/downloads/deep-assign-2.0.0.tgz",
+        "express": "3.x",
+        "express-resource": "http://colabo.space/downloads/express-resource-1.0.0.tgz",
+        // ...
+    },
+}
 ```
