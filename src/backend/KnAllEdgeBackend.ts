@@ -16,9 +16,7 @@ var config = require('./config/global'),
 
     puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-knalledge-storage-mongo/models'),
 
-    db = require('./models'),
-    TopiChat = require('./modules/topiChat'),
-    TopiChatKnAllEdge = require('./modules/topiChat-knalledge');
+    db = require('./models');
 
 console.log("[KnAllEdgeBackend.js:index] config.paths: %s", JSON.stringify(config.paths));
 console.log("[KnAllEdgeBackend.js:index] config.mockups: %s", JSON.stringify(config.mockups));
@@ -58,9 +56,13 @@ var portHttp = process.argv[2] || process.env.PORT || 8888;
 var portTC = process.argv[3] || process.env.PORT_TC || 8060;
 
 var app = express();
+
+
+// TopiChat
+var TopiChat = require('@colabo-topiChat/b-topiChat-core');
+var TopiChatKnAllEdge = require('@colabo-topiChat/b-topiChat-knalledge');
 var topiChat = new TopiChat(app, 'CollaboScience', portTC);
 var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
-
 topiChat.connect();
 
 var bodyParser = require('body-parser');
