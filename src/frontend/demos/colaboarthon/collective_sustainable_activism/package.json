@@ -35,8 +35,6 @@
     "zone.js": "^0.8.20"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.7.0",
-    "@angular/cli": "^6.1.4"
   },
   "peerDevDependencies": {
     "@angular/cli": "1.7.4",
