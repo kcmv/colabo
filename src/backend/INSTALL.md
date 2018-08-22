@@ -1,5 +1,8 @@
 # 	INSTALL
 
+***NOTE***: Before installing backend you need to install Colabo.Space tools. Please read how to install them in the [tools/README.md](../tools/README.md) document.
+
+
 ## Install Colabo Backend Core
 
 ```sh
@@ -12,13 +15,19 @@ cd src/backend
 yarn
 ```
 
+***That is all***. Backend of the Colabo.Space ecosystem should be installed now. 
+
+The following section ist describing the process under hood.
+
 ## Install Backend Colabo Puzzles (Packages)
 
-These packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/Cha-OS/colabo).
+***NOTE***: This is done automatically during the install process (please check the script `prepare` inside the `package.json` for any project) and it is not necessary to be done manually.
 
-We developed colabo tools for automating the task of managing colabo puzzles.
+These puzzles come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/Cha-OS/colabo).
 
-After installing them (check [../tools/README.md]), you can just run inside the backend folder:
+We developed colabo tools for automating the task of managing colabo puzzles. They are integrated in the backend/frontend build/install process and they are not necessary to run separatelly.
+
+After installing them (check [tools/README.md](../tools/README.md)), you can just run inside the backend folder. 
 
 ```sh
 # show colabo config file and all puzzles

@@ -275,13 +275,19 @@ sudo chmod o+rx  node_modules/
 
 This didn't work: [solution?](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
 
+## Install tools
+
+Before installing backend or frontend part of the Colabo.Space ecosystem you need to install Colabo tools as necessary for further installation phases. 
+
+The installation is described in the separate document [tools/README.md](tools/README.md)
+
 ## Install backend
 
-It is described in a separate document [backend/INSTALL.md]()
+It is described in a separate document [backend/INSTALL.md](backend/INSTALL.md)
 
 ## install frontend
 
-It is described in a separate document [frontend/INSTALL.md]()
+It is described in a separate document [frontend/INSTALL.md](frontend/INSTALL.md)
 
 # Database and collections
 

@@ -2,9 +2,12 @@
 
 These are the tools to manage the Colabo.Space ecosystem
 
+Before installing backend or frontend part of the Colabo.Space ecosystem you need to install Colabo tools as necessary for further installation phases. 
+
 # Install
 
 ```sh
+cd tools
 # install (and build (from TypeScript)) the Colabo Tools
 yarn
 # export the `colabo` tool globally

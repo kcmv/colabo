@@ -1,14 +1,19 @@
 # Installing
 
+***NOTE***: Before installing backend you need to install Colabo.Space tools. Please read how to install them in the [tools/README.md](../tools/README.md) document.
+
 ## Install Colabo Frontend Core
 
 ```sh
 cd colabo/
 cd src/frontend
-yarn install
+yarn
 # probably not necessary
 ```
-## Install Backend Colabo Puzzles (Packages)
+
+## Install Frontend Colabo Puzzles (Packages)
+
+***NOTE***: This is done automatically during the install process (please check the script `prepare` inside the `package.json` for any project) and it is not necessary to be done manually.
 
 These packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/Cha-OS/colabo).
 
