@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "module": "commonjs",
         "moduleResolution": "node",
         "sourceMap": true,
@@ -11,7 +11,8 @@
         "noImplicitAny": false,
         "listFiles": true,
         "lib": [
-            "es2015"
+            "es6",
+            "dom"
         ]
     },
     "allowSyntheticDefaultImports": false,

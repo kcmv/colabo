@@ -2,11 +2,6 @@ var puzzles = {
     name: "f-colabo.space",
     description: "Colabo.space ecosystem - frontend",
     dependencies: {
-        "@colabo-puzzles/puzzles_core": {},
-        "@colabo-knalledge/knalledge_core": {},
-        "@colabo-knalledge/knalledge_store_core": {},
-        "@colabo-knalledge/knalledge_view_enginee": {},
-        "@colabo-knalledge/knalledge_view_interaction": {}
     },
     offers: {
         "@colabo-puzzles/puzzles_core": {
@@ -35,3 +30,5 @@ var puzzles = {
         }
     }
 }
+
+exports.puzzles = puzzles;

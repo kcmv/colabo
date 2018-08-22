@@ -21,6 +21,11 @@ export interface PuzzlesDescription {
     }
 }
 
+export interface SymLinkInfo {
+    from: string,
+    to: string
+}
+
 var ChildProcess = require("child_process");
 
 export class ColaboConfigParser{
@@ -99,25 +104,25 @@ export class ColaboConfigParser{
             ChildProcess.exec("npm link", { cwd: linkPath }, function(error, stdout, stderr) {
                 if (error) {
                     if(this.isNpmWarning(error)){
-                        console.warn("\t[%s] WARNING: ", puzzleOffer.npm, error);
+                        console.warn(chalk.blue.bold("\t[%s] WARNING: "), puzzleOffer.npm, error);
                         resolve(error);
                     }else{
-                        console.error("\t[%s] ERROR: ", puzzleOffer.npm, error);
+                        console.error(chalk.red.bold("\t[%s] ERROR: "), puzzleOffer.npm, error);
                         reject(error);
                     }
-                }
-                if (stderr) {
+                }else if (stderr) {
                     if (this.isNpmWarning(stderr)){
-                        console.warn("\t[%s] STD-WARNING: ", puzzleOffer.npm, stderr);
+                        console.warn(chalk.blue.bold("\t[%s] STD-WARNING: "), puzzleOffer.npm, stderr);
                         resolve(stderr);
                     }else{
-                        console.error("\t[%s] STD-ERROR: ", puzzleOffer.npm, stderr);
+                        console.error(chalk.red.bold("\t[%s] STD-ERROR: "), puzzleOffer.npm, stderr);
                         reject(stderr);
                     }
-                }
-                if (stdout) {
+                }else if (stdout) {
                     console.log("\t[%s] stdout: ", puzzleOffer.npm, stdout);
                     resolve(stdout);
+                }else{
+                    resolve("OK");
                 }
             }.bind(this));
         });
@@ -141,25 +146,25 @@ export class ColaboConfigParser{
             ChildProcess.exec("npm link " + puzzleDependencyName, { cwd: this.colaboConfigFolder }, function(error, stdout, stderr) {
                 if (error){
                     if (this.isNpmWarning(error)) {
-                        console.warn("\t[%s] WARNING: ", puzzleDependencyName, error);
+                        console.warn(chalk.blue.bold("\t[%s] WARNING: "), puzzleDependencyName, error);
                         resolve(error);
                     } else {
-                        console.error("\t[%s] ERROR: ", puzzleDependencyName, error);
+                        console.error(chalk.red.bold("\t[%s] ERROR: "), puzzleDependencyName, error);
                         reject(error);
                     }
-                }
-                if (stderr) {
+                }else if (stderr) {
                     if (this.isNpmWarning(stderr)) {
-                        console.warn("\t[%s] STD-WARNING: ", puzzleDependencyName, stderr);
+                        console.warn(chalk.blue.bold("\t[%s] STD-WARNING: "), puzzleDependencyName, stderr);
                         resolve(stderr);
                     } else {
-                        console.error("\t[%s] STD-ERROR: ", puzzleDependencyName, stderr);
+                        console.error(chalk.red.bold("\t[%s] STD-ERROR: "), puzzleDependencyName, stderr);
                         reject(stderr);
                     }
-                }
-                if (stdout){
+                }else if (stdout){
                     console.log("\t[%s] stdout: ", puzzleDependencyName, stdout);
                     resolve(stdout);
+                }else{
+                    resolve("OK");
                 }
             }.bind(this));
         });
@@ -171,6 +176,65 @@ export class ColaboConfigParser{
         console.log("Installing puzzle dependencies (`npm link <puzzle-package-name>`-ing them to the local project) from the file '%s':", this.fileName);
         for (let puzzleDependencyName in this.colaboConfig.puzzles.dependencies) {
             await this.installPuzzle(puzzleDependencyName);
+        }
+
+        return Promise.resolve("OK");
+    }
+
+    async symlink(symLinkInfo: SymLinkInfo): Promise<any> {
+        console.log();
+        // if relative link rewrite from with "../" for the same number 
+        // of the folder depoth of the symLinkInfo.to
+        console.log("Symlinking: from: %s, to: %s", symLinkInfo.from, symLinkInfo.to);
+
+        // both are relative
+        if(symLinkInfo.from[0] !== "/" && symLinkInfo.to[0] !== "/"){
+            let depth = (symLinkInfo.to.split("/").length - 1);
+            for(let i=0; i<depth; i++){ symLinkInfo.from = "../"+symLinkInfo.from}
+        }
+        // destination (to) is relative
+        if(symLinkInfo.to[0] === "/"){
+            let fromUnresolved = this.colaboConfigFolder + "/" + symLinkInfo.from;
+            symLinkInfo.from = fs.realpathSync(fromUnresolved);
+
+        }
+        let cmdStr = "ln -s " + symLinkInfo.from + " " + symLinkInfo.to;
+        console.log("\tSymlinking command: %s", cmdStr);
+        return new Promise((resolve, reject) => {
+            ChildProcess.exec(cmdStr, function(error, stdout, stderr) {
+                if (error){
+                    if (this.isNpmWarning(error.toString())) {
+                        console.warn(chalk.blue.bold("\t[%s] WARNING: "), symLinkInfo.from, error);
+                        resolve(error);
+                    } else {
+                        console.error(chalk.red.bold("\t[%s] ERROR: "), symLinkInfo.from, error);
+                        reject(error);
+                    }
+                }else if (stderr) {
+                    if (this.isNpmWarning(stderr.toString())) {
+                        console.warn(chalk.blue.bold("\t[%s] STD-WARNING: "), symLinkInfo.from, stderr);
+                        resolve(stderr);
+                    } else {
+                        console.error(chalk.red.bold("\t[%s] STD-ERROR: "), symLinkInfo.from, stderr);
+                        reject(stderr);
+                    }
+                }else if (stdout){
+                    console.log("\t[%s] stdout: ", symLinkInfo.from, stdout);
+                    resolve(stdout);
+                }else{
+                    resolve("OK");
+                }
+            }.bind(this));
+        });
+    }
+
+    async symlinks(): Promise<any> {
+        console.log("\tcolaboConfigFolder: %s", this.colaboConfigFolder);
+
+        console.log("Symlinking (`ln -s <from> <to>`)");
+        for (let id in this.colaboConfig.symlinks) {
+            let symLinkInfo: SymLinkInfo = this.colaboConfig.symlinks[id];
+            await this.symlink(symLinkInfo);
         }
 
         return Promise.resolve("OK");

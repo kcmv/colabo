@@ -1,8 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import 'rxjs/add/operator/toPromise';
 
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {VO} from '@colabo-knalledge/knalledge_core/code/knalledge/VO';

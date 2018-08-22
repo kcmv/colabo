@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 
 // but in Angular 5.2.x and Rxjs 5x is:
 import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';

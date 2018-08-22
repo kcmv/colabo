@@ -13,7 +13,23 @@ npm -v
 ```
 
 + tested versions: node: v6.11.2, nom: 3.10.10
-+ if old, just download and reinstall newer version
+
+#### Updating
+
+If old, just download and reinstall newer version
+
+However, cleaner and easier way is to install `n` package for managing node versions. We will use the `n` package in order to upgrade node:
+
+```sh
+npm cache clean -f
+npm install -g n
+# installing particular version (8.11.4)
+n 8.11.4
+# Under Linux it is installed as node, not nodejs
+# under /usr/local/bin/node, not /usr/bin/nodejs
+
+# it is possible to install it in a speciffic folder
+```
 
 ### Installing brew
 
