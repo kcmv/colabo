@@ -1,4 +1,3 @@
-declare let window:Window;
 declare let knalledge:any;
 declare let global:any;
 declare let module:any;
