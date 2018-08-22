@@ -26,7 +26,7 @@
             "type": "node",
             "request": "attach",
             "name": "Attach colabo.space",
-            "port": 5858,
+            "port": "5858",
             "outFiles": [
                 "${workspaceFolder}/colabo.space/temp/colabo/**/*.js"
             ]
