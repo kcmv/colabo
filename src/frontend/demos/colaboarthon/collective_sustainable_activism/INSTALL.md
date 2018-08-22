@@ -17,12 +17,16 @@ yarn
 
 ```sh
 cd src/frontend/demos/colaboarthon/collective_sustainable_activism
+# run predefined npm script
+npm start
 # run with local ng
 ./node_modules/\@angular/cli/bin/ng serve -o -p 8888
-# run with local ng using npx (not currently working because the problem with following symbolic links)
-npx ng serve -o -p 8888
+# run with local ng using npx
+npx ng serve -o --port 8888
 # or with global ng
 ng serve -o -p 8888
+# or with default port (`angular.json` (architect.serve.options.port)) and without openning browser (no `-o`)
+ng serve
 ```
 
 # Deploy

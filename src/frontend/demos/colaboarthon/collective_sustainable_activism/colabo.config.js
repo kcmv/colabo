@@ -25,7 +25,7 @@ var symlinks = [
         to: "node_modules/\@angular"
     },
     {
-        from: variables.ANGULAR_BUILD_PACKAGES_FOLDER+"@angular-devkit",
+        from: variables.ANGULAR_BUILD_PACKAGES_FOLDER+"node_modules/\@angular-devkit",
         to: "node_modules/\@angular-devkit"
     }
 ];

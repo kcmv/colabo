@@ -9,7 +9,7 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "prepare": "colabo puzzles-offer; colabo puzzles-install"
+        "prepare": "colabo puzzles-offer; colabo puzzles-install; colabo symlinks"
     },
     "dependencies": {
         "@angular/animations": "=6.1.3",

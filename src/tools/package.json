@@ -6,7 +6,8 @@
     "scripts": {
         "colabo": "colabo",
         "prepare": "tsc",
-        "link": "npm link"
+        "link": "npm link",
+        "build": "tsc"
     },
     "dependencies": {
         "@types/chalk": "^2.2.0",
