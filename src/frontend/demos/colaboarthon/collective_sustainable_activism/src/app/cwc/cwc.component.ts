@@ -4,8 +4,7 @@ import {Dialog1Btn, Dialog2Btn, DialogData} from '../util/dialog';
 import { Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
+import { map, filter } from 'rxjs/operators';
 
 import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
@@ -32,9 +31,9 @@ export class CwcComponent implements OnInit {
     public dialog: MatDialog
   ) {
       this.form = fb.group({
-          "cwcVision1":["", [Validators.required, Validators.minLength(2)]],
-          "cwcVision2":["", [Validators.required, Validators.minLength(2)]],
-          "cwcVision3":["", [Validators.required, Validators.minLength(2)]]
+          'cwcVision1': ['', [Validators.required, Validators.minLength(2)]],
+          'cwcVision2': ['', [Validators.required, Validators.minLength(2)]],
+          'cwcVision3': ['', [Validators.required, Validators.minLength(2)]]
       });
 
       this.form.valueChanges
@@ -42,9 +41,9 @@ export class CwcComponent implements OnInit {
         //     value.firstName = value.firstName.toUpperCase();
         //     return value;
         // })
-        .filter((value) => this.form.valid)
+        .pipe(filter((value) => this.form.valid))
         .subscribe((value) => {
-           console.log("Model Driven Form valid value: vm = ",
+           console.log('Model Driven Form valid value: vm = ',
                        JSON.stringify(value));
         });
       //TODO: check if the user's email is already existing (offer sign-in instead and data updating)
@@ -62,7 +61,7 @@ export class CwcComponent implements OnInit {
     if(options === null){
       options = {};
     }
-    options['width'] = '95%'
+    options['width'] = '95%';
     options['data'] = data;
     console.log('openDialog',options);
     this.dialogRef = this.dialog.open((buttons == 1 ? Dialog1Btn : Dialog2Btn), options);
@@ -82,7 +81,7 @@ export class CwcComponent implements OnInit {
   }
 
   onSubmit( ){
-    console.log("the CWC form is submitted", this.form);
+    console.log('the CWC form is submitted', this.form);
     this.saved = false;
     this.openDialog(1, new DialogData('Submitting','please wait ...', 'Cancel'), {disableClose: true});
 

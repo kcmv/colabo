@@ -1,10 +1,9 @@
 // old NG2 pair: src/frontend/app/components/knalledgeMap/js/services/knalledgeMapVOsService.js
 import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/toPromise';
+import { of } from 'rxjs';
 
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';

@@ -11,7 +11,8 @@
         "noImplicitAny": false,
         "listFiles": true,
         "lib": [
-            "es2015"
+            "es2015",
+            "dom"
         ]
     },
     "allowSyntheticDefaultImports": false,

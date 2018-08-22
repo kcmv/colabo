@@ -19,7 +19,8 @@ import { ColaboConfigParser } from './colabo-config-parser';
 enum Commands {
     PuzzlesInfo = "puzzles-info",
     PuzlessOffer = "puzzles-offer",
-    PuzlessInstall = "puzzles-install"
+    PuzlessInstall = "puzzles-install",
+    SymLink = "symlinks"
 }
 
 console.log("Colabo tools");
@@ -32,11 +33,14 @@ function showUsage(){
     console.log("\t%s: Show info about the colabo config file", chalk.blue.bold(Commands.PuzzlesInfo));
     console.log("\t%s: Exports puzzles offered through the colabo config file", chalk.blue.bold(Commands.PuzlessOffer));
     console.log("\t%s: Installs puzzles required by the colabo config file", chalk.blue.bold(Commands.PuzlessInstall));
+    console.log("\t%s: Symlink external paths", chalk.blue.bold(Commands.SymLink));
     console.log(chalk.red.bold("Example:"));
-    console.log("\t colabo ../backend/colabo.config.js puzzless-info");
+    console.log("\t colabo ../backend/colabo.config.js puzzless-info", chalk.dim("// show puzzles from"), chalk.dim.bold('./backend/colabo.config.js'));
+    console.log("\t colabo symlinks", chalk.dim("// do symbolic linking based on local file"), chalk.dim.bold('./colabo.config.js'));
 }
 
 if (process.argv.length < 3 || process.argv.length > 4) {
+    console.log(chalk.red("Wrong"), chalk.red.bold("number of parameters"));
     showUsage();
     process.exit(1);
 }
@@ -87,10 +91,18 @@ switch(command){
         break;
     case Commands.PuzlessOffer:
         colaboConfigParser.offerPuzzles()
-            .catch(error => console.log("Colabo action finished with error: ", error));
+            .catch(error => console.log(chalk.red.bold("Colabo action (%s) finished with error: "), Commands.PuzlessOffer, error));
         break;
     case Commands.PuzlessInstall:
         colaboConfigParser.installPuzzles()
-            .catch (error => console.log("Colabo action finished with error: ", error));
+            .catch (error => console.log(chalk.red.bold("Colabo action (%s) finished with error: "), Commands.PuzlessInstall, error));
+        break;
+    case Commands.SymLink:
+        colaboConfigParser.symlinks()
+            .catch (error => console.log(chalk.red.bold("Colabo action (%s) finished with error: "), Commands.SymLink, error));
+        break;
+    default:
+        console.log(chalk.red("Wrong command:"), chalk.red.bold(command));
+        showUsage();
         break;
 }

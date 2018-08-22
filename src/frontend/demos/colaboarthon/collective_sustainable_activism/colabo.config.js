@@ -1,16 +1,35 @@
+var variables = {
+    ANGULAR_PACKAGES_FOLDER: '../../../',
+    ANGULAR_BUILD_PACKAGES_FOLDER: '../../../'
+};
+
 var puzzles = {
-  dependencies: {
-    "@colabo-puzzles/puzzles_core": {
+    name: "collective_sustainable_activism",
+    description: "Colabo.space ecosystem - collective sustainable activism",
+    dependencies: {
+        "@colabo-puzzles/puzzles_core": {},
+        "@colabo-knalledge/knalledge_core": {},
+        "@colabo-knalledge/knalledge_store_core": {},
+        "@colabo-rima/rima_aaa": {}
     },
+    offers: {}
+};
 
-    "@colabo-knalledge/knalledge_core": {
+var symlinks = [
+    {
+        from: variables.ANGULAR_PACKAGES_FOLDER+"node_modules/rxjs",
+        to: "node_modules/rxjs"
     },
-    "@colabo-knalledge/knalledge_store_core": {
+    {
+        from: variables.ANGULAR_PACKAGES_FOLDER+"node_modules/\@angular",
+        to: "node_modules/\@angular"
     },
-    "@colabo-knalledge/knalledge_view_node": {
+    {
+        from: variables.ANGULAR_BUILD_PACKAGES_FOLDER+"@angular-devkit",
+        to: "node_modules/\@angular-devkit"
     }
+];
 
-  },
-  offers: {
-  }
-}
+exports.variables = variables;
+exports.puzzles = puzzles;
+exports.symlinks = symlinks;
