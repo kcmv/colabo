@@ -1,3 +1,8 @@
+var variables = {
+    ANGULAR_PACKAGES_FOLDER: './',
+    ANGULAR_BUILD_PACKAGES_FOLDER: './'
+};
+
 var puzzles = {
     name: "f-colabo.space",
     description: "Colabo.space ecosystem - frontend",
@@ -31,4 +36,9 @@ var puzzles = {
     }
 }
 
+var symlinks = [
+];
+
+exports.variables = variables;
 exports.puzzles = puzzles;
+exports.symlinks = symlinks;

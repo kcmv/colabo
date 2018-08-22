@@ -1,6 +1,6 @@
 # Installing
 
-***NOTE***: Before installing backend you need to install Colabo.Space tools. Please read how to install them in the [tools/README.md](../tools/README.md) document.
+***NOTE***: Before installing frontend you need to install Colabo.Space tools. Please read how to install them in the [tools/README.md](../tools/README.md) document.
 
 ## Install Colabo Frontend Core
 
@@ -8,7 +8,6 @@
 cd colabo/
 cd src/frontend
 yarn
-# probably not necessary
 ```
 
 ## Install Frontend Colabo Puzzles (Packages)
