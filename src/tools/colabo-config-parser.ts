@@ -201,7 +201,7 @@ export class ColaboConfigParser{
         let cmdStr = "ln -s " + symLinkInfo.from + " " + symLinkInfo.to;
         console.log("\tSymlinking command: %s", cmdStr);
         return new Promise((resolve, reject) => {
-            ChildProcess.exec(cmdStr, function(error, stdout, stderr) {
+            ChildProcess.exec(cmdStr, { cwd: this.colaboConfigFolder }, function(error, stdout, stderr) {
                 if (error){
                     if (this.isNpmWarning(error.toString())) {
                         console.warn(chalk.blue.bold("\t[%s] WARNING: "), symLinkInfo.from, error);
