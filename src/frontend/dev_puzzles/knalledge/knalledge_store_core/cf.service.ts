@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
 import {VO} from '@colabo-knalledge/knalledge_core/code/knalledge/VO';
@@ -18,10 +18,10 @@ interface IConstructor<T> {
 @Injectable()
 export class CFService {
   //DB Mongo AP
-  static serverAP = "http://127.0.0.1:8001";
+  // static serverAP = "http://127.0.0.1:8001";
   // static serverAP = "http://api.colabo.space";
   // static serverAP = "http://158.39.75.120:8001"; // colabo-space-1 (old)
-  // static serverAP = "https://fv.colabo.space/api"; // colabo-space-1 (https)
+  static serverAP = "https://fv.colabo.space/api"; // colabo-space-1 (https)
 
   static processVOs<T extends VO>(voS:ServerData, typeT:IConstructor<T>):Array<T>{
     console.log("processVOs");

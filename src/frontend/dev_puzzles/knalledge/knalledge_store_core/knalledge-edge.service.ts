@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';

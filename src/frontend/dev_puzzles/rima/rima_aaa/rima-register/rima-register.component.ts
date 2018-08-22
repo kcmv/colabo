@@ -4,8 +4,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
+import { map, filter } from 'rxjs/operators';
 
 import {RimaAAAService} from '../rima-aaa.service';
 import {UserData} from '../userData';
@@ -42,7 +41,7 @@ export class RimaRegisterComponent implements OnInit {
         //     value.firstName = value.firstName.toUpperCase();
         //     return value;
         // })
-        .filter((value) => this.form.valid)
+        .pipe(filter((value) => this.form.valid))
         .subscribe((value) => {
            console.log("Model Driven Form valid value: vm = ",
                        JSON.stringify(value));
