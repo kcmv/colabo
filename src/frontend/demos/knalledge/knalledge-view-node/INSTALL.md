@@ -1,16 +1,6 @@
 # Intro
 
-This is a MEAN stack app so you should have node + npm installed and then do a standard npm install based on the `package.json`
-
-`npm install`
-
-or even better
-
-`yarn install`
-
-You can set the yarn as an angular-cli default:
-
-`ng set --global packageManager=yarn`
+`yarn`
 
 # linked npm packages
 

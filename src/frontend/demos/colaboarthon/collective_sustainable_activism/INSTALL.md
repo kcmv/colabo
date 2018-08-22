@@ -1,42 +1,28 @@
-# INSTALL-App
+# INSTALL
+
+***NOTE***: Before installing this app you need to install Colabo.Space ***tools***, ***backend*** and ***fronted***. Please read how to install them in the [INSTALL.md](../../../INSTALL.md) document.
 
 # Intro
 
-This is a MEAN stack app so you should have node + npm installed and then do a standard npm install based on the `package.json`
+```sh
+cd src/frontend/demos/colaboarthon/collective_sustainable_activism
+yarn
+```
 
-`npm install`
+## Install Frontend Colabo Puzzles (Packages)
 
-or even better
+***NOTE***: This is done automatically during the install process (please check the script `prepare` inside the `package.json`) and it is not necessary to be done manually.
 
-`yarn install`
-
-You can set the yarn as an angular-cli default:
-
-`ng set --global packageManager=yarn`
-
-# linked npm packages
-
-Some of the packages are not available (or not the latests) at the npm repository, so you should link them locally from the corresponding local repositories.
-
-## Colabo packages
-
-This packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/cha-os/knalledge).
-
-You need to:
-
-1. install it locally
-2. export each of used packages as global npm packages (with `npm link` command) running it in their folders
-3. import them in this project with:
+# Run
 
 ```sh
-npm link @colabo-puzzles/puzzles_core
-npm link @colabo-knalledge/knalledge_core
-npm link @colabo-knalledge/knalledge_store_core
-npm link @colabo-rima/rima_aaa
-# npm link @colabo-knalledge/knalledge_view_node
-# npm link @colabo-knalledge/knalledge_search
-# npm link @colabo-colaboware/colaboware_core
-# npm link @colabo-colaboware/colaboware_rfid
+cd src/frontend/demos/colaboarthon/collective_sustainable_activism
+# run with local ng
+./node_modules/\@angular/cli/bin/ng serve -o -p 8888
+# run with local ng using npx (not currently working because the problem with following symbolic links)
+npx ng serve -o -p 8888
+# or with global ng
+ng serve -o -p 8888
 ```
 
 # Deploy
@@ -52,7 +38,7 @@ this is done on the local dev machine
 # KnAllEdge/src/frontend/dev_puzzles/knalledge/knalledge_store_core/cf.service.ts
 # to
 # static serverAP = "http://158.39.75.120:8001"; // colabo-space-1
-cd Knalledge/src/frontend/demos/colaboarthon/collective_sustainable_activism
+cd src/frontend/demos/colaboarthon/collective_sustainable_activism
 ng build --prod --build-optimizer
 # reset the the server backend addr to the old value (for local computer)
 ```
@@ -63,7 +49,7 @@ uploading the build code on the server
 
 ```sh
 #the code is built in the following folder:
-cd KnAllEdge/src/frontend/demos/colaboarthon/collective_sustainable_activism/dist
+cd src/frontend/demos/colaboarthon/collective_sustainable_activism/dist
 #we put the content of this folder into the server folder:
 /var/www/fv
 ```
@@ -876,15 +862,3 @@ Interest 2:
 Interest A1, 0003739468
 Interest A2, 0003678978
 Interest A3, 0003736466
-
-# Updating
-
-https://stackoverflow.com/questions/43931986/how-to-upgrade-angular-cli-to-the-latest-version
-
-## angular
-
-`yarn add @angular/animations@5.0.1 @angular/common@5.0.1 @angular/compiler@5.0.1 @angular/core@5.0.1 @angular/forms@5.0.1 @angular/http@5.0.1 @angular/platform-browser@5.0.1 @angular/platform-browser-dynamic@5.0.1 @angular/router@5.0.1`
-
-` @angular/material@5.0.1
-@angular/cdk@
-@angular/flex@`
