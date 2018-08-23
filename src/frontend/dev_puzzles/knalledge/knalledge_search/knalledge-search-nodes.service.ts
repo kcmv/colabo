@@ -2,11 +2,10 @@
  old NG2 pair: src/frontend/app/components/knalledgeSearch/js/services/knalledgeSearchService.js
  */
 import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-//import 'rxjs/add/operator/toPromise';
 
 import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
 import {CFService} from '@colabo-knalledge/knalledge_store_core/cf.service';
