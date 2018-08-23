@@ -25,9 +25,16 @@ import { GetMapComponent } from './get-map/get-map.component';
 
 import { KnaledgeViewNodeModule } from '@colabo-knalledge/knalledge_view_node/module';
 
+// RIMA
+import { RimaLoginComponent } from '@colabo-rima/rima_aaa/rima-login/rima-login.component';
+import {RimaRegisterComponent} from '@colabo-rima/rima_aaa/rima-register/rima-register.component';
+import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
+
 var moduleDeclarations = [
   AppComponent,
-  GetMapComponent
+  GetMapComponent,
+  RimaLoginComponent,
+  RimaRegisterComponent
 ];
 
 var moduleImports = [
@@ -43,7 +50,10 @@ var moduleImports = [
   MaterialModule,
 
   AppRoutingModule, 
-  KnaledgeViewNodeModule
+  KnaledgeViewNodeModule,
+
+// rima
+  ReactiveFormsModule
 ];
 // moduleImports.push(MainModule);
 

@@ -2,8 +2,6 @@
 
 ***NOTE***: Before installing this app you need to install Colabo.Space ***tools***, ***backend*** and ***fronted***. Please read how to install them in the [INSTALL.md](../../../INSTALL.md) document.
 
-# Intro
-
 ```sh
 cd src/frontend/demos/colaboarthon/collective_sustainable_activism
 yarn
@@ -20,11 +18,11 @@ cd src/frontend/demos/colaboarthon/collective_sustainable_activism
 # run predefined npm script
 npm start
 # run with local ng
-./node_modules/\@angular/cli/bin/ng serve -o -p 8888
+./node_modules/\@angular/cli/bin/ng serve -o -p 8885
 # run with local ng using npx
-npx ng serve -o --port 8888
+npx ng serve -o --port 8885
 # or with global ng
-ng serve -o -p 8888
+ng serve -o -p 8885
 # or with default port (`angular.json` (architect.serve.options.port)) and without openning browser (no `-o`)
 ng serve
 ```

@@ -24,11 +24,13 @@
       "@angular/*": [
         "node_modules/@angular/*"
       ]
-    }
+    },
+    "module": "es2015"
   },
   "include": [
-      "src/**/*",
-      "node_modules/@colabo-puzzles/**/*",
-      "node_modules/@colabo-knalledge/**/*"
+    "src/**/*",
+    "node_modules/@colabo-puzzles/**/*",
+    "node_modules/@colabo-knalledge/**/*",
+    "node_modules/@colabo-rima/**/*"
   ]
 }

@@ -4,7 +4,7 @@
     "newProjectRoot": "projects",
     "projects": {
         "knalledge-view-node": {
-            "root": "..",
+            "root": "",
             "sourceRoot": "src",
             "projectType": "application",
             "schematics": {},
@@ -52,7 +52,7 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
                         "browserTarget": "knalledge-view-node:build",
-                        "port": 8887
+                        "port": 8888
                     },
                     "configurations": {
                         "production": {

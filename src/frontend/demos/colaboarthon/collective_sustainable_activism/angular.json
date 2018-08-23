@@ -4,7 +4,7 @@
     "newProjectRoot": "projects",
     "projects": {
         "collective_sustainable_activism": {
-            "root": "..",
+            "root": "",
             "sourceRoot": "src",
             "projectType": "application",
             "schematics": {},

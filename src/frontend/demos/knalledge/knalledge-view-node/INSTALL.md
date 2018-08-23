@@ -1,28 +1,35 @@
 # Intro
 
-`yarn`
-
-# linked npm packages
-
-Some of the packages are not available (or not the latests) at the npm repository, so you should link them locally from the corresponding local repositories.
-
-## Colabo packages
-
-This packages come from the Colabo Ecosystem and from its [Colabo github repository](https://github.com/cha-os/knalledge).
-
-You need to:
-
-1. install it locally
-2. export each of used packages as global npm packages (with `npm local` command)
-3. import them in this project with:
+***NOTE***: Before installing this app you need to install Colabo.Space ***tools***, ***backend*** and ***fronted***. Please read how to install them in the [INSTALL.md](../../../INSTALL.md) document.
 
 ```sh
-npm link @colabo-puzzles/puzzles_core
-npm link @colabo-knalledge/knalledge_core
-npm link @colabo-knalledge/knalledge_store_core
-npm link @colabo-knalledge/knalledge_search
-npm link @colabo-knalledge/knalledge_view_node
+cd src/frontend/demos/knalledge/knalledge-view-node
+yarn
 ```
+
+## Install Frontend Colabo Puzzles (Packages)
+
+***NOTE***: This is done automatically during the install process (please check the script `prepare` inside the `package.json`) and it is not necessary to be done manually.
+
+# Run
+
+```sh
+cd src/frontend/demos/knalledge/knalledge-view-node
+# run predefined npm script
+npm start
+# run with local ng
+./node_modules/\@angular/cli/bin/ng serve -o -p 8889
+# run with local ng using npx
+npx ng serve -o --port 8889
+# or with global ng
+ng serve -o -p 8889
+# or with default port (`angular.json` (architect.serve.options.port)) and without openning browser (no `-o`)
+ng serve
+```
+
+# Deploy
+
+TBD
 
 # Build
 
