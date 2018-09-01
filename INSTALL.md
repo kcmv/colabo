@@ -237,6 +237,48 @@ You should get the message: `Hello world!`
 
 ## Project related
 
+### Short - Compilation from all install docs by Sinisa
+
+```sh
+# Create development folder
+mkdir colabo
+# clone the colabo.space repo
+git clone https://github.com/Cha-OS/colabo
+# if we need to work on another branch, e.g. one named `cf-ng5`,
+# change to it;
+cd colabo
+git checkout cf-ng5
+
+# we can also do (even though not necessary):
+sudo npm install gulp -g
+
+
+### Colabo tools ###
+cd colabo/src/tools
+# install (and build (from TypeScript)) the Colabo Tools:
+yarn
+# export the `colabo` tool globally:
+npm link
+
+### Backend ###
+cd colabo/src/backend 
+yarn
+
+### Frontend ###
+cd colabo/src/frontend 
+yarn
+
+### App (Demo-app) ###
+cd colabo/src/frontend/demos/colaboarthon/<demo_app>
+# e.g: cd colabo/src/frontend/demos/colaboarthon/collective_sustainable_activism
+yarn
+
+# Running:
+ng serve -o
+```
+
+### Main - by Sasha
+
 ```sh
 # Create development folder
 mkdir <colabo-project-folder>
