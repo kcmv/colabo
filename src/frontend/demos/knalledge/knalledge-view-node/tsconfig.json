@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -11,21 +12,28 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "types": [
-      "hammerjs",
-      "node"
-    ],
     "lib": [
       "es2017",
       "dom"
     ],
-    "baseUrl": "./",
+    "types": [
+      "hammerjs",
+      "node"
+    ],
     "paths": {
-      "@angular/*": [
-        "node_modules/@angular/*"
+      "simplemde-ng-lib": [
+        "./node_modules/@colabo-knalledge/knalledge_view_node/node_modules/simplemde-ng-lib"
+      ],
+      "simplemde-ng-lib/*": [
+        "./node_modules/@colabo-knalledge/knalledge_view_node/node_modules/simplemde-ng-lib/*"
       ]
     },
     "module": "es2015"
+  },
+  "angularCompilerOptions": {
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true,
+    "annotateForClosureCompiler": true
   },
   "include": [
     "src/**/*",

@@ -42,7 +42,11 @@ this is done on the local dev machine
 # static serverAP = "http://158.39.75.120:8001"; // colabo-space-1
 cd src/frontend/demos/colaboarthon/collective_sustainable_activism
 ng build --prod --build-optimizer
+# run local server for testing
+cd dist/collective_sustainable_activism
+python -m SimpleHTTPServer 8000
 # reset the the server backend addr to the old value (for local computer)
+
 ```
 
 ## Code/Data Upload
