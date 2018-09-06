@@ -28,7 +28,7 @@ export class MediaUpload {
             var datetimestamp = Date.now();
             // <local file name> - <datetimestamp>.<original extension>
             var storageFileName = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1];
-            console.log("[upload:create:filename] storageFileName: %s", storageFileName);
+            console.log("[MediaUpload:storage:filename] storageFileName: %s", storageFileName);
             cb(null, storageFileName);
         }
 	});
@@ -41,13 +41,13 @@ export class MediaUpload {
 	}
 
 	post(callback:Function = null){
-		console.log("[upload] req.file: %s", JSON.stringify(this.req.file));
+		console.log("[MediaUpload.post] this.req.file: %s", JSON.stringify(this.req.file));
     
         // this.req.file is the `avatar` file
         // this.req.body will hold the text fields, if there were any
 
         MediaUpload.upload.single('avatar')(this.req, this.res, function(err) {
-            console.log("[upload:create:upload] this.req.file: %s", JSON.stringify(this.req.file));
+            console.log("[MediaUpload.post:upload.single] this.req.file: %s", JSON.stringify(this.req.file));
             if (err) {
                 this.res.json({ error_code: 1, err_desc: err });
                 return;
