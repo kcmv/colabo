@@ -90,6 +90,10 @@ export class RimaAAAService extends CFService{
       else return null;
   }
 
+  getRegisteredUsers(mapId:string):Observable<KNode[]>{
+    return this.knalledgeNodeService.queryInMapofType(mapId, KNode.TYPE_USER);
+  }
+
   /**
    * Creates the provided user node on the server and returns its server-updated appearance
    * @param {KNode} kNode the pre-populated node to be created on the server
@@ -108,7 +112,7 @@ export class RimaAAAService extends CFService{
       vo.state = VO.STATE_SYNCED;
       return vo;
     }
-    
+
     function createdResponse(serverResponse:any):KNode{
         console.log("[createUserNode:createdResponse]: created");
         if(serverResponse.success){

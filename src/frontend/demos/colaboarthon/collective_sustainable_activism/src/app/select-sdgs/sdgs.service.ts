@@ -19,7 +19,9 @@ import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzz
 import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
 
 //this consts are defined by INSTALL.MD data:
-const MAP_ID = "5b49e7f736390f03580ac9a7";
+// const MAP_ID = "5b8a5260f8b8e40f3f250f9d"; //TEF
+const MAP_ID = "5b49e7f736390f03580ac9a7"; //Forum Vlasina
+
 export const TYPE_SDGS:string = "const.sdgs.sdg";
 export const SDG_SELECTION_NAME:string = "UN_SDG";
 export const SDG_SELECTION_TYPE:string = "rima.selected_UN_SDG";
@@ -60,7 +62,7 @@ export class SDGsService {
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeMapService: KnalledgeMapService,
     private globalEmitterServicesArray: GlobalEmittersArrayService,
-    private RimaAAAService: RimaAAAService
+    private rimaAAAService: RimaAAAService
   ) {
     //getting data for the user:
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
@@ -173,7 +175,7 @@ export class SDGsService {
   }
 
   saveSDGsSelection(sdgs:string[]):Observable<any>{
-    let user_id:string = this.RimaAAAService.getUserId();
+    let user_id:string = this.rimaAAAService.getUserId();
     let sdgId:string;
     this.sdgsLeftSave = sdgs.length;
     let that = this;

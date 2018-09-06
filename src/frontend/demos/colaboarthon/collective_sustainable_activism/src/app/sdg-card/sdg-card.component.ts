@@ -11,11 +11,12 @@ export class SdgCardComponent implements OnInit {
   @Output() toggled = new EventEmitter<boolean>();
   @Input() sdg: KNode;
   selected:boolean = false;
-  sdgImagesPath:string = 'assets/images/sdgs/s/'; 
+  sdgImagesPath:string = 'assets/images/sdgs/s/';
 
   constructor() { }
 
   ngOnInit() {
+    //console.log('SdgCardComponent');
   }
 
   getState():boolean{

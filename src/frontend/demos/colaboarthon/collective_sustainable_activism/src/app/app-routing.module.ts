@@ -14,6 +14,7 @@ import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {CwcComponent} from './cwc/cwc.component';
 import { RimaLoginComponent } from '@colabo-rima/rima_aaa/rima-login/rima-login.component';
 import {AvatarComponent} from './avatar/avatar.component';
+import {InsightsComponent} from './insights/insights.component';
 
 const routes: Routes = [
   { // default route
@@ -68,6 +69,10 @@ const routes: Routes = [
   {
     path: 'avatar',
     component: AvatarComponent
+  },
+  {
+    path: 'insights',
+    component: InsightsComponent
   }
 ];
 

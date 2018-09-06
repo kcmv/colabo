@@ -35,6 +35,9 @@ import {SdgCardComponent} from './sdg-card/sdg-card.component';
 import {CwcComponent} from './cwc/cwc.component';
 import { RimaLoginComponent } from '@colabo-rima/rima_aaa/rima-login/rima-login.component';
 import {AvatarComponent} from './avatar/avatar.component';
+import {InsightsComponent} from './insights/insights.component';
+import {RegisteredUsersComponent} from './registered-users/registered-users.component';
+import {UserCardComponent} from './users/user-card.component';
 
 import {Dialog1Btn, Dialog2Btn} from './util/dialog';
 
@@ -65,6 +68,8 @@ var moduleDeclarations = [
   // UserInfoComponent,
   // TagsPopulationComponent,
   // UsersGroupsComponent,
+  Dialog2Btn,
+  Dialog1Btn,
   IndexComponent,
   RimaRegisterComponent,
   SelectSdgsComponent,
@@ -72,8 +77,9 @@ var moduleDeclarations = [
   CwcComponent,
   RimaLoginComponent,
   AvatarComponent,
-  Dialog2Btn,
-  Dialog1Btn,
+  InsightsComponent,
+  RegisteredUsersComponent,
+  UserCardComponent
   // AdvancedDialogTest
 ];
 

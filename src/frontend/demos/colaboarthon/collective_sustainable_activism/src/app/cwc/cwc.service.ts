@@ -19,7 +19,9 @@ import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 //this consts are defined by INSTALL.MD data:
-const MAP_ID = "5b49e7f736390f03580ac9a7";
+//const MAP_ID = "5b8a5260f8b8e40f3f250f9d"; //TEF
+const MAP_ID = "5b49e7f736390f03580ac9a7"; //Forum Vlasina
+
 export const CWC_TYPE:string = "rima.user.dream";
 export const CWC_EDGE_NAME:string = "CWC dream";
 //export const CWC_NODE_NAME:string = "CWC dream";
