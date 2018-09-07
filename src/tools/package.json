@@ -21,6 +21,6 @@
         "ghooks": "^2.0.0"
     },
     "bin": {
-        "colabo": "./index.js"
+        "colabo": "./dist/index.js"
     }
 }

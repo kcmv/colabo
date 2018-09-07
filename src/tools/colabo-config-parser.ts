@@ -85,6 +85,8 @@ export class ColaboConfigParser{
     }
 
     isNpmWarning(msg:string):boolean{
+        if(msg || typeof msg !== 'string') return false;
+
         if (msg.indexOf("ERR!") >= 0) return false;
         if(msg.indexOf("WARN!") >= 0) return true;
         if (msg.indexOf("ERR") >= 0) return false;
@@ -198,7 +200,7 @@ export class ColaboConfigParser{
             symLinkInfo.from = fs.realpathSync(fromUnresolved);
 
         }
-        let cmdStr = "ln -s " + symLinkInfo.from + " " + symLinkInfo.to;
+        let cmdStr = "rm -f " + symLinkInfo.to + "; ln -s " + symLinkInfo.from + " " + symLinkInfo.to;
         console.log("\tSymlinking command: %s", cmdStr);
         return new Promise((resolve, reject) => {
             ChildProcess.exec(cmdStr, { cwd: this.colaboConfigFolder }, function(error, stdout, stderr) {
@@ -235,6 +237,50 @@ export class ColaboConfigParser{
         for (let id in this.colaboConfig.symlinks) {
             let symLinkInfo: SymLinkInfo = this.colaboConfig.symlinks[id];
             await this.symlink(symLinkInfo);
+        }
+
+        return Promise.resolve("OK");
+    }
+
+    async buildPuzzle(puzzleOffer: PuzzlesOfferDescription): Promise<any>{
+        console.log("Building puzzle: %s", puzzleOffer.npm);
+
+        var linkPath: string = this.colaboConfigFolder + puzzleOffer.path;
+        console.log("\tlinkPath: %s", linkPath);
+        return new Promise((resolve, reject) => {
+            ChildProcess.exec("npm run build", { cwd: linkPath }, function(error, stdout, stderr) {
+                if (error) {
+                    if(this.isNpmWarning(error)){
+                        console.warn(chalk.blue.bold("\t[%s] WARNING: "), puzzleOffer.npm, error);
+                        resolve(error);
+                    }else{
+                        console.error(chalk.red.bold("\t[%s] ERROR: "), puzzleOffer.npm, error);
+                        reject(error);
+                    }
+                }else if (stderr) {
+                    if (this.isNpmWarning(stderr)){
+                        console.warn(chalk.blue.bold("\t[%s] STD-WARNING: "), puzzleOffer.npm, stderr);
+                        resolve(stderr);
+                    }else{
+                        console.error(chalk.red.bold("\t[%s] STD-ERROR: "), puzzleOffer.npm, stderr);
+                        reject(stderr);
+                    }
+                }else if (stdout) {
+                    console.log("\t[%s] stdout: ", puzzleOffer.npm, stdout);
+                    resolve(stdout);
+                }else{
+                    resolve("OK");
+                }
+            }.bind(this));
+        });
+    }
+
+    async buildPuzzles(): Promise<any>{
+        console.log("Building puzzles (`npm run build`-ing them) from the file '%s':", this.fileName);
+        for (let id in this.colaboConfig.puzzles.offers) {
+            let puzzleOffer: PuzzlesOfferDescription = this.colaboConfig.puzzles.offers[id];
+
+            await this.buildPuzzle(puzzleOffer);
         }
 
         return Promise.resolve("OK");

@@ -18,8 +18,9 @@ import { ColaboConfigParser } from './colabo-config-parser';
 
 enum Commands {
     PuzzlesInfo = "puzzles-info",
-    PuzlessOffer = "puzzles-offer",
-    PuzlessInstall = "puzzles-install",
+    PuzlesBuild = "puzzles-build",
+    PuzlesOffer = "puzzles-offer",
+    PuzlesInstall = "puzzles-install",
     SymLink = "symlinks"
 }
 
@@ -31,8 +32,9 @@ function showUsage(){
     console.log("\t colabo [<config-file>] <command>");
     console.log(chalk.red.bold("Available Commands:"));
     console.log("\t%s: Show info about the colabo config file", chalk.blue.bold(Commands.PuzzlesInfo));
-    console.log("\t%s: Exports puzzles offered through the colabo config file", chalk.blue.bold(Commands.PuzlessOffer));
-    console.log("\t%s: Installs puzzles required by the colabo config file", chalk.blue.bold(Commands.PuzlessInstall));
+    console.log("\t%s: Builds puzzles offered through the colabo config file", chalk.blue.bold(Commands.PuzlesBuild));
+    console.log("\t%s: Exports puzzles offered through the colabo config file", chalk.blue.bold(Commands.PuzlesOffer));
+    console.log("\t%s: Installs puzzles required by the colabo config file", chalk.blue.bold(Commands.PuzlesInstall));
     console.log("\t%s: Symlink external paths", chalk.blue.bold(Commands.SymLink));
     console.log(chalk.red.bold("Example:"));
     console.log("\t colabo ../backend/colabo.config.js puzzless-info", chalk.dim("// show puzzles from"), chalk.dim.bold('./backend/colabo.config.js'));
@@ -89,13 +91,17 @@ switch(command){
         colaboConfigParser.listOffers();
         colaboConfigParser.listDependencies();
         break;
-    case Commands.PuzlessOffer:
-        colaboConfigParser.offerPuzzles()
-            .catch(error => console.log(chalk.red.bold("Colabo action (%s) finished with error: "), Commands.PuzlessOffer, error));
+    case Commands.PuzlesBuild:
+        colaboConfigParser.buildPuzzles()
+            .catch (error => console.log(chalk.red.bold("Colabo action (%s) finished with error: "), Commands.PuzlesBuild, error));
         break;
-    case Commands.PuzlessInstall:
+    case Commands.PuzlesOffer:
+        colaboConfigParser.offerPuzzles()
+            .catch(error => console.log(chalk.red.bold("Colabo action (%s) finished with error: "), Commands.PuzlesOffer, error));
+        break;
+    case Commands.PuzlesInstall:
         colaboConfigParser.installPuzzles()
-            .catch (error => console.log(chalk.red.bold("Colabo action (%s) finished with error: "), Commands.PuzlessInstall, error));
+            .catch (error => console.log(chalk.red.bold("Colabo action (%s) finished with error: "), Commands.PuzlesInstall, error));
         break;
     case Commands.SymLink:
         colaboConfigParser.symlinks()

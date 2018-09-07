@@ -3,7 +3,10 @@
     "description": "RIMA connect supports basic aspects of user management of Colabo.space clients.",
     "version": "0.0.1",
     "private": true,
-    "scripts": {},
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/aaa.js",
     "dependencies": {
         "passport": "latest",
         "passport-facebook": "latest",

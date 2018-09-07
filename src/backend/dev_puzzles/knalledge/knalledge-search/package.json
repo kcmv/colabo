@@ -3,7 +3,10 @@
     "description": "Knalledge Search API for the KnAllEdge backend",
     "version": "0.0.2",
     "private": true,
-    "scripts": {},
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
     "dependencies": {},
     "devDependencies": {}
 }

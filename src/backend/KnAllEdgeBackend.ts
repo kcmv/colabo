@@ -56,10 +56,10 @@ var app = express();
 
 
 // TopiChat
-import {TopiChat} from '@colabo-topiChat/b-topiChat-core/topiChat';
-var TopiChatKnAllEdge = require('@colabo-topiChat/b-topiChat-knalledge');
+import {TopiChat} from '@colabo-topiChat/b-topiChat-core';
+// var TopiChatKnAllEdge = require('@colabo-topiChat/b-topiChat-knalledge');
 var topiChat = new TopiChat(app, 'CollaboScience', portTC);
-var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
+// var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
 topiChat.connect();
 
 // var bodyParser = require('body-parser');
@@ -87,7 +87,7 @@ app.configure(function () {
 var puzzleKnalledgeCore = require('@colabo-knalledge/b-knalledge-core')(app);
 
 // var puzzleKnalledgeSearch = require('@colabo-knalledge/b-knalledge-search')(app);
-import * as PuzzleKnalledgeSearch from '@colabo-knalledge/b-knalledge-search/index';
+import * as PuzzleKnalledgeSearch from '@colabo-knalledge/b-knalledge-search';
 PuzzleKnalledgeSearch.initialize(app);
 
 
@@ -106,7 +106,7 @@ var session = app.resource('session', require('./modules/session'), { id: 'type?
 
 var mapImport = app.resource('mapImport', require('./modules/mapImport'), { id: 'type?/:searchParam?' });
 
-import * as PuzzleMediaUpload from '@colabo-media/media-upload/index';
+import * as PuzzleMediaUpload from '@colabo-media/media-upload';
 PuzzleMediaUpload.initialize(app);
 
 // var smsapi = app.resource('smsapi', require('./modules/smsapi_old_JS')); //JS

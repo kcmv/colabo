@@ -17,6 +17,7 @@ var puzzles = {
     offers: {}
 };
 
+// note: destination folder (like `node_modules`) needs to exist
 var symlinks = [
     {
         from: variables.ANGULAR_PACKAGES_FOLDER+"node_modules/rxjs",

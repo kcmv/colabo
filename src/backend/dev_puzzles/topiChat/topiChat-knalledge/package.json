@@ -3,7 +3,11 @@
     "description": "KnAlledge Extension of the TopiChat service",
     "version": "0.0.5",
     "private": true,
-    "scripts": {},
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "dependencies": {},
     "peerDependencies": {
         "socket.io": "^1.2.1"

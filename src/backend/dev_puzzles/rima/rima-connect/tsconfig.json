@@ -20,13 +20,9 @@
     },
     "allowSyntheticDefaultImports": false,
     "files": [
-        "KnAllEdgeBackend.ts",
-        "modules/smsapi.ts"
+        "aaa.js"
     ],
     "include": [
-        "config",
-        "models",
-        "modules"
     ],
     "exclude": [
         "**/*d.ts"

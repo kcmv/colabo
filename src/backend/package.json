@@ -6,7 +6,8 @@
     "webSocketDebuggerUrl": "ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e",
     "scripts": {
         "start": "node dist/KnAllEdgeBackend 8001 8002",
-        "prepare": "colabo puzzles-offer; colabo puzzles-install; tsc",
+
+        "prepare": "colabo puzzles-build; colabo puzzles-offer; colabo puzzles-install; tsc",
         "debug": "node --inspect-brk=5858 KnAllEdgeBackend 8001 8002"
     },
     "dependencies": {
@@ -21,6 +22,7 @@
         "bson": "^0.4.22",
         "chalk": "^2.4.1",
         "connect-flash": "latest",
+        "copyfiles": "^2.1.0",
         "deep-assign": "http://colabo.space/downloads/deep-assign-2.0.0.tgz",
         "express": "3.x",
         "express-resource": "http://colabo.space/downloads/express-resource-1.0.0.tgz",

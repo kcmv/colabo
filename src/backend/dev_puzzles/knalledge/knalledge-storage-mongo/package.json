@@ -3,7 +3,10 @@
     "description": "Mongo implementation of the KnAllEdge storage",
     "version": "0.0.1",
     "private": true,
-    "scripts": {},
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/dbService.js",
     "dependencies": {
         "passport": "latest",
         "passport-facebook": "latest",
