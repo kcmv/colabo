@@ -1,5 +1,6 @@
-# CoLaboArthon / Collective-Sustainable-Activism
-
+# NCA - Networking for Collective Activism
+- a standalone **app** for promoting and initiating '**Collective-Sustainable-Activism**'
+- an integrative module/puzzle for the initial '**initiating phase**' of **CoLaboArthon**
 
 ## entry points
 
@@ -11,11 +12,11 @@
 
 - 17 UN SDGs are connected to the node {"_id" : ObjectId("5b4a91d800ea790a4738a6e5"), "name" : "SDGs", "type" : "const.sdgs"}
 - 17 cons SDG nodes are of type "type" : "const.sdgs.sdg"
-- 
+-
 
 # Install
 
-Before running the demo, you need to prepolate the database.
+Before running the App, you need to prepolate the database.
 
 See the [INSTALL](INSTALL.md) file for details.
 
