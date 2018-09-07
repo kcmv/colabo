@@ -2,6 +2,6 @@
   <div><h3>Registered Users</h3><div>
   <!-- <h3>registered-users.component</h3> -->
   <div>
-      <user-card *ngFor="let userD of users | orderBy : 'name' " class="user"  [userData]="userD "></user-card>
+      <user-card *ngFor="let userD of users | orderBy : 'name' : false : true " class="user"  [userData]="userD "></user-card>
   </div>
 </div>
