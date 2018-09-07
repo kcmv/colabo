@@ -96,7 +96,7 @@ var moduleImports = [
   // MatInputModule,
   // MatFormFieldControl
   // rima
-  RimaAaaModule
+  , RimaAaaModule
 ];
 // moduleImports.push(MainModule);
 
