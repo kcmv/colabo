@@ -1,5 +1,7 @@
 process.chdir(__dirname);
 
+// import * as express from "express";
+
 var config = require('./config/global'),
     async = require('async'),
     express = require('express'),
@@ -54,7 +56,7 @@ var app = express();
 
 
 // TopiChat
-var TopiChat = require('@colabo-topiChat/b-topiChat-core');
+import {TopiChat} from '@colabo-topiChat/b-topiChat-core/topiChat';
 var TopiChatKnAllEdge = require('@colabo-topiChat/b-topiChat-knalledge');
 var topiChat = new TopiChat(app, 'CollaboScience', portTC);
 var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
