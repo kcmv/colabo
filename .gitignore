@@ -38,6 +38,8 @@ bower_components
 
 typings/
 dist/
+uploads/
+node_modules*/
 # manual_typings/
 
 /doc/
