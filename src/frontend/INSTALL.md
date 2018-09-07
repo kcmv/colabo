@@ -38,7 +38,10 @@ This is just an explanation and not necessary to be done manually, because it is
 
 ```sh
 cd src/frontend
+npm link @colabo-knalledge/knalledge_core
 npm link @colabo-puzzles/puzzles_core
+npm link @colabo-rima/rima_aaa
+npm link @colabo-knalledge/knalledge_store_core
 ```
 
 # Install Old (should not be necessary anymore)
@@ -230,14 +233,14 @@ the same problem as the (following) error: `NullInjectorError: No provider for t
 + https://github.com/ngrx/platform/issues/549
 
 ```
-Error: StaticInjectorError(ju)[t -> t]: 
-  StaticInjectorError(Platform: core)[t -> t]: 
+Error: StaticInjectorError(ju)[t -> t]:
+  StaticInjectorError(Platform: core)[t -> t]:
     NullInjectorError: No provider for t!
 ```
 
 ```
-Error: StaticInjectorError(AppModule)[RouterLink -> Router]: 
-  StaticInjectorError(Platform: core)[RouterLink -> Router]: 
+Error: StaticInjectorError(AppModule)[RouterLink -> Router]:
+  StaticInjectorError(Platform: core)[RouterLink -> Router]:
     NullInjectorError: No provider for Router!
 ```
 
@@ -282,7 +285,7 @@ The problem is the line: `moduleImports.push(AppRoutingModule);`
 Angular AOT (Ahead-Of-Time) compiler compiles code:
 1. finds `@NgModule({`
 2. finds `imports: moduleImports`
-3. looks for the `moduleImports` value, and 
+3. looks for the `moduleImports` value, and
 4. "folds" it with initialized value
 5. doesn't extends it by parsing the line: `moduleImports.push(AppRoutingModule);`
 6. AOT version doesn't find `Router` provider

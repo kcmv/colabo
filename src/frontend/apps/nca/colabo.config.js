@@ -1,6 +1,6 @@
 var variables = {
-    ANGULAR_PACKAGES_FOLDER: '../../../',
-    ANGULAR_BUILD_PACKAGES_FOLDER: '../../../'
+    ANGULAR_PACKAGES_FOLDER: '../../',
+    ANGULAR_BUILD_PACKAGES_FOLDER: '../../'
 };
 
 var puzzles = {
