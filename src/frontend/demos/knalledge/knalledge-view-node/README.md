@@ -1,5 +1,32 @@
 # KnalledgeViewNode
 
+## Install
+
+Since colabo puzzles are not installed as npm packages, then ng-cli has problem finding their internal dependencies (in this case `simplemde-ng-lib` in the `@colabo-knalledge/knalledge_view_node` puzzle), so we need to help building process within the `tsconfig.json` file:
+
+```json
+    "paths": {
+      "simplemde-ng-lib": [
+        "./node_modules/@colabo-knalledge/knalledge_view_node/node_modules/simplemde-ng-lib"
+      ],
+      "simplemde-ng-lib/*": [
+        "./node_modules/@colabo-knalledge/knalledge_view_node/node_modules/simplemde-ng-lib/*"
+      ]
+    }
+```
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+```sh
+# build
+ng build --prod --build-optimizer
+# run local server for testing
+cd dist/app-with-sym-linked-puzzle/
+python -m SimpleHTTPServer 8000
+```
+
 ## entry points
 
 + [view node 59d3dba173a8d7b33b00972c](http://localhost:4200/node/id/59d3dba173a8d7b33b00972c)

@@ -30,11 +30,9 @@ import {CWCService} from './cwc/cwc.service';
 // import {SMSApiService} from './ui-sms/sms-api.service';
 // import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
 import {IndexComponent} from './index/index.component';
-import {RimaRegisterComponent} from '@colabo-rima/rima_aaa/rima-register/rima-register.component';
 import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {SdgCardComponent} from './sdg-card/sdg-card.component';
 import {CwcComponent} from './cwc/cwc.component';
-import { RimaLoginComponent } from '@colabo-rima/rima_aaa/rima-login/rima-login.component';
 import {AvatarComponent} from './avatar/avatar.component';
 import {InsightsComponent} from './insights/insights.component';
 import {RegisteredUsersComponent} from './registered-users/registered-users.component';
@@ -72,11 +70,9 @@ var moduleDeclarations = [
   Dialog2Btn,
   Dialog1Btn,
   IndexComponent,
-  RimaRegisterComponent,
   SelectSdgsComponent,
   SdgCardComponent,
   CwcComponent,
-  RimaLoginComponent,
   AvatarComponent,
   InsightsComponent,
   RegisteredUsersComponent,

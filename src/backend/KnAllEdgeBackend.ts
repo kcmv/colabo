@@ -1,8 +1,3 @@
-declare var require: any;
-declare var global: any;
-declare var process: any;
-declare var __dirname: any;
-
 process.chdir(__dirname);
 
 var config = require('./config/global'),
@@ -65,13 +60,17 @@ var topiChat = new TopiChat(app, 'CollaboScience', portTC);
 var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
 topiChat.connect();
 
-var bodyParser = require('body-parser');
+// var bodyParser = require('body-parser');
 
 app.configure(function () {
-    app.use(express.bodyParser());
     app.use(express.logger());
     app.use(express.cookieParser()); // cookie parser is used before the session
-    app.use(bodyParser.json());
+    // multer and body-parser resolution
+    // https://github.com/expressjs/multer/issues/251
+    // app.use(express.bodyParser());
+    // app.use(bodyParser.json());
+    app.use(express.json());
+    app.use(express.urlencoded());
     console.log("process.argv: %s", JSON.stringify(process.argv));
     app.set('port', portHttp);
 
@@ -103,9 +102,10 @@ var syncing = app.resource('syncing', require('./modules/syncing'), { id: 'type?
 var dbAudits = app.resource('dbAudits', require('./modules/dbAudit'), { id: 'type?/:searchParam?' });
 var session = app.resource('session', require('./modules/session'), { id: 'type?/:searchParam?' });
 
-var session = app.resource('mapImport', require('./modules/mapImport'), { id: 'type?/:searchParam?' });
+var mapImport = app.resource('mapImport', require('./modules/mapImport'), { id: 'type?/:searchParam?' });
 
-var upload = app.resource('upload', require('@colabo-media/media-upload/upload'), { id: 'type?/:searchParam?' });
+import * as PuzzleMediaUpload from '@colabo-media/media-upload/index';
+PuzzleMediaUpload.initialize(app);
 
 // var smsapi = app.resource('smsapi', require('./modules/smsapi_old_JS')); //JS
 var smsapi = app.resource('smsapi', require('./modules/smsapi')); //TS

@@ -23,18 +23,13 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { GetMapComponent } from './get-map/get-map.component';
 
+// Puzzle Modules
 import { KnaledgeViewNodeModule } from '@colabo-knalledge/knalledge_view_node/module';
-
-// RIMA
-import { RimaLoginComponent } from '@colabo-rima/rima_aaa/rima-login/rima-login.component';
-import {RimaRegisterComponent} from '@colabo-rima/rima_aaa/rima-register/rima-register.component';
-import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
+import { RimaAaaModule } from '@colabo-rima/rima_aaa/module';
 
 var moduleDeclarations = [
   AppComponent,
   GetMapComponent,
-  RimaLoginComponent,
-  RimaRegisterComponent
 ];
 
 var moduleImports = [
@@ -50,13 +45,12 @@ var moduleImports = [
   MaterialModule,
 
   AppRoutingModule, 
-  KnaledgeViewNodeModule,
 
-// rima
-  ReactiveFormsModule
+// Puzzle Modules
+  KnaledgeViewNodeModule,
+  RimaAaaModule,
 ];
 // moduleImports.push(MainModule);
-
 // moduleImports.push(AppRoutingModule);
 
 // import {GlobalEmitterService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterService';

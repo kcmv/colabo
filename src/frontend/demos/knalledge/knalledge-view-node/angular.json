@@ -7,6 +7,7 @@
             "root": "",
             "sourceRoot": "src",
             "projectType": "application",
+            "prefix": "app",
             "schematics": {},
             "architect": {
                 "build": {
@@ -131,14 +132,5 @@
             }
         }
     },
-    "defaultProject": "knalledge-view-node",
-    "schematics": {
-        "@schematics/angular:component": {
-            "prefix": "app",
-            "styleext": "css"
-        },
-        "@schematics/angular:directive": {
-            "prefix": "app"
-        }
-    }
+    "defaultProject": "knalledge-view-node"
 }
