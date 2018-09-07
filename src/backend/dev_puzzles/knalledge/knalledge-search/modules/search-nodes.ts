@@ -90,7 +90,7 @@ class SearchNodes {
 } // CLASS END
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8001/search-nodes/parents/in-map/58068a04a37162160341d402/59d3fb284b077e6c540f758e
-// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8001/search-nodes/parents/in-map/58068a04a37162160341d402/580c10bed50bfd4f0ceacb1c
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8001/search-nodes/children/in-map/58068a04a37162160341d402/59d3bdcf0d1f92de005c85a9
 // https://stackoverflow.com/questions/15651510/can-typescript-export-a-function
 // https://www.sitepoint.com/understanding-module-exports-exports-node-js/
 export function index(req:any, res:any){
