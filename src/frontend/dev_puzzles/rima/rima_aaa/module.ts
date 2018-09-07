@@ -13,6 +13,8 @@ import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i
 
 import { RimaLoginComponent } from './rima-login/rima-login.component';
 import { RimaRegisterComponent } from './rima-register/rima-register.component';
+import { RimaAAAService } from './rima-aaa.service';
+
 
 var moduleDeclarations:any[] = [
     RimaLoginComponent,
@@ -37,6 +39,9 @@ var moduleImports: any[] = [
     declarations: moduleDeclarations,
     imports: moduleImports,
     // exports: moduleImports.concat(moduleDeclarations)
-    exports: moduleDeclarations
+    exports: moduleDeclarations,
+    providers: [
+        RimaAAAService
+    ]
 })
 export class RimaAaaModule { }

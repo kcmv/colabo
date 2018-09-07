@@ -19,7 +19,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
-import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
+import { RimaAaaModule } from '@colabo-rima/rima_aaa/module';
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
 
@@ -95,6 +95,8 @@ var moduleImports = [
   // ,
   // MatInputModule,
   // MatFormFieldControl
+  // rima
+  RimaAaaModule
 ];
 // moduleImports.push(MainModule);
 
@@ -122,7 +124,6 @@ export var Plugins:any = window.Config.Plugins;
     // provide ng build error: "Can't resolve all parameters for GlobalEmitterService"
     // {provide: GlobalEmitterService, useClass: GlobalEmitterService},
     {provide: GlobalEmittersArrayService, useClass: GlobalEmittersArrayService},
-    RimaAAAService,
     SDGsService,
     CWCService
     // ColabowareRFIDService,
