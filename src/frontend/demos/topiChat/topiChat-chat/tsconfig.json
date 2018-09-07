@@ -1,0 +1,44 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "types": [
+      "hammerjs",
+      "node"
+    ],
+    "paths": {
+      "simplemde-ng-lib": [
+        "./node_modules/@colabo-knalledge/knalledge_view_node/node_modules/simplemde-ng-lib"
+      ],
+      "simplemde-ng-lib/*": [
+        "./node_modules/@colabo-knalledge/knalledge_view_node/node_modules/simplemde-ng-lib/*"
+      ]
+    },
+    "module": "es2015"
+  },
+  "angularCompilerOptions": {
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true,
+    "annotateForClosureCompiler": true
+  },
+  "include": [
+    "src/**/*",
+    "node_modules/@colabo-puzzles/**/*",
+    "node_modules/@colabo-knalledge/**/*",
+    "node_modules/@colabo-rima/**/*"
+  ]
+}
