@@ -4,6 +4,9 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "sourceMap": true,
+        "rootDir": "./",
+        "allowJs": true,
+        "outDir": "dist",
         "preserveConstEnums": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -20,7 +23,6 @@
         "index.ts"
     ],
     "include": [
-        "dev_puzzles"
     ],
     "exclude": [
         "**/*d.ts"
