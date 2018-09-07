@@ -13,6 +13,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import 'hammerjs';
 import {MaterialModule} from './materialModule';
+import { OrderModule } from 'ngx-order-pipe';
 //import {MatInputModule, MatFormFieldControl} from '@angular/material';
 
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
@@ -85,15 +86,16 @@ var moduleDeclarations = [
 
 var moduleImports = [
   BrowserModule
-  ,HttpClientModule
+  , HttpClientModule
   //,FormsModule,
   ,ReactiveFormsModule
 
   // Material
-  ,BrowserAnimationsModule
-  ,MaterialModule
-  ,FlexLayoutModule
+  , BrowserAnimationsModule
+  , MaterialModule
+  , FlexLayoutModule
   , AppRoutingModule
+  , OrderModule
   // ,
   // MatInputModule,
   // MatFormFieldControl
