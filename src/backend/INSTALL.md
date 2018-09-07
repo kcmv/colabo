@@ -6,7 +6,7 @@
 ## Install Colabo Backend Core
 
 ```sh
-cd <your Colabo.Space deployed folder>
+cd colabo
 cd src/backend
 # NOTE: some of the packages will be installed as tarbales from the colabo.space website
 # - http://colabo.space/downloads/express-resource-1.0.0.tgz
