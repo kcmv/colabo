@@ -2,11 +2,11 @@
     <mat-card-header>
         <!-- <div mat-card-avatar class="sdg-header-image"></div> -->
         <!-- <mat-card-title class='title'>{{cardData.dataContent.humanID + '. ' + cardData.name}}</mat-card-title> -->
-        <!-- <mat-card-subtitle>{{cardData.dataContent.goal}}</mat-card-subtitle> --> 
+        <!-- <mat-card-subtitle>{{cardData.dataContent.goal}}</mat-card-subtitle> -->
     </mat-card-header>
 
     <!-- <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img"> -->
-    <img mat-card-image class="picture" src="{{sdgImagesPath + 'sdg' + sdg?.dataContent?.humanID + '.jpg'}}" alt="{{cardData.name}}" />
+    <img mat-card-image class="user-img" src="{{userIconsPath + getIconImg()}}" alt="{{getUserName()}}" />
 
     <mat-card-content>
         <p>
