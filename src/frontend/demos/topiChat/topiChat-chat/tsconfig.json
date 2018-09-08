@@ -20,14 +20,6 @@
       "hammerjs",
       "node"
     ],
-    "paths": {
-      "simplemde-ng-lib": [
-        "./node_modules/@colabo-knalledge/knalledge_view_node/node_modules/simplemde-ng-lib"
-      ],
-      "simplemde-ng-lib/*": [
-        "./node_modules/@colabo-knalledge/knalledge_view_node/node_modules/simplemde-ng-lib/*"
-      ]
-    },
     "module": "es2015"
   },
   "angularCompilerOptions": {
@@ -39,6 +31,7 @@
     "src/**/*",
     "node_modules/@colabo-puzzles/**/*",
     "node_modules/@colabo-knalledge/**/*",
-    "node_modules/@colabo-rima/**/*"
+    "node_modules/@colabo-rima/**/*",
+    "node_modules/@colabo-topiChat/**/*"
   ]
 }
