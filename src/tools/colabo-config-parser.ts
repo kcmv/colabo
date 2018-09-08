@@ -85,7 +85,8 @@ export class ColaboConfigParser{
     }
 
     isNpmWarning(msg:string):boolean{
-        if(msg || typeof msg !== 'string') return false;
+        msg = "" + msg;
+        if(!msg || typeof msg !== 'string') return false;
 
         if (msg.indexOf("ERR!") >= 0) return false;
         if(msg.indexOf("WARN!") >= 0) return true;

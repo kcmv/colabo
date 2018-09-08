@@ -32,6 +32,10 @@ var puzzles = {
         "@colabo-knalledge/knalledge_view_interaction": {
             npm: "@colabo-knalledge/knalledge_view_interaction",
             path: "dev_puzzles/knalledge/knalledge_view_interaction"
+        },
+        "@@colabo-topiChat/topiChat-core": {
+            npm: "@@colabo-topiChat/topiChat-core",
+            path: "dev_puzzles/topiChat/topiChat-core"
         }
     }
 }
