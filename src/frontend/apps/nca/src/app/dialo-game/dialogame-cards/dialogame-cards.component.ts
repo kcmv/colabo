@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'dialogame-cards',
@@ -9,7 +10,9 @@ export class DialogameCardsComponent implements OnInit {
 
   cards:any[] = [];
 
-  constructor() { }
+  constructor(
+    public snackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
     this.cards = [
@@ -20,6 +23,13 @@ export class DialogameCardsComponent implements OnInit {
 
   onClick(event:any, id:string):void {
     console.log("onClicked",event, id);
+    this.openSnackBar("You've selected the challenge card.","Now choose your response card!");
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
 }
