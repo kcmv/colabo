@@ -6,13 +6,13 @@
     </mat-card-header>
 
     <!-- <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img"> -->
-    <img mat-card-image class="user-img" src="{{userIconsPath + getIconImg()}}" alt="{{getUserName()}}" />
+    <img mat-card-image class="user-img" src="{{userIconsPath + getIconImg()}}" alt="{{getUserName()}}" /> <span class='userName'>{{getUserName()}}</span>
 
     <mat-card-content>
-        <p>
-            {{cardData.name}}
+        <div>
+            <h1>{{cardData.name}}</h1>
             <!-- {{cardData.dataContent.desc}} -->
-        </p>
+        </div>
     </mat-card-content>
     <!-- <mat-card-footer>
     </mat-card-footer>   -->

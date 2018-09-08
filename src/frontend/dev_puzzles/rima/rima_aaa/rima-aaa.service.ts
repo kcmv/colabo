@@ -90,7 +90,11 @@ export class RimaAAAService extends CFService{
       else return null;
   }
 
-  getRegisteredUsers(mapId:string):Observable<KNode[]>{
+  getUserById(id:string):Observable<KNode>{ //TODO: not to get users from server each time, but from a local array
+      return this.knalledgeNodeService.getById(id);
+  }
+
+  getRegisteredUsers(mapId:string):Observable<KNode[]>{ //TODO: not to get users from server each time, but from a local array
     return this.knalledgeNodeService.queryInMapofType(mapId, KNode.TYPE_USER);
   }
 

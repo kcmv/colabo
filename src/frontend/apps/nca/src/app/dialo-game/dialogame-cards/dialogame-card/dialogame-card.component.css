@@ -4,6 +4,10 @@
   background-color: lightgray;
 }
 
+.userName{
+  vertical-align: top;
+}
+
 .user-img{
   left: 19px;
   padding: 3px;

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 
 @Component({
   selector: 'dialogame-card',
@@ -8,20 +9,31 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 })
 export class DialogameCardComponent implements OnInit {
   @Input() cardData:KNode;
+  //@Output()
+  cardCreator:KNode;// = new KNode();
 
   userIconsPath:string = 'assets/images/user_icons/';
 
-  constructor() { }
+  constructor(
+    private rimaAAAService: RimaAAAService
+  ) { }
 
   ngOnInit() {
     console.log("cardData", this.cardData);
+    this.rimaAAAService.getUserById(this.cardData.iAmId).subscribe(this.userReceived.bind(this));
+  }
+
+  userReceived(user:KNode):void{
+    this.cardCreator = user;
+    console.log(user, user.name);
   }
 
   getUserName():string{
-    return 'unknown user';
+    return this.cardCreator ? this.cardCreator.name : 'anonymous';
   }
 
   getIconImg():string{
+    //TODO:
     return 'performer.jpg';
   }
 

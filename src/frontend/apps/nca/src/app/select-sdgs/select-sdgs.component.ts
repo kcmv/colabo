@@ -23,7 +23,7 @@ export class SelectSdgsComponent implements OnInit {
 
   selectedSDGs:string[] = [];
   constructor(
-    private RimaAAAService: RimaAAAService,
+    private rimaAAAService: RimaAAAService,
     private sDGsService: SDGsService,
     public dialog: MatDialog
   ) { }
@@ -48,11 +48,11 @@ export class SelectSdgsComponent implements OnInit {
   }
 
   get isLoggedIn():Boolean{
-    return this.RimaAAAService.getUser() !== null;
+    return this.rimaAAAService.getUser() !== null;
   }
 
   get loggedUser(): KNode {
-    return this.RimaAAAService.getUser();
+    return this.rimaAAAService.getUser();
   }
 
   openDialog(buttons:number, data:DialogData, options:any = null, afterClosed:Function = null): void {
