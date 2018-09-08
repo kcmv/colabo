@@ -3,7 +3,7 @@
 ***NOTE***: Before installing this app you need to install Colabo.Space ***tools***, ***backend*** and ***fronted***. Please read how to install them in the [INSTALL.md](../../../INSTALL.md) document.
 
 ```sh
-cd src/frontend/demos/colaboarthon/collective_sustainable_activism
+cd src/frontend/apps/nca #the folder where this INSTALL.MD documnet is residing too
 yarn
 ```
 

@@ -1,0 +1,8 @@
+<div class='users' fxLayout="row wrap " fxLayout.xs="column " fxLayoutGap="0.5% " fxLayoutAlign="center ">
+  <div><h3>Your turn to play!</h3><div>
+    <h4 style="color:blue">We found for you these performance cards <span style="color:red">Choose one to reply on</span></h4>
+  <!-- <h3>registered-users.component</h3> -->
+  <div>
+      <dialogame-card *ngFor="let cardD of cards" class="user"  [cardData]="cardD "></dialogame-card>
+  </div>
+</div>

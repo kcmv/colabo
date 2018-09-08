@@ -237,7 +237,7 @@ You should get the message: `Hello world!`
 
 ## Project related
 
-### Short - Compilation from all install docs by Sinisa
+### SHORT - COMPILATION from all install docs (by Sinisa)
 
 ```sh
 # Create development folder
@@ -251,7 +251,6 @@ git checkout cf-ng5
 
 # we can also do (even though not necessary):
 sudo npm install gulp -g
-
 
 ### Colabo tools ###
 cd colabo/src/tools

@@ -38,6 +38,12 @@ import {InsightsComponent} from './insights/insights.component';
 import {RegisteredUsersComponent} from './registered-users/registered-users.component';
 import {UserCardComponent} from './users/user-card.component';
 
+/* PTW-app */
+import {DialoGameComponent} from './dialo-game/dialo-game.component';
+import {DialogameCardsComponent} from './dialo-game/dialogame-cards/dialogame-cards.component';
+import {DialogameCardComponent} from './dialo-game/dialogame-cards/dialogame-card/dialogame-card.component';
+/* PTW-app - end */
+
 import {Dialog1Btn, Dialog2Btn} from './util/dialog';
 
 import { AppComponent } from './app.component';
@@ -76,7 +82,14 @@ var moduleDeclarations = [
   AvatarComponent,
   InsightsComponent,
   RegisteredUsersComponent,
-  UserCardComponent
+  UserCardComponent,
+
+  /* PTW */
+  DialogameCardsComponent,
+  DialoGameComponent,
+  DialogameCardComponent
+  /* PTW -end */
+
   // AdvancedDialogTest
 ];
 
