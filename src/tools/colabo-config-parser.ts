@@ -246,10 +246,10 @@ export class ColaboConfigParser{
     async buildPuzzle(puzzleOffer: PuzzlesOfferDescription): Promise<any>{
         console.log("Building puzzle: %s", puzzleOffer.npm);
 
-        var linkPath: string = this.colaboConfigFolder + puzzleOffer.path;
-        console.log("\tlinkPath: %s", linkPath);
+        var buildPath: string = this.colaboConfigFolder + puzzleOffer.path;
+        console.log("\tbuildPath: %s", buildPath);
         return new Promise((resolve, reject) => {
-            ChildProcess.exec("npm run build", { cwd: linkPath }, function(error, stdout, stderr) {
+            ChildProcess.exec("npm run build", { cwd: buildPath }, function(error, stdout, stderr) {
                 if (error) {
                     if(this.isNpmWarning(error)){
                         console.warn(chalk.blue.bold("\t[%s] WARNING: "), puzzleOffer.npm, error);

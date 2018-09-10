@@ -10,7 +10,8 @@ var puzzles = {
         "@colabo-puzzles/puzzles_core": {},
         "@colabo-knalledge/knalledge_core": {},
         "@colabo-rima/rima_aaa": {},
-        "@colabo-topiChat/topiChat-core": {}
+        "@colabo-topiChat/topiChat-core": {},
+        "@colabo-knalledge/knalledge_store_core": {}
     },
     offers: {}
 };

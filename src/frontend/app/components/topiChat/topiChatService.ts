@@ -15,7 +15,7 @@ export class TopiChatService {
      * Registered Plugins
      * @type {Array.<string, Object>}
      */
-    plugins:any = {};
+    registeredPlugins:any = {};
 
     /**
      * Hash array of events and list of plugins for each, with key as event name
@@ -141,7 +141,7 @@ export class TopiChatService {
         if(!this._isActive) return;
         var pluginName = pluginOptions.name;
         console.log('[TopiChatService:registerPlugin] Registering plugin: %s', pluginName);
-        this.plugins[pluginName] = pluginOptions;
+        this.registeredPlugins[pluginName] = pluginOptions;
         for(var eventName in pluginOptions.events) {
             if(!(eventName in this.eventsByPlugins)) {
                 this.registerNewEventType(eventName);
@@ -158,7 +158,7 @@ export class TopiChatService {
      */
     getPlugins() {
         if(!this._isActive) return undefined;
-        return this.plugins;
+        return this.registeredPlugins;
     }
 
     /**

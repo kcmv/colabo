@@ -19,9 +19,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { GetMapComponent } from './get-map/get-map.component';
 
 // Puzzle Modules
-import { KnaledgeViewNodeModule } from '@colabo-knalledge/knalledge_view_node/module';
 import { RimaAaaModule } from '@colabo-rima/rima_aaa/module';
-// import {TopiChatCoreModule} from '@colabo-topiChat/topiChat-core';
+import {TopiChatCoreModule} from '@colabo-topiChat/topiChat-core';
 
 var moduleDeclarations = [
   AppComponent,
@@ -43,9 +42,8 @@ var moduleImports = [
   AppRoutingModule, 
 
 // Puzzle Modules
-  KnaledgeViewNodeModule,
   RimaAaaModule,
-  // TopiChatCoreModule
+  TopiChatCoreModule
 ];
 // moduleImports.push(MainModule);
 // moduleImports.push(AppRoutingModule);

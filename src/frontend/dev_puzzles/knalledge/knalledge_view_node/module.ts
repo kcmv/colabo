@@ -40,9 +40,18 @@ var moduleImports: any[] = [
     })
 ];
 
+import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
+import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
+import { KnalledgeSearchNodeService } from '@colabo-knalledge/knalledge_search/knalledge-search-nodes.service';
+
 @NgModule({
     declarations: moduleDeclarations,
     imports: moduleImports,
+    providers: [
+        KnalledgeEdgeService, KnalledgeNodeService, 
+        KnalledgeMapService, KnalledgeSearchNodeService
+    ],
     // exports: moduleImports.concat(moduleDeclarations)
     exports: moduleDeclarations
 })

@@ -7,6 +7,9 @@ cd src/frontend/demos/topiChat/topiChat-chat
 yarn
 ```
 
+***NOTE***: We needed to extend `src/polyfills.ts` because of the problem with `socket.io-client`: https://github.com/socketio/socket.io-client/issues/1166
+
+
 ## Install Frontend Colabo Puzzles (Packages)
 
 ***NOTE***: This is done automatically during the install process (please check the script `prepare` inside the `package.json`) and it is not necessary to be done manually.

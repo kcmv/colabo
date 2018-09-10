@@ -8,3 +8,10 @@ TopiChat is a Colabo puzzle that provides real-time support for Colabo.Space eco
 npm run build
 npm link
 ```
+
+***NOTE***: In your app you need to extend the `src/polyfills.ts` file, because of the [problem with the `socket.io-client` package](https://github.com/socketio/socket.io-client/issues/1166):
+
+```ts
+// https://github.com/socketio/socket.io-client/issues/1166
+if(!(window as any).global) (window as any).global = window;
+```
