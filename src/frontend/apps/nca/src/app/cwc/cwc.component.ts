@@ -83,7 +83,7 @@ export class CwcComponent implements OnInit {
   onSubmit( ){
     console.log('the CWC form is submitted', this.form);
     this.saved = false;
-    this.openDialog(1, new DialogData('Submitting','please wait ...', 'Cancel'), {disableClose: true});
+    this.openDialog(1, new DialogData('Submitting','please wait ...', 'Cancel', null, true), {disableClose: true});
 
     this.cwcs = new CWCData([this.form.value.cwcVision1, this.form.value.cwcVision2, this.form.value.cwcVision3]);
 

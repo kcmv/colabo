@@ -94,7 +94,7 @@ export class SelectSdgsComponent implements OnInit {
   onSubmit(){
     this.saved = false;
     console.log('submit');
-    this.openDialog(1, new DialogData('Submitting','please wait ...', 'Cancel'), {disableClose: true}
+    this.openDialog(1, new DialogData('Submitting','please wait ...', 'Cancel', null, true), {disableClose: true}
     , function(){
       console.log('The dialog NEW was closed');
       //this.animal = result;

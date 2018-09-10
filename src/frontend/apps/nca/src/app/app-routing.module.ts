@@ -15,7 +15,7 @@ import {CwcComponent} from './cwc/cwc.component';
 import { RimaLoginComponent } from '@colabo-rima/rima_aaa/rima-login/rima-login.component';
 import {AvatarComponent} from './avatar/avatar.component';
 import {InsightsComponent} from './insights/insights.component';
-import {DialoGameComponent} from './dialo-game/dialo-game.component'; //PTW
+
 const routes: Routes = [
   { // default route
     path: '',
@@ -73,10 +73,6 @@ const routes: Routes = [
   {
     path: 'insights',
     component: InsightsComponent
-  },
-  {
-    path: 'dialo-game',
-    component: DialoGameComponent
   }
 ];
 

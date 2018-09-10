@@ -1,8 +1,27 @@
 # Development
 
-This page describes the process of developing extra component.
+This page describes the process of developing extra components.
 
-## Linked puzzles / components
+# Apps
+
+## Creating a new App (Frontend)
+
+- duplicate the folder of an old existing app
+-  **package.json** file
+  - give the new value for the app-name: **name** parameter
+  - in the **scripts** node, we should give the new port for the `"start": "npx ng serve -o --port 8887"` to prevent  their overlapping. Look for a free next port at the lower paragraph **Apps Ports**
+  - 
+-  in the **angular.json** file rename the project name. Under the node "**projects**", you will see an entry with name resembling name of the app (e.g."collective_sustainable_activism") you should rename in whole the file that name with the new desired project name.
+- colabo.config.js
+  - rename **puzzles/name** node and the **puzzles/description** node
+
+## Apps Ports
+
+- NCA (Networking for Collective Activism i.e. CoLaboArthon-Collective-Sustainable-Activism): **8887**
+- Performing Sustainable CoEvolution (PSC): **8891**
+- 
+
+# Linked puzzles / components
 
 If you want to develop all components, you should remove some of npm packages, that can be linked instead from local folders containing them. Please see in the [DEVELOPMENT CHEATSHEET](DEVELOPMENT_CHEATSHEET.md) document.
 

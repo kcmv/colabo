@@ -1,7 +1,7 @@
 // https://material.angular.io/components/dialog/api
 // https://stackblitz.com/angular/lrampyldvly?file=app%2Fdialog-overview-example.ts
 
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, Output} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 export class DialogData {
@@ -9,12 +9,14 @@ export class DialogData {
   info: string;
   button1: string;
   button2: string;
+  progressBar: boolean;
 
-  constructor(title: string, info: string, button1: string, button2: string=null){
+  constructor(title: string, info: string, button1: string, button2: string=null, progressBar: boolean = false){
     this.title = title;
     this.info = info;
     this.button1 = button1;
     this.button2 = button2;
+    this.progressBar = progressBar;
   }
 }
 

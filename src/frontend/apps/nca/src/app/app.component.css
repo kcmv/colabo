@@ -3,3 +3,7 @@
 {
   background-color: lightblue;
 } */
+
+.clickable{
+  cursor: pointer;
+}

@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>{{data.title}}</h1>
 <div mat-dialog-content>
   <p>{{data.info}}</p>
+  <mat-progress-bar *ngIf="data.progressBar" mode="indeterminate"></mat-progress-bar>
 </div>
 <div mat-dialog-actions>
   <!-- <button mat-raised-button (click)="onNoClick()">{{data.button1}}</button> -->
