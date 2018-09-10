@@ -8,6 +8,12 @@
   vertical-align: top;
 }
 
+.card-img{
+  width:90%;
+  height: 90%;
+  max-width: 300px;
+}
+
 .user-img{
   left: 19px;
   padding: 3px;

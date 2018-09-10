@@ -66,9 +66,9 @@ export class KnalledgeNodeService extends CFService{
    * @returns {Observable<KNode[]>} array of the nodes
      @example http://localhost:8001/knodes/in_map/default/579811d88e12abfa556f6b59.json
    */
-  queryInMap(id:string, callback?:Function): Observable<KNode[]>
+  queryInMap(mapId:string, callback?:Function): Observable<KNode[]>
   {
-    let result:Observable<KNode[]> = this.http.get<ServerData>(this.apiUrl+'in_map/'+this.defaultAction+'/'+id)
+    let result:Observable<KNode[]> = this.http.get<ServerData>(this.apiUrl+'in_map/'+this.defaultAction+'/'+mapId)
       .pipe(
         map(nodesFromServer => CFService.processVOs(nodesFromServer, KNode)),
         catchError(this.handleError('KnalledgeNodeService::queryInMap', null))
