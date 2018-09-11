@@ -920,6 +920,190 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
 ]
 ```
 
+## Opening Cards
+
+### SDG Questions
+
+#### Nodes
+
+```
+[
+    {
+          "name" : "How the future looks when this goal is fulfilled?",
+          "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+          "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+          "type" : "const.dialogame.opening-card",
+          "dataContent" : {
+              "humanID" : NumberInt(1),
+              img: "assets/images/sdgs/m/sdg1.jpg"
+          },
+          "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
+          "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
+          "visual" : {
+              "isOpen" : true
+          },
+          "isPublic" : true,
+          "version" : NumberInt(1),
+          "activeVersion" : NumberInt(1),
+          "__v" : NumberInt(0),
+          i18n: { 
+            rs: { 
+                name: "Како изгледа будућност када је овај циљ испуњен"
+            }   
+          }
+      },
+      {
+          "name" : "How the future looks when this goal is fulfilled?",
+          "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+          "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+          "type" : "const.dialogame.opening-card",
+          "dataContent" : {
+              "humanID" : NumberInt(2),
+              img: "assets/images/sdgs/m/sdg2.jpg"
+          },
+          "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
+          "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
+          "visual" : {
+              "isOpen" : true
+          },
+          "isPublic" : true,
+          "version" : NumberInt(1),
+          "activeVersion" : NumberInt(1),
+          "__v" : NumberInt(0),
+          i18n: { 
+            rs: { 
+                name: "Како изгледа будућност када је овај циљ испуњен"
+            }   
+          }
+      },
+      {
+          "name" : "How the future looks when this goal is fulfilled?",
+          "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+          "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+          "type" : "const.dialogame.opening-card",
+          "dataContent" : {
+              "humanID" : NumberInt(3),
+              img: "assets/images/sdgs/m/sdg3.jpg"
+          },
+          "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
+          "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
+          "visual" : {
+              "isOpen" : true
+          },
+          "isPublic" : true,
+          "version" : NumberInt(1),
+          "activeVersion" : NumberInt(1),
+          "__v" : NumberInt(0),
+          i18n: { 
+            rs: { 
+                name: "Како изгледа будућност када је овај циљ испуњен"
+            }   
+          }
+      },
+      {
+          "name" : "How the future looks when this goal is fulfilled?",
+          "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+          "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+          "type" : "const.dialogame.opening-card",
+          "dataContent" : {
+              "humanID" : NumberInt(4),
+              img: "assets/images/sdgs/m/sdg4.jpg"
+          },
+          "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
+          "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
+          "visual" : {
+              "isOpen" : true
+          },
+          "isPublic" : true,
+          "version" : NumberInt(1),
+          "activeVersion" : NumberInt(1),
+          "__v" : NumberInt(0),
+          i18n: { 
+            rs: { 
+                name: "Како изгледа будућност када је овај циљ испуњен"
+            }   
+          }
+      },
+      {
+          "name" : "How the future looks when this goal is fulfilled?",
+          "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+          "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+          "type" : "const.dialogame.opening-card",
+          "dataContent" : {
+              "humanID" : NumberInt(5),
+              img: "assets/images/sdgs/m/sdg5.jpg"
+          },
+          "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
+          "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
+          "visual" : {
+              "isOpen" : true
+          },
+          "isPublic" : true,
+          "version" : NumberInt(1),
+          "activeVersion" : NumberInt(1),
+          "__v" : NumberInt(0),
+          i18n: { 
+            rs: { 
+                name: "Како изгледа будућност када је овај циљ испуњен"
+            }   
+          }
+      },
+      {
+          "name" : "How the future looks when this goal is fulfilled?",
+          "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+          "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+          "type" : "const.dialogame.opening-card",
+          "dataContent" : {
+              "humanID" : NumberInt(6),
+              img: "assets/images/sdgs/m/sdg6.jpg"
+          },
+          "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
+          "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
+          "visual" : {
+              "isOpen" : true
+          },
+          "isPublic" : true,
+          "version" : NumberInt(1),
+          "activeVersion" : NumberInt(1),
+          "__v" : NumberInt(0),
+          i18n: { 
+            rs: { 
+                name: "Како изгледа будућност када је овај циљ испуњен"
+            }   
+          }
+      },
+      {
+          "name" : "How the future looks when this goal is fulfilled?",
+          "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+          "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+          "type" : "const.dialogame.opening-card",
+          "dataContent" : {
+              "humanID" : NumberInt(7),
+              img: "assets/images/sdgs/m/sdg7.jpg"
+          },
+          "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
+          "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
+          "visual" : {
+              "isOpen" : true
+          },
+          "isPublic" : true,
+          "version" : NumberInt(1),
+          "activeVersion" : NumberInt(1),
+          "__v" : NumberInt(0),
+          i18n: { 
+            rs: { 
+                name: "Како изгледа будућност када је овај циљ испуњен"
+            }   
+          }
+      }
+      
+]
+```
+
+#### Edges
+
+**TODO** 
+
 ## Users Population
 
 (TEST ONLY)
