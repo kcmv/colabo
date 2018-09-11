@@ -69,23 +69,23 @@ cd src/frontend/apps/psc
 Add map in kmaps (`right button > insert document`):
 
 ```json
-{ 
-    "_id" : ObjectId("5b96619b86f3cc8057216a03"), 
-    "name" : "Performing Sustainable CoEvolution @ PTW2018", 
-    "rootNodeId" : ObjectId("5b9662cb86f3cc8057216a09"), 
-    "type" : "CoLaboArthon", 
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
-    "ideaId" : NumberInt(0), 
-    "parentMapId" : "", 
-    "dataContent" : null, 
-    "updatedAt" : ISODate("2018-09-10T01:07:10.401+0000"), 
-    "createdAt" : ISODate("2018-09-10T01:07:10.400+0000"), 
-    "isPublic" : true, 
+{
+    "_id" : ObjectId("5b96619b86f3cc8057216a03"),
+    "name" : "Performing Sustainable CoEvolution @ PTW2018",
+    "rootNodeId" : ObjectId("5b9662cb86f3cc8057216a09"),
+    "type" : "CoLaboArthon",
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "parentMapId" : "",
+    "dataContent" : null,
+    "updatedAt" : ISODate("2018-09-10T01:07:10.401+0000"),
+    "createdAt" : ISODate("2018-09-10T01:07:10.400+0000"),
+    "isPublic" : true,
     "participants" : [
         ObjectId("556760847125996dc1a4a24f")
-    ], 
-    "version" : NumberInt(1), 
-    "activeVersion" : NumberInt(1), 
+    ],
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
     "__v" : NumberInt(0)
 }
 ```
@@ -219,7 +219,7 @@ Add SDG edge in kedges (`right button > insert document`):
     "_id" : ObjectId("5b966a0086f3cc8057216a16"),
     "name" : "SDGs",
     "type" : "const.sdgs",
-    "mapId" : ObjectId("5b49e7f736390f03580ac9a7"),
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
     "iAmId" : ObjectId("5b4a91d800ea790a4738a6e5"),
     "ideaId" : NumberInt(0),
     "sourceId" : ObjectId("5b49e94636390f03580ac9a8"),
@@ -239,28 +239,28 @@ Add SDG edge in kedges (`right button > insert document`):
 Add CONTENT node in knodes (`right button > insert document`):
 
 ```json
-{ 
-    "_id" : ObjectId("5b966a1286f3cc8057216a17"), 
-    "name" : "Content", 
-    "type" : "clathon.content", 
-    "mapId" : ObjectId("5b96619b86f3cc8057216a03"), 
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
-    "ideaId" : NumberInt(0), 
+{
+    "_id" : ObjectId("5b966a1286f3cc8057216a17"),
+    "name" : "Content",
+    "type" : "clathon.content",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
     "visual" : {
         "isOpen" : true
-    }, 
-    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"), 
-    "isPublic" : true, 
-    "version" : NumberInt(1), 
-    "activeVersion" : NumberInt(1), 
-    "__v" : NumberInt(0), 
+    },
+    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0),
     "decorations" : {
 
-    }, 
+    },
     "up" : {
 
-    }, 
+    },
     "dataContent" : {
 
     }
@@ -270,21 +270,21 @@ Add CONTENT node in knodes (`right button > insert document`):
 Add CONTENT edge in kedges (`right button > insert document`):
 
 ```json
-{ 
+{
     "_id" : ObjectId("5b966a3386f3cc8057216a18"),
-    "name" : "Content", 
-    "type" : "clathon.content", 
-    "mapId" : ObjectId("5b96619b86f3cc8057216a03"), 
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
-    "ideaId" : NumberInt(0), 
-    "sourceId" : ObjectId("5b49e94636390f03580ac9a8"), 
-    "targetId" : ObjectId("5b966a1286f3cc8057216a17"), 
-    "dataContent" : null, 
-    "visual" : null, 
-    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"), 
-    "value" : NumberInt(0), 
-    "isPublic" : true, 
+    "name" : "Content",
+    "type" : "clathon.content",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("5b49e94636390f03580ac9a8"),
+    "targetId" : ObjectId("5b966a1286f3cc8057216a17"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
     "__v" : NumberInt(0)
 }
 ```
@@ -311,7 +311,7 @@ I18N support according to the approach:
           "humanID" : NumberInt(1),
           goal: "To end poverty in all its forms everywhere by 2030.",
           desc: "More than 700 million people still live in extreme poverty and are struggling to fulfil the most basic needs like health, education, and access to water and sanitation, to name a few.The overwhelming majority of people living on less than $1.90 a day live in Southern Asia and sub-Saharan Africa. However, this issue also affects developed countries. Right now there are 30 million children growing up poor in the world’s richest countries",
-          
+
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -322,8 +322,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "БЕЗ СИРОМАШТВА",
             dataContent: {
           		goal:  "Превазићи сиромаштво у свим облицима свуда у свету до 2030. године.",
@@ -351,8 +351,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "БЕЗ ГЛАДИ",
             dataContent: {
           		goal:  "Сузбити глад, обезбедити сигуран приступ храни, квалитетнију исхрану и промовисати одрживу пољопривреду",
@@ -380,8 +380,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "ДОБРО ЗДРАВЉЕ И БЛАГОСТАЊЕ",
             dataContent: {
           		goal:  "Обезбедити здрав живот и промовисати благостање за све грађане у свим животним добима",
@@ -409,8 +409,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	"name" : "КВАЛИТЕТНО ОБРАЗОВАЊЕ",
             dataContent: {
           		goal:  "Обезбедити инклузивно и квалитетно образовање за све и промовисати учење током целог живота",
@@ -438,8 +438,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	"name" : "ЈЕДНАКОСТ ПОЛОВА",
             dataContent: {
           		goal:  "Остварити једнакост полова и оснажити све жене и девојке",
@@ -467,8 +467,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	"name" : "ЧИСТА ВОДА И САНИТАРИЈЕ",
             dataContent: {
           		goal:  "Обезбедити приступ води и санитарним условима за све",
@@ -477,15 +477,15 @@ I18N support according to the approach:
 		}   
       }
   },
-    
-    /* 
+
+    /*
     *
     *
-    TO DO - TO FINISH 
+    TO DO - TO FINISH
     *
     *
     */
-    
+
   {
       "name" : "ДОСТУПНА И ЧИСТА ЕНЕРГИЈА",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
@@ -505,8 +505,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -534,8 +534,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -563,8 +563,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -592,8 +592,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -621,8 +621,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -651,8 +651,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -680,8 +680,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -709,8 +709,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -738,8 +738,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -767,8 +767,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -796,8 +796,8 @@ I18N support according to the approach:
       "version" : NumberInt(1),
       "activeVersion" : NumberInt(1),
       "__v" : NumberInt(0),
-      i18n: { 
-        rs: { 
+      i18n: {
+        rs: {
         	name: "",
             dataContent: {
           		goal:  "",
@@ -815,106 +815,106 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
 
 ```json
 [
-  { 
+  {
     "_id" : ObjectId("5b4b22d900ea790a4738a705"),
-    "name" : "SDG", 
-    "type" : "const.sdgs.sdg", 
-    "mapId" : ObjectId("5b96619b86f3cc8057216a03"), 
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
-    "ideaId" : NumberInt(0), 
-    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"), 
-    "targetId" : ObjectId("5b96cb8886f3cc8057216a37"), 
-    "dataContent" : null, 
-    "visual" : null, 
-    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"), 
-    "value" : NumberInt(0), 
-    "isPublic" : true, 
+    "name" : "SDG",
+    "type" : "const.sdgs.sdg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"),
+    "targetId" : ObjectId("5b96cb8886f3cc8057216a37"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
     "__v" : NumberInt(0)
   },
-  { 
+  {
     "_id" : ObjectId("5b4b22fd00ea790a4738a706"),
-    "name" : "SDG", 
-    "type" : "const.sdgs.sdg", 
-    "mapId" : ObjectId("5b96619b86f3cc8057216a03"), 
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
-    "ideaId" : NumberInt(0), 
-    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"), 
-    "targetId" : ObjectId("5b96cb8986f3cc8057216a38"), 
-    "dataContent" : null, 
-    "visual" : null, 
-    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"), 
-    "value" : NumberInt(0), 
-    "isPublic" : true, 
+    "name" : "SDG",
+    "type" : "const.sdgs.sdg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"),
+    "targetId" : ObjectId("5b96cb8986f3cc8057216a38"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
     "__v" : NumberInt(0)
   },
-  { 
+  {
     "_id" : ObjectId("5b4b231e00ea790a4738a707"),
-    "name" : "SDG", 
-    "type" : "const.sdgs.sdg", 
-    "mapId" : ObjectId("5b96619b86f3cc8057216a03"), 
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
-    "ideaId" : NumberInt(0), 
-    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"), 
-    "targetId" : ObjectId("5b96cb8986f3cc8057216a39"), 
-    "dataContent" : null, 
-    "visual" : null, 
-    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"), 
-    "value" : NumberInt(0), 
-    "isPublic" : true, 
+    "name" : "SDG",
+    "type" : "const.sdgs.sdg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"),
+    "targetId" : ObjectId("5b96cb8986f3cc8057216a39"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
     "__v" : NumberInt(0)
   },
-  { 
+  {
     "_id" : ObjectId("5b4d105a280f6211059ff60c"),
-    "name" : "SDG", 
-    "type" : "const.sdgs.sdg", 
-    "mapId" : ObjectId("5b96619b86f3cc8057216a03"), 
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
-    "ideaId" : NumberInt(0), 
-    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"), 
-    "targetId" : ObjectId("5b96cb8986f3cc8057216a3a"), 
-    "dataContent" : null, 
-    "visual" : null, 
-    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"), 
-    "value" : NumberInt(0), 
-    "isPublic" : true, 
+    "name" : "SDG",
+    "type" : "const.sdgs.sdg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"),
+    "targetId" : ObjectId("5b96cb8986f3cc8057216a3a"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
     "__v" : NumberInt(0)
   },
-  { 
+  {
     "_id" : ObjectId("5b4d105a280f6211059ff60c"),
-    "name" : "SDG", 
-    "type" : "const.sdgs.sdg", 
-    "mapId" : ObjectId("5b96619b86f3cc8057216a03"), 
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
-    "ideaId" : NumberInt(0), 
-    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"), 
-    "targetId" : ObjectId("5b96cb8986f3cc8057216a3b"), 
-    "dataContent" : null, 
-    "visual" : null, 
-    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"), 
-    "value" : NumberInt(0), 
-    "isPublic" : true, 
+    "name" : "SDG",
+    "type" : "const.sdgs.sdg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"),
+    "targetId" : ObjectId("5b96cb8986f3cc8057216a3b"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
     "__v" : NumberInt(0)
   },
-  { 
+  {
     "_id" : ObjectId("5b4d105a280f6211059ff60c"),
-    "name" : "SDG", 
-    "type" : "const.sdgs.sdg", 
-    "mapId" : ObjectId("5b96619b86f3cc8057216a03"), 
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"), 
-    "ideaId" : NumberInt(0), 
-    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"), 
-    "targetId" : ObjectId("5b96cb8986f3cc8057216a3c"), 
-    "dataContent" : null, 
-    "visual" : null, 
-    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"), 
-    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"), 
-    "value" : NumberInt(0), 
-    "isPublic" : true, 
+    "name" : "SDG",
+    "type" : "const.sdgs.sdg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("5b9669e986f3cc8057216a15"),
+    "targetId" : ObjectId("5b96cb8986f3cc8057216a3c"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
     "__v" : NumberInt(0)
   }
 ]
@@ -946,8 +946,8 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
           "version" : NumberInt(1),
           "activeVersion" : NumberInt(1),
           "__v" : NumberInt(0),
-          i18n: { 
-            rs: { 
+          i18n: {
+            rs: {
                 name: "Како изгледа будућност када је овај циљ испуњен"
             }   
           }
@@ -970,8 +970,8 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
           "version" : NumberInt(1),
           "activeVersion" : NumberInt(1),
           "__v" : NumberInt(0),
-          i18n: { 
-            rs: { 
+          i18n: {
+            rs: {
                 name: "Како изгледа будућност када је овај циљ испуњен"
             }   
           }
@@ -994,8 +994,8 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
           "version" : NumberInt(1),
           "activeVersion" : NumberInt(1),
           "__v" : NumberInt(0),
-          i18n: { 
-            rs: { 
+          i18n: {
+            rs: {
                 name: "Како изгледа будућност када је овај циљ испуњен"
             }   
           }
@@ -1018,8 +1018,8 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
           "version" : NumberInt(1),
           "activeVersion" : NumberInt(1),
           "__v" : NumberInt(0),
-          i18n: { 
-            rs: { 
+          i18n: {
+            rs: {
                 name: "Како изгледа будућност када је овај циљ испуњен"
             }   
           }
@@ -1042,8 +1042,8 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
           "version" : NumberInt(1),
           "activeVersion" : NumberInt(1),
           "__v" : NumberInt(0),
-          i18n: { 
-            rs: { 
+          i18n: {
+            rs: {
                 name: "Како изгледа будућност када је овај циљ испуњен"
             }   
           }
@@ -1066,8 +1066,8 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
           "version" : NumberInt(1),
           "activeVersion" : NumberInt(1),
           "__v" : NumberInt(0),
-          i18n: { 
-            rs: { 
+          i18n: {
+            rs: {
                 name: "Како изгледа будућност када је овај циљ испуњен"
             }   
           }
@@ -1090,21 +1090,54 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
           "version" : NumberInt(1),
           "activeVersion" : NumberInt(1),
           "__v" : NumberInt(0),
-          i18n: { 
-            rs: { 
+          i18n: {
+            rs: {
                 name: "Како изгледа будућност када је овај циљ испуњен"
             }   
           }
       }
-      
+
 ]
 ```
 
 #### Edges
 
-**TODO** 
+**TODO**
 
 ## Users Population
+
+### **Test User**
+
+**email**: test_user@gmail.com
+
+**pass**: pass
+
+```JSON
+{
+    "_id" : ObjectId("5b97c7ab0393b8490bf5263c"),
+    "name" : "Test",
+    "type" : "rima.user",
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "dataContent" : {
+        "hash" : "b4523dcbb2c79cb2347abfe3ac1d10d5d831abd664909d7c45a9d296ab9ee96f701894fe29a702984e92ba4d2fa9cda552ab98e06da1244ce644e7866dd80d52",
+        "salt" : "480501a1e8fcf0f213a488489c10ea05",
+        "email" : "test_user@gmail.com",
+        "lastName" : "User",
+        "firstName" : "Test"
+    },
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "updatedAt" : ISODate("2018-09-11T13:48:27.641+0000"),
+    "createdAt" : ISODate("2018-09-11T13:48:27.624+0000"),
+    "visual" : {
+        "isOpen" : false
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+}
+```
 
 (TEST ONLY)
 

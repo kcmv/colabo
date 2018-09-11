@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {DialoGameService} from '../dialo-game.service';
+import {DialoGameResponseStatus} from '../dialoGameResponse';
 
 @Component({
   selector: 'dialogame-cards',
@@ -18,25 +19,65 @@ export class DialogameCardsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dialoGameService.getOpeningCards().subscribe(this.openingCardsReceived.bind(this))
+    //TODO: to set-up based on state, later druing the game, upon restarting browser etc, the current state with some other cards should be set up
+    this.dialoGameService.getCards().subscribe(this.cardsReceived.bind(this));
   }
 
-  openingCardsReceived(cards:KNode[]):void{
+  cardsReceived(cards:KNode[]):void{
     this.cards = cards;
-      // {_id:'5b8bf3f23663ad0d5425e878', name:'sun is always here', iAmId: '5b8bf3f23663ad0d5425e86d'},
-      // {_id:'5b8bf3f23663ad0d5425e879', name:'girls are playing in the garden', iAmId: '5b812567a7a78a1ba15ba0d8'},
-      // {_id:'5b8bf3f23663ad0d5425e87A', name:'love is here', iAmId: '5b8bf3f23663ad0d5425e86d'}];
   }
 
-  onClick(event:any, id:string):void {
-    console.log("onClicked",event, id);
-    this.openSnackBar("You've selected the challenge card.","Now choose your response card!");
+  getStatus():string{
+    if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.status === DialoGameResponseStatus.NOT_STARTED){
+      return 'We\'ve found these performance cards for you.';
+    }
+    if(this.dialoGameService.lastResponse != null || this.dialoGameService.lastResponse.status === DialoGameResponseStatus.CHALLENGE_CARD_CHOSEN){
+      return 'These are your cards to respond';
+    }
+    return '';
+  }
+
+  getAction():string{
+    if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.status === DialoGameResponseStatus.NOT_STARTED){
+      return 'Click the one you want to reply on';
+    }
+    if(this.dialoGameService.lastResponse != null || this.dialoGameService.lastResponse.status === DialoGameResponseStatus.CHALLENGE_CARD_CHOSEN){
+      return 'Click the one you want to play';;
+    }
+    return '';
+
+  }
+
+
+  onClick(event:any, card:KNode):void {
+    console.log("onClicked",event, card);
+    let msg = '';
+    if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.status === DialoGameResponseStatus.NOT_STARTED){
+      msg = "You've selected the challenge card.";
+    }
+    if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.status === DialoGameResponseStatus.CHALLENGE_CARD_CHOSEN){
+      msg = "You've selected your card.";
+    }
+
+    let action = '';
+    if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.status === DialoGameResponseStatus.NOT_STARTED){
+      action = "Choose your response card!";
+    }
+    if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.status === DialoGameResponseStatus.CHALLENGE_CARD_CHOSEN){
+      action = "Choose a decorator for your action";
+    }
+
+    this.openSnackBar(msg,action);
+
+    this.dialoGameService.challengeCardSelected([card]);
+    this.dialoGameService.getCards().subscribe(this.cardsReceived.bind(this));
   }
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: 2000,
-    });
+        duration: 2000,
+      }
+    );
   }
 
 }

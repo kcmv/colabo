@@ -4,35 +4,94 @@ import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knall
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import {DialoGameResponse, DialoGameResponseStatus} from './dialoGameResponse';
+import {DialoGameState, DialoGamePhase} from './dialoGameState';
+
+import { environment } from '../../environments/environment';
+
 export enum DialoGameActions{};
 
 export const DIALOGAME_OPENING_CARD_TYPE:string = 'const.dialogame.opening-card';
 
-export const MAP_ID:string = '5b96619b86f3cc8057216a03';
+//export const MAP_ID:string = '5b96619b86f3cc8057216a03';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DialoGameService {
 
+  public gameState:DialoGameState = new DialoGameState();
+  public responses:DialoGameResponse[] = [];
   myCards:KNode[] = [];
   private openingCards:KNode[] = [];
+
+
   //playedOn:[]; decorations:[];
 
   constructor(
     private knalledgeNodeService: KnalledgeNodeService
   ) { }
 
-  playCard(id:string):void{
+  getMyCards(forceRefresh:boolean = false):Observable<KNode[]>{
+    let result:Observable<KNode[]>;
+    let id_str = '5b8bf3f23663ad0d5425e870';
+    let myCWCpearls:string[] = ['sun is always here','girls are playing in the garden','love is here'];
+    if(forceRefresh || this.myCards.length == 0){
+      let card:KNode;
+      for(var i in myCWCpearls){
+        card = new KNode();
+        card.name = myCWCpearls[i];
+        card._id = '5b8bf3f23663ad0d5425e878' + i;
+        card.iAmId = '5b97c7ab0393b8490bf5263c';
+        // if(card.dataContent === null){ card.dataContent = {};}
+        // card.dataContent.img = "assets/images/sdgs/s/sdg" + (i+1) + '.jpg';
+        this.myCards.push(card);
+      }
+    }
+    //
+    //   // {_id:'5b8bf3f23663ad0d5425e878', name:'sun is always here', iAmId: '5b8bf3f23663ad0d5425e86d'},
+    //   // {_id:'5b8bf3f23663ad0d5425e879', name:'girls are playing in the garden', iAmId: '5b812567a7a78a1ba15ba0d8'},
+    //   // {_id:'5b8bf3f23663ad0d5425e87A', name:'love is here', iAmId: '5b8bf3f23663ad0d5425e86d'}];
+    //
+    //   this.myCards =
+    //   [
+    //
+    //   ]);
+    //   return of(this.myCards);
+    //   //TODO:
+    //   // result = this.knalledgeNodeService.queryInMapofType(environment.mapId, DIALOGAME_OPENING_CARD_TYPE)
+    //   // .pipe(
+    //   //   tap(nodesFromServer => this.assignOpenningCards(nodesFromServer))
+    //   // );
+    //   // return result;
+    // }
+    // else{
+    //   return of(this.myCards);
+    // }
+    return of(this.myCards);
+  }
 
+  get lastResponse():DialoGameResponse{
+    return this.responses.length>0 ? this.responses[this.responses.length-1] : null;
+  }
+
+  getCards(forceRefresh:boolean = false):Observable<KNode[]>{
+    if(this.gameState.phase == DialoGamePhase.OPENNING){
+      if(this.lastResponse === null || this.lastResponse.status === DialoGameResponseStatus.NOT_STARTED){
+        return this.getOpeningCards(forceRefresh);
+      }
+      else{
+        return this.getMyCards(forceRefresh);
+      }
+    }
   }
 
   getOpeningCards(forceRefresh:boolean = false):Observable<KNode[]>{
     let result:Observable<KNode[]>;
     if(forceRefresh || this.openingCards.length == 0){
-      result = this.knalledgeNodeService.queryInMapofType(MAP_ID, DIALOGAME_OPENING_CARD_TYPE)
+      result = this.knalledgeNodeService.queryInMapofType(environment.mapId, DIALOGAME_OPENING_CARD_TYPE)
       .pipe(
-        tap(nodesFromServer => this.assignCards(nodesFromServer))
+        tap(nodesFromServer => this.assignOpenningCards(nodesFromServer))
       );
       return result;
     }
@@ -41,7 +100,7 @@ export class DialoGameService {
     }
   }
 
-  assignCards(nodes:any):void{ //KNode[]):void{
+  assignOpenningCards(nodes:any):void{ //KNode[]):void{
     console.log('assignCards', nodes);
     this.openingCards = nodes;
   }
@@ -58,5 +117,12 @@ export class DialoGameService {
     }
     console.log('getOpeningCards', cards);
     return of(cards);
+  }
+
+  challengeCardSelected(cards: KNode[]){
+    let response:DialoGameResponse = new DialoGameResponse();
+    response.challengeCards = cards;
+    response.status = DialoGameResponseStatus.CHALLENGE_CARD_CHOSEN;
+    this.responses.push(response);
   }
 }

@@ -18,9 +18,11 @@ import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalle
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
 
+import { environment } from '../../environments/environment';
+
 //this consts are defined by INSTALL.MD data:
 // const MAP_ID = "5b8a5260f8b8e40f3f250f9d"; //TEF
-const MAP_ID = "5b49e7f736390f03580ac9a7"; //Forum Vlasina
+//const MAP_ID = "5b49e7f736390f03580ac9a7"; //Forum Vlasina
 
 export const TYPE_SDGS:string = "const.sdgs.sdg";
 export const SDG_SELECTION_NAME:string = "UN_SDG";
@@ -91,7 +93,7 @@ export class SDGsService {
 
       newEdge.sourceId = parentNodeId;
       newEdge.targetId = newNode._id;
-      newEdge.mapId = MAP_ID;
+      newEdge.mapId = environment.mapId;
       //TODO: iAmId, createdAt, updatedAt
       this.knalledgeEdgeService.create(newEdge)
       .subscribe(newEdgeCreated.bind(this));
@@ -114,7 +116,7 @@ export class SDGsService {
 
     // creating new user node
     let userNode:KNode = new KNode();
-    userNode.mapId = MAP_ID;
+    userNode.mapId = environment.mapId;
     userNode.name = newUserData.firstName;
     userNode.type = KNode.TYPE_USER;
     userNode.dataContent = {
@@ -133,7 +135,7 @@ export class SDGsService {
 
     // creating edge between new user and users node (with type KNode.TYPE_USERS)
     let userEdge:KEdge = new KEdge();
-    userEdge.mapId = MAP_ID;
+    userEdge.mapId = environment.mapId;
     userEdge.name = "User";
     userEdge.type = KEdge.TYPE_USER;
 
@@ -159,14 +161,14 @@ export class SDGsService {
       //   .subscribe(hero => this.hero = hero);
       //this.node =
       this.getSDGs();
-      // this.knalledgeEdgeService.queryInMap(MAP_ID)
+      // this.knalledgeEdgeService.queryInMap(environment.mapId)
       //   .subscribe(edges => this.edgesReceived(edges)); //as KNode
   }
 
   //loadSDGs():void{
   getSDGs():Observable<any[]>{
     //return of(this.SDGsMockup);
-    return this.knalledgeNodeService.queryInMapofType(MAP_ID, TYPE_SDGS);
+    return this.knalledgeNodeService.queryInMapofType(environment.mapId, TYPE_SDGS);
        //.subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
   }
 
@@ -187,7 +189,7 @@ export class SDGsService {
         sdgSelection.sourceId = user_id;
         sdgSelection.targetId = sdgId;
         sdgSelection.iAmId = user_id;
-        sdgSelection.mapId = MAP_ID;
+        sdgSelection.mapId = environment.mapId;
         sdgSelection.name = SDG_SELECTION_NAME;
         sdgSelection.type = SDG_SELECTION_TYPE;
         that.knalledgeEdgeService.create(sdgSelection).subscribe(that.sdgSaved.bind(that));

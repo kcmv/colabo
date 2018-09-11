@@ -1,4 +1,4 @@
-mapId: 5b49e7f736390f03580ac9a7
+mapId: 5b96619b86f3cc8057216a03
 rima.selected_UN_SDG
 
 ```sh
@@ -39,13 +39,13 @@ Aggregation
 db.knodes.distinct( "dataContent.email" )
 
 // not working
-db.knodes.distinct( "dataContent.email", { mapId: "5b49e7f736390f03580ac9a7" } )
+db.knodes.distinct( "dataContent.email", { mapId: "5b96619b86f3cc8057216a03" } )
 // get all distinct emails in map
-db.knodes.distinct( "dataContent.email", { mapId: ObjectId("5b49e7f736390f03580ac9a7") } )
+db.knodes.distinct( "dataContent.email", { mapId: ObjectId("5b96619b86f3cc8057216a03") } )
 
 
 // get all distinct emails (and its count) in map
-db.knodes.group({key: { 'dataContent.email': 1}, cond: { mapId: ObjectId("5b49e7f736390f03580ac9a7") }, reduce: function ( curr, result ) { result.count ++ },initial: {count : 0 } })
+db.knodes.group({key: { 'dataContent.email': 1}, cond: { mapId: ObjectId("5b96619b86f3cc8057216a03") }, reduce: function ( curr, result ) { result.count ++ },initial: {count : 0 } })
 
 // get number of occurences of each user (determined by email), its mapId and number of occurences
 db.kedges.aggregate({
@@ -57,14 +57,14 @@ db.kedges.aggregate({
 })
 
 // get all distinct sources (soirceId) of edges (and its count) in map
-db.kedges.group({key: { 'sourceId': 1}, cond: { mapId: ObjectId("5b49e7f736390f03580ac9a7") }, reduce: function ( curr, result ) { result.count ++ }, initial: {count : 0 } })
+db.kedges.group({key: { 'sourceId': 1}, cond: { mapId: ObjectId("5b96619b86f3cc8057216a03") }, reduce: function ( curr, result ) { result.count ++ }, initial: {count : 0 } })
 
 // find node with id
 db.knodes.find({_id: ObjectId('5b4a16e800ea79029ca0c395')})
 
 
 // get all distinct sources (soirceId) (and its count) of edges (of a type) in map
-db.kedges.group({key: { 'sourceId': 1}, cond: {mapId: ObjectId("5b49e7f736390f03580ac9a7"), type: 'rima.selected_UN_SDG'}, reduce: function ( curr, result ) { result.count ++ }, initial: {count : 0 } })
+db.kedges.group({key: { 'sourceId': 1}, cond: {mapId: ObjectId("5b96619b86f3cc8057216a03"), type: 'rima.selected_UN_SDG'}, reduce: function ( curr, result ) { result.count ++ }, initial: {count : 0 } })
 
 // get number of same emails
 db.knodes.aggregate({
@@ -81,11 +81,11 @@ db.kedges.find({ type: 'rima.selected_UN_SDG' } )
 // find all distinct sources of edges that are of a specific type
 db.kedges.distinct( "sourceId", { type: 'rima.selected_UN_SDG' } )
 
-// search for all users (`sourceId`) that have 'rima.selected_UN_SDG' edges in the map 
+// search for all users (`sourceId`) that have 'rima.selected_UN_SDG' edges in the map
 // and count number of those edges for each user
 db.kedges.aggregate(
     {$match:{
-        mapId: ObjectId("5b49e7f736390f03580ac9a7"),
+        mapId: ObjectId("5b96619b86f3cc8057216a03"),
         type: 'rima.selected_UN_SDG'
     }},
     {$group:{
@@ -98,12 +98,12 @@ db.kedges.aggregate(
     }}
 )
 
-// search for all users (`iAmId`) in map that have dreams ('rima.user.dream') and 
+// search for all users (`iAmId`) in map that have dreams ('rima.user.dream') and
 // shows number of dreams for each user ordered by number of dreams and then user
 // and count number of those edges for each user
 db.knodes.aggregate(
     {$match:{
-        mapId: ObjectId("5b49e7f736390f03580ac9a7"),
+        mapId: ObjectId("5b96619b86f3cc8057216a03"),
         type: 'rima.user.dream'
     }},
     {$group:{
@@ -116,12 +116,12 @@ db.knodes.aggregate(
     }}
 )
 
-// search for all users (`iAmId`) in map that have dreams ('rima.user.dream') and 
+// search for all users (`iAmId`) in map that have dreams ('rima.user.dream') and
 // shows number of dreams for each user ordered by number of dreams and then user
 // and count number of those edges for each user
 db.knodes.aggregate(
     {$match:{
-        mapId: ObjectId("5b49e7f736390f03580ac9a7"),
+        mapId: ObjectId("5b96619b86f3cc8057216a03"),
         type: 'rima.user'
     }},
     {$group:{
@@ -138,8 +138,8 @@ db.knodes.aggregate(
 
 // get detail info for each user
 db.knodes.find( { _id : { $in : [
-    ObjectId("5b52221aa285f226fd381a82"), ObjectId("5b5221eef01f8b255c047ea3"), 
-    ObjectId("5b522209a285f226fd381a79"), ObjectId("5b5221e4f01f8b255c047e9d"), 
+    ObjectId("5b52221aa285f226fd381a82"), ObjectId("5b5221eef01f8b255c047ea3"),
+    ObjectId("5b522209a285f226fd381a79"), ObjectId("5b5221e4f01f8b255c047e9d"),
     ObjectId("5b5221fdf01f8b255c047eb7")] } } );
 
 
@@ -190,4 +190,3 @@ type `it` to iterate
 
 mongo
 use KnAllEdge
-

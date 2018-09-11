@@ -15,12 +15,13 @@ import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
+import { environment } from '../../environments/environment';
 
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 //this consts are defined by INSTALL.MD data:
 //const MAP_ID = "5b8a5260f8b8e40f3f250f9d"; //TEF
-const MAP_ID = "5b49e7f736390f03580ac9a7"; //Forum Vlasina
+//const MAP_ID = "5b49e7f736390f03580ac9a7"; //Forum Vlasina
 
 export const CWC_TYPE:string = "rima.user.dream";
 export const CWC_EDGE_NAME:string = "CWC dream";
@@ -79,7 +80,7 @@ export class CWCService {
 
       newEdge.sourceId = parentNodeId;
       newEdge.targetId = newNode._id;
-      newEdge.mapId = MAP_ID;
+      newEdge.mapId = environment.mapId;
       //TODO: iAmId, createdAt, updatedAt
       this.knalledgeEdgeService.create(newEdge)
       .subscribe(newEdgeCreated.bind(this));
@@ -106,14 +107,14 @@ export class CWCService {
       //   .subscribe(hero => this.hero = hero);
       //this.node =
       this.getCWCs();
-      // this.knalledgeEdgeService.queryInMap(MAP_ID)
+      // this.knalledgeEdgeService.queryInMap(environment.mapId)
       //   .subscribe(edges => this.edgesReceived(edges)); //as KNode
   }
 
   //loadCWCs():void{
   getCWCs():Observable<any[]>{
     //return of(this.CWCsMockup);
-    return this.knalledgeNodeService.queryInMapofType(MAP_ID, CWC_TYPE); //TODO: by User
+    return this.knalledgeNodeService.queryInMapofType(environment.mapId, CWC_TYPE); //TODO: by User
        //.subscribe(nodes => this.cwcsReceived(nodes)); //as KNode}
   }
 
@@ -133,7 +134,7 @@ export class CWCService {
 
           let cwcNode:KNode = new KNode();
           cwcNode.iAmId = user_id;
-          cwcNode.mapId = MAP_ID;
+          cwcNode.mapId = environment.mapId;
           cwcNode.name = cwc;
           cwcNode.type = CWC_TYPE;
           that.knalledgeNodeService.create(cwcNode).subscribe(function(node:KNode){
@@ -143,7 +144,7 @@ export class CWCService {
             cwcEdge.sourceId = user_id;
             cwcEdge.targetId = node._id;
             cwcEdge.iAmId = user_id;
-            cwcEdge.mapId = MAP_ID;
+            cwcEdge.mapId = environment.mapId;
             cwcEdge.name = CWC_EDGE_NAME;
             cwcEdge.type = CWC_TYPE;
             that.knalledgeEdgeService.create(cwcEdge).subscribe(that.cwcESaved.bind(that));
