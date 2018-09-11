@@ -141,14 +141,18 @@ exports.create = function(req, res) {
      */
     var found = function(err, whoAmIs) {
         console.log("[modules/aaa.js:create] in 'found'");
+        let isValid = false;
         if (err) {
             throw err;
             var msg = JSON.stringify(err);
             resSendJsonProtected(res, { data: whoAmIs, accessId: accessId, message: msg, success: false });
         } else {
-            console.log("[modules/aaa.js:create] Data:\n%s", JSON.stringify(whoAmIs));
-            let isValid = validPassword(whoAmIs, data.password);
-            console.log("[modules/aaa.js:create] isValid: %s", isValid);
+            console.log("[modules/aaa.js:create - checking user] Data:\n%s", JSON.stringify(whoAmIs));
+            if(whoAmIs !== null){
+              isValid = validPassword(whoAmIs, data.password);
+              console.log("[modules/aaa.js:create] isValid: %s", isValid);
+            }
+
             if (isValid) {
                 resSendJsonProtected(res, { data: whoAmIs, accessId: accessId, success: true });
             } else {
