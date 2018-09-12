@@ -1,21 +1,17 @@
 import {DialoGameActionType} from './dialoGameAction';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-
-export const enum DialoGameResponseStatus{
-    NOT_STARTED,
-    CHALLENGE_CARD_CHOSEN,
-    ACTION_CHOSEN,
-    RESPONSE_CARD_CHOSEN,
-    DECORATIONS_CHOSEN,
-    FINISHED
-}
+import {MyColaboFlowState} from '../colabo-flow/myColaboFlowState';
 
 export class DialoGameResponse{
-  playerId:KNode;
+  player:KNode;
   challengeCards:KNode[]; //the cards the player responses on. He can play/anser on multiple cards (uniting them, etc)
-  responseCard:KNode;
+  responseCards:KNode[];  //the cards the player responses with. He can play/anser multiple cards
   playRound:number;
   decorations:any[];
   actionType:DialoGameActionType;
-  status:DialoGameResponseStatus;
+  state:MyColaboFlowState;
+
+  constructor(){
+    this.state = new MyColaboFlowState();
+  }
 }
