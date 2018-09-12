@@ -228,7 +228,8 @@ export class RimaAAAService extends CFService{
     // TODO: Avoid INJECTING action in the object
     // ather create a separate path or add additional encapsulation
     userData.action = 'checkUser';
-    userData.mapId = MAP_ID;
+    // TODO: we can keep that to force checking agains speciffic map
+    // userData.mapId = MAP_ID;
 
     let result: Observable<KNode> = null;
     result = this.http.post<ServerData>(this.apiUrl, userData, httpOptions)
