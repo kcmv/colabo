@@ -78,9 +78,44 @@ export class CardDecorator{
       }
     },
 
-    'emoticons':{
-      'desc':'emotion of your card',
 
+    'emoticons':{
+      'desc':'what is the emotion of your card?',
+      'img':'',
+      'decorators':{
+          'joy':{
+            'desc':'',
+            'img':'assets/images/emoticons/joy.jpg'
+          },
+          'fear':{
+            'desc':'',
+            'img':'assets/images/emoticons/fear.jpg'
+          },
+          'sadness':{
+            'desc':'',
+            'img':'assets/images/emoticons/sadness.jpg'
+          },
+          'anticipation':{
+            'desc':'',
+            'img':''
+          },
+          'disgust':{
+            'desc':'',
+            'img':''
+          },
+          'trust':{
+            'desc':'',
+            'img':''
+          },
+          'surprise':{
+            'desc':'',
+            'img':''
+          },
+          'anger':{
+            'desc':'',
+            'img':''
+          }
+      }
     },
 
     'requests':{
@@ -103,7 +138,7 @@ export class CardDecorator{
       //card.iAmId = '5b97c7ab0393b8490bf5263c';
       if(card.dataContent === null){ card.dataContent = {};}
       card.dataContent.desc = location[i].desc;
-      // card.dataContent.img = "assets/images/sdgs/s/sdg" + (i+1) + '.jpg';
+      card.dataContent.img = location[i].img;
       decoratorCards.push(card);
     }
     return decoratorCards;
