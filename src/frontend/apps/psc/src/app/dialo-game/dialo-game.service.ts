@@ -8,7 +8,7 @@ import {DialoGameResponse} from './dialoGameResponse';
 import {ColaboFlowService} from '../colabo-flow/colabo-flow.service';
 import {ColaboFlowState, ColaboFlowStates} from '../colabo-flow/colaboFlowState';
 import {MyColaboFlowState, MyColaboFlowStates} from '../colabo-flow/myColaboFlowState';
-
+import {CardDecorator} from './card-decorator/cardDecorator';
 import { environment } from '../../environments/environment';
 
 export enum DialoGameActions{};
@@ -82,9 +82,21 @@ export class DialoGameService {
         return this.getOpeningCards(forceRefresh);
       }
       else{
-        return this.getMyCards(forceRefresh);
+        if(this.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+          return this.getMyCards(forceRefresh);
+        }
+        else if(this.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
+          return this.getDecoratorTypes();
+        }
       }
     }
+    else{
+      return of([]);
+    }
+  }
+
+  getDecoratorTypes():Observable<KNode[]>{
+    return of(CardDecorator.getDecorators());
   }
 
   getOpeningCards(forceRefresh:boolean = false):Observable<KNode[]>{

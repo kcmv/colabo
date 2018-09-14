@@ -34,8 +34,11 @@ export class DialogameCardsComponent implements OnInit {
     if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
       return 'We\'ve found these performance cards for you.';
     }
-    if(this.dialoGameService.lastResponse != null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+    if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
       return 'These are your cards to respond';
+    }
+    if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
+      return 'You can decorate your card';
     }
     return '';
   }
@@ -44,8 +47,11 @@ export class DialogameCardsComponent implements OnInit {
     if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
       return 'Click the one you want to reply on';
     }
-    if(this.dialoGameService.lastResponse != null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+    if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
       return 'Click the one you want to play';;
+    }
+    if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
+      return 'Choose type of decoration';
     }
     return '';
 
