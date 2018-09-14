@@ -34,11 +34,14 @@ export class DialogameCardsComponent implements OnInit {
     if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
       return 'We\'ve found these performance cards for you.';
     }
-    if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
       return 'These are your cards to respond';
     }
-    if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
+    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
       return 'You can decorate your card';
+    }
+    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.DECORATOR_TYPE_CHOSEN){
+      return 'You have chosen type of decoration';
     }
     return '';
   }
@@ -47,11 +50,14 @@ export class DialogameCardsComponent implements OnInit {
     if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
       return 'Click the one you want to reply on';
     }
-    if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
       return 'Click the one you want to play';;
     }
-    if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
+    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
       return 'Choose type of decoration';
+    }
+    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.DECORATOR_TYPE_CHOSEN){
+      return 'Now choose the specific decoration';
     }
     return '';
 
@@ -64,17 +70,23 @@ export class DialogameCardsComponent implements OnInit {
     if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
       msg = "You've selected the challenge card.";
     }
-    if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+    else if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
       msg = "You've selected your card.";
     }
+    // else if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.DECORATOR_TYPE_CHOSEN){
+    //   msg = "You've selected your card.";
+    // }
 
     let action = '';
     if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
       action = "Choose your response card!";
     }
-    if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+    else if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
       action = "Choose a decorator for your action";
     }
+    // else if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.DECORATOR_TYPE_CHOSEN){
+    //   action = "You've selected your card.";
+    // }
 
     this.openSnackBar(msg,action);
 

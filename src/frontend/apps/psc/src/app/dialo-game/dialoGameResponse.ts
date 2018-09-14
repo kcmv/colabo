@@ -4,10 +4,10 @@ import {MyColaboFlowState} from '../colabo-flow/myColaboFlowState';
 
 export class DialoGameResponse{
   player:KNode;
-  challengeCards:KNode[]; //the cards the player responses on. He can play/anser on multiple cards (uniting them, etc)
-  responseCards:KNode[];  //the cards the player responses with. He can play/anser multiple cards
+  challengeCards:KNode[] = []; //the cards the player responses on. He can play/anser on multiple cards (uniting them, etc)
+  responseCards:KNode[] = [];  //the cards the player responses with. He can play/anser multiple cards
   playRound:number;
-  decorators:CardDecorator[];
+  decorators:CardDecorator[] = [];
   state:MyColaboFlowState;
 
   constructor(){

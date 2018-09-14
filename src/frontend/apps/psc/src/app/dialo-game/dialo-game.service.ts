@@ -88,6 +88,9 @@ export class DialoGameService {
         else if(this.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
           return this.getDecoratorTypes();
         }
+        else if(this.lastResponse.state.state === MyColaboFlowStates.DECORATOR_TYPE_CHOSEN){
+          return this.getDecoratorTypes(this.lastResponse.decorators[this.lastResponse.decorators.length - 1].decorator);
+        }
       }
     }
     else{
@@ -95,8 +98,8 @@ export class DialoGameService {
     }
   }
 
-  getDecoratorTypes():Observable<KNode[]>{
-    return of(CardDecorator.getDecorators());
+  getDecoratorTypes(type:string=null):Observable<KNode[]>{
+    return of(CardDecorator.getDecorators(type));
   }
 
   getOpeningCards(forceRefresh:boolean = false):Observable<KNode[]>{
@@ -142,12 +145,18 @@ export class DialoGameService {
         response.state.state = MyColaboFlowStates.CHALLENGE_CARD_CHOSEN; //TOOO
         this.responses.push(response);
       }
-      else{
-        if(this.lastResponse !== null && this.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
-          //MyCards:
-          this.lastResponse.responseCards = cards;
-          this.lastResponse.state.state = MyColaboFlowStates.RESPONSE_CARD_CHOSEN;
-        }
+      else if(this.lastResponse !== null && this.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+        //MyCards:
+        this.lastResponse.responseCards = cards;
+        this.lastResponse.state.state = MyColaboFlowStates.RESPONSE_CARD_CHOSEN;
+      }
+      else if(this.lastResponse !== null && this.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
+        this.lastResponse.decorators[this.lastResponse.decorators.length - 1] = new CardDecorator(cards[0].name); //TODO: hardcoded decoration of the last decorator
+        this.lastResponse.state.state = MyColaboFlowStates.DECORATOR_TYPE_CHOSEN;
+      }
+      else if(this.lastResponse !== null && this.lastResponse.state.state === MyColaboFlowStates.DECORATOR_TYPE_CHOSEN){
+        this.lastResponse.decorators[this.lastResponse.decorators.length - 1].decorator = cards[0].name; //TODO: hardcoded decoration of the last decorator
+        this.lastResponse.state.state = MyColaboFlowStates.DECORATOR_CHOSEN;
       }
     }
 

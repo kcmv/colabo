@@ -89,23 +89,29 @@ export class CardDecorator{
     }
   }
 
-  static getDecorators():KNode[]{
+  static getDecorators(type:string=null):KNode[]{
     let decoratorCards:KNode[] = [];
-    if(true){
-      let card:KNode;
-      for(var i in CardDecorator.decorators){
-        card = new KNode();
-        card.name = i;//CardDecorator.decorators[i];
-        //card._id = '5b8bf3f23663ad0d5425e878' + i;
-        //card.iAmId = '5b97c7ab0393b8490bf5263c';
-        if(card.dataContent === null){ card.dataContent = {};}
-        card.dataContent.desc = CardDecorator.decorators[i].desc;
-        // card.dataContent.img = "assets/images/sdgs/s/sdg" + (i+1) + '.jpg';
-        decoratorCards.push(card);
-      }
+    let location:any = CardDecorator.decorators;
+    if(type){
+      location = CardDecorator.decorators[type].decorators;
+    }
+    let card:KNode;
+    for(var i in location){
+      card = new KNode();
+      card.name = i;//location[i];
+      //card._id = '5b8bf3f23663ad0d5425e878' + i;
+      //card.iAmId = '5b97c7ab0393b8490bf5263c';
+      if(card.dataContent === null){ card.dataContent = {};}
+      card.dataContent.desc = location[i].desc;
+      // card.dataContent.img = "assets/images/sdgs/s/sdg" + (i+1) + '.jpg';
+      decoratorCards.push(card);
     }
     return decoratorCards;
   }
 
-  //public decorator:DialoGameActionType
+  public decorator:string;
+
+  constructor(decorator:string){
+    this.decorator = decorator;
+  }
 }
