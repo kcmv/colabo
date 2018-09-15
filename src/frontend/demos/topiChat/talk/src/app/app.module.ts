@@ -20,7 +20,8 @@ import { GetMapComponent } from './get-map/get-map.component';
 
 // Puzzle Modules
 import { RimaAaaModule } from '@colabo-rima/rima_aaa/module';
-import {TopiChatCoreModule} from '@colabo-topiChat/topiChat-core';
+import {TopiChatCoreModule} from '@colabo-topiChat/core';
+import {TopiChatTalkModule} from '@colabo-topiChat/talk';
 
 var moduleDeclarations = [
   AppComponent,
@@ -43,7 +44,8 @@ var moduleImports = [
 
 // Puzzle Modules
   RimaAaaModule,
-  TopiChatCoreModule
+  TopiChatCoreModule,
+  TopiChatTalkModule
 ];
 // moduleImports.push(MainModule);
 // moduleImports.push(AppRoutingModule);

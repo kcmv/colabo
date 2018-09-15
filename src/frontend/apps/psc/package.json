@@ -1,6 +1,7 @@
 {
-    "name": "Performing Sustainable CoEvolution (PSC)",
+    "name": "@colabo-apps/PSC",
     "version": "0.1.0",
+    "description": "Performing Sustainable CoEvolution (PSC)",
     "license": "MIT",
     "scripts": {
         "ng": "ng",
