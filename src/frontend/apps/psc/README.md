@@ -81,7 +81,7 @@ https://github.com/Cha-OS/colabo/issues/325
 
 #### General
 
-- can be played by moderators by using RFID card of Doug's Dream and Challenge
+- can be played by moderators by using an **RFID card** of Doug's Dream and Challenge, playing it on the RFID reader and by that decorating the current performance (e.g. the first card in its chain)
 - 
 
 #### Doug Engelbart's Co-evolution
