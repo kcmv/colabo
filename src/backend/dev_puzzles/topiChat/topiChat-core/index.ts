@@ -7,7 +7,7 @@ import * as socketio from "socket.io";
 enum TopiChatSystemEvents{
 	ClientInit = 'tc:client-init',
 	ChatMessage = 'tc:chat-message',
-	ClientHello = 'tc:client-hello'
+	ClientEcho = 'tc:client-echo'
 }
 
 enum TopiChatClientIDs{
@@ -100,8 +100,8 @@ export class TopiChat{
 
 		systemTopiChatPlugin.events[TopiChatSystemEvents.ChatMessage] 
 		= this.clientChatMessage.bind(this);
-		systemTopiChatPlugin.events[TopiChatSystemEvents.ClientHello] 
-		= this.clientHello.bind(this);
+		systemTopiChatPlugin.events[TopiChatSystemEvents.ClientEcho] 
+		= this.clientEcho.bind(this);
 
 		this.registerPlugin(systemTopiChatPlugin);
 	}
@@ -185,7 +185,6 @@ export class TopiChat{
 	}
 
 	emit(eventName:string, msg, clientIdSender) {
-		// socket.broadcast.emit('tc:chat-message', msg); // to everyone except socket owner
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: clientIdSender,
 			clientIdReciever: TopiChatClientIDs.Broadcast,
@@ -209,30 +208,33 @@ export class TopiChat{
 		// socket.broadcast.emit('tc:chat-message', msg); // to everyone except socket owner
 	};
 
-	clientHello(eventName:string, msg:any, clientIdSender) {
-		console.log('[TopiChat:clientHello] event (%s), clientHello message from clientIdSender [%s] received: %s', eventName, clientIdSender, JSON.stringify(msg));
+	clientEcho(eventName:string, msg:any, clientIdSender) {
+		console.log('[TopiChat:clientEcho] event (%s), clientEcho message from clientIdSender [%s] received: %s', eventName, clientIdSender, JSON.stringify(msg));
 
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: TopiChatClientIDs.Server,
 			clientIdReciever: clientIdSender,
 			msg: {
 				timestamp: this.getTimestamp(),
-				text: "Hello from server!"
+				text: "Hello from server!",
+				receivedText: msg.text
 			}
 		};
 		let socket = this.clientIdToSocket[clientIdSender];
-		socket.emit(TopiChatSystemEvents.ClientHello, tcPackage);
-	};
+		socket.emit(TopiChatSystemEvents.ClientEcho, tcPackage);
+	}
 
 	registerPlugin(pluginOptions:TopiChatPlugin) {
 		let pluginName:string = pluginOptions.name;
 		console.log('[TopiChat:registerPlugin] Registering plugin: %s', pluginName);
 		this.plugins[pluginName] = pluginOptions;
-		for(let event in pluginOptions.events){
-			if(!(event in this.eventsByPlugins)){
-				this.eventsByPlugins[event] = [];
+		for(let eventName in pluginOptions.events){
+			if(!(eventName in this.eventsByPlugins)){
+				this.eventsByPlugins[eventName] = [];
+				console.log("[TopiChat:registerPlugin] Registering event: '%s' for the first time", eventName);
 			}
-			let eventByPlugins = this.eventsByPlugins[event];
+			console.log('[TopiChat:registerPlugin] Registering event: %s', eventName);
+			let eventByPlugins = this.eventsByPlugins[eventName];
 			eventByPlugins.push(pluginOptions);
 		}
 	};

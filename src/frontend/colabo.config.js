@@ -33,9 +33,17 @@ var puzzles = {
             npm: "@colabo-knalledge/knalledge_view_interaction",
             path: "dev_puzzles/knalledge/knalledge_view_interaction"
         },
-        "@@colabo-topiChat/topiChat-core": {
-            npm: "@@colabo-topiChat/topiChat-core",
-            path: "dev_puzzles/topiChat/topiChat-core"
+        "@colabo-topiChat/core": {
+            npm: "@colabo-topiChat/core",
+            path: "dev_puzzles/topiChat/core"
+        },
+        "@colabo-topiChat/chat": {
+            npm: "@colabo-topiChat/chat",
+            path: "dev_puzzles/topiChat/chat"
+        },
+        "@colabo-utils/pub-sub": {
+            npm: "@colabo-utils/pub-sub",
+            path: "dev_puzzles/utils/pub-sub"
         }
     }
 }

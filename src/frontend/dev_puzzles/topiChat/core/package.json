@@ -1,6 +1,7 @@
 {
-    "name": "@colabo-topiChat/topiChat-core",
+    "name": "@colabo-topiChat/core",
     "version": "0.0.1",
+    "description": "Provides core support for topiChat",
     "private": true,
     "scripts": {
         "build": "tsc"
@@ -23,10 +24,8 @@
         "zone.js": "^0.8.14"
     },
     "peerDependenciesLocal": {
-        "@colabo-rima/rima_core": "^0.0.1"
+        "@colabo-utils/pub-sub": "0.1.0"
     },
     "devDependencies": {},
-    "devDependenciesLocal": {
-        "@colabo-rima/rima_core": "^0.0.1"
-    }
+    "devDependenciesLocal": {}
 }

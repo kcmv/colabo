@@ -1,0 +1,14 @@
+{
+    "name": "@colabo-utils/pub-sub",
+    "version": "0.0.1",
+    "description": "Provides core support for topiChat",
+    "private": true,
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {},
+    "peerDependencies": {},
+    "peerDependenciesLocal": {},
+    "devDependencies": {},
+    "devDependenciesLocal": {}
+}

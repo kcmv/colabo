@@ -20,7 +20,7 @@ import { GetMapComponent } from './get-map/get-map.component';
 
 // Puzzle Modules
 import { RimaAaaModule } from '@colabo-rima/rima_aaa/module';
-import {TopiChatCoreModule} from '@colabo-topiChat/topiChat-core';
+import {TopiChatCoreModule} from '@colabo-topiChat/core';
 
 var moduleDeclarations = [
   AppComponent,

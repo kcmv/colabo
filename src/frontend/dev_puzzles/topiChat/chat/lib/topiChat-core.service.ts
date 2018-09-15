@@ -4,10 +4,6 @@ import { Observer } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
-
 enum TopiChatSystemEvents{
 	ClientInit = 'tc:client-init',
   ClientHello = 'tc:client-hello'
@@ -25,8 +21,6 @@ export interface TopiChatPlugin{
 export interface TopiChatPlugins{
 	[pluginName: string]: TopiChatPlugin
 }
-
-import * as socketIO from 'socket.io-client';
 
 @Injectable()
 export class TopiChatCoreService{
@@ -50,23 +44,9 @@ export class TopiChatCoreService{
   clientInfo:TopiChatClientInfo = {clientId: null};
 
   private _isActive:boolean = true;
-  private _socket:any;
-  private _sfOptions:any;
-
-  //http://api.colabo.space/knodes/
-  // "http://127.0.0.1:888/knodes/";
-  private apiUrl: string;
 
   constructor(
-    // socketFactory, $rootScope, ENV, _TopiChatConfigService_
     ) {
-      // console.log("[TopiChatService] ENV: ", ENV);
-      // this.socketFactory = socketFactory;
-      // this.$rootScope = $rootScope;
-      // this.ENV = ENV;
-      // this.topiChatConfigService = _TopiChatConfigService_;
-
-      // a bit dirty (pointless)
       this.init();
   }
 
@@ -75,11 +55,6 @@ export class TopiChatCoreService{
     */
   init() {
       if(!this._isActive) return;
-
-      let socketOptions = {forceNew: false};
-      let socketUrl:string = 'http://localhost:8002/';
-      this._socket = socketIO(socketUrl, socketOptions);
-      console.log("[TopiChatService:init] connected to: ", socketUrl);
 
       // called on init message
       function clientInit(eventName, msg, tcPackage) {
@@ -123,7 +98,6 @@ export class TopiChatCoreService{
         clientId: this.clientInfo.clientId,
         msg: msg
     };
-    this._socket.emit(eventName, tcPackage);
 
     return this;
   }
@@ -202,7 +176,6 @@ export class TopiChatCoreService{
     this.eventsByPlugins[eventName] = [];
     this.messagesByEvents[eventName] = [];
     console.log("[TopiChatService:registerNewEventType] Registering eventName '%s' for the first time", eventName);
-    this._socket.on(eventName, this._dispatchEvent.bind(this, eventName));
     return this;
   }
 
