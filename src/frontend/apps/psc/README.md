@@ -52,7 +52,8 @@ https://github.com/Cha-OS/colabo/issues/325
   - at the opening we connect our story with SDG goals - answering on a SDG Question card by our card
   - later we answer on the cards played in the first round
 - steps
-  - we choose one of the **displayed challenge card ** - our system uses ML, NLP, AI to suggest the most related cards to us (to our cards, to our profile, to our moves)
+  - **our system uses ML, NLP, AI to suggest** the most related cards to us (to our cards, to our profile, to our moves)
+  - we choose one of the **displayed challenge card **
   - we respond by some of our cards (made out of CWC sentences)
   - we **decorate** our card
   - previewing/checking our move, confirming it
@@ -60,6 +61,7 @@ https://github.com/Cha-OS/colabo/issues/325
   - everybody is **synced** with moves from the current round
   - **new round** is started (there are two rounds for users to play)
 - **ISSUES**
+  - https://github.com/Cha-OS/colabo/issues/333
   - https://github.com/Cha-OS/colabo/issues/329
   - https://github.com/Cha-OS/colabo/issues/326
   - https://github.com/Cha-OS/colabo/issues/321
