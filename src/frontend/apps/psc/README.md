@@ -55,8 +55,9 @@ https://github.com/Cha-OS/colabo/issues/325
   - we choose one of the **displayed challenge card ** - our system uses ML, NLP, AI to suggest the most related cards to us (to our cards, to our profile, to our moves)
   - we respond by some of our cards (made out of CWC sentences)
   - we **decorate** our card
-  - card is stored and sent to the system
-  - everybody is synced
+  - previewing/checking our move, confirming it
+  - the card is **stored** in the game map
+  - everybody is **synced** with moves from the current round
   - **new round** is started (there are two rounds for users to play)
 - **ISSUES**
   - https://github.com/Cha-OS/colabo/issues/329
@@ -64,8 +65,6 @@ https://github.com/Cha-OS/colabo/issues/325
   - https://github.com/Cha-OS/colabo/issues/321
   - https://github.com/Cha-OS/colabo/issues/316
   - https://github.com/Cha-OS/colabo/issues/315
-
-## TODO
 
 ## Performance
 
