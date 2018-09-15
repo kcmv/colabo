@@ -10,7 +10,87 @@
 
 # Workshop Procedure
 
+https://github.com/Cha-OS/colabo/issues/325
 
+## Intro Video
+
+- **ISSUES**
+  - https://github.com/Cha-OS/colabo/issues/314
+
+## Registration
+
+- name, email, pass
+- **ISSUES**
+  - https://github.com/Cha-OS/colabo/issues/299
+  - https://github.com/Cha-OS/colabo/issues/296
+
+## SDG Selection
+
+- helps in opening views of participants
+- helps in personalization of procedures by tagging them with 3 of 17 **UN SDGs**
+- demonstrates clustering (group forming) to participants
+- we can finish with taking **SDG Avatar** and saving it to our profile
+- **ISSUES**
+  - https://github.com/Cha-OS/colabo/issues/330
+  - https://github.com/Cha-OS/colabo/issues/319
+  - https://github.com/Cha-OS/colabo/issues/318
+  - https://github.com/Cha-OS/colabo/issues/307
+
+## CWC Dreaming
+
+- background music
+- intro - meditative story - relaxation
+- dreaming
+- CWCs -> chat 
+  - 5 short sentences describing the future
+- **ISSUES**
+  - https://github.com/Cha-OS/colabo/issues/331
+
+## Playing DialoGame
+
+- **chalenges**
+  - at the opening we connect our story with SDG goals - answering on a SDG Question card by our card
+  - later we answer on the cards played in the first round
+- steps
+  - we choose one of the **displayed challenge card ** - our system uses ML, NLP, AI to suggest the most related cards to us (to our cards, to our profile, to our moves)
+  - we respond by some of our cards (made out of CWC sentences)
+  - we **decorate** our card
+  - card is stored and sent to the system
+  - everybody is synced
+  - **new round** is started (there are two rounds for users to play)
+- **ISSUES**
+  - https://github.com/Cha-OS/colabo/issues/329
+  - https://github.com/Cha-OS/colabo/issues/326
+  - https://github.com/Cha-OS/colabo/issues/321
+  - https://github.com/Cha-OS/colabo/issues/316
+  - https://github.com/Cha-OS/colabo/issues/315
+
+## TODO
+
+## Performance
+
+- SDG question is shown on the screen
+- first performer goes out
+- the one who answered it goes out
+- the third performer (who would play the last card on the card of the 2nd player), plays it by performing it as a continuation of their play
+- after they played it in the 1st round, Moderators put Limiting/Guiding Decorators 
+- moderators explain them rules, let them think over it **together now, to co-create** it and perform it for the 2nd time
+
+### Moderators put Limiting/Guiding Decorators
+
+#### General
+
+- can be played by moderators by using RFID card of Doug's Dream and Challenge
+- 
+
+#### Doug Engelbart's Co-evolution
+
+#### Real World SDF Challenge Case
+
+**Issues**
+
+- https://github.com/Cha-OS/colabo/issues/327
+- https://github.com/Cha-OS/colabo/issues/332
 
 # Structure
 
