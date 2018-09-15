@@ -8,7 +8,7 @@ import {DialoGameResponse} from './dialoGameResponse';
 import {ColaboFlowService} from '../colabo-flow/colabo-flow.service';
 import {ColaboFlowState, ColaboFlowStates} from '../colabo-flow/colaboFlowState';
 import {MyColaboFlowState, MyColaboFlowStates} from '../colabo-flow/myColaboFlowState';
-
+import {CardDecorator} from './card-decorator/cardDecorator';
 import { environment } from '../../environments/environment';
 
 export enum DialoGameActions{};
@@ -29,8 +29,8 @@ export class DialoGameService {
   //playedOn:[]; decorations:[];
 
   constructor(
-    private knalledgeNodeService: KnalledgeNodeService,
-    private colaboFlowService: ColaboFlowService
+    public colaboFlowService: ColaboFlowService,
+    private knalledgeNodeService: KnalledgeNodeService
   ) { }
 
   getMyCards(forceRefresh:boolean = false):Observable<KNode[]>{
@@ -78,13 +78,24 @@ export class DialoGameService {
 
   getCards(forceRefresh:boolean = false):Observable<KNode[]>{
     if(this.colaboFlowService.colaboFlowState.state === ColaboFlowStates.OPENNING){
-      if(this.lastResponse === null || this.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
+      if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){
         return this.getOpeningCards(forceRefresh);
       }
-      else{
-        return this.getMyCards(forceRefresh);
+      else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
+          return this.getMyCards(forceRefresh);
+      }
+      else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR_TYPE){
+        return this.getDecoratorTypes();
+      }
+      else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR){
+        return this.getDecoratorTypes(this.lastResponse.decorators[this.lastResponse.decorators.length - 1].decorator);
       }
     }
+    return of([]);
+  }
+
+  getDecoratorTypes(type:string=null):Observable<KNode[]>{
+    return of(CardDecorator.getDecorators(type));
   }
 
   getOpeningCards(forceRefresh:boolean = false):Observable<KNode[]>{
@@ -124,20 +135,30 @@ export class DialoGameService {
   cardSelected(cards: KNode[]){
   //TODO:
     if(this.colaboFlowService.colaboFlowState.state === ColaboFlowStates.OPENNING){
-      if(this.lastResponse === null || this.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){ //OPENING CARD IS CHOSEN:
+      if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){ //OPENING CARD IS CHOSEN:
         let response:DialoGameResponse = new DialoGameResponse();
         response.challengeCards = cards;
-        response.state.state = MyColaboFlowStates.CHALLENGE_CARD_CHOSEN; //TOOO
         this.responses.push(response);
+        this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_RESPONSE_CARD;
       }
-      else{
-        if(this.lastResponse !== null && this.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
-          //MyCards:
-          this.lastResponse.responseCards = cards;
-          this.lastResponse.state.state = MyColaboFlowStates.RESPONSE_CARD_CHOSEN;
-        }
+      else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
+        //MyCards:
+        this.lastResponse.responseCards = cards;
+        this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_DECORATOR_TYPE;
+      }
+      else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR_TYPE){
+        this.lastResponse.decorators[this.lastResponse.decorators.length - 1] = new CardDecorator(cards[0].name); //TODO: hardcoded decoration of the last decorator
+        this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_DECORATOR;
+      }
+      else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR){
+        this.lastResponse.decorators[this.lastResponse.decorators.length - 1].decorator = cards[0].name; //TODO: hardcoded decoration of the last decorator
+        this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.PREVIEWING;
       }
     }
 
+  }
+
+  undo():void{
+    this.colaboFlowService.undo();
   }
 }
