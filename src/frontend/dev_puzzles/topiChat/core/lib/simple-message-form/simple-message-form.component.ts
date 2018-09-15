@@ -39,6 +39,7 @@ export class TopiChatSimpleMessageForm implements OnInit {
           timestamp: Math.floor(new Date().getTime() / 1000),
           text: this.messageContent
       };
+      console.log('[TopiChatSimpleMessageForm:sendMessage] sending message: %s', this.messageContent);
       this.topiChatCoreService.emit(TopiChatSystemEvents.ClientEcho, msg);
       this.messageContent = "";
   }

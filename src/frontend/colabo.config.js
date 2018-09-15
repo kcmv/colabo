@@ -37,9 +37,9 @@ var puzzles = {
             npm: "@colabo-topiChat/core",
             path: "dev_puzzles/topiChat/core"
         },
-        "@colabo-topiChat/chat": {
-            npm: "@colabo-topiChat/chat",
-            path: "dev_puzzles/topiChat/chat"
+        "@colabo-topiChat/talk": {
+            npm: "@colabo-topiChat/talk",
+            path: "dev_puzzles/topiChat/talk"
         },
         "@colabo-utils/pub-sub": {
             npm: "@colabo-utils/pub-sub",

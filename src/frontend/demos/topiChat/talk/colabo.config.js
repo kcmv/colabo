@@ -11,7 +11,7 @@ var puzzles = {
         "@colabo-knalledge/knalledge_core": {},
         "@colabo-rima/rima_aaa": {},
         "@colabo-topiChat/core": {},
-        "@colabo-topiChat/chat": {},
+        "@colabo-topiChat/talk": {},
         "@colabo-knalledge/knalledge_store_core": {},
         "@colabo-utils/pub-sub": {},
     },

@@ -4,8 +4,7 @@ import { Observer } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {ColaboPubSubPlugin, ColaboPubSubPlugins, ColaboPubSub} from '@colabo-utils/pub-sub';
-
+import {ColaboPubSubPlugin, ColaboPubSub} from '@colabo-utils/pub-sub';
 export {ColaboPubSubPlugin};
 
 export enum TopiChatSystemEvents{
@@ -128,5 +127,3 @@ export class TopiChatCoreService{
     this._socket.on(eventName, this.serverPubSub.dispatchEvent.bind(this.serverPubSub, eventName));
   }
 }
-
-//TODO: NG2: migrate here the remaining methods from the old NG1 JS NodeService

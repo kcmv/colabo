@@ -11,11 +11,11 @@ import { MaterialModule } from './materialModule';
 
 import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
-import { TopiChatCoreService } from './topiChat-core.service';
-import { TopiChatSimpleMessageForm } from './simple-message-form/simple-message-form.component';
+import { TopiChatTalkService } from './topiChat-talk.service';
+import { TopiChatTalkForm } from './talk-form/talk-form.component';
 
 var moduleDeclarations:any[] = [
-    TopiChatSimpleMessageForm
+    TopiChatTalkForm
 ];
 
 var moduleImports: any[] = [
@@ -38,7 +38,7 @@ var moduleImports: any[] = [
     // exports: moduleImports.concat(moduleDeclarations)
     exports: moduleDeclarations,
     providers: [
-        TopiChatCoreService
+        TopiChatTalkService
     ]
 })
-export class TopiChatCoreModule { }
+export class TopiChatTalkModule { }
