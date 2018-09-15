@@ -23,6 +23,7 @@ export class DialogameCardsComponent implements OnInit {
 
   ngOnInit() {
     //TODO: to set-up based on state, later druing the game, upon restarting browser etc, the current state with some other cards should be set up
+    this.dialoGameService.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_CHALLENGE_CARD;
     this.dialoGameService.getCards().subscribe(this.cardsReceived.bind(this));
   }
 
@@ -31,46 +32,45 @@ export class DialogameCardsComponent implements OnInit {
   }
 
   getStatus():string{
-    if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
+    if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){
       return 'We\'ve found these performance cards for you.';
     }
-    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+    else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
       return 'These are your cards to respond';
     }
-    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
+    else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR_TYPE){
       return 'You can decorate your card';
     }
-    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.DECORATOR_TYPE_CHOSEN){
+    else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR){
       return 'You have chosen type of decoration';
     }
     return '';
   }
 
   getAction():string{
-    if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
+    if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){
       return 'Click the one you want to reply on';
     }
-    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+    else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
       return 'Click the one you want to play';;
     }
-    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.RESPONSE_CARD_CHOSEN){
+    else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR_TYPE){
       return 'Choose type of decoration';
     }
-    else if(this.dialoGameService.lastResponse != null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.DECORATOR_TYPE_CHOSEN){
+    else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR){
       return 'Now choose the specific decoration';
     }
     return '';
 
   }
 
-
   onClick(event:any, card:KNode):void {
     console.log("onClicked",event, card);
     let msg = '';
-    if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
+    if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){
       msg = "You've selected the challenge card.";
     }
-    else if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+    else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
       msg = "You've selected your card.";
     }
     // else if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.DECORATOR_TYPE_CHOSEN){
@@ -78,10 +78,10 @@ export class DialogameCardsComponent implements OnInit {
     // }
 
     let action = '';
-    if(this.dialoGameService.lastResponse === null || this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.NOT_STARTED){
+    if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){
       action = "Choose your response card!";
     }
-    else if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.CHALLENGE_CARD_CHOSEN){
+    else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
       action = "Choose a decorator for your action";
     }
     // else if(this.dialoGameService.lastResponse !== null && this.dialoGameService.lastResponse.state.state === MyColaboFlowStates.DECORATOR_TYPE_CHOSEN){
@@ -91,6 +91,11 @@ export class DialogameCardsComponent implements OnInit {
     this.openSnackBar(msg,action);
 
     this.dialoGameService.cardSelected([card]); //TODO
+    this.dialoGameService.getCards().subscribe(this.cardsReceived.bind(this));
+  }
+
+  undo():void{
+    this.dialoGameService.undo();
     this.dialoGameService.getCards().subscribe(this.cardsReceived.bind(this));
   }
 

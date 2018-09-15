@@ -1,4 +1,5 @@
 export const enum ColaboFlowStates{
+  NOT_STARTED,
   OPENNING,
   SECOND_ROUND,
   THIRD_ROUND

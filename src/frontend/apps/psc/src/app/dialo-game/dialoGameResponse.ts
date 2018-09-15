@@ -8,9 +8,9 @@ export class DialoGameResponse{
   responseCards:KNode[] = [];  //the cards the player responses with. He can play/anser multiple cards
   playRound:number;
   decorators:CardDecorator[] = [];
-  state:MyColaboFlowState;
+  //state:MyColaboFlowState;
 
   constructor(){
-    this.state = new MyColaboFlowState();
+    //this.state = new MyColaboFlowState();
   }
 }

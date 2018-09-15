@@ -101,7 +101,7 @@ export class CardDecorator{
           },
           'disgust':{
             'desc':'',
-            'img':''
+            'img':'assets/images/emoticons/disgust.jpg'
           },
           'trust':{
             'desc':'',
@@ -109,11 +109,11 @@ export class CardDecorator{
           },
           'surprise':{
             'desc':'',
-            'img':''
+            'img':'assets/images/emoticons/surprise.jpg'
           },
           'anger':{
             'desc':'',
-            'img':''
+            'img':'assets/images/emoticons/anger.jpg'
           }
       }
     },
