@@ -1,5 +1,12 @@
 'use strict';
 
+// this is file is imported and exported 
+// to the rest of the system through the puzzle
+// `@colabo-utils/b-config`
+// (the puzzle looks for it with the relative path)
+// NOTE: in `KnAllEdgeBackend.ts` this file is still
+// required directly
+
 console.log("Setting up global for knalledge");
 
 var path = require('path');
@@ -27,6 +34,17 @@ if (!global.hasOwnProperty('dbConfig')) {
 		port: 27017,
 		user: 'user',
 		pass: 'pass'
+	};
+}
+
+if (!global.hasOwnProperty('puzzles')) {
+	console.log("Setting up global.puzzles");
+	global.puzzles = {
+		'@colabo-topiChat/b-talk': {
+			saveTalkToMap: true,
+			mapId: "5b96619b86f3cc8057216a03",
+			nodeId: ""
+		}
 	};
 }
 
