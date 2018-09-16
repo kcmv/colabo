@@ -8,6 +8,12 @@ let puzzleConfig:any = GetForPuzzle(MODULE_NAME);
 console.log("[TopiChatTalk] Should we save chat? saveTalkToMap = ", puzzleConfig.saveTalkToMap);
 console.log("[TopiChatTalk] mapId = ", puzzleConfig.mapId);
 
+import {KNode} from '@colabo-knalledge/b-knalledge-core';
+
+enum KNodesTopiChatTalkTypes{
+    ChatMsg = "topiChat.talk.chatMsg"
+}
+
 const KNodeModule = require("@colabo-knalledge/b-knalledge-core/modules/kNode");
 
 /**
@@ -68,7 +74,16 @@ export class TopiChatTalk{
 
 	chatMessage(eventName:string, msg, clientIdSender, tcPackage:TopiChatPackage) {
 		console.log('[TopiChatTalk:clientChatMessage] event (%s), message received: %s', eventName, JSON.stringify(msg));
-		this.topiChat.emit(eventName, msg, clientIdSender);
+
+        let chatNode:KNode = new KNode();
+        chatNode.name = msg.content.text;
+        chatNode.mapId = puzzleConfig.mapId;
+        chatNode.iAmId = puzzleConfig.iAmId;
+        chatNode.type = KNodesTopiChatTalkTypes.ChatMsg;
+        let chatNodeServer:any = chatNode.toServerCopy();
+        KNodeModule._create(chatNodeServer, function(){
+    		this.topiChat.emit(eventName, msg, clientIdSender);
+        }.bind(this));
 		// let socketSender = this.clientIdToSocket[clientIdSender];
 		// socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
 		// this.io.emit('tc:chat-message', msg); // to everyone
