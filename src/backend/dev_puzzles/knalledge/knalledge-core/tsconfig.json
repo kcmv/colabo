@@ -20,7 +20,7 @@
     },
     "allowSyntheticDefaultImports": false,
     "files": [
-        "index.js"
+        "index.ts"
     ],
     "include": [
     ],
