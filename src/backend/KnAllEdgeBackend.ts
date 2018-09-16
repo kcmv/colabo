@@ -56,10 +56,15 @@ var app = express();
 
 
 // TopiChat
-import {TopiChat} from '@colabo-topiChat/b-topiChat-core';
-// var TopiChatKnAllEdge = require('@colabo-topiChat/b-topiChat-knalledge');
-var topiChat = new TopiChat(app, 'CollaboScience', portTC);
+import {TopiChat} from '@colabo-topiChat/b-core';
+var topiChat = new TopiChat(app, 'Colabo.Space', portTC);
+
+// import {TopiChatKnAllEdge} from '@colabo-topiChat/b-knalledge';
 // var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
+
+import {TopiChatTalk} from '@colabo-topiChat/b-talk';
+var topiChatTalk = new TopiChatTalk(topiChat);
+
 topiChat.connect();
 
 // var bodyParser = require('body-parser');
@@ -84,7 +89,9 @@ app.configure(function () {
     app.use(app.router);
 });
 /* Knalledge Maps */
-var puzzleKnalledgeCore = require('@colabo-knalledge/b-knalledge-core')(app);
+
+import {KnAllEdgeCoreRegister} from '@colabo-knalledge/b-knalledge-core';
+KnAllEdgeCoreRegister(app);
 
 // var puzzleKnalledgeSearch = require('@colabo-knalledge/b-knalledge-search')(app);
 import * as PuzzleKnalledgeSearch from '@colabo-knalledge/b-knalledge-search';

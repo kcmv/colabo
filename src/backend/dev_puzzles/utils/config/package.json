@@ -1,6 +1,6 @@
 {
-    "name": "@colabo-topiChat/b-topiChat-knalledge",
-    "description": "KnAlledge Extension of the TopiChat service",
+    "name": "@colabo-utils/b-config",
+    "description": "Provides config support for the backend of the Colabo.Space Ecosystem",
     "version": "0.0.5",
     "private": true,
     "scripts": {
@@ -9,8 +9,6 @@
     "main": "dist/index.js",
     "module": "dist/index.js",
     "dependencies": {},
-    "peerDependencies": {
-        "socket.io": "^1.2.1"
-    },
+    "peerDependencies": {},
     "devDependencies": {}
 }

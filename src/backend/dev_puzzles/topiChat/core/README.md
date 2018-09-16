@@ -7,7 +7,7 @@ It provides a foundation for the TopiChat service
 # Export
 
 ```sh
-# It will create globaly accessable npm package `@colabo-topiChat/b-topiChat-core`
+# It will create globaly accessable npm package `@colabo-topiChat/b-core`
 npm link
 ```
 
@@ -15,5 +15,5 @@ npm link
 
 ```sh
 # Imports it in the local node_modules space of the hosting app
-npm link @colabo-topiChat/b-topiChat-core
+npm link @colabo-topiChat/b-core
 ```

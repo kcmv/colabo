@@ -7,8 +7,10 @@ var puzzles = {
         "@colabo-knalledge/b-knalledge-search": {},
         "@colabo-media/media-upload": {},
         "@colabo-rima/rima-connect": {},
-        "@colabo-topiChat/b-topiChat-core": {},
-        "@colabo-topiChat/b-topiChat-knalledge": {}
+        "@colabo-topiChat/b-core": {},
+        "@colabo-topiChat/b-knalledge": {},
+        "@colabo-topiChat/b-talk": {},
+        "@colabo-utils/b-config": {}
     },
     offers: {
         "@colabo-knalledge/b-knalledge-storage-mongo": {
@@ -31,13 +33,21 @@ var puzzles = {
             npm: "@colabo-rima/rima-connect",
             path: "dev_puzzles/rima/rima-connect"
         },
-        "@colabo-topiChat/b-topiChat-core": {
-            npm: "@colabo-topiChat/b-topiChat-core",
-            path: "dev_puzzles/topiChat/topiChat-core"
+        "@colabo-topiChat/b-core": {
+            npm: "@colabo-topiChat/b-core",
+            path: "dev_puzzles/topiChat/core"
         },
-        "@colabo-topiChat/b-topiChat-knalledge": {
-            npm: "@colabo-topiChat/b-topiChat-knalledge",
-            path: "dev_puzzles/topiChat/topiChat-knalledge"
+        "@colabo-topiChat/b-knalledge": {
+            npm: "@colabo-topiChat/b-knalledge",
+            path: "dev_puzzles/topiChat/knalledge"
+        },
+        "@colabo-topiChat/b-talk": {
+            npm: "@colabo-topiChat/b-talk",
+            path: "dev_puzzles/topiChat/talk"
+        },
+        "@colabo-utils/b-config": {
+            npm: "@colabo-utils/b-config",
+            path: "dev_puzzles/utils/config"
         }
     }
 }
