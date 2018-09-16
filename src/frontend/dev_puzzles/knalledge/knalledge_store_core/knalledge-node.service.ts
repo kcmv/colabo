@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -282,6 +282,7 @@ export class KnalledgeNodeService extends CFService{
 		if(kNode.state == VO.STATE_LOCAL){//TODO: fix it by going throgh queue
 			window.alert(`Please, wait while the entity '${kNode.name}' is being saved, before updating it`);
       //TODO: we should move this UI code out of the service logics
+      result = of(null);
 		}
     else{
   		/*TODO:NG2: it was: if(Plugins.puzzles.knalledgeMap.config.services.QUEUE && false)

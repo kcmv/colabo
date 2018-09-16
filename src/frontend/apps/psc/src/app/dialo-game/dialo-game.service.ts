@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {VO} from '@colabo-knalledge/knalledge_core/code/knalledge/VO';
+import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
+import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -10,6 +13,7 @@ import {ColaboFlowState, ColaboFlowStates} from '../colabo-flow/colaboFlowState'
 import {MyColaboFlowState, MyColaboFlowStates} from '../colabo-flow/myColaboFlowState';
 import {CardDecorator} from './card-decorator/cardDecorator';
 import { environment } from '../../environments/environment';
+import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
 
 export enum DialoGameActions{};
 
@@ -30,7 +34,9 @@ export class DialoGameService {
 
   constructor(
     public colaboFlowService: ColaboFlowService,
-    private knalledgeNodeService: KnalledgeNodeService
+    private knalledgeNodeService: KnalledgeNodeService,
+    private knalledgeEdgeService: KnalledgeEdgeService,
+    private rimaAAAService: RimaAAAService
   ) { }
 
   getMyCards(forceRefresh:boolean = false):Observable<KNode[]>{
@@ -137,6 +143,41 @@ export class DialoGameService {
     if(this.colaboFlowService.colaboFlowState.state === ColaboFlowStates.OPENNING){
       if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){ //OPENING CARD IS CHOSEN:
         let response:DialoGameResponse = new DialoGameResponse();
+        response.player = this.rimaAAAService.getUser();
+        response.playRound = this.colaboFlowService.colaboFlowState.playRound;
+
+        //TODO:
+        if(response.player === null){
+        console.log('NOT LOGGED IN - DEMO USER USED');
+         response.player = KNode.factory(
+           {
+              "_id" : "5b97c7ab0393b8490bf5263c",
+              "name" : "Test",
+              "type" : "rima.user",
+              "iAmId" : "556760847125996dc1a4a24f",
+              "ideaId" : 0,
+              "dataContent" : {
+                  "hash" : "b4523dcbb2c79cb2347abfe3ac1d10d5d831abd664909d7c45a9d296ab9ee96f701894fe29a702984e92ba4d2fa9cda552ab98e06da1244ce644e7866dd80d52",
+                  "salt" : "480501a1e8fcf0f213a488489c10ea05",
+                  "email" : "test_user@gmail.com",
+                  "lastName" : "User",
+                  "firstName" : "Test"
+              },
+              "mapId" : "5b96619b86f3cc8057216a03",
+              "updatedAt" : "2018-09-11T13:48:27.641+0000",
+              "createdAt" : "2018-09-11T13:48:27.624+0000",
+              "visual" : {
+                  "isOpen" : false
+              },
+              "isPublic" : true,
+              "version" : 1,
+              "activeVersion" : 1,
+              "__v" : 0
+            }
+         )
+        }
+
+
         response.challengeCards = cards;
         this.responses.push(response);
         this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_RESPONSE_CARD;
@@ -160,5 +201,50 @@ export class DialoGameService {
 
   undo():void{
     this.colaboFlowService.undo();
+  }
+
+  savePlayedMove():void{
+    let playedMove:DialoGameResponse = this.lastResponse;
+    //let node:KNode = new KNode();
+    let node:KNode = playedMove.responseCards[0]; //TODO: cover cases when user respondes with more than 1 card
+    console.log('node from the response Card', node);
+
+    node.mapId = environment.mapId;
+    node.iAmId = playedMove.player._id;
+    //node.name = playedCard.name;
+
+    node.type = DialoGameResponse.TYPE_DIALOGAME_RESPONSE; //TODO - see if don't want to change the type
+    console.log('playedMove', JSON.stringify(playedMove));
+
+    let edge:KEdge = new KEdge();
+    edge.mapId = environment.mapId;
+    edge.type = DialoGameResponse.TYPE_DIALOGAME_RESPONSE;
+    edge.sourceId = playedMove.challengeCards[0]._id; //TODO: cover cases when user responds on more than 1 card
+    if(node.dataContent === null){ node.dataContent = {};}
+
+    node.dataContent.dialoGameMove = playedMove.toServerCopy();
+    console.log('playedMove.toServerCopy',node.dataContent.dialoGameMove);
+
+    console.log('edge', edge);
+    console.log('node', node);
+
+    let nodeSaved = function(savedNode:KNode):void{
+        console.log('KNode (Card) saved', savedNode);
+        edge.targetId = savedNode._id; //playedMove.responseCards[0]._id; //TODO - do it after saving kNode (in the case kNode.state = VO.STATE_LOCAL -- not saved yet)
+        this.knalledgeEdgeService.create(edge).subscribe(function(result){
+            console.log('KEdge of the played (Card) created');
+        });
+    }
+    if(node.state == VO.STATE_LOCAL){
+      console.log('KNode is local - creating');
+      this.knalledgeNodeService.create(node).subscribe(nodeSaved.bind(this));
+    }
+    else{
+      console.log('KNode is synced - updating');
+      this.knalledgeNodeService.update(node, KNode.UPDATE_TYPE_ALL, null).subscribe(nodeSaved.bind(this));
+    }
+
+
+
   }
 }

@@ -3,7 +3,7 @@
   <p>{{data.info}}</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button (click)="onNoClick()">{{data.button1}}</button>
+  <button mat-raised-button (click)="onNoClick(false)">{{data.button1}}</button>
   <!-- <button mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial>{{data.button1}}</button> -->
   <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial>{{data.button2}}</button>
 </div>

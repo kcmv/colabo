@@ -1104,6 +1104,8 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
 
 **TODO**
 
+should connect them with **Content (node)** or with **Content (node)** -> **DialoGame**
+
 ## Users Population
 
 ### **Test User**

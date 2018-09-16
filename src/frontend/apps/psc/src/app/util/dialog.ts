@@ -30,8 +30,8 @@ export class Dialog1Btn {
     public dialogRef: MatDialogRef<Dialog1Btn>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  onNoClick(value:any): void {
+    this.dialogRef.close(value);
   }
 
 }
@@ -47,8 +47,8 @@ export class Dialog2Btn {
     public dialogRef: MatDialogRef<Dialog2Btn>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+    // on1stClick(value:any): void {
+    //   this.dialogRef.close(value);
+    // }
 
 }

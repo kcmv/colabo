@@ -6,6 +6,9 @@ import {ColaboFlowService} from '../../colabo-flow/colabo-flow.service';
 import {ColaboFlowState, ColaboFlowStates} from '../../colabo-flow/colaboFlowState';
 import {MyColaboFlowState, MyColaboFlowStates} from '../../colabo-flow/myColaboFlowState';
 
+import { MatDialog, MatDialogRef } from '@angular/material';
+import {Dialog1Btn, Dialog2Btn, DialogData} from '../../util/dialog';
+
 
 @Component({
   selector: 'dialogame-cards',
@@ -15,9 +18,11 @@ import {MyColaboFlowState, MyColaboFlowStates} from '../../colabo-flow/myColaboF
 export class DialogameCardsComponent implements OnInit {
 
   cards:any[] = [];
+  dialogRef: any; //TODO: type: MatDialogRef;
 
   constructor(
     public snackBar: MatSnackBar,
+    public dialog: MatDialog,
     private dialoGameService: DialoGameService
   ) { }
 
@@ -25,6 +30,17 @@ export class DialogameCardsComponent implements OnInit {
     //TODO: to set-up based on state, later druing the game, upon restarting browser etc, the current state with some other cards should be set up
     this.dialoGameService.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_CHALLENGE_CARD;
     this.dialoGameService.getCards().subscribe(this.cardsReceived.bind(this));
+  }
+
+  openDialog(buttons:number, data:DialogData, options:any = null, afterClosed:Function = null): void {
+    if(options === null){
+      options = {};
+    }
+    options['width'] = '95%'
+    options['data'] = data;
+    console.log('openDialog',options);
+    this.dialogRef = this.dialog.open((buttons == 1 ? Dialog1Btn : Dialog2Btn), options);
+    if(afterClosed){this.dialogRef.afterClosed().subscribe(afterClosed);}
   }
 
   cardsReceived(cards:KNode[]):void{
@@ -97,6 +113,29 @@ export class DialogameCardsComponent implements OnInit {
   undo():void{
     this.dialoGameService.undo();
     this.dialoGameService.getCards().subscribe(this.cardsReceived.bind(this));
+  }
+
+  finish():void{
+    this.openDialog(2, new DialogData('Finishing the move','Do you want to finish this move, without further decorating your card?', 'No', 'Yes'), null, this.finished.bind(this));
+  }
+
+  finished(result:any):void{
+     console.log('The dialog was closed', result);
+     if(result){
+       this.savePlayedMove();
+     }
+  }
+
+  savePlayedMove():void{
+    this.dialoGameService.savePlayedMove();
+  }
+
+  canUndo():boolean{
+    return (this.dialoGameService.colaboFlowService.myColaboFlowState.state !== MyColaboFlowStates.CHOSING_CHALLENGE_CARD);
+  }
+
+  canFinish():boolean{
+    return this.dialoGameService.colaboFlowService.myColaboFlowState.isBasicMovePlayed();
   }
 
   openSnackBar(message: string, action: string) {

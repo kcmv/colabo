@@ -41,4 +41,8 @@ export class MyColaboFlowState{
     }
     return this.state;
   }
+
+  isBasicMovePlayed():boolean{
+    return this.state !== MyColaboFlowStates.NOT_STARTED && this.state !== MyColaboFlowStates.CHOSING_CHALLENGE_CARD && this.state !== MyColaboFlowStates.CHOSING_RESPONSE_CARD
+  }
 }

@@ -1,10 +1,10 @@
 export const enum ColaboFlowStates{
   NOT_STARTED,
   OPENNING,
-  SECOND_ROUND,
-  THIRD_ROUND
+  PLAYING_ROUNDS
 }
 
 export class ColaboFlowState{
   public state:ColaboFlowStates = ColaboFlowStates.OPENNING;
+  public playRound:number = 1;
 }
