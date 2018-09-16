@@ -1,0 +1,14 @@
+{
+    "name": "@colabo-utils/b-config",
+    "description": "Provides config support for the backend of the Colabo.Space Ecosystem",
+    "version": "0.0.5",
+    "private": true,
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {},
+    "peerDependencies": {},
+    "devDependencies": {}
+}
