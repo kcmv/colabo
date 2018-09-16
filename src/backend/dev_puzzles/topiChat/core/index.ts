@@ -6,7 +6,6 @@ import * as socketio from "socket.io";
 
 enum TopiChatSystemEvents{
 	ClientInit = 'tc:client-init',
-	ChatMessage = 'tc:chat-message',
 	ClientEcho = 'tc:client-echo'
 }
 
@@ -98,8 +97,6 @@ export class TopiChat{
 			events: {}
 		};
 
-		systemTopiChatPlugin.events[TopiChatSystemEvents.ChatMessage] 
-		= this.clientChatMessage.bind(this);
 		systemTopiChatPlugin.events[TopiChatSystemEvents.ClientEcho] 
 		= this.clientEcho.bind(this);
 
@@ -197,15 +194,6 @@ export class TopiChat{
 		let socketSender = this.clientIdToSocket[clientIdSender];
 		socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
 		// socketSender.emit(eventName, tcPackage);
-	};
-
-	clientChatMessage(eventName:string, msg, clientIdSender, tcPackage) {
-		console.log('[TopiChat:clientChatMessage] event (%s), message received: %s', eventName, JSON.stringify(msg));
-		this.emit(eventName, msg, clientIdSender);
-		// let socketSender = this.clientIdToSocket[clientIdSender];
-		// socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
-		// this.io.emit('tc:chat-message', msg); // to everyone
-		// socket.broadcast.emit('tc:chat-message', msg); // to everyone except socket owner
 	};
 
 	clientEcho(eventName:string, msg:any, clientIdSender) {

@@ -1,5 +1,5 @@
 {
-    "name": "@colabo-topiChat/b-topiChat-knalledge",
+    "name": "@colabo-topiChat/b-knalledge",
     "description": "KnAlledge Extension of the TopiChat service",
     "version": "0.0.5",
     "private": true,
