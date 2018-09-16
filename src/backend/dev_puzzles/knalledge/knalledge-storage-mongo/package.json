@@ -7,12 +7,6 @@
         "build": "tsc"
     },
     "main": "dist/dbService.js",
-    "dependencies": {
-        "passport": "latest",
-        "passport-facebook": "latest",
-        "passport-google-oauth": "latest",
-        "passport-local": "latest",
-        "passport-twitter": "latest"
-    },
+    "dependencies": {},
     "devDependencies": {}
 }
