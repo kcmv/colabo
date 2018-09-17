@@ -23,7 +23,6 @@
         "index.ts"
     ],
     "include": [
-        "./lib/modules"
     ],
     "exclude": [
         "**/*d.ts"

@@ -12,5 +12,8 @@
     "peerDependencies": {
         "socket.io": "^1.2.1"
     },
+    "peerDependenciesLocal": {
+        "@colabo-topiChat/b-core": "0.1.0"
+    },
     "devDependencies": {}
 }
