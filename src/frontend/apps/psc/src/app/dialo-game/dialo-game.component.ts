@@ -61,7 +61,7 @@ export class DialoGameComponent implements OnInit {
   }
 
   savePlayedMove():void{
-    this.dialoGameService.savePlayedMove();
+    this.dialoGameService.saveDialoGameResponse();
   }
 
 }
