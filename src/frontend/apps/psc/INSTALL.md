@@ -180,6 +180,38 @@ Add USERS edge in kedges (`right button > insert document`):
 }
 ```
 
+## ColaboFlow
+
+```json
+{
+    "_id" : ObjectId("5b9f9ff97f07953d41256aff"),
+    "name" : "DialoGameState",
+    "type" : "colaboflow.state",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+    "visual" : {
+        "isOpen" : false
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0),
+    "decorations" : {
+
+    },
+    "up" : {
+
+    },
+    "dataContent" : {
+        "state": 0,
+        "playRound": 1
+    }
+}
+```
+
 ## SDGs
 
 Add SDG node in knodes (`right button > insert document`):
@@ -1108,65 +1140,479 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
 
 ## Users Population
 
-### **Test User**
+### **Test Users**
 
 **email**: test_user@gmail.com
 
 **pass**: pass
 
 ```JSON
-{
-    "_id" : ObjectId("5b97c7ab0393b8490bf5263c"),
-    "name" : "Test",
-    "type" : "rima.user",
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
-    "ideaId" : NumberInt(0),
-    "dataContent" : {
-        "hash" : "b4523dcbb2c79cb2347abfe3ac1d10d5d831abd664909d7c45a9d296ab9ee96f701894fe29a702984e92ba4d2fa9cda552ab98e06da1244ce644e7866dd80d52",
-        "salt" : "480501a1e8fcf0f213a488489c10ea05",
-        "email" : "test_user@gmail.com",
-        "lastName" : "User",
-        "firstName" : "Test"
+[
+    {
+        "_id" : ObjectId("5b97c7ab0393b8490bf5263c"),
+        "name" : "Test",
+        "type" : "rima.user",
+        "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+        "ideaId" : NumberInt(0),
+        "dataContent" : {
+            "hash" : "b4523dcbb2c79cb2347abfe3ac1d10d5d831abd664909d7c45a9d296ab9ee96f701894fe29a702984e92ba4d2fa9cda552ab98e06da1244ce644e7866dd80d52",
+            "salt" : "480501a1e8fcf0f213a488489c10ea05",
+            "email" : "test_user@gmail.com",
+            "lastName" : "User",
+            "firstName" : "Test"
+        },
+        "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+        "updatedAt" : ISODate("2018-09-11T13:48:27.641+0000"),
+        "createdAt" : ISODate("2018-09-11T13:48:27.624+0000"),
+        "visual" : {
+            "isOpen" : false
+        },
+        "isPublic" : true,
+        "version" : NumberInt(1),
+        "activeVersion" : NumberInt(1),
+        "__v" : NumberInt(0)
     },
+    {
+        "_id" : ObjectId("5b9fbdd97f07953d41256b31"),
+        "name" : "Test2",
+        "type" : "rima.user",
+        "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+        "ideaId" : NumberInt(0),
+        "dataContent" : {
+            "hash" : "b4523dcbb2c79cb2347abfe3ac1d10d5d831abd664909d7c45a9d296ab9ee96f701894fe29a702984e92ba4d2fa9cda552ab98e06da1244ce644e7866dd80d52",
+            "salt" : "480501a1e8fcf0f213a488489c10ea05",
+            "email" : "test_user2@gmail.com",
+            "lastName" : "User",
+            "firstName" : "Test2"
+        },
+        "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+        "updatedAt" : ISODate("2018-09-11T13:48:27.641+0000"),
+        "createdAt" : ISODate("2018-09-11T13:48:27.624+0000"),
+        "visual" : {
+            "isOpen" : false
+        },
+        "isPublic" : true,
+        "version" : NumberInt(1),
+        "activeVersion" : NumberInt(1),
+        "__v" : NumberInt(0)
+    },
+    {
+        "_id" : ObjectId("5b9fbde97f07953d41256b32"),
+        "name" : "Test3",
+        "type" : "rima.user",
+        "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+        "ideaId" : NumberInt(0),
+        "dataContent" : {
+            "hash" : "b4523dcbb2c79cb2347abfe3ac1d10d5d831abd664909d7c45a9d296ab9ee96f701894fe29a702984e92ba4d2fa9cda552ab98e06da1244ce644e7866dd80d52",
+            "salt" : "480501a1e8fcf0f213a488489c10ea05",
+            "email" : "test_user3@gmail.com",
+            "lastName" : "User",
+            "firstName" : "Test3"
+        },
+        "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+        "updatedAt" : ISODate("2018-09-11T13:48:27.641+0000"),
+        "createdAt" : ISODate("2018-09-11T13:48:27.624+0000"),
+        "visual" : {
+            "isOpen" : false
+        },
+        "isPublic" : true,
+        "version" : NumberInt(1),
+        "activeVersion" : NumberInt(1),
+        "__v" : NumberInt(0)
+    }
+]
+```
+
+## Mockup Data
+
+## My CWC-Chat Dreams
+
+```JSON
+[
+ {
+    "name" : "sun is always here",
+    "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
-    "updatedAt" : ISODate("2018-09-11T13:48:27.641+0000"),
-    "createdAt" : ISODate("2018-09-11T13:48:27.624+0000"),
+    "iAmId" : ObjectId("5b97c7ab0393b8490bf5263c"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
     "visual" : {
-        "isOpen" : false
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "girls are playing in the garden",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b97c7ab0393b8490bf5263c"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "love is here",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b97c7ab0393b8490bf5263c"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+  {
+    "name" : "green parks for every building",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b97c7ab0393b8490bf5263c"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+ {
+    "name" : "water for each child is more important than profit",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b97c7ab0393b8490bf5263c"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+    "visual" : {
+        "isOpen" : true
     },
     "isPublic" : true,
     "version" : NumberInt(1),
     "activeVersion" : NumberInt(1),
     "__v" : NumberInt(0)
 }
+]
 ```
 
-(TEST ONLY)
+## Others CWC-Chat Dreams played as Responses
 
 ```JSON
 [
-  {
-    "name": "01. Hawskbill Turtle",
-    "number": "01",
-    "image": {
-      "url": "http://r.ddmcdn.com/s_f/o_1/cx_0/cy_34/cw_2001/ch_2001/w_720/APL/uploads/2015/11/Hawksbill-Turtle-FRONT-PAGE.jpg"
+ {
+    "name" : "running over fields full of food",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbdd97f07953d41256b31"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(1), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8277"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
     },
-    "coLaboWareData": {
-        "type": 1,
-        "value": "0009592295"
-    }
-  },
-  {
-    "name": "02. Giant Panda",
-    "number": "02",
-    "image": {
-      "url": "http://r.ddmcdn.com/s_f/o_1/cx_11/cy_776/cw_1957/ch_1957/w_720/APL/uploads/2015/11/giant-panda-FRONT-PAGE.jpg"
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "yellow wheats on hills",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbdd97f07953d41256b31"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(1), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8277"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
     },
-    "coLaboWareData": {
-        "type": 1,
-        "value": "0009595752"
-    }
-  }
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "books are free for every child in this planet",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbdd97f07953d41256b31"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(1), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8280"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "women have rights as equal workers",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbdd97f07953d41256b31"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(1), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8277"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "fish swim in plasti-free oceans",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbdd97f07953d41256b31"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(1), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8277"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "people enjoy in smelly seaside",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbdd97f07953d41256b31"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(1), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8277"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "justice is unquestionable",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbde97f07953d41256b32"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(1), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8277"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "every company has a recycling system",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbde97f07953d41256b32"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(1), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8277"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "renewable energy is the only energy",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbde97f07953d41256b32"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(1), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8277"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+{
+    "name" : "every family has a minimum salary",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbde97f07953d41256b32"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(1), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8277"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
+	{
+    "name" : "elementary school is free for every child",
+    "type" : "topiChat.talk.chatMsg",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b9fbde97f07953d41256b32"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+     "dataContent" : {
+        "dialoGameReponse" : {
+            "playRound" : NumberInt(2), 
+            "challengeCards" : [
+                "5b978bba86f3cc9a70dd8277"
+            ], 
+            "decorators" : [
+
+            ]
+        }
+    }, 
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0)
+},
 ]
 ```
 

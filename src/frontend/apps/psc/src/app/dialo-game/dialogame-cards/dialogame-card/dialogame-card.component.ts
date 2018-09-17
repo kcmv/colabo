@@ -20,7 +20,7 @@ export class DialogameCardComponent implements OnInit {
 
   ngOnInit() {
     console.log("cardData", this.cardData);
-    this.rimaAAAService.getUserById(this.cardData.iAmId).subscribe(this.userReceived.bind(this));
+    //this.rimaAAAService.getUserById(this.cardData.iAmId).subscribe(this.userReceived.bind(this));
   }
 
   userReceived(user:KNode):void{

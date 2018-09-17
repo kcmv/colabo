@@ -97,7 +97,7 @@ export class CardDecorator{
           },
           'anticipation':{
             'desc':'',
-            'img':''
+            'img':'assets/images/emoticons/anticipation.jpg'
           },
           'disgust':{
             'desc':'',
@@ -105,7 +105,7 @@ export class CardDecorator{
           },
           'trust':{
             'desc':'',
-            'img':''
+            'img':'assets/images/emoticons/trust.jpg'
           },
           'surprise':{
             'desc':'',

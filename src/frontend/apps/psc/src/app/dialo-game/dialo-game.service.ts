@@ -7,7 +7,7 @@ import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knall
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {DialoGameResponse} from './dialoGameResponse';
+import {DialoGameResponse} from './dialo-game-response/dialoGameResponse';
 import {ColaboFlowService} from '../colabo-flow/colabo-flow.service';
 import {ColaboFlowState, ColaboFlowStates} from '../colabo-flow/colaboFlowState';
 import {MyColaboFlowState, MyColaboFlowStates} from '../colabo-flow/myColaboFlowState';
@@ -203,34 +203,34 @@ export class DialoGameService {
     this.colaboFlowService.undo();
   }
 
-  savePlayedMove():void{
-    let playedMove:DialoGameResponse = this.lastResponse;
+  saveDialoGameResponse():void{
+    let dialoGameResponse:DialoGameResponse = this.lastResponse;
     //let node:KNode = new KNode();
-    let node:KNode = playedMove.responseCards[0]; //TODO: cover cases when user respondes with more than 1 card
+    let node:KNode = dialoGameResponse.responseCards[0]; //TODO: cover cases when user respondes with more than 1 card
     console.log('node from the response Card', node);
 
     node.mapId = environment.mapId;
-    node.iAmId = playedMove.player._id;
+    node.iAmId = dialoGameResponse.player._id;
     //node.name = playedCard.name;
 
-    node.type = DialoGameResponse.TYPE_DIALOGAME_RESPONSE; //TODO - see if don't want to change the type
-    console.log('playedMove', JSON.stringify(playedMove));
+    //node.type = DialoGameResponse.TYPE_DIALOGAME_RESPONSE; //TODO - so far we don't want to change the type to preserve 'topiChat.talk.chatMsg' that is being required still
+    console.log('dialoGameResponse', JSON.stringify(dialoGameResponse));
 
     let edge:KEdge = new KEdge();
     edge.mapId = environment.mapId;
     edge.type = DialoGameResponse.TYPE_DIALOGAME_RESPONSE;
-    edge.sourceId = playedMove.challengeCards[0]._id; //TODO: cover cases when user responds on more than 1 card
+    edge.sourceId = dialoGameResponse.challengeCards[0]._id; //TODO: cover cases when user responds on more than 1 card
     if(node.dataContent === null){ node.dataContent = {};}
 
-    node.dataContent.dialoGameMove = playedMove.toServerCopy();
-    console.log('playedMove.toServerCopy',node.dataContent.dialoGameMove);
+    node.dataContent.dialoGameReponse = dialoGameResponse.toServerCopy();
+    console.log('dialoGameResponse.toServerCopy',node.dataContent.dialoGameReponse);
 
     console.log('edge', edge);
     console.log('node', node);
 
     let nodeSaved = function(savedNode:KNode):void{
         console.log('KNode (Card) saved', savedNode);
-        edge.targetId = savedNode._id; //playedMove.responseCards[0]._id; //TODO - do it after saving kNode (in the case kNode.state = VO.STATE_LOCAL -- not saved yet)
+        edge.targetId = savedNode._id; //dialoGameResponse.responseCards[0]._id; //TODO - do it after saving kNode (in the case kNode.state = VO.STATE_LOCAL -- not saved yet)
         this.knalledgeEdgeService.create(edge).subscribe(function(result){
             console.log('KEdge of the played (Card) created');
         });
@@ -243,8 +243,13 @@ export class DialoGameService {
       console.log('KNode is synced - updating');
       this.knalledgeNodeService.update(node, KNode.UPDATE_TYPE_ALL, null).subscribe(nodeSaved.bind(this));
     }
+  }
 
+  canUndo():boolean{
+    return (this.colaboFlowService.myColaboFlowState.state !== MyColaboFlowStates.CHOSING_CHALLENGE_CARD);
+  }
 
-
+  canFinish():boolean{
+    return this.colaboFlowService.myColaboFlowState.isBasicMovePlayed();
   }
 }

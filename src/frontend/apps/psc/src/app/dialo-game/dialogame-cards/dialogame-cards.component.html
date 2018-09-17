@@ -1,7 +1,6 @@
 <div class='users' fxLayout="row wrap " fxLayout.xs="column " fxLayoutGap="0.5% " fxLayoutAlign="center ">
   <div><h3>Your turn to play!</h3><div>
     <h4 style="color:blue">{{getStatus()}} <span style="color:red">{{getAction()}}</span></h4>
-    <button *ngIf='canUndo()' mat-raised-button (click)="undo()">Undo</button> <button *ngIf='canFinish()' mat-raised-button (click)="finish()">Finish</button>
   <!-- <h3>registered-users.component</h3> -->
   <div>
       <dialogame-card *ngFor="let cardD of cards" class="clickable" (click)="onClick($event,cardD)" [cardData]="cardD "></dialogame-card>
