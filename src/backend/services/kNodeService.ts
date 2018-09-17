@@ -1,7 +1,7 @@
 import {KNode} from './kNode';
 import {KEdge} from './kEdge';
 
-import * as KNodeModule from '@colabo-knalledge/b-knalledge-core/modules/kNode';
+import * as KNodeModule from '@colabo-knalledge/b-knalledge-core/lib/modules/kNode';
 
 //export public class KNodeService {
 export class KNodeService {

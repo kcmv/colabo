@@ -109,3 +109,14 @@ npm start
   "node-inspector": "~1.1.1"
 }
 ```
+
+# Full Cleaning previous built and installation
+
+```sh
+rm -r node_modules/
+rm -r dev_puzzles/*/*/node_modules
+rm -r dev_puzzles/*/*/dist
+rm -r dist/
+```
+
+or `npm run clean_full`

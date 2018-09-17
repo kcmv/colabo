@@ -249,7 +249,9 @@ export class ColaboConfigParser{
         var buildPath: string = this.colaboConfigFolder + puzzleOffer.path;
         console.log("\tbuildPath: %s", buildPath);
         return new Promise((resolve, reject) => {
-            ChildProcess.exec("npm run build", { cwd: buildPath }, function(error, stdout, stderr) {
+            let buildCmd = "npm run build";
+            // let buildCmd = "tsc";
+            ChildProcess.exec(buildCmd, { cwd: buildPath }, function(error, stdout, stderr) {
                 if (error) {
                     if(this.isNpmWarning(error)){
                         console.warn(chalk.blue.bold("\t[%s] WARNING: "), puzzleOffer.npm, error);

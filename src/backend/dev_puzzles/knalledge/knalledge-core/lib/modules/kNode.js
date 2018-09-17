@@ -36,13 +36,14 @@ var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);
 exports.index = function(req, res) {
     var id = req.params.searchParam;
     var id2 = req.params.searchParam2;
+    var id3 = req.params.searchParam3;
     var type = req.params.type;
-    exports._index(id, id2, type, function(err, kNodes) {
+    exports._index(id, id2, id3, type, function(err, kNodes) {
         resSendJsonProtected(res, { data: kNodes, accessId: accessId, success: true });
     });
 }
 
-exports._index = function(id, id2, type, callback) {
+exports._index = function(id, id2, id3, type, callback) {
     var found = function(err, kNodes) {
         console.log("[modules/kNode.js:index] in 'found'", kNodes);
         if (err) {
@@ -68,6 +69,11 @@ exports._index = function(id, id2, type, callback) {
             //hack: id2 = id2 + '.sdg';
             console.log("find: mapId: %s, type: %s", id, id2);
             KNodeModel.find({ $and: [{ mapId: id }, { type: id2 }] }, found);
+            break;
+        case 'in_map_of_type_for_user': //all nodes of particular type in specific map for that user
+            //hack: id2 = id2 + '.sdg';
+            console.log("find: mapId: %s, type: %s, iAmid: %s", id, id2, id3);
+            KNodeModel.find({ $and: [{ mapId: id }, { type: id2 }, { iAmid: id3 }] }, found);
             break;
         case 'in_content_data':
             console.log("find: in_content_data:: name: %s, value: %s", id, id2);

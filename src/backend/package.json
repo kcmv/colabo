@@ -7,8 +7,9 @@
     "scripts": {
         "start": "node dist/KnAllEdgeBackend 8001 8002",
 
-        "prepare": "colabo puzzles-build; colabo puzzles-offer; colabo puzzles-install; tsc",
-        "debug": "node --inspect-brk=5858 KnAllEdgeBackend 8001 8002"
+        "prepare": "colabo puzzles-offer; colabo puzzles-install; colabo puzzles-build; tsc",
+        "debug": "node --inspect-brk=5858 KnAllEdgeBackend 8001 8002",
+        "clean_full": "rm -r node_modules/; rm -r dev_puzzles/*/*/node_modules; rm -r dev_puzzles/*/*/dist; rm -r dist/"
     },
     "dependencies": {
         "@types/chalk": "^2.2.0",
