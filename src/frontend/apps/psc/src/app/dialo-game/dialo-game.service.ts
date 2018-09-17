@@ -18,6 +18,8 @@ import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
 export enum DialoGameActions{};
 
 export const DIALOGAME_OPENING_CARD_TYPE:string = 'const.dialogame.opening-card';
+export const TOPICHAT_MSG_TYPE:string = 'topiChat.talk.chatMsg';
+
 
 //export const MAP_ID:string = '5b96619b86f3cc8057216a03';
 
@@ -41,6 +43,21 @@ export class DialoGameService {
 
   getMyCards(forceRefresh:boolean = false):Observable<KNode[]>{
     let result:Observable<KNode[]>;
+
+    if(forceRefresh || this.myCards.length == 0){
+      result = this.knalledgeNodeService.queryInMapofTypeForUser(environment.mapId, TOPICHAT_MSG_TYPE, "5b97c7ab0393b8490bf5263c") //TODO!! set regular user
+      .pipe(
+        tap(nodesFromServer => this.assignOpenningCards(nodesFromServer))
+      );
+      return result;
+    }
+    else{
+      return of(this.myCards);
+    }
+
+    /*
+    MOCKUP
+
     let id_str = '5b8bf3f23663ad0d5425e870';
     let myCWCpearls:string[] = ['sun is always here','girls are playing in the garden','love is here'];
     if(forceRefresh || this.myCards.length == 0){
@@ -55,6 +72,7 @@ export class DialoGameService {
         this.myCards.push(card);
       }
     }
+
     //
     //   // {_id:'5b8bf3f23663ad0d5425e878', name:'sun is always here', iAmId: '5b8bf3f23663ad0d5425e86d'},
     //   // {_id:'5b8bf3f23663ad0d5425e879', name:'girls are playing in the garden', iAmId: '5b812567a7a78a1ba15ba0d8'},
@@ -76,6 +94,8 @@ export class DialoGameService {
     //   return of(this.myCards);
     // }
     return of(this.myCards);
+
+    */
   }
 
   get lastResponse():DialoGameResponse{
