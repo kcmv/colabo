@@ -158,7 +158,7 @@ Add USERS node in knodes (`right button > insert document`):
 }
 ```
 
-Add USERS edge in kedges (`right button > insert document`):
+edge:
 
 ```json
 {
@@ -1225,7 +1225,7 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
 
 ## Mockup Data
 
-## My CWC-Chat Dreams
+### My CWC-Chat Dreams
 
 ```JSON
 [
@@ -1312,11 +1312,12 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
 ]
 ```
 
-## Others CWC-Chat Dreams played as Responses
+### Others CWC-Chat Dreams played as Responses
 
 ```JSON
 [
  {
+     "_id" : ObjectId("5b9fc0e17f07953d41256b44"),
     "name" : "running over fields full of food",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1344,6 +1345,7 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
     "__v" : NumberInt(0)
 },
 {
+    "_id" : ObjectId("5b9fc0e17f07953d41256b45"),
     "name" : "yellow wheats on hills",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1371,6 +1373,7 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
     "__v" : NumberInt(0)
 },
 {
+    "_id" : ObjectId("5b9fc0e17f07953d41256b46"),
     "name" : "books are free for every child in this planet",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1398,6 +1401,7 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
     "__v" : NumberInt(0)
 },
 {
+    "_id" : ObjectId("5b9fc0e17f07953d41256b47"),
     "name" : "women have rights as equal workers",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1425,6 +1429,7 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
     "__v" : NumberInt(0)
 },
 {
+    "_id" : ObjectId("5b9fc0e17f07953d41256b48"),
     "name" : "fish swim in plasti-free oceans",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1452,6 +1457,7 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
     "__v" : NumberInt(0)
 },
 {
+    "_id" : ObjectId("5b9fc0e17f07953d41256b49"),
     "name" : "people enjoy in smelly seaside",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1479,6 +1485,7 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
     "__v" : NumberInt(0)
 },
 {
+    "_id" : ObjectId("5b9fc0e17f07953d41256b4a"),
     "name" : "justice is unquestionable",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1506,6 +1513,7 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
     "__v" : NumberInt(0)
 },
 {
+    "_id" : ObjectId("5b9fc0e17f07953d41256b4b"),
     "name" : "every company has a recycling system",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1533,6 +1541,7 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
     "__v" : NumberInt(0)
 },
 {
+    "_id" : ObjectId("5b9fc0e17f07953d41256b4c"),
     "name" : "renewable energy is the only energy",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1560,6 +1569,7 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
     "__v" : NumberInt(0)
 },
 {
+    "_id" : ObjectId("5b9fc0e17f07953d41256b4d"),
     "name" : "every family has a minimum salary",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1586,7 +1596,8 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
     "activeVersion" : NumberInt(1),
     "__v" : NumberInt(0)
 },
-	{
+{
+    "_id" : ObjectId("5b9fc0e17f07953d41256b4e"),
     "name" : "elementary school is free for every child",
     "type" : "topiChat.talk.chatMsg",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
@@ -1616,126 +1627,53 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
 ]
 ```
 
-# Interests population
+### Suggested Cards from Service
 
-Interesting images
-+ https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn0.iconfinder.com%2Fdata%2Ficons%2Fpositive-and-neutral-character-traits-alphabet-v-w%2F281%2Fpositive-wxyz003-512.png&imgrefurl=https%3A%2F%2Fwww.iconfinder.com%2Ficons%2F2306705%2Fhobbies_hobby_interests_man_skill_skillful_well-rounded_icon&docid=CNrs61HBDNW4JM&tbnid=60jNBkVYemEYdM%3A&vet=10ahUKEwixouGogLDaAhUODKwKHQY-B8UQMwjHASgdMB0..i&w=466&h=512&bih=780&biw=1440&q=interests&ved=0ahUKEwixouGogLDaAhUODKwKHQY-B8UQMwjHASgdMB0&iact=mrc&uact=8#h=512&imgdii=60jNBkVYemEYdM:&vet=10ahUKEwixouGogLDaAhUODKwKHQY-B8UQMwjHASgdMB0..i&w=466
 
-(TEST ONLY)
 
-```JSON
-{
-  "tagsGroups": [
-    {
-      "name": "Diversity Background",
-      "parentTagsGroup": null,
-      "image": {
-        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuuUi6NLEdnBBJxtgrclUt2o5orAvHNc79vV01mfr39wtF_6Hq"
-      }
-    },
-    {
-      "name": "Interests",
-      "parentTagsGroup": null,
-      "image": {
-        "url": "https://thumbs.dreamstime.com/z/woman-favorite-interests-dream-head-process-vector-flat-line-illustration-thought-what-women-wanted-idea-desire-wish-73352797.jpg"
-      }
-    },
-    {
-      "name": "Interest Helping",
-      "parentTagsGroup": "Interests",
-      "image": {
-        "url": "https://thumbs.dreamstime.com/z/woman-favorite-interests-dream-head-process-vector-flat-line-illustration-thought-what-women-wanted-idea-desire-wish-73352797.jpg"
-      }
-    },
-    {
-      "name": "Interest 2",
-      "parentTagsGroup": "Interests",
-      "image": {
-        "url": "https://thumbs.dreamstime.com/z/woman-favorite-interests-dream-head-process-vector-flat-line-illustration-thought-what-women-wanted-idea-desire-wish-73352797.jpg"
-      }
-    }
-  ],
-  "tags": [
-    {
-      "name": "Art",
-      "tagGroup": "Diversity Background",
-      "image": {
-        "url": "https://images.fineartamerica.com/images-medium-large-5/hummingbird-of-watercolor-rainbow-olga-shvartsur.jpg"
-      },
-      "coLaboWareData": {
-          "type": 1,
-          "value": "0009592295"
-      }
-    },
-    {
-      "name": "Refugee",
-      "tagGroup": "Diversity Background",
-      "image": {
-        "url": "http://www.refugeesarewelcome.org/wp-content/uploads/2016/04/RS4622_jordan2012jeffrey-2675-copy.jpg"
-      },
-      "coLaboWareData": {
-          "type": 1,
-          "value": "0009595752"
-      }
-    },
-    {
-      "name": "Hunger",
-      "tagGroup": "Interest Helping",
-      "image": {
-        "url": "https://i.ndtvimg.com/i/2015-12/hunger-problem-india-istock_650x400_51449064006.jpg"
-      },
-      "coLaboWareData": {
-          "type": 1,
-          "value": "0009595752"
-      }
-    }
-  ]
-}
-```
-
-(TEST ONLY)
-Here is also a test interest between the user and tag:
-USER_ID: 5acd58f603c526c90d8b124a
-TAG_ID: 5acd65aa03c526c90d8b1254
 ```json
-{
-    "_id" : ObjectId("fa379b0f800f2fdd33d2d980"),
-    "name" : "Interest",
-    "type" : "rima.user_interest",
-    "mapId" : ObjectId("f7baf6923c0c84b84f0d402a"),
-    "iAmId" : ObjectId("556760847125996dc1a4a241"),
-    "ideaId" : NumberInt(0),
-    "sourceId" : ObjectId("5acd58f603c526c90d8b124a"),
-    "targetId" : ObjectId("5acd65aa03c526c90d8b1254"),
-    "dataContent" : null,
-    "visual" : null,
-    "updatedAt" : ISODate("2018-04-07T17:31:05.031+0000"),
-    "createdAt" : ISODate("2018-04-07T17:31:05.031+0000"),
-    "value" : NumberInt(0),
-    "isPublic" : true,
+{ 
+    "_id" : ObjectId("5ba10aa6f8b8e4270c371eae"), 
+    "name" : "Suggested CWC Cards from Service", 
+    "type" : "service.result.dialogame.cwc_similarities", 
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"), 
+    "iAmId" : ObjectId("5b97c7ab0393b8490bf5263c"), 
+    "ideaId" : NumberInt(0), 
+    "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"), 
+    "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"), 
+    "visual" : {
+        "isOpen" : true
+    }, 
+    "dataContent" : {
+        "result" : {
+            "suggestions" : [
+                {
+                    "id" : "5b9fc0e17f07953d41256b45", 
+                    "similarity_quotient" : 0.9
+                }, 
+                {
+                    "id" : "5b9fc0e17f07953d41256b46", 
+                    "similarity_quotient" : 0.4
+                }, 
+                {
+                    "id" : "5b9fc0e17f07953d41256b48", 
+                    "similarity_quotient" : 0.8
+                }, 
+                {
+                    "id" : "5b9fc0e17f07953d41256b4a", 
+                    "similarity_quotient" : 0.2
+                }, 
+                {
+                    "id" : "5b9fc0e17f07953d41256b4e", 
+                    "similarity_quotient" : 0.35
+                }
+            ], 
+            "gameRound" : 1.0
+        }
+    }, 
+    "isPublic" : true, 
+    "version" : NumberInt(1), 
+    "activeVersion" : NumberInt(1), 
     "__v" : NumberInt(0)
 }
-
 ```
-
-Users:
-01. African Wild Dog, 0000627088
-02. Amur Leopard, 0009893200
-03. Amur Tiger, 0009610151
-
-Tags:
-
-ROLES:
-Refugee, 0009592295
-Local, 0009672284
-Activist, 0009671736
-
-Interest Helping:
-Hunger, 0009609788
-Health, 0009595752
-Food, 0009668945
-
-Interest 2:
-Interest A1, 0003739468
-Interest A2, 0003678978
-Interest A3, 0003736466	

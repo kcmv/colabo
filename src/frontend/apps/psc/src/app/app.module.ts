@@ -20,6 +20,8 @@ import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 import { RimaAaaModule } from '@colabo-rima/rima_aaa/module';
+import { ModerationCoreModule } from '@colabo-moderation/core/lib/module';
+
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
 import {DialoGameService} from './dialo-game/dialo-game.service';
@@ -46,6 +48,7 @@ import {DialogameCardComponent} from './dialo-game/dialogame-cards/dialogame-car
 import {DialoGameResponseComponent} from './dialo-game/dialo-game-response/dialo-game-response.component';
 import {CardDecoratorComponent} from './dialo-game/card-decorator/card-decorator.component';
 import {ColaboFlowComponent} from './colabo-flow/colabo-flow.component';
+//import {ModerationPanelComponent} from '@colabo-moderation/core';
 
 import {Dialog1Btn, Dialog2Btn} from './util/dialog';
 
@@ -114,6 +117,7 @@ var moduleImports = [
   // MatFormFieldControl
   // rima
   , RimaAaaModule
+  , ModerationCoreModule
 ];
 // moduleImports.push(MainModule);
 

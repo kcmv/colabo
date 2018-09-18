@@ -30,6 +30,11 @@ export class MyColaboFlowState{
     }
   }
 
+  reset():MyColaboFlowStates{
+    this.state = MyColaboFlowStates.NOT_STARTED;
+    return this.state;
+  }
+
   /**
   * sets the previous state
   * @returns previous state
@@ -41,25 +46,54 @@ export class MyColaboFlowState{
         this.state = MyColaboFlowStates.FINISHED; //TODO: check if this is OK
       break;
       case MyColaboFlowStates.CHOSING_CHALLENGE_CARD:
-        this.state = MyColaboFlowStates.NOT_STARTED; //TODO: check if this is OK
+        this.state = MyColaboFlowStates.NOT_STARTED;
       break;
       case MyColaboFlowStates.CHOSING_RESPONSE_CARD:
-        this.state = MyColaboFlowStates.CHOSING_CHALLENGE_CARD; //TODO: check if this is OK
+        this.state = MyColaboFlowStates.CHOSING_CHALLENGE_CARD;
       break;
       case MyColaboFlowStates.CHOSING_DECORATOR_TYPE:
-        this.state = MyColaboFlowStates.CHOSING_RESPONSE_CARD; //TODO: check if this is OK
+        this.state = MyColaboFlowStates.CHOSING_RESPONSE_CARD;
       break;
       case MyColaboFlowStates.CHOSING_DECORATOR:
-        this.state = MyColaboFlowStates.CHOSING_DECORATOR_TYPE; //TODO: check if this is OK
+        this.state = MyColaboFlowStates.CHOSING_DECORATOR_TYPE;
       break;
       case MyColaboFlowStates.PREVIEWING:
-        this.state = MyColaboFlowStates.CHOSING_DECORATOR; //TODO: check if this is OK
+        this.state = MyColaboFlowStates.CHOSING_DECORATOR;
       break;
       case MyColaboFlowStates.FINISHED:
-        this.state = MyColaboFlowStates.PREVIEWING; //TODO: check if this is OK
+        this.state = MyColaboFlowStates.PREVIEWING;
       break;
     }
     console.log('goBack (AF)',this.state);
+    return this.state;
+  }
+
+  nextState():MyColaboFlowStates{
+    console.log('nextState (BF)',this.state);
+    switch(this.state){
+      case MyColaboFlowStates.NOT_STARTED:
+        this.state = MyColaboFlowStates.CHOSING_CHALLENGE_CARD;
+      break;
+      case MyColaboFlowStates.CHOSING_CHALLENGE_CARD:
+        this.state = MyColaboFlowStates.CHOSING_RESPONSE_CARD;
+      break;
+      case MyColaboFlowStates.CHOSING_RESPONSE_CARD:
+        this.state = MyColaboFlowStates.CHOSING_DECORATOR_TYPE;
+      break;
+      case MyColaboFlowStates.CHOSING_DECORATOR_TYPE:
+        this.state = MyColaboFlowStates.CHOSING_DECORATOR;
+      break;
+      case MyColaboFlowStates.CHOSING_DECORATOR:
+        this.state = MyColaboFlowStates.PREVIEWING;
+      break;
+      case MyColaboFlowStates.PREVIEWING:
+        this.state = MyColaboFlowStates.FINISHED;
+      break;
+      case MyColaboFlowStates.FINISHED:
+        this.state = MyColaboFlowStates.NOT_STARTED; //TODO: check if this is OK
+      break;
+    }
+    console.log('nextState (AF)',this.state);
     return this.state;
   }
 

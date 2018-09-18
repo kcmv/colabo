@@ -19,6 +19,7 @@ export enum DialoGameActions{};
 
 export const DIALOGAME_OPENING_CARD_TYPE:string = 'const.dialogame.opening-card';
 export const TOPICHAT_MSG_TYPE:string = 'topiChat.talk.chatMsg';
+export const SERVICE_CWC_SIMLARITIES_TYPE:string = 'service.result.dialogame.cwc_similarities';
 
 
 //export const MAP_ID:string = '5b96619b86f3cc8057216a03';
@@ -113,9 +114,13 @@ export class DialoGameService {
   }
 
   getCards(forceRefresh:boolean = false):Observable<KNode[]>{
-    if(this.colaboFlowService.colaboFlowState.state === ColaboFlowStates.OPENNING){
       if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){
-        return this.getOpeningCards(forceRefresh);
+        if(this.colaboFlowService.colaboFlowState.state === ColaboFlowStates.OPENNING){
+          return this.getOpeningCards(forceRefresh);
+        }
+        else if(this.colaboFlowService.colaboFlowState.state === ColaboFlowStates.PLAYING_ROUNDS){
+          return this.getSuggestedCards();
+        }
       }
       else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
           return this.getMyCards(forceRefresh);
@@ -126,7 +131,6 @@ export class DialoGameService {
       else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR){
         return this.getDecoratorTypes(this.lastResponse.decorators[this.lastResponse.decorators.length - 1].decorator);
       }
-    }
     return of([]);
   }
 
@@ -146,6 +150,40 @@ export class DialoGameService {
     else{
       return of(this.openingCards);
     }
+  }
+
+  private getSuggestedCards():Observable<KNode[]>{
+    console.log('getSuggestedCards');
+    let result:Observable<KNode[]>;
+
+    // if(forceRefresh || this.openingCards.length == 0){
+      result = this.knalledgeNodeService.queryInMapofTypeForUser(environment.mapId, SERVICE_CWC_SIMLARITIES_TYPE,this.rimaAAAService.getUserId())
+      .pipe(
+        tap(nodesFromServer => this.suggestedCardsReceived(nodesFromServer))
+      );
+      return result;
+    // }
+    // else{
+    //   return of(this.openingCards);
+    // }
+  }
+
+  /*
+    format of the data: list of 5 elements in the format {cwc_card._id, similarity_quotient}
+  output data the list is stored by creating a new knode
+  node.type = 'service.result.dialogame.cwc_similarities'; mapId = MAP_ID
+  node.dataContent.result = {suggestions : list, gameRound : GAME_ROUND; iAmId :
+  AID}
+  */
+  private suggestedCardsReceived(nodes:any):void{ //KNode[]):void{
+    console.log('suggestedCardsReceived', nodes);
+    let suggestions:any[] = nodes[0].dataContent.result.suggestions; //TODO we get suggestions for all the rounds; extracting for the current round
+    console.log('suggestions',suggestions);
+  }
+
+  private assignSuggestedCards(nodes:any):void{ //KNode[]):void{
+    //console.log('assignCards', nodes);
+    this.openingCards = nodes;
   }
 
   private assignOpenningCards(nodes:any):void{ //KNode[]):void{
@@ -232,6 +270,19 @@ export class DialoGameService {
     this.colaboFlowService.undo();
   }
 
+  goToNextRound():void{
+    //this.colaboFlowService.myColaboFlowState.nextState();
+    this.colaboFlowService.myColaboFlowState.reset();
+    this.initNextRound(); //TODO this will be initiated by moderator
+  }
+
+  initNextRound():void{
+    this.colaboFlowService.colaboFlowState.nextState();
+    this.colaboFlowService.myColaboFlowState.nextState();
+    this.getCards().subscribe(function(result:any){});
+    //subscribe(this.cardsReceived.bind(this));
+  }
+
   saveDialoGameResponse():void{
     let dialoGameResponse:DialoGameResponse = this.lastResponse;
     //let node:KNode = new KNode();
@@ -261,6 +312,7 @@ export class DialoGameService {
         let edgeSaved = function(edgeSaved:KEdge):void{
           console.log('KEdge of the played (Card) created');
           this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.FINISHED;
+          this.goToNextRound();
         }
         console.log('KNode (Card) saved', savedNode);
         edge.targetId = savedNode._id; //dialoGameResponse.responseCards[0]._id; //TODO - do it after saving kNode (in the case kNode.state = VO.STATE_LOCAL -- not saved yet)

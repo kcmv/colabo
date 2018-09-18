@@ -6,16 +6,19 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import 'hammerjs';
 import { MaterialModule } from './materialModule';
 
-// import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
+import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
-// import { TopiChatCoreService } from './topiChat-core.service';
+import { TopiChatCoreService } from './topiChat-core.service';
 // import { TopiChatSimpleMessageForm } from './simple-message-form/simple-message-form.component';
+import {ModerationPanelComponent} from '../moderation-panel/moderation-panel.component';
 
 var moduleDeclarations:any[] = [
-    TopiChatSimpleMessageForm
+  //  TopiChatSimpleMessageForm
+  ModerationPanelComponent
 ];
 
 var moduleImports: any[] = [
@@ -28,8 +31,7 @@ var moduleImports: any[] = [
 
     // Material
     BrowserAnimationsModule,
-    MaterialModule,
-
+    MaterialModule
 ];
 
 @NgModule({
@@ -41,4 +43,4 @@ var moduleImports: any[] = [
         TopiChatCoreService
     ]
 })
-export class TopiChatCoreModule { }
+export class ModerationCoreModule { }
