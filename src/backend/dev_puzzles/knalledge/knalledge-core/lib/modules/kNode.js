@@ -72,8 +72,8 @@ exports._index = function(id, id2, id3, type, callback) {
             break;
         case 'in_map_of_type_for_user': //all nodes of particular type in specific map for that user
             //hack: id2 = id2 + '.sdg';
-            console.log("find: mapId: %s, type: %s, iAmid: %s", id, id2, id3);
-            KNodeModel.find({ $and: [{ mapId: id }, { type: id2 }, { iAmid: id3 }] }, found);
+            console.log("find: mapId: %s, type: %s, iAmId: %s", id, id2, id3);
+            KNodeModel.find({ $and: [{ mapId: id }, { type: id2 }, { iAmId: id3 }] }, found);
             break;
         case 'in_content_data':
             console.log("find: in_content_data:: name: %s, value: %s", id, id2);
@@ -322,10 +322,10 @@ exports.destroy = function(req, res) {
         case 'by-type-n-user': // by type and user
             //TODO: we must also filter by `mapId` but so far we are sending only 2 parameters!
             var node_type = req.params.actionType;
-            var iAmid = req.params.searchParam;
-            console.log("[modules/kNode.js:destroy] deleting all Nodes of type %s by user %s", node_type, iAmid);
-            exports._destroyByTypenUser(node_type, iAmid, function(err) {
-                var data = { iAmid: iAmid };
+            var iAmId = req.params.searchParam;
+            console.log("[modules/kNode.js:destroy] deleting all Nodes of type %s by user %s", node_type, iAmId);
+            exports._destroyByTypenUser(node_type, iAmId, function(err) {
+                var data = { iAmId: iAmId };
                 console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
                 resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
             });
@@ -369,10 +369,10 @@ exports._destroyByModificationSource = function(searchParam, callback) {
 }
 
 //TODO: we must also filter by `mapId` but so far we are sending only 2 parameters!
-exports._destroyByTypenUser = function(type, iAmid, callback) {
-    console.log("[modules/kNode.js:_destroyByTypenUser] deleting all Nodes of type %s by user %s", type, iAmid);
+exports._destroyByTypenUser = function(type, iAmId, callback) {
+    console.log("[modules/kNode.js:_destroyByTypenUser] deleting all Nodes of type %s by user %s", type, iAmId);
 
-    KNodeModel.remove({ $and: [{ 'type': type }, { 'iAmId': iAmid }] }, function(err) {
+    KNodeModel.remove({ $and: [{ 'type': type }, { 'iAmId': iAmId }] }, function(err) {
         if (err) {
             console.log("[modules/kNode.js:destroy] error:" + err);
             throw err;

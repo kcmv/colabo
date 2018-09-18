@@ -42,6 +42,7 @@ export class DialoGameService {
   ) { }
 
   getMyCards(forceRefresh:boolean = false):Observable<KNode[]>{
+    console.log('getMyCards');
     let result:Observable<KNode[]>;
 
     if(forceRefresh || this.myCards.length == 0){

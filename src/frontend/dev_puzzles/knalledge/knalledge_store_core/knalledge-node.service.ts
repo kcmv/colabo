@@ -106,6 +106,7 @@ export class KnalledgeNodeService extends CFService{
    */
   queryInMapofTypeForUser(mapId:string, type:string, iAmid:string, callback?:Function): Observable<KNode[]>
   {
+    console.log('queryInMapofTypeForUser',mapId,type,iAmid);
     let result:Observable<KNode[]> = this.http.get<ServerData>(this.apiUrl+'in_map_of_type_for_user/'+this.defaultAction+'/'+mapId+'/'+type+'/'+iAmid+'.json')
       .pipe(
         map(nodesFromServer => CFService.processVOs(nodesFromServer, KNode)),

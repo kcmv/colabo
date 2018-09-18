@@ -12,8 +12,8 @@ import {DialogameCardsComponent} from './dialogame-cards/dialogame-cards.compone
 })
 export class DialoGameComponent implements OnInit {
 
-  // @ViewChild(DialogameCardsComponent)
-  // private dialogameCardsComponent: DialogameCardsComponent;
+  @ViewChild(DialogameCardsComponent)
+  private dialogameCardsComponent: DialogameCardsComponent;
 
   dialogRef: any; //TODO: type: MatDialogRef;
 
@@ -46,7 +46,7 @@ export class DialoGameComponent implements OnInit {
 
   undo():void{
     this.dialoGameService.undo();
-    //this.dialoGameService.getCards().subscribe(this.dialogameCardsComponent.cardsReceived);
+    this.dialoGameService.getCards().subscribe(this.dialogameCardsComponent.cardsReceived);
   }
 
   finish():void{
