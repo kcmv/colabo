@@ -44,6 +44,7 @@ exports.index = function(req, res) {
 }
 
 exports._index = function(id, id2, id3, type, callback) {
+  //TODO: fix if NULL is received for any parameter etc: https://github.com/Cha-OS/colabo/issues/341
     var found = function(err, kNodes) {
         console.log("[modules/kNode.js:index] in 'found'", kNodes);
         if (err) {

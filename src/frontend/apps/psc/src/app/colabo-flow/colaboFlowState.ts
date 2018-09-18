@@ -21,4 +21,22 @@ export class ColaboFlowState{
         return 'unknown';
     }
   }
+
+  nextState():ColaboFlowStates{
+    switch(this.state){
+      case ColaboFlowStates.NOT_STARTED:
+        this.state = ColaboFlowStates.OPENNING;
+        break;
+      case ColaboFlowStates.OPENNING:
+        this.state = ColaboFlowStates.PLAYING_ROUNDS;
+        break;
+      case ColaboFlowStates.PLAYING_ROUNDS:
+        //keep being in this state:
+        //this.state = ColaboFlowStates.OPENNING
+        break;
+      default:
+    }
+    this.playRound++;
+    return this.state;
+  }
 }
