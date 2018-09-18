@@ -16,6 +16,7 @@ export class DialoGameComponent implements OnInit {
   private dialogameCardsComponent: DialogameCardsComponent;
 
   dialogRef: any; //TODO: type: MatDialogRef;
+  private initialized:boolean = false;
 
   constructor(
     private dialoGameService: DialoGameService,
@@ -23,6 +24,15 @@ export class DialoGameComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    /* we use the 'initialized' variable to surpress Development-mode error "Expression has changed after it was checked"
+    //more about it at: https://github.com/Cha-OS/colabo/issues/339#issuecomment-422012856
+    yet this problem is not solved by this, we need something that is called after ngOnInit ...
+    //it is caused if we use:
+    // <button *ngIf='canUndo()' mat-raised-button (click)="undo()">Undo</button>
+    // instead of
+    // <span [hidden]='!canUndo()'><button mat-raised-button (click)="undo()">Undo</button></span>
+    */
+    //this.initialized = true;
   }
 
   openDialog(buttons:number, data:DialogData, options:any = null, afterClosed:Function = null): void {
@@ -37,11 +47,13 @@ export class DialoGameComponent implements OnInit {
   }
 
   canUndo():boolean{
-    return true;// this.dialoGameService.canUndo();
+    return this.dialoGameService.canUndo();
+    //return this.initialized && this.dialoGameService.canUndo();
   }
 
   canFinish():boolean{
-    return true;// this.dialoGameService.canFinish();
+    return this.dialoGameService.canFinish();
+    //return this.initialized && this.dialoGameService.canFinish();
   }
 
   undo():void{

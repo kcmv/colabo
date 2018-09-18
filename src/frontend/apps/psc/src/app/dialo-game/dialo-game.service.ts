@@ -140,7 +140,7 @@ export class DialoGameService {
   }
 
   assignOpenningCards(nodes:any):void{ //KNode[]):void{
-    console.log('assignCards', nodes);
+    //console.log('assignCards', nodes);
     this.openingCards = nodes;
   }
 
@@ -154,7 +154,7 @@ export class DialoGameService {
       card.dataContent.img = "assets/images/sdgs/s/sdg" + (i+1) + '.jpg';
       cards.push(card);
     }
-    console.log('getOpeningCards', cards);
+    //console.log('getOpeningCards', cards);
     return of(cards);
   }
 
@@ -169,7 +169,7 @@ export class DialoGameService {
 
         //TODO:
         if(response.player === null){
-        console.log('NOT LOGGED IN - DEMO USER USED');
+        console.warn('NOT LOGGED IN - DEMO USER USED');
          response.player = KNode.factory(
            {
               "_id" : "5b97c7ab0393b8490bf5263c",
@@ -228,7 +228,7 @@ export class DialoGameService {
     let dialoGameResponse:DialoGameResponse = this.lastResponse;
     //let node:KNode = new KNode();
     let node:KNode = dialoGameResponse.responseCards[0]; //TODO: cover cases when user respondes with more than 1 card
-    console.log('node from the response Card', node);
+    //console.log('node from the response Card', node);
 
     node.mapId = environment.mapId;
     node.iAmId = dialoGameResponse.player._id;

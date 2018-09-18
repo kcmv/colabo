@@ -42,7 +42,7 @@
                 <h3>DialoGame</h3>
 
                 <!-- <h1>United Nations Sustainable Development Goals (SDGs)</h1> -->
-                <button *ngIf='canUndo()' mat-raised-button (click)="undo()">Undo</button> <button *ngIf='canFinish()' mat-raised-button (click)="finish()">Finish</button>
+                <span [hidden]='!canUndo()'><button mat-raised-button (click)="undo()">Undo</button></span> <span [hidden]='!canFinish()'><button mat-raised-button (click)="finish()">Finish</button></span>
                 <dialo-game-response></dialo-game-response>
                 <dialogame-cards></dialogame-cards>
             </div>

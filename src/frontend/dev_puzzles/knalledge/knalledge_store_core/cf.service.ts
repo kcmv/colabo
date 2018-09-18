@@ -24,13 +24,13 @@ export class CFService {
   // static serverAP = "https://fv.colabo.space/api"; // colabo-space-1 (https)
 
   static processVOs<T extends VO>(voS:ServerData, typeT:IConstructor<T>):Array<T>{
-    console.log("processVOs");
+    //console.log("processVOs");
     let vos:Array<T> = voS.data as Array<T>;
     for(let id=0; id<vos.length; id++){
       //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to VO unlike in previous versions
       let vo:T = typeT.factory(vos[id]);
       vo.state = VO.STATE_SYNCED;
-      console.log(vo);
+      //console.log(vo);
       vos[id] = vo;
     }
     return vos;
