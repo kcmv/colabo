@@ -37,11 +37,11 @@ export class DialoGameComponent implements OnInit {
   }
 
   canUndo():boolean{
-    return this.dialoGameService.canUndo();
+    return true;// this.dialoGameService.canUndo();
   }
 
   canFinish():boolean{
-    return this.dialoGameService.canFinish();
+    return true;// this.dialoGameService.canFinish();
   }
 
   undo():void{
