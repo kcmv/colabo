@@ -10,6 +10,8 @@ var crypto = require('crypto');
 var mockup = { fb: { authenticate: false }, db: { data: false } };
 var accessId = 0;
 
+var TYPE_USER = "rima.user";
+
 function resSendJsonProtected(res, data) {
     // http://tobyho.com/2011/01/28/checking-types-in-javascript/
     if (data !== null && typeof data === 'object') { // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
@@ -183,8 +185,11 @@ exports.create = function(req, res) {
             let email = data.email;
             let password = data.password;
             let mapId = data.mapId;
+            let userQuery = { 'type': TYPE_USER, 'dataContent.email': email };
+            if(mapId) userQuery.mapId = mapId;
             console.log("findBy in map '%s' by e-mail '%s' and password: `%s'\n", mapId, email, password);
-            KNodeModel.findOne({ 'dataContent.email': email, mapId: mapId }, found);
+            console.log("findBy query: `%s'\n", JSON.stringify(userQuery));
+            KNodeModel.findOne(userQuery, found);
             break;
     }
 }
