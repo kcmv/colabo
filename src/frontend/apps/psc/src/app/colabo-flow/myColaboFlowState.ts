@@ -11,6 +11,25 @@ export const enum MyColaboFlowStates{
 export class MyColaboFlowState{
   public state:MyColaboFlowStates = MyColaboFlowStates.NOT_STARTED;
 
+  static stateName(state):string{
+    switch(state){
+      case MyColaboFlowStates.NOT_STARTED:
+        return 'not started';
+      case MyColaboFlowStates.CHOSING_CHALLENGE_CARD:
+        return 'chosing challenge';
+      case MyColaboFlowStates.CHOSING_RESPONSE_CARD:
+        return 'chosing response';
+      case MyColaboFlowStates.CHOSING_DECORATOR_TYPE:
+        return 'chosing deco type';
+      case MyColaboFlowStates.CHOSING_DECORATOR:
+        return 'chosing deco';
+      case MyColaboFlowStates.PREVIEWING:
+        return 'previewing';
+      case MyColaboFlowStates.FINISHED:
+        return 'finished';
+    }
+  }
+
   /**
   * sets the previous state
   * @returns previous state

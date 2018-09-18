@@ -258,11 +258,13 @@ export class DialoGameService {
     console.log('node', node);
 
     let nodeSaved = function(savedNode:KNode):void{
+        let edgeSaved = function(edgeSaved:KEdge):void{
+          console.log('KEdge of the played (Card) created');
+          this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.FINISHED;
+        }
         console.log('KNode (Card) saved', savedNode);
         edge.targetId = savedNode._id; //dialoGameResponse.responseCards[0]._id; //TODO - do it after saving kNode (in the case kNode.state = VO.STATE_LOCAL -- not saved yet)
-        this.knalledgeEdgeService.create(edge).subscribe(function(result){
-            console.log('KEdge of the played (Card) created');
-        });
+        this.knalledgeEdgeService.create(edge).subscribe(edgeSaved.bind(this));
     }
     if(node.state == VO.STATE_LOCAL){
       console.log('KNode is local - creating');

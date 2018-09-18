@@ -45,6 +45,7 @@ import {DialogameCardsComponent} from './dialo-game/dialogame-cards/dialogame-ca
 import {DialogameCardComponent} from './dialo-game/dialogame-cards/dialogame-card/dialogame-card.component';
 import {DialoGameResponseComponent} from './dialo-game/dialo-game-response/dialo-game-response.component';
 import {CardDecoratorComponent} from './dialo-game/card-decorator/card-decorator.component';
+import {ColaboFlowComponent} from './colabo-flow/colabo-flow.component';
 
 import {Dialog1Btn, Dialog2Btn} from './util/dialog';
 
@@ -90,7 +91,8 @@ var moduleDeclarations = [
   DialoGameComponent,
   DialogameCardComponent,
   DialoGameResponseComponent,
-  CardDecoratorComponent
+  CardDecoratorComponent,
+  ColaboFlowComponent
 
   // AdvancedDialogTest
 ];
