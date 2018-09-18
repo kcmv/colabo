@@ -16,6 +16,7 @@ export class MyColaboFlowState{
   * @returns previous state
   */
   goBack():MyColaboFlowStates{
+    console.log('goBack (BF)',this.state);
     switch(this.state){
       case MyColaboFlowStates.NOT_STARTED:
         this.state = MyColaboFlowStates.FINISHED; //TODO: check if this is OK
@@ -39,6 +40,7 @@ export class MyColaboFlowState{
         this.state = MyColaboFlowStates.PREVIEWING; //TODO: check if this is OK
       break;
     }
+    console.log('goBack (AF)',this.state);
     return this.state;
   }
 

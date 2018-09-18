@@ -58,7 +58,7 @@ export class DialoGameComponent implements OnInit {
 
   undo():void{
     this.dialoGameService.undo();
-    this.dialoGameService.getCards().subscribe(this.dialogameCardsComponent.cardsReceived);
+    this.dialoGameService.getCards().subscribe(this.dialogameCardsComponent.cardsReceived.bind(this.dialogameCardsComponent));
   }
 
   finish():void{

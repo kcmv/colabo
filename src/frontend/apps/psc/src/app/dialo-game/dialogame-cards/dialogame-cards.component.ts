@@ -27,6 +27,7 @@ export class DialogameCardsComponent implements OnInit {
   }
 
   cardsReceived(cards:KNode[]):void{
+    console.log('cardsReceived', cards);
     this.cards = cards;
   }
 

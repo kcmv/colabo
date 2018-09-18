@@ -45,6 +45,11 @@ export class DialoGameService {
     this.responses.push(response);
   }
 
+  private assignMyCards(nodes:any):void{ //KNode[]):void{
+    //console.log('assignCards', nodes);
+    this.myCards = nodes;
+  }
+
   getMyCards(forceRefresh:boolean = false):Observable<KNode[]>{
     console.log('getMyCards');
     let result:Observable<KNode[]>;
@@ -52,7 +57,7 @@ export class DialoGameService {
     if(forceRefresh || this.myCards.length == 0){
       result = this.knalledgeNodeService.queryInMapofTypeForUser(environment.mapId, TOPICHAT_MSG_TYPE, "5b97c7ab0393b8490bf5263c") //TODO!! set regular user
       .pipe(
-        tap(nodesFromServer => this.assignOpenningCards(nodesFromServer))
+        tap(nodesFromServer => this.assignMyCards(nodesFromServer))
       );
       return result;
     }
@@ -129,7 +134,7 @@ export class DialoGameService {
     return of(CardDecorator.getDecorators(type));
   }
 
-  getOpeningCards(forceRefresh:boolean = false):Observable<KNode[]>{
+  private getOpeningCards(forceRefresh:boolean = false):Observable<KNode[]>{
     let result:Observable<KNode[]>;
     if(forceRefresh || this.openingCards.length == 0){
       result = this.knalledgeNodeService.queryInMapofType(environment.mapId, DIALOGAME_OPENING_CARD_TYPE)
@@ -143,12 +148,12 @@ export class DialoGameService {
     }
   }
 
-  assignOpenningCards(nodes:any):void{ //KNode[]):void{
+  private assignOpenningCards(nodes:any):void{ //KNode[]):void{
     //console.log('assignCards', nodes);
     this.openingCards = nodes;
   }
 
-  getOpeningCardsMockup():Observable<KNode[]>{
+  private getOpeningCardsMockup():Observable<KNode[]>{
     let cards:KNode[] = [];
     let card:KNode;
     for(var i:number = 0; i<17;i++){
