@@ -13,6 +13,14 @@ cd src/backend
 #   - it is the `express-resource` package on steroids
 # - http://colabo.space/downloads/deep-assign-2.0.0.tgz
 yarn
+
+# we can also run:
+npm run clean_full
+# time cistis SVE bildovanje u njemu i puzlama njegovim itd
+# to je za provjeru
+#pa onda kada uradis:
+yarn
+# onda mozes vidjeti da li je sve stabilno
 ```
 
 ***That is all***. Backend of the Colabo.Space ecosystem should be installed now. 
