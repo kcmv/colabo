@@ -16,6 +16,9 @@ import { RimaLoginComponent } from '@colabo-rima/rima_aaa/rima-login/rima-login.
 import {AvatarComponent} from './avatar/avatar.component';
 import {InsightsComponent} from './insights/insights.component';
 import {DialoGameComponent} from './dialo-game/dialo-game.component'; //PTW
+import {ModerationPanelComponent} from '@colabo-moderation/core';
+//import { ModerationCoreModule } from '@colabo-moderation/core/lib/module';
+
 const routes: Routes = [
   { // default route
     path: '',
@@ -69,6 +72,10 @@ const routes: Routes = [
   {
     path: 'avatar',
     component: AvatarComponent
+  },
+  {
+    path: 'moderation-panel',
+    component: ModerationPanelComponent
   },
   {
     path: 'insights',
