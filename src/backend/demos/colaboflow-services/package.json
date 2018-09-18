@@ -1,14 +1,18 @@
 {
-    "name": "backend-support-colabo-space",
-    "description": "Support for Backend part of Colabo.Space (puzzles, config, ...)",
+    "name": "b-demo-colaboflow-services",
+    "description": "Backend demo of ColaboFlow component of Colabo.Space coordinating remote services",
     "version": "0.0.5",
     "private": true,
     "webSocketDebuggerUrl": "ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e",
     "scripts": {
-        "prepare": "colabo puzzles-offer; colabo puzzles-install; colabo puzzles-build",
+        "start": "node dist/KnAllEdgeBackend 8001 8002",
+
+        "prepare": "colabo puzzles-offer; colabo puzzles-install; colabo puzzles-build; tsc",
         "debug": "node --inspect-brk=5858 KnAllEdgeBackend 8001 8002",
         "clean_full": "rm -r node_modules/; rm -r dev_puzzles/*/*/node_modules; rm -r dev_puzzles/*/*/dist; rm -r dist/"
     },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "dependencies": {
         "@types/chalk": "^2.2.0",
         "@types/es6-promise": "^3.3.0",

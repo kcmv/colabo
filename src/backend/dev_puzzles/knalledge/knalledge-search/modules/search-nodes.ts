@@ -3,7 +3,7 @@ declare var global: any;
 
 // import {KNode} from '../services/kNode';
 
-var dbService = require('@colabo-knalledge/b-knalledge-storage-mongo/dbService');
+var dbService = require('@colabo-knalledge/b-knalledge-storage-mongo');
 var accessId = 0;
 
 function resSendJsonProtected(res, data) {
@@ -21,7 +21,7 @@ function resSendJsonProtected(res, data) {
     }
 };
 
-var dbConnection = dbService.connect();
+var dbConnection = dbService.DBConnect();
 var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);
 var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
 

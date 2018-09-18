@@ -4,7 +4,7 @@
  * New map file
  */
 var Promise = require("bluebird");
-var dbService = require('@colabo-knalledge/b-knalledge-storage-mongo/dbService');
+var dbService = require('@colabo-knalledge/b-knalledge-storage-mongo');
 
 var mockup = { fb: { authenticate: false }, db: { data: false } };
 var accessId = 0;
@@ -42,7 +42,7 @@ function resSendJsonProtected(res, data) {
 
 // module.exports = KMapModel; //then we can use it by: var User = require('./app/models/KMapModel');
 
-var dbConnection = dbService.connect();
+var dbConnection = dbService.DBConnect();
 
 var KMapModel = dbConnection.model('kMap', global.db.kMap.Schema);
 

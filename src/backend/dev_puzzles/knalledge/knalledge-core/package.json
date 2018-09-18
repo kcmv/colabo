@@ -7,6 +7,7 @@
         "build": "tsc"
     },
     "main": "dist/index.js",
+    "module": "dist/index.js",
     "dependencies": {},
     "peerDependenciesLocal": {
         "@colabo-knalledge/b-knalledge-storage-mongo": "0.1.0"

@@ -6,7 +6,8 @@
     "scripts": {
         "build": "tsc"
     },
-    "main": "dist/dbService.js",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "dependencies": {},
     "devDependencies": {}
 }

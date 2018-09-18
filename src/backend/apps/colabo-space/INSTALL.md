@@ -67,25 +67,6 @@ There is `tsconfig.json` file describing what we are interested in compiling and
 + https://www.typescriptlang.org/docs/handbook/compiler-options.html
 + https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
 
-When you are developing you should update it if you are introducing new files/folders. You run compiler with
-
-```sh
-tsc
-```
-
-or you can compile only one specific entry point:
-
-```sh
-tsc KnAllEdgeBackend.ts
-```
-
-but keep in mind that in our case it didn't follow symbolic paths in the `node_modules`, so we needed to compile it additionally:
-
-```sh
-tsc dev_puzzles/knalledge/knalledge-search/index.ts
-```
-Here is a reference on a [opposite :) case](https://github.com/Microsoft/TypeScript/issues/9552)
-
 # Test
 
 ```sh
@@ -110,13 +91,6 @@ npm start
 
 # Changes
 
-`node-inspector` is removed since it is making problems
-
-```json
-"devDependencies": {
-  "node-inspector": "~1.1.1"
-}
-```
 
 # Full Cleaning previous built and installation
 

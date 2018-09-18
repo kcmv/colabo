@@ -23,7 +23,7 @@
         "index.ts"
     ],
     "include": [
-        "lib/models"
+        "config"
     ],
     "exclude": [
         "**/*d.ts"

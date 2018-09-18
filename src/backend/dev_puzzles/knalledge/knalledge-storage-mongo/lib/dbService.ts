@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
+declare let global:any;
 
-function connect(){
+export function DBConnect(){
   console.log("dbName: %s", global.dbConfig.dbName);
   var dbConnection;
   /* connecting */
@@ -35,5 +36,3 @@ function connect(){
 
   return dbConnection;
 }
-
-exports.connect = connect;
