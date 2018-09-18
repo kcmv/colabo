@@ -39,7 +39,11 @@ export class DialoGameService {
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeEdgeService: KnalledgeEdgeService,
     private rimaAAAService: RimaAAAService
-  ) { }
+  ) {
+    let response:DialoGameResponse = new DialoGameResponse();
+    response.player = this.rimaAAAService.getUser();
+    this.responses.push(response);
+  }
 
   getMyCards(forceRefresh:boolean = false):Observable<KNode[]>{
     console.log('getMyCards');
@@ -163,8 +167,7 @@ export class DialoGameService {
   //TODO:
     if(this.colaboFlowService.colaboFlowState.state === ColaboFlowStates.OPENNING){
       if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){ //OPENING CARD IS CHOSEN:
-        let response:DialoGameResponse = new DialoGameResponse();
-        response.player = this.rimaAAAService.getUser();
+        let response:DialoGameResponse = this.lastResponse;
         response.playRound = this.colaboFlowService.colaboFlowState.playRound;
 
         //TODO:

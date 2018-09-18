@@ -1,4 +1,7 @@
-<p>
-  Your current response
-  <dialogame-card></dialogame-card>
-</p>
+<div>
+  Your ({{response?.player?.name}}) current response:
+  <dialogame-card [cardData]="getResponseCard()"></dialogame-card>
+  <div>
+      <card-decorator *ngFor="let decorator of getDecorators()" [decoratorData]="decorator "></card-decorator>
+  </div>
+</div>

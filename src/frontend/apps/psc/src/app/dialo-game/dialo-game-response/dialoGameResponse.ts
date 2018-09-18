@@ -28,6 +28,8 @@ export class DialoGameResponse{
     }
     dialoGameResponseFS.playRound = this.playRound;
 
+    dialoGameResponseFS.player = this.player._id;
+
   	// if (this.dataContent && this.dataContent.rima && this.dataContent.rima.whats) {
   	// 	let whats = this.dataContent.rima.whats;
   	// 	this.dataContent.rima.whats = [];
