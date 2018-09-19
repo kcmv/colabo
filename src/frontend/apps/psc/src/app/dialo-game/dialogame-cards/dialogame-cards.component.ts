@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {DialoGameService} from '../dialo-game.service';
-import {ColaboFlowService} from '../../colabo-flow/colabo-flow.service';
-import {ColaboFlowState, ColaboFlowStates} from '../../colabo-flow/colaboFlowState';
-import {MyColaboFlowState, MyColaboFlowStates} from '../../colabo-flow/myColaboFlowState';
+import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
+import {ColaboFlowState, ColaboFlowStates} from '@colabo-colaboflow/core/lib/colaboFlowState';
+import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-colaboflow/core/lib/myColaboFlowState';
 
 @Component({
   selector: 'dialogame-cards',

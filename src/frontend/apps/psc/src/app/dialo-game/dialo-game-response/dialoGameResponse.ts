@@ -1,6 +1,6 @@
 import {CardDecorator} from '../card-decorator/cardDecorator';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-import {MyColaboFlowState} from '../../colabo-flow/myColaboFlowState';
+import {MyColaboFlowState} from '@colabo-colaboflow/core/lib/myColaboFlowState';
 
 export class DialoGameResponse{
 

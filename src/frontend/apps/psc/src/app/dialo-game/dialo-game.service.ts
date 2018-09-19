@@ -8,9 +8,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import {DialoGameResponse} from './dialo-game-response/dialoGameResponse';
-import {ColaboFlowService} from '../colabo-flow/colabo-flow.service';
-import {ColaboFlowState, ColaboFlowStates} from '../colabo-flow/colaboFlowState';
-import {MyColaboFlowState, MyColaboFlowStates} from '../colabo-flow/myColaboFlowState';
+import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
+import {ColaboFlowState, ColaboFlowStates} from '@colabo-colaboflow/core/lib/colaboFlowState';
+import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-colaboflow/core/lib/myColaboFlowState';
 import {CardDecorator} from './card-decorator/cardDecorator';
 import { environment } from '../../environments/environment';
 import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';

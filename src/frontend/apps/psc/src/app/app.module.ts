@@ -26,7 +26,6 @@ import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
 import {DialoGameService} from './dialo-game/dialo-game.service';
-import {ColaboFlowService} from './colabo-flow/colabo-flow.service';
 
 // import {UsersProfilingService} from './users-profiling/users-profiling.service';
 // import {UsersClusteringService} from './users-clustering/users-clustering.service';
@@ -48,7 +47,7 @@ import {DialogameCardsComponent} from './dialo-game/dialogame-cards/dialogame-ca
 import {DialogameCardComponent} from './dialo-game/dialogame-cards/dialogame-card/dialogame-card.component';
 import {DialoGameResponseComponent} from './dialo-game/dialo-game-response/dialo-game-response.component';
 import {CardDecoratorComponent} from './dialo-game/card-decorator/card-decorator.component';
-import {ColaboFlowComponent} from './colabo-flow/colabo-flow.component';
+
 //import {ModerationPanelComponent} from '@colabo-moderation/core';
 
 import {Dialog1Btn, Dialog2Btn} from './util/dialog';
@@ -95,8 +94,7 @@ var moduleDeclarations = [
   DialoGameComponent,
   DialogameCardComponent,
   DialoGameResponseComponent,
-  CardDecoratorComponent,
-  ColaboFlowComponent
+  CardDecoratorComponent
 
   // AdvancedDialogTest
 ];
@@ -149,8 +147,7 @@ export var Plugins:any = window.Config.Plugins;
     {provide: GlobalEmittersArrayService, useClass: GlobalEmittersArrayService},
     SDGsService,
     CWCService,
-    DialoGameService,
-    ColaboFlowService
+    DialoGameService
     // ColabowareRFIDService,
     // UsersProfilingService,
     // UsersClusteringService
