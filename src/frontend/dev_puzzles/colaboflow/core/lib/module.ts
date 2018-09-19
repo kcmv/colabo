@@ -10,23 +10,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'hammerjs';
 import { MaterialModule } from './materialModule';
 
-import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
+//import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
-import { TopiChatCoreService } from './topiChat-core.service';
+import { ColaboFlowService } from './colabo-flow.service';
 // import { TopiChatSimpleMessageForm } from './simple-message-form/simple-message-form.component';
-import {ModerationPanelComponent} from '../moderation-panel/moderation-panel.component';
+import {ColaboFlowComponent} from './colabo-flow.component';
 
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm
-  ModerationPanelComponent
+  ColaboFlowComponent
 ];
 
 var moduleImports: any[] = [
     RouterModule,
 
-    ReactiveFormsModule,
+//    ReactiveFormsModule,
 
-    FormsModule,
+  //  FormsModule,
     FlexLayoutModule,
 
     // Material
@@ -40,7 +40,7 @@ var moduleImports: any[] = [
     // exports: moduleImports.concat(moduleDeclarations)
     exports: moduleDeclarations,
     providers: [
-        TopiChatCoreService
+        ColaboFlowService
     ]
 })
 export class ColaboFlowCoreModule { }
