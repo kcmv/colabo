@@ -32,6 +32,7 @@
     "node_modules/@colabo-puzzles/**/*",
     "node_modules/@colabo-knalledge/**/*",
     "node_modules/@colabo-rima/**/*",
-    "node_modules/@colabo-moderation/**/*"
+    "node_modules/@colabo-moderation/**/*",
+    "node_modules/@colabo-colaboflow/**/*"
   ]
 }
