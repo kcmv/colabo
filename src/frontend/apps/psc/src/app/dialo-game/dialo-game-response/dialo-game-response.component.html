@@ -1,6 +1,6 @@
-<div>
+<div class="response">
   Your ({{response?.player?.name}}) current response:
-  <dialogame-card [cardData]="getResponseCard()"></dialogame-card>
+  <dialogame-card class="card" [cardData]="getResponseCard()"></dialogame-card>
   <div>
       <card-decorator *ngFor="let decorator of getDecorators()" [decoratorData]="decorator "></card-decorator>
   </div>

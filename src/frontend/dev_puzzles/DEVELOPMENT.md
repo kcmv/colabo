@@ -103,3 +103,16 @@
       ColaboFlowCoreModule
     ];
     ```
+
+
+# Puzzles Development
+
+## General
+
+- if we **change code in a puzzle**, we don't have to do anything further. Just regular running of  `ng serve --open` is enough to compile all the changes and progress them
+  - this also goes for the case when we change a puzzle that is used in a puzzle that is used in an app 
+
+## Backend Puzzle
+
+- each time we change the backend code or a puzzle, we should do a **build** or **yarn**
+- 
