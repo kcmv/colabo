@@ -119,6 +119,7 @@ var moduleImports = [
   // rima
   , RimaAaaModule
   , ModerationCoreModule
+  , ColaboFlowCoreModule
 ];
 // moduleImports.push(MainModule);
 
