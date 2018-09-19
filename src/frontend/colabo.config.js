@@ -44,11 +44,14 @@ var puzzles = {
         "@colabo-utils/pub-sub": {
             npm: "@colabo-utils/pub-sub",
             path: "dev_puzzles/utils/pub-sub"
-        }
-        ,
+        },
         "@colabo-moderation/core": {
             npm: "@colabo-moderation/core",
             path: "dev_puzzles/moderation/core"
+        },
+        "@colabo-moderation/core": {
+            npm: "@colabo-colaboflow/core",
+            path: "dev_puzzles/colaboflow/core"
         }
     }
 }

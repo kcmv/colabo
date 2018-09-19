@@ -1,7 +1,7 @@
 {
-    "name": "@colabo-moderation/core",
+    "name": "@colabo-colaboflow/core",
     "version": "0.0.1",
-    "description": "Provides core support for moderation",
+    "description": "Provides core support for ColaboFlow",
     "private": true,
     "scripts": {
         "build": "tsc"
@@ -22,9 +22,7 @@
         "rxjs": "^5.5.2",
         "zone.js": "^0.8.14"
     },
-    "peerDependenciesLocal": {
-      
-    },
+    "peerDependenciesLocal": {},
     "devDependencies": {},
     "devDependenciesLocal": {}
 }

@@ -10,6 +10,11 @@
 
 - there we will have or create the lib folder (**core/lib**)
 
+- in the **package.json** we will
+
+  - rename the puzzle (e.g. to "name": "@colabo-moderation/core")
+  - add into **peerDependenciesLocal** all the puzzles this puzzle depends on
+
 - in the lib/ **modulet.ts** we will
 
   - add all the **components** the puzzle has to the **moduleDeclarations** array
@@ -26,7 +31,7 @@
 
 - 
 
-- u app u koju integrisemo, in its colabo.config.js we should include the puzzle in its:
+- in the app that we're using the puzzle in, in its **colabo.config.js** we should include the puzzle in its:
 
   ```var puzzles = {
   var puzzles = {
@@ -50,7 +55,7 @@
   }
   ```
 
-- add the puzzle path in the src/frontend/apps/psc/tsconfig.json
+- add the puzzle path in the src/frontend/apps/psc/**tsconfig.json**
 
 - ```
   "include": [
@@ -60,7 +65,16 @@
     ]
   ```
 
-- 
+- in the apps that we're including it in, e.g. src/frontend/apps/psc/src/app/app.module.ts, we import the puzzle's module
+
+- ```
+  import { ModerationCoreModule } from '@colabo-moderation/core/lib/module';
+  ...
+  var moduleImports = [
+  	...
+  	ModerationCoreModule
+  ]
+  ```
 
 -  frontend$> yarn
 
