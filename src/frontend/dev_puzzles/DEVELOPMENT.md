@@ -4,16 +4,27 @@
 
 - creating the puzzle (main) folder in the **src/frontend/dev_puzzles** folder
 
-- in the puzzle folder we create folder **core** where the basis elements of puzzle, that all that use it, will need it
+- we should copy an existing puzzle
+
+- in this folder we're probably going to have or we'll create folder **core** where the basis elements of puzzle, that all that use it, will need it
+
+- there we will have or create the lib folder (**core/lib**)
+
+- in the lib/ **modulet.ts** we will
+
+  - add all the **components** the puzzle has to the **moduleDeclarations** array
+  - we will rename the class to the name of ours needed
+    export class **ColaboFlowCore**Module { }
+    and we will export it in **index.ts**
 
 - **index.ts**
 
   - this is the entry point for TSC - so everything that 
   - everything that needs to be used by puzzle users, needs to be here
+  - we will export: 
+    export {ColaboFlowCoreModule} from './lib/module';
 
-- ....
-
-- rename the class in the module.ts and export it in **index.ts**
+- 
 
 - u app u koju integrisemo, in its colabo.config.js we should include the puzzle in its:
 
@@ -29,10 +40,13 @@
   we should add it
 
 - ```
-  offers: {
-  "@colabo-moderation/core": {
-  npm: "@colabo-moderation/core",
-  path: "dev_puzzles/moderation/core"
+  var puzzles = {
+  ....
+      offers: {
+      "@colabo-moderation/core": {
+      npm: "@colabo-moderation/core",
+      path: "dev_puzzles/moderation/core"
+      }
   }
   ```
 
@@ -48,7 +62,6 @@
 
 - 
 
-- [ September 18, 2018 14:50 ] Sasa Rudan: фронтенд:
-  yarn
-  [ September 18, 2018 14:50 ] Sasa Rudan: apps/pcs:
-  yarn
+-  frontend$> yarn
+
+- apps/pcs$> yarn
