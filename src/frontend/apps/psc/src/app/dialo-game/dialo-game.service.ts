@@ -179,6 +179,21 @@ export class DialoGameService {
     console.log('suggestedCardsReceived', nodes);
     let suggestions:any[] = nodes[0].dataContent.result.suggestions; //TODO we get suggestions for all the rounds; extracting for the current round
     console.log('suggestions',suggestions);
+    let cardIds:string[] = [];
+    for(var i:number=0; i<suggestions.length; i++){
+      cardIds.push(suggestions[i].id);
+    }
+    let cardsWithIdsReceived = function(nodes:any):void{
+      console.log('cardsWithIdsReceived', nodes);
+    }
+    this.getCardsWithIds(cardIds).subscribe(cardsWithIdsReceived.bind(this));
+    //this.assignSuggestedCards()
+  }
+
+  getCardsWithIds(ids:string[]):Observable<KNode[]>{
+    return this.knalledgeNodeService.queryByIds(ids);
+    //mockup:
+
   }
 
   private assignSuggestedCards(nodes:any):void{ //KNode[]):void{

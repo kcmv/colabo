@@ -1,3 +1,4 @@
+import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import {DialoGameService} from './dialo-game.service';
@@ -20,8 +21,13 @@ export class DialoGameComponent implements OnInit {
 
   constructor(
     private dialoGameService: DialoGameService,
+    private rimaAAAService: RimaAAAService,
     public dialog: MatDialog
   ) { }
+
+  get isLoggedIn():Boolean{
+    return this.rimaAAAService.getUser() !== null;
+  }
 
   ngOnInit() {
     /* we use the 'initialized' variable to surpress Development-mode error "Expression has changed after it was checked"
@@ -33,6 +39,14 @@ export class DialoGameComponent implements OnInit {
     // <span [hidden]='!canUndo()'><button mat-raised-button (click)="undo()">Undo</button></span>
     */
     //this.initialized = true;
+  }
+
+  userImg():string{
+    return 'assets/images/user_icons/performer.jpg';
+  }
+
+  userName():string{
+    return this.rimaAAAService.getUser() !== null ? this.rimaAAAService.getUser().name : 'not logged in';
   }
 
   openDialog(buttons:number, data:DialogData, options:any = null, afterClosed:Function = null): void {

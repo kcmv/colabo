@@ -117,6 +117,20 @@ export class KnalledgeNodeService extends CFService{
     return result;
   }
 
+  queryByIds(ids:string[], callback?:Function): Observable<KNode[]>
+  {
+    console.log('queryByIds',ids);
+    let idsStr:string = ids.join(',');
+    let result:Observable<KNode[]> = this.http.get<ServerData>(this.apiUrl+'id_in/'+this.defaultAction+'/'+idsStr+'.json')
+      .pipe(
+        map(nodesFromServer => CFService.processVOs(nodesFromServer, KNode)),
+        catchError(this.handleError('KnalledgeNodeService::queryByIds', null))
+      );
+
+    if(callback){result.subscribe(nodes => callback(nodes));}
+    return result;
+  }
+
   /**
    * Creates the provided node on the server and returns its server-updated appearance
    * @param {KNode} kNode the pre-populated node to be created on the server
