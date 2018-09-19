@@ -32,7 +32,7 @@ def callback(ch, method, properties, jsonMsg):
     # print(" ch = %r, method = %r, properties = %r" % (ch, method, properties))
     msg = json.loads(jsonMsg);
     print("Received msg: %r" % msg)
-    print("\t mapId=%r" % (msg['mapId']))
+    print("\t mapId=%r" % (msg['params']['mapId']))
     print("")
 
 channel.basic_consume(callback, queue=queue, no_ack=True)
