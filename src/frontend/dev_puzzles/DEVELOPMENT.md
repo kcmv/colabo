@@ -13,7 +13,8 @@
 - in the **package.json** we will
 
   - rename the puzzle (e.g. to "name": "@colabo-moderation/core")
-  - add into **peerDependenciesLocal** all the puzzles this puzzle depends on
+  - do the things under the lower paragraph "**Using a puzzle in other puzzle**"
+  - 
 
 - in the lib/ **modulet.ts** we will
 
@@ -76,6 +77,29 @@
   ]
   ```
 
--  frontend$> yarn
+- frontend$> yarn
 
 - apps/pcs$> yarn
+
+## Using a puzzle in other puzzle
+
+- add into **peerDependenciesLocal** all the puzzles this puzzle depends on
+
+- ```
+  "peerDependenciesLocal": {
+          "@colabo-colaboflow/core": "0.0.1"
+  },
+  ```
+
+- in parent puzzle **module.ts**:
+
+  - import  the module of the child puzzle
+
+  - ```
+    import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
+    ...
+    var moduleImports: any[] = [
+      ...
+      ColaboFlowCoreModule
+    ];
+    ```

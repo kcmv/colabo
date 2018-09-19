@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ColaboFlowComponent} from '@colabo-colaboflow/core/lib/colabo-flow.component';
 
 @Component({
   selector: 'app-moderation-panel',

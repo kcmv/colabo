@@ -121,7 +121,7 @@ var moduleImports = [
 ];
 // moduleImports.push(MainModule);
 
-moduleImports.push(AppRoutingModule);
+moduleImports.push(AppRoutingModule); 
 
 // import {GlobalEmitterService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterService';
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';

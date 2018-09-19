@@ -49,7 +49,7 @@ var puzzles = {
             npm: "@colabo-moderation/core",
             path: "dev_puzzles/moderation/core"
         },
-        "@colabo-moderation/core": {
+        "@colabo-colaboflow/core": {
             npm: "@colabo-colaboflow/core",
             path: "dev_puzzles/colaboflow/core"
         }

@@ -16,6 +16,8 @@ import { TopiChatCoreService } from './topiChat-core.service';
 // import { TopiChatSimpleMessageForm } from './simple-message-form/simple-message-form.component';
 import {ModerationPanelComponent} from '../moderation-panel/moderation-panel.component';
 
+import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
+
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm
   ModerationPanelComponent
@@ -31,7 +33,8 @@ var moduleImports: any[] = [
 
     // Material
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    ColaboFlowCoreModule
 ];
 
 @NgModule({
