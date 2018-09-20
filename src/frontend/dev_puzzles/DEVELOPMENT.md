@@ -83,7 +83,7 @@
 
 ## Using a puzzle in other puzzle
 
-- add into **peerDependenciesLocal** all the puzzles this puzzle depends on
+- **package.json** - add into **peerDependenciesLocal** all the puzzles this puzzle depends on
 
 - ```
   "peerDependenciesLocal": {

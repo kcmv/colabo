@@ -18,6 +18,8 @@ import {ModerationPanelComponent} from '../moderation-panel/moderation-panel.com
 
 import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
 
+import {RimaAaaModule} from '@colabo-rima/rima_aaa/module';
+
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm
   ModerationPanelComponent
@@ -34,7 +36,8 @@ var moduleImports: any[] = [
     // Material
     BrowserAnimationsModule,
     MaterialModule,
-    ColaboFlowCoreModule
+    ColaboFlowCoreModule,
+    RimaAaaModule
 ];
 
 @NgModule({
