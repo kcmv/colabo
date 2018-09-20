@@ -58,7 +58,7 @@ export class DialoGameService {
     let result:Observable<KNode[]>;
 
     if(forceRefresh || this.myCards.length == 0){
-      result = this.knalledgeNodeService.queryInMapofTypeForUser(environment.mapId, TOPICHAT_MSG_TYPE, "5b97c7ab0393b8490bf5263c") //TODO!! set regular user
+      result = this.knalledgeNodeService.queryInMapofTypeForUser(environment.mapId, TOPICHAT_MSG_TYPE, this.rimaAAAService.getUserId())
       .pipe(
         tap(nodesFromServer => this.assignMyCards(nodesFromServer))
       );
@@ -173,7 +173,7 @@ export class DialoGameService {
     // dataContent.result.suggestions
 
     //emitting:
-    this.suggestionsReceivedObserver.next(suggestions); //TODO change value
+    this.suggestionsReceivedObserver.next(suggestions);
 
     //we call this when we want to finish:
     //this.suggestionsReceivedObserver.complete();

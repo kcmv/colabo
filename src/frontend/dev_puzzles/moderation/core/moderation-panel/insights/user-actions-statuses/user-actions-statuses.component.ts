@@ -4,6 +4,7 @@ import { DataSource } from '@angular/cdk/table';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
+import {InsightsService} from '../insights.service';
 
 export interface PeriodicElement {
   name: string;
@@ -25,9 +26,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
-const MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
-export const TOPICHAT_MSG_TYPE:string = 'topiChat.talk.chatMsg';
-
 @Component({
   selector: 'user-actions-statuses',
   templateUrl: './user-actions-statuses.component.html',
@@ -40,19 +38,16 @@ export class UserActionsStatusesComponent implements OnInit {
 
   constructor(
     private knalledgeNodeService:KnalledgeNodeService,
-    private colaboFlowService:ColaboFlowService
+    private colaboFlowService:ColaboFlowService,
+    private insightsService:InsightsService
   ) { }
 
   ngOnInit() {
-    this.getCardsPlayedInTheCurrentRound();
-  }
-
-  getCardsPlayedInTheCurrentRound(){
-    this.knalledgeNodeService.queryInMapofTypeAndContentData(MAP_ID, TOPICHAT_MSG_TYPE, "dialoGameReponse.playRound", this.colaboFlowService.colaboFlowState.playRound)
-    .subscribe(this.cardsPlayedInTheCurrentRoundReceived.bind(this));
+    this.insightsService.getCardsPlayedInTheCurrentRound(true).subscribe(this.cardsPlayedInTheCurrentRoundReceived.bind(this));
   }
 
   cardsPlayedInTheCurrentRoundReceived(cards:KNode[]):void{
     console.log('cardsPlayedInTheCurrentRoundReceived', cards);
   }
+
 }

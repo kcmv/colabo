@@ -12,7 +12,7 @@ import { MaterialModule } from './materialModule';
 
 import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
-import { TopiChatCoreService } from './topiChat-core.service';
+import {InsightsService} from '../moderation-panel/insights/insights.service';
 // import { TopiChatSimpleMessageForm } from './simple-message-form/simple-message-form.component';
 import {ModerationPanelComponent} from '../moderation-panel/moderation-panel.component';
 import {InsightsComponent} from '../moderation-panel/insights/insights.component';
@@ -54,7 +54,7 @@ var moduleImports: any[] = [
     // exports: moduleImports.concat(moduleDeclarations)
     exports: moduleDeclarations,
     providers: [
-        TopiChatCoreService
+        InsightsService
     ]
 })
 export class ModerationCoreModule { }
