@@ -13,7 +13,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import 'hammerjs';
 import {MaterialModule} from './materialModule';
-import { OrderModule } from 'ngx-order-pipe';
+// import { OrderModule } from 'ngx-order-pipe'; //TODO
 //import {MatInputModule, MatFormFieldControl} from '@angular/material';
 
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
@@ -38,9 +38,9 @@ import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {SdgCardComponent} from './sdg-card/sdg-card.component';
 import {CwcComponent} from './cwc/cwc.component';
 import {AvatarComponent} from './avatar/avatar.component';
-import {InsightsComponent} from './insights/insights.component';
-import {RegisteredUsersComponent} from './registered-users/registered-users.component';
-import {UserCardComponent} from './users/user-card.component';
+// import {InsightsComponent} from './insights/insights.component';
+// import {RegisteredUsersComponent} from './registered-users/registered-users.component';
+// import {UserCardComponent} from './users/user-card.component';
 
 import {DialoGameComponent} from './dialo-game/dialo-game.component';
 import {DialogameCardsComponent} from './dialo-game/dialogame-cards/dialogame-cards.component';
@@ -86,9 +86,9 @@ var moduleDeclarations = [
   SdgCardComponent,
   CwcComponent,
   AvatarComponent,
-  InsightsComponent,
-  RegisteredUsersComponent,
-  UserCardComponent,
+  // InsightsComponent,
+  // RegisteredUsersComponent,
+  // UserCardComponent,
 
   DialogameCardsComponent,
   DialoGameComponent,
@@ -110,7 +110,7 @@ var moduleImports = [
   , MaterialModule
   , FlexLayoutModule
   , AppRoutingModule
-  , OrderModule
+  // , OrderModule
   // ,
   // MatInputModule,
   // MatFormFieldControl
@@ -121,7 +121,7 @@ var moduleImports = [
 ];
 // moduleImports.push(MainModule);
 
-moduleImports.push(AppRoutingModule); 
+moduleImports.push(AppRoutingModule);
 
 // import {GlobalEmitterService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterService';
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
