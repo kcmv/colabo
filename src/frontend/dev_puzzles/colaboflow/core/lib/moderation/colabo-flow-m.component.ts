@@ -19,19 +19,21 @@ export class ColaboFlowMComponent implements OnInit {
 
   nextState():void{
     this.colaboFlowService.colaboFlowState.nextState();
+    this.colaboFlowService.saveCFState();
   }
 
   previousState():void{
     this.colaboFlowService.colaboFlowState.previousState();
+    this.colaboFlowService.saveCFState();
   }
 
   cfState():string{
     //console.log('cfState', ColaboFlowState.stateName(this.colaboFlowService.colaboFlowState.state));
-    return ColaboFlowState.stateName(this.colaboFlowService.colaboFlowState.state);
+    return ColaboFlowState.stateName(this.colaboFlowService.colaboFlowState.state) + '('+ this.colaboFlowService.colaboFlowState.state +')';
   }
 
   myCfState():string{
-    return MyColaboFlowState.stateName(this.colaboFlowService.myColaboFlowState.state);
+    return MyColaboFlowState.stateName(this.colaboFlowService.myColaboFlowState.state) + '('+ this.colaboFlowService.myColaboFlowState.state +')';;
   }
 
   round():number{
