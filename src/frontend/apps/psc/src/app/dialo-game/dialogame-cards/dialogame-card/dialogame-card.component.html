@@ -1,12 +1,16 @@
 <mat-card class="dialogame-card">
     <mat-card-header>
+      <div mat-card-avatar class="sdg-header-image"><img mat-card-image class="user-img" src="{{userIconsPath + getIconImg()}}" alt="{{getUserName()}}" />
+      </div> <span class='userName'>{{getUserName()}}</span>
+
         <!-- <div mat-card-avatar class="sdg-header-image"></div> -->
         <!-- <mat-card-title class='title'>{{cardData.dataContent.humanID + '. ' + cardData.name}}</mat-card-title> -->
         <!-- <mat-card-subtitle>{{cardData.dataContent.goal}}</mat-card-subtitle> -->
+        <div class='dbg-info'>{{debugInfo}}</div>
     </mat-card-header>
 
     <!-- <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img"> -->
-    <img mat-card-image class="user-img" src="{{userIconsPath + getIconImg()}}" alt="{{getUserName()}}" /> <span class='userName'>{{getUserName()}}</span>
+
 
     <mat-card-content>
         <div>
