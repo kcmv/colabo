@@ -90,20 +90,26 @@ export class KnalledgeNodeService extends CFService{
     let result:Observable<KNode[]> = this.http.get<ServerData>(this.apiUrl+'in_map_of_type/'+this.defaultAction+'/'+mapId+'/'+type+'.json')
       .pipe(
         map(nodesFromServer => CFService.processVOs(nodesFromServer, KNode)),
-        catchError(this.handleError('KnalledgeNodeService::queryInMap', null))
+        catchError(this.handleError('KnalledgeNodeService::queryInMapofType', null))
       );
 
     if(callback){result.subscribe(nodes => callback(nodes));}
     return result;
   }
 
-  /**
-   * Gets from the server all the KN Nodes that are contained in the map
-   * @param {string} mapId id of the map
-   * @param {function} callback Function to be called when the nodes are retrieved
-   * @returns {Observable<KNode[]>} array of the nodes
-     @example http://localhost:8001/knodes/in_map/default/579811d88e12abfa556f6b59.json
-   */
+  queryInMapofTypeAndContentData(mapId:string, type:string, contentDataPath:string, data:any, callback?:Function): Observable<KNode[]>
+  {
+    console.log('queryInMapofTypeAndContentData',mapId,type,contentDataPath, data);
+    let result:Observable<KNode[]> = this.http.get<ServerData>(this.apiUrl+'in_map_of_type_and_content_data/'+this.defaultAction+'/'+mapId+'/'+type+'/'+contentDataPath+'/'+data+'.json')
+      .pipe(
+        map(nodesFromServer => CFService.processVOs(nodesFromServer, KNode)),
+        catchError(this.handleError('KnalledgeNodeService::queryInMapofTypeAndContentData', null))
+      );
+
+    if(callback){result.subscribe(nodes => callback(nodes));}
+    return result;
+  }
+
   queryInMapofTypeForUser(mapId:string, type:string, iAmid:string, callback?:Function): Observable<KNode[]>
   {
     console.log('queryInMapofTypeForUser',mapId,type,iAmid);

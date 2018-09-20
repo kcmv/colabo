@@ -13,6 +13,7 @@ export class ColaboFlowService {
   public colaboFlowState: ColaboFlowState;
   public myColaboFlowState: MyColaboFlowState;
   public dbDialoGameState: KNode = new KNode(); //without this compiler throws ERR error TS2339: Property 'dataContent' does not exist on type 'never'. for code: this.dbDialoGameState.dataContent = {};
+
   constructor(
     private knalledgeNodeService:KnalledgeNodeService
   ) {
