@@ -1,20 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import {ColaboFlowService} from './colabo-flow.service';
-import {ColaboFlowState} from './colaboFlowState';
-import {MyColaboFlowState} from './myColaboFlowState';
+import {ColaboFlowService} from '../colabo-flow.service';
+import {ColaboFlowState} from '../colaboFlowState';
+import {MyColaboFlowState} from '../myColaboFlowState';
 
 @Component({
-  selector: 'colabo-flow',
-  templateUrl: './colabo-flow.component.html',
-  styleUrls: ['./colabo-flow.component.css']
+  selector: 'colabo-flow-m',
+  templateUrl: './colabo-flow-m.component.html',
+  styleUrls: ['./colabo-flow-m.component.css']
 })
-export class ColaboFlowComponent implements OnInit {
+export class ColaboFlowMComponent implements OnInit {
 
   constructor(
     private colaboFlowService: ColaboFlowService
   ) { }
 
   ngOnInit() {
+  }
+
+  nextState():void{
+    this.colaboFlowService.colaboFlowState.nextState();
+  }
+
+  previousState():void{
+    this.colaboFlowService.colaboFlowState.previousState();
   }
 
   cfState():string{

@@ -14,11 +14,13 @@ import { MaterialModule } from './materialModule';
 
 import { ColaboFlowService } from './colabo-flow.service';
 // import { TopiChatSimpleMessageForm } from './simple-message-form/simple-message-form.component';
-import {ColaboFlowComponent} from './colabo-flow.component';
+import {ColaboFlowComponent} from './info/colabo-flow.component';
+import {ColaboFlowMComponent} from './moderation/colabo-flow-m.component';
 
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm
-  ColaboFlowComponent
+  ColaboFlowComponent,
+  ColaboFlowMComponent
 ];
 
 var moduleImports: any[] = [

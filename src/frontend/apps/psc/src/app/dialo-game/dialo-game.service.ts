@@ -199,7 +199,7 @@ export class DialoGameService {
     format of the data: list of 5 elements in the format {cwc_card._id, similarity_quotient}
   output data the list is stored by creating a new knode
   node.type = 'service.result.dialogame.cwc_similarities'; mapId = MAP_ID
-  node.dataContent.result = {suggestions : list, gameRound : GAME_ROUND; iAmId :
+  node.dataContent.result = {suggestions : list, playRound : PLAY_ROUND; iAmId :
   AID}
   */
   private suggestedCardsReceived(nodes:any):void{ //KNode[]):void{

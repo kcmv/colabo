@@ -40,8 +40,9 @@ open.then(function(conn){
                 },
                 params: {
                     mapId: '5b96619b86f3cc8057216a03',
-                    iAmId: '5b9fbde97f07953d41256b32',
-                    //Sinisa's - non working with Lazar's service:: iAmId: '5b97c7ab0393b8490bf5263c',
+                    //iAmId: '5b9fbde97f07953d41256b32',
+                    //Sinisa's - non working with Lazar's service::
+                    iAmId: '5b97c7ab0393b8490bf5263c',
                     roundId: 1
                 }
         };
