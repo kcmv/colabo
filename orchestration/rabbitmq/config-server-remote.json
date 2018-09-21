@@ -1,0 +1,10 @@
+{
+	"name": "server-config",
+	"description": "Server-Configuration",
+	"queue_broker": {
+		"url": "amqp://colabo:colabo_usr56@158.39.75.31:5672",
+		"requestQueue": "colabo-service",
+		"shouldRequestResult": true,
+		"noAck": false
+	}
+}

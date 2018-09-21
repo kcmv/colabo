@@ -2,7 +2,12 @@
 	"name": "server-config",
 	"description": "Server-Configuration",
 	"queue_broker": {
-		"url": "amqp://colabo:colabo_usr56@158.39.75.31:5672",
-		"queue": "colabo-service"
+		"url": "amqp://localhost:5672",
+		"requestQueue": "colabo-service-localhost",
+		"shouldRequestResult": true,
+		"noAck": true,
+
+		"shouldListenOnSeparateResponseQueue": true,
+		"separateResponseQueue": "colabo-service-response-localhost"
 	}
 }

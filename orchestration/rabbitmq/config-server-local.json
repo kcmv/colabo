@@ -4,11 +4,7 @@
 	"queue_broker": {
 		"url": "amqp://localhost:5672",
 		"requestQueue": "colabo-service-localhost",
-
 		"shouldRequestResult": true,
-		"noAck": true,
-
-		"shouldListenOnSeparateResponseQueue": true,
-		"separateResponseQueue": "colabo-service-response-localhost"
+		"noAck": false
 	}
 }

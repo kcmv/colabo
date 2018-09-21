@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-
-#python sv_client.py 5b96619b86f3cc8057216a03 5b97c7ab0393b8490bf5263c 0
-
-from similarity_functions import *
-
-print 'imported whole similarity_functions'
+#!/usr/bin/python
 
 import json
 import uuid
@@ -13,9 +7,11 @@ import uuid
 # colaboflow local or remote consumers
 from colaboflow.services.ColaboFlowServiceWorker import ColaboFlowServiceWorker;
 
-# function that is called when a consumer calls service (worker)
 def callback(msg, action, params):
-    response = "All is fine: " + str(uuid.uuid4());
+    response = {
+        'msg': "All is fine!",
+        'uuid': str(uuid.uuid4())
+    };
 
     if(action == 'get_sims_for_user'):
         mapId = msg['params']['mapId']
@@ -34,4 +30,5 @@ def callback(msg, action, params):
 
 cfService = ColaboFlowServiceWorker();
 cfService.connect();
+
 cfService.listen(callback);
