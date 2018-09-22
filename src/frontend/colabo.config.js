@@ -60,6 +60,10 @@ var puzzles = {
         "@colabo-topiChat/system": {
             npm: "@colabo-topiChat/system",
             path: "dev_puzzles/topiChat/system"
+        },
+        "@colabo-ai-ml/similarity": {
+            npm: "@colabo-ai-ml/similarity",
+            path: "dev_puzzles/ai-ml/similarity"
         }
     }
 }

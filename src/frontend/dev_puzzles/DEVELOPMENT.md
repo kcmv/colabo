@@ -2,84 +2,105 @@
 
 # Creating New Puzzle
 
-- creating the puzzle (main) folder in the **src/frontend/dev_puzzles** folder
+### In the Puzzle
 
-- we should copy an existing puzzle
+we're doing this intrustion on example of the **moderation** puzzle
 
-- in this folder we're probably going to have or we'll create folder **core** where the basis elements of puzzle, that all that use it, will need it
+- creating the **puzzle (main) folder** in the **src/frontend/dev_puzzles** folder, i.e: `src/frontend/dev_puzzles/moderation`
 
-- there we will have or create the lib folder (**core/lib**)
+it can be in the **grouping folder** for several puzzles, like:
 
-- in the **package.json** we will
+```
+- rima
+  - rima_aaa
+  - rima_core
+```
 
-  - rename the puzzle (e.g. to "name": "@colabo-moderation/core")
-  - do the things under the lower paragraph "**Using a puzzle in other puzzle**"
-  - 
+Let's say we're going to have more puzzles under the **moderation** umbrella.
 
-- in the lib/ **modulet.ts** we will
+then we create the main puzzle, that most of the apps will require when using this puzzle umbrella.
+The convention is to name this puzzle **core** . so we create `src/frontend/dev_puzzles/moderation/core`
 
-  - add all the **components** the puzzle has to the **moduleDeclarations** array
-  - we will rename the class to the name of ours needed
-    export class **ColaboFlowCore**Module { }
-    and we will export it in **index.ts**
+we should copy an existing puzzle in it
 
-- **index.ts**
+there we will have or create the **lib** folder (**core/lib**) - here goes the main business logic of the puzzle
 
-  - this is the entry point for TSC - so everything that 
-  - everything that needs to be used by puzzle users, needs to be here
-  - we will export: 
-    export {ColaboFlowCoreModule} from './lib/module';
+while the most of 'administrative' code goes into the main folder `src/frontend/dev_puzzles/moderation/core` and we will now examine files residing there:
 
-- 
+in the **package.json** we will
 
-- in the app that we're using the puzzle in, in its **colabo.config.js** we should include the puzzle in its:
+- rename the puzzle (e.g. to "name": "@colabo-moderation/core")
+- do the things under the lower paragraph "**Using a puzzle in other puzzle**"
 
-  ```var puzzles = {
-  var puzzles = {
-   dependencies: {
-    "@colabo-moderation/core": {}
-   }
-  }
-  ```
+**lib**/**module.ts** and **lib/materialModule.ts** are  one of 'administrative' files that are not in the main folder but in the **lib** folder. 
 
-- in the colabo.config.js of the main app, i.e. in the /Users/sasha/Documents/data/development/KnAllEdge/src/frontend/colabo.config.js
-  we should add it
+In **lib**/**module.ts** we will
 
-- ```
-  var puzzles = {
-  ....
-      offers: {
-      "@colabo-moderation/core": {
-      npm: "@colabo-moderation/core",
-      path: "dev_puzzles/moderation/core"
-      }
-  }
-  ```
+- add all the **components** the puzzle has to the **moduleDeclarations** array
+- we will rename the class to the name of ours needed
+  export class **ColaboFlowCore**Module { }
+  and we will export it in **index.ts**
 
-- add the puzzle path in the src/frontend/apps/psc/**tsconfig.json**
+in **lib/materialModule.ts** we put all Angular Material classes we use in the puzzle
 
-- ```
-  "include": [
-      "src/**/*",
-      ....
-      "node_modules/@colabo-moderation/**/*"
-    ]
-  ```
+**index.ts**
 
-- in the apps that we're including it in, e.g. src/frontend/apps/psc/src/app/app.module.ts, we import the puzzle's module
+- this is like an API between the puzzle an the code that uses it
+- this is the entry point for TSC - so everything that 
+- everything that needs to be used by puzzle users, needs to be here
+- we will export: 
+  export {ColaboFlowCoreModule} from './lib/module';
 
-- ```
-  import { ModerationCoreModule } from '@colabo-moderation/core/lib/module';
-  ...
-  var moduleImports = [
-  	...
-  	ModerationCoreModule
+### In the Apps
+
+in the **colabo.config.js** of the **main project (puzzle-provider)** , i.e. in the /Users/sasha/Documents/data/development/KnAllEdge/src/frontend/colabo.config.js
+we should add it
+
+```
+var puzzles = {
+....
+    offers: {
+    "@colabo-moderation/core": {
+    npm: "@colabo-moderation/core",
+    path: "dev_puzzles/moderation/core"
+    }
+}
+```
+
+in the **app** that we're using the puzzle in, in its **colabo.config.js** we should include the puzzle in its:
+
+```var puzzles = {
+var puzzles = {
+ dependencies: {
+  "@colabo-moderation/core": {}
+ }
+}
+```
+
+add the puzzle path in the src/frontend/apps/psc/**tsconfig.json**
+
+```
+"include": [
+    "src/**/*",
+    ....
+    "node_modules/@colabo-moderation/**/*"
   ]
-  ```
+```
 
-- frontend$> yarn
+in the apps that we're including it in, e.g. src/frontend/apps/psc/src/app/**app.module.ts**, we import the puzzle's module
 
-- apps/pcs$> yarn
+```
+import { ModerationCoreModule } from '@colabo-moderation/core/lib/module';
+...
+var moduleImports = [
+	...
+	ModerationCoreModule
+]
+```
+
+frontend$> yarn
+
+apps/pcs$> yarn
 
 ## Using a puzzle in other puzzle
 

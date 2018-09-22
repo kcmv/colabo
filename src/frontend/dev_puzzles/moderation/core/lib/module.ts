@@ -26,6 +26,7 @@ import {RimaAaaModule} from '@colabo-rima/rima_aaa/module';
 import {TopiChatCoreModule} from '@colabo-topiChat/core';
 import {ColaboFlowTopiChatModule} from '@colabo-flow/topiChat';
 import {TopiChatSystemModule} from '@colabo-topiChat/system';
+import {SimilarityModule} from '@colabo-ai-ml/similarity';
 
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm
@@ -56,7 +57,8 @@ var moduleImports: any[] = [
     // not sure if we need to add it here or in modules that depends on it
     // like ColaboFlowTopiChatModule, TopiChatSystemModule, ...
     // if we add it there, then we might end up with N instances of TopiChatCoreService
-    TopiChatSystemModule
+    TopiChatSystemModule,
+    SimilarityModule
 ];
 
 @NgModule({

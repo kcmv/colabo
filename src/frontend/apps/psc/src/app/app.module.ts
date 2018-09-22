@@ -21,10 +21,11 @@ import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 
 // Puzzle modules
-import { RimaAaaModule } from '@colabo-rima/rima_aaa/module';
+import { RimaAaaModule } from '@colabo-rima/rima_aaa';
 import { ModerationCoreModule } from '@colabo-moderation/core';
 import { ColaboFlowCoreModule } from '@colabo-colaboflow/core';
 import { TopiChatTalkModule } from '@colabo-topiChat/talk';
+import {SimilarityModule} from '@colabo-ai-ml/similarity';
 
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
@@ -50,6 +51,7 @@ import {DialogameCardsComponent} from './dialo-game/dialogame-cards/dialogame-ca
 import {DialogameCardComponent} from './dialo-game/dialogame-cards/dialogame-card/dialogame-card.component';
 import {DialoGameResponseComponent} from './dialo-game/dialo-game-response/dialo-game-response.component';
 import {CardDecoratorComponent} from './dialo-game/card-decorator/card-decorator.component';
+
 
 //import {ModerationPanelComponent} from '@colabo-moderation/core';
 
@@ -124,6 +126,7 @@ var moduleImports = [
   , ModerationCoreModule
   , ColaboFlowCoreModule
   , TopiChatTalkModule
+  , SimilarityModule
 ];
 // moduleImports.push(MainModule);
 
