@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
+import {InsightsService} from '../insights/insights.service';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 //import { OrderPipe } from 'ngx-order-pipe';
 // import { Pipe, PipeTransform } from '@angular/core';
@@ -20,13 +20,12 @@ export class RegisteredUsersComponent implements OnInit {
   users:any[] = []; //[{name:'tes1'},{name:'tes2'},{name:'tes3'}];
 
   constructor(
-    private rimaAAAService: RimaAAAService
+    private insightsService:InsightsService
   ) {
   }
 
   ngOnInit() {
-    //this.rimaAAAService.getRegisteredUsers(environment.mapId).subscribe(this.usersReceived.bind(this));
-    this.rimaAAAService.getRegisteredUsers(MAP_ID).subscribe(this.usersReceived.bind(this)); //TODO: fix this
+    this.insightsService.getRegisteredUsers().subscribe(this.usersReceived.bind(this));
   }
 
   private usersReceived(users:any[]):void{
