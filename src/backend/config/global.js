@@ -38,6 +38,7 @@ if (!global.hasOwnProperty('puzzles')) {
             saveTalkToMap: true,
             mapId: "5b96619b86f3cc8057216a03",
             defaultIAmId: "1b96619b86f3cc8057216a05",
+            emitMessages: false,
             nodeId: ""
         }
     };

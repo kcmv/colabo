@@ -83,7 +83,12 @@ export class TopiChatTalk{
         chatNode.type = KNodesTopiChatTalkTypes.ChatMsg;
         let chatNodeServer:any = chatNode.toServerCopy();
         KNodeModule._create(chatNodeServer, function(){
-    		this.topiChat.emit(eventName, msg, clientIdSender);
+            if(puzzleConfig.emitMessages){
+        		console.log('[TopiChatTalk:clientChatMessage] emitting message');
+    		    this.topiChat.emit(eventName, msg, clientIdSender);
+            }else{
+        		console.log('[TopiChatTalk:clientChatMessage] we are NOT emitting message');
+            }
         }.bind(this));
 		// let socketSender = this.clientIdToSocket[clientIdSender];
 		// socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner

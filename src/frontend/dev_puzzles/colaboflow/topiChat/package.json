@@ -8,8 +8,7 @@
     },
     "main": "dist/index.js",
     "module": "dist/index.js",
-    "dependencies": {
-    },
+    "dependencies": {},
     "peerDependencies": {
         "@angular/cdk": "^2.0.0-beta.12",
         "@angular/common": "^5.0.0",
