@@ -18,6 +18,7 @@ import {AvatarComponent} from './avatar/avatar.component';
 import {DialoGameComponent} from './dialo-game/dialo-game.component'; //PTW
 import {ModerationPanelComponent} from '@colabo-moderation/core';
 //import { ModerationCoreModule } from '@colabo-moderation/core/lib/module';
+import {TopiChatTalkForm} from '@colabo-topiChat/talk';
 
 const routes: Routes = [
   { // default route
@@ -65,10 +66,10 @@ const routes: Routes = [
     path: 'select-sdgs',
     component: SelectSdgsComponent
   },
-  {
-    path: 'cwc',
-    component: CwcComponent
-  },
+  // {
+  //   path: 'cwc',
+  //   component: CwcComponent
+  // },
   {
     path: 'avatar',
     component: AvatarComponent
@@ -84,6 +85,14 @@ const routes: Routes = [
   {
     path: 'dialo-game',
     component: DialoGameComponent
+  },
+  {
+    path: 'cwc',
+    component: TopiChatTalkForm
+  },
+  {
+    path: 'talk',
+    component: TopiChatTalkForm
   }
 ];
 

@@ -37,7 +37,7 @@ if (!global.hasOwnProperty('puzzles')) {
         '@colabo-topiChat/b-talk': {
             saveTalkToMap: true,
             mapId: "5b96619b86f3cc8057216a03",
-            iAmId: "1b96619b86f3cc8057216a05",
+            defaultIAmId: "1b96619b86f3cc8057216a05",
             nodeId: ""
         }
     };
