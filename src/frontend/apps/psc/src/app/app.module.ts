@@ -19,9 +19,10 @@ import {MaterialModule} from './materialModule';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
-import { RimaAaaModule } from '@colabo-rima/rima_aaa/module';
-import { ModerationCoreModule } from '@colabo-moderation/core/lib/module';
-import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
+import { RimaAaaModule } from '@colabo-rima/rima_aaa';
+import { ModerationCoreModule } from '@colabo-moderation/core';
+import { ColaboFlowCoreModule } from '@colabo-colaboflow/core';
+import {SimilarityModule} from '@colabo-ai-ml/similarity';
 
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
@@ -47,6 +48,7 @@ import {DialogameCardsComponent} from './dialo-game/dialogame-cards/dialogame-ca
 import {DialogameCardComponent} from './dialo-game/dialogame-cards/dialogame-card/dialogame-card.component';
 import {DialoGameResponseComponent} from './dialo-game/dialo-game-response/dialo-game-response.component';
 import {CardDecoratorComponent} from './dialo-game/card-decorator/card-decorator.component';
+
 
 //import {ModerationPanelComponent} from '@colabo-moderation/core';
 
@@ -118,6 +120,7 @@ var moduleImports = [
   , RimaAaaModule
   , ModerationCoreModule
   , ColaboFlowCoreModule
+  , SimilarityModule
 ];
 // moduleImports.push(MainModule);
 

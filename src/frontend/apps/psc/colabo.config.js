@@ -17,7 +17,8 @@ var puzzles = {
         "@colabo-topiChat/system": {},
         "@colabo-colaboflow/core": {},
         "@colabo-flow/topiChat": {},
-        "@colabo-moderation/core": {}
+        "@colabo-moderation/core": {},
+        "@colabo-ai-ml/similarity": {}
     },
     offers: {}
 };
