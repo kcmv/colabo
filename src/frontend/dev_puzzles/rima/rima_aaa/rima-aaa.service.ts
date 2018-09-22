@@ -4,11 +4,8 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
-import {VO} from '@colabo-knalledge/knalledge_core/code/knalledge/VO';
+import {KNode, KEdge, KMap, VO} from '@colabo-knalledge/knalledge_core';
 import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
-import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
 
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';

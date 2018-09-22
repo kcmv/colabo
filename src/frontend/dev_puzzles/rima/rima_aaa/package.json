@@ -1,8 +1,10 @@
 {
     "name": "@colabo-rima/rima_aaa",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "private": true,
     "scripts": {},
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "dependencies": {},
     "peerDependencies": {
         "@angular/cdk": "^2.0.0-beta.12",
@@ -18,7 +20,8 @@
         "zone.js": "^0.8.14"
     },
     "peerDependenciesLocal": {
-        "@colabo-rima/rima_core": "^0.0.1"
+        "@colabo-rima/rima_core": "^0.0.1",
+        "@colabo-knalledge/knalledge_core": "0.1.0"
     },
     "devDependencies": {},
     "devDependenciesLocal": {
