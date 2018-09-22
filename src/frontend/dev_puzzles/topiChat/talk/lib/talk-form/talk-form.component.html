@@ -15,10 +15,10 @@
         <!--TODO: to make localized (in Serbian) form field names and info -->
             <mat-list class="chat-list">
                 <mat-list-item *ngFor="let message of messages">
-                    <h4 mat-line *ngIf="message.action === undefined">
-                        <!-- <b>{{message?.from?.name}}</b>  -->
-                        <b>{{message?.meta?.timestamp}}</b>
-                    </h4>
+                    <h3 mat-line *ngIf="message.action === undefined">
+                        <b>{{message?.from?.name}}</b> 
+                    </h3>
+                     (<b>{{message?.meta?.timestamp}}</b>)
                     <p mat-line *ngIf="message.action === undefined">
                         <span> {{message?.content?.text}} </span>
                     </p>

@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import {TopiChatCoreService, TopiChatPackage} from '@colabo-topiChat/core';
 import {ColaboPubSubPlugin, ColaboPubSub} from '@colabo-utils/pub-sub';
+import {KNode} from '@colabo-knalledge/knalledge_core';
 
 export {TopiChatPackage, ColaboPubSubPlugin};
 
@@ -14,6 +15,8 @@ export enum TopiChatTalkEvents{
 	ChatMessage = 'tc:chat-message'
 }
 
+import {RimaAAAService} from '@colabo-rima/rima_aaa';
+
 @Injectable()
 export class TopiChatTalkService{
 
@@ -21,6 +24,7 @@ export class TopiChatTalkService{
   protected _isActive:boolean = true;
 
   constructor(
+    protected rimaAAAService:RimaAAAService,
     protected topiChatCoreService:TopiChatCoreService
     ) {
       this.init();
@@ -52,12 +56,14 @@ export class TopiChatTalkService{
       chatPluginOptions.events[TopiChatTalkEvents.ChatMessage] = clientMessage.bind(this);
       this.topiChatCoreService.registerPlugin(chatPluginOptions);
 
-      var msg:any =     {
+      let whoAmI:KNode = this.rimaAAAService.getUser();
+      var msg:any = {
         meta: {
           timestamp: Math.floor(new Date().getTime() / 1000),
         },
         from: {
-          name: "Colabo"
+          name: whoAmI.name, // whoAmI.dataContent.firstName
+          iAmId: this.rimaAAAService.getUserId()
         },
         content: {
           text: "(Init) Hello from client!"
