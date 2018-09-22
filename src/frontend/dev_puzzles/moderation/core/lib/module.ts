@@ -12,13 +12,25 @@ import { MaterialModule } from './materialModule';
 
 import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
-import { TopiChatCoreService } from './topiChat-core.service';
+import {InsightsService} from '../moderation-panel/insights/insights.service';
 // import { TopiChatSimpleMessageForm } from './simple-message-form/simple-message-form.component';
 import {ModerationPanelComponent} from '../moderation-panel/moderation-panel.component';
+import {InsightsComponent} from '../moderation-panel/insights/insights.component';
+import {RegisteredUsersComponent} from '../moderation-panel/registered-users/registered-users.component';
+import {UserCardComponent} from '../moderation-panel/users/user-card.component';
+import {UserActionsStatusesComponent} from '../moderation-panel/insights/user-actions-statuses/user-actions-statuses.component';
+
+import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
+
+import {RimaAaaModule} from '@colabo-rima/rima_aaa/module';
 
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm
-  ModerationPanelComponent
+  ModerationPanelComponent,
+  InsightsComponent,
+  RegisteredUsersComponent,
+  UserCardComponent,
+  UserActionsStatusesComponent
 ];
 
 var moduleImports: any[] = [
@@ -31,7 +43,9 @@ var moduleImports: any[] = [
 
     // Material
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    ColaboFlowCoreModule,
+    RimaAaaModule
 ];
 
 @NgModule({
@@ -40,7 +54,7 @@ var moduleImports: any[] = [
     // exports: moduleImports.concat(moduleDeclarations)
     exports: moduleDeclarations,
     providers: [
-        TopiChatCoreService
+        InsightsService
     ]
 })
 export class ModerationCoreModule { }

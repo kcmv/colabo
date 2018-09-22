@@ -69,10 +69,27 @@ export class RimaAAAService extends CFService{
 
     super();
     console.log('RimaAAAService:constructor'); //TODO:NG2: this.apiUrl = this.ENV.server.backend + '/' + nodeAP + '/';
-      this.apiUrl = CFService.serverAP + '/' + aaaAP + '/';
+    this.apiUrl = CFService.serverAP + '/' + aaaAP + '/';
+    this.loadLoggedInUser();
 
     //getting data for the user:
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
+  }
+
+  loadLoggedInUser():KNode{
+    this.loggedInUser = null;
+    let _loggedInUserStr:string = window.localStorage.getItem('loggedInUser');
+    if(_loggedInUserStr && _loggedInUserStr !== 'undefined' && _loggedInUserStr !== 'null'){
+      this.loggedInUser = JSON.parse(_loggedInUserStr);
+    }
+    return this.loggedInUser;
+  }
+
+  saveLoggedInUser(_loggedInUser:KNode){
+    let _loggedInUserStr:string = JSON.stringify(_loggedInUser);
+    window.localStorage.setItem('loggedInUser', _loggedInUserStr);
+    this.loggedInUser = _loggedInUser;
+    this._isRegistered = this.loggedInUser !== null && this.loggedInUser !== undefined;
   }
 
   get isRegistered():Boolean{
@@ -121,11 +138,11 @@ export class RimaAAAService extends CFService{
         console.log("[createUserNode:createdResponse]: created");
         if(serverResponse.success){
             let node:KNode = _extractVO(serverResponse);
-            this.loggedInUser = node;
+            this.saveLoggedInUser(node);
             this._isRegistered = true;
             return node;
         }else{
-            this.loggedInUser = null;
+            this.saveLoggedInUser(null);
             this._isRegistered = false;
             this._isErrorLogingIn = true;
             this._errorLogingMsg = serverResponse.message;
@@ -208,11 +225,12 @@ export class RimaAAAService extends CFService{
           console.log("[checkUser:checkedResponse]: created");
           if (serverResponse.success) {
               let node: KNode = _extractVO(serverResponse);
-              this.loggedInUser = node;
+              this.saveLoggedInUser(node);
               this._isRegistered = true;
               return node;
           } else {
-              this.loggedInUser = null;
+              this.saveLoggedInUser(null);
+              this._isRegistered = false;
               this._isErrorLogingIn = true;
               this._errorLogingMsg = serverResponse.message;
 
@@ -246,8 +264,7 @@ export class RimaAAAService extends CFService{
   }
 
   logOut(){
-    this.loggedInUser = null;
-    this._isRegistered = false;
+    this.saveLoggedInUser(null);
   }
 
   // create new user

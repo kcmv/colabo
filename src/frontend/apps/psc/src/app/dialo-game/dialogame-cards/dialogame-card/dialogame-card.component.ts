@@ -9,6 +9,7 @@ import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 })
 export class DialogameCardComponent implements OnInit {
   @Input() cardData:KNode;
+  @Input() debugInfo:string='';
   //@Output()
   cardCreator:KNode;// = new KNode();
 

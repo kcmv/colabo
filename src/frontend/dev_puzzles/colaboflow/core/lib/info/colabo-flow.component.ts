@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ColaboFlowService} from './colabo-flow.service';
-import {ColaboFlowState} from './colaboFlowState';
-import {MyColaboFlowState} from './myColaboFlowState';
+import {ColaboFlowService} from '../colabo-flow.service';
+import {ColaboFlowState} from '../colaboFlowState';
+import {MyColaboFlowState} from '../myColaboFlowState';
 
 @Component({
   selector: 'colabo-flow',

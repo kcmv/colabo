@@ -25,6 +25,10 @@ function resSendJsonProtected(res, data) {
     }
 };
 
+function isPrmNull(val){
+  return val == null ||  val == '' || val == 'undefined' || val == 'null';
+}
+
 var dbConnection = dbService.DBConnect();
 
 var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);
@@ -37,13 +41,14 @@ exports.index = function(req, res) {
     var id = req.params.searchParam;
     var id2 = req.params.searchParam2;
     var id3 = req.params.searchParam3;
+    var id4 = req.params.searchParam4;
     var type = req.params.type;
-    exports._index(id, id2, id3, type, function(err, kNodes) {
+    exports._index(id, id2, id3, id4, type, res, function(err, kNodes) {
         resSendJsonProtected(res, { data: kNodes, accessId: accessId, success: true });
     });
 }
 
-exports._index = function(id, id2, id3, type, callback) {
+exports._index = function(id, id2, id3, id4, type, res, callback) {
   //TODO: fix if NULL is received for any parameter etc: https://github.com/Cha-OS/colabo/issues/341
     var found = function(err, kNodes) {
         console.log("[modules/kNode.js:index] in 'found'", kNodes);
@@ -56,7 +61,7 @@ exports._index = function(id, id2, id3, type, callback) {
         }
     }
 
-    console.log("[modules/kNode.js:index] id: %s. id2: %s", id, id2);
+    //console.log("[modules/kNode.js:index] id: %s. id2: %s id3: %s; id4: %s", id, id2, id3, id4);
     switch (type) {
         case 'one': //by id:
             console.log("findById:\n id: %s.\n", id);
@@ -72,9 +77,17 @@ exports._index = function(id, id2, id3, type, callback) {
             KNodeModel.find({ $and: [{ mapId: id }, { type: id2 }] }, found);
             break;
         case 'in_map_of_type_for_user': //all nodes of particular type in specific map for that user
+            console.log("find 'in_map_of_type_for_user': mapId: %s, type: %s, iAmId: %s", id, id2, id3);
+            if(isPrmNull(id) || isPrmNull(id2) || isPrmNull(id3)){
+              console.log('unallowed parameter');
+              resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unallowed parameter', success: false });
+            }
+            else{
+              //  console.log('all parameters allowed');
+                KNodeModel.find({ $and: [{ mapId: id }, { type: id2 }, { iAmId: id3 }] }, found);
+            }
             //hack: id2 = id2 + '.sdg';
-            console.log("find: mapId: %s, type: %s, iAmId: %s", id, id2, id3);
-            KNodeModel.find({ $and: [{ mapId: id }, { type: id2 }, { iAmId: id3 }] }, found);
+
             break;
         case 'in_content_data':
             console.log("find: in_content_data:: name: %s, value: %s", id, id2);
@@ -82,6 +95,26 @@ exports._index = function(id, id2, id3, type, callback) {
             searchObj['dataContent.' + id] = id2;
             KNodeModel.find(searchObj, found);
             //KNodeModel.find({ 'dataContent.phoneNo': "+385989813852" }, found);
+            break;
+        case 'in_map_of_type_and_content_data':
+            console.log("find: in_map_of_type_and_content_data: map: %s, type: %s, contentDataPath: %s, data: %s", id, id2, id3, id4);
+            if(isPrmNull(id) || isPrmNull(id2) || isPrmNull(id3)  || isPrmNull(id4)){
+              console.log('unallowed parameter');
+              resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unallowed parameter', success: false });
+            }
+            else{
+                //console.log('all parameters allowed');
+
+                var searchObj1 = {};
+                //searchObj1[id3] = id4;
+                searchObj1['dataContent.' + id3] = parseInt(id4);
+                //'dataContent.dialoGameReponse.playRound'
+              //  searchObj1 = { id3 : parseInt(id4) }
+                // KNodeModel.find(searchObj, found);
+                var searchObj = { $and: [{ mapId: id }, { type: id2 }, searchObj1 ] };
+                console.log('searchObj:', searchObj);
+                KNodeModel.find(searchObj, found);
+            }
             break;
         case 'max_val':
             //TODO: make it to work for any parameter instead of the fixed one 'dataContent.humanID':
@@ -105,9 +138,17 @@ exports._index = function(id, id2, id3, type, callback) {
             });
             KNodeModel.find().sort({ id: -1 }).limit(1)
             break;
+        case 'id_in':
+          console.log("_index ::find 'id_in': ids: %s", id);
+          var ids = id.split(',');
+          console.log('ids',ids);
+
+          //mongoose.Types.ObjectId('4ed3ede8844f0f351100000c')
+          KNodeModel.find({ '_id': { $in: ids} }, found);
+          break;
         default:
-            console.log("[modules/kNode.js:index] unsuported req.params.type: %s", req.params.type);
-            resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unsuported req type \'' + req.params.type + '\'', success: false });
+            console.log("[modules/kNode.js:index] unsuported req.params.type: %s", type);
+            resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unsuported req type \'' + type + '\'', success: false });
     }
 }
 

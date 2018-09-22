@@ -237,7 +237,7 @@ amqp.connect(url, function(err, conn) {
     }
     if(err){
         console.error("Error while connecting to queue broker: ", err);
-        
+
     }
 });
 */

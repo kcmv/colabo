@@ -5,6 +5,7 @@ export const enum ColaboFlowStates{
 }
 
 
+//the game starts in OPENNING round 1, then it goes to PLAYING_ROUNDS round 2; then PLAYING_ROUNDS, round 3
 export class ColaboFlowState{
   public state:ColaboFlowStates = ColaboFlowStates.OPENNING;
   public playRound:number = 1;
@@ -22,6 +23,28 @@ export class ColaboFlowState{
     }
   }
 
+  previousState():ColaboFlowStates{
+    switch(this.state){
+      case ColaboFlowStates.NOT_STARTED:
+        this.state = ColaboFlowStates.NOT_STARTED; //TODO: check this
+        break;
+      case ColaboFlowStates.OPENNING:
+        this.state = ColaboFlowStates.NOT_STARTED;
+        this.playRound--;
+        break;
+      case ColaboFlowStates.PLAYING_ROUNDS:
+        //keep being in this state:
+        //this.state = ColaboFlowStates.OPENNING
+        this.playRound--;
+        if(this.playRound == 1){
+          this.state = ColaboFlowStates.OPENNING;
+        }
+        break;
+      default:
+    }
+    return this.state;
+  }
+
   nextState():ColaboFlowStates{
     switch(this.state){
       case ColaboFlowStates.NOT_STARTED:
@@ -37,6 +60,7 @@ export class ColaboFlowState{
       default:
     }
     this.playRound++;
+
     return this.state;
   }
 }

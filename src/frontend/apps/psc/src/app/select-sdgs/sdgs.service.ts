@@ -196,7 +196,7 @@ export class SDGsService {
       }
     });
     // https://angular.io/guide/observables
-    return new Observable(this.sdgsSavedSubscriber.bind(this));;
+    return new Observable(this.sdgsSavedSubscriber.bind(this));
   }
 
   //could be done as anonymous, but we made it this way to be more clear the logic of Oberver

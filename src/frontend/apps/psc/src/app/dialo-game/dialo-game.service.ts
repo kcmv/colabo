@@ -8,9 +8,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import {DialoGameResponse} from './dialo-game-response/dialoGameResponse';
-import {ColaboFlowService} from '../colabo-flow/colabo-flow.service';
-import {ColaboFlowState, ColaboFlowStates} from '../colabo-flow/colaboFlowState';
-import {MyColaboFlowState, MyColaboFlowStates} from '../colabo-flow/myColaboFlowState';
+import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
+import {ColaboFlowState, ColaboFlowStates} from '@colabo-colaboflow/core/lib/colaboFlowState';
+import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-colaboflow/core/lib/myColaboFlowState';
 import {CardDecorator} from './card-decorator/cardDecorator';
 import { environment } from '../../environments/environment';
 import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
@@ -28,10 +28,12 @@ export const SERVICE_CWC_SIMLARITIES_TYPE:string = 'service.result.dialogame.cwc
   providedIn: 'root'
 })
 export class DialoGameService {
+  static SUGGESTIONS_LIMIT:number = 3;
   public responses:DialoGameResponse[] = [];
   myCards:KNode[] = [];
   private openingCards:KNode[] = [];
 
+  private suggestionsHistory:KNode[] = [];
 
   //playedOn:[]; decorations:[];
 
@@ -56,7 +58,7 @@ export class DialoGameService {
     let result:Observable<KNode[]>;
 
     if(forceRefresh || this.myCards.length == 0){
-      result = this.knalledgeNodeService.queryInMapofTypeForUser(environment.mapId, TOPICHAT_MSG_TYPE, "5b97c7ab0393b8490bf5263c") //TODO!! set regular user
+      result = this.knalledgeNodeService.queryInMapofTypeForUser(environment.mapId, TOPICHAT_MSG_TYPE, this.rimaAAAService.getUserId())
       .pipe(
         tap(nodesFromServer => this.assignMyCards(nodesFromServer))
       );
@@ -134,22 +136,47 @@ export class DialoGameService {
     return of([]);
   }
 
-  getDecoratorTypes(type:string=null):Observable<KNode[]>{
-    return of(CardDecorator.getDecorators(type));
+  /**
+    for components that want to be informed about suggestions from service
+    @return list of suggested cards (KNode[]) sorted by similarity_quotient in a decreasing direction
+  */
+  getSuggestions():Observable<KNode[]>{
+    return new Observable(this.suggestionsSubscriber.bind(this));
   }
 
-  private getOpeningCards(forceRefresh:boolean = false):Observable<KNode[]>{
-    let result:Observable<KNode[]>;
-    if(forceRefresh || this.openingCards.length == 0){
-      result = this.knalledgeNodeService.queryInMapofType(environment.mapId, DIALOGAME_OPENING_CARD_TYPE)
-      .pipe(
-        tap(nodesFromServer => this.assignOpenningCards(nodesFromServer))
-      );
-      return result;
+  suggestionsReceivedObserver:any = {};//Observer
+
+  suggestionsSubscriber(observer) { //:Observer) {
+    console.log('suggestionsSubscriber');
+    this.suggestionsReceivedObserver = observer;
+    return {unsubscribe() {}};
+  }
+
+  suggestionsReceived(suggestions:KNode[]):void{
+
+    console.log('DialoGameService::suggestionsReceived:', suggestions);
+
+    let suggestionsSorted
+    let simQuots:any[] = this.suggestionsHistory[this.suggestionsHistory.length-1].dataContent.result.suggestions;
+    for (var sqI:number = 0; sqI <simQuots.length; sqI++){ //Math.min(simQuots.length, DialoGameService.SUGGESTIONS_LIMIT)
+      let id = simQuots[sqI].id;
+      for(var sugI: number = 0; sugI < suggestions.length; sugI++){
+        if(suggestions[sugI]._id == id){
+           //TODO: check if this injection interfere with something; we put it this way for easier suggestiions debuging later. Based on this the compoenent will sort suggestions
+          suggestions[sugI].dataContent.similarity_quotient = simQuots[sqI].similarity_quotient;
+        }
+      }
     }
-    else{
-      return of(this.openingCards);
-    }
+
+    // let suggestionInfo = this.suggestionsHistory[this.suggestionsHistory.length-1];
+    // let
+    // dataContent.result.suggestions
+
+    //emitting:
+    this.suggestionsReceivedObserver.next(suggestions);
+
+    //we call this when we want to finish:
+    //this.suggestionsReceivedObserver.complete();
   }
 
   private getSuggestedCards():Observable<KNode[]>{
@@ -172,18 +199,60 @@ export class DialoGameService {
     format of the data: list of 5 elements in the format {cwc_card._id, similarity_quotient}
   output data the list is stored by creating a new knode
   node.type = 'service.result.dialogame.cwc_similarities'; mapId = MAP_ID
-  node.dataContent.result = {suggestions : list, gameRound : GAME_ROUND; iAmId :
+  node.dataContent.result = {suggestions : list, playRound : PLAY_ROUND; iAmId :
   AID}
   */
   private suggestedCardsReceived(nodes:any):void{ //KNode[]):void{
-    console.log('suggestedCardsReceived', nodes);
-    let suggestions:any[] = nodes[0].dataContent.result.suggestions; //TODO we get suggestions for all the rounds; extracting for the current round
+    //console.log('suggestedCardsReceived', nodes);
+    let suggestion = nodes[0]; //TODO we get suggestions for all the rounds; extracting for the current round
+
+    suggestion.dataContent.result.suggestions.sort((a,b)=> b.similarity_quotient - a.similarity_quotient); //descending sorting by similarity
+    console.log('suggestedCardsReceived [after sorting]', nodes);
+
+    let suggestions:any[] = suggestion.dataContent.result.suggestions;
+
+    this.suggestionsHistory.push(suggestion);
     console.log('suggestions',suggestions);
+    let cardIds:string[] = [];
+    for(var i:number=0; i< Math.min(suggestions.length, DialoGameService.SUGGESTIONS_LIMIT); i++){ //we limit number of cards to lower Net usage
+      cardIds.push(suggestions[i].id);
+    }
+
+    this.getCardsByIds(cardIds).subscribe(this.cardsByIdsReceived.bind(this));
+    //this.assignSuggestedCards()
+  }
+
+  cardsByIdsReceived(nodes:any):void{
+    console.log('cardsByIdsReceived', nodes);
+    this.suggestionsReceived(nodes);
+  }
+
+  getCardsByIds(ids:string[]):Observable<KNode[]>{
+    return this.knalledgeNodeService.queryByIds(ids);
+    //mockup:
   }
 
   private assignSuggestedCards(nodes:any):void{ //KNode[]):void{
     //console.log('assignCards', nodes);
     this.openingCards = nodes;
+  }
+
+  getDecoratorTypes(type:string=null):Observable<KNode[]>{
+    return of(CardDecorator.getDecorators(type));
+  }
+
+  private getOpeningCards(forceRefresh:boolean = false):Observable<KNode[]>{
+    let result:Observable<KNode[]>;
+    if(forceRefresh || this.openingCards.length == 0){
+      result = this.knalledgeNodeService.queryInMapofType(environment.mapId, DIALOGAME_OPENING_CARD_TYPE)
+      .pipe(
+        tap(nodesFromServer => this.assignOpenningCards(nodesFromServer))
+      );
+      return result;
+    }
+    else{
+      return of(this.openingCards);
+    }
   }
 
   private assignOpenningCards(nodes:any):void{ //KNode[]):void{

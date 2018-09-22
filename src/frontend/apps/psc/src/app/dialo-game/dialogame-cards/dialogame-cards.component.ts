@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {DialoGameService} from '../dialo-game.service';
-import {ColaboFlowService} from '../../colabo-flow/colabo-flow.service';
-import {ColaboFlowState, ColaboFlowStates} from '../../colabo-flow/colaboFlowState';
-import {MyColaboFlowState, MyColaboFlowStates} from '../../colabo-flow/myColaboFlowState';
+import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
+import {ColaboFlowState, ColaboFlowStates} from '@colabo-colaboflow/core/lib/colaboFlowState';
+import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-colaboflow/core/lib/myColaboFlowState';
 
 @Component({
   selector: 'dialogame-cards',
@@ -24,6 +24,13 @@ export class DialogameCardsComponent implements OnInit {
     //TODO: to set-up based on state, later druing the game, upon restarting browser etc, the current state with some other cards should be set up
     this.dialoGameService.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_CHALLENGE_CARD;
     this.dialoGameService.getCards().subscribe(this.cardsReceived.bind(this));
+    this.dialoGameService.getSuggestions().subscribe(this.suggestionsReceived.bind(this));
+  }
+
+  suggestionsReceived(suggestions:KNode[]):void{
+    console.log('DialogameCardsComponent::suggestionsReceived',suggestions);
+    suggestions.sort((a,b)=> b.dataContent.similarity_quotient - a.dataContent.similarity_quotient);  //descending sorting by similarity
+    this.cardsReceived(suggestions.slice(0,Math.min(DialoGameService.SUGGESTIONS_LIMIT,suggestions.length))); //TODO: it already cut in DialoGameService for bandwidth reasons, yet here we want to cut it for display resaons
   }
 
   cardsReceived(cards:KNode[]):void{

@@ -22,7 +22,10 @@
         "rxjs": "^5.5.2",
         "zone.js": "^0.8.14"
     },
-    "peerDependenciesLocal": {},
+    "peerDependenciesLocal": {
+        "@colabo-colaboflow/core": "0.0.1",
+        "@colabo-rima/rima_aaa" : "^0.0.1"
+    },
     "devDependencies": {},
     "devDependenciesLocal": {}
 }

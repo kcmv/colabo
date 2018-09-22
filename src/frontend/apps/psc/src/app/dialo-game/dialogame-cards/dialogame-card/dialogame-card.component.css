@@ -28,3 +28,10 @@
   border-radius: 50%;
   overflow: hidden;
 }
+
+.dbg-info{
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 8px;
+}

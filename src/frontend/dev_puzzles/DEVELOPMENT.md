@@ -13,7 +13,8 @@
 - in the **package.json** we will
 
   - rename the puzzle (e.g. to "name": "@colabo-moderation/core")
-  - add into **peerDependenciesLocal** all the puzzles this puzzle depends on
+  - do the things under the lower paragraph "**Using a puzzle in other puzzle**"
+  - 
 
 - in the lib/ **modulet.ts** we will
 
@@ -76,6 +77,42 @@
   ]
   ```
 
--  frontend$> yarn
+- frontend$> yarn
 
 - apps/pcs$> yarn
+
+## Using a puzzle in other puzzle
+
+- **package.json** - add into **peerDependenciesLocal** all the puzzles this puzzle depends on
+
+- ```
+  "peerDependenciesLocal": {
+          "@colabo-colaboflow/core": "0.0.1"
+  },
+  ```
+
+- in parent puzzle **module.ts**:
+
+  - import  the module of the child puzzle
+
+  - ```
+    import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
+    ...
+    var moduleImports: any[] = [
+      ...
+      ColaboFlowCoreModule
+    ];
+    ```
+
+
+# Puzzles Development
+
+## General
+
+- if we **change code in a puzzle**, we don't have to do anything further. Just regular running of  `ng serve --open` is enough to compile all the changes and progress them
+  - this also goes for the case when we change a puzzle that is used in a puzzle that is used in an app 
+
+## Backend Puzzle
+
+- each time we change the backend code or a puzzle, we should do a **build** or **yarn**
+- 

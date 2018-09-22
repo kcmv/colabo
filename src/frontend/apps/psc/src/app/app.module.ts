@@ -13,7 +13,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import 'hammerjs';
 import {MaterialModule} from './materialModule';
-import { OrderModule } from 'ngx-order-pipe';
+// import { OrderModule } from 'ngx-order-pipe'; //TODO
 //import {MatInputModule, MatFormFieldControl} from '@angular/material';
 
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
@@ -26,7 +26,6 @@ import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
 import {DialoGameService} from './dialo-game/dialo-game.service';
-import {ColaboFlowService} from './colabo-flow/colabo-flow.service';
 
 // import {UsersProfilingService} from './users-profiling/users-profiling.service';
 // import {UsersClusteringService} from './users-clustering/users-clustering.service';
@@ -39,16 +38,16 @@ import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {SdgCardComponent} from './sdg-card/sdg-card.component';
 import {CwcComponent} from './cwc/cwc.component';
 import {AvatarComponent} from './avatar/avatar.component';
-import {InsightsComponent} from './insights/insights.component';
-import {RegisteredUsersComponent} from './registered-users/registered-users.component';
-import {UserCardComponent} from './users/user-card.component';
+// import {InsightsComponent} from './insights/insights.component';
+// import {RegisteredUsersComponent} from './registered-users/registered-users.component';
+// import {UserCardComponent} from './users/user-card.component';
 
 import {DialoGameComponent} from './dialo-game/dialo-game.component';
 import {DialogameCardsComponent} from './dialo-game/dialogame-cards/dialogame-cards.component';
 import {DialogameCardComponent} from './dialo-game/dialogame-cards/dialogame-card/dialogame-card.component';
 import {DialoGameResponseComponent} from './dialo-game/dialo-game-response/dialo-game-response.component';
 import {CardDecoratorComponent} from './dialo-game/card-decorator/card-decorator.component';
-import {ColaboFlowComponent} from './colabo-flow/colabo-flow.component';
+
 //import {ModerationPanelComponent} from '@colabo-moderation/core';
 
 import {Dialog1Btn, Dialog2Btn} from './util/dialog';
@@ -87,16 +86,15 @@ var moduleDeclarations = [
   SdgCardComponent,
   CwcComponent,
   AvatarComponent,
-  InsightsComponent,
-  RegisteredUsersComponent,
-  UserCardComponent,
+  // InsightsComponent,
+  // RegisteredUsersComponent,
+  // UserCardComponent,
 
   DialogameCardsComponent,
   DialoGameComponent,
   DialogameCardComponent,
   DialoGameResponseComponent,
-  CardDecoratorComponent,
-  ColaboFlowComponent
+  CardDecoratorComponent
 
   // AdvancedDialogTest
 ];
@@ -112,7 +110,7 @@ var moduleImports = [
   , MaterialModule
   , FlexLayoutModule
   , AppRoutingModule
-  , OrderModule
+  // , OrderModule
   // ,
   // MatInputModule,
   // MatFormFieldControl
@@ -149,8 +147,7 @@ export var Plugins:any = window.Config.Plugins;
     {provide: GlobalEmittersArrayService, useClass: GlobalEmittersArrayService},
     SDGsService,
     CWCService,
-    DialoGameService,
-    ColaboFlowService
+    DialoGameService
     // ColabowareRFIDService,
     // UsersProfilingService,
     // UsersClusteringService

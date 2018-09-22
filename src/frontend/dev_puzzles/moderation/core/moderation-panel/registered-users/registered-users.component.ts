@@ -3,9 +3,10 @@ import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 //import { OrderPipe } from 'ngx-order-pipe';
 // import { Pipe, PipeTransform } from '@angular/core';
-import { OrderPipe } from 'ngx-order-pipe'; //https://github.com/VadimDez/ngx-order-pipe
-import { environment } from '../../environments/environment';
-// const MAP_ID = "5b8a5260f8b8e40f3f250f9d"; //TEF
+// import { OrderPipe } from 'ngx-order-pipe'; //https://github.com/VadimDez/ngx-order-pipe
+// import { environment } from '../../environments/environment';
+
+const MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
 //const MAP_ID = "5b49e7f736390f03580ac9a7"; //Forum Vlasina
 
 @Component({
@@ -24,7 +25,8 @@ export class RegisteredUsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.rimaAAAService.getRegisteredUsers(environment.mapId).subscribe(this.usersReceived.bind(this));
+    //this.rimaAAAService.getRegisteredUsers(environment.mapId).subscribe(this.usersReceived.bind(this));
+    this.rimaAAAService.getRegisteredUsers(MAP_ID).subscribe(this.usersReceived.bind(this)); //TODO: fix this
   }
 
   private usersReceived(users:any[]):void{
