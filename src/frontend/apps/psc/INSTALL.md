@@ -185,7 +185,7 @@ edge:
 ```json
 {
     "_id" : ObjectId("5b9f9ff97f07953d41256aff"),
-    "name" : "DialoGameState",
+    "name" : "DIALO_GAME_STATE",
     "type" : "colaboflow.state",
     "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
     "iAmId" : ObjectId("556760847125996dc1a4a24f"),
@@ -1208,6 +1208,30 @@ should connect them with **Content (node)** or with **Content (node)** -> **Dial
             "email" : "test_user3@gmail.com",
             "lastName" : "User",
             "firstName" : "Test3"
+        },
+        "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+        "updatedAt" : ISODate("2018-09-11T13:48:27.641+0000"),
+        "createdAt" : ISODate("2018-09-11T13:48:27.624+0000"),
+        "visual" : {
+            "isOpen" : false
+        },
+        "isPublic" : true,
+        "version" : NumberInt(1),
+        "activeVersion" : NumberInt(1),
+        "__v" : NumberInt(0)
+    },
+    {
+        "_id" : ObjectId("5b9fbde97f07953d41256b33"),
+        "name" : "Test4",
+        "type" : "rima.user",
+        "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+        "ideaId" : NumberInt(0),
+        "dataContent" : {
+            "hash" : "b4523dcbb2c79cb2347abfe3ac1d10d5d831abd664909d7c45a9d296ab9ee96f701894fe29a702984e92ba4d2fa9cda552ab98e06da1244ce644e7866dd80d52",
+            "salt" : "480501a1e8fcf0f213a488489c10ea05",
+            "email" : "test_user4@gmail.com",
+            "lastName" : "User",
+            "firstName" : "Test4"
         },
         "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
         "updatedAt" : ISODate("2018-09-11T13:48:27.641+0000"),
