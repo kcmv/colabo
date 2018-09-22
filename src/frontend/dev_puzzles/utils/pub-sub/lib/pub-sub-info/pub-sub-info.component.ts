@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'topiChat-simple-message-form',
-  templateUrl: './simple-message-form.component.html',
-  styleUrls: ['./simple-message-form.component.css']
+  selector: 'pub-sub-info-form',
+  templateUrl: './pub-sub-info.component.html',
+  styleUrls: ['./pub-sub-info.component.css']
 })
-export class TopiChatSimpleMessageForm implements OnInit {
+export class PubSubInfoForm implements OnInit {
+  public messageContent:string;
   public messages = [
     {
       timestamp: "Tue 1st Jan",

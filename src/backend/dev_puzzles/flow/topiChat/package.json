@@ -1,0 +1,22 @@
+{
+    "name": "@colabo-flow/b-topiChat",
+    "description": "This is a ColaboFlow topiChat puzzle of the backend part of the Colabo.Space ecosystem",
+    "version": "0.0.5",
+    "private": true,
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {
+        "amqplib": "^0.5.2",
+        "chalk": "^2.4.1",
+        "uuid": "^3.3.2"
+    },
+    "peerDependencies": {},
+     "peerDependenciesLocal": {
+        "@colabo-flow/b-services": "0.1.0",
+        "@colabo-topiChat/b-core": "0.1.0"
+    },
+    "devDependencies": {}
+}

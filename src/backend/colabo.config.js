@@ -10,7 +10,8 @@ var puzzles = {
         "@colabo-topiChat/b-core": {},
         "@colabo-topiChat/b-knalledge": {},
         "@colabo-topiChat/b-talk": {},
-        "@colabo-utils/b-config": {}
+        "@colabo-utils/b-config": {},
+        "@colabo-flow/b-services": {}
     },
     offers: {
         "@colabo-knalledge/b-knalledge-storage-mongo": {
@@ -48,6 +49,10 @@ var puzzles = {
         "@colabo-utils/b-config": {
             npm: "@colabo-utils/b-config",
             path: "dev_puzzles/utils/config"
+        },
+        "@colabo-flow/b-services": {
+            npm: "@colabo-flow/b-services",
+            path: "dev_puzzles/flow/services"
         }
     }
 }

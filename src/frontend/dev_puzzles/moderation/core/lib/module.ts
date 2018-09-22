@@ -23,6 +23,9 @@ import {UserActionsStatusesComponent} from '../moderation-panel/insights/user-ac
 import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
 
 import {RimaAaaModule} from '@colabo-rima/rima_aaa/module';
+import {TopiChatCoreModule} from '@colabo-topiChat/core';
+import {ColaboFlowTopiChatModule} from '@colabo-flow/topiChat';
+import {TopiChatSystemModule} from '@colabo-topiChat/system';
 
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm
@@ -45,7 +48,15 @@ var moduleImports: any[] = [
     BrowserAnimationsModule,
     MaterialModule,
     ColaboFlowCoreModule,
-    RimaAaaModule
+    RimaAaaModule,
+    TopiChatCoreModule,
+    ColaboFlowTopiChatModule,
+    // TODO!!! FIX!!!
+    // necessary because otherwise TopiChatCoreService is missing
+    // not sure if we need to add it here or in modules that depends on it
+    // like ColaboFlowTopiChatModule, TopiChatSystemModule, ...
+    // if we add it there, then we might end up with N instances of TopiChatCoreService
+    TopiChatSystemModule
 ];
 
 @NgModule({

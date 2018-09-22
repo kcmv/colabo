@@ -11,10 +11,11 @@ import { MaterialModule } from './materialModule';
 
 import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
-import { PubSubInfoForm } from './pub-sub-info/pub-sub-info.component';
+import { TopiChatSystemService } from './topiChat-system.service';
+import { TopiChatSystemForm } from './system-form/system-form.component';
 
 var moduleDeclarations:any[] = [
-    PubSubInfoForm
+    TopiChatSystemForm
 ];
 
 var moduleImports: any[] = [
@@ -37,6 +38,7 @@ var moduleImports: any[] = [
     // exports: moduleImports.concat(moduleDeclarations)
     exports: moduleDeclarations,
     providers: [
+        TopiChatSystemService
     ]
 })
-export class ColaboUtilsPubSubModule { }
+export class TopiChatSystemModule { }

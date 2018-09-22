@@ -23,7 +23,6 @@
         "index.ts"
     ],
     "include": [
-        "config"
     ],
     "exclude": [
         "**/*d.ts"

@@ -1,23 +1,16 @@
 var variables = {
-    ANGULAR_PACKAGES_FOLDER: '../../',
-    ANGULAR_BUILD_PACKAGES_FOLDER: '../../'
+    ANGULAR_PACKAGES_FOLDER: '../../../',
+    ANGULAR_BUILD_PACKAGES_FOLDER: '../../../'
 };
 
 var puzzles = {
-    name: "performing_sustainable_coevolution",
-    description: "Performing Sustainable CoEvolution (PSC). Developed upon CoLaboArthon, DialoGame, and CoEvoLudens formats)",
+    name: "colaboFlow-services",
+    description: "Colabo.space ecosystem - ColaboFlow-services demo app for testing coordination with backend services",
     dependencies: {
         "@colabo-puzzles/puzzles_core": {},
-        "@colabo-knalledge/knalledge_core": {},
-        "@colabo-knalledge/knalledge_store_core": {},
         "@colabo-rima/rima_aaa": {},
-        "@colabo-utils/pub-sub": {},
         "@colabo-topiChat/core": {},
-        "@colabo-topiChat/talk": {},
-        "@colabo-topiChat/system": {},
-        "@colabo-colaboflow/core": {},
-        "@colabo-flow/topiChat": {},
-        "@colabo-moderation/core": {}
+        "@colabo-utils/pub-sub": {},
     },
     offers: {}
 };

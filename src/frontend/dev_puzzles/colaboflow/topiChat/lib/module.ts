@@ -1,3 +1,5 @@
+// @colabo-flow/topiChat
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -11,10 +13,11 @@ import { MaterialModule } from './materialModule';
 
 import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
-import { PubSubInfoForm } from './pub-sub-info/pub-sub-info.component';
+import { ColaboFlowTopiChatService } from './colaboFlow-topiChat.service';
+import { ColaboFlowTopiChatForm } from './colaboFlow-topiChat-form/colaboFlow-topiChat-form.component';
 
 var moduleDeclarations:any[] = [
-    PubSubInfoForm
+    ColaboFlowTopiChatForm
 ];
 
 var moduleImports: any[] = [
@@ -37,6 +40,7 @@ var moduleImports: any[] = [
     // exports: moduleImports.concat(moduleDeclarations)
     exports: moduleDeclarations,
     providers: [
+        ColaboFlowTopiChatService
     ]
 })
-export class ColaboUtilsPubSubModule { }
+export class ColaboFlowTopiChatModule { }

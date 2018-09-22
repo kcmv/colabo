@@ -47,6 +47,10 @@ export class Dialog2Btn {
     public dialogRef: MatDialogRef<Dialog2Btn>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
+  onNoClick(value:any): void {
+    this.dialogRef.close(value);
+  }
+
     // on1stClick(value:any): void {
     //   this.dialogRef.close(value);
     // }

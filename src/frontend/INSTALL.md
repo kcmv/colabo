@@ -206,6 +206,14 @@ https://stackoverflow.com/questions/43557090/angularcli-disable-minification
 
 ### Problems
 
+#### No internet: npm link
+
+you can do it manually for local puzzles/packages
+
+```sh
+ln -s /Users/sasha/Documents/data/development/KnAllEdge/src/frontend/dev_puzzles/topiChat/system /usr/local/lib/node_modules/\@colabo-topiChat/system
+```
+
 #### Cannot resolve all parameters for (Service)
 
 https://github.com/angular/angular/issues/21526

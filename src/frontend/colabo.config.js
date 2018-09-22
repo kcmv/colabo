@@ -52,6 +52,14 @@ var puzzles = {
         "@colabo-colaboflow/core": {
             npm: "@colabo-colaboflow/core",
             path: "dev_puzzles/colaboflow/core"
+        },
+        "@colabo-flow/topiChat": {
+            npm: "@colabo-flow/topiChat",
+            path: "dev_puzzles/colaboflow/topiChat"
+        },
+        "@colabo-topiChat/system": {
+            npm: "@colabo-topiChat/system",
+            path: "dev_puzzles/topiChat/system"
         }
     }
 }

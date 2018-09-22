@@ -1,14 +1,13 @@
 {
-    "name": "@colabo-moderation/core",
+    "name": "@colabo-topiChat/system",
     "version": "0.0.1",
-    "description": "Provides core support for moderation",
+    "description": "Provides system notifications through topiChat",
     "private": true,
     "scripts": {
         "build": "tsc"
     },
-    "main": "dist/index.js",
-    "module": "dist/index.js",
-    "dependencies": {},
+    "dependencies": {
+    },
     "peerDependencies": {
         "@angular/cdk": "^2.0.0-beta.12",
         "@angular/common": "^5.0.0",
@@ -23,8 +22,7 @@
         "zone.js": "^0.8.14"
     },
     "peerDependenciesLocal": {
-        "@colabo-colaboflow/core": "0.0.1",
-        "@colabo-rima/rima_aaa": "^0.0.1"
+        "@colabo-topiChat/topiChat-core": "0.1.0"
     },
     "devDependencies": {},
     "devDependenciesLocal": {}

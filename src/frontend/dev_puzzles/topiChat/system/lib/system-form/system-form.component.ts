@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import {TopiChatTalkService, TopiChatTalkEvents, TopiChatPackage, ColaboPubSubPlugin} from '../topiChat-talk.service';
+import {TopiChatSystemService, TopiChatSystemEvents, TopiChatPackage, ColaboPubSubPlugin} from '../topiChat-system.service';
 
 @Component({
-  selector: 'topiChat-talk-form',
-  templateUrl: './talk-form.component.html',
-  styleUrls: ['./talk-form.component.css']
+  selector: 'topiChat-system-form',
+  templateUrl: './system-form.component.html',
+  styleUrls: ['./system-form.component.css']
 })
-export class TopiChatTalkForm implements OnInit {
+export class TopiChatSystemForm implements OnInit {
 
   public messages = [
     {
@@ -15,10 +15,10 @@ export class TopiChatTalkForm implements OnInit {
         timestamp: "010101"
       },
       from: {
-        name: "Саша"
+        name: "Лазар"
       },
       content: {
-        text: "Здраво, Колабо!"
+        text: "load_users"
       }
     },
     {
@@ -26,10 +26,10 @@ export class TopiChatTalkForm implements OnInit {
         timestamp: "010102"
       },
       from: {
-        name: "Синиша"
+        name: "Бојана"
       },
       content: {
-        text: "Ћао, Колабо!"
+        text: "go_to_next_round!"
       }
     },
     {
@@ -47,28 +47,28 @@ export class TopiChatTalkForm implements OnInit {
   public messageContent:string;
 
   constructor(
-    private TopiChatTalkService: TopiChatTalkService
+    private TopiChatSystemService: TopiChatSystemService
   ) {
   }
 
   ngOnInit() {
       // called on helo message
       function clientTalk(eventName, msg, tcPackage:TopiChatPackage) {
-          console.log('[TopiChatTalkForm:clientTalk] Client id: %s', tcPackage.clientIdReciever);
+          console.log('[TopiChatSystemForm:clientTalk] Client id: %s', tcPackage.clientIdReciever);
           console.log('\t msg: %s', JSON.stringify(tcPackage.msg));
           this.messages.push(tcPackage.msg);
       }
 
       // registering system plugin
       let talkPluginOptions:ColaboPubSubPlugin = {
-          name: "topiChat-talk-form",
+          name: "topiChat-system-form",
           events: {}
       };
-      talkPluginOptions.events[TopiChatTalkEvents.ChatMessage] = clientTalk.bind(this);
-      this.TopiChatTalkService.registerPlugin(talkPluginOptions);
+      talkPluginOptions.events[TopiChatSystemEvents.ChatMessage] = clientTalk.bind(this);
+      this.TopiChatSystemService.registerPlugin(talkPluginOptions);
   }
 
-  sendMessage(){
+  sendMessage(action:string){
       var msg:any = {
         meta: {
           timestamp: Math.floor(new Date().getTime() / 1000)
@@ -80,8 +80,8 @@ export class TopiChatTalkForm implements OnInit {
           text: this.messageContent
         }
       };
-      console.log('[TopiChatTalkForm:sendMessage] sending message: %s', this.messageContent);
-      this.TopiChatTalkService.emit(TopiChatTalkEvents.ChatMessage, msg);
+      console.log('[TopiChatSystemForm:sendMessage] sending message: %s', this.messageContent);
+      this.TopiChatSystemService.emit(TopiChatSystemEvents.ChatMessage, msg);
       this.messageContent = "";
   }
 }

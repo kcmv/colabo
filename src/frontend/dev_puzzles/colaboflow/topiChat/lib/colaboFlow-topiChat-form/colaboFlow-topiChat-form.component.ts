@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import {TopiChatTalkService, TopiChatTalkEvents, TopiChatPackage, ColaboPubSubPlugin} from '../topiChat-talk.service';
+import {ColaboFlowTopiChatService, ColaboFlowTopiChatEvents, TopiChatPackage, ColaboPubSubPlugin} from '../colaboFlow-topiChat.service';
 
 @Component({
-  selector: 'topiChat-talk-form',
-  templateUrl: './talk-form.component.html',
-  styleUrls: ['./talk-form.component.css']
+  selector: 'colaboFlow-topiChat-form',
+  templateUrl: './colaboFlow-topiChat-form.component.html',
+  styleUrls: ['./colaboFlow-topiChat-form.component.css']
 })
-export class TopiChatTalkForm implements OnInit {
+export class ColaboFlowTopiChatForm implements OnInit {
 
   public messages = [
     {
@@ -47,14 +47,14 @@ export class TopiChatTalkForm implements OnInit {
   public messageContent:string;
 
   constructor(
-    private TopiChatTalkService: TopiChatTalkService
+    private ColaboFlowTopiChatService: ColaboFlowTopiChatService
   ) {
   }
 
   ngOnInit() {
       // called on helo message
       function clientTalk(eventName, msg, tcPackage:TopiChatPackage) {
-          console.log('[TopiChatTalkForm:clientTalk] Client id: %s', tcPackage.clientIdReciever);
+          console.log('[ColaboFlowTopiChatForm:clientTalk] Client id: %s', tcPackage.clientIdReciever);
           console.log('\t msg: %s', JSON.stringify(tcPackage.msg));
           this.messages.push(tcPackage.msg);
       }
@@ -64,8 +64,8 @@ export class TopiChatTalkForm implements OnInit {
           name: "topiChat-talk-form",
           events: {}
       };
-      talkPluginOptions.events[TopiChatTalkEvents.ChatMessage] = clientTalk.bind(this);
-      this.TopiChatTalkService.registerPlugin(talkPluginOptions);
+      talkPluginOptions.events[ColaboFlowTopiChatEvents.ChatMessage] = clientTalk.bind(this);
+      this.ColaboFlowTopiChatService.registerPlugin(talkPluginOptions);
   }
 
   sendMessage(){
@@ -80,8 +80,8 @@ export class TopiChatTalkForm implements OnInit {
           text: this.messageContent
         }
       };
-      console.log('[TopiChatTalkForm:sendMessage] sending message: %s', this.messageContent);
-      this.TopiChatTalkService.emit(TopiChatTalkEvents.ChatMessage, msg);
+      console.log('[ColaboFlowTopiChatForm:sendMessage] sending message: %s', this.messageContent);
+      this.ColaboFlowTopiChatService.emit(ColaboFlowTopiChatEvents.ChatMessage, msg);
       this.messageContent = "";
   }
 }
