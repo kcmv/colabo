@@ -3,6 +3,8 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {},
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "dependencies": {},
     "peerDependencies": {
         "@angular/cdk": "^2.0.0-beta.12",
