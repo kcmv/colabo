@@ -6,6 +6,8 @@
     "scripts": {
         "build": "tsc"
     },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "dependencies": {},
     "peerDependencies": {},
     "peerDependenciesLocal": {},

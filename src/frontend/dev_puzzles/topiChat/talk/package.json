@@ -6,6 +6,8 @@
     "scripts": {
         "build": "tsc"
     },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "dependencies": {
         "@types/socket.io-client": "^1.4.32",
         "socket.io-client": "^2.1.1"
@@ -24,6 +26,8 @@
         "zone.js": "^0.8.14"
     },
     "peerDependenciesLocal": {
+        "@colabo-rima/rima_core": "^0.0.1",
+        "@colabo-knalledge/knalledge_core": "0.1.0",
         "@colabo-topiChat/topiChat-core": "0.1.0"
     },
     "devDependencies": {},

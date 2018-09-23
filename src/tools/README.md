@@ -7,11 +7,13 @@ Before installing backend or frontend part of the Colabo.Space ecosystem you nee
 # Install
 
 ```sh
+# install tsc (TypeScript compiler)
+sudo npm install -g typescript
 cd tools
 # install (and build (from TypeScript)) the Colabo Tools
 yarn
 # export the `colabo` tool globally
-npm run link
+sudo npm run link
 ```
 
 # Build

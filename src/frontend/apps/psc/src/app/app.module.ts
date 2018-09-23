@@ -19,9 +19,12 @@ import {MaterialModule} from './materialModule';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
+
+// Puzzle modules
 import { RimaAaaModule } from '@colabo-rima/rima_aaa';
 import { ModerationCoreModule } from '@colabo-moderation/core';
 import { ColaboFlowCoreModule } from '@colabo-colaboflow/core';
+import { TopiChatTalkModule } from '@colabo-topiChat/talk';
 import {SimilarityModule} from '@colabo-ai-ml/similarity';
 
 import {SDGsService} from './select-sdgs/sdgs.service';
@@ -117,9 +120,12 @@ var moduleImports = [
   // MatInputModule,
   // MatFormFieldControl
   // rima
+
+  // Puzzle modules
   , RimaAaaModule
   , ModerationCoreModule
   , ColaboFlowCoreModule
+  , TopiChatTalkModule
   , SimilarityModule
 ];
 // moduleImports.push(MainModule);

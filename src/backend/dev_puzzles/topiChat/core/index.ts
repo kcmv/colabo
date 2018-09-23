@@ -28,8 +28,11 @@ export interface TopiChatEvents{
 }
 
 export interface TopiChatPackage {
-	clientIdSender: string;
-	clientIdReciever: string;
+  clientIdSender: string;
+  iAmIdSender?: string;
+  clientIdReciever: string;
+  iAmIdReciever?: string;
+  timestamp: number; // TODO: make ie everywhere available
 	msg?: any
 }
 
@@ -152,7 +155,8 @@ export class TopiChat{
 		// sending the client-init package back to new client
 		let tcPackage:TopiChatPackage = {
 			clientIdReciever: clientId,
-			clientIdSender: TopiChatClientIDs.Server
+			clientIdSender: TopiChatClientIDs.Server,
+			timestamp: Math.floor(new Date().getTime() / 1000)
 		};
 		socket.emit(TopiChatSystemEvents.ClientInit, tcPackage);
 
@@ -185,7 +189,8 @@ export class TopiChat{
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: clientIdSender,
 			clientIdReciever: TopiChatClientIDs.Broadcast,
-			msg: msg
+			msg: msg,
+			timestamp: Math.floor(new Date().getTime() / 1000)
 		};
 		console.log('[TopiChat:emit] emitting event (%s) with message: %s', eventName, JSON.stringify(tcPackage));
 		// TODO: support option for demanding broadcasting to everyone, even the sender
@@ -202,6 +207,7 @@ export class TopiChat{
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: TopiChatClientIDs.Server,
 			clientIdReciever: clientIdSender,
+			timestamp: Math.floor(new Date().getTime() / 1000),
 			msg: {
 				timestamp: this.getTimestamp(),
 				text: "Hello from server!",

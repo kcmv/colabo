@@ -13,8 +13,11 @@ export enum TopiChatSystemEvents{
 }
 
 export interface TopiChatPackage {
-	clientIdSender: string;
-	clientIdReciever: string;
+  clientIdSender: string;
+  iAmIdSender?: string;
+  clientIdReciever: string;
+  iAmIdReciever?: string;
+  timestamp: number;
 	msg?: any
 }
 
@@ -24,6 +27,8 @@ export interface TopiChatClientInfo{
 }
 
 import * as socketIO from 'socket.io-client';
+
+import {RimaAAAService} from '@colabo-rima/rima_aaa';
 
 @Injectable()
 export class TopiChatCoreService{
@@ -38,8 +43,8 @@ export class TopiChatCoreService{
   private apiUrl: string;
 
   constructor(
-    // socketFactory, $rootScope, ENV, _TopiChatConfigService_
-    ) {
+    protected rimaAAAService:RimaAAAService
+  ) {
       // console.log("[TopiChatService] ENV: ", ENV);
       // this.socketFactory = socketFactory;
       // this.$rootScope = $rootScope;
@@ -106,7 +111,9 @@ export class TopiChatCoreService{
     // }
     var tcPackage:TopiChatPackage = {
         clientIdSender: this.clientInfo.clientId,
+        iAmIdSender: this.rimaAAAService.getUserId(),
         clientIdReciever: clientIdReciever ? clientIdReciever : this.clientInfo.serverId,
+        timestamp: Math.floor(new Date().getTime() / 1000),
         msg: msg
     };
     this._socket.emit(eventName, tcPackage);

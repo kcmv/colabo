@@ -1,5 +1,5 @@
 /*
- * Public API Surface of topiChat-core
+ * Public API Surface of @colabo-topiChat/talk
  */
 
 export {TopiChatTalkModule} from './lib/module';

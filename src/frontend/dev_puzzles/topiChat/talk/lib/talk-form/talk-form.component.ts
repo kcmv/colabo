@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import {TopiChatTalkService, TopiChatTalkEvents, TopiChatPackage, ColaboPubSubPlugin} from '../topiChat-talk.service';
 
+import {RimaAAAService} from '@colabo-rima/rima_aaa';
+import {KNode} from '@colabo-knalledge/knalledge_core';
+
 @Component({
   selector: 'topiChat-talk-form',
   templateUrl: './talk-form.component.html',
@@ -47,6 +50,7 @@ export class TopiChatTalkForm implements OnInit {
   public messageContent:string;
 
   constructor(
+    protected rimaAAAService:RimaAAAService,
     private TopiChatTalkService: TopiChatTalkService
   ) {
   }
@@ -69,12 +73,14 @@ export class TopiChatTalkForm implements OnInit {
   }
 
   sendMessage(){
+      let whoAmI:KNode = this.rimaAAAService.getUser();
       var msg:any = {
         meta: {
           timestamp: Math.floor(new Date().getTime() / 1000)
         },
         from: {
-          name: "Саша"
+          name: whoAmI.name, // whoAmI.dataContent.firstName
+          iAmId: this.rimaAAAService.getUserId()
         },
         content: {
           text: this.messageContent
@@ -82,6 +88,7 @@ export class TopiChatTalkForm implements OnInit {
       };
       console.log('[TopiChatTalkForm:sendMessage] sending message: %s', this.messageContent);
       this.TopiChatTalkService.emit(TopiChatTalkEvents.ChatMessage, msg);
+      this.messages.push(msg);
       this.messageContent = "";
   }
 }
