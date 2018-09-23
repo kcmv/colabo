@@ -104,7 +104,11 @@ export class ColaboConfigParser{
         var linkPath: string = this.colaboConfigFolder + puzzleOffer.path;
         console.log("\tlinkPath: %s", linkPath);
         return new Promise((resolve, reject) => {
-            ChildProcess.exec("npm link", { cwd: linkPath }, function(error, stdout, stderr) {
+            let offerCmd = "npm link";
+            if(this.colaboConfig.sudo && this.colaboConfig.sudo.offer){
+                offerCmd = "sudo " + offerCmd;
+            }
+            ChildProcess.exec(offerCmd, { cwd: linkPath }, function(error, stdout, stderr) {
                 if (error) {
                     if(this.isNpmWarning(error)){
                         console.warn(chalk.blue.bold("\t[%s] WARNING: "), puzzleOffer.npm, error);
@@ -146,7 +150,11 @@ export class ColaboConfigParser{
         console.log();
         console.log("Installing: %s", puzzleDependencyName);
         return new Promise((resolve, reject) => {
-            ChildProcess.exec("npm link " + puzzleDependencyName, { cwd: this.colaboConfigFolder }, function(error, stdout, stderr) {
+            let installCmd = "npm link " + puzzleDependencyName;
+            if(this.colaboConfig.sudo && this.colaboConfig.sudo.install){
+                installCmd = "sudo " + installCmd;
+            }
+            ChildProcess.exec(installCmd, { cwd: this.colaboConfigFolder }, function(error, stdout, stderr) {
                 if (error){
                     if (this.isNpmWarning(error)) {
                         console.warn(chalk.blue.bold("\t[%s] WARNING: "), puzzleDependencyName, error);
@@ -201,7 +209,12 @@ export class ColaboConfigParser{
             symLinkInfo.from = fs.realpathSync(fromUnresolved);
 
         }
-        let cmdStr = "rm -f " + symLinkInfo.to + "; ln -s " + symLinkInfo.from + " " + symLinkInfo.to;
+        let cmdStr;
+        if(this.colaboConfig.sudo && this.colaboConfig.sudo.symlinks){
+            cmdStr = "sudo rm -f " + symLinkInfo.to + "; sudo ln -s " + symLinkInfo.from + " " + symLinkInfo.to;
+        }else{
+            cmdStr = "rm -f " + symLinkInfo.to + "; ln -s " + symLinkInfo.from + " " + symLinkInfo.to;
+        }
         console.log("\tSymlinking command: %s", cmdStr);
         return new Promise((resolve, reject) => {
             ChildProcess.exec(cmdStr, { cwd: this.colaboConfigFolder }, function(error, stdout, stderr) {
@@ -250,6 +263,9 @@ export class ColaboConfigParser{
         console.log("\tbuildPath: %s", buildPath);
         return new Promise((resolve, reject) => {
             let buildCmd = "npm run build";
+            if(this.colaboConfig.sudo && this.colaboConfig.sudo.build){
+                buildCmd = "sudo " + buildCmd;
+            }
             // let buildCmd = "tsc";
             ChildProcess.exec(buildCmd, { cwd: buildPath }, function(error, stdout, stderr) {
                 if (error) {
