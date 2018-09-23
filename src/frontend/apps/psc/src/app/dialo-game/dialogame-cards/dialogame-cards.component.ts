@@ -40,7 +40,12 @@ export class DialogameCardsComponent implements OnInit {
 
   getStatus():string{
     if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){
-      return 'We\'ve found these performance cards for you.';
+      if(this.dialoGameService.colaboFlowService.colaboFlowState.state === ColaboFlowStates.OPENNING){
+        return 'We\'ve found these performance cards for you.';
+      }else{
+        return 'Our Colabo.Space system found these cards<br/>played by your co-creators in the previous round best fitting you';
+      }
+
     }
     else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
       return 'These are your cards to respond';

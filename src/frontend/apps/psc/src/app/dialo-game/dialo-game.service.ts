@@ -46,6 +46,7 @@ export class DialoGameService {
     let response:DialoGameResponse = new DialoGameResponse();
     response.player = this.rimaAAAService.getUser();
     this.responses.push(response);
+    this.colaboFlowService.getCFStateChanges().subscribe(this.cFStateChanged.bind(this));
   }
 
   private assignMyCards(nodes:any):void{ //KNode[]):void{
@@ -339,15 +340,28 @@ export class DialoGameService {
     this.colaboFlowService.undo();
   }
 
-  goToNextRound():void{
-    //this.colaboFlowService.myColaboFlowState.nextState();
-    this.colaboFlowService.myColaboFlowState.reset();
-    this.initNextRound(); //TODO this will be initiated by moderator
+  /*  called by ColaboFlowService when the playRound is changed */
+  cFStateChanged(cfState:KNode):void{
+    if(this.waitingForNextRound){
+      this.initNewRound();
+    }
   }
 
-  initNextRound():void{
-    this.colaboFlowService.colaboFlowState.nextState();
+  waitingForNextRound():boolean{
+    return this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.FINISHED;
+  }
+
+  // private goToNextRound():void{
+  //   //this.colaboFlowService.myColaboFlowState.nextState();
+  //
+  //   this.initNextRound();
+  // }
+
+  private initNewRound():void{
+    this.colaboFlowService.myColaboFlowState.reset();
     this.colaboFlowService.myColaboFlowState.nextState();
+    //this.colaboFlowService.colaboFlowState.nextState();
+    console.log('initNewRound',MyColaboFlowState.stateName(this.colaboFlowService.myColaboFlowState.state));
     this.getCards().subscribe(function(result:any){});
     //subscribe(this.cardsReceived.bind(this));
   }
@@ -381,7 +395,7 @@ export class DialoGameService {
         let edgeSaved = function(edgeSaved:KEdge):void{
           console.log('KEdge of the played (Card) created');
           this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.FINISHED;
-          this.goToNextRound();
+          //this.goToNextRound();
         }
         console.log('KNode (Card) saved', savedNode);
         edge.targetId = savedNode._id; //dialoGameResponse.responseCards[0]._id; //TODO - do it after saving kNode (in the case kNode.state = VO.STATE_LOCAL -- not saved yet)

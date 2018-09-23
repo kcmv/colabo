@@ -45,6 +45,10 @@ export class DialoGameComponent implements OnInit {
     return 'assets/images/user_icons/performer.jpg';
   }
 
+  waitingForNextRound():boolean{
+    return this.dialoGameService.waitingForNextRound();
+  }
+
   userName():string{
     return this.rimaAAAService.getUser() !== null ? this.rimaAAAService.getUser().name : 'not logged in';
   }

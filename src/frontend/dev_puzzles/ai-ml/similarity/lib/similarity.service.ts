@@ -20,7 +20,7 @@ export class SimilarityService {
 
   usersReceived(users:any[]):void{
     for(var i:number = 0; i<users.length; i++){
-      //requestSimilarity(users[i]._id), SimilarityService.MAP_ID, this.colaboFlowService.colaboFlowState.playRound);
+      //TODO: requestSimilarity(users[i]._id), SimilarityService.MAP_ID, this.colaboFlowService.colaboFlowState.playRound);
     }
   }
 }
