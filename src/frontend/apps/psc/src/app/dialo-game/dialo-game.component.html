@@ -7,7 +7,7 @@
             <button mat-mini-fab mat-tooltip="Почетак" tooltip-position="below" class="mat-mini mat-primary" aria-label="Почетак" routerLink="/" style="margin-right: 5px;">
                 <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
             </button>
-            <img class="usr-img" src = '{{userImg()}}'/> {{userName()}}
+            <span><img class="hidden" src = '{{userImg()}}'/></span> {{userName()}}
             <colabo-flow></colabo-flow>
             <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
             <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
@@ -43,9 +43,16 @@
                 <h3>DialoGame</h3>
 
                 <!-- <h1>United Nations Sustainable Development Goals (SDGs)</h1> -->
-                <span [hidden]='!canUndo()'><button mat-raised-button (click)="undo()">Undo</button></span> <span [hidden]='!canFinish()'><button mat-raised-button (click)="finish()">Finish</button></span>
-                <dialo-game-response></dialo-game-response>
-                <dialogame-cards></dialogame-cards>
+                <div class = 'bordered-block' *ngIf="waitingForNextRound(); else elseBlock">
+                  <b>Please, wait for the next round.</b><br/>
+                  Coffee and Smoki are for free<br/> as it is watching your co-creators<br/>
+                  in deepness of their creative process ...
+                </div>
+                <ng-template #elseBlock>
+                  <span [hidden]='!canUndo()'><button mat-raised-button (click)="undo()">Undo</button></span> <span [hidden]='!canFinish()'><button mat-raised-button (click)="finish()">Finish</button></span>
+                  <dialo-game-response></dialo-game-response>
+                  <dialogame-cards></dialogame-cards>
+                </ng-template>
             </div>
         </div>
     </div>

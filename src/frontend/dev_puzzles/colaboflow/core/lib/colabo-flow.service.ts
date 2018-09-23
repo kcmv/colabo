@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ColaboFlowState, ColaboFlowStates} from './colaboFlowState';
 import {MyColaboFlowState, MyColaboFlowStates} from './myColaboFlowState';
-
+import { Observable, of } from 'rxjs';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 
@@ -21,6 +21,49 @@ export class ColaboFlowService {
     this.myColaboFlowState = new MyColaboFlowState();
     //TODO: we can also load it by type='colaboflow.state'
     this.loadCFState();
+    let interval: number = <any>setInterval( ()=>{this.cFStateChanged()}, 2000);
+  }
+
+  //notification for this service by the 'observing service that the CFState is changed
+  cFStateChanged():void{
+    console.log("cFStateChanged");
+    this.knalledgeNodeService.getById(COLABO_FLOW_STATE_NODE_ID).subscribe(this.colaboFlowStateRELoaded.bind(this));
+  }
+
+  colaboFlowStateRELoaded(state:KNode):void{
+    if('dataContent' in state && 'playRound' in state.dataContent){
+      let oldRound:number = this.colaboFlowState.playRound;
+      this.colaboFlowStateLoaded(state);
+      if(oldRound !== this.colaboFlowState.playRound){
+          this.cFStateChangesReceived(state);
+      }
+    }
+  }
+
+  /**
+    for components (that want to be informed when the CFState is changed) to subscribe
+    @return list of suggested cards (KNode[]) sorted by similarity_quotient in a decreasing direction
+  */
+  getCFStateChanges():Observable<KNode>{
+    return new Observable(this.cFStateChangesSubscriber.bind(this));
+  }
+
+  cFStateChangesObserver:any = {};//Observer
+
+  cFStateChangesSubscriber(observer) { //:Observer) {
+    console.log('cFStateChangesSubscriber');
+    this.cFStateChangesObserver = observer;
+    return {unsubscribe() {}};
+  }
+
+  cFStateChangesReceived(state:KNode):void{
+
+    console.log('CFService::cFStateChangesReceived:', state);
+
+    this.cFStateChangesObserver.next(state);
+
+    //we call this when we want to finish:
+    //this.cFStateChangesReceivedObserver.complete();
   }
 
   loadCFState(){
