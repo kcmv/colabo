@@ -50,10 +50,8 @@ export class ColaboFlowTopiChat{
      * @param {String}	roomName The name of the room
      * @param {Integer}	port number that ColaboFlowTopiChat will listen on
      */
-    protected topiChat;
-    protected options;
     protected cfService;
-    protected connResult:Promise;
+    protected connResult:any;
 
     constructor(protected topiChat:TopiChat, protected options?:any) {
         options = options || {};
@@ -65,9 +63,6 @@ export class ColaboFlowTopiChat{
         this.connResult
             .then(result => console.log(chalk.blue.bold("[ColaboFlowTopiChat] connect finished with result: "), result))
             .catch(error => console.log(chalk.red.bold("[ColaboFlowTopiChat] connect finished with error: "), error));
-
-        // avoid rat race
-        await this.connResult;
 
         console.log('ColaboFlowTopiChat injected in the TopiChat room:%s', this.topiChat.getRoomName());
         var pluginOptions:TopiChatPlugin = {
@@ -101,9 +96,16 @@ export class ColaboFlowTopiChat{
         // therefore we have manually created queue for results
         // but (TODO), we still do not use it
 
+        // avoid rat race
+        // await this.connResult;
+
         let action:string = msg.content.action;
-        let parms:string = msg.content.parms;
-        let sendMsgResult = cfService.sendMessage(action, params);
+        let params:string = msg.content.params;
+        let content = {
+            action: action,
+            params: params
+        };
+        let sendMsgResult = this.cfService.sendMessage(action, params);
 
         var msg:any = {
             meta: {
