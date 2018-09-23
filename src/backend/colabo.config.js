@@ -2,7 +2,7 @@ var puzzles = {
     name: "b-colabo.space",
     description: "Colabo.space ecosystem - backend",
     sudo: {
-        "offer": false,
+        "offer": true,
         "install": false,
         "build": false,
         "symlinks": false

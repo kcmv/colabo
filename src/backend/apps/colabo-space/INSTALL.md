@@ -23,6 +23,11 @@ yarn
 # onda mozes vidjeti da li je sve stabilno
 ```
 
+```
+cd apps/colabo-space
+yarn
+```
+
 ***That is all***. Backend of the Colabo.Space ecosystem should be installed now. 
 
 The following section ist describing the process under hood.
@@ -58,6 +63,22 @@ cd src/backend
 npm link @colabo-knalledge/b-knalledge-storage-mongo
 ```
 
+## Installing on Server
+
+```sh
+cd /var/repos/colabo
+git checkout -- *
+rm src/backend/colabo.config.js~
+git pull
+cd src/backend
+# change colabo.config.js
+# puzzles.sudo.offer set to true
+joe colabo.config.js
+yarn
+cd apps/colabo-space
+yarn
+```
+
 # Development
 
 ## TypeScript
@@ -69,18 +90,34 @@ There is `tsconfig.json` file describing what we are interested in compiling and
 
 # Test
 
+```
+npm start
+```
+
 ```sh
 http://localhost:8001/kmaps/all.json
 http://localhost:8001/knodes/one/default/59d3d92d73a8d7b33b00970b
 http://localhost:8001/knodes/one/default/59d3b3f90d1f92de005c858e
 ```
 
+```sh
+https://fv.colabo.space/api/kmaps/all.json
+https://fv.colabo.space/api/knodes/one/default/59d3d92d73a8d7b33b00970b
+https://fv.colabo.space/api/knodes/one/default/59d3b3f90d1f92de005c858e
+```
+
 # Running
 
-Start the server
+(more info at: `colabo.space-infrastructure/uh-iaas.no-colabo.instance.md`)
 
-```
-npm start
+path: `/etc/systemd/system/knalledge-b.service`
+
+```sh
+sudo systemctl daemon-reload
+sudo systemctl enable knalledge-b.service
+sudo systemctl start knalledge-b.service
+sudo systemctl stop knalledge-b.service
+sudo systemctl status knalledge-b.service
 ```
 
 ### Problems

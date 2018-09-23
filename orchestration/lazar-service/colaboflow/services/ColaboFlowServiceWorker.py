@@ -90,7 +90,14 @@ class ColaboFlowServiceWorker():
 
 		action = msg['action']['name'];
 		params = msg['params'];
-		response = self.workerCallback(msg, action, params);
+		responseResult = self.workerCallback(msg, action, params);
+		response = {
+			'action': action,
+			'params': params,
+			'result': responseResult
+		};
+
+
 		responseSerialized = json.dumps(response);
 
 		print("")

@@ -69,6 +69,10 @@ export class TopiChatSystemForm implements OnInit {
   }
 
   sendMessage(action:string){
+      switch(action){
+        case '':
+          break;        
+      }
       var msg:any = {
         meta: {
           timestamp: Math.floor(new Date().getTime() / 1000)

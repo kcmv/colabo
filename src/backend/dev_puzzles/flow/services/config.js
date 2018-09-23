@@ -5,16 +5,18 @@ if (!global.hasOwnProperty('queue_broker')) {
 
 		// https://www.rabbitmq.com/uri-spec.html
         // amqp://user:pass@host.com:port/vhost
-		url: 'amqp://localhost:5672',
-		// url: 'amqp://colabo:colabo_usr56@localhost:5672',
 		// url: 'amqp://guest:guest@localhost:5672',
-		queue: 'colabo-service-localhost',
+		url: 'amqp://colabo:colabo_usr56@158.39.75.31:5672',
+		// url: 'amqp://localhost:5672',
+		queue: 'colabo-service',
+		// queue: 'colabo-service-localhost',
 
 		shouldRequestResult: true,
 		noAck: true,
 
-		shouldListenOnSeparateResponseQueue: true,
-		separateResponseQueue: 'colabo-service-response-localhost'
+		shouldListenOnSeparateResponseQueue: false,
+		separateResponseQueue: 'colabo-service-response'
+		// separateResponseQueue: 'colabo-service-response-localhost'
 	};
 }
 

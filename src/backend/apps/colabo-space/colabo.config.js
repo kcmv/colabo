@@ -10,7 +10,8 @@ var puzzles = {
         "@colabo-topiChat/b-core": {},
         "@colabo-topiChat/b-knalledge": {},
         "@colabo-topiChat/b-talk": {},
-        "@colabo-utils/b-config": {}
+        "@colabo-utils/b-config": {},
+        "@colabo-flow/b-topiChat": {}
     },
     offers: {
     }
