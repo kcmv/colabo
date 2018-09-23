@@ -16,6 +16,14 @@ yarn
 sudo npm run link
 ```
 
+## Server
+
+```sh
+sudo rm -r /var/repos/colabo/src/tools/dist/*
+yarn
+sudo npm run link
+```
+
 # Build
 
 You need to compile them first (they are written in TypeScript): `tsc`. There is a `tsconfig.json` file describing building procedure.
