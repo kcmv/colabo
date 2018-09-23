@@ -139,6 +139,7 @@ export class ColaboConfigParser{
 
     async offerPuzzles(): Promise<any>{
         console.log("Offering puzzles (`npm link`-ing them to the local machine) from the file '%s':", this.fileName);
+        console.log("this.colaboConfig.puzzles.sudo: ", JSON.stringify(this.colaboConfig.puzzles.sudo));
         for (let id in this.colaboConfig.puzzles.offers) {
             let puzzleOffer: PuzzlesOfferDescription = this.colaboConfig.puzzles.offers[id];
 
