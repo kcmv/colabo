@@ -277,63 +277,26 @@ export class DialoGameService {
 
   // challengeCardSelected
   cardSelected(cards: KNode[]){
-  //TODO:
-    if(this.colaboFlowService.colaboFlowState.state === ColaboFlowStates.OPENNING){
-      if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){ //OPENING CARD IS CHOSEN:
-        let response:DialoGameResponse = this.lastResponse;
-        response.playRound = this.colaboFlowService.colaboFlowState.playRound;
-
-        //TODO:
-        if(response.player === null){
-        console.warn('NOT LOGGED IN - DEMO USER USED');
-         response.player = KNode.factory(
-           {
-              "_id" : "5b97c7ab0393b8490bf5263c",
-              "name" : "Test",
-              "type" : "rima.user",
-              "iAmId" : "556760847125996dc1a4a24f",
-              "ideaId" : 0,
-              "dataContent" : {
-                  "hash" : "b4523dcbb2c79cb2347abfe3ac1d10d5d831abd664909d7c45a9d296ab9ee96f701894fe29a702984e92ba4d2fa9cda552ab98e06da1244ce644e7866dd80d52",
-                  "salt" : "480501a1e8fcf0f213a488489c10ea05",
-                  "email" : "test_user@gmail.com",
-                  "lastName" : "User",
-                  "firstName" : "Test"
-              },
-              "mapId" : "5b96619b86f3cc8057216a03",
-              "updatedAt" : "2018-09-11T13:48:27.641+0000",
-              "createdAt" : "2018-09-11T13:48:27.624+0000",
-              "visual" : {
-                  "isOpen" : false
-              },
-              "isPublic" : true,
-              "version" : 1,
-              "activeVersion" : 1,
-              "__v" : 0
-            }
-         )
-        }
-
-
-        response.challengeCards = cards;
-        this.responses.push(response);
-        this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_RESPONSE_CARD;
-      }
-      else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
-        //MyCards:
-        this.lastResponse.responseCards = cards;
-        this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_DECORATOR_TYPE;
-      }
-      else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR_TYPE){
-        this.lastResponse.decorators[this.lastResponse.decorators.length - 1] = new CardDecorator(cards[0].name); //TODO: hardcoded decoration of the last decorator
-        this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_DECORATOR;
-      }
-      else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR){
-        this.lastResponse.decorators[this.lastResponse.decorators.length - 1].decorator = cards[0].name; //TODO: hardcoded decoration of the last decorator
-        this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.PREVIEWING;
-      }
+    if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){ //OPENING CARD IS CHOSEN:
+      let response:DialoGameResponse = this.lastResponse;
+      response.playRound = this.colaboFlowService.colaboFlowState.playRound;
+      response.challengeCards = cards;
+      this.responses.push(response);
+      this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_RESPONSE_CARD;
     }
-
+    else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
+      //MyCards:
+      this.lastResponse.responseCards = cards;
+      this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_DECORATOR_TYPE;
+    }
+    else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR_TYPE){
+      this.lastResponse.decorators.push(new CardDecorator(cards[0].name)); //TODO: hardcoded decoration of the last decorator
+      this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_DECORATOR;
+    }
+    else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR){
+      this.lastResponse.decorators[this.lastResponse.decorators.length - 1].decorator = cards[0].name; //TODO: hardcoded decoration of the last decorator
+      this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_DECORATOR_TYPE;
+    }
   }
 
   undo():MyColaboFlowStates{
@@ -349,6 +312,14 @@ export class DialoGameService {
 
   waitingForNextRound():boolean{
     return this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.FINISHED;
+  }
+
+  playing():boolean{
+    return !(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.FINISHED) && !(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.PREVIEWING);
+  }
+
+  previewing():boolean{
+    return this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.PREVIEWING;
   }
 
   // private goToNextRound():void{

@@ -23,6 +23,10 @@ export class DialogameCardsComponent implements OnInit {
   ngOnInit() {
     //TODO: to set-up based on state, later druing the game, upon restarting browser etc, the current state with some other cards should be set up
     this.dialoGameService.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_CHALLENGE_CARD;
+    this.dialoGameService.colaboFlowService.loadCFState().subscribe(this.cFStateLoaded.bind(this));
+  }
+
+  cFStateLoaded(state:KNode):void{
     this.dialoGameService.getCards().subscribe(this.cardsReceived.bind(this));
     this.dialoGameService.getSuggestions().subscribe(this.suggestionsReceived.bind(this));
   }
@@ -51,7 +55,11 @@ export class DialogameCardsComponent implements OnInit {
       return 'These are your cards to respond';
     }
     else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR_TYPE){
-      return 'You can decorate your card';
+      if(this.dialoGameService.lastResponse.decorators.length === 0){
+          return 'You can decorate your card';
+      }else{
+        return 'You can continue decorating your card or you can Finish and send it';
+      }
     }
     else if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR){
       return 'You have chosen type of decoration';
@@ -107,10 +115,10 @@ export class DialogameCardsComponent implements OnInit {
   }
 
   openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-        duration: 3000,
-      }
-    );
+    // this.snackBar.open(message, action, {
+    //     duration: 3000,
+    //   }
+    // );
   }
 
 }

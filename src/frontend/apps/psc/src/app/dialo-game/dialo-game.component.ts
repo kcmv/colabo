@@ -49,6 +49,10 @@ export class DialoGameComponent implements OnInit {
     return this.dialoGameService.waitingForNextRound();
   }
 
+  playing():boolean{
+    return this.dialoGameService.playing();
+  }
+
   userName():string{
     return this.rimaAAAService.getUser() !== null ? this.rimaAAAService.getUser().name : 'not logged in';
   }

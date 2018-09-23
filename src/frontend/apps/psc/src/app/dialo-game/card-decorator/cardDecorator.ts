@@ -63,14 +63,14 @@ export class CardDecorator{
             'desc':'A question for the next player',
             'img':''
           },
-          'answer':{
-            'desc':'Answer to the question',
-            'img':''
-          },
-          'challenge':{
-            'desc':'Challenge for the next player',
-            'img':''
-          },
+          // 'answer':{
+          //   'desc':'Answer to the question',
+          //   'img':''
+          // },
+          // 'challenge':{
+          //   'desc':'Challenge for the next player',
+          //   'img':''
+          // },
           'conflict':{
             'desc':'Conflicting with the previous card',
             'img':''
@@ -116,12 +116,13 @@ export class CardDecorator{
             'img':'assets/images/emoticons/anger.jpg'
           }
       }
-    },
-
-    'requests':{
-      'desc':'request for the player of the next card',
-
     }
+    // ,
+    //
+    // 'requests':{
+    //   'desc':'request for the player of the next card',
+    //
+    // }
   }
 
   static getDecorators(type:string=null):KNode[]{

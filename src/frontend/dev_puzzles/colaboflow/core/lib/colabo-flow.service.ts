@@ -1,3 +1,4 @@
+import { catchError, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {ColaboFlowState, ColaboFlowStates} from './colaboFlowState';
 import {MyColaboFlowState, MyColaboFlowStates} from './myColaboFlowState';
@@ -20,7 +21,7 @@ export class ColaboFlowService {
     this.colaboFlowState = new ColaboFlowState();
     this.myColaboFlowState = new MyColaboFlowState();
     //TODO: we can also load it by type='colaboflow.state'
-    this.loadCFState();
+    this.loadCFState().subscribe(node => {});
     //let interval: number = <any>setInterval( ()=>{this.cFStateChanged()}, 2000);
   }
 
@@ -66,8 +67,12 @@ export class ColaboFlowService {
     //this.cFStateChangesReceivedObserver.complete();
   }
 
-  loadCFState(){
-    this.knalledgeNodeService.getById(COLABO_FLOW_STATE_NODE_ID).subscribe(this.colaboFlowStateLoaded.bind(this));
+  loadCFState():Observable<KNode>{
+    let result = this.knalledgeNodeService.getById(COLABO_FLOW_STATE_NODE_ID)
+    .pipe(
+      tap(node => this.colaboFlowStateLoaded(node))
+    );
+    return result;
   }
 
   colaboFlowStateLoaded(state:KNode):void{
