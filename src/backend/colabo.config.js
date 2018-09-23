@@ -1,6 +1,12 @@
 var puzzles = {
     name: "b-colabo.space",
     description: "Colabo.space ecosystem - backend",
+    sudo: {
+        "offer": false,
+        "install": false,
+        "build": false,
+        "symlinks": false
+    },
     dependencies: {
         "@colabo-knalledge/b-knalledge-storage-mongo": {},
         "@colabo-knalledge/b-knalledge-core": {},
@@ -11,7 +17,8 @@ var puzzles = {
         "@colabo-topiChat/b-knalledge": {},
         "@colabo-topiChat/b-talk": {},
         "@colabo-utils/b-config": {},
-        "@colabo-flow/b-services": {}
+        "@colabo-flow/b-services": {},
+        "@colabo-flow/b-topiChat": {}
     },
     offers: {
         "@colabo-knalledge/b-knalledge-storage-mongo": {
@@ -53,6 +60,10 @@ var puzzles = {
         "@colabo-flow/b-services": {
             npm: "@colabo-flow/b-services",
             path: "dev_puzzles/flow/services"
+        },
+        "@colabo-flow/b-topiChat": {
+            npm: "@colabo-flow/b-topiChat",
+            path: "dev_puzzles/flow/topiChat"
         }
     }
 }
