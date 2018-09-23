@@ -336,8 +336,8 @@ export class DialoGameService {
 
   }
 
-  undo():void{
-    this.colaboFlowService.undo();
+  undo():MyColaboFlowStates{
+    return this.colaboFlowService.undo();
   }
 
   /*  called by ColaboFlowService when the playRound is changed */

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ColaboFlowService} from '../colabo-flow.service';
 import {ColaboFlowState} from '../colaboFlowState';
-import {MyColaboFlowState} from '../myColaboFlowState';
+import {MyColaboFlowState, MyColaboFlowStates} from '../myColaboFlowState';
 
 @Component({
   selector: 'colabo-flow',
@@ -15,6 +15,17 @@ export class ColaboFlowComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  shown():boolean{
+    return true;
+    // let state:MyColaboFlowStates = this.colaboFlowService.myColaboFlowState.state;
+    // console.log('shown',state);
+    // return !(state === MyColaboFlowStates.NOT_STARTED) && !(state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD);
+  }
+
+  GetCFState():void{
+    this.colaboFlowService.cFStateChanged();
   }
 
   cfState():string{

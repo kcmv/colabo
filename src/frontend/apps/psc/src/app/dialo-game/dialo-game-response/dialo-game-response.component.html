@@ -1,4 +1,4 @@
-<div class="response">
+<div class="response" *ngIf='shown'>
   Your ({{response?.player?.name}}) current response:
   <dialogame-card class="card" [cardData]="getResponseCard()"></dialogame-card>
   <div>

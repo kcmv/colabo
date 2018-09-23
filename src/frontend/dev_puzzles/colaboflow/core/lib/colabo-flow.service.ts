@@ -21,7 +21,7 @@ export class ColaboFlowService {
     this.myColaboFlowState = new MyColaboFlowState();
     //TODO: we can also load it by type='colaboflow.state'
     this.loadCFState();
-    let interval: number = <any>setInterval( ()=>{this.cFStateChanged()}, 2000);
+    //let interval: number = <any>setInterval( ()=>{this.cFStateChanged()}, 2000);
   }
 
   //notification for this service by the 'observing service that the CFState is changed
@@ -96,7 +96,7 @@ export class ColaboFlowService {
     this.dbDialoGameState = state;
   }
 
-  undo():void{
-    this.myColaboFlowState.goBack();
+  undo():MyColaboFlowStates{
+    return this.myColaboFlowState.goBack();
   }
 }

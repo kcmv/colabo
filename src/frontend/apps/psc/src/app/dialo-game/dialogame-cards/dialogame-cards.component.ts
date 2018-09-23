@@ -41,9 +41,9 @@ export class DialogameCardsComponent implements OnInit {
   getStatus():string{
     if(this.dialoGameService.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){
       if(this.dialoGameService.colaboFlowService.colaboFlowState.state === ColaboFlowStates.OPENNING){
-        return 'We\'ve found these performance cards for you.';
+        return "Start the dialogue by choosing a question that the dreaming you've done might answer on";
       }else{
-        return 'Our Colabo.Space system found these cards<br/>played by your co-creators in the previous round best fitting you';
+        return 'Our Colabo.Space system found these cards played by your co-creators in the previous round best fitting you';
       }
 
     }

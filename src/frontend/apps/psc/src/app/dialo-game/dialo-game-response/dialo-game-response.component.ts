@@ -3,6 +3,8 @@ import {DialoGameService} from '../dialo-game.service';
 import {DialoGameResponse} from './dialoGameResponse';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {CardDecorator} from '../card-decorator//cardDecorator';
+import {MyColaboFlowStates} from '@colabo-colaboflow/core/lib/myColaboFlowState';
+import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
 
 @Component({
   selector: 'dialo-game-response',
@@ -13,12 +15,19 @@ export class DialoGameResponseComponent implements OnInit {
 
   response:DialoGameResponse;
   constructor(
-    private dialoGameService: DialoGameService
+    private dialoGameService: DialoGameService,
+    public colaboFlowService: ColaboFlowService
   ) { }
 
   ngOnInit() {
     this.response = this.dialoGameService.lastResponse;
     //responseCards[0]
+  }
+
+  shown():boolean{
+    let state:MyColaboFlowStates = this.colaboFlowService.myColaboFlowState.state;
+    console.log('shown',state);
+    return !(state === MyColaboFlowStates.NOT_STARTED) && !(state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD);
   }
 
   getResponseCard():KNode{
