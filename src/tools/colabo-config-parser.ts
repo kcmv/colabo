@@ -108,6 +108,7 @@ export class ColaboConfigParser{
             if(this.colaboConfig.sudo && this.colaboConfig.sudo.offer){
                 offerCmd = "sudo " + offerCmd;
             }
+            console.log("\t offer command: %s", offerCmd);
             ChildProcess.exec(offerCmd, { cwd: linkPath }, function(error, stdout, stderr) {
                 if (error) {
                     if(this.isNpmWarning(error)){
@@ -154,6 +155,7 @@ export class ColaboConfigParser{
             if(this.colaboConfig.sudo && this.colaboConfig.sudo.install){
                 installCmd = "sudo " + installCmd;
             }
+            console.log("\t install command: %s", installCmd);
             ChildProcess.exec(installCmd, { cwd: this.colaboConfigFolder }, function(error, stdout, stderr) {
                 if (error){
                     if (this.isNpmWarning(error)) {
@@ -215,7 +217,7 @@ export class ColaboConfigParser{
         }else{
             cmdStr = "rm -f " + symLinkInfo.to + "; ln -s " + symLinkInfo.from + " " + symLinkInfo.to;
         }
-        console.log("\tSymlinking command: %s", cmdStr);
+        console.log("\t symlinking command: %s", cmdStr);
         return new Promise((resolve, reject) => {
             ChildProcess.exec(cmdStr, { cwd: this.colaboConfigFolder }, function(error, stdout, stderr) {
                 if (error){
@@ -267,6 +269,7 @@ export class ColaboConfigParser{
                 buildCmd = "sudo " + buildCmd;
             }
             // let buildCmd = "tsc";
+            console.log("\t build command: %s", buildCmd);
             ChildProcess.exec(buildCmd, { cwd: buildPath }, function(error, stdout, stderr) {
                 if (error) {
                     if(this.isNpmWarning(error)){
