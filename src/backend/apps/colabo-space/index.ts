@@ -65,6 +65,9 @@ var topiChat = new TopiChat(app, 'Colabo.Space', portTC);
 import {TopiChatTalk} from '@colabo-topiChat/b-talk';
 var topiChatTalk = new TopiChatTalk(topiChat);
 
+import {ColaboFlowTopiChat} from '@colabo-flow/b-topiChat';
+var colaboFlowTopiChat = new ColaboFlowTopiChat(topiChat);
+
 topiChat.connect();
 
 // var bodyParser = require('body-parser');

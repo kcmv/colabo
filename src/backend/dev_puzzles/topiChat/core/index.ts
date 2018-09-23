@@ -185,9 +185,10 @@ export class TopiChat{
 		}
 	}
 
-	emit(eventName:string, msg, clientIdSender) {
+	emit(eventName:string, msg, clientIdSender?:string) {
 		let tcPackage:TopiChatPackage = {
-			clientIdSender: clientIdSender,
+			clientIdSender: clientIdSender ? 
+				clientIdSender : TopiChatClientIDs.Server,
 			clientIdReciever: TopiChatClientIDs.Broadcast,
 			msg: msg,
 			timestamp: Math.floor(new Date().getTime() / 1000)
@@ -196,9 +197,28 @@ export class TopiChat{
 		// TODO: support option for demanding broadcasting to everyone, even the sender
 		// this.io.emit(eventName, tcPackage); // to everyone
 
-		let socketSender = this.clientIdToSocket[clientIdSender];
-		socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
+		if(clientIdSender){
+			let socketSender = this.clientIdToSocket[clientIdSender];
+			socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
+		}else{
+			this.io.emit(eventName, tcPackage); // to everyone
+		}
 		// socketSender.emit(eventName, tcPackage);
+	};
+
+	sendSingle(eventName:string, msg, clientIdSender, clientIdReceiver) {
+		let tcPackage:TopiChatPackage = {
+			clientIdSender: clientIdSender,
+			clientIdReciever: clientIdReceiver,
+			msg: msg,
+			timestamp: Math.floor(new Date().getTime() / 1000)
+		};
+		console.log('[TopiChat:emit] emitting event (%s) with message: %s', eventName, JSON.stringify(tcPackage));
+		// TODO: support option for demanding broadcasting to everyone, even the sender
+		// this.io.emit(eventName, tcPackage); // to everyone
+
+		let socketReceiver = this.clientIdToSocket[clientIdReceiver];
+		socketReceiver.emit(eventName, tcPackage); // to clientIdReceiver only
 	};
 
 	clientEcho(eventName:string, msg:any, clientIdSender) {

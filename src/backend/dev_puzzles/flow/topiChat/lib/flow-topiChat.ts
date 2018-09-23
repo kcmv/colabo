@@ -101,10 +101,6 @@ export class ColaboFlowTopiChat{
 
         let action:string = msg.content.action;
         let params:string = msg.content.params;
-        let content = {
-            action: action,
-            params: params
-        };
         let sendMsgResult = this.cfService.sendMessage(action, params);
 
         var msg:any = {
@@ -113,15 +109,24 @@ export class ColaboFlowTopiChat{
             },
             from: {
                 name: "Colabo.Space",
-                iAmId: "8886619b86f3cc8057216a05"// this.rimaAAAService.getUserId()
+                iAmId: "5ba74d9ac1534c5ab492e30f"// this.rimaAAAService.getUserId()
             },
-            content: content
+            content: null
         };
 
         sendMsgResult
             .then((result:any) => {
                 console.log(chalk.blue.bold("ColaboFlow action (%s) finished with result: "), action, result);
 
+                let content = {
+                    action: action,
+                    params: params,
+                    result: result
+                };
+                msg.content = content;
+                // should be only to sender (this.topiChat.sendSingle), but it is safer
+                // as client might break and client ID can change?! ...
+                this.topiChat.emit(ColaboFlowTopiChatEvents.ActionResponse, msg);
             })
             .catch(error => console.log(chalk.red.bold("ColaboFlow action (%s) finished with error: "), action, error));
         

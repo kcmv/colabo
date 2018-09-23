@@ -10,8 +10,8 @@ import {ColaboPubSubPlugin, ColaboPubSub} from '@colabo-utils/pub-sub';
 export {TopiChatPackage, ColaboPubSubPlugin};
 
 export enum ColaboFlowTopiChatEvents{
-	ChatInit = 'tc:chat-init',
-	ChatMessage = 'tc:chat-message'
+    Action = 'colaboflow:action',
+    ActionResponse = 'colaboflow:action_response'
 }
 
 @Injectable()
@@ -32,39 +32,39 @@ export class ColaboFlowTopiChatService{
   init() {
       if(!this._isActive) return;
 
-      // called on init message
-      function chatInit(eventName, msg, tcPackage:TopiChatPackage) {
-          console.log('[ColaboFlowTopiChatService:chatInit] Client id: %s', tcPackage.clientIdReciever);
-          this.clientInfo.clientId = tcPackage.clientIdReciever;
-      }
-      // called on helo message
-      function clientMessage(eventName, msg, tcPackage:TopiChatPackage) {
-          console.log('[ColaboFlowTopiChatService:clientMessage] Client id: %s', tcPackage.clientIdReciever);
-          console.log('\t msg: %s', JSON.stringify(tcPackage.msg));
-      }
+      // // called on init message
+      // function chatInit(eventName, msg, tcPackage:TopiChatPackage) {
+      //     console.log('[ColaboFlowTopiChatService:chatInit] Client id: %s', tcPackage.clientIdReciever);
+      //     this.clientInfo.clientId = tcPackage.clientIdReciever;
+      // }
+      // // called on helo message
+      // function clientMessage(eventName, msg, tcPackage:TopiChatPackage) {
+      //     console.log('[ColaboFlowTopiChatService:clientMessage] Client id: %s', tcPackage.clientIdReciever);
+      //     console.log('\t msg: %s', JSON.stringify(tcPackage.msg));
+      // }
 
-      // registering chat plugin
-      let chatPluginOptions:any = {
-          name: "topiChat-talk",
-          events: {}
-      };
-      chatPluginOptions.events[ColaboFlowTopiChatEvents.ChatInit] = chatInit.bind(this);
-      chatPluginOptions.events[ColaboFlowTopiChatEvents.ChatMessage] = clientMessage.bind(this);
-      this.topiChatCoreService.registerPlugin(chatPluginOptions);
+      // // registering chat plugin
+      // let chatPluginOptions:any = {
+      //     name: "topiChat-talk",
+      //     events: {}
+      // };
+      // chatPluginOptions.events[ColaboFlowTopiChatEvents.ChatInit] = chatInit.bind(this);
+      // chatPluginOptions.events[ColaboFlowTopiChatEvents.ChatMessage] = clientMessage.bind(this);
+      // this.topiChatCoreService.registerPlugin(chatPluginOptions);
 
-      var msg:any =     {
-        meta: {
-          timestamp: Math.floor(new Date().getTime() / 1000),
-        },
-        from: {
-          name: "Colabo"
-        },
-        content: {
-          text: "(Init) Hello from client!"
-        }
-      };
+      // var msg:any =     {
+      //   meta: {
+      //     timestamp: Math.floor(new Date().getTime() / 1000),
+      //   },
+      //   from: {
+      //     name: "Colabo"
+      //   },
+      //   content: {
+      //     text: "(Init) Hello from client!"
+      //   }
+      // };
 
-      this.topiChatCoreService.emit(ColaboFlowTopiChatEvents.ChatMessage, msg);
+      // this.topiChatCoreService.emit(ColaboFlowTopiChatEvents.ChatMessage, msg);
   }
 
   /**

@@ -77,7 +77,7 @@ export class ColaboFlowService{
 	}
 
 	async sendMessage(action, params){
-		console.log("Sending message with action: '%s' and params: '%s'", action, params);
+		console.log("[ColaboFlowService:sendMessage] Sending message with action: '%s' and params: '%s'", action, params);
 
 		return new Promise(async (resolve, reject) => {
 			try{
@@ -91,6 +91,7 @@ export class ColaboFlowService{
 					console.log("processFinish: isRequestResultReady: %s, isSeparateResponseQueue: %s",
 						isRequestResultReady, isSeparateResponseQueue);
 					if(isRequestResultReady && isSeparateResponseQueue){
+						console.log("[ColaboFlowService:sendMessage] resolving")
 						resolve(result);
 					}
 				}
@@ -135,13 +136,13 @@ export class ColaboFlowService{
 								// console.log(' [.] Got response, %s', msg.content.toString());
 								// console.log(' [.] Got response, %s', JSON.stringify(responseMsg.content));
 								console.log(' [.] Got response, %s', responseMsg.content);
-								// setTimeout(function() { conn.close(); process.exit(0) }, 500); 
+								// setTimeout(function() { conn.close(); process.exit(0) }, 500);
 							}
 						}
 						isRequestResultReady = true;
 						result = JSON.parse(responseMsg.content);
 						processFinish();
-					}, {noAck: this.noAck});                
+					}, {noAck: this.noAck});
 				}
 				if(this.shouldListenOnSeparateResponseQueue){
 					// wait for response

@@ -9,8 +9,12 @@ from colaboflow.services.ColaboFlowServiceWorker import ColaboFlowServiceWorker;
 
 def callback(msg, action, params):
     response = {
-        'msg': "All is fine!",
-        'uuid': str(uuid.uuid4())
+        'id': '88888',
+        'object': {
+            'name': 'colabo.space demo',
+            'id': '555',
+            'origin': '?'
+        }
     };
 
     if(action == 'get_sims_for_user'):
@@ -18,10 +22,12 @@ def callback(msg, action, params):
         iAmId = msg['params']['iAmId']
         roundId = msg['params']['roundId']
         print("[colaboflow_service_demo:callback] Calling action '%r' with parameters(mapId:%r, iAmId:%r, roundId:%r)" % (action, mapId, iAmId, roundId))
+        response['object']['origin'] = 'get_sims_for_user';
         # response = ds(mapId, iAmId, roundId)
     if(action == 'get_sims'):
         mapId = msg['params']['mapId']
         print("[colaboflow_service_demo:callback] Calling action '%r' with parameters(mapId:%r)" % (action, mapId))
+        response['object']['origin'] = 'get_sims';
         # response = d(mapId)
 
     print("\t response: %r" % (response))

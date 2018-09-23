@@ -1,5 +1,5 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
+#!/usr/bin/python
 #............  load modules   ............#
 
 
@@ -8,6 +8,7 @@
 
 #from colabo_db import *
 
+import json
 import re, csv, sys, os, glob, string
 import pymongo, codecs
 from pymongo import MongoClient
@@ -23,142 +24,9 @@ import numpy as np
 import nltk
 from nltk.tag import pos_tag
 from nltk import *
-#from nltk.corpus import stopwords
-#stopwords = stopwords.words("english")
-stop_words_set = set(u"""baš
-bez
-biće
-bio
-biti
-blizu
-broj
-dana
-danas
-doći
-dobar
-dobiti
-dok
-dole
-došao
-drugi
-duž
-dva
-često
-čiji
-gde
-gore
-hvala
-ići
-iako
-ide
-ima
-imam
-imao
-ispod
-između
-iznad
-izvan
-izvoli
-jedan
-jedini
-jednom
-jeste
-još
-juee
-kad
-kako
-kao
-koga
-koja
-koje
-koji
-kroz
-mali
-manji
-misli
-mnogo
-moći
-mogu
-mora
-morao
-naæi
-naš
-negde
-nego
-nekad
-neki
-nemam
-nešto
-nije
-nijedan
-nikada
-nismo
-ništa
-njega
-njegov
-nje
-njih
-njih
-oko
-okolo
-ona
-onaj
-oni
-ono
-osim
-ostali
-otišao
-ovako
-ovamo
-ovde
-ove
-ovo
-pitati
-početak
-pojedini
-posle
-povodom
-praviti
-pre
-preko
-prema
-prvi
-staviti
-radije
-sada
-smeti
-šta
-stvar
-stvarno
-sutra
-svaki
-sve
-svim
-svugde
-točno
-tada
-taj
-takoðe
-tamo
-tim
-ueinio
-ueiniti
-umalo
-unutra
-upotrebiti
-uzeti
-vaš
-veæina
-veoma
-video
-više
-zahvaliti
-zašto
-zbog
-želeo
-želi
-znati
-""".split())
+from nltk.corpus import stopwords
+stopwords = stopwords.words("english")
+stop_words_set = set(stopwords)
 stop_words_set.add('|')
 from nltk.stem.snowball import SnowballStemmer
 stemmer = SnowballStemmer("english")
@@ -173,12 +41,15 @@ from gensim.models import Word2Vec#, Doc2Vec
 from gensim.similarities.docsim import Similarity
 #import gensim.models.doc2vec
 
+def stem_word(s):
+    return stemmer.stem(s)
+
 from gensim.models import Word2Vec
 from gensim.models import FastText
 #model = gensim.models.KeyedVectors.load('C:\Users\lazar\Desktop\en_1000_no_stem\en.model')
 #model = Word2Vec.load('D:\glove_WIKI') # glove model
-#model = Word2Vec.load('C:\Users\lazar\Desktop\GoogleNews-vectors-negative300.bin') # word2vec model
-from stemmerByNikola import *
+#model = Word2Vec.load('GoogleNews-vectors-negative300.bin') # word2vec model
+#from stemmerByNikola import *
 
 print 'imported part 1 ...'
 
@@ -191,16 +62,22 @@ class Sentences(object):
             yield line.split('\t')[1].split()
 
 test = False
-# test = True
-if test:
-    print 'testing, loading test model ...'
+#test = True
+#doeng = True
+doeng = True
+
+if test or doeng:
     #sentences = Sentences('srp-rs_web_2016_1M-sentences.txt')
-    sentences = Sentences('srp-rs_web_2016_30K-sentences.txt')
+    #sentences = Sentences('srp-rs_web_2016_30K-sentences.txt')
+    print ('1')
+    sentences = Sentences('eng_wikipedia_2016_1M/eng_wikipedia_2016_1M-sentences.txt')
+    print ('1.1')
     model = gensim.models.Word2Vec(sentences)
+    print ('2')
     #model.wv.save_word2vec_format('srp.sent.model.txt', binary=False)
 else:
-    print 'not testing, loading real model ...'
     model = gensim.models.KeyedVectors.load_word2vec_format('wiki.sr.vec') # glove model
+    #model = gensim.models.KeyedVectors.load_word2vec_format('glove.6B.300d.txt') # glove model
 
 print 'imported part 2 ...'
 
@@ -582,7 +459,7 @@ def get_ideas(q = '', mid='', what="rima.user.dream", runda=-1):
         if runda < 0:
             docs = collection.find({'type':what, "mapId" : ObjectId(mid)})#'iAmId': ObjectId(q), 
         else:
-            docs = collection.find({'type':what, "mapId" : ObjectId(mid), "dataContent.dialoGameReponse.playRound" : runda}) # 'iAmId': ObjectId(q), , '_id': {'$ne': q}
+            docs = collection.find({'$or': [ {'iAmId': ObjectId(q), 'type':what, "mapId" : ObjectId(mid)}, {"dataContent.dialoGameReponse.playRound" : runda, 'type':what, "mapId" : ObjectId(mid)}]}) # 'iAmId': ObjectId(q), , '_id': {'$ne': q}
     else:docs = collection.find({'$text': {'$search': q}, 'type':what, "mapId" : ObjectId(mid)}, {'score': {'$meta': "textScore"}}).sort({'score':{'$meta':"textScore"}})
     for doc in docs:
         if doc['name']:
@@ -971,11 +848,50 @@ def ds(mid, uid, rid):
             cwc_name = str(val[1])
             similarity_quotient = val[2]
             lst.append({"id":cwc_card_id,"cwc_content":cwc_name,"similarity_quotient":similarity_quotient})
-    _id = collection.insert({"mapId" : ObjectId(mid), 'type':'service.result.dialogame.cwc_similarities','gameRound':rid, 'iAmId':ObjectId(uid), "suggestions":lst})
-    return str({"_id":_id,"object":{"mapId" : ObjectId(mid), 'type':'service.result.dialogame.cwc_similarities','gameRound':rid, 'iAmId':ObjectId(uid), "suggestions":lst}})
+    _id = collection.insert({"mapId" : ObjectId(mid), 'type':'service.result.dialogame.cwc_similarities', 'iAmId':ObjectId(uid), "dataContent" : { "result" : {"suggestions":lst,'playRound':rid}}})
+    return str({"_id":_id, "name" : "Suggested CWC Cards from Service", "object":{"mapId" : ObjectId(mid), 'type':'service.result.dialogame.cwc_similarities', 'iAmId':ObjectId(uid), "dataContent" : { "result" : {"suggestions":lst,'playRound':rid}}}})
 
 import sys
 
 class simsAPI():
     def get_sims(self):
         return d(mid)
+
+print 'loading remote service provider'
+
+##############################
+# END OF THE BUSINESS LOGIC  #
+##############################
+
+with open('./config-server.json', 'r') as f:
+    config = json.load(f)
+
+if config['wrapper'] == 'colaboflow':
+    import uuid
+
+    # ColaboFlowServiceWorker is a class that handles services (workers) and opens them to other
+    # colaboflow local or remote consumers
+    from colaboflow.services.ColaboFlowServiceWorker import ColaboFlowServiceWorker;
+
+    # function that is called when a consumer calls service (worker)
+    def callback(msg, action, params):
+        response = "All is fine: " + str(uuid.uuid4());
+
+        if(action == 'get_sims_for_user'):
+            mapId = msg['params']['mapId']
+            iAmId = msg['params']['iAmId']
+            roundId = msg['params']['roundId']
+            print("[colaboflow_service_demo:callback] Calling action '%r' with parameters(mapId:%r, iAmId:%r, roundId:%r)" % (action, mapId, iAmId, roundId))
+            response = ds(mapId, iAmId, roundId)
+        if(action == 'get_sims'):
+            mapId = msg['params']['mapId']
+            print("[colaboflow_service_demo:callback] Calling action '%r' with parameters(mapId:%r)" % (action, mapId))
+            response = d(mapId)
+
+        print("\t response: %r" % (response))
+        print("\t")
+        return response;
+
+    cfService = ColaboFlowServiceWorker();
+    cfService.connect();
+    cfService.listen(callback);
