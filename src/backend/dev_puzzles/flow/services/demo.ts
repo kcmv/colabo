@@ -10,7 +10,7 @@ import {ColaboFlowService} from '@colabo-flow/b-services';
 
 let cfService = new ColaboFlowService();
 
-async function execute(){
+async function execute(action, params){
     // Connect
     let connResult = cfService.connect();
     connResult
