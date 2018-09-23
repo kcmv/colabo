@@ -105,10 +105,11 @@ export class ColaboConfigParser{
         console.log("\tlinkPath: %s", linkPath);
         return new Promise((resolve, reject) => {
             let offerCmd = "npm link";
-            if(this.colaboConfig.sudo && this.colaboConfig.sudo.offer){
+            if(this.colaboConfig.puzzles.sudo && this.colaboConfig.puzzles.sudo.offer){
                 offerCmd = "sudo " + offerCmd;
             }
             console.log("\t offer command: %s", offerCmd);
+
             ChildProcess.exec(offerCmd, { cwd: linkPath }, function(error, stdout, stderr) {
                 if (error) {
                     if(this.isNpmWarning(error)){
@@ -138,6 +139,7 @@ export class ColaboConfigParser{
 
     async offerPuzzles(): Promise<any>{
         console.log("Offering puzzles (`npm link`-ing them to the local machine) from the file '%s':", this.fileName);
+        console.log("this.colaboConfig.puzzles.sudo: ", JSON.stringify(this.colaboConfig.puzzles.sudo));
         for (let id in this.colaboConfig.puzzles.offers) {
             let puzzleOffer: PuzzlesOfferDescription = this.colaboConfig.puzzles.offers[id];
 
@@ -152,7 +154,7 @@ export class ColaboConfigParser{
         console.log("Installing: %s", puzzleDependencyName);
         return new Promise((resolve, reject) => {
             let installCmd = "npm link " + puzzleDependencyName;
-            if(this.colaboConfig.sudo && this.colaboConfig.sudo.install){
+            if(this.colaboConfig.puzzles.sudo && this.colaboConfig.puzzles.sudo.install){
                 installCmd = "sudo " + installCmd;
             }
             console.log("\t install command: %s", installCmd);
@@ -212,7 +214,7 @@ export class ColaboConfigParser{
 
         }
         let cmdStr;
-        if(this.colaboConfig.sudo && this.colaboConfig.sudo.symlinks){
+        if(this.colaboConfig.puzzles.sudo && this.colaboConfig.puzzles.sudo.symlinks){
             cmdStr = "sudo rm -f " + symLinkInfo.to + "; sudo ln -s " + symLinkInfo.from + " " + symLinkInfo.to;
         }else{
             cmdStr = "rm -f " + symLinkInfo.to + "; ln -s " + symLinkInfo.from + " " + symLinkInfo.to;
@@ -265,7 +267,7 @@ export class ColaboConfigParser{
         console.log("\tbuildPath: %s", buildPath);
         return new Promise((resolve, reject) => {
             let buildCmd = "npm run build";
-            if(this.colaboConfig.sudo && this.colaboConfig.sudo.build){
+            if(this.colaboConfig.puzzles.sudo && this.colaboConfig.puzzles.sudo.build){
                 buildCmd = "sudo " + buildCmd;
             }
             // let buildCmd = "tsc";

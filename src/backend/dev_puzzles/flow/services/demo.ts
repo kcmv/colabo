@@ -10,7 +10,7 @@ import {ColaboFlowService} from '@colabo-flow/b-services';
 
 let cfService = new ColaboFlowService();
 
-async function execute(){
+async function execute(action, params){
     // Connect
     let connResult = cfService.connect();
     connResult
@@ -20,13 +20,6 @@ async function execute(){
 
     // avoid rat race
     await connResult;
-    // send message
-    let action = 'get_sims_for_user';
-    let params = {
-        mapId: '5b96619b86f3cc8057216a03',
-        iAmId: '5b9fbde97f07953d41256b32',
-        roundId: 1
-    };
 
     let sendMsgResult = cfService.sendMessage(action, params);
     sendMsgResult
@@ -36,7 +29,15 @@ async function execute(){
     return sendMsgResult;
 }
 
-execute()
+// send message
+let action = 'get_sims_for_user';
+let params = {
+    mapId: '5b96619b86f3cc8057216a03',
+    iAmId: '5b9fbde97f07953d41256b32',
+    roundId: 1
+};
+
+execute(action, params)
     .then((result:any) => {
         console.log(chalk.blue.bold("ColaboFlow execution finished with \n\t result: %s,  \n\t message: %s"), JSON.stringify(result), result.msg);
     })
