@@ -20,8 +20,7 @@
     },
     "allowSyntheticDefaultImports": false,
     "files": [
-        "index.ts",
-        "demo.ts"
+        "index.ts"
     ],
     "include": [
     ],

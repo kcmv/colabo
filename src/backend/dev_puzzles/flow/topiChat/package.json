@@ -14,7 +14,7 @@
         "uuid": "^3.3.2"
     },
     "peerDependencies": {},
-     "peerDependenciesLocal": {
+    "peerDependenciesLocal": {
         "@colabo-flow/b-services": "0.1.0",
         "@colabo-topiChat/b-core": "0.1.0"
     },
