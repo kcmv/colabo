@@ -5,8 +5,8 @@
     <div fxFlex="64px" style="overflow-y: hidden;">
         <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
             <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
-            <button mat-mini-fab mat-tooltip="Почетак" tooltip-position="below" class="mat-mini mat-primary" aria-label="Почетак" routerLink="/" style="margin-right: 5px;">
-                <mat-icon [ngClass]="{warning: false}" title="Почетак">home</mat-icon>
+            <button mat-mini-fab mat-tooltip="Start" tooltip-position="below" class="mat-mini mat-primary" aria-label="Почетак" routerLink="/" style="margin-right: 5px;">
+                <mat-icon [ngClass]="{warning: false}" title="Start">home</mat-icon>
             </button> Colabo Login
         </mat-toolbar>
     </div>
@@ -19,7 +19,7 @@
                         <b>{{message?.from?.name}}</b> 
                     </h3>
                      (<b>{{message?.meta?.timestamp}}</b>)
-                    <p mat-line *ngIf="message.action === undefined">
+                    <p>
                         <span> {{message?.content?.text}} </span>
                     </p>
                 </mat-list-item>
@@ -30,7 +30,7 @@
                 <input matInput 
                     #inputMessage 
                     name="inputMessage"
-                    maxlength="140" 
+                    maxlength="200" 
                     placeholder="Type your message and press ENTER to send" 
                     [(ngModel)]="messageContent" 
                     (keyup.enter)="(inputMessage.value.length > 0) && sendMessage()">
