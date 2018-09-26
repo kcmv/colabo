@@ -5,10 +5,10 @@
     "private": true,
     "webSocketDebuggerUrl": "ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e",
     "scripts": {
-        "start": "node dist/index 8001 8002",
+        "start": "node dist/index 8001",
 
         "prepare": "colabo puzzles-offer; colabo puzzles-install; colabo puzzles-build; tsc",
-        "debug": "node --inspect-brk=5858 KnAllEdgeBackend 8001 8002",
+        "debug": "node --inspect-brk=5858 KnAllEdgeBackend 8001",
         "clean_full": "rm -r node_modules/; rm -r dev_puzzles/*/*/node_modules; rm -r dev_puzzles/*/*/dist; rm -r dist/"
     },
     "main": "dist/index.js",

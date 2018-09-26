@@ -1,10 +1,11 @@
 {
-    "name": "backend-support-colabo-space",
-    "description": "Support for Backend part of Colabo.Space (puzzles, config, ...)",
+    "name": "isomorphic-colabo-space",
+    "description": "Isomorphic (universal) part of Colabo.Space (puzzles, config, ...)",
     "version": "0.0.5",
     "private": true,
     "scripts": {
         "prepare": "colabo puzzles-offer; colabo puzzles-install; colabo puzzles-build",
+        "debug": "node --inspect-brk=5858 KnAllEdgeBackend 8001 8002",
         "clean_full": "rm -r node_modules/; rm -r dev_puzzles/*/*/node_modules; rm -r dev_puzzles/*/*/dist; rm -r dist/"
     },
     "dependencies": {

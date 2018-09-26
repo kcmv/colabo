@@ -2,7 +2,11 @@ process.chdir(__dirname);
 
 // import * as express from "express";
 
-let config = require('./config/global');
+let configFile = require('./config/global');
+console.log("[Colabo.Space:index] configFile.paths: %s", JSON.stringify(configFile.paths));
+let config = require('@colabo-utils/config');
+config.init(configFile);
+
 let async = require('async');
 let express = require('express');
 let resource = require('express-resource');
@@ -14,10 +18,6 @@ let flash = require('connect-flash');
 let puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-knalledge-storage-mongo');
 
 // let db = require('./models');
-
-console.log("[KnAllEdgeBackend.js:index] config.paths: %s", JSON.stringify(config.paths));
-console.log("[KnAllEdgeBackend.js:index] config.mockups: %s", JSON.stringify(config.mockups));
-console.log("[KnAllEdgeBackend.js:index] config.services: %s", JSON.stringify(config.services));
 
 function supportCrossOriginScript(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Content-Type");

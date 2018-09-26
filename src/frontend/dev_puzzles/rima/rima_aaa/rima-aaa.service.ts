@@ -17,9 +17,9 @@ import {UserData} from './userData';
 
 import { CFService } from '@colabo-knalledge/knalledge_store_core/cf.service';
 
-//this consts are defined by INSTALL.MD data:
-const MAP_ID = "5b49e7f736390f03580ac9a7";
-const USERS_NODE_ID:string = "5b4a16e800ea79029ca0c395";
+import * as config from '@colabo-utils/config';
+const MAP_ID = config.GetGeneral('mapId');
+const USERS_NODE_ID:string = config.GetGeneral('userNodeId');
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

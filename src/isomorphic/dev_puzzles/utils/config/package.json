@@ -1,5 +1,5 @@
 {
-    "name": "@colabo-utils/b-config",
+    "name": "@colabo-utils/config",
     "description": "Provides config support for the backend of the Colabo.Space Ecosystem",
     "version": "0.0.5",
     "private": true,

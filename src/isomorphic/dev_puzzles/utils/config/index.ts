@@ -8,17 +8,28 @@
 // because otherwise it would be bundled in a final file during building
 // and we wouldn't be able to change config after building project
 
-let Global = require('../../../../config/global');
-console.log("[config] Global:", Global);
-console.log("[config] Global.paths:", Global.paths);
-console.log("[config] Global.dbConfig:", Global.dbConfig);
-let Paths = Global.paths;
-let DbConfig = Global.dbConfig;
-let Puzzles = Global.puzzles;
-console.log("[config] Global:", Global);
+let Puzzles:any;
+let General:any;
+let configFile:any;
 
-export function GetForPuzzle(puzzleName):any{
+export function init(_configFile:any):any{
+    configFile = _configFile;
+    console.log("[config-init] configFile.general:", configFile.general);
+
+    Puzzles = configFile.puzzles;
+    General = configFile.general;
+}
+
+export function GetProperty(property):any{
+    return configFile[property];
+}
+
+export function GetPuzzle(puzzleName):any{
     return Puzzles[puzzleName];
 }
 
-export {Global, Paths, DbConfig};
+export function GetGeneral(property):any{
+    return General[property];
+}
+
+// export {Paths};

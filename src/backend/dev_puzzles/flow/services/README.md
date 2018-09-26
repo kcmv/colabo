@@ -6,7 +6,7 @@ It provides access to local or remote Colabo.Space services (workers)from other 
 
 # Config
 
-Config file is a JS file through `@colabo-utils/b-config` puzzle.
+Config file is a JS file through `@colabo-utils/config` puzzle.
 
 # Example
 

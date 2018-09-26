@@ -15,13 +15,12 @@ interface IConstructor<T> {
     factory(obj:any):T;
 }
 
+import * as config from '@colabo-utils/config';
+
 @Injectable()
 export class CFService {
-  //DB Mongo AP
-  static serverAP = "http://127.0.0.1:8001";
-  //static serverAP = "https://fv.colabo.space/api"; // colabo-space-1 (https)
-  // static serverAP = "http://api.colabo.space";
-  // static serverAP = "http://158.39.75.120:8001"; // colabo-space-1 (old)
+  // RESTfull backend API url
+  static serverAP = config.GetGeneral('serverUrl');
 
   static processVOs<T extends VO>(voS:ServerData, typeT:IConstructor<T>):Array<T>{
     //console.log("processVOs");

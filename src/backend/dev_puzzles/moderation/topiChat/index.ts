@@ -2,9 +2,9 @@ const MODULE_NAME:string = "@colabo-topiChat/b-talk";
 
 import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topiChat/b-core';
 
-import {GetForPuzzle} from '@colabo-utils/b-config';
+import {GetPuzzle} from '@colabo-utils/config';
 
-let puzzleConfig:any = GetForPuzzle(MODULE_NAME);
+let puzzleConfig:any = GetPuzzle(MODULE_NAME);
 console.log("[TopiChatTalk] Should we save chat? saveTalkToMap = ", puzzleConfig.saveTalkToMap);
 console.log("[TopiChatTalk] mapId = ", puzzleConfig.mapId);
 

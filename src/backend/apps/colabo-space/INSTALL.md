@@ -91,6 +91,7 @@ There is `tsconfig.json` file describing what we are interested in compiling and
 # Test
 
 ```
+cd /var/repos/colabo/src/backend/apps/colabo-space
 npm start
 ```
 
@@ -116,6 +117,7 @@ path: `/etc/systemd/system/knalledge-b.service`
 sudo systemctl daemon-reload
 sudo systemctl enable knalledge-b.service
 sudo systemctl start knalledge-b.service
+sudo systemctl restart knalledge-b.service
 sudo systemctl stop knalledge-b.service
 sudo systemctl status knalledge-b.service
 ```
