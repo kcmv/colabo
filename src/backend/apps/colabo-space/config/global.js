@@ -2,12 +2,17 @@
 
 // this is file is imported and exported 
 // to the rest of the system through the puzzle
-// `@colabo-utils/b-config`
-// (the puzzle looks for it with the relative path)
-// NOTE: in `KnAllEdgeBackend.ts` this file is still
-// required directly
+// `@colabo-utils/config`
 
-console.log("Setting up global for knalledge");
+// the initializing part of the application
+// like the apps/<app_name>/index.ts in the backend
+// or apps/<app_name>/src/main.ts
+// should (somehow) load it and pass it to 
+// the init method of the puzzle `@colabo-utils/config`
+
+// TODO: get params into separate property, 
+// to less risk and polute the global variable
+console.log("Setting up the global variable");
 
 var path = require('path');
 

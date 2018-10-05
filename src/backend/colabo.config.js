@@ -2,7 +2,7 @@ var puzzles = {
     name: "b-colabo.space",
     description: "Colabo.space ecosystem - backend",
     sudo: {
-        "offer": true,
+        "offer": false,
         "install": false,
         "build": false,
         "symlinks": false
@@ -16,7 +16,7 @@ var puzzles = {
         "@colabo-topiChat/b-core": {},
         "@colabo-topiChat/b-knalledge": {},
         "@colabo-topiChat/b-talk": {},
-        "@colabo-utils/b-config": {},
+        "@colabo-utils/config": {},
         "@colabo-flow/b-services": {},
         "@colabo-flow/b-topiChat": {}
     },
@@ -52,10 +52,6 @@ var puzzles = {
         "@colabo-topiChat/b-talk": {
             npm: "@colabo-topiChat/b-talk",
             path: "dev_puzzles/topiChat/talk"
-        },
-        "@colabo-utils/b-config": {
-            npm: "@colabo-utils/b-config",
-            path: "dev_puzzles/utils/config"
         },
         "@colabo-flow/b-services": {
             npm: "@colabo-flow/b-services",

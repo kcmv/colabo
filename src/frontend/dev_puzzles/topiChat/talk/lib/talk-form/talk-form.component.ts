@@ -13,39 +13,6 @@ import {KNode} from '@colabo-knalledge/knalledge_core';
 export class TopiChatTalkForm implements OnInit {
 
   public messages = [
-    {
-      meta: {
-        timestamp: "010101"
-      },
-      from: {
-        name: "Саша"
-      },
-      content: {
-        text: "Здраво, Колабо!"
-      }
-    },
-    {
-      meta: {
-        timestamp: "010102"
-      },
-      from: {
-        name: "Синиша"
-      },
-      content: {
-        text: "Ћао, Колабо!"
-      }
-    },
-    {
-      meta: {
-        timestamp: "010103"
-      },
-      from: {
-        name: "Colabo"
-      },
-      content: {
-        text: "Ћао, другари!"
-      }
-    }
   ];
   public messageContent:string;
 

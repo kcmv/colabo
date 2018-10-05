@@ -62,7 +62,9 @@ export class TopiChatCoreService{
       this.serverPubSub = new ColaboPubSub("SocketIoPlugins", this.registerNewEventType.bind(this));
 
       let socketOptions = {forceNew: false};
-      let socketUrl:string = 'http://localhost:8002/';
+      // let socketUrl:string = 'http://localhost:8001/';
+      let socketUrl:string = 'http://localhost/';
+      // let socketUrl:string = 'https://fv.colabo.space/api';
       this._socket = socketIO(socketUrl, socketOptions);
       console.log("[TopiChatService:init] connected to: ", socketUrl);
 

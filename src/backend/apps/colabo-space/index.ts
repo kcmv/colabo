@@ -2,7 +2,11 @@ process.chdir(__dirname);
 
 // import * as express from "express";
 
-let config = require('./config/global');
+let configFile = require('./config/global');
+console.log("[Colabo.Space:index] configFile.paths: %s", JSON.stringify(configFile.paths));
+let config = require('@colabo-utils/config');
+config.init(configFile);
+
 let async = require('async');
 let express = require('express');
 let resource = require('express-resource');
@@ -14,10 +18,6 @@ let flash = require('connect-flash');
 let puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-knalledge-storage-mongo');
 
 // let db = require('./models');
-
-console.log("[KnAllEdgeBackend.js:index] config.paths: %s", JSON.stringify(config.paths));
-console.log("[KnAllEdgeBackend.js:index] config.mockups: %s", JSON.stringify(config.mockups));
-console.log("[KnAllEdgeBackend.js:index] config.services: %s", JSON.stringify(config.services));
 
 function supportCrossOriginScript(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Content-Type");
@@ -50,25 +50,8 @@ function supportCrossOriginScript(req, res, next) {
 }
 
 var portHttp = process.argv[2] || process.env.PORT || 8888;
-var portTC = process.argv[3] || process.env.PORT_TC || 8060;
 
 var app = express();
-
-
-// TopiChat
-import {TopiChat} from '@colabo-topiChat/b-core';
-var topiChat = new TopiChat(app, 'Colabo.Space', portTC);
-
-// import {TopiChatKnAllEdge} from '@colabo-topiChat/b-knalledge';
-// var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
-
-import {TopiChatTalk} from '@colabo-topiChat/b-talk';
-var topiChatTalk = new TopiChatTalk(topiChat);
-
-import {ColaboFlowTopiChat} from '@colabo-flow/b-topiChat';
-var colaboFlowTopiChat = new ColaboFlowTopiChat(topiChat);
-
-topiChat.connect();
 
 // var bodyParser = require('body-parser');
 
@@ -122,6 +105,21 @@ PuzzleMediaUpload.initialize(app);
 // var smsapi = app.resource('smsapi', require('./modules/smsapi_old_JS')); //JS
 // var smsapi = app.resource('smsapi', require('./modules/smsapi')); //TS
 
-http.createServer(app).listen(app.get('port'), function () {
+// // TopiChat
+import {TopiChat} from '@colabo-topiChat/b-core';
+var topiChat = new TopiChat('Colabo.Space');
+
+// // import {TopiChatKnAllEdge} from '@colabo-topiChat/b-knalledge';
+// // var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
+
+import {TopiChatTalk} from '@colabo-topiChat/b-talk';
+var topiChatTalk = new TopiChatTalk(topiChat);
+
+import {ColaboFlowTopiChat} from '@colabo-flow/b-topiChat';
+var colaboFlowTopiChat = new ColaboFlowTopiChat(topiChat);
+
+let server = http.createServer(app).listen(app.get('port'), function () {
     console.log("Listening on " + app.get('port'));
 });
+
+topiChat.connect(server);

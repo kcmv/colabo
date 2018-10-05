@@ -58,7 +58,6 @@ export class TopiChat{
 	protected app:any;
 	protected ClientID:number;
 	protected roomName:string;
-	protected port:number;
 	protected http: any;
 	protected io: any;
 	protected plugins:TopiChatPlugins;
@@ -79,17 +78,13 @@ export class TopiChat{
 	* @name TopiChat
 	* @constructor
 	* @param {String}	roomName The name of the room
-	* @param {Integer}	port number that TopiChat will listen on
+	* @param {any}	options additional optiona
 	*/
-	constructor(app, roomName, port, options?:any){
+	constructor(roomName, options?:any){
 		options = options || {};
-		this.app = app;
 		this.ClientID = 0.0;
 		this.roomName = roomName;
-		this.port = port;
 		this.options = options;
-		this.http = Http.Server(this.app);
-		this.io = socketio(this.http);
 		this.plugins = {};
 		this.eventsByPlugins = {};
 		this.socketIdToClientId = {};
@@ -115,20 +110,15 @@ export class TopiChat{
 
 
 	/**
-	* Returns an instance of QueryInterface.
-
-	* @method getQueryInterface
-	* @return {QueryInterface} An instance (singleton) of QueryInterface.
-	*
-	* @see {QueryInterface}
+	* Connects to the TopiChat (socket.io) backend
+	* @method connect
+	* @param {}	server Express server
 	*/
-	connect() {
+	connect(server) {
+		this.io = socketio.listen(server);
+
 		this.io.on('connection', function(socket){
 			this.handleClientConnection(socket);
-		}.bind(this));
-
-		this.http.listen(this.port, function(){
-			console.log('[TopiChat:connect] TopiChat is listening on *:%s', this.port);
 		}.bind(this));
 	}
 

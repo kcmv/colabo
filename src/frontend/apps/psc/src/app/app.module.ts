@@ -136,7 +136,9 @@ moduleImports.push(AppRoutingModule);
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 
 declare var window:any;
-export var Plugins:any = window.Config.Plugins;
+
+// old external way of declaring puzzles' config
+// export var Plugins:any = window.Config.Plugins;
 
 @NgModule({
   declarations: moduleDeclarations,
@@ -150,7 +152,11 @@ export var Plugins:any = window.Config.Plugins;
   ],
   providers: [
     KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService,
-    {provide: "Plugins", useValue: Plugins},
+
+    // old external way of injecting puzzles' config 
+    // through Plugins service
+    // {provide: "Plugins", useValue: Plugins},
+
     // provide ng build error: "Can't resolve all parameters for GlobalEmitterService"
     // {provide: GlobalEmitterService, useClass: GlobalEmitterService},
     {provide: GlobalEmittersArrayService, useClass: GlobalEmittersArrayService},
