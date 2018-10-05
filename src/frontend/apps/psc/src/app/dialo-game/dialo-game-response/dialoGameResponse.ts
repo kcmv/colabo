@@ -1,6 +1,7 @@
 import {CardDecorator} from '../card-decorator/cardDecorator';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {MyColaboFlowState} from '@colabo-colaboflow/core/lib/myColaboFlowState';
+import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
 
 export class DialoGameResponse{
 
@@ -12,8 +13,38 @@ export class DialoGameResponse{
   decorators:CardDecorator[] = [];
   //state:MyColaboFlowState;
 
-  constructor(){
+  constructor(
+    private rimaAAAService: RimaAAAService
+  ){
+
     //this.state = new MyColaboFlowState();
+  }
+
+  fill(obj:any):void {
+  	if (obj) {
+      //super.fill(obj);
+      if ("playRound" in obj) { this.playRound = obj.playRound; }
+  		if ("decorators" in obj) {
+        for(let i in obj.decorators){
+          this.decorators.push(new CardDecorator(obj.decorators[i]));
+        }
+  		}
+      if("player" in obj){
+          this.rimaAAAService.getUserById(obj.player).subscribe(this.userReceived.bind(this));
+      }
+      //TODO support challengeCards by getting cards for real:
+      if('challengeCards' in obj && Array.isArray(obj.challengeCards)){
+        for(let i in obj.challengeCards){
+          let card = new KNode();
+          card._id = obj.challengeCards[i];
+          this.challengeCards.push(card);
+        }
+      }
+  	}
+  }
+
+  private userReceived(user:KNode):void{
+    this.player = user;
   }
 
   toServerCopy():any {

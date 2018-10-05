@@ -16,13 +16,15 @@ import {InsightsService} from '../insights.service';
 export class UserInsight{
   _id:string;
   name:string;
+  sdgs:number[];
   isPlayedCardRound1:boolean;
   isPlayedCardRound2:boolean;
   isPlayedCardRound3:boolean;
 
-  constructor(_id:string, name:string, isPlayedCardRound1:boolean, isPlayedCardRound2:boolean, isPlayedCardRound3:boolean){
+  constructor(_id:string, name:string, sdgs:number[], isPlayedCardRound1:boolean, isPlayedCardRound2:boolean, isPlayedCardRound3:boolean){
     this._id = _id;
     this.name = name;
+    this.sdgs = sdgs;
     this.isPlayedCardRound1 = isPlayedCardRound1;
     this.isPlayedCardRound2 = isPlayedCardRound2;
     this.isPlayedCardRound3 = isPlayedCardRound3;
@@ -63,7 +65,7 @@ export class UserActionsStatusesComponent implements OnInit {
     let usrId:string;
     for(var i:number=0; i<users.length; i++){
       usrId = users[i]._id;
-      this.dataSource.push(new UserInsight(users[i]._id, users[i].name, this.insightsService.hasUserPlayedInTheRound(usrId, 1), this.insightsService.hasUserPlayedInTheRound(usrId, 2), this.insightsService.hasUserPlayedInTheRound(usrId, 3)));
+      this.dataSource.push(new UserInsight(users[i]._id, users[i].name, [], this.insightsService.hasUserPlayedInTheRound(usrId, 1), this.insightsService.hasUserPlayedInTheRound(usrId, 2), this.insightsService.hasUserPlayedInTheRound(usrId, 3)));
     }
   }
 

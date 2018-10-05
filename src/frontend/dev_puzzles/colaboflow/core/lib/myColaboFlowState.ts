@@ -10,6 +10,7 @@ export const enum MyColaboFlowStates{
 
 export class MyColaboFlowState{
   public state:MyColaboFlowStates = MyColaboFlowStates.NOT_STARTED;
+  public data:any = {};
 
   static stateName(state):string{
     switch(state){

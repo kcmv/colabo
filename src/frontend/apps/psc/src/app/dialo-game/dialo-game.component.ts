@@ -15,6 +15,7 @@ export class DialoGameComponent implements OnInit {
 
   @ViewChild(DialogameCardsComponent)
   private dialogameCardsComponent: DialogameCardsComponent;
+  public myResponseOpen:boolean = true;
 
   dialogRef: any; //TODO: type: MatDialogRef;
   private initialized:boolean = false;

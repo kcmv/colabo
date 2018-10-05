@@ -172,9 +172,13 @@ export class SDGsService {
        //.subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
   }
 
-  getSDGSSelectedByUser(iAmId:string):void{
-
-  }
+  // getSDGSSelectedByUser(iAmId:string):void{
+  //   this.knalledgeNodeService.queryInMapofTypeForUser(environment.mapId, SDG_SELECTION_TYPE, this.rimaAAAService.getUserId)
+  // }
+  //
+  // getSDGSSelected(iAmId:string):void{
+  //   this.knalledgeNodeService.queryInMapofType(environment.mapId, SDG_SELECTION_TYPE)
+  // }
 
   saveSDGsSelection(sdgs:string[]):Observable<any>{
     let user_id:string = this.rimaAAAService.getUserId();

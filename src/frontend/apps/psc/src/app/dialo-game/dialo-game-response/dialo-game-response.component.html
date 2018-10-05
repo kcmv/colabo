@@ -1,7 +1,14 @@
-<div class="response" *ngIf='shown'>
-  Your ({{response?.player?.name}}) current response:
-  <dialogame-card class="card" [cardData]="getResponseCard()"></dialogame-card>
-  <div>
-      <card-decorator *ngFor="let decorator of getDecorators()" [decoratorData]="decorator "></card-decorator>
+<div class="response">
+  <div *ngIf="shown()">
+    Your <!--({{response?.player?.name}})--> current response:
+    <dialogame-card class="card" [cardData]="getResponseCard()" [response]="response"></dialogame-card>
+    on a challenge card:
+    <dialogame-card class="card" [cardData]="getChallengeCard()"></dialogame-card>
   </div>
+  <div *ngIf="!shown()">
+    Start playing to see your move here
+  </div>
+  <!-- <div>
+      <card-decorator *ngFor="let decorator of getDecorators()" [decoratorData]="decorator "></card-decorator>
+  </div> -->
 </div>
