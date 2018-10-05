@@ -27,13 +27,13 @@ if (typeof global !== 'undefined' && typeof global !== 'null'){
 console.log("[config/global.js] Populating the globalSet variable");
 
 if (!globalSet.hasOwnProperty('general')) {
-	console.log("Setting up globalSet.general");
+	console.log("[config/global.js] Setting up globalSet.general");
 	globalSet.general = {
 		// RESTfull backend API url
 		serverUrl: 'http://127.0.0.1:8001',
-		// serverUrl: 'https://fv.colabo.space/api'; // colabo-space-1 (https)
-		// serverUrl: 'http://api.colabo.space';
-		// serverUrl: 'http://158.39.75.120:8001'; // colabo-space-1 (old)
+		// serverUrl: 'https://fv.colabo.space/api', // colabo-space-1 (https)
+		// serverUrl: 'http://api.colabo.space',
+		// serverUrl: 'http://158.39.75.120:8001', // colabo-space-1 (old)
 
 		// active map
 		mapId: '5b96619b86f3cc8057216a03',
@@ -50,19 +50,17 @@ if (!globalSet.hasOwnProperty('general')) {
 }
 
 if (!globalSet.hasOwnProperty('puzzles')) {
-	console.log("Setting up globalSet.puzzles");
+	console.log("[config/global.js] Setting up globalSet.puzzles");
 	globalSet.puzzles = {
-		// '@colabo-topiChat/b-talk': {
-		// 	saveTalkToMap: true,
-		// 	mapId: "5b96619b86f3cc8057216a03",
-		// 	iAmId: "1b96619b86f3cc8057216a05",
-		// 	nodeId: ""
-		// }
+		'@colabo-topiChat/core': {
+			// socketUrl: 'http://localhost/',
+			socketUrl: 'http://localhost:8001/',
+			// socketUrl: 'https://fv.colabo.space/api',
+		}
 	};
 }
 
 console.log("[config/global.js] globalSet.puzzles:", globalSet.puzzles);
-
 
 // node support (export)
 if (typeof module !== 'undefined'){
@@ -75,3 +73,5 @@ if (typeof module !== 'undefined'){
     module['exports'] = globalSet;
   }
 }
+
+console.log("[config/global.js] finished");

@@ -20,13 +20,13 @@
                         "preserveSymlinks": true,
                         "assets": [
                             "src/assets",
-                            "src/favicon.ico"
+                            "src/favicon.ico",
+                            "src/config"
                         ],
                         "styles": [
                             "src/styles.css"
                         ],
                         "scripts": [
-                            "src/config/global.js",
                             "node_modules/@colabo-knalledge/knalledge_core/code/knalledge/index.js"
                         ]
                     },

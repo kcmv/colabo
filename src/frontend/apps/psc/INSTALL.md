@@ -45,7 +45,7 @@ this is done on the local dev machine
 cd src/frontend/apps/psc
 ng build --prod --build-optimizer
 # run local server for testing
-cd dist/psc
+cd dist/performing_sustainable_coevolution
 python -m SimpleHTTPServer 8000
 # reset the the server backend addr to the old value (for local computer)
 
