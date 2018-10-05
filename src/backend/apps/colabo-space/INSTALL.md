@@ -70,7 +70,12 @@ cd /var/repos/colabo
 git checkout -- *
 rm src/backend/colabo.config.js~
 git pull
-cd src/backend
+cd src/isomorphic
+# change colabo.config.js
+# puzzles.sudo.offer set to true
+joe colabo.config.js
+yarn
+cd ../backend
 # change colabo.config.js
 # puzzles.sudo.offer set to true
 joe colabo.config.js
