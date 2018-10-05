@@ -29,6 +29,7 @@ export function GetPuzzle(puzzleName):any{
 }
 
 export function GetGeneral(property):any{
+    console.log("[config:GetGeneral] property:", property);
     return General[property];
 }
 
