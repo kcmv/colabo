@@ -61,23 +61,52 @@ class Sentences(object):
         for line in open(self.filename):
             yield line.split('\t')[1].split()
 
-test = False
-#test = True
-#doeng = True
+# test = False
+test = True
+#doeng = False
 doeng = True
 
-if test or doeng:
-    #sentences = Sentences('srp-rs_web_2016_1M-sentences.txt')
-    #sentences = Sentences('srp-rs_web_2016_30K-sentences.txt')
-    print ('1')
-    sentences = Sentences('eng_wikipedia_2016_1M/eng_wikipedia_2016_1M-sentences.txt')
+
+if doeng:
+    print ('1 (ENG)')
+    if test:
+        print ('\t TEST')
+        sentences = Sentences('eng_wikipedia_2016_300K/eng_wikipedia_2016_300K-sentences.txt')
+    else:
+        print ('\t REAL')
+        sentences = Sentences('eng_wikipedia_2016_1M/eng_wikipedia_2016_1M-sentences.txt')
     print ('1.1')
     model = gensim.models.Word2Vec(sentences)
     print ('2')
-    #model.wv.save_word2vec_format('srp.sent.model.txt', binary=False)
 else:
-    model = gensim.models.KeyedVectors.load_word2vec_format('wiki.sr.vec') # glove model
-    #model = gensim.models.KeyedVectors.load_word2vec_format('glove.6B.300d.txt') # glove model
+    print ('1 (SRP)')
+    if test:
+        print ('\t TEST')
+        sentences = Sentences('srp-rs_web_2016_30K-sentences.txt')
+    else:
+        print ('\t REAL')
+        sentences = Sentences('srp-rs_web_2016_1M-sentences.txt')
+    print ('1.1')
+    model = gensim.models.Word2Vec(sentences)
+    # model = gensim.models.KeyedVectors.load_word2vec_format('wiki.sr.vec')
+    #model.wv.save_word2vec_format('srp.sent.model.txt', binary=False)
+    print ('2')
+
+# BEFORE <START>
+# if test or doeng:
+#     #sentences = Sentences('srp-rs_web_2016_1M-sentences.txt')
+#     #sentences = Sentences('srp-rs_web_2016_30K-sentences.txt')
+#     print ('1')
+#     sentences = Sentences('eng_wikipedia_2016_300K/eng_wikipedia_2016_300K-sentences.txt')
+#     sentences = Sentences('eng_wikipedia_2016_1M/eng_wikipedia_2016_1M-sentences.txt')
+#     print ('1.1')
+#     model = gensim.models.Word2Vec(sentences)
+#     print ('2')
+#     #model.wv.save_word2vec_format('srp.sent.model.txt', binary=False)
+# else:
+#     model = gensim.models.KeyedVectors.load_word2vec_format('wiki.sr.vec') # glove model
+#     #model = gensim.models.KeyedVectors.load_word2vec_format('glove.6B.300d.txt') # glove model
+# BEFORE <END>
 
 print 'imported part 2 ...'
 
@@ -425,7 +454,8 @@ def get_users(q='', mid=''):
     else:docs = collection.find({'type':"rima.user", "mapId" : ObjectId(mid)})
     for doc in docs:
         if doc['name']:
-            users[doc['_id']] = (doc['_id'], doc['name'], doc['dataContent']['email'])
+            fullName = doc['dataContent']['firstName'] + " " + doc['dataContent']['lastName']
+            users[doc['_id']] = (doc['_id'], doc['name'], doc['dataContent']['email'], fullName)
     return users
 
 def get_all_users(mid):
@@ -633,6 +663,7 @@ def d(mid, uid=None, rid=None):
 
     #rtrn += '\n"ideas":[\n\t'
     comma_ = ''
+    print("Generating cwc.json file");
     for vals in paired.values():
         newList = []
         for i in range(0,len(vals),3):
@@ -642,8 +673,11 @@ def d(mid, uid=None, rid=None):
         for val in newList:
             user = get_users(str(val[0]), mid).values()
             if user:
+                id = user[0][0]
+                name = user[0][1]
                 email = user[0][2]
-                rtrn += comma+'{"user":"' + email + '","idea":"' +  val[1] + '"}'# +  str(val[2])
+                fullName = user[0][3]
+                rtrn += comma+'\n{\n\t"user":"' + email + '",\n\t"name":"' +  name + '",\n\t"fullName":"' +  fullName + '",\n\t"idea":"' +  val[1] + '"}\n'# +  str(val[2])
             comma = ','
         rtrn += ']}'
         comma_ = ','
@@ -704,6 +738,7 @@ def d(mid, uid=None, rid=None):
 
     rtrn = '{"user":"","children":['
     comma_ = ''
+    print("Generating sdg.json file");
     for vals in paired.values():
         comma = ''
         rtrn += comma_+'{"user": "########asdf##############","idea":"########asdf##############", "children": ['
@@ -714,7 +749,11 @@ def d(mid, uid=None, rid=None):
             #rtrn += comma+'"' + get_users(str(val)).values()[0][1] + '"'
             user = get_users(str(val), mid).values()
             if user:
+                id = user[0][0]
+                name = user[0][1]
                 email = user[0][2]
+                fullName = user[0][3]
+
                 usdgs = cluster_sdgs[str(user[0][0])]
                 usdgsi = cluster_sdgs_i[str(user[0][0])]
                 csdgs.extend(usdgs)
@@ -730,9 +769,12 @@ def d(mid, uid=None, rid=None):
                         nline.append(c)
                 usdgs = u''.join(nline)
                 try:
-                    rtrn += comma+'{"user":"' + str(email) + '","idea":"' + usdgsi + usdgs+ '"}'# +  str(val[2])
+                    rtrn += comma+'\n{\n\t"user":"' + str(email) + '",\n\t"name":"' +  name + '",\n\t"fullName":"' +  fullName + '",\n\t"idea":"' +  usdgsi + usdgs + '"}\n'# +  str(val[2])
+
+                    # BEFORE:
+                    # rtrn += comma+'{"user":"' + str(email) + '","idea":"' + usdgsi + usdgs+ '"}'# +  str(val[2])
                 except:
-                    rtrn += comma+'{"user":"' + str(val) + '","idea":"' + usdgsi + usdgs+ '"}'# +  str(val[2])
+                    rtrn += comma+'\n{\n\t"user":"' + str(val) + '",\n\t"name":"' +  name + '",\n\t"fullName":"' +  fullName + '",\n\t"idea":"' +  usdgsi + usdgs + '"}\n'# +  str(val[2])
                 comma = ','
         csdgs = Counter(csdgs).most_common(3)
         csdgsi = Counter(csdgsi).most_common(3)
@@ -867,6 +909,8 @@ with open('./config-server.json', 'r') as f:
     config = json.load(f)
 
 if config['wrapper'] == 'colaboflow':
+    print "WRAPPER: Starting 'colaboflow' service wrapper"
+
     import uuid
 
     # ColaboFlowServiceWorker is a class that handles services (workers) and opens them to other
@@ -895,3 +939,50 @@ if config['wrapper'] == 'colaboflow':
     cfService = ColaboFlowServiceWorker();
     cfService.connect();
     cfService.listen(callback);
+
+if config['wrapper'] == 'rpyc':
+    print "WRAPPER: Starting 'rpyc' service wrapper"
+
+    #python sv_client.py 5b96619b86f3cc8057216a03 5b97c7ab0393b8490bf5263c 0
+
+    hostname = 'localhost'
+    port = 12345
+
+    print ("starting rpyc service at hostname:'%r' and port: %r" % (hostname, port));
+
+    # rpyc service definition
+    sys.path.append('/var/colabo/colabo-env/lib/python2.7/site-packages/rpyc-3.3.0')
+
+    import rpyc
+
+    class MyService(rpyc.Service):
+        def exposed_get_sims(self, mid):
+            return d(mid)
+        def exposed_get_sims_for_user(self, mid, uid, rid):
+            return ds(mid, uid, rid)
+
+    # start the rpyc server
+    # https://rpyc.readthedocs.io/en/latest/tutorial/tut3.html
+    from rpyc.utils.server import ThreadedServer
+    from threading import Thread
+    server = ThreadedServer(MyService, hostname=hostname, port = port, auto_register=None)
+    t = Thread(target = server.start)
+    t.daemon = True
+    t.start()
+
+    print ("rpyc service started and listening");
+
+    from time import time, sleep
+
+    # the main logic
+    #main = normAPI()
+    work = True
+    begin=time()
+    while work:
+        sleep(1/10.)
+        #if false and(time()-begin)>60*59*1:
+            #crontab -e :
+            #na svakih 5 sati /opt/python2.7/bin/python2.7 /var/www/livelytour/normalize-me.py
+        #    work = False
+
+    t.close()
