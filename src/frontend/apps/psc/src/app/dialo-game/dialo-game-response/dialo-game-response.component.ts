@@ -13,29 +13,37 @@ import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service
 })
 export class DialoGameResponseComponent implements OnInit {
 
-  response:DialoGameResponse;
+//  response:DialoGameResponse;
   constructor(
     private dialoGameService: DialoGameService,
     public colaboFlowService: ColaboFlowService
   ) { }
 
   ngOnInit() {
-    this.response = this.dialoGameService.lastResponse;
+    //this.response = this.dialoGameService.lastResponse;
     //responseCards[0]
+  }
+
+  get response():DialoGameResponse{
+    return this.dialoGameService.lastResponse;
   }
 
   shown():boolean{
     let state:MyColaboFlowStates = this.colaboFlowService.myColaboFlowState.state;
-    console.log('shown',state);
+    //console.log('shown',state);
     return !(state === MyColaboFlowStates.NOT_STARTED) && !(state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD);
   }
 
   getResponseCard():KNode{
-    return this.response.responseCards[0];
+    return this.dialoGameService.lastResponse.responseCards[0];
   }
 
-  getDecorators():CardDecorator[]{
-    return this.response.decorators;
+  getChallengeCard():KNode{
+    return this.dialoGameService.lastResponse.challengeCards[0];
   }
+
+  // getDecorators():CardDecorator[]{
+  //   return this.response.decorators;
+  // }
 
 }
