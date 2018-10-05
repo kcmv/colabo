@@ -509,24 +509,15 @@ I18N support according to the approach:
 		}   
       }
   },
-
-    /*
-    *
-    *
-    TO DO - TO FINISH
-    *
-    *
-    */
-
   {
-      "name" : "ДОСТУПНА И ЧИСТА ЕНЕРГИЈА",
+      "name" : "AFORDABLE AND CLEAN ENERGY",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(7),
-          goal:  "Обезбедити приступ приступачним, поузданим, одрживим и савременим изворима енергије за све грађане",
-          desc: "Између 1990. и 2010. године, број људи с приступом електричној енергији порастао је за 1,7 милијарди, а како се глобално становништво и даље повећава, повећаваће се и потреба за јефтином енергијом. Глобална економија која се ослања на потрошљу фосилних горива, као и повећање емисије гасова с ефектом стаклене баште ствара драстичне промене у нашем климатском систему, што  утиче на сваки континент. Једна од пет особа нема приступ електричној енергији, а како потражња наставља да расте, неопходно је значајно повећање производње обновљиве енергије широм света."
+          goal:  "Ensure access to affordable, reliable, sustainable and modern energy for all",
+          desc: " Between 1990 and 2010, the number of people with access to electricity has increased by 1.7 billion, and as the global population continues to rise so will the demand for cheap energy. A global economy reliant on fossil fuels, and the increase of greenhouse gas emissions is creating drastic changes to our climate system. This is impacting every continent. One in five people lack access to electricity, and as the demand continues to rise there needs to be a substantial increase in the production of renewable energy across the world."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -539,14 +530,23 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "ДОСТУПНА И ЧИСТА ЕНЕРГИЈА",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Обезбедити приступ приступачним, поузданим, одрживим и савременим изворима енергије за све грађане",
+            	desc: "Између 1990. и 2010. године, број људи с приступом електричној енергији порастао је за 1,7 милијарди, а како се глобално становништво и даље повећава, повећаваће се и потреба за јефтином енергијом. Глобална економија која се ослања на потрошљу фосилних горива, као и повећање емисије гасова с ефектом стаклене баште ствара драстичне промене у нашем климатском систему, што  утиче на сваки континент. Једна од пет особа нема приступ електричној енергији, а како потражња наставља да расте, неопходно је значајно повећање производње обновљиве енергије широм света."
             }   
 		}   
       }
   },
+    
+      /*
+    *
+    *
+    TO DO - TO FINISH
+    *
+    *
+    */
+    
   {
       "name" : "ДОСТОЈАН РАД И ЕКОНОМСКИ РАСТ",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
