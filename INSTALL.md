@@ -259,6 +259,10 @@ yarn
 # export the `colabo` tool globally:
 npm link
 
+### isomorphic ###
+cd colabo/src/isomorphic 
+yarn
+
 ### Backend ###
 cd colabo/src/backend 
 yarn
@@ -268,8 +272,8 @@ cd colabo/src/frontend
 yarn
 
 ### App (Demo-app) ###
-cd colabo/src/frontend/demos/colaboarthon/<demo_app>
-# e.g: cd colabo/src/frontend/demos/colaboarthon/collective_sustainable_activism
+cd colabo/src/frontend/apps/<demo_app>
+# e.g: cd colabo/src/frontend/apps/psc
 yarn
 
 # Running:
@@ -909,7 +913,7 @@ server {
   server_name topichat.colabo.space;
 
   location / {
-    proxy_pass http://localhost:8002;
+​    proxy_pass http://localhost:8002;
   }
 }
 
@@ -920,7 +924,7 @@ server {
   server_name api.colabo.space;
 
   location / {
-    proxy_pass http://localhost:8001;
+​    proxy_pass http://localhost:8001;
   }
 }
 
@@ -931,7 +935,7 @@ server {
   # root /var/www/domain1;
 
   location / {
-    proxy_pass http://localhost:8000;
+​    proxy_pass http://localhost:8000;
   }
 }
 ```
