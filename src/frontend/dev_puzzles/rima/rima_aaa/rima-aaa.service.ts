@@ -15,9 +15,14 @@ import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzz
 
 import {UserData} from './userData';
 
-import { CFService } from '@colabo-knalledge/knalledge_store_core/cf.service';
+console.log("rima-aaa.service");
 
 import * as config from '@colabo-utils/config';
+
+import { CFService } from '@colabo-knalledge/knalledge_store_core/cf.service';
+
+console.log("[rima-aaa.service] config.GetGeneral('mapId'):", config.GetGeneral('mapId'));
+
 const MAP_ID = config.GetGeneral('mapId');
 const USERS_NODE_ID:string = config.GetGeneral('userNodeId');
 
