@@ -1,3 +1,6 @@
+const MODULE_NAME:string = "@colabo-topiChat/core";
+console.log("topiChat-core.service.ts");
+
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Observer } from 'rxjs';
@@ -28,6 +31,8 @@ export interface TopiChatClientInfo{
 
 import * as socketIO from 'socket.io-client';
 
+import {GetPuzzle} from '@colabo-utils/config';
+
 import {RimaAAAService} from '@colabo-rima/rima_aaa';
 
 @Injectable()
@@ -37,22 +42,13 @@ export class TopiChatCoreService{
 
   protected serverPubSub: ColaboPubSub;
   protected _socket;
-
-  //http://api.colabo.space/knodes/
-  // "http://127.0.0.1:888/knodes/";
-  private apiUrl: string;
+  protected puzzleConfig:any;
 
   constructor(
     protected rimaAAAService:RimaAAAService
   ) {
-      // console.log("[TopiChatService] ENV: ", ENV);
-      // this.socketFactory = socketFactory;
-      // this.$rootScope = $rootScope;
-      // this.ENV = ENV;
-      // this.topiChatConfigService = _TopiChatConfigService_;
-
-      // a bit dirty (pointless)
-      this.init();
+    this.puzzleConfig = GetPuzzle(MODULE_NAME);
+    this.init();
   }
 
   /**
@@ -62,11 +58,9 @@ export class TopiChatCoreService{
       this.serverPubSub = new ColaboPubSub("SocketIoPlugins", this.registerNewEventType.bind(this));
 
       let socketOptions = {forceNew: false};
-      // let socketUrl:string = 'http://localhost:8001/';
-      let socketUrl:string = 'http://localhost/';
-      // let socketUrl:string = 'https://fv.colabo.space/api';
+      let socketUrl:string = this.puzzleConfig.socketUrl;
+      console.log("[TopiChatService:init] connecting to: ", socketUrl);
       this._socket = socketIO(socketUrl, socketOptions);
-      console.log("[TopiChatService:init] connected to: ", socketUrl);
 
       // called on init message
       function clientInit(eventName, msg, tcPackage:TopiChatPackage) {
