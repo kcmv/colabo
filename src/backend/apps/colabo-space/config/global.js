@@ -4,35 +4,43 @@
 // to the rest of the system through the puzzle
 // `@colabo-utils/config`
 
-// the initializing part of the application
-// like the apps/<app_name>/index.ts in the backend
-// or apps/<app_name>/src/main.ts
-// should (somehow) load it and pass it to 
-// the init method of the puzzle `@colabo-utils/config`
+console.log("[config/global.js] Setting up the globalSet variable");
 
-// TODO: get params into separate property, 
-// to less risk and polute the global variable
+let globalSet = {};
+if (typeof window !== 'undefined' && typeof window !== 'null'){
+	if(!window.hasOwnProperty('globalSet')) window.globalSet = {};
+	globalSet = window.globalSet;
+}
+if (typeof global !== 'undefined' && typeof global !== 'null'){
+	if(!global.hasOwnProperty('globalSet')) global.globalSet = {};
+	globalSet = global.globalSet;
+}
+
 console.log("Setting up the global variable");
+
+if (!globalSet.hasOwnProperty('general')) {
+	console.log("[config/global.js] Setting up globalSet.general");
+	globalSet.general = {
+		// active map
+		// mapId: '5b96619b86f3cc8057216a03',
+	};
+}
 
 var path = require('path');
 
 // expose this function to our app using module.exports
-if (!global.hasOwnProperty('paths')) {
-	console.log("Setting up global.paths");
-	global.paths = {
-		// local
-		EXPERIMENTS_FOLDER: path.resolve(__dirname+"/../../../../experiments")
-		// server
-		// EXPERIMENTS_FOLDER: path.resolve("/var/www_support/bukvik/experiments/experiments-zns")
+if (!globalSet.hasOwnProperty('paths')) {
+	console.log("Setting up globalSet.paths");
+	globalSet.paths = {
 	};
-	global.paths.DATASET_FOLDER = path.resolve(global.paths.EXPERIMENTS_FOLDER + "/data");
-	global.paths.FOLDER_OUT = path.resolve(global.paths.DATASET_FOLDER + "/out");
-	global.paths.FOLDER_CACHE = path.resolve(global.paths.EXPERIMENTS_FOLDER + "/cache");
+	globalSet.paths.DATASET_FOLDER = path.resolve(globalSet.paths.EXPERIMENTS_FOLDER + "/data");
+	globalSet.paths.FOLDER_OUT = path.resolve(globalSet.paths.DATASET_FOLDER + "/out");
+	globalSet.paths.FOLDER_CACHE = path.resolve(globalSet.paths.EXPERIMENTS_FOLDER + "/cache");
 }
 
-if (!global.hasOwnProperty('dbConfig')) {
-	console.log("Setting up global.dbConfig");
-	global.dbConfig = {
+if (!globalSet.hasOwnProperty('dbConfig')) {
+	console.log("Setting up globalSet.dbConfig");
+	globalSet.dbConfig = {
 		newConnect: true,
 		dbName: "KnAllEdge",
 		domain: '127.0.0.1',
@@ -42,9 +50,9 @@ if (!global.hasOwnProperty('dbConfig')) {
 	};
 }
 
-if (!global.hasOwnProperty('puzzles')) {
-	console.log("Setting up global.puzzles");
-	global.puzzles = {
+if (!globalSet.hasOwnProperty('puzzles')) {
+	console.log("Setting up globalSet.puzzles");
+	globalSet.puzzles = {
 		'@colabo-topiChat/b-talk': {
 			saveTalkToMap: true,
 			mapId: "5b96619b86f3cc8057216a03",
@@ -54,4 +62,18 @@ if (!global.hasOwnProperty('puzzles')) {
 	};
 }
 
-module.exports = global;
+// module.exports = globalSet;
+
+// node support (export)
+if (typeof module !== 'undefined'){
+  // workarround for TypeScript's `module.exports` readonly
+  if('exports' in module){
+    if (typeof module['exports'] !== 'undefined'){
+      module['exports'].globalSet = globalSet;
+    }
+  }else{
+    module['exports'] = globalSet;
+  }
+}
+
+console.log("[config/global.js] finished");

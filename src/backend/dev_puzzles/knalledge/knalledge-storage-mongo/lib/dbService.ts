@@ -1,11 +1,16 @@
+const MODULE_NAME:string = "@colabo-knalledge/b-knalledge-storage-mongo";
+
 var mongoose = require('mongoose');
 declare let global:any;
 
+import {GetProperty} from '@colabo-utils/config';
+
 export function DBConnect(){
-  console.log("dbName: %s", global.dbConfig.dbName);
+	let dbConfig = GetProperty('dbConfig');
+  console.log("[%s] dbName: %s", MODULE_NAME, dbConfig.dbName);
   var dbConnection;
   /* connecting */
-  if(global.dbConfig.newConnect){
+  if(dbConfig.newConnect){
   	var opts = {
   		server: { auto_reconnect: true }
   		// , user: 'username', pass: 'mypassword'
@@ -23,12 +28,12 @@ export function DBConnect(){
   	});
 
   	function connectInternal () {
-  	  dbConnection.open(global.dbConfig.domain, global.dbConfig.dbName, global.dbConfig.port, opts);
+  	  dbConnection.open(dbConfig.domain, dbConfig.dbName, dbConfig.port, opts);
   	}
 
   	connectInternal();
   }else{
-  	mongoose.connect('mongodb://127.0.0.1/' + global.dbConfig.dbName);
+  	mongoose.connect('mongodb://127.0.0.1/' + dbConfig.dbName);
     dbConnection = mongoose.connection;
     dbConnection.on('error', console.error.bind(console, 'connection error:'));
   	// dbConnection = mongoose;

@@ -2,10 +2,11 @@ process.chdir(__dirname);
 
 // import * as express from "express";
 
-let configFile = require('./config/global');
-console.log("[Colabo.Space:index] configFile.paths: %s", JSON.stringify(configFile.paths));
+let configFile:any = require('./config/global');
+let globalSet:any = configFile.globalSet;
+console.log("[Colabo.Space:index] globalSet.paths: %s", JSON.stringify(globalSet.paths));
 let config = require('@colabo-utils/config');
-config.init(configFile);
+config.init(globalSet);
 
 let async = require('async');
 let express = require('express');

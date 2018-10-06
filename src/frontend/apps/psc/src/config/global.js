@@ -6,8 +6,8 @@
 
 // the initializing part of the application
 // like the apps/<app_name>/index.ts in the backend
-// or apps/<app_name>/src/main.ts
-// should (somehow) load it and pass it to 
+// or apps/<app_name>/src/polyfills.ts
+// should load it and pass it to 
 // the init method of the puzzle `@colabo-utils/config`
 
 console.log("[config/global.js] Setting up the globalSet variable");
@@ -21,8 +21,6 @@ if (typeof global !== 'undefined' && typeof global !== 'null'){
 	if(!global.hasOwnProperty('globalSet')) global.globalSet = {};
 	globalSet = global.globalSet;
 }
-
-// let globalSet = (typeof global !== 'undefined' && global['knalledge']) || (typeof window !== 'undefined' && window['knalledge']);
 
 console.log("[config/global.js] Populating the globalSet variable");
 

@@ -1,3 +1,5 @@
+const MODULE_NAME:string = "@colabo-utils/config";
+
 // this is relative to inside the `dist` folder
 // not to this (`index.ts`) file
 // the file we are looking for here is `config/global.js`
@@ -10,27 +12,28 @@
 
 let Puzzles:any;
 let General:any;
-let configFile:any;
+let globalSet:any;
 
-export function init(_configFile:any):any{
-    configFile = _configFile;
-    console.log("[config-init] configFile.general:", configFile.general);
+export function init(_globalSet:any):any{
+    globalSet = _globalSet;
 
-    Puzzles = configFile.puzzles;
-    General = configFile.general;
+    console.log("[%s] globalSet.general: %s", MODULE_NAME, JSON.stringify(globalSet.general));
+
+    Puzzles = globalSet.puzzles;
+    General = globalSet.general;
 }
 
-export function GetProperty(property):any{
-    return configFile[property];
+export function GetProperty(propertyName):any{
+    console.log("[%s:GetProperty] propertyName: %s", MODULE_NAME, propertyName);
+    return globalSet[propertyName];
 }
 
 export function GetPuzzle(puzzleName):any{
+    console.log("[%s:GetPuzzle] puzzleName: %s", MODULE_NAME, puzzleName);
     return Puzzles[puzzleName];
 }
 
-export function GetGeneral(property):any{
-    console.log("[config:GetGeneral] property:", property);
-    return General[property];
+export function GetGeneral(propertyName):any{
+    console.log("[%s:GetGeneral] propertyName: %s", MODULE_NAME, propertyName);
+    return General[propertyName];
 }
-
-// export {Paths};
