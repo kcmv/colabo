@@ -21,10 +21,9 @@
     },
     "peerDependenciesLocal": {
         "@colabo-rima/rima_core": "^0.0.1",
-        "@colabo-knalledge/knalledge_core": "0.1.0"
+        "@colabo-knalledge/knalledge_core": "0.1.0",
+        "knalledge_store_core": "0.1.0"
     },
     "devDependencies": {},
-    "devDependenciesLocal": {
-        "@colabo-rima/rima_core": "^0.0.1"
-    }
+    "devDependenciesLocal": {}
 }
