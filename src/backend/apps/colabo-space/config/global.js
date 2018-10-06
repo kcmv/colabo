@@ -62,7 +62,7 @@ if (!globalSet.hasOwnProperty('puzzles')) {
 	};
 }
 
-// module.exports = globalSet;
+console.log("[config/global.js] globalSet.puzzles:", globalSet.puzzles);
 
 // node support (export)
 if (typeof module !== 'undefined'){

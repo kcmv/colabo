@@ -4,12 +4,6 @@
 // to the rest of the system through the puzzle
 // `@colabo-utils/config`
 
-// the initializing part of the application
-// like the apps/<app_name>/index.ts in the backend
-// or apps/<app_name>/src/polyfills.ts
-// should load it and pass it to 
-// the init method of the puzzle `@colabo-utils/config`
-
 console.log("[config/global.js] Setting up the globalSet variable");
 
 let globalSet = {};
