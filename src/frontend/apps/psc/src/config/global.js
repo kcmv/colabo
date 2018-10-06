@@ -1,8 +1,13 @@
 'use strict';
 
-// this is file is imported and exported 
-// to the rest of the system through the puzzle
-// `@colabo-utils/config`
+// this is file is available to the rest of the system
+// through the puzzle `@colabo-utils/config`
+// please read `@colabo-utils/config/README.md` for more details
+
+// NOTE: it is important that this file is not imported, but required
+// and that it is therefore JS (not TS, although it can be, if we still do not import it)
+// because otherwise it would be bundled in a final file during building
+// and we wouldn't be able to change the config after building project
 
 console.log("[config/global.js] Setting up the globalSet variable");
 

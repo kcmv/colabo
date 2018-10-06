@@ -2,11 +2,11 @@ console.log("polyfills.ts");
 
 // let configFile = require('./config/global');
 // import * as configFile from './config/global';
-let configFile = (<any>window).globalSet;
-console.log("[polyfills.ts] configFile.puzzles: %s", JSON.stringify(configFile.puzzles));
+let globalSet = (<any>window).globalSet;
+console.log("[polyfills.ts] globalSet.puzzles: %s", JSON.stringify(globalSet.puzzles));
 // let config = require('@colabo-utils/config');
 import * as config from '@colabo-utils/config';
-config.init(configFile);
+config.init(globalSet);
 
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.

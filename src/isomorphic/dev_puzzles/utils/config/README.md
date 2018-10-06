@@ -4,7 +4,7 @@ Provides config support for the Colabo.Space Ecosystem
 
 This is isomorphic puzzle and can be used both in backend and frontend system
 
-# Usage
+# How to use the puzzle
 
 There are two phases of initialization of config:
 
@@ -15,18 +15,27 @@ They are separate because in some systems they should happen at separate places,
 
 ## Backend
 
+### Init
+
 Config file:
 
-The best practice is to put it at `<backend_app_folder>/config/global.js`
+The best practice is to put it at `<backend_app_folder>/config/global.js`.
 
-The basic content is:
+**NOTE**: it is important that this file is ***not imported***, but ***required*** and that it is therefore JS (not TS, although it can be, if we still do not import it) because otherwise it would be ***bundled*** in a final file during building and we ***wouldn't be able to change the config*** after building project
+
+The basic of the config file is:
 
 ```js
 'use strict';
 
-// this is file is imported and exported 
-// to the rest of the system through the puzzle
-// `@colabo-utils/config`
+// this is file is available to the rest of the system
+// through the puzzle `@colabo-utils/config`
+// please read `@colabo-utils/config/README.md` for more details
+
+// NOTE: it is important that this file is not imported, but required
+// and that it is therefore JS (not TS, although it can be, if we still do not import it)
+// because otherwise it would be bundled in a final file during building
+// and we wouldn't be able to change the config after building project
 
 if (!global.hasOwnProperty('general')) {
 	console.log("[config/global.js] Setting up global.general");
@@ -65,7 +74,9 @@ let config = require('@colabo-utils/config');
 config.init(configFile);
 ```
 
-Usage (example):
+### Access the config data
+
+Now you can access the config data at any part of the code as simply as (the example is from the backend puzzle: `@colabo-topiChat/b-talk`):
 
 ```ts
 const MODULE_NAME:string = "@colabo-topiChat/b-talk";
@@ -90,4 +101,38 @@ For example:
 
 Solutions that exist with pre-booting are working fine for cases 2 and 3, but not for 1
 
-Therefore, we need to setup INIT-1 phase through manual injection of config file (usually: `<frontend_app_folder>/src/config/global.js`)
+### Init
+
+Therefore, we need to setup INIT-1 phase through manual injection of config file (usually: `<frontend_app_folder>/src/config/global.js`). So far we are doing it by injecting it in the `index.html` file:
+
+```html
+<head>
+    <script src="config/global.js"></script>
+</head>
+
+```
+
+The phase INIT-2 happens at the beginning of the `polyfills.ts` file:
+
+```ts
+console.log("polyfills.ts");
+
+// let configFile = require('./config/global');
+// import * as configFile from './config/global';
+let globalSet = (<any>window).globalSet;
+console.log("[polyfills.ts] globalSet.puzzles: %s", JSON.stringify(globalSet.puzzles));
+// let config = require('@colabo-utils/config');
+import * as config from '@colabo-utils/config';
+config.init(globalSet);
+```
+
+### Access the config data
+
+Now you can access the config data at any part of the code as simply as (the example is from the frontend puzzle: `@colabo-rima/rima_aaa`, file `rima-aaa.service.ts`):
+
+```ts
+import * as config from '@colabo-utils/config';
+
+console.log("[rima-aaa.service] config.GetGeneral('mapId'):", config.GetGeneral('mapId'));
+```
+
