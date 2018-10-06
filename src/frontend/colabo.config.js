@@ -33,6 +33,14 @@ var puzzles = {
             npm: "@colabo-knalledge/knalledge_view_interaction",
             path: "dev_puzzles/knalledge/knalledge_view_interaction"
         },
+        "@colabo-rima/rima_core": {
+            npm: "@colabo-rima/rima_core",
+            path: "dev_puzzles/rima/rima_core"
+        },
+        "@colabo-rima/rima_aaa": {
+            npm: "@colabo-rima/rima_aaa",
+            path: "dev_puzzles/rima/rima_aaa"
+        },
         "@colabo-topiChat/core": {
             npm: "@colabo-topiChat/core",
             path: "dev_puzzles/topiChat/core"
