@@ -5,15 +5,11 @@ declare let knalledge:any;
 declare let global:any;
 declare let module:any;
 
-// node support (import)
-knalledge = (typeof global !== 'undefined' && global['knalledge']) || (typeof window !== 'undefined' && window['knalledge']);
-
 /**
  * @classdesc VKNode is data representation of the knowledge (KnAllEdge) node.
  * It is stored on the server and it connects with other nodes through edges
  * represented with kEdges
  * @class KNode
- * @memberof knalledge
  */
 
 export class KNode extends VO {
@@ -166,8 +162,6 @@ export class KNode extends VO {
   	return kNode;
   }
 }
-
-let KNodeClass = knalledge.KNode = KNode;
 
 // node support (export)
 if (typeof module !== 'undefined'){

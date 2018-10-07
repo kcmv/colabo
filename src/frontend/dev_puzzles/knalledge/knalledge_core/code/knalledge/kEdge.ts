@@ -3,16 +3,12 @@ declare let knalledge:any;
 declare let global:any;
 declare let module:any;
 
-// node support (import)
-knalledge = (typeof global !== 'undefined' && global['knalledge']) || (typeof window !== 'undefined' && window['knalledge']);
-
 import { VO } from './VO';
 
 /**
  * @classdesc KEdge is data representation of the knowledge (KnAllEdge) edge.
  * It is stored on the serverver and it connects other nodes (kNode)
  * @class KEdge
- * @memberof knalledge
  */
 
 export class KEdge extends VO{
@@ -94,7 +90,6 @@ export class KEdge extends VO{
 
 }
 
-let KEdgeClass =  knalledge.KEdge = KEdge;
 // node support (export)
 if (typeof module !== 'undefined'){
   // workarround for TypeScript's `module.exports` readonly

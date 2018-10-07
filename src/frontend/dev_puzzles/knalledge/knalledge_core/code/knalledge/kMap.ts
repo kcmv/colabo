@@ -5,15 +5,11 @@ declare let knalledge:any;
 declare let global:any;
 declare let module:any;
 
-// map support (import)
-knalledge = (typeof global !== 'undefined' && global['knalledge']) || (typeof window !== 'undefined' && window['knalledge']);
-
 /**
  * @classdesc VKMap is data representation of the knowledge (KnAllEdge) map.
  * It is stored on the server and it connects with other maps through edges
  * represented with kEdges
  * @class KMap
- * @memberof knalledge
  */
 
 export class KMap extends VO {
@@ -59,8 +55,6 @@ export class KMap extends VO {
   }
 
 }
-
-let KMapClass = knalledge.KMap = KMap;
 
 // map support (export)
 if (typeof module !== 'undefined'){
