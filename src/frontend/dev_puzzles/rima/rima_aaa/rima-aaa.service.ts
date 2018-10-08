@@ -46,9 +46,9 @@ export class RimaAAAService extends CFService{
   private defaultAction:string = 'default';
 
   private loggedInUser:KNode;
-  private _isRegistered:Boolean;
-  private _isErrorLogingIn:Boolean;
-  private _errorLogingMsg:String;
+  private _isRegistered:boolean;
+  private _isErrorLogingIn:boolean;
+  private _errorLogingMsg:string;
 
   ProfilingStateTypeNames:string[] = [
     'OFF',
@@ -94,7 +94,7 @@ export class RimaAAAService extends CFService{
     this._isRegistered = this.loggedInUser !== null && this.loggedInUser !== undefined;
   }
 
-  get isRegistered():Boolean{
+  get isRegistered():boolean{
     return this._isRegistered;
   }
   getUserId():string{
@@ -205,11 +205,11 @@ export class RimaAAAService extends CFService{
     }
   }
 
-  get isErrorLogingIn():Boolean{
+  get isErrorLogingIn():boolean{
       return this._isErrorLogingIn;
   }
 
-  get errorLogingMsg():String{
+  get errorLogingMsg():string{
       return this._errorLogingMsg;
   }
 
