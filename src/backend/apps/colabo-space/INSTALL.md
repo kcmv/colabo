@@ -93,7 +93,7 @@ There is `tsconfig.json` file describing what we are interested in compiling and
 + https://www.typescriptlang.org/docs/handbook/compiler-options.html
 + https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
 
-# Test
+# Test Run
 
 ```
 cd /var/repos/colabo/src/backend/apps/colabo-space

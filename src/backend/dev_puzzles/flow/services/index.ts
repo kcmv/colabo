@@ -1,4 +1,4 @@
-'use strict';
+const MODULE_NAME:string = "@colabo-flow/b-services";
 
 declare let require:any;
 declare let Buffer:any;
@@ -6,6 +6,8 @@ declare let Buffer:any;
 let chalk = require('chalk');
 // let amqp = require('amqplib/callback_api')
 let amqp = require('amqplib');
+
+import {GetPuzzle} from '@colabo-utils/config';
 
 export class ColaboFlowService{
 	protected debug:boolean;
@@ -26,18 +28,16 @@ export class ColaboFlowService{
 	}
 
 	loadConfig(){
-		let configFilePath = '../config';
-		console.log("[ColaboFlowService:loadConfig] loading config file: %s", configFilePath);
-		let config = require(configFilePath);
-		this.debug = config.global.queue_broker.debug;
-		this.url = config.global.queue_broker.url;
-		this.requestQueue = config.global.queue_broker.queue;
+		let puzzleConfig:any = GetPuzzle(MODULE_NAME);
+		this.debug = puzzleConfig.debug;
+		this.url = puzzleConfig.url;
+		this.requestQueue = puzzleConfig.queue;
 		// RPC?
-		this.shouldRequestResult = config.global.queue_broker.shouldRequestResult;
-		this.noAck = config.global.queue_broker.noAck;
+		this.shouldRequestResult = puzzleConfig.shouldRequestResult;
+		this.noAck = puzzleConfig.noAck;
 
-		this.shouldListenOnSeparateResponseQueue = config.global.queue_broker.shouldListenOnSeparateResponseQueue;
-		this.separateResponseQueue = config.global.queue_broker.separateResponseQueue;
+		this.shouldListenOnSeparateResponseQueue = puzzleConfig.shouldListenOnSeparateResponseQueue;
+		this.separateResponseQueue = puzzleConfig.separateResponseQueue;
 	}
 
 	getTimestamp() {
@@ -50,9 +50,29 @@ export class ColaboFlowService{
 		return new Promise(async (resolve, reject) => {
 			try{
 				this.conn = await amqp.connect(this.url);
+
+				this.conn.on("error", function(err) {
+					if (err.message !== "Connection closing") {
+						console.error("[AMQP] conn error", err.message);
+					}
+				});
+				this.conn.on("close", function() {
+					console.error("[AMQP] Connection closed");
+					// i guess to restart
+					// console.error("[AMQP] reconnecting");
+					// return setTimeout(start, 1000);
+				});
+
 				// if(debug) console.log("Conn: ", conn);
 				this.ch = await this.conn.createChannel();
 				// if(debug) console.log("ch: ", ch);
+
+				this.ch.on("error", function(err) {
+					console.error("[AMQP] channel error", err.message);
+				});
+				this.ch.on("close", function() {
+					console.log("[AMQP] channel closed");
+				});
 
 				// create the requestQueue
 				let requestAssertionParams = {durable: false};
@@ -74,6 +94,17 @@ export class ColaboFlowService{
 				reject("There was a problem connecting: " + err);
 			}
 		});
+	}
+
+	/*
+	WARNING: This method should be called only when all messages are delivered.
+	Otherwise it will invalidate any unresolved operations.
+	https://www.squaremobius.net/amqp.node/channel_api.html#model_close
+	https://www.squaremobius.net/amqp.node/channel_api.html#channel_close
+	*/
+	disconnect(){
+		this.ch.close();
+		this.conn.close();
 	}
 
 	async sendMessage(action, params){

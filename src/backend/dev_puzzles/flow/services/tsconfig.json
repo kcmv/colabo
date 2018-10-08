@@ -21,7 +21,7 @@
     "allowSyntheticDefaultImports": false,
     "files": [
         "index.ts",
-        "demo.ts"
+        "demo/demo.ts"
     ],
     "include": [
     ],

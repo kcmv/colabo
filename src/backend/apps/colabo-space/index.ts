@@ -14,11 +14,8 @@ let resource = require('express-resource');
 let fs = require('fs');
 let http = require('http');
 let https = require('https');
-let flash = require('connect-flash');
 
 let puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-knalledge-storage-mongo');
-
-// let db = require('./models');
 
 function supportCrossOriginScript(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Content-Type");
@@ -68,13 +65,10 @@ app.configure(function () {
     console.log("process.argv: %s", JSON.stringify(process.argv));
     app.set('port', portHttp);
 
-    // this is enough
     app.use(supportCrossOriginScript);
-    // so no need for this
-    // app.options('/iam/users', supportCrossOriginScript);
-
     app.use(app.router);
 });
+
 /* Knalledge Maps */
 
 import {KnAllEdgeCoreRegister} from '@colabo-knalledge/b-knalledge-core';
@@ -106,12 +100,12 @@ PuzzleMediaUpload.initialize(app);
 // var smsapi = app.resource('smsapi', require('./modules/smsapi_old_JS')); //JS
 // var smsapi = app.resource('smsapi', require('./modules/smsapi')); //TS
 
-// // TopiChat
+// TopiChat
 import {TopiChat} from '@colabo-topiChat/b-core';
 var topiChat = new TopiChat('Colabo.Space');
 
-// // import {TopiChatKnAllEdge} from '@colabo-topiChat/b-knalledge';
-// // var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
+// import {TopiChatKnAllEdge} from '@colabo-topiChat/b-knalledge';
+// var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
 
 import {TopiChatTalk} from '@colabo-topiChat/b-talk';
 var topiChatTalk = new TopiChatTalk(topiChat);
