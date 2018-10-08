@@ -30,15 +30,15 @@ export class RimaLoginComponent implements OnInit {
       this.form.reset();
   }
 
-  get isLoggedIn():Boolean{
+  get isLoggedIn():boolean{
     return this.RimaAAAService.getUser() !== null;
   }
 
-  get isErrorLogingIn():Boolean{
+  get isErrorLogingIn():boolean{
       return this.RimaAAAService.isErrorLogingIn;
   }
 
-  get errorLogingMsg():String{
+  get errorLogingMsg():string{
       return this.RimaAAAService.errorLogingMsg;
   }
 
