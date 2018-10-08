@@ -10,8 +10,25 @@ This page describes the process of developing extra components.
 -  **package.json** file
   - give the new value for the app-name: **name** parameter
   - in the **scripts** node, we should give the new port for the `"start": "npx ng serve -o --port 8887"` to prevent  their overlapping. Look for a free next port at the lower paragraph **Apps Ports**
-  - 
--  in the **angular.json** file rename the project name. Under the node "**projects**", you will see an entry with name resembling name of the app (e.g."collective_sustainable_activism") you should rename in whole the file that name with the new desired project name.
+-  in the **angular.json** file rename the project name. Under the node "**projects**", you will see an entry with name resembling name of the app (e.g."collective_sustainable_activism") you should rename in whole the file that name with the new desired project name
+- **IMPORTANT**: we depends on symbolic links!
+  - we are in the development mode
+  - therefore it is very important to have the parameter `preserveSymlinks` in `angular.json` set to `true`
+  - by default `angular-cli` do not set it
+
+
+
+```json
+{
+    "projects": {
+        "play-sound": {
+            "architect": {
+                "build": {
+                    "options": {
+                        "preserveSymlinks": true,
+// ...
+```
+
 - colabo.config.js
   - rename **puzzles/name** node and the **puzzles/description** node
 

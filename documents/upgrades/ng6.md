@@ -12,3 +12,5 @@ version migrations:
     + v6.3.3 breaks "@angular/flex-layout": "=6.0.0-beta.17" so we needed to migrate on higher version
 + "typescript": "~2.7.2" -> "typescript": "=2.9.2"
     + v3.* breaks CLI
++ PROBLEM
+    + sym_links are not followed in typescript 2.9.*
