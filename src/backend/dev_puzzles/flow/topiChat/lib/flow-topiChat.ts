@@ -1,11 +1,11 @@
-const MODULE_NAME:string = "@colabo-topiChat/b-talk";
+const MODULE_NAME:string = "@colabo-flow/b-topiChat";
 
 import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topiChat/b-core';
 
 import {GetPuzzle} from '@colabo-utils/config';
 
 let puzzleConfig:any = GetPuzzle(MODULE_NAME);
-console.log("[ColaboFlowTopiChat] Should we save chat? saveTalkToMap = ", puzzleConfig.saveTalkToMap);
+console.log("[ColaboFlowTopiChat] Should we save chat? saveFlowInteractionToMap = ", puzzleConfig.saveFlowInteractionToMap);
 console.log("[ColaboFlowTopiChat] mapId = ", puzzleConfig.mapId);
 
 import {KNode} from '@colabo-knalledge/b-knalledge-core';
