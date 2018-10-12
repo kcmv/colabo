@@ -1,8 +1,11 @@
 {
-    "name": "@colabo-rima/rima-connect",
+    "name": "@colabo-rima/b-aaa",
     "description": "RIMA connect supports basic aspects of user management of Colabo.space clients.",
     "version": "0.0.1",
-    "private": true,
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "build": "tsc"
     },

@@ -26,7 +26,7 @@
         "zone.js": "^0.8.14"
     },
     "peerDependenciesLocal": {
-        "@colabo-rima/rima_core": "^0.0.1",
+        "@colabo-rima/f-core": "^0.0.1",
         "@colabo-knalledge/knalledge_core": "0.1.0",
         "@colabo-topiChat/topiChat-core": "0.1.0"
     },

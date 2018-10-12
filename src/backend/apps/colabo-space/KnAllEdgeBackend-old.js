@@ -85,7 +85,7 @@ var whoAmIs = app.resource('whoAmIs', require('./modules/whoAmI'), { id: 'type?/
 var howAmIs = app.resource('howAmIs', require('./modules/howAmI'), { id: 'type?/:searchParam?' });
 
 /* AAA */
-var aaa = app.resource('aaa', require('@colabo-rima/rima-connect/aaa'), { id: 'type?/:searchParam?/:searchParam2?' });
+var aaa = app.resource('aaa', require('@colabo-rima/b-aaa/aaa'), { id: 'type?/:searchParam?/:searchParam2?' });
 
 /* GENERAL */
 var syncing = app.resource('syncing', require('./modules/syncing'), { id: 'type?/:searchParam?/:searchParam2?' });

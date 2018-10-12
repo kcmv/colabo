@@ -1,8 +1,8 @@
-const MODULE_NAME:string = "@colabo-flow/b-topiChat";
+const MODULE_NAME:string = "@colabo-flow/b-topichat";
 
-import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topiChat/b-core';
+import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topichat/b-core';
 
-import {GetPuzzle} from '@colabo-utils/config';
+import {GetPuzzle} from '@colabo-utils/i-config';
 
 let puzzleConfig:any = GetPuzzle(MODULE_NAME);
 console.log("[ColaboFlowTopiChat] Should we save chat? saveFlowInteractionToMap = ", puzzleConfig.saveFlowInteractionToMap);
@@ -22,10 +22,10 @@ let chalk = require('chalk');
 import {ColaboFlowService} from '@colabo-flow/b-services';
 
 /**
- * This is the main class, the entry point to TopiChat-Talk plugin. To use it, you just need to import `@colabo-topiChat/b-talk`:
+ * This is the main class, the entry point to TopiChat-Talk plugin. To use it, you just need to import `@colabo-topichat/b-talk`:
  *
  * ```ts
- * var topiChatTalk = require('@colabo-topiChat/b-talk');
+ * var topiChatTalk = require('@colabo-topichat/b-talk');
  * ```
  */
 

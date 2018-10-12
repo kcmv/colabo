@@ -24,7 +24,7 @@ let globalSet:any = {
     }
 };
 
-let config = require('@colabo-utils/config');
+let config = require('@colabo-utils/i-config');
 config.init(globalSet);
 
 // import {ColaboFlowService} from '.';

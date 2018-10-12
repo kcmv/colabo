@@ -12,7 +12,7 @@ var puzzles = {
         "@colabo-knalledge/knalledge_store_core": {},
         "@colabo-knalledge/knalledge_search": {},
         "@colabo-knalledge/knalledge_view_node": {},
-        "@colabo-rima/rima_aaa": {}
+        "@colabo-rima/f-aaa": {}
     },
     offers: {}
 };

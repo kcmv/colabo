@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-import { RimaAAAService } from '@colabo-rima/rima_aaa';
+import { RimaAAAService } from '@colabo-rima/f-aaa';
 import {ColaboFlowService} from '@colabo-colaboflow/core';
 
 import {ColaboFlowTopiChatService, ColaboFlowTopiChatEvents, TopiChatPackage, ColaboPubSubPlugin} from '@colabo-flow/topiChat';

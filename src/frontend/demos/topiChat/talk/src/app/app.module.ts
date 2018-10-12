@@ -19,7 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { GetMapComponent } from './get-map/get-map.component';
 
 // Puzzle Modules
-import { RimaAaaModule } from '@colabo-rima/rima_aaa/module';
+import { RimaAaaModule } from '@colabo-rima/f-aaa/module';
 import {TopiChatCoreModule} from '@colabo-topiChat/core';
 import {TopiChatTalkModule} from '@colabo-topiChat/talk';
 

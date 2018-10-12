@@ -13,7 +13,7 @@ import {ColaboFlowState, ColaboFlowStates} from '@colabo-colaboflow/core/lib/col
 import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-colaboflow/core/lib/myColaboFlowState';
 import {CardDecorator} from './card-decorator/cardDecorator';
 import { environment } from '../../environments/environment';
-import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
+import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 
 export enum DialoGameActions{};
 

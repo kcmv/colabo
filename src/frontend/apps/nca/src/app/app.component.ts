@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {SDGsService} from './select-sdgs/sdgs.service';
-import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
+import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {CWCService} from './cwc/cwc.service';
 
 @Component({

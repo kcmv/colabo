@@ -15,7 +15,7 @@ export enum TopiChatTalkEvents{
 	ChatMessage = 'tc:chat-message'
 }
 
-import {RimaAAAService} from '@colabo-rima/rima_aaa';
+import {RimaAAAService} from '@colabo-rima/f-aaa';
 
 @Injectable()
 export class TopiChatTalkService{

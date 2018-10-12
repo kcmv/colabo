@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 // import {ColaboFlowState, ColaboFlowStates} from './colaboFlowState';
 // import {MyColaboFlowState, MyColaboFlowStates} from './myColaboFlowState';
 
-import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
+import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';

@@ -16,7 +16,7 @@ import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knall
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
 
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
-import { RimaAAAService } from '@colabo-rima/rima_aaa/rima-aaa.service';
+import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 
 //this consts are defined by INSTALL.MD data:
 // const MAP_ID = "5b8a5260f8b8e40f3f250f9d"; //TEF

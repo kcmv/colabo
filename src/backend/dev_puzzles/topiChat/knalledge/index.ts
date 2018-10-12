@@ -1,12 +1,12 @@
 var MODULE_NAME = "KnAllEdge";
 
-import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topiChat/b-core';
+import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topichat/b-core';
 
 /**
- * This is the main class, the entry point to TopiChat-KnAllEdge plugin. To use it, you just need to import `@colabo-topiChat/b-knalledge`:
+ * This is the main class, the entry point to TopiChat-KnAllEdge plugin. To use it, you just need to import `@colabo-topichat/b-knalledge`:
  *
  * ```ts
- * var topiChatKnAllEdge = require('`@colabo-topiChat/b-knalledge`');
+ * var topiChatKnAllEdge = require('`@colabo-topichat/b-knalledge`');
  * ```
  */
 

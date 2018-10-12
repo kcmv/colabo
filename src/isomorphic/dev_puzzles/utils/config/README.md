@@ -29,8 +29,8 @@ The basic of the config file is:
 'use strict';
 
 // this is file is available to the rest of the system
-// through the puzzle `@colabo-utils/config`
-// please read `@colabo-utils/config/README.md` for more details
+// through the puzzle `@colabo-utils/i-config`
+// please read `@colabo-utils/i-config/README.md` for more details
 
 // NOTE: it is important that this file is not imported, but required
 // and that it is therefore JS (not TS, although it can be, if we still do not import it)
@@ -70,7 +70,7 @@ let configFile = require('./config/global');
 console.log("[Colabo.Space:index] configFile.paths: %s", JSON.stringify(configFile.paths));
 
 // INIT-2
-let config = require('@colabo-utils/config');
+let config = require('@colabo-utils/i-config');
 config.init(configFile);
 ```
 
@@ -81,7 +81,7 @@ Now you can access the config data at any part of the code as simply as (the exa
 ```ts
 const MODULE_NAME:string = "@colabo-topiChat/b-talk";
 
-import {GetPuzzle} from '@colabo-utils/config';
+import {GetPuzzle} from '@colabo-utils/i-config';
 let puzzleConfig:any = GetPuzzle(MODULE_NAME);
 
 console.log("[TopiChatTalk] mapId = ", puzzleConfig.mapId);
@@ -121,8 +121,8 @@ console.log("polyfills.ts");
 // import * as configFile from './config/global';
 let globalSet = (<any>window).globalSet;
 console.log("[polyfills.ts] globalSet.puzzles: %s", JSON.stringify(globalSet.puzzles));
-// let config = require('@colabo-utils/config');
-import * as config from '@colabo-utils/config';
+// let config = require('@colabo-utils/i-config');
+import * as config from '@colabo-utils/i-config';
 config.init(globalSet);
 ```
 
@@ -131,7 +131,7 @@ config.init(globalSet);
 Now you can access the config data at any part of the code as simply as (the example is from the frontend puzzle: `@colabo-rima/rima_aaa`, file `rima-aaa.service.ts`):
 
 ```ts
-import * as config from '@colabo-utils/config';
+import * as config from '@colabo-utils/i-config';
 
 console.log("[rima-aaa.service] config.GetGeneral('mapId'):", config.GetGeneral('mapId'));
 ```

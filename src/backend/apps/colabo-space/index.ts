@@ -5,7 +5,7 @@ process.chdir(__dirname);
 let configFile:any = require('./config/global');
 let globalSet:any = configFile.globalSet;
 console.log("[Colabo.Space:index] globalSet.paths: %s", JSON.stringify(globalSet.paths));
-let config = require('@colabo-utils/config');
+let config = require('@colabo-utils/i-config');
 config.init(globalSet);
 
 let async = require('async');
@@ -85,7 +85,7 @@ PuzzleKnalledgeSearch.initialize(app);
 // var howAmIs = app.resource('howAmIs', require('./modules/howAmI'), { id: 'type?/:searchParam?' });
 
 /* AAA */
-var aaa = app.resource('aaa', require('@colabo-rima/rima-connect/aaa'), { id: 'type?/:searchParam?/:searchParam2?' });
+var aaa = app.resource('aaa', require('@colabo-rima/b-aaa/aaa'), { id: 'type?/:searchParam?/:searchParam2?' });
 
 /* GENERAL */
 // var syncing = app.resource('syncing', require('./modules/syncing'), { id: 'type?/:searchParam?/:searchParam2?' });
@@ -101,16 +101,16 @@ PuzzleMediaUpload.initialize(app);
 // var smsapi = app.resource('smsapi', require('./modules/smsapi')); //TS
 
 // TopiChat
-import {TopiChat} from '@colabo-topiChat/b-core';
+import {TopiChat} from '@colabo-topichat/b-core';
 var topiChat = new TopiChat('Colabo.Space');
 
-// import {TopiChatKnAllEdge} from '@colabo-topiChat/b-knalledge';
+// import {TopiChatKnAllEdge} from '@colabo-topichat/b-knalledge';
 // var topiChatKnAllEdge = new TopiChatKnAllEdge(topiChat);
 
-import {TopiChatTalk} from '@colabo-topiChat/b-talk';
+import {TopiChatTalk} from '@colabo-topichat/b-talk';
 var topiChatTalk = new TopiChatTalk(topiChat);
 
-import {ColaboFlowTopiChat} from '@colabo-flow/b-topiChat';
+import {ColaboFlowTopiChat} from '@colabo-flow/b-topichat';
 var colaboFlowTopiChat = new ColaboFlowTopiChat(topiChat);
 
 let server = http.createServer(app).listen(app.get('port'), function () {

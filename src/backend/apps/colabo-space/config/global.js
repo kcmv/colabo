@@ -1,8 +1,8 @@
 'use strict';
 
 // this is file is available to the rest of the system
-// through the puzzle `@colabo-utils/config`
-// please read `@colabo-utils/config/README.md` for more details
+// through the puzzle `@colabo-utils/i-config`
+// please read `@colabo-utils/i-config/README.md` for more details
 
 // NOTE: it is important that this file is not imported, but required
 // and that it is therefore JS (not TS, although it can be, if we still do not import it)
@@ -58,7 +58,7 @@ if (!globalSet.hasOwnProperty('dbConfig')) {
 if (!globalSet.hasOwnProperty('puzzles')) {
 	console.log("Setting up globalSet.puzzles");
 	globalSet.puzzles = {
-		'@colabo-topiChat/b-talk': {
+		'@colabo-topichat/b-talk': {
 			saveTalkToMap: true,
 			mapId: "5b96619b86f3cc8057216a03",
 			iAmId: "1b96619b86f3cc8057216a05",
@@ -82,7 +82,7 @@ if (!globalSet.hasOwnProperty('puzzles')) {
 			separateResponseQueue: 'colabo-service-response'
 			// separateResponseQueue: 'colabo-service-response-localhost'
 		},
-		'@colabo-flow/b-topiChat': {
+		'@colabo-flow/b-topichat': {
 			saveFlowInteractionToMap: false,
 			mapId: null
 		}

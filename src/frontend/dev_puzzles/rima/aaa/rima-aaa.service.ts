@@ -17,7 +17,7 @@ import {UserData} from './userData';
 
 console.log("rima-aaa.service");
 
-import * as config from '@colabo-utils/config';
+import * as config from '@colabo-utils/i-config';
 
 import { CFService } from '@colabo-knalledge/knalledge_store_core/cf.service';
 

@@ -7,7 +7,7 @@ let chalk = require('chalk');
 // let amqp = require('amqplib/callback_api')
 let amqp = require('amqplib');
 
-import {GetPuzzle} from '@colabo-utils/config';
+import {GetPuzzle} from '@colabo-utils/i-config';
 
 export class ColaboFlowService{
 	protected debug:boolean;

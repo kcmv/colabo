@@ -9,7 +9,7 @@ Talk puzzle provides a real-time chating support with possibility of building a 
 # Export
 
 ```sh
-# It will create globaly accessable npm package `@colabo-topiChat/b-talk`
+# It will create globaly accessable npm package `@colabo-topichat/b-talk`
 npm link
 ```
 
@@ -17,5 +17,5 @@ npm link
 
 ```sh
 # Imports it in the local node_modules space of the hosting app
-npm link @colabo-topiChat/b-talk
+npm link @colabo-topichat/b-talk
 ```

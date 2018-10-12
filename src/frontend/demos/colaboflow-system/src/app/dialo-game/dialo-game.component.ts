@@ -1,4 +1,4 @@
-import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
+import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import {DialoGameService} from './dialo-game.service';

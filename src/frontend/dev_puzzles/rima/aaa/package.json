@@ -1,7 +1,10 @@
 {
-    "name": "@colabo-rima/rima_aaa",
+    "name": "@colabo-rima/f-aaa",
     "version": "0.1.0",
-    "private": true,
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {},
     "main": "dist/index.js",
     "module": "dist/index.js",
@@ -20,7 +23,7 @@
         "zone.js": "^0.8.14"
     },
     "peerDependenciesLocal": {
-        "@colabo-rima/rima_core": "^0.0.1",
+        "@colabo-rima/f-core": "^0.0.1",
         "@colabo-knalledge/knalledge_core": "0.1.0",
         "knalledge_store_core": "0.1.0"
     },

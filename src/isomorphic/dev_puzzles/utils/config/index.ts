@@ -1,4 +1,4 @@
-const MODULE_NAME:string = "@colabo-utils/config";
+const MODULE_NAME:string = "@colabo-utils/i-config";
 
 let Puzzles:any;
 let General:any;

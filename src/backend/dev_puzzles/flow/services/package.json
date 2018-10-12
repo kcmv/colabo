@@ -2,7 +2,10 @@
     "name": "@colabo-flow/b-services",
     "description": "This is a ColaboFlow service puzzle of the backend part of the Colabo.Space ecosystem",
     "version": "0.0.5",
-    "private": true,
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "build": "tsc"
     },

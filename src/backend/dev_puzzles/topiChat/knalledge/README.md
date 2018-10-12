@@ -9,7 +9,7 @@ KnAllEdge is general semantic knowledge repository which is a part of the Colabo
 # Export
 
 ```sh
-# It will create globaly accessable npm package `@colabo-topiChat/b-knalledge`
+# It will create globaly accessable npm package `@colabo-topichat/b-knalledge`
 npm link
 ```
 
@@ -17,5 +17,5 @@ npm link
 
 ```sh
 # Imports it in the local node_modules space of the hosting app
-npm link @colabo-topiChat/b-knalledge
+npm link @colabo-topichat/b-knalledge
 ```

@@ -6,12 +6,12 @@ var puzzles = {
         "@colabo-knalledge/b-knalledge-core": {},
         "@colabo-knalledge/b-knalledge-search": {},
         "@colabo-media/media-upload": {},
-        "@colabo-rima/rima-connect": {},
-        "@colabo-topiChat/b-core": {},
-        "@colabo-topiChat/b-knalledge": {},
-        "@colabo-topiChat/b-talk": {},
-        "@colabo-utils/config": {},
-        "@colabo-flow/b-topiChat": {}
+        "@colabo-rima/b-aaa": {},
+        "@colabo-topichat/b-core": {},
+        "@colabo-topichat/b-knalledge": {},
+        "@colabo-topichat/b-talk": {},
+        "@colabo-utils/i-config": {},
+        "@colabo-flow/b-topichat": {}
     },
     offers: {
     }

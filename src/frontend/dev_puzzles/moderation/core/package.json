@@ -24,7 +24,7 @@
     },
     "peerDependenciesLocal": {
         "@colabo-colaboflow/core": "0.0.1",
-        "@colabo-rima/rima_aaa": "^0.0.1"
+        "@colabo-rima/f-aaa": "^0.0.1"
     },
     "devDependencies": {},
     "devDependenciesLocal": {}

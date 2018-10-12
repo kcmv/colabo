@@ -31,9 +31,9 @@ export interface TopiChatClientInfo{
 
 import * as socketIO from 'socket.io-client';
 
-import {GetPuzzle} from '@colabo-utils/config';
+import {GetPuzzle} from '@colabo-utils/i-config';
 
-import {RimaAAAService} from '@colabo-rima/rima_aaa';
+import {RimaAAAService} from '@colabo-rima/f-aaa';
 
 @Injectable()
 export class TopiChatCoreService{

@@ -8,11 +8,11 @@ var puzzles = {
         "symlinks": false
     },
     dependencies: {
-        "@colabo-utils/config": {}
+        "@colabo-utils/i-config": {}
     },
     offers: {
-        "@colabo-utils/config": {
-            npm: "@colabo-utils/config",
+        "@colabo-utils/i-config": {
+            npm: "@colabo-utils/i-config",
             path: "dev_puzzles/utils/config"
         }
     }

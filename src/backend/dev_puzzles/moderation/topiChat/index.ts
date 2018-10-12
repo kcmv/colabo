@@ -1,8 +1,8 @@
-const MODULE_NAME:string = "@colabo-topiChat/b-talk";
+const MODULE_NAME:string = "@colabo-topichat/b-talk";
 
-import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topiChat/b-core';
+import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topichat/b-core';
 
-import {GetPuzzle} from '@colabo-utils/config';
+import {GetPuzzle} from '@colabo-utils/i-config';
 
 let puzzleConfig:any = GetPuzzle(MODULE_NAME);
 console.log("[TopiChatTalk] Should we save chat? saveTalkToMap = ", puzzleConfig.saveTalkToMap);
@@ -17,10 +17,10 @@ enum KNodesTopiChatTalkTypes{
 const KNodeModule = require("@colabo-knalledge/b-knalledge-core/lib/modules/kNode");
 
 /**
- * This is the main class, the entry point to TopiChat-Talk plugin. To use it, you just need to import `@colabo-topiChat/b-talk`:
+ * This is the main class, the entry point to TopiChat-Talk plugin. To use it, you just need to import `@colabo-topichat/b-talk`:
  *
  * ```ts
- * var topiChatTalk = require('@colabo-topiChat/b-talk');
+ * var topiChatTalk = require('@colabo-topichat/b-talk');
  * ```
  */
 

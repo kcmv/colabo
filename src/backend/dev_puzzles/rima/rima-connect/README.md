@@ -7,7 +7,7 @@ It is responsible for main functions necessary to manage users in the Colabo.spa
 # Export
 
 ```sh
-# It will create globaly accessable npm package `@colabo-rima/rima-connect`
+# It will create globaly accessable npm package `@colabo-rima/b-aaa`
 npm link
 ```
 
@@ -15,5 +15,5 @@ npm link
 
 ```sh
 # Imports it in the local node_modules space of the hosting app
-npm link @colabo-rima/rima-connect
+npm link @colabo-rima/b-aaa
 ```

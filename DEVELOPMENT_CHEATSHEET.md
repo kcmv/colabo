@@ -1,3 +1,45 @@
+# colabo tools for puzzles
+
+To publish puzzle: `@colabo-topichat/b-talk` you need to create organization first at https://npmjs.com
+
+NOTE: `@colabo-topiChat/b-talk` is wrong; no capital letters
+
+Each package you want to publish has to have in `package.json`:
+
+```json
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+```
+[Publishing an Org Scoped Package](https://www.npmjs.com/docs/orgs/publishing-an-org-scoped-package.html)
+
+You publish by running `npm publish` inside the puzzle folder.
+
+https://docs.npmjs.com/cli/unpublish
+
+You unpublish by running `npm unpublish @colabo-rima/rima_aaa@0.1.0`. You have 72 hours to do that! Later you have to write an email.
+
+
+You can list all organizations at:
+
+https://www.npmjs.com/settings/mprinc/profile
+
+But if you have too many organizations, then not all of them are visible, so you need to access them directly: https://www.npmjs.com/org/colabo-topichat
+
+This are current Colabo sub-organizations:
+
+https://www.npmjs.com/org/colabo
+https://www.npmjs.com/org/colabo-knalledge
+https://www.npmjs.com/org/colabo-flow
+https://www.npmjs.com/org/colabo-media
+https://www.npmjs.com/org/colabo-rima
+https://www.npmjs.com/org/colabo-topichat
+
+or
+
+https://www.npmjs.com/settings/colabo-topichat/packages
+
 # Linked components/modules
 
 Most of the components that we develop as a part of the Colabo ecosystem are in separate folders and are exported into npm packages eventually.

@@ -25,7 +25,7 @@ var moduleDeclarations = [
 
 // Puzzle Modules
 import { KnaledgeViewNodeModule } from '@colabo-knalledge/knalledge_view_node/module';
-import { RimaAaaModule } from '@colabo-rima/rima_aaa/module';
+import { RimaAaaModule } from '@colabo-rima/f-aaa/module';
 
 var moduleImports = [
   BrowserModule,

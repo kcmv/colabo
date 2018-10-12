@@ -22,7 +22,7 @@ import {UserActionsStatusesComponent} from '../moderation-panel/insights/user-ac
 
 import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
 
-import {RimaAaaModule} from '@colabo-rima/rima_aaa/module';
+import {RimaAaaModule} from '@colabo-rima/f-aaa/module';
 import {TopiChatCoreModule} from '@colabo-topiChat/core';
 import {ColaboFlowTopiChatModule} from '@colabo-flow/topiChat';
 import {TopiChatSystemModule} from '@colabo-topiChat/system';

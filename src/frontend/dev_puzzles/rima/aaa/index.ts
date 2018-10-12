@@ -1,5 +1,5 @@
 /*
- * Public API Surface of @colabo-rima/rima_aaa
+ * Public API Surface of @colabo-rima/f-aaa
  */
 
 export {RimaAAAService} from './rima-aaa.service';

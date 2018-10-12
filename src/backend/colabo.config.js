@@ -12,13 +12,13 @@ var puzzles = {
         "@colabo-knalledge/b-knalledge-core": {},
         "@colabo-knalledge/b-knalledge-search": {},
         "@colabo-media/media-upload": {},
-        "@colabo-rima/rima-connect": {},
-        "@colabo-topiChat/b-core": {},
-        "@colabo-topiChat/b-knalledge": {},
-        "@colabo-topiChat/b-talk": {},
-        "@colabo-utils/config": {},
+        "@colabo-rima/b-aaa": {},
+        "@colabo-topichat/b-core": {},
+        "@colabo-topichat/b-knalledge": {},
+        "@colabo-topichat/b-talk": {},
+        "@colabo-utils/i-config": {},
         "@colabo-flow/b-services": {},
-        "@colabo-flow/b-topiChat": {}
+        "@colabo-flow/b-topichat": {}
     },
     offers: {
         "@colabo-knalledge/b-knalledge-storage-mongo": {
@@ -37,29 +37,29 @@ var puzzles = {
             npm: "@colabo-media/media-upload",
             path: "dev_puzzles/media/media-upload"
         },
-        "@colabo-rima/rima-connect": {
-            npm: "@colabo-rima/rima-connect",
+        "@colabo-rima/b-aaa": {
+            npm: "@colabo-rima/b-aaa",
             path: "dev_puzzles/rima/rima-connect"
         },
-        "@colabo-topiChat/b-core": {
-            npm: "@colabo-topiChat/b-core",
-            path: "dev_puzzles/topiChat/core"
+        "@colabo-topichat/b-core": {
+            npm: "@colabo-topichat/b-core",
+            path: "dev_puzzles/topichat/core"
         },
-        "@colabo-topiChat/b-knalledge": {
-            npm: "@colabo-topiChat/b-knalledge",
-            path: "dev_puzzles/topiChat/knalledge"
+        "@colabo-topichat/b-knalledge": {
+            npm: "@colabo-topichat/b-knalledge",
+            path: "dev_puzzles/topichat/knalledge"
         },
-        "@colabo-topiChat/b-talk": {
-            npm: "@colabo-topiChat/b-talk",
-            path: "dev_puzzles/topiChat/talk"
+        "@colabo-topichat/b-talk": {
+            npm: "@colabo-topichat/b-talk",
+            path: "dev_puzzles/topichat/talk"
         },
         "@colabo-flow/b-services": {
             npm: "@colabo-flow/b-services",
             path: "dev_puzzles/flow/services"
         },
-        "@colabo-flow/b-topiChat": {
-            npm: "@colabo-flow/b-topiChat",
-            path: "dev_puzzles/flow/topiChat"
+        "@colabo-flow/b-topichat": {
+            npm: "@colabo-flow/b-topichat",
+            path: "dev_puzzles/flow/topichat"
         }
     }
 }

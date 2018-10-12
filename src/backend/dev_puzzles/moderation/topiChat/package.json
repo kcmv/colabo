@@ -1,8 +1,11 @@
 {
-    "name": "@colabo-topiChat/b-talk",
+    "name": "@colabo-topichat/b-talk",
     "description": "KnAlledge Extension of the TopiChat service",
     "version": "0.0.5",
-    "private": true,
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "build": "tsc"
     },
@@ -13,7 +16,7 @@
         "socket.io": "^1.2.1"
     },
     "peerDependenciesLocal": {
-        "@colabo-topiChat/b-core": "0.1.0",
+        "@colabo-topichat/b-core": "0.1.0",
         "@colabo-knalledge/b-knalledge-core": "0.1.0"
     },
     "devDependencies": {}

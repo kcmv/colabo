@@ -15,7 +15,7 @@ interface IConstructor<T> {
     factory(obj:any):T;
 }
 
-import * as config from '@colabo-utils/config';
+import * as config from '@colabo-utils/i-config';
 
 @Injectable()
 export class CFService {

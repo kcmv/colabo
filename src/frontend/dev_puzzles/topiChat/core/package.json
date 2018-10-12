@@ -27,7 +27,7 @@
     },
     "peerDependenciesLocal": {
         "@colabo-utils/pub-sub": "0.1.0",
-        "@colabo-rima/rima_aaa": "0.1.0"
+        "@colabo-rima/f-aaa": "0.1.0"
     },
     "devDependencies": {},
     "devDependenciesLocal": {}

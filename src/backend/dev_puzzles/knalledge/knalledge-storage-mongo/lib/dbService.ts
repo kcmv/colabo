@@ -3,7 +3,7 @@ const MODULE_NAME:string = "@colabo-knalledge/b-knalledge-storage-mongo";
 var mongoose = require('mongoose');
 declare let global:any;
 
-import {GetProperty} from '@colabo-utils/config';
+import {GetProperty} from '@colabo-utils/i-config';
 
 export function DBConnect(){
 	let dbConfig = GetProperty('dbConfig');

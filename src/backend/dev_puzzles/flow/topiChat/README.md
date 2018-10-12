@@ -6,7 +6,7 @@ It enables frontend Colabo.Space components to talk and coordinate services (wor
 
 # Config
 
-Config file is a JS file through `@colabo-utils/config` puzzle.
+Config file is a JS file through `@colabo-utils/i-config` puzzle.
 
 # Example
 

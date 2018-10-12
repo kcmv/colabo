@@ -1,4 +1,4 @@
-// @colabo-rima/rima_aaa
+// @colabo-rima/f-aaa
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';

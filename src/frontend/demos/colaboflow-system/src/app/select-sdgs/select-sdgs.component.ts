@@ -4,7 +4,7 @@ import {Dialog1Btn, Dialog2Btn, DialogData} from '../util/dialog';
 import { Component, OnInit } from '@angular/core';
 
 import {SDGsService, SDG_SELECTION_NAME, SDG_SELECTION_TYPE, SDGS_TO_SELECT } from './sdgs.service'
-import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
+import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
 

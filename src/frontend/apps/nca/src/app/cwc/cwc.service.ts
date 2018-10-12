@@ -14,7 +14,7 @@ import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
 import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
-import {RimaAAAService} from '@colabo-rima/rima_aaa/rima-aaa.service';
+import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 
 import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
 

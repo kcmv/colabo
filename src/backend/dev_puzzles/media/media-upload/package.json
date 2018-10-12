@@ -2,7 +2,10 @@
     "name": "@colabo-media/media-upload",
     "description": "Support for uploading media content.",
     "version": "0.0.1",
-    "private": true,
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "build": "tsc"
     },

@@ -40,7 +40,7 @@ This is just an explanation and not necessary to be done manually, because it is
 cd src/frontend
 npm link @colabo-knalledge/knalledge_core
 npm link @colabo-puzzles/puzzles_core
-npm link @colabo-rima/rima_aaa
+npm link @colabo-rima/f-aaa
 npm link @colabo-knalledge/knalledge_store_core
 ```
 
