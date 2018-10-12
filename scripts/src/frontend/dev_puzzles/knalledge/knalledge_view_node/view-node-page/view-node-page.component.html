@@ -1,0 +1,38 @@
+<!-- main container -->
+
+<div fxLayout="column" fxFlexFill style="height: 100%;">
+    <!-- toolbar -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <!-- <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;"> -->
+            <!-- <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap> -->
+
+            <img src="/assets/images/colabo-logo-url-square-original.jpg" height="50px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+
+            <span style="margin-left:10px; margin-right: 10px;"> : </span>
+
+            <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
+                <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
+            </button>
+
+            <button mat-mini-fab mat-tooltip="Map" tooltip-position="below" class="mat-mini mat-primary" aria-label="Map" routerLink="/map" style="margin-right: 5px;">
+            <mat-icon [ngClass]="{warning: false}" title="Map">share</mat-icon>
+        </button>
+
+            <span style="margin-left:10px; margin-right: 10px;"> : </span>
+            <h1>
+                CoLabo.Space
+            </h1>
+        </mat-toolbar>
+    </div>
+
+    <!-- Main content -->
+
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+        <knalledge-view-node-relatives [kNode]="node"></knalledge-view-node-relatives>
+
+        <hr/>
+
+        <knalledge-view-node [kNode]="node"></knalledge-view-node>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<a [routerLink]="" *ngIf="!shouldShowComponent" (click)="showComponent()">(show navigation and relatives)</a>
+<a [routerLink]="" *ngIf="shouldShowComponent" (click)="hideComponent()">(hide navigation and relatives)</a>
+
+<div *ngIf="shouldShowComponent">
+    <a [routerLink]="" *ngIf="_kNode && !shouldShowNodeIdField" (click)="showNodeIdField()">(show navigation)</a>
+
+    <div *ngIf="!_kNode || shouldShowNodeIdField">
+        <label>node id:
+            <button (click)="hideNodeIdField()" mat-icon-button [color]="'primary'" mat-tooltip="Cancel" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Cancel" style="margin-right: 5px;">
+                <mat-icon [ngClass]="{warning: false}" title="Cancel">cancel</mat-icon>
+            </button>
+            <mat-form-field>
+                <input matInput type="text" placeholder="Node id" [(ngModel)]="navigate_to_node_id" />
+            </mat-form-field>
+        </label>
+
+        <button (click)="gotoKNode(navigate_to_node_id)" mat-raised-button [color]="'primary'" mat-tooltip="Finish" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Finish" style="margin-right: 5px;">
+            <mat-icon [ngClass]="{warning: false}" title="Finish">done</mat-icon> Get Node
+        </button>
+
+        <!-- <button color="accent" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button> -->
+
+    </div>
+
+    <h3>Previous</h3>
+
+    <div *ngFor="let kNode of previousKnodes">
+        <a [routerLink]="" (click)="gotoKNode(kNode._id)">{{kNode?.name}}</a>
+    </div>
+
+    <h3>Children</h3>
+
+    <div *ngFor="let kNode of nextKnodes">
+        <a [routerLink]="" (click)="gotoKNode(kNode._id)">{{kNode?.name}}</a>
+    </div>
+</div>

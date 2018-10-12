@@ -1,0 +1,97 @@
+<user-info></user-info>
+
+<div>
+  <h2>Users Population</h2>
+
+  <h3>Existing Users</h3>
+
+  <!-- https://material.angular.io/components/expansion/examples -->
+  <mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Sinisa
+      </mat-panel-title>
+      <!-- <mat-panel-description>
+        Type your name and age
+      </mat-panel-description> -->
+    </mat-expansion-panel-header>
+    <button mat-raised-button>Message</button>
+    <!-- <mat-form-field>
+      <input matInput placeholder="First name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Age">
+    </mat-form-field> -->
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Sasha
+      </mat-panel-title>
+      <!-- <mat-panel-description>
+        Currently I am {{panelOpenState ? 'open' : 'closed'}}
+      </mat-panel-description> -->
+    </mat-expansion-panel-header>
+    <button mat-raised-button>Message</button>
+    <!-- <p>I'm visible because I am open</p> -->
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Dino
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <button mat-raised-button>Message</button>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Дејан
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <button mat-raised-button>Message</button>
+</mat-expansion-panel>
+</mat-accordion>
+
+  <table border="1">
+  <tr>
+    <th>id</th>
+    <th>name</th>
+    <th>rfid</th>
+    <th>image</th>
+    <th>actions</th>
+  </tr>
+  <tr *ngFor="let user of users">
+    <td>{{user._id}}</td>
+    <td>{{user.name}}</td>
+    <td>{{user?.dataContent?.coLaboWareData?.value}}</td>
+    <td>
+      <img src="{{user?.dataContent?.image?.url}}" width="100px"/>
+    </td>
+    <td>
+      <button class="delete" title="delete"
+      (click)="deleteUser(user)">X</button>
+      <button class="delete" title="update"
+      (click)="updateUser(user)">update</button>
+    </td>
+  </tr>
+  </table>
+
+  <h3>New users</h3>
+
+  <label><p>New users list:</p>
+    <textarea rows="10" cols="80" [(ngModel)]="new_users_list" placeholder="Place JSON list of users you want to create">
+    </textarea>
+  </label>
+  <p>
+    {{newUserId}} of {{newUsers ? newUsers.length : 0}} <b>users</b> created
+  </p>
+  <p>
+    <button (click)="createNewUsers()">Create</button>
+  </p>
+</div>

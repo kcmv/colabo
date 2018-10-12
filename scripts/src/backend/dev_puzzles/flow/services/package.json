@@ -1,0 +1,26 @@
+{
+    "name": "@colabo-flow/b-services",
+    "description": "This is a ColaboFlow service puzzle of the backend part of the Colabo.Space ecosystem",
+    "version": "0.0.5",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Cha-OS/colabo.git"
+    },
+   "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {
+        "amqplib": "^0.5.2",
+        "chalk": "^2.4.1",
+        "uuid": "^3.3.2"
+    },
+    "peerDependencies": {},
+    "devDependencies": {}
+}

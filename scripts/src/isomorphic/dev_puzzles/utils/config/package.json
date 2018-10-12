@@ -1,0 +1,22 @@
+{
+    "name": "@colabo-utils/i-config",
+    "description": "Provides config support for the backend of the Colabo.Space Ecosystem",
+    "version": "0.0.5",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Cha-OS/colabo.git"
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {},
+    "peerDependencies": {},
+    "devDependencies": {}
+}

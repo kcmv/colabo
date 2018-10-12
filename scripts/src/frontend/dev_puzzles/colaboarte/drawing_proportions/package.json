@@ -1,0 +1,19 @@
+{
+  "name": "@colabo-colaboarte/drawing_proportions",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "d3": "5.0.0"
+  },
+  "peerDependencies": {},
+  "peerDependenciesLocal": {
+    "@colabo-puzzles/f-core": "^0.0.1",
+    "@colabo-knalledge/f-core": "^0.0.1"
+  },
+  "devDependencies": {},
+  "devDependenciesLocal": {
+    "@colabo-puzzles/f-core": "^0.0.1",
+    "@colabo-knalledge/f-core": "^0.0.1"
+  }
+}

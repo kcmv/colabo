@@ -1,0 +1,103 @@
+@import "../../../../app/sass/include";
+
+.knalledge_map_container{
+	.node_graph_html{
+		position: absolute;
+		border-width: 0px;
+
+		min-width: 150px;
+		margin-left: -75px;
+		font-size: 14px;
+		font-weight: bold;
+
+		span {
+			display: inline-block;
+			vertical-align: middle;
+			line-height: normal;
+			text-align: center;
+			font-weight: normal;
+			font-style: italic;
+			color: #550000;
+		}
+
+	/*	background-color: #ffffff;
+	*/	/*opacity: 0.7;*/
+		z-index: 5;
+		padding: 3px;
+		cursor: pointer;
+	/*	margin-left: 3em;
+		margin-top: 0.3em;
+	*/
+		/*margin-top: -1.5em;
+		margin-left: -5em;*/
+
+		.node_inner_html {
+			position: relative;
+			padding: 3px;
+			padding-left: 7px;
+			background-color: yellow;
+		}
+
+		/* NODE SEMANTIC / STYLING */
+		&.type_ibis_question{
+			background-color: #ffffaa;
+		}
+		&.type_ibis_idea{
+			background-color: #aaaaff;
+		}
+		&.type_ibis_argument{
+			background-color: transparentize(#ffaaaa, 0.50);
+		}
+		&.type_ibis_comment{
+			background-color: #aaffaa;
+		}
+	}
+
+	.node_graph_html_fixed{
+		/* TODO FIxing expandable nodes */
+		/*width: 200px;*/
+		min-width: 150px;
+		margin-left: -75px;
+		@include border-radius(10px, 10px);
+		border-width: 1px;
+		@include box-shadow(4px 3px 7px 2px rgba(150, 150, 255, 0.75));
+	}
+
+	.node_unselected{
+		border-style: dashed;
+		border-color: #0000ff;
+		/* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+		/* color h-shadow v-shadow blur spread color inset*/
+	}
+	.node_selected{
+		z-index: 1000;
+		border-style: solid;
+		border-color: #0000aa;
+		border-width: 5px;
+		@include box-shadow(10px 10px 9px 5px rgba(80, 80, 255, 0.75));
+	}
+
+	.label_html{
+		position: absolute;
+		/*width: 10em;*/
+		/*width: 150px;
+		margin-left: -75px;*/
+		/*height: 3em;
+		line-height: 3em;*/
+		border: 1px dashed #8888ff;
+		background-color: #eeeeff;
+		@include border-radius(5px);
+		opacity: 0.7;
+		z-index: 4;
+		padding: 3px;
+		cursor: pointer;
+	/*	margin-left: 3em;
+		margin-top: 0.3em;
+	*/
+		/*margin-top: -1.5em;
+		margin-left: -5em;*/
+		span {
+
+		}
+	}
+}
