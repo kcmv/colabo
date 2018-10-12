@@ -8,31 +8,22 @@ import uuid
 from colaboflow.services.ColaboFlowServiceWorker import ColaboFlowServiceWorker;
 
 def callback(msg, action, params):
-    response = {
-        'id': '88888',
-        'object': {
-            'name': 'colabo.space demo',
-            'id': '555',
-            'origin': '?'
-        }
-    };
-
     if(action == 'get_sims_for_user'):
         mapId = msg['params']['mapId']
         iAmId = msg['params']['iAmId']
         roundId = msg['params']['roundId']
         print("[colaboflow_service_demo:callback] Calling action '%r' with parameters(mapId:%r, iAmId:%r, roundId:%r)" % (action, mapId, iAmId, roundId))
-        response['object']['origin'] = 'get_sims_for_user';
-        # response = ds(mapId, iAmId, roundId)
+        # result = ds(mapId, iAmId, roundId)
+        result = 'get_sims_for_user:'+str(params)
     if(action == 'get_sims'):
         mapId = msg['params']['mapId']
         print("[colaboflow_service_demo:callback] Calling action '%r' with parameters(mapId:%r)" % (action, mapId))
-        response['object']['origin'] = 'get_sims';
-        # response = d(mapId)
+        # result = d(mapId)
+        result = 'get_sims:'+str(params)
 
-    print("\t response: %r" % (response))
+    print("\t result: %r" % (result))
     print("\t")
-    return response;
+    return result;
 
 cfService = ColaboFlowServiceWorker();
 cfService.connect();
