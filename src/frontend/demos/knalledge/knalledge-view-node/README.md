@@ -2,15 +2,15 @@
 
 ## Install
 
-Since colabo puzzles are not installed as npm packages, then ng-cli has problem finding their internal dependencies (in this case `simplemde-ng-lib` in the `@colabo-knalledge/knalledge_view_node` puzzle), so we need to help building process within the `tsconfig.json` file:
+Since colabo puzzles are not installed as npm packages, then ng-cli has problem finding their internal dependencies (in this case `simplemde-ng-lib` in the `@colabo-knalledge/f-view_node` puzzle), so we need to help building process within the `tsconfig.json` file:
 
 ```json
     "paths": {
       "simplemde-ng-lib": [
-        "./node_modules/@colabo-knalledge/knalledge_view_node/node_modules/simplemde-ng-lib"
+        "./node_modules/@colabo-knalledge/f-view_node/node_modules/simplemde-ng-lib"
       ],
       "simplemde-ng-lib/*": [
-        "./node_modules/@colabo-knalledge/knalledge_view_node/node_modules/simplemde-ng-lib/*"
+        "./node_modules/@colabo-knalledge/f-view_node/node_modules/simplemde-ng-lib/*"
       ]
     }
 ```

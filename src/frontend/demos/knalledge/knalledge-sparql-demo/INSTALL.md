@@ -27,9 +27,9 @@ You need to:
 3. import them in this project with:
 
 ```sh
-# npm link @colabo-puzzles/puzzles_core
-npm link @colabo-knalledge/knalledge_core
-npm link @colabo-knalledge/knalledge_store_core
+# npm link @colabo-puzzles/f-core
+npm link @colabo-knalledge/f-core
+npm link @colabo-knalledge/f-store_core
 ```
 
 # Updating

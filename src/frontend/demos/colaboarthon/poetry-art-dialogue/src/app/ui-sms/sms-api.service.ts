@@ -5,7 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import 'rxjs/add/operator/toPromise';
 import { of } from 'rxjs/observable/of';
 
-import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
+import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

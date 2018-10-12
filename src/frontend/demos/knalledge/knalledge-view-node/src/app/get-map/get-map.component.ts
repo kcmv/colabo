@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
-import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
-import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
-import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
+import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 
-import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
-import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
 const demoMapName:string = 'Demo Map';
 

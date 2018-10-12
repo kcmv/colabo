@@ -1,5 +1,5 @@
 /*
- * Public API Surface of @colabo-knalledge/knalledge_core
+ * Public API Surface of @colabo-knalledge/f-core
  */
 
 export {KNode} from './code/knalledge/kNode';

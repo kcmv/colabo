@@ -8,7 +8,7 @@ import { map, filter } from 'rxjs/operators';
 
 import {RimaAAAService} from '../rima-aaa.service';
 import {UserData} from '../userData';
-import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
 @Component({
   selector: 'app-rima-register',

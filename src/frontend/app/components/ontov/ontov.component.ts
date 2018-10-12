@@ -1,6 +1,6 @@
 import {Component, ViewEncapsulation, Inject, OnInit, OnDestroy} from '@angular/core';
 // import {MATERIAL_DIRECTIVES} from 'ng2-material';
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 import {OntovService, ISearchParam} from './ontov.service';
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {ClusterVO} from './clusterVO';
 import {AttributesPerUser} from '../users-profiling/users-profiling.service';
 import {ClusteringUser} from './clusteringUser';

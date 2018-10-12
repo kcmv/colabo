@@ -3,7 +3,7 @@ import { Component, Inject, ViewChild, OnInit} from '@angular/core';
 import {Media} from "ng2-material";
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MdDialog} from "ng2-material";
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 import {BrainstormingService} from "./brainstorming.service";
 import {Brainstorming, BrainstormingPhaseNames, BrainstormingPhase} from './brainstorming';
 

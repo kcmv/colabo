@@ -1,5 +1,5 @@
 {
-    "name": "@colabo-topiChat/system",
+    "name": "@colabo-topichat/f-system",
     "version": "0.0.1",
     "description": "Provides system notifications through topiChat",
     "private": true,

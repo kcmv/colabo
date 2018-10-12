@@ -20,8 +20,8 @@ import { GetMapComponent } from './get-map/get-map.component';
 
 // Puzzle Modules
 import { RimaAaaModule } from '@colabo-rima/f-aaa/module';
-import {TopiChatCoreModule} from '@colabo-topiChat/core';
-import {TopiChatTalkModule} from '@colabo-topiChat/talk';
+import {TopiChatCoreModule} from '@colabo-topichat/f-core';
+import {TopiChatTalkModule} from '@colabo-topichat/f-talk';
 
 var moduleDeclarations = [
   AppComponent,
@@ -50,8 +50,8 @@ var moduleImports = [
 // moduleImports.push(MainModule);
 // moduleImports.push(AppRoutingModule);
 
-// import {GlobalEmitterService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterService';
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+// import {GlobalEmitterService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterService';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 declare var window:any;
 export var Plugins:any = window.Config.Plugins;

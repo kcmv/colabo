@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 declare var knalledge;
 

@@ -16,16 +16,16 @@ import {MaterialModule} from './materialModule';
 // import { OrderModule } from 'ngx-order-pipe'; //TODO
 //import {MatInputModule, MatFormFieldControl} from '@angular/material';
 
-import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
-import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
-import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
+import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 
 // Puzzle modules
 import { RimaAaaModule } from '@colabo-rima/f-aaa';
 import { ModerationCoreModule } from '@colabo-moderation/core';
-import { ColaboFlowCoreModule } from '@colabo-colaboflow/core';
-import { TopiChatTalkModule } from '@colabo-topiChat/talk';
-import {SimilarityModule} from '@colabo-ai-ml/similarity';
+import { ColaboFlowCoreModule } from '@colabo-flow/f-core';
+import { TopiChatTalkModule } from '@colabo-topichat/f-talk';
+import {SimilarityModule} from '@colabo-ai-ml/f-similarity';
 
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
@@ -132,8 +132,8 @@ var moduleImports = [
 
 moduleImports.push(AppRoutingModule);
 
-// import {GlobalEmitterService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterService';
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+// import {GlobalEmitterService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterService';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 declare var window:any;
 

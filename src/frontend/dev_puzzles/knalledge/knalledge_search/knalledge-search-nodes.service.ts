@@ -7,12 +7,12 @@ import { of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
-import {CFService} from '@colabo-knalledge/knalledge_store_core/cf.service';
+import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
+import {CFService} from '@colabo-knalledge/f-store_core/cf.service';
 
-import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
-import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
 const SearchNodesAP = "search-nodes";
 

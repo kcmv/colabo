@@ -18,7 +18,7 @@ import {AvatarComponent} from './avatar/avatar.component';
 import {DialoGameComponent} from './dialo-game/dialo-game.component'; //PTW
 import {ModerationPanelComponent} from '@colabo-moderation/core';
 //import { ModerationCoreModule } from '@colabo-moderation/core/lib/module';
-import {TopiChatTalkForm} from '@colabo-topiChat/talk';
+import {TopiChatTalkForm} from '@colabo-topichat/f-talk';
 
 const routes: Routes = [
   { // default route

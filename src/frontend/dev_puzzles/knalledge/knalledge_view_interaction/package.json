@@ -1,18 +1,18 @@
 {
-  "name": "@colabo-knalledge/knalledge_view_interaction",
+  "name": "@colabo-knalledge/f-view_interaction",
   "version": "0.0.1",
   "private": true,
   "scripts": {},
   "dependencies": {},
   "peerDependenciesLocal": {
-    "@colabo-puzzles/puzzles_core": "^0.0.1",
-    "@colabo-knalledge/knalledge_core": "^0.0.1",
-    "@colabo-knalledge/knalledge_view_enginee": "^0.0.1"
+    "@colabo-puzzles/f-core": "^0.0.1",
+    "@colabo-knalledge/f-core": "^0.0.1",
+    "@colabo-knalledge/f-view_enginee": "^0.0.1"
   },
   "devDependencies": {},
   "devDependenciesLocal": {
-    "@colabo-puzzles/puzzles_core": "^0.0.1",
-    "@colabo-knalledge/knalledge_core": "^0.0.1",
-    "@colabo-knalledge/knalledge_view_enginee": "^0.0.1"
+    "@colabo-puzzles/f-core": "^0.0.1",
+    "@colabo-knalledge/f-core": "^0.0.1",
+    "@colabo-knalledge/f-view_enginee": "^0.0.1"
   }
 }

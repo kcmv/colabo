@@ -1,5 +1,5 @@
 {
-    "name": "@colabo-topiChat/core",
+    "name": "@colabo-topichat/f-core",
     "version": "0.0.1",
     "description": "Provides core support for topiChat",
     "private": true,

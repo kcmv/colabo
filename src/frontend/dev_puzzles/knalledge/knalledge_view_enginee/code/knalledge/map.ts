@@ -1,5 +1,5 @@
-import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {KMapClientInterface} from './KMapClientInterface';
 import {MapInteraction} from '../interaction/mapInteraction';
 

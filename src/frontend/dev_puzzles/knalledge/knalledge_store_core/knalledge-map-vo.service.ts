@@ -5,8 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 import {CFService} from './cf.service';
 
 const httpOptions = {

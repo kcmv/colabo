@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import {ColaboFlowState, ColaboFlowStates} from './colaboFlowState';
 import {MyColaboFlowState, MyColaboFlowStates} from './myColaboFlowState';
 import { Observable, of } from 'rxjs';
-import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
 const COLABO_FLOW_STATE_NODE_ID:string = '5b9f9ff97f07953d41256aff';
 @Injectable({

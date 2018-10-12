@@ -1,5 +1,5 @@
 {
-    "name": "@colabo-colaboware/colaboware_rfid",
+    "name": "@colabo-ware/rfid",
     "version": "0.0.1",
     "private": true,
     "scripts": {},
@@ -18,10 +18,10 @@
         "zone.js": "^0.8.14"
     },
     "peerDependenciesLocal": {
-        "@colabo-colaboware/colaboware_core": "^0.0.1"
+        "@colabo-ware/core": "^0.0.1"
     },
     "devDependencies": {},
     "devDependenciesLocal": {
-        "@colabo-colaboware/colaboware_core": "^0.0.1"
+        "@colabo-ware/core": "^0.0.1"
     }
 }

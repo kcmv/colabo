@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
-import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
 import {InsightsService} from '../insights.service';
 
 // export interface PeriodicElement {

@@ -8,12 +8,12 @@
   },
   "peerDependencies": {},
   "peerDependenciesLocal": {
-    "@colabo-puzzles/puzzles_core": "^0.0.1",
-    "@colabo-knalledge/knalledge_core": "^0.0.1"
+    "@colabo-puzzles/f-core": "^0.0.1",
+    "@colabo-knalledge/f-core": "^0.0.1"
   },
   "devDependencies": {},
   "devDependenciesLocal": {
-    "@colabo-puzzles/puzzles_core": "^0.0.1",
-    "@colabo-knalledge/knalledge_core": "^0.0.1"
+    "@colabo-puzzles/f-core": "^0.0.1",
+    "@colabo-knalledge/f-core": "^0.0.1"
   }
 }

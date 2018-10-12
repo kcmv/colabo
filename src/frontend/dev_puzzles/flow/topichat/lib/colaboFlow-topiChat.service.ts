@@ -4,7 +4,7 @@ import { Observer } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {TopiChatCoreService, TopiChatPackage} from '@colabo-topiChat/core';
+import {TopiChatCoreService, TopiChatPackage} from '@colabo-topichat/f-core';
 import {ColaboPubSubPlugin, ColaboPubSub} from '@colabo-utils/pub-sub';
 
 export {TopiChatPackage, ColaboPubSubPlugin};

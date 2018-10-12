@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-import {VO} from '@colabo-knalledge/knalledge_core/code/knalledge/VO';
-import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
-import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
-import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {VO} from '@colabo-knalledge/f-core/code/knalledge/VO';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import {DialoGameResponse} from './dialo-game-response/dialoGameResponse';
-import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
-import {ColaboFlowState, ColaboFlowStates} from '@colabo-colaboflow/core/lib/colaboFlowState';
-import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-colaboflow/core/lib/myColaboFlowState';
+import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
+import {ColaboFlowState, ColaboFlowStates} from '@colabo-flow/f-core/lib/colaboFlowState';
+import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-flow/f-core/lib/myColaboFlowState';
 import {CardDecorator} from './card-decorator/cardDecorator';
 import { environment } from '../../environments/environment';
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';

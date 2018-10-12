@@ -108,7 +108,7 @@ apps/pcs$> yarn
 
 - ```
   "peerDependenciesLocal": {
-          "@colabo-colaboflow/core": "0.0.1"
+          "@colabo-flow/f-core": "0.0.1"
   },
   ```
 
@@ -117,7 +117,7 @@ apps/pcs$> yarn
   - import  the module of the child puzzle
 
   - ```
-    import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
+    import { ColaboFlowCoreModule } from '@colabo-flow/f-core/lib/module';
     ...
     var moduleImports: any[] = [
       ...

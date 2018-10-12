@@ -24,6 +24,6 @@
   },
   "include": [
       "src/**/*",
-      "node_modules/@colabo-knalledge/**/*"
+      "node_modules/@colabo-knalledge/f-**/*"
   ]
 }

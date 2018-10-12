@@ -4,7 +4,7 @@ import {Injectable
 import {Request} from './request';
 import {RequestType} from './request';
 import {RequestVisibility} from './request';
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 declare var interaction:any;
 

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { KeyboardRFIDInterface} from './KeyboardRFIDInterface';
-import { CoLaboWareType } from '@colabo-colaboware/colaboware_core/coLaboWareData';
-import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareData';
+import { CoLaboWareType } from '@colabo-ware/core/coLaboWareData';
+import { CoLaboWareData } from '@colabo-ware/core/coLaboWareData';
 
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 declare var ColabowareKeyboard;
 

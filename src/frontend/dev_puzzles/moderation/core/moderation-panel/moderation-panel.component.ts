@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ColaboFlowMComponent} from '@colabo-colaboflow/core/lib/moderation/colabo-flow-m.component';
+import {ColaboFlowMComponent} from '@colabo-flow/f-core/lib/moderation/colabo-flow-m.component';
 import {InsightsComponent} from './insights/insights.component';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 

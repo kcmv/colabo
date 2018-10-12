@@ -11,10 +11,10 @@ import 'hammerjs';
 import {MaterialModule} from './materialModule';
 //import {MatInputModule, MatFormFieldControl} from '@angular/material';
 
-import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
-import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
-import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
-import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/ColabowareRFIDService';
+import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
+import {ColabowareRFIDService} from '@colabo-ware/rfid/ColabowareRFIDService';
 import {UsersProfilingService} from './users-profiling/users-profiling.service';
 import {UsersClusteringService} from './users-clustering/users-clustering.service';
 import { UsersClusteringComponent } from './users-clustering/users-clustering.component';
@@ -72,8 +72,8 @@ var moduleImports = [
 // doesn't work with AOT
 // moduleImports.push(AppRoutingModule);
 
-// import {GlobalEmitterService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterService';
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+// import {GlobalEmitterService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterService';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 declare var window:any;
 export var Plugins:any = window.Config.Plugins;

@@ -20,13 +20,13 @@ import {RegisteredUsersComponent} from '../moderation-panel/registered-users/reg
 import {UserCardComponent} from '../moderation-panel/users/user-card.component';
 import {UserActionsStatusesComponent} from '../moderation-panel/insights/user-actions-statuses/user-actions-statuses.component';
 
-import { ColaboFlowCoreModule } from '@colabo-colaboflow/core/lib/module';
+import { ColaboFlowCoreModule } from '@colabo-flow/f-core/lib/module';
 
 import {RimaAaaModule} from '@colabo-rima/f-aaa/module';
-import {TopiChatCoreModule} from '@colabo-topiChat/core';
-import {ColaboFlowTopiChatModule} from '@colabo-flow/topiChat';
-import {TopiChatSystemModule} from '@colabo-topiChat/system';
-import {SimilarityModule} from '@colabo-ai-ml/similarity';
+import {TopiChatCoreModule} from '@colabo-topichat/f-core';
+import {ColaboFlowTopiChatModule} from '@colabo-flow/f-topichat';
+import {TopiChatSystemModule} from '@colabo-topichat/f-system';
+import {SimilarityModule} from '@colabo-ai-ml/f-similarity';
 
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm

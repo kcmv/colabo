@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {KNode, KEdge, KMap, VO} from '@colabo-knalledge/knalledge_core';
-import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
+import {KNode, KEdge, KMap, VO} from '@colabo-knalledge/f-core';
+import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 
-import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
-import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
-import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
+import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 import {UserData} from './userData';
 
@@ -19,7 +19,7 @@ console.log("rima-aaa.service");
 
 import * as config from '@colabo-utils/i-config';
 
-import { CFService } from '@colabo-knalledge/knalledge_store_core/cf.service';
+import { CFService } from '@colabo-knalledge/f-store_core/cf.service';
 
 console.log("[rima-aaa.service] config.GetGeneral('mapId'):", config.GetGeneral('mapId'));
 
@@ -126,7 +126,7 @@ export class RimaAAAService extends CFService{
    */
   createUserNode(kNode:KNode, callback?:Function): Observable<KNode>
   {
-    // TODO, check create method in @colabo-knalledge/knalledge_store_core/knalledge-node.service.ts
+    // TODO, check create method in @colabo-knalledge/f-store_core/knalledge-node.service.ts
     // to see all TODOS
     let extractVO:Function = this.extractVO;
 

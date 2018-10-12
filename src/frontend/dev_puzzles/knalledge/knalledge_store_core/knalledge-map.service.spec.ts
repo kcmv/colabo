@@ -5,10 +5,10 @@ import { KnalledgeMapService } from './knalledge-map.service';
 /*
 TODO:
 this is commented so far, because it's causing this class causes errors:
-ERROR in node_modules/@colabo-knalledge/knalledge_store_core/cf.service.spec.ts(5,1): error TS2304: Cannot find name 'describe'.
-node_modules/@colabo-knalledge/knalledge_store_core/cf.service.spec.ts(6,3): error TS2304: Cannot find name 'beforeEach'.
-node_modules/@colabo-knalledge/knalledge_store_core/cf.service.spec.ts(12,3): error TS2304: Cannot find name 'it'.
-node_modules/@colabo-knalledge/knalledge_store_core/cf.service.spec.ts(13,5): error TS2304: Cannot find name 'expect'.
+ERROR in node_modules/@colabo-knalledge/f-store_core/cf.service.spec.ts(5,1): error TS2304: Cannot find name 'describe'.
+node_modules/@colabo-knalledge/f-store_core/cf.service.spec.ts(6,3): error TS2304: Cannot find name 'beforeEach'.
+node_modules/@colabo-knalledge/f-store_core/cf.service.spec.ts(12,3): error TS2304: Cannot find name 'it'.
+node_modules/@colabo-knalledge/f-store_core/cf.service.spec.ts(13,5): error TS2304: Cannot find name 'expect'.
 
 Maybe it's because of naming (the CLI generated the class  'CfService' that I renamed to CFService)
 

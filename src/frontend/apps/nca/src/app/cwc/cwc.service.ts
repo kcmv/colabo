@@ -7,16 +7,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 
-import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
-import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
-import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
-import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
-import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
+import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 //this consts are defined by INSTALL.MD data:
 //const MAP_ID = "5b8a5260f8b8e40f3f250f9d"; //TEF

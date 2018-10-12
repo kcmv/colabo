@@ -3,9 +3,9 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-import {VO} from '@colabo-knalledge/knalledge_core/code/knalledge/VO';
-import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {VO} from '@colabo-knalledge/f-core/code/knalledge/VO';
+import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 import {CFService} from './cf.service';
 
 const httpOptions = {

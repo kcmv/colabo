@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 
 import {KnalledgeMapViewService} from '../../app/components/knalledgeMap/knalledgeMapViewService';
 import {KnalledgeMapPolicyService} from '../../app/components/knalledgeMap/knalledgeMapPolicyService';
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 import {CfPuzzlesIbisService} from '../ibis/cf.puzzles.ibis.service';
 import {CfPuzzlesCoevoludensServices} from './cf.puzzles.coevoludens.service'
 

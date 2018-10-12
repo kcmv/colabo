@@ -2,8 +2,8 @@ import {Injectable
 } from '@angular/core';
 
 import {Suggestion, SuggestionVisibility, SuggestionType, SuggestionState} from './suggestion';
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
-import {InfoForDialog} from '@colabo-knalledge/knalledge_view_interaction/code/interaction/infoForDialog';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
+import {InfoForDialog} from '@colabo-knalledge/f-view_interaction/code/interaction/infoForDialog';
 
 declare var knalledge;
 

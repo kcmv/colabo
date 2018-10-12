@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 
-import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
-import {VO} from '@colabo-knalledge/knalledge_core/code/knalledge/VO';
+import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
+import {VO} from '@colabo-knalledge/f-core/code/knalledge/VO';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

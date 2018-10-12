@@ -1,7 +1,7 @@
 {
-    "name": "@colabo-flow/topiChat",
+    "name": "@colabo-flow/f-core",
     "version": "0.0.1",
-    "description": "Provides real-time support with ColaboFlow services (workers)",
+    "description": "Provides core support for ColaboFlow",
     "private": true,
     "scripts": {
         "build": "tsc"
@@ -22,9 +22,7 @@
         "rxjs": "^5.5.2",
         "zone.js": "^0.8.14"
     },
-    "peerDependenciesLocal": {
-        "@colabo-topiChat/topiChat-core": "0.1.0"
-    },
+    "peerDependenciesLocal": {},
     "devDependencies": {},
     "devDependenciesLocal": {}
 }

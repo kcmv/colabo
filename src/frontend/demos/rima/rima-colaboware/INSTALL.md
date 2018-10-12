@@ -27,13 +27,13 @@ You need to:
 3. import them in this project with:
 
 ```sh
-npm link @colabo-puzzles/puzzles_core
-npm link @colabo-knalledge/knalledge_core
-npm link @colabo-knalledge/knalledge_store_core
-npm link @colabo-knalledge/knalledge_view_node
-npm link @colabo-knalledge/knalledge_search
-npm link @colabo-colaboware/colaboware_core
-npm link @colabo-colaboware/colaboware_rfid
+npm link @colabo-puzzles/f-core
+npm link @colabo-knalledge/f-core
+npm link @colabo-knalledge/f-store_core
+npm link @colabo-knalledge/f-view_node
+npm link @colabo-knalledge/f-search
+npm link @colabo-ware/core
+npm link @colabo-ware/rfid
 ```
 
 # KnAllEdge content

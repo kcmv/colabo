@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
-import {ServerData} from '@colabo-knalledge/knalledge_store_core/ServerData';
+import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
+import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 import {CFService} from './cf.service';
 
 const httpOptions = {

@@ -4,10 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {MaterialModule} from '../materialModule';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA,
   MatSnackBar, MAT_SNACK_BAR_DATA} from '@angular/material';
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
-import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-import { KnalledgeSearchNodeService } from '@colabo-knalledge/knalledge_search/knalledge-search-nodes.service';
+import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import { KnalledgeSearchNodeService } from '@colabo-knalledge/f-search/knalledge-search-nodes.service';
 
 var moduleImports = [];
 var componentDirectives = [];

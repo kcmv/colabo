@@ -25,13 +25,13 @@ import {SuggestionService} from '../components/suggestion/suggestion.service';
 
 // import {BroadcastManagerService} from '../components/collaboBroadcasting/broadcastManagerService';
 
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 
 var n = new KNode();
 var e = new KEdge();
 
-import {MapInteraction} from '@colabo-knalledge/knalledge_view_enginee/code/interaction/mapInteraction';
+import {MapInteraction} from '@colabo-knalledge/f-view_enginee/code/interaction/mapInteraction';
 
 var i = new MapInteraction(null, null);
 

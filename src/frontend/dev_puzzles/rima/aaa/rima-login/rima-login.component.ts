@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {UserData} from '@colabo-rima/f-aaa/userData';
-import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
 @Component({
   selector: 'app-rima-login',

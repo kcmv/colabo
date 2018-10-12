@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
 @Component({
   selector: 'user-card',

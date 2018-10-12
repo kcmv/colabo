@@ -38,10 +38,10 @@ This is just an explanation and not necessary to be done manually, because it is
 
 ```sh
 cd src/frontend
-npm link @colabo-knalledge/knalledge_core
-npm link @colabo-puzzles/puzzles_core
+npm link @colabo-knalledge/f-core
+npm link @colabo-puzzles/f-core
 npm link @colabo-rima/f-aaa
-npm link @colabo-knalledge/knalledge_store_core
+npm link @colabo-knalledge/f-store_core
 ```
 
 # Install Old (should not be necessary anymore)
@@ -211,7 +211,7 @@ https://stackoverflow.com/questions/43557090/angularcli-disable-minification
 you can do it manually for local puzzles/packages
 
 ```sh
-ln -s /Users/sasha/Documents/data/development/KnAllEdge/src/frontend/dev_puzzles/topiChat/system /usr/local/lib/node_modules/\@colabo-topiChat/system
+ln -s /Users/sasha/Documents/data/development/KnAllEdge/src/frontend/dev_puzzles/topiChat/system /usr/local/lib/node_modules/\@colabo-topichat/f-system
 ```
 
 #### Cannot resolve all parameters for (Service)

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ClusterVO} from './clusterVO';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {UsersProfilingService} from '../users-profiling/users-profiling.service';
 import {UsersClusteringService} from './users-clustering.service';
 

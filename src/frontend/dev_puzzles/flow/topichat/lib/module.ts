@@ -1,4 +1,4 @@
-// @colabo-flow/topiChat
+// @colabo-flow/f-topichat
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';

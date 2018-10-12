@@ -1,5 +1,5 @@
 {
-    "name": "@colabo-topiChat/talk",
+    "name": "@colabo-topichat/f-talk",
     "version": "0.0.1",
     "description": "Provides chatting support",
     "private": true,
@@ -27,7 +27,7 @@
     },
     "peerDependenciesLocal": {
         "@colabo-rima/f-core": "^0.0.1",
-        "@colabo-knalledge/knalledge_core": "0.1.0",
+        "@colabo-knalledge/f-core": "0.1.0",
         "@colabo-topiChat/topiChat-core": "0.1.0"
     },
     "devDependencies": {},

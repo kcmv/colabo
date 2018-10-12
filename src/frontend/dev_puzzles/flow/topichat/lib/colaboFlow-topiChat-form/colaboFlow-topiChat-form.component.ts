@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import {ColaboFlowTopiChatService, ColaboFlowTopiChatEvents, TopiChatPackage, ColaboPubSubPlugin} from '../colaboFlow-topiChat.service';
 
 import {RimaAAAService} from '@colabo-rima/f-aaa';
-import {KNode} from '@colabo-knalledge/knalledge_core';
+import {KNode} from '@colabo-knalledge/f-core';
 
 @Component({
   selector: 'colaboFlow-topiChat-form',

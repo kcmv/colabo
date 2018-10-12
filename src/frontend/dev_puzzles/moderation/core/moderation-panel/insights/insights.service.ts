@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 // import {MyColaboFlowState, MyColaboFlowStates} from './myColaboFlowState';
 
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
-import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
-import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 

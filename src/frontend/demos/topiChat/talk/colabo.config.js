@@ -7,12 +7,12 @@ var puzzles = {
     name: "topiChat-chat",
     description: "Colabo.space ecosystem - topiChat demo app for chatting test",
     dependencies: {
-        "@colabo-puzzles/puzzles_core": {},
-        "@colabo-knalledge/knalledge_core": {},
+        "@colabo-puzzles/f-core": {},
+        "@colabo-knalledge/f-core": {},
         "@colabo-rima/f-aaa": {},
-        "@colabo-topiChat/core": {},
-        "@colabo-topiChat/talk": {},
-        "@colabo-knalledge/knalledge_store_core": {},
+        "@colabo-topichat/f-core": {},
+        "@colabo-topichat/f-talk": {},
+        "@colabo-knalledge/f-store_core": {},
         "@colabo-utils/pub-sub": {},
     },
     offers: {}

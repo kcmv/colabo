@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/ColabowareRFIDService';
+import {ColabowareRFIDService} from '@colabo-ware/rfid/ColabowareRFIDService';
 
 @Component({
   selector: 'app-root',

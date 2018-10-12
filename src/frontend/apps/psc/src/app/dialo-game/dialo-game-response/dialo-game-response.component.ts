@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {DialoGameService} from '../dialo-game.service';
 import {DialoGameResponse} from './dialoGameResponse';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {CardDecorator} from '../card-decorator//cardDecorator';
-import {MyColaboFlowStates} from '@colabo-colaboflow/core/lib/myColaboFlowState';
-import {ColaboFlowService} from '@colabo-colaboflow/core/lib/colabo-flow.service';
+import {MyColaboFlowStates} from '@colabo-flow/f-core/lib/myColaboFlowState';
+import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
 
 @Component({
   selector: 'dialo-game-response',

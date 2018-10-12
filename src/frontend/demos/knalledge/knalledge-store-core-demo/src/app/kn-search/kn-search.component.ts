@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {KnalledgeSearchService} from '@colabo-knalledge/knalledge_search/knalledge-search.service';
+import {KnalledgeSearchService} from '@colabo-knalledge/f-search/knalledge-search.service';
 
 @Component({
   selector: 'app-kn-search',

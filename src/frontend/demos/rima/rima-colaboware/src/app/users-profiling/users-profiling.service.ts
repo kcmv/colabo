@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 
-import {KMap} from '@colabo-knalledge/knalledge_core/code/knalledge/kMap';
-import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
-import {KnalledgeEdgeService} from '@colabo-knalledge/knalledge_store_core/knalledge-edge.service';
-import {KnalledgeNodeService} from '@colabo-knalledge/knalledge_store_core/knalledge-node.service';
-import {KnalledgeMapService} from '@colabo-knalledge/knalledge_store_core/knalledge-map.service';
+import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 
-import { CoLaboWareType } from '@colabo-colaboware/colaboware_core/coLaboWareData';
-import { CoLaboWareData } from '@colabo-colaboware/colaboware_core/coLaboWareData';
+import { CoLaboWareType } from '@colabo-ware/core/coLaboWareData';
+import { CoLaboWareData } from '@colabo-ware/core/coLaboWareData';
 
-import {ColabowareRFIDService} from '@colabo-colaboware/colaboware_rfid/ColabowareRFIDService';
+import {ColabowareRFIDService} from '@colabo-ware/rfid/ColabowareRFIDService';
 
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 import {UserProfilingData} from './userProfilingData';
 
@@ -73,7 +73,7 @@ export class UsersProfilingService {
   RFIDreport:string;
   groupsNumber:number = 7;
 
-  // global event name that is sent by @colabo-colaboware/colaboware_rfid/ColabowareRFIDService when RFID card is pressed
+  // global event name that is sent by @colabo-ware/rfid/ColabowareRFIDService when RFID card is pressed
   colabowareIDProvided:string = "colabowareIDProvided";
 
   ProfilingStateTypeNames:string[] = [

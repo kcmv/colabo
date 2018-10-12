@@ -1,4 +1,4 @@
-# @colabo-ai-ml/similarity
+# @colabo-ai-ml/f-similarity
 
 # Intro
 

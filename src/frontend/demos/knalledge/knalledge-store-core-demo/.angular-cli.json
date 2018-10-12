@@ -22,7 +22,7 @@
         "styles.css"
       ],
       "scripts": [
-        "../node_modules/@colabo-knalledge/knalledge_core/code/knalledge/index.js"        
+        "../node_modules/@colabo-knalledge/f-core/code/knalledge/index.js"        
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

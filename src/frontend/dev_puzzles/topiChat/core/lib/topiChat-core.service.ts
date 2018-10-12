@@ -1,4 +1,4 @@
-const MODULE_NAME:string = "@colabo-topiChat/core";
+const MODULE_NAME:string = "@colabo-topichat/f-core";
 console.log("topiChat-core.service.ts");
 
 import { Injectable, Inject } from '@angular/core';

@@ -5,8 +5,8 @@ import { Component, OnInit } from '@angular/core';
 
 import {SDGsService, SDG_SELECTION_NAME, SDG_SELECTION_TYPE, SDGS_TO_SELECT } from './sdgs.service'
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
-import {KNode} from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
-import {KEdge} from '@colabo-knalledge/knalledge_core/code/knalledge/kEdge';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 
 @Component({
   selector: 'app-select-sdgs',

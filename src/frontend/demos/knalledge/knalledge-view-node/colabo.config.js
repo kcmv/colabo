@@ -7,11 +7,11 @@ var puzzles = {
     name: "knalledge-view-node",
     description: "Colabo.space ecosystem - KnAllEdge maps and nodes exploration",
     dependencies: {
-        "@colabo-puzzles/puzzles_core": {},
-        "@colabo-knalledge/knalledge_core": {},
-        "@colabo-knalledge/knalledge_store_core": {},
-        "@colabo-knalledge/knalledge_search": {},
-        "@colabo-knalledge/knalledge_view_node": {},
+        "@colabo-puzzles/f-core": {},
+        "@colabo-knalledge/f-core": {},
+        "@colabo-knalledge/f-store_core": {},
+        "@colabo-knalledge/f-search": {},
+        "@colabo-knalledge/f-view_node": {},
         "@colabo-rima/f-aaa": {}
     },
     offers: {}

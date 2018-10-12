@@ -24,7 +24,7 @@ var moduleDeclarations = [
 ];
 
 // Puzzle Modules
-import { KnaledgeViewNodeModule } from '@colabo-knalledge/knalledge_view_node/module';
+import { KnaledgeViewNodeModule } from '@colabo-knalledge/f-view_node/module';
 import { RimaAaaModule } from '@colabo-rima/f-aaa/module';
 
 var moduleImports = [
@@ -48,8 +48,8 @@ var moduleImports = [
 // moduleImports.push(MainModule);
 // moduleImports.push(AppRoutingModule);
 
-// import {GlobalEmitterService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterService';
-import {GlobalEmittersArrayService} from '@colabo-puzzles/puzzles_core/code/puzzles/globalEmitterServicesArray';
+// import {GlobalEmitterService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterService';
+import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
 declare var window:any;
 export var Plugins:any = window.Config.Plugins;

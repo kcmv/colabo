@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
-import { KNode } from '@colabo-knalledge/knalledge_core/code/knalledge/kNode';
+import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
 @Component({
   selector: 'app-insights',

@@ -7,9 +7,9 @@ var puzzles = {
     name: "collective_sustainable_activism",
     description: "Colabo.space ecosystem - collective sustainable activism",
     dependencies: {
-        "@colabo-puzzles/puzzles_core": {},
-        "@colabo-knalledge/knalledge_core": {},
-        "@colabo-knalledge/knalledge_store_core": {},
+        "@colabo-puzzles/f-core": {},
+        "@colabo-knalledge/f-core": {},
+        "@colabo-knalledge/f-store_core": {},
         "@colabo-rima/f-aaa": {}
     },
     offers: {}

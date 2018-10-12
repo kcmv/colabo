@@ -1,14 +1,14 @@
 var puzzles = {
   dependencies: {
-    "@colabo-puzzles/puzzles_core": {
+    "@colabo-puzzles/f-core": {
     },
 
-    "@colabo-knalledge/knalledge_core": {
+    "@colabo-knalledge/f-core": {
     },
-    "@colabo-knalledge/knalledge_store_core": {
+    "@colabo-knalledge/f-store_core": {
     },
 
-    "@colabo-knalledge/knalledge_search": {
+    "@colabo-knalledge/f-search": {
 
     }
   },
