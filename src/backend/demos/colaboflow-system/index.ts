@@ -15,7 +15,7 @@ let fs = require('fs');
 let http = require('http');
 let https = require('https');
 
-let puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-knalledge-storage-mongo');
+let puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-storage-mongo');
 
 // let db = require('./models');
 
@@ -59,7 +59,7 @@ app.configure(function () {
 });
 /* Knalledge Maps */
 
-import {KnAllEdgeCoreRegister} from '@colabo-knalledge/b-knalledge-core';
+import {KnAllEdgeCoreRegister} from '@colabo-knalledge/b-core';
 KnAllEdgeCoreRegister(app);
 
 

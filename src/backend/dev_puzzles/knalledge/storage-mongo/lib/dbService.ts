@@ -1,4 +1,4 @@
-const MODULE_NAME:string = "@colabo-knalledge/b-knalledge-storage-mongo";
+const MODULE_NAME:string = "@colabo-knalledge/b-storage-mongo";
 
 var mongoose = require('mongoose');
 declare let global:any;

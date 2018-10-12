@@ -23,7 +23,7 @@ function resSendJsonProtected(res, data) {
     }
 };
 
-var dbService = require('@colabo-knalledge/b-knalledge-storage-mongo/dbService');
+var dbService = require('@colabo-knalledge/b-storage-mongo/dbService');
 var dbConnection = dbService.connect();
 
 var DbAuditModel = dbConnection.model('DbAudit', global.db.dbAudit.Schema);

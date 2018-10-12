@@ -14,7 +14,7 @@ var whoAmIStatsSchema = mongoose.Schema({
     accesses: [accessesArraySchema]
 });
 
-// var pluginAuditing = require('@colabo-knalledge/b-knalledge-storage-mongo/models/pluginAuditing');
+// var pluginAuditing = require('@colabo-knalledge/b-storage-mongo/models/pluginAuditing');
 // whoAmIStatsSchema.plugin(pluginAuditing, {});
 
 exports.Schema = whoAmIStatsSchema;

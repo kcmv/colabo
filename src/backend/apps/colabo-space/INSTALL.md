@@ -60,7 +60,7 @@ This is just an explanation and not necessary to be done manually, because it is
 
 ```sh
 cd src/backend
-npm link @colabo-knalledge/b-knalledge-storage-mongo
+npm link @colabo-knalledge/b-storage-mongo
 ```
 
 ## Installing on Server

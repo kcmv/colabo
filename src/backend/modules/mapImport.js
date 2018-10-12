@@ -6,7 +6,7 @@
 var Promise = require("bluebird");
 var fs = require('fs');
 
-var dbService = require('@colabo-knalledge/b-knalledge-storage-mongo/dbService');
+var dbService = require('@colabo-knalledge/b-storage-mongo/dbService');
 var dbConnection = dbService.connect();
 
 var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);

@@ -27,7 +27,7 @@ var whoAmISchema = mongoose.Schema({
     }
 });
 
-var pluginAuditing = require('@colabo-knalledge/b-knalledge-storage-mongo/models/pluginAuditing');
+var pluginAuditing = require('@colabo-knalledge/b-storage-mongo/models/pluginAuditing');
 whoAmISchema.plugin(pluginAuditing, {});
 
 exports.Schema = whoAmISchema;

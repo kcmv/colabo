@@ -10,7 +10,7 @@ var howAmISchema = mongoose.Schema({
     importance: { type: Number, default: 3 } // 0 - 5
 });
 
-var pluginAuditing = require('@colabo-knalledge/b-knalledge-storage-mongo/models/pluginAuditing');
+var pluginAuditing = require('@colabo-knalledge/b-storage-mongo/models/pluginAuditing');
 howAmISchema.plugin(pluginAuditing, {});
 
 exports.Schema = howAmISchema;

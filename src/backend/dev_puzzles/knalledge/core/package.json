@@ -1,6 +1,6 @@
 {
-    "name": "@colabo-knalledge/b-knalledge-storage-mongo",
-    "description": "Mongo implementation of the KnAllEdge storage",
+    "name": "@colabo-knalledge/b-core",
+    "description": "API (modules) implementation of the KnAllEdge backend",
     "version": "0.0.1",
     "private": false,
     "publishConfig": {
@@ -17,8 +17,10 @@
     "main": "dist/index.js",
     "module": "dist/index.js",
     "dependencies": {
-        "bson": "^0.4.22",
         "mongoose": "^4.0.0"
+    },
+    "peerDependenciesLocal": {
+        "@colabo-knalledge/b-storage-mongo": "0.1.0"
     },
     "devDependencies": {}
 }
