@@ -8,9 +8,9 @@ var puzzles = {
         "symlinks": false
     },
     dependencies: {
-        "@colabo-knalledge/b-knalledge-storage-mongo": {},
-        "@colabo-knalledge/b-knalledge-core": {},
-        "@colabo-knalledge/b-knalledge-search": {},
+        "@colabo-knalledge/b-storage-mongo": {},
+        "@colabo-knalledge/b-core": {},
+        "@colabo-knalledge/b-search": {},
         "@colabo-media/b-upload": {},
         "@colabo-rima/b-aaa": {},
         "@colabo-topichat/b-core": {},
@@ -21,21 +21,21 @@ var puzzles = {
         "@colabo-flow/b-topichat": {}
     },
     offers: {
-        "@colabo-knalledge/b-knalledge-storage-mongo": {
-            npm: "@colabo-knalledge/b-knalledge-storage-mongo",
-            path: "dev_puzzles/knalledge/knalledge-storage-mongo"
+        "@colabo-knalledge/b-storage-mongo": {
+            npm: "@colabo-knalledge/b-storage-mongo",
+            path: "dev_puzzles/knalledge/storage-mongo"
         },
-        "@colabo-knalledge/b-knalledge-core": {
-            npm: "@colabo-knalledge/b-knalledge-core",
-            path: "dev_puzzles/knalledge/knalledge-core"
+        "@colabo-knalledge/b-core": {
+            npm: "@colabo-knalledge/b-core",
+            path: "dev_puzzles/knalledge/core"
         },
-        "@colabo-knalledge/b-knalledge-search": {
-            npm: "@colabo-knalledge/b-knalledge-search",
-            path: "dev_puzzles/knalledge/knalledge-search"
+        "@colabo-knalledge/b-search": {
+            npm: "@colabo-knalledge/b-search",
+            path: "dev_puzzles/knalledge/search"
         },
         "@colabo-media/b-upload": {
             npm: "@colabo-media/b-upload",
-            path: "dev_puzzles/media/media-upload"
+            path: "dev_puzzles/media/upload"
         },
         "@colabo-rima/b-aaa": {
             npm: "@colabo-rima/b-aaa",

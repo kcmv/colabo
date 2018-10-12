@@ -15,7 +15,7 @@ let fs = require('fs');
 let http = require('http');
 let https = require('https');
 
-let puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-knalledge-storage-mongo');
+let puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-storage-mongo');
 
 function supportCrossOriginScript(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Content-Type");
@@ -71,11 +71,11 @@ app.configure(function () {
 
 /* Knalledge Maps */
 
-import {KnAllEdgeCoreRegister} from '@colabo-knalledge/b-knalledge-core';
+import {KnAllEdgeCoreRegister} from '@colabo-knalledge/b-core';
 KnAllEdgeCoreRegister(app);
 
-// var puzzleKnalledgeSearch = require('@colabo-knalledge/b-knalledge-search')(app);
-import * as PuzzleKnalledgeSearch from '@colabo-knalledge/b-knalledge-search';
+// var puzzleKnalledgeSearch = require('@colabo-knalledge/b-search')(app);
+import * as PuzzleKnalledgeSearch from '@colabo-knalledge/b-search';
 PuzzleKnalledgeSearch.initialize(app);
 
 

@@ -1,0 +1,106 @@
+A	KNALLEDGE.md
+M	development/DEVELOPMENT_CHEATSHEET.md
+D	documents/diagrams/CollaboScience-spiral.png
+A	documents/diagrams/Trans-Domain Methodologies.jpg
+A	documents/diagrams/Trans-Domain tools.jpg
+R100	src/PoC/TreeHTML/treeData.json	scripts/src/PoC/TreeHTML/treeData.json
+R100	src/PoC/TreeHtmlCollapsible/treeData.json	scripts/src/PoC/TreeHtmlCollapsible/treeData.json
+R100	src/PoC/TreeHtmlManipulation/treeData - old.json	scripts/src/PoC/TreeHtmlManipulation/treeData - old.json
+R100	src/PoC/TreeHtmlManipulation/treeData.json	scripts/src/PoC/TreeHtmlManipulation/treeData.json
+R100	src/PoC/TreeSVG/treeData.json	scripts/src/PoC/TreeSVG/treeData.json
+R100	src/PoC/gist7880033-f256951ade4e021bc3c6bb9d690841d9802978e5/README.md	scripts/src/PoC/gist7880033-f256951ade4e021bc3c6bb9d690841d9802978e5/README.md
+R100	src/backend/DEVELOPMENT.md	scripts/src/backend/DEVELOPMENT.md
+R100	src/backend/dev_puzzles/flow/services/README.md	scripts/src/backend/dev_puzzles/flow/services/README.md
+R100	src/backend/dev_puzzles/flow/topiChat/README.md	scripts/src/backend/dev_puzzles/flow/topiChat/README.md
+R100	src/backend/dev_puzzles/knalledge/knalledge-core/README.md	scripts/src/backend/dev_puzzles/knalledge/knalledge-core/README.md
+R100	src/backend/dev_puzzles/knalledge/knalledge-search/README.md	scripts/src/backend/dev_puzzles/knalledge/knalledge-search/README.md
+R100	src/backend/dev_puzzles/knalledge/knalledge-storage-mongo/README.md	scripts/src/backend/dev_puzzles/knalledge/knalledge-storage-mongo/README.md
+R100	src/backend/dev_puzzles/media/upload/README.md	scripts/src/backend/dev_puzzles/media/upload/README.md
+R100	src/backend/dev_puzzles/moderation/topiChat/README.md	scripts/src/backend/dev_puzzles/moderation/topiChat/README.md
+R100	src/backend/dev_puzzles/rima/aaa/README.md	scripts/src/backend/dev_puzzles/rima/aaa/README.md
+R100	src/backend/dev_puzzles/topiChat/core/README.md	scripts/src/backend/dev_puzzles/topiChat/core/README.md
+R100	src/backend/dev_puzzles/topiChat/knalledge/README.md	scripts/src/backend/dev_puzzles/topiChat/knalledge/README.md
+R100	src/backend/dev_puzzles/topiChat/talk/README.md	scripts/src/backend/dev_puzzles/topiChat/talk/README.md
+R100	src/backend/models/mDbAudit.js	scripts/src/backend/models/mDbAudit.js
+R100	src/backend/scripts/README.md	scripts/src/backend/scripts/README.md
+R100	src/backend/tools/patchDB.js	scripts/src/backend/tools/patchDB.js
+R100	src/backend/tools/tools-README.md	scripts/src/backend/tools/tools-README.md
+R100	src/data/2014.04.20 - druga demonstracija Dinu i prihvatanje za TNC - exportedDB.json	scripts/src/data/2014.04.20 - druga demonstracija Dinu i prihvatanje za TNC - exportedDB.json
+R100	src/data/2015.04.20. - The second presentation to Dino (we got a green light for TNC).png	scripts/src/data/2015.04.20. - The second presentation to Dino (we got a green light for TNC).png
+R100	src/data/TNC-Demo-2015.05.13.json	scripts/src/data/TNC-Demo-2015.05.13.json
+R100	src/frontend/app/components/change/CONNECTIVITY_ERRORS_DETECTION_MANAGEMENT.md	scripts/src/frontend/app/components/change/CONNECTIVITY_ERRORS_DETECTION_MANAGEMENT.md
+R100	src/frontend/app/components/demoPuzzle/DEMO_PUZZLE.md	scripts/src/frontend/app/components/demoPuzzle/DEMO_PUZZLE.md
+R100	src/frontend/app/components/login/login-README.md	scripts/src/frontend/app/components/login/login-README.md
+R100	src/frontend/app/components/worldCafe/WORLD_CAFE.md	scripts/src/frontend/app/components/worldCafe/WORLD_CAFE.md
+R100	src/frontend/app/js/pluginDependencies.ts	scripts/src/frontend/app/js/pluginDependencies.ts
+R100	src/frontend/apps/nca/DB.md	scripts/src/frontend/apps/nca/DB.md
+R100	src/frontend/apps/nca/README.md	scripts/src/frontend/apps/nca/README.md
+R100	src/frontend/apps/psc/DB.md	scripts/src/frontend/apps/psc/DB.md
+R100	src/frontend/apps/psc/README.md	scripts/src/frontend/apps/psc/README.md
+R100	src/frontend/apps/psc/src/app/dialo-game/DEVELOPMENT.md	scripts/src/frontend/apps/psc/src/app/dialo-game/DEVELOPMENT.md
+R100	src/frontend/apps/psc/src/app/dialo-game/card-decorator/cardDecorator.ts	scripts/src/frontend/apps/psc/src/app/dialo-game/card-decorator/cardDecorator.ts
+R100	src/frontend/demos/colabo/README.md	scripts/src/frontend/demos/colabo/README.md
+R100	src/frontend/demos/colaboarte/drawing/README.md	scripts/src/frontend/demos/colaboarte/drawing/README.md
+R100	src/frontend/demos/colaboarthon/poetry-art-dialogue/README.md	scripts/src/frontend/demos/colaboarthon/poetry-art-dialogue/README.md
+R100	src/frontend/demos/colaboarthon/poetry-art-dialogue/src/app/users-profiling/userProfilingData.ts	scripts/src/frontend/demos/colaboarthon/poetry-art-dialogue/src/app/users-profiling/userProfilingData.ts
+R100	src/frontend/demos/colaboflow-system/DB.md	scripts/src/frontend/demos/colaboflow-system/DB.md
+R100	src/frontend/demos/colaboflow-system/README.md	scripts/src/frontend/demos/colaboflow-system/README.md
+R100	src/frontend/demos/colaboflow-system/src/app/dialo-game/DEVELOPMENT.md	scripts/src/frontend/demos/colaboflow-system/src/app/dialo-game/DEVELOPMENT.md
+R100	src/frontend/demos/colaboflow-system/src/app/dialo-game/card-decorator/cardDecorator.ts	scripts/src/frontend/demos/colaboflow-system/src/app/dialo-game/card-decorator/cardDecorator.ts
+R100	src/frontend/demos/knalledge/knalledge-sparql-demo/README.md	scripts/src/frontend/demos/knalledge/knalledge-sparql-demo/README.md
+R100	src/frontend/demos/knalledge/knalledge-store-core-demo/README.md	scripts/src/frontend/demos/knalledge/knalledge-store-core-demo/README.md
+R100	src/frontend/demos/knalledge/knalledge-view-node/README.md	scripts/src/frontend/demos/knalledge/knalledge-view-node/README.md
+R100	src/frontend/demos/rima/rima-colaboware/README.md	scripts/src/frontend/demos/rima/rima-colaboware/README.md
+R100	src/frontend/demos/rima/rima-colaboware/src/app/users-profiling/userProfilingData.ts	scripts/src/frontend/demos/rima/rima-colaboware/src/app/users-profiling/userProfilingData.ts
+R100	src/frontend/demos/topiChat/talk/README.md	scripts/src/frontend/demos/topiChat/talk/README.md
+R100	src/frontend/dev_puzzles/DEVELOPMENT.md	scripts/src/frontend/dev_puzzles/DEVELOPMENT.md
+R100	src/frontend/dev_puzzles/ai-ml/similarity/README.md	scripts/src/frontend/dev_puzzles/ai-ml/similarity/README.md
+R100	src/frontend/dev_puzzles/coevoludens/README.md	scripts/src/frontend/dev_puzzles/coevoludens/README.md
+R100	src/frontend/dev_puzzles/colaboarte/drawing_proportions/README.md	scripts/src/frontend/dev_puzzles/colaboarte/drawing_proportions/README.md
+R100	src/frontend/dev_puzzles/colaboware/core/README.md	scripts/src/frontend/dev_puzzles/colaboware/core/README.md
+R100	src/frontend/dev_puzzles/colaboware/core/coLaboWareData.ts	scripts/src/frontend/dev_puzzles/colaboware/core/coLaboWareData.ts
+R100	src/frontend/dev_puzzles/colaboware/rfid/ColabowareRFIDService.ts	scripts/src/frontend/dev_puzzles/colaboware/rfid/ColabowareRFIDService.ts
+R100	src/frontend/dev_puzzles/colaboware/rfid/KeyboardRFIDInterface.ts	scripts/src/frontend/dev_puzzles/colaboware/rfid/KeyboardRFIDInterface.ts
+R100	src/frontend/dev_puzzles/colaboware/rfid/README.md	scripts/src/frontend/dev_puzzles/colaboware/rfid/README.md
+R100	src/frontend/dev_puzzles/editors/README.md	scripts/src/frontend/dev_puzzles/editors/README.md
+R100	src/frontend/dev_puzzles/editors/js/simpleMDE/mbsimplemde.js	scripts/src/frontend/dev_puzzles/editors/js/simpleMDE/mbsimplemde.js
+R100	src/frontend/dev_puzzles/flow/core/README.md	scripts/src/frontend/dev_puzzles/flow/core/README.md
+R100	src/frontend/dev_puzzles/flow/topichat/README.md	scripts/src/frontend/dev_puzzles/flow/topichat/README.md
+R100	src/frontend/dev_puzzles/ibis/README.md	scripts/src/frontend/dev_puzzles/ibis/README.md
+R100	src/frontend/dev_puzzles/knalledge/README.md	scripts/src/frontend/dev_puzzles/knalledge/README.md
+R100	src/frontend/dev_puzzles/knalledge/docs/Dialogical science - cross-dimensions - conceptual.png	scripts/src/frontend/dev_puzzles/knalledge/docs/Dialogical science - cross-dimensions - conceptual.png
+R100	src/frontend/dev_puzzles/knalledge/docs/Dialogical science - cross-dimensions - detailed.png	scripts/src/frontend/dev_puzzles/knalledge/docs/Dialogical science - cross-dimensions - detailed.png
+R100	src/frontend/dev_puzzles/knalledge/knalledge_core/README.md	scripts/src/frontend/dev_puzzles/knalledge/knalledge_core/README.md
+R100	src/frontend/dev_puzzles/knalledge/knalledge_core/lib/debugpp/README.md	scripts/src/frontend/dev_puzzles/knalledge/knalledge_core/lib/debugpp/README.md
+R100	src/frontend/dev_puzzles/knalledge/knalledge_search/README.md	scripts/src/frontend/dev_puzzles/knalledge/knalledge_search/README.md
+R100	src/frontend/dev_puzzles/knalledge/knalledge_search/ServerData.ts	scripts/src/frontend/dev_puzzles/knalledge/knalledge_search/ServerData.ts
+R100	src/frontend/dev_puzzles/knalledge/knalledge_store_core/README.md	scripts/src/frontend/dev_puzzles/knalledge/knalledge_store_core/README.md
+R100	src/frontend/dev_puzzles/knalledge/knalledge_store_core/ServerData.ts	scripts/src/frontend/dev_puzzles/knalledge/knalledge_store_core/ServerData.ts
+R100	src/frontend/dev_puzzles/knalledge/knalledge_view_enginee/README.md	scripts/src/frontend/dev_puzzles/knalledge/knalledge_view_enginee/README.md
+R100	src/frontend/dev_puzzles/knalledge/knalledge_view_interaction/README.md	scripts/src/frontend/dev_puzzles/knalledge/knalledge_view_interaction/README.md
+R100	src/frontend/dev_puzzles/knalledge/knalledge_view_interaction/code/interaction/infoForDialog.ts	scripts/src/frontend/dev_puzzles/knalledge/knalledge_view_interaction/code/interaction/infoForDialog.ts
+R100	src/frontend/dev_puzzles/knalledge/knalledge_view_interaction/code/interaction/moveAndDrag.js	scripts/src/frontend/dev_puzzles/knalledge/knalledge_view_interaction/code/interaction/moveAndDrag.js
+R100	src/frontend/dev_puzzles/knalledge/knalledge_view_node/README.md	scripts/src/frontend/dev_puzzles/knalledge/knalledge_view_node/README.md
+R100	src/frontend/dev_puzzles/knalledge_list/README.md	scripts/src/frontend/dev_puzzles/knalledge_list/README.md
+R100	src/frontend/dev_puzzles/moderation/core/README.md	scripts/src/frontend/dev_puzzles/moderation/core/README.md
+R100	src/frontend/dev_puzzles/presentation/README.md	scripts/src/frontend/dev_puzzles/presentation/README.md
+R100	src/frontend/dev_puzzles/presentation/TODO.md	scripts/src/frontend/dev_puzzles/presentation/TODO.md
+R100	src/frontend/dev_puzzles/presentation/lib/reveal.js/css/theme/README.md	scripts/src/frontend/dev_puzzles/presentation/lib/reveal.js/css/theme/README.md
+R100	src/frontend/dev_puzzles/puzzles/core/README.md	scripts/src/frontend/dev_puzzles/puzzles/core/README.md
+R100	src/frontend/dev_puzzles/rima/aaa/README.md	scripts/src/frontend/dev_puzzles/rima/aaa/README.md
+R100	src/frontend/dev_puzzles/rima/aaa/userData.ts	scripts/src/frontend/dev_puzzles/rima/aaa/userData.ts
+R100	src/frontend/dev_puzzles/rima/core/README.md	scripts/src/frontend/dev_puzzles/rima/core/README.md
+R100	src/frontend/dev_puzzles/topiChat/core/README.md	scripts/src/frontend/dev_puzzles/topiChat/core/README.md
+R100	src/frontend/dev_puzzles/topiChat/system/README.md	scripts/src/frontend/dev_puzzles/topiChat/system/README.md
+R100	src/frontend/dev_puzzles/topiChat/talk/README.md	scripts/src/frontend/dev_puzzles/topiChat/talk/README.md
+R100	src/frontend/dev_puzzles/utils/pub-sub/README.md	scripts/src/frontend/dev_puzzles/utils/pub-sub/README.md
+R100	src/frontend/scripts/README.md	scripts/src/frontend/scripts/README.md
+R100	src/frontend/scripts/private/README.md	scripts/src/frontend/scripts/private/README.md
+R100	src/frontend/scripts/private/ScrapeData.js	scripts/src/frontend/scripts/private/ScrapeData.js
+R100	src/isomorphic/dev_puzzles/utils/config/README.md	scripts/src/isomorphic/dev_puzzles/utils/config/README.md
+R100	src/isomorphic/dev_puzzles/utils/pub-sub/README.md	scripts/src/isomorphic/dev_puzzles/utils/pub-sub/README.md
+R100	src/tools/README.md	scripts/src/tools/README.md
+D	src/PoC/Require/debug-master.zip
+D	src/backend/tools/templates/CollaboScience-Correspondence.zip
+D	src/frontend/app/images/CollaboScience.zip
+D	src/frontend/dev_puzzles/knalledge/knalledge_core/lib/debug.js

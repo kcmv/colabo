@@ -22,7 +22,7 @@
     },
     "peerDependenciesLocal": {
         "@colabo-topichat/b-core": "0.1.0",
-        "@colabo-knalledge/b-knalledge-core": "0.1.0"
+        "@colabo-knalledge/b-core": "0.1.0"
     },
     "devDependencies": {}
 }

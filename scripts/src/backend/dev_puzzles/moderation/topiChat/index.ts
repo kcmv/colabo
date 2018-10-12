@@ -8,13 +8,13 @@ let puzzleConfig:any = GetPuzzle(MODULE_NAME);
 console.log("[TopiChatTalk] Should we save chat? saveTalkToMap = ", puzzleConfig.saveTalkToMap);
 console.log("[TopiChatTalk] mapId = ", puzzleConfig.mapId);
 
-import {KNode} from '@colabo-knalledge/b-knalledge-core';
+import {KNode} from '@colabo-knalledge/b-core';
 
 enum KNodesTopiChatTalkTypes{
     ChatMsg = "topiChat.talk.chatMsg"
 }
 
-const KNodeModule = require("@colabo-knalledge/b-knalledge-core/lib/modules/kNode");
+const KNodeModule = require("@colabo-knalledge/b-core/lib/modules/kNode");
 
 /**
  * This is the main class, the entry point to TopiChat-Talk plugin. To use it, you just need to import `@colabo-topichat/b-talk`:

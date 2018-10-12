@@ -6,7 +6,7 @@ var whatAmISchema = mongoose.Schema({
     parent: { type: mongoose.Schema.Types.ObjectId, ref: 'WhatAmI', default: null }
 });
 
-var pluginAuditing = require('@colabo-knalledge/b-knalledge-storage-mongo/models/pluginAuditing');
+var pluginAuditing = require('@colabo-knalledge/b-storage-mongo/models/pluginAuditing');
 whatAmISchema.plugin(pluginAuditing, {});
 
 

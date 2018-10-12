@@ -8,13 +8,13 @@ let puzzleConfig:any = GetPuzzle(MODULE_NAME);
 console.log("[ColaboFlowTopiChat] Should we save chat? saveFlowInteractionToMap = ", puzzleConfig.saveFlowInteractionToMap);
 console.log("[ColaboFlowTopiChat] mapId = ", puzzleConfig.mapId);
 
-import {KNode} from '@colabo-knalledge/b-knalledge-core';
+import {KNode} from '@colabo-knalledge/b-core';
 
 enum KNodesColaboFlowTopiChatTypes{
     ChatMsg = "topiChat.talk.chatMsg"
 }
 
-const KNodeModule = require("@colabo-knalledge/b-knalledge-core/lib/modules/kNode");
+const KNodeModule = require("@colabo-knalledge/b-core/lib/modules/kNode");
 
 let chalk = require('chalk');
 

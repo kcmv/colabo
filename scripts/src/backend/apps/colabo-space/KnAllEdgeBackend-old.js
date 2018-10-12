@@ -9,7 +9,7 @@ var config = require('./config/global'),
     https = require('https'),
     flash = require('connect-flash'),
 
-    puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-knalledge-storage-mongo/models'),
+    puzzleKnalledgeStorageMongo = require('@colabo-knalledge/b-storage-mongo/models'),
 
     db = require('./models'),
     TopiChat = require('./modules/topiChat'),
@@ -76,8 +76,8 @@ app.configure(function() {
     app.use(app.router);
 });
 /* Knalledge Maps */
-var puzzleKnalledgeCore = require('@colabo-knalledge/b-knalledge-core')(app);
-var puzzleKnalledgeSearch = require('@colabo-knalledge/b-knalledge-search')(app);
+var puzzleKnalledgeCore = require('@colabo-knalledge/b-core')(app);
+var puzzleKnalledgeSearch = require('@colabo-knalledge/b-search')(app);
 
 /* RIMA */
 var whatAmIs = app.resource('whatAmIs', require('./modules/whatAmI'), { id: 'type?/:searchParam?' });

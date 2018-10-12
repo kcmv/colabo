@@ -2,8 +2,8 @@ var puzzles = {
     name: "b-colabo.space",
     description: "Colabo.space ecosystem - backend",
     dependencies: {
-        "@colabo-knalledge/b-knalledge-storage-mongo": {},
-        "@colabo-knalledge/b-knalledge-core": {},
+        "@colabo-knalledge/b-storage-mongo": {},
+        "@colabo-knalledge/b-core": {},
         "@colabo-rima/b-aaa": {},
         "@colabo-topichat/b-core": {},
         "@colabo-utils/i-config": {},

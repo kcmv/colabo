@@ -1,0 +1,20 @@
+{
+    "name": "@colabo-knalledge/b-search",
+    "description": "Knalledge Search API for the KnAllEdge backend",
+    "version": "0.0.2",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Cha-OS/colabo.git"
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "dependencies": {},
+    "devDependencies": {}
+}
