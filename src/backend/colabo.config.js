@@ -39,7 +39,7 @@ var puzzles = {
         },
         "@colabo-rima/b-aaa": {
             npm: "@colabo-rima/b-aaa",
-            path: "dev_puzzles/rima/rima-connect"
+            path: "dev_puzzles/rima/aaa"
         },
         "@colabo-topichat/b-core": {
             npm: "@colabo-topichat/b-core",

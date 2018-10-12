@@ -42,6 +42,8 @@ https://www.npmjs.com/settings/colabo-topichat/packages
 
 # Linked components/modules
 
+Components are linked globally into: `/usr/local/lib/node_modules/@colabo*`
+
 Most of the components that we develop as a part of the Colabo ecosystem are in separate folders and are exported into npm packages eventually.
 
 However to increase development speed and to avoid fix-publish-update loop we are using npm support to link them explicitly.
