@@ -1,5 +1,5 @@
 {
-    "name": "@colabo-moderation/core",
+    "name": "@colabo-moderation/f-core",
     "version": "0.0.1",
     "description": "Provides core support for moderation",
     "private": true,

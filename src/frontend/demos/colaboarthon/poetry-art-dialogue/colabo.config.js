@@ -16,7 +16,7 @@ var puzzles = {
         "@colabo-ware/rfid": {},
 
         "@colabo-utils/config": {},
-        "@colabo-utils/pub-sub": {},
+        "@colabo-utils/i-pub-sub": {},
 
         "@colabo-knalledge/f-view_node": {},
         // "@colabo-rima/rima_core": {},

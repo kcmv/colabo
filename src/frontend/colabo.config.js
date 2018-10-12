@@ -49,12 +49,12 @@ var puzzles = {
             npm: "@colabo-topichat/f-talk",
             path: "dev_puzzles/topichat/talk"
         },
-        "@colabo-utils/pub-sub": {
-            npm: "@colabo-utils/pub-sub",
+        "@colabo-utils/i-pub-sub": {
+            npm: "@colabo-utils/i-pub-sub",
             path: "dev_puzzles/utils/pub-sub"
         },
-        "@colabo-moderation/core": {
-            npm: "@colabo-moderation/core",
+        "@colabo-moderation/f-core": {
+            npm: "@colabo-moderation/f-core",
             path: "dev_puzzles/moderation/core"
         },
         "@colabo-flow/f-core": {

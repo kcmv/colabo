@@ -22,7 +22,7 @@ import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.
 
 // Puzzle modules
 import { RimaAaaModule } from '@colabo-rima/f-aaa';
-import { ModerationCoreModule } from '@colabo-moderation/core';
+import { ModerationCoreModule } from '@colabo-moderation/f-core';
 import { ColaboFlowCoreModule } from '@colabo-flow/f-core';
 import { TopiChatTalkModule } from '@colabo-topichat/f-talk';
 import {SimilarityModule} from '@colabo-ai-ml/f-similarity';
@@ -53,7 +53,7 @@ import {DialoGameResponseComponent} from './dialo-game/dialo-game-response/dialo
 import {CardDecoratorComponent} from './dialo-game/card-decorator/card-decorator.component';
 
 
-//import {ModerationPanelComponent} from '@colabo-moderation/core';
+//import {ModerationPanelComponent} from '@colabo-moderation/f-core';
 
 import {Dialog1Btn, Dialog2Btn} from './util/dialog';
 

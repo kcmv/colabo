@@ -16,8 +16,8 @@ import { RimaLoginComponent } from '@colabo-rima/f-aaa/rima-login/rima-login.com
 import {AvatarComponent} from './avatar/avatar.component';
 // import {InsightsComponent} from './insights/insights.component';
 import {DialoGameComponent} from './dialo-game/dialo-game.component'; //PTW
-import {ModerationPanelComponent} from '@colabo-moderation/core';
-//import { ModerationCoreModule } from '@colabo-moderation/core/lib/module';
+import {ModerationPanelComponent} from '@colabo-moderation/f-core';
+//import { ModerationCoreModule } from '@colabo-moderation/f-core/lib/module';
 import {TopiChatTalkForm} from '@colabo-topichat/f-talk';
 
 const routes: Routes = [

@@ -29,7 +29,7 @@ while the most of 'administrative' code goes into the main folder `src/frontend/
 
 in the **package.json** we will
 
-- rename the puzzle (e.g. to "name": "@colabo-moderation/core")
+- rename the puzzle (e.g. to "name": "@colabo-moderation/f-core")
 - do the things under the lower paragraph "**Using a puzzle in other puzzle**"
 
 **lib**/**module.ts** and **lib/materialModule.ts** are  one of 'administrative' files that are not in the main folder but in the **lib** folder. 
@@ -60,8 +60,8 @@ we should add it
 var puzzles = {
 ....
     offers: {
-    "@colabo-moderation/core": {
-    npm: "@colabo-moderation/core",
+    "@colabo-moderation/f-core": {
+    npm: "@colabo-moderation/f-core",
     path: "dev_puzzles/moderation/core"
     }
 }
@@ -72,7 +72,7 @@ in the **app** that we're using the puzzle in, in its **colabo.config.js** we sh
 ```var puzzles = {
 var puzzles = {
  dependencies: {
-  "@colabo-moderation/core": {}
+  "@colabo-moderation/f-core": {}
  }
 }
 ```
@@ -90,7 +90,7 @@ add the puzzle path in the src/frontend/apps/psc/**tsconfig.json**
 in the apps that we're including it in, e.g. src/frontend/apps/psc/src/app/**app.module.ts**, we import the puzzle's module
 
 ```
-import { ModerationCoreModule } from '@colabo-moderation/core/lib/module';
+import { ModerationCoreModule } from '@colabo-moderation/f-core/lib/module';
 ...
 var moduleImports = [
 	...

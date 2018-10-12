@@ -26,7 +26,7 @@
         "zone.js": "^0.8.14"
     },
     "peerDependenciesLocal": {
-        "@colabo-utils/pub-sub": "0.1.0",
+        "@colabo-utils/i-pub-sub": "0.1.0",
         "@colabo-rima/f-aaa": "0.1.0"
     },
     "devDependencies": {},

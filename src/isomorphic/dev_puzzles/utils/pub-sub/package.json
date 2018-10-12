@@ -1,7 +1,7 @@
 {
-    "name": "@colabo-utils/f-pub-sub",
+    "name": "@colabo-utils/i-pub-sub",
     "version": "0.0.1",
-    "description": "Provides frontend support for pub-sub",
+    "description": "Provides core support for topiChat",
     "private": true,
     "scripts": {
         "build": "tsc"

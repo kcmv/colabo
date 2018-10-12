@@ -13,7 +13,7 @@ var puzzles = {
         "@colabo-topichat/f-core": {},
         "@colabo-topichat/f-talk": {},
         "@colabo-knalledge/f-store_core": {},
-        "@colabo-utils/pub-sub": {},
+        "@colabo-utils/i-pub-sub": {},
     },
     offers: {}
 };

@@ -7,7 +7,7 @@ import { Observer } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import {ColaboPubSubPlugin, ColaboPubSub} from '@colabo-utils/pub-sub';
+import {ColaboPubSubPlugin, ColaboPubSub} from '@colabo-utils/i-pub-sub';
 export {ColaboPubSubPlugin};
 
 export enum TopiChatSystemEvents{
