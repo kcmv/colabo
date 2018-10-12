@@ -1,5 +1,5 @@
 {
-    "name": "@colabo-media/media-upload",
+    "name": "@colabo-media/b-upload",
     "description": "Support for uploading media content.",
     "version": "0.0.1",
     "private": false,

@@ -94,7 +94,7 @@ var aaa = app.resource('aaa', require('@colabo-rima/b-aaa/aaa'), { id: 'type?/:s
 
 // var mapImport = app.resource('mapImport', require('./modules/mapImport'), { id: 'type?/:searchParam?' });
 
-import * as PuzzleMediaUpload from '@colabo-media/media-upload';
+import * as PuzzleMediaUpload from '@colabo-media/b-upload';
 PuzzleMediaUpload.initialize(app);
 
 // var smsapi = app.resource('smsapi', require('./modules/smsapi_old_JS')); //JS

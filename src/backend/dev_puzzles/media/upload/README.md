@@ -1,13 +1,13 @@
 # Intro
 
-This is a backend part of the `@colabo-media/media-upload` puzzle
+This is a backend part of the `@colabo-media/b-upload` puzzle
 
 It is responsible for uploading media files to the server
 
 # Export
 
 ```sh
-# It will create globaly accessable npm package `@colabo-media/media-upload`
+# It will create globaly accessable npm package `@colabo-media/b-upload`
 npm link
 ```
 
@@ -15,5 +15,5 @@ npm link
 
 ```sh
 # Imports it in the local node_modules space of the hosting app
-npm link @colabo-media/media-upload
+npm link @colabo-media/b-upload
 ```

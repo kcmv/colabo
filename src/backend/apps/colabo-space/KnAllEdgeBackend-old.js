@@ -94,7 +94,7 @@ var session = app.resource('session', require('./modules/session'), { id: 'type?
 
 var session = app.resource('mapImport', require('./modules/mapImport'), { id: 'type?/:searchParam?' });
 
-var upload = app.resource('upload', require('@colabo-media/media-upload/upload'), { id: 'type?/:searchParam?' });
+var upload = app.resource('upload', require('@colabo-media/b-upload/upload'), { id: 'type?/:searchParam?' });
 
 // var smsapi = app.resource('smsapi', require('./modules/smsapi_old_JS')); //JS
 var smsapi = app.resource('smsapi', require('./modules/smsapi')); //TS
