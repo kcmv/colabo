@@ -1,0 +1,39 @@
+{
+  "name": "KnAllEdge-frontend",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mprinc/KnAllEdge",
+  "authors": [
+    "Sasha Mile Rudan <mprinc@gmail.com>"
+  ],
+  "description": "KnAllEdge frontend",
+  "main": "index.html",
+  "moduleType": [
+    "es6",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "KnAllEdge",
+    "knowledge",
+    "collaboration",
+    "collective",
+    "mind"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "debugpp": "~1.1.13",
+    "angular-medium-editor": "^1.1.1",
+    "simplemde-angular": "^0.0.3",
+    "simplemde": "^1.11.2"
+  },
+  "resolutions": {
+    "debugpp": "~1.2.0"
+  }
+}

@@ -1,0 +1,17 @@
+.sdg{
+  max-width: 400px;
+}
+
+.title{
+  font-weight: bold;
+  /* font-size:  */
+}
+
+.picture{
+  /* width: 100%; */
+}
+
+.sdg-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}

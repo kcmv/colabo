@@ -1,0 +1,82 @@
+<!-- <B>WhoAmI</B> RIMA Wizard
+ -->
+<!--  		    <input type="checkbox" ng-model="show"> Show Popover
+		    <hr>
+
+		    <button pop="Text..." pop-show="{{ show }}" pop-title="Title" pop-placement="right" class="btn btn-default">
+		      Button
+		    </button>
+			<div id="RegisterHelp" popover-enable="true" popover-trigger="openTrigger" popover-placement="top" popover="{{ 'Login or register here'}}" popover-append-to-body="true">Aha</div>
+			<button class="btn btn-primary" type="button" ng-click="showPopup()">Show Popup</button>
+			<button class="btn btn-primary" type="button" ng-click="closePopup()">Close Popup</button>
+
+			<input id="testing_my_tooltip" class="what_input" type="text" ng-model="whatInput" placeholder="Testing ..."
+			my-tooltip-show="true" my-tooltip="Testing: Enter your interest here or click on some existing ones underneath" my-tooltip-placement="top" my-tooltip-trigger="openTrigger" my-tooltip-enable="true" my-tooltip-append-to-body="true">
+
+			<input id="testing_tooltip" class="what_input" type="text" ng-model="whatInput" placeholder="type a topic / your interest ..."
+			tooltip="Enter your interest here or click on some existing ones underneath" tooltip-placement="top" tooltip-trigger="openTrigger" tooltip-enable="true" tooltip-append-to-body="true">
+ -->
+<div wizard current-step-number="currentStepNumber" submit="submit()" class="whatami_wizard">
+	<div wizard-step title="step 0" entered="stepEntered()" animation="slide">
+		<div class="general-data">
+			<p class="title">Welcome to CollaboFramework!</p>
+			<form>
+				<fieldset>
+					<legend>Check and Edit your General data</legend>
+					<div><label>First name</label><input type="text" required ng-model="whoAmI.firstname" /></div>
+					<div><label>Last name</label><input type="text" required ng-model="whoAmI.familyname" /></div>
+					<div><label>Display name</label><input type="text" required ng-model="whoAmI.displayName" /><span class='note'>(shorter - preferrably, up to 10 characters, no spaces)</span></div>
+					<!--
+					<div class="form-group">
+	            <label>Password</label>
+	            <input type="password" name="password" class="form-control" ng-model="registration.user.password" required />
+	            <div ng-messages="registrationForm.password.$error" ng-messages-include="messages.html"></div>
+	        </div>
+	        <div class="form-group">
+	            <label>Confirm Password</label>
+	            <input type="password" name="confirmPassword" class="form-control"
+	                   ng-model="registration.user.confirmPassword"
+	                   required compare-to="registration.user.password" />
+	            <div ng-messages="registrationForm.confirmPassword.$error" ng-messages-include="messages.html"></div>
+	        </div>
+					-->
+					<div><label>email</label><input type="text" required ng-model="whoAmI.e_mail" /></div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div wizard-step title="step 1" required-step-number="0" entered="stepEntered()" animation="slide">
+		<p>step 2</p>
+		<div class="general-data">
+			<p class="title">Get most from CollaboFramework!</p>
+			<span class='note'>Dear {{whoAmI.displayName}}, your profile is partially created. Now, let's provide other importand info.</span>
+			<form class="padded-around">
+				<fieldset>
+					<legend>Conferencing Details</legend>
+					<div>
+						<label>Skype Contact</label>
+						<span ng-show="bindings.noSkype" class="note">Skype is not required, but without it, it might be difficult to perform online dialogues</span>
+						<input type="text" ng-show="!bindings.noSkype" ng-model="whoAmI.extensions.contacts.skype" required />
+						<div class='padded'>
+							<input type="checkbox" id="noSkype" ng-model="bindings.noSkype" ng-change="noSkypeChange()"/>
+							<label class="note" for="noSkype">I don't have / don't want to provide skype contact</label>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<!--<div wizard-step title="step 2" required-step-number="1" entered="stepEntered()" animation="slide">
+		<p>step 3</p>
+		<div rima-topics class="rima-topics"></div>
+	</div>
+	<div wizard-step title="step 3" required-step-number="2" entered="stepEntered()" animation="slide">
+		<p>step 4</p>
+		<div rima-hows is-active="currentStepNumber == 3" class="rima-hows" who-am-i-type="'logged_in'"></div>
+	</div>
+-->
+	<div wizard-step title="step 2" required-step-number="1" entered="stepEntered()" animation="slide">
+		<p>step 3</p>
+		<div rima-hows class="rima-hows" who-am-i-type="'logged_in'" is-wizard="true"></div>
+	</div>
+</div>

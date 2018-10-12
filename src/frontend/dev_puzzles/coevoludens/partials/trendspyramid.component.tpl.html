@@ -1,0 +1,44 @@
+<div class="brainstorming brainstorming-form" id="popupContainer">
+    <md-dialog #brainstormingFormDialog class="brainstormingFormDialog">
+        <md-dialog-title>Brainstorming</md-dialog-title>
+        <div class="md-inline-form">
+          <form *ngIf="brainstormingFormActive" (ngSubmit)="onSubmit(brainstormingFormTabs.selectedIndex)" #brainstormingForm="ngForm" layout="column" class="inline-form">
+            <!-- {{brainstormingForm.valid}}<br/>
+            {{brainstormingForm.form.valid}}<br/> -->
+            <!-- {{JSON.stringify(brainstormingForm)}}<br/>
+            {{JSON.stringify(brainstormingForm.form)}}<br/> -->
+            <!-- {{diagnostic}} -->
+
+            <md-tab-group #brainstormingFormTabs (focusChange) = "focusChanged(brainstormingFormTabs.selectedIndex)" [selectedIndex] = "selectedIndex()" (selectChange) = "selectedChanged(brainstormingFormTabs.selectedIndex)">
+                <md-tab [disabled]="isDisabled(0)">
+                    <template md-tab-label>{{getTitle(0)}}</template>
+                    <template md-tab-content>
+                        <md-content class="md-padding">
+                        </md-content>
+                    </template>
+                </md-tab>
+
+                <md-tab [disabled]="isDisabled(1)">
+                <!-- <md-tab ng-disabled="true" [ng-disabled]="true" disabled="true" [disabled]="true"> -->
+                    <template md-tab-label>{{getTitle(1)}}</template>
+                    <template md-tab-content>
+                        <md-content class="md-padding">
+                        </md-content>
+                    </template>
+                </md-tab>
+
+            </md-tab-group>
+
+            <div layout="row">
+              <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
+              <button md-button type="button" (click)="close(false)">Cancel</button>
+              <!-- <button md-button type="button" (click)="nextPhase()">Next Phase</button> -->
+            </div>
+          </form>
+        </div>
+        <!-- <md-dialog-actions>
+            <button md-button (click)="close(false)">Cancel</button>
+            <button md-button (click)="close(true)">Create</button>
+        </md-dialog-actions> -->
+    </md-dialog>
+</div>

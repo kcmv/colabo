@@ -1,0 +1,163 @@
+tracer:tools sasha$ node KnAllEdgeTools.js 
+templatePath: /Users/sasha/Documents/data/development/KnAllEdge/src/backend/tools/templates
+Sending 80 contacts
+Sending mail [contactId:0]: Sasha Rudan <mprinc@gmail.com>
+Message sent [i:1, Sasha Rudan <mprinc@gmail.com>]: 250 2.0.0 OK 1432857240 w9sm935683laj.21 - gsmtp
+Sending mail [contactId:1]: Sinisa Rudan <sinisa.rudan@gmail.com>
+Message sent [i:2, Sinisa Rudan <sinisa.rudan@gmail.com>]: 250 2.0.0 OK 1432857249 zf3sm939963lbb.2 - gsmtp
+Sending mail [contactId:2]: Aleksandar Tomic <aleksandartomic@hotmail.com>
+Message sent [i:3, Aleksandar Tomic <aleksandartomic@hotmail.com>]: 250 2.0.0 OK 1432857260 f4sm935509lae.18 - gsmtp
+Sending mail [contactId:3]: Allen Byerly <allen@tritl.com>
+Message sent [i:4, Allen Byerly <allen@tritl.com>]: 250 2.0.0 OK 1432857269 lc8sm933469lbc.33 - gsmtp
+Sending mail [contactId:4]: Alf Martin Johansen <amj@inductsoftware.com>
+Message sent [i:5, Alf Martin Johansen <amj@inductsoftware.com>]: 250 2.0.0 OK 1432857279 z1sm937620lbj.11 - gsmtp
+Sending mail [contactId:5]:  <ancudinca@yahoo.com>
+Message sent [i:6,  <ancudinca@yahoo.com>]: 250 2.0.0 OK 1432857289 si3sm934340lbb.32 - gsmtp
+Sending mail [contactId:6]:  <boris.mih53@gmail.com>
+Message sent [i:7,  <boris.mih53@gmail.com>]: 250 2.0.0 OK 1432857299 jq10sm618214lab.23 - gsmtp
+Sending mail [contactId:7]: Branka Perovic <branka@brankaperovic.com>
+Message sent [i:8, Branka Perovic <branka@brankaperovic.com>]: 250 2.0.0 OK 1432857310 c2sm930986laa.43 - gsmtp
+Sending mail [contactId:8]: Skorc Bojana <bskorc@yahoo.com>
+Message sent [i:9, Skorc Bojana <bskorc@yahoo.com>]: 250 2.0.0 OK 1432857319 ex12sm939496lac.7 - gsmtp
+Sending mail [contactId:9]: Carsten Cierniak <ccern@web.de>
+Message sent [i:10, Carsten Cierniak <ccern@web.de>]: 250 2.0.0 OK 1432857329 am7sm940526lbc.3 - gsmtp
+Sending mail [contactId:10]: Aleksandar Cikaric <cikaric@gmail.com>
+Message sent [i:11, Aleksandar Cikaric <cikaric@gmail.com>]: 250 2.0.0 OK 1432857340 yc3sm939072lbb.6 - gsmtp
+Sending mail [contactId:11]: Robert Stephenson <collaborob@gmail.com>
+Message sent [i:12, Robert Stephenson <collaborob@gmail.com>]: 250 2.0.0 OK 1432857349 kb5sm937954lbc.16 - gsmtp
+Sending mail [contactId:12]: CollaboScience <collaboscience@gmail.com>
+Message sent [i:13, CollaboScience <collaboscience@gmail.com>]: 250 2.0.0 OK 1432857359 lf12sm933085lac.38 - gsmtp
+Sending mail [contactId:13]: Petar Papuga <daofa7@gmail.com>
+Message sent [i:14, Petar Papuga <daofa7@gmail.com>]: 250 2.0.0 OK 1432857369 ml10sm934464lbc.29 - gsmtp
+Sending mail [contactId:14]: David Price <david.price@debategraph.org>
+Message sent [i:15, David Price <david.price@debategraph.org>]: 250 2.0.0 OK 1432857379 f2sm932595lah.39 - gsmtp
+Sending mail [contactId:15]: Dino Karabeg <dino.karabeg@gmail.com>
+Message sent [i:16, Dino Karabeg <dino.karabeg@gmail.com>]: 250 2.0.0 OK 1432857389 dh4sm937385lac.12 - gsmtp
+Sending mail [contactId:16]: David Peat <dpeat@fdavidpeat.com>
+Message sent [i:17, David Peat <dpeat@fdavidpeat.com>]: 250 2.0.0 OK 1432857399 ra7sm935463lbb.27 - gsmtp
+Sending mail [contactId:17]: Jasmina Maric <dpkreculj@yahoo.com>
+Message sent [i:18, Jasmina Maric <dpkreculj@yahoo.com>]: 250 2.0.0 OK 1432857409 xf5sm940014lbb.7 - gsmtp
+Sending mail [contactId:18]: Peter Dinic <dr.dinic@yahoo.com>
+Message sent [i:19, Peter Dinic <dr.dinic@yahoo.com>]: 250 2.0.0 OK 1432857419 kb5sm938451lbc.16 - gsmtp
+Sending mail [contactId:19]:  <dragan777@gmail.com>
+Message sent [i:20,  <dragan777@gmail.com>]: 250 2.0.0 OK 1432857429 si3sm935487lbb.32 - gsmtp
+Sending mail [contactId:20]:  <dragandmc@gmail.com>
+Message sent [i:21,  <dragandmc@gmail.com>]: 250 2.0.0 OK 1432857439 du2sm932574lbc.44 - gsmtp
+Sending mail [contactId:21]: Dragica Kopjar <dragica.kopjar@gmail.com>
+Message sent [i:22, Dragica Kopjar <dragica.kopjar@gmail.com>]: 250 2.0.0 OK 1432857449 j9sm931583laf.48 - gsmtp
+Sending mail [contactId:22]: Drenka Dobrosavljevic <drenka.dobro@gmail.com>
+Message sent [i:23, Drenka Dobrosavljevic <drenka.dobro@gmail.com>]: 250 2.0.0 OK 1432857459 gn6sm936324lbc.28 - gsmtp
+Sending mail [contactId:23]: Nina Bulajic <drninabulajic@gmail.com>
+Message sent [i:24, Nina Bulajic <drninabulajic@gmail.com>]: 250 2.0.0 OK 1432857469 z1sm939209lbj.11 - gsmtp
+Sending mail [contactId:24]: Erol Karabeg <erol.karabeg@authoritypartners.com>
+Message sent [i:25, Erol Karabeg <erol.karabeg@authoritypartners.com>]: 250 2.0.0 OK 1432857479 xf5sm940574lbb.7 - gsmtp
+Sending mail [contactId:25]: Fea Munizaba <farfej@gmail.com>
+Message sent [i:26, Fea Munizaba <farfej@gmail.com>]: 250 2.0.0 OK 1432857489 c5sm938908lac.15 - gsmtp
+Sending mail [contactId:26]: Fredrik Eive Refsli <fredrik.refsli@nkh.no>
+Message sent [i:27, Fredrik Eive Refsli <fredrik.refsli@nkh.no>]: 250 2.0.0 OK 1432857500 uq1sm938788lbb.18 - gsmtp
+Sending mail [contactId:27]: Frode Hegland <frode@liquid.info>
+Message sent [i:28, Frode Hegland <frode@liquid.info>]: 250 2.0.0 OK 1432857509 m8sm939175lbs.17 - gsmtp
+Sending mail [contactId:28]:  <georgeflorea@tehnorob.ro>
+Message sent [i:29,  <georgeflorea@tehnorob.ro>]: 250 2.0.0 OK 1432857520 zf3sm942158lbb.2 - gsmtp
+Sending mail [contactId:29]:  <gorana.bmk@gmail.com>
+Message sent [i:30,  <gorana.bmk@gmail.com>]: 250 2.0.0 OK 1432857530 ba4sm935882lab.31 - gsmtp
+Sending mail [contactId:30]: Sovilj Mirjana <iefpgmir@gmail.com>
+Message sent [i:31, Sovilj Mirjana <iefpgmir@gmail.com>]: 250 2.0.0 OK 1432857540 le5sm934911lab.34 - gsmtp
+Sending mail [contactId:31]: Dejan Rakovic <info@dejanrakovic.com>
+Message sent [i:32, Dejan Rakovic <info@dejanrakovic.com>]: 250 2.0.0 OK 1432857549 ca8sm932757lad.46 - gsmtp
+Sending mail [contactId:32]: Ingela Teppy Flatin <ingelaflatin@yahoo.no>
+Message sent [i:33, Ingela Teppy Flatin <ingelaflatin@yahoo.no>]: 250 2.0.0 OK 1432857559 zf3sm942524lbb.2 - gsmtp
+Sending mail [contactId:33]:  <irinej.papuga@gmail.com>
+Message sent [i:34,  <irinej.papuga@gmail.com>]: 250 2.0.0 OK 1432857570 j10sm939002lbs.21 - gsmtp
+Sending mail [contactId:34]: Jack Park <jackpark@topicquests.org>
+Message sent [i:35, Jack Park <jackpark@topicquests.org>]: 250 2.0.0 OK 1432857579 lf12sm934894lac.38 - gsmtp
+Sending mail [contactId:35]: Jasmina Masovic <jasmina.masovic@yahoo.com>
+Message sent [i:36, Jasmina Masovic <jasmina.masovic@yahoo.com>]: 250 2.0.0 OK 1432857589 ks6sm942477lac.1 - gsmtp
+Sending mail [contactId:36]: John Field <johnfield2000@yahoo.co.uk>
+Message sent [i:37, John Field <johnfield2000@yahoo.co.uk>]: 250 2.0.0 OK 1432857599 aj4sm941587lbd.5 - gsmtp
+Sending mail [contactId:37]:  <jovankukac@yahoo.com>
+Message sent [i:38,  <jovankukac@yahoo.com>]: 250 2.0.0 OK 1432857609 p6sm934701laj.41 - gsmtp
+Sending mail [contactId:38]: Kennan Salinero <kennan@yamanascience.org>
+Message sent [i:39, Kennan Salinero <kennan@yamanascience.org>]: 250 2.0.0 OK 1432857620 fb5sm936225lbc.35 - gsmtp
+Sending mail [contactId:39]: Kim Chandler McDonald <kim@kimmic.com>
+Message sent [i:40, Kim Chandler McDonald <kim@kimmic.com>]: 250 2.0.0 OK 1432857629 k15sm937960laa.28 - gsmtp
+Sending mail [contactId:40]: Lazar Kovacevic <lakinekaki@gmail.com>
+Message sent [i:41, Lazar Kovacevic <lakinekaki@gmail.com>]: 250 2.0.0 OK 1432857640 k12sm934704lbg.42 - gsmtp
+Sending mail [contactId:41]: Leah MacVie <leah@leahmacvie.com>
+Message sent [i:42, Leah MacVie <leah@leahmacvie.com>]: 250 2.0.0 OK 1432857649 w7sm934644lag.42 - gsmtp
+Sending mail [contactId:42]: Ljerka Koncar <ljerka.koncar@gmail.com>
+Message sent [i:43, Ljerka Koncar <ljerka.koncar@gmail.com>]: 250 2.0.0 OK 1432857660 q1sm937707lah.27 - gsmtp
+Sending mail [contactId:43]:  <ljuluk@orion.rs>
+Message sent [i:44,  <ljuluk@orion.rs>]: 250 2.0.0 OK 1432857669 p6sm935222laj.41 - gsmtp
+Sending mail [contactId:44]: Marcel Verwei <marcelverwei@hotmail.com>
+Message sent [i:45, Marcel Verwei <marcelverwei@hotmail.com>]: 250 2.0.0 OK 1432857679 og9sm939533lbb.22 - gsmtp
+Sending mail [contactId:45]: Magnus Lien <mgns87@gmail.com >
+Message sent [i:46, Magnus Lien <mgns87@gmail.com >]: 250 2.0.0 OK 1432857689 og9sm939637lbb.22 - gsmtp
+Sending mail [contactId:46]:  <milabster@gmail.com>
+Message sent [i:47,  <milabster@gmail.com>]: 250 2.0.0 OK 1432857699 og9sm939762lbb.22 - gsmtp
+Sending mail [contactId:47]: Miloje Rakocevic <milemirkov@gmail.com>
+Message sent [i:48, Miloje Rakocevic <milemirkov@gmail.com>]: 250 2.0.0 OK 1432857709 yc3sm942300lbb.6 - gsmtp
+Sending mail [contactId:48]: Mira Sonjic Radic <mira.sonjicradic@gmail.com>
+Message sent [i:49, Mira Sonjic Radic <mira.sonjicradic@gmail.com>]: 250 2.0.0 OK 1432857720 ca8sm934290lad.46 - gsmtp
+Sending mail [contactId:49]:  <mirko11ostojic@gmail.com>
+Message sent [i:50,  <mirko11ostojic@gmail.com>]: 250 2.0.0 OK 1432857729 du2sm935133lbc.44 - gsmtp
+Sending mail [contactId:50]:  <miroroz@gmail.com>
+Message sent [i:51,  <miroroz@gmail.com>]: 250 2.0.0 OK 1432857740 u10sm938764lbw.31 - gsmtp
+Sending mail [contactId:51]: Mei Lin Fung <mlf@alum.mit.edu>
+Message sent [i:52, Mei Lin Fung <mlf@alum.mit.edu>]: 250 2.0.0 OK 1432857749 du2sm935305lbc.44 - gsmtp
+Sending mail [contactId:52]: Miodrag Novakovic <mrjnovakovic@yahoo.com>
+Message sent [i:53, Miodrag Novakovic <mrjnovakovic@yahoo.com>]: 250 2.0.0 OK 1432857759 ml10sm937850lbc.29 - gsmtp
+Sending mail [contactId:53]: Marko Vucinic <mvucinic@gmail.com>
+Message sent [i:54, Marko Vucinic <mvucinic@gmail.com>]: 250 2.0.0 OK 1432857770 yh3sm934866lab.44 - gsmtp
+Sending mail [contactId:54]:  <nduca@beotel.rs>
+Message sent [i:55,  <nduca@beotel.rs>]: 250 2.0.0 OK 1432857780 q1sm942262laq.10 - gsmtp
+Sending mail [contactId:55]: Vladimir Jovanovic <niki89@eunet.rs>
+Message sent [i:56, Vladimir Jovanovic <niki89@eunet.rs>]: 250 2.0.0 OK 1432857789 og9sm940535lbb.22 - gsmtp
+Sending mail [contactId:56]:  <parispetrovski75@gmail.com>
+Message sent [i:57,  <parispetrovski75@gmail.com>]: 250 2.0.0 OK 1432857799 t15sm944416lbk.0 - gsmtp
+Sending mail [contactId:57]: Pavel Luksha <pavel.luksha@gmail.com>
+Message sent [i:58, Pavel Luksha <pavel.luksha@gmail.com>]: 250 2.0.0 OK 1432857809 o5sm942804lag.9 - gsmtp
+Sending mail [contactId:58]: Marijana Putovic <putovicmarijana@gmail.com>
+Message sent [i:59, Marijana Putovic <putovicmarijana@gmail.com>]: 250 2.0.0 OK 1432857819 du2sm935920lbc.44 - gsmtp
+Sending mail [contactId:59]: Ramon Sanguesa <ramonsang@gmail.com>
+Message sent [i:60, Ramon Sanguesa <ramonsang@gmail.com>]: 250 2.0.0 OK 1432857829 si3sm939019lbb.32 - gsmtp
+Sending mail [contactId:60]: Renata Baćić <renata.bacic@europe.hr>
+Message sent [i:61, Renata Baćić <renata.bacic@europe.hr>]: 250 2.0.0 OK 1432857839 wh9sm935658lbb.45 - gsmtp
+Sending mail [contactId:61]: Rozalia Forai <rozaliaforai@gmail.com>
+Message sent [i:62, Rozalia Forai <rozaliaforai@gmail.com>]: 250 2.0.0 OK 1432857849 mx10sm941603lbb.20 - gsmtp
+Sending mail [contactId:62]: Sam Hahn <s@mhahn.com>
+Message sent [i:63, Sam Hahn <s@mhahn.com>]: 250 2.0.0 OK 1432857859 uq1sm941884lbb.18 - gsmtp
+Sending mail [contactId:63]:  <sanja.novisnovi@gmail.com>
+Message sent [i:64,  <sanja.novisnovi@gmail.com>]: 250 2.0.0 OK 1432857869 ap8sm938799lac.30 - gsmtp
+Sending mail [contactId:64]: Sarah Verwei <sarahverwei@gmail.com>
+Message sent [i:65, Sarah Verwei <sarahverwei@gmail.com>]: 250 2.0.0 OK 1432857880 p9sm942662laf.11 - gsmtp
+Sending mail [contactId:65]: Dusan Pavlovic <sofi123@open.telekom.rs>
+Message sent [i:66, Dusan Pavlovic <sofi123@open.telekom.rs>]: 250 2.0.0 OK 1432857889 w10sm944154laz.6 - gsmtp
+Sending mail [contactId:66]: Stanley Gould <stanleygould@gmail.com>
+Message sent [i:67, Stanley Gould <stanleygould@gmail.com>]: 250 2.0.0 OK 1432857899 xf5sm944217lbb.7 - gsmtp
+Sending mail [contactId:67]:  <teslinariznica@gmail.com>
+Message sent [i:68,  <teslinariznica@gmail.com>]: 250 2.0.0 OK 1432857909 ej5sm944710lad.5 - gsmtp
+Sending mail [contactId:68]: Alexander Laszlo <thelasz@me.com>
+Message sent [i:69, Alexander Laszlo <thelasz@me.com>]: 250 2.0.0 OK 1432857920 wm10sm940639lbb.26 - gsmtp
+Sending mail [contactId:69]: Timour Shchoukine <timurid@gmail.com>
+Message sent [i:70, Timour Shchoukine <timurid@gmail.com>]: 250 2.0.0 OK 1432857930 o5sm943936lag.9 - gsmtp
+Sending mail [contactId:70]: Thomas Moroz <tjmoroz@gmail.com>
+Message sent [i:71, Thomas Moroz <tjmoroz@gmail.com>]: 250 2.0.0 OK 1432857939 m8sm942909lbs.17 - gsmtp
+Sending mail [contactId:71]: Tristan Bumm <tristanb@student.hf.uio.no>
+Message sent [i:72, Tristan Bumm <tristanb@student.hf.uio.no>]: 250 2.0.0 OK 1432857950 r6sm943976lbw.10 - gsmtp
+Sending mail [contactId:72]: Vera Stanojevic <verasw@me.com>
+Message sent [i:73, Vera Stanojevic <verasw@me.com>]: 250 2.0.0 OK 1432857960 yc3sm944553lbb.6 - gsmtp
+Sending mail [contactId:73]: Vitomir Vukomanovic <vitomirvukomanovic@gmail.com>
+Message sent [i:74, Vitomir Vukomanovic <vitomirvukomanovic@gmail.com>]: 250 2.0.0 OK 1432857969 xs12sm943049lac.16 - gsmtp
+Sending mail [contactId:74]: Bernard Carlson <wc4p@virginia.edu>
+Message sent [i:75, Bernard Carlson <wc4p@virginia.edu>]: 250 2.0.0 OK 1432857980 s8sm939378las.29 - gsmtp
+Sending mail [contactId:75]:  <z.bojkovic@yahoo.com>
+Message sent [i:76,  <z.bojkovic@yahoo.com>]: 250 2.0.0 OK 1432857989 p6sm938117laj.41 - gsmtp
+Sending mail [contactId:76]: Eugenia Kelbert <zhenia.kel@gmail.com>
+Message sent [i:77, Eugenia Kelbert <zhenia.kel@gmail.com>]: 250 2.0.0 OK 1432857999 ba4sm940036lab.31 - gsmtp
+Sending mail [contactId:77]:  <zstevic@etf.rs>
+Message sent [i:78,  <zstevic@etf.rs>]: 250 2.0.0 OK 1432858009 kb5sm943504lbc.16 - gsmtp
+Sending mail [contactId:78]: Sasha Rudan <mprinc@gmail.com>
+Message sent [i:79, Sasha Rudan <mprinc@gmail.com>]: 250 2.0.0 OK 1432858019 q15sm938175lal.40 - gsmtp
+Sending mail [contactId:79]: Sinisa Rudan <sinisa.rudan@gmail.com>
+Message sent [i:80, Sinisa Rudan <sinisa.rudan@gmail.com>]: 250 2.0.0 OK 1432858029 m8sm943622lbs.17 - gsmtp

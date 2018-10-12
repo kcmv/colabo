@@ -1,0 +1,63 @@
+<div class="controlls">
+    <div class="btn-group">
+        <md-slide-toggle class="md-primary" aria-label="Sniff communication" [(checked)]="config.sniff" (checkedChange)="configChanged('sniff', sniff)">Sniff communication</md-slide-toggle>
+		<button md-raised-button class="md-raised" (click)="addPlugin()">Add Plugin</button>
+    </div>
+</div>
+
+<div class="plugins">
+    Plugins:
+    <div class="plugin">
+        <md-content>
+            <md-list>
+                <md-subheader class="">Standard</md-subheader>
+                <md-list-item class="md-1-line" *ngFor="let plugin of getPlugins()">
+                    <div class="md-list-item-text" layout="column">
+                        <h1>Plugin: {{ plugin.name }}</h1>
+						<md-list>
+			                <md-subheader class="">Events</md-subheader>
+			                <md-list-item class="md-1-line" *ngFor="let event of plugin.events">
+			                    <div class="md-list-item-text" layout="column">
+			                        <h2>Event: {{ event.name }}</h2>
+			                    </div>
+			                </md-list-item>
+			            </md-list>
+                    </div>
+                </md-list-item>
+
+                <md-divider></md-divider>
+                <md-subheader class="md-no-sticky">Special</md-subheader>
+            </md-list>
+        </md-content>
+    </div>
+</div>
+
+<div class="plugins">
+    Events:
+    <div class="plugin">
+        <md-content>
+            <md-list>
+                <md-subheader class="">Standard</md-subheader>
+                <md-list-item class="md-1-line" *ngFor="let event of getEvents()">
+                    <div class="md-list-item-text" layout="column">
+                        <h1>Event: {{ event.name }}</h1>
+                        Plugins: {{event.plugins}}
+                        <md-list>
+			                <md-subheader class="">Messages</md-subheader>
+			                <md-list-item class="md-1-line" *ngFor="let message of getMessagesForEvent(event.name) | orderArrayPipe:'-time'">
+			                    <div class="md-list-item-text" layout="column">
+			                        <span>client-id: {{message.tcPackage.clientIdSender}}, time: {{message.time | date:'HHmmss'}}</span>
+
+                                    <span *ngIf="message.eventName != 'kn:realtime'">, Package: {{ message.tcPackage | json }}</span>
+
+			                        <span *ngIf="message.eventName == 'kn:realtime'">kn-event: {{ message.tcPackage.msg.eventName }}<br/>
+                                    Message: {{ message.tcPackage.msg | json }}</span>
+			                    </div>
+			                </md-list-item>
+			            </md-list>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </div>
+</div>

@@ -1,0 +1,203 @@
+<!-- main container -->
+<presentation-actions-form></presentation-actions-form>
+<div class="presentation-display reveal" style='display: none;'></div>
+
+<div layout="column" layout-fill *ngIf='policyConfig.running.ng1ng2Ready'>
+    <!-- content -->
+    <!-- toolbar -->
+    <md-toolbar class="toolbar flexible md-theme-indigo" color="primary" style="width: 100%;">
+        <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
+            <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+                <button md-mini-fab md-tooltip="Configuration" tooltip-position="below" class="md-mini md-primary" aria-label="Configuration" (click)="settings.toggle()" [hidden]="leftOpened">
+                    <md-icon title="Settings">settings</md-icon>
+                </button>
+                <button md-mini-fab md-tooltip="Options Visibility" tooltip-position="below" class="md-mini md-primary" aria-label="Options Visibility" (click)="options.toggle()">
+                    <md-icon title="Options Visibility">chrome_reader_mode</md-icon>
+
+                </button>
+                <!-- <button md-mini-fab md-tooltip="Toggle Top Panel" tooltip-position="below" class="md-mini md-primary" aria-label="Toggle Top Panel" (click)="toggleTopPanel()">
+                    <md-icon title="Top Panel">view_agenda</md-icon>
+                </button> -->
+
+                <button md-mini-fab md-tooltip="Maps" tooltip-position="below" class="md-mini md-primary" aria-label="Maps" (click)="go('maps')">
+                    <md-icon title="Maps List">map</md-icon>
+                </button>
+
+                <button md-mini-fab md-tooltip="Plugins" tooltip-position="below" class="md-mini md-primary" aria-label="Plugins" (click)="go('plugins')" *ngIf="policyConfig.moderating.enabled">
+                    <md-icon title="Plugins">extension</md-icon>
+                </button>
+
+                <button md-mini-fab md-tooltip="Ontov Search" tooltip-position="below" class="md-mini md-primary" aria-label="Ontov Search" (click)="state('plugins')">
+                    <md-icon title="Ontov Search">search</md-icon>
+                </button>
+
+                <button *ngIf="pluginsConfig?.knalledgeMap?.config?.externalInterface?.backFromMap" md-mini-fab md-tooltip="Navigate Back" tooltip-position="below" class="md-mini md-primary" aria-label="Navigate Back" (click)="navigateBack()">
+                  <md-icon title="Back">navigate_before</md-icon>
+                </button>
+
+            </section>
+            <div layout="column">
+              <span class="map">Map <span class="mapName">{{getMapName()}}</span></span>
+              <span class="small">{{following}}</span>
+            </div>
+
+            <section class="status" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
+                <div class="name" layout="column">
+                    {{policyConfig.state.name}}
+                </div>
+                <div *ngIf="!policyConfig.broadcasting.enabled">
+                    <span *ngIf="policyConfig.broadcasting.receiveNavigation">
+                      <button [disabled]="knalledgeMapPolicyService.mustFollowPresenter() && !policyConfig.moderating.enabled" md-mini-fab md-tooltip="Click to stop following broadcasting" tooltip-position="below" class="md-mini md-primary" (click)="followBroadcast(false)">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-phone fa-stack-1x"></i>
+                        </span>
+                      </button>
+                    </span>
+                    <span *ngIf="!policyConfig.broadcasting.receiveNavigation">
+                      <!-- <span class="warning">You are not following a presentation!</span> -->
+                      <button md-mini-fab md-tooltip="Click to follow broadcasting" tooltip-position="below" class="md-mini md-primary" (click)="followBroadcast(true)">
+                        <span class="fa-stack fa-lg">
+                          <i  style="font-size: 2em" class="fa fa-times text-danger"></i>
+                          <i class="fa fa-phone disabled fa-stack-1x"></i>
+                        </span>
+                      </button>
+                    </span>
+                </div>
+                <div *ngIf="policyConfig.moderating.enabled">
+                    <span *ngIf="policyConfig.broadcasting.enabled">
+                      <button md-mini-fab md-tooltip="Stop broadcasting" tooltip-position="below" class="md-mini md-primary" (click)="broadcast(false)">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-desktop fa-stack-1x"></i>
+                        </span>
+                      </button>
+                    </span>
+                    <span *ngIf="!policyConfig.broadcasting.enabled">
+                      <button md-mini-fab md-tooltip="Start broadcasting" tooltip-position="below" class="md-mini md-primary" (click)="broadcast(true)">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-desktop fa-stack-1x disabled"></i>
+                          <i style="margin-top: -0.1em; margin-left: 0.3em; font-size: 1.3em" class="fa fa-times text-danger"></i>
+                        </span>
+                      </button>
+                    </span>
+                </div>
+            </section>
+            <section class="whoAmI" layout="row" layout-sm="column" layout-align="right center" layout-wrap>
+                <button md-mini-fab md-tooltip="Person" tooltip-position="below" class="md-mini md-primary" aria-label="Person" (click)="userPanel()">
+                    <md-icon [ngClass]="{warning: !amILoggedIn()}" title="Login">person</md-icon>
+                </button>
+
+                <div class="names" layout="column">
+                    <div class="loggedIn" [ngSwitch]="amILoggedIn()">
+                        <span *ngSwitchCase="true">{{getLoggedInUserName()}}</span>
+                        <span *ngSwitchCase="false" class="warning" style="font-size:14px;" (click)="go('login')">LOGGED OFF</span>
+                    </div>
+                    <div class="active" *ngIf="policyConfig.moderating.enabled">
+                        Active: {{getActiveUserName()}}
+                    </div>
+                    <div class="connection" [ngClass]="{warning: isOffline()}">
+                      <!-- <div *ngIf="connectivityIssues" class="warning"><i class="fa fa-exclamation-triangle"></i>&nbsp;Connectivity issues</div> -->
+                      <span><i class="fa fa-signal" aria-hidden="true"></i></span><span *ngIf="isOffline()" style="font-size:12px;" class="warning">OFF</span>
+                    </div>
+                </div>
+
+            </section>
+        </section>
+    </md-toolbar>
+
+    <md-toolbar class="toolbar flexible md-theme-indigo" color="primary" style="width: 100%;">
+        <section layout="row" layout-sm="column" layout-align="space-between center" layout-wrap style="width: 100%;">
+            <section class="commands" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+                <rima-actions-form></rima-actions-form>
+                <span class='horizontal-separator'></span>
+                <ibis-actions-form></ibis-actions-form>
+            </section>
+
+        </section>
+    </md-toolbar>
+
+    <md-sidenav-layout class="main-content" layout="row" flex style="overflow: auto; height: 100%;">
+        <!-- <md-sidenav #options align="left" layout="column" [style]="hasMedia('gt-sm') ? 'side' : 'over'"> -->
+        <md-sidenav #options class="options" [opened]="true" align="end" mode="side" layout="column" [ngClass]="{full: isOptionsFullscreen()}">
+            <md-content>
+                <div style="text-align: right;">
+                  <button md-mini-fab md-tooltip="Toggle Fullscreen" tooltip-position="below" class="md-mini md-primary" aria-label="Toggle Fullscreen" (click)="toggleOptionsFullscreen()" [hidden]="leftOpened">
+                      <md-icon title="Toggle Fullscreen">{{ isOptionsFullscreen() ? 'fullscreen_exit' : 'fullscreen'}}</md-icon>
+                  </button>
+                </div>
+                <knalledge-map-list class="knalledge_map_list"></knalledge-map-list>
+            </md-content>
+        </md-sidenav>
+        <!-- Tools -->
+        <md-sidenav #settings (close)="turnOffEditingNode($event)" class="settings" align="start" style="" class="md-sidenav-left md-whiteframe-z2">
+            <md-content>
+                <div style="text-align: right;">
+                    <button md-raised-button (click)="settings.close()" align="right" class="md-primary">
+                        Close
+                    </button>
+                </div>
+                <knalledge-map-tools class="knalledge_map_tools"></knalledge-map-tools>
+            </md-content>
+        </md-sidenav>
+
+        <!-- Main content -->
+        <md-content class="knalledge_map_index" flex>
+
+            <!-- Bacground logos/trade-marks -->
+            <div class="logo_background">
+                <div class="titles">
+                    <div template="ngIf:viewConfig.type.name =='collabo_framework'">
+                        <h1><span class="title_web" style="opacity: 0.3;"></span><span class="title_collabo">Colabo</span><span class="title_science">Framework</span><span class="title_web"></span></h1>
+                        <!-- <h2><span class="title_web">www.</span><span class="title_kn">Colabo</span><span class="title_all">Science</span><span class="title_web">.com</span></h2>
+                        <h2><span class="title_web">www.</span><span class="title_kn">Colabo</span><span class="title_edge">Arte</span><span class="title_web">.com</span></h2>-->
+                        <!-- <h2>
+                          <span class="title_kn">KF</span>
+                          <span class="title_all">/</span>
+                          <span class="title_edge">ChaOS</span>
+                          <span class="title_web"></span>
+                        </h2> -->
+                    </div>
+                    <div template="ngIf:viewConfig.type.name =='collabo_arte'">
+                        <h1><span class="title_web">www.</span><span class="title_collabo">Colabo</span><span class="title_science">Arte</span><span class="title_web">.com</span></h1>
+                        <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
+                    </div>
+                    <div template="ngIf:viewConfig.type.name =='collabo_science'">
+                        <h1><span class="title_web">www.</span><span class="title_collabo">Colabo</span><span class="title_science">Science</span><span class="title_web">.com</span></h1>
+                        <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
+                    </div>
+                    <div template="ngIf:viewConfig.type.name =='collabo_business'">
+                        <h1><span class="title_web">www.</span><span class="title_collabo">Colabo</span><span class="title_science">Business</span><span class="title_web">.com</span></h1>
+                        <h2><span class="title_web">www.</span><span class="title_kn">Kn</span><span class="title_all">All</span><span class="title_edge">Edge</span><span class="title_web">.org</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div layout-fill layout-align="stretch stretch">
+                <div class="knalledge_map_middle" layout-fill layout="column">
+
+                    <search-ontov style="height: 2em"></search-ontov>
+
+                    <!-- top panel -->
+                    <div class="knalledge_map_middle_bottom" *ngIf="viewConfig.panels.topPanel.visible">
+                        <top-panel></top-panel>
+                    </div>
+                    <!-- KnAllEdge Map -->
+                    <knalledge-map class="knalledge_map" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_tree' || viewConfig.visualization.viewspec === 'viewspec_manual'"></knalledge-map>
+
+                    <!-- <knalledge-list class="knalledge_list" flex style="overflow: auto; height: 100%;" *ngIf="viewConfig.visualization.viewspec === 'viewspec_list'"></knalledge-list> -->
+
+                    <bottom-panel></bottom-panel>
+                </div>
+            </div>
+        </md-content>
+    </md-sidenav-layout>
+    <brainstorming-form></brainstorming-form>
+    <coevoludens-trendspyramid></coevoludens-trendspyramid>
+    <session-form></session-form>
+    <media-show style="width:90%"></media-show>
+    <user-dialog></user-dialog>
+
+    <md-dialog #infoDialog>
+      <md-dialog-title>{{info.title}}</md-dialog-title>
+      <div [innerHTML]=info.message></div>
+      <md-dialog-actions (click)="infoDialog.close()" ok="{{info.buttons[0]}}"></md-dialog-actions>
+    </md-dialog>
+</div>

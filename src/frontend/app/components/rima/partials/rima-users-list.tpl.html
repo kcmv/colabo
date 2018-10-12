@@ -1,0 +1,64 @@
+<div class="rima-users-list tools-controls-group">
+	<div class="switch" (click)="hideShowComponent()">
+		<span class="panel-title">Map participants</span>
+		<span class='arrows'>
+			<span [hidden]="!componentShown"><i title="hide panel" class="fa fa-caret-square-o-up" aria-hidden="true"></i></span>
+			<span [hidden]="componentShown"><i title="show panel" class="fa fa-caret-square-o-down" aria-hidden="true"></i></span>
+		</span>
+	</div>
+	<div class="content" [hidden]="!componentShown">
+		<div class="btn-group">
+			<md-slide-toggle class="md-primary" aria-label="show creators" (checkedChange)="changedShowCreators()" [(checked)]="showUsers">show creators</md-slide-toggle>
+		</div>
+		<button *ngIf="policyConfig?.moderating?.enabled" (click)="prepareForParticipants(); addParticipantQuickDialog.show()" class="btn btn-primary button_icon last" aria-label="Add Participant"
+		type="button"><i title="Add Participant" class="fa fa-plus-square" aria-hidden="true"></i></button>
+
+		<table class="list">
+			<!-- <tr (click)="selectItem(item)" *ngFor="let item of (items | sortUsersByDisplayName)" [ngClass]="{'row': true, 'active-selection': item._id === selectedItem._id}"> -->
+			<tr (click)="selectItem(item)" *ngFor="let item of items" [ngClass]="{'row': true, 'active-selection': item._id === selectedItem._id}">
+				<!-- TODO: *ngFor="let item of items | definedDisplayNames | orderBy:'displayName'"  -->
+				<!-- we don't need any  more definedDisplayNames filter -->
+				<td>{{item?.displayName}}<div class="management"><button class="btn btn-primary" type="button" (click)="$event.stopPropagation();showUserDialog(item)"><i class="fa fa-bars"></i></button></div></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="md-padding" id="popupContainer">
+	<md-dialog #addParticipantQuickDialog class="addParticipantQuickDialog" (onClose)="addParticipantQuickDialogClosed($event)">
+		<md-dialog-title>Add Participant to the Map</md-dialog-title>
+			<!-- TODO: this is not working anyway and causes problem with submit button <form *ngIf="active_addParticipantToMapForm"
+			(ngSubmit)="window.alert('ngSubmit'); addParticipantQuickDialog.close(true)" in form is not called upon clickin on
+			<button type="submit">Add</button>
+			, because the button is outside of the form
+		-->
+			<form layout="column" class="md-inline-form" #addParticipantToMapForm="ngForm">
+				<div *ngIf="newParticipant">
+					<!-- <md-input placeholder="Display Name" [(ngModel)]="newParticipant.displayName" (change)="displayNameChanged($event)" (ngchange)="displayNameChanged($event)" (ngChange)="displayNameChanged($event)" (ng-change)="displayNameChanged($event)" required></md-input> -->
+						<md-input placeholder="Display Name" (keyup)="displayNameChanged($event)" [(ngModel)]="newParticipant.displayName" required name="displayName" #displayName="ngModel"></md-input>
+	          <div [hidden]="displayName.valid || displayName.pristine" class="alert alert-danger">
+	           displayName is required
+	         </div>
+					<!-- <span> -->
+						<md-slide-toggle #assigned [(checked)]="assignedE_mail" (checkedChange)="assignedE_mailChanged($event)" aria-label="assigned">automatically assign email:<BR/><i>displayName@{{automaticEmailDomain}}</i></md-slide-toggle>
+						<md-input [disabled]="assignedE_mail" placeholder="E-mail" [(ngModel)]="newParticipant.e_mail" required name="e_mail" #e_mail="ngModel"></md-input>
+		          <div [hidden]="e_mail.valid || e_mail.pristine" class="alert alert-danger">
+		           E-mail is required
+		         </div>
+						<!-- <span [hidden]="assignedE_mail"><md-input placeholder="E-mail" [(ngModel)]="newParticipant.e_mail" name="e_mail"></md-input></span> -->
+						<!-- <md-input [disabled]="assignedE_mail" placeholder="E-mail" [(ngModel)]="newParticipant.e_mail" value></md-input>
+					</span> -->
+				</div>
+			</form>
+		<md-dialog-actions>
+				<button md-button (click)="addParticipantQuickDialog.close(false)">Cancel</button>
+				<button type="submit" class="btn btn-default" [disabled]="!addParticipantToMapForm.form.valid" (click)="addParticipantQuickDialog.close(true)">Add</button>
+		</md-dialog-actions>
+	</md-dialog>
+
+	<md-dialog #alert>
+    <md-dialog-title>Alert</md-dialog-title>
+    {{alertMsg}}
+    <md-dialog-actions ok="Ok"></md-dialog-actions>
+  </md-dialog>
+</div>

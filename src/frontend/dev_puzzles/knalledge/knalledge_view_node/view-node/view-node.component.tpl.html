@@ -1,0 +1,42 @@
+<div *ngIf="!editingTitle" class="clickable">
+    <h3 (click)="editTitle()" aria-label="Edit">
+        <button (click)="editTitle()" mat-icon-button [color]="'primary'" mat-tooltip="Edit" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Edit" style="margin-right: 5px;">
+        <mat-icon [ngClass]="{warning: false}" title="Edit">edit</mat-icon>
+    </button> {{_kNode?.name}}
+    </h3>
+</div>
+
+<div *ngIf="editingTitle">
+    <button (click)="saveTitle()" mat-icon-button [color]="'secondary'" mat-tooltip="Finish" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Finish" style="margin-right: 5px;">
+    <mat-icon [ngClass]="{warning: false}" title="Finish">done</mat-icon>
+</button>
+    <button (click)="cancelEditingTitle()" mat-icon-button [color]="'primary'" mat-tooltip="Cancel" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Cancel" style="margin-right: 5px;">
+        <mat-icon [ngClass]="{warning: false}" title="Cancel">cancel</mat-icon>
+    </button>
+    <mat-form-field>
+        <input matInput type="text" placeholder="Node title" [(ngModel)]="_kNode.name" value="{{_kNode.name}}" />
+    </mat-form-field>
+</div>
+
+<b>id</b>: {{_kNode?._id}}
+
+<div *ngIf="!editingProperty">
+    <button (click)="editProperty()" mat-icon-button [color]="'primary'" mat-tooltip="Edit" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Edit" style="margin-right: 5px;">
+    <mat-icon [ngClass]="{warning: false}" title="Edit">edit</mat-icon>
+</button>
+    <button (click)="deleteNode()" mat-icon-button [color]="'accent'" mat-tooltip="Delete" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Delete" style="margin-right: 5px;">
+    <mat-icon [ngClass]="{warning: false}" title="Delete">delete</mat-icon>
+</button>
+
+    <div class='demo_sub_block' [innerHTML]="dataContentPropertyHTML"></div>
+</div>
+<div *ngIf="editingProperty && _kNode && _kNode.dataContent && _kNode.dataContent.property">
+    <button (click)="readOnlyProperty()" mat-raised-button [color]="'primary'" mat-tooltip="Finish" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Finish" style="margin-right: 5px;">
+        <mat-icon [ngClass]="{warning: false}" title="Finish">done</mat-icon> Finish
+    </button>
+    <button (click)="cancelEditingProperty()" mat-raised-button [color]="'primary'" mat-tooltip="Cancel" tooltip-position="below" class="mat-mini mat-secondary" aria-label="Cancel" style="margin-right: 5px;">
+        <mat-icon [ngClass]="{warning: false}" title="Cancel">cancel</mat-icon> Cancel
+    </button>
+    <simplemde [(ngModel)]="_kNode.dataContent.property" [options]="simpleMdeOptionsHtml"></simplemde>
+    <!-- <simplemde [(ngModel)]="value" [options]="$options2"></simplemde> -->
+</div>

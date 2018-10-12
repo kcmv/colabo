@@ -1,0 +1,49 @@
+<div class="map-form" id="popupContainer">
+    <md-dialog #mapFormDialog class="mapFormDialog">
+        <md-dialog-title>New Map</md-dialog-title>
+        <div class="md-inline-form">
+          <form *ngIf="mapFormActive" (ngSubmit)="onSubmit()" #mapForm="ngForm" layout="column" class="inline-form">
+            <!-- {{mapForm.valid}}<br/>
+            {{mapForm.form.valid}}<br/> -->
+            <!-- {{JSON.stringify(mapForm)}}<br/>
+            {{JSON.stringify(mapForm.form)}}<br/> -->
+            <!-- {{diagnostic}} -->
+              <!-- <md-input placeholder="Name" [(ngModel)]="model.name" class="form-control" required name="name" #spy #name="ngModel"></md-input>
+              <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+               Name is required
+             </div> -->
+              <md-input placeholder="Name" [(ngModel)]="model.name" name="name" required #spy #name="ngModel"></md-input>
+                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                 Name is required
+               </div>
+              <md-input placeholder="Map Type" [(ngModel)]="model.type" name="type"></md-input>
+              <md-input placeholder="Root NodeType" [(ngModel)]="model.rootNodeType" name="rootNodeType"></md-input>
+              <md-input placeholder="Parent map ID" [(ngModel)]="model.parentMapId" name="parentMapId"></md-input>
+              <md-input placeholder="Map Version" [(ngModel)]="model.version" name="version"></md-input>
+              <md-slide-toggle [(checked)]="model.isPublic" aria-label="public">public</md-slide-toggle>
+              <!-- <label for="name">Name</label>
+              <md-input type="text" class="form-control" required
+                [(ngModel)]="model.name"
+                  name="name" #spy #name="ngModel"></md-input>
+                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                 Name is required
+               </div>
+               <br>TODO: remove this: {{spy.className}}
+            </div>
+             -->
+            <div layout="row">
+              <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
+              <button md-button type="button" (click)="close(false)">Cancel</button>
+              <button md-button type="submit" [disabled]="!mapForm.form.valid">Create</button>
+              <!-- <button md-button class="md-primary" (click)="mapDialog.close(true)">
+                  <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
+              </button> -->
+            </div>
+          </form>
+        </div>
+        <!-- <md-dialog-actions>
+            <button md-button (click)="close(false)">Cancel</button>
+            <button md-button (click)="close(true)">Create</button>
+        </md-dialog-actions> -->
+    </md-dialog>
+</div>

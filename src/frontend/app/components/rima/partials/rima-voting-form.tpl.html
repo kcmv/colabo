@@ -1,0 +1,45 @@
+<div class="rima-voting-form">
+    <div class="title">
+      <span class="totalScore" [ngClass]="{
+        rima_voting_up_background:
+          (votes.up + votes.down > 0),
+        rima_voting_down_background: (votes.up + votes.down < 0)
+      }">Votes sum: {{votes.up + votes.down}}</span>
+      (
+      <span class="up">
+        <span class="">
+          <i class="fa fa-arrow-circle-up"></i>
+        </span>
+        {{votes.up}}
+      </span>
+      <span class="down">
+        <span class="">
+          <i class="fa fa-arrow-circle-down"></i>
+        </span>
+        {{votes.down}}
+      </span>
+        )
+    </div>
+    <div class="small">
+      Voters num: {{votes.users.length}}
+    </div>
+    <div *ngFor="let vote of votes.users" [ngSwitch]="vote.score != 0">
+    <template [ngSwitchCase]="true">
+      <span class="user">{{ vote.whoAmI?.displayName }}</span>:
+      <span class="score" [ngSwitch]="vote.score > 0">
+        <template [ngSwitchCase]="true">
+          <span class="rima_voting_up_color">
+            <i class="fa fa-arrow-circle-up"></i>
+            {{ vote.score }}
+          </span>
+        </template>
+        <template [ngSwitchCase]="false">
+          <span class="rima_voting_down_color">
+            <i class="fa fa-arrow-circle-down"></i>
+            {{ vote.score }}
+          </span>
+        </template>
+      </span>
+    </template>
+    </div>
+ </div>

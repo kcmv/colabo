@@ -1,0 +1,26 @@
+{
+    "name": "@colabo-rima/b-aaa",
+    "description": "RIMA connect supports basic aspects of user management of Colabo.space clients.",
+    "version": "0.0.1",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Cha-OS/colabo.git"
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/aaa.js",
+    "dependencies": {
+        "passport": "latest",
+        "passport-facebook": "latest",
+        "passport-google-oauth": "latest",
+        "passport-local": "latest",
+        "passport-twitter": "latest"
+    },
+    "devDependencies": {}
+}

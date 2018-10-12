@@ -1,0 +1,37 @@
+<form>
+	<fieldset>
+		<div ng-if="whoAmI">
+			<div ng-if="route" class="route-div">
+				<p class="message">
+					Continue to the specified page (route):
+				</p>
+				<p>
+					<span class="route">'{{route}}'</span>
+				</p>
+				<p>
+					<button class="btn btn-primary" type="submit" ng-click="followRoute()">Continue</button>
+				</p>
+			</div>
+			<legend class="table_title">Logged in user info</legend>
+			<div><label>Name:</label>{{whoAmI.firstname}}</div>
+			<div><label>Surname:</label>{{whoAmI.familyname}}</div>
+			<div><label>Display name:</label>{{whoAmI.displayName}}</div>
+			<div><label>Affiliation:</label>{{whoAmI.affiliation}}</div>
+			<div><label>email:</label>{{whoAmI.e_mail}}</div>
+			<div><label>user id:</label>{{iAmId}}</div>
+	 		<p ng-if="!route" class="buttons">
+				<button class="btn btn-primary" type="submit" ng-click="gotoMainPage()"><i title="Maps" class="material-icons">map</i>&nbsp;Maps</button>
+				<button class="btn btn-warning" ng-click="logout()">Log out</button>
+			</p>
+		</div>
+		<div ng-if="!whoAmI">
+			<legend class="table_title">Provide your credentials</legend>
+			<div><label>email:</label><input type="text" ng-class="{missing: !user.e_mail}" ng-model="user.e_mail" /></div>
+	 		<p class="buttons">
+				<button class="btn btn-primary" ng-click="login()">Log in</button>
+				<button class="btn btn-warning" ng-click="register()">Register</button>
+				<button class="btn btn-warning" ng-click="gotoMainPage()"><i title="Maps" class="material-icons">map</i>&nbsp;Maps</button>
+			</p>
+		</div>
+	</fieldset>
+</form>

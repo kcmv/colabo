@@ -1,0 +1,28 @@
+<div class="knalledge-list">
+  <button (click)="onBackClicked(); $event.stopPropagation()">Back</button>
+  <md-content>
+      <md-list>
+          <md-list-item [class.selected]="item === itemSelected" class="md-1-line" (click)="onEnterItemClicked(item); $event.stopPropagation()" *ngFor="let item of itemContainer?.children">
+              <md-content>
+                <h1>{{ item?.node?.prefix + " " + item?.node?.kNode?.name }}</h1>
+                <div class="author">{{getAuthor(item)}}</div>
+                <div class="type">{{getType(item)}}</div>
+                <div [innerHTML]="getProperty(item)">
+                </div>
+                <span class="states-actions">
+                  <!-- <span class='item-collaboration' [hidden]="!_existsDialogueOverItem(item)">
+                      <md-icon title="collaboration">speaker_notes</md-icon>
+                  </span>
+                  <span class='item-approval' [hidden]="!isDisapproved(item)">
+                      <md-icon title="disapproved">thumb_down</md-icon>
+                  </span> -->
+                </span>
+              </md-content>
+              <span flex></span>
+              <button md-button class="md-icon-button md-primary" aria-label="Options" (click)="onClicked(item); $event.stopPropagation()">
+                  <md-icon title="Enter">reorder</md-icon>
+              </button>
+          </md-list-item>
+      </md-list>
+  </md-content>
+</div>

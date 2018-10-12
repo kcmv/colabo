@@ -1,0 +1,83 @@
+<h3>Get Node & Edge</h3>
+
+<label>map_id:
+  <input [(ngModel)]="map_id" placeholder="map_id"/>
+</label>
+
+<div class='demo_sub_block'>
+  <h4>Nodes</h4>
+  <div class="bordered_light">
+    <label>node_id (should be equal to id of an existing node in your db):
+      <input [(ngModel)]="node_id" placeholder="name"/>
+    </label>
+    Node id: {{node?._id}}<br/>
+    Node name: {{node?.name}}<br/>
+    Node type: {{node?.type}}<br/>
+    <button (click)="getNode()">getNode</button>
+  </div>
+
+  <div class="bordered_light">
+    <div *ngIf="nodesCreated.length > 0" class="bordered_light">
+      <label class="padding">Generated nodes</label>
+        <li *ngFor="let node of nodesCreated">
+            <span class="badge">{{node._id}}</span><span class="">{{node.name}}</span>
+            <button class="delete" title="delete node"
+            (click)="deleteNode(node)">X</button>
+            <button class="delete" title="update node"
+            (click)="updateNode(node)">update name</button>
+        </li>
+    </div>
+
+    <label>node name:
+      <input [(ngModel)]="node_name" placeholder="node_name"/>
+    </label>
+    <label>node type:
+      <input [(ngModel)]="node_type" placeholder="node_type"/>
+    </label>
+    <button (click)="createNode()">createNode</button>
+  </div>
+</div>
+
+<div class='demo_sub_block'>
+  <h4>Edges</h4>
+  <div class="bordered_light">
+    <label>edge_id (should be equal to id of an existing edge in your db):
+      <input [(ngModel)]="edge_id" placeholder="name"/>
+    </label>
+    Edge id: {{edge?._id}}<br/>
+    Edge name: {{edge?.name}}<br/>
+    Edge type: {{edge?.type}}<br/>
+    Edge sourceId: {{edge?.sourceId}}<br/>
+    Edge targetId: {{edge?.targetId}}<br/>
+    <button (click)="getEdge()">getEdge</button>
+  </div>
+
+  <div class="bordered_light">
+    <div *ngIf="edgesCreated.length > 0" class="bordered_light">
+      <label class="padding">Generated edges</label>
+        <li *ngFor="let edge of edgesCreated">
+            <span class="badge">{{edge._id}}</span>
+            <span class="">{{edge.sourceId}}</span>
+            <span class="">{{edge.targetId}}</span>
+            <button class="delete" title="delete edge"
+            (click)="deleteEdge(edge)">X</button>
+            <button class="delete" title="update edge"
+            (click)="updateEdge(edge)">update name</button>
+        </li>
+    </div>
+
+    <label>edge name:
+      <input [(ngModel)]="edge_name" placeholder="edge_name"/>
+    </label>
+    <label>edge type:
+      <input [(ngModel)]="edge_type" placeholder="edge_type"/>
+    </label>
+    <label>sourceId:
+      <input [(ngModel)]="edge_source_id" placeholder="edge_source_id"/>
+    </label>
+    <label>targetId:
+      <input [(ngModel)]="edge_target_id" placeholder="edge_target_id"/>
+    </label>
+    <button (click)="createEdge()">createEdge</button>
+  </div>
+</div>

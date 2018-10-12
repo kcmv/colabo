@@ -1,0 +1,69 @@
+<!-- <button routerLink="/">Go to </button> -->
+
+<!-- main container -->
+
+<div layout="column" layout-fill style="height: 100%;">
+    <!-- content -->
+    <!-- toolbar -->
+    <!-- <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <span style="margin-left:10px; margin-right: 10px;"> : </span>
+
+            <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
+              <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
+            </button>
+
+            <button mat-mini-fab mat-tooltip="Back" tooltip-position="below" class="mat-mini mat-primary" aria-label="Back" (click)="goBack()" style="margin-right: 5px;">
+              <mat-icon [ngClass]="{warning: false}" title="Back">arrow_back</mat-icon>
+            </button>
+
+            <button mat-mini-fab mat-tooltip="Map" tooltip-position="below" class="mat-mini mat-primary" aria-label="Map" routerLink="/map" style="margin-right: 5px;">
+              <mat-icon [ngClass]="{warning: false}" title="Map">ic_device_hub</mat-icon>
+            </button>
+
+            <h1>
+              CoLabo.Space
+            </h1>
+      </mat-toolbar> -->
+
+      <div style="
+          position: fixed;
+          z-index: -2000;
+          top: 100px;
+          right: 10px;
+          color: blue;
+          opacity: 0.5;
+      ">
+        <img src="http://www.colabo.space/images/logos/colabo/colabo-logo-url-square.jpg" width="300px"/>
+      </div>
+
+      <div style="
+          position: fixed;
+          z-index: 2000;
+          bottom: 25px;
+          left: 25px;
+          color: blue;
+          opacity: 0.75;
+      ">
+        <img src="http://www.colabo.space/images/logos/colabo/colabo-logo-url.png" width="150px"/>
+        <span style="color:orange; font-weight: bold; font-size: 3em;">
+          Poesia in strada
+        </span>
+      </div>
+
+</div>
+
+<!-- Main content -->
+<!-- the <router-outlet> tells the router where to display routed views -->
+
+<nav>
+  <a routerLink="/rima-register" routerLinkActive="active">Register</a>
+  <a routerLink="/ui-sms" routerLinkActive="active">SMS Interaction</a>
+  <a routerLink="/prompts-presentation" routerLinkActive="active">Prompts Presentation</a>
+  <a routerLink="/users-profiling" routerLinkActive="active">Users Profiling</a>
+  <a routerLink="/users-clustering" routerLinkActive="active">Users Clustering</a>
+  <a routerLink="/users-population" routerLinkActive="active">Users Population</a>
+  <a routerLink="/tags-population" routerLinkActive="active">Tags Population</a>
+  <a routerLink="/users-groups" routerLinkActive="active">User Groups</a>
+</nav>
+
+<router-outlet></router-outlet>

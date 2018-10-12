@@ -1,0 +1,16 @@
+{
+    "name": "@colabo-utils/i-pub-sub",
+    "version": "0.0.1",
+    "description": "Provides core support for topiChat",
+    "private": true,
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {},
+    "peerDependencies": {},
+    "peerDependenciesLocal": {},
+    "devDependencies": {},
+    "devDependenciesLocal": {}
+}

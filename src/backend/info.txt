@@ -1,0 +1,7 @@
+cd backend/tools
+node exportDB.js '../../data/TNC-Demo-2015.05.13.json' '5552c2c87ffdccd74096d0ca' '5552c2c87ffdccd74096d0c9'
+node importDB.js '../../data/TNC-Demo-2015.05.13.json'
+
+# Sasha
+cd frontend/app/js/lib/
+ln -s /Users/sasha/Documents/data/development/others/ngWizard wizard

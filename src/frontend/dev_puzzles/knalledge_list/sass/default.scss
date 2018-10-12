@@ -1,0 +1,12 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+
+@import "../../../app/sass/include";
+
+
+.knalledge-list{
+  md-list-item{
+    border-bottom: 1px solid gray;
+    border-left: 5px solid #bbbbbb;
+    width: 100%;
+  }
+}

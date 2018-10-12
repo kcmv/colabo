@@ -1,0 +1,48 @@
+/* @import "normalize"; */
+/*
+$medium: 800px;
+$large: 1400px;
+*/
+/*
+	http://compass-style.org/examples/compass/css3/box_sizing/
+	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
+	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
+*/
+* {
+  margin: 0px;
+  padding: 0px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.change_card {
+  padding: 3px; }
+  .change_card md-card-content {
+    padding: 2px;
+    margin: 3px; }
+  .change_card .event-icon {
+    padding: 5px;
+    margin-left: -3px;
+    margin-top: -3px;
+    margin-right: 6px;
+    background-color: #b0b0b0; }
+  .change_card .user {
+    font-weight: bold;
+    cursor: pointer; }
+    .change_card .user:hover {
+      background-color: LightBlue; }
+  .change_card .value_object {
+    font-weight: bold;
+    border: solid gray 1px;
+    border-radius: 3px;
+    padding: 2px;
+    margin: 2px; }
+    .change_card .value_object .existing {
+      cursor: pointer; }
+      .change_card .value_object .existing:hover {
+        background-color: LightBlue; }
+    .change_card .value_object .non-existing {
+      cursor: not-allowed;
+      color: DarkGray; }
+
+/*# sourceMappingURL=change.component.css.map */

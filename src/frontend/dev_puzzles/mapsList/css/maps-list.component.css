@@ -1,0 +1,177 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+/* @import "normalize"; */
+/*
+$medium: 800px;
+$large: 1400px;
+*/
+/*
+	http://compass-style.org/examples/compass/css3/box_sizing/
+	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
+	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
+*/
+* {
+  margin: 0px;
+  padding: 0px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.my-drop-zone {
+  border: dotted 3px lightgray; }
+
+.nv-file-over {
+  border: dotted 3px red; }
+
+/* Default class applied to drop zones on over */
+.another-file-over-class {
+  border: dotted 3px green; }
+
+.map-title {
+  color: #00a596;
+  font-weight: bolder;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 10px;
+  right: 10px;
+  font-size: 2em; }
+
+.toolbar-front {
+  z-index: 1; }
+
+.dialogs-front {
+  z-index: 2; }
+
+.md-inline-form {
+  margin: 24px; }
+
+.highlighted_name {
+  font-style: italic; }
+
+.btn {
+  /*padding-right: 15px;*/ }
+
+.button_icon {
+  margin-right: 3px; }
+  .button_icon.last {
+    margin-right: 0px; }
+
+.mapsList h1 {
+  padding-bottom: 5px;
+  border-bottom: solid gray 2px; }
+.mapsList .mapsToolbar {
+  /* for toolbar hovering */
+  /* for toolbar hovering - end */
+  width: 100%;
+  border-bottom: solid 2px #507050; }
+  .mapsList .mapsToolbar .borderGroup {
+    border: solid 1px black;
+    border-radius: 3px;
+    padding: 8px; }
+.mapsList .heading {
+  font-weight: bolder;
+  background-color: #aaaaff;
+  border-bottom: 2px solid #7777ff;
+  min-height: 1.5em;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #c2c2c2;
+  justify-content: space-between; }
+.mapsList .list {
+  /* for toolbar hovering */
+  overflow-y: auto;
+  /* for toolbar hovering - end */
+  margin-bottom: 3px;
+  width: 100%;
+  border-bottom: 1px solid #c2c2c2;
+  justify-content: space-between; }
+  .mapsList .list .heading {
+    font-weight: bolder;
+    background-color: #aaaaff;
+    border-bottom: 2px solid #7777ff; }
+  .mapsList .list .item {
+    width: 100%; }
+    .mapsList .list .item.data_item {
+      background-color: #e8e8e8;
+      min-height: 2.5em; }
+      .mapsList .list .item.data_item:nth-child(even) {
+        background-color: #ffffff; }
+      .mapsList .list .item.data_item.active-selection {
+        background-color: #d9d9ec; }
+      .mapsList .list .item.data_item:hover {
+        cursor: pointer;
+        background-color: #d9d9ff; }
+    @media (max-width: 960px) {
+      .mapsList .list .item {
+        /* adding straps in column view (small-screens)*/
+        /* another approach for headers in mobile-version
+        .item_property:nth-of-type(2):before { content: "Id"; }
+        .item_property:nth-of-type(3):before { content: "Actions"; }
+        .item_property:nth-of-type(4):before { content: "Authors"; }
+        .item_property:nth-of-type(5):before { content: "Type"; }
+        .item_property:nth-of-type(7):before { content: "Created"; }
+        */ }
+        .mapsList .list .item .item_property:nth-of-type(even) {
+          background-color: #ffffff; }
+        .mapsList .list .item .item_property:nth-of-type(odd) {
+          background-color: #e8e8e8; }
+        .mapsList .list .item .item_property:first-of-type {
+          background-color: #aaaaff;
+          font-weight: bold; } }
+    .mapsList .list .item .item_property {
+      /* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN */
+      /* NECESSARY FOR EQUAL WIDTH OF ALL CELLS IN A COLUMN - without it equal column width is  disturbed when columns become narrower than a word */
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-all;
+      word-break: break-word;
+      padding: 3px;
+      /* another approach for headers in mobile-version
+      &:before {
+      	width: 100px; //35%;
+      	padding-right: 10px;
+      	white-space: nowrap;
+      	border-right: 1px solid darken($item_background_color, 35%);
+      }
+      */
+      /* NECESSARRY for cases when we hide some columns so that sum of thei `flex` paramethers (widths) is not === 100 */
+      max-width: 100%;
+      /* NECESSARRY for filling up whole cell so that border is not shown in the middle of the cell for low cells
+      turned off so far for action Font Awesome icon doubling in height */ }
+      .mapsList .list .item .item_property .item_header {
+        padding-right: 10px;
+        white-space: nowrap;
+        border-right: 1px solid white;
+        /* TODO still not breaking words */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-all;
+        word-break: break-word; }
+      @media (max-width: 960px) {
+        .mapsList .list .item .item_property .item_data {
+          padding-left: 10px; } }
+  @media (max-width: 960px) {
+    .mapsList .list {
+      /* adding  hover and selectd for mobile-view*/ }
+      .mapsList .list .item.active-selection .item_property:nth-of-type(even) {
+        background-color: #d9d9ec; }
+      .mapsList .list .item.active-selection .item_property:nth-of-type(odd) {
+        background-color: #c5c5d8; }
+      .mapsList .list .item.active-selection .item_property:first-of-type {
+        background-color: #aaaaff; }
+      .mapsList .list .item:hover {
+        cursor: pointer; }
+        .mapsList .list .item:hover .item_property:nth-of-type(even) {
+          background-color: #d9d9ff; }
+        .mapsList .list .item:hover .item_property:nth-of-type(odd) {
+          background-color: #c5c5eb; }
+        .mapsList .list .item:hover .item_property:first-of-type {
+          background-color: #aaaaff; } }
+
+.buttons {
+  text-align: left; }
+
+.popupContainer {
+  position: relative; }
+
+/*# sourceMappingURL=maps-list.component.css.map */

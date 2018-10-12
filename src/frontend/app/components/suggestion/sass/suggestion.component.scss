@@ -1,0 +1,31 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+
+@import "../../../sass/include";
+
+.topic{
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.username{
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.username:hover, .topic:hover{
+    background-color: LightBlue;
+}
+
+.unknown{
+  cursor: not-allowed;
+  color: DarkGray;
+}
+
+.actions{
+  background-color: LightBlue;
+  border-radius: 4px;
+  padding-left: .3em;
+  padding-right: .3em;
+  padding-top: .1em;
+  padding-bottom: .1em;
+}

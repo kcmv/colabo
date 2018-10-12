@@ -1,0 +1,1002 @@
+{
+    "properties": {
+        "name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+        "date": "2015.05.13.",
+        "authors": "S. Rudan, D. Karabeg",
+        "mapId": "5552c2c87ffdccd74096d0ca",
+        "rootNodeId": "5552c2c87ffdccd74096d0c9"
+    },
+    "map": {
+        "nodes": [
+            {
+                "_id": "5552d7c17ffdccd74096d0cf",
+                "name": "Models of creativity",
+                "type": "type_ibis_question",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "55268521fb9a901e442172f8",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T04:49:05.729Z",
+                "createdAt": "2015-05-13T04:49:05.729Z",
+                "visual": {
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552d7d67ffdccd74096d0d1",
+                "name": "Phenomenological model",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T04:49:26.823Z",
+                "createdAt": "2015-05-13T04:49:26.822Z",
+                "visual": {
+                    "xM": 394.5,
+                    "yM": 841,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552d85c7ffdccd74096d0d7",
+                "name": "ACUPUNCTURE SYSTEM / NERVOUS SYSTEM THRESHOLD FILTER (Emotional coloring)",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "url": "http://localhost:8410/app/images/tnc-acupunture.png",
+                        "width": "250",
+                        "height": "250"
+                    }
+                },
+                "updatedAt": "2015-05-13T05:01:57.172Z",
+                "createdAt": "2015-05-13T05:01:57.172Z",
+                "visual": {
+                    "xM": 315.5,
+                    "yM": 1173,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552da917ffdccd74096d0db",
+                "name": "TUNING INTO SOLUTION (Concentration, relaxation/meditation)",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "height": "250",
+                        "width": "275",
+                        "url": "http://localhost:8410/app/images/tnc-tuning.png"
+                    }
+                },
+                "updatedAt": "2015-05-13T05:01:05.423Z",
+                "createdAt": "2015-05-13T05:01:05.423Z",
+                "visual": {
+                    "xM": 579.5,
+                    "yM": 1835,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552dac57ffdccd74096d0dd",
+                "name": "FRONTOLIMBIC AMPLIFICATION FILTER (Thinking priority)",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "height": "250",
+                        "width": "250",
+                        "url": "http://localhost:8410/app/images/tnc-frontolimbic.png"
+                    }
+                },
+                "updatedAt": "2015-05-13T05:01:57.172Z",
+                "createdAt": "2015-05-13T05:01:57.172Z",
+                "visual": {
+                    "xM": 192.5,
+                    "yM": 1528,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552dbec7ffdccd74096d0e1",
+                "name": "Directly Creative Mode of Conciousness",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "height": "200",
+                        "width": "200",
+                        "url": "http://localhost:8410/app/images/tnc-directly-creative-mode.png"
+                    }
+                },
+                "updatedAt": "2015-05-13T05:06:52.363Z",
+                "createdAt": "2015-05-13T05:06:52.362Z",
+                "visual": {
+                    "xM": 865.5,
+                    "yM": 1207,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552dc387ffdccd74096d0e3",
+                "name": "Indirectly Creative Mode of Conciousness",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "height": "200",
+                        "width": "200",
+                        "url": "http://localhost:8410/app/images/tnc-indirectly-creative-mode.png"
+                    }
+                },
+                "updatedAt": "2015-05-13T05:08:08.909Z",
+                "createdAt": "2015-05-13T05:08:08.909Z",
+                "visual": {
+                    "xM": 1286.5,
+                    "yM": 1200,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552dc7d7ffdccd74096d0e5",
+                "name": "Direct Creativity",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "height": "200",
+                        "width": "200",
+                        "url": "http://localhost:8410/app/images/tnc-direct-creativity.png"
+                    }
+                },
+                "updatedAt": "2015-05-13T05:09:17.158Z",
+                "createdAt": "2015-05-13T05:09:17.158Z",
+                "visual": {
+                    "xM": 731.5,
+                    "yM": 1588,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552dcb17ffdccd74096d0e7",
+                "name": "Indirect Creativity",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "url": "http://localhost:8410/app/images/tnc-indirect-creativity.png",
+                        "width": "200",
+                        "height": "200"
+                    }
+                },
+                "updatedAt": "2015-05-13T05:10:09.133Z",
+                "createdAt": "2015-05-13T05:10:09.133Z",
+                "visual": {
+                    "xM": 1265.5,
+                    "yM": 1585,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552dfa37ffdccd74096d0f3",
+                "name": "Macroscopic Quantum System",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:22:43.508Z",
+                "createdAt": "2015-05-13T05:22:43.508Z",
+                "visual": {
+                    "xM": 1991.5,
+                    "yM": 1203,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552dfae7ffdccd74096d0f5",
+                "name": "Quantum system can behave as a memory",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:22:54.957Z",
+                "createdAt": "2015-05-13T05:22:54.957Z",
+                "visual": {
+                    "xM": 2151.5,
+                    "yM": 1198,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552dffd7ffdccd74096d0f9",
+                "name": "Quantum physics allows for interaction types that are beyond mechanistic causality (common knowledge)",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:24:13.992Z",
+                "createdAt": "2015-05-13T05:24:13.991Z",
+                "visual": {
+                    "xM": 1743.5,
+                    "yM": 1552,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552e0147ffdccd74096d0fb",
+                "name": "The acupuncture system is a macroscopic quantum system",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "property": "<p>(shown by Russian-Ukrainian school of microwave resonance therapy)<br/></p>"
+                },
+                "updatedAt": "2015-05-13T05:24:36.045Z",
+                "createdAt": "2015-05-13T05:24:36.045Z",
+                "visual": {
+                    "xM": 2003.5,
+                    "yM": 1550,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552df697ffdccd74096d0ef",
+                "name": "CLASSICAL SCIENCE",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:21:45.758Z",
+                "createdAt": "2015-05-13T05:21:45.758Z",
+                "visual": {
+                    "xM": 1503.5,
+                    "yM": 1707,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552df567ffdccd74096d0ed",
+                "name": "QUANTUM PHYSICS",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:21:26.947Z",
+                "createdAt": "2015-05-13T05:21:26.947Z",
+                "visual": {
+                    "xM": 1031.5,
+                    "yM": 1560,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552e0987ffdccd74096d0fd",
+                "name": "Mathematical isomorphism",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "property": "<p>Mathematical isomorphism between Feynman’s version of the Schrödinger equation and Hopfield’s neural network model indicates that a quantum system can behave as a memory (shown by M. Peruš).<br/></p>"
+                },
+                "updatedAt": "2015-05-13T05:26:48.288Z",
+                "createdAt": "2015-05-13T05:26:48.288Z",
+                "visual": {
+                    "xM": 2157.5,
+                    "yM": 1551,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552df907ffdccd74096d0f1",
+                "name": "Interaction Types",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:22:24.915Z",
+                "createdAt": "2015-05-13T05:22:24.914Z",
+                "visual": {
+                    "xM": 1778.5,
+                    "yM": 1203,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552c2c87ffdccd74096d0c9",
+                "name": "TNC (Tesla and the Nature of Creativity)",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "55268521fb9a901e442172f8",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "property": "<p>Link to the <b>English webpage</b> on the roundtable: <a href=\"http://www.tesla2015.com/tesla_en/workshop-tesla-and-the-nature-of-creativity-2015/\">http://www.tesla2015.com/tesla_en/workshop-tesla-and-the-nature-of-creativity-2015/</a></p><p>Линк на <b>српску вебстраницу</b> о округлом столу: <a href=\"http://www.tesla2015.com/tesla/?page_id=1223\">http://www.tesla2015.com/tesla/?page_id=1223</a></p>",
+                    "image": {
+                        "height": "250",
+                        "width": "250",
+                        "url": "http://localhost:8410/app/images/tnc-tesla.png"
+                    }
+                },
+                "updatedAt": "2015-05-13T03:19:36.966Z",
+                "createdAt": "2015-05-13T03:19:36.965Z",
+                "visual": {
+                    "xM": 603,
+                    "yM": 157,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552fd037ffdccd74096d103",
+                "name": "CLASSICAL SCIENCE",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T07:28:03.838Z",
+                "createdAt": "2015-05-13T07:28:03.836Z",
+                "visual": {
+                    "xM": 948.5,
+                    "yM": 1835,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552fa967ffdccd74096d101",
+                "name": "Collective creativity, intelligence and scientific dialog – accomplished through accessing collective knowledge in cyber infrastructure",
+                "type": "type_ibis_question",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5552fa7114fbfed56609d9bf",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "property": "<p><b>Предавање</b> (MSc Саша Рудан, MSc Синиша Рудан, Проф. др Дино Карабег, MSc Лазар Ковачевић)<b> + Дијалог:</b></p><p>&#34;<b><i>Колективна креативност, интелигенција и научни дијалог - остварени приступањем колективном знању у сајбер-инфраструктури</i></b>&#34;</p><p>- <a href=\"https://docs.google.com/document/d/1MVG_7YV1Ao7SPjKCgs10vHgzEBSqrUCYIt9cIfUtLco/edit#\">Paper</a></p>"
+                },
+                "updatedAt": "2015-05-13T07:17:42.921Z",
+                "createdAt": "2015-05-13T07:17:42.920Z",
+                "visual": {
+                    "xM": 2586,
+                    "yM": 454,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5553035d7ffdccd74096d105",
+                "name": "Metaphoric-ideogrammatic model of human energy",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5552fa7114fbfed56609d9bf",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "property": "<p>метафоричко-идеограмског модела људске ”енергије”<br/></p>",
+                    "image": {
+                        "height": "300",
+                        "width": "350",
+                        "url": "http://localhost:8410/app/images/sr-tri_nacina_rasta_ljudske_energije.png"
+                    }
+                },
+                "updatedAt": "2015-05-13T07:55:09.627Z",
+                "createdAt": "2015-05-13T07:55:09.625Z",
+                "visual": {
+                    "xM": 2458.5,
+                    "yM": 1010,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "555304b07ffdccd74096d109",
+                "name": "Problems with ideology and truth, acceptance for new ideas",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5552fa7114fbfed56609d9bf",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "url": "http://localhost:8410/app/images/sr-u-curve.png",
+                        "width": "300",
+                        "height": "220"
+                    }
+                },
+                "updatedAt": "2015-05-13T08:00:48.517Z",
+                "createdAt": "2015-05-13T08:00:48.517Z",
+                "visual": {
+                    "xM": 2872.5,
+                    "yM": 856,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "555305207ffdccd74096d10b",
+                "name": "Sustainable collaborative creativity",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5552fa7114fbfed56609d9bf",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "url": "http://localhost:8410/app/images/sr-collaboarte.jpg",
+                        "width": "350",
+                        "height": "280"
+                    }
+                },
+                "updatedAt": "2015-05-13T08:02:40.592Z",
+                "createdAt": "2015-05-13T08:02:40.592Z",
+                "visual": {
+                    "xM": 2839.5,
+                    "yM": 1572,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "555317647ffdccd74096d10d",
+                "name": "G",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "55268521fb9a901e442172f8",
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "height": 220,
+                        "width": 639,
+                        "url": "http://localhost:8410/app/images/sr-geteova_nada-horizontal.png"
+                    }
+                },
+                "updatedAt": "2015-05-13T09:20:36.950Z",
+                "createdAt": "2015-05-13T09:20:36.948Z",
+                "visual": {
+                    "xM": 2430.5,
+                    "yM": 1613,
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552d81c7ffdccd74096d0d5",
+                "name": "Biophysical model",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T04:50:36.024Z",
+                "createdAt": "2015-05-13T04:50:36.024Z",
+                "visual": {
+                    "xM": 1971,
+                    "yM": 866,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "5552d7f87ffdccd74096d0d3",
+                "name": "Ideological model",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-05-13T04:50:00.962Z",
+                "createdAt": "2015-05-13T04:50:00.962Z",
+                "visual": {
+                    "xM": 1068,
+                    "yM": 848,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            }
+        ],
+        "edges": [
+            {
+                "_id": "5552d7c17ffdccd74096d0d0",
+                "name": "",
+                "type": "type_ibis_question",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "55268521fb9a901e442172f8",
+                "ideaId": 0,
+                "sourceId": "5552c2c87ffdccd74096d0c9",
+                "targetId": "5552d7c17ffdccd74096d0cf",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T04:49:05.738Z",
+                "createdAt": "2015-05-13T04:49:05.737Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552d7d67ffdccd74096d0d2",
+                "name": "",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d7c17ffdccd74096d0cf",
+                "targetId": "5552d7d67ffdccd74096d0d1",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T04:49:26.832Z",
+                "createdAt": "2015-05-13T04:49:26.832Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552d7f87ffdccd74096d0d4",
+                "name": "",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d7c17ffdccd74096d0cf",
+                "targetId": "5552d7f87ffdccd74096d0d3",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T04:50:00.970Z",
+                "createdAt": "2015-05-13T04:50:00.970Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552d81c7ffdccd74096d0d6",
+                "name": "",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d7c17ffdccd74096d0cf",
+                "targetId": "5552d81c7ffdccd74096d0d5",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T04:50:36.034Z",
+                "createdAt": "2015-05-13T04:50:36.034Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552d85c7ffdccd74096d0d8",
+                "name": "",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d7d67ffdccd74096d0d1",
+                "targetId": "5552d85c7ffdccd74096d0d7",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T04:51:40.096Z",
+                "createdAt": "2015-05-13T04:51:40.096Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552da917ffdccd74096d0dc",
+                "name": "",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d85c7ffdccd74096d0d7",
+                "targetId": "5552da917ffdccd74096d0db",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:01:05.437Z",
+                "createdAt": "2015-05-13T05:01:05.436Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552dac57ffdccd74096d0de",
+                "name": "",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d85c7ffdccd74096d0d7",
+                "targetId": "5552dac57ffdccd74096d0dd",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:01:57.184Z",
+                "createdAt": "2015-05-13T05:01:57.183Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552dbec7ffdccd74096d0e2",
+                "name": "",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d7f87ffdccd74096d0d3",
+                "targetId": "5552dbec7ffdccd74096d0e1",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:06:52.372Z",
+                "createdAt": "2015-05-13T05:06:52.371Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552dc387ffdccd74096d0e4",
+                "name": "",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d7f87ffdccd74096d0d3",
+                "targetId": "5552dc387ffdccd74096d0e3",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:08:08.922Z",
+                "createdAt": "2015-05-13T05:08:08.922Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552dc7d7ffdccd74096d0e6",
+                "name": "ENABLES",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552dbec7ffdccd74096d0e1",
+                "targetId": "5552dc7d7ffdccd74096d0e5",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:09:17.168Z",
+                "createdAt": "2015-05-13T05:09:17.167Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552dcb17ffdccd74096d0e8",
+                "name": "ENABLES",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552dc387ffdccd74096d0e3",
+                "targetId": "5552dcb17ffdccd74096d0e7",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:10:09.142Z",
+                "createdAt": "2015-05-13T05:10:09.142Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552df907ffdccd74096d0f2",
+                "name": "",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d81c7ffdccd74096d0d5",
+                "targetId": "5552df907ffdccd74096d0f1",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:22:24.927Z",
+                "createdAt": "2015-05-13T05:22:24.926Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552dfa37ffdccd74096d0f4",
+                "name": "",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d81c7ffdccd74096d0d5",
+                "targetId": "5552dfa37ffdccd74096d0f3",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:22:43.520Z",
+                "createdAt": "2015-05-13T05:22:43.519Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552dfae7ffdccd74096d0f6",
+                "name": "",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552d81c7ffdccd74096d0d5",
+                "targetId": "5552dfae7ffdccd74096d0f5",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:22:54.969Z",
+                "createdAt": "2015-05-13T05:22:54.968Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552dffe7ffdccd74096d0fa",
+                "name": "",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552df907ffdccd74096d0f1",
+                "targetId": "5552dffd7ffdccd74096d0f9",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:24:14.001Z",
+                "createdAt": "2015-05-13T05:24:14.000Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552e0147ffdccd74096d0fc",
+                "name": "",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552dfa37ffdccd74096d0f3",
+                "targetId": "5552e0147ffdccd74096d0fb",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:24:36.054Z",
+                "createdAt": "2015-05-13T05:24:36.054Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552e0987ffdccd74096d0fe",
+                "name": "",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552dfae7ffdccd74096d0f5",
+                "targetId": "5552e0987ffdccd74096d0fd",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:26:48.299Z",
+                "createdAt": "2015-05-13T05:26:48.299Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552fa967ffdccd74096d102",
+                "name": "",
+                "type": "type_ibis_question",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5552fa7114fbfed56609d9bf",
+                "ideaId": 0,
+                "sourceId": "5552c2c87ffdccd74096d0c9",
+                "targetId": "5552fa967ffdccd74096d101",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T07:17:42.935Z",
+                "createdAt": "2015-05-13T07:17:42.935Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552df567ffdccd74096d0ee",
+                "name": "EXPLAINED BY",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552dbec7ffdccd74096d0e1",
+                "targetId": "5552df567ffdccd74096d0ed",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:21:26.983Z",
+                "createdAt": "2015-05-13T05:21:26.983Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552df697ffdccd74096d0f0",
+                "name": "EXPLAINED BY",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552dc387ffdccd74096d0e3",
+                "targetId": "5552df697ffdccd74096d0ef",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T05:21:45.768Z",
+                "createdAt": "2015-05-13T05:21:45.768Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5552fd037ffdccd74096d104",
+                "name": "DENIED BY",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5548fee2e59efb4e0bbb8478",
+                "ideaId": 0,
+                "sourceId": "5552dbec7ffdccd74096d0e1",
+                "targetId": "5552fd037ffdccd74096d103",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T07:28:03.865Z",
+                "createdAt": "2015-05-13T07:28:03.864Z",
+                "isPublic": true
+            },
+            {
+                "_id": "555304b07ffdccd74096d10a",
+                "name": "",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5552fa7114fbfed56609d9bf",
+                "ideaId": 0,
+                "sourceId": "5552fa967ffdccd74096d101",
+                "targetId": "555304b07ffdccd74096d109",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T08:00:48.533Z",
+                "createdAt": "2015-05-13T08:00:48.532Z",
+                "isPublic": true
+            },
+            {
+                "_id": "555305207ffdccd74096d10c",
+                "name": "MODEL PROPOSAL",
+                "type": "type_ibis_idea",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5552fa7114fbfed56609d9bf",
+                "ideaId": 0,
+                "sourceId": "555304b07ffdccd74096d109",
+                "targetId": "555305207ffdccd74096d10b",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T08:02:40.605Z",
+                "createdAt": "2015-05-13T08:02:40.605Z",
+                "isPublic": true
+            },
+            {
+                "_id": "5553035d7ffdccd74096d106",
+                "name": "BY TESLA",
+                "type": "type_ibis_argument",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "5552fa7114fbfed56609d9bf",
+                "ideaId": 0,
+                "sourceId": "5552fa967ffdccd74096d101",
+                "targetId": "5553035d7ffdccd74096d105",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T07:55:09.662Z",
+                "createdAt": "2015-05-13T07:55:09.661Z",
+                "isPublic": true
+            },
+            {
+                "_id": "555317647ffdccd74096d10e",
+                "name": "",
+                "type": "type_knowledge",
+                "mapId": "5552c2c87ffdccd74096d0ca",
+                "iAmId": "55268521fb9a901e442172f8",
+                "ideaId": 0,
+                "sourceId": "5553035d7ffdccd74096d105",
+                "targetId": "555317647ffdccd74096d10d",
+                "dataContent": null,
+                "visual": null,
+                "__v": 0,
+                "updatedAt": "2015-05-13T09:20:36.996Z",
+                "createdAt": "2015-05-13T09:20:36.993Z",
+                "isPublic": true
+            }
+        ]
+    }
+}

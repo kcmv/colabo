@@ -1,0 +1,16 @@
+<div id="popupContainer" style="width:90%">
+    <md-dialog #mediaShowDialog style="width:90%" class="mediaShowDialog" (onClose)="onMediaShowCloseClicked($event)">
+        <md-dialog-title>{{mediaTitle}}</md-dialog-title>
+        <div layout="column" style="width:90%">
+            <img *ngIf="mediaImageUrl" [attr.src]="mediaImageUrl" width="100%" (click)="mediaShowDialog.close(false)" [attr.alt]="mediaTitle"/>
+            <div *ngIf="mediaType === 'text/html'" [innerHTML]="mediaContent"></div>
+            <textarea *ngIf="mediaType === 'text/markdown'">{{mediaContent}}</textarea>
+        </div>
+
+        <md-dialog-actions>
+            <button md-button class="md-primary" (click)="mediaShowDialog.close(false)">
+                <span>OK</span>
+            </button>
+        </md-dialog-actions>
+    </md-dialog>
+</div>

@@ -1,0 +1,8 @@
+tracer:tools sasha$ node KnAllEdgeTools.js 
+templatePath: /Users/sasha/Documents/data/development/KnAllEdge/src/backend/tools/templates
+-------------------------------------
+Sending 1 contacts
+-------------------------------------
+Sending mail [contactId:0]: Annika Rockenberger <annika.rockenberger@ilos.uio.no>
+Message sent [i:0, Annika Rockenberger <annika.rockenberger@ilos.uio.no>]: 250 2.0.0 OK 1432947674 j10sm1896367lbs.21 - gsmtp
+Reached the last contact [contactId:1], finishing

@@ -1,0 +1,21 @@
+<div class="rima-actions-form">
+    <button md-mini-fab class="md-mini md-primary" aria-label="Question" (click)="onQuestionItem()">
+      <md-icon title="Question">?</md-icon>
+    </button>
+
+    <button md-mini-fab class="md-mini md-primary" aria-label="Idea" (click)="onIdeaItem()">
+      <md-icon title="Idea">lightbulb_outline</md-icon>
+    </button>
+
+    <template #rimaUsersResultTemplate let-whoAmI="result" let-searchTerm="term">
+      {{ whoAmI.displayName }} ({{ whoAmI.firstname +
+         " " + whoAmI.familyname }})
+    </template>
+
+    <span *ngIf="editingUser">
+      <input type="text" class="" [(ngModel)]="selectedWhoAmI" [ngbTypeahead]="rimaUsersSearchBouded" [editable]="false" focusFirst="true" [inputFormatter]="rimaUsersFormatter" (selectItem)="rimaUsersSelected($event)" [resultTemplate]="rimaUsersResultTemplate"/>
+    </span>
+    <span class="clickable" *ngIf="!editingUser" (click)="rimaUserEditing()">
+      active: <b>{{ selectedWhoAmI.displayName }}</b>
+    </span>
+ </div>

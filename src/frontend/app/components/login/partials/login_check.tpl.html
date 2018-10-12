@@ -1,0 +1,6 @@
+<div ng-show="whoAmI">
+	<div><label>Logged in user:</label>{{whoAmI.e_mail}}. <button class="btn btn-primary" ng-click="logout()">Log out</button></div>
+</div>
+<div ng-hide="whoAmI">
+	<legend class="table_title">User is not logged in. Please consider logging in <button class="btn btn-primary" ng-click="login()">Log in</button></legend>
+</div>

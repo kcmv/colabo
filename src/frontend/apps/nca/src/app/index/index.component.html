@@ -1,0 +1,65 @@
+<div fxLayout="column" fxFlexFill style="height: 100%;">
+
+    <!-- toolbar -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" /> ReMakingTesla @ PTW 2018
+        </mat-toolbar>
+    </div>
+
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px">
+        <!--TODO: to make localized (in Serbian) form field names and info -->
+        <div *ngIf="isLoggedIn">
+            <p>
+                Hi,
+                <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You can:
+            </p>
+            <p>
+                <a routerLink="/select-sdgs">
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Select SDGs</button>
+                </a>
+            </p>
+            <p>
+                <a routerLink="/cwc">
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Coaching</button>
+                </a>
+            </p>
+            <p>
+                <a routerLink="/rima-login">
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Me</button>
+                </a>
+            </p>
+            <p>
+                <a routerLink="/insights">
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Insights</button>
+                </a>
+            </p>
+            <p>
+            </p>
+            <hr/>
+            <p>
+                <a routerLink="/avatar">
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Avatar</button>
+                </a>
+            </p>
+
+        </div>
+
+        <div *ngIf="!isLoggedIn">
+            <p>
+                If you <b>have account</b> please:
+            </p>
+            <a routerLink="/rima-login">
+                <button mat-raised-button color="primary">Login</button>
+            </a>
+
+            <p>
+                or register first if you <b>do not have account:</b>
+            </p>
+            <a routerLink="/rima-register">
+                <button mat-raised-button color="primary">Register</button>
+            </a>
+
+        </div>
+    </div>
+</div>

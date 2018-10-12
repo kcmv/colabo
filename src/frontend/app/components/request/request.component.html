@@ -1,0 +1,36 @@
+<div class="request-component">
+  <div layout="column" class="requests">
+    <md-card class="change_card" *ngFor="let request of requests" [class.selected]="request === selectedrequest">
+        <md-card-subtitle>
+          <span class='event-icon'>
+            <span class="req_type">{{request.type == 1 ? "replica" : "clarification"}}</span>
+            <!-- <i class="fa {{change.getEventIcon()}}" aria-hidden="true"></i> -->
+          </span>
+        </md-card-subtitle>
+        <md-card-title>
+          <span class="user">
+            <span class="username" [class.unknown]="request.who == null">{{request.who != null ? request.who.displayName : 'unknown user'}}</span>
+            <span class="user-avatar"><i class="fa fa-user" aria-hidden="true"></i></span>
+          </span>
+        </md-card-title>
+        <md-card-content>
+          <!-- <md-card-title-media>
+            <img class="card-media md-media-sm" src="images/avatars/avatar13.svg">
+          </md-card-title-media> -->
+
+          <span class="value_object"[ngSwitch]="request.reference === null">
+            <span class="non-existing" *ngSwitchCase="true">topic-not-existing</span>
+            <span *ngSwitchCase="false" class="existing" (click)="topicClicked(request.reference)" class="topic"
+            [class.unknown]="request.reference == null">"{{request.reference != null ? request.reference.name : 'unknown'}}"</span>
+          </span>
+
+        </md-card-content>
+      <md-card-actions layout="row" layout-align="end center">
+        <span *ngIf="request.state == 0">
+            <button md-button (click)="grant(request)">Grant</button>
+            <button md-button (click)="revoke(request)">Revoke</button>
+        </span>
+      </md-card-actions>
+    </md-card>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+.DS_Store
+node_modules
+/src/frontend/node_modules_old/*
+*.sock
+build

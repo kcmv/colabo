@@ -1,0 +1,5 @@
+{ "_id" : { "$oid" : "5544aedea7592efb3e3c561d" }, "firstname" : "Sasha", "familyname" : "Rudan", "displayName" : "mPrinc", "e_mail" : "mprinc@gmail.com", "updatedAt" : { "$date" : 1430564574438 }, "createdAt" : { "$date" : 1430564574433 }, "__v" : 0 }
+{ "_id" : { "$oid" : "5548fee2e59efb4e0bbb8478" }, "firstname" : "Sinisa", "familyname" : "Rudan", "displayName" : "Sinisa", "e_mail" : "sinisa.rudan@gmail.com", "gender" : 2, "passw" : "sifra" }
+{ "_id" : { "$oid" : "55490151e59efb4e0bbb8479" }, "firstname" : "Anna", "familyname" : "", "displayName" : "Anna", "e_mail" : "", "gender" : 1 }
+{ "_id" : { "$oid" : "55490178e59efb4e0bbb847a" }, "firstname" : "Scott", "familyname" : "", "displayName" : "Scott", "e_mail" : "", "gender" : 2 }
+{ "_id" : { "$oid" : "55268521fb9a901e442172f9" }, "firstname" : "Anonymous", "familyname" : "User", "displayName" : "anonymous", "e_mail" : "" }

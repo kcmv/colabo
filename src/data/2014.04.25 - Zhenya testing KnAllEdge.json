@@ -1,0 +1,387 @@
+{
+    "properties": {
+        "name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+        "date": "2015.03.22.",
+        "authors": "S. Rudan, D. Karabeg",
+        "mapId": "552678e69ad190a642ad461c",
+        "rootNodeId": "55268521fb9a901e442172f9"
+    },
+    "map": {
+        "nodes": [
+            {
+                "_id": "5526855ac4f4db29446bd183",
+                "name": "Direct Creativity",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-25T00:54:02.774Z",
+                "createdAt": "2015-04-25T00:54:02.774Z",
+                "visual": {
+                    "xM": 120,
+                    "yM": 150,
+                    "widthM": 100,
+                    "heightM": 180,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "551b4366fd64e5552ed19364",
+                "name": "Breakthrough in handling creativity possible",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-25T00:54:02.774Z",
+                "createdAt": "2015-04-25T00:54:02.774Z",
+                "visual": {
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "551bb2c68f6e4cfc35654f37",
+                "name": "deep creative sleep",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-25T00:54:02.775Z",
+                "createdAt": "2015-04-25T00:54:02.775Z",
+                "visual": {
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "551bb5073dda1559368883b2",
+                "name": "Classical Physics",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-25T00:54:02.775Z",
+                "createdAt": "2015-04-25T00:54:02.775Z",
+                "visual": {
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "551bb5d8317e908736b6b21c",
+                "name": "Indirect Creativty",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-25T00:54:02.775Z",
+                "createdAt": "2015-04-25T00:54:02.775Z",
+                "visual": {
+                    "xM": 300,
+                    "yM": 200,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "553ae95d93c915102ede89b2",
+                "name": "name...f",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:09:49.207Z",
+                "createdAt": "2015-04-25T01:09:49.205Z",
+                "visual": {
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "55268521fb9a901e442172f9",
+                "name": "TNC (Tesla - The Nature of Creativty) (DR Model)",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "updatedAt": "2015-04-25T00:54:02.771Z",
+                "createdAt": "2015-04-25T00:54:02.771Z",
+                "visual": {
+                    "xM": 200,
+                    "yM": 50,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "553aed9910317f912e9112fa",
+                "name": "sweet sweet dreams",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:27:53.252Z",
+                "createdAt": "2015-04-25T01:27:53.251Z",
+                "visual": {
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "553aef7a10317f912e9112fe",
+                "name": "Sleeping pleasure underestimated",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:35:54.441Z",
+                "createdAt": "2015-04-25T01:35:54.440Z",
+                "visual": {
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "553af18742a04dc32f226b0e",
+                "name": "Женя - биједни Зеко Пеко",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "height": "200",
+                        "width": "250",
+                        "url": "https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10991221_10101100207158199_7927794959188290223_n.jpg?oh=9f6c33d4c589c04ad6c13abc6a5da488&oe=559B5793&__gda__=1436603078_dd3897f37511beaf2f8926ede920705c"
+                    }
+                },
+                "updatedAt": "2015-04-25T01:44:39.513Z",
+                "createdAt": "2015-04-25T01:44:39.510Z",
+                "visual": {
+                    "xM": 457,
+                    "yM": 893,
+                    "isOpen": true
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "553aee6610317f912e9112fc",
+                "name": "name...",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "__v": 0,
+                "dataContent": {
+                    "image": {
+                        "height": 268,
+                        "width": 200,
+                        "url": "http://upload.wikimedia.org/wikipedia/commons/7/79/Tesla_circa_1890.jpeg"
+                    }
+                },
+                "updatedAt": "2015-04-25T01:31:18.364Z",
+                "createdAt": "2015-04-25T01:31:18.364Z",
+                "visual": {
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "553af1ea42a04dc32f226b10",
+                "name": "Срећно са дисертацијом",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:46:18.861Z",
+                "createdAt": "2015-04-25T01:46:18.860Z",
+                "visual": {
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            },
+            {
+                "_id": "553af20842a04dc32f226b12",
+                "name": "Хвала пуно!!! <3",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:46:48.346Z",
+                "createdAt": "2015-04-25T01:46:48.346Z",
+                "visual": {
+                    "isOpen": false
+                },
+                "isPublic": true,
+                "version": 1,
+                "activeVersion": 1
+            }
+        ],
+        "edges": [
+            {
+                "_id": "553ae5aa6856a9f22d8f81a4",
+                "name": "foster",
+                "sourceId": "55268521fb9a901e442172f9",
+                "targetId": "5526855ac4f4db29446bd183",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-25T00:54:02.780Z",
+                "createdAt": "2015-04-25T00:54:02.780Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553ae5aa6856a9f22d8f81a5",
+                "name": "inhibits",
+                "sourceId": "55268521fb9a901e442172f9",
+                "targetId": "551bb5d8317e908736b6b21c",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-25T00:54:02.780Z",
+                "createdAt": "2015-04-25T00:54:02.780Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553ae5aa6856a9f22d8f81a6",
+                "name": "supports",
+                "sourceId": "5526855ac4f4db29446bd183",
+                "targetId": "551b4366fd64e5552ed19364",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-25T00:54:02.780Z",
+                "createdAt": "2015-04-25T00:54:02.780Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553ae5aa6856a9f22d8f81a7",
+                "name": "insights",
+                "sourceId": "5526855ac4f4db29446bd183",
+                "targetId": "551bb2c68f6e4cfc35654f37",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-25T00:54:02.789Z",
+                "createdAt": "2015-04-25T00:54:02.788Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553ae5aa6856a9f22d8f81a8",
+                "name": "inhibits",
+                "sourceId": "551bb5d8317e908736b6b21c",
+                "targetId": "551bb5073dda1559368883b2",
+                "mapId": "552678e69ad190a642ad461c",
+                "updatedAt": "2015-04-25T00:54:02.789Z",
+                "createdAt": "2015-04-25T00:54:02.789Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553ae95d93c915102ede89b3",
+                "name": "name...",
+                "type": "",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "sourceId": "55268521fb9a901e442172f9",
+                "targetId": "553ae95d93c915102ede89b2",
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:09:49.514Z",
+                "createdAt": "2015-04-25T01:09:49.514Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553aeda510317f912e9112fb",
+                "name": "name...",
+                "type": "",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "sourceId": "551bb2c68f6e4cfc35654f37",
+                "targetId": "553aed9910317f912e9112fa",
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:28:05.663Z",
+                "createdAt": "2015-04-25T01:28:05.662Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553aee6d10317f912e9112fd",
+                "name": "name...",
+                "type": "",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "sourceId": "551bb2c68f6e4cfc35654f37",
+                "targetId": "553aee6610317f912e9112fc",
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:31:25.969Z",
+                "createdAt": "2015-04-25T01:31:25.968Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553aef7a10317f912e9112ff",
+                "name": "name...",
+                "type": "",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "sourceId": "551bb2c68f6e4cfc35654f37",
+                "targetId": "553aef7a10317f912e9112fe",
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:35:54.601Z",
+                "createdAt": "2015-04-25T01:35:54.601Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553af18742a04dc32f226b0f",
+                "name": "name...",
+                "type": "",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "sourceId": "5526855ac4f4db29446bd183",
+                "targetId": "553af18742a04dc32f226b0e",
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:44:39.664Z",
+                "createdAt": "2015-04-25T01:44:39.662Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553af1eb42a04dc32f226b11",
+                "name": "name...",
+                "type": "",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "sourceId": "553af18742a04dc32f226b0e",
+                "targetId": "553af1ea42a04dc32f226b10",
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:46:19.055Z",
+                "createdAt": "2015-04-25T01:46:19.055Z",
+                "isPublic": true
+            },
+            {
+                "_id": "553af20842a04dc32f226b13",
+                "name": "name...",
+                "type": "",
+                "mapId": "552678e69ad190a642ad461c",
+                "iAmId": 0,
+                "ideaId": 0,
+                "sourceId": "553af18742a04dc32f226b0e",
+                "targetId": "553af20842a04dc32f226b12",
+                "__v": 0,
+                "updatedAt": "2015-04-25T01:46:48.634Z",
+                "createdAt": "2015-04-25T01:46:48.633Z",
+                "isPublic": true
+            }
+        ]
+    }
+}

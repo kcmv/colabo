@@ -1,0 +1,38 @@
+@import "../../../sass/include";
+
+.phase-title{
+    font-weight: bold;
+    color: #009688;
+}
+
+// .brainstorming{
+  .user{
+    font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      background-color: LightBlue;
+    }
+  }
+
+  .warning{
+    color: red;
+  }
+
+  .node{
+    font-weight: bold;
+    border: solid gray 1px;
+    border-radius: 3px;
+    padding: 2px;
+    margin: 2px;
+    .existing{
+      cursor: pointer;
+      &:hover {
+        background-color: LightBlue;
+      }
+    }
+    .non-existing{
+      cursor: not-allowed;
+      color: DarkGray;
+    }
+  }
+// }

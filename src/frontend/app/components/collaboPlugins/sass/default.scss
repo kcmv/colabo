@@ -1,0 +1,78 @@
+/*http://stackoverflow.com/questions/8061166/syntax-to-include-separate-sass-file*/
+@import "../../../sass/include";
+
+.brainstorming-panel{
+	md-slide-toggle{
+		display: inline-flex;
+	}
+	// .md-button{
+	// 	background-color: #d5d5d5;
+	// 	background: #d5d5d5;
+	// }
+}
+
+.brainstorming_decoration{
+	color: #808080;
+  // border-radius: 4px;
+  padding-right: 2px;
+	padding-bottom: 2px;
+  // width: 1.4em;
+  // height: 1.4em;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  // background-color: #ffff88;
+  // border: 2px solid #bfbf48;
+  // text-align: center;
+}
+
+.plugin-info{
+	h2: {
+		margin-top: 10px;
+		border-bottom: 1px solid black;
+	}
+	border: 1px solid gray;
+	padding: 5px;
+	margin-left: 15px;
+}
+$item_background_color: #dddddd;
+.plugins-list{
+	h1{
+		padding-bottom: 5px;
+		border-bottom: solid gray 1px;
+	}
+
+	.list{
+		margin: 5px;
+		margin-left: 1%;
+		margin-bottom: 3px;
+		font-size: 0.85em;
+		padding: 3px;
+		width: 98%;
+
+		tr{
+			/*border-bottom: 1px solid black;*/
+			&.heading{
+				th{
+					border-bottom: 1px solid darken($item_background_color, 35%);
+	/*						border-left: 1px solid  darken($item_background_color, 20%);
+					border-right: 1px solid  darken($item_background_color, 20%);
+	*/						padding: 5px;
+					font-weight: bold;
+				}
+			}
+			&.data_row{
+				&:nth-child(odd) {background-color: $item_background_color;}
+				&:nth-child(even) {background-color: lighten($item_background_color, 10%);}
+
+				&:hover{
+					cursor: pointer;
+					background-color: darken($item_background_color, 35%);
+				}
+				td{
+					padding: 5px;
+				}
+			}
+		}
+	}
+}

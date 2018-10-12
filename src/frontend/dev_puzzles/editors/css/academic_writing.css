@@ -1,0 +1,11 @@
+.ac_component{
+  color: blue;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.ac_concept{
+  color: red;
+  font-weight: bold;
+  font-style: italic;
+}

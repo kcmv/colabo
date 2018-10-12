@@ -1,0 +1,17 @@
+<div class="gardening_controls tools-controls-group">
+	<div class="switch" (click)="hideShowComponent()">
+		<span class="panel-title">Knowledge Gardening</span>
+		<span class='arrows'>
+			<span [hidden]="!componentShown"><i title="hide panel" class="fa fa-caret-square-o-up" aria-hidden="true"></i></span>
+			<span [hidden]="componentShown"><i title="show panel" class="fa fa-caret-square-o-down" aria-hidden="true"></i></span>
+		</span>
+	</div>
+	<div class="content" [hidden]="!componentShown">
+		<div class="btn-group">
+			<md-slide-toggle class="md-primary" aria-label="show creators" (click)="configChanged()" [(checked)]="interfaceConfig.showInterface">show gardening interface</md-slide-toggle>
+			<md-slide-toggle class="md-primary" aria-label="show non-audited topics" (click)="configChanged()" [(checked)]="interfaceConfig.showNonAudited">show non-audited topics</md-slide-toggle>
+			<md-slide-toggle class="md-primary" aria-label="show approved topics" (click)="configChanged()" [(checked)]="interfaceConfig.showApproved">show approved topics</md-slide-toggle>
+			<md-slide-toggle class="md-primary" aria-label="show disapproved topics" (click)="configChanged()" [(checked)]="interfaceConfig.showDissaproved">show disapproved topics</md-slide-toggle>
+		</div>
+	</div>
+</div>

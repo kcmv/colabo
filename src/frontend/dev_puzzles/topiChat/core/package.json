@@ -1,0 +1,34 @@
+{
+    "name": "@colabo-topichat/f-core",
+    "version": "0.0.1",
+    "description": "Provides core support for topiChat",
+    "private": true,
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {
+        "@types/socket.io-client": "^1.4.32",
+        "socket.io-client": "^2.1.1"
+    },
+    "peerDependencies": {
+        "@angular/cdk": "^2.0.0-beta.12",
+        "@angular/common": "^5.0.0",
+        "@angular/compiler": "^5.0.0",
+        "@angular/core": "^5.0.0",
+        "@angular/http": "^5.0.0",
+        "@angular/platform-browser": "^5.0.0",
+        "@angular/platform-browser-dynamic": "^5.0.0",
+        "@angular/router": "^5.0.0",
+        "core-js": "^2.4.1",
+        "rxjs": "^5.5.2",
+        "zone.js": "^0.8.14"
+    },
+    "peerDependenciesLocal": {
+        "@colabo-utils/i-pub-sub": "0.1.0",
+        "@colabo-rima/f-aaa": "0.1.0"
+    },
+    "devDependencies": {},
+    "devDependenciesLocal": {}
+}

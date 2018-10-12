@@ -1,0 +1,19 @@
+<h2>TopiChat - System</h2>
+
+<div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px;">
+    <!--TODO: to make localized (in Serbian) form field names and info -->
+    <mat-list class="chat-list">
+        <mat-list-item *ngFor="let message of messages">
+            <h4 mat-line *ngIf="message.action === undefined">
+                <!-- <b>{{message?.from?.name}}</b>  -->
+                <b>{{message?.meta?.timestamp}}</b>
+            </h4>
+            <p mat-line *ngIf="message.action === undefined">
+                <span> {{message?.content?.text}} </span>
+            </p>
+        </mat-list-item>
+    </mat-list>
+    <div>
+        <button mat-raised-button color="primary" (click)="sendMessage('get-id')">Send</button>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<B>Connections:</B>
+<!-- {{tracing}}
+{{participantsConnectionsDisplay}} -->
+<div ng-bind-html="participantsConnectionsDisplay"></div>
+<!-- <table>
+	<tr class="heading"><th class="node">node</th><th class="whats">relevant to you by</th></tr>
+	<tr class="data_row" ng-click="selectItem(item)" ng-repeat="item in items"
+	ng-class="{'active-selection': item._id == selectedItem._id}">
+		<td class="node">{{item.name}}</td>
+		<td class="whats"><span ng-repeat="what in item.whats">
+			<span ng-class="{'relevant': what.relevant}">{{what.name}}</span><span>{{$last | whatSeparator}}</span>
+		</td>
+	</tr>
+</table> -->
+<hr/>
+<table class="list">
+	<tr class="heading"><th class="node">node</th><th class="whats">relevant to you by</th></tr>
+	<tr class="data_row" ng-click="selectItem(item)" ng-repeat="item in items"
+	ng-class="{'active-selection': item._id == selectedItem._id}">
+		<td class="node">{{item.name}}</td>
+		<td class="whats"><span ng-repeat="what in item.whats">
+			<span ng-class="{'relevant': what.relevant}">{{what.name}}</span><span>{{$last | whatSeparator}}</span>
+		</td>
+	</tr>
+</table>
