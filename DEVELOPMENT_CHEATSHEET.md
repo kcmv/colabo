@@ -35,6 +35,7 @@ https://www.npmjs.com/org/colabo-flow
 https://www.npmjs.com/org/colabo-media
 https://www.npmjs.com/org/colabo-rima
 https://www.npmjs.com/org/colabo-topichat
+https://www.npmjs.com/org/colabo-utils
 
 or
 
