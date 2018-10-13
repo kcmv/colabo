@@ -19,22 +19,21 @@ var puzzles = {
         "@colabo-flow/f-topichat": {},
         "@colabo-moderation/f-core": {},
         "@colabo-ai-ml/f-similarity": {},
-        "@colabo-utils/i-config": {},
+        "@colabo-utils/i-config": {}
     },
     offers: {}
 };
 
-var symlinks = [
-    {
-        from: variables.ANGULAR_PACKAGES_FOLDER+"node_modules/rxjs",
+var symlinks = [{
+        from: variables.ANGULAR_PACKAGES_FOLDER + "node_modules/rxjs",
         to: "node_modules/rxjs"
     },
     {
-        from: variables.ANGULAR_PACKAGES_FOLDER+"node_modules/\@angular",
+        from: variables.ANGULAR_PACKAGES_FOLDER + "node_modules/\@angular",
         to: "node_modules/\@angular"
     },
     {
-        from: variables.ANGULAR_BUILD_PACKAGES_FOLDER+"node_modules/\@angular-devkit",
+        from: variables.ANGULAR_BUILD_PACKAGES_FOLDER + "node_modules/\@angular-devkit",
         to: "node_modules/\@angular-devkit"
     }
 ];

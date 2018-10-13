@@ -6,8 +6,7 @@ var variables = {
 var puzzles = {
     name: "f-colabo.space",
     description: "Colabo.space ecosystem - frontend",
-    dependencies: {
-    },
+    dependencies: {},
     offers: {
         "@colabo-puzzles/f-core": {
             npm: "@colabo-puzzles/f-core",
@@ -15,23 +14,27 @@ var puzzles = {
         },
         "@colabo-knalledge/f-core": {
             npm: "@colabo-knalledge/f-core",
-            path: "dev_puzzles/knalledge/knalledge_core"
+            path: "dev_puzzles/knalledge/core"
         },
         "@colabo-knalledge/f-store_core": {
             npm: "@colabo-knalledge/f-store_core",
-            path: "dev_puzzles/knalledge/knalledge_store_core"
+            path: "dev_puzzles/knalledge/store_core"
         },
         "@colabo-knalledge/f-search": {
             npm: "@colabo-knalledge/f-search",
-            path: "dev_puzzles/knalledge/knalledge_search"
+            path: "dev_puzzles/knalledge/search"
         },
         "@colabo-knalledge/f-view_enginee": {
             npm: "@colabo-knalledge/f-view_enginee",
-            path: "dev_puzzles/knalledge/knalledge_view_enginee"
+            path: "dev_puzzles/knalledge/view_enginee"
         },
         "@colabo-knalledge/f-view_interaction": {
             npm: "@colabo-knalledge/f-view_interaction",
-            path: "dev_puzzles/knalledge/knalledge_view_interaction"
+            path: "dev_puzzles/knalledge/view_interaction"
+        },
+        "@colabo-knalledge/f-view_node": {
+            npm: "@colabo-knalledge/f-view_node",
+            path: "dev_puzzles/knalledge/view_node"
         },
         "@colabo-rima/f-core": {
             npm: "@colabo-rima/f-core",
@@ -76,8 +79,7 @@ var puzzles = {
     }
 }
 
-var symlinks = [
-];
+var symlinks = [];
 
 exports.variables = variables;
 exports.puzzles = puzzles;

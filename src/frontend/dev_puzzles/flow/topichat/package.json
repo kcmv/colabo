@@ -23,7 +23,7 @@
         "zone.js": "^0.8.14"
     },
     "peerDependenciesLocal": {
-        "@colabo-topiChat/topiChat-core": "0.1.0"
+        "@colabo-topichat/core": "0.1.0"
     },
     "devDependencies": {},
     "devDependenciesLocal": {}

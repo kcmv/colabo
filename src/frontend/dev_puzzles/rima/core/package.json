@@ -1,14 +1,13 @@
 {
   "name": "@colabo-rima/f-core",
   "version": "0.0.1",
-    "private": false,
-    "publishConfig": {
-        "access": "public"
-    },
-    "scripts": {},
-    "main": "dist/index.js",
-    "module": "dist/index.js",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {},
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "dependencies": {},
   "devDependencies": {}
 }

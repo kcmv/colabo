@@ -6,12 +6,12 @@
     "publishConfig": {
         "access": "public"
     },
-     "license": "MIT",
+    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "git://github.com/Cha-OS/colabo.git"
     },
-   "scripts": {
+    "scripts": {
         "build": "tsc"
     },
     "main": "dist/index.js",
