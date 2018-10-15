@@ -4,6 +4,24 @@ This page describes the process of developing extra components.
 
 # Apps
 
+## Extending app with Colabo features
+
+Added `colabo.config.js` configiration file in the frontend root
+
+Updated `tsconfig.json` with include to puzzles (although it didn't complain?!)
+
+TODO:
+
++ Instructions on 
+    + adding Colabo.Space repo to the system
+        + maybe avoid it, just put in npm dependencies external built npm packages
+    + adding colabo.tools globally
+        + maybe not necessary, only for development
+        + and even then it can be just global build, same as ng, etc
+    + external puzzles from Colabo.Space
+        + probably not necessary
+        + maybe avoid it, just put in npm dependencies external built npm packages
+
 ## Creating a new App (Frontend)
 
 - duplicate the folder of an old existing app
