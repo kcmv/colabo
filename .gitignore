@@ -51,5 +51,8 @@ _local
 temp_folder
 
 # Python
+__pycache__/
+*.pyc
+
 # environment file
 colabo-env/
