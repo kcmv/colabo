@@ -1,5 +1,18 @@
 # Links
-http://blog.rangle.io/upgrade-your-application-to-angular-2-with-ng-upgrade/
+
+With CLI
+
++ [ngUpgrade with Angular-cli](https://stackoverflow.com/questions/50822079/ngupgrade-with-angular-cli)
++ [A story of ngUpgrade: Upgrading an AngularJS application from 1.6 to Angular 4](https://medium.com/code-divoire/a-story-of-ngupgrade-bringing-an-angularjs-application-from-1-6-to-angular-4-84eae4434010)
++ [Angular v4: Hybrid Upgrade Application](https://hackernoon.com/angular-v4-hybrid-upgrade-application-73d5afba1e01)
++ [NgUpgrade in Depth](https://blog.nrwl.io/ngupgrade-in-depth-436a52298a00)
++ [Upgrade from AngularJS to Angular 2](https://medium.com/@gsari/upgrade-from-angularjs-to-angular-2-15f3179b7849)
+
+Without CLI
+
++ https://angular.io/guide/upgrade
++ http://blog.rangle.io/upgrade-your-application-to-angular-2-with-ng-upgrade/
++ [Get Started with ngUpgrade: Going from AngularJS to Angular](https://scotch.io/tutorials/get-started-with-ngupgrade-going-from-angularjs-to-angular)
 
 # Procedures
 
