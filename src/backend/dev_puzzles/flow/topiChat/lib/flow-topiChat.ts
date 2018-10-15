@@ -11,7 +11,7 @@ console.log("[ColaboFlowTopiChat] mapId = ", puzzleConfig.mapId);
 import {KNode} from '@colabo-knalledge/b-core';
 
 enum KNodesColaboFlowTopiChatTypes{
-    ChatMsg = "topiChat.talk.chatMsg"
+    Action = "colaboflow.action"
 }
 
 const KNodeModule = require("@colabo-knalledge/b-core/lib/modules/kNode");
@@ -61,7 +61,8 @@ export class ColaboFlowTopiChat{
         // Connect
         this.connResult = this.cfService.connect();
         this.connResult
-            .then(result => console.log(chalk.blue.bold("[ColaboFlowTopiChat] connect finished with result: "), result))
+            .then(result => console.log(chalk.blue.bold("[ColaboFlowTopiChat] connect finished with result: "), result));
+        this.connResult
             .catch(error => console.log(chalk.red.bold("[ColaboFlowTopiChat] connect finished with error: "), error));
 
         console.log('ColaboFlowTopiChat injected in the TopiChat room:%s', this.topiChat.getRoomName());
@@ -74,18 +75,7 @@ export class ColaboFlowTopiChat{
         pluginOptions.events[ColaboFlowTopiChatEvents.Action] 
 		= this.actionMessage.bind(this);
 
-        // 'tc:user-connected': this.userConnected.bind(this),
-        // 'tc:user-disconnected': this.userConnected.bind(this),
-
         this.topiChat.registerPlugin(pluginOptions);
-    };
-
-    userConnected(){
-
-    };
-
-    userDisconnected(){
-
     };
 
 	actionMessage(eventName:string, msg:any, clientIdSender, tcPackage:TopiChatPackage) {
@@ -96,6 +86,7 @@ export class ColaboFlowTopiChat{
         // therefore we have manually created queue for results
         // but (TODO), we still do not use it
 
+        // TODO fix this
         // avoid rat race
         // await this.connResult;
 
@@ -137,7 +128,7 @@ export class ColaboFlowTopiChat{
         // chatNode.name = msg.content.text;
         // chatNode.mapId = puzzleConfig.mapId;
         // chatNode.iAmId = iAmId;
-        // chatNode.type = KNodesColaboFlowTopiChatTypes.ChatMsg;
+        // chatNode.type = KNodesColaboFlowTopiChatTypes.Action;
         // let chatNodeServer:any = chatNode.toServerCopy();
         // KNodeModule._create(chatNodeServer, function(){
         //     if(puzzleConfig.emitMessages){
