@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 // but in Angular 5.2.x and Rxjs 5x is:
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
 import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
@@ -168,8 +169,36 @@ export class SDGsService {
   //loadSDGs():void{
   getSDGs():Observable<any[]>{
     //return of(this.SDGsMockup);
-    return this.knalledgeNodeService.queryInMapofType(environment.mapId, TYPE_SDGS);
-       //.subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
+    return this.knalledgeNodeService.queryInMapofType(environment.mapId, TYPE_SDGS)
+    .pipe(
+      map(nodes => this.localize(nodes, 'rs'))
+         //.subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
+    );
+  }
+
+  localizeObj(obj:any, objLoc:any){
+    for(let prm in objLoc){
+      if(typeof objLoc[prm] === "object"){
+        this.localizeObj(obj[prm],objLoc[prm]);
+        //TODO:obj['dataContent']['goal'] = objLoc['dataContent']['goal']
+      }else{
+        obj[prm] = objLoc[prm];
+      }
+    }
+  }
+
+  localize(nodes: any, lang:string):any[]{
+    for(var i:number=0;i<nodes.length;i++){
+      let node: KNode = nodes[i];
+      if(('i18n'in node) && (lang in node['i18n']) ){
+        this.localizeObj(node,node['i18n'][lang]);
+      }
+      else{
+        console.log('localize:: lang <' + lang + '> not supported');
+      }
+    }
+    //TODO: delete the i18n object?
+    return nodes;
   }
 
   // getSDGSSelectedByUser(iAmId:string):void{
