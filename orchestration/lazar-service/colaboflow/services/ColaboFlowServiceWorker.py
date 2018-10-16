@@ -59,6 +59,7 @@ class ColaboFlowServiceWorker():
 		self.noAck = config['queue_broker']['noAck'];
 		self.shouldListenOnSeparateResponseQueue = config['queue_broker']['shouldListenOnSeparateResponseQueue'];
 		self.separateResponseQueue = config['queue_broker']['separateResponseQueue'];
+		print("parameters:\n\t url=%s\n\t requestQueue=%s\n\t shouldRequestResult=%s\n\t noAck=%s\n\t shouldListenOnSeparateResponseQueue=%s\n\t separateResponseQueue=%s" %(self.url, self.requestQueue, self.shouldRequestResult, self.noAck, self.shouldListenOnSeparateResponseQueue, self.separateResponseQueue))
 
 	def connect(self):
 		print("[ColaboFlowServiceWorker:connect] Connecting to listen @ url %s on queue: %s" % (self.url, self.requestQueue))

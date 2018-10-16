@@ -1,15 +1,30 @@
 # Orchestration Services
 
+## Rabbitmq
+
+run the server:
+
+```sh
+/usr/local/sbin/rabbitmq-server
+```
+
 ## Similar verses
 
 servis:
 
+
 ```sh
 ssh -i ~/.ssh/sasha-iaas-no.pem mprinc@158.37.63.53
 # start similarity_functions.py
-source /var/colabo/colabo-env/bin/activate
+python3 -m pip install virtualenv
+cd colabo
+python3 -m virtualenv colabo-env
+source ./colabo-env/bin/activate
+# or:
+# source /var/colabo/colabo-env/bin/activate
+
 # or (OSX)
-source /Users/sasha/Documents/data/development/KnAllEdge/orchestration/rabbitmq/colabo-env/bin/activate
+source /Users/sasha/Documents/data/development/colabo.space/colabo/orchestration/colabo-env/bin/activate
 rm /home/mprinc/nohup.out
 
 # before
