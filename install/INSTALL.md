@@ -116,7 +116,7 @@ rm /var/lib/mongodb/mongod.lock
 mongod --repair
 ```
 
-#### Uprgrading Mongodb (OSX)
+#### Upgrading Mongodb (OSX)
 
 https://docs.mongodb.com/manual/release-notes/4.0-upgrade-standalone/
 https://docs.mongodb.com/manual/release-notes/3.6/#upgrade-procedures
