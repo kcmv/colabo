@@ -6,6 +6,12 @@ var variables = {
 var puzzles = {
     name: "f-colabo.space",
     description: "Colabo.space ecosystem - frontend",
+    sudo: {
+        "offer": false,
+        "install": false,
+        "build": false,
+        "symlinks": false
+    },
     dependencies: {},
     offers: {
         "@colabo-puzzles/f-core": {

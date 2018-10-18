@@ -1,5 +1,5 @@
 {
-    "name": "backend-colabo.space",
+    "name": "@colabo-apps/b-colabo-space",
     "description": "backend part of the Colabo.Space ecosystem",
     "version": "0.0.5",
     "private": true,

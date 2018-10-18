@@ -6,6 +6,12 @@ var variables = {
 var puzzles = {
     name: "performing_sustainable_coevolution",
     description: "Performing Sustainable CoEvolution (PSC). Developed upon CoLaboArthon, DialoGame, and CoEvoLudens formats)",
+    sudo: {
+        "offer": false,
+        "install": false,
+        "build": false,
+        "symlinks": false
+    },
     dependencies: {
         "@colabo-puzzles/f-core": {},
         "@colabo-knalledge/f-core": {},
