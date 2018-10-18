@@ -1,3 +1,9 @@
+const MODULE_NAME:string = "@colabo-apps/b-colabo-space";
+
+let chalk = require('chalk');
+let coLaboSpaceText = chalk.red.bold("Co")+chalk.blue.bold("Lab")+chalk.green.bold("o.space");
+console.log(coLaboSpaceText + " is starting ...")
+
 process.chdir(__dirname);
 
 // import * as express from "express";
@@ -118,3 +124,4 @@ let server = http.createServer(app).listen(app.get('port'), function () {
 });
 
 topiChat.connect(server);
+console.log(coLaboSpaceText + " started ...")

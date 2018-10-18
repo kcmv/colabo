@@ -64,7 +64,7 @@ exports.index = function(req, res) {
     var found = function(err, whoAmIs) {
         console.log("[modules/aaa.js:index] in 'found'");
         if (err) {
-            throw err;
+            // throw err;
             var msg = JSON.stringify(err);
             resSendJsonProtected(res, { data: whoAmIs, accessId: accessId, message: msg, success: false });
         } else {
