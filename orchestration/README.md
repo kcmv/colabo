@@ -12,6 +12,15 @@ run the server:
 
 servis:
 
+There is a `similarity_functions.py` service that supports both pyrpc and colaboflow (rabbitmq, hopefully more later :) ).
+
+It uses `colaboflow/services` module to talk to the colaboflow consumers.
+
+Configuration is provided in the `config-server.json` file.
+
+There is a demo mockup test service `colaboflow_service_demo.py` that is complementary to the `similarity_functions.py` service and can be run for testing.
+
+We preffer to user python environment for running the code
 
 ```sh
 ssh -i ~/.ssh/sasha-iaas-no.pem mprinc@158.37.63.53
