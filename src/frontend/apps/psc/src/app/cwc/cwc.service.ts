@@ -15,7 +15,7 @@ import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edg
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
-import { environment } from '../../environments/environment';
+import * as config from '@colabo-utils/i-config';
 
 import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
@@ -40,6 +40,7 @@ export class CWCData{
 
 @Injectable()
 export class CWCService {
+  static mapId = config.GetGeneral('mapId');
 
   cwcsSavedObserver:any = {};//Observer
   CWCs:any[] = [];
@@ -80,7 +81,7 @@ export class CWCService {
 
       newEdge.sourceId = parentNodeId;
       newEdge.targetId = newNode._id;
-      newEdge.mapId = environment.mapId;
+      newEdge.mapId = CWCService.mapId;
       //TODO: iAmId, createdAt, updatedAt
       this.knalledgeEdgeService.create(newEdge)
       .subscribe(newEdgeCreated.bind(this));
@@ -114,7 +115,7 @@ export class CWCService {
   //loadCWCs():void{
   getCWCs():Observable<any[]>{
     //return of(this.CWCsMockup);
-    return this.knalledgeNodeService.queryInMapofType(environment.mapId, CWC_TYPE); //TODO: by User
+    return this.knalledgeNodeService.queryInMapofType(CWCService.mapId, CWC_TYPE); //TODO: by User
        //.subscribe(nodes => this.cwcsReceived(nodes)); //as KNode}
   }
 
@@ -134,7 +135,7 @@ export class CWCService {
 
           let cwcNode:KNode = new KNode();
           cwcNode.iAmId = user_id;
-          cwcNode.mapId = environment.mapId;
+          cwcNode.mapId = CWCService.mapId;
           cwcNode.name = cwc;
           cwcNode.type = CWC_TYPE;
           that.knalledgeNodeService.create(cwcNode).subscribe(function(node:KNode){
@@ -144,7 +145,7 @@ export class CWCService {
             cwcEdge.sourceId = user_id;
             cwcEdge.targetId = node._id;
             cwcEdge.iAmId = user_id;
-            cwcEdge.mapId = environment.mapId;
+            cwcEdge.mapId = CWCService.mapId;
             cwcEdge.name = CWC_EDGE_NAME;
             cwcEdge.type = CWC_TYPE;
             that.knalledgeEdgeService.create(cwcEdge).subscribe(that.cwcESaved.bind(that));

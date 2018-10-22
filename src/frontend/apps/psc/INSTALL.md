@@ -538,24 +538,15 @@ I18N support according to the approach:
 		}   
       }
   },
-    
-      /*
-    *
-    *
-    TO DO - TO FINISH
-    *
-    *
-    */
-    
   {
-      "name" : "ДОСТОЈАН РАД И ЕКОНОМСКИ РАСТ",
+      "name" : "DECENT WORK AND ECONOMIC GROWTH",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(8),
-          goal:  "Промовисати инклузиван и одржив економски раст, запосленост и хумане радне услове за све",
-          desc: "У земљама у развоју средња класа сада чини више од 34% укупног броја запослених, што представља скоро утростручен број људи у периоду између 1991. и 2015. године. Међутим, у потоњим фазама опоравка глобалне  економије, темпо раста се успорава док се продубљују неједнакости а број радних места је недовољан да би оджао корак с растућом радном снагом. На основу података Међународне организације рада, више од 204 милиона људи било је незапослено у 2015. години"
+          goal:  "Promote inclusive and sustainable economic growth, employment and decent work for all",
+          desc: "In developing countries, the middle class now makes up more than 34 percent of total employment – a number that has almost tripled between 1991 and 2015 However, as the global economy continues to recover we are seeing slower growth, widening inequalities, and not enough jobs to keep up with a growing labour force. According to the International Labour Organization, more than 204 million people were unemployed in 2015."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -568,23 +559,23 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "ДОСТОЈАН РАД И ЕКОНОМСКИ РАСТ",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Промовисати инклузиван и одржив економски раст, запосленост и хумане радне услове за све",
+            	desc: "У земљама у развоју средња класа сада чини више од 34% укупног броја запослених, што представља скоро утростручен број људи у периоду између 1991. и 2015. године. Међутим, у потоњим фазама опоравка глобалне  економије, темпо раста се успорава док се продубљују неједнакости а број радних места је недовољан да би оджао корак с растућом радном снагом. На основу података Међународне организације рада, више од 204 милиона људи било је незапослено у 2015. години"
             }   
 		}   
       }
   },
   {
-      "name" : "ИНДУСТРИЈА, ИНОВАЦИЈА И ИНФРАСТРУКТУРА",
+      "name" : "INDUSTRY, INNOVATION AND INFRASTRUCTURE",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(9),
-          goal:  "Изградити стабилну инфраструктуру, промивисати одрживу индустријализацију и неговати иновативност",
-          desc: "С обзиром да више од половине светске популације сада живи у градовима, јавни транспорт и обновљива енергија постају све важнији, као и развој нових индустрија и информационих и комуникационих технологија. Промовисање одрживих грана индустрије и улагање у научна истраживања и иновације су веома важни у циљу обезбеђивања одрживог развоја. Више од 4 милијарде људи још увек нема приступ интернету, а 90 процената од овог броја их живи у земљама у развоју."
+          goal:  "Build resilient infrastructure, promote sustainable industrialization and foster innovation",
+          desc: "With over half the world population now living in cities, mass transport and renewable energy are becoming ever more important, as are the growth of new industries and information and communication technologies. Promoting sustainable industries, and investing in scientific research and innovation, are all important ways to facilitate sustainable development. More than 4 billion people still do not have access to the Internet, and 90 percent are from the developing world."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -597,10 +588,10 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "ИНДУСТРИЈА, ИНОВАЦИЈА И ИНФРАСТРУКТУРА",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Изградити стабилну инфраструктуру, промивисати одрживу индустријализацију и неговати иновативност",
+            	desc: "С обзиром да више од половине светске популације сада живи у градовима, јавни транспорт и обновљива енергија постају све важнији, као и развој нових индустрија и информационих и комуникационих технологија. Промовисање одрживих грана индустрије и улагање у научна истраживања и иновације су веома важни у циљу обезбеђивања одрживог развоја. Више од 4 милијарде људи још увек нема приступ интернету, а 90 процената од овог броја их живи у земљама у развоју."
             }   
 		}   
       }

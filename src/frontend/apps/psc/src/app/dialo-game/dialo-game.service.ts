@@ -12,7 +12,9 @@ import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
 import {ColaboFlowState, ColaboFlowStates} from '@colabo-flow/f-core/lib/colaboFlowState';
 import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-flow/f-core/lib/myColaboFlowState';
 import {CardDecorator} from './card-decorator/cardDecorator';
-import { environment } from '../../environments/environment';
+
+import * as config from '@colabo-utils/i-config';
+
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 
 export enum DialoGameActions{};
@@ -28,6 +30,9 @@ export const SERVICE_CWC_SIMLARITIES_TYPE:string = 'service.result.dialogame.cwc
   providedIn: 'root'
 })
 export class DialoGameService {
+  static mapId = config.GetGeneral('mapId');
+  static mapIdSDGs = config.GetGeneral('mapIdSDGs');
+
   static SUGGESTIONS_LIMIT:number = 3;
   public responses:DialoGameResponse[] = [];
   myCards:KNode[] = [];
@@ -63,7 +68,7 @@ export class DialoGameService {
     let result:Observable<KNode[]>;
 
     if(forceRefresh || this.myCards.length == 0){
-      result = this.knalledgeNodeService.queryInMapofTypeForUser(environment.mapId, TOPICHAT_MSG_TYPE, this.rimaAAAService.getUserId())
+      result = this.knalledgeNodeService.queryInMapofTypeForUser(DialoGameService.mapId, TOPICHAT_MSG_TYPE, this.rimaAAAService.getUserId())
       .pipe(
         tap(nodesFromServer => this.assignMyCards(nodesFromServer))
       );
@@ -186,7 +191,7 @@ export class DialoGameService {
     let result:Observable<KNode[]>;
 
     // if(forceRefresh || this.openingCards.length == 0){
-      result = this.knalledgeNodeService.queryInMapofTypeForUser(environment.mapId, SERVICE_CWC_SIMLARITIES_TYPE,this.rimaAAAService.getUserId())
+      result = this.knalledgeNodeService.queryInMapofTypeForUser(DialoGameService.mapIdSDGs, SERVICE_CWC_SIMLARITIES_TYPE,this.rimaAAAService.getUserId())
       .pipe(
         tap(nodesFromServer => this.suggestedCardsReceived(nodesFromServer))
       );
@@ -246,7 +251,8 @@ export class DialoGameService {
   private getOpeningCards(forceRefresh:boolean = false):Observable<KNode[]>{
     let result:Observable<KNode[]>;
     if(forceRefresh || this.openingCards.length == 0){
-      result = this.knalledgeNodeService.queryInMapofType(environment.mapId, DIALOGAME_OPENING_CARD_TYPE)
+      //TODO: check if 'mapIdSDGs' or 'mapId'
+      result = this.knalledgeNodeService.queryInMapofType(DialoGameService.mapIdSDGs, DIALOGAME_OPENING_CARD_TYPE)
       .pipe(
         tap(nodesFromServer => this.assignOpenningCards(nodesFromServer))
       );
@@ -371,7 +377,7 @@ export class DialoGameService {
     let node:KNode = dialoGameResponse.responseCards[0]; //TODO: cover cases when user respondes with more than 1 card
     //console.log('node from the response Card', node);
 
-    node.mapId = environment.mapId;
+    node.mapId = DialoGameService.mapId;
     node.iAmId = dialoGameResponse.player._id;
     //node.name = playedCard.name;
 
@@ -379,7 +385,7 @@ export class DialoGameService {
   //  console.log('dialoGameResponse', JSON.stringify(dialoGameResponse));
 
     let edge:KEdge = new KEdge();
-    edge.mapId = environment.mapId;
+    edge.mapId = DialoGameService.mapId;
     edge.type = DialoGameResponse.TYPE_DIALOGAME_RESPONSE;
     edge.sourceId = dialoGameResponse.challengeCards[0]._id; //TODO: cover cases when user responds on more than 1 card
     if(node.dataContent === null){ node.dataContent = {};}
