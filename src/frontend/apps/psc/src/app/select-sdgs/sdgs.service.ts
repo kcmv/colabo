@@ -17,7 +17,7 @@ import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-nod
 import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 
 import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
-import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service
+import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 
 import * as config from '@colabo-utils/i-config';
 
