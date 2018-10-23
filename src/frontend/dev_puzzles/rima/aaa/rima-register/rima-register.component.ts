@@ -18,6 +18,7 @@ import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 export class RimaRegisterComponent implements OnInit {
 
   public selectedCountry:String;
+  public contactingServer:boolean;
   form: FormGroup;
 
   firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(2)]); //an exmaple of defining a form control as independet
@@ -87,11 +88,13 @@ export class RimaRegisterComponent implements OnInit {
     userData.lastName = this.form.value.lastName;
     userData.email = this.form.value.email;
     userData.password = this.form.value.password;
+    this.contactingServer = true;
     this.rimaAAAService.createNewUser(userData, this.userCreated.bind(this));
   }
 
   userCreated():void{
     console.log('userCreated');
+    this.contactingServer = false;
   }
 
   getWorldCountries():String[]{
