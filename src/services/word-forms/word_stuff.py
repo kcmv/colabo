@@ -48,7 +48,7 @@ def hypernyms(word):
     return list(set(res))
 
 
-print 'loading remote service provider'
+print ('loading remote service provider')
 
 ##############################
 # END OF THE BUSINESS LOGIC  #
@@ -58,7 +58,7 @@ with open('./config-server.json', 'r') as f:
     config = json.load(f)
 
 if config['wrapper'] == 'colaboflow':
-    print "WRAPPER: Starting 'colaboflow' service wrapper"
+    print ("WRAPPER: Starting 'colaboflow' service wrapper")
 
     import uuid
 
@@ -90,7 +90,7 @@ if config['wrapper'] == 'colaboflow':
     cfService.listen(callback);
 
 if config['wrapper'] == 'rpyc':
-    print "WRAPPER: Starting 'rpyc' service wrapper"
+    print ("WRAPPER: Starting 'rpyc' service wrapper")
 
     #python sv_client.py 5b96619b86f3cc8057216a03 5b97c7ab0393b8490bf5263c 0
 
