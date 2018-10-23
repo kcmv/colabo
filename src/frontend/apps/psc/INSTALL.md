@@ -597,14 +597,14 @@ I18N support according to the approach:
       }
   },
   {
-      "name" : "СМАЊЕНА НЕЈЕДНАКОСТ",
+      "name" : "REDUCED INEQUALITIES",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(10),
-          goal:  "Смањити неједнакост унутар земаља и на интернационалном плану",
-          desc: "Неједнакост у погледу личног дохотка је у порасту, тако да 10 процената најбогатијег становништва зарађује до 40 посто укупне глобалне зараде. Десет процената најсиромашнијих зарађују свега између 2 и 7 посто укупне глобалне зараде. У земљама у развоју неједнакост је порасла за 11 процената ако се узме у обзир пораст популације."
+          goal:  "Reduce inequality within and among countries",
+          desc: "Income inequality is on the rise, with the richest 10 percent earning up to 40 percent of total global income. The poorest 10 percent earn only between 2 percent and 7 percent of total global income. In developing countries, inequality has increased by 11 percent if we take into account the growth of population."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -617,23 +617,23 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "СМАЊЕНА НЕЈЕДНАКОСТ",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Смањити неједнакост унутар земаља и на интернационалном плану",
+            	desc: "Неједнакост у погледу личног дохотка је у порасту, тако да 10 процената најбогатијег становништва зарађује до 40 посто укупне глобалне зараде. Десет процената најсиромашнијих зарађују свега између 2 и 7 посто укупне глобалне зараде. У земљама у развоју неједнакост је порасла за 11 процената ако се узме у обзир пораст популације."
             }   
 		}   
       }
   },
   {
-      "name" : "ОДРЖИВИ ГРАДОВИ И ЗАЈЕДНИЦЕ",
+      "name" : "SUSTAINABLE CITIES AND COMMUNITIES",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(11),
-          goal:  "Учинити градове инклузивним, безбедним, стабилним и одрживим",
-          desc: "Више од половине светске популације сада живи у урбаним срединама. До 2050. године овај број ће се повећати на две трећине укупног човечанства. Одрживи развој се не може постићи без значајније трансформације начина на који се обавља изградња и управљање урбаним простором. Екстремно сиромаштво је често концентрисано у урбаним срединама, а државне и градске власти се боре да обезбеде одговарајући смештај растућем становништву у овим областима."
+          goal:  "Make cities inclusive, safe, resilient and sustainable",
+          desc: "More than half of the world’s population now live in urban areas. By 2050, it will have risen to two-thirds of all humanity. Sustainable development cannot be achieved without significantly transforming the way we build and manage urban spaces. Extreme poverty is often concentrated in urban spaces, and national and city governments struggle to accommodate the rising population in these areas."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -646,24 +646,23 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "ОДРЖИВИ ГРАДОВИ И ЗАЈЕДНИЦЕ",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Учинити градове инклузивним, безбедним, стабилним и одрживим",
+            	desc: "Више од половине светске популације сада живи у урбаним срединама. До 2050. године овај број ће се повећати на две трећине укупног човечанства. Одрживи развој се не може постићи без значајније трансформације начина на који се обавља изградња и управљање урбаним простором. Екстремно сиромаштво је често концентрисано у урбаним срединама, а државне и градске власти се боре да обезбеде одговарајући смештај растућем становништву у овим областима."
             }   
 		}   
       }
   },
   {
-      "name" : "ОДГОВОРНА ПОТРОШЊА И ПРОИЗВОДЊА",
+      "name" : "RESPONSIBLE PRODUCTION AND CONSUMPTION",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(12),
-          goal:  "Обезбедити одрживе моделе потрошње и производње",
-          desc: "Пољопривреда је највећи потрошач воде широм света, а на наводњавање одлази близу 70 посто свих водених ресурса за људску употребу. Ефикасно управљање системима за одлагање токсичног отпада и загађујућих материја представља важне параметре за постизање овог циља. Од једнаког је значаја и подстицање индустрије, предузећа и потрошача да рециклирају и смањују количину произведеног отпада.
-"
+          goal:  "Ensure sustainable consumption and production patterns",
+          desc: "Agriculture is the biggest user of water worldwide, and irrigation now claims close to 70 percent of all freshwater for human use. The efficient management of the way we dispose of toxic waste and pollutants, are important targets to achieve this goal. Encouraging industries, businesses and consumers to recycle and reduce waste is equally important."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -676,23 +675,23 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "ОДГОВОРНА ПОТРОШЊА И ПРОИЗВОДЊА",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Обезбедити одрживе моделе потрошње и производње",
+            	desc: "Пољопривреда је највећи потрошач воде широм света, а на наводњавање одлази близу 70 посто свих водених ресурса за људску употребу. Ефикасно управљање системима за одлагање токсичног отпада и загађујућих материја представља важне параметре за постизање овог циља. Од једнаког је значаја и подстицање индустрије, предузећа и потрошача да рециклирају и смањују количину произведеног отпада."
             }   
 		}   
       }
   },
   {
-      "name" : "КЛИМАТСКЕ АКЦИЈЕ",
+      "name" : "CLIMATE ACTION",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(13),
-          goal:  "Предузети хитне мере у борби с климатским променама и њиховим последицама",
-          desc: "Емисија  гасова са ефектом стаклене баште наставља да расте, и сада је више од 50 процената већа од нивоа из 1990. године. Док источна Европа и централна Азија нису велики емитери гасова с ефектом стаклене баште, ови региони трпе несразмерне последице климатских промена.Поплаве на западном Балкану уништиле су домове и раселиле хиљаде људи."
+          goal:  "Take urgent action to combat climate change and its impacts",
+          desc: "Greenhouse gas emissions continue to rise, and are now more than 50 percent higher than their 1990 level. While Eastern Europe and Central Asia is not a big producer of greenhouse gas emissions, the region is suffering disproportionately from the consequences of climate change. Floods in the Western Balkans have destroyed homes and displaced thousands of people."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -705,23 +704,23 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "КЛИМАТСКЕ АКЦИЈЕ",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Предузети хитне мере у борби с климатским променама и њиховим последицама",
+            	desc: "Емисија  гасова са ефектом стаклене баште наставља да расте, и сада је више од 50 процената већа од нивоа из 1990. године. Док источна Европа и централна Азија нису велики емитери гасова с ефектом стаклене баште, ови региони трпе несразмерне последице климатских промена.Поплаве на западном Балкану уништиле су домове и раселиле хиљаде људи."
             }   
 		}   
       }
   },
   {
-      "name" : "ВОДЕНИ ЖИВОТ",
+      "name" : "LIFE BELOW WATER",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(14),
-          goal:  "Очувати и на одржив начин користити океане, мора и морске ресурсе",
-          desc: "Више од три милијарде људи зависи од морског и приобалног биодиверзитета како би обезбедили средства за живот. Међутим, данас смо сведоци чињенице да је  30% светских залиха рибе прекомерно експлоатисано, што за последицу има да је њихов број пао испод нивоа на ком оне могу обезбедити одрживу бројност. Загађење мора које у највећој мери потиче од копнених извора достиже алармантне нивое, са просеком од 13.000 комада пластичног отпада на сваком квадратном километру океана."
+          goal:  "Conserve and sustainably use the oceans, seas and marine resources",
+          desc: "Over three billion people depend on marine and coastal biodiversity for their livelihoods. However, today we are seeing 30 percent of the world’s fish stocks overexploited, reaching below the level at which they can produce sustainable yields. Marine pollution, an overwhelming majority of which comes from land-based sources, is reaching alarming levels, with an average of 13,000 pieces of plastic litter to be found on every square kilometre of ocean."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -734,23 +733,23 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "ВОДЕНИ ЖИВОТ",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Очувати и на одржив начин користити океане, мора и морске ресурсе",
+            	desc: "Више од три милијарде људи зависи од морског и приобалног биодиверзитета како би обезбедили средства за живот. Међутим, данас смо сведоци чињенице да је  30% светских залиха рибе прекомерно експлоатисано, што за последицу има да је њихов број пао испод нивоа на ком оне могу обезбедити одрживу бројност. Загађење мора које у највећој мери потиче од копнених извора достиже алармантне нивое, са просеком од 13.000 комада пластичног отпада на сваком квадратном километру океана."
             }   
 		}   
       }
   },
   {
-      "name" : "ЖИВОТ НА ЗЕМЉИ",
+      "name" : "LIFE ON LAND",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(15),
-          goal:  "Управљати шумама на одржив начин, борити се против опустињавања, зауставити и вратити уназад процес деградације земљишта, зауставити губитак биодиверзитета",
-          desc: "While Sub-Saharan Africa made the greatest progress in primary school enrolment among all developing regions – from 52 percent in 1990, up to 78 percent in 2012 – large disparities still remain. Children from the poorest households are up to four times more likely to be out of school than those of the richest households. Disparities between rural and urban areas also remain high"
+          goal:  "Sustainably manage forests, combat desertification, halt and reverse land degradation, halt biodiversity loss",
+          desc: "Today we are seeing unprecedented land degradation, and the loss of arable land at 30 to 35 times the historical rate. Drought and desertification is also on the rise each year, amounting to the loss of 12 million hectares and affects poor communities globally. Of the 8,300 animal breeds known, 8 percent are extinct and 22 percent are at risk of extinction."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -763,23 +762,23 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "ЖИВОТ НА ЗЕМЉИ",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Управљати шумама на одржив начин, борити се против опустињавања, зауставити и вратити уназад процес деградације земљишта, зауставити губитак биодиверзитета",
+            	desc: "У данашње време сведоци смо деградације земљишта без преседана и губитка обрадивог земљишта 30 до 35 пута брже него икад у историји. Суша и опустињавање такође су у порасту сваке године, што достиже губитак од чак 12 милиона хектара и погађа сиромашне заједнице на глобалном нивоу. Од познатих 8,300 животињских врста, изумрло је 8 посто, а 22 посто су у ризику од изумирања."
             }   
 		}   
       }
   },
   {
-      "name" : "МИР, ПРАВДА И СНАЖНЕ ИНСТИТУЦИЈЕ",
+      "name" : "PEACE, JUSTICE AND STRONG INSTITUTIONS",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(16),
-          goal:  "Промовисати праведно, мирно и инклузивно друштвено окружење",
-          desc: "Живимо у свету који је све више подељен. Неки региони уживају одрживе нивое мира, сигурности и просперитета, док други упадају у наизглед бескрајне циклусе сукоба и насиља. Оружани сукоби  и несигурност имају разоран утицај на развој земље, утичући на економски раст и често резултирајући дуготрајним непријатељствима које могу трајати генерацијама. Сексуално насиље, криминал, експлоатација и мучење су такође присутни када постоји сукоб или нема владавина права."
+          goal:  "Promote just, peaceful and inclusive societies",
+          desc: "We are living in a world that is increasingly divided. Some regions enjoy sustained levels of peace, security and prosperity, others fall into seemingly endless cycles of conflict and violence. Armed violence and insecurity have a destructive impact on a country’s development, affecting economic growth and often resulting in long standing grievances that can last for generations. Sexual violence, crime, exploitation and torture are also prevalent where there is conflict or no rule of law."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -792,23 +791,23 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "МИР, ПРАВДА И СНАЖНЕ ИНСТИТУЦИЈЕ",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Промовисати праведно, мирно и инклузивно друштвено окружење",
+            	desc: "Живимо у свету који је све више подељен. Неки региони уживају одрживе нивое мира, сигурности и просперитета, док други упадају у наизглед бескрајне циклусе сукоба и насиља. Оружани сукоби  и несигурност имају разоран утицај на развој земље, утичући на економски раст и често резултирајући дуготрајним непријатељствима које могу трајати генерацијама. Сексуално насиље, криминал, експлоатација и мучење су такође присутни када постоји сукоб или нема владавина права."
             }   
 		}   
       }
   },
   {
-      "name" : "ПАРТНЕРСТВА ЗА ОСТВАРЕЊЕ ЦИЉЕВА",
+      "name" : "PARTNERSHIPS FOR THE GOALS",
       "iAmId" : ObjectId("556760847125996dc1a4a24f"),
       "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
       "type" : "const.sdgs.sdg",
       "dataContent" : {
           "humanID" : NumberInt(17),
-          goal:  "Подстаћи глобалну сарадњу у домену одрживог развоја",
-          desc: "Циљеви одрживог развоја се могу реализовати само уз снажну посвећеност глобалном партнерству и сарадњи. Хуманитарне кризе изазване сукобима или природним непогодама и даље захтевају више финансијских средстава и помоћи. Многе земље такође захтевају Службу развојне помоћи за подстицање раста и трговине. Данас је свет међусобно повезан више него икада раније. Побољшање приступа технологији и знању је важан начин за размену идеја и подстицање иновација."
+          goal:  "Revitalize the global partnership for sustainable development",
+          desc: "The SDGs can only be realized with a strong commitment to global partnership and cooperation. Humanitarian crises brought on by conflict or natural disasters continue to demand more financial resources and aid. Many countries also require Official Development Assistance to encourage growth and trade. The world today is more interconnected than ever before. Improving access to technology and knowledge is an important way to share ideas and foster innovation."
       },
       "updatedAt" : ISODate("2018-09-10T20:16:47.306+0000"),
       "createdAt" : ISODate("2018-09-10T20:16:47.301+0000"),
@@ -821,10 +820,10 @@ I18N support according to the approach:
       "__v" : NumberInt(0),
       i18n: {
         rs: {
-        	name: "",
+        	name: "ПАРТНЕРСТВА ЗА ОСТВАРЕЊЕ ЦИЉЕВА",
             dataContent: {
-          		goal:  "",
-            	desc: ""
+          		goal:  "Подстаћи глобалну сарадњу у домену одрживог развоја",
+            	desc: "Циљеви одрживог развоја се могу реализовати само уз снажну посвећеност глобалном партнерству и сарадњи. Хуманитарне кризе изазване сукобима или природним непогодама и даље захтевају више финансијских средстава и помоћи. Многе земље такође захтевају Службу развојне помоћи за подстицање раста и трговине. Данас је свет међусобно повезан више него икада раније. Побољшање приступа технологији и знању је важан начин за размену идеја и подстицање иновација."
             }   
 		}   
       }
@@ -941,6 +940,8 @@ Add SDG edges in `kedges`  (`right button > Paste document(s)...`):
     "__v" : NumberInt(0)
   }
 ]
+
+/* add remaining edges */
 ```
 
 ## Opening Cards

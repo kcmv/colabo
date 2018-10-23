@@ -18,7 +18,7 @@ python sv_client.py "5bce4f50b6b1fc5d048c706d" 4
 ```sh
 # login with SFTP client (CyberDuck, Filezilla, ...)
 # from `/var/colabo/` copy on the local machine
-# you need this only one is OK
+# you need to this only once - the HTML is the same
 sdg_groups.html
 # every time you rerun the calcullation
 sdg.json
