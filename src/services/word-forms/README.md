@@ -1,3 +1,23 @@
+# Python3
+
+```sh
+python3 --version
+sudo apt install python3-pip
+pip3 --version
+pip3 install --upgrade pip3
+pip3 install virtualenv
+cd /var/colabo
+virtualenv colabo-env-py3
+source /var/colabo/colabo-env-py3/bin/activate
+pip3 install nltk
+# https://github.com/gutfeeling/word_forms
+cd /var/repos/word_forms/
+python3 setup.py install
+touch /var/colabo/log_words.txt
+python3 word_stuff.py
+deactivate
+```
+
 # Running the Word-Forms
 
 ```sh

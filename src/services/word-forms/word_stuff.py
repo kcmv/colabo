@@ -11,7 +11,7 @@ from word_forms.word_forms import get_word_forms
 
 pths = sys.path
 
-logfile = '/var/colabo/log_words.txt'
+logfile = './log_words.txt'
 with open(logfile, 'a') as out:
     out.write(dt + ' main.py started \n')
     for pth in pths:
