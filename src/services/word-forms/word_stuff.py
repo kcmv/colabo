@@ -94,7 +94,7 @@ if config['wrapper'] == 'rpyc':
 
     #python sv_client.py 5b96619b86f3cc8057216a03 5b97c7ab0393b8490bf5263c 0
 
-    hostname = 'localhost'
+    hostname = '158.37.63.127'
     port = 12374
 
     print ("starting rpyc service at hostname:'%r' and port: %r" % (hostname, port));

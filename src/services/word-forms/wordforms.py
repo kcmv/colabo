@@ -2,7 +2,7 @@
 import sys
 import rpyc
 
-conn = rpyc.connect("localhost", 12374)
+conn = rpyc.connect("158.37.63.127", 12374)
 c = conn.root
 
 # do stuff over rpyc
