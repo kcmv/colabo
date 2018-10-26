@@ -6,7 +6,9 @@ import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 // import { OrderPipe } from 'ngx-order-pipe'; //https://github.com/VadimDez/ngx-order-pipe
 // import { environment } from '../../environments/environment';
 
-const MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
+// import * as config from '@colabo-utils/i-config';
+
+//const MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
 //const MAP_ID = "5b49e7f736390f03580ac9a7"; //Forum Vlasina
 
 @Component({
@@ -15,7 +17,7 @@ const MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
   styleUrls: ['./registered-users.component.css']
 })
 export class RegisteredUsersComponent implements OnInit {
-
+  // static mapId = config.GetGeneral('mapId');
   //users:KNode[];
   users:any[] = []; //[{name:'tes1'},{name:'tes2'},{name:'tes3'}];
 

@@ -9,12 +9,17 @@ import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import * as config from '@colabo-utils/i-config';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class InsightsService {
 
-  static MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
+  static mapId = config.GetGeneral('mapId');
+
+  //static MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
   static TOPICHAT_MSG_TYPE:string = 'topiChat.talk.chatMsg';
   cardsPlayed:KNode[][] = new Array<Array<KNode>>(); //first dimension are rounds, second are all cards in that round
   registeredUsers:KNode[] = [];
@@ -30,7 +35,7 @@ export class InsightsService {
     let result:Observable<KNode[]>;
 
     if(forceRefresh || this.registeredUsers.length == 0){
-      result = this.rimaAAAService.getRegisteredUsers(InsightsService.MAP_ID)
+      result = this.rimaAAAService.getRegisteredUsers(InsightsService.mapId)
       .pipe(
         tap(nodesFromServer => this.assignRegisteredUsers(nodesFromServer))
       );
@@ -50,7 +55,7 @@ export class InsightsService {
     let result:Observable<KNode[]> ;
 
     if(forceRefresh || this.cardsPlayed.length == 0 || (typeof this.cardsPlayed[round] === 'undefined') || this.cardsPlayed[round].length == 0){
-      result = this.knalledgeNodeService.queryInMapofTypeAndContentData(InsightsService.MAP_ID, InsightsService.TOPICHAT_MSG_TYPE, "dialoGameReponse.playRound", round)
+      result = this.knalledgeNodeService.queryInMapofTypeAndContentData(InsightsService.mapId, InsightsService.TOPICHAT_MSG_TYPE, "dialoGameReponse.playRound", round)
       .pipe(
         tap(nodesFromServer => this.assignCardsPlayedInTheRound(round, nodesFromServer))
       );
