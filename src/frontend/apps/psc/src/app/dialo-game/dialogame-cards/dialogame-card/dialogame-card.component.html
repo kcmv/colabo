@@ -21,7 +21,7 @@
         </div>
     </mat-card-content>
     <div *ngIf="hasDecorators()">
-        <card-decorator *ngFor="let decorator of getDecorators()" [decoratorData]="decorator "></card-decorator>
+        <card-decorator *ngFor="let decorator of getDecorators()" (action)=decoratorAction($event,decorator.decorator) [decoratorData]="decorator"></card-decorator>
 
         <!-- <mat-chip-list>
           <mat-chip>Papadum</mat-chip>

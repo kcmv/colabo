@@ -58,9 +58,19 @@ export class DialoGameService {
     this.colaboFlowService.getCFStateChanges().subscribe(this.cFStateChanged.bind(this));
   }
 
-  private assignMyCards(nodes:any):void{ //KNode[]):void{
+  private assignMyCards(nodes:any):any{ //KNode[]):void{
     //console.log('assignCards', nodes);
-    this.myCards = nodes;
+    console.log('decoratorsBef',JSON.stringify(nodes, null, 4));
+    this.myCards = [];
+    for(var i:number = 0; i< nodes.length;i++){
+      let myCard:KNode = nodes[i] as KNode;
+      if(!(('dataContent' in myCard) && ('dialoGameReponse' in myCard.dataContent))){
+        this.myCards.push(myCard);
+      }
+    }
+    return this.myCards;
+
+    //this.myCards = nodes;
   }
 
   getMyCards(forceRefresh:boolean = false):Observable<KNode[]>{
@@ -70,7 +80,7 @@ export class DialoGameService {
     if(forceRefresh || this.myCards.length == 0){
       result = this.knalledgeNodeService.queryInMapofTypeForUser(DialoGameService.mapId, TOPICHAT_MSG_TYPE, this.rimaAAAService.getUserId())
       .pipe(
-        tap(nodesFromServer => this.assignMyCards(nodesFromServer))
+        map(nodesFromServer => this.assignMyCards(nodesFromServer))
       );
       return result;
     }
@@ -247,6 +257,17 @@ export class DialoGameService {
   getDecoratorTypes(type:string=null):Observable<KNode[]>{
     return of(CardDecorator.getDecorators(type));
   }
+
+  // deleteDecorator(cardId:string, decorator:string):void{
+  //   for(var i:number = 0; i < this.myCards.length; i++){
+  //     if(this.myCards[i]._id === cardId){
+  //       if(this.response !== null && 'decorators' in this.response){
+  //         let decorators:any[] = this.response.decorators;
+  //         return decorators.length > 0;
+  //       }
+  //     }
+  //   }
+  // }
 
   private getOpeningCards(forceRefresh:boolean = false):Observable<KNode[]>{
     let result:Observable<KNode[]>;

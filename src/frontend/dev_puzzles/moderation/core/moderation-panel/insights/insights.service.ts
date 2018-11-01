@@ -31,6 +31,13 @@ export class InsightsService {
   ) {
   }
 
+  /**
+  ** TODO: should migrate to SDGService
+  */
+  getSelectedSDGs(){
+
+  }
+
   getRegisteredUsers(forceRefresh:boolean = false):Observable<KNode[]>{
     let result:Observable<KNode[]>;
 
@@ -67,19 +74,19 @@ export class InsightsService {
     }
   }
 
-/*
-  be aware that this method will reaturn false also in the case when users are not loaded yet
-*/
-hasUserPlayedInTheRound(userId:string, round:number):boolean{
-  if(typeof this.cardsPlayed[round] === 'undefined'){return false;}
+  /*
+    be aware that this method will reaturn false also in the case when users are not loaded yet
+  */
+  hasUserPlayedInTheRound(userId:string, round:number):boolean{
+    if(typeof this.cardsPlayed[round] === 'undefined'){return false;}
 
-  for(var i:number = 0; i<this.cardsPlayed[round].length;i++){
-    if(this.cardsPlayed[round][i].iAmId == userId){
-      return true;
+    for(var i:number = 0; i<this.cardsPlayed[round].length;i++){
+      if(this.cardsPlayed[round][i].iAmId == userId){
+        return true;
+      }
     }
+    return false;
   }
-  return false;
-}
 
   assignCardsPlayedInTheRound(round:number, cards:any):void{
     console.log('assignCardsPlayedInTheCurrentRound', round, cards);

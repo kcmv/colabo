@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output , OnChanges, SimpleChanges, SimpleChan
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {DialoGameResponse} from '../../dialo-game-response/dialoGameResponse';
+import {CardDecorator} from '../../card-decorator/cardDecorator';
+// import {DialoGameService} from '../../dialo-game.service';
 
 @Component({
   selector: 'dialogame-card',
@@ -18,7 +20,8 @@ export class DialogameCardComponent implements OnInit, OnChanges {
   userIconsPath:string = 'assets/images/user_icons/';
 
   constructor(
-    private rimaAAAService: RimaAAAService
+    private rimaAAAService: RimaAAAService,
+    // private dialoGameService: DialoGameService
   ) { }
 
   ngOnInit() {
@@ -50,18 +53,34 @@ export class DialogameCardComponent implements OnInit, OnChanges {
 
   hasDecorators():boolean{
     if(this.response !== null && 'decorators' in this.response){
-      let decorators:any[] = this.response.decorators;
+      let decorators:CardDecorator[] = this.response.decorators;
       return decorators.length > 0;
     }
     return false;
   }
 
-  getDecorators():any[]{
+  getDecorators():CardDecorator[]{
     if(this.response !== null && 'decorators' in this.response){
-      let decorators:any[] = this.response.decorators;
+      let decorators:CardDecorator[] = this.response.decorators;
       return decorators;
     }
     return [];
+  }
+
+  decoratorAction(event:string, decorator:string):void{
+    console.log('decoratorAction', event, decorator);
+    if(event === 'delete'){
+      // this.dialoGameService.deleteDecorator(this.cardData._id,decorator);
+      let decorators:CardDecorator[] = this.getDecorators();
+      console.log('decoratorsBef',JSON.stringify(decorators, null, 4));
+      for(var i:number=0;i<decorators.length; i++){
+        if(decorators[i].decorator === decorator){
+          decorators.splice( i, 1 );
+        }
+      }
+
+      console.log('decoratorsAft',JSON.stringify(decorators, null, 4));
+    }
   }
 
   userReceived(user:KNode):void{

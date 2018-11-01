@@ -1,0 +1,13 @@
+.user {
+  /* max-width: 350px; */
+	background: white;
+	margin-bottom: 2em;
+}
+
+/* Flexbox stuff */
+
+.users {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+}

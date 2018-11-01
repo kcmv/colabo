@@ -38,7 +38,7 @@ export class UserInsight{
 })
 export class UserActionsStatusesComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'name', 'isPlayedCardRound1', 'isPlayedCardRound2', 'isPlayedCardRound3'];
+  displayedColumns: string[] = ['id', 'name', 'sdgs', 'isPlayedCardRound1', 'isPlayedCardRound2', 'isPlayedCardRound3'];
   dataSource:UserInsight[] = [];
 
   constructor(

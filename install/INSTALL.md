@@ -116,7 +116,7 @@ rm /var/lib/mongodb/mongod.lock
 mongod --repair
 ```
 
-#### Upgrading Mongodb (OSX)
+#### Upgrading MongoDB (OSX)
 
 https://docs.mongodb.com/manual/release-notes/4.0-upgrade-standalone/
 https://docs.mongodb.com/manual/release-notes/3.6/#upgrade-procedures
@@ -127,16 +127,21 @@ brew search mongodb
 
 # 3.2 -> 3.4
 brew install mongodb@3.4
-sudo  /usr/local/Cellar/mongodb@3.4/3.4.14/bin/mongod
-/usr/local/Cellar/mongodb@3.4/3.4.14/bin/mongo
+# instead of 3.4.17 in 2 following rows, you might need to use appropriate version
+sudo  /usr/local/Cellar/mongodb@3.4/3.4.17/bin/mongod
+#start:
+/usr/local/Cellar/mongodb@3.4/3.4.17/bin/mongo
+# and execute in the client the following commands:
     db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
     db.adminCommand( { setFeatureCompatibilityVersion: "3.4" } )
     db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
 
 # 3.4 -> 3.6
 brew install mongodb@3.6
-sudo  /usr/local/Cellar/mongodb@3.6/3.6.6/bin/mongod
-/usr/local/Cellar/mongodb@3.6/3.6.6/bin/mongo
+sudo  /usr/local/Cellar/mongodb@3.6/3.6.8/bin/mongod
+#start:
+/usr/local/Cellar/mongodb@3.6/3.6.8/bin/mongo
+# and execute in the client the following commands:
     db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
     db.adminCommand( { setFeatureCompatibilityVersion: "3.6" } )
     db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
@@ -150,7 +155,6 @@ sudo mongod
 mongo
     db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
     db.adminCommand( { setFeatureCompatibilityVersion: "4.0" } )
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
 ```
 
 ### installing Xcode
