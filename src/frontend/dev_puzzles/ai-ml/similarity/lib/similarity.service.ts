@@ -26,6 +26,7 @@ export class SimilarityService {
   }
 
   static MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
+  public similarityRequestsSentNo:number = 0;
 
   sendRequestForSimilarityCalc():void{
     this.rimaAAAService.getRegisteredUsers(SimilarityService.MAP_ID).subscribe(this.usersReceived.bind(this));
@@ -44,6 +45,7 @@ export class SimilarityService {
       };
 
       this.sendMessage(content);
+      this.similarityRequestsSentNo = users.length;
     }
   }
 

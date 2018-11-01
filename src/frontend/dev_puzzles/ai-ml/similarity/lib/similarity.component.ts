@@ -15,6 +15,10 @@ export class SimilarityComponent implements OnInit {
   ngOnInit() {
   }
 
+  similarityRequestsSentNo():number{
+    return this.similarityService.similarityRequestsSentNo;
+  }
+
   requestSimilaritySuggestions():void{
     this.similarityService.sendRequestForSimilarityCalc();
   }
