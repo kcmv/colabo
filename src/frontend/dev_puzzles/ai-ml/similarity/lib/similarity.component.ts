@@ -19,6 +19,10 @@ export class SimilarityComponent implements OnInit {
     return this.similarityService.similarityRequestsSentNo;
   }
 
+  similarityRequestsReceivedNo():number{
+    return this.similarityService.similarityRequestsReceivedNo;
+  }
+
   requestSimilaritySuggestions():void{
     this.similarityService.sendRequestForSimilarityCalc();
   }
