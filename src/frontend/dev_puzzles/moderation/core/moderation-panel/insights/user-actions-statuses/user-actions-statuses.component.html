@@ -1,5 +1,5 @@
 <h3>User Actions Statuses</h3>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="usersData" class="mat-elevation-z8">
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
@@ -24,6 +24,11 @@
   <ng-container matColumnDef="sdgs">
     <th mat-header-cell *matHeaderCellDef>selected UN SDGs</th>
     <td mat-cell *matCellDef="let element"> {{element.sdgs}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="cwcs">
+    <th mat-header-cell *matHeaderCellDef>CWCs</th>
+    <td mat-cell *matCellDef="let element"> {{getCWCsPrint(element)}} </td>
   </ng-container>
 
   <ng-container matColumnDef="isPlayedCardRound1">

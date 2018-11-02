@@ -6,7 +6,7 @@ import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
 import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
-import {KnalledgeSearchService} from '@colabo-knalledge/f-search';
+// import {KnalledgeSearchService} from '@colabo-knalledge/f-search';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 import { Observable, of } from 'rxjs';
@@ -26,6 +26,7 @@ export class InsightsService {
   static TOPICHAT_MSG_TYPE:string = 'topiChat.talk.chatMsg';
   cardsPlayed:KNode[][] = new Array<Array<KNode>>(); //first dimension are rounds, second are all cards in that round
   registeredUsers:KNode[] = [];
+  cwcs:KNode[] = [];
   selectedSDGs:KEdge[] = [];
 
   constructor(
@@ -40,19 +41,19 @@ export class InsightsService {
   ** TODO: should migrate to SDGService
   */
   getSelectedSDGs(forceRefresh:boolean = false){
-    let result:Observable<KNode[]> ;
-
-    if(forceRefresh || this.selectedSDGs.length == 0){
-      result = this.knalledgeEdgeService.queryInMapofTypeAndContentData(InsightsService.mapId, InsightsService.TOPICHAT_MSG_TYPE, "dialoGameReponse.playRound", round)
-      .pipe(
-        tap(nodesFromServer => this.assignCardsPlayedInTheRound(round, nodesFromServer))
-      );
-      return result;
-    }
-    else{
-      if(typeof this.cardsPlayed[round] === 'undefined'){this.cardsPlayed[round] = []}
-      return of(this.cardsPlayed[round]);
-    }
+    // let result:Observable<KNode[]> ;
+    //
+    // if(forceRefresh || this.selectedSDGs.length == 0){
+    //   result = this.knalledgeEdgeService.queryInMapofTypeAndContentData(InsightsService.mapId, InsightsService.TOPICHAT_MSG_TYPE, "dialoGameReponse.playRound", round)
+    //   .pipe(
+    //     tap(nodesFromServer => this.assignCardsPlayedInTheRound(round, nodesFromServer))
+    //   );
+    //   return result;
+    // }
+    // else{
+    //   if(typeof this.cardsPlayed[round] === 'undefined'){this.cardsPlayed[round] = []}
+    //   return of(this.cardsPlayed[round]);
+    // }
   }
 
   getRegisteredUsers(forceRefresh:boolean = false):Observable<KNode[]>{
@@ -74,6 +75,26 @@ export class InsightsService {
     console.log('assignRegisteredUsers', users);
     this.registeredUsers = users;
   }
+
+  getCWCs(round:number, forceRefresh:boolean = false):Observable<KNode[]>{
+   let result:Observable<KNode[]> ;
+
+   if(forceRefresh || this.cwcs.length == 0){
+     result = this.knalledgeNodeService.queryInMapofType(InsightsService.mapId, InsightsService.TOPICHAT_MSG_TYPE)
+     .pipe(
+       tap(nodesFromServer => this.assignCWCs(nodesFromServer))
+     );
+     return result;
+   }
+   else{
+     return of(this.cwcs);
+   }
+ }
+
+ assignCWCs(cwcs:any):void{
+   this.cwcs = cwcs;
+ }
+
 
  getCardsPlayedInTheRound(round:number, forceRefresh:boolean = false):Observable<KNode[]>{
     let result:Observable<KNode[]> ;
