@@ -35,6 +35,7 @@ class SearchNodes {
 
 		var id = this.req.params.searchParam;
 		var id2 = this.req.params.searchParam2;
+    var id3 = this.req.params.searchParam3;
 		var type = this.req.params.type;
 		var actionType = this.req.params.actionType;
 
@@ -82,7 +83,10 @@ class SearchNodes {
 		} else if (type == 'children' && actionType == 'in-map') {
 			KEdgeModel.find({ 'mapId': id, 'sourceId': id2 }, foundEdges.bind(this));
 			isParents = false;
-		}else{
+    } else if (type == 'children' && actionType == 'in-map-of-type') {
+      KEdgeModel.find({ 'mapId': id, 'sourceId': id2, 'type': id3}, foundEdges.bind(this));
+      isParents = false;
+    }else{
 			resSendJsonProtected(this.res, { data: null, accessId: accessId, success: false, msg: "Not matching API signature" });
 		}
 
