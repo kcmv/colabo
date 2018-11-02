@@ -1,8 +1,21 @@
 {
-    "name": "colabo-tools",
-    "description": "Tools necessary for building Colabo.Space",
-    "version": "0.0.1",
-    "private": true,
+    "name": "@colabo/cli",
+    "description": "Tools necessary for building Colabo.Space ecosystem",
+    "version": "0.4.3",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Cha-OS/colabo.git"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "bin": {
+        "colabo": "./dist/index.js"
+    },
     "scripts": {
         "colabo": "colabo",
         "prepare": "tsc",
@@ -10,17 +23,21 @@
         "build": "tsc"
     },
     "dependencies": {
-        "@types/chalk": "^2.2.0",
-        "@types/es6-promise": "^3.3.0",
-        "@types/node": "^10.7.1",
+        "@types/inquirer": "^0.0.43",
+        "@types/mustache": "^0.8.32",
+        "@types/node": "^10.12.0",
+        "@types/node-emoji": "^1.8.0",
+        "@types/ora": "^1.3.4",
         "bson": "^0.4.22",
         "chalk": "^2.4.1",
-        "mongoose": "^4.0.0"
+        "commander": "^2.19.0",
+        "inquirer": "^6.2.0",
+        "mongoose": "^4.0.0",
+        "mustache": "^3.0.0",
+        "node-emoji": "^1.8.1",
+        "ora": "^3.0.0"
     },
     "devDependencies": {
         "ghooks": "^2.0.0"
-    },
-    "bin": {
-        "colabo": "./dist/index.js"
     }
 }

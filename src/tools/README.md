@@ -1,67 +1,36 @@
 # Colabo Tools
 
-These are the tools to manage the Colabo.Space ecosystem
+These are the tools to manage the [Colabo.Space ecosystem](www.Colabo.Space) or other systems that follow Colabo principles of healthy development:
 
-Before installing backend or frontend part of the Colabo.Space ecosystem you need to install Colabo tools as necessary for further installation phases. 
++ Code modularization
++ Separating modules into independent (as much as possible) components that are possible to install separatelly as npm packages
+
+NOTE: Before installing Colabo.Space ecosystem you need to install Colabo tools as necessary for further installation phases. It is similar with other Colabo-enabled systems. 
 
 # Install
 
-```sh
-# install tsc (TypeScript compiler)
-sudo npm install -g typescript
-cd tools
-# install (and build (from TypeScript)) the Colabo Tools
-yarn
-# export the `colabo` tool globally
-sudo npm run link
+Standard way of installing the tool is to run:
+
+```
+npm install -g @colabo/cli
 ```
 
-## Server
+After that the colabo tools are available simply by typing `colabo` in terminal.
+
+# Running
+
+***NOTE***: Very often colabo tools will be embedded in the build process of the project (for example, in the `scripts.prepare` property of the project's `package.json` file) and you do not need to deal with them manually.
 
 ```sh
-sudo rm -r /var/repos/colabo/src/tools/dist/*
-yarn
-sudo npm run link
-```
-
-# Build
-
-You need to compile them first (they are written in TypeScript): `tsc`. There is a `tsconfig.json` file describing building procedure.
-
-NOTO: Building should be done automatically during the installation process
-
-# Run
-
-After building you can run the tools:
-
-```sh
-# Show info of the backend aspect of the Colabo.space project
+# Show info of the colabo aspect of the backend part of the project
 colabo ../backend/colabo.config.js puzzless-info
-# equivalent (in the case you do not have not installed package)
-node index.js ../backend/colabo.config.js puzzless-info
-# equivalent (in the case you have only locally installed package)
-# npx is available for npm > 5.2.0
-npx colabo ../backend/colabo.config.js puzzless-info
 
-# Offer backend Colabo.space puzzles to the local system
-colabo ../backend/colabo.config.js puzzless-offer
+# Offer colabo puzzles to the local system
+# (basically `npm link` for all puzles listed as offers in the `colabo.config.js`)
+colabo colabo.config.js puzzless-offer
 
-# Install inside the project puzzles required for the backend Colabo.space
-colabo ../backend/colabo.config.js puzzless-install
-
-# debug the colabo tools
-node --inspect=127.0.0.1:5858 index.js ../backend/colabo.config.js puzzless-offer
+# Install inside the project all puzzles required for project
+# (basically `npm link <npm_package_main_id>` for all puzles listed as dependencies in the `colabo.config.js`)
+colabo puzzless-install
 ```
 
-# TODO
-
-## Warnings
-
-Catch all warnings during the tool running process. For example, if some puzzle offering provide WARN, it should be collected and delivered to the final report. So Promises in the `offerPuzzle()` should return semantic result.
-
-Chech more under: `Parallel control flow` in https://basarat.gitbooks.io/typescript/docs/promise.html
-
-## Types
-
-Make `@types/chalk` working properly: https://github.com/chalk/chalk/blob/master/types/index.d.ts
-Currently it is not recognized

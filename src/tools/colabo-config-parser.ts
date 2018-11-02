@@ -60,13 +60,17 @@ export class ColaboConfigParser{
             this.colaboConfigFolder = this.fileName.substring(0, this.fileName.lastIndexOf("/") + 1);
         }
         this.puzzlesDescription = this.colaboConfig.puzzles;
-        console.log("Config file '%s' is loaded and parsed", this.fileName);
+        // console.log("Config file '%s' is loaded and parsed", this.fileName);
     }
 
     info(){
         console.log("Config file '%s' info", this.fileName);
         console.log("\tname: ", this.puzzlesDescription.name);
         console.log("\tdescription: ", this.puzzlesDescription.description);
+    }
+    
+    getConfig():any{
+        return this.colaboConfig;
     }
 
     listOffers(){

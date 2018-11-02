@@ -1,0 +1,22 @@
+{
+    "name": "{{ pname }}",
+    "version": "{{ pversion }}",
+    "description": "{{ pdescription }}",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "{{{ prepository }}}"
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {},
+    "peerDependenciesLocal": {},
+    "devDependencies": {}
+}
