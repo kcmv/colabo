@@ -41,6 +41,7 @@ export class UserInsight{
   styleUrls: ['./user-actions-statuses.component.css']
 })
 export class UserActionsStatusesComponent implements OnInit {
+  static CWCS_REQUIRED:number = 5;
 
   displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'isPlayedCardRound1', 'isPlayedCardRound2', 'isPlayedCardRound3'];
   usersData:UserInsight[] = [];
@@ -70,6 +71,11 @@ export class UserActionsStatusesComponent implements OnInit {
       }
     }
     return cwcs;
+  }
+
+  correctCWCNo(us:UserInsight):boolean{
+    //console.log('correctCWCNo')
+    return us.cwcs.length === UserActionsStatusesComponent.CWCS_REQUIRED;
   }
 
   playRoundChanged():void{
