@@ -138,6 +138,28 @@ exports._index = function(id, id2, id3, id4, type, res, callback) {
             });
             KNodeModel.find().sort({ id: -1 }).limit(1)
             break;
+            case 'max_val_type_map':
+                //TODO: make it to work for any parameter instead of the fixed one 'dataContent.humanID':
+                console.log("find: max_val_type_map: name: %s", id, 'mapId', id3, 'type', id2);
+                //KNodeModel.findOne().where({id: 1}).sort('-LAST_MOD').exec(function(err, doc)
+                KNodeModel.findOne({ $and: [{ mapId: id3 }, { type: id2 }] }).sort('-dataContent.humanID').exec(function(err, doc) {
+                    if (err) {
+                        console.error('max_val:error', err);
+                        throw err;
+                    } else {
+                        if (doc) {
+                            //var max = doc.LAST_MOD;
+                            console.log("find: max_val - found:", doc.dataContent.humanID);
+                            found(err, doc.dataContent.humanID);
+                        } else {
+                            console.log("find: max_val - not found, returning null");
+                            found(err, null);
+                        }
+                    }
+
+                });
+                KNodeModel.find().sort({ id: -1 }).limit(1)
+                break;
         case 'id_in':
           console.log("_index ::find 'id_in': ids: %s", id);
           var ids = id.split(',');
@@ -156,29 +178,85 @@ exports._index = function(id, id2, id3, id4, type, res, callback) {
 // curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello World Pl", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/knodes
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/knodes
 exports.create = function(req, res) {
-    console.log("[modules/kNode.js:create] req.body: %s", JSON.stringify(req.body));
+    console.log("[modules/kNode.js:create] req.body: %s", JSON.stringify(req.body), 'res', res);
 
     var data = req.body;
 
-    exports._create(data, function(knode, err) {
+    exports._create(data, res, function(knode, err) {
         if (err) throw err;
         console.log("[modules/KNode.js:create] id:%s, knode data: %s", knode._id, JSON.stringify(knode));
         resSendJsonProtected(res, { success: true, data: knode, accessId: accessId });
     });
 }
 
-exports._create = function(data, callback) {
-    console.log("[modules/kNode.js:_create] data: ", data);
+exports.findMaxVal = function(name, type, mapId, res, callback=null){
+  console.log('findMaxVal::params',name, type, mapId, res, callback);
+  exports._index(name, type, mapId, null, 'max_val_type_map', res, callback);
+}
+
+exports.needHumanId  = function(node){
+  switch (node.type) {
+    case 'topiChat.talk.chatMsg':
+        return true;
+      break;
+      case 'rima.user':
+          return true;
+        break;
+    default:
+        return false;
+  }
+}
+
+exports._create = function(data, res, callback, second, third) {
+    console.log("[modules/kNode.js:_create]::params:", data, res, callback, second, third);
     try { //TODO: to catch errors when unpropriate data is sent for creation, including missing or inapropriate reference keys (iAmId, mapId), etc that are uncaught so far:
         //console.log("Before create data: %s", data.toString());
-        var knode = new KNodeModel(data);
-        //console.log("After create data: %s", data.toString());
 
-        knode.save(function(err) {
-            console.log('knode.save', err);
-            if (err) throw err;
-            if (callback) callback(knode, err);
-        });
+        // callback = res;
+
+        function maxHumanIDFound(err, val){
+          if(err===null){
+            console.log('maxHumanIDFound::val',val);
+            if(val === null){val = 0;}
+            console.log('data', data);
+            if(!data.dataContent){
+              data.dataContent = {};
+            }
+            data.dataContent.humanID = ++val;
+            console.log('maxHumanIDFound::humanID:',val);
+            //TODO shouldn't data be 'translated' into server format or cleaned at least?
+            save();
+          }
+          else{
+            console.log('maxHumanIDFound:ERROR', val, err);
+            callback(null,err);
+          }
+        }
+
+
+        function save(){
+          var knode = new KNodeModel(data);
+          //console.log("After create data: %s", data.toString());
+
+          knode.save(function(err) {
+              console.log('knode.save', err);
+              if (err) throw err;
+              if (callback) {
+                callback(knode, err);
+              }
+              else{
+                console.log('no callback');
+              }
+          });
+        }
+        if(exports.needHumanId(data)){
+          console.log('needHumanId = true');
+          exports.findMaxVal('dataContent.humanID', data.type, data.mapId, res, maxHumanIDFound); // this
+        }
+        else{
+          console.log('needHumanId = false');
+          save();
+        }
     } catch (ex) {
         console.log("create exception: %s", ex);
     }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {InsightsService} from '../insights/insights.service';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
-//import { OrderPipe } from 'ngx-order-pipe';
-// import { Pipe, PipeTransform } from '@angular/core';
+
+import { Pipe, PipeTransform } from '@angular/core';
 // import { OrderPipe } from 'ngx-order-pipe'; //https://github.com/VadimDez/ngx-order-pipe
+
 // import { environment } from '../../environments/environment';
 
 // import * as config from '@colabo-utils/i-config';

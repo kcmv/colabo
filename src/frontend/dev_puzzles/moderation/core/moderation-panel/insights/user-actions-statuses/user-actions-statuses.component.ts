@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
 import {InsightsService} from '../insights.service';
+//import {TooltipPosition} from '@angular/material';
 
 // export interface PeriodicElement {
 //   name: string;
@@ -14,20 +15,35 @@ import {InsightsService} from '../insights.service';
 // }
 
 export class UserInsight{
-  _id:string;
-  name:string;
+  user:KNode = null;
+  myColaboFlowState:number;
+  cwcs:KNode[];
   sdgs:number[];
   isPlayedCardRound1:boolean;
   isPlayedCardRound2:boolean;
   isPlayedCardRound3:boolean;
 
-  constructor(_id:string, name:string, sdgs:number[], isPlayedCardRound1:boolean, isPlayedCardRound2:boolean, isPlayedCardRound3:boolean){
-    this._id = _id;
-    this.name = name;
+  constructor(user:KNode, myColaboFlowState:number, cwcs:KNode[], sdgs:number[], isPlayedCardRound1:boolean, isPlayedCardRound2:boolean, isPlayedCardRound3:boolean){
+    this.user = user;
+    // if(!('dataContent' in this.user)){this.user.dataContent = {};}
+    this.myColaboFlowState = myColaboFlowState;
+    this.cwcs = cwcs
     this.sdgs = sdgs;
     this.isPlayedCardRound1 = isPlayedCardRound1;
     this.isPlayedCardRound2 = isPlayedCardRound2;
     this.isPlayedCardRound3 = isPlayedCardRound3;
+  }
+
+  get id():string{
+    return this.user._id;
+  }
+
+  get name():string{
+    return this.user.name;
+  }
+
+  get email():string{
+    return this.user.dataContent.email;
   }
 }
 
@@ -37,9 +53,11 @@ export class UserInsight{
   styleUrls: ['./user-actions-statuses.component.css']
 })
 export class UserActionsStatusesComponent implements OnInit {
+  static CWCS_REQUIRED:number = 5;
+  @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['id', 'name', 'sdgs', 'isPlayedCardRound1', 'isPlayedCardRound2', 'isPlayedCardRound3'];
-  dataSource:UserInsight[] = [];
+  displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'isPlayedCardRound1', 'isPlayedCardRound2', 'isPlayedCardRound3'];
+  usersData:MatTableDataSource<UserInsight>; //any = [];//UserInsight[] = []; TODO
 
   constructor(
     private knalledgeNodeService:KnalledgeNodeService,
@@ -49,6 +67,29 @@ export class UserActionsStatusesComponent implements OnInit {
 
   ngOnInit() {
     this.getCardsPlayedInTheRound();
+    this.usersData.sort = this.sort;
+    //this.getCWCs();
+  }
+
+  getCWCsPrint(us:UserInsight):string{
+    //console.log('getCWCsPrint:: UserInsight', us);
+    let cwcs:string = '';
+    let conn:string = '';
+    let cwc:KNode;
+    for(var c:number = 0; c < us.cwcs.length; c++){
+      console.log('getCWCsPrint:: us.cwcs', us.cwcs);
+      cwc = us.cwcs[c];
+      if(('dataContent' in cwc) && ('humanID' in cwc.dataContent)){
+        cwcs+= conn + cwc.dataContent.humanID;
+        conn = ', ';
+      }
+    }
+    return cwcs;
+  }
+
+  correctCWCNo(us:UserInsight):boolean{
+    //console.log('correctCWCNo')
+    return us.cwcs.length === UserActionsStatusesComponent.CWCS_REQUIRED;
   }
 
   playRoundChanged():void{
@@ -59,19 +100,55 @@ export class UserActionsStatusesComponent implements OnInit {
     this.insightsService.getCardsPlayedInTheRound(this.colaboFlowService.colaboFlowState.playRound, true).subscribe(this.cardsPlayedReceived.bind(this));
   }
 
+  getCWCs():void{
+    this.insightsService.getCWCs(this.colaboFlowService.colaboFlowState.playRound, true).subscribe(this.cwcsReceived.bind(this));
+  }
+
+  cwcsReceived(cwcs:KNode[]):void{
+    console.log('cwcsReceived',cwcs);
+    let usrD:UserInsight;
+    let userDataInTab:UserInsight[] = null
+    // if(this.usersData instanceof MatTableDataSource){
+    // userDataInTab = (this.usersData as MatTableDataSource<UserInsight>).data;
+    userDataInTab = this.usersData.data;
+    // }else{
+    //   userDataTrans = this.usersData;
+    // }
+
+    for(var u:number = 0; u < userDataInTab.length; u++){
+      userDataInTab[u].cwcs = [];
+    }
+    for(var c:number = 0; c < cwcs.length; c++){
+      for(var u:number = 0; u < userDataInTab.length; u++){
+        usrD = userDataInTab[u];
+        if(cwcs[c].iAmId === usrD.user._id){
+          usrD.cwcs.push(cwcs[c]);
+        }
+      }
+    }
+  }
+
   private usersReceived(users:KNode[]):void{
     //console.log('usersReceived', users);
-    this.dataSource = [];
+    let userInsights = [];
     let usrId:string;
+    let user:KNode;
     for(var i:number=0; i<users.length; i++){
-      usrId = users[i]._id;
-      this.dataSource.push(new UserInsight(users[i]._id, users[i].name, [], this.insightsService.hasUserPlayedInTheRound(usrId, 1), this.insightsService.hasUserPlayedInTheRound(usrId, 2), this.insightsService.hasUserPlayedInTheRound(usrId, 3)));
+      user = users[i];
+      usrId = user._id;
+      userInsights.push(new UserInsight(user, 0, [], [], this.insightsService.hasUserPlayedInTheRound(usrId, 1), this.insightsService.hasUserPlayedInTheRound(usrId, 2), this.insightsService.hasUserPlayedInTheRound(usrId, 3)));
     }
+
+    // console.log('usersData:B',JSON.stringify(userInsights));
+    this.usersData = new MatTableDataSource(userInsights);
+    // console.log('usersData:A',JSON.stringify(this.usersData));
+    this.usersData.sort = this.sort;
+    this.getCWCs();
   }
 
   // getUserActionsStatusesData():void{
   //
-  //   this.dataSource = [
+  //   this.usersData = [
   //     {position: 1, name: 'Sinisa', weight: 1.0079, symbol: 'H'},
   //     {position: 2, name: 'Sasa', weight: 4.0026, symbol: 'He'},
   //     {position: 3, name: 'Test', weight: 6.941, symbol: 'Li'},
@@ -92,9 +169,9 @@ export class UserActionsStatusesComponent implements OnInit {
     //TODO: so far not doing anything just to have the cards in service
     // //resetting 'hasUserPlayedInTheRound' for the case that this method returns after the 'usersReceived' method
     // for(var c:number=0; c<cards.length; c++){
-    //   for(var u:number=0; u<this.dataSource.length; u++){
-    //     if(this.dataSource[u]._id = cards[i].iAmId){
-    //       this.dataSource[u]
+    //   for(var u:number=0; u<this.usersData.length; u++){
+    //     if(this.usersData[u]._id = cards[i].iAmId){
+    //       this.usersData[u]
     //     }
     // }
   }

@@ -34,6 +34,7 @@ export class SimilarityService {
   }
 
   usersReceived(users:any[]):void{
+    this.similarityRequestsReceivedNo = 0;
     for(var i:number = 0; i<users.length; i++){
       //TODO: requestSimilarity(users[i]._id), SimilarityService.MAP_ID, this.colaboFlowService.colaboFlowState.playRound);
       let content:any = {
@@ -47,7 +48,6 @@ export class SimilarityService {
 
       this.sendMessage(content);
       this.similarityRequestsSentNo = users.length;
-      this.similarityRequestsReceivedNo = 0;
     }
   }
 
@@ -71,6 +71,7 @@ export class SimilarityService {
   actionResponseMsg(eventName:string, msg:any, tcPackage:TopiChatPackage) {
       console.log('[ColaboFlowTopiChatForm:actionResponseMsg] tcPackage: %s', JSON.stringify(tcPackage));
       console.log('msg: %s', JSON.stringify(msg));
+      this.similarityRequestsReceivedNo++;
       let action:string = msg.content.action;
       let params:string = msg.content.params;
       let result:string = msg.content.result;

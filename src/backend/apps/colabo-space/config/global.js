@@ -59,7 +59,7 @@ if (!globalSet.hasOwnProperty('puzzles')) {
     globalSet.puzzles = {
         '@colabo-topichat/b-talk': {
             saveTalkToMap: true,
-            mapId: "5b96619b86f3cc8057216a03",
+            mapId: "5bce4f50b6b1fc5d048c706d",
             iAmId: "1b96619b86f3cc8057216a05",
             nodeId: ""
         },

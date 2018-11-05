@@ -6,6 +6,13 @@
   border-radius: 3%;
 }
 
+.cardNo{
+  border: solid black 1;
+  padding: 2px;
+  background-color: darkgray;
+  margin:2px;
+}
+
 .userName{
   vertical-align: top;
 }

@@ -25,6 +25,11 @@ Currently manually placing the content of the failed imports
   src: url(https://fonts.gstatic.com/s/materialicons/v36/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2');
 }
 
+.warning{
+  color: red;
+  font-weight: bolder;
+}
+
 .hidden {
   display:none;
 }
