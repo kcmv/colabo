@@ -41,6 +41,10 @@ var puzzles = {
             npm: "@colabo-rima/b-aaa",
             path: "dev_puzzles/rima/aaa"
         },
+        "@colabo-topichat/b-clients-orchestration": {
+            npm: "@colabo-topichat/f-clients-orchestration",
+            path: "dev_puzzles/topichat/clients-orchestration"
+        },
         "@colabo-topichat/b-core": {
             npm: "@colabo-topichat/b-core",
             path: "dev_puzzles/topichat/core"

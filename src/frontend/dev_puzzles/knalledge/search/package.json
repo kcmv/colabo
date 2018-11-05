@@ -1,8 +1,20 @@
 {
     "name": "@colabo-knalledge/f-search",
     "version": "0.0.1",
-    "private": true,
-    "scripts": {},
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Cha-OS/colabo.git"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "scripts": {
+        "build": "tsc"
+    },
     "dependencies": {},
     "peerDependencies": {
         "@angular/cdk": "^2.0.0-beta.12",

@@ -1,3 +1,3 @@
 /*
- * Public API Surface of `{{ pname }}`
+ * Public API Surface of `{{{ pname }}}`
  */

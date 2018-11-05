@@ -1,7 +1,7 @@
 {
-    "name": "@colabo-utils/i-pub-sub",
+    "name": "@colabo-topichat/f-clients-orchestration",
     "version": "0.0.1",
-    "description": "Provides core support for topiChat",
+    "description": "Frontend TopiChat puzzle for orchestration of clients (both mediators and regular clients)",
     "private": false,
     "publishConfig": {
         "access": "public"
@@ -9,7 +9,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git://github.com/Cha-OS/colabo.git"
+        "url": "https://github.com/Cha-OS/colabo"
     },
     "scripts": {
         "build": "tsc"
@@ -17,8 +17,6 @@
     "main": "dist/index.js",
     "module": "dist/index.js",
     "dependencies": {},
-    "peerDependencies": {},
     "peerDependenciesLocal": {},
-    "devDependencies": {},
-    "devDependenciesLocal": {}
+    "devDependencies": {}
 }

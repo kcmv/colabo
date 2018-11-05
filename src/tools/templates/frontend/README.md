@@ -1,5 +1,9 @@
 # Intro
 
-{{pname}} is a {{project}} puzzle.
+`{{{pname}}}` is a ***{{{project}}}*** puzzle.
 
-{{pdescription}}.
+{{{pdescription}}}.
+
+-----
+
+This puzzle is automatically created with the [colabo tools](https://www.npmjs.com/package/@colabo/cli)

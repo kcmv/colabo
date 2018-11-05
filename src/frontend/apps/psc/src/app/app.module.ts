@@ -25,6 +25,7 @@ import { RimaAaaModule } from '@colabo-rima/f-aaa';
 import { ModerationCoreModule } from '@colabo-moderation/f-core';
 import { ColaboFlowCoreModule } from '@colabo-flow/f-core';
 import { TopiChatTalkModule } from '@colabo-topichat/f-talk';
+import { TopiChatClientsOrchestrationModule } from '@colabo-topichat/f-clients-orchestration';
 import {SimilarityModule} from '@colabo-ai-ml/f-similarity';
 
 import {SDGsService} from './select-sdgs/sdgs.service';
@@ -126,6 +127,7 @@ var moduleImports = [
   , ModerationCoreModule
   , ColaboFlowCoreModule
   , TopiChatTalkModule
+  , TopiChatClientsOrchestrationModule
   , SimilarityModule
 ];
 // moduleImports.push(MainModule);

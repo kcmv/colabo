@@ -63,6 +63,12 @@ if (!globalSet.hasOwnProperty('puzzles')) {
             iAmId: "1b96619b86f3cc8057216a05",
             nodeId: ""
         },
+        '@colabo-topichat/b-clients-orchestration': {
+            saveTalkToMap: false,
+            mapId: "5b96619b86f3cc8057216a03",
+            iAmId: "1b96619b86f3cc8057216a05",
+            nodeId: ""
+        },
         '@colabo-flow/b-services': {
             debug: true,
 

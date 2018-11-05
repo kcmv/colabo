@@ -1,7 +1,7 @@
 {
-    "name": "{{ pname }}",
+    "name": "{{{ pname }}}",
     "version": "{{ pversion }}",
-    "description": "{{ pdescription }}",
+    "description": "{{{ pdescription }}}",
     "private": false,
     "publishConfig": {
         "access": "public"

@@ -22,13 +22,13 @@ var puzzles = {
             npm: "@colabo-knalledge/f-core",
             path: "dev_puzzles/knalledge/core"
         },
-        "@colabo-knalledge/f-store_core": {
-            npm: "@colabo-knalledge/f-store_core",
-            path: "dev_puzzles/knalledge/store_core"
-        },
         "@colabo-knalledge/f-search": {
             npm: "@colabo-knalledge/f-search",
             path: "dev_puzzles/knalledge/search"
+        },
+        "@colabo-knalledge/f-store_core": {
+            npm: "@colabo-knalledge/f-store_core",
+            path: "dev_puzzles/knalledge/store_core"
         },
         "@colabo-knalledge/f-view_enginee": {
             npm: "@colabo-knalledge/f-view_enginee",
@@ -49,6 +49,10 @@ var puzzles = {
         "@colabo-rima/f-aaa": {
             npm: "@colabo-rima/f-aaa",
             path: "dev_puzzles/rima/aaa"
+        },
+        "@colabo-topichat/f-clients-orchestration": {
+            npm: "@colabo-topichat/f-clients-orchestration",
+            path: "dev_puzzles/topichat/clients-orchestration"
         },
         "@colabo-topichat/f-core": {
             npm: "@colabo-topichat/f-core",

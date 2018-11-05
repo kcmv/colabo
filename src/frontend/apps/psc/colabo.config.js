@@ -18,6 +18,7 @@ var puzzles = {
         "@colabo-knalledge/f-store_core": {},
         "@colabo-rima/f-aaa": {},
         "@colabo-utils/i-pub-sub": {},
+        "@colabo-topichat/f-clients-orchestration": {},
         "@colabo-topichat/f-core": {},
         "@colabo-topichat/f-talk": {},
         "@colabo-topichat/f-system": {},

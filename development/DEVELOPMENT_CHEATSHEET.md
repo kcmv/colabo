@@ -33,6 +33,7 @@ https://www.npmjs.com/org/colabo
 https://www.npmjs.com/org/colabo-knalledge
 https://www.npmjs.com/org/colabo-flow
 https://www.npmjs.com/org/colabo-media
+https://www.npmjs.com/org/colabo-puzzles
 https://www.npmjs.com/org/colabo-rima
 https://www.npmjs.com/org/colabo-topichat
 https://www.npmjs.com/org/colabo-utils

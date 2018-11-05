@@ -1,6 +1,6 @@
 # Intro
 
-This is a Talk Extension of the TopiChat service.
+This is the Talk Extension of the TopiChat service.
 
 TopiChat is semantic and structured dialogue service.
 

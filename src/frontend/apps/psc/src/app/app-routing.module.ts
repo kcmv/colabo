@@ -19,6 +19,7 @@ import {DialoGameComponent} from './dialo-game/dialo-game.component'; //PTW
 import {ModerationPanelComponent} from '@colabo-moderation/f-core';
 //import { ModerationCoreModule } from '@colabo-moderation/f-core/lib/module';
 import {TopiChatTalkForm} from '@colabo-topichat/f-talk';
+import { TopiChatClientsOrchestrationForm } from '@colabo-topichat/f-clients-orchestration';
 
 const routes: Routes = [
   { // default route
@@ -93,6 +94,10 @@ const routes: Routes = [
   {
     path: 'talk',
     component: TopiChatTalkForm
+  },
+  {
+    path: 'orchestration',
+    component: TopiChatClientsOrchestrationForm
   }
 ];
 

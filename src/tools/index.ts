@@ -12,7 +12,12 @@ process.title = 'colabo-tools';
 // import * as chalk from 'chalk';
 var chalk = require('chalk');
 import * as fs from 'fs';
+// https://github.com/sindresorhus/ora
+// spinners list
+// https://github.com/sindresorhus/cli-spinners/blob/master/spinners.json
 import * as Ora from 'ora';
+// Emoji list
+// https://raw.githubusercontent.com/omnidan/node-emoji/master/lib/emoji.json
 import * as Emoji from 'node-emoji';
 
 // process.chdir

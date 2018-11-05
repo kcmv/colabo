@@ -1,8 +1,20 @@
 {
   "name": "@colabo-knalledge/f-view_interaction",
   "version": "0.0.1",
-  "private": true,
-  "scripts": {},
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Cha-OS/colabo.git"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {},
   "peerDependenciesLocal": {
     "@colabo-puzzles/f-core": "^0.0.1",

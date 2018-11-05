@@ -1,3 +1,7 @@
+# Info
+
+https://github.com/gutfeeling/word_forms
+
 # Python3
 
 ```sh
@@ -42,6 +46,8 @@ kill -TERM pid
 # <type>: synonyms, word_forms, hypernyms
 # service client
 python wordforms.py dog synonyms
+python3 wordforms.py dog synonyms
+python3 wordforms.py anticipation synonyms
 # it will report:
 # `socket.error: [Errno 111] Connection refused`
 # until the service is started completely
