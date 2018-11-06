@@ -57,7 +57,7 @@ export class UserActionsStatusesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'isPlayedCardRound1', 'isPlayedCardRound2', 'isPlayedCardRound3'];
-  usersData:MatTableDataSource<UserInsight>; //any = [];//UserInsight[] = []; TODO
+  usersData:MatTableDataSource<UserInsight> = null; //any = [];//UserInsight[] = []; TODO
 
   constructor(
     private knalledgeNodeService:KnalledgeNodeService,
@@ -67,7 +67,7 @@ export class UserActionsStatusesComponent implements OnInit {
 
   ngOnInit() {
     this.getCardsPlayedInTheRound();
-    this.usersData.sort = this.sort;
+    if(this.usersData !== null){this.usersData.sort = this.sort;}
     //this.getCWCs();
   }
 
@@ -77,7 +77,7 @@ export class UserActionsStatusesComponent implements OnInit {
     let conn:string = '';
     let cwc:KNode;
     for(var c:number = 0; c < us.cwcs.length; c++){
-      console.log('getCWCsPrint:: us.cwcs', us.cwcs);
+      // console.log('getCWCsPrint:: us.cwcs', us.cwcs);
       cwc = us.cwcs[c];
       if(('dataContent' in cwc) && ('humanID' in cwc.dataContent)){
         cwcs+= conn + cwc.dataContent.humanID;

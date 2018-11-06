@@ -84,8 +84,12 @@ class SearchNodes {
 			KEdgeModel.find({ 'mapId': id, 'sourceId': id2 }, foundEdges.bind(this));
 			isParents = false;
     } else if (type == 'children' && actionType == 'in-map-of-type') {
-      KEdgeModel.find({ 'mapId': id, 'sourceId': id2, 'type': id3}, foundEdges.bind(this));
-      isParents = false;
+
+      // var found = function(){}
+      //
+      // KEdgeModel.find({ 'mapId': id, 'type': id2}).populate('targetId', '_id name').exec(found.bind(this);
+      // // HowAmIModel.find({ whoAmI: id }).populate('whatAmI', '_id name').exec(found);
+      // isParents = false;
     }else{
 			resSendJsonProtected(this.res, { data: null, accessId: accessId, success: false, msg: "Not matching API signature" });
 		}
