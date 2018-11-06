@@ -27,6 +27,7 @@ import { ColaboFlowCoreModule } from '@colabo-flow/f-core';
 import { TopiChatTalkModule } from '@colabo-topichat/f-talk';
 import { TopiChatClientsOrchestrationModule } from '@colabo-topichat/f-clients-orchestration';
 import {SimilarityModule} from '@colabo-ai-ml/f-similarity';
+import { KnalledgeMapModule } from '@colabo-knalledge/f-map';
 
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
@@ -129,6 +130,7 @@ var moduleImports = [
   , TopiChatTalkModule
   , TopiChatClientsOrchestrationModule
   , SimilarityModule
+  , KnalledgeMapModule
 ];
 // moduleImports.push(MainModule);
 

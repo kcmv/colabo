@@ -22,6 +22,10 @@ var puzzles = {
             npm: "@colabo-knalledge/f-core",
             path: "dev_puzzles/knalledge/core"
         },
+        "@colabo-knalledge/f-map": {
+            npm: "@colabo-knalledge/f-map",
+            path: "dev_puzzles/knalledge/map"
+        },
         "@colabo-knalledge/f-search": {
             npm: "@colabo-knalledge/f-search",
             path: "dev_puzzles/knalledge/search"

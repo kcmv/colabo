@@ -15,7 +15,10 @@ var puzzles = {
     dependencies: {
         "@colabo-puzzles/f-core": {},
         "@colabo-knalledge/f-core": {},
+        "@colabo-knalledge/f-map": {},
         "@colabo-knalledge/f-store_core": {},
+        "@colabo-knalledge/f-view_enginee": {},
+        "@colabo-knalledge/f-view_interaction": {},
         "@colabo-rima/f-aaa": {},
         "@colabo-utils/i-pub-sub": {},
         "@colabo-topichat/f-clients-orchestration": {},
