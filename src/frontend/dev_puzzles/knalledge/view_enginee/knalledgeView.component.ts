@@ -48,12 +48,6 @@ var decodeRoute = function(routeEncoded) {
 events
 */
 
-var moduleImports = [];
-
-@NgModule({
-  imports: moduleImports
-})
-
 @Component({
   selector: 'knalledge-view',
   templateUrl: './knalledgeView.component.tpl.html'
@@ -259,10 +253,14 @@ export class KnalledgeViewComponent implements OnInit, AfterViewInit, OnDestroy{
       knalledgeMapDomVisualContainerD3,
       this.config, this.kMapClientInterface, null,
       this.config.tree.mapService.enabled ? this.KnalledgeMapVOsService : null,
-      // if this.mapData is set, we do not use KnalledgeMapVOsService.mapStructure but let knalledge.Map to create a new mapStructure and build VKs from Ks
+      // if this.mapData is set, we do not use KnalledgeMapVOsService.mapStructure, 
+      // but let knalledge.Map to create a new mapStructure and build VKs from Ks
       this.checkData(this.mapData) ? null :
       (this.KnalledgeMapVOsService ? this.KnalledgeMapVOsService.mapStructure : null),
-      this.CollaboPluginsService, this.RimaService, this.IbisTypesService, this.NotifyService, mapPlugins, this.KnalledgeMapViewService, this.SyncingService, this.KnAllEdgeRealTimeService, this.KnalledgeMapPolicyService, this.knalledgeMapInjector, this.Plugins
+      this.CollaboPluginsService, this.RimaService, this.IbisTypesService, 
+      this.NotifyService, mapPlugins, this.KnalledgeMapViewService, this.SyncingService, 
+      this.KnAllEdgeRealTimeService, this.KnalledgeMapPolicyService, 
+      this.knalledgeMapInjector, this.Plugins
     );
     this.knalledgeMap.init();
 
@@ -311,13 +309,19 @@ export class KnalledgeViewComponent implements OnInit, AfterViewInit, OnDestroy{
   // from the ngOnInit() instead, then this might be merged with
   // registerToGlobalEvents() method
   private registerToGlobalEventsAfterInit(){
-    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeNodeCreatedEvent).subscribe('knalledgeMap', this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
-    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeNodeUpdatedEvent).subscribe('knalledgeMap', this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
-    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeNodeDeletedEvent).subscribe('knalledgeMap', this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
+    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeNodeCreatedEvent).subscribe('knalledgeMap', 
+    this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
+    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeNodeUpdatedEvent).subscribe('knalledgeMap', 
+    this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
+    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeNodeDeletedEvent).subscribe('knalledgeMap', 
+    this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
 
-    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeEdgeCreatedEvent).subscribe('knalledgeMap', this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
-    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeEdgeUpdatedEvent).subscribe('knalledgeMap', this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
-    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeEdgeDeletedEvent).subscribe('knalledgeMap', this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
+    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeEdgeCreatedEvent).subscribe('knalledgeMap', 
+    this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
+    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeEdgeUpdatedEvent).subscribe('knalledgeMap', 
+    this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
+    this.subscriptions.push(this.GlobalEmittersArrayService.get(this.KnRealTimeEdgeDeletedEvent).subscribe('knalledgeMap', 
+    this.knalledgeMap.processExternalChangesInMap.bind(this.knalledgeMap)));
   }
 
   private loadDynamicServices(){

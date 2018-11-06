@@ -1,0 +1,25 @@
+{
+    "name": "@colabo-knalledge/f-map",
+    "version": "0.1.1",
+    "description": "Visualizes KnAllEdge through a map",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Cha-OS/colabo"
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {},
+    "peerDependenciesLocal": {
+        "@colabo-knalledge/f-view_enginee": "^0.0.1",
+        "@colabo-knalledge/f-view_interaction": "^0.0.1"
+    },
+    "devDependencies": {}
+}
