@@ -21,7 +21,7 @@
         "body-parser": "^1.18.3",
         "chalk": "^2.4.1",
         "deep-assign": "http://colabo.space/downloads/deep-assign-2.0.0.tgz",
-        "express": "3.x",
+        "express": "^4.16.4",
         "express-resource": "http://colabo.space/downloads/express-resource-1.0.0.tgz"
     },
     "devDependencies": {

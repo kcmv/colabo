@@ -17,6 +17,9 @@
     "main": "dist/index.js",
     "module": "dist/index.js",
     "dependencies": {},
+    "peerDependencies": {
+        "socket.io": "^2.1.1"
+    },
     "peerDependenciesLocal": {},
     "devDependencies": {}
 }

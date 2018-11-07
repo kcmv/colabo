@@ -80,11 +80,15 @@ export class TopiChat{
 	* @param {String}	roomName The name of the room
 	* @param {any}	options additional optiona
 	*/
-	constructor(roomName, options?:any){
-		options = options || {};
+	constructor(roomName, _options?:any){
+		let _optionsL = {
+			'pingInterval': 2000, // ms
+			'pingTimeout': 5000 // ms
+		};
+
 		this.ClientID = 0.0;
 		this.roomName = roomName;
-		this.options = options;
+		this.options = _options || _optionsL;
 		this.plugins = {};
 		this.eventsByPlugins = {};
 		this.socketIdToClientId = {};
@@ -108,14 +112,13 @@ export class TopiChat{
 		return this.roomName;
 	}
 
-
 	/**
 	* Connects to the TopiChat (socket.io) backend
 	* @method connect
-	* @param {}	server Express server
+	* @param {}	server Node.js http server
 	*/
-	connect(server) {
-		this.io = socketio.listen(server);
+	connect(httpServer) {
+		this.io = socketio(httpServer, this.options);
 
 		this.io.on('connection', function(socket){
 			this.handleClientConnection(socket);

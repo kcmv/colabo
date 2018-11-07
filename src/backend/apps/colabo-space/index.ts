@@ -55,56 +55,56 @@ function supportCrossOriginScript(req, res, next) {
 
 var portHttp = process.argv[2] || process.env.PORT || 8888;
 
-var app = express();
+var expressApp = express();
 
 // var bodyParser = require('body-parser');
 
-app.configure(function () {
-    app.use(express.logger());
-    app.use(express.cookieParser()); // cookie parser is used before the session
+expressApp.configure(function () {
+    expressApp.use(express.logger());
+    expressApp.use(express.cookieParser()); // cookie parser is used before the session
     // multer and body-parser resolution
     // https://github.com/expressjs/multer/issues/251
-    // app.use(express.bodyParser());
-    // app.use(bodyParser.json());
-    app.use(express.json());
-    app.use(express.urlencoded());
+    // expressApp.use(express.bodyParser());
+    // expressApp.use(bodyParser.json());
+    expressApp.use(express.json());
+    expressApp.use(express.urlencoded());
     console.log("process.argv: %s", JSON.stringify(process.argv));
-    app.set('port', portHttp);
+    expressApp.set('port', portHttp);
 
-    app.use(supportCrossOriginScript);
-    app.use(app.router);
+    expressApp.use(supportCrossOriginScript);
+    expressApp.use(expressApp.router);
 });
 
 /* Knalledge Maps */
 
 import {KnAllEdgeCoreRegister} from '@colabo-knalledge/b-core';
-KnAllEdgeCoreRegister(app);
+KnAllEdgeCoreRegister(expressApp);
 
-// var puzzleKnalledgeSearch = require('@colabo-knalledge/b-search')(app);
+// var puzzleKnalledgeSearch = require('@colabo-knalledge/b-search')(expressApp);
 import * as PuzzleKnalledgeSearch from '@colabo-knalledge/b-search';
-PuzzleKnalledgeSearch.initialize(app);
+PuzzleKnalledgeSearch.initialize(expressApp);
 
 
 /* RIMA */
-// var whatAmIs = app.resource('whatAmIs', require('./modules/whatAmI'), { id: 'type?/:searchParam?' });
-// var whoAmIs = app.resource('whoAmIs', require('./modules/whoAmI'), { id: 'type?/:searchParam?' });
-// var howAmIs = app.resource('howAmIs', require('./modules/howAmI'), { id: 'type?/:searchParam?' });
+// var whatAmIs = expressApp.resource('whatAmIs', require('./modules/whatAmI'), { id: 'type?/:searchParam?' });
+// var whoAmIs = expressApp.resource('whoAmIs', require('./modules/whoAmI'), { id: 'type?/:searchParam?' });
+// var howAmIs = expressApp.resource('howAmIs', require('./modules/howAmI'), { id: 'type?/:searchParam?' });
 
 /* AAA */
-var aaa = app.resource('aaa', require('@colabo-rima/b-aaa/aaa'), { id: 'type?/:searchParam?/:searchParam2?' });
+var aaa = expressApp.resource('aaa', require('@colabo-rima/b-aaa/aaa'), { id: 'type?/:searchParam?/:searchParam2?' });
 
 /* GENERAL */
-// var syncing = app.resource('syncing', require('./modules/syncing'), { id: 'type?/:searchParam?/:searchParam2?' });
-// var dbAudits = app.resource('dbAudits', require('./modules/dbAudit'), { id: 'type?/:searchParam?' });
-// var session = app.resource('session', require('./modules/session'), { id: 'type?/:searchParam?' });
+// var syncing = expressApp.resource('syncing', require('./modules/syncing'), { id: 'type?/:searchParam?/:searchParam2?' });
+// var dbAudits = expressApp.resource('dbAudits', require('./modules/dbAudit'), { id: 'type?/:searchParam?' });
+// var session = expressApp.resource('session', require('./modules/session'), { id: 'type?/:searchParam?' });
 
-// var mapImport = app.resource('mapImport', require('./modules/mapImport'), { id: 'type?/:searchParam?' });
+// var mapImport = expressApp.resource('mapImport', require('./modules/mapImport'), { id: 'type?/:searchParam?' });
 
 import * as PuzzleMediaUpload from '@colabo-media/b-upload';
-PuzzleMediaUpload.initialize(app);
+PuzzleMediaUpload.initialize(expressApp);
 
-// var smsapi = app.resource('smsapi', require('./modules/smsapi_old_JS')); //JS
-// var smsapi = app.resource('smsapi', require('./modules/smsapi')); //TS
+// var smsapi = expressApp.resource('smsapi', require('./modules/smsapi_old_JS')); //JS
+// var smsapi = expressApp.resource('smsapi', require('./modules/smsapi')); //TS
 
 // TopiChat
 import {TopiChat} from '@colabo-topichat/b-core';
@@ -122,9 +122,11 @@ var topiChatClientOrchestrator = new TopiChatClientOrchestrator(topiChat);
 import {ColaboFlowTopiChat} from '@colabo-flow/b-topichat';
 var colaboFlowTopiChat = new ColaboFlowTopiChat(topiChat);
 
-let server = http.createServer(app).listen(app.get('port'), function () {
-    console.log("Listening on " + app.get('port'));
+// let server = http.createServer(expressApp).listen(expressApp.get('port')
+let httpServer = http.Server(expressApp);
+topiChat.connect(httpServer);
+httpServer.listen(portHttp, function () {
+    console.log('%s is listening on the %s', coLaboSpaceText, chalk.bold.blue('*:'+portHttp));
 });
 
-topiChat.connect(server);
 console.log(coLaboSpaceText + " started ...")
