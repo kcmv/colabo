@@ -1,16 +1,17 @@
 /* @import "normalize"; */
+
 @import "compass";
 @import "susy";
 @import "breakpoint";
-
 $small: 680px;
+
 /*
 $medium: 800px;
 $large: 1400px;
 */
+
 $medium: 700px;
 $large: 705px;
-
 $collabo_color: #555555;
 $art_color: #aaaaaa;
 
@@ -19,8 +20,9 @@ $art_color: #aaaaaa;
 	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
 	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 */
+
 * {
-	margin: 0px;
-	padding: 0px;
-	@include box-sizing(border-box);
+    // margin: 0px;
+    // padding: 0px;
+    @include box-sizing(border-box);
 }

@@ -708,6 +708,8 @@ md-sidenav{
 		}
 		.vote_up {
 			position: absolute;
+			margin: 0px;
+			padding: 0px;
 			left: -10px;
 			top: -10px;
 			background-color: #88ff88;
@@ -726,6 +728,8 @@ md-sidenav{
 			position: absolute;
 			left: -10px;
 			top: +15px;
+			margin: 0px;
+			padding: 0px;
 			background-color: #ff8888;
 			border: 2px solid #aa0000;
 			padding-left: 4px;
