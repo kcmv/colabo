@@ -21,7 +21,7 @@ export interface TopiChatPackage {
   clientIdReciever: string;
   iAmIdReciever?: string;
   timestamp: number;
-	msg?: any
+	msg?: any;
 }
 
 export interface TopiChatClientInfo{
@@ -57,7 +57,12 @@ export class TopiChatCoreService{
   init() {
       this.serverPubSub = new ColaboPubSub("SocketIoPlugins", this.registerNewEventType.bind(this));
 
-      let socketOptions = {forceNew: false};
+      let socketOptions:any = {
+        forceNew: false
+      };
+      if(this.puzzleConfig.path){
+        socketOptions.path = this.puzzleConfig.path;
+      }
       let socketUrl:string = this.puzzleConfig.socketUrl;
       console.log("[TopiChatService:init] connecting to: ", socketUrl);
       this._socket = socketIO(socketUrl, socketOptions);
