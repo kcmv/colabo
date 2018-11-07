@@ -57,23 +57,36 @@ var portHttp = process.argv[2] || process.env.PORT || 8888;
 
 var expressApp = express();
 
-// var bodyParser = require('body-parser');
+var morgan = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
-expressApp.configure(function () {
-    expressApp.use(express.logger());
-    expressApp.use(express.cookieParser()); // cookie parser is used before the session
-    // multer and body-parser resolution
-    // https://github.com/expressjs/multer/issues/251
-    // expressApp.use(express.bodyParser());
-    // expressApp.use(bodyParser.json());
-    expressApp.use(express.json());
-    expressApp.use(express.urlencoded());
-    console.log("process.argv: %s", JSON.stringify(process.argv));
-    expressApp.set('port', portHttp);
+// exported in v4.*
+// expressApp.use(express.logger());
+expressApp.use(morgan('combined'));
+// exported in v4.*
+// expressApp.use(express.cookieParser()); // cookie parser is used before the session
+expressApp.use(cookieParser());
 
-    expressApp.use(supportCrossOriginScript);
-    expressApp.use(expressApp.router);
-});
+// multer and body-parser resolution
+// https://github.com/expressjs/multer/issues/251
+
+// parse application/x-www-form-urlencoded
+// note this might conflict with multer, it was with express v3.* probably not any more with v4.*
+expressApp.use(bodyParser.urlencoded({ extended: false }));
+// expressApp.use(express.urlencoded());
+
+// parse application/json
+// note this might conflict with multer, it was with express v3.* probably not any more with v4.*
+expressApp.use(bodyParser.json());
+// expressApp.use(express.json());
+
+console.log("process.argv: %s", JSON.stringify(process.argv));
+expressApp.set('port', portHttp);
+
+expressApp.use(supportCrossOriginScript);
+// not used anymore in v4.*
+// expressApp.use(expressApp.router);
 
 /* Knalledge Maps */
 
