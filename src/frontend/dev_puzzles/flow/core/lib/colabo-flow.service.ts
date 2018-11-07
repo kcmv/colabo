@@ -5,8 +5,17 @@ import {MyColaboFlowState, MyColaboFlowStates} from './myColaboFlowState';
 import { Observable, of } from 'rxjs';
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {TopiChatCoreService, TopiChatPackage} from '@colabo-topichat/f-core';
+import {ColaboPubSubPlugin} from '@colabo-utils/i-pub-sub';
+
+export {TopiChatPackage, ColaboPubSubPlugin};
 
 const COLABO_FLOW_STATE_NODE_ID:string = '5b9f9ff97f07953d41256aff';
+
+export enum ColaboFlowEvents{
+	ColaboFlowStateChange = 'tc:colabo-flow-state-change'
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +25,8 @@ export class ColaboFlowService {
   public dbDialoGameState: KNode = new KNode(); //without this compiler throws ERR error TS2339: Property 'dataContent' does not exist on type 'never'. for code: this.dbDialoGameState.dataContent = {};
 
   constructor(
-    private knalledgeNodeService:KnalledgeNodeService
+    private knalledgeNodeService:KnalledgeNodeService,
+		protected topiChatCoreService:TopiChatCoreService
   ) {
     this.colaboFlowState = new ColaboFlowState();
     this.myColaboFlowState = new MyColaboFlowState();
@@ -103,5 +113,13 @@ export class ColaboFlowService {
 
   undo():MyColaboFlowStates{
     return this.myColaboFlowState.goBack();
+  }
+
+	emit(eventName, msg, clientIdReciever?:string) {
+    this.topiChatCoreService.emit(eventName, msg, clientIdReciever);
+  }
+
+  registerPlugin(pluginOptions:ColaboPubSubPlugin){
+    this.topiChatCoreService.registerPlugin(pluginOptions);
   }
 }
