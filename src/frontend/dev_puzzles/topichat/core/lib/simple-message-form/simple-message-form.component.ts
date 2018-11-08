@@ -21,8 +21,8 @@ export class TopiChatSimpleMessageForm implements OnInit {
       // called on helo message
       function clientEcho(eventName, msg, tcPackage:TopiChatPackage) {
           console.log('[TopiChatSimpleMessageForm:clientEcho] Client id: %s', tcPackage.clientIdReciever);
-          console.log('\t msg: %s', JSON.stringify(tcPackage.msg));
-          this.messages.push(tcPackage.msg);
+          console.log('\t payload: %s', JSON.stringify(tcPackage.payload));
+          this.messages.push(tcPackage.payload);
       }
 
       // registering system plugin

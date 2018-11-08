@@ -14,9 +14,6 @@ export class ColaboFlowTopiChatForm implements OnInit {
 
   public messages = [
     {
-      meta: {
-        timestamp: "010101"
-      },
       from: {
         name: "Саша"
       },
@@ -25,9 +22,6 @@ export class ColaboFlowTopiChatForm implements OnInit {
       }
     },
     {
-      meta: {
-        timestamp: "010102"
-      },
       from: {
         name: "Синиша"
       },
@@ -36,9 +30,6 @@ export class ColaboFlowTopiChatForm implements OnInit {
       }
     },
     {
-      meta: {
-        timestamp: "010103"
-      },
       from: {
         name: "Colabo"
       },
@@ -88,9 +79,6 @@ export class ColaboFlowTopiChatForm implements OnInit {
 
     let whoAmI:KNode = this.rimaAAAService.getUser();
     var msg:any = {
-      meta: {
-        timestamp: Math.floor(new Date().getTime() / 1000)
-      },
       from: {
         name: whoAmI.name, // whoAmI.dataContent.firstName
         iAmId: this.rimaAAAService.getUserId()
@@ -110,7 +98,7 @@ export class ColaboFlowTopiChatForm implements OnInit {
       let result:string = msg.content.result;
       console.log("[ColaboFlowTopiChatForm:actionResponseMsg] Action: '%s' with params: %s and result:", action, JSON.stringify(params));
       console.log("\t %s", JSON.stringify(result));
-      this.messages.push(tcPackage.msg);
+      this.messages.push(tcPackage.payload);
   }
 
 }

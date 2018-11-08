@@ -1,4 +1,4 @@
-'use strict';
+const MODULE_NAME: string = '@colabo-topichat/b-core';
 
 let Http = require('http');
 import * as express from "express";
@@ -27,14 +27,23 @@ export interface TopiChatEvents{
 	[eventName: string]: Array<TopiChatPlugin>
 }
 
-export interface TopiChatPackage {
-  clientIdSender: string;
-  iAmIdSender?: string;
-  clientIdReciever: string;
-  iAmIdReciever?: string;
-  timestamp: number; // TODO: make ie everywhere available
-	msg?: any
+export interface TopiChatPluginPackage {
+	eventName: string; // a eventName that users of the transport plugins are registering to
+	payload: any;
 }
+export interface TopiChatPackage {
+	clientIdSender: string;
+	iAmIdSender?: string;
+	clientIdReciever: string;
+	iAmIdReciever?: string;
+	timestamp: number; // TODO: make ie everywhere available
+	eventName: string; // the same value as the event name we are listening for / sending to in socket.io
+	payload: TopiChatPluginPackage;
+}
+
+import { GetPuzzle } from '@colabo-utils/i-config';
+let puzzleConfig: any = GetPuzzle(MODULE_NAME);
+console.log("[TopiChatCore] Should we debug: ", puzzleConfig.debug);
 
 /* 
 SOCKETS
@@ -66,7 +75,7 @@ export class TopiChat{
 	protected clientIdToSocket:any;
 
 	/**
-	* Instantiate topiChat with name of the room and port
+	* Instantiate topiChat with name of the room and eventName
 	*
 	* #### Example usage
 	*
@@ -129,6 +138,10 @@ export class TopiChat{
 		return Math.floor(new Date().getTime()/1000);
 	}
 
+	time() {
+		return new Date().toLocaleTimeString();
+	}
+
 	generateUniqueClientId():string {
 		let _id:number = this.ClientID++;
 		let id:string = "" + _id + "_" + this.getTimestamp();
@@ -145,11 +158,48 @@ export class TopiChat{
 		this.clientIdToSocket[clientId] = socket;
 		socket.on('disconnect', this.disconnect.bind(this, socket));
 
+		socket.conn.on('ping', function () {
+			if (puzzleConfig.debug) console.log('[%s] Ping sent to the client', this.time());
+		}.bind(this));
+		socket.conn.on('pong', function () {
+			if (puzzleConfig.debug) console.log('[%s] Pong received from the client', this.time());
+		}.bind(this));
+
+		// https://socket.io/docs/server-api/#socket-conn
+		// https://www.npmjs.com/package/engine.io#socket
+		socket.conn.on('close', function (reason, desc) {
+			if (puzzleConfig.debug) console.log("[%s] Client Closed: %s", this.time(), reason);
+		}.bind(this));
+		socket.conn.on('error', function (error) {
+			if (puzzleConfig.debug) console.log("[%s] Error: %s", this.time(), error);
+		}.bind(this));
+		socket.conn.on('flush', function (writeBuffer) {
+			if (puzzleConfig.debug) console.log("[%s] write buffer is being flushed", this.time());
+		}.bind(this));
+		socket.conn.on('drain', function () {
+			if (puzzleConfig.debug) console.log("[%s] write buffer is drained", this.time());
+		}.bind(this));
+		// https://github.com/socketio/engine.io/blob/master/lib/socket.js#L91
+		socket.conn.on('packet', function (packet) {
+			if (puzzleConfig.debug) console.log("[%s] packet received. type: %s, data: %s", this.time(), packet.type, packet.data);
+		}.bind(this));
+		socket.conn.on('packetCreate', function (packet) {
+			if (puzzleConfig.debug) console.log("[%s] packet about to be sent. type: %s, data: %s", this.time(), packet.type, packet.data);
+		}.bind(this));
+
 		// sending the client-init package back to new client
 		let tcPackage:TopiChatPackage = {
 			clientIdReciever: clientId,
 			clientIdSender: TopiChatClientIDs.Server,
-			timestamp: Math.floor(new Date().getTime() / 1000)
+			timestamp: Math.floor(new Date().getTime() / 1000),
+			eventName: TopiChatSystemEvents.ClientInit,
+			payload: {
+				eventName: 'default',
+				payload: {
+					origin: '@colabo-topichat/b-core',
+					text: 'Welcome to the topichat service!'
+				}
+			}
 		};
 		socket.emit(TopiChatSystemEvents.ClientInit, tcPackage);
 
@@ -162,49 +212,56 @@ export class TopiChat{
 		// socket.on(eventName, TopiChat.prototype.clientChatMessage.bind(this));
 	}
 
-	dispatchEvent(eventName:string, socket, tcPackage) {
+	dispatchEvent(eventName: string, socket, tcPackage: TopiChatPackage) {
 		console.log('[TopiChat:dispatchEvent] socket.id: %s', socket.id);
 		let clientIdSender:string = this.socketIdToClientId[socket.id];
 		console.log('[TopiChat:dispatchEvent] clientIdSender [%s] eventName: %s, tcPackage:%s', clientIdSender, eventName, JSON.stringify(tcPackage));
 		let eventByPlugins = this.eventsByPlugins[eventName];
-		let msg = tcPackage.msg;
+		let tcPayload: TopiChatPluginPackage = tcPackage.payload;
 		for(let id in eventByPlugins){
 			let pluginOptions = eventByPlugins[id];
 			let pluginName = pluginOptions.name;
 
 			console.log('\t dispatching to plugin: %s', pluginName);
 			let pluginCallback = pluginOptions.events[eventName];
-			pluginCallback(eventName, msg, clientIdSender, tcPackage);
+			pluginCallback(eventName, tcPayload, clientIdSender, tcPackage);
 		}
 	}
 
-	emit(eventName:string, msg, clientIdSender?:string) {
+	emit(eventName: string, payload: TopiChatPluginPackage, clientIdSender?:string, onlyToSender:boolean=false) {
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: clientIdSender ? 
 				clientIdSender : TopiChatClientIDs.Server,
 			clientIdReciever: TopiChatClientIDs.Broadcast,
-			msg: msg,
-			timestamp: Math.floor(new Date().getTime() / 1000)
+			timestamp: Math.floor(new Date().getTime() / 1000),
+			eventName: eventName,
+			payload: payload
 		};
 		console.log('[TopiChat:emit] emitting event (%s) with message: %s', eventName, JSON.stringify(tcPackage));
 		// TODO: support option for demanding broadcasting to everyone, even the sender
 		// this.io.emit(eventName, tcPackage); // to everyone
 
 		if(clientIdSender){
-			let socketSender = this.clientIdToSocket[clientIdSender];
-			socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
+			if (onlyToSender){
+				let socketSender = this.clientIdToSocket[clientIdSender];
+				socketSender.emit(eventName, tcPackage); // to socket owner only				
+			}else{
+				let socketSender = this.clientIdToSocket[clientIdSender];
+				socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner				
+			}
 		}else{
 			this.io.emit(eventName, tcPackage); // to everyone
 		}
 		// socketSender.emit(eventName, tcPackage);
 	};
 
-	sendSingle(eventName:string, msg, clientIdSender, clientIdReceiver) {
+	sendSingle(eventName: string, payload: TopiChatPluginPackage, clientIdSender, clientIdReceiver) {
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: clientIdSender,
 			clientIdReciever: clientIdReceiver,
-			msg: msg,
-			timestamp: Math.floor(new Date().getTime() / 1000)
+			timestamp: Math.floor(new Date().getTime() / 1000),
+			eventName: eventName,
+			payload: payload,
 		};
 		console.log('[TopiChat:emit] emitting event (%s) with message: %s', eventName, JSON.stringify(tcPackage));
 		// TODO: support option for demanding broadcasting to everyone, even the sender
@@ -214,17 +271,21 @@ export class TopiChat{
 		socketReceiver.emit(eventName, tcPackage); // to clientIdReceiver only
 	};
 
-	clientEcho(eventName:string, msg:any, clientIdSender) {
-		console.log('[TopiChat:clientEcho] event (%s), clientEcho message from clientIdSender [%s] received: %s', eventName, clientIdSender, JSON.stringify(msg));
+	clientEcho(eventName: string, tcPayload: TopiChatPluginPackage, clientIdSender) {
+		console.log('[TopiChat:clientEcho] event (%s), clientEcho message from clientIdSender [%s] received: %s', eventName, clientIdSender, JSON.stringify(tcPayload));
+		let tcPluginPayload: any = tcPayload.payload;
 
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: TopiChatClientIDs.Server,
 			clientIdReciever: clientIdSender,
 			timestamp: Math.floor(new Date().getTime() / 1000),
-			msg: {
-				timestamp: this.getTimestamp(),
-				text: "from server: " + msg.text,
-				receivedText: msg.text
+			eventName: TopiChatSystemEvents.ClientEcho,
+			payload: {
+				eventName: 'default',
+				payload: {
+					text: "from server: " + tcPluginPayload.text,
+					receivedText: tcPluginPayload.text					
+				}
 			}
 		};
 		let socket = this.clientIdToSocket[clientIdSender];

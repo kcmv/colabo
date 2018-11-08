@@ -47,7 +47,7 @@ export class TopiChatSystemForm implements OnInit {
   public messageContent:string;
 
   constructor(
-    private TopiChatSystemService: TopiChatSystemService
+    private topiChatSystemService: TopiChatSystemService
   ) {
   }
 
@@ -55,8 +55,8 @@ export class TopiChatSystemForm implements OnInit {
       // called on helo message
       function clientTalk(eventName, msg, tcPackage:TopiChatPackage) {
           console.log('[TopiChatSystemForm:clientTalk] Client id: %s', tcPackage.clientIdReciever);
-          console.log('\t msg: %s', JSON.stringify(tcPackage.msg));
-          this.messages.push(tcPackage.msg);
+          console.log('\t payload: %s', JSON.stringify(tcPackage.payload));
+          this.messages.push(tcPackage.payload);
       }
 
       // registering system plugin
@@ -65,7 +65,7 @@ export class TopiChatSystemForm implements OnInit {
           events: {}
       };
       talkPluginOptions.events[TopiChatSystemEvents.ChatMessage] = clientTalk.bind(this);
-      this.TopiChatSystemService.registerPlugin(talkPluginOptions);
+      this.topiChatSystemService.registerPlugin(talkPluginOptions);
   }
 
   sendMessage(action:string){
@@ -85,7 +85,7 @@ export class TopiChatSystemForm implements OnInit {
         }
       };
       console.log('[TopiChatSystemForm:sendMessage] sending message: %s', this.messageContent);
-      this.TopiChatSystemService.emit(TopiChatSystemEvents.ChatMessage, msg);
+      this.topiChatSystemService.emit(TopiChatSystemEvents.ChatMessage, msg);
       this.messageContent = "";
   }
 }

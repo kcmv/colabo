@@ -7,6 +7,10 @@ export interface ColaboPubSubPlugins{
 	[pluginName: string]: ColaboPubSubPlugin
 }
 
+export interface ColaboPubSubCluster {
+  [clusterName: string]: ColaboPubSub
+}
+
 export class ColaboPubSub{
     protected registeredPlugins:ColaboPubSubPlugins = {};
 
@@ -25,7 +29,7 @@ export class ColaboPubSub{
     protected messagesByEvents:any = {};
 
 
-	constructor(public name:string, protected registerNewEventTypeCallback:Function){
+	constructor(public name:string, protected registerNewEventTypeCallback:Function=null){
 	}
 
   /**
@@ -71,7 +75,9 @@ export class ColaboPubSub{
     console.log("[ColaboPubSub:registerNewEventType] Registering eventName '%s' for the first time", eventName);
     this.eventsByPlugins[eventName] = [];
     this.messagesByEvents[eventName] = [];
-	this.registerNewEventTypeCallback(eventName);
+    if (typeof this.registerNewEventTypeCallback === 'function'){
+      this.registerNewEventTypeCallback(eventName);
+    }
     return this;
   }
 
@@ -86,7 +92,7 @@ export class ColaboPubSub{
   * ```js
   * tcPackage = {
   *     clientId: this.clientInfo.clientId,
-  *     msg: msg
+  *     payload: payload
   * };
   * ```
   */
@@ -111,7 +117,7 @@ export class ColaboPubSub{
       console.log('\t dispatching to plugin: %s', pluginName);
       var pluginCallback = pluginOptions.events[eventName];
       if(typeof pluginCallback === 'function') {
-        pluginCallback(eventName, tcPackage.msg, tcPackage);
+        pluginCallback(eventName, tcPackage.payload, tcPackage);
       }
     }
   }

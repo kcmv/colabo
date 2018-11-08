@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import {TopiChatTalkService, TopiChatTalkEvents, TopiChatPackage, ColaboPubSubPlugin} from '../topiChat-talk.service';
+import { TopiChatTalkService, TopiChatTalkEvents, TopiChatTalkDefaultEvents,
+  TopiChatTalkDefaultPayload, TopiChatPluginPackage,
+   TopiChatPackage, ColaboPubSubPlugin} from '../topiChat-talk.service';
 
 import {RimaAAAService} from '@colabo-rima/f-aaa';
 import {KNode} from '@colabo-knalledge/f-core';
@@ -18,16 +20,20 @@ export class TopiChatTalkForm implements OnInit {
 
   constructor(
     protected rimaAAAService:RimaAAAService,
-    private TopiChatTalkService: TopiChatTalkService
+    private topiChatTalkService: TopiChatTalkService
   ) {
   }
 
   ngOnInit() {
       // called on helo message
-      function clientTalk(eventName, msg, tcPackage:TopiChatPackage) {
-          console.log('[TopiChatTalkForm:clientTalk] Client id: %s', tcPackage.clientIdReciever);
-          console.log('\t msg: %s', JSON.stringify(tcPackage.msg));
-          this.messages.push(tcPackage.msg);
+    function clientTalk(eventName, msg, talkPluginPackage: TopiChatPluginPackage) {
+      // console.log('[TopiChatTalkForm:clientTalk] Client id: %s', tcPackage.clientIdReciever);
+      console.log('\t msg: %s', JSON.stringify(msg));
+      console.log('\t talkPluginPackage: %s', JSON.stringify(talkPluginPackage));
+      // TODO: See about this
+      // Provide config, to decide about showing etc
+      // currently is used as CWC and we do not show it
+      // this.messages.push(tcPackage.payload);
       }
 
       // registering system plugin
@@ -35,27 +41,25 @@ export class TopiChatTalkForm implements OnInit {
           name: "topiChat-talk-form",
           events: {}
       };
-      talkPluginOptions.events[TopiChatTalkEvents.ChatMessage] = clientTalk.bind(this);
-      this.TopiChatTalkService.registerPlugin(talkPluginOptions);
+    talkPluginOptions.events[TopiChatTalkDefaultEvents.Chat] = clientTalk.bind(this);
+    this.topiChatTalkService.registerPlugin(TopiChatTalkEvents.Defualt, talkPluginOptions);
   }
 
   sendMessage(){
-      let whoAmI:KNode = this.rimaAAAService.getUser();
-      var msg:any = {
-        meta: {
-          timestamp: Math.floor(new Date().getTime() / 1000)
-        },
-        from: {
-          name: whoAmI.name, // whoAmI.dataContent.firstName
-          iAmId: this.rimaAAAService.getUserId()
-        },
-        content: {
-          text: this.messageContent
-        }
-      };
-      console.log('[TopiChatTalkForm:sendMessage] sending message: %s', this.messageContent);
-      this.TopiChatTalkService.emit(TopiChatTalkEvents.ChatMessage, msg);
-      this.messages.push(msg);
-      this.messageContent = "";
+    let whoAmI:KNode = this.rimaAAAService.getUser();
+    let msgPayload: TopiChatTalkDefaultPayload = {
+      from: {
+        name: whoAmI.name, // whoAmI.dataContent.firstName
+        iAmId: this.rimaAAAService.getUserId()      
+      },
+      content: {
+        text: this.messageContent,
+        debugText: ''
+      }
+    };
+    console.log('[TopiChatTalkForm:sendMessage] sending message: %s', this.messageContent);
+    this.topiChatTalkService.emit(TopiChatTalkEvents.Defualt, TopiChatTalkDefaultEvents.Chat, msgPayload);
+    this.messages.push(msgPayload);
+    this.messageContent = "";
   }
 }
