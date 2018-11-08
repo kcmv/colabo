@@ -223,7 +223,7 @@ export class TopiChat{
 			timestamp: Math.floor(new Date().getTime() / 1000),
 			msg: {
 				timestamp: this.getTimestamp(),
-				text: "Hello from server!",
+				text: "from server: " + msg.text,
 				receivedText: msg.text
 			}
 		};
