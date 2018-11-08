@@ -19,6 +19,7 @@ import {MaterialModule} from './materialModule';
 import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
 import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
+import {KnalledgeMapVoService} from '@colabo-knalledge/f-store_core/knalledge-map-vo.service';
 
 // Puzzle modules
 import { RimaAaaModule } from '@colabo-rima/f-aaa';
@@ -155,9 +156,9 @@ declare var window:any;
     Dialog2Btn, Dialog1Btn, //needed otherwise "Runtime Error: No component factory found for Dialog"
   ],
   providers: [
-    KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService,
+    KnalledgeEdgeService, KnalledgeNodeService, KnalledgeMapService, KnalledgeMapVoService,
 
-    // old external way of injecting puzzles' config 
+    // old external way of injecting puzzles' config
     // through Plugins service
     // {provide: "Plugins", useValue: Plugins},
 

@@ -1,10 +1,13 @@
-import { Component, ReflectiveInjector, Injector, Inject, Optional, 
+import { Component, ReflectiveInjector, Injector, Inject, Optional,
   NgModule, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import {MaterialModule} from '../materialModule';
 import { GlobalEmittersArrayService } from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 import {KnalledgeViewComponent} from '@colabo-knalledge/f-view_enginee/knalledgeView.component';
+import {KnalledgeMapVoService} from '@colabo-knalledge/f-store_core/knalledge-map-vo.service';
+
+import * as config from '@colabo-utils/i-config';
 
 /**
  * the namespace for core services for the KnAllEdge system
@@ -18,6 +21,7 @@ import {KnalledgeViewComponent} from '@colabo-knalledge/f-view_enginee/knalledge
 })
 
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
+  static mapId = config.GetGeneral('mapId');
   public title: string = 'FDB Graph';
   public selectedNodeChangedEvent = "selectedNodeChangedEvent";
   @ViewChild(KnalledgeViewComponent) public knalledgeViewComponent: KnalledgeViewComponent;
@@ -27,7 +31,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private ng2injector: Injector
+    private ng2injector: Injector,
+    private knalledgeMapVoService:KnalledgeMapVoService
   ) {
     this.Plugins = this.ng2injector.get('Plugins', null);
     this.GlobalEmittersArrayService = this.ng2injector.get(GlobalEmittersArrayService, null);
@@ -44,6 +49,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
     this.GlobalEmittersArrayService.get(this.selectedNodeChangedEvent).subscribe('graphMain.component', vkNode => {
       var name = vkNode ? vkNode.kNode.name : null;
     });
+    this.knalledgeMapVoService.getNodesAndEdgesInMap(MapComponent.mapId);
   }
 
   ngAfterViewInit(){
@@ -54,10 +60,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   initContent(){
-    const selectedNode = { "_id": "575c7c1e49dc3cda62624ca0", "name": "Performative DialoGame", "type": "knalledge", 
+    const selectedNode = { "_id": "575c7c1e49dc3cda62624ca0", "name": "Performative DialoGame", "type": "knalledge",
       "mapId": "575c7c1e49dc3cda62624ca1", "iAmId": "556760847125996dc1a4a241", "version": 1, "activeVersion": 1, "ideaId": 0,
       "isPublic": true, "createdAt": "2016-06-11T21:01:18.115Z", "updatedAt": "2016-06-11T21:01:18.131Z", "decorations": {}, "up": {},
-      "visual": { "isOpen": true, "xM": 0, "yM": 0 }, "state": "STATE_SYNCED", 
+      "visual": { "isOpen": true, "xM": 0, "yM": 0 }, "state": "STATE_SYNCED",
       "dataContent": { "ibis": { "votes": { "556760847125996dc1a4a241": 2 } } } };
      let mockupMap = {
        selectedNode: selectedNode,
@@ -82,7 +88,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
             "createdAt":"2016-06-12T22:31:52.517Z","updatedAt":"2016-06-12T22:31:52.518Z","decorations":{},"up":{},
             "visual":{"isOpen":false},"state":"STATE_SYNCED"},
             {
-              "_id": "575de2d816206451e6e82cab", "name": "7. Affordable and Clean Energy", "type": "type_knowledge", 
+              "_id": "575de2d816206451e6e82cab", "name": "7. Affordable and Clean Energy", "type": "type_knowledge",
               "mapId": "575c7c1e49dc3cda62624ca1",
               "iAmId": "556760847125996dc1a4a241", "version": 1, "activeVersion": 1, "ideaId": 0, "isPublic": true,
               "createdAt": "2016-06-12T22:31:52.517Z", "updatedAt": "2016-06-12T22:31:52.518Z", "decorations": {}, "up": {},
@@ -140,8 +146,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
             "targetId": "575d225d16206451e6e82c68", "dataContent": null, "value": 0, "up": {}, "visual": null, "state": "STATE_SYNCED"
           }
 
-          
-          
+
+
         ],
         },
         properties:{
