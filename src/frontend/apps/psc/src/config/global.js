@@ -33,7 +33,7 @@ if (!globalSet.hasOwnProperty('general')) {
         // serverUrl: 'http://158.39.75.120:8001', // colabo-space-1 (old)
 
         // active map
-        mapId: '5bce4f50b6b1fc5d048c706d',
+        mapId: '5be3fddce1b7970d8c6df406',
         mapIdSDGs: '5b96619b86f3cc8057216a03',
         userNodeId: '5b4a16e800ea79029ca0c395',
         /** multiple players can play on the same opening card */

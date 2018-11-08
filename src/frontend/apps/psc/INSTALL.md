@@ -212,60 +212,6 @@ edge:
 }
 ```
 
-## SDGs
-
-Add SDG node in knodes (`right button > insert document`):
-
-```json
-{
-    "_id" : ObjectId("5b9669e986f3cc8057216a15"),
-    "name" : "SDGs",
-    "type" : "const.sdgs",
-    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
-    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
-    "ideaId" : NumberInt(0),
-    "updatedAt" : ISODate("2018-09-10T01:25:34.694+0000"),
-    "createdAt" : ISODate("2018-09-10T01:25:34.693+0000"),
-    "visual" : {
-        "isOpen" : true
-    },
-    "isPublic" : true,
-    "version" : NumberInt(1),
-    "activeVersion" : NumberInt(1),
-    "__v" : NumberInt(0),
-    "decorations" : {
-
-    },
-    "up" : {
-
-    },
-    "dataContent" : {
-    }
-}
-```
-
-Add SDG edge in kedges (`right button > insert document`):
-
-```json
-{
-    "_id" : ObjectId("5b966a0086f3cc8057216a16"),
-    "name" : "SDGs",
-    "type" : "const.sdgs",
-    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
-    "iAmId" : ObjectId("5b4a91d800ea790a4738a6e5"),
-    "ideaId" : NumberInt(0),
-    "sourceId" : ObjectId("5b49e94636390f03580ac9a8"),
-    "targetId" : ObjectId("5af39f8e2843ddf04b459cba"),
-    "dataContent" : null,
-    "visual" : null,
-    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
-    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
-    "value" : NumberInt(0),
-    "isPublic" : true,
-    "__v" : NumberInt(0)
-}
-```
-
 ## CONTENT
 
 Add CONTENT node in knodes (`right button > insert document`):
@@ -311,6 +257,60 @@ Add CONTENT edge in kedges (`right button > insert document`):
     "ideaId" : NumberInt(0),
     "sourceId" : ObjectId("5b49e94636390f03580ac9a8"),
     "targetId" : ObjectId("5b966a1286f3cc8057216a17"),
+    "dataContent" : null,
+    "visual" : null,
+    "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+    "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+    "value" : NumberInt(0),
+    "isPublic" : true,
+    "__v" : NumberInt(0)
+}
+```
+
+## SDGs
+
+Add SDG node in knodes (`right button > insert document`):
+
+```json
+{
+    "_id" : ObjectId("5b9669e986f3cc8057216a15"),
+    "name" : "SDGs",
+    "type" : "const.sdgs",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+    "ideaId" : NumberInt(0),
+    "updatedAt" : ISODate("2018-09-10T01:25:34.694+0000"),
+    "createdAt" : ISODate("2018-09-10T01:25:34.693+0000"),
+    "visual" : {
+        "isOpen" : true
+    },
+    "isPublic" : true,
+    "version" : NumberInt(1),
+    "activeVersion" : NumberInt(1),
+    "__v" : NumberInt(0),
+    "decorations" : {
+
+    },
+    "up" : {
+
+    },
+    "dataContent" : {
+    }
+}
+```
+
+Add SDG edge in kedges (`right button > insert document`):
+
+```json
+{
+    "_id" : ObjectId("5b966a0086f3cc8057216a16"),
+    "name" : "SDGs",
+    "type" : "const.sdgs",
+    "mapId" : ObjectId("5b96619b86f3cc8057216a03"),
+    "iAmId" : ObjectId("5b4a91d800ea790a4738a6e5"),
+    "ideaId" : NumberInt(0),
+    "sourceId" : ObjectId("5b49e94636390f03580ac9a8"),
+    "targetId" : ObjectId("5af39f8e2843ddf04b459cba"),
     "dataContent" : null,
     "visual" : null,
     "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
