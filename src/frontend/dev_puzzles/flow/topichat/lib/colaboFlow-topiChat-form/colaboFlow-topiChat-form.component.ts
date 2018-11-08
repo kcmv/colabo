@@ -12,32 +12,7 @@ import {KNode} from '@colabo-knalledge/f-core';
 })
 export class ColaboFlowTopiChatForm implements OnInit {
 
-  public messages = [
-    {
-      from: {
-        name: "Саша"
-      },
-      content: {
-        text: "Здраво, Колабо!"
-      }
-    },
-    {
-      from: {
-        name: "Синиша"
-      },
-      content: {
-        text: "Ћао, Колабо!"
-      }
-    },
-    {
-      from: {
-        name: "Colabo"
-      },
-      content: {
-        text: "Ћао, другари!"
-      }
-    }
-  ];
+  public messages = [];
   public messageContent:string;
 
   constructor(

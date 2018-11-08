@@ -121,7 +121,8 @@ export class TopiChatTalkService{
   dispatchInternalEvents(topiChatTalkEvent: TopiChatTalkEvents, talkPluginPackage: TopiChatPluginPackage, tcPakage: TopiChatPackage){
     // TODO: dispatchEvent is trimming parameters
     // TODO: PubSub should pass all parameters 
-    this.serverPubSubCluster[topiChatTalkEvent].dispatchEvent(talkPluginPackage.eventName, talkPluginPackage, tcPakage);
+    // this.serverPubSubCluster[topiChatTalkEvent].dispatchEvent(talkPluginPackage.eventName, talkPluginPackage, tcPakage);
+    this.serverPubSubCluster[topiChatTalkEvent].dispatchEvent(talkPluginPackage.eventName, tcPakage);
   }
 
   /**
