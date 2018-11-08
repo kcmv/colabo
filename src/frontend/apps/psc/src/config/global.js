@@ -52,10 +52,10 @@ if (!globalSet.hasOwnProperty('puzzles')) {
     globalSet.puzzles = {
         '@colabo-topichat/f-core': {
             // socketUrl: 'http://localhost/',
-            socketUrl: 'http://localhost:8001/',
-            // socketUrl: 'https://fv.colabo.space/api',
-            path: '',
-            // path: '/api'
+            // socketUrl: 'http://localhost:8001/',
+            socketUrl: 'https://fv.colabo.space/',
+            // path: '',
+            path: '/api/socket.io'
         }
     };
 }

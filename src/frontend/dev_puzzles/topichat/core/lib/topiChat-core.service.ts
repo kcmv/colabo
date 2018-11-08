@@ -58,8 +58,14 @@ export class TopiChatCoreService{
       this.serverPubSub = new ColaboPubSub("SocketIoPlugins", this.registerNewEventType.bind(this));
 
       let socketOptions:any = {
+        reconnectionDelay: 5000,
+        reconnectionDelayMax: 10000,
+        timeout: 20000,
+        // transports: ['polling', 'websocket'],
+        transports: ['websocket'],
         forceNew: false
       };
+
       if(this.puzzleConfig.path){
         socketOptions.path = this.puzzleConfig.path;
       }
