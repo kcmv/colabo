@@ -44,11 +44,10 @@ this is done on the local dev machine
 # static serverAP = "http://158.39.75.120:8001"; // colabo-space-1
 cd src/frontend/apps/psc
 ng build --prod --build-optimizer
-# run local server for testing
+# run on local server (JUST for testing, not necessary)
+# then open url: localhost:8000
 cd dist/performing_sustainable_coevolution
 python -m SimpleHTTPServer 8000
-# reset the the server backend addr to the old value (for local computer)
-
 ```
 
 ## Code/Data Upload
@@ -57,9 +56,10 @@ uploading the build code on the server
 
 ```sh
 #the code is built in the following folder:
-cd src/frontend/apps/psc
+cd src/frontend/apps/psc/dist/performing_sustainable_coevolution/
 #we put the content of this folder into the server folder:
-/var/www/psc
+/var/www/fv
+# but we DO NOT OVERWRITE the `config` folder
 ```
 
 # KnAllEdge content
