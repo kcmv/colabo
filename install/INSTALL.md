@@ -950,7 +950,7 @@ rm /sites-available/default
 joe /sites-enabled/framework.colabo.space
 ln -s  ../sites-available/framework.colabo.space framework.colabo.space
 # test configuration
-nginx -t
+sudo nginx -t
 sudo service nginx restart
 # if necessary
 sudo shutdown -h now
