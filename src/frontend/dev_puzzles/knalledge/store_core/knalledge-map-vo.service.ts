@@ -7,9 +7,10 @@ import { of } from 'rxjs';
 
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
-import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
-import {CFService} from './cf.service';
 import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
+// import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
+import {CFService} from './cf.service';
+
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
 import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
 import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
@@ -39,6 +40,8 @@ export class KnalledgeMapVoService extends CFService{
 
   private apiUrl: string;
 
+  private mapWithContent: MapWithContent = new MapWithContent();
+
   constructor(
     private http: HttpClient,
     private knalledgeNodeService:KnalledgeNodeService,
@@ -55,10 +58,28 @@ export class KnalledgeMapVoService extends CFService{
 
   getNodesAndEdgesInMap(mapId?:string):Observable<any>{
     if(mapId === null){ mapId = KnalledgeMapVoService.mapId;}
-    this.knalledgeMapService.getById(KnalledgeMapVoService.mapId).subscribe(this.mapReceived);
+    this.knalledgeMapService.getById(KnalledgeMapVoService.mapId).subscribe(this.mapLoaded.bind(this));
+    this.knalledgeNodeService.queryInMap(KnalledgeMapVoService.mapId).subscribe(this.nodesLoaded.bind(this));
+    this.knalledgeEdgeService.queryInMap(KnalledgeMapVoService.mapId).subscribe(this.edgesLoaded.bind(this));
+    
 
     // https://angular.io/guide/observables
     return new Observable(this.mapPartsLoadedSubscriber.bind(this));
+  }
+
+  mapLoaded(map:KMap):void{
+    this.mapWithContent.map = map;
+    this.mapPartLoaded();
+  }
+
+  nodesLoaded(nodes:KNode[]):void{
+    this.mapWithContent.nodes = nodes;
+    this.mapPartLoaded();
+  }
+
+  edgesLoaded(edges:KEdge[]):void{
+    this.mapWithContent.edges = edges;
+    this.mapPartLoaded();
   }
 
   //could be done as anonymous, but we made it this way to be more clear the logic of Oberver
@@ -68,19 +89,19 @@ export class KnalledgeMapVoService extends CFService{
     return {unsubscribe() {}};
   }
 
-  mapPartLoaded(data:any):void{
+  mapPartLoaded():void{
     this.mapPartsLeftToSave--;
-    console.log('SDGsService::mapPartSaved:', this.mapPartsLeftToSave, data);
+    console.log('SDGsService::mapPartSaved:', this.mapPartsLeftToSave);
     if(this.mapPartsLeftToSave === 0){
       console.log('SDGsService::ALL mapPartSaved');
 
       //emitting Obstacle:
-      this.mapPartLoadedObserver.next(1); //TODO change value
+      this.mapPartLoadedObserver.next(this.mapWithContent); //TODO change value
       this.mapPartLoadedObserver.complete();
     }
   }
 
-  mapReceived(map:KMap):void{
-    console.log('mapReceived', map);
-  }
+  // mapReceived(map:KMap):void{
+  //   console.log('mapReceived', map);
+  // }
 }
