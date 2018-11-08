@@ -52,8 +52,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   ngAfterViewInit(){
-    this.initContent(); //mockup test
-    //this.knalledgeMapVoService.getNodesAndEdgesInMap(MapComponent.mapId).subscribe(this.initContent.bind(this));
+    // this.initContent(); //mockup test
+    this.knalledgeMapVoService.getNodesAndEdgesInMap(MapComponent.mapId).subscribe(this.initContent.bind(this));
   }
 
   ngOnDestroy() {
@@ -62,6 +62,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
   initContent(map?:MapWithContent):void{
     console.log('[MapComponent::initContent]', map);
     let mapDataOld:any = {};
+    // for testing
+    let gotDownloaded = false;
+    if(map){
+      gotDownloaded = true;
+    }
+    map = null;
     if(map){
       mapDataOld = { //@Sinisa: this is an old - a bit illogical format, but we're 'downgrading' to it, because it's required by the 'KnalledgeViewComponent'
         selectedNode: { "_id": "575c7c1e49dc3cda62624ca0", "name": "Performative DialoGame", "type": "knalledge",
@@ -78,6 +84,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
       };
     }else{
       mapDataOld = this.getMockupContent();
+      if (gotDownloaded){
+        mapDataOld.map.nodes[0].name = mapDataOld.map.nodes[0].name + ":REPLACED";
+      }
     }
     this.knalledgeViewComponent.setData(mapDataOld);
   }
