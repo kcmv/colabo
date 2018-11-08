@@ -1,0 +1,285 @@
+{
+  "name":"dbSetUp-CivilCourage",
+  "type":"actions",
+  "consts":{
+    "mapId" : ObjectId("5be3fddce1b7970d8c6df406"),
+    "rootNodeId" : ObjectId("5be40853e1b7970d8c6df40c")
+  }
+  "actions": [
+    {
+      "name":"map",
+      "type":"insert",
+      "collection":"kmaps",
+      "data":
+      {
+        "_id" : ObjectId("5be3fddce1b7970d8c6df406"),
+        "name" : "Everyday Heroes",
+        "rootNodeId" : ObjectId("5be40853e1b7970d8c6df40c"),
+        "type" : "CoLaboArthon",
+        "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+        "ideaId" : NumberInt(0),
+        "parentMapId" : "",
+        "dataContent" : null,
+        "updatedAt" : ISODate("2018-09-10T01:07:10.401+0000"),
+        "createdAt" : ISODate("2018-09-10T01:07:10.400+0000"),
+        "isPublic" : true,
+        "participants" : [
+            ObjectId("556760847125996dc1a4a24f")
+        ],
+        "version" : NumberInt(1),
+        "activeVersion" : NumberInt(1),
+        "__v" : NumberInt(0)
+      }
+    },
+    {
+      "name":"Root Node",
+      "type":"insert",
+      "collection":"knodes",
+      "data":
+      {
+        "_id" : ObjectId("5be40853e1b7970d8c6df40c"),
+        "name" : "Everyday Heroes",
+        "type" : "model_component",
+        "mapId" : ObjectId("5be3fddce1b7970d8c6df406"),
+        "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+        "ideaId" : NumberInt(0),
+        "updatedAt" : ISODate("2018-09-10T01:07:10.401+0000"),
+        "createdAt" : ISODate("2018-09-10T01:07:10.400+0000"),
+        "visual" : {
+            "isOpen" : true,
+            "yM" : NumberInt(0),
+            "xM" : NumberInt(0)
+        },
+        "isPublic" : true,
+        "version" : NumberInt(1),
+        "activeVersion" : NumberInt(1),
+        "__v" : NumberInt(0),
+        "decorations" : {
+
+        },
+        "up" : {
+
+        },
+        "dataContent" : {
+            "propertyType" : "text/markdown",
+            "property" : "Welcome to Civil Courage workshops @ 'Everyday Heroes' by ReMaking Tesla"
+        }
+      },
+      {
+        "name":"users",
+        "type":"actions",
+        "actions": [
+          {
+            "name":"users node",
+            "type":"insert",
+            "collection":"knodes",
+            "data":
+            {
+                "_id" : ObjectId("5be408d0e1b7970d8c6df40f"),
+                "name" : "Users",
+                "type" : "rima.users",
+                "mapId" : ObjectId("5be3fddce1b7970d8c6df406"),
+                "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+                "ideaId" : NumberInt(0),
+                "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+                "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+                "visual" : {
+                    "isOpen" : true
+                },
+                "isPublic" : true,
+                "version" : NumberInt(1),
+                "activeVersion" : NumberInt(1),
+                "__v" : NumberInt(0),
+                "decorations" : {
+
+                },
+                "up" : {
+
+                },
+                "dataContent" : {
+                }
+            }
+          },
+          {
+            "name":"users egde",
+            "type":"insert",
+            "collection":"kedges",
+            "data":
+            {
+                "_id" : ObjectId("5be40966e1b7970d8c6df410"),
+                "name" : "Users",
+                "type" : "rima.users",
+                "mapId" : ObjectId("5be3fddce1b7970d8c6df406"),
+                "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+                "ideaId" : NumberInt(0),
+                "sourceId" : ObjectId("5be40853e1b7970d8c6df40c"),
+                "targetId" : ObjectId("5be408d0e1b7970d8c6df40f"),
+                "dataContent" : null,
+                "visual" : null,
+                "updatedAt" : ISODate("2018-09-10T01:18:20.619+0000"),
+                "createdAt" : ISODate("2018-09-10T01:18:20.618+0000"),
+                "value" : NumberInt(0),
+                "isPublic" : true,
+                "__v" : NumberInt(0)
+            }
+          }
+        ]
+    },
+    {
+      "name":"ColaboFlow",
+      "type":"insert",
+      "collection":"knodes",
+      "data":
+      {
+            "_id" : ObjectId("5be40b68e1b7970d8c6df414"),
+            "name" : "DIALO_GAME_STATE",
+            "type" : "colaboflow.state",
+            "mapId" : ObjectId("5be3fddce1b7970d8c6df406"),
+            "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+            "ideaId" : NumberInt(0),
+            "updatedAt" : ISODate("2018-09-10T01:18:20.440+0000"),
+            "createdAt" : ISODate("2018-09-10T01:18:20.439+0000"),
+            "visual" : {
+                "isOpen" : false
+            },
+            "isPublic" : true,
+            "version" : NumberInt(1),
+            "activeVersion" : NumberInt(1),
+            "__v" : NumberInt(0),
+            "decorations" : {
+
+            },
+            "up" : {
+
+            },
+            "dataContent" : {
+                "state": 0,
+                "playRound": 1
+            }
+        }
+      },
+      {
+        "name":"content",
+        "type":"actions",
+        "actions": [
+          {
+            "name":"Content node",
+            "type":"insert",
+            "collection":"knodes",
+            "data":
+            {
+                "_id" : ObjectId("5be40c8ae1b7970d8c6df415"),
+                "name" : "Content",
+                "type" : "clathon.content",
+                "mapId" : ObjectId("5be3fddce1b7970d8c6df406"),
+                "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+                "ideaId" : NumberInt(0),
+                "visual" : {
+                    "isOpen" : true
+                },
+                "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+                "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+                "isPublic" : true,
+                "version" : NumberInt(1),
+                "activeVersion" : NumberInt(1),
+                "__v" : NumberInt(0),
+                "decorations" : {
+
+                },
+                "up" : {
+
+                },
+                "dataContent" : {
+
+                }
+            }
+          },
+          {
+            "name":"Content egde",
+            "type":"insert",
+            "collection":"kedges",
+            "data":
+            {
+                "_id" : ObjectId("5be40d54e1b7970d8c6df416"),
+                "name" : "Content",
+                "type" : "clathon.content",
+                "mapId" : ObjectId("5be3fddce1b7970d8c6df406"),
+                "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+                "ideaId" : NumberInt(0),
+                "sourceId" : ObjectId("5be40853e1b7970d8c6df40c"),
+                "targetId" : ObjectId("5be40c8ae1b7970d8c6df415"),
+                "dataContent" : null,
+                "visual" : null,
+                "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+                "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+                "value" : NumberInt(0),
+                "isPublic" : true,
+                "__v" : NumberInt(0)
+            }
+          }
+        ]
+    },
+    {
+      "name":"SDGs",
+      "type":"actions",
+      "actions": [
+        {
+          "name":"SDGs node",
+          "type":"insert",
+          "collection":"knodes",
+          "data":
+          {
+              "_id" : ObjectId("5b9669e986f3cc8057216a15"),
+              5b966a0086f3cc8057216a16
+              "name" : "SDGs",
+              "type" : "const.sdgs",
+              "mapId" : ObjectId("5be3fddce1b7970d8c6df406"),
+              "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+              "ideaId" : NumberInt(0),
+              "updatedAt" : ISODate("2018-09-10T01:25:34.694+0000"),
+              "createdAt" : ISODate("2018-09-10T01:25:34.693+0000"),
+              "visual" : {
+                  "isOpen" : true
+              },
+              "isPublic" : true,
+              "version" : NumberInt(1),
+              "activeVersion" : NumberInt(1),
+              "__v" : NumberInt(0),
+              "decorations" : {
+
+              },
+              "up" : {
+
+              },
+              "dataContent" : {
+
+              }
+          }
+        },
+        {
+          "name":"SDGs egde",
+          "type":"insert",
+          "collection":"kedges",
+          "data":
+          {
+              "_id" : ObjectId("5b966a0086f3cc8057216a16"),
+              "name" : "SDGs",
+              "type" : "const.sdgs",
+              "mapId" : ObjectId("5be3fddce1b7970d8c6df406"),
+              "iAmId" : ObjectId("556760847125996dc1a4a24f"),
+              "ideaId" : NumberInt(0),
+              "sourceId" : ObjectId("5be40853e1b7970d8c6df40c"),
+              "targetId" : ObjectId("5b9669e986f3cc8057216a15"),
+              "dataContent" : null,
+              "visual" : null,
+              "updatedAt" : ISODate("2018-09-10T01:25:34.934+0000"),
+              "createdAt" : ISODate("2018-09-10T01:25:34.933+0000"),
+              "value" : NumberInt(0),
+              "isPublic" : true,
+              "__v" : NumberInt(0)
+          }
+        }
+      ]
+    }
+  ]
+}
