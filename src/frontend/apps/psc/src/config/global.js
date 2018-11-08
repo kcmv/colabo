@@ -34,8 +34,8 @@ if (!globalSet.hasOwnProperty('general')) {
 
         // active map
         mapId: '5be3fddce1b7970d8c6df406',
-        mapIdSDGs: '5b96619b86f3cc8057216a03',
-        userNodeId: '5b4a16e800ea79029ca0c395',
+        mapIdSDGs: '5be3fddce1b7970d8c6df406',
+        userNodeId: '5be408d0e1b7970d8c6df40f',
         /** multiple players can play on the same opening card */
         OPENNING_CARD_MULTIPLE_ANSWERS: true,
 
