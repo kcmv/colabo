@@ -26,6 +26,7 @@ export interface TopiChatTalkPayload {
     };
     content: {
         text: string;
+        debugText: string;
     };
 }
 
@@ -41,8 +42,8 @@ export class TopiChatTalk{
     /**
      * @name TopiChatTalk
      * @constructor
-     * @param {String}	roomName The name of the room
-     * @param {Integer}	port number that TopiChatTalk will listen on
+     * @param {string}	roomName The name of the room
+     * @param {string}	eventName that TopiChatTalk will listen on
      */
     constructor(protected topiChat:TopiChat, protected options?:any) {
         options = options || {};
@@ -55,8 +56,11 @@ export class TopiChatTalk{
             }
         };
 
-        pluginOptions.events[TopiChatTalkPorts.Defualt] 
-		= this.defaultMessage.bind(this);
+        pluginOptions.events[TopiChatTalkPorts.System] 
+		= this.systemMessage.bind(this);
+
+        pluginOptions.events[TopiChatTalkPorts.Defualt]
+            = this.defaultMessage.bind(this);
 
         // 'tc:user-connected': this.userConnected.bind(this),
         // 'tc:user-disconnected': this.userConnected.bind(this),
@@ -72,9 +76,26 @@ export class TopiChatTalk{
 
     };
 
-    defaultMessage(port: string, talkPackage: TopiChatPluginPackage, clientIdSender:string, tcPackage:TopiChatPackage) {
-        console.log('[TopiChatTalk:clientChatMessage] event (%s), message received: %s', port, JSON.stringify(talkPackage));
-        let talkPort = talkPackage.port;
+    systemMessage(eventName: string, talkPackage: TopiChatPluginPackage, clientIdSender: string, tcPackage: TopiChatPackage) {
+        console.log('[TopiChatTalk:systemMessage] event (%s), message received: %s', eventName, JSON.stringify(talkPackage));
+        let talkPort = talkPackage.eventName;
+        let talkPayload: TopiChatTalkPayload = talkPackage.payload;
+
+        // sending the init package back to the new talk client
+        let tcPackageReplay: TopiChatPluginPackage = {
+            eventName: TopiChatTalkSystemPorts.Init,
+            payload: {
+                origin: "@colabo-topichat/b-talk",
+                text: "Welcome to the Talk Plugin",
+                receivedText: talkPayload.content.text
+            }
+        }
+        this.topiChat.emit(eventName, tcPackageReplay, tcPackage.clientIdSender, true);
+    };
+
+    defaultMessage(eventName: string, talkPackage: TopiChatPluginPackage, clientIdSender:string, tcPackage:TopiChatPackage) {
+        console.log('[TopiChatTalk:defaultMessage] event (%s), message received: %s', eventName, JSON.stringify(talkPackage));
+        let talkPort = talkPackage.eventName;
         let talkPayload: TopiChatTalkPayload = talkPackage.payload;
 
         let iAmId:string = tcPackage.iAmIdSender || puzzleConfig.defaultIAmId;
@@ -84,22 +105,35 @@ export class TopiChatTalk{
         chatNode.iAmId = iAmId;
         chatNode.type = KNodesTopiChatTalkTypes.ChatMsg;
         let chatNodeServer:any = chatNode.toServerCopy();
-        KNodeModule._create(chatNodeServer, function(){
+        KNodeModule._create(chatNodeServer, null, function(kNode:KNode){
             if(puzzleConfig.emitMessages){
-        		console.log('[TopiChatTalk:clientChatMessage] emitting message');
-                this.topiChat.emit(port, talkPackage, clientIdSender);
+                console.log("[TopiChatTalk:defaultMessage] forwarding the message to all except sender, talkPackage: ", JSON.stringify(talkPackage));
+                this.topiChat.emit(eventName, talkPackage, clientIdSender);
             }else{
         		console.log('[TopiChatTalk:clientChatMessage] we are NOT emitting message');
             }
+
+            // sending the init package back to the new talk client
+            let tcPackageReplay: TopiChatPluginPackage = {
+                eventName: TopiChatTalkDefaultPorts.Chat,
+                payload: {
+                    origin: "@colabo-topichat/b-talk",
+                    text: "Welcome to the Talk Plugin",
+                    receivedText: talkPayload.content.text,
+                    _id: kNode._id
+                }
+            }
+            console.log("[TopiChatTalk:defaultMessage] seding back to sender, tcPackageReplay: ", JSON.stringify(tcPackageReplay));
+            this.topiChat.emit(eventName, tcPackageReplay, tcPackage.clientIdSender, true);
         }.bind(this));
 		// let socketSender = this.clientIdToSocket[clientIdSender];
-		// socketSender.broadcast.emit(port, tcPackage); // to everyone except socket owner
+		// socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
 		// this.io.emit('tc:chat-message', payload); // to everyone
 		// socket.broadcast.emit('tc:chat-message', payload); // to everyone except socket owner
-	};
+    };
 
-    realtimeMsg(port, talkPackage, clientId, tcPackage:TopiChatPackage) {
-        console.log('[TopiChatTalk] event (%s), realtime talk message received from client [%s] : %s', port, clientId, JSON.stringify(talkPackage));
-        this.topiChat.emit(port, talkPackage, clientId);
+    realtimeMsg(eventName, talkPackage, clientId, tcPackage:TopiChatPackage) {
+        console.log('[TopiChatTalk] event (%s), realtime talk message received from client [%s] : %s', eventName, clientId, JSON.stringify(talkPackage));
+        this.topiChat.emit(eventName, talkPackage, clientId);
     };
 }

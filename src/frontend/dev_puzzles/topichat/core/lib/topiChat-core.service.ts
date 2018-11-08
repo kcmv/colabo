@@ -16,7 +16,7 @@ export enum TopiChatSystemEvents{
 }
 
 export interface TopiChatPluginPackage {
-  port: string; // a port that users of the transport plugins are registering to
+  eventName: string; // a eventName that users of the transport plugins are registering to
   payload: any;
 }
 
@@ -26,7 +26,7 @@ export interface TopiChatPackage {
   clientIdReciever: string;
   iAmIdReciever?: string;
   timestamp: number; // TODO: make ie everywhere available
-  port: string; // the same value as the port/event name we are listening for / sending to in socket.io
+  eventName: string; // the same value as the event name we are listening for / sending to in socket.io
   payload: TopiChatPluginPackage;
 }
 
@@ -80,15 +80,15 @@ export class TopiChatCoreService{
       this._socket = socketIO(socketUrl, socketOptions);
 
       // called on init message
-      function clientInit(eventName, msg, tcPackage:TopiChatPackage) {
+    function clientInit(eventName, pluginPackage: TopiChatPluginPackage, tcPackage:TopiChatPackage) {
           console.log('[TopiChatService:clientInit] Client id: %s', tcPackage.clientIdReciever);
           this.clientInfo.clientId = tcPackage.clientIdReciever;
           this.clientInfo.serverId = tcPackage.clientIdSender;
       }
       // called on helo message
-      function clientEcho(eventName, msg, tcPackage:TopiChatPackage) {
-          console.log('[TopiChatService:clientEcho] Client id: %s', tcPackage.clientIdReciever);
-          console.log('\t msg: %s', JSON.stringify(tcPackage.payload));
+    function clientEcho(eventName, pluginPackage: TopiChatPluginPackage, tcPackage:TopiChatPackage) {
+      console.log('[TopiChatService:clientEcho] Client id: %s', tcPackage.clientIdReciever);
+      console.log('\t pluginPackage: %s', JSON.stringify(pluginPackage));
       }
 
       // registering system plugin
@@ -100,13 +100,14 @@ export class TopiChatCoreService{
       systemPluginOptions.events[TopiChatSystemEvents.ClientEcho] = clientEcho.bind(this);
       this.serverPubSub.registerPlugin(systemPluginOptions);
 
-      var payload:TopiChatPluginPackage = {
-        port: 'default',
+      var echoPluginPackageReply:TopiChatPluginPackage = {
+        eventName: 'default',
         payload: {
           text: "Hello from client!"          
         }
       };
-    this.emit(TopiChatSystemEvents.ClientEcho, payload);
+    console.log('[TopiChatService:clientEcho] sending echoPluginPackageReply: %s', JSON.stringify(echoPluginPackageReply));
+    this.emit(TopiChatSystemEvents.ClientEcho, echoPluginPackageReply);
   }
   
   registerPlugin(pluginOptions:ColaboPubSubPlugin){
@@ -119,9 +120,9 @@ export class TopiChatCoreService{
     * @param  {Object} msg - message to be sent
     * @return {TopiChatService}
     */
-  emit(port, payload: TopiChatPluginPackage, clientIdReciever?:string) {
+  emit(eventName, pluginPackage: TopiChatPluginPackage, clientIdReciever?:string) {
       // TODO:temp
-    // if(port === "tc:chat-message" && this.whoAmI){
+    // if(eventName === "tc:chat-message" && this.whoAmI){
     //   msg = this.whoAmI.displayName+": "+msg;
     // }
     var tcPackage:TopiChatPackage = {
@@ -129,10 +130,10 @@ export class TopiChatCoreService{
         iAmIdSender: this.rimaAAAService.getUserId(),
         clientIdReciever: clientIdReciever ? clientIdReciever : this.clientInfo.serverId,
         timestamp: Math.floor(new Date().getTime() / 1000),
-        port: port,
-        payload: payload
+        eventName: eventName,
+        payload: pluginPackage
     };
-    this._socket.emit(port, tcPackage);
+    this._socket.emit(eventName, tcPackage);
 
     return this;
   }

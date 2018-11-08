@@ -40,7 +40,7 @@ export class TopiChatSystemService{
       // called on helo message
       function clientMessage(eventName, msg, tcPackage:TopiChatPackage) {
           console.log('[TopiChatSystemService:clientMessage] Client id: %s', tcPackage.clientIdReciever);
-          console.log('\t msg: %s', JSON.stringify(tcPackage.msg));
+          console.log('\t payload: %s', JSON.stringify(tcPackage.payload));
       }
 
       // registering chat plugin

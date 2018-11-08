@@ -58,7 +58,7 @@ if (!globalSet.hasOwnProperty('puzzles')) {
     console.log("Setting up globalSet.puzzles");
     globalSet.puzzles = {
         '@colabo-topichat/b-core': {
-            debug: true
+            debug: false
         },
         '@colabo-topichat/b-talk': {
             saveTalkToMap: true,

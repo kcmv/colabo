@@ -28,7 +28,7 @@ export interface TopiChatEvents{
 }
 
 export interface TopiChatPluginPackage {
-	port: string; // a port that users of the transport plugins are registering to
+	eventName: string; // a eventName that users of the transport plugins are registering to
 	payload: any;
 }
 export interface TopiChatPackage {
@@ -37,7 +37,7 @@ export interface TopiChatPackage {
 	clientIdReciever: string;
 	iAmIdReciever?: string;
 	timestamp: number; // TODO: make ie everywhere available
-	port: string; // the same value as the port/event name we are listening for / sending to in socket.io
+	eventName: string; // the same value as the event name we are listening for / sending to in socket.io
 	payload: TopiChatPluginPackage;
 }
 
@@ -75,7 +75,7 @@ export class TopiChat{
 	protected clientIdToSocket:any;
 
 	/**
-	* Instantiate topiChat with name of the room and port
+	* Instantiate topiChat with name of the room and eventName
 	*
 	* #### Example usage
 	*
@@ -192,10 +192,13 @@ export class TopiChat{
 			clientIdReciever: clientId,
 			clientIdSender: TopiChatClientIDs.Server,
 			timestamp: Math.floor(new Date().getTime() / 1000),
-			port: TopiChatSystemEvents.ClientInit,
+			eventName: TopiChatSystemEvents.ClientInit,
 			payload: {
-				port: 'default',
-				payload: {}
+				eventName: 'default',
+				payload: {
+					origin: '@colabo-topichat/b-core',
+					text: 'Welcome to the topichat service!'
+				}
 			}
 		};
 		socket.emit(TopiChatSystemEvents.ClientInit, tcPackage);
@@ -209,29 +212,29 @@ export class TopiChat{
 		// socket.on(eventName, TopiChat.prototype.clientChatMessage.bind(this));
 	}
 
-	dispatchEvent(eventName:string, socket, tcPackage) {
+	dispatchEvent(eventName: string, socket, tcPackage: TopiChatPackage) {
 		console.log('[TopiChat:dispatchEvent] socket.id: %s', socket.id);
 		let clientIdSender:string = this.socketIdToClientId[socket.id];
 		console.log('[TopiChat:dispatchEvent] clientIdSender [%s] eventName: %s, tcPackage:%s', clientIdSender, eventName, JSON.stringify(tcPackage));
 		let eventByPlugins = this.eventsByPlugins[eventName];
-		let msg = tcPackage.msg;
+		let tcPayload: TopiChatPluginPackage = tcPackage.payload;
 		for(let id in eventByPlugins){
 			let pluginOptions = eventByPlugins[id];
 			let pluginName = pluginOptions.name;
 
 			console.log('\t dispatching to plugin: %s', pluginName);
 			let pluginCallback = pluginOptions.events[eventName];
-			pluginCallback(eventName, msg, clientIdSender, tcPackage);
+			pluginCallback(eventName, tcPayload, clientIdSender, tcPackage);
 		}
 	}
 
-	emit(eventName: string, payload: TopiChatPluginPackage, clientIdSender?:string) {
+	emit(eventName: string, payload: TopiChatPluginPackage, clientIdSender?:string, onlyToSender:boolean=false) {
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: clientIdSender ? 
 				clientIdSender : TopiChatClientIDs.Server,
 			clientIdReciever: TopiChatClientIDs.Broadcast,
 			timestamp: Math.floor(new Date().getTime() / 1000),
-			port: eventName,
+			eventName: eventName,
 			payload: payload
 		};
 		console.log('[TopiChat:emit] emitting event (%s) with message: %s', eventName, JSON.stringify(tcPackage));
@@ -239,8 +242,13 @@ export class TopiChat{
 		// this.io.emit(eventName, tcPackage); // to everyone
 
 		if(clientIdSender){
-			let socketSender = this.clientIdToSocket[clientIdSender];
-			socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
+			if (onlyToSender){
+				let socketSender = this.clientIdToSocket[clientIdSender];
+				socketSender.emit(eventName, tcPackage); // to socket owner only				
+			}else{
+				let socketSender = this.clientIdToSocket[clientIdSender];
+				socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner				
+			}
 		}else{
 			this.io.emit(eventName, tcPackage); // to everyone
 		}
@@ -252,7 +260,7 @@ export class TopiChat{
 			clientIdSender: clientIdSender,
 			clientIdReciever: clientIdReceiver,
 			timestamp: Math.floor(new Date().getTime() / 1000),
-			port: eventName,
+			eventName: eventName,
 			payload: payload,
 		};
 		console.log('[TopiChat:emit] emitting event (%s) with message: %s', eventName, JSON.stringify(tcPackage));
@@ -263,19 +271,20 @@ export class TopiChat{
 		socketReceiver.emit(eventName, tcPackage); // to clientIdReceiver only
 	};
 
-	clientEcho(eventName:string, msg:any, clientIdSender) {
-		console.log('[TopiChat:clientEcho] event (%s), clientEcho message from clientIdSender [%s] received: %s', eventName, clientIdSender, JSON.stringify(msg));
+	clientEcho(eventName: string, tcPayload: TopiChatPluginPackage, clientIdSender) {
+		console.log('[TopiChat:clientEcho] event (%s), clientEcho message from clientIdSender [%s] received: %s', eventName, clientIdSender, JSON.stringify(tcPayload));
+		let tcPluginPayload: any = tcPayload.payload;
 
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: TopiChatClientIDs.Server,
 			clientIdReciever: clientIdSender,
 			timestamp: Math.floor(new Date().getTime() / 1000),
-			port: TopiChatSystemEvents.ClientEcho,
+			eventName: TopiChatSystemEvents.ClientEcho,
 			payload: {
-				port: 'default',
+				eventName: 'default',
 				payload: {
-					text: "from server: " + msg.text,
-					receivedText: msg.text					
+					text: "from server: " + tcPluginPayload.text,
+					receivedText: tcPluginPayload.text					
 				}
 			}
 		};
