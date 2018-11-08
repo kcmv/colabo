@@ -1,4 +1,4 @@
-'use strict';
+const MODULE_NAME: string = '@colabo-topichat/b-core';
 
 let Http = require('http');
 import * as express from "express";
@@ -27,14 +27,23 @@ export interface TopiChatEvents{
 	[eventName: string]: Array<TopiChatPlugin>
 }
 
-export interface TopiChatPackage {
-  clientIdSender: string;
-  iAmIdSender?: string;
-  clientIdReciever: string;
-  iAmIdReciever?: string;
-  timestamp: number; // TODO: make ie everywhere available
-	msg?: any
+export interface TopiChatPluginPackage {
+	port: string; // a port that users of the transport plugins are registering to
+	payload: any;
 }
+export interface TopiChatPackage {
+	clientIdSender: string;
+	iAmIdSender?: string;
+	clientIdReciever: string;
+	iAmIdReciever?: string;
+	timestamp: number; // TODO: make ie everywhere available
+	port: string; // the same value as the port/event name we are listening for / sending to in socket.io
+	payload: TopiChatPluginPackage;
+}
+
+import { GetPuzzle } from '@colabo-utils/i-config';
+let puzzleConfig: any = GetPuzzle(MODULE_NAME);
+console.log("[TopiChatCore] Should we debug: ", puzzleConfig.debug);
 
 /* 
 SOCKETS
@@ -129,6 +138,10 @@ export class TopiChat{
 		return Math.floor(new Date().getTime()/1000);
 	}
 
+	time() {
+		return new Date().toLocaleTimeString();
+	}
+
 	generateUniqueClientId():string {
 		let _id:number = this.ClientID++;
 		let id:string = "" + _id + "_" + this.getTimestamp();
@@ -145,11 +158,45 @@ export class TopiChat{
 		this.clientIdToSocket[clientId] = socket;
 		socket.on('disconnect', this.disconnect.bind(this, socket));
 
+		socket.conn.on('ping', function () {
+			if (puzzleConfig.debug) console.log('[%s] Ping sent to the client', this.time());
+		}.bind(this));
+		socket.conn.on('pong', function () {
+			if (puzzleConfig.debug) console.log('[%s] Pong received from the client', this.time());
+		}.bind(this));
+
+		// https://socket.io/docs/server-api/#socket-conn
+		// https://www.npmjs.com/package/engine.io#socket
+		socket.conn.on('close', function (reason, desc) {
+			if (puzzleConfig.debug) console.log("[%s] Client Closed: %s", this.time(), reason);
+		}.bind(this));
+		socket.conn.on('error', function (error) {
+			if (puzzleConfig.debug) console.log("[%s] Error: %s", this.time(), error);
+		}.bind(this));
+		socket.conn.on('flush', function (writeBuffer) {
+			if (puzzleConfig.debug) console.log("[%s] write buffer is being flushed", this.time());
+		}.bind(this));
+		socket.conn.on('drain', function () {
+			if (puzzleConfig.debug) console.log("[%s] write buffer is drained", this.time());
+		}.bind(this));
+		// https://github.com/socketio/engine.io/blob/master/lib/socket.js#L91
+		socket.conn.on('packet', function (packet) {
+			if (puzzleConfig.debug) console.log("[%s] packet received. type: %s, data: %s", this.time(), packet.type, packet.data);
+		}.bind(this));
+		socket.conn.on('packetCreate', function (packet) {
+			if (puzzleConfig.debug) console.log("[%s] packet about to be sent. type: %s, data: %s", this.time(), packet.type, packet.data);
+		}.bind(this));
+
 		// sending the client-init package back to new client
 		let tcPackage:TopiChatPackage = {
 			clientIdReciever: clientId,
 			clientIdSender: TopiChatClientIDs.Server,
-			timestamp: Math.floor(new Date().getTime() / 1000)
+			timestamp: Math.floor(new Date().getTime() / 1000),
+			port: TopiChatSystemEvents.ClientInit,
+			payload: {
+				port: 'default',
+				payload: {}
+			}
 		};
 		socket.emit(TopiChatSystemEvents.ClientInit, tcPackage);
 
@@ -178,13 +225,14 @@ export class TopiChat{
 		}
 	}
 
-	emit(eventName:string, msg, clientIdSender?:string) {
+	emit(eventName: string, payload: TopiChatPluginPackage, clientIdSender?:string) {
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: clientIdSender ? 
 				clientIdSender : TopiChatClientIDs.Server,
 			clientIdReciever: TopiChatClientIDs.Broadcast,
-			msg: msg,
-			timestamp: Math.floor(new Date().getTime() / 1000)
+			timestamp: Math.floor(new Date().getTime() / 1000),
+			port: eventName,
+			payload: payload
 		};
 		console.log('[TopiChat:emit] emitting event (%s) with message: %s', eventName, JSON.stringify(tcPackage));
 		// TODO: support option for demanding broadcasting to everyone, even the sender
@@ -199,12 +247,13 @@ export class TopiChat{
 		// socketSender.emit(eventName, tcPackage);
 	};
 
-	sendSingle(eventName:string, msg, clientIdSender, clientIdReceiver) {
+	sendSingle(eventName: string, payload: TopiChatPluginPackage, clientIdSender, clientIdReceiver) {
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: clientIdSender,
 			clientIdReciever: clientIdReceiver,
-			msg: msg,
-			timestamp: Math.floor(new Date().getTime() / 1000)
+			timestamp: Math.floor(new Date().getTime() / 1000),
+			port: eventName,
+			payload: payload,
 		};
 		console.log('[TopiChat:emit] emitting event (%s) with message: %s', eventName, JSON.stringify(tcPackage));
 		// TODO: support option for demanding broadcasting to everyone, even the sender
@@ -221,10 +270,13 @@ export class TopiChat{
 			clientIdSender: TopiChatClientIDs.Server,
 			clientIdReciever: clientIdSender,
 			timestamp: Math.floor(new Date().getTime() / 1000),
-			msg: {
-				timestamp: this.getTimestamp(),
-				text: "from server: " + msg.text,
-				receivedText: msg.text
+			port: TopiChatSystemEvents.ClientEcho,
+			payload: {
+				port: 'default',
+				payload: {
+					text: "from server: " + msg.text,
+					receivedText: msg.text					
+				}
 			}
 		};
 		let socket = this.clientIdToSocket[clientIdSender];

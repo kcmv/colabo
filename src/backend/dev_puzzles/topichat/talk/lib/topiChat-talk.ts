@@ -1,6 +1,6 @@
 const MODULE_NAME:string = "@colabo-topichat/b-talk";
 
-import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topichat/b-core';
+import { TopiChat, TopiChatPlugin, TopiChatPackage, TopiChatPluginPackage} from '@colabo-topichat/b-core';
 
 import {GetPuzzle} from '@colabo-utils/i-config';
 
@@ -8,37 +8,37 @@ let puzzleConfig:any = GetPuzzle(MODULE_NAME);
 console.log("[TopiChatTalk] Should we save chat? saveTalkToMap = ", puzzleConfig.saveTalkToMap);
 console.log("[TopiChatTalk] mapId = ", puzzleConfig.mapId);
 
-import {KNode} from '@colabo-knalledge/b-core';
+enum TopiChatTalkPorts{
+    System = 'tc:talk-system',
+	Defualt = 'tc:talk-default'
+}
+enum TopiChatTalkSystemPorts {
+    Init = 'system:init'
+}
+enum TopiChatTalkDefaultPorts {
+    Chat = 'default:chat'
+}
 
-enum KNodesTopiChatTalkTypes{
+export interface TopiChatTalkPayload {
+    from: {
+        name: string; // whoAmI.dataContent.firstName
+        iAmId: string;
+    };
+    content: {
+        text: string;
+    };
+}
+
+import { KNode } from '@colabo-knalledge/b-core';
+
+enum KNodesTopiChatTalkTypes {
     ChatMsg = "topiChat.talk.chatMsg"
 }
 
 const KNodeModule = require("@colabo-knalledge/b-core/lib/modules/kNode");
 
-/**
- * This is the main class, the entry point to TopiChat-Talk plugin. To use it, you just need to import `@colabo-topichat/b-talk`:
- *
- * ```ts
- * var topiChatTalk = require('@colabo-topichat/b-talk');
- * ```
- */
-
-enum TopiChatTalkEvents{
-	ChatMessage = 'tc:chat-message'
-}
-
 export class TopiChatTalk{
     /**
-     * Instantiate topiChat with name of the room and port
-     *
-     * #### Example usage
-     *
-     * ```ts
-     * var topiChat = new TopiChatTalk(topiChat);
-     *
-     * ```
-     *
      * @name TopiChatTalk
      * @constructor
      * @param {String}	roomName The name of the room
@@ -55,8 +55,8 @@ export class TopiChatTalk{
             }
         };
 
-        pluginOptions.events[TopiChatTalkEvents.ChatMessage] 
-		= this.chatMessage.bind(this);
+        pluginOptions.events[TopiChatTalkPorts.Defualt] 
+		= this.defaultMessage.bind(this);
 
         // 'tc:user-connected': this.userConnected.bind(this),
         // 'tc:user-disconnected': this.userConnected.bind(this),
@@ -72,12 +72,14 @@ export class TopiChatTalk{
 
     };
 
-	chatMessage(eventName:string, msg, clientIdSender, tcPackage:TopiChatPackage) {
-		console.log('[TopiChatTalk:clientChatMessage] event (%s), message received: %s', eventName, JSON.stringify(msg));
+    defaultMessage(port: string, talkPackage: TopiChatPluginPackage, clientIdSender:string, tcPackage:TopiChatPackage) {
+        console.log('[TopiChatTalk:clientChatMessage] event (%s), message received: %s', port, JSON.stringify(talkPackage));
+        let talkPort = talkPackage.port;
+        let talkPayload: TopiChatTalkPayload = talkPackage.payload;
 
         let iAmId:string = tcPackage.iAmIdSender || puzzleConfig.defaultIAmId;
         let chatNode:KNode = new KNode();
-        chatNode.name = msg.content.text;
+        chatNode.name = talkPayload.content.text;
         chatNode.mapId = puzzleConfig.mapId;
         chatNode.iAmId = iAmId;
         chatNode.type = KNodesTopiChatTalkTypes.ChatMsg;
@@ -85,19 +87,19 @@ export class TopiChatTalk{
         KNodeModule._create(chatNodeServer, function(){
             if(puzzleConfig.emitMessages){
         		console.log('[TopiChatTalk:clientChatMessage] emitting message');
-    		    this.topiChat.emit(eventName, msg, clientIdSender);
+                this.topiChat.emit(port, talkPackage, clientIdSender);
             }else{
         		console.log('[TopiChatTalk:clientChatMessage] we are NOT emitting message');
             }
         }.bind(this));
 		// let socketSender = this.clientIdToSocket[clientIdSender];
-		// socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
-		// this.io.emit('tc:chat-message', msg); // to everyone
-		// socket.broadcast.emit('tc:chat-message', msg); // to everyone except socket owner
+		// socketSender.broadcast.emit(port, tcPackage); // to everyone except socket owner
+		// this.io.emit('tc:chat-message', payload); // to everyone
+		// socket.broadcast.emit('tc:chat-message', payload); // to everyone except socket owner
 	};
 
-    realtimeMsg(eventName, msg, clientId, tcPackage:TopiChatPackage) {
-        console.log('[TopiChatTalk] event (%s), realtime talk message received from client [%s] : %s', eventName, clientId, JSON.stringify(msg));
-        this.topiChat.emit(eventName, msg, clientId);
+    realtimeMsg(port, talkPackage, clientId, tcPackage:TopiChatPackage) {
+        console.log('[TopiChatTalk] event (%s), realtime talk message received from client [%s] : %s', port, clientId, JSON.stringify(talkPackage));
+        this.topiChat.emit(port, talkPackage, clientId);
     };
 }
