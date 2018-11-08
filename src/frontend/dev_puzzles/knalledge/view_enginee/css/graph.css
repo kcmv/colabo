@@ -1,103 +1,131 @@
 /* @import "normalize"; */
+
+
 /*
 $medium: 800px;
 $large: 1400px;
 */
+
+
 /*
 	http://compass-style.org/examples/compass/css3/box_sizing/
 	http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
 	http://stackoverflow.com/questions/10808413/css3-box-sizing-margin-box-why-not
 */
+
 * {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
 
 .knalledge_map_container .node_graph_html {
-  position: absolute;
-  border-width: 0px;
-  min-width: 150px;
-  margin-left: -75px;
-  font-size: 14px;
-  font-weight: bold;
-  /*	background-color: #ffffff;
+    position: absolute;
+    border-width: 0px;
+    min-width: 150px;
+    margin-left: -75px;
+    font-size: 14px;
+    font-weight: bold;
+    /*	background-color: #ffffff;
   */
-  /*opacity: 0.7;*/
-  z-index: 5;
-  padding: 3px;
-  cursor: pointer;
-  /*	margin-left: 3em;
+    /*opacity: 0.7;*/
+    z-index: 5;
+    padding: 3px;
+    cursor: pointer;
+    /*	margin-left: 3em;
   	margin-top: 0.3em;
   */
-  /*margin-top: -1.5em;
+    /*margin-top: -1.5em;
   margin-left: -5em;*/
-  /* NODE SEMANTIC / STYLING */ }
-  .knalledge_map_container .node_graph_html span {
+    /* NODE SEMANTIC / STYLING */
+}
+
+.knalledge_map_container .node_graph_html span {
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
     text-align: center;
     font-weight: normal;
     font-style: italic;
-    color: #550000; }
-  .knalledge_map_container .node_graph_html .node_inner_html {
+    color: #550000;
+}
+
+.knalledge_map_container .node_graph_html .node_inner_html {
     position: relative;
     padding: 3px;
     padding-left: 7px;
-    background-color: yellow; }
-  .knalledge_map_container .node_graph_html.type_ibis_question {
-    background-color: #ffffaa; }
-  .knalledge_map_container .node_graph_html.type_ibis_idea {
-    background-color: #aaaaff; }
-  .knalledge_map_container .node_graph_html.type_ibis_argument {
-    background-color: rgba(255, 170, 170, 0.5); }
-  .knalledge_map_container .node_graph_html.type_ibis_comment {
-    background-color: #aaffaa; }
+    background-color: yellow;
+}
+
+.knalledge_map_container .node_graph_html.type_ibis_question {
+    background-color: #ffffaa;
+}
+
+.knalledge_map_container .node_graph_html.type_ibis_idea {
+    background-color: #aaaaff;
+}
+
+.knalledge_map_container .node_graph_html.type_ibis_argument {
+    background-color: rgba(255, 170, 170, 0.5);
+}
+
+.knalledge_map_container .node_graph_html.type_ibis_comment {
+    background-color: #aaffaa;
+}
+
 .knalledge_map_container .node_graph_html_fixed {
-  /* TODO FIxing expandable nodes */
-  /*width: 200px;*/
-  min-width: 150px;
-  margin-left: -75px;
-  -moz-border-radius: 10px / 10px;
-  -webkit-border-radius: 10px 10px;
-  border-radius: 10px / 10px;
-  border-width: 1px;
-  -moz-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
-  -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
-  box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75); }
+    /* TODO FIxing expandable nodes */
+    /*width: 200px;*/
+    min-width: 150px;
+    margin-left: -75px;
+    -moz-border-radius: 10px / 10px;
+    -webkit-border-radius: 10px 10px;
+    border-radius: 10px / 10px;
+    border-width: 1px;
+    -moz-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+    -webkit-box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+    box-shadow: 4px 3px 7px 2px rgba(150, 150, 255, 0.75);
+}
+
 .knalledge_map_container .node_unselected {
-  border-style: dashed;
-  border-color: #0000ff;
-  /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
-  /* color h-shadow v-shadow blur spread color inset*/ }
+    border-style: dashed;
+    border-color: #0000ff;
+    /* http://compass-style.org/reference/compass/css3/box_shadow/#mixin-box-shadow */
+    /* color h-shadow v-shadow blur spread color inset*/
+}
+
 .knalledge_map_container .node_selected {
-  z-index: 1000;
-  border-style: solid;
-  border-color: #0000aa;
-  border-width: 5px;
-  -moz-box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
-  -webkit-box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
-  box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75); }
+    z-index: 1000;
+    border-style: solid;
+    border-color: #0000aa;
+    border-width: 5px;
+    -moz-box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
+    -webkit-box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
+    box-shadow: 10px 10px 9px 5px rgba(80, 80, 255, 0.75);
+}
+
 .knalledge_map_container .label_html {
-  position: absolute;
-  /*width: 10em;*/
-  /*width: 150px;
+    position: absolute;
+    /*width: 10em;*/
+    /*width: 150px;
   margin-left: -75px;*/
-  /*height: 3em;
+    /*height: 3em;
   line-height: 3em;*/
-  border: 1px dashed #8888ff;
-  background-color: #eeeeff;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  opacity: 0.7;
-  z-index: 4;
-  padding: 3px;
-  cursor: pointer;
-  /*	margin-left: 3em;
+    border: 1px dashed #8888ff;
+    background-color: #eeeeff;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    opacity: 0.7;
+    z-index: 4;
+    padding: 3px;
+    cursor: pointer;
+    /*	margin-left: 3em;
   	margin-top: 0.3em;
   */
-  /*margin-top: -1.5em;
-  margin-left: -5em;*/ }
+    /*margin-top: -1.5em;
+  margin-left: -5em;*/
+}
+
 
 /*# sourceMappingURL=graph.css.map */
