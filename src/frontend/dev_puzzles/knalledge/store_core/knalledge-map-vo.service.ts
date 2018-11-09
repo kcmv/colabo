@@ -101,6 +101,15 @@ export class KnalledgeMapVoService extends CFService{
     }
   }
 
+  getRootNode(map:MapWithContent):KNode{
+    for(var i:number=0; i<map.nodes.length;i++){
+      if(map.nodes[i]._id === map.map.rootNodeId){
+        return map.nodes[i];
+      }
+    }
+    return null;
+  }
+
   // mapReceived(map:KMap):void{
   //   console.log('mapReceived', map);
   // }

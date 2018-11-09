@@ -6,6 +6,8 @@ import {MaterialModule} from '../materialModule';
 import { GlobalEmittersArrayService } from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 import {KnalledgeViewComponent} from '@colabo-knalledge/f-view_enginee/knalledgeView.component';
 import {KnalledgeMapVoService, MapWithContent} from '@colabo-knalledge/f-store_core/knalledge-map-vo.service';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 
 import * as config from '@colabo-utils/i-config';
 
@@ -52,8 +54,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   ngAfterViewInit(){
-    this.initContent(); //mockup test
-    //this.knalledgeMapVoService.getNodesAndEdgesInMap(MapComponent.mapId).subscribe(this.initContent.bind(this));
+    // this.initContent(); //mockup test
+    this.knalledgeMapVoService.getNodesAndEdgesInMap(MapComponent.mapId).subscribe(this.initContent.bind(this));
   }
 
   ngOnDestroy() {
@@ -63,22 +65,84 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
     console.log('[MapComponent::initContent]', map);
     let mapDataOld:any = {};
     if(map){
-      mapDataOld = { //@Sinisa: this is an old - a bit illogical format, but we're 'downgrading' to it, because it's required by the 'KnalledgeViewComponent'
-        selectedNode: { "_id": "575c7c1e49dc3cda62624ca0", "name": "Performative DialoGame", "type": "knalledge",
-        "mapId": "5be3fddce1b7970d8c6df406", "iAmId": "556760847125996dc1a4a241", "version": 1, "activeVersion": 1, "ideaId": 0,
-        "isPublic": true, "createdAt": "2016-06-11T21:01:18.115Z", "updatedAt": "2016-06-11T21:01:18.131Z", "decorations": {}, "up": {},
-        "visual": { "isOpen": true, "xM": 0, "yM": 0 }, "state": "STATE_SYNCED",
-        "dataContent": { "ibis": { "votes": { "556760847125996dc1a4a241": 2 } } }},
-        //map.nodes[0],
+      console.log('map',map);
+      let rootNode:KNode = this.knalledgeMapVoService.getRootNode(map);
+
+      console.log('rootNode',rootNode);
+      const selectedNode = rootNode;
+      console.log('selectedNode',selectedNode);
+
+      /* TODO: remove this - NOW, we're RETYPING  all edges, beause mapView shows only 'edge.type = "type_knowledge"' */
+      let edgesWOType:KEdge[] = []; //TODO: if we keep this approach of re-typing, we shoul make deep copies of edges then not to eventually over-write them when updating in db and lose their types
+      for(var i:number=0; i<map.edges.length;i++){
+        map.edges[i].type = "type_knowledge";
+      }
+      
+      /*
+      let testNode:KNode = KNode.factory(
+        { 
+          "_id" : "5b9669e986f3cc8057216a15", 
+          "name" : "SDGs", 
+          "type" : "const.sdgs", 
+          "mapId" : "5be3fddce1b7970d8c6df406", 
+          "iAmId" : "556760847125996dc1a4a24f", 
+          "ideaId" : 0, 
+          "updatedAt" : "2018-09-10T01:25:34.694+0000", 
+          "createdAt" : "2018-09-10T01:25:34.693+0000", 
+          "visual" : {
+              "isOpen" : true
+          }, 
+          "isPublic" : true, 
+          "version" : 1, 
+          "activeVersion" : 1, 
+          "__v" : 0, 
+          "decorations" : {
+      
+          }, 
+          "up" : {
+      
+          }, 
+          "dataContent" : {
+      
+          }
+      };
+      map.nodes.push(testNode);
+
+      let testEdge:KEdge = KEdge.factory(
+      { 
+        "_id" : "5b966a0086f3cc8057216a16", 
+        "name" : "SDGs", 
+        "type" : "type_knowledge",//"const.sdgs", 
+        "mapId" : "5be3fddce1b7970d8c6df406", 
+        "iAmId" : "556760847125996dc1a4a24f", 
+        "ideaId" : 0, 
+        "sourceId" : rootNode._id, 
+        "targetId" : "5b9669e986f3cc8057216a15", 
+        "dataContent" : null, 
+        "visual" : null, 
+        "updatedAt" : "2018-09-10T01:25:34.934+0000", 
+        "createdAt" : "2018-09-10T01:25:34.933+0000", 
+        "value" : 0, 
+        "isPublic" : true, 
+        "__v" : 0
+    }
+      );
+      map.edges.push(testEdge);
+    */
+
+      mapDataOld = 
+      { // @Sinisa: this is an old - a bit illogical format, but we're 'downgrading' to it, because it's required by the 'KnalledgeViewComponent'
+        selectedNode: selectedNode,
        map: {
          nodes: map.nodes,
          edges: map.edges,
+         },
          properties: map.map
-       }
-      };
+     };
     }else{
       mapDataOld = this.getMockupContent();
     }
+    console.log('mapDataOld',mapDataOld);
     this.knalledgeViewComponent.setData(mapDataOld);
   }
 
@@ -94,7 +158,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
       map: {
         nodes:
           [
-            selectedNode,
+            selectedNode
+            ,
             {"_id":"575d225d16206451e6e82c68","name":"Nikola Tesla","type":"type_knowledge","mapId":"5be3fddce1b7970d8c6df406",
             "iAmId":"556760847125996dc1a4a241","version":1,"activeVersion":1,"ideaId":0,"isPublic":true,
             "createdAt":"2016-06-12T08:50:37.160Z","updatedAt":"2016-06-12T08:50:37.160Z","decorations":{},"up":{},
@@ -131,7 +196,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
             {"_id":"5a09938ccdfd0ae7780fc350","name":"Tesla's Wireless Energy","type":"type_knowledge","mapId":"5be3fddce1b7970d8c6df406",
             "iAmId":"556760847125996dc1a4a241","version":1,"activeVersion":1,"ideaId":0,"isPublic":true,
             "createdAt":"2017-11-13T12:43:56.768Z","updatedAt":"2017-11-13T12:43:56.773Z","decorations":{},"up":{},
-            "visual":{"isOpen":false},"state":"STATE_SYNCED"}],
+            "visual":{"isOpen":false},"state":"STATE_SYNCED"}
+          ],
         edges: [
           {"_id":"575de27c16206451e6e82ca1","name":"","type":"type_knowledge","mapId":"5be3fddce1b7970d8c6df406",
           "iAmId":"556760847125996dc1a4a241","version":1,"activeVersion":1,"ideaId":0,"isPublic":true,
