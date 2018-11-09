@@ -64,6 +64,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
   initContent(map?:MapWithContent):void{
     console.log('[MapComponent::initContent]', map);
     let mapDataOld:any = {};
+    // for testing
+    let gotDownloaded = false;
+    if(map){
+      gotDownloaded = true;
+    }
+    map = null;
     if(map){
       console.log('map',map);
       let rootNode:KNode = this.knalledgeMapVoService.getRootNode(map);
@@ -141,6 +147,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
      };
     }else{
       mapDataOld = this.getMockupContent();
+      if (gotDownloaded){
+        mapDataOld.map.nodes[0].name = mapDataOld.map.nodes[0].name + ":REPLACED";
+      }
     }
     console.log('mapDataOld',mapDataOld);
     this.knalledgeViewComponent.setData(mapDataOld);
