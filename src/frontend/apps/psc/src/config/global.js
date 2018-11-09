@@ -27,10 +27,12 @@ if (!globalSet.hasOwnProperty('general')) {
     console.log("[config/global.js] Setting up globalSet.general");
     globalSet.general = {
         // RESTfull backend API url
-        serverUrl: 'http://127.0.0.1:8001',
-        // serverUrl: 'https://fv.colabo.space/api', // colabo-space-1 (https)
-        // serverUrl: 'http://api.colabo.space',
-        // serverUrl: 'http://158.39.75.120:8001', // colabo-space-1 (old)
+        serverUrl: 
+        'http://127.0.0.1:8001', // LOCAL
+        // 'https://fv.colabo.space/api', // colabo-space-1 (https) (ACTUAL SERVER)
+        //OLD:
+        // 'http://api.colabo.space',
+        // 'http://158.39.75.120:8001', // colabo-space-1 (old)
 
         // active map
         mapId: '5be3fddce1b7970d8c6df406',

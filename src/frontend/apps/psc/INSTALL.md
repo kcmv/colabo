@@ -35,13 +35,11 @@ https://fv.colabo.space/ redirects to **/var/www/fv**
 
 ## Build
 
-this is done on the local dev machine
+This procedure is only if we don't use **Ansimble** as automated solution.
+
+This part is done on the local dev machine:
 
 ```sh
-# set the server backend addr in the file
-# KnAllEdge/src/frontend/dev_puzzles/knalledge/knalledge_store_core/cf.service.ts
-# to
-# static serverAP = "http://158.39.75.120:8001"; // colabo-space-1
 cd src/frontend/apps/psc
 ng build --prod --build-optimizer
 # run on local server (JUST for testing, not necessary)
@@ -52,17 +50,35 @@ python -m SimpleHTTPServer 8000
 
 ## Code/Data Upload
 
-uploading the build code on the server
+Uploading the build code on the server (right now the: ***158.39.75.120***)
 
 ```sh
 #the code is built in the following folder:
 cd src/frontend/apps/psc/dist/performing_sustainable_coevolution/
 #we put the content of this folder into the server folder:
 /var/www/fv
-# but we DO NOT OVERWRITE the `config` folder
+# ⚠️ !⚠️ !⚠️ we copy all but the 'config' folder (we do DO NOT OVERWRITE the 'config') !⚠️ !⚠️
+#
+# 
+# if we have to change server the CONFIG FILE 
+# then we copy the file
+# 'colabo.space-infrastructure/provisioning/files/frontend/global-server.js'
+# to /var/www/fv/config/global.js
+# (by also renaming it from 'global-server.js' to 'global.js')
+# !⚠️!⚠️ in the file we have to set the RESTfull backend API url in the file
+# from
+# serverUrl: 'http://127.0.0.1:8001', //local
+# to
+# serverUrl: 'https://fv.colabo.space/api', // colabo-space-1 (https)
 ```
 
 # KnAllEdge content
+
+!!!:warning: !⚠️ !⚠️ !⚠️ the **actual content** is migrated to
+
+`src/frontend/apps/psc/docs/dbSetUp-CivilCourage.json`
+
+!⚠️ !⚠️ !⚠️ !⚠️ !⚠️ 
 
 ## Map
 
