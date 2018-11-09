@@ -126,6 +126,17 @@ export class InsightsService {
     return false;
   }
 
+  cardHumanIdPlayedInTheRound(userId:string, round:number):string{
+    if(typeof this.cardsPlayed[round] === 'undefined'){return '-';}
+
+    for(var i:number = 0; i<this.cardsPlayed[round].length;i++){
+      if(this.cardsPlayed[round][i].iAmId == userId){
+        return (('dataContent' in this.cardsPlayed[round][i]) ? (this.cardsPlayed[round][i].dataContent.humanID + ': ') : '') + this.cardsPlayed[round][i].name;
+      }
+    }
+    return '-';
+  }
+
   assignCardsPlayedInTheRound(round:number, cards:any):void{
     console.log('assignCardsPlayedInTheCurrentRound', round, cards);
     if(typeof this.cardsPlayed[round] === 'undefined'){this.cardsPlayed[round] = []}

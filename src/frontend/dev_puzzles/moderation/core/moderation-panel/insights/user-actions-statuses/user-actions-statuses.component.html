@@ -28,22 +28,25 @@
 
   <ng-container matColumnDef="cwcs">
     <th mat-header-cell *matHeaderCellDef>CWCs</th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'warning': !correctCWCNo(element)}"> {{getCWCsPrint(element)}} </td>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'warning': !correctCWCNo(element)}">
+        <!-- <span matTooltip="Sinisa Test 1">6</span>, <span matTooltip="Sinisa Test 2">7</span>, <span matTooltip="Sinisa Test 3">8</span>, <span matTooltip="Sinisa Test 4">9</span>, <span matTooltip="Sinisa Test 5">10</span> -->
+        <div [innerHTML]="getCWCsPrint(element)"></div>
+    </td>
   </ng-container>
 
-  <ng-container matColumnDef="isPlayedCardRound1">
+  <ng-container matColumnDef="cardPlayedInRound1">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> played card in round 1 </th>
-    <td mat-cell *matCellDef="let element"> {{element.isPlayedCardRound1}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.cardPlayedInRound1}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="isPlayedCardRound2">
+  <ng-container matColumnDef="cardPlayedInRound2">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> played card in round 2 </th>
-    <td mat-cell *matCellDef="let element">{{element.isPlayedCardRound2}}</td>
+    <td mat-cell *matCellDef="let element">{{element.cardPlayedInRound2}}</td>
   </ng-container>
 
-  <ng-container matColumnDef="isPlayedCardRound3">
+  <ng-container matColumnDef="cardPlayedInRound3">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> played card in round 3 </th>
-    <td mat-cell *matCellDef="let element"> {{element.isPlayedCardRound3}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.cardPlayedInRound3}} </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

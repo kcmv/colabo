@@ -19,19 +19,19 @@ export class UserInsight{
   myColaboFlowState:number;
   cwcs:KNode[];
   sdgs:number[];
-  isPlayedCardRound1:boolean;
-  isPlayedCardRound2:boolean;
-  isPlayedCardRound3:boolean;
+  cardPlayedInRound1:string;
+  cardPlayedInRound2:string;
+  cardPlayedInRound3:string;
 
-  constructor(user:KNode, myColaboFlowState:number, cwcs:KNode[], sdgs:number[], isPlayedCardRound1:boolean, isPlayedCardRound2:boolean, isPlayedCardRound3:boolean){
+  constructor(user:KNode, myColaboFlowState:number, cwcs:KNode[], sdgs:number[], cardPlayedInRound1:string, cardPlayedInRound2:string, cardPlayedInRound3:string){
     this.user = user;
     // if(!('dataContent' in this.user)){this.user.dataContent = {};}
     this.myColaboFlowState = myColaboFlowState;
     this.cwcs = cwcs
     this.sdgs = sdgs;
-    this.isPlayedCardRound1 = isPlayedCardRound1;
-    this.isPlayedCardRound2 = isPlayedCardRound2;
-    this.isPlayedCardRound3 = isPlayedCardRound3;
+    this.cardPlayedInRound1 = cardPlayedInRound1;
+    this.cardPlayedInRound2 = cardPlayedInRound2;
+    this.cardPlayedInRound3 = cardPlayedInRound3;
   }
 
   get id():string{
@@ -56,7 +56,7 @@ export class UserActionsStatusesComponent implements OnInit {
   static CWCS_REQUIRED:number = 5;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'isPlayedCardRound1', 'isPlayedCardRound2', 'isPlayedCardRound3'];
+  displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3'];
   usersData:MatTableDataSource<UserInsight> = null; //any = [];//UserInsight[] = []; TODO
 
   constructor(
@@ -80,10 +80,12 @@ export class UserActionsStatusesComponent implements OnInit {
       // console.log('getCWCsPrint:: us.cwcs', us.cwcs);
       cwc = us.cwcs[c];
       if(('dataContent' in cwc) && ('humanID' in cwc.dataContent)){
-        cwcs+= conn + cwc.dataContent.humanID;
+        // cwcs+= conn + '<span matTooltip="CWC">'+cwc.dataContent.humanID+'</span>';
+        cwcs+= conn + '<span matTooltip="'+cwc.name+'">'+cwc.dataContent.humanID+'</span>';
         conn = ', ';
       }
     }
+    //console.log('[getCWCsPrint] cwcs',cwcs);
     return cwcs;
   }
 
@@ -136,7 +138,7 @@ export class UserActionsStatusesComponent implements OnInit {
     for(var i:number=0; i<users.length; i++){
       user = users[i];
       usrId = user._id;
-      userInsights.push(new UserInsight(user, 0, [], [], this.insightsService.hasUserPlayedInTheRound(usrId, 1), this.insightsService.hasUserPlayedInTheRound(usrId, 2), this.insightsService.hasUserPlayedInTheRound(usrId, 3)));
+      userInsights.push(new UserInsight(user, 0, [], [], this.insightsService.cardHumanIdPlayedInTheRound(usrId, 1), this.insightsService.cardHumanIdPlayedInTheRound(usrId, 2), this.insightsService.cardHumanIdPlayedInTheRound(usrId, 3)));
     }
 
     // console.log('usersData:B',JSON.stringify(userInsights));
