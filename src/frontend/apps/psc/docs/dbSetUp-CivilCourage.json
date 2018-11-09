@@ -278,6 +278,16 @@
               "isPublic" : true,
               "__v" : NumberInt(0)
           }
+        },
+        {
+          "name":"SDGs",
+          "type":"insert",
+          "collection":"knodes",
+          "data":
+          [
+            
+          ]
+
         }
       ]
     }

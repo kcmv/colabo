@@ -31,7 +31,7 @@ ng serve
 
 # Deploy
 
-http://psc.colabo.space/ redirects to **/var/www/psc**
+https://fv.colabo.space/ redirects to **/var/www/fv**
 
 ## Build
 

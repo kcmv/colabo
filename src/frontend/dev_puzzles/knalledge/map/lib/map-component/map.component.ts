@@ -64,12 +64,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
   initContent(map?:MapWithContent):void{
     console.log('[MapComponent::initContent]', map);
     let mapDataOld:any = {};
-    // for testing
-    let gotDownloaded = false;
-    if(map){
-      gotDownloaded = true;
-    }
-    map = null;
+    
     if(map){
       console.log('map',map);
       let rootNode:KNode = this.knalledgeMapVoService.getRootNode(map);
@@ -147,9 +142,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
      };
     }else{
       mapDataOld = this.getMockupContent();
-      if (gotDownloaded){
-        mapDataOld.map.nodes[0].name = mapDataOld.map.nodes[0].name + ":REPLACED";
-      }
     }
     console.log('mapDataOld',mapDataOld);
     this.knalledgeViewComponent.setData(mapDataOld);
@@ -243,11 +235,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
             "iAmId": "556760847125996dc1a4a241", "version": 1, "activeVersion": 1, "ideaId": 0, "isPublic": true,
             "createdAt": "2017-11-13T12:43:56.909Z", "updatedAt": "2017-11-13T12:43:56.911Z", "sourceId": "575de27c16206451e6e82ca0",
             "targetId": "575d225d16206451e6e82c68", "dataContent": null, "value": 0, "up": {}, "visual": null, "state": "STATE_SYNCED"
-          }
-
-
-
-        ],
+          }        ],
         },
         properties:{
           "_id":"5be3fddce1b7970d8c6df406","name":"mini-test","rootNodeId":"575c7c1e49dc3cda62624ca0","type":"cf",
