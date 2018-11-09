@@ -26,21 +26,21 @@ export class TopiChatTalkForm implements OnInit {
 
   ngOnInit() {
       // called on helo message
-    function clientTalk(eventName, msg, talkPluginPackage: TopiChatPluginPackage) {
+    function clientTalk(eventName, talkPluginPackage: TopiChatPluginPackage, tcPackage: TopiChatPackage) {
       // console.log('[TopiChatTalkForm:clientTalk] Client id: %s', tcPackage.clientIdReciever);
-      console.log('\t msg: %s', JSON.stringify(msg));
       console.log('\t talkPluginPackage: %s', JSON.stringify(talkPluginPackage));
+      console.log('\t tcPackage: %s', JSON.stringify(tcPackage));
       // TODO: See about this
       // Provide config, to decide about showing etc
       // currently is used as CWC and we do not show it
       // this.messages.push(tcPackage.payload);
-      }
+    }
 
-      // registering system plugin
-      let talkPluginOptions:ColaboPubSubPlugin = {
-          name: "topiChat-talk-form",
-          events: {}
-      };
+    // registering system plugin
+    let talkPluginOptions:ColaboPubSubPlugin = {
+        name: "topiChat-talk-form",
+        events: {}
+    };
     talkPluginOptions.events[TopiChatTalkDefaultEvents.Chat] = clientTalk.bind(this);
     this.topiChatTalkService.registerPlugin(TopiChatTalkEvents.Defualt, talkPluginOptions);
   }

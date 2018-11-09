@@ -62,12 +62,14 @@ if (!globalSet.hasOwnProperty('puzzles')) {
         },
         '@colabo-topichat/b-talk': {
             saveTalkToMap: true,
+            emitMessages: false,
             mapId: "5be3fddce1b7970d8c6df406",
             iAmId: "1b96619b86f3cc8057216a05",
             nodeId: ""
         },
         '@colabo-topichat/b-clients-orchestration': {
-            saveTalkToMap: false,
+            saveTalkToMap: true,
+            emitMessages: true,
             mapId: "5be3fddce1b7970d8c6df406",
             iAmId: "1b96619b86f3cc8057216a05",
             nodeId: ""

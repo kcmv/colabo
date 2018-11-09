@@ -1,4 +1,3 @@
-
 <div fxLayout="column" fxFlexFill style="height: 100%;">
 
     <!-- toolbar -->
@@ -13,27 +12,21 @@
 
     <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px;">
         <!--TODO: to make localized (in Serbian) form field names and info -->
-            <mat-list class="chat-list">
-                <mat-list-item *ngFor="let message of messages">
-                    <h3 mat-line *ngIf="message.action === undefined">
-                        <b>{{message?.from?.name}}</b> 
-                    </h3>
-                     (<b>{{message?.meta?.timestamp}}</b>)
-                    <p>
-                        <span> {{message?.content?.text}} </span>
-                    </p>
-                </mat-list-item>
-            </mat-list>
+        <mat-list class="chat-list">
+            <mat-list-item *ngFor="let message of messages">
+                <h3 mat-line *ngIf="message.action === undefined">
+                    <b>{{message?.from?.name}}</b>
+                </h3>
+                <!-- (<b>{{message?.meta?.timestamp}}</b>) -->
+                <p>
+                    <span> {{message?.content?.text}} </span>
+                </p>
+            </mat-list-item>
+        </mat-list>
         <div>
             <mat-icon>message</mat-icon>
             <mat-form-field class="chat-input">
-                <input matInput 
-                    #inputMessage 
-                    name="inputMessage"
-                    maxlength="200" 
-                    placeholder="Type your message and press ENTER to send" 
-                    [(ngModel)]="messageContent" 
-                    (keyup.enter)="(inputMessage.value.length > 0) && sendMessage()">
+                <input matInput #inputMessage name="inputMessage" maxlength="200" placeholder="Type your message and press ENTER to send" [(ngModel)]="messageContent" (keyup.enter)="(inputMessage.value.length > 0) && sendMessage()">
                 <mat-hint align="end">{{inputMessage.value.length}}/140</mat-hint>
             </mat-form-field>
             <button mat-raised-button color="primary" [disabled]="inputMessage.value.length<=0" (click)="sendMessage()">Send</button>

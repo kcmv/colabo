@@ -14,17 +14,17 @@ export { TopiChatPackage, ColaboPubSubPlugin, TopiChatPluginPackage};
 
 // NOTE: this shouldn't be extended without a good reason
 // IF you extend it, you need to extend the backend part of the puzzle
-// to LISTEN to these new ports/events
+// to LISTEN to these new events
 export enum TopiChatTalkEvents {
   System = 'tc:talk-system',
   Defualt = 'tc:talk-default'
 }
 
-// These ports are the ports you should change and extend
+// These events are the events you should change and extend
 export enum TopiChatTalkSystemEvents {
   Init = 'system:init'
 }
-// These ports are the ports you should change and extend
+// These events are the events you should change and extend
 export enum TopiChatTalkDefaultEvents {
   Chat = 'default:chat'
 }
@@ -71,7 +71,7 @@ export class TopiChatTalkService{
   init() {
     if(!this._isActive) return;
 
-    // initialize 
+    // initialize pub-subs
     for (let topiChatTalkEventId in TopiChatTalkEvents){
       let topiChatTalkEvent: string = TopiChatTalkEvents[topiChatTalkEventId];
       this.serverPubSubCluster[topiChatTalkEvent] = new ColaboPubSub(topiChatTalkEvent);
@@ -84,19 +84,19 @@ export class TopiChatTalkService{
     }
 
   // registering chat plugin to topichat
-    let chatPluginOptions:any = {
+    let topichatPluginOptions:any = {
       name: MODULE_NAME,
       events: {}
     };
-    chatPluginOptions.events[TopiChatTalkEvents.System] = systemInit.bind(this);
+    topichatPluginOptions.events[TopiChatTalkEvents.System] = systemInit.bind(this);
 
     // register all plugin pubSubs in this.serverPubSubCluster
     for (let topiChatTalkEventId in TopiChatTalkEvents){
       let topiChatTalkEvent: string = TopiChatTalkEvents[topiChatTalkEventId];
-      chatPluginOptions.events[topiChatTalkEvent] = this.dispatchInternalEvents.bind(this);      
+      topichatPluginOptions.events[topiChatTalkEvent] = this.dispatchInternalEvents.bind(this);      
     }
 
-    this.topiChatCoreService.registerPlugin(chatPluginOptions);
+    this.topiChatCoreService.registerPlugin(topichatPluginOptions);
 
   // send system init message
     let whoAmI:KNode = this.rimaAAAService.getUser();
@@ -118,7 +118,8 @@ export class TopiChatTalkService{
     this.topiChatCoreService.emit(TopiChatTalkEvents.System, talkPackage);
   }
   
-  dispatchInternalEvents(topiChatTalkEvent: TopiChatTalkEvents, talkPluginPackage: TopiChatPluginPackage, tcPakage: TopiChatPackage){
+  dispatchInternalEvents(topiChatTalkEvent: TopiChatTalkEvents, 
+    talkPluginPackage: TopiChatPluginPackage, tcPakage: TopiChatPackage){
     // TODO: dispatchEvent is trimming parameters
     // TODO: PubSub should pass all parameters 
     // this.serverPubSubCluster[topiChatTalkEvent].dispatchEvent(talkPluginPackage.eventName, talkPluginPackage, tcPakage);
