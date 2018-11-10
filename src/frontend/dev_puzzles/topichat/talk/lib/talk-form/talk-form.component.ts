@@ -45,6 +45,13 @@ export class TopiChatTalkForm implements OnInit {
     this.topiChatTalkService.registerPlugin(TopiChatTalkEvents.Defualt, talkPluginOptions);
   }
 
+  scrollToBottom() {
+    // https://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page
+    // https://stackoverflow.com/questions/8917921/cross-browser-javascript-not-jquery-scroll-to-top-animation
+    let scrolling_content = document.querySelector("#scrolling_content");
+    scrolling_content.scrollTo(0, scrolling_content.scrollHeight);
+  }
+
   sendMessage(){
     let whoAmI:KNode = this.rimaAAAService.getUser();
     let msgPayload: TopiChatTalkDefaultPayload = {
@@ -61,5 +68,9 @@ export class TopiChatTalkForm implements OnInit {
     this.topiChatTalkService.emit(TopiChatTalkEvents.Defualt, TopiChatTalkDefaultEvents.Chat, msgPayload);
     this.messages.push(msgPayload);
     this.messageContent = "";
+    
+    this.scrollToBottom();
+    // do it again after adding and rendering content
+    setTimeout(this.scrollToBottom.bind(this), 100);
   }
 }
