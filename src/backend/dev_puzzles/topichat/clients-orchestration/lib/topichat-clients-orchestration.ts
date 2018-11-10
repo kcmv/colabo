@@ -124,15 +124,20 @@ export class TopiChatClientsOrchestration{
             let chatNodeServer: any = chatNode.toServerCopy();
             KNodeModule._create(chatNodeServer, null, function (kNode: KNode) {
                 if (puzzleConfig.emitMessages) {
-                    console.log("[TopiChatClientsOrchestration:defaultMessage] forwarding the message to all except sender, cOrchestrationPackage: ", JSON.stringify(cOrchestrationPackage));
-                    this.topiChat.emit(eventName, cOrchestrationPackage, clientIdSender);
+                    if (puzzleConfig.emitMessagesToSender) {
+                        console.log("[TopiChatClientsOrchestration:defaultMessage] forwarding the message to all including sender, cOrchestrationPackage: ", JSON.stringify(cOrchestrationPackage));
+                        this.topiChat.emit(eventName, cOrchestrationPackage);
+                    }else{
+                        console.log("[TopiChatClientsOrchestration:defaultMessage] forwarding the message to all except sender, cOrchestrationPackage: ", JSON.stringify(cOrchestrationPackage));
+                        this.topiChat.emit(eventName, cOrchestrationPackage, clientIdSender);
+                    }
                 } else {
                     console.log('[TopiChatClientsOrchestration:defaultMessage] we are NOT emitting message');
                 }
 
-                // sending the init package back to the new talk client
+                // replying back to the sender
                 let tcPackageReplay: TopiChatPluginPackage = {
-                    eventName: TopiChatClientsOrchestrationDefaultEvents.ChatReport,
+                    eventName: cOrchestrationEvent + '-report',
                     payload: {
                         origin: "@colabo-topichat/b-clients-orchestration",
                         text: "We saved your talk message in the KnAllEdgeStorage",
@@ -141,12 +146,18 @@ export class TopiChatClientsOrchestration{
                     }
                 }
                 console.log("[TopiChatClientsOrchestration:defaultMessage] seding back to sender, tcPackageReplay: ", JSON.stringify(tcPackageReplay));
-                this.topiChat.emit(eventName, tcPackageReplay, tcPackage.clientIdSender, true);
+                this.topiChat.emit(eventName, tcPackageReplay, 
+                    puzzleConfig.emitMessagesToSender ? null : tcPackage.clientIdSender, true);
             }.bind(this));
         }else{
             if (puzzleConfig.emitMessages) {
-                console.log("[TopiChatClientsOrchestration:defaultMessage] forwarding the message to all except sender, cOrchestrationPackage: ", JSON.stringify(cOrchestrationPackage));
-                this.topiChat.emit(eventName, cOrchestrationPackage, clientIdSender);
+                if(puzzleConfig.emitMessagesToSender){
+                    console.log("[TopiChatClientsOrchestration:defaultMessage] forwarding the message to all including sender, cOrchestrationPackage: ", JSON.stringify(cOrchestrationPackage));
+                    this.topiChat.emit(eventName, cOrchestrationPackage);
+                }else{
+                    console.log("[TopiChatClientsOrchestration:defaultMessage] forwarding the message to all except sender, cOrchestrationPackage: ", JSON.stringify(cOrchestrationPackage));
+                    this.topiChat.emit(eventName, cOrchestrationPackage, clientIdSender);
+                }
             } else {
                 console.log('[TopiChatClientsOrchestration:defaultMessage] we are NOT emitting message');
             }

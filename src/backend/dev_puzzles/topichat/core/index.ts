@@ -242,11 +242,10 @@ export class TopiChat{
 		// this.io.emit(eventName, tcPackage); // to everyone
 
 		if(clientIdSender){
+			let socketSender = this.clientIdToSocket[clientIdSender];
 			if (onlyToSender){
-				let socketSender = this.clientIdToSocket[clientIdSender];
 				socketSender.emit(eventName, tcPackage); // to socket owner only				
 			}else{
-				let socketSender = this.clientIdToSocket[clientIdSender];
 				socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner				
 			}
 		}else{

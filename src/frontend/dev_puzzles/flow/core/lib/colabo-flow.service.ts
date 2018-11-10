@@ -46,7 +46,7 @@ export class ColaboFlowService {
       events: {}
     };
     talkPluginOptions.events[TopiChatClientsOrchestrationDefaultEvents.ColaboFlowStateChange] = this.cfStateChanged.bind(this);
-    talkPluginOptions.events[TopiChatClientsOrchestrationDefaultEvents.ColaboFlowStateChangeReply] = this.cfStateChangedReplay.bind(this);
+    talkPluginOptions.events[TopiChatClientsOrchestrationDefaultEvents.ColaboFlowStateChangeReport] = this.cfStateChangedReplay.bind(this);
     this.topiChatCOrchestrationService.registerPlugin(TopiChatClientsOrchestrationEvents.Defualt, talkPluginOptions);
   }
 

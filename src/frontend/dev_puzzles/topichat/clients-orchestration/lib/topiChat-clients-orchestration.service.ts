@@ -30,7 +30,7 @@ export enum TopiChatClientsOrchestrationDefaultEvents {
   ChatReport = 'default:chat-report',
   Notification = 'default:notification',
   ColaboFlowStateChange = 'default:cf-state-change',
-  ColaboFlowStateChangeReply = 'default:cf-state-change-reply',
+  ColaboFlowStateChangeReport = 'default:cf-state-change-report',
 }
 
 export interface TopiChatClientsOrchestrationSystemPayload {

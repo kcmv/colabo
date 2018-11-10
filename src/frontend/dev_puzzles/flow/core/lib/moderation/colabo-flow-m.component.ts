@@ -18,8 +18,8 @@ export class ColaboFlowMComponent implements OnInit {
   }
 
   nextState():void{
-    this.colaboFlowService.colaboFlowState.nextState();
-    this.colaboFlowService.saveCFState();
+    // this.colaboFlowService.colaboFlowState.nextState();
+    // this.colaboFlowService.saveCFState();
     this.colaboFlowService.sendMessage(this.colaboFlowService.colaboFlowState);
   }
 
