@@ -28,7 +28,9 @@ export enum TopiChatClientsOrchestrationSystemEvents {
 export enum TopiChatClientsOrchestrationDefaultEvents {
   Chat = 'default:chat',
   ChatReport = 'default:chat-report',
-  Notification = 'default:notification'
+  Notification = 'default:notification',
+  ColaboFlowStateChange = 'default:cf-state-change',
+  ColaboFlowStateChangeReply = 'default:cf-state-change-reply',
 }
 
 export interface TopiChatClientsOrchestrationSystemPayload {
@@ -44,11 +46,13 @@ export interface TopiChatClientsOrchestrationSystemPayload {
 export interface TopiChatClientsOrchestrationDefaultPayload {
   from: {
     name: string; // whoAmI.dataContent.firstName
+    role?: string;
     iAmId: string;
   };
   content: {
-    text: string;
-    debugText: string;
+    text?: string;
+    debugText?: string;
+    data?: any
   };
 }
 

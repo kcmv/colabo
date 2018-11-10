@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import {
-  TopiChatClientsOrchestrationService, TopiChatClientsOrchestrationEvents, TopiChatClientsOrchestrationDefaultEvents, TopiChatClientsOrchestrationDefaultPayload, TopiChatPluginPackage,
-  TopiChatPackage, ColaboPubSubPlugin } 
+  TopiChatClientsOrchestrationService, TopiChatClientsOrchestrationEvents, 
+  TopiChatClientsOrchestrationDefaultEvents, TopiChatClientsOrchestrationDefaultPayload, 
+  TopiChatPluginPackage, TopiChatPackage, ColaboPubSubPlugin } 
   from '../topiChat-clients-orchestration.service';
 
 import {RimaAAAService} from '@colabo-rima/f-aaa';

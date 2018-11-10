@@ -5,10 +5,14 @@ import {MyColaboFlowState, MyColaboFlowStates} from './myColaboFlowState';
 import { Observable, of } from 'rxjs';
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
-import {TopiChatCoreService, TopiChatPackage} from '@colabo-topichat/f-core';
-import {ColaboPubSubPlugin} from '@colabo-utils/i-pub-sub';
+import { RimaAAAService } from '@colabo-rima/f-aaa';
 
-export {TopiChatPackage, ColaboPubSubPlugin};
+import {
+  TopiChatClientsOrchestrationService, TopiChatClientsOrchestrationEvents,
+  TopiChatClientsOrchestrationDefaultEvents, TopiChatClientsOrchestrationDefaultPayload,
+  TopiChatPluginPackage, TopiChatPackage, ColaboPubSubPlugin
+}
+  from '@colabo-topichat/f-clients-orchestration';
 
 const COLABO_FLOW_STATE_NODE_ID:string = '5b9f9ff97f07953d41256aff';
 
@@ -23,16 +27,27 @@ export class ColaboFlowService {
   public colaboFlowState: ColaboFlowState;
   public myColaboFlowState: MyColaboFlowState;
   public dbDialoGameState: KNode = new KNode(); //without this compiler throws ERR error TS2339: Property 'dataContent' does not exist on type 'never'. for code: this.dbDialoGameState.dataContent = {};
+  cFStateChangesObserver: any = {};//Observer
 
   constructor(
     private knalledgeNodeService:KnalledgeNodeService,
-		protected topiChatCoreService:TopiChatCoreService
+    protected rimaAAAService: RimaAAAService,
+    private topiChatCOrchestrationService: TopiChatClientsOrchestrationService
   ) {
     this.colaboFlowState = new ColaboFlowState();
     this.myColaboFlowState = new MyColaboFlowState();
     //TODO: we can also load it by type='colaboflow.state'
     this.loadCFState().subscribe(node => {});
     //let interval: number = <any>setInterval( ()=>{this.cFStateChanged()}, 2000);
+
+    // registering system plugin
+    let talkPluginOptions: ColaboPubSubPlugin = {
+      name: "topiChat-client-orchestration-colabo-flow-state",
+      events: {}
+    };
+    talkPluginOptions.events[TopiChatClientsOrchestrationDefaultEvents.ColaboFlowStateChange] = this.cfStateChanged.bind(this);
+    talkPluginOptions.events[TopiChatClientsOrchestrationDefaultEvents.ColaboFlowStateChangeReply] = this.cfStateChangedReplay.bind(this);
+    this.topiChatCOrchestrationService.registerPlugin(TopiChatClientsOrchestrationEvents.Defualt, talkPluginOptions);
   }
 
   //notification for this service by the 'observing service that the CFState is changed
@@ -58,8 +73,6 @@ export class ColaboFlowService {
   getCFStateChanges():Observable<KNode>{
     return new Observable(this.cFStateChangesSubscriber.bind(this));
   }
-
-  cFStateChangesObserver:any = {};//Observer
 
   cFStateChangesSubscriber(observer) { //:Observer) {
     console.log('cFStateChangesSubscriber');
@@ -115,11 +128,46 @@ export class ColaboFlowService {
     return this.myColaboFlowState.goBack();
   }
 
-	emit(eventName, msg, clientIdReciever?:string) {
-    this.topiChatCoreService.emit(eventName, msg, clientIdReciever);
+  sendMessage(colaboFlowState: ColaboFlowState) {
+    let whoAmI: KNode = this.rimaAAAService.getUser();
+
+    var msgPayload: TopiChatClientsOrchestrationDefaultPayload = {
+      from: {
+        name: whoAmI.name, // whoAmI.dataContent.firstName
+        role: 'moderator',
+        iAmId: whoAmI._id
+      },
+      content: {
+        data: colaboFlowState
+      }
+    };
+    console.log('[ColaboFlowService:sendMessage] sending message: %s', JSON.stringify(msgPayload));
+    this.topiChatCOrchestrationService.emit(TopiChatClientsOrchestrationEvents.Defualt,
+      TopiChatClientsOrchestrationDefaultEvents.ColaboFlowStateChange, msgPayload);
+    // this.messages.push(msg);
   }
 
-  registerPlugin(pluginOptions:ColaboPubSubPlugin){
-    this.topiChatCoreService.registerPlugin(pluginOptions);
+  cfStateChanged(eventName, cOrchestrationPluginPackage: TopiChatPluginPackage, tcPackage: TopiChatPackage) {
+    // console.log('[ColaboFlowService:cfStateChanged] Client id: %s', tcPackage.clientIdReciever);
+    console.log('\t cOrchestrationPluginPackage: %s', JSON.stringify(cOrchestrationPluginPackage));
+    console.log('\t tcPackage: %s', JSON.stringify(tcPackage));
+    let msgPayload: TopiChatClientsOrchestrationDefaultPayload = cOrchestrationPluginPackage.payload;
+    switch (eventName) {
+      case TopiChatClientsOrchestrationDefaultEvents.Chat:
+        // this.messages.push(msgPayload);
+        break;
+      case TopiChatClientsOrchestrationDefaultEvents.ChatReport:
+        console.log("[ColaboFlowService:cfStateChanged] msg: '%s' is saved under _id:'%s'",
+          (<any>msgPayload).receivedText, (<any>msgPayload)._id);
+        break;
+    }
+  }
+  
+  cfStateChangedReplay(eventName, cOrchestrationPluginPackage: TopiChatPluginPackage, tcPackage: TopiChatPackage) {
+    // console.log('[ColaboFlowService:cfStateChangedReplay] Client id: %s', tcPackage.clientIdReciever);
+    console.log('\t cOrchestrationPluginPackage: %s', JSON.stringify(cOrchestrationPluginPackage));
+    console.log('\t tcPackage: %s', JSON.stringify(tcPackage));
+    let msgPayload: TopiChatClientsOrchestrationDefaultPayload = cOrchestrationPluginPackage.payload;
+    // this.messages.push(msgPayload);
   }
 }
