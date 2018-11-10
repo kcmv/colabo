@@ -46,6 +46,10 @@ export class DialoGameComponent implements OnInit {
     return 'assets/images/user_icons/performer.jpg';
   }
 
+  userName():string{
+    return this.rimaAAAService.getUser() !== null ? this.rimaAAAService.getUser().name : 'not logged in';
+  }
+
   waitingForNextRound():boolean{
     return this.dialoGameService.waitingForNextRound();
   }
@@ -54,9 +58,7 @@ export class DialoGameComponent implements OnInit {
     return this.dialoGameService.playing();
   }
 
-  userName():string{
-    return this.rimaAAAService.getUser() !== null ? this.rimaAAAService.getUser().name : 'not logged in';
-  }
+ 
 
   openDialog(buttons:number, data:DialogData, options:any = null, afterClosed:Function = null): void {
     if(options === null){

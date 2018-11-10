@@ -50,21 +50,20 @@ export class ColaboFlowService {
     this.topiChatCOrchestrationService.registerPlugin(TopiChatClientsOrchestrationEvents.Defualt, talkPluginOptions);
   }
 
-  //notification for this service by the 'observing service that the CFState is changed
-  cFStateChanged():void{
-    console.log("cFStateChanged");
-    this.knalledgeNodeService.getById(COLABO_FLOW_STATE_NODE_ID).subscribe(this.colaboFlowStateRELoaded.bind(this));
-  }
+  // cFStateChanged():void{
+  //   console.log("cFStateChanged");
+  //   this.knalledgeNodeService.getById(COLABO_FLOW_STATE_NODE_ID).subscribe(this.colaboFlowStateRELoaded.bind(this));
+  // }
 
-  colaboFlowStateRELoaded(state:KNode):void{
-    if('dataContent' in state && 'playRound' in state.dataContent){
-      let oldRound:number = this.colaboFlowState.playRound;
-      this.colaboFlowStateLoaded(state);
-      if(oldRound !== this.colaboFlowState.playRound){
-          this.cFStateChangesReceived(state);
-      }
-    }
-  }
+  // colaboFlowStateRELoaded(state:KNode):void{
+  //   if('dataContent' in state && 'playRound' in state.dataContent){
+  //     let oldRound:number = this.colaboFlowState.playRound;
+  //     this.colaboFlowStateLoaded(state);
+  //     if(oldRound !== this.colaboFlowState.playRound){
+  //         this.cFStateChangesReceived(state);
+  //     }
+  //   }
+  // }
 
   /**
     for components (that want to be informed when the CFState is changed) to subscribe
@@ -157,9 +156,13 @@ export class ColaboFlowService {
         // this.messages.push(msgPayload);
         break;
       case TopiChatClientsOrchestrationDefaultEvents.ChatReport:
-        console.log("[ColaboFlowService:cfStateChanged] msg: '%s' is saved under _id:'%s'",
+        console.log("[TopiChatClientsOrchestrationDefaultEvents.ChatReport] msg: '%s' is saved under _id:'%s'",
           (<any>msgPayload).receivedText, (<any>msgPayload)._id);
         break;
+      case TopiChatClientsOrchestrationDefaultEvents.ColaboFlowStateChange:
+        console.log("[ColaboFlowService:cfStateChanged] msg: '%s' is saved under _id:'%s'",
+        (<any>msgPayload).receivedText, (<any>msgPayload)._id);
+      break;
     }
   }
   

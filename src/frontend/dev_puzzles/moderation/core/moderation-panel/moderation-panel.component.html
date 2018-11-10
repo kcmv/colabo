@@ -7,7 +7,8 @@
             <button mat-mini-fab mat-tooltip="Почетак" tooltip-position="below" class="mat-mini mat-primary" aria-label="Почетак" routerLink="/" style="margin-right: 5px;">
                 <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
             </button>
-
+            <span><img class="hidden" src = '{{userImg()}}'/></span> {{userName()}}
+            <colabo-flow></colabo-flow>
             <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
             <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
 
@@ -43,8 +44,8 @@
                 <h1>Moderation Panel</h1>
                 <colabo-flow-m></colabo-flow-m>
             </div>
-            <similarity></similarity>
             <app-insights></app-insights>
+            <similarity></similarity>
 
             <topiChat-system-form></topiChat-system-form>
             <colaboFlow-topiChat-form></colaboFlow-topiChat-form>

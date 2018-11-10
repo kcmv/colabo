@@ -24,9 +24,9 @@ export class ColaboFlowComponent implements OnInit {
     // return !(state === MyColaboFlowStates.NOT_STARTED) && !(state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD);
   }
 
-  GetCFState():void{
-    this.colaboFlowService.cFStateChanged();
-  }
+  // GetCFState():void{
+  //   this.colaboFlowService.cFStateChanged();
+  // }
 
   cfState():string{
     //console.log('cfState', ColaboFlowState.stateName(this.colaboFlowService.colaboFlowState.state));

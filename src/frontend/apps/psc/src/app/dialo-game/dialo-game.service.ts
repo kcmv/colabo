@@ -13,6 +13,14 @@ import {ColaboFlowState, ColaboFlowStates} from '@colabo-flow/f-core/lib/colaboF
 import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-flow/f-core/lib/myColaboFlowState';
 import {CardDecorator} from './card-decorator/cardDecorator';
 
+import {
+  TopiChatClientsOrchestrationService, TopiChatClientsOrchestrationEvents,
+  TopiChatClientsOrchestrationDefaultEvents, TopiChatClientsOrchestrationDefaultPayload,
+  TopiChatPluginPackage, TopiChatPackage, ColaboPubSubPlugin
+}
+  from '@colabo-topichat/f-clients-orchestration';
+
+
 import * as config from '@colabo-utils/i-config';
 
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
@@ -52,11 +60,28 @@ export class DialoGameService {
     public colaboFlowService: ColaboFlowService,
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeEdgeService: KnalledgeEdgeService,
-    private rimaAAAService: RimaAAAService
+    private rimaAAAService: RimaAAAService,
+    private topiChatCOrchestrationService: TopiChatClientsOrchestrationService
   ) {
     this.initNewRound();
-    this.colaboFlowService.getCFStateChanges().subscribe(this.cFStateChanged.bind(this));
+    //TODO check this: this.colaboFlowService.getCFStateChanges().subscribe(this.cFStateChanged.bind(this));
+
+    // registering system plugin
+    let talkPluginOptions: ColaboPubSubPlugin = {
+      name: "topiChat-client-orchestration-colabo-flow-state",
+      events: {}
+    };
+    talkPluginOptions.events[TopiChatClientsOrchestrationDefaultEvents.ColaboFlowStateChange] = this.cfStateChanged.bind(this);
+    this.topiChatCOrchestrationService.registerPlugin(TopiChatClientsOrchestrationEvents.Defualt, talkPluginOptions);
   }
+
+  cfStateChanged():void{
+    console.log("cFStateChanged");
+    if(this.waitingForNextRound){
+      this.initNewRound();
+    }
+  }
+
 
   private assignMyCards(nodes:any):any{ //KNode[]):void{
     //console.log('assignCards', nodes);
@@ -131,7 +156,7 @@ export class DialoGameService {
     */
   }
 
-  getCards(forceRefresh:boolean = false):Observable<KNode[]>{
+  getCards(forceRefresh:boolean = true):Observable<KNode[]>{
       if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){
         if(this.colaboFlowService.colaboFlowState.state === ColaboFlowStates.OPENNING){
           return this.getOpeningCards(forceRefresh);
@@ -219,24 +244,33 @@ export class DialoGameService {
   node.dataContent.result = {suggestions : list, playRound : PLAY_ROUND; iAmId :
   AID}
   */
-  private suggestedCardsReceived(nodes:any):void{ //KNode[]):void{
+  private suggestedCardsReceived(suggestionNodes:KNode[]):void{ //KNode[]):void{
     //console.log('suggestedCardsReceived', nodes);
-    let suggestion = nodes[0]; //TODO we get suggestions for all the rounds; extracting for the current round
+    let suggestionFound:boolean = false;
+    if(suggestionNodes!== null && suggestionNodes!==undefined && suggestionNodes.length>0){
+      let suggestion = suggestionNodes[0]; //TODO we get suggestions for all the rounds; extracting for the current round
 
-    suggestion.dataContent.result.suggestions.sort((a,b)=> b.similarity_quotient - a.similarity_quotient); //descending sorting by similarity
-    console.log('suggestedCardsReceived [after sorting]', nodes);
+      if(suggestion!== null && suggestion!==undefined){
+        suggestionFound = true;
+        suggestion.dataContent.result.suggestions.sort((a,b)=> b.similarity_quotient - a.similarity_quotient); //descending sorting by similarity
+        console.log('suggestedCardsReceived [after sorting]', suggestion.dataContent.result.suggestions);
 
-    let suggestions:any[] = suggestion.dataContent.result.suggestions;
+        let suggestions:any[] = suggestion.dataContent.result.suggestions;
 
-    this.suggestionsHistory.push(suggestion);
-    console.log('suggestions',suggestions);
-    let cardIds:string[] = [];
-    for(var i:number=0; i< Math.min(suggestions.length, DialoGameService.SUGGESTIONS_LIMIT); i++){ //we limit number of cards to lower Net usage
-      cardIds.push(suggestions[i].id);
+        this.suggestionsHistory.push(suggestion);
+        console.log('suggestions',suggestions);
+        let cardIds:string[] = [];
+        for(var i:number=0; i< Math.min(suggestions.length, DialoGameService.SUGGESTIONS_LIMIT); i++){ //we limit number of cards to lower Net usage
+          cardIds.push(suggestions[i].id);
+        }
+
+        this.getCardsByIds(cardIds).subscribe(this.cardsByIdsReceived.bind(this));
+        //this.assignSuggestedCards()
+      }
     }
-
-    this.getCardsByIds(cardIds).subscribe(this.cardsByIdsReceived.bind(this));
-    //this.assignSuggestedCards()
+    if(!suggestionFound){
+      window.alert("We still haven't found suggested cards for you");
+    }
   }
 
   cardsByIdsReceived(nodes:any):void{
@@ -350,14 +384,6 @@ export class DialoGameService {
       this.lastResponse.responseCards = [];
     }
     return state;
-  }
-
-  /*  called by ColaboFlowService when the playRound is changed */
-  cFStateChanged(cfState:KNode):void{
-    console.log('cFStateChanged');
-    if(this.waitingForNextRound){
-      this.initNewRound();
-    }
   }
 
   waitingForNextRound():boolean{

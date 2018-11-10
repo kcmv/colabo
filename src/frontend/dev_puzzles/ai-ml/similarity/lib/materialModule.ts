@@ -31,7 +31,8 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatSortModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatTableModule
 } from '@angular/material';
 
 /**
@@ -74,7 +75,8 @@ import {
 
     MatNativeDateModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTableModule
   ]
 })
 export class MaterialModule {}

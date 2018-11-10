@@ -14,10 +14,12 @@ import { MaterialModule } from './materialModule';
 
 import { SimilarityService } from './similarity.service';
 import {SimilarityComponent} from './similarity.component';
+import {SimilaritySuggestionsStatusesComponent} from './similarity-suggestions-statuses/similarity-suggestions-statuses.component';
 
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm
-  SimilarityComponent
+  SimilarityComponent,
+  SimilaritySuggestionsStatusesComponent
 ];
 
 var moduleImports: any[] = [

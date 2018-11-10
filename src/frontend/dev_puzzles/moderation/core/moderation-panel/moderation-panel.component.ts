@@ -20,4 +20,12 @@ export class ModerationPanelComponent implements OnInit {
   get isLoggedIn():Boolean{
     return this.rimaAAAService.getUser() !== null;
   }
+
+  userImg():string{
+    return 'assets/images/user_icons/performer.jpg';
+  }
+
+  userName():string{
+    return this.rimaAAAService.getUser() !== null ? this.rimaAAAService.getUser().name : 'not logged in';
+  }
 }
