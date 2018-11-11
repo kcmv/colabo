@@ -24,17 +24,17 @@ Coaching with Compassion / Dreams/ Visions
   - we choose one of the 17 suggested SDG cards 
     "Start the dialogue by choosing a question that the dreaming you've done might answer on
     Click the one you want to reply on"
-    ![image-20181109213854143](../../../../../../../../../../Library/Application Support/typora-user-images/image-20181109213854143.png)
+    ![image-20181109213854143](image-20181109213854143.png)
   - then we select some of the suggested respond cards, made out of our CWCs 
     "Your turn to play!
     These are your cards to respond
     Click the one you want to play"
-    ![image-20181109213930544](../../../../../../../../../../Library/Application Support/typora-user-images/image-20181109213930544.png)
-  - ![image-20181109213953866](../../../../../../../../../../Library/Application Support/typora-user-images/image-20181109213953866.png)
-  - ![image-20181109214131193](../../../../../../../../../../Library/Application Support/typora-user-images/image-20181109214131193.png)
-  - ![image-20181109214035318](../../../../../../../../../../Library/Application Support/typora-user-images/image-20181109214035318.png)
-  - ![image-20181109214100222](../../../../../../../../../../Library/Application Support/typora-user-images/image-20181109214100222.png)
-  - ![image-20181109214156234](../../../../../../../../../../Library/Application Support/typora-user-images/image-20181109214156234.png)
+    ![image-20181109213930544](image-20181109213930544.png)
+  - ![image-20181109213953866](image-20181109213953866.png)
+  - ![image-20181109214131193](image-20181109214131193.png)
+  - ![image-20181109214035318](image-20181109214035318.png)
+  - ![image-20181109214100222](image-20181109214100222.png)
+  - ![image-20181109214156234](image-20181109214156234.png)
   - now the player is "blocked" at the end of the first round, waiting for the moderator to change the round to the 2nd, when the player's system would automatically initiate new round and show the suggested cards to the player to play on them
   - **moderator**
     -  waits  to see that all the players have played the first round
