@@ -95,8 +95,9 @@ if (!globalSet.hasOwnProperty('puzzles')) {
                 // separateResponseQueue: 'colabo-service-response-localhost'
         },
         '@colabo-flow/b-topichat': {
-            saveFlowInteractionToMap: false,
-            mapId: null
+            saveFlowInteractionToMap: true,
+            mockupQueueAccess: false,
+            mapId: "5be3fddce1b7970d8c6df406"
         }
     };
 }

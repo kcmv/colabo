@@ -7,34 +7,34 @@ import {ColaboFlowTopiChatService, ColaboFlowTopiChatEvents, TopiChatPackage, Co
 
 @Injectable()
 export class SimilarityService {
+  static MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
+  public similarityRequestsSentNo: number = 0;
+  public similarityRequestsReceivedNo: number = 0;
+
   constructor(
     private colaboFlowService:ColaboFlowService,
     private rimaAAAService: RimaAAAService,
     private ColaboFlowTopiChatService: ColaboFlowTopiChatService
   ){
-
+    this.init();
   }
 
-  ngOnInit() {
+  init() {
       // registering system plugin
       let colaboFlowPluginOptions:ColaboPubSubPlugin = {
-          name: "colaboflow-topichat-form",
+          name: "similarity-service",
           events: {}
       };
       colaboFlowPluginOptions.events[ColaboFlowTopiChatEvents.ActionResponse] = this.actionResponseMsg.bind(this);
       this.ColaboFlowTopiChatService.registerPlugin(colaboFlowPluginOptions);
   }
 
-  static MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
-  public similarityRequestsSentNo:number = 0;
-  public similarityRequestsReceivedNo:number = 0;
-
   sendRequestForSimilarityCalc():void{
+    this.similarityRequestsReceivedNo = 0;
     this.rimaAAAService.getRegisteredUsers(SimilarityService.MAP_ID).subscribe(this.usersReceived.bind(this));
   }
 
   usersReceived(users:any[]):void{
-    this.similarityRequestsReceivedNo = 0;
     for(var i:number = 0; i<users.length; i++){
       //TODO: requestSimilarity(users[i]._id), SimilarityService.MAP_ID, this.colaboFlowService.colaboFlowState.playRound);
       let content:any = {
@@ -47,7 +47,7 @@ export class SimilarityService {
       };
 
       this.sendMessage(content);
-      this.similarityRequestsSentNo = users.length;
+      this.similarityRequestsSentNo++;
     }
   }
 
@@ -63,19 +63,19 @@ export class SimilarityService {
       },
       content: content
     };
-    console.log('[ColaboFlowTopiChatForm:sendMessage] sending message: %s', JSON.stringify(msg));
+    console.log('[SimilarityService:sendMessage] sending message: %s', JSON.stringify(msg));
     this.ColaboFlowTopiChatService.emit(ColaboFlowTopiChatEvents.Action, msg);
     // this.messages.push(msg);
   }
 
   actionResponseMsg(eventName:string, msg:any, tcPackage:TopiChatPackage) {
-      console.log('[ColaboFlowTopiChatForm:actionResponseMsg] tcPackage: %s', JSON.stringify(tcPackage));
+      console.log('[SimilarityService:actionResponseMsg] tcPackage: %s', JSON.stringify(tcPackage));
       console.log('msg: %s', JSON.stringify(msg));
       this.similarityRequestsReceivedNo++;
       let action:string = msg.content.action;
       let params:string = msg.content.params;
       let result:string = msg.content.result;
-      console.log("[ColaboFlowTopiChatForm:actionResponseMsg] Action: '%s' with params: %s and result:", action, JSON.stringify(params));
+      console.log("[SimilarityService:actionResponseMsg] Action: '%s' with params: %s and result:", action, JSON.stringify(params));
       console.log("\t %s", JSON.stringify(result));
       // this.messages.push(tcPackage.msg);
   }
