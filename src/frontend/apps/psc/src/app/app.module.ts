@@ -41,6 +41,7 @@ import {DialoGameService} from './dialo-game/dialo-game.service';
 // import {SMSApiService} from './ui-sms/sms-api.service';
 // import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
 import {IndexComponent} from './index/index.component';
+import { IndexModeratorComponent } from './index-moderator/index-moderator.component';
 import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {SdgCardComponent} from './sdg-card/sdg-card.component';
 import {CwcComponent} from './cwc/cwc.component';
@@ -90,6 +91,7 @@ var moduleDeclarations = [
   Dialog2Btn,
   Dialog1Btn,
   IndexComponent,
+  IndexModeratorComponent,
   SelectSdgsComponent,
   SdgCardComponent,
   CwcComponent,
