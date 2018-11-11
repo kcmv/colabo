@@ -63,7 +63,6 @@ export class DialoGameService {
     private rimaAAAService: RimaAAAService,
     private topiChatCOrchestrationService: TopiChatClientsOrchestrationService
   ) {
-    this.initNewRound();
     //TODO check this: this.colaboFlowService.getCFStateChanges().subscribe(this.cFStateChanged.bind(this));
 
     // registering system plugin
@@ -73,6 +72,11 @@ export class DialoGameService {
     };
     talkPluginOptions.events[TopiChatClientsOrchestrationDefaultEvents.ColaboFlowStateChange] = this.cfStateChanged.bind(this);
     this.topiChatCOrchestrationService.registerPlugin(TopiChatClientsOrchestrationEvents.Defualt, talkPluginOptions);
+    this.colaboFlowService.colaboFlowInitiated().subscribe(this.colaboFlowInitiated.bind(this));
+  }
+
+  colaboFlowInitiated():void{
+    this.initNewRound();
   }
 
   cfStateChanged():void{
@@ -87,12 +91,21 @@ export class DialoGameService {
     //console.log('assignCards', nodes);
     console.log('decoratorsBef',JSON.stringify(nodes, null, 4));
     this.myCards = [];
+    
     for(var i:number = 0; i< nodes.length;i++){
       let myCard:KNode = nodes[i] as KNode;
       if(!(('dataContent' in myCard) && ('dialoGameReponse' in myCard.dataContent))){
         this.myCards.push(myCard);
       }
     }
+    if(nodes.length == 0){
+      window.alert("We couldn't find your cards to play. It looks like you haven't created them in the CWC process");
+    }else{
+      if(this.myCards.length == 0){
+        window.alert("We couldn't find any remaining cards of yours to play. It looks like you have used all of them in previous playing");
+      }
+    }
+
     return this.myCards;
 
     //this.myCards = nodes;
@@ -342,17 +355,17 @@ export class DialoGameService {
       //let response:DialoGameResponse = this.lastResponse;
       //this.responses.push(response);
       this.lastResponse.challengeCards = cards;
-      this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_RESPONSE_CARD;
+      this.colaboFlowService.setMyColaboFlowStateInner(MyColaboFlowStates.CHOSING_RESPONSE_CARD);
     }
     else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_RESPONSE_CARD){
       //MyCards:
       this.lastResponse.responseCards = cards;
-      this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_DECORATOR_TYPE;
+      this.colaboFlowService.setMyColaboFlowStateInner(MyColaboFlowStates.CHOSING_DECORATOR_TYPE);
     }
     else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR_TYPE){
       this.decoratorType = cards[0].name;
       //this.lastResponse.decorators.push(new CardDecorator(cards[0].name)); //TODO: hardcoded decoration of the last decorator
-      this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_DECORATOR;
+      this.colaboFlowService.setMyColaboFlowStateInner(MyColaboFlowStates.CHOSING_DECORATOR);
     }
     else if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_DECORATOR){
       let decorators = this.lastResponse.decorators;
@@ -369,7 +382,7 @@ export class DialoGameService {
         let decorator:CardDecorator = new CardDecorator(cards[0].name);
         this.lastResponse.decorators.push(decorator);
         //this.lastResponse.decorators[this.lastResponse.decorators.length - 1].decorator = cards[0].name; //TODO: hardcoded decoration of the last decorator
-        this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.CHOSING_DECORATOR_TYPE;
+        this.colaboFlowService.setMyColaboFlowStateInner(MyColaboFlowStates.CHOSING_DECORATOR_TYPE);
       }
     }
   }
@@ -409,8 +422,8 @@ export class DialoGameService {
     this.lastResponse = new DialoGameResponse(this.rimaAAAService);
     this.lastResponse.player = this.rimaAAAService.getUser();
 
-    this.colaboFlowService.myColaboFlowState.reset();
-    this.colaboFlowService.myColaboFlowState.nextState();
+    this.colaboFlowService.myColaboFlowState_reset();
+    this.colaboFlowService.myColaboFlowState_nextState();
     //this.colaboFlowService.colaboFlowState.nextState();
     this.lastResponse.playRound = this.colaboFlowService.colaboFlowState.playRound;
     console.log('initNewRound',MyColaboFlowState.stateName(this.colaboFlowService.myColaboFlowState.state));
@@ -446,7 +459,7 @@ export class DialoGameService {
     let nodeSaved = function(savedNode:KNode):void{
         let edgeSaved = function(edgeSaved:KEdge):void{
           console.log('KEdge of the played (Card) created');
-          this.colaboFlowService.myColaboFlowState.state = MyColaboFlowStates.FINISHED;
+          this.colaboFlowService.setMyColaboFlowStateInner(MyColaboFlowStates.FINISHED);
           this.responses.push(this.lastResponse);
           //this.goToNextRound();
         }

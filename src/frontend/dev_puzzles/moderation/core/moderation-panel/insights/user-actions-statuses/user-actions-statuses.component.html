@@ -30,7 +30,7 @@
         
           <ng-container matColumnDef="myColaboFlowState">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> MyCFState </th>
-            <td mat-cell *matCellDef="let element"> {{element.myColaboFlowState}} </td>
+            <td mat-cell *matCellDef="let element"> {{getMyColaboFlowStateName(element.myColaboFlowState)}} </td>
           </ng-container>
         
           <ng-container matColumnDef="sdgs">

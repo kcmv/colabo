@@ -4,7 +4,9 @@ import { DataSource } from '@angular/cdk/table';
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
+import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-flow/f-core/lib/myColaboFlowState';
 import {InsightsService} from '../insights.service';
+
 //import {TooltipPosition} from '@angular/material';
 
 // export interface PeriodicElement {
@@ -16,14 +18,14 @@ import {InsightsService} from '../insights.service';
 
 export class UserInsight{
   user:KNode = null;
-  myColaboFlowState:number;
+  myColaboFlowState:MyColaboFlowStates;
   cwcs:KNode[];
   sdgs:number[];
   cardPlayedInRound1:string;
   cardPlayedInRound2:string;
   cardPlayedInRound3:string;
 
-  constructor(user:KNode, myColaboFlowState:number, cwcs:KNode[], sdgs:number[], cardPlayedInRound1:string, cardPlayedInRound2:string, cardPlayedInRound3:string){
+  constructor(user:KNode, myColaboFlowState:MyColaboFlowStates, cwcs:KNode[], sdgs:number[], cardPlayedInRound1:string, cardPlayedInRound2:string, cardPlayedInRound3:string){
     this.user = user;
     // if(!('dataContent' in this.user)){this.user.dataContent = {};}
     this.myColaboFlowState = myColaboFlowState;
@@ -81,7 +83,7 @@ export class UserActionsStatusesComponent implements OnInit {
       cwc = us.cwcs[c];
       if(('dataContent' in cwc) && ('humanID' in cwc.dataContent)){
         // cwcs+= conn + '<span matTooltip="CWC">'+cwc.dataContent.humanID+'</span>';
-        cwcs+= conn + '<span matTooltip="'+cwc.name+'">'+cwc.dataContent.humanID+'</span>';
+        cwcs+= conn + '<span matTooltip="'+cwc.name+'">'+cwc.dataContent.humanID+ (this.insightsService.isCwcPlayed(cwc) ? 'p' : '') + '</span>';
         conn = ', ';
       }
     }
@@ -138,7 +140,7 @@ export class UserActionsStatusesComponent implements OnInit {
     for(var i:number=0; i<users.length; i++){
       user = users[i];
       usrId = user._id;
-      userInsights.push(new UserInsight(user, 0, [], [], this.insightsService.cardHumanIdPlayedInTheRound(usrId, 1), this.insightsService.cardHumanIdPlayedInTheRound(usrId, 2), this.insightsService.cardHumanIdPlayedInTheRound(usrId, 3)));
+      userInsights.push(new UserInsight(user, null, [], [], this.insightsService.cardHumanIdPlayedInTheRound(usrId, 1), this.insightsService.cardHumanIdPlayedInTheRound(usrId, 2), this.insightsService.cardHumanIdPlayedInTheRound(usrId, 3)));
     }
 
     // console.log('usersData:B',JSON.stringify(userInsights));
@@ -146,6 +148,35 @@ export class UserActionsStatusesComponent implements OnInit {
     // console.log('usersData:A',JSON.stringify(this.usersData));
     this.usersData.sort = this.sort;
     this.getCWCs();
+    this.getMyCFStates();
+  }
+
+  getMyCFStates():void{
+    this.insightsService.getMyCFStatesForAllUsers().subscribe(this.myCFStatesForAllUsersReceived.bind(this));
+  }
+
+  myCFStatesForAllUsersReceived(cfStateNodes:KNode[]):void{
+    console.log('[myCFStatesForAllUsersReceived] cfStateNodes', cfStateNodes);
+    
+    let usrD:UserInsight;
+    let userDataInTab:UserInsight[] = null
+    userDataInTab = this.usersData.data;
+    
+    for(var u:number = 0; u < userDataInTab.length; u++){
+      userDataInTab[u].myColaboFlowState = null;
+    }
+    for(var c:number = 0; c < cfStateNodes.length; c++){
+      for(var u:number = 0; u < userDataInTab.length; u++){
+        usrD = userDataInTab[u];
+        if(cfStateNodes[c].iAmId === usrD.user._id){
+          usrD.myColaboFlowState = (cfStateNodes[c].dataContent['MyColaboFlowState'].state as MyColaboFlowStates);
+        }
+      }
+    }
+  }
+
+  getMyColaboFlowStateName(state:MyColaboFlowStates):string{
+    return MyColaboFlowState.stateName(state);
   }
 
   // getUserActionsStatusesData():void{

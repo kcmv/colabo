@@ -26,6 +26,7 @@ export class InsightsService {
   static TOPICHAT_MSG_TYPE:string = 'topiChat.talk.chatMsg';
   cardsPlayed:KNode[][] = new Array<Array<KNode>>(); //first dimension are rounds, second are all cards in that round
   registeredUsers:KNode[] = [];
+  myCfStates:KNode[] = [];
   cwcs:KNode[] = [];
   selectedSDGs:KEdge[] = [];
 
@@ -112,6 +113,25 @@ export class InsightsService {
     }
   }
 
+  getMyCFStatesForAllUsers(forceRefresh:boolean = true):Observable<KNode[]>{
+    let result:Observable<KNode[]> ;
+
+    if(forceRefresh || this.myCfStates.length == 0){
+      result = this.knalledgeNodeService.queryInMapofType(ColaboFlowService.mapId, ColaboFlowService.MY_COLABO_FLOW_STATE_TYPE)
+      .pipe(
+        tap(nodesFromServer => this.assignMyCFStatesForAllUsers(nodesFromServer))
+      );
+      return result;
+    }
+    else{
+      return of(this.myCfStates);
+    }
+  }
+
+  assignMyCFStatesForAllUsers(cfStateNodes:KNode[]):void{
+    this.myCfStates = cfStateNodes;
+  }
+
   /*
     be aware that this method will reaturn false also in the case when users are not loaded yet
   */
@@ -124,6 +144,10 @@ export class InsightsService {
       }
     }
     return false;
+  }
+
+  isCwcPlayed(cwc:KNode):boolean{
+    return 'dataContent' in cwc && 'dialoGameReponse' in cwc.dataContent && 'playRound' in cwc.dataContent.dialoGameReponse;
   }
 
   cardHumanIdPlayedInTheRound(userId:string, round:number):string{

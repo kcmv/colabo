@@ -7,7 +7,15 @@ export const enum ColaboFlowStates{
 
 //the game starts in OPENNING round 1, then it goes to PLAYING_ROUNDS round 2; then PLAYING_ROUNDS, round 3
 export class ColaboFlowState{
-  public state:ColaboFlowStates = ColaboFlowStates.OPENNING;
+
+  private _state: ColaboFlowStates = ColaboFlowStates.OPENNING;
+  public get state(): ColaboFlowStates {
+    return this._state;
+  }
+  public set state(value: ColaboFlowStates) {
+    this._state = value;
+  }
+
   public playRound:number = 1;
 
   static stateName(state:ColaboFlowStates):string{
@@ -62,5 +70,17 @@ export class ColaboFlowState{
     this.playRound++;
 
     return this.state;
+  }
+
+  serialize():any{
+    return {
+      'state':this.state,
+      'playRound':this.playRound
+    };
+  }
+
+  deserialize(object:any):void{
+    this.state = object.state;
+    this.playRound = object.playRound === null ? {} : object.playRound;
   }
 }

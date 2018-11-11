@@ -9,7 +9,15 @@ export const enum MyColaboFlowStates{
 }
 
 export class MyColaboFlowState{
-  public state:MyColaboFlowStates = MyColaboFlowStates.NOT_STARTED;
+
+  private _state: MyColaboFlowStates = MyColaboFlowStates.NOT_STARTED;
+  public get state(): MyColaboFlowStates {
+    return this._state;
+  }
+  public set state(value: MyColaboFlowStates) {
+    this._state = value;
+  }
+  
   public data:any = {};
 
   static stateName(state):string{
@@ -28,10 +36,12 @@ export class MyColaboFlowState{
         return 'previewing';
       case MyColaboFlowStates.FINISHED:
         return 'finished';
+      default:
+        return '-';
     }
   }
 
-  reset():MyColaboFlowStates{
+  public reset():MyColaboFlowStates{
     this.state = MyColaboFlowStates.NOT_STARTED;
     return this.state;
   }
@@ -40,7 +50,7 @@ export class MyColaboFlowState{
   * sets the previous state
   * @returns previous state
   */
-  goBack():MyColaboFlowStates{
+  public goBack():MyColaboFlowStates{
     console.log('goBack (BF)',this.state);
     switch(this.state){
       case MyColaboFlowStates.NOT_STARTED:
@@ -69,7 +79,7 @@ export class MyColaboFlowState{
     return this.state;
   }
 
-  nextState():MyColaboFlowStates{
+  public nextState():MyColaboFlowStates{
     console.log('nextState (BF)',this.state);
     switch(this.state){
       case MyColaboFlowStates.NOT_STARTED:
@@ -100,5 +110,17 @@ export class MyColaboFlowState{
 
   isBasicMovePlayed():boolean{
     return this.state !== MyColaboFlowStates.NOT_STARTED && this.state !== MyColaboFlowStates.CHOSING_CHALLENGE_CARD && this.state !== MyColaboFlowStates.CHOSING_RESPONSE_CARD
+  }
+
+  serialize():any{
+    return {
+      'state':this.state,
+      'data':this.data
+    };
+  }
+
+  deserialize(object:any):void{
+    this.state = object.state;
+    this.data = object.data === null ? {} : object.data;
   }
 }
