@@ -3,7 +3,10 @@
     <!-- toolbar -->
     <div fxFlex="64px" style="overflow-y: hidden;">
         <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
-            <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" /> ReMakingTesla @ Everyday Heroes 2018
+            <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+            <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
+                <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
+            </button> ReMakingTesla @ Everyday Heroes 2018
         </mat-toolbar>
     </div>
 
@@ -15,43 +18,26 @@
                 <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You can:
             </p>
             <p>
+                <a routerLink="/moderation-panel">
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Moderation Panel</button>
+                </a>
+            </p>
+            <p>
+                <a routerLink="/insights">
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Insights</button>
+                </a>
+            </p>
+            <p>
                 <a routerLink="/cwc">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">CWC</button>
-                </a>
-            </p>
-            <p>
-                <a routerLink="/select-sdgs">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Select SDGs</button>
-                </a>
-            </p>
-            <p>
-                <a routerLink="/dialo-game">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;"> Performative DialoGame</button>
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Coaching</button>
                 </a>
             </p>
             <p>
             </p>
             <hr/>
             <p>
-                <a routerLink="/rima-login">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">My Profile</button>
-                </a>
-            </p>
-
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <hr/>
-
-            <p>
-                <a routerLink="/moderator">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">M</button>
+                <a routerLink="/avatar">
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Avatar</button>
                 </a>
             </p>
 
