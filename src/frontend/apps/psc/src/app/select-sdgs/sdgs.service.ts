@@ -39,6 +39,7 @@ export class SDGsService {
 
   static mapIdSDGs = config.GetGeneral('mapIdSDGs');
   static mapId = config.GetGeneral('mapId');
+  static lang = config.GetGeneral('lang');
 
   SDGsMockup:any[] =
   [
@@ -174,7 +175,7 @@ export class SDGsService {
     //return of(this.SDGsMockup);
     return this.knalledgeNodeService.queryInMapofType(SDGsService.mapIdSDGs, TYPE_SDGS)
     .pipe(
-      map(nodes => this.localize(nodes, 'rs'))
+      map(nodes => this.localize(nodes))
          //.subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
     );
   }
@@ -190,7 +191,11 @@ export class SDGsService {
     }
   }
 
-  localize(nodes: any, lang:string):any[]{
+  localize(nodes: any, lang?:string):any[]{
+    if(lang === null || lang === undefined)
+    {
+      lang = SDGsService.lang;
+    }
     for(var i:number=0;i<nodes.length;i++){
       let node: KNode = nodes[i];
       if(('i18n'in node) && (lang in node['i18n']) ){
