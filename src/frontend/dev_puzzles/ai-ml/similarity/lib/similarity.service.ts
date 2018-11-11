@@ -31,6 +31,7 @@ export class SimilarityService {
 
   sendRequestForSimilarityCalc():void{
     this.similarityRequestsReceivedNo = 0;
+    this.similarityRequestsSentNo = 0;
     this.rimaAAAService.getRegisteredUsers(SimilarityService.MAP_ID).subscribe(this.usersReceived.bind(this));
   }
 

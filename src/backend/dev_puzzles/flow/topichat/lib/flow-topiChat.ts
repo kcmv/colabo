@@ -73,39 +73,47 @@ export class ColaboFlowTopiChat{
         };
 
         pluginOptions.events[ColaboFlowTopiChatEvents.Action] 
-		= this.actionMessage.bind(this);
+		= this.onActionMessage.bind(this);
 
         this.topiChat.registerPlugin(pluginOptions);
     };
 
-	actionMessage(eventName:string, msg:any, clientIdSender, tcPackage:TopiChatPackage) {
-		console.log('[ColaboFlowTopiChat:actionMessage] event (%s), message received: %s', eventName, JSON.stringify(msg));
-        
-        function sendResponseMessage(action: any, params: any, result: any){
-            var msgResponse: any = {
-                meta: {
-                    timestamp: Math.floor(new Date().getTime() / 1000)
-                },
-                from: {
-                    name: "Colabo.Space",
-                    iAmId: "5ba74d9ac1534c5ab492e30f"// this.rimaAAAService.getUserId()
-                },
-                content: null
-            };
+    sendResponseMessage(action: any, params: any, result: any) {
+        var msgResponse: any = {
+            meta: {
+                timestamp: Math.floor(new Date().getTime() / 1000)
+            },
+            from: {
+                name: "Colabo.Space",
+                iAmId: "5ba74d9ac1534c5ab492e30f"// this.rimaAAAService.getUserId()
+            },
+            content: null
+        };
 
-            let content = {
-                action: action,
-                params: params,
-                result: result
-            };
-            msgResponse.content = content;
-            // should be only to sender (this.topiChat.sendSingle), but it is safer
-            // as client might break and client ID can change?! ...
-            this.topiChat.emit(ColaboFlowTopiChatEvents.ActionResponse, msgResponse);
-        }
+        let content = {
+            action: action,
+            params: params,
+            result: result
+        };
+        msgResponse.content = content;
+        console.log("\t sending '%s' response back to the client", ColaboFlowTopiChatEvents.ActionResponse)
+        // TODO
+        // should be only to sender (this.topiChat.sendSingle), but it is safer
+        // as client might break and client ID can change?! ...
+        this.topiChat.emit(ColaboFlowTopiChatEvents.ActionResponse, msgResponse);
+    }
+
+    onActionMessage(eventName:string, msg:any, clientIdSender, tcPackage:TopiChatPackage) {
+		console.log('[ColaboFlowTopiChat:onActionMessage] event (%s), message received: %s', eventName, JSON.stringify(msg));
+
+        let action: string = msg.content.action;
+        let params: string = msg.content.params;
 
         if (puzzleConfig.mockupQueueAccess){
-            
+            console.log('\t: mocking up queue request, and sending back direcly to client');
+            // TODO: this is wrong, all the way from similarity service, I guess
+            let result = "get_sims_for_user:{'mapId': '5b96619b86f3cc8057216a03', 'iAmId': '5be55e18bee0f4d21b5f367b', 'roundId': 1}";
+            this.sendResponseMessage(action, params, result);
         }else{
 
             // TODO: we want to be able to recieve results even on crash of backend
@@ -117,15 +125,14 @@ export class ColaboFlowTopiChat{
             // avoid rat race
             // await this.connResult;
 
-            let action: string = msg.content.action;
-            let params: string = msg.content.params;
+            console.log('\t: contacting queue broker (RabbitMQ) throufh the ColaboFlow Service');
             let sendMsgResult = this.cfService.sendMessage(action, params);
             
             sendMsgResult
                 .then((result: any) => {
                     console.log(chalk.blue.bold("ColaboFlow action (%s) finished with result: "), action, result);
                     
-                    sendResponseMessage(action, params, result);
+                    this.sendResponseMessage(action, params, result);
 
                 })
                 .catch(error => console.log(chalk.red.bold("ColaboFlow action (%s) finished with error: "), action, error));
@@ -150,9 +157,4 @@ export class ColaboFlowTopiChat{
         //     }
         // }.bind(this));
 	};
-
-    realtimeMsg(eventName, msg, clientId, tcPackage:TopiChatPackage) {
-        console.log('[ColaboFlowTopiChat] event (%s), realtime talk message received from client [%s] : %s', eventName, clientId, JSON.stringify(msg));
-        this.topiChat.emit(eventName, msg, clientId);
-    };
 }
