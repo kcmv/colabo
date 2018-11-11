@@ -30,8 +30,8 @@ import {ColaboFlowService} from '@colabo-flow/b-services';
  */
 
 enum ColaboFlowTopiChatEvents{
-    Action = 'colaboflow:action',
-    ActionResponse = 'colaboflow:action_response'
+    Action = 'tc:colaboflow:action',
+    ActionResponse = 'tc:colaboflow:action_response'
 }
 
 export class ColaboFlowTopiChat{
@@ -73,28 +73,13 @@ export class ColaboFlowTopiChat{
         };
 
         pluginOptions.events[ColaboFlowTopiChatEvents.Action] 
-		= this.actionMessage.bind(this);
+		= this.onActionMessage.bind(this);
 
         this.topiChat.registerPlugin(pluginOptions);
     };
 
-	actionMessage(eventName:string, msg:any, clientIdSender, tcPackage:TopiChatPackage) {
-		console.log('[ColaboFlowTopiChat:actionMessage] event (%s), message received: %s', eventName, JSON.stringify(msg));
-
-        // TODO: we want to be able to recieve results even on crash of backend
-        // so we want to be able to catch result by new started backend
-        // therefore we have manually created queue for results
-        // but (TODO), we still do not use it
-
-        // TODO fix this
-        // avoid rat race
-        // await this.connResult;
-
-        let action:string = msg.content.action;
-        let params:string = msg.content.params;
-        let sendMsgResult = this.cfService.sendMessage(action, params);
-
-        var msg:any = {
+    sendResponseMessage(action: any, params: any, result: any) {
+        var msgResponse: any = {
             meta: {
                 timestamp: Math.floor(new Date().getTime() / 1000)
             },
@@ -105,24 +90,57 @@ export class ColaboFlowTopiChat{
             content: null
         };
 
-        sendMsgResult
-            .then((result:any) => {
-                console.log(chalk.blue.bold("ColaboFlow action (%s) finished with result: "), action, result);
+        let content = {
+            action: action,
+            params: params,
+            result: result
+        };
+        msgResponse.content = content;
+        console.log("\t sending '%s' response back to the client", ColaboFlowTopiChatEvents.ActionResponse)
+        // TODO
+        // should be only to sender (this.topiChat.sendSingle), but it is safer
+        // as client might break and client ID can change?! ...
+        this.topiChat.emit(ColaboFlowTopiChatEvents.ActionResponse, msgResponse);
+    }
 
-                let content = {
-                    action: action,
-                    params: params,
-                    result: result
-                };
-                msg.content = content;
-                // should be only to sender (this.topiChat.sendSingle), but it is safer
-                // as client might break and client ID can change?! ...
-                this.topiChat.emit(ColaboFlowTopiChatEvents.ActionResponse, msg);
-            })
-            .catch(error => console.log(chalk.red.bold("ColaboFlow action (%s) finished with error: "), action, error));
+    onActionMessage(eventName:string, msg:any, clientIdSender, tcPackage:TopiChatPackage) {
+		console.log('[ColaboFlowTopiChat:onActionMessage] event (%s), message received: %s', eventName, JSON.stringify(msg));
+
+        let action: string = msg.content.action;
+        let params: string = msg.content.params;
+
+        if (puzzleConfig.mockupQueueAccess){
+            console.log('\t: mocking up queue request, and sending back direcly to client');
+            // TODO: this is wrong, all the way from similarity service, I guess
+            let result = "get_sims_for_user:{'mapId': '5b96619b86f3cc8057216a03', 'iAmId': '5be55e18bee0f4d21b5f367b', 'roundId': 1}";
+            this.sendResponseMessage(action, params, result);
+        }else{
+
+            // TODO: we want to be able to recieve results even on crash of backend
+            // so we want to be able to catch result by new started backend
+            // therefore we have manually created queue for results
+            // but (TODO), we still do not use it
+
+            // TODO fix this
+            // avoid rat race
+            // await this.connResult;
+
+            console.log('\t: contacting queue broker (RabbitMQ) throufh the ColaboFlow Service');
+            let sendMsgResult = this.cfService.sendMessage(action, params);
+            
+            sendMsgResult
+                .then((result: any) => {
+                    console.log(chalk.blue.bold("ColaboFlow action (%s) finished with result: "), action, result);
+                    
+                    this.sendResponseMessage(action, params, result);
+
+                })
+                .catch(error => console.log(chalk.red.bold("ColaboFlow action (%s) finished with error: "), action, error));
+        }
         
         // return sendMsgResult;
 
+        // TODO: saving to DB
         // let iAmId:string = tcPackage.iAmIdSender || puzzleConfig.defaultIAmId;
         // let chatNode:KNode = new KNode();
         // chatNode.name = msg.content.text;
@@ -138,15 +156,5 @@ export class ColaboFlowTopiChat{
         // 		console.log('[ColaboFlowTopiChat:clientChatMessage] we are NOT emitting message');
         //     }
         // }.bind(this));
-
-        // let socketSender = this.clientIdToSocket[clientIdSender];
-		// socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
-		// this.io.emit('tc:chat-message', msg); // to everyone
-		// socket.broadcast.emit('tc:chat-message', msg); // to everyone except socket owner
 	};
-
-    realtimeMsg(eventName, msg, clientId, tcPackage:TopiChatPackage) {
-        console.log('[ColaboFlowTopiChat] event (%s), realtime talk message received from client [%s] : %s', eventName, clientId, JSON.stringify(msg));
-        this.topiChat.emit(eventName, msg, clientId);
-    };
 }

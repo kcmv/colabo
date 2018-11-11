@@ -10,8 +10,8 @@ import {ColaboPubSubPlugin, ColaboPubSub} from '@colabo-utils/i-pub-sub';
 export {TopiChatPackage, ColaboPubSubPlugin};
 
 export enum ColaboFlowTopiChatEvents{
-    Action = 'colaboflow:action',
-    ActionResponse = 'colaboflow:action_response'
+  Action = 'tc:colaboflow:action',
+  ActionResponse = 'tc:colaboflow:action_response'
 }
 
 @Injectable()
