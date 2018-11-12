@@ -23,6 +23,21 @@
                 </p>
             </mat-list-item>
         </mat-list>
+        <div class="info-pad" *ngIf="infos['info'].length > 0">
+            <div class="pad" *ngFor="let info of infos['info']">
+                <b>{{info.title}}</b><br/> {{info.msg}}
+            </div>
+        </div>
+        <div class="warning-pad" *ngIf="infos['warning'].length > 0">
+            <div class="pad" *ngFor="let info of infos['warning']">
+                <b>{{info.title}}</b><br/> {{info.msg}}
+            </div>
+        </div>
+        <div class="error-pad" *ngIf="infos['error'].length > 0">
+            <div class="pad" *ngFor="let info of infos['error']">
+                <b>{{info.title}}</b><br/> {{info.msg}}
+            </div>
+        </div>
     </div>
 
     <!-- toolbar -->

@@ -27,21 +27,21 @@ if (!globalSet.hasOwnProperty('general')) {
     console.log("[config/global.js] Setting up globalSet.general");
     globalSet.general = {
         // RESTfull backend API url
-        serverUrl: 
-        'http://127.0.0.1:8001', // LOCAL
+        serverUrl: 'http://127.0.0.1:8001', // LOCAL
         // 'https://fv.colabo.space/api', // colabo-space-1 (https) (ACTUAL SERVER)
         //OLD:
         // 'http://api.colabo.space',
         // 'http://158.39.75.120:8001', // colabo-space-1 (old)
 
+        imagesFolder: 'images',
+
         // active map
         mapId: '5be3fddce1b7970d8c6df406',
         mapIdSDGs: '5be3fddce1b7970d8c6df406',
         userNodeId: '5be408d0e1b7970d8c6df40f',
-        
-        lang:
-            'en',
-            //'rs',
+
+        lang: 'en',
+        //'rs',
 
         /** multiple players can play on the same opening card */
         OPENNING_CARD_MULTIPLE_ANSWERS: true,
@@ -63,6 +63,10 @@ if (!globalSet.hasOwnProperty('puzzles')) {
             // socketUrl: 'https://fv.colabo.space/',
             path: '',
             // path: '/api/socket.io'
+        },
+        '@colabo-topichat/f-talk': {
+            messagesNumberMin: 3,
+            messagesNumberMax: 5
         }
     };
 }

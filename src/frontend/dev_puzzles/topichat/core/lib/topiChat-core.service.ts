@@ -53,7 +53,6 @@ export class TopiChatCoreService{
   constructor(
     protected rimaAAAService:RimaAAAService
   ) {
-    this.puzzleConfig = GetPuzzle(MODULE_NAME);
     this.init();
   }
 
@@ -61,6 +60,7 @@ export class TopiChatCoreService{
     * Initializes service
     */
   init() {
+      this.puzzleConfig = GetPuzzle(MODULE_NAME);
       this.serverPubSub = new ColaboPubSub("SocketIoPlugins", this.registerNewEventType.bind(this));
 
       let socketOptions:any = {
