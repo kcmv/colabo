@@ -31,9 +31,6 @@ export const DIALOGAME_OPENING_CARD_TYPE:string = 'const.dialogame.opening-card'
 export const TOPICHAT_MSG_TYPE:string = 'topiChat.talk.chatMsg';
 export const SERVICE_CWC_SIMLARITIES_TYPE:string = 'service.result.dialogame.cwc_similarities';
 
-
-//export const MAP_ID:string = '5b96619b86f3cc8057216a03';
-
 @Injectable({
   providedIn: 'root'
 })
