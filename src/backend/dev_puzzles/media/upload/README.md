@@ -9,6 +9,7 @@ It is responsible for uploading media files to the server
 ```sh
 mkdir -p src/backend/apps/colabo-space/dist/dist/uploads/
 echo "Hello upload boy!" > ./info.txt
+# TODO: add additional parameters
 curl -i -X POST -H "Content-Type: multipart/form-data" -F "avatar=@./info.txt" http://localhost:8001/upload/
 cat src/backend/apps/colabo-space/dist/uploads/avatar-*.txt
 ```
