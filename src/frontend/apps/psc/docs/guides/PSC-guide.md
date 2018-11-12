@@ -2,7 +2,8 @@
 
 ## Register/Login
 
-
++ If you do not have Colabo.Space account, please create it
++ If you have it, just login
 
 ## Select SDG(s)
 
