@@ -172,7 +172,9 @@ export class KnalledgeNodeService extends CFService{
       result = this.http.post<ServerData>(this.apiUrl, kNodeForServer, httpOptions)
       .pipe(
         //tap((nodeS: KNode) => console.log(`CREATED 'node'${nodeS}`)), // not needed - it's just for logging
-        map(nodeS => this.extractVO<KNode>(nodeS,KNode)), //the sever returns `ServerData` object
+        map(nodeS => 
+          this.extractVO<KNode>(nodeS,KNode)
+        ), //the sever returns `ServerData` object
         catchError(this.handleError<KNode>('KnalledgeNodeService::create'))
       );
 

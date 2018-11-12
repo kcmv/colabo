@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 import {UserData} from '@colabo-rima/f-aaa/userData';
 import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import { MediaUploadService } from '../upload.service';
 
 @Component({
   selector: 'app-avatar',
@@ -11,18 +11,10 @@ import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 })
 export class AvatarComponent implements OnInit {
 
-  form: FormGroup;
-
   constructor(
-    fb: FormBuilder,
-    private RimaAAAService: RimaAAAService
+    protected mediaUploadService: MediaUploadService,
+    protected RimaAAAService: RimaAAAService
   ) {
-    this.form = fb.group({
-        // "cameraPhoto": ['', [Validators.required, Validators.email]],
-        // "storagePhoto":["", [Validators.required, Validators.minLength(3)]]
-        "cameraPhoto": ['', []],
-        "storagePhoto":["", []]
-    });
   }
 
   ngOnInit() {
@@ -36,12 +28,18 @@ export class AvatarComponent implements OnInit {
     return this.RimaAAAService.getUser();
   }
 
-  reset() {
-      this.form.reset();
+  onFileAdded(event){
+    let fileList: FileList = event.target.files;
+    this.mediaUploadService.uploadFileList(fileList).subscribe(val => {
+      // if (val.json().status == 'success') {
+      //   this.networkContract.FilePath = val.json().data.fileName;
+      // }
+      // console.log(val.json());
+    });
   }
 
   onSubmit( ){
-    console.log(this.form);
+    // console.log(this.form);
     let userData:UserData = new UserData();
     //TODO: userData.image.url = this.form.value.cameraPhoto;
     // this.RimaAAAService.createNewUser(userData, this.userCreated);

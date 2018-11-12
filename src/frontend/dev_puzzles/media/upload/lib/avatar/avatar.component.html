@@ -29,7 +29,7 @@
         </div>
         <div *ngIf="isLoggedIn">
             <!--TODO: to make localized (in Serbian) form field names and info -->
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <form (ngSubmit)="onSubmit()">
                 <p>
                     <!--
       TODO:
@@ -48,19 +48,19 @@
                     <p>
                         <!-- <mat-form-field class="example-full-width">
         Image from camera:<br/> -->
-                        <input type="file" formControlName="cameraPhoto" accept="image/*;capture=camera">
+                        <input type="file" accept="image/*;capture=camera" (change)="onFileAdded($event)">
                         <!-- </mat-form-field> -->
                     </p>
                     <p>
                         <!-- <mat-form-field class="example-full-width"> -->
                         Image from camera/storage:<br/>
-                        <input type="file" formControlName="storagePhoto" accept="image/*">
+                        <input type="file" accept="image/*">
                         <!-- </mat-form-field> -->
                     </p>
                     <!-- TODO: to see if we want to remove submit, but I guess we should also
          TODO: enable selection which of the selected SDGs this photo-avatar illustrates -->
                     <p>
-                        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
+                        <button mat-raised-button color="primary" type="submit">Submit</button>
                         <button mat-raised-button (click)="reset()">Reset</button>
                     </p>
             </form>

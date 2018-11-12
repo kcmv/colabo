@@ -46,6 +46,10 @@ var puzzles = {
             npm: "@colabo-knalledge/f-view_node",
             path: "dev_puzzles/knalledge/view_node"
         },
+        "@colabo-media/f-upload": {
+            npm: "@colabo-media/f-upload",
+            path: "dev_puzzles/media/upload"
+        },
         "@colabo-rima/f-core": {
             npm: "@colabo-rima/f-core",
             path: "dev_puzzles/rima/core"

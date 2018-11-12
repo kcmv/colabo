@@ -33,6 +33,7 @@
     "node_modules/@colabo-knalledge/**/*",
     "node_modules/@colabo-rima/**/*",
     "node_modules/@colabo-moderation/**/*",
+    "node_modules/@colabo-media/**/*",
     "node_modules/@colabo-colaboflow/**/*",
     "node_modules/@colabo-flow/**/*",
     "node_modules/@colabo-topichat/**/*",
