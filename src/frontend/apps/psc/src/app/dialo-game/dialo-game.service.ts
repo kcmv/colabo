@@ -258,14 +258,14 @@ export class DialoGameService {
   AID}
   */
   private suggestedCardsReceived(suggestionNodes:KNode[]):void{ //KNode[]):void{
-    //console.log('suggestedCardsReceived', nodes);
+    console.log('[suggestedCardsReceived] suggestionNodes', suggestionNodes);
     let suggestionFound:boolean = false;
     if(suggestionNodes!== null && suggestionNodes!==undefined && suggestionNodes.length>0){
       //we get suggestions for all the rounds; extracting for the current round:
       for(var s:number = 0; s<suggestionNodes.length; s++){
         if(suggestionNodes[s]['dataContent']['result'].playRound === (this.colaboFlowService.colaboFlowState.playRound-1)){
           let suggestion:KNode  = suggestionNodes[s];
-          
+          console.log('[suggestedCardsReceived] suggestion (for the current round)', suggestion);
           suggestionFound = true;
           suggestion.dataContent.result.suggestions.sort((a,b)=> b.similarity_quotient - a.similarity_quotient); //descending sorting by similarity
           console.log('suggestedCardsReceived [after sorting]', suggestion.dataContent.result.suggestions);
