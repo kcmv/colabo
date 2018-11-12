@@ -8,10 +8,14 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import {GetPuzzle} from '@colabo-utils/i-config';
 import {RimaAAAService} from '@colabo-rima/f-aaa';
+import * as config from '@colabo-utils/i-config';
+
+const fileName = 'avatar';
 
 @Injectable()
 export class MediaUploadService{
   protected puzzleConfig:any;
+  protected serverUrl:string;
 
   constructor(
     protected http: HttpClient,
@@ -25,14 +29,18 @@ export class MediaUploadService{
   * Initializes service
   */
   init(){
-    
+    // RESTfull backend API url
+    this.serverUrl = config.GetGeneral('serverUrl');    
   }
 
   handleError(error: Response) {
     console.error(error);
-    return Observable.throw((error.json()) || 'Server error');
+    return Observable.throw((error) || 'Server error');
   }
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/FormData
+  // https://malcoded.com/posts/angular-file-upload-component-with-express
+  // https://www.c-sharpcorner.com/article/how-to-post-formdata-to-webapi-using-angularjs2/
   uploadFileList(fileList: FileList){
     let iAmId:string = this.rimaAAAService.getUserId();
     // if(!iAmId)
@@ -42,10 +50,11 @@ export class MediaUploadService{
       let fileSize: number = file.size;
       if (fileSize <= 10485760) {
         let formData: FormData = new FormData();
-        formData.append('avatar', file);
-        formData.append('iAmId', iAmId);
+        formData.append(fileName, file);
+        formData.append('uploadtype', 'user.avatar');
+        formData.append('iamid', iAmId);
 
-        return this.http.post("upload", formData)
+        return this.http.post(this.serverUrl+"/upload", formData)
           .pipe(
             map((response: Response) => {
               return response;
