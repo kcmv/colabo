@@ -9,9 +9,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 // import * as config from '@colabo-utils/i-config';
 
-//const MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
-//const MAP_ID = "5b49e7f736390f03580ac9a7"; //Forum Vlasina
-
 @Component({
   selector: 'registered-users',
   templateUrl: './registered-users.component.html',

@@ -3,11 +3,13 @@ import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import { RimaAAAService } from '@colabo-rima/f-aaa';
 import {ColaboFlowService} from '@colabo-flow/f-core';
 
+import * as config from '@colabo-utils/i-config';
+
 import {ColaboFlowTopiChatService, ColaboFlowTopiChatEvents, TopiChatPackage, ColaboPubSubPlugin} from '@colabo-flow/f-topichat';
 
 @Injectable()
 export class SimilarityService {
-  static MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
+  static mapId = config.GetGeneral('mapId');
   public similarityRequestsSentNo: number = 0;
   public similarityRequestsReceivedNo: number = 0;
 
@@ -32,16 +34,16 @@ export class SimilarityService {
   sendRequestForSimilarityCalc():void{
     this.similarityRequestsReceivedNo = 0;
     this.similarityRequestsSentNo = 0;
-    this.rimaAAAService.getRegisteredUsers(SimilarityService.MAP_ID).subscribe(this.usersReceived.bind(this));
+    this.rimaAAAService.getRegisteredUsers(SimilarityService.mapId).subscribe(this.usersReceived.bind(this));
   }
 
   usersReceived(users:any[]):void{
     for(var i:number = 0; i<users.length; i++){
-      //TODO: requestSimilarity(users[i]._id), SimilarityService.MAP_ID, this.colaboFlowService.colaboFlowState.playRound);
+      //TODO: requestSimilarity(users[i]._id), SimilarityService.mapId, this.colaboFlowService.colaboFlowState.playRound);
       let content:any = {
         action: 'get_sims_for_user',
         params: {
-          mapId: SimilarityService.MAP_ID, // '5b96619b86f3cc8057216a03',
+          mapId: SimilarityService.mapId,
           iAmId: users[i]._id,
           roundId: this.colaboFlowService.colaboFlowState.playRound // 1
         }
