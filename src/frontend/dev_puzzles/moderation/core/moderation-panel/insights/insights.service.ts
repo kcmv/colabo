@@ -22,7 +22,6 @@ export class InsightsService {
 
   static mapId = config.GetGeneral('mapId');
 
-  //static MAP_ID = "5b96619b86f3cc8057216a03"; //PSC (PTW2018)
   static TOPICHAT_MSG_TYPE:string = 'topiChat.talk.chatMsg';
   cardsPlayed:KNode[][] = new Array<Array<KNode>>(); //first dimension are rounds, second are all cards in that round
   registeredUsers:KNode[] = [];
