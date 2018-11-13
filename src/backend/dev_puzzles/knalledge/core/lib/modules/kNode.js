@@ -140,7 +140,7 @@ exports._index = function(id, id2, id3, id4, type, res, callback) {
             break;
             case 'max_val_type_map':
                 //TODO: make it to work for any parameter instead of the fixed one 'dataContent.humanID':
-                console.log("find: max_val_type_map: name: %s", id, 'mapId', id3, 'type', id2);
+                console.log("find: max_val_type_map: name: %s", id, mapId, id3, id2);
                 //KNodeModel.findOne().where({id: 1}).sort('-LAST_MOD').exec(function(err, doc)
                 KNodeModel.findOne({ $and: [{ mapId: id3 }, { type: id2 }] }).sort('-dataContent.humanID').exec(function(err, doc) {
                     if (err) {
@@ -375,6 +375,16 @@ exports._update = function(data, id, actionType, callback) {
                     }
                     old_data.dataContent.rima.whats.push(data.dataContent.rima.whats[0]);
                     break;
+                case 'UPDATE_TYPE_UNSET_DIALOGAME':
+                    console.log('UPDATE_TYPE_UNSET_DIALOGAME');
+                    KNodeModel.updateMany( { type: "topiChat.talk.chatMsg", mapId: "5be3fddce1b7970d8c6df406"}, { $unset: { 'dataContent.dialoGameReponse': '' } }, function(err, raw) {
+                        if (err) throw err;
+                        console.log('return from UPDATE_TYPE_UNSET_DIALOGAME');
+                        //console.log('The raw response from Mongo was ', raw);
+                        data._id = id; //TODO: when we completly transfer to differential updates we won't need this
+                        if (callback) callback(err, old_data);
+                    });
+                    break;
                 default:
                     deepAssign(old_data, data);
             }
@@ -410,14 +420,21 @@ exports._update = function(data, id, actionType, callback) {
 // for type `one`: In the server's response, the ServerData.data is equal to the _id of the deleted VO.  ServerData.data will be equal to null, if there is no data we intended to delete. In both cases `ServerData.success` will be eq `true`
 exports.destroy = function(req, res) {
     //TODO: should we destroy edges connected to this node? or is it done automatically? or error is risen?
+    
+    var id = req.params.searchParam;
+    var searchParam = id;
+    var id2 = req.params.searchParam2;
+    var id3 = req.params.searchParam3;
+    var id4 = req.params.searchParam4;
+    
     var type = req.params.type;
     console.log('kNode::destroy::req.params', req.params);
-    var searchParam = req.params.searchParam;
-    console.log("[modules/KNode.js:destroy] searchParam:%s, type:%s, req.body: %s", searchParam, type, JSON.stringify(req.body));
+    
+    console.log("[modules/KNode.js:destroy] type %s, id:%s, id2:%s, req.body: %s", type, id, id2, JSON.stringify(req.body));
 
     switch (type) {
         case 'one':
-            exports._destroyOne(searchParam, function(err, removedItem) {
+            exports._destroyOne(id, function(err, removedItem) {
                 //console.log("[modules/kNode.js:destroy] removedItem:" + JSON.stringify(removedItem));
                 var data = removedItem ? removedItem._id : null; // if removedItem is null it means that there is no data we intended to delete
                 console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
@@ -425,16 +442,16 @@ exports.destroy = function(req, res) {
             });
             break;
         case 'in-map': //all nodes in the map
-            exports._destroyInMap(searchParam, function(err) {
-                var data = { id: searchParam };
+            exports._destroyInMap(id, function(err) {
+                var data = { id: id };
                 console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
                 resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
             });
             break;
             // TODO: this currently delete all nodes that belongs to the provided mapId
         case 'by-modification-source': // by source (manual/computer) of modification
-            exports._destroyByModificationSource(searchParam, function(err) {
-                var data = { mapId: searchParam };
+            exports._destroyByModificationSource(id, function(err) {
+                var data = { mapId: id };
                 console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
                 resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
             });
@@ -442,13 +459,26 @@ exports.destroy = function(req, res) {
         case 'by-type-n-user': // by type and user
             //TODO: we must also filter by `mapId` but so far we are sending only 2 parameters!
             var node_type = req.params.actionType;
-            var iAmId = req.params.searchParam;
-            console.log("[modules/kNode.js:destroy] deleting all Nodes of type %s by user %s", node_type, iAmId);
+            var iAmId = id;
+            console.log("[modules/kNode.js:destroy by-type-n-user] deleting all Nodes of type %s by user %s", node_type, iAmId);
             exports._destroyByTypenUser(node_type, iAmId, function(err) {
                 var data = { iAmId: iAmId };
                 console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
                 resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
             });
+            break;
+        case 'by-type-in-map':
+            var node_type = id;
+            var mapId = id2;
+            console.log("[modules/kNode.js:destroy 'by-type-in-map'] deleting all Nodes of type %s in mapId %s", node_type, mapId);
+            exports._destroyByTypeInMap(node_type, mapId, function(err) {
+                var data = { mapId: mapId };
+                console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
+                resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
+            });
+            break;
+        default:
+            console.log("Type '%s' not supported in destroy");
             break;
     }
 };
@@ -466,7 +496,7 @@ exports._destroyOne = function(searchParam, callback) {
 //all nodes in the map
 exports._destroyInMap = function(searchParam, callback) {
     console.log("[modules/kNode.js:destroy] deleting nodes in map %s", searchParam);
-    KNodeModel.remove({ 'mapId': searchParam }, function(err) {
+    KNodeModel.remove({ mapId: searchParam }, function(err) {
         if (err) {
             console.log("[modules/kNode.js:destroy] error:" + err);
             throw err;
@@ -492,11 +522,44 @@ exports._destroyByModificationSource = function(searchParam, callback) {
 exports._destroyByTypenUser = function(type, iAmId, callback) {
     console.log("[modules/kNode.js:_destroyByTypenUser] deleting all Nodes of type %s by user %s", type, iAmId);
 
-    KNodeModel.remove({ $and: [{ 'type': type }, { 'iAmId': iAmId }] }, function(err) {
+    KNodeModel.remove({ $and: [{ type: type }, { iAmId: iAmId }] }, function(err) {
         if (err) {
             console.log("[modules/kNode.js:destroy] error:" + err);
             throw err;
         }
+        if (callback) callback(err);
+    });
+}
+
+exports._destroyByTypeInMap = function(type, mapId, callback) {
+    console.log("type EQ: %s", "service.result.dialogame.cwc_similarities" == type);
+    console.log("mapId EQ: %s",  "5be3fddce1b7970d8c6df406" == mapId);
+    console.log("[modules/kNode.js:_destroyByTypeInMap'] deleting all Nodes of type '%s' in the mapId '%s'", type, mapId);
+
+    // var foundDel = function(err, kNodes) {
+    //     console.log("[modules/kNode.js:index] in 'foundDel'", kNodes);
+    //     if (err) {
+    //         throw err;
+    //         var msg = JSON.stringify(err);
+    //         // if (callback) callback(err, null);
+    //     } else {
+    //         if (callback) callback(null, kNodes);
+    //     }
+    // }
+
+    // KNodeModel.find({ $and: [{ type: type }, { mapId: mapId }] }, foundDel);
+    
+    //KNodeModel.remove({ type: type }, function(err, res) {
+    // KNodeModel.remove({ $and: [{ mapId: mapId }, { type: type }] }, found);
+
+    // KNodeModel.remove({ type: "service.result.dialogame.cwc_similarities", mapId: "5be3fddce1b7970d8c6df406"}, function(err, res) {
+    KNodeModel.remove({ type: type, mapId: mapId}, function(err, res) {
+    // KNodeModel.remove({ $and: [{ type: type }, { mapId: mapId }] }, function(err, res) {
+        if (err) {
+            console.log("[modules/kNode.js:destroy] error:" + err);
+            throw err;
+        }
+        console.log("[modules/kNode.js:_destroyByTypeInMap] finished:" + res);
         if (callback) callback(err);
     });
 }

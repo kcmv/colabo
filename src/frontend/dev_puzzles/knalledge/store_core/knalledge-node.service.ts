@@ -235,12 +235,42 @@ export class KnalledgeNodeService extends CFService{
 
     if(callback){result.subscribe(success => callback(success));}
 		return result;
+  }
+  
+  destroyByTypeInMap(type:string, mapId:string, callback?:Function): Observable<boolean>
+	{
+    //TODO:NG2 fix usage of this function to expect boolean
+    var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'by-type-in-map/'+this.defaultAction+'/'+type+'/'+mapId +'.json', httpOptions).pipe(
+      tap(_ => console.log(`deleted nodes type=${type} and mapId=${mapId}`)),
+      map(serverData => serverData.success),
+      catchError(this.handleError<boolean>('destroyByTypeInMap'))
+    );
+
+		/* TODO:NG2
+      if(this.knAllEdgeRealTimeService){ // realtime distribution
+      //
+			// let change = new puzzles.changes.Change();
+			// change.value = null;
+			// change.valueBeforeChange = null; //TODO
+			// change.reference = id;
+			// change.type = puzzles.changes.ChangeType.STRUCTURAL;
+			// change.event = Plugins.puzzles.knalledgeMap.config.services.KnRealTimeEdgeDeletedEventName;
+			// // change.action = null;
+			// change.domain = puzzles.changes.Domain.NODE;
+			// change.visibility = puzzles.changes.ChangeVisibility.ALL;
+			// change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
+      //
+			// this.knAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeEdgeDeletedEventName, change);//{'_id':id});
+		}*/
+
+    if(callback){result.subscribe(success => callback(success));}
+		return result;
 	}
 
   destroyByTypeByUser(type:string, iAmid:string, callback?:Function): Observable<boolean>
 	{
     //TODO:NG2 fix usage of this function to expect boolean
-    var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'by-type-n-user/'+type+'/'+iAmid +'.json', httpOptions).pipe(
+    var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'by-type-n-user/'+this.defaultAction+'/'+type+'/'+iAmid +'.json', httpOptions).pipe(
       tap(_ => console.log(`deleted nodes type=${type} and iAmid=${iAmid}`)),
       map(serverData => serverData.success),
       catchError(this.handleError<boolean>('destroyByTypeByUser'))
