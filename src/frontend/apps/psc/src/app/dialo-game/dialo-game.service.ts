@@ -208,7 +208,7 @@ export class DialoGameService {
 
     console.log('DialoGameService::suggestionsReceived:', suggestions);
 
-    let suggestionsSorted
+    // let suggestionsSorted
     let simQuots:any[] = this.suggestionsHistory[this.suggestionsHistory.length-1].dataContent.result.suggestions;
     for (var sqI:number = 0; sqI <simQuots.length; sqI++){ //Math.min(simQuots.length, DialoGameService.SUGGESTIONS_LIMIT)
       let id = simQuots[sqI].id;
@@ -275,8 +275,11 @@ export class DialoGameService {
           for(var i:number=0; i< Math.min(suggestions.length, DialoGameService.SUGGESTIONS_LIMIT); i++){ //we limit number of cards to lower Net usage
             cardIds.push(suggestions[i].id);
           }
-  
-          this.getCardsByIds(cardIds).subscribe(this.cardsByIdsReceived.bind(this));
+          if(cardIds.length){
+            this.getCardsByIds(cardIds).subscribe(this.cardsByIdsReceived.bind(this));
+          }else{
+            this.cardsByIdsReceived([]);
+          }
           //this.assignSuggestedCards()
           break;
         }
