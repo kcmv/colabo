@@ -105,7 +105,7 @@ Coaching with Compassion / Dreams/ Visions
 - **queries**:
 
   ```mongo
-  db.getCollection("knodes").deleteMany({ type: "service.result.dialogame.cwc_similarities", mapId: ObjectId("5be3fddce1b7970d8c6df406")})
+  db.getCollection("knodes").updateMany( { type: "topiChat.talk.chatMsg", mapId: ObjectId("5be3fddce1b7970d8c6df406")}, { $unset: { 'dataContent.dialoGameReponse': '' } } )
   
   db.getCollection("kedges").remove({ type: "dialogame.response",  mapId: ObjectId("5be3fddce1b7970d8c6df406")})
   
