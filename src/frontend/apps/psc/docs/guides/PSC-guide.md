@@ -89,12 +89,27 @@ Coaching with Compassion / Dreams/ Visions
 - **preserving**
   - created users
   - CWCs
-- reset played cards
+
+- **reset played cards**
+
   - delete ***cwc.dataContent.dialoGameReponse*** from all CWCs with the current MapId
-  - delete played edges
+  - delete played **edges**
+
 - reseting ***colaboflow.state***
   - you can use moderator panel to go to the previous state until it's
   - ![image-20181109200232275](moderation-play-round.png)
   - or you can use it but you can achieve it by setting it in the db in the knode of type: colaboflow.state to state = 1;
+
 - delete all *knodes* of type **'service.result.dialogame.cwc_similarities'**
-- - 
+
+- **queries**:
+
+  ```mongo
+  db.getCollection("knodes").deleteMany({ type: "service.result.dialogame.cwc_similarities", mapId: ObjectId("5be3fddce1b7970d8c6df406")})
+  
+  db.getCollection("kedges").remove({ type: "dialogame.response",  mapId: ObjectId("5be3fddce1b7970d8c6df406")})
+  
+  db.getCollection("knodes").updateMany({type: 'colaboflow.state', mapId: ObjectId("5be3fddce1b7970d8c6df406")}, { $set: { "dataContent.playRound" : NumberInt(1) } })
+  
+  db.getCollection("knodes").deleteMany({ type: "service.result.dialogame.cwc_similarities", mapId: ObjectId("5be3fddce1b7970d8c6df406")})
+  ```
