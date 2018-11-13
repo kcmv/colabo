@@ -449,6 +449,8 @@ export class DialoGameService {
     let edge:KEdge = new KEdge();
     edge.mapId = DialoGameService.mapId;
     edge.type = DialoGameResponse.TYPE_DIALOGAME_RESPONSE;
+    // if(!('dataContent' in edge)) {edge.dataContent = {};}
+    edge.dataContent.playRound = this.colaboFlowService.colaboFlowState.playRound;
     edge.sourceId = dialoGameResponse.challengeCards[0]._id; //TODO: cover cases when user responds on more than 1 card
     if(node.dataContent === null){ node.dataContent = {};}
 
