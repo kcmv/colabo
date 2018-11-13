@@ -66,12 +66,7 @@ export class TopiChatTalkForm implements OnInit {
     };
     talkPluginOptions.events[TopiChatTalkDefaultEvents.Chat] = this.receiveMessage.bind(this);
     this.topiChatTalkService.registerPlugin(TopiChatTalkEvents.Defualt, talkPluginOptions);
-    
-    this.addInfo({
-      type: InfoMsgType.Info,
-      title: 'NOTE:',
-      msg: 'You should provide between 3 and 5 toughts'
-    });
+    this.generateInfos();
   }
   
   clearInfos(type: string) {
@@ -89,23 +84,44 @@ export class TopiChatTalkForm implements OnInit {
     scrolling_content.scrollTo(0, scrolling_content.scrollHeight);
   }
   
-  addMessage(msg){
-    if (this.messages.length+1 === this.puzzleConfig.messagesNumberMin && !this.statusesStates[StatusesStatesLabels.InfoEnoughOfMessages]){
+  generateInfos(){
+    for (let infoTypeId in InfoMsgType) {
+      let infoType: string = InfoMsgType[infoTypeId];
+      this.clearInfos(infoType);
+    }
+
+    if (!this.statusesStates[StatusesStatesLabels.InfoEnoughOfMessages] && !this.statusesStates[StatusesStatesLabels.ErrorFullMessages]){
+      this.addInfo({
+        type: InfoMsgType.Info,
+        title: 'NOTE:',
+        msg: 'You should provide between 3 and 5 toughts'
+      });
+    }
+    if (this.statusesStates[StatusesStatesLabels.InfoEnoughOfMessages] && !this.statusesStates[StatusesStatesLabels.ErrorFullMessages]){
       this.addInfo({
         type: InfoMsgType.Info,
         title: 'NOTE:',
         msg: 'You provided minimum of messages'
-      });
+      });      
+    }
+    if (this.statusesStates[StatusesStatesLabels.ErrorFullMessages]){
+      this.addInfo({
+        type: InfoMsgType.Error,
+        title: 'ERROR:',
+        msg: 'You reached the maximum of messages, you cannot add more'
+      });      
+    }
+  }
+
+  addMessage(msg){
+    if (this.messages.length+1 === this.puzzleConfig.messagesNumberMin && !this.statusesStates[StatusesStatesLabels.InfoEnoughOfMessages]){
       this.statusesStates[StatusesStatesLabels.InfoEnoughOfMessages] = true;
+      this.generateInfos();
     }
     if (this.messages.length >= this.puzzleConfig.messagesNumberMax) {
       if(!this.statusesStates[StatusesStatesLabels.ErrorFullMessages]){
-        this.addInfo({
-          type: InfoMsgType.Error,
-          title: 'ERROR:',
-          msg: 'You reached the maximum of messages, you cannot add more'
-        });
         this.statusesStates[StatusesStatesLabels.ErrorFullMessages] = true;
+        this.generateInfos();
       }
       return;
     }

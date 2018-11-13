@@ -41,14 +41,15 @@
     </div>
 
     <!-- toolbar -->
+    <!-- <div> -->
     <div fxFlex="64px" style="overflow-y: hidden;">
         <div>
-            <mat-icon>message</mat-icon>
+            <mat-icon [style.display]="inputMessage.value.length<=0 ? 'none' : 'inline'" (click)="sendMessage()">send</mat-icon>
             <mat-form-field class="chat-input">
                 <input matInput #inputMessage name="inputMessage" maxlength="200" placeholder="Type your message and press ENTER to send" [(ngModel)]="messageContent" (keyup.enter)="(inputMessage.value.length > 0) && sendMessage()">
                 <mat-hint align="end">{{inputMessage.value.length}}/140</mat-hint>
             </mat-form-field>
-            <button mat-raised-button color="primary" [disabled]="inputMessage.value.length<=0" (click)="sendMessage()">Send</button>
+            <!-- <button mat-raised-button color="primary" [disabled]="inputMessage.value.length<=0" (click)="sendMessage()">Send</button> -->
         </div>
     </div>
 
