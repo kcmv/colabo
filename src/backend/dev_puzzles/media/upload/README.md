@@ -4,16 +4,12 @@ This is a backend part of the `@colabo-media/b-upload` puzzle
 
 It is responsible for uploading media files to the server
 
-# Export
+# Preparation
 
 ```sh
-# It will create globaly accessable npm package `@colabo-media/b-upload`
-npm link
-```
-
-# Import
-
-```sh
-# Imports it in the local node_modules space of the hosting app
-npm link @colabo-media/b-upload
+mkdir -p src/backend/apps/colabo-space/dist/dist/uploads/
+echo "Hello upload boy!" > ./info.txt
+# TODO: add additional parameters
+curl -i -X POST -H "Content-Type: multipart/form-data" -F "avatar=@./info.txt" http://localhost:8001/upload/
+cat src/backend/apps/colabo-space/dist/uploads/avatar-*.txt
 ```

@@ -98,6 +98,10 @@ if (!globalSet.hasOwnProperty('puzzles')) {
             saveFlowInteractionToMap: true,
             mockupQueueAccess: false,
             mapId: "5be3fddce1b7970d8c6df406"
+        },
+        '@colabo-media/b-upload': {
+            tmpUpload: '/tmp/uploads',
+            imagesFolder: '/tmp/images'
         }
     };
 }

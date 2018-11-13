@@ -14,7 +14,7 @@ import {RimaRegisterComponent} from '@colabo-rima/f-aaa/rima-register/rima-regis
 import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {CwcComponent} from './cwc/cwc.component';
 import { RimaLoginComponent } from '@colabo-rima/f-aaa/rima-login/rima-login.component';
-import {AvatarComponent} from './avatar/avatar.component';
+import { AvatarComponent } from '@colabo-media/f-upload';
 // import {InsightsComponent} from './insights/insights.component';
 import {DialoGameComponent} from './dialo-game/dialo-game.component'; //PTW
 import {ModerationPanelComponent} from '@colabo-moderation/f-core';

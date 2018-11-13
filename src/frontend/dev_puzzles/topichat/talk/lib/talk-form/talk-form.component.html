@@ -23,17 +23,33 @@
                 </p>
             </mat-list-item>
         </mat-list>
+        <div class="info-pad" *ngIf="infos['info'].length > 0">
+            <div class="pad" *ngFor="let info of infos['info']">
+                <b>{{info.title}}</b><br/> {{info.msg}}
+            </div>
+        </div>
+        <div class="warning-pad" *ngIf="infos['warning'].length > 0">
+            <div class="pad" *ngFor="let info of infos['warning']">
+                <b>{{info.title}}</b><br/> {{info.msg}}
+            </div>
+        </div>
+        <div class="error-pad" *ngIf="infos['error'].length > 0">
+            <div class="pad" *ngFor="let info of infos['error']">
+                <b>{{info.title}}</b><br/> {{info.msg}}
+            </div>
+        </div>
     </div>
 
     <!-- toolbar -->
+    <!-- <div> -->
     <div fxFlex="64px" style="overflow-y: hidden;">
         <div>
-            <mat-icon>message</mat-icon>
             <mat-form-field class="chat-input">
                 <input matInput #inputMessage name="inputMessage" maxlength="200" placeholder="Type your message and press ENTER to send" [(ngModel)]="messageContent" (keyup.enter)="(inputMessage.value.length > 0) && sendMessage()">
                 <mat-hint align="end">{{inputMessage.value.length}}/140</mat-hint>
             </mat-form-field>
-            <button mat-raised-button color="primary" [disabled]="inputMessage.value.length<=0" (click)="sendMessage()">Send</button>
+            <mat-icon [style.display]="inputMessage.value.length<=0 ? 'none' : 'inline'" (click)="sendMessage()">send</mat-icon>
+            <!-- <button mat-raised-button color="primary" [disabled]="inputMessage.value.length<=0" (click)="sendMessage()">Send</button> -->
         </div>
     </div>
 

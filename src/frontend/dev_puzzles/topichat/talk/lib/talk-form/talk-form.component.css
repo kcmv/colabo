@@ -1,3 +1,26 @@
-.chat-input{
+.chat-input {
     width: 90%;
+}
+
+.pad {
+    border-bottom: solid 1px gray;
+    margin-bottom: 3px;
+}
+
+.info-pad {
+    background-color: aqua;
+    color: #008;
+    padding: 5px;
+}
+
+.warning-pad {
+    background-color: #afa;
+    color: #080;
+    padding: 5px;
+}
+
+.error-pad {
+    background-color: #faa;
+    color: #800;
+    padding: 5px;
 }

@@ -29,6 +29,8 @@ import { TopiChatTalkModule } from '@colabo-topichat/f-talk';
 import { TopiChatClientsOrchestrationModule } from '@colabo-topichat/f-clients-orchestration';
 import {SimilarityModule} from '@colabo-ai-ml/f-similarity';
 import { KnalledgeMapModule } from '@colabo-knalledge/f-map';
+import { MediaUploadModule } from '@colabo-media/f-upload';
+
 
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
@@ -45,7 +47,6 @@ import { IndexModeratorComponent } from './index-moderator/index-moderator.compo
 import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
 import {SdgCardComponent} from './sdg-card/sdg-card.component';
 import {CwcComponent} from './cwc/cwc.component';
-import {AvatarComponent} from './avatar/avatar.component';
 // import {InsightsComponent} from './insights/insights.component';
 // import {RegisteredUsersComponent} from './registered-users/registered-users.component';
 // import {UserCardComponent} from './users/user-card.component';
@@ -95,7 +96,6 @@ var moduleDeclarations = [
   SelectSdgsComponent,
   SdgCardComponent,
   CwcComponent,
-  AvatarComponent,
   // InsightsComponent,
   // RegisteredUsersComponent,
   // UserCardComponent,
@@ -134,6 +134,7 @@ var moduleImports = [
   , TopiChatClientsOrchestrationModule
   , SimilarityModule
   , KnalledgeMapModule
+  , MediaUploadModule
 ];
 // moduleImports.push(MainModule);
 

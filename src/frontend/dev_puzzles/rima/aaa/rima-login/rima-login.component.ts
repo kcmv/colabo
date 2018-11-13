@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {UserData} from '@colabo-rima/f-aaa/userData';
 import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import * as config from '@colabo-utils/i-config';
 
 @Component({
   selector: 'app-rima-login',
@@ -15,7 +16,7 @@ export class RimaLoginComponent implements OnInit {
 
   constructor(
     fb: FormBuilder,
-    private RimaAAAService: RimaAAAService
+    private rimaAAAService: RimaAAAService
   ) {
     this.form = fb.group({
         "email": ['', [Validators.required, Validators.email]],
@@ -26,28 +27,31 @@ export class RimaLoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  get avatarImage():string{
+    return config.GetGeneral('imagesFolder') + '/user.avatar-' + this.rimaAAAService.getUserId() + '.jpg';
+  }
   reset() {
       this.form.reset();
   }
 
   get isLoggedIn():boolean{
-    return this.RimaAAAService.getUser() !== null;
+    return this.rimaAAAService.getUser() !== null;
   }
 
   get isErrorLogingIn():boolean{
-      return this.RimaAAAService.isErrorLogingIn;
+      return this.rimaAAAService.isErrorLogingIn;
   }
 
   get errorLogingMsg():string{
-      return this.RimaAAAService.errorLogingMsg;
+      return this.rimaAAAService.errorLogingMsg;
   }
 
   get loggedUser(): KNode {
-    return this.RimaAAAService.getUser();
+    return this.rimaAAAService.getUser();
   }
 
   logOut(){
-    this.RimaAAAService.logOut();
+    this.rimaAAAService.logOut();
   }
 
   userChecked(newNode: KNode){
@@ -59,6 +63,6 @@ export class RimaLoginComponent implements OnInit {
     let userData:UserData = new UserData();
     userData.email = this.form.value.email;
     userData.password = this.form.value.password;
-    this.RimaAAAService.checkUser(userData).subscribe(this.userChecked.bind(this));;
+    this.rimaAAAService.checkUser(userData).subscribe(this.userChecked.bind(this));;
   }
 }

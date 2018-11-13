@@ -29,7 +29,7 @@
         </div>
         <div *ngIf="isLoggedIn">
             <!--TODO: to make localized (in Serbian) form field names and info -->
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <form (ngSubmit)="onSubmit()">
                 <p>
                     <!--
       TODO:
@@ -45,24 +45,34 @@
         https://github.com/angular/material2/issues/3262
         https://github.com/angular/material2/issues/2315
       -->
-                    <p>
+                    <p *ngIf="!fileUploaded">
                         <!-- <mat-form-field class="example-full-width">
         Image from camera:<br/> -->
-                        <input type="file" formControlName="cameraPhoto" accept="image/*;capture=camera">
+                        <button mat-raised-button color="primary" type="button" (click)="getPhoto()">Get Photo</button><br/> Image:
+                        <!-- <input type="file" accept="image/*;capture=camera" (change)="onFileAdded($event)"> -->
+                        <input type="file" #file accept="image/*;capture=camera" (change)="onFileAdded($event)">
                         <!-- </mat-form-field> -->
                     </p>
                     <p>
                         <!-- <mat-form-field class="example-full-width"> -->
-                        Image from camera/storage:<br/>
-                        <input type="file" formControlName="storagePhoto" accept="image/*">
+                        <!-- Image from camera/storage:<br/>
+                        <input type="file" accept="image/*"> -->
                         <!-- </mat-form-field> -->
                     </p>
                     <!-- TODO: to see if we want to remove submit, but I guess we should also
          TODO: enable selection which of the selected SDGs this photo-avatar illustrates -->
                     <p>
-                        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
-                        <button mat-raised-button (click)="reset()">Reset</button>
+                        <button *ngIf="!fileUploaded" mat-raised-button color="primary" type="submit" [disabled]="!fileAdded">Send Photo</button> &nbsp;
+
+                        <a routerLink="/">
+                            <button *ngIf="fileUploaded" mat-raised-button color="primary">OK, Back</button>
+                        </a>
+
+                        &nbsp;
+
+                        <button *ngIf="fileUploaded" mat-raised-button color="primary" (click)="reset()">Choose Again</button>
                     </p>
+                    Upload Status: {{uploadStatus}}
             </form>
         </div>
     </div>
