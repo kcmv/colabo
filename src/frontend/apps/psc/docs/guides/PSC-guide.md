@@ -113,3 +113,16 @@ Coaching with Compassion / Dreams/ Visions
   
   db.getCollection("knodes").deleteMany({ type: "service.result.dialogame.cwc_similarities", mapId: ObjectId("5be3fddce1b7970d8c6df406")})
   ```
+
+  ### Exporting results of the play
+
+  ```mongo
+  db.getCollection("knodes").
+  find( { type: "topiChat.talk.chatMsg", mapId: ObjectId("5be3fddce1b7970d8c6df406")})
+  
+  db.getCollection("kedges").find({ type: "dialogame.response",  mapId: ObjectId("5be3fddce1b7970d8c6df406")})
+  
+  db.getCollection("knodes").find({ type: "service.result.dialogame.cwc_similarities", mapId: ObjectId("5be3fddce1b7970d8c6df406")})
+  ```
+
+  ## Extracting players from the map
