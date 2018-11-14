@@ -359,6 +359,9 @@ export class DialoGameService {
     if(this.colaboFlowService.myColaboFlowState.state === MyColaboFlowStates.CHOSING_CHALLENGE_CARD){
       //let response:DialoGameResponse = this.lastResponse;
       //this.responses.push(response);
+      if(this.lastResponse === null || this.lastResponse === undefined){
+        window.alert('please refresh the page in browser');
+      }
       this.lastResponse.challengeCards = cards;
       this.colaboFlowService.setMyColaboFlowStateInner(MyColaboFlowStates.CHOSING_RESPONSE_CARD);
     }
