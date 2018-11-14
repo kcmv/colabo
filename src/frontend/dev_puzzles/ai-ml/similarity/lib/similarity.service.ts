@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import { RimaAAAService } from '@colabo-rima/f-aaa';
 import {ColaboFlowService} from '@colabo-flow/f-core';
+import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
 
 import * as config from '@colabo-utils/i-config';
 
 import {ColaboFlowTopiChatService, ColaboFlowTopiChatEvents, TopiChatPackage, ColaboPubSubPlugin} from '@colabo-flow/f-topichat';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SimilarityService {
+  public static CWC_SIMILARITIES_TYPE:string = 'service.result.dialogame.cwc_similarities';
   static mapId = config.GetGeneral('mapId');
   public similarityRequestsSentNo: number = 0;
   public similarityRequestsReceivedNo: number = 0;
@@ -16,7 +19,8 @@ export class SimilarityService {
   constructor(
     private colaboFlowService:ColaboFlowService,
     private rimaAAAService: RimaAAAService,
-    private ColaboFlowTopiChatService: ColaboFlowTopiChatService
+    private ColaboFlowTopiChatService: ColaboFlowTopiChatService,
+    private knalledgeNodeService: KnalledgeNodeService
   ){
     this.init();
   }
@@ -31,9 +35,15 @@ export class SimilarityService {
       this.ColaboFlowTopiChatService.registerPlugin(colaboFlowPluginOptions);
   }
 
+  deleteAllSuggestions():Observable<any>{
+    return this.knalledgeNodeService.destroyByTypeInMap(SimilarityService.CWC_SIMILARITIES_TYPE, SimilarityService.mapId);
+  }
+
   sendRequestForSimilarityCalc():void{
     this.similarityRequestsReceivedNo = 0;
     this.similarityRequestsSentNo = 0;
+    // deleting simialiriteis for the current round:
+    // destroyByTypeInMap(SimilarityService.CWC_SIMILARITIES_TYPE, SimilarityService.mapId);
     this.rimaAAAService.getRegisteredUsers(SimilarityService.mapId).subscribe(this.usersReceived.bind(this));
   }
 

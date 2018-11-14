@@ -302,4 +302,12 @@ export class ColaboFlowService {
     let msgPayload: TopiChatClientsOrchestrationDefaultPayload = cOrchestrationPluginPackage.payload;
     // this.messages.push(msgPayload);
   }
+
+  //TODO should be moved probably to DialoGameService, but is used from a Puzzle where DialoGameService is not visible
+  resetCWCtoUnplayed(cwc:KNode):Observable<any>{
+    if('dataContent' in cwc && 'dialoGameReponse' in cwc.dataContent){
+      delete cwc.dataContent.dialoGameReponse;
+      return this.knalledgeNodeService.update(cwc, KNode.UPDATE_TYPE_UNSET_DIALOGAME, null);
+    }   
+  }
 }

@@ -138,28 +138,28 @@ exports._index = function(id, id2, id3, id4, type, res, callback) {
             });
             KNodeModel.find().sort({ id: -1 }).limit(1)
             break;
-            case 'max_val_type_map':
-                //TODO: make it to work for any parameter instead of the fixed one 'dataContent.humanID':
-                console.log("find: max_val_type_map: name: %s", id, mapId, id3, id2);
-                //KNodeModel.findOne().where({id: 1}).sort('-LAST_MOD').exec(function(err, doc)
-                KNodeModel.findOne({ $and: [{ mapId: id3 }, { type: id2 }] }).sort('-dataContent.humanID').exec(function(err, doc) {
-                    if (err) {
-                        console.error('max_val:error', err);
-                        throw err;
+        case 'max_val_type_map':
+            //TODO: make it to work for any parameter instead of the fixed one 'dataContent.humanID':
+            console.log("find: max_val_type_map: name: %s", id, mapId, id3, id2);
+            //KNodeModel.findOne().where({id: 1}).sort('-LAST_MOD').exec(function(err, doc)
+            KNodeModel.findOne({ $and: [{ mapId: id3 }, { type: id2 }] }).sort('-dataContent.humanID').exec(function(err, doc) {
+                if (err) {
+                    console.error('max_val:error', err);
+                    throw err;
+                } else {
+                    if (doc) {
+                        //var max = doc.LAST_MOD;
+                        console.log("find: max_val - found:", doc.dataContent.humanID);
+                        found(err, doc.dataContent.humanID);
                     } else {
-                        if (doc) {
-                            //var max = doc.LAST_MOD;
-                            console.log("find: max_val - found:", doc.dataContent.humanID);
-                            found(err, doc.dataContent.humanID);
-                        } else {
-                            console.log("find: max_val - not found, returning null");
-                            found(err, null);
-                        }
+                        console.log("find: max_val - not found, returning null");
+                        found(err, null);
                     }
+                }
 
-                });
-                KNodeModel.find().sort({ id: -1 }).limit(1)
-                break;
+            });
+            KNodeModel.find().sort({ id: -1 }).limit(1)
+            break;
         case 'id_in':
           console.log("_index ::find 'id_in': ids: %s", id);
           var ids = id.split(',');

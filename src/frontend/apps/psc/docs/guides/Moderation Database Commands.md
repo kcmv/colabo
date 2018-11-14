@@ -75,18 +75,28 @@ db.getCollection("knodes").updateMany({type: 'colaboflow.state', mapId: ObjectId
 ```mongo
 //nodes:
 db.getCollection("knodes").remove({
- '_id': { $in: [ObjectId('5be48554df2a152a7689924d'), 
-  ObjectId('5be4cd17df2a152a76899255'), ObjectId('5be4cd3cdf2a152a76899257'), ObjectId('5be55940df2a152a7689925b'), 
-  ObjectId('5be55a09df2a152a7689925d'), ObjectId('5be8016cea26326ca9035c66'), ObjectId('5be80175ea26326ca9035c68'),
-  ObjectId('5be8b244568c282f94e27dd2')] } 
+ '_id': { $in: 
+   [
+ObjectId('5be4725d8bce9b0f7d697627'),
+ObjectId('5be48554df2a152a7689924d'),
+ObjectId('5be4cd17df2a152a76899255'),
+ObjectId('5be4cd3cdf2a152a76899257'),
+ObjectId('5be4cd9fdf2a152a76899259'),
+ObjectId('5be55940df2a152a7689925b'),
+ObjectId('5be55a09df2a152a7689925d')
+] } 
 })
 
 //edges:
 db.getCollection("kedges").remove({
- 'iAmId': { $in: [ObjectId('5be48554df2a152a7689924d'), 
-  ObjectId('5be4cd17df2a152a76899255'), ObjectId('5be4cd3cdf2a152a76899257'), ObjectId('5be55940df2a152a7689925b'), 
-  ObjectId('5be55a09df2a152a7689925d'), ObjectId('5be8016cea26326ca9035c66'), ObjectId('5be80175ea26326ca9035c68'),
-  ObjectId('5be8b244568c282f94e27dd2')] }, type: 'rima.user' 
+ 'targetId': { $in: [
+ObjectId('5be4725d8bce9b0f7d697627'),
+ObjectId('5be48554df2a152a7689924d'),
+ObjectId('5be4cd17df2a152a76899255'),
+ObjectId('5be4cd3cdf2a152a76899257'),
+ObjectId('5be4cd9fdf2a152a76899259'),
+ObjectId('5be55940df2a152a7689925b'),
+ObjectId('5be55a09df2a152a7689925d')] }, type: 'rima.user' 
 })
 ```
 

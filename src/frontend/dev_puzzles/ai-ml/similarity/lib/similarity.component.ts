@@ -15,6 +15,14 @@ export class SimilarityComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteAllSuggestions():void{
+    if(confirm("Do you really want to delete all Similarity SUggestions?")){
+      this.similarityService.deleteAllSuggestions().subscribe(function(){
+        window.alert('Deleting finished');
+      });
+    }
+  }
+
   similarityRequestsSentNo():number{
     return this.similarityService.similarityRequestsSentNo;
   }

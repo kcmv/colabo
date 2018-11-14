@@ -21,11 +21,11 @@ export class UserInsight{
   myColaboFlowState:MyColaboFlowStates;
   cwcs:KNode[];
   sdgs:number[];
-  cardPlayedInRound1:string;
-  cardPlayedInRound2:string;
-  cardPlayedInRound3:string;
+  cardPlayedInRound1:KNode;
+  cardPlayedInRound2:KNode;
+  cardPlayedInRound3:KNode;
 
-  constructor(user:KNode, myColaboFlowState:MyColaboFlowStates, cwcs:KNode[], sdgs:number[], cardPlayedInRound1:string, cardPlayedInRound2:string, cardPlayedInRound3:string){
+  constructor(user:KNode, myColaboFlowState:MyColaboFlowStates, cwcs:KNode[], sdgs:number[], cardPlayedInRound1:KNode, cardPlayedInRound2:KNode, cardPlayedInRound3:KNode){
     this.user = user;
     // if(!('dataContent' in this.user)){this.user.dataContent = {};}
     this.myColaboFlowState = myColaboFlowState;
@@ -68,7 +68,8 @@ export class UserActionsStatusesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getCardsPlayedInTheRound();
+    this.insightsService.getRegisteredUsers().subscribe(this.usersReceived.bind(this));
+    
     if(this.usersData !== null){this.usersData.sort = this.sort;}
     //this.getCWCs();
   }
@@ -97,11 +98,15 @@ export class UserActionsStatusesComponent implements OnInit {
   }
 
   playRoundChanged():void{
-    this.getCardsPlayedInTheRound();
+    this.getCardsPlayed();
   }
 
-  getCardsPlayedInTheRound():void{
-    this.insightsService.getCardsPlayedInTheRound(this.colaboFlowService.colaboFlowState.playRound, true).subscribe(this.cardsPlayedReceived.bind(this));
+  // getCardsPlayedInTheRound():void{
+  //   this.insightsService.getCardsPlayedInTheRound(this.colaboFlowService.colaboFlowState.playRound, true).subscribe(this.cardsPlayedReceived.bind(this));
+  // }
+
+  getCardsPlayed():void{
+    this.insightsService.getCardsPlayed(true).subscribe(this.cardsPlayedReceived.bind(this));
   }
 
   getCWCs():void{
@@ -140,7 +145,7 @@ export class UserActionsStatusesComponent implements OnInit {
     for(var i:number=0; i<users.length; i++){
       user = users[i];
       usrId = user._id;
-      userInsights.push(new UserInsight(user, null, [], [], this.insightsService.cardHumanIdPlayedInTheRound(usrId, 1), this.insightsService.cardHumanIdPlayedInTheRound(usrId, 2), this.insightsService.cardHumanIdPlayedInTheRound(usrId, 3)));
+      userInsights.push(new UserInsight(user, null, [], [], null, null, null));
     }
 
     // console.log('usersData:B',JSON.stringify(userInsights));
@@ -149,6 +154,11 @@ export class UserActionsStatusesComponent implements OnInit {
     this.usersData.sort = this.sort;
     this.getCWCs();
     this.getMyCFStates();
+    this.getCardsPlayed();
+  }
+
+  printCardPlayed(card:KNode):string{
+    return (card && 'dataContent' in card ) ? (card.dataContent.humanID + ': ' + card.name) : '-';
   }
 
   getMyCFStates():void{
@@ -195,10 +205,26 @@ export class UserActionsStatusesComponent implements OnInit {
   //   ];
   // }
 
-  cardsPlayedReceived(cards:KNode[]):void{
-    console.log('cardsPlayedReceived', cards);
+  //TODO: cardsPlayedReceived is partially refactored - we should finish this ti be more effective - not having individual cardHumanIdPlayedInTheRound calls etc:
+  cardsPlayedReceived():void{
+    // console.log('cardsPlayedReceived', cards);
 
-    this.insightsService.getRegisteredUsers().subscribe(this.usersReceived.bind(this));
+    let usrD:UserInsight;
+    let userDataInTab:UserInsight[] = null;
+    // if(this.usersData instanceof MatTableDataSource){
+    // userDataInTab = (this.usersData as MatTableDataSource<UserInsight>).data;
+    userDataInTab = this.usersData.data;
+    // }else{
+    //   userDataTrans = this.usersData;
+    // }
+
+    for(var u:number = 0; u < userDataInTab.length; u++){
+      usrD = userDataInTab[u];
+      usrD.cardPlayedInRound1 = this.insightsService.cardHumanIdPlayedInTheRound(usrD.id, 1);
+      usrD.cardPlayedInRound2 = this.insightsService.cardHumanIdPlayedInTheRound(usrD.id, 2);
+      usrD.cardPlayedInRound3 = this.insightsService.cardHumanIdPlayedInTheRound(usrD.id, 3);
+    }
+
     //TODO: so far not doing anything just to have the cards in service
     // //resetting 'hasUserPlayedInTheRound' for the case that this method returns after the 'usersReceived' method
     // for(var c:number=0; c<cards.length; c++){
@@ -207,6 +233,16 @@ export class UserActionsStatusesComponent implements OnInit {
     //       this.usersData[u]
     //     }
     // }
+  }
+
+  resetCWCtoUnplayed(cwc:KNode):void{
+    if(confirm("Do you really want to reset this CWC to unplayed?")){
+      this.colaboFlowService.resetCWCtoUnplayed(cwc).subscribe(this.cwcReseted.bind(this));
+    }
+  }
+
+  cwcReseted(cwc:KNode):void{
+    window.alert('CWC "' + cwc.name + '" is reseted');
   }
 
 }

@@ -14,7 +14,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import * as config from '@colabo-utils/i-config';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -96,6 +95,21 @@ export class InsightsService {
  }
 
 
+ getCardsPlayed(forceRefresh:boolean = true):Observable<any>{
+  let result:Observable<KNode[]> ;
+
+  if(forceRefresh || this.cardsPlayed.length == 0){
+    result = this.knalledgeNodeService.queryInMapofType(InsightsService.mapId, InsightsService.TOPICHAT_MSG_TYPE)
+    .pipe(
+      tap(nodesFromServer => this.assignCardsPlayed(nodesFromServer))
+    );
+    return result;
+  }
+  else{
+    return of(this.cardsPlayed);
+  }
+}
+
  getCardsPlayedInTheRound(round:number, forceRefresh:boolean = false):Observable<KNode[]>{
     let result:Observable<KNode[]> ;
 
@@ -149,15 +163,15 @@ export class InsightsService {
     return 'dataContent' in cwc && 'dialoGameReponse' in cwc.dataContent && 'playRound' in cwc.dataContent.dialoGameReponse;
   }
 
-  cardHumanIdPlayedInTheRound(userId:string, round:number):string{
-    if(typeof this.cardsPlayed[round] === 'undefined'){return '-';}
+  cardHumanIdPlayedInTheRound(userId:string, round:number):KNode{
+    if(typeof this.cardsPlayed[round] === 'undefined'){return null;}
 
     for(var i:number = 0; i<this.cardsPlayed[round].length;i++){
       if(this.cardsPlayed[round][i].iAmId == userId){
-        return (('dataContent' in this.cardsPlayed[round][i]) ? (this.cardsPlayed[round][i].dataContent.humanID + ': ') : '') + this.cardsPlayed[round][i].name;
+        return ('dataContent' in this.cardsPlayed[round][i]) ? this.cardsPlayed[round][i] : null;
       }
     }
-    return '-';
+    return null;
   }
 
   assignCardsPlayedInTheRound(round:number, cards:any):void{
@@ -166,4 +180,16 @@ export class InsightsService {
     this.cardsPlayed[round] = cards;
   }
 
+  assignCardsPlayed(cardsN:any):void{
+    let cards:KNode[] = cardsN as KNode[];
+    console.log('assignCardsPlayed', cards);
+    let round:number;
+    for(var i:number = 0; i<cards.length;i++){
+      if('dialoGameReponse' in cards[i].dataContent){
+        round = cards[i].dataContent.dialoGameReponse.playRound;
+        if(typeof this.cardsPlayed[round] === 'undefined'){this.cardsPlayed[round] = []}
+        this.cardsPlayed[round].push(cards[i]);
+      }
+    }
+  }
 }

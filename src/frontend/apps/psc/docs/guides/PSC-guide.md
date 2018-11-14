@@ -82,11 +82,22 @@ Coaching with Compassion / Dreams/ Visions
 ### Hard Reset
 
 - the easiest is to delete all the *knodes* and *kedges* from the current maps (with the current MapId)
-  and import initializing *knode* and *kEdge* json-s
+
+```mongo
+db.getCollection("knodes").remove({ mapId: ObjectId("5be3fddce1b7970d8c6df406")})
+db.getCollection("kedges").remove({ mapId: ObjectId("5be3fddce1b7970d8c6df406")})
+
+// reseting colaboflow.state:
+db.getCollection("knodes").updateMany({type: 'colaboflow.state', mapId: ObjectId("5be3fddce1b7970d8c6df406")}
+, { $set: { "dataContent.playRound" : NumberInt(1), "dataContent.state" : NumberInt(1) } })
+```
+
+- and import initializing *knode* and *kEdge* json-s:
 
 ### Soft Reset - keeping existing
 
 - **preserving**
+
   - created users
   - CWCs
 

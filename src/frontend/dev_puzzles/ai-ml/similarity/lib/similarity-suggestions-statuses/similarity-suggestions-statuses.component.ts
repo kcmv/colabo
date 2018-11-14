@@ -139,7 +139,7 @@ export class SimilaritySuggestionsStatusesComponent implements OnInit {
     for(var i:number=0; i<users.length; i++){
       user = users[i];
       usrId = user._id;
-      UserSuggestionss.push(new UserSuggestions(user, 0, [], [], this.insightsService.cardHumanIdPlayedInTheRound(usrId, 1), this.insightsService.cardHumanIdPlayedInTheRound(usrId, 2), this.insightsService.cardHumanIdPlayedInTheRound(usrId, 3)));
+      UserSuggestionss.push(new UserSuggestions(user, 0, [], [], null, null, null));
     }
 
     // console.log('usersData:B',JSON.stringify(UserSuggestionss));
