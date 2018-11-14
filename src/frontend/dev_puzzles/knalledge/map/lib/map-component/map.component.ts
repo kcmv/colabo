@@ -11,7 +11,7 @@ import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 
 import * as config from '@colabo-utils/i-config';
 
-const isMockup:boolean = true;
+const isMockup:boolean = false;
 
 /**
  * the namespace for core services for the KnAllEdge system
