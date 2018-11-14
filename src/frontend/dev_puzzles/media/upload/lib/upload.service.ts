@@ -37,6 +37,27 @@ export class MediaUploadService{
     console.error(error);
     return Observable.throw((error) || 'Server error');
   }
+  
+  // http://code.hootsuite.com/html5/
+  // https://www.codepool.biz/take-a-photo-and-upload-it-on-mobile-phones-with-html5.html
+  // https://developers.google.com/web/updates/2016/12/imagecapture
+  // readFile(file) {
+  //   var reader = new FileReader();
+
+  //   reader.onloadend = function () {
+  //     processFile(reader.result, file.type);
+  //   }
+
+  //   reader.onerror = function () {
+  //     alert('There was an error reading the file!');
+  //   }
+
+  //   reader.readAsDataURL(file);
+  // }
+  
+  // fixImagesSize(){
+  //   this.readFile();
+  // }
 
   // https://developer.mozilla.org/en-US/docs/Web/API/FormData
   // https://malcoded.com/posts/angular-file-upload-component-with-express
@@ -48,7 +69,8 @@ export class MediaUploadService{
     if (fileList.length > 0) {
       let file: File = fileList[0];
       let fileSize: number = file.size;
-      if (fileSize <= 10485760) {
+      // disabled condition
+      // if (true || fileSize <= 10485760) {
         let formData: FormData = new FormData();
         formData.append(fileName, file);
         formData.append('uploadtype', 'user.avatar');
@@ -62,9 +84,9 @@ export class MediaUploadService{
             catchError(this.handleError)
           );
 
-      }else {
-        console.error("File size is exceeded");
-      }
+      // }else {
+      //   console.error("File size is exceeded");
+      // }
     }else {
       console.error("Something went Wrong.");
     }

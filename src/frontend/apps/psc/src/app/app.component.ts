@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 // import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 // import {CWCService} from './cwc/cwc.service';
 
+import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,8 +19,16 @@ export class AppComponent {
     // private sDGsService: SDGsService,
     // private RimaAAAService: RimaAAAService,
     // private cwcService: CWCService
+    protected utilsNotificationService: UtilsNotificationService
   ){
     console.log('AppComponent:constructor');
+
+    this.utilsNotificationService.addNotification({
+      type: NotificationMsgType.Info,
+      title: 'NOTE:',
+      msg: 'FV is starting'
+    }
+);
   }
 
   ngOnInit() {

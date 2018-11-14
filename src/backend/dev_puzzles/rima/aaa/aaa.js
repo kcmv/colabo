@@ -150,15 +150,20 @@ exports.create = function(req, res) {
             resSendJsonProtected(res, { data: whoAmIs, accessId: accessId, message: msg, success: false });
         } else {
             console.log("[modules/aaa.js:create - checking user] Data:\n%s", JSON.stringify(whoAmIs));
-            if(whoAmIs !== null){
-              isValid = validPassword(whoAmIs, data.password);
-              console.log("[modules/aaa.js:create] isValid: %s", isValid);
+            if (whoAmIs !== null) {
+                isValid = validPassword(whoAmIs, data.password);
+                console.log("[modules/aaa.js:create] isValid: %s", isValid);
+            } else {
+                // var msg = "Wrong user name or password";
+                var msg = "Wrong user name";
+                resSendJsonProtected(res, { data: null, accessId: accessId, message: msg, success: false });
             }
 
             if (isValid) {
                 resSendJsonProtected(res, { data: whoAmIs, accessId: accessId, success: true });
             } else {
-                var msg = "Wrong user name or password";
+                // var msg = "Wrong user name or password";
+                var msg = "Wrong password";
                 resSendJsonProtected(res, { data: null, accessId: accessId, message: msg, success: false });
             }
         }
@@ -186,7 +191,7 @@ exports.create = function(req, res) {
             let password = data.password;
             let mapId = data.mapId;
             let userQuery = { 'type': TYPE_USER, 'dataContent.email': email };
-            if(mapId) userQuery.mapId = mapId;
+            if (mapId) userQuery.mapId = mapId;
             console.log("findBy in map '%s' by e-mail '%s' and password: `%s'\n", mapId, email, password);
             console.log("findBy query: `%s'\n", JSON.stringify(userQuery));
             KNodeModel.findOne(userQuery, found);

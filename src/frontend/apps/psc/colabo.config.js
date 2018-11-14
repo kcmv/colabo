@@ -30,7 +30,8 @@ var puzzles = {
         "@colabo-flow/f-topichat": {},
         "@colabo-moderation/f-core": {},
         "@colabo-ai-ml/f-similarity": {},
-        "@colabo-utils/i-config": {}
+        "@colabo-utils/i-config": {},
+        "@colabo-utils/f-notifications": {}
     },
     offers: {}
 };

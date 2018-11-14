@@ -29,6 +29,10 @@
         </div>
         <div *ngIf="isLoggedIn">
             <!--TODO: to make localized (in Serbian) form field names and info -->
+            <p *ngIf="fileUploaded">
+                <img src="{{ avatarImage }}" style="max-width: 200px; width: 80%" />
+            </p>
+
             <form (ngSubmit)="onSubmit()">
                 <p>
                     <!--

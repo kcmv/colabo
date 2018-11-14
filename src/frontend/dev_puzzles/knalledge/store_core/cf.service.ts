@@ -5,6 +5,8 @@ import { of } from 'rxjs';
 
 import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 import {VO} from '@colabo-knalledge/f-core/code/knalledge/VO';
+import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -35,7 +37,9 @@ export class CFService {
     return vos;
   }
 
-  constructor() { }
+  constructor(
+    protected utilsNotificationService: UtilsNotificationService
+  ) { }
 
   /**
  * extracts VO from the server response `ServerData` and sets it up
@@ -60,8 +64,14 @@ export class CFService {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-      window.alert('error: ' + error);
+      console.error("[CFService:handleError] error: ", error); // log to console instead
+      // window.alert('error: ' + error);
+
+      this.utilsNotificationService.addNotification({
+        type: NotificationMsgType.Error,
+        title: 'CFService Error:',
+        msg: JSON.stringify(error)
+      });
 
       // TODO: better job of transforming error for user consumption
       //this.log(`${operation} failed: ${error.message}`);

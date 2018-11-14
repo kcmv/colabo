@@ -7,6 +7,7 @@ import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {VO} from '@colabo-knalledge/f-core/code/knalledge/VO';
 import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 import {CFService} from './cf.service';
+import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -29,11 +30,12 @@ export class KnalledgeNodeService extends CFService{
   static UPDATE_NODE_NAME:string = 'UPDATE_NODE_NAME';
 
 	constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    utilsNotificationService: UtilsNotificationService
     //@Inject('ENV') private ENV
     //private ENV = undefined
   ){
-    super();
+    super(utilsNotificationService);
     console.log('KnalledgeNodeService:constructor'); //TODO:NG2: this.apiUrl = this.ENV.server.backend + '/' + nodeAP + '/';
     this.apiUrl = CFService.serverAP + '/' + nodeAP + '/';
   }

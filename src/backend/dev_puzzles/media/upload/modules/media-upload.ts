@@ -36,6 +36,8 @@ export class MediaUpload {
 		destination: function(req, file, cb) {
             console.log("[MediaUpload.destination] \n\t req.body: %s \n\t req.params: %s \n\t req.file: %s \n\t file: %s",
                 JSON.stringify(req.body), JSON.stringify(req.params), JSON.stringify(req.file), JSON.stringify(file));
+                
+            // checking tmpUpload folder
             try {
                 console.info("checking for the tmpUpload folder '%s'", puzzleConfig.tmpUpload);
                 fs.accessSync(puzzleConfig.tmpUpload, fs.constants.F_OK)
@@ -48,6 +50,8 @@ export class MediaUpload {
                     console.error("\t Problem with creating the folder '%s'", puzzleConfig.imagesFolder);
                 }
             }
+            
+            // checking imagesFolder folder
             try {
                 console.info("checking for the imagesFolder folder '%s'", puzzleConfig.imagesFolder);
                 fs.accessSync(puzzleConfig.imagesFolder, fs.constants.F_OK)

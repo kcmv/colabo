@@ -28,6 +28,8 @@ export interface TopiChatTalkPayload {
     content: {
         text: string;
         debugText: string;
+        delivered?: boolean;
+        uuid?: string;
     };
 }
 
@@ -123,10 +125,12 @@ export class TopiChatTalk{
                         origin: "@colabo-topichat/b-talk",
                         text: "We saved your talk message in the KnAllEdgeStorage",
                         receivedText: talkPayload.content.text,
-                        _id: kNode._id
+                        _id: kNode._id,
+                        // reference to the sending tcPackage
+                        uuid: talkPayload.content.uuid
                     }
                 }
-                console.log("[TopiChatTalk:defaultMessage] seding back to sender, tcPackageReplay: ", JSON.stringify(tcPackageReplay));
+                console.log("[TopiChatTalk:defaultMessage] seding confirmation back to sender, tcPackageReplay: ", JSON.stringify(tcPackageReplay));
                 this.topiChat.emit(eventName, tcPackageReplay, tcPackage.clientIdSender, true);
             }.bind(this));            
         }else{
@@ -135,7 +139,21 @@ export class TopiChatTalk{
                 this.topiChat.emit(eventName, talkPackage, clientIdSender);
             } else {
                 console.log('[TopiChatTalk:defaultMessage] we are NOT emitting message');
-            }            
+            }
+            
+            // sending the confirmation package back to the talk client
+            let tcPackageReplay: TopiChatPluginPackage = {
+                eventName: TopiChatTalkDefaultEvents.Chat,
+                payload: {
+                    origin: "@colabo-topichat/b-talk",
+                    text: "We saved your talk message in the KnAllEdgeStorage",
+                    receivedText: talkPayload.content.text,
+                    // reference to the sending tcPackage
+                    uuid: talkPayload.content.uuid
+                }
+            }
+            console.log("[TopiChatTalk:defaultMessage] seding confirmation back to sender, tcPackageReplay: ", JSON.stringify(tcPackageReplay));
+            this.topiChat.emit(eventName, tcPackageReplay, tcPackage.clientIdSender, true);
         }
 		// let socketSender = this.clientIdToSocket[clientIdSender];
 		// socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner

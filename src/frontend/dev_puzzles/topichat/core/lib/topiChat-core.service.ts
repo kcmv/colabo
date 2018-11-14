@@ -67,8 +67,8 @@ export class TopiChatCoreService{
         reconnectionDelay: 5000,
         reconnectionDelayMax: 10000,
         timeout: 20000,
-        // transports: ['polling', 'websocket'],
-        transports: ['websocket'],
+        transports: ['polling', 'websocket'],
+        // transports: ['websocket'],
         forceNew: false
       };
 

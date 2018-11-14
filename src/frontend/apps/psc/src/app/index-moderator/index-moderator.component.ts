@@ -3,6 +3,8 @@ import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {UserData} from '@colabo-rima/f-aaa/userData';
 import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
+import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
+
 @Component({
   selector: 'app-index-moderator',
   templateUrl: './index-moderator.component.html',
@@ -11,7 +13,7 @@ import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 export class IndexModeratorComponent implements OnInit {
 
   constructor(
-    private RimaAAAService: RimaAAAService
+    private RimaAAAService: RimaAAAService, protected utilsNotificationService: UtilsNotificationService
   ) {
   }
 
@@ -30,4 +32,11 @@ export class IndexModeratorComponent implements OnInit {
     this.RimaAAAService.logOut();
   }
 
+  snack(){
+    this.utilsNotificationService.addNotification({
+      type: NotificationMsgType.Info,
+      title: 'NOTE:',
+      msg: 'userid: ' + this.RimaAAAService.getUser()._id
+    });
+  }
 }

@@ -9,6 +9,10 @@ import { TopiChatTalkService, TopiChatTalkEvents, TopiChatTalkDefaultEvents,
 import {RimaAAAService} from '@colabo-rima/f-aaa';
 import {KNode} from '@colabo-knalledge/f-core';
 import { GetPuzzle } from '@colabo-utils/i-config';
+import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
+
+// https://www.npmjs.com/package/uuid
+import * as uuidv1 from 'uuid/v1';
 
 enum InfoMsgType {
   Info = 'info',
@@ -47,7 +51,8 @@ export class TopiChatTalkForm implements OnInit {
 
   constructor(
     protected rimaAAAService:RimaAAAService,
-    private topiChatTalkService: TopiChatTalkService
+    private topiChatTalkService: TopiChatTalkService,
+    protected utilsNotificationService: UtilsNotificationService
   ) {
   }
 
@@ -113,7 +118,7 @@ export class TopiChatTalkForm implements OnInit {
     }
   }
 
-  addMessage(msg){
+  addMessage(msg):boolean{
     if (this.messages.length+1 === this.puzzleConfig.messagesNumberMin && !this.statusesStates[StatusesStatesLabels.InfoEnoughOfMessages]){
       this.statusesStates[StatusesStatesLabels.InfoEnoughOfMessages] = true;
       this.generateInfos();
@@ -123,24 +128,55 @@ export class TopiChatTalkForm implements OnInit {
         this.statusesStates[StatusesStatesLabels.ErrorFullMessages] = true;
         this.generateInfos();
       }
-      return;
+      return false;
     }
-    this.messages.push(msg);
+    this.messages.push(msg)
+    return true;
 
+  }
+  
+  getMessageByUuid(uuid){
+    for (let id: number = 0; id < this.messages.length; id++){
+      let message: TopiChatTalkDefaultPayload = this.messages[id];
+      if(message.content.uuid === uuid) return message;
+    }
+    return null;
   }
 
   receiveMessage(eventName, talkPluginPackage: TopiChatPluginPackage, tcPackage: TopiChatPackage) {
-    // console.log('[TopiChatTalkForm:clientTalk] Client id: %s', tcPackage.clientIdReciever);
+    // console.log('[TopiChatTalkForm:receiveMessage] Client id: %s', tcPackage.clientIdReciever);
     console.log('\t talkPluginPackage: %s', JSON.stringify(talkPluginPackage));
     console.log('\t tcPackage: %s', JSON.stringify(tcPackage));
+    let uuid: string = talkPluginPackage.payload.uuid;
+    console.log("Searching for uuid: ", uuid);
+    let message: TopiChatTalkDefaultPayload = this.getMessageByUuid(uuid);
+    console.log("Found message: ", message);
+    message.content.delivered = true;
+    
     // TODO: See about this
     // Provide config, to decide about showing etc
     // currently is used as CWC and we do not show it
     // this.messages.push(tcPackage.payload);
   }
 
+  resendMessage(msgPayload: TopiChatTalkDefaultPayload){
+    if(msgPayload.content.delivered){
+      this.utilsNotificationService.addNotification({
+        type: NotificationMsgType.Error,
+        title: 'INFO:',
+        msg: 'CWC is already delivered'
+      });
+    }
+    this._sendMessage(msgPayload);
+  }
+
+  _sendMessage(msgPayload: TopiChatTalkDefaultPayload) {
+    console.log("[TopiChatTalkForm:_sendMessage] sending message: '%s', with content", this.messageContent, JSON.stringify(msgPayload));
+    this.topiChatTalkService.emit(TopiChatTalkEvents.Defualt, TopiChatTalkDefaultEvents.Chat, msgPayload);
+  }
+
   sendMessage(){
-    let whoAmI:KNode = this.rimaAAAService.getUser();
+    let whoAmI: KNode = this.rimaAAAService.getUser();
     let msgPayload: TopiChatTalkDefaultPayload = {
       from: {
         name: whoAmI.name, // whoAmI.dataContent.firstName
@@ -148,16 +184,21 @@ export class TopiChatTalkForm implements OnInit {
       },
       content: {
         text: this.messageContent,
-        debugText: ''
+        debugText: '',
+        delivered: false,
+        uuid: uuidv1()
       }
     };
-    console.log('[TopiChatTalkForm:sendMessage] sending message: %s', this.messageContent);
-    this.topiChatTalkService.emit(TopiChatTalkEvents.Defualt, TopiChatTalkDefaultEvents.Chat, msgPayload);
-    this.addMessage(msgPayload);
-    this.messageContent = "";
-    
-    this.scrollToBottom();
-    // do it again after adding and rendering content
-    setTimeout(this.scrollToBottom.bind(this), 100);
+    let toSend: boolean = this.addMessage(msgPayload);
+    if(toSend){
+      this._sendMessage(msgPayload);
+      this.messageContent = "";
+
+      this.scrollToBottom();
+      // do it again after adding and rendering content
+      setTimeout(this.scrollToBottom.bind(this), 100);      
+    }else{
+      console.log("[TopiChatTalkForm:sendMessage] not sending message, reached the maximum of CWCs");      
+    }
   }
 }

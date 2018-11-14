@@ -61,8 +61,8 @@ if (!globalSet.hasOwnProperty('puzzles')) {
             debug: false
         },
         '@colabo-topichat/b-talk': {
-            saveTalkToMap: true,
-            emitMessages: false,
+            saveTalkToMap: false,
+            emitMessages: true,
             mapId: "5be3fddce1b7970d8c6df406",
             iAmId: "1b96619b86f3cc8057216a05",
             nodeId: ""

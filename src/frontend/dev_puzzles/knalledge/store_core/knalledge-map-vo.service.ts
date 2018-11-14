@@ -15,6 +15,7 @@ import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-nod
 import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
 import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 import * as config from '@colabo-utils/i-config';
+import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -46,11 +47,12 @@ export class KnalledgeMapVoService extends CFService{
     private http: HttpClient,
     private knalledgeNodeService:KnalledgeNodeService,
     private knalledgeEdgeService:KnalledgeEdgeService,
-    private knalledgeMapService:KnalledgeMapService
+    private knalledgeMapService: KnalledgeMapService,
+    utilsNotificationService: UtilsNotificationService
     //@Inject('ENV') private ENV
     //private ENV = undefined
   ){
-    super();
+    super(utilsNotificationService);
     console.log('KnalledgeMapVoService:constructor');
     //this.apiUrl = this.ENV.server.backend + '/' + nodeAP + '/';
     this.apiUrl = serverAP + '/' + mapAP + '/';

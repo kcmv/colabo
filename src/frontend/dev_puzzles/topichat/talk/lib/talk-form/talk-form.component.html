@@ -12,17 +12,30 @@
 
     <div fxFlex id="scrolling_content" style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px;">
         <!--TODO: to make localized (in Serbian) form field names and info -->
-        <mat-list class="chat-list">
+        <!-- <mat-list class="chat-list">
             <mat-list-item *ngFor="let message of messages">
                 <h3 mat-line *ngIf="message.action === undefined">
                     <b>{{message?.from?.name}}</b>
                 </h3>
-                <!-- (<b>{{message?.meta?.timestamp}}</b>) -->
+            <p>
+                <span> {{message?.content?.text}} </span>
+            </p>
+        </mat-list-item>
+        </mat-list> -->
+
+        <div class="chat-list">
+            <div *ngFor="let message of messages">
                 <p>
+                    <span *ngIf="message.action === undefined" style="font-weight: bold; color: blue">
+                    {{message?.from?.name}}:  &nbsp;
+                    </span>
+                    <mat-icon [style.display]="!message?.content?.delivered ? 'inline' : 'none' " (click)="resendMessage(message)">loop</mat-icon>
+                    <mat-icon [style.display]="message?.content?.delivered ? 'inline' : 'none' ">done</mat-icon>
                     <span> {{message?.content?.text}} </span>
                 </p>
-            </mat-list-item>
-        </mat-list>
+            </div>
+        </div>
+
         <div class="info-pad" *ngIf="infos['info'].length > 0">
             <div class="pad" *ngFor="let info of infos['info']">
                 <b>{{info.title}}</b><br/> {{info.msg}}
