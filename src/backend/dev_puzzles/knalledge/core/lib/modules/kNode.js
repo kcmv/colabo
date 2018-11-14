@@ -139,8 +139,10 @@ exports._index = function(id, id2, id3, id4, type, res, callback) {
             KNodeModel.find().sort({ id: -1 }).limit(1)
             break;
         case 'max_val_type_map':
+     //exports._index = function(id, id2, id3, id4, type, res, callback) {
+            ////exports._index(name, type, mapId, null, 'max_val_type_map', res, callback);
             //TODO: make it to work for any parameter instead of the fixed one 'dataContent.humanID':
-            console.log("find: max_val_type_map: name: %s", id, mapId, id3, id2);
+            console.log("find: max_val_type_map: name: %s", id, id3, id2);
             //KNodeModel.findOne().where({id: 1}).sort('-LAST_MOD').exec(function(err, doc)
             KNodeModel.findOne({ $and: [{ mapId: id3 }, { type: id2 }] }).sort('-dataContent.humanID').exec(function(err, doc) {
                 if (err) {
@@ -190,7 +192,7 @@ exports.create = function(req, res) {
 }
 
 exports.findMaxVal = function(name, type, mapId, res, callback=null){
-  console.log('findMaxVal::params',name, type, mapId, res, callback);
+  console.log('findMaxVal::params: ',name, type, mapId, res, callback);
   exports._index(name, type, mapId, null, 'max_val_type_map', res, callback);
 }
 
