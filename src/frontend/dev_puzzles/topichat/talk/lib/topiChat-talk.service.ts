@@ -47,6 +47,8 @@ export interface TopiChatTalkDefaultPayload {
   content: {
     text: string;
     debugText: string;
+    delivered?: boolean;
+    uuid?: string;
   };
 }
 

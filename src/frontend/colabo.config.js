@@ -74,6 +74,10 @@ var puzzles = {
             npm: "@colabo-utils/i-pub-sub",
             path: "dev_puzzles/utils/pub-sub"
         },
+        "@colabo-utils/f-notifications": {
+            npm: "@colabo-utils/f-notifications",
+            path: "dev_puzzles/utils/notifications"
+        },
         "@colabo-moderation/f-core": {
             npm: "@colabo-moderation/f-core",
             path: "dev_puzzles/moderation/core"

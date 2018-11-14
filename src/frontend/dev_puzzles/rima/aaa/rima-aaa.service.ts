@@ -20,6 +20,7 @@ console.log("rima-aaa.service");
 import * as config from '@colabo-utils/i-config';
 
 import { CFService } from '@colabo-knalledge/f-store_core/cf.service';
+import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
 
 console.log("[rima-aaa.service] config.GetGeneral('mapId'):", config.GetGeneral('mapId'));
 
@@ -66,10 +67,11 @@ export class RimaAAAService extends CFService{
     private knalledgeEdgeService: KnalledgeEdgeService,
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeMapService: KnalledgeMapService,
-    private globalEmitterServicesArray: GlobalEmittersArrayService
+    private globalEmitterServicesArray: GlobalEmittersArrayService,
+    utilsNotificationService: UtilsNotificationService
   ) {
 
-    super();
+    super(utilsNotificationService);
     console.log('RimaAAAService:constructor'); //TODO:NG2: this.apiUrl = this.ENV.server.backend + '/' + nodeAP + '/';
     this.apiUrl = CFService.serverAP + '/' + aaaAP + '/';
     this.loadLoggedInUser();

@@ -10,6 +10,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
 import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 import {CFService} from './cf.service';
+import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -28,10 +29,11 @@ export class KnalledgeMapService extends CFService{
 	private knAllEdgeRealTimeService:any = null;
 
 	constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    utilsNotificationService: UtilsNotificationService
     //@Inject('ENV') private ENV
   ){
-    super();
+    super(utilsNotificationService);
     console.log('KnalledgeMapService:constructor');
     //this.apiUrl = this.ENV.server.backend + '/' + mapAP + '/';
     this.apiUrl = CFService.serverAP + '/' + mapAP + '/';

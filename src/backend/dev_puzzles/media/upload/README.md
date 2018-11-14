@@ -6,6 +6,12 @@ It is responsible for uploading media files to the server
 
 # Preparation
 
+NGINX
+```yml
+# https://www.cyberciti.biz/faq/linux-unix-bsd-nginx-413-request-entity-too-large/
+client_max_body_size 2M;
+```
+
 ```sh
 mkdir -p src/backend/apps/colabo-space/dist/dist/uploads/
 echo "Hello upload boy!" > ./info.txt

@@ -243,13 +243,19 @@ export class TopiChat{
 
 		if(clientIdSender){
 			let socketSender = this.clientIdToSocket[clientIdSender];
-			if (onlyToSender){
-				console.log('\t only to sender'); // socket owner
-				socketSender.emit(eventName, tcPackage);
-			}else{
-				console.log('\t to everyone, except socket owner');
-				socketSender.broadcast.emit(eventName, tcPackage);
+			
+			if (socketSender) {
+				if (onlyToSender) {
+					console.log('\t only to sender'); // socket owner
+					socketSender.emit(eventName, tcPackage);
+				} else {
+					console.log('\t to everyone, except socket owner');
+					socketSender.broadcast.emit(eventName, tcPackage);
+				}
+			} else {
+				console.error("for the 'clientIdSender:%s' the this.clientIdToSocket[clientIdSender] returns null", clientIdSender);
 			}
+
 		}else{
 			console.log('\t to everyone');
 			this.io.emit(eventName, tcPackage);
@@ -270,7 +276,11 @@ export class TopiChat{
 		// this.io.emit(eventName, tcPackage); // to everyone
 
 		let socketReceiver = this.clientIdToSocket[clientIdReceiver];
-		socketReceiver.emit(eventName, tcPackage); // to clientIdReceiver only
+		if (socketReceiver){
+			socketReceiver.emit(eventName, tcPackage); // to clientIdReceiver only
+		}else{
+			console.error("for the 'clientIdReceiver:%s' the this.clientIdToSocket[clientIdReceiver] returns null", clientIdReceiver);
+		}
 	};
 
 	clientEcho(eventName: string, tcPayload: TopiChatPluginPackage, clientIdSender) {

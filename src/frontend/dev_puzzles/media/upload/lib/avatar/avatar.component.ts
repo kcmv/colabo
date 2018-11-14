@@ -3,6 +3,7 @@ import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 import {UserData} from '@colabo-rima/f-aaa/userData';
 import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import { MediaUploadService } from '../upload.service';
+import * as config from '@colabo-utils/i-config';
 
 @Component({
   selector: 'app-avatar',
@@ -17,19 +18,23 @@ export class AvatarComponent implements OnInit {
 
   constructor(
     protected mediaUploadService: MediaUploadService,
-    protected RimaAAAService: RimaAAAService
+    protected rimaAAAService: RimaAAAService
   ) {
   }
 
   ngOnInit() {
   }
 
+  get avatarImage(): string {
+    return config.GetGeneral('imagesFolder') + '/user.avatar-' + this.rimaAAAService.getUserId() + '.jpg';
+  }
+
   get isLoggedIn():Boolean{
-    return this.RimaAAAService.getUser() !== null;
+    return this.rimaAAAService.getUser() !== null;
   }
 
   get loggedUser(): KNode {
-    return this.RimaAAAService.getUser();
+    return this.rimaAAAService.getUser();
   }
 
   getPhoto(){
@@ -52,7 +57,7 @@ export class AvatarComponent implements OnInit {
     // console.log(this.form);
     // let userData:UserData = new UserData();
     //TODO: userData.image.url = this.form.value.cameraPhoto;
-    // this.RimaAAAService.createNewUser(userData, this.userCreated);
+    // this.rimaAAAService.createNewUser(userData, this.userCreated);
     let fileList: FileList = this.file.nativeElement.files;
     this.uploadStatus = 'avatar is being sent';
     this.mediaUploadService.uploadFileList(fileList).subscribe(val => {

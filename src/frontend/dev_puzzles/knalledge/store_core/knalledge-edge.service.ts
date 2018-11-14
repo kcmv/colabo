@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 import {CFService} from './cf.service';
+import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -27,10 +28,11 @@ export class KnalledgeEdgeService extends CFService{
 	private knAllEdgeRealTimeService:any = null;
 
 	constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    utilsNotificationService: UtilsNotificationService
     //@Inject('ENV') private ENV
   ){
-    super();
+    super(utilsNotificationService);
     console.log('KnalledgeEdgeService:: constructor NG 4.++');
     this.apiUrl = CFService.serverAP + '/' + edgeAP + '/'; //TODO:NG2: this.apiUrl = this.ENV.server.backend + '/' + edgeAP + '/';
   }

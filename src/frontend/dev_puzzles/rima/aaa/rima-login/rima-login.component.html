@@ -18,10 +18,10 @@
             Hello,
             <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You are succesfully logged in.
 
-            <img src="{{ avatarImage }}" />
+            <img src="{{ avatarImage }}" style="max-width: 200px; width: 80%" />
 
             <p>
-                (id: {{loggedUser._id}})
+                email: <b>{{loggedUser.dataContent.email}} </b><br/> id: {{loggedUser._id}}
                 <p>
                     <a routerLink="/">
                         <button mat-raised-button color="primary">Continue</button>

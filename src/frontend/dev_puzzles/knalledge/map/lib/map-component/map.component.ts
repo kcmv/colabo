@@ -11,6 +11,8 @@ import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 
 import * as config from '@colabo-utils/i-config';
 
+const isMockup:boolean = false;
+
 /**
  * the namespace for core services for the KnAllEdge system
  * @namespace knalledge.knalledgeMap.knalledgeMapDirectives
@@ -54,8 +56,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   ngAfterViewInit(){
-    // this.initContent(); //mockup test
-    this.knalledgeMapVoService.getNodesAndEdgesInMap(MapComponent.mapId).subscribe(this.initContent.bind(this));
+    if (isMockup){
+      this.initContent(); //mockup test
+    }else{
+      this.knalledgeMapVoService.getNodesAndEdgesInMap(MapComponent.mapId).subscribe(this.initContent.bind(this));      
+    }
   }
 
   ngOnDestroy() {
