@@ -11,7 +11,7 @@ import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 
 import * as config from '@colabo-utils/i-config';
 
-const isMockup:boolean = false;
+const isMockup:boolean = true;
 
 /**
  * the namespace for core services for the KnAllEdge system
@@ -59,7 +59,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
     if (isMockup){
       this.initContent(); //mockup test
     }else{
-      this.knalledgeMapVoService.getNodesAndEdgesInMap(MapComponent.mapId).subscribe(this.initContent.bind(this));      
+      this.knalledgeMapVoService.getNodesAndEdgesInMap(MapComponent.mapId).subscribe(
+        map => {
+          setTimeout(function(){
+            this.initContent.bind(this)
+          }.bind(this), 150); 
+        });
     }
   }
 
@@ -202,7 +207,74 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
             {"_id":"5a09938ccdfd0ae7780fc350","name":"Tesla's Wireless Energy","type":"type_knowledge","mapId":"5be3fddce1b7970d8c6df406",
             "iAmId":"556760847125996dc1a4a241","version":1,"activeVersion":1,"ideaId":0,"isPublic":true,
             "createdAt":"2017-11-13T12:43:56.768Z","updatedAt":"2017-11-13T12:43:56.773Z","decorations":{},"up":{},
-            "visual":{"isOpen":false},"state":"STATE_SYNCED"}
+            "visual":{"isOpen":false},"state":"STATE_SYNCED"},
+            
+            // SDG node
+            {
+              "_id": "5be44931e1b797150aff8b18",
+              "name": "How the future looks when this goal is fulfilled?",
+              "iAmId": "556760847125996dc1a4a24f",
+              "mapId": "5be3fddce1b7970d8c6df406",
+              "type": "const.dialogame.opening-card",
+              "dataContent": {
+                "humanID": 16,
+                "img": "https://fv.colabo.space/assets/images/sdgs/m/sdg16.jpg"
+              },
+              "updatedAt": "2018-09-10T20:16:47.306+0000",
+              "createdAt": "2018-09-10T20:16:47.301+0000",
+              "visual": {
+                "isOpen": true
+              },
+              "isPublic": true,
+              "version": 1,
+              "activeVersion": 1,
+              "__v": 0,
+              "i18n": {
+                "rs": {
+                  "name": "Како изгледа будућност када је овај циљ испуњен"
+                }
+              }
+            },
+            
+            // CWC
+            {
+              "_id": "5bebc05ee33539702bc1e6fa",
+              "name": "Life is important to fight for",
+              "type": "topiChat.talk.chatMsg",
+              "iAmId": "5bebb995104bee65c14402f1",
+              "ideaId": 0,
+              "dataContent": {
+                "humanID": 20,
+                "dialoGameReponse": {
+                  "decorators": [
+                    "question"
+                  ],
+                  "challengeCards": [
+                    "5bebbf48e33539702bc1e6f4"
+                  ],
+                  "playRound": 3,
+                  "player": "5bebb995104bee65c14402f1"
+                }
+              },
+              "mapId": "5be3fddce1b7970d8c6df406",
+              "updatedAt": "2018-11-14T06:27:42.450+0000",
+              "createdAt": "2018-11-14T06:27:42.449+0000",
+              "visual": {
+                "isOpen": false
+              },
+              "isPublic": true,
+              "version": 1,
+              "activeVersion": 1,
+              "__v": 0,
+              "decorations": {
+
+              },
+              "up": {
+
+              }
+            }
+
+
           ],
         edges: [
           {"_id":"575de27c16206451e6e82ca1","name":"","type":"type_knowledge","mapId":"5be3fddce1b7970d8c6df406",
@@ -240,7 +312,24 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
             "iAmId": "556760847125996dc1a4a241", "version": 1, "activeVersion": 1, "ideaId": 0, "isPublic": true,
             "createdAt": "2017-11-13T12:43:56.909Z", "updatedAt": "2017-11-13T12:43:56.911Z", "sourceId": "575de27c16206451e6e82ca0",
             "targetId": "575d225d16206451e6e82c68", "dataContent": null, "value": 0, "up": {}, "visual": null, "state": "STATE_SYNCED"
-          }        ],
+          },
+          // SDG edge
+          {
+            "_id": "575de2ca16206451e6e82ca3", "name": "", "type": "type_knowledge", "mapId": "5be3fddce1b7970d8c6df406",
+            "iAmId": "556760847125996dc1a4a241", "version": 1, "activeVersion": 1, "ideaId": 0, "isPublic": true,
+            "createdAt": "2016-06-12T22:31:38.693Z", "updatedAt": "2016-06-12T22:31:38.698Z", "sourceId": "575c7c1e49dc3cda62624ca0",
+            "targetId": "5be44931e1b797150aff8b18", "dataContent": null, "value": 0, "up": {}, "visual": null, "state": "STATE_SYNCED"
+          },
+          
+          // SDG edge
+          {
+            "_id": "575de2ca16206451e6e82ca3", "name": "", "type": "type_knowledge", "mapId": "5be3fddce1b7970d8c6df406",
+            "iAmId": "556760847125996dc1a4a241", "version": 1, "activeVersion": 1, "ideaId": 0, "isPublic": true,
+            "createdAt": "2016-06-12T22:31:38.693Z", "updatedAt": "2016-06-12T22:31:38.698Z", "sourceId": "575c7c1e49dc3cda62624ca0",
+            "targetId": "5bebc05ee33539702bc1e6fa", "dataContent": null, "value": 0, "up": {}, "visual": null, "state": "STATE_SYNCED"
+          }
+
+        ],
         },
         properties:{
           "_id":"5be3fddce1b7970d8c6df406","name":"mini-test","rootNodeId":"575c7c1e49dc3cda62624ca0","type":"cf",
