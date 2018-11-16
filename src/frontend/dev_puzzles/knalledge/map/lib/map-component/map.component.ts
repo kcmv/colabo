@@ -1,6 +1,7 @@
 import { Component, ReflectiveInjector, Injector, Inject, Optional,
   NgModule, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 
 import {MaterialModule} from '../materialModule';
 import { GlobalEmittersArrayService } from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
@@ -36,7 +37,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
   constructor(
     private activatedRoute: ActivatedRoute,
     private ng2injector: Injector,
-    private knalledgeMapVoService:KnalledgeMapVoService
+    private knalledgeMapVoService:KnalledgeMapVoService,
+    private rimaAAAService: RimaAAAService
   ) {
     this.Plugins = this.ng2injector.get('Plugins', null);
     this.GlobalEmittersArrayService = this.ng2injector.get(GlobalEmittersArrayService, null);
@@ -82,6 +84,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
       let edgesWOType:KEdge[] = []; //TODO: if we keep this approach of re-typing, we shoul make deep copies of edges then not to eventually over-write them when updating in db and lose their types
       for(var i:number=0; i<map.edges.length;i++){
         map.edges[i].type = "type_knowledge";
+      }
+
+      //TODO: this is temporarly injected, while the map is not accessing rimaAAAService to display userNames by itself
+      for(var n:number=0; n<map.nodes.length;n++){
+        map.nodes[n].userName = this.rimaAAAService.getUserById(map.nodes[n].iAmId);
       }
       
       /*
