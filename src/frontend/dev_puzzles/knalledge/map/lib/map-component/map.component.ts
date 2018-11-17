@@ -86,9 +86,28 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
         map.edges[i].type = "type_knowledge";
       }
 
+      mapDataOld = 
+      { // @Sinisa: this is an old - a bit illogical format, but we're 'downgrading' to it, because it's required by the 'KnalledgeViewComponent'
+        selectedNode: selectedNode,
+        map: {
+          nodes: map.nodes,
+          edges: map.edges,
+          },
+          properties: map.map
+      };
+
       //TODO: this is temporarly injected, while the map is not accessing rimaAAAService to display userNames by itself
+      let nodesLeft:number = map.nodes.length; 
       for(var n:number=0; n<map.nodes.length;n++){
-        map.nodes[n].userName = this.rimaAAAService.getUserById(map.nodes[n].iAmId);
+        this.rimaAAAService.getUserById(map.nodes[n].iAmId).subscribe(
+          function(user:KNode){
+            map.nodes[n].dataContent.userName = user.name;
+            if(--nodesLeft){
+              console.log('mapDataOld',mapDataOld);
+              this.knalledgeViewComponent.setData(mapDataOld);
+            }
+          }
+        )
       }
       
       /*
@@ -142,21 +161,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
       );
       map.edges.push(testEdge);
     */
-
-      mapDataOld = 
-      { // @Sinisa: this is an old - a bit illogical format, but we're 'downgrading' to it, because it's required by the 'KnalledgeViewComponent'
-        selectedNode: selectedNode,
-       map: {
-         nodes: map.nodes,
-         edges: map.edges,
-         },
-         properties: map.map
-     };
     }else{
       mapDataOld = this.getMockupContent();
+      console.log('mapDataOld',mapDataOld);
+      this.knalledgeViewComponent.setData(mapDataOld);
     }
-    console.log('mapDataOld',mapDataOld);
-    this.knalledgeViewComponent.setData(mapDataOld);
   }
 
   getMockupContent(){
