@@ -96,15 +96,22 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
           properties: map.map
       };
 
+      //TODO: this is temporarly removed:
+      for(var e:number=0; e<map.edges.length;e++){
+        map.edges[e].name = null;
+      }
+
       //TODO: this is temporarly injected, while the map is not accessing rimaAAAService to display userNames by itself
       let nodesLeft:number = map.nodes.length; 
       for(var n:number=0; n<map.nodes.length;n++){
+        let node:KNode = map.nodes[n];
+        let that:MapComponent = this;
         this.rimaAAAService.getUserById(map.nodes[n].iAmId).subscribe(
           function(user:KNode){
-            map.nodes[n].dataContent.userName = user.name;
-            if(--nodesLeft){
+            node.dataContent.userName = user.name;
+            if(--nodesLeft == 0){
               console.log('mapDataOld',mapDataOld);
-              this.knalledgeViewComponent.setData(mapDataOld);
+              that.knalledgeViewComponent.setData(mapDataOld);
             }
           }
         )
