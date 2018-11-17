@@ -5,7 +5,7 @@ import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 
 import {MaterialModule} from '../materialModule';
 import { GlobalEmittersArrayService } from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
-import {KnalledgeViewComponent} from '@colabo-knalledge/f-view_enginee/knalledgeView.component';
+import {KnalledgeViewComponent} from '@colabo-knalledge/f-view_enginee';
 import {KnalledgeMapVoService, MapWithContent} from '@colabo-knalledge/f-store_core/knalledge-map-vo.service';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
