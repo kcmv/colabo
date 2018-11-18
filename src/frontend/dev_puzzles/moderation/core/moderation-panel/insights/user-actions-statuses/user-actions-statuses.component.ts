@@ -81,11 +81,13 @@ export class UserActionsStatusesComponent implements OnInit {
     let cwc:KNode;
     for(var c:number = 0; c < us.cwcs.length; c++){
       // console.log('getCWCsPrint:: us.cwcs', us.cwcs);
-      cwc = us.cwcs[c];
+      cwc = us.cwcs[c]; 
       if(('dataContent' in cwc) && ('humanID' in cwc.dataContent)){
         // cwcs+= conn + '<span matTooltip="CWC">'+cwc.dataContent.humanID+'</span>';
-        cwcs+= conn + '<span matTooltip="'+cwc.name+'">'+cwc.dataContent.humanID+ (this.insightsService.isCwcPlayed(cwc) ? 'p' : '') + '</span>';
-        conn = ', ';
+        // cwcs+= conn + '<span matTooltip="'+cwc.name+'">'+cwc.dataContent.humanID+ (this.insightsService.isCwcPlayed(cwc) ? 'p' : '') + '</span>';
+        cwcs+= conn + '<B>' + cwc.dataContent.humanID + (this.insightsService.isCwcPlayed(cwc) ? 'p' : '') + '</B>: ' + cwc.name;
+        // conn = ', ';
+        conn = ', \n<br/>';
       }
     }
     //console.log('[getCWCsPrint] cwcs',cwcs);
@@ -110,7 +112,7 @@ export class UserActionsStatusesComponent implements OnInit {
   }
 
   getCWCs():void{
-    this.insightsService.getCWCs(this.colaboFlowService.colaboFlowState.playRound, true).subscribe(this.cwcsReceived.bind(this));
+    this.insightsService.getCWCs(true).subscribe(this.cwcsReceived.bind(this));
   }
 
   cwcsReceived(cwcs:KNode[]):void{

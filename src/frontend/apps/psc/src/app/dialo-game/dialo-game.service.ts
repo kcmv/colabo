@@ -445,8 +445,12 @@ export class DialoGameService {
     let node:KNode = dialoGameResponse.responseCards[0]; //TODO: cover cases when user respondes with more than 1 card
     //console.log('node from the response Card', node);
 
+    /* 
+    TODO: this is needed only if we create a new 'response card' and not inject in an existing:
     node.mapId = DialoGameService.mapId;
     node.iAmId = dialoGameResponse.player._id;
+    */ 
+
     //node.name = playedCard.name;
 
     //node.type = DialoGameResponse.TYPE_DIALOGAME_RESPONSE; //TODO - so far we don't want to change the type to preserve 'topiChat.talk.chatMsg' that is being required still
