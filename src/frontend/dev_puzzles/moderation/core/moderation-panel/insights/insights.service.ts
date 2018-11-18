@@ -75,7 +75,7 @@ export class InsightsService {
     this.registeredUsers = users;
   }
 
-  getCWCs(round:number, forceRefresh:boolean = false):Observable<KNode[]>{
+  getCWCs(forceRefresh:boolean = true):Observable<KNode[]>{
    let result:Observable<KNode[]> ;
 
    if(forceRefresh || this.cwcs.length == 0){
