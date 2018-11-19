@@ -163,6 +163,10 @@ export class InsightsService {
     return 'dataContent' in cwc && 'dialoGameReponse' in cwc.dataContent && 'playRound' in cwc.dataContent.dialoGameReponse;
   }
 
+  roundPlayed(cwc:KNode):number{
+    return ('dataContent' in cwc && 'dialoGameReponse' in cwc.dataContent && 'playRound' in cwc.dataContent.dialoGameReponse) ? cwc.dataContent.dialoGameReponse.playRound : null;
+  }
+  
   cardHumanIdPlayedInTheRound(userId:string, round:number):KNode{
     if(typeof this.cardsPlayed[round] === 'undefined'){return null;}
 
