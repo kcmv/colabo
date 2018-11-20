@@ -20,8 +20,6 @@ export class SelectSdgsComponent implements OnInit {
   saved:boolean = false;
   dialogRef: any; //TODO: type: MatDialogRef;
 
-
-  selectedSDGs:string[] = [];
   constructor(
     private rimaAAAService: RimaAAAService,
     private sDGsService: SDGsService,
@@ -41,10 +39,21 @@ export class SelectSdgsComponent implements OnInit {
     //   name: "sdg b"
     // }];
     //TODO: !! we should migrate to the App-persisten Service this server-loads. RIGHT NOW each time we open this component, it loads it:
-    this.sDGsService.getSDGs().subscribe(this.sdgsReceived.bind(this));
+    
+    this.sDGsService.getMySDGSelections().subscribe(this.mySDGSelectionsReceived.bind(this));
       //.subscribe(sdgs => this.sdgs);
     //this.sdgs = this.sDGsService.getSDGs();
     //this.sDGsService.loadSDGs();
+  }
+
+  private mySDGSelectionsReceived(selections:KEdge[]):void{
+    // this.sdgs = sdgsD;
+    console.log('[mySDGSelectionsReceived] selections:',selections);
+    // console.log(item); // 0,1,2
+    if(selections && selections.length > 0){
+      this.saved = true;
+    }
+    this.sDGsService.getSDGs().subscribe(this.sdgsReceived.bind(this));
   }
 
   get isLoggedIn():Boolean{
@@ -67,7 +76,7 @@ export class SelectSdgsComponent implements OnInit {
   }
 
   correctSelection():boolean{
-    return this.selectedSDGs.length == SDGS_TO_SELECT;
+    return this.sDGsService.selectedSDGsIDs.length == SDGS_TO_SELECT;
   }
 
   getActionMessage():string{
@@ -76,15 +85,19 @@ export class SelectSdgsComponent implements OnInit {
       msg = 'you have finished this phase';
     }
     else{
-      if(this.selectedSDGs.length < SDGS_TO_SELECT){
-          msg = 'Select ' + (SDGS_TO_SELECT - this.selectedSDGs.length) + ' more SDGs';
-      } else if (this.selectedSDGs.length == SDGS_TO_SELECT) {
+      if(this.sDGsService.selectedSDGsIDs.length < SDGS_TO_SELECT){
+          msg = 'Select ' + (SDGS_TO_SELECT - this.sDGsService.selectedSDGsIDs.length) + ' more SDGs';
+      } else if (this.sDGsService.selectedSDGsIDs.length == SDGS_TO_SELECT) {
           msg = 'Great! Please, submit ';
       } else {
-          msg = 'Too many SDGs selected! ' + SDGS_TO_SELECT + ' SDGs, not ' + this.selectedSDGs.length;
+          msg = 'Too many SDGs selected! ' + SDGS_TO_SELECT + ' SDGs, not ' + this.sDGsService.selectedSDGsIDs.length;
       }
     }
     return msg;
+  }
+
+  isSdgSelected(sdgId:string):boolean{
+    return this.sDGsService.isSdgSelected(sdgId);
   }
 
   canSubmit():boolean{
@@ -100,7 +113,7 @@ export class SelectSdgsComponent implements OnInit {
       //this.animal = result;
     }
     );
-    this.sDGsService.saveSDGsSelection(this.selectedSDGs).subscribe(this.sdgsSaved.bind(this));
+    this.sDGsService.saveSDGsSelection(this.sDGsService.selectedSDGsIDs).subscribe(this.sdgsSaved.bind(this));
   }
 
   private sdgsSaved():void{
@@ -111,6 +124,10 @@ export class SelectSdgsComponent implements OnInit {
     //window.alert("Your selection is successfully saved");
   }
 
+  /**
+   * depends on `mySDGSelectionsReceived` to receive results first
+   * @param sdgsD 
+   */
   private sdgsReceived(sdgsD:any[]):void{
     this.sdgs = sdgsD;
     // for (var sdg in this.sdgs) {
@@ -118,16 +135,9 @@ export class SelectSdgsComponent implements OnInit {
   }
     // console.log('sdgsReceived:', this.sdgs)
 
-  onToggled(state: boolean, id:string) {
-    console.log('SelectSdgsComponent::onToggled',state, id);
-    if(state){
-      this.selectedSDGs.push(id);
-    }
-    else{
-      let index = this.selectedSDGs.indexOf(id);
-      if (index !== -1) this.selectedSDGs.splice(index, 1);
-    }
-    console.log(this.selectedSDGs.toString());
+  onToggled(state: boolean, id:string):void {
+    this.sDGsService.changeSDGsSelectionState(state, id);
+  
   }
 
 }

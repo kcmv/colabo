@@ -77,6 +77,26 @@ export class KnalledgeEdgeService extends CFService{
     return result;
   }
 
+
+  /**
+   * Gets from the server all the KN Edges that are contained in the map
+   * @param {string} id id of the map
+   * @param {function} callback Function to be called when the edges are retrieved
+   * @returns {Observable<KEdge[]>} array of the edges
+     @example URL: http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json
+   */
+  queryForMapTypeUserWTargetNodes(mapId:string, type:string, iAmid:string, callback?:Function): Observable<KEdge[]>
+  {
+    var result:Observable<KEdge[]> = this.http.get<ServerData>(this.apiUrl+'for_map_type_user_w_target_nodes/'+mapId+'/'+type+'/'+iAmid+'.json')
+      .pipe(
+        map(edgesFromServer => CFService.processVOs(edgesFromServer, KEdge)),
+        catchError(this.handleError('KnalledgeEdgeService::queryInMap', null))
+      );
+
+    if(callback){result.subscribe(edges => callback(edges));}
+    return result;
+  }
+
   /**
    * Creates the provided edge on the server and returns its server-updated appearance
    * @param {KEdge} kEdge the pre-populated edge to be created on the server
