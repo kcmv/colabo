@@ -34,8 +34,8 @@
           </ng-container>
         
           <ng-container matColumnDef="sdgs">
-            <th mat-header-cell *matHeaderCellDef>selected UN SDGs</th>
-            <td mat-cell *matCellDef="let element"> {{element.sdgs}} </td>
+            <th mat-header-cell *matHeaderCellDef>selected UN SDGs<br/>(humanIDs)</th>
+            <td mat-cell *matCellDef="let element" [ngClass]="{'warning': !correctSDGNo(element)}"> {{element.sdgs}} </td>
           </ng-container>
         
           <ng-container matColumnDef="cwcs">

@@ -89,10 +89,16 @@ exports.index = function(req, res) {
             KEdgeModel.find({ 'mapId': req.params.searchParam }, found);
             break;
         case 'for_map_type_user_w_target_nodes':
-        console.log("for_map_type_user_w_target_nodes: mapId: %s, type: %s, iAmId: %s", id, id2, id3);
-            KEdgeModel.find({ 'mapId': id, 'type': id2, 'iAmId': id3 }).populate('targetId', '_id name').exec(found);
-            
-            //KEdgeModel.find({ whoAmI: id }).populate('whatAmI', '_id name').exec(found);
+            console.log("for_map_type_user_w_target_nodes: mapId: %s, type: %s", id, id2);
+            var queryObj = { 'mapId': id, 'type': id2};
+            if(id3 !== null && id3 !== undefined && id3 !== 'null') {
+                console.log('iAmId: ', id3);
+                queryObj['iAmId'] = id3;
+            }
+            else{
+                console.log('iAmId: is not set as a paremeter - so for all users');
+            } 
+            KEdgeModel.find(queryObj).populate('targetId', '_id name dataContent.humanID').exec(found);
             break;
         default:
             console.log("[modules/kEdge.js:index] unsuported req.params.type: %s", type);
