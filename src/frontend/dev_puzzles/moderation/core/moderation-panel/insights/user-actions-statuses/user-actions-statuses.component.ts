@@ -168,7 +168,7 @@ export class UserActionsStatusesComponent implements OnInit {
       for(var u:number = 0; u < userDataInTab.length; u++){
         usrD = userDataInTab[u];
         if(sdgs[s].iAmId === usrD.user._id){
-          usrD.sdgs.push((sdgs[s].targetId as any).dataContent.humanID);
+          usrD.sdgs.push((sdgs[s].targetId as any).dataContent.humanID); //TODO: expects that the current situation in which humanIDs of SDGs are equal SDG Number.
         }
       }
     }
