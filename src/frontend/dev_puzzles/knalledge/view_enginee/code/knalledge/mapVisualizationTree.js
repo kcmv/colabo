@@ -388,22 +388,7 @@
                 return !isEditingNode;
             })
             .select(".node_inner_html span")
-            .html(function(d) { <<
-                <<
-                << < HEAD
-                let humanID = d.kNode.dataContent.humanID ? ('' + d.kNode.dataContent.humanID + ' : ') : '';
-                let decorators = '';
-                // if (d.kNode.dataContent.dialoGameReponse && d.kNode.dataContent.dialoGameReponse.decorators) {
-                //     decorators = '(';
-                //     for (let d = 0; d < d.kNode.dataContent.dialoGameReponse.decorators.length; d++) {
-                //         let decorator = d.kNode.dataContent.dialoGameReponse.decorators[d];
-                //         decorators += decorator + ',';
-                //     }
-                // }
-
-                let label = humanID + d.kNode.name + decorators; ===
-                ===
-                =
+            .html(function(d) {
                 // TODO: FIX
                 let humanID = d.kNode.dataContent.humanID ? (d.kNode.dataContent.humanID + ' : ') : '';
                 let playerName = '';
@@ -415,9 +400,7 @@
                     playerName = ' (' + d.kNode.dataContent.userName + ') ';
                 }
 
-                let label = humanID + playerName + d.kNode.name; >>>
-                >>>
-                > dresden - map
+                let label = humanID + playerName + d.kNode.name;
                 return label;
             });
 
