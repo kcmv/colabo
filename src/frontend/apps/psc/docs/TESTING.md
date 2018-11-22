@@ -36,6 +36,9 @@ Search in the MongoDB, kedges
 { "type": "rima.selected_UN_SDG" }
 ```
 
+
+{ "type": "service.result.dialogame.cwc_similarities", "mapId": ObjectId("5be3fddce1b7970d8c6df406") } 
+
 ## CWC
 
 + Enter 3-5 sentences
@@ -43,7 +46,7 @@ Search in the MongoDB, kedges
 Search in the MongoDB, knodes
 
 ```json
-{ "type": "topiChat.talk.chatMsg" }
+{ "type": "topiChat.talk.chatMsg", "mapId": ObjectId("5be3fddce1b7970d8c6df406") }
 ```
 
 

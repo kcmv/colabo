@@ -1,9 +1,12 @@
+import { Injectable, Inject } from '@angular/core';
+
 /**
 * Service that configures visual aspects of the KnAllEdge system
 * @class KnalledgeMapViewService
 * @memberof knalledge.knalledgeMap
 */
 
+@Injectable()
 export class KnalledgeMapViewService {
     private provider: any = {
         config: {
@@ -16,7 +19,7 @@ export class KnalledgeMapViewService {
                 showUnknownNodes: false
             },
             edges: {
-                showNames: true,
+                showNames: false,
                 showTypes: false,
                 orderBy: 'name',
                 showUnknownEdges: false,

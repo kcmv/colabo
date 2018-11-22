@@ -1,9 +1,11 @@
 import { Component, ReflectiveInjector, Injector, Inject, Optional, NgModule, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {KMapClientInterface} from './code/knalledge/KMapClientInterface';
+import {KMapClientInterface} from '../../code/knalledge/KMapClientInterface';
 import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
-import {Map} from './code/knalledge/map'
+import { Map } from '../../code/knalledge/map'
+import { KnalledgeMapViewService } from '../knalledgeMapViewService';
+import { KnalledgeMapPolicyService } from '../knalledgeMapPolicyService';
 
 /**
 TODO: See how does this kind of documentation work with TS, NG2+, ...
@@ -75,9 +77,7 @@ export class KnalledgeViewComponent implements OnInit, AfterViewInit, OnDestroy{
   private $route:any;
   private $routeParams:any;
   private $location:any;
-  private KnalledgeMapViewService:any;
   private KnAllEdgeSelectItemService:any;
-  private KnalledgeMapPolicyService:any;
   private CollaboPluginsService:any;
   private Plugins:any;
 
@@ -141,18 +141,18 @@ export class KnalledgeViewComponent implements OnInit, AfterViewInit, OnDestroy{
    * @param  {utils.Injector} injector
    * @param  {config.Plugins}  Plugins
    */
-
+   
   constructor(
     private ng2injector:Injector,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private KnalledgeMapViewService: KnalledgeMapViewService,
+    private KnalledgeMapPolicyService: KnalledgeMapPolicyService
     // @Optional @Inject('$injector') private $injector:any,
     // @Optional @Inject('$rootScope') private $rootScope:any,
     // @Optional @Inject('$route') private $route:any,
     // @Optional @Inject('$routeParams') private $routeParams:any,
     // @Optional @Inject('$location') private $location:any,
-    // @Optional @Inject('KnalledgeMapViewService') private KnalledgeMapViewService:any,
     // @Optional @Inject('KnAllEdgeSelectItemService') private KnAllEdgeSelectItemService:any,
-    // @Optional @Inject('KnalledgeMapPolicyService') private KnalledgeMapPolicyService:any,
     // @Optional @Inject('CollaboPluginsService') private CollaboPluginsService:any,
     // @Optional @Inject('injector') private injector:any,
     // @Optional @Inject('Plugins') private Plugins:any
@@ -162,9 +162,7 @@ export class KnalledgeViewComponent implements OnInit, AfterViewInit, OnDestroy{
     this.$route = this.ng2injector.get('$route', null);
     this.$routeParams = this.ng2injector.get('$routeParams', null);
     this.$location = this.ng2injector.get('$location', null);
-    this.KnalledgeMapViewService = this.ng2injector.get('KnalledgeMapViewService', null);
     this.KnAllEdgeSelectItemService = this.ng2injector.get('KnAllEdgeSelectItemService', null);
-    this.KnalledgeMapPolicyService = this.ng2injector.get('KnalledgeMapPolicyService', null);
     this.CollaboPluginsService = this.ng2injector.get('CollaboPluginsService', null);
     this.Plugins = this.ng2injector.get('Plugins', null);
   }

@@ -46,6 +46,10 @@ var puzzles = {
             npm: "@colabo-knalledge/f-view_node",
             path: "dev_puzzles/knalledge/view_node"
         },
+        "@colabo-map/f-engine": {
+            npm: "@colabo-map/f-engine",
+            path: "dev_puzzles/map/engine"
+        },
         "@colabo-media/f-upload": {
             npm: "@colabo-media/f-upload",
             path: "dev_puzzles/media/upload"
