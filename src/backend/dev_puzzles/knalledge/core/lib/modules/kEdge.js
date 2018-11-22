@@ -225,5 +225,20 @@ exports.destroy = function(req, res) {
                 resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
             });
             break;
+        case 'edges-to-child': // by type and user
+            console.log("[modules/kEdge.js:destroy] deleting all edges with specific tagetId %s", dataId);
+            KEdgeModel.remove({ 'targetId': dataId }, function(err) {
+                if (err) {
+                    console.log("[modules/kEdge.js:destroy] error:" + err);
+                    throw err;
+                }
+                var data = { id: dataId };
+                console.log("[modules/kEdge.js:destroy] data:" + JSON.stringify(data));
+                resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
+            });
+            break;
+        default:
+            console.log("[modules/kEdge.js:index] unsuported req.params.type: %s", type);
+            resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unsuported req type \'' + type + '\'', success: false });
     }
 };
