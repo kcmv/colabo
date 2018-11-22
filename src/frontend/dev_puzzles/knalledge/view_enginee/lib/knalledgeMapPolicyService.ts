@@ -1,9 +1,12 @@
+import { Injectable, Inject } from '@angular/core';
+
 /**
  * Service that configures policy aspects of the KnAllEdge system
  * @class KnalledgeMapPolicyService
  * @memberof knalledge.knalledgeMap
 */
 
+@Injectable()
 export class KnalledgeMapPolicyService {
   private provider: any = {
     config: {

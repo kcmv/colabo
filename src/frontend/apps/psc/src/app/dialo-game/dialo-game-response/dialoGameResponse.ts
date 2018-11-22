@@ -61,6 +61,8 @@ export class DialoGameResponse{
 
     dialoGameResponseFS.player = this.player._id;
 
+    dialoGameResponseFS.playerName = this.player.name;
+
   	// if (this.dataContent && this.dataContent.rima && this.dataContent.rima.whats) {
   	// 	let whats = this.dataContent.rima.whats;
   	// 	this.dataContent.rima.whats = [];

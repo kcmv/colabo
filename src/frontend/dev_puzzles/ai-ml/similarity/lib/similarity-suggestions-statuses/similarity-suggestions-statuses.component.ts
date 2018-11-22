@@ -104,7 +104,7 @@ export class SimilaritySuggestionsStatusesComponent implements OnInit {
   // }
 
   getCWCs():void{
-    this.insightsService.getCWCs(this.colaboFlowService.colaboFlowState.playRound, true).subscribe(this.cwcsReceived.bind(this));
+    this.insightsService.getCWCs(true).subscribe(this.cwcsReceived.bind(this));
   }
 
   cwcsReceived(cwcs:KNode[]):void{

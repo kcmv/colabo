@@ -11,7 +11,10 @@ import { MaterialModule } from './materialModule';
 
 import { ReactiveFormsModule } from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
-import { KnalledgeViewComponent } from './knalledgeView.component';
+import { KnalledgeMapPolicyService } from './knalledgeMapPolicyService';
+import { KnalledgeMapViewService } from './knalledgeMapViewService';
+
+import { KnalledgeViewComponent } from './knalledgeView.component/knalledgeView.component';
 
 var moduleDeclarations: any[] = [
     KnalledgeViewComponent
@@ -37,6 +40,8 @@ var moduleImports: any[] = [
     // exports: moduleImports.concat(moduleDeclarations)
     exports: moduleDeclarations,
     providers: [
+        KnalledgeMapPolicyService,
+        KnalledgeMapViewService
     ]
 })
 export class KnalledgeViewEngineModule { }

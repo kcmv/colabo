@@ -77,6 +77,24 @@ export class KnalledgeEdgeService extends CFService{
     return result;
   }
 
+
+  /**
+   * Gets from the server all the KN Edges that are contained in the map
+   * @param {string} id id of the map
+   * @param {function} callback Function to be called when the edges are retrieved
+   * @returns {Observable<KEdge[]>} array of the edges
+     @example URL: http://localhost:8001/kedges/in_map/579811d88e12abfa556f6b59.json
+   */
+  queryForMapTypeUserWTargetNodes(mapId:string, type:string, iAmid:string=null): Observable<KEdge[]>
+  {
+    var result:Observable<KEdge[]> = this.http.get<ServerData>(this.apiUrl+'for_map_type_user_w_target_nodes/'+mapId+'/'+type+'/'+iAmid+'.json')
+      .pipe(
+        map(edgesFromServer => CFService.processVOs(edgesFromServer, KEdge)),
+        catchError(this.handleError('KnalledgeEdgeService::queryInMap', null))
+      );
+    return result;
+  }
+
   /**
    * Creates the provided edge on the server and returns its server-updated appearance
    * @param {KEdge} kEdge the pre-populated edge to be created on the server
@@ -205,7 +223,37 @@ export class KnalledgeEdgeService extends CFService{
 
     if(callback){result.subscribe(success => callback(success));}
 		return result;
+  }
+  
+
+  destroyEdgesToChild(targetId:string): Observable<boolean>
+	{
+    //TODO:NG2 fix usage of this function to expect boolean
+    var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'edges-to-child/'+targetId, httpOptions).pipe(
+      // tap(_ => console.log(`deleted edges type=${type} and iAmid=${iAmid}`)),
+      map(serverData => serverData.success),
+      catchError(this.handleError<boolean>('destroyEdgeToChild'))
+    );
+
+		/* TODO:NG2
+      if(this.knAllEdgeRealTimeService){ // realtime distribution
+      //
+			// let change = new puzzles.changes.Change();
+			// change.value = null;
+			// change.valueBeforeChange = null; //TODO
+			// change.reference = id;
+			// change.type = puzzles.changes.ChangeType.STRUCTURAL;
+			// change.event = Plugins.puzzles.knalledgeMap.config.services.KnRealTimeEdgeDeletedEventName;
+			// // change.action = null;
+			// change.domain = puzzles.changes.Domain.NODE;
+			// change.visibility = puzzles.changes.ChangeVisibility.ALL;
+			// change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
+      //
+			// this.knAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeEdgeDeletedEventName, change);//{'_id':id});
+		}*/
+		return result;
 	}
+
 
   /*
   TODO:

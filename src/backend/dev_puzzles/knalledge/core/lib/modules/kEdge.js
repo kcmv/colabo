@@ -27,6 +27,9 @@ var dbConnection = dbService.DBConnect();
 
 var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
 
+//reguired for requests that return results populated with target or ource nodes:
+var KNodeModel = dbConnection.model('KNode', global.db.kNode.Schema);
+
 // module.exports = KEdgeModel; //then we can use it by: var User = require('./app/models/KEdgeModel');
 
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/one/5524344b498be1070ccca4f6
@@ -35,6 +38,13 @@ var KEdgeModel = dbConnection.model('kEdge', global.db.kEdge.Schema);
 //curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/between/551b4366fd64e5552ed19364/551bb2c68f6e4cfc35654f37
 //curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/kedges/in_map/552678e69ad190a642ad461c
 exports.index = function(req, res) {
+
+    var id = req.params.searchParam;
+    var id2 = req.params.searchParam2;
+    var id3 = req.params.searchParam3;
+    var id4 = req.params.searchParam4;
+    var type = req.params.type;
+
     var found = function(err, kEdges) {
         //console.log("[modules/kEdge.js:index] in found; req.params.type: %s: ", req.params.type);
         //console.log("kEdges:"+kEdges);
@@ -65,7 +75,7 @@ exports.index = function(req, res) {
         //resSendJsonProtected(res, {data: {, accessId : accessId, success: true});
     });
 
-    switch (req.params.type) {
+    switch (type) {
         case 'one': //by edge id:
             KEdgeModel.findById(req.params.searchParam, found);
             break;
@@ -78,8 +88,20 @@ exports.index = function(req, res) {
         case 'in_map': //all edges in specific map
             KEdgeModel.find({ 'mapId': req.params.searchParam }, found);
             break;
+        case 'for_map_type_user_w_target_nodes':
+            console.log("for_map_type_user_w_target_nodes: mapId: %s, type: %s", id, id2);
+            var queryObj = { 'mapId': id, 'type': id2};
+            if(id3 !== null && id3 !== undefined && id3 !== 'null') {
+                console.log('iAmId: ', id3);
+                queryObj['iAmId'] = id3;
+            }
+            else{
+                console.log('iAmId: is not set as a paremeter - so for all users');
+            } 
+            KEdgeModel.find(queryObj).populate('targetId', '_id name dataContent.humanID').exec(found);
+            break;
         default:
-            console.log("[modules/kEdge.js:index] unsuported req.params.type: %s", req.params.type);
+            console.log("[modules/kEdge.js:index] unsuported req.params.type: %s", type);
             resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unsuported req type \'' + req.params.type + '\'', success: false });
     }
 }
@@ -203,5 +225,20 @@ exports.destroy = function(req, res) {
                 resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
             });
             break;
+        case 'edges-to-child': // by type and user
+            console.log("[modules/kEdge.js:destroy] deleting all edges with specific tagetId %s", dataId);
+            KEdgeModel.remove({ 'targetId': dataId }, function(err) {
+                if (err) {
+                    console.log("[modules/kEdge.js:destroy] error:" + err);
+                    throw err;
+                }
+                var data = { id: dataId };
+                console.log("[modules/kEdge.js:destroy] data:" + JSON.stringify(data));
+                resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
+            });
+            break;
+        default:
+            console.log("[modules/kEdge.js:index] unsuported req.params.type: %s", type);
+            resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unsuported req type \'' + type + '\'', success: false });
     }
 };

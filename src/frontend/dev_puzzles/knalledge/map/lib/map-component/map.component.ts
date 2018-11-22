@@ -1,10 +1,11 @@
 import { Component, ReflectiveInjector, Injector, Inject, Optional,
   NgModule, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 
 import {MaterialModule} from '../materialModule';
 import { GlobalEmittersArrayService } from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
-import {KnalledgeViewComponent} from '@colabo-knalledge/f-view_enginee/knalledgeView.component';
+import {KnalledgeViewComponent} from '@colabo-knalledge/f-view_enginee';
 import {KnalledgeMapVoService, MapWithContent} from '@colabo-knalledge/f-store_core/knalledge-map-vo.service';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
@@ -36,7 +37,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
   constructor(
     private activatedRoute: ActivatedRoute,
     private ng2injector: Injector,
-    private knalledgeMapVoService:KnalledgeMapVoService
+    private knalledgeMapVoService:KnalledgeMapVoService,
+    private rimaAAAService: RimaAAAService
   ) {
     this.Plugins = this.ng2injector.get('Plugins', null);
     this.GlobalEmittersArrayService = this.ng2injector.get(GlobalEmittersArrayService, null);
@@ -87,6 +89,37 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
       let edgesWOType:KEdge[] = []; //TODO: if we keep this approach of re-typing, we shoul make deep copies of edges then not to eventually over-write them when updating in db and lose their types
       for(var i:number=0; i<map.edges.length;i++){
         map.edges[i].type = "type_knowledge";
+      }
+
+      mapDataOld = 
+      { // @Sinisa: this is an old - a bit illogical format, but we're 'downgrading' to it, because it's required by the 'KnalledgeViewComponent'
+        selectedNode: selectedNode,
+        map: {
+          nodes: map.nodes,
+          edges: map.edges,
+          },
+          properties: map.map
+      };
+
+      //TODO: this is temporarly removed:
+      for(var e:number=0; e<map.edges.length;e++){
+        map.edges[e].name = null;
+      }
+
+      //TODO: this is temporarly injected, while the map is not accessing rimaAAAService to display userNames by itself
+      let nodesLeft:number = map.nodes.length; 
+      for(var n:number=0; n<map.nodes.length;n++){
+        let node:KNode = map.nodes[n];
+        let that:MapComponent = this;
+        this.rimaAAAService.getUserById(map.nodes[n].iAmId).subscribe(
+          function(user:KNode){
+            node.dataContent.userName = user.name;
+            if(--nodesLeft == 0){
+              console.log('mapDataOld',mapDataOld);
+              that.knalledgeViewComponent.setData(mapDataOld);
+            }
+          }
+        )
       }
       
       /*
@@ -140,21 +173,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy{
       );
       map.edges.push(testEdge);
     */
-
-      mapDataOld = 
-      { // @Sinisa: this is an old - a bit illogical format, but we're 'downgrading' to it, because it's required by the 'KnalledgeViewComponent'
-        selectedNode: selectedNode,
-       map: {
-         nodes: map.nodes,
-         edges: map.edges,
-         },
-         properties: map.map
-     };
     }else{
       mapDataOld = this.getMockupContent();
+      console.log('mapDataOld',mapDataOld);
+      this.knalledgeViewComponent.setData(mapDataOld);
     }
-    console.log('mapDataOld',mapDataOld);
-    this.knalledgeViewComponent.setData(mapDataOld);
   }
 
   getMockupContent(){

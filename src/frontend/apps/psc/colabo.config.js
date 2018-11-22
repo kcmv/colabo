@@ -19,6 +19,7 @@ var puzzles = {
         "@colabo-knalledge/f-store_core": {},
         "@colabo-knalledge/f-view_enginee": {},
         "@colabo-knalledge/f-view_interaction": {},
+        "@colabo-map/f-engine": {},
         "@colabo-media/f-upload": {},
         "@colabo-rima/f-aaa": {},
         "@colabo-utils/i-pub-sub": {},

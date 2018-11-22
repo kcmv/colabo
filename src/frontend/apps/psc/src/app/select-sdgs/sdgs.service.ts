@@ -36,6 +36,13 @@ export class SDGsService {
   sdgsSavedObserver:any = {};//Observer
   SDGs:any[] = [];
   sdgsLeftSave:number = SDGS_TO_SELECT;
+  private _selectedSDGsIDs: string[] = [];
+  public get selectedSDGsIDs(): string[] {
+    return this._selectedSDGsIDs;
+  }
+  public set selectedSDGsIDs(value: string[]) {
+    this._selectedSDGsIDs = value;
+  }
 
   static mapIdSDGs = config.GetGeneral('mapIdSDGs');
   static mapId = config.GetGeneral('mapId');
@@ -207,6 +214,39 @@ export class SDGsService {
     }
     //TODO: delete the i18n object?
     return nodes;
+  }
+
+  getMySDGSelections():Observable<any[]>{
+    return this.knalledgeEdgeService.queryForMapTypeUserWTargetNodes(SDGsService.mapId, SDG_SELECTION_TYPE, this.rimaAAAService.getUserId())
+    .pipe(
+      tap(edges => this.mySDGSelectionssReceived(edges))
+    );
+  }
+
+  mySDGSelectionssReceived(edges:KEdge[]):void{
+    console.log('[mySDGSelectionssReceived] edges:', edges);
+    if(edges && edges.length){
+      for(var e:number = 0; e<edges.length;e++)
+      {
+        this._selectedSDGsIDs.push((edges[e].targetId as any)._id);
+      }
+    }
+  }
+  
+  isSdgSelected(sdgId:string):boolean{
+    return this._selectedSDGsIDs.indexOf(sdgId) !== -1;
+  }
+
+  changeSDGsSelectionState(state: boolean, id:string):void {
+    console.log('changeSDGsSelectionState',state, id);
+    if(state){
+      this._selectedSDGsIDs.push(id);
+    }
+    else{
+      let index = this._selectedSDGsIDs.indexOf(id);
+      if (index !== -1) this._selectedSDGsIDs.splice(index, 1);
+    }
+    console.log(this._selectedSDGsIDs.toString());
   }
 
   // getSDGSSelectedByUser(iAmId:string):void{

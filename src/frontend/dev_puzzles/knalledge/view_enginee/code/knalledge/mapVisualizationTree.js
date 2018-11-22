@@ -388,7 +388,9 @@
                 return !isEditingNode;
             })
             .select(".node_inner_html span")
-            .html(function(d) {
+            .html(function(d) { <<
+                <<
+                << < HEAD
                 let humanID = d.kNode.dataContent.humanID ? ('' + d.kNode.dataContent.humanID + ' : ') : '';
                 let decorators = '';
                 // if (d.kNode.dataContent.dialoGameReponse && d.kNode.dataContent.dialoGameReponse.decorators) {
@@ -399,7 +401,23 @@
                 //     }
                 // }
 
-                let label = humanID + d.kNode.name + decorators;
+                let label = humanID + d.kNode.name + decorators; ===
+                ===
+                =
+                // TODO: FIX
+                let humanID = d.kNode.dataContent.humanID ? (d.kNode.dataContent.humanID + ' : ') : '';
+                let playerName = '';
+                if (d.kNode.dataContent && d.kNode.dataContent.dialoGameReponse && d.kNode.dataContent.dialoGameReponse.playerName) {
+                    playerName = ' (' + d.kNode.dataContent.dialoGameReponse.playerName + ') ';
+                }
+
+                if (d.kNode.dataContent && d.kNode.dataContent.userName) {
+                    playerName = ' (' + d.kNode.dataContent.userName + ') ';
+                }
+
+                let label = humanID + playerName + d.kNode.name; >>>
+                >>>
+                > dresden - map
                 return label;
             });
 
@@ -505,17 +523,40 @@
             });
         nodeHtmlUpdate.select(".rima_user")
             .style("display", function(d) {
-                return (that.rimaService && that.rimaService.config.showUsers && that.rimaService.getUserById(d.kNode.iAmId)) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')
+
+                // TODO: FIX
+                let playerName = '';
+
+                if (that.rimaService && that.rimaService.config.showUsers && that.rimaService.getUserById(d.kNode.iAmId)) {
+                    playerName = that.rimaService.getUserById(d.kNode.iAmId);
+                }
+                if (d.kNode.dataContent && d.kNode.dataContent.userName) {
+                    playerName = d.kNode.dataContent.userName;
+                }
+                return playerName ? "block" : "none";
+
+                // return (that.rimaService && that.rimaService.config.showUsers && that.rimaService.getUserById(d.kNode.iAmId)) ? "block" : "none"; //TODO: unefective!! double finding users (also in following '.html(function(d){')
 
             })
             .html(function(d) {
-                var label = "";
+                let label = '';
+
                 if (that.rimaService) {
                     var user = that.rimaService.getUserById(d.kNode.iAmId);
                     if (user) {
                         label = "@" + user.displayName;
                     }
                 }
+
+                if (d.kNode.dataContent && d.kNode.dataContent.userName) {
+                    label = ' (' + d.kNode.dataContent.userName + ') ';
+                }
+                // if (that.rimaService) {
+                //     var user = that.rimaService.getUserById(d.kNode.iAmId);
+                //     if (user) {
+                //         label = "@" + user.displayName;
+                //     }
+                // }
                 return label;
             })
             .on("click", function(d) {

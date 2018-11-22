@@ -34,8 +34,8 @@
           </ng-container>
         
           <ng-container matColumnDef="sdgs">
-            <th mat-header-cell *matHeaderCellDef>selected UN SDGs</th>
-            <td mat-cell *matCellDef="let element"> {{element.sdgs}} </td>
+            <th mat-header-cell *matHeaderCellDef>selected UN SDGs<br/>(humanIDs)</th>
+            <td mat-cell *matCellDef="let element" [ngClass]="{'warning': !correctSDGNo(element)}"> {{element.sdgs}} </td>
           </ng-container>
         
           <ng-container matColumnDef="cwcs">
@@ -47,18 +47,23 @@
           </ng-container>
         
           <ng-container matColumnDef="cardPlayedInRound1">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> played card in round 1 </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> card played in round 1 </th>
             <td mat-cell *matCellDef="let element" (click)="resetCWCtoUnplayed(element.cardPlayedInRound1)"  > {{printCardPlayed(element.cardPlayedInRound1)}} </td>
           </ng-container>
         
           <ng-container matColumnDef="cardPlayedInRound2">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> played card in round 2 </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> card played in round 2 </th>
             <td mat-cell *matCellDef="let element">{{printCardPlayed(element.cardPlayedInRound2)}}</td>
           </ng-container>
         
           <ng-container matColumnDef="cardPlayedInRound3">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> played card in round 3 </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> card played in round 3 </th>
             <td mat-cell *matCellDef="let element"> {{printCardPlayed(element.cardPlayedInRound3)}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> actions </th>
+            <td mat-cell *matCellDef="let element" ><user-moderation [user]="element.user"></user-moderation> </td>
           </ng-container>
         
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
