@@ -14,6 +14,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import * as config from '@colabo-utils/i-config';
 
+const SDG_SELECTION_TYPE:string = "rima.selected_UN_SDG"; //TODO, to use from the SDGService (when it's exported to a puzzle)
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,25 +36,6 @@ export class InsightsService {
     private colaboFlowService:ColaboFlowService,
     private rimaAAAService: RimaAAAService
   ) {
-  }
-
-  /**
-  ** TODO: should migrate to SDGService
-  */
-  getSelectedSDGs(forceRefresh:boolean = false){
-    // let result:Observable<KNode[]> ;
-    //
-    // if(forceRefresh || this.selectedSDGs.length == 0){
-    //   result = this.knalledgeEdgeService.queryInMapofTypeAndContentData(InsightsService.mapId, InsightsService.TOPICHAT_MSG_TYPE, "dialoGameReponse.playRound", round)
-    //   .pipe(
-    //     tap(nodesFromServer => this.assignCardsPlayedInTheRound(round, nodesFromServer))
-    //   );
-    //   return result;
-    // }
-    // else{
-    //   if(typeof this.cardsPlayed[round] === 'undefined'){this.cardsPlayed[round] = []}
-    //   return of(this.cardsPlayed[round]);
-    // }
   }
 
   getRegisteredUsers(forceRefresh:boolean = false):Observable<KNode[]>{
@@ -91,7 +74,26 @@ export class InsightsService {
  }
 
  assignCWCs(cwcs:any):void{
-   this.cwcs = cwcs;
+  this.cwcs = cwcs;
+}
+
+ getSDGSelections(forceRefresh:boolean = true):Observable<KEdge[]>{
+  let result:Observable<KEdge[]> ;
+
+  if(forceRefresh || this.selectedSDGs.length == 0){
+    result = this.knalledgeEdgeService.queryForMapTypeUserWTargetNodes(InsightsService.mapId, SDG_SELECTION_TYPE)
+    .pipe(
+      tap(edgesFromServer => this.assignSDGs(edgesFromServer))
+    );
+    return result;
+  }
+  else{
+    return of(this.selectedSDGs);
+  }
+}
+
+assignSDGs(sdgs:any):void{
+   this.selectedSDGs = sdgs;
  }
 
 

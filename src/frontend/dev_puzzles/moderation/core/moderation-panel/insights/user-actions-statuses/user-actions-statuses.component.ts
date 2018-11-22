@@ -3,6 +3,7 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
 import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-flow/f-core/lib/myColaboFlowState';
 import {InsightsService} from '../insights.service';
@@ -55,10 +56,11 @@ export class UserInsight{
   styleUrls: ['./user-actions-statuses.component.css']
 })
 export class UserActionsStatusesComponent implements OnInit {
-  static CWCS_REQUIRED:number = 5;
+  static CWCS_REQUIRED:number = 3;//5;
+  static SDGS_REQUIRED:number = 3;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3'];
+  displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3', 'actions'];
   usersData:MatTableDataSource<UserInsight> = null; //any = [];//UserInsight[] = []; TODO
 
   constructor(
@@ -97,6 +99,11 @@ export class UserActionsStatusesComponent implements OnInit {
   correctCWCNo(us:UserInsight):boolean{
     //console.log('correctCWCNo')
     return us.cwcs.length === UserActionsStatusesComponent.CWCS_REQUIRED;
+  }
+
+  correctSDGNo(us:UserInsight):boolean{
+    //console.log('correctSDGNo')
+    return us.sdgs.length === UserActionsStatusesComponent.SDGS_REQUIRED;
   }
 
   playRoundChanged():void{
@@ -139,6 +146,35 @@ export class UserActionsStatusesComponent implements OnInit {
     }
   }
 
+  getSDGSelections():void{
+    this.insightsService.getSDGSelections(true).subscribe(this.sDGSelectionsReceived.bind(this));
+  }
+
+  sDGSelectionsReceived(sdgs:KEdge[]):void{
+    console.log('sDGSelectionsReceived',sdgs);
+    let usrD:UserInsight;
+    let userDataInTab:UserInsight[] = null
+    // if(this.usersData instanceof MatTableDataSource){
+    // userDataInTab = (this.usersData as MatTableDataSource<UserInsight>).data;
+    userDataInTab = this.usersData.data;
+    // }else{
+    //   userDataTrans = this.usersData;
+    // }
+
+    for(var u:number = 0; u < userDataInTab.length; u++){
+      userDataInTab[u].sdgs = [];
+    }
+    for(var s:number = 0; s < sdgs.length; s++){
+      for(var u:number = 0; u < userDataInTab.length; u++){
+        usrD = userDataInTab[u];
+        if(sdgs[s].iAmId === usrD.user._id){
+          usrD.sdgs.push((sdgs[s].targetId as any).dataContent.humanID); //TODO: expects that the current situation in which humanIDs of SDGs are equal SDG Number.
+        }
+      }
+    }
+  }
+
+
   private usersReceived(users:KNode[]):void{
     //console.log('usersReceived', users);
     let userInsights = [];
@@ -157,6 +193,7 @@ export class UserActionsStatusesComponent implements OnInit {
     this.getCWCs();
     this.getMyCFStates();
     this.getCardsPlayed();
+    this.getSDGSelections();
   }
 
   printCardPlayed(card:KNode):string{

@@ -10,7 +10,7 @@ export class SdgCardComponent implements OnInit {
 
   @Output() toggled = new EventEmitter<boolean>();
   @Input() sdg: KNode;
-  selected:boolean = false;
+  @Input() selected:boolean = false;
   sdgImagesPath:string = 'assets/images/sdgs/s/';
 
   constructor() { }
