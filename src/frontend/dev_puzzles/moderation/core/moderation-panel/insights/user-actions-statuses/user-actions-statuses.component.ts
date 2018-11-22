@@ -60,7 +60,7 @@ export class UserActionsStatusesComponent implements OnInit {
   static SDGS_REQUIRED:number = 3;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3'];
+  displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3', 'actions'];
   usersData:MatTableDataSource<UserInsight> = null; //any = [];//UserInsight[] = []; TODO
 
   constructor(

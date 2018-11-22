@@ -19,6 +19,7 @@ import {InsightsComponent} from '../moderation-panel/insights/insights.component
 import {RegisteredUsersComponent} from '../moderation-panel/registered-users/registered-users.component';
 import {UserCardComponent} from '../moderation-panel/users/user-card.component';
 import {UserActionsStatusesComponent} from '../moderation-panel/insights/user-actions-statuses/user-actions-statuses.component';
+import {UserModerationComponent} from '../user-moderation/user-moderation.component';
 
 import { ColaboFlowCoreModule } from '@colabo-flow/f-core/lib/module';
 
@@ -34,7 +35,8 @@ var moduleDeclarations:any[] = [
   InsightsComponent,
   RegisteredUsersComponent,
   UserCardComponent,
-  UserActionsStatusesComponent
+  UserActionsStatusesComponent,
+  UserModerationComponent
 ];
 
 var moduleImports: any[] = [
