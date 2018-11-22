@@ -134,6 +134,7 @@ exports.index = function(req, res) {
 
 // curl -v -H "Content-Type: application/json" -X POST -d '{"firstname":"Sasha", "familyname": "Rudan", "displayName": "mPrinc"}' http://127.0.0.1:8888/aaa
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8888/aaa
+// NOTE: create is not related with USER CREATION, but with the POST type of HTTP
 exports.create = function(req, res) {
     /**
      * [function called as a find callback]
@@ -150,21 +151,22 @@ exports.create = function(req, res) {
             resSendJsonProtected(res, { data: whoAmIs, accessId: accessId, message: msg, success: false });
         } else {
             console.log("[modules/aaa.js:create - checking user] Data:\n%s", JSON.stringify(whoAmIs));
-            if (whoAmIs !== null) {
-                isValid = validPassword(whoAmIs, data.password);
-                console.log("[modules/aaa.js:create] isValid: %s", isValid);
-            } else {
+            if (!whoAmIs) {
                 // var msg = "Wrong user name or password";
                 var msg = "Wrong user name";
+                console.log("[modules/aaa.js:create] missing user");
                 resSendJsonProtected(res, { data: null, accessId: accessId, message: msg, success: false });
-            }
-
-            if (isValid) {
-                resSendJsonProtected(res, { data: whoAmIs, accessId: accessId, success: true });
             } else {
-                // var msg = "Wrong user name or password";
-                var msg = "Wrong password";
-                resSendJsonProtected(res, { data: null, accessId: accessId, message: msg, success: false });
+                isValid = validPassword(whoAmIs, data.password);
+                console.log("[modules/aaa.js:create] isValid: %s", isValid);
+
+                if (isValid) {
+                    resSendJsonProtected(res, { data: whoAmIs, accessId: accessId, success: true });
+                } else {
+                    // var msg = "Wrong user name or password";
+                    var msg = "Wrong password";
+                    resSendJsonProtected(res, { data: null, accessId: accessId, message: msg, success: false });
+                }
             }
         }
     }
