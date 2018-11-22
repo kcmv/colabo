@@ -18,7 +18,7 @@ export class UserModerationComponent implements OnInit {
 
 
   deleteUser():void{
-    if(window.confirm("Are you sure you want to delete this user?")){
+    if(window.confirm("Are you sure you want to delete user " + this.user.name + '?')){
       this.moderationService.deleteUser(this.user._id).subscribe(this.userDeleted.bind(this));
     }
   }
