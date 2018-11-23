@@ -22,6 +22,8 @@ import {ModerationPanelComponent} from '@colabo-moderation/f-core';
 import {TopiChatTalkForm} from '@colabo-topichat/f-talk';
 import { TopiChatClientsOrchestrationForm } from '@colabo-topichat/f-clients-orchestration';
 import { MapComponent } from '@colabo-knalledge/f-map';
+// import { ResultsVisualizationComponent } from '@colabo-moderation/f-core/lib/module';
+import { ResultsVisualizationComponent } from '@colabo-moderation/f-core';
 
 const routes: Routes = [
   { // default route
@@ -109,6 +111,10 @@ const routes: Routes = [
   {
     path: 'map',
     component: MapComponent
+  },
+  {
+    path: 'results',
+    component: ResultsVisualizationComponent
   }
 ];
 
