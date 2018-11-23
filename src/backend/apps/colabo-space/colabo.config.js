@@ -3,6 +3,7 @@ var puzzles = {
     description: "Colabo.space ecosystem - backend",
     dependencies: {
         "@colabo-flow/b-topichat": {},
+        "@colabo-flow/i-audit": {},
         "@colabo-knalledge/b-storage-mongo": {},
         "@colabo-knalledge/b-core": {},
         "@colabo-knalledge/b-search": {},

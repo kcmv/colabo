@@ -19,6 +19,10 @@ var puzzles = {
         "@colabo-utils/i-pub-sub": {
             npm: "@colabo-utils/i-pub-sub",
             path: "dev_puzzles/utils/pub-sub"
+        },
+        "@colabo-flow/i-audit": {
+            npm: "@colabo-flow/i-audit",
+            path: "dev_puzzles/flow/audit"
         }
     }
 }

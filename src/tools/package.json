@@ -1,7 +1,7 @@
 {
     "name": "@colabo/cli",
     "description": "Tools necessary for building Colabo.Space ecosystem",
-    "version": "0.4.3",
+    "version": "0.4.4",
     "private": false,
     "publishConfig": {
         "access": "public"
