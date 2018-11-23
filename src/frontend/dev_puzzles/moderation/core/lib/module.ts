@@ -29,7 +29,7 @@ import {ColaboFlowTopiChatModule} from '@colabo-flow/f-topichat';
 import {TopiChatSystemModule} from '@colabo-topichat/f-system';
 import {SimilarityModule} from '@colabo-ai-ml/f-similarity';
 import {ResultsVisualizationComponent} from '../moderation-panel/insights/results-visualization/results-visualization.component';
-import {SdgsStatisticsComponent} from '../moderation-panel/insights/sdgs-statistics/sdgs-statistics.component';
+import {SdgsStatisticsComponent} from '../moderation-panel/insights/results-visualization/sdgs-statistics/sdgs-statistics.component';
 
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm
