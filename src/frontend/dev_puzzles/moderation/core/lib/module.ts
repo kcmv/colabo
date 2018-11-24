@@ -28,6 +28,8 @@ import {TopiChatCoreModule} from '@colabo-topichat/f-core';
 import {ColaboFlowTopiChatModule} from '@colabo-flow/f-topichat';
 import {TopiChatSystemModule} from '@colabo-topichat/f-system';
 import {SimilarityModule} from '@colabo-ai-ml/f-similarity';
+import {ResultsVisualizationComponent} from '../moderation-panel/insights/results-visualization/results-visualization.component';
+import {SdgsStatisticsComponent} from '../moderation-panel/insights/results-visualization/sdgs-statistics/sdgs-statistics.component';
 
 var moduleDeclarations:any[] = [
   //  TopiChatSimpleMessageForm
@@ -36,7 +38,9 @@ var moduleDeclarations:any[] = [
   RegisteredUsersComponent,
   UserCardComponent,
   UserActionsStatusesComponent,
-  UserModerationComponent
+  UserModerationComponent,
+  ResultsVisualizationComponent,
+  SdgsStatisticsComponent
 ];
 
 var moduleImports: any[] = [

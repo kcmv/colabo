@@ -101,6 +101,10 @@ export class UserActionsStatusesComponent implements OnInit {
     return us.cwcs.length === UserActionsStatusesComponent.CWCS_REQUIRED;
   }
 
+  printSDGs(us:UserInsight):string{
+    return us.sdgs.length > 0 ? us.sdgs.toString() : 'no SDGs\nselected';
+  }
+
   correctSDGNo(us:UserInsight):boolean{
     //console.log('correctSDGNo')
     return us.sdgs.length === UserActionsStatusesComponent.SDGS_REQUIRED;
