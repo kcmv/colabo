@@ -40,6 +40,7 @@ export class SdgsStatisticsComponent implements OnInit {
        this.sDGSelectedNo[ ((sdgs[s].targetId as any).dataContent.humanID as number)-1]++; //TODO: expects the current situation in which humanIDs of SDGs are equal SDG Number.
     }
     this.generateChart();
+    this.generatePieChart();
   }
 
   generateChart():void{
@@ -50,7 +51,7 @@ export class SdgsStatisticsComponent implements OnInit {
     //   data.push([InsightsService.SDG_NAMES[s],this.sDGSelectedNo[s]]);
     // }
 
-    data = this.sDGSelectedNo;
+    data = this.sDGSelectedNo.slice(); //hard copy
     data.unshift("SDGs Selection");
 
     console.log('data', data);
@@ -73,6 +74,35 @@ export class SdgsStatisticsComponent implements OnInit {
       }
     });
   }
+
+  generatePieChart():void{
+    let columnData:any[] = [];
+    for(var s:number = 0; s < InsightsService.SDGS_NO; s++){
+      columnData.push([InsightsService.SDG_NAMES[s],this.sDGSelectedNo[s]]);
+    }
+    // columnData = [
+    //   [InsightsService.SDG_NAMES[0], this.sDGSelectedNo[0]],
+    //   [InsightsService.SDG_NAMES[1], this.sDGSelectedNo[1]]
+    // ];
+
+  var chart = bb.generate({
+    data: {
+      columns: columnData,
+      type: "pie"
+    //, onclick: function(d, i) {
+    // console.log("onclick", d, i);
+    //  },
+    //   onover: function(d, i) {
+    // console.log("onover", d, i);
+    //  },
+    //   onout: function(d, i) {
+    // console.log("onout", d, i);
+    //  }
+    },
+    bindto: "#PieChart"
+  });
+}
+  
 
   /* D3 example invoked by template's click
   clicked(event: any) {
