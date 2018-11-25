@@ -26,7 +26,8 @@
                         "styles": [
                             "src/styles.css",
                             "node_modules/@colabo-knalledge/f-view_enginee/css/default.css",
-                            "node_modules/@colabo-knalledge/f-view_enginee/css/graph.css"
+                            "node_modules/@colabo-knalledge/f-view_enginee/css/graph.css",
+                            "node_modules/@colabo-moderation/f-core/node_modules/billboard.js/dist/billboard.min.css"
                         ],
                         "scripts": [
                             "src/app/config/config.plugins.js",
@@ -39,7 +40,9 @@
                             "node_modules/@colabo-knalledge/f-core/code/knalledge/js-original/vkNode.js",
                             "node_modules/@colabo-knalledge/f-core/code/knalledge/js-original/vkEdge.js",
                             "node_modules/@colabo-knalledge/f-core/code/knalledge/js-original/state.js",
-                            "node_modules/@colabo-knalledge/f-view_enginee/node_modules/d3/d3.js",
+                            // "node_modules/@colabo-knalledge/f-view_enginee/node_modules/d3/d3.js",
+                            "node_modules/@colabo-moderation/f-core/node_modules/d3/dist/d3.min.js",
+                            "node_modules/@colabo-moderation/f-core/node_modules/billboard.js/dist/billboard.min.js",
                             "node_modules/@colabo-knalledge/f-view_enginee/code/knalledge/mapLayout.js",
                             "node_modules/@colabo-knalledge/f-view_enginee/code/knalledge/mapLayoutTree.js",
                             "node_modules/@colabo-knalledge/f-view_enginee/code/knalledge/mapLayoutFlat.js",

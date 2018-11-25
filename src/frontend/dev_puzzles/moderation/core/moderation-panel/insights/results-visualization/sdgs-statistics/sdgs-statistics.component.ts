@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import * as d3 from 'd3';
-import * as bb from 'billboard';
+// import * as d3 from 'd3';
+// import * as bb from 'billboard';
+declare let d3:any;
+declare let bb:any;
 // import {bb} from 'billboard';
 
 @Component({
