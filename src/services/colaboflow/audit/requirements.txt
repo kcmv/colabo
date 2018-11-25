@@ -1,0 +1,6 @@
+# for using gRPC
+grpcio
+# for building and compiling gRPC clients/services
+grpcio-tools
+# a collection of generated python classes for some common protos
+googleapis-common-protos
