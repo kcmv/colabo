@@ -22,6 +22,28 @@ const SDG_SELECTION_TYPE:string = "rima.selected_UN_SDG"; //TODO, to use from th
 export class InsightsService {
 
   static mapId = config.GetGeneral('mapId');
+  
+  //TODO: migrate to SDGService:
+  static SDGS_NO:number = 17;
+  static SDG_NAMES:string[] =[
+   '1. NO POVERTY',
+   '2. ZERO HUNGER',
+   '3. GOOD HEALTH AND WELL-BEING',
+   '4. QUALITY EDUCATION',
+   '5. GENDER EQUALITY',
+   '6. CLEAN WATER AND SANITATION',
+   '7. AFFORDABLE AND CLEAN ENERGY',
+   '8. DECENT WORK AND ECONOMIC GROWTH',
+   '9. INDUSTRY, INNOVATION AND INFRASTRUCTURE',
+   '10. REDUCED INEQUALITY',
+   '11. SUSTAINABLE CITIES AND COMMUNITIES',
+   '12. RESPONSIBLE CONSUMPTION AND PRODUCTION',
+   '13. CLIMATE ACTION',
+   '14. LIFE BELOW WATER',
+   '15. LIFE ON LAND',
+   '16. PEACE AND JUSTICE STRONG INSTITUTIONS',
+   '17. PARTNERSHIPS TO ACHIEVE THE GOAL'
+  ];
 
   static TOPICHAT_MSG_TYPE:string = 'topiChat.talk.chatMsg';
   cardsPlayed:KNode[][] = new Array<Array<KNode>>(); //first dimension are rounds, second are all cards in that round
