@@ -50,6 +50,8 @@ In `colabo/src/backend/dev_puzzles/flow/audit/lib/audit.ts`:
 ```ts
 const MODULE_NAME: string = "@colabo-flow/b-audit";
 
+import { AuditedAction } from '@colabo-flow/i-audit';
+
 import { GetPuzzle } from '@colabo-utils/i-config';
 let puzzleConfig: any = GetPuzzle(MODULE_NAME);
 
@@ -80,24 +82,35 @@ export class ColaboFlowAudit {
     index(callback: Function = null) {
         let result = "Hello from audit";
 
+        // TODO: read audits from the database
+
         if (result) {
             if (callback) callback(null, result);
-            resSendJsonProtected(this.res, { data: result, accessId: accessId, success: true });
+            if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId, success: true });
         } else {
             let msg = "Missing result";
             let err = {
                 content: msg
             };
             if (callback) callback(err, null);
-            resSendJsonProtected(this.res, { data: null, accessId: accessId, success: false, msg: msg });
+            if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId, success: false, msg: msg });
         }
     }
 
     create(callback: Function = null) {
+        // create audit in the db
+        // let audit: AuditedAction = {
+        //     _id: "ffffffffffff"
+        // };
+
         let body: string = this.req.body;
         console.log("[ColaboFlowAudit.post] body: %s", JSON.stringify(body));
-        if (callback) callback(null, body);
-        resSendJsonProtected(this.res, { data: body, accessId: accessId, success: true });
+        let result:any = {
+            // db: audit,
+            body: body
+        }
+        if (callback) callback(null, result);
+        if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId, success: true });
     }
 } // CLASS END
 
