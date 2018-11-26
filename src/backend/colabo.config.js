@@ -19,6 +19,7 @@ var puzzles = {
         "@colabo-utils/i-config": {},
         "@colabo-flow/b-services": {},
         "@colabo-flow/b-topichat": {},
+        "@colabo-flow/i-audit": {},
         "@colabo-flow/b-audit": {}
     },
     offers: {
