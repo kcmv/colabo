@@ -17,6 +17,6 @@
     </mat-card-footer>   -->
     <mat-card-actions>
         <!-- <button mat-button>SELECT</button> -->
-        <mat-slide-toggle (change)="onToggling()" [disabled]="false" class="example-margin" [checked]="getState()">{{getState() ? 'selected' : 'not selected'}}</mat-slide-toggle>
+        <mat-slide-toggle (change)="onToggling()" [disabled]="getDisabled()" class="example-margin" [checked]="getState()">{{getState() ? 'selected' : 'not selected'}}</mat-slide-toggle>
     </mat-card-actions>
 </mat-card>

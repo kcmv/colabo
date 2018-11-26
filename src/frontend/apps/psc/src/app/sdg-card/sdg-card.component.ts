@@ -9,6 +9,7 @@ import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 export class SdgCardComponent implements OnInit {
 
   @Output() toggled = new EventEmitter<boolean>();
+  @Input() disabledSelection:boolean = false;
   @Input() sdg: KNode;
   @Input() selected:boolean = false;
   sdgImagesPath:string = 'assets/images/sdgs/s/';
@@ -22,6 +23,10 @@ export class SdgCardComponent implements OnInit {
   getState():boolean{
     // console.log('getState:',this.selected);
     return this.selected;
+  }
+
+  getDisabled():boolean{
+    return this.disabledSelection;
   }
 
   onToggling():void{

@@ -138,7 +138,7 @@ export class SdgsStatisticsComponent implements OnInit {
     // }
 
     data = this.sDGSelectedNo.slice(); //hard copy
-    data.unshift("SDGs Selection");
+    data.unshift("Times chosen"); //data name
 
     console.log('data', data);
 
@@ -247,6 +247,8 @@ export class SdgsStatisticsComponent implements OnInit {
     },
     bindto: "#PieChart"
   });
+  
+  // chart.resize({height: 600, width: 600})
 }
   
 

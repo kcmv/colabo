@@ -56,6 +56,14 @@ export class SelectSdgsComponent implements OnInit {
     this.sDGsService.getSDGs().subscribe(this.sdgsReceived.bind(this));
   }
 
+  public selectionDisabled():boolean{
+    return this.saved;
+  }
+
+  userName():string{
+    return this.rimaAAAService.getUser() !== null ? this.rimaAAAService.getUser().name : 'not logged in';
+  }
+
   get isLoggedIn():Boolean{
     return this.rimaAAAService.getUser() !== null;
   }
