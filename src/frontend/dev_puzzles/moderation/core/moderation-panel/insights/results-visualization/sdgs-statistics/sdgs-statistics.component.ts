@@ -25,6 +25,7 @@ export class SdgsStatisticsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.generateTestChart();
   }
 
   // https://medium.com/@balramchavan/integrating-d3js-with-angular-5-0-848ed45a8e19
@@ -43,6 +44,91 @@ export class SdgsStatisticsComponent implements OnInit {
     this.generatePieChart();
   }
 
+  generateTestChart():void{
+    // this.generateTestChart1();
+  //   this.generateTestChart2();
+  }
+
+  // generateTestChart1():void{
+  //   var data = [ 
+  //     ["data1", 0.1, 0.3, 0.2, 0.4, 0.5]
+  //   ];
+    
+  //   var chart = bb.generate({
+  //       bindto: "#test_chart",
+  //       data: {
+  //         type: "bar",
+  //         columns: data,
+  //         labels: {
+  //             format: function (v, id, i, j) {
+  //                 return d3.format(",.2%")(v);
+  //             }
+  //         }
+  //       }
+  //   });
+  // }
+
+  // generateTestChart2():void{
+  //   var chart = bb.generate({
+  //     bindto: "#test_chart",
+  //     data: {
+  //         type: "bar",
+  //         columns: [
+  //               // ["1 No Poverty", "Zero Hunger", "3", "4", "5. Education"],
+  //               // data
+  //               ['data1', 12,14,40,5]
+  //               // ["number of selections", {'No Poverty', 30},  200, 100, 170, 150, 250]
+  //               // ["number of selections", this.sDGSelectedNo]
+  //           ]
+  //         // columns: [
+  //         //     ["data1", 30,  200, 100, 170, 150, 250],
+  //         //     ["data2", 130, 100, 140, 35,  110, 50 ]
+  //         // ]
+  //     },
+  //     axis: {
+  //       x: {
+  //         label: {
+  //           text: "17 SDGs",
+  //           position: "outer-center"
+  //         },
+  //         type: "category",
+  //         categories: InsightsService.SDG_NAMES
+  //       }
+  //     }
+  //   });
+
+  //   // chart.axis.labels({
+  //   //   x: "17 SDGs",
+  //   //   y: "Numbrer of participants selecting it"
+  //   // });
+
+  //   // chart.categories(InsightsService.SDG_NAMES);
+  //   // chart.data.names(InsightsService.SDG_NAMES);
+  //   // chart.axis.x.categories = InsightsService.SDGS_NO;
+
+  //   // chart.axis: {
+  //   //   x: {
+  //   //     categories: InsightsService.SDGS_NO
+  //   //   }
+  //   // }
+
+  //   let xgridsData:any[] = [];
+  //   // [
+  //   //   {value: 1, text: "Label 1"},
+  //   //   {value: 4, text: "Label 4"}
+  //   // ]
+  //   for(var s:number = 0; s < InsightsService.SDGS_NO; s++){
+  //     xgridsData.push({value:s, text:InsightsService.SDG_NAMES[s]});
+  //   }
+  //   chart.xgrids(xgridsData);
+
+
+  // //  chart.xgrids.add([
+  // //     {value: 2, text: "Label 2"},
+  // //     {value: 5, text: "Label 4"}
+  // //   ]);
+  // }
+
   generateChart():void{
     console.log('this.sDGSelectedNo', this.sDGSelectedNo);
     let data:any[] = [];
@@ -58,26 +144,54 @@ export class SdgsStatisticsComponent implements OnInit {
 
     var chart = bb.generate({
       bindto: "#chart",
+      "title": {
+        "text": "Distribution of SDGs Selections"
+      },
+      "transition": {
+          "duration": 2000
+      },
       data: {
           type: "bar",
-          columns: [
-                // ["1 No Poverty", "Zero Hunger", "3", "4", "5. Education"],
-                // data
-                data
-                // ["number of selections", {'No Poverty', 30},  200, 100, 170, 150, 250]
-                // ["number of selections", this.sDGSelectedNo]
-            ]
-          // columns: [
-          //     ["data1", 30,  200, 100, 170, 150, 250],
-          //     ["data2", 130, 100, 140, 35,  110, 50 ]
-          // ]
+          columns: [data],
+          labels: {
+            format: function (v, id, i, j) {
+                return v;//d3.format(",.2%")(v) + data[0][i + 1];
+            }
+        }
+      },
+      axis: {
+        x: {
+          label: {
+            text: "",//: it overlaps visually with categories: "17 SDGs",
+            position: "outer-center"
+          },
+          type: "category",
+          categories: InsightsService.SDG_NAMES
+        },
+        y: {
+          label: {
+            text: "Numbrer of participants selecting it",
+            position: "inner-top "
+          }
+          // ,
+          // labels: {
+          //   format: function (v, id, i, j) {
+          //       return d3.format(",.2%")(v) + data[0][i + 1];
+          //   }
+          // }
+        }
+      },
+      legend:{
+        hide: true
       }
     });
+    
+    // chart.legend.inset.y = 20;
 
-    chart.axis.labels({
-      x: "17 SDGs",
-      y: "Numbrer of participants selecting it"
-    });
+    // chart.axis.labels({
+    //   x: "17 SDGs",
+    //   y: "Numbrer of participants selecting it"
+    // });
 
     // chart.categories(InsightsService.SDG_NAMES);
     // chart.data.names(InsightsService.SDG_NAMES);
@@ -89,6 +203,7 @@ export class SdgsStatisticsComponent implements OnInit {
     //   }
     // }
 
+    /* GRID DATA : NOT USING NOW
     let xgridsData:any[] = [];
     // [
     //   {value: 1, text: "Label 1"},
@@ -98,7 +213,7 @@ export class SdgsStatisticsComponent implements OnInit {
       xgridsData.push({value:s, text:InsightsService.SDG_NAMES[s]});
     }
     chart.xgrids(xgridsData);
-
+    */
 
   //  chart.xgrids.add([
   //     {value: 2, text: "Label 2"},
