@@ -30,7 +30,7 @@ import { TopiChatClientsOrchestrationModule } from '@colabo-topichat/f-clients-o
 import {SimilarityModule} from '@colabo-ai-ml/f-similarity';
 import { KnalledgeMapModule } from '@colabo-knalledge/f-map';
 import { MediaUploadModule } from '@colabo-media/f-upload';
-
+import { ColaboFlowAuditModule } from '@colabo-flow/f-audit';
 
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
@@ -136,6 +136,7 @@ var moduleImports = [
   , KnalledgeMapModule
   , MediaUploadModule
   , UtilsNotificationModule
+  , ColaboFlowAuditModule
 ];
 // moduleImports.push(MainModule);
 
@@ -170,6 +171,7 @@ declare var window:any;
     // provide ng build error: "Can't resolve all parameters for GlobalEmitterService"
     // {provide: GlobalEmitterService, useClass: GlobalEmitterService},
     {provide: GlobalEmittersArrayService, useClass: GlobalEmittersArrayService},
+    // TODO: move out of here, into puzzles' modules
     SDGsService,
     CWCService,
     DialoGameService

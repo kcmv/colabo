@@ -27,6 +27,7 @@ var puzzles = {
         "@colabo-topichat/f-core": {},
         "@colabo-topichat/f-talk": {},
         "@colabo-topichat/f-system": {},
+        "@colabo-flow/f-audit": {},
         "@colabo-flow/f-core": {},
         "@colabo-flow/f-topichat": {},
         "@colabo-flow/i-audit": {},

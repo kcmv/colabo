@@ -12,7 +12,9 @@ var puzzles = {
         "build": false,
         "symlinks": false
     },
-    dependencies: {},
+    dependencies: {
+        "@colabo-flow/i-audit": {}
+    },
     offers: {
         "@colabo-puzzles/f-core": {
             npm: "@colabo-puzzles/f-core",
@@ -89,6 +91,10 @@ var puzzles = {
         "@colabo-flow/f-core": {
             npm: "@colabo-flow/f-core",
             path: "dev_puzzles/flow/core"
+        },
+        "@colabo-flow/f-audit": {
+            npm: "@colabo-flow/f-audit",
+            path: "dev_puzzles/flow/audit"
         },
         "@colabo-flow/f-topichat": {
             npm: "@colabo-flow/f-topichat",

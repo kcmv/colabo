@@ -24,6 +24,7 @@ import { TopiChatClientsOrchestrationForm } from '@colabo-topichat/f-clients-orc
 import { MapComponent } from '@colabo-knalledge/f-map';
 // import { ResultsVisualizationComponent } from '@colabo-moderation/f-core/lib/module';
 import { ResultsVisualizationComponent } from '@colabo-moderation/f-core';
+import { ColaboFlowAuditForm } from '@colabo-flow/f-audit';
 
 const routes: Routes = [
   { // default route
@@ -115,6 +116,10 @@ const routes: Routes = [
   {
     path: 'results',
     component: ResultsVisualizationComponent
+  },
+  {
+    path: 'colaboflow-audits',
+    component: ColaboFlowAuditForm
   }
 ];
 

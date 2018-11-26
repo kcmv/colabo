@@ -1,7 +1,7 @@
 {
-    "name": "@colabo-flow/b-audit",
+    "name": "@colabo-flow/f-audit",
     "version": "0.3.1",
-    "description": "A backend part of the ColaboFlow Audit support for the Colabo.Space ecosystem",
+    "description": "A frontend part of the ColaboFlow Audit support for the Colabo.Space ecosystem",
     "private": false,
     "publishConfig": {
         "access": "public"
