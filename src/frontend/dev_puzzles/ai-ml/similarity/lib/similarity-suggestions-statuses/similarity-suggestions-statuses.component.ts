@@ -5,6 +5,7 @@ import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-nod
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
 import {InsightsService} from '@colabo-moderation/f-core/moderation-panel/insights/insights.service';
+import {SimilarityService} from '../similarity.service';
 
 //import {TooltipPosition} from '@angular/material';
 
@@ -18,16 +19,16 @@ import {InsightsService} from '@colabo-moderation/f-core/moderation-panel/insigh
 export class UserSuggestions{
   user:KNode = null;
   myColaboFlowState:number;
-  myCWCs:KNode[];
+  cwcs:KNode[];
   sdgs:number[];
-  suggestionsForRound1:string;
-  suggestionsForRound2:string;
-  suggestionsForRound3:string;
+  suggestionsForRound1:KNode;
+  suggestionsForRound2:KNode;
+  suggestionsForRound3:KNode;
 
-  constructor(user:KNode, myColaboFlowState:number, myCWCs:KNode[], sdgs:number[], suggestionsForRound1:string, suggestionsForRound2:string, suggestionsForRound3:string){
+  constructor(user:KNode, myColaboFlowState:number, cwcs:KNode[], sdgs:number[], suggestionsForRound1:KNode, suggestionsForRound2:KNode, suggestionsForRound3:KNode){
     this.user = user;
     // if(!('dataContent' in this.user)){this.user.dataContent = {};}
-    this.myCWCs = myCWCs;
+    this.cwcs = cwcs;
     this.suggestionsForRound1 = suggestionsForRound1;
     this.suggestionsForRound2 = suggestionsForRound2;
     this.suggestionsForRound3 = suggestionsForRound3;
@@ -55,13 +56,14 @@ export class SimilaritySuggestionsStatusesComponent implements OnInit {
   static CWCS_REQUIRED:number = 5;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['id', 'name', 'myCWCs', 'suggestionsForRound1', 'suggestionsForRound2', 'suggestionsForRound3'];
+  displayedColumns: string[] = ['id', 'name', 'cwcs', 'suggestionsForRound1', 'suggestionsForRound2', 'suggestionsForRound3'];
   usersData:MatTableDataSource<UserSuggestions> = null; //any = [];//UserSuggestions[] = []; TODO
 
   constructor(
     private knalledgeNodeService:KnalledgeNodeService,
     private colaboFlowService:ColaboFlowService,
-    private insightsService:InsightsService
+    private insightsService:InsightsService,
+    private similarityService:SimilarityService
   ) { }
 
   ngOnInit() {
@@ -77,13 +79,15 @@ export class SimilaritySuggestionsStatusesComponent implements OnInit {
     let cwcs:string = '';
     let conn:string = '';
     let cwc:KNode;
-    for(var c:number = 0; c < us.myCWCs.length; c++){
-      // console.log('getCWCsPrint:: us.myCWCs', us.myCWCs);
-      cwc = us.myCWCs[c];
+    for(var c:number = 0; c < us.cwcs.length; c++){
+      // console.log('getCWCsPrint:: us.cwcs', us.cwcs);
+      cwc = us.cwcs[c]; 
       if(('dataContent' in cwc) && ('humanID' in cwc.dataContent)){
         // cwcs+= conn + '<span matTooltip="CWC">'+cwc.dataContent.humanID+'</span>';
-        cwcs+= conn + '<span matTooltip="'+cwc.name+'">'+cwc.dataContent.humanID+'</span>';
-        conn = ', ';
+        // cwcs+= conn + '<span matTooltip="'+cwc.name+'">'+cwc.dataContent.humanID+ (this.insightsService.isCwcPlayed(cwc) ? 'p' : '') + '</span>';
+        cwcs+= conn + '<B>' + cwc.dataContent.humanID + (this.insightsService.isCwcPlayed(cwc) ? ' (p:' +this.insightsService.roundPlayed(cwc) + ')' : '') + '</B>: ' + cwc.name;
+        // conn = ', ';
+        conn = ', \n<br/>';
       }
     }
     //console.log('[getCWCsPrint] cwcs',cwcs);
@@ -92,16 +96,8 @@ export class SimilaritySuggestionsStatusesComponent implements OnInit {
 
   correctCWCNo(us:UserSuggestions):boolean{
     //console.log('correctCWCNo')
-    return us.myCWCs.length === SimilaritySuggestionsStatusesComponent.CWCS_REQUIRED;
+    return us.cwcs.length === InsightsService.CWCS_REQUIRED;
   }
-
-  // playRoundChanged():void{
-  //   this.getCardsPlayedInTheRound();
-  // }
-  //
-  // getCardsPlayedInTheRound():void{
-  //   this.insightsService.getCardsPlayedInTheRound(this.colaboFlowService.colaboFlowState.playRound, true).subscribe(this.cardsPlayedReceived.bind(this));
-  // }
 
   getCWCs():void{
     this.insightsService.getCWCs(true).subscribe(this.cwcsReceived.bind(this));
@@ -119,13 +115,13 @@ export class SimilaritySuggestionsStatusesComponent implements OnInit {
     // }
 
     for(var u:number = 0; u < userDataInTab.length; u++){
-      userDataInTab[u].myCWCs = [];
+      userDataInTab[u].cwcs = [];
     }
     for(var c:number = 0; c < cwcs.length; c++){
       for(var u:number = 0; u < userDataInTab.length; u++){
         usrD = userDataInTab[u];
         if(cwcs[c].iAmId === usrD.user._id){
-          usrD.myCWCs.push(cwcs[c]);
+          usrD.cwcs.push(cwcs[c]);
         }
       }
     }
@@ -147,36 +143,45 @@ export class SimilaritySuggestionsStatusesComponent implements OnInit {
     // console.log('usersData:A',JSON.stringify(this.usersData));
     this.usersData.sort = this.sort;
     this.getCWCs();
+    this.getSimilaritySuggestions();
   }
 
-  // getSimilaritySuggestionsStatusesData():void{
-  //
-  //   this.usersData = [
-  //     {position: 1, name: 'Sinisa', weight: 1.0079, symbol: 'H'},
-  //     {position: 2, name: 'Sasa', weight: 4.0026, symbol: 'He'},
-  //     {position: 3, name: 'Test', weight: 6.941, symbol: 'Li'},
-  //     {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  //     {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  //     {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  //     {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  //     {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  //     {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  //     {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  //   ];
-  // }
+  getSimilaritySuggestions():void{
+    this.similarityService.getSimilaritySuggestions().subscribe(this.similaritySuggestionsReceived.bind(this));
+  }
 
-  cardsPlayedReceived(cards:KNode[]):void{
-    console.log('[SimilaritySuggestionsStatusesComponent]cardsPlayedReceived', cards);
-
-    // this.insightsService.getRegisteredUsers().subscribe(this.usersReceived.bind(this));
-    //TODO: so far not doing anything just to have the cards in service
-    // //resetting 'hasUserPlayedInTheRound' for the case that this method returns after the 'usersReceived' method
-    // for(var c:number=0; c<cards.length; c++){
-    //   for(var u:number=0; u<this.usersData.length; u++){
-    //     if(this.usersData[u]._id = cards[i].iAmId){
-    //       this.usersData[u]
-    //     }
+  private similaritySuggestionsReceived(similarities:KNode[]):void{
+    console.log('similaritySuggestionsReceived',similarities);
+    let usrD:UserSuggestions;
+    let userDataInTab:UserSuggestions[] = null
+    // if(this.usersData instanceof MatTableDataSource){
+    // userDataInTab = (this.usersData as MatTableDataSource<UserSuggestions>).data;
+    userDataInTab = this.usersData.data;
+    // }else{
+    //   userDataTrans = this.usersData;
     // }
+
+    for(var s:number = 0; s < similarities.length; s++){
+      for(var u:number = 0; u < userDataInTab.length; u++){
+        usrD = userDataInTab[u];
+        if(similarities[s].iAmId === usrD.user._id){
+          switch(similarities[s].dataContent.result.playRound){
+            case 1:
+              usrD.suggestionsForRound1 = similarities[s];
+            break;
+            case 2:
+              usrD.suggestionsForRound2 = similarities[s];
+            break;
+            case 3:
+              usrD.suggestionsForRound3 = similarities[s];
+            break;
+          }
+        }
+      }
+    }
   }
 
+  printSuggestion(suggestion:KNode):string{
+    return suggestion === null ? '-' : JSON.stringify(suggestion.dataContent.result.suggestions as Array<any>);
+  }
 }

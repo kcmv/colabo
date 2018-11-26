@@ -25,6 +25,8 @@ export class InsightsService {
   
   //TODO: migrate to SDGService:
   static SDGS_NO:number = 17;
+  static CWCS_REQUIRED:number = 3;//5;
+  static SDGS_REQUIRED:number = 3;
   static SDG_NAMES:string[] =[
    '1. NO POVERTY',
    '2. ZERO HUNGER',
@@ -95,7 +97,7 @@ export class InsightsService {
    }
  }
 
- assignCWCs(cwcs:any):void{
+assignCWCs(cwcs:any):void{
   this.cwcs = cwcs;
 }
 

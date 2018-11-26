@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
+
 // import { RouterModule } from '@angular/router';
 
-// import { FormsModule } from '@angular/forms';
-// import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Material
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import 'hammerjs';
 import { MaterialModule } from './materialModule';
@@ -27,11 +28,11 @@ var moduleImports: any[] = [
 
 //    ReactiveFormsModule,
 
-  //  FormsModule,
-    // FlexLayoutModule,
+   FormsModule,
+    FlexLayoutModule,
 
     // Material
-    // BrowserAnimationsModule,
+    BrowserAnimationsModule,
     MaterialModule
 ];
 
