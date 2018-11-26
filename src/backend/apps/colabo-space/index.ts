@@ -135,6 +135,9 @@ var topiChatClientsOrchestration = new TopiChatClientsOrchestration(topiChat);
 import {ColaboFlowTopiChat} from '@colabo-flow/b-topichat';
 var colaboFlowTopiChat = new ColaboFlowTopiChat(topiChat);
 
+import * as ColaboFlowAudit from '@colabo-flow/b-audit';
+ColaboFlowAudit.initialize(expressApp);
+
 // let server = http.createServer(expressApp).listen(expressApp.get('port')
 let httpServer = http.Server(expressApp);
 topiChat.connect(httpServer);

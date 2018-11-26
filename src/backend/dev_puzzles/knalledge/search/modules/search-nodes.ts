@@ -35,7 +35,7 @@ class SearchNodes {
 
 		var id = this.req.params.searchParam;
 		var id2 = this.req.params.searchParam2;
-    var id3 = this.req.params.searchParam3;
+    	var id3 = this.req.params.searchParam3;
 		var type = this.req.params.type;
 		var actionType = this.req.params.actionType;
 
@@ -83,17 +83,16 @@ class SearchNodes {
 		} else if (type == 'children' && actionType == 'in-map') {
 			KEdgeModel.find({ 'mapId': id, 'sourceId': id2 }, foundEdges.bind(this));
 			isParents = false;
-    } else if (type == 'children' && actionType == 'in-map-of-type') {
+		} else if (type == 'children' && actionType == 'in-map-of-type') {
 
-      // var found = function(){}
-      //
-      // KEdgeModel.find({ 'mapId': id, 'type': id2}).populate('targetId', '_id name').exec(found.bind(this);
-      // // HowAmIModel.find({ whoAmI: id }).populate('whatAmI', '_id name').exec(found);
-      // isParents = false;
-    }else{
-			resSendJsonProtected(this.res, { data: null, accessId: accessId, success: false, msg: "Not matching API signature" });
+		// var found = function(){}
+		//
+		// KEdgeModel.find({ 'mapId': id, 'type': id2}).populate('targetId', '_id name').exec(found.bind(this);
+		// // HowAmIModel.find({ whoAmI: id }).populate('whatAmI', '_id name').exec(found);
+		// isParents = false;
+		}else{
+				resSendJsonProtected(this.res, { data: null, accessId: accessId, success: false, msg: "Not matching API signature" });
 		}
-
 	}
 } // CLASS END
 
