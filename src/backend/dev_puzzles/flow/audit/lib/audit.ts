@@ -36,14 +36,14 @@ export class ColaboFlowAudit {
 
         if (result) {
             if (callback) callback(null, result);
-            resSendJsonProtected(this.res, { data: result, accessId: accessId, success: true });
+            if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId, success: true });
         } else {
             let msg = "Missing result";
             let err = {
                 content: msg
             };
             if (callback) callback(err, null);
-            resSendJsonProtected(this.res, { data: null, accessId: accessId, success: false, msg: msg });
+            if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId, success: false, msg: msg });
         }
     }
 
@@ -59,8 +59,8 @@ export class ColaboFlowAudit {
             // db: audit,
             body: body
         }
-        if (callback) callback(null, body);
-        resSendJsonProtected(this.res, { data: result, accessId: accessId, success: true });
+        if (callback) callback(null, result);
+        if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId, success: true });
     }
 } // CLASS END
 
