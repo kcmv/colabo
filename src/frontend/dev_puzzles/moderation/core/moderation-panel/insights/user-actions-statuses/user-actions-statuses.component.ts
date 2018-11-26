@@ -56,8 +56,6 @@ export class UserInsight{
   styleUrls: ['./user-actions-statuses.component.css']
 })
 export class UserActionsStatusesComponent implements OnInit {
-  static CWCS_REQUIRED:number = 3;//5;
-  static SDGS_REQUIRED:number = 3;
   @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3', 'actions'];
@@ -98,7 +96,7 @@ export class UserActionsStatusesComponent implements OnInit {
 
   correctCWCNo(us:UserInsight):boolean{
     //console.log('correctCWCNo')
-    return us.cwcs.length === UserActionsStatusesComponent.CWCS_REQUIRED;
+    return us.cwcs.length === InsightsService.CWCS_REQUIRED;
   }
 
   printSDGs(us:UserInsight):string{
@@ -107,7 +105,7 @@ export class UserActionsStatusesComponent implements OnInit {
 
   correctSDGNo(us:UserInsight):boolean{
     //console.log('correctSDGNo')
-    return us.sdgs.length === UserActionsStatusesComponent.SDGS_REQUIRED;
+    return us.sdgs.length === InsightsService.SDGS_REQUIRED;
   }
 
   playRoundChanged():void{

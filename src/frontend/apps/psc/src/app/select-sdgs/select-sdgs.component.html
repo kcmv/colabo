@@ -41,13 +41,13 @@
                 <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
                 <!-- <h3>United Nations - Циљеви одрживог развоја (SDGs)</h3> -->
                 <h3>United Nations - Sustainable Development Goals (SDGs)</h3>
-                <h3 style="color:blue">You need to select <span style="color:red">THREE</span> SDGs</h3>
+                <h3 style="color:blue">{{userName()}}, <span *ngIf="!saved ">you need to select </span><span *ngIf="saved">you have selected</span><span style="color:red"> THREE</span> SDGs</h3>
                 <!-- <h1>United Nations Sustainable Development Goals (SDGs)</h1> -->
                 <br/><br/><br/><br/><br/>
 
                 <div class='sdgs' fxLayout="row wrap " fxLayout.xs="column " fxLayoutGap="0.5% " fxLayoutAlign="center ">
 
-                    <sdg-card *ngFor="let sdgD of sdgs " class="sdg " (toggled)="onToggled($event,sdgD._id) " [sdg]="sdgD " [selected]="isSdgSelected(sdgD._id)"></sdg-card>
+                    <sdg-card *ngFor="let sdgD of sdgs " class="sdg " (toggled)="onToggled($event,sdgD._id) " [sdg]="sdgD " [disabledSelection]="selectionDisabled()" [selected]="isSdgSelected(sdgD._id)"></sdg-card>
 
                 </div>
             </div>

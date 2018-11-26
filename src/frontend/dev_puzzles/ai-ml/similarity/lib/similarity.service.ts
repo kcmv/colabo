@@ -3,11 +3,12 @@ import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import { RimaAAAService } from '@colabo-rima/f-aaa';
 import {ColaboFlowService} from '@colabo-flow/f-core';
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import * as config from '@colabo-utils/i-config';
 
 import {ColaboFlowTopiChatService, ColaboFlowTopiChatEvents, TopiChatPackage, ColaboPubSubPlugin} from '@colabo-flow/f-topichat';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class SimilarityService {
@@ -15,6 +16,8 @@ export class SimilarityService {
   static mapId = config.GetGeneral('mapId');
   public similarityRequestsSentNo: number = 0;
   public similarityRequestsReceivedNo: number = 0;
+
+  private similarities:KNode[] = [];
 
   constructor(
     private colaboFlowService:ColaboFlowService,
@@ -91,5 +94,24 @@ export class SimilarityService {
       console.log("[SimilarityService:actionResponseMsg] Action: '%s' with params: %s and result:", action, JSON.stringify(params));
       console.log("\t %s", JSON.stringify(result));
       // this.messages.push(tcPackage.msg);
+  }
+
+  getSimilaritySuggestions(forceRefresh:boolean = true):Observable<KNode[]>{
+    let result:Observable<KNode[]> ;
+ 
+    if(forceRefresh || this.similarities.length == 0){
+      result = this.knalledgeNodeService.queryInMapofType(SimilarityService.mapId, SimilarityService.CWC_SIMILARITIES_TYPE)
+      .pipe(
+        tap(nodesFromServer => this.assignSimilarities(nodesFromServer))
+      );
+      return result;
+    }
+    else{
+      return of(this.similarities);
+    }
+  }
+
+  assignSimilarities(similarities:any):void{
+    this.similarities = similarities;
   }
 }
