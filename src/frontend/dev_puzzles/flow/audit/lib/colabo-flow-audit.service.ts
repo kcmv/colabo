@@ -29,18 +29,18 @@ export class ColaboFlowAuditService{
   
   getItems():AuditedAction[]{
     let items:AuditedAction[] = [];
-    items.push({
-      id: "ff3c",
+    items.push(({
+      _id: "ff3c",
       name: "Сава"
-    });
-    items.push({
-      id: "ad3c",
+    }) as AuditedAction);
+    items.push(({
+      _id: "ad3c",
       name: "Николај"
-    });
-    items.push({
-      id: "872е",
+    }) as AuditedAction);
+    items.push(({
+      _id: "872е",
       name: "Симеон"
-    });
+    }) as AuditedAction);
     return items;
   }
 }
