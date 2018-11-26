@@ -73,6 +73,37 @@ export class SdgsStatisticsComponent implements OnInit {
           // ]
       }
     });
+
+    chart.axis.labels({
+      x: "17 SDGs",
+      y: "Numbrer of participants selecting it"
+    });
+
+    // chart.categories(InsightsService.SDG_NAMES);
+    // chart.data.names(InsightsService.SDG_NAMES);
+    // chart.axis.x.categories = InsightsService.SDGS_NO;
+
+    // chart.axis: {
+    //   x: {
+    //     categories: InsightsService.SDGS_NO
+    //   }
+    // }
+
+    let xgridsData:any[] = [];
+    // [
+    //   {value: 1, text: "Label 1"},
+    //   {value: 4, text: "Label 4"}
+    // ]
+    for(var s:number = 0; s < InsightsService.SDGS_NO; s++){
+      xgridsData.push({value:s, text:InsightsService.SDG_NAMES[s]});
+    }
+    chart.xgrids(xgridsData);
+
+
+  //  chart.xgrids.add([
+  //     {value: 2, text: "Label 2"},
+  //     {value: 5, text: "Label 4"}
+  //   ]);
   }
 
   generatePieChart():void{

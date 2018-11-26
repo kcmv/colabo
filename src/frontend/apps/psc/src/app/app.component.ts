@@ -25,8 +25,8 @@ export class AppComponent {
 
     this.utilsNotificationService.addNotification({
       type: NotificationMsgType.Info,
-      title: 'NOTE:',
-      msg: 'FV is starting'
+      title: 'Colabo.Space',
+      msg: 'starting ...'
     }
 );
   }
