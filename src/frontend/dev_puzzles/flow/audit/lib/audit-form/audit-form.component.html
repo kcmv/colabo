@@ -15,9 +15,9 @@
         <div class="chat-list">
             <div *ngFor="let item of items">
                 <p>
-                    <mat-icon [style.display]="item?._id ? 'inline' : 'none' ">done</mat-icon>
-                    <span *ngIf="item._id" style="font-weight: bold; color: blue">
-                    {{item?._id}}:  &nbsp;
+                    <mat-icon [style.display]="item?.id ? 'inline' : 'none' ">done</mat-icon>
+                    <span *ngIf="item.id" style="font-weight: bold; color: blue">
+                    {{item?.id}}:  &nbsp;
                     </span>
                     <span> {{item?.name}} </span>
                 </p>
