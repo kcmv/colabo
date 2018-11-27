@@ -99,8 +99,8 @@ export class ColaboFlowAuditForm implements OnInit {
         },
         y: {
           label: {
-            text: "Number of Audits with specific name",
-            position: "inner-top "
+            text: "Number of Audits",
+            position: "inner-middle"
           }
           // ,
           // labels: {
