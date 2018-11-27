@@ -1,12 +1,11 @@
 const MODULE_NAME: string = "@colabo-flow/f-audit";
 
 import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Observer } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { AuditedAction } from '@colabo-flow/i-audit';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class ColaboFlowAuditService{
@@ -27,7 +26,7 @@ export class ColaboFlowAuditService{
     // initialize 
   }
   
-  getItems():AuditedAction[]{
+  getItems():Observable<AuditedAction[]>{
     let items:AuditedAction[] = [];
     items.push(({
       _id: "ad30",
@@ -100,7 +99,6 @@ export class ColaboFlowAuditService{
       flowId: "searchSoundsWithCache",
       flowInstanceId: "ff03"
     }) as AuditedAction);
-    return items;
 
     items.push(({
       _id: "ad5a",
@@ -109,5 +107,6 @@ export class ColaboFlowAuditService{
       flowInstanceId: "ff03"
     }) as AuditedAction);
 
+    return of(items);
   }
 }
