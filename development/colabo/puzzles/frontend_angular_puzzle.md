@@ -245,16 +245,6 @@ var moduleImports = [
 ];
 ```
 
-
-In `colabo/src/frontend/apps/psc/index.ts`
-
-add new puzzle
-
-```ts
-import * as ColaboFlowAudit from '@colabo-flow/f-audit';
-ColaboFlowAudit.initialize(expressApp);
-``` 
-
 add button to the route
 
 In `colabo/src/frontend/dev_puzzles/moderation/core/moderation-panel/moderation-panel.component.html`:
