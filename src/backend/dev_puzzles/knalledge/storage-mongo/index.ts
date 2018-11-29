@@ -1,3 +1,5 @@
+// @colabo-knalledge/b-storage-mongo
+
 import {DBConnect} from './lib/dbService';
 export {DBConnect};
 declare let global:any;

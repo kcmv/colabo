@@ -1,0 +1,19 @@
+{
+    "name": "services-support-colabo-space",
+    "description": "Support for the services in the Colabo.Space Ecosystem",
+    "version": "0.1.5",
+    "private": true,
+    "scripts": {
+        "prepare": "colabo puzzles-offer; colabo puzzles-install; colabo puzzles-build",
+        "clean_full": "rm -r node_modules/; rm -r dev_puzzles/*/*/node_modules; rm -r dev_puzzles/*/*/dist; rm -r dist/"
+    },
+    "dependencies": {
+        "@types/chalk": "^2.2.0",
+        "@types/es6-promise": "^3.3.0",
+        "@types/express": "^4.16.0",
+        "@types/node": "^10.7.1",
+        "body-parser": "^1.18.3",
+        "chalk": "^2.4.1"
+    },
+    "devDependencies": {}
+}

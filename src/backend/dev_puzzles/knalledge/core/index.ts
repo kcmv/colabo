@@ -1,3 +1,5 @@
+// @colabo-knalledge/b-core
+
 export function KnAllEdgeCoreRegister(app) {
     console.log("[puzzle(knalledge/core) - /models/index.js] Registering KnAllEdge core API to: ", app);
 

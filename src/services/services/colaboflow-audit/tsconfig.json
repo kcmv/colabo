@@ -20,10 +20,10 @@
     },
     "allowSyntheticDefaultImports": false,
     "files": [
-        "colaboflow_audit_server.ts", 
-        "colaboflow_audit_client.ts"
+        "index.ts"
     ],
     "include": [
+        "config"
     ],
     "exclude": [
         "**/*d.ts"

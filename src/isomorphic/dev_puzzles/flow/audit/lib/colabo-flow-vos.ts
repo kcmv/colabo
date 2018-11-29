@@ -1,3 +1,7 @@
+export interface RpcMethods {
+    [methodName: string]: Function
+}
+
 export enum BpmnSymbolType{
     Event = 'event',
     Activity = 'activity',
@@ -50,9 +54,9 @@ export interface AuditedAction{
     time: string; // when did the action happen
 
     // action types
-    type: BpmnSymbolType; // action type (BpmnSymbolType.Event, ...)
-    subtype: BpmnSymbolSubType; // sub type (ActivityType.Task, EventType.Start, ...)
-    subsubtype: BpmnSymbolSubSubType; // sub-sub type (EventSubType.Message, ...)
+    bpmn_type: BpmnSymbolType; // action type (BpmnSymbolType.Event, ...)
+    bpmn_subtype: BpmnSymbolSubType; // sub type (ActivityType.Task, EventType.Start, ...)
+    bpmn_subsubtype: BpmnSymbolSubSubType; // sub-sub type (EventSubType.Message, ...)
 
     flowId?: string; // name of the flow the action belongs to
     name: string; // name of the action (inside the flow)
@@ -66,23 +70,23 @@ export interface AuditedAction{
 }
 
 export class AuditedActionClass implements AuditedAction {
-    id: string; // unique id of the audited action
-    time: string; // when did the action happen
+    id: string;
+    time: string;
 
     // action types
-    type: BpmnSymbolType; // action type (BpmnSymbolType.Event, ...)
-    subtype: BpmnSymbolSubType; // sub type (ActivityType.Task, EventType.Start, ...)
-    subsubtype: BpmnSymbolSubSubType; // sub-sub type (EventSubType.Message, ...)
+    bpmn_type: BpmnSymbolType;
+    bpmn_subtype: BpmnSymbolSubType;
+    bpmn_subsubtype: BpmnSymbolSubSubType;
 
-    flowId?: string; // name of the flow the action belongs to
-    name: string; // name of the action (inside the flow)
+    flowId: string;
+    name: string;
 
-    userId: string; // id of user initiating the action
-    sessionId: string; // id of the session under which the call is initiated
-    flowInstanceId: string; // id of the flow instance that started
+    userId: string;
+    sessionId: string;
+    flowInstanceId: string;
 
-    implementationId: string; // id of the implementation used for performing the action (i.e. if it is a person performing it, (s)he has been using a tool implemented and identified with implementationID) ('oven Smederevka')
-    implementerId: string; // id of the person or component performing the action ('baker', or 'oven')
+    implementationId: string;
+    implementerId: string;
     
     constructor(){
         
@@ -91,5 +95,26 @@ export class AuditedActionClass implements AuditedAction {
     init(){
         
     }
+}
+
+// MongoDB schema
+export let AuditedActionSchema:any  = {
+    id: String,
+    time: String,
+
+    // action types
+    bpmn_type: String,
+    bpmn_subtype: String,
+    bpmn_subsubtype: String,
+
+    flowId: String,
+    name: String,
+
+    userId: String,
+    sessionId: String,
+    flowInstanceId: String,
+
+    implementationId: String,
+    implementerId: String
 }
 

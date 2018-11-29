@@ -1,7 +1,7 @@
 {
-    "name": "@colabo-flow/b-audit",
+    "name": "@colabo-flow/s-audit",
     "version": "0.3.1",
-    "description": "A backend part of the ColaboFlow Audit support for the Colabo.Space ecosystem",
+    "description": "A service puzzle for accepting ColaboFlow (CF) audits over gRPC",
     "private": false,
     "publishConfig": {
         "access": "public"
@@ -17,8 +17,14 @@
     "main": "dist/index.js",
     "module": "dist/index.js",
     "dependencies": {
-        "bson": "^0.4.22",
-        "mongoose": "^4.0.0"
+        "@grpc/proto-loader": "^0.1.0",
+        "@types/node": "^10.7.1",
+        "async": "^1.5.2",
+        "chalk": "^2.4.1",
+        "google-protobuf": "^3.0.0",
+        "grpc": "^1.11.0",
+        "lodash": "^4.6.1",
+        "minimist": "^1.2.0"
     },
     "peerDependenciesLocal": {},
     "devDependencies": {}

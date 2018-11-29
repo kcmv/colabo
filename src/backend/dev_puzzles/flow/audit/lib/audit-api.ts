@@ -1,9 +1,17 @@
-const MODULE_NAME: string = "@colabo-flow/b-audit";
+    const MODULE_NAME: string = "@colabo-flow/b-audit";
 
 import { AuditedAction } from '@colabo-flow/i-audit';
 
 import { GetPuzzle } from '@colabo-utils/i-config';
 let puzzleConfig: any = GetPuzzle(MODULE_NAME);
+
+import { AuditDbVo } from './audit-db-vo';
+
+import { CfAuditSchema } from './audit-schema';
+var dbService = require('@colabo-knalledge/b-storage-mongo');
+var dbConnection = dbService.DBConnect();
+// var CfAuditModel = dbConnection.model('CfAudit', (<any>global).db.CfAuditSchema);
+var CfAuditModel = dbConnection.model('CfAudit', CfAuditSchema);
 
 var accessId = 0;
 
@@ -55,6 +63,31 @@ export class ColaboFlowAudit {
 
         let body: string = this.req.body;
         console.log("[ColaboFlowAudit.post] body: %s", JSON.stringify(body));
+        let cfAudit: AuditDbVo = new AuditDbVo();
+        cfAudit.name = "parseRequest";
+        cfAudit.flowId = "searchSoundsNoCache";
+
+        function save(cfAudit) {
+            var cfAuditDb = new CfAuditModel(cfAudit);
+            //console.log("After create data: %s", data.toString());
+
+            cfAuditDb.save(function (err) {
+                if (callback) {
+                    callback(cfAuditDb, err);
+                }
+                else {
+                    console.log('no callback');
+                }
+
+                if (err) {
+                    console.error('cfAuditDb.save', err);
+                    throw err;
+                }
+            });
+        }
+        
+        save(cfAudit);
+
         let result:any = {
             // db: audit,
             body: body
