@@ -10,7 +10,7 @@ declare let bb:any;
 // import {bb} from 'billboard';
 
 const Radius:number = 250;
-
+const UserImgOverSize:number = 80;
 @Component({
   selector: 'participants-circle',
   templateUrl: './participants-circle.html',
@@ -143,9 +143,11 @@ export class ParticipantsCircleComponent implements OnInit {
           .transition()
           .attr('left', function(d) { return d.x-30;})
           .attr('top', function(d) { return d.y-30;})
-          .attr("height", 80)
-          .attr("width", 80)
+          .attr("height", UserImgOverSize)
+          .attr("width", UserImgOverSize)
           .style("opacity", 1);	
+
+          console.log('d3.event',d3.event);
 
           tooltip
             .transition()		
@@ -153,7 +155,9 @@ export class ParticipantsCircleComponent implements OnInit {
             .style("opacity", 0.8);		
           tooltip.html((d.user as KNode).name)	
             .raise() //putting it visually in front of the other participants
-            .style("left", (d3.event.pageX) + "px")		
+            // .style("left", (d3.event.pageX) + "px")		
+            // .style("left", (d3.event.target.x + d3.event.target.width + 3) + "px")		
+            .style("left", (d3.event.target.x + UserImgOverSize + 3) + "px")		
             .style("top", (d3.event.pageY - 28) + "px");	
           })					
         .on("mouseout", function(d) {
