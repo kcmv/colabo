@@ -43,13 +43,19 @@ export class ParticipantsCircleComponent implements OnInit {
   }
 
 
-  private createCanvas(radius:number, svg:boolean = false):any {
+  private createCanvas(radius:number):any {
     // d3.selectAll('svg').remove();
     var canvas:any = d3.select('#participants-circle-canvas');
-    if(svg){
+    if(UseSVG){
       canvas = canvas.append('svg:svg')
         .attr('width', (radius * 2) + 150)
         .attr('height', (radius * 2) + 150);
+    }
+    else{
+      //TODO: not working - not stretching the parent DIV
+      canvas
+        .attr('width', (radius * 2) + 150 + 'px')
+        .attr('height', (radius * 2) + 150 + 'px');
     }
     return canvas;
   }
@@ -166,7 +172,7 @@ export class ParticipantsCircleComponent implements OnInit {
     let radius:number = 200;
     let elementRadius:number = 15;
     let nodes = this.createNodes(radius, users);
-    let canvas = this.createCanvas(radius, UseSVG);
+    let canvas = this.createCanvas(radius);
 
     // Define the div for the tooltip
     let tooltip = d3.select("#participants-circle-tooltip")
