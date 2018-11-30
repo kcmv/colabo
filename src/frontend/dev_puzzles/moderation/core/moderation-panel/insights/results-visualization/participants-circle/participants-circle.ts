@@ -9,6 +9,8 @@ declare let d3:any;
 declare let bb:any;
 // import {bb} from 'billboard';
 
+const UseSVG:boolean=false;
+
 @Component({
   selector: 'participants-circle',
   templateUrl: './participants-circle.html',
@@ -41,12 +43,15 @@ export class ParticipantsCircleComponent implements OnInit {
   }
 
 
-  private createSvg(radius) {
+  private createCanvas(radius:number, svg:boolean = false):any {
     // d3.selectAll('svg').remove();
-    var svg = d3.select('#participants-circle-canvas').append('svg:svg')
-               .attr('width', (radius * 2) + 150)
-               .attr('height', (radius * 2) + 150);
-    return svg;
+    var canvas:any = d3.select('#participants-circle-canvas');
+    if(svg){
+      canvas = canvas.append('svg:svg')
+        .attr('width', (radius * 2) + 150)
+        .attr('height', (radius * 2) + 150);
+    }
+    return canvas;
   }
 
   private createNodes(radius:number, users:KNode[]):any[] {
@@ -62,7 +67,7 @@ export class ParticipantsCircleComponent implements OnInit {
      angle = (i / (numNodes/2)) * Math.PI; // Calculate the angle at which the element will be placed.
                                            // For a semicircle, we would use (i / numNodes) * Math.PI.
      x = (radius * Math.cos(angle)) + (width/2); // Calculate the x position of the element.
-     y = (radius * Math.sin(angle)) + (width/2); // Calculate the y position of the element.
+     y = (radius * Math.sin(angle)) + (height/2); // Calculate the y position of the element.
      //TODO: temporary:
      users[i].dataContent.avatar = 'https://fv.colabo.space/assets/images/user_icons/performer.jpg';
      nodes.push({'id': i, 'x': x, 'y': y, 'user':users[i]});
@@ -70,12 +75,13 @@ export class ParticipantsCircleComponent implements OnInit {
     return nodes;
   }
 
-  private createElements(svg:any, nodes:any[], elementRadius:number, tooltip:any):void{
+  private createElements(canvas:any, nodes:any[], elementRadius:number, tooltip:any):void{
+    console.log('[createElements] nodes', nodes);
     const ParticipantOpacityStart:number = 0.6;
-    let element = svg.selectAll('circle')
+    let element = canvas.selectAll('circle')
       .data(nodes)
       .enter()
-        // .append('svg:circle')
+        // .append('canvas:circle')
         // .attr('r', elementRadius)
         // .attr('cx', function (d, i) {
         //   return d.x;
@@ -83,25 +89,39 @@ export class ParticipantsCircleComponent implements OnInit {
         // .attr('cy', function (d, i) {
         //   return d.y;
         // })
-        .append("svg:image")
-        .attr("xlink:href",  function(d) { return d.user.dataContent.avatar;})
-        .attr("x", function (d, i) {
-          return d.x;
-        })
-        .attr("y", function (d, i) {
-          return d.y;
-        })
+        .append(UseSVG ? "svg:image" : 'img')
+        .attr(UseSVG ? "xlink:href" : 'src',  function(d) { return d.user.dataContent.avatar;})
         .attr("height", 50)
         .attr("width", 50)
 
+        if(UseSVG){
+          element
+          .attr("x", function (d, i) {
+            return d.x;
+          })
+          .attr("y", function (d, i) {
+            return d.y;
+          })
+        }else{
+          element
+          .style('left', function (d, i) {
+            return d.x + 'px';
+          })
+          .style('top', function (d, i) {
+            return d.y + 'px';
+          })
+          .style("position", 'fixed')
+        }
+
+        element
         //class adding doesn't works:
-        .attr("class", 'user-img')
-        .classed("user-img", true)
-        //so we add style by style:
-        .style('padding','3px')
+        // .attr("class", 'user-img')
+        // .classed("user-img", true)
+        // so we add style by style:
+        // .style('padding','3px')
         .style('border-radius','50%')
         .style('overflow','hidden')
-        .style('border', 'solid black 1px')
+        .style('border', 'solid darkgray 1px')
 
         .style("opacity", ParticipantOpacityStart)
         .on("mouseover", function(d, i) {	
@@ -109,27 +129,28 @@ export class ParticipantsCircleComponent implements OnInit {
           d3.select( this )
           .raise() //putting it visually in front of the other participants
           .transition()
-          .attr("x", function(d) { return d.x-30;})
-          .attr("y", function(d) { return d.y-30;})
+          .attr(UseSVG ? "x" : 'left', function(d) { return d.x-30;})
+          .attr(UseSVG ? "y" : 'top', function(d) { return d.y-30;})
           .attr("height", 80)
           .attr("width", 80)
-          .style('border', 'solid black 1px')
           .style("opacity", 1);	
 
-          tooltip.transition()		
+          tooltip
+            .transition()		
             .duration(200)		
-            .style("opacity", 0.6);		
+            .style("opacity", 0.8);		
           tooltip.html((d.user as KNode).name)	
+            .raise() //putting it visually in front of the other participants
             .style("left", (d3.event.pageX) + "px")		
             .style("top", (d3.event.pageY - 28) + "px");	
           })					
-      .on("mouseout", function(d) {
-        console.log('mouseout');		
+        .on("mouseout", function(d) {
+          console.log('mouseout');		
 
         d3.select( this )
           .transition()
-          .attr("x", function(d) { return d.x;})
-          .attr("y", function(d) { return d.y;})
+          .attr(UseSVG ? "x" : 'left', function(d) { return d.x;})
+          .attr(UseSVG ? "y" : 'top', function(d) { return d.y;})
           .attr("height", 50)
           .attr("width", 50)
           .style("opacity", ParticipantOpacityStart);	
@@ -145,7 +166,7 @@ export class ParticipantsCircleComponent implements OnInit {
     let radius:number = 200;
     let elementRadius:number = 15;
     let nodes = this.createNodes(radius, users);
-    let svg = this.createSvg(radius);
+    let canvas = this.createCanvas(radius, UseSVG);
 
     // Define the div for the tooltip
     let tooltip = d3.select("#participants-circle-tooltip")
@@ -159,7 +180,7 @@ export class ParticipantsCircleComponent implements OnInit {
     // tooltip.html('tt-user')
     //   .style("left", "30px")		
     //   .style("top", "50px");	
-    this.createElements(svg, nodes, elementRadius, tooltip);
+    this.createElements(canvas, nodes, elementRadius, tooltip);
   }
   
 
