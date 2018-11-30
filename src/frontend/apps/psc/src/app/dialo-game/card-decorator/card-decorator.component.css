@@ -3,8 +3,16 @@
   /* border: 1px solid black; */
   box-shadow: 2px 2px;
   border-radius: 5px;
-  background-color: lightblue;
+  background-color: lightgray;
   margin: 2px;
   font-weight: bold;
   padding: 2px;
+}
+
+.decorator.actions{
+  background-color: lightblue;
+}
+
+.decorator.emoticons{
+  background-color: yellow;
 }
