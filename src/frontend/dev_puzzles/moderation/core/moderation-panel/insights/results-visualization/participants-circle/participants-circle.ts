@@ -44,8 +44,8 @@ export class ParticipantsCircleComponent implements OnInit {
   private createSvg(radius) {
     // d3.selectAll('svg').remove();
     var svg = d3.select('#participants-circle-canvas').append('svg:svg')
-               .attr('width', (radius * 2) + 50)
-               .attr('height', (radius * 2) + 50);
+               .attr('width', (radius * 2) + 150)
+               .attr('height', (radius * 2) + 150);
     return svg;
   }
 
@@ -63,42 +63,86 @@ export class ParticipantsCircleComponent implements OnInit {
                                            // For a semicircle, we would use (i / numNodes) * Math.PI.
      x = (radius * Math.cos(angle)) + (width/2); // Calculate the x position of the element.
      y = (radius * Math.sin(angle)) + (width/2); // Calculate the y position of the element.
+     //TODO: temporary:
+     users[i].dataContent.avatar = 'https://fv.colabo.space/assets/images/user_icons/performer.jpg';
      nodes.push({'id': i, 'x': x, 'y': y, 'user':users[i]});
     }
     return nodes;
   }
 
   private createElements(svg:any, nodes:any[], elementRadius:number, tooltip:any):void{
+    const ParticipantOpacityStart:number = 0.6;
     let element = svg.selectAll('circle')
       .data(nodes)
-      .enter().append('svg:circle')
-        .attr('r', elementRadius)
-        .attr('cx', function (d, i) {
+      .enter()
+        // .append('svg:circle')
+        // .attr('r', elementRadius)
+        // .attr('cx', function (d, i) {
+        //   return d.x;
+        // })
+        // .attr('cy', function (d, i) {
+        //   return d.y;
+        // })
+        .append("svg:image")
+        .attr("xlink:href",  function(d) { return d.user.dataContent.avatar;})
+        .attr("x", function (d, i) {
           return d.x;
         })
-        .attr('cy', function (d, i) {
+        .attr("y", function (d, i) {
           return d.y;
         })
+        .attr("height", 50)
+        .attr("width", 50)
+
+        //class adding doesn't works:
+        .attr("class", 'user-img')
+        .classed("user-img", true)
+        //so we add style by style:
+        .style('padding','3px')
+        .style('border-radius','50%')
+        .style('overflow','hidden')
+        .style('border', 'solid black 1px')
+
+        .style("opacity", ParticipantOpacityStart)
         .on("mouseover", function(d, i) {	
           console.log('mouseover',tooltip, d3.event);	
+          d3.select( this )
+          .raise() //putting it visually in front of the other participants
+          .transition()
+          .attr("x", function(d) { return d.x-30;})
+          .attr("y", function(d) { return d.y-30;})
+          .attr("height", 80)
+          .attr("width", 80)
+          .style('border', 'solid black 1px')
+          .style("opacity", 1);	
+
           tooltip.transition()		
-              .duration(200)		
-              .style("opacity", .9);		
+            .duration(200)		
+            .style("opacity", 0.6);		
           tooltip.html((d.user as KNode).name)	
-              .style("left", (d3.event.pageX) + "px")		
-              .style("top", (d3.event.pageY - 28) + "px");	
+            .style("left", (d3.event.pageX) + "px")		
+            .style("top", (d3.event.pageY - 28) + "px");	
           })					
       .on("mouseout", function(d) {
         console.log('mouseout');		
-          tooltip.transition()		
-              .duration(500)		
-              .style("opacity", 0);	
+
+        d3.select( this )
+          .transition()
+          .attr("x", function(d) { return d.x;})
+          .attr("y", function(d) { return d.y;})
+          .attr("height", 50)
+          .attr("width", 50)
+          .style("opacity", ParticipantOpacityStart);	
+            
+        tooltip.transition()		
+          .duration(500)		
+          .style("opacity", 0);	
       });
   }
 
   participantsCircle(users:KNode[]):void{
     let numNodes:number = users.length;
-    let radius:number = 160;
+    let radius:number = 200;
     let elementRadius:number = 15;
     let nodes = this.createNodes(radius, users);
     let svg = this.createSvg(radius);
