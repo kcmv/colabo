@@ -169,7 +169,7 @@ export class ParticipantsCircleComponent implements OnInit {
 
   participantsCircle(users:KNode[]):void{
     let numNodes:number = users.length;
-    let radius:number = 200;
+    let radius:number = 250;
     let elementRadius:number = 15;
     let nodes = this.createNodes(radius, users);
     let canvas = this.createCanvas(radius);
