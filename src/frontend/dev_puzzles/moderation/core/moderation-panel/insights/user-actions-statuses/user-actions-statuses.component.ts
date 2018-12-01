@@ -149,7 +149,7 @@ export class UserActionsStatusesComponent implements OnInit {
   }
 
   getSDGSelections():void{
-    this.insightsService.getSDGSelections(true).subscribe(this.sDGSelectionsReceived.bind(this));
+    this.insightsService.getSDGSelections(false).subscribe(this.sDGSelectionsReceived.bind(this));
   }
 
   sDGSelectionsReceived(sdgs:KEdge[]):void{

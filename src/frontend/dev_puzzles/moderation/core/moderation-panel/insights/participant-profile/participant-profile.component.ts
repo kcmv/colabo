@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
+import {InsightsService} from '../insights.service';
 
 @Component({
   selector: 'participant-profile',
@@ -7,11 +9,40 @@ import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
   styleUrls: ['./participant-profile.component.css']
 })
 export class ParticipantProfileComponent implements OnInit {
-  @Input() userData: KNode;
+   private _userData:KNode;
 
-  constructor() { }
+  @Input() set userData(ud:KNode){
+    this._userData = ud;
+    this.getSDGSelections();
+  }
+
+  get userData():KNode{
+    return this._userData;
+  }
+
+  selectedSDGs:KNode[] = [];
+  constructor(
+    private insightsService:InsightsService
+  ) { }
 
   ngOnInit() {
     //console.log('ParticipantProfileComponent');
+  }
+
+  getSDGSelections():void{
+    this.insightsService.getSDGSelections(false).subscribe(this.sDGSelectionsReceived.bind(this));
+  }
+
+  //TODO: use a method for getting only this user SDGs
+  sDGSelectionsReceived(sdgs:KEdge[]):void{
+    console.log('sDGSelectionsReceived',sdgs);
+
+    for(var s:number = 0; s < sdgs.length; s++){
+      
+        if(sdgs[s].iAmId === this.userData._id){
+          this.selectedSDGs.push((sdgs[s].targetId as any));
+        }
+    }
+    console.log('this.selectedSDGs',this.selectedSDGs);
   }
 }
