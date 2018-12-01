@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {InsightsService} from '../../insights.service';
 // import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {ParticipantProfileComponent} from '../../participant-profile/participant-profile.component';
+import { AfterViewInit, ViewChild } from '@angular/core';
 
 // import * as d3 from 'd3';
 // import * as bb from 'billboard';
@@ -11,6 +13,8 @@ declare let bb:any;
 
 const Radius:number = 250;
 const UserImgOverSize:number = 80;
+const ParticipantOpacityStart:number = 0.6;
+
 @Component({
   selector: 'participants-circle',
   templateUrl: './participants-circle.html',
@@ -18,6 +22,11 @@ const UserImgOverSize:number = 80;
 })
 export class ParticipantsCircleComponent implements OnInit {
   nodes:any[] = [];
+  tooltip:any;
+  selectedParticipant:KNode = null;
+
+  @ViewChild(ParticipantProfileComponent)
+  private participantProfile:ParticipantProfileComponent;
   // title = 'app';
   // color:string = 'blue';
   // radius = 10;
@@ -40,6 +49,16 @@ export class ParticipantsCircleComponent implements OnInit {
   private usersReceived(users:KNode[]):void{
     console.log('usersReceived',users.length);
     this.participantsCircle(users);
+  }
+
+  setParticipantProfile(participant:KNode):void{
+    this.selectedParticipant = participant;
+    // this.participantProfile.visible = true;
+  }
+
+  clearParticipantProfile():void{
+    this.selectedParticipant = null;
+    // this.participantProfile.visible = false;
   }
 
 
@@ -67,6 +86,10 @@ export class ParticipantsCircleComponent implements OnInit {
     };
     imageData.src = imageUrl;
     }
+
+  isVisible():boolean{
+    return this.participantProfile !==null && this.participantProfile.userData !==null;
+  }
 
   private createNodes(users:KNode[]):void {
     let that:ParticipantsCircleComponent = this;
@@ -99,9 +122,9 @@ export class ParticipantsCircleComponent implements OnInit {
     }
   }
 
-  private createElements(canvas:any, elementRadius:number, tooltip:any):void{
+  private createElements(canvas:any, elementRadius:number):void{
+    let that:ParticipantsCircleComponent = this;
     console.log('[createElements] nodes', this.nodes);
-    const ParticipantOpacityStart:number = 0.6;
     let element = canvas.selectAll('circle')
       .data(this.nodes)
       .enter()
@@ -136,45 +159,53 @@ export class ParticipantsCircleComponent implements OnInit {
         .style('border', 'solid darkgray 1px')
 
         .style("opacity", ParticipantOpacityStart)
-        .on("mouseover", function(d, i) {	
-          console.log('mouseover',tooltip, d3.event);	
-          d3.select( this )
-          .raise() //putting it visually in front of the other participants
-          .transition()
-          .attr('left', function(d) { return d.x-30;})
-          .attr('top', function(d) { return d.y-30;})
-          .attr("height", UserImgOverSize)
-          .attr("width", UserImgOverSize)
-          .style("opacity", 1);	
 
-          console.log('d3.event',d3.event);
+        .on("mouseover", function (d,i) {that.participantOver(d, i, this);})	
 
-          tooltip
-            .transition()		
-            .duration(200)		
-            .style("opacity", 0.8);		
-          tooltip.html((d.user as KNode).name)	
-            .raise() //putting it visually in front of the other participants
-            // .style("left", (d3.event.pageX) + "px")		
-            // .style("left", (d3.event.target.x + d3.event.target.width + 3) + "px")		
-            .style("left", (d3.event.target.x + UserImgOverSize + 3) + "px")		
-            .style("top", (d3.event.pageY - 28) + "px");	
-          })					
-        .on("mouseout", function(d) {
-          console.log('mouseout');		
+        .on("mouseout", function (d,i) {that.participantOut(d, i, this);})	
+  }
 
-        d3.select( this )
-          .transition()
-          .attr('left', function(d) { return d.x;})
-          .attr('top', function(d) { return d.y;})
-          .attr("height", 50)
-          .attr("width", 50)
-          .style("opacity", ParticipantOpacityStart);	
-            
-        tooltip.transition()		
-          .duration(500)		
-          .style("opacity", 0);	
-      });
+  participantOver(d, i, object:any):void {	
+    console.log('mouseover', d3.event);	
+    this.setParticipantProfile(d.user);
+    d3.select( object )
+    .raise() //putting it visually in front of the other participants
+    .transition()
+    .attr('left', d.x-30) //.attr('left', function(d) { return d.x-30;})
+    .attr('top', d.y-30) //function(d) { return d.y-30;})
+    .attr("height", UserImgOverSize)
+    .attr("width", UserImgOverSize)
+    .style("opacity", 1);	
+
+    console.log('d3.event',d3.event);
+
+    this.tooltip
+      .transition()		
+      .duration(200)		
+      .style("opacity", 0.8);		
+    this.tooltip.html((d.user as KNode).name)	
+      .raise() //putting it visually in front of the other participants
+      // .style("left", (d3.event.pageX) + "px")		
+      // .style("left", (d3.event.target.x + d3.event.target.width + 3) + "px")		
+      .style("left", (d3.event.target.x + UserImgOverSize + 3) + "px")		
+      .style("top", (d3.event.pageY - 28) + "px");	
+  }
+
+  participantOut(d, i, object:any):void {
+    console.log('mouseout');		
+    this.clearParticipantProfile();
+    d3.select( object )
+      .transition()
+      // .attr('left', function(d) { return d.x;})
+      .attr('left', d.x)
+      .attr('top', d.y)
+      .attr("height", 50)
+      .attr("width", 50)
+      .style("opacity", ParticipantOpacityStart);	
+        
+    this.tooltip.transition()		
+      .duration(500)		
+      .style("opacity", 0);	
   }
 
   participantsCircle(users:KNode[]):void{
@@ -187,7 +218,7 @@ export class ParticipantsCircleComponent implements OnInit {
     let canvas = this.createCanvas(Radius);
     let elementRadius:number = 15;
     // Define the div for the tooltip
-    let tooltip = d3.select("#participants-circle-tooltip")
+    this.tooltip = d3.select("#participants-circle-tooltip")
     .style("opacity", 0);
     //TODO: adding class not working for som reaso
     //let tooltip = d3.select("#participants-circle-canvas").append("div")	
@@ -199,7 +230,7 @@ export class ParticipantsCircleComponent implements OnInit {
     //   .style("left", "30px")		
     //   .style("top", "50px");	
     
-    this.createElements(canvas, elementRadius, tooltip);
+    this.createElements(canvas, elementRadius);
   }
   
 

@@ -2,6 +2,14 @@
     position: absolute;
 }
 
+.participant-profile{
+    position: relative;
+    left: 600px;
+    background-color: rgba(200, 200, 220, 0.3);
+    /* border: solid darkgray 2px;
+    border-radius: 10px; */
+}
+
 .tooltip {	
     position: fixed;	
     font-weight: bolder;		
@@ -24,4 +32,4 @@
     overflow: hidden;
     border: solid black 1px;
     /* margin: 0px; */
-  }
+}

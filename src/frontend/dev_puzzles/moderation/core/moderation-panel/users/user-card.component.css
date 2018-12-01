@@ -1,4 +1,18 @@
 .user-card{
   padding: 0px;
   margin: 3px;
+  background-color: rgba(200, 200, 255, 0.3);
+}
+.title{
+  font-weight: bolder;
+  font-size: 16pt;
+}
+
+.picture{
+  margin: 5px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: solid black 1px;
+  width: 100%;
+  max-width: 300px;
 }
