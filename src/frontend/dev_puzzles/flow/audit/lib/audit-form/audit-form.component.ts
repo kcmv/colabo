@@ -38,7 +38,7 @@ export class ColaboFlowAuditForm implements OnInit {
 
   ngAfterContentInit() {
     // d3 example: d3.select('p').style('color', this.color);
-    this.colaboFlowAuditService.getItems().subscribe(this.auditsReceived.bind(this));
+    this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
   }
 
   auditsReceived(audits:AuditedAction[]):void{

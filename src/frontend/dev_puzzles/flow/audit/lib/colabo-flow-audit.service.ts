@@ -26,7 +26,35 @@ export class ColaboFlowAuditService{
     // initialize 
   }
   
-  getItems():Observable<AuditedAction[]>{
+  getItems():Observable<any>{
+    let items:any = {
+      "loadFromCache": {
+        "parameters": {
+          "count": 10,
+          "duration": 3,
+          "success": 11
+        }
+      },
+      "loadWithoutCache": {
+        "parameters": {
+          "count": 20,
+          "duration": 25,
+          "success": 4
+        }
+      },
+      "loadSemiCache": {
+        "parameters": {
+          "count": 50,
+          "duration": 15,
+          "success": 8
+        }
+      }
+    };
+
+    return of(items);
+  }
+
+  getActions():Observable<AuditedAction[]>{
     let items:AuditedAction[] = [];
     items.push(({
       id: "ad30",
