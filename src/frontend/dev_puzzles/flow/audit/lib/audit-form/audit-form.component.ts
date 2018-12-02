@@ -78,7 +78,7 @@ export class ColaboFlowAuditForm implements OnInit {
     }
     console.log('[statisticsReceived] columnsObj', columnsObj);
 
-    let columns:[][] = [];
+    let columns:any[][] = [];
     for(let column in columnsObj)
     {
       columnsObj[column].unshift(column);
@@ -107,7 +107,7 @@ export class ColaboFlowAuditForm implements OnInit {
     this.generateChart();
   }
 
-  generateStatisticsChart(columns:[][], categories:string[]=null):void{
+  generateStatisticsChart(columns:any[][], categories:string[]=null):void{
     
     console.log('columns', columns);
     
