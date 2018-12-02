@@ -26,7 +26,7 @@ export class ColaboFlowAuditService{
     // initialize 
   }
   
-  getItems():Observable<any>{
+  getStatistics():Observable<any>{
     let items:any = {
       "loadFromCache": {
         "parameters": {

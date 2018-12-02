@@ -11,6 +11,10 @@ import { Observable, of } from 'rxjs';
 declare let d3:any;
 declare let bb:any;
 
+enum DisplaySet{
+  ACTION_NAMES,
+  STATISTICS
+}
 
 // https://www.npmjs.com/package/uuid
 import * as uuidv1 from 'uuid/v1';
@@ -23,8 +27,10 @@ import * as uuidv1 from 'uuid/v1';
 
 export class ColaboFlowAuditForm implements OnInit {
   public items: AuditedAction[];
+  public selectedDisplaySet:DisplaySet = DisplaySet.STATISTICS;
   private itemsPerName:string[][] = [];
   protected puzzleConfig: any;
+  
 
   constructor(
     private colaboFlowAuditService: ColaboFlowAuditService,
@@ -38,7 +44,49 @@ export class ColaboFlowAuditForm implements OnInit {
 
   ngAfterContentInit() {
     // d3 example: d3.select('p').style('color', this.color);
-    this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
+    switch(this.selectedDisplaySet){
+      case DisplaySet.STATISTICS:
+        this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
+        break;
+      case DisplaySet.STATISTICS:
+      default:
+        this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
+        break;
+    }
+  }
+
+  displaySetKeys():string[]{
+    return Object.keys(DisplaySet).filter(key => isNaN(Number(key)));
+  }
+
+  displaySetValues():string[]{
+    //not working: Object.values(DisplaySet) 
+    return Object.keys(DisplaySet).map(key => DisplaySet[key]);
+  }
+  
+  statisticsReceived(statistics:any):void{
+    let categories:string[] = Object.keys(statistics);
+    console.log('[statisticsReceived] categories', categories);
+    
+    let columnsObj:any = {};
+    for(let action in statistics){
+      let parameters:any = statistics[action].parameters;
+      for(let parameter in parameters){
+        if(!(parameter in columnsObj)){columnsObj[parameter]=[];}
+        columnsObj[parameter].push(parameters[parameter]);
+      }
+    }
+    console.log('[statisticsReceived] columnsObj', columnsObj);
+
+    let columns:[][] = [];
+    for(let column in columnsObj)
+    {
+      columnsObj[column].unshift(column);
+      columns.push(columnsObj[column]);
+    }
+
+    console.log('[statisticsReceived] columns', columns);
+    this.generateStatisticsChart(columns, categories);
   }
 
   auditsReceived(audits:AuditedAction[]):void{
@@ -57,6 +105,55 @@ export class ColaboFlowAuditForm implements OnInit {
     console.log('itemsPerName',this.itemsPerName);
 
     this.generateChart();
+  }
+
+  generateStatisticsChart(columns:[][], categories:string[]=null):void{
+    
+    console.log('columns', columns);
+    
+    var chart = bb.generate({
+      bindto: "#chart",
+      "title": {
+        "text": "Distribution of Audits"
+      },
+      "transition": {
+          "duration": 2000
+      },
+      data: {
+          type: "bar",
+          columns: columns,
+          labels: {
+            format: function (v, id, i, j) {
+                return v;//d3.format(",.2%")(v) + data[0][i + 1];
+            }
+        }
+      },
+      axis: {
+        x: {
+          label: {
+            text: "",//: it overlaps visually with categories: "17 SDGs",
+            position: "outer-center"
+          },
+          type: "category",
+          categories: categories
+        },
+        y: {
+          label: {
+            text: "Number of Audits",
+            position: "inner-middle"
+          }
+          // ,
+          // labels: {
+          //   format: function (v, id, i, j) {
+          //       return d3.format(",.2%")(v) + data[0][i + 1];
+          //   }
+          // }
+        }
+      },
+      legend:{
+        hide: false
+      }
+    });
   }
 
   generateChart():void{
