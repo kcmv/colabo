@@ -1,6 +1,8 @@
 const MODULE_NAME:string = "@colabo-apps/b-colabo-space";
 
-let chalk = require('chalk');
+// let chalk = require('chalk');
+import chalk from 'chalk'
+
 let coLaboSpaceText = chalk.red.bold("Co")+chalk.blue.bold("Lab")+chalk.green.bold("o.space");
 console.log(coLaboSpaceText + " is starting ...")
 

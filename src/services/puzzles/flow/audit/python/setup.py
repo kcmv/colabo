@@ -7,11 +7,11 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='colabo.knalledge',
+    name='colabo.flow.audit',
     # other arguments omitted
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version='0.0.5',
+    version='0.1.4',
     url='https://github.com/Cha-OS/colabo',
     # download_url,
     project_urls={
@@ -21,11 +21,9 @@ setup(
     author='ChaOS',
     author_email='chaos.ngo@gmail.com',
     license='MIT',
-    description='Support for the KnAllEdge component of the Colabo Ecosystem',
-    keywords=['colabo','graphdb','db','triplestore'],
+    description='A python puzzle for sending ColaboFlow (CF) audits over gRPC',
+    keywords=['colabo','grpc','flow','colaboflow', 'audit', 'process', 'process mining'],
     packages=find_packages(),
-    requires=['pymongo'],
-    install_requires=[
-        'pymongo'
-    ]
+    # requires=['grpcio', 'googleapis-common-protos'],
+    install_requires=['grpcio', 'googleapis-common-protos']
 )

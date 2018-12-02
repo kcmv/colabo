@@ -12,7 +12,7 @@ export function DBConnect(){
   /* connecting */
   if(dbConfig.newConnect){
   	var opts = {
-  		server: { auto_reconnect: true }
+			server: { useMongoClient: true, auto_reconnect: true }
   		// , user: 'username', pass: 'mypassword'
   	};
   	dbConnection = mongoose.createConnection();
@@ -28,7 +28,10 @@ export function DBConnect(){
   	});
 
   	function connectInternal () {
-  	  dbConnection.open(dbConfig.domain, dbConfig.dbName, dbConfig.port, opts);
+			// dbConnection.open(dbConfig.domain, dbConfig.dbName, dbConfig.port, opts);
+			let dbUrl: string = 'mongodb://' + dbConfig.domain + ':' + dbConfig.port + '/' + dbConfig.dbName;
+			console.log("[%s] Connecting to the url: %s", MODULE_NAME, dbUrl);
+			dbConnection.openUri(dbUrl);
   	}
 
   	connectInternal();

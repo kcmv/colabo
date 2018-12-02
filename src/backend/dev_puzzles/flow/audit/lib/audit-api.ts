@@ -1,17 +1,11 @@
-    const MODULE_NAME: string = "@colabo-flow/b-audit";
+const MODULE_NAME: string = "@colabo-flow/b-audit";
 
-import { AuditedAction } from '@colabo-flow/i-audit';
+import { AuditedAction, AuditedActionClass } from '@colabo-flow/i-audit';
 
 import { GetPuzzle } from '@colabo-utils/i-config';
 let puzzleConfig: any = GetPuzzle(MODULE_NAME);
 
-import { AuditDbVo } from './audit-db-vo';
-
-import { CfAuditSchema } from './audit-schema';
-var dbService = require('@colabo-knalledge/b-storage-mongo');
-var dbConnection = dbService.DBConnect();
-// var CfAuditModel = dbConnection.model('CfAudit', (<any>global).db.CfAuditSchema);
-var CfAuditModel = dbConnection.model('CfAudit', CfAuditSchema);
+import { ColaboFlowAuditDb } from './audit-db';
 
 var accessId = 0;
 
@@ -31,10 +25,11 @@ function resSendJsonProtected(res, data) {
 };
 
 
-export class ColaboFlowAudit {
+export class ColaboFlowAuditApi {
+    protected colaboFlowAuditDb:ColaboFlowAuditDb;
 
     constructor(protected req: any, protected res: any) {
-
+        this.colaboFlowAuditDb = new ColaboFlowAuditDb();
     }
     
     index(callback: Function = null) {
@@ -56,37 +51,13 @@ export class ColaboFlowAudit {
     }
 
     create(callback: Function = null) {
-        // create audit in the db
-        // let audit: AuditedAction = {
-        //     _id: "ffffffffffff"
-        // };
-
         let body: string = this.req.body;
         console.log("[ColaboFlowAudit.post] body: %s", JSON.stringify(body));
-        let cfAudit: AuditDbVo = new AuditDbVo();
+        let cfAudit: AuditedActionClass = new (AuditedActionClass);
         cfAudit.name = "parseRequest";
         cfAudit.flowId = "searchSoundsNoCache";
-
-        function save(cfAudit) {
-            var cfAuditDb = new CfAuditModel(cfAudit);
-            //console.log("After create data: %s", data.toString());
-
-            cfAuditDb.save(function (err) {
-                if (callback) {
-                    callback(cfAuditDb, err);
-                }
-                else {
-                    console.log('no callback');
-                }
-
-                if (err) {
-                    console.error('cfAuditDb.save', err);
-                    throw err;
-                }
-            });
-        }
         
-        save(cfAudit);
+        // save(cfAudit);
 
         let result:any = {
             // db: audit,
@@ -100,7 +71,7 @@ export class ColaboFlowAudit {
 // curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8001/colabo-flow/audit/type-right/action-single/test1.json
 
 export function index(req: any, res: any) {
-    let colaboFlowAudit: ColaboFlowAudit = new ColaboFlowAudit(req, res);
+    let colaboFlowAudit: ColaboFlowAuditApi = new ColaboFlowAuditApi(req, res);
     colaboFlowAudit.index();
 }
 
@@ -115,6 +86,6 @@ http://localhost:8001/colabo-flow/audit
 // https://www.sitepoint.com/understanding-module-exports-exports-node-js/
 
 export function create(req: any, res: any) {
-    let colaboFlowAudit: ColaboFlowAudit = new ColaboFlowAudit(req, res);
+    let colaboFlowAudit: ColaboFlowAuditApi = new ColaboFlowAuditApi(req, res);
     colaboFlowAudit.create();
 }

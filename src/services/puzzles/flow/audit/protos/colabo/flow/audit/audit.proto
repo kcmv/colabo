@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package colabo.flow;
+
+service Audit {
+
+	rpc submit (SubmitAuditRequest) returns (SubmitAuditReply) {}
+}
+
+message SubmitAuditRequest{
+    string id = 50; // unique id of the audited action
+    string time = 51; // when did the action happen
+
+    // action types
+    string bpmn_type = 4; // (required) action type (BpmnSymbolType.Event, ...)
+    string bpmn_subtype = 5; // (required) sub type (ActivityType.Task, EventType.Start, ...)
+    string bpmn_subsubtype = 6; // sub-sub type (EventSubType.Message, ...)
+
+    string flowId = 2; // (required) name of the flow the action belongs to
+    string name = 1; // (required) name of the action (inside the flow)
+
+    string userId = 52; // id of user initiating the action
+    string sessionId = 53; // id of the session under which the call is initiated
+    string flowInstanceId = 3; // (required) id of the flow instance that started
+
+    string implementationId = 54; // id of the implementation used for performing the action (i.e. if it is a person performing it, (s)he has been using a tool implemented and identified with implementationID) ('oven Smederevka')
+	string implementerId = 55; // id of the person or component performing the action ('baker', or 'oven')
+}
+
+message SubmitAuditReply{
+	string id = 1; // unique id of the audited action
+    string time = 2; // when did the action happen
+}

@@ -4,7 +4,7 @@ const MODULE_NAME: string = "@colabo-flow/s-audit";
 import * as fs from 'fs';
 
 // relative to the dist folder
-var PROTO_PATH = __dirname + '/../../protos/colaboflow/audit.proto';
+var PROTO_PATH = __dirname + '/../../protos/colabo/flow/audit/audit.proto';
 console.log("__dirname: %s, PROTO_PATH: %s", __dirname, PROTO_PATH);
 PROTO_PATH = fs.realpathSync(PROTO_PATH);
 console.log("after fs.realpathSync: PROTO_PATH: %s", PROTO_PATH);
@@ -70,7 +70,7 @@ export class ColaboFlowAuditServer{
      */
     protected submitWrapper(call, callback) {
         // first parameter equal to null indicates that there is no error
-        callback(null, this.rpcMethods.submit(call.request));
+        this.rpcMethods.submit(call.request, callback);
     }
 
     start(){

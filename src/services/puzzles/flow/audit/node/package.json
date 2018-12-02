@@ -1,7 +1,7 @@
 {
     "name": "@colabo-flow/s-audit",
     "version": "0.3.1",
-    "description": "A service puzzle for accepting ColaboFlow (CF) audits over gRPC",
+    "description": "A service puzzle for sending and accepting ColaboFlow (CF) audits over gRPC",
     "private": false,
     "publishConfig": {
         "access": "public"

@@ -1,26 +1,40 @@
 # Install
 
 ```sh
-# install requirements
-# note: we do not instll bson explicitly: https://github.com/py-bson/bson/issues/82
-python3 -m pip install -r requirements.txt
+# the latest
+pip install colabo.flow.audit
 
- pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple colabo.knalledge
+# upgrade AFTER installing
+pip install --upgrade colabo.flow.audit
 
-pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple colabo.knalledge==0.0.4
+# a speciffic one
+pip install colabo.flow.audit==0.0.4
 ```
 
 # Use
 
 ```py
-from colabo.knalledge.knalledge_mongo import ColaboKnalledgeMongo
+# import
+from colabo.flow.audit import audit_pb2
+from colabo.flow.audit import ColaboFlowAudit
+
+# create an ColaboFlowAudit object
+colaboFlowAudit = ColaboFlowAudit()
+
+# create an audit object
+cfAuditRequest1 = audit_pb2.SubmitAuditRequest(
+    bpmn_type='activity',
+    bpmn_subtype='task',
+    bpmn_subsubtype='sub-task',
+
+    flowId='searchForSounds',
+    # ...
+)
+
+# send the audit object to the audit service
+result1 = colaboFlowAudit.audit_submit(cfAuditRequest1)
+
+# print the respons from the audit service
+print("result1 = %s" % (result1))
 ```
 
-# Build
-
-```sh
-source /Users/sasha/Documents/data/development/colabo.space/python3_env/bin/activate
-python3 setup.py sdist
-twine upload --repository testpypi  --config-file ../../../../../colabo.space-infrastructure/publishing/python/.pypirc dist/*
-
-```

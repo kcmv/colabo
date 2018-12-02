@@ -16,22 +16,25 @@ config.init(globalSet);
 
 let fs = require('fs');
 
-import { ColaboFlowAudit } from '@colabo-flow/b-audit';
+import { ColaboFlowAuditDb, AuditDbVo } from '@colabo-flow/b-audit';
 import { ColaboFlowAuditServer } from '@colabo-flow/s-audit';
-import { RpcMethods } from '@colabo-flow/i-audit';
+import { RpcMethods, RpcCallback, AuditedAction, AuditedActionReply } from '@colabo-flow/i-audit';
 
-
+let colaboFlowAuditDb: ColaboFlowAuditDb = new ColaboFlowAuditDb();
 /**
  * Get a feature object at the given point, or creates one if it does not exist.
  * @param {auditRequest} audit The audit to submit
  * @return {auditReplay} reply to the audit submission
  */
-function submit(auditRequest) {
+function submit(auditRequest: AuditedAction, callback: RpcCallback) {
     console.log("auditRequest: %s", JSON.stringify(auditRequest));
-    let auditReplay: any = {
-        n1: auditRequest.n1 + auditRequest.n2
-    }
-    return auditReplay;
+    colaboFlowAuditDb.create(auditRequest, function (auditDbVo:AuditDbVo){
+        let auditReplay: AuditedActionReply = {
+            id: auditDbVo._id,
+            time: auditDbVo.createdAt
+        }
+        callback(null, auditReplay);
+    }.bind(this));
 }
 
 let rpcMethods: RpcMethods = {
@@ -41,4 +44,4 @@ let rpcMethods: RpcMethods = {
 let colaboFlowAuditServer = new ColaboFlowAuditServer();
 colaboFlowAuditServer.init(rpcMethods);
 colaboFlowAuditServer.start();
-console.log(coLaboFlowAuditText + " started ...")
+console.log(coLaboFlowAuditText + " started ...");

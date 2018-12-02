@@ -17,6 +17,7 @@
     "main": "dist/index.js",
     "module": "dist/index.js",
     "dependencies": {
+        "@types/mongoose": "^5.3.2",
         "bson": "^0.4.22",
         "mongoose": "^4.0.0"
     },
