@@ -1,4 +1,32 @@
 <div>
   <h3>Results Visualization</h3>
-  <sdgs-statistics></sdgs-statistics>
+  <mat-expansion-panel [expanded]="true">
+      <!-- <mat-expansion-panel (opened)="panelOpenState = true"
+         (closed)="panelOpenState = false"> -->
+         <mat-expansion-panel-header>
+           <mat-panel-title>
+              <h3>Participants Circle</h3>
+           </mat-panel-title>
+           <mat-panel-description>
+              <!-- ({{usersData?.data?.length}}) participants registered -->
+             <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+           </mat-panel-description>
+         </mat-expansion-panel-header>
+        <participants-circle></participants-circle>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+      <!-- <mat-expansion-panel (opened)="panelOpenState = true"
+         (closed)="panelOpenState = false"> -->
+         <mat-expansion-panel-header>
+           <mat-panel-title>
+              <h3>SDGs Statistics</h3>
+           </mat-panel-title>
+           <mat-panel-description>
+              <!-- ({{usersData?.data?.length}}) participants registered -->
+             <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+           </mat-panel-description>
+         </mat-expansion-panel-header>
+        <sdgs-statistics></sdgs-statistics>
+  </mat-expansion-panel>
 </div>

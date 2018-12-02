@@ -1,0 +1,35 @@
+.participants-circle{
+    position: absolute;
+}
+
+.participant-profile{
+    position: relative;
+    left: 600px;
+    background-color: rgba(200, 200, 220, 0.3);
+    /* border: solid darkgray 2px;
+    border-radius: 10px; */
+}
+
+.tooltip {	
+    position: fixed;	
+    font-weight: bolder;		
+    text-align: center;			
+    /* width: 60px;					
+    height: 28px;				 */
+    padding: 10px;				
+    font: 12px sans-serif;	
+    /* color: blue;	 */
+    background-color: #e0e0e0;	
+    /* border: solid black 1px;	 */
+    border-radius: 8px;			
+    pointer-events: none;		
+    color: black;	
+}
+
+.user-img{
+    padding: 3px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: solid black 1px;
+    /* margin: 0px; */
+}

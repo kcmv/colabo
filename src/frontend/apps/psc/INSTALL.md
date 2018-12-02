@@ -42,6 +42,7 @@ This part is done on the local dev machine:
 ```sh
 cd src/frontend/apps/psc
 ng build --prod --build-optimizer
+
 # run on local server (JUST for testing, not necessary)
 # then open url: localhost:8000
 cd dist/performing_sustainable_coevolution

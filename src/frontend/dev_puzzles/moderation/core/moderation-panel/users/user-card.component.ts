@@ -15,4 +15,8 @@ export class UserCardComponent implements OnInit {
     //console.log('UserCardComponent');
   }
 
+  public imgPath():string{
+    return (this.userData && ('avatar' in this.userData.dataContent)) ? this.userData.dataContent.avatar : 'https://fv.colabo.space/assets/images/user_icons/performer.jpg';
+  }
+
 }

@@ -85,7 +85,7 @@ export class UserActionsStatusesComponent implements OnInit {
       if(('dataContent' in cwc) && ('humanID' in cwc.dataContent)){
         // cwcs+= conn + '<span matTooltip="CWC">'+cwc.dataContent.humanID+'</span>';
         // cwcs+= conn + '<span matTooltip="'+cwc.name+'">'+cwc.dataContent.humanID+ (this.insightsService.isCwcPlayed(cwc) ? 'p' : '') + '</span>';
-        cwcs+= conn + '<B>' + cwc.dataContent.humanID + (this.insightsService.isCwcPlayed(cwc) ? ' (p:' +this.insightsService.roundPlayed(cwc) + ')' : '') + '</B>: ' + cwc.name;
+        cwcs+= conn + '<B>' + cwc.dataContent.humanID + (this.insightsService.isCwcPlayed(cwc) ? ' (p:' +this.insightsService.roundPlayed(cwc) + ')' : '') + '</B>: (<span matTooltip="Sinisa Test CWC">TT</span>) ' + cwc.name;
         // conn = ', ';
         conn = ', \n<br/>';
       }
@@ -149,7 +149,7 @@ export class UserActionsStatusesComponent implements OnInit {
   }
 
   getSDGSelections():void{
-    this.insightsService.getSDGSelections(true).subscribe(this.sDGSelectionsReceived.bind(this));
+    this.insightsService.getSDGSelections(false).subscribe(this.sDGSelectionsReceived.bind(this));
   }
 
   sDGSelectionsReceived(sdgs:KEdge[]):void{

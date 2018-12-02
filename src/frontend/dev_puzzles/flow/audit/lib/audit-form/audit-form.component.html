@@ -11,6 +11,14 @@
     </div>
 
     <div fxFlex id="scrolling_content" style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px;">
+        <!-- <form name="statisticsCustomizing">
+            <mat-radio-group class="example-radio-group" name="displaySet" [(ngModel)]="selectedDisplaySet">
+                <mat-radio-button class="example-radio-button" *ngFor="let ds of displaySetKeys()" [value]="ds">
+                    {{ds}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </form>
+        <h3>Displaying {{selectedDisplaySet}}</h3> -->
         <div id="chart"></div>
         <div class="chat-list">
             <div *ngFor="let item of items">
