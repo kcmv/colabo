@@ -16,7 +16,11 @@
     },
     "main": "dist/index.js",
     "module": "dist/index.js",
-    "dependencies": {},
+    "dependencies": {
+        "@types/d3": "^5.0.1",
+        "billboard.js": "^1.6.2",
+        "d3": "^5.7.0"
+    },
     "peerDependenciesLocal": {},
     "devDependencies": {}
 }

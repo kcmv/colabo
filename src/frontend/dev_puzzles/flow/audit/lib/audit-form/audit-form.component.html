@@ -3,10 +3,13 @@
     <!-- toolbar -->
     <div fxFlex="64px" style="overflow-y: hidden;">
         <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
-            <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+            <a routerLink="/">
+                <img src="{{ logo }}" height="55px" style="margin-right: 7px; margin-top: 7px; opacity: 0.9; border-radius: 7px;" />
+            </a>
+
             <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
                 <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
-            </button>ColaboFlow - Audit
+            </button>ColaboFlow - Audit {{ subToolbarTitle }}
         </mat-toolbar>
     </div>
 
@@ -19,6 +22,11 @@
             </mat-radio-group>
         </form>
         <h3>Displaying {{selectedDisplaySet}}</h3> -->
+        <div id="flow" *ngFor="let flowImage of flowImages">
+            <h2>{{ flowImage.name }}</h2>
+            <img src="{{ flowImage.imageUrl }}" />
+            <hr/>
+        </div>
         <div id="chart"></div>
         <div class="chat-list">
             <div *ngFor="let item of items">

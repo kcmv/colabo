@@ -27,12 +27,17 @@ if (!globalSet.hasOwnProperty('general')) {
     console.log("[config/global.js] Setting up globalSet.general");
     globalSet.general = {
         // RESTfull backend API url
-        serverUrl:
-         'http://127.0.0.1:8001', // LOCAL
+        serverUrl: 'http://127.0.0.1:8001', // LOCAL
         // 'https://fv.colabo.space/api', // colabo-space-1 (https) (ACTUAL SERVER)
         //OLD:
         // 'http://api.colabo.space',
         // 'http://158.39.75.120:8001', // colabo-space-1 (old)
+        branding: {
+            title: "ReMaking Tesla Workshop",
+            toolbarTitle: "ReMaking Tesla Workshop",
+            subToolbarTitle: "@ ReTesla",
+            logo: "/assets/images/logo.jpg"
+        },
 
         imagesFolder: 'images',
 
@@ -68,6 +73,40 @@ if (!globalSet.hasOwnProperty('puzzles')) {
         '@colabo-topichat/f-talk': {
             messagesNumberMin: 3,
             messagesNumberMax: 5
+        },
+        '@colabo-flow/f-audit': {
+            flowImages: [{
+                name: 'search',
+                imageUrl: "/assets/images/flows/flow-search.jpg",
+                actions: [{
+                        name: 'start',
+                        selectArea: {
+                            x: 55,
+                            y: 165,
+                            width: 40,
+                            height: 40
+                        }
+                    },
+                    {
+                        name: 'searchSoundsNoCache',
+                        selectArea: {
+                            x: 115,
+                            y: 155,
+                            width: 60,
+                            height: 40
+                        }
+                    },
+                    {
+                        name: 'searchSoundsWithCache',
+                        selectArea: {
+                            x: 280,
+                            y: 120,
+                            width: 60,
+                            height: 40
+                        }
+                    }
+                ]
+            }]
         }
     };
 }

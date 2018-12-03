@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ColaboFlowAuditService } from '../colabo-flow-audit.service';
 
-import { GetPuzzle } from '@colabo-utils/i-config';
+import { GetPuzzle, GetGeneral } from '@colabo-utils/i-config';
 import { AuditedAction } from '@colabo-flow/i-audit';
 import { Observable, of } from 'rxjs';
 
@@ -30,6 +30,7 @@ export class ColaboFlowAuditForm implements OnInit {
   public selectedDisplaySet:DisplaySet = DisplaySet.STATISTICS;
   private itemsPerName:string[][] = [];
   protected puzzleConfig: any;
+  protected generalConfigBranding: any;
   
 
   constructor(
@@ -39,7 +40,20 @@ export class ColaboFlowAuditForm implements OnInit {
 
   ngOnInit() {
     this.puzzleConfig = GetPuzzle(MODULE_NAME);
+    this.generalConfigBranding = GetGeneral('branding');
     // this.colaboFlowAuditService.getItems().subscribe(this.auditsReceived.bind(this));
+  }
+  
+  get subToolbarTitle():string{
+    return this.generalConfigBranding.subToolbarTitle;
+  }
+  
+  get flowImages(): any{
+    return this.puzzleConfig.flowImages;
+  }
+
+  get logo(): string {
+    return this.generalConfigBranding.logo;
   }
 
   ngAfterContentInit() {
@@ -60,14 +74,14 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   displaySetValues():string[]{
-    //not working: Object.values(DisplaySet) 
+    // not working: Object.values(DisplaySet) 
     return Object.keys(DisplaySet).map(key => DisplaySet[key]);
   }
-  
+
   statisticsReceived(statistics:any):void{
     let categories:string[] = Object.keys(statistics);
     console.log('[statisticsReceived] categories', categories);
-    
+
     let columnsObj:any = {};
     for(let action in statistics){
       let parameters:any = statistics[action].parameters;
