@@ -24,7 +24,10 @@
         <h3>Displaying {{selectedDisplaySet}}</h3> -->
         <div id="flow" *ngFor="let flowImage of flowImages">
             <h2>{{ flowImage.name }}</h2>
-            <img src="{{ flowImage.imageUrl }}" />
+            <div class="flow-img"><img src="{{ flowImage.imageUrl }}" /></div>
+            <div class="flow-click-areas">
+                <div class="click-area"></div>
+            </div>
             <hr/>
         </div>
         <div id="chart"></div>
