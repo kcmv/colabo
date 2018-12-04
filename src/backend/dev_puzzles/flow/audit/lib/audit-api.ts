@@ -5,7 +5,7 @@ import { AuditedAction, AuditedActionClass } from '@colabo-flow/i-audit';
 import { GetPuzzle } from '@colabo-utils/i-config';
 let puzzleConfig: any = GetPuzzle(MODULE_NAME);
 
-import { ColaboFlowAuditDb } from './audit-db';
+import { ColaboFlowAuditDb, MainTypes, ActionTypes, SearchParams } from './audit-db';
 
 var accessId = 0;
 
@@ -33,27 +33,40 @@ export class ColaboFlowAuditApi {
     }
     
     index(callback: Function = null) {
-        let result = "Hello from audit";
-
-        // TODO: read audits from the database
-
-        if (result) {
-            if (callback) callback(null, result);
-            if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId, success: true });
-        } else {
-            let msg = "Missing result";
-            let err = {
-                content: msg
+        var type = this.req.params.type;
+        var actionType = this.req.params.actionType;
+        var id = this.req.params.searchParam;
+        
+        if (type === MainTypes.GetAudits){
+            let searchParams: SearchParams = {
+                type: MainTypes.GetAudits
             };
-            if (callback) callback(err, null);
-            if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId, success: false, msg: msg });
+            if (actionType === ActionTypes.FilterByName){
+                searchParams.actionType = ActionTypes.FilterByName;
+                searchParams.id = id;
+            }
+            this.colaboFlowAuditDb.index(searchParams, function (err, result) {
+                if (result) {
+                    if (callback) callback(null, result);
+                    if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId++, success: true });
+                } else {
+                    if (callback) callback(err, null);
+                    if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId++, success: false, msg: err });
+                }
+            }.bind(this));            
+        }else if (type === 'get-stats') {
+            let msg: string = "'get-stats' are not implemented yet";
+            if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId++, success: false, msg: msg });
+        }else{
+            let msg: string = "unknown request type: '" + type + "'";
+            if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId++, success: false, msg: msg });
         }
     }
 
     create(callback: Function = null) {
         let body: string = this.req.body;
         console.log("[ColaboFlowAudit.post] body: %s", JSON.stringify(body));
-        let cfAudit: AuditedActionClass = new (AuditedActionClass);
+        let cfAudit: AuditedActionClass = new AuditedActionClass();
         cfAudit.name = "parseRequest";
         cfAudit.flowId = "searchSoundsNoCache";
         
@@ -64,7 +77,7 @@ export class ColaboFlowAuditApi {
             body: body
         }
         if (callback) callback(null, result);
-        if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId, success: true });
+        if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId++, success: true });
     }
 } // CLASS END
 

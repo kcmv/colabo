@@ -6,7 +6,7 @@ import { CfAuditDbSchema } from './lib/audit-db-schema';
 export { CfAuditDbSchema };
 
 export { ColaboFlowAuditApi } from './lib/audit-api';
-export { ColaboFlowAuditDb } from './lib/audit-db';
+export { ColaboFlowAuditDb, MainTypes, ActionTypes, SearchParams } from './lib/audit-db';
 
 export { AuditDbVo } from './lib/audit-db-vo';
 

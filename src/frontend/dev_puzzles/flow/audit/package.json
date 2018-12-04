@@ -19,7 +19,8 @@
     "dependencies": {
         "@types/d3": "^5.0.1",
         "billboard.js": "^1.6.2",
-        "d3": "^5.7.0"
+        "d3": "^5.7.0",
+        "moment": "^2.22.2"
     },
     "peerDependenciesLocal": {},
     "devDependencies": {}

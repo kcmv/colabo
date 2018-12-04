@@ -75,6 +75,9 @@ if (!globalSet.hasOwnProperty('puzzles')) {
             iAmId: "1b96619b86f3cc8057216a05",
             nodeId: ""
         },
+        '@colabo-flow/b-audit': {
+            limitFindNo: 100
+        },
         '@colabo-flow/b-services': {
             debug: true,
 
