@@ -3,18 +3,12 @@ import uuid
 from colabo.flow.audit import audit_pb2
 from colabo.flow.audit import ColaboFlowAudit
 
-gRpcUrl = "localhost:50505"
-colaboFlowAudit = ColaboFlowAudit(gRpcUrl)
-
-cfAuditRequest1 = audit_pb2.SubmitAuditRequest(
-    # id='d123',
-    # time='8e23',
+cfAuditRequestDefualt = audit_pb2.SubmitAuditRequest(
     bpmn_type='activity',
     bpmn_subtype='task',
     bpmn_subsubtype='sub-task',
 
     flowId='searchForSounds',
-    name='start',
 
     userId='a124',
     sessionId='e124',
@@ -24,27 +18,29 @@ cfAuditRequest1 = audit_pb2.SubmitAuditRequest(
     implementerId='ACE'
 )
 
+gRpcUrl = "localhost:50505"
+colaboFlowAudit = ColaboFlowAudit(socketUrl=gRpcUrl, defaultAuditRequest=cfAuditRequestDefualt)
+
+cfAuditRequest1 = audit_pb2.SubmitAuditRequest(
+    name='start'
+)
+
 result1 = colaboFlowAudit.audit_submit(cfAuditRequest1)
 
 cfAuditRequest2 = audit_pb2.SubmitAuditRequest(
-    # id='d124',
-    # time='8e24',
-    bpmn_type='activity',
-    bpmn_subtype='task',
-    bpmn_subsubtype='sub-task',
-
-    flowId='searchForSounds',
+    flowId='searchForSounds-2',
     name='parseResponse',
-
-    userId='a124',
-    sessionId='e124',
-    flowInstanceId='f123',
-
-    implementationId='mediator',
-    implementerId='ACE'
+    userId='user-2'
 )
 
 result2 = colaboFlowAudit.audit_submit(cfAuditRequest2)
 
 print("result1 = %s" % (result1))
 print("result2 = %s" % (result2))
+
+# creating additional ColaboFlowAudit instance to check class static nature 
+# of the default defaultAuditRequest
+colaboFlowAudit2 = ColaboFlowAudit()
+cfAuditRequest3 = audit_pb2.SubmitAuditRequest(name='end')
+result3 = colaboFlowAudit.audit_submit(cfAuditRequest3)
+print("result3 = %s" % (result3))

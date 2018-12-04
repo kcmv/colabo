@@ -34,7 +34,7 @@ export class ColaboFlowAuditForm implements OnInit {
   protected puzzleConfig: any;
   protected generalConfigBranding: any;
   protected actionStates:any = {};
-  protected statistics:any[] = []];
+  protected statistics:any[] = [];
   
 
   constructor(

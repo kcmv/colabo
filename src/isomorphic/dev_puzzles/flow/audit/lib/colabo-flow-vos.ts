@@ -98,6 +98,7 @@ export interface AuditedAction{
 
     implementationId?: string; // id of the implementation used for performing the action (i.e. if it is a person performing it, (s)he has been using a tool implemented and identified with implementationID) ('oven Smederevka')
     implementerId?: string; // id of the person or component performing the action ('baker', or 'oven')
+    success: boolean;
 }
 
 export class AuditedActionClass implements AuditedAction, AuditedActionAny {
@@ -118,6 +119,7 @@ export class AuditedActionClass implements AuditedAction, AuditedActionAny {
 
     implementationId: string;
     implementerId: string;
+    success: boolean;
     
     // coming from IPluginAuditing
     createdAt: string;

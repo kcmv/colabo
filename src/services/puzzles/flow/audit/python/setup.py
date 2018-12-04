@@ -11,7 +11,7 @@ setup(
     # other arguments omitted
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version='0.1.4',
+    version='0.1.5',
     url='https://github.com/Cha-OS/colabo',
     # download_url,
     project_urls={
