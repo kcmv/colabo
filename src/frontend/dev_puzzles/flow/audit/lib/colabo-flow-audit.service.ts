@@ -59,14 +59,14 @@ export class ColaboFlowAuditService{
 
   getStatistics():Observable<any>{
     let items:any = {
-      "searchSoundsNoCache": {
+      "searchUser": {
         "parameters": {
           "count": 10,
           "duration": 3,
           "success": 11
         }
       },
-      "searchSoundsWithCache": {
+      "checkCache": {
         "parameters": {
           "count": 20,
           "duration": 25,
@@ -78,6 +78,20 @@ export class ColaboFlowAuditService{
           "count": 50,
           "duration": 15,
           "success": 8
+        }
+      },
+      "end": {
+        "parameters": {
+          "count": 40,
+          "duration": 5,
+          "success": 7
+        }
+      },
+      "parseResponse": {
+        "parameters": {
+          "count": 30,
+          "duration": 15,
+          "success": 16
         }
       }
     };
