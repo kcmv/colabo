@@ -60,7 +60,7 @@ export class ColaboFlowAuditForm implements OnInit {
     let flowImages = this.flowImages;
     for (let flowImageId in flowImages){
       let flowImage = flowImages[flowImageId];
-      let clickArea = d3.select("#click-area-" + flowImage.name);
+      let clickArea = d3.select("#click-area-" + flowImage.name).select("div.flow-click-areas");
       this.drawActionsInteractionsForFlow(flowImage, clickArea);
     }
   }
