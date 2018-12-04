@@ -22,11 +22,17 @@
             </mat-radio-group>
         </form>
         <h3>Displaying {{selectedDisplaySet}}</h3> -->
+        <button color="primary" (click)="reloadActions()">Reload Actions</button>
+        <button color="primary" (click)="reloadStatistics()">Reload Statistics</button>
         <div id="flow" *ngFor="let flowImage of flowImages">
             <h2>{{ flowImage.name }}</h2>
             <div class="flow-img"><img src="{{ flowImage.imageUrl }}" /></div>
             <div class="flow-click-areas">
-                <div class="click-area" (click)="flowAreaClicked()"></div>
+                <div class="click-area" id="click-area-{{ flowImage.name }}"></div>
+                <!-- 
+                    // ovo ne treba ovdje, ovo se generise sa D3-em. Mada to vjerovatno i kapiras, vjerovatno je samo test
+                    <div class="click-area" (click)="flowAreaClicked()"></div>
+                -->
             </div>
             <hr/>
         </div>
