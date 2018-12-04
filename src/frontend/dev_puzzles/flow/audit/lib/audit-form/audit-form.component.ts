@@ -80,6 +80,7 @@ export class ColaboFlowAuditForm implements OnInit {
     return this.generalConfigBranding.logo;
   }
   
+  //TODO: here we act like we DO have multiple flowImages, while the rest of the code is working with only one
   drawActionsInteractions(){
     let flowImages = this.flowImages;
     for (let flowImageId in flowImages){
@@ -99,6 +100,10 @@ export class ColaboFlowAuditForm implements OnInit {
       this.actionStates[actions[actionKey].name] = state;
     }
     console.log('this.actionStates',this.actionStates);
+
+    let that:ColaboFlowAuditForm = this;
+    d3.selectAll("div.click-area")
+      .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; })
   }
 
   drawActionsInteractionsForFlow(flowImage, clickArea) {
@@ -219,13 +224,12 @@ export class ColaboFlowAuditForm implements OnInit {
     this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
   }
 
-  getStatitsticsNew(){
-    this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsNewReceived.bind(this));
-  }
-
-  statisticsNewReceived(statistics:any):void{
-    console.log('statistics NEW', statistics);
-    // this.generateStatisticsGraphData();
+  setAllActions(value:boolean):void{
+    for (let flowImageId in this.flowImages){
+      let flowImage = this.flowImages[flowImageId];
+      this.setInitialActionStates(flowImage.actions, value);
+    }
+    this.generateStatisticsGraphData();
   }
 
   displaySetKeys():string[]{

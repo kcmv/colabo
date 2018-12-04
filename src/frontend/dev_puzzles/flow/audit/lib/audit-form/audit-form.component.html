@@ -24,8 +24,9 @@
         <h3>Displaying {{selectedDisplaySet}}</h3> -->
         <button color="primary" (click)="reloadActions()">Reload Actions</button>
         <button color="primary" (click)="reloadStatistics()">Reload Statistics</button>
-        <button color="primary" (click)="getStatitsticsNew()">get Statitstics New</button>
-        
+        <button color="primary" (click)="setAllActions(false)">Hide All Actions</button>
+        <button color="primary" (click)="setAllActions(true)">Show All Actions</button>
+
         <div *ngFor="let flowImage of flowImages" id="click-area-{{ flowImage.name }}">
             <h2>{{ flowImage.name }}</h2>
             <div style="position: relative;">
