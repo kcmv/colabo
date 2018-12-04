@@ -27,7 +27,7 @@ import * as uuidv1 from 'uuid/v1';
 
 export class ColaboFlowAuditForm implements OnInit {
   public items: AuditedAction[];
-  public selectedDisplaySet:DisplaySet = DisplaySet.ACTION_NAMES;
+  public selectedDisplaySet:DisplaySet = DisplaySet.STATISTICS;
   private itemsPerName:string[][] = [];
   protected puzzleConfig: any;
   protected generalConfigBranding: any;
@@ -83,12 +83,12 @@ export class ColaboFlowAuditForm implements OnInit {
 
     // d3 example: d3.select('p').style('color', this.color);
     switch(this.selectedDisplaySet){
-      case DisplaySet.STATISTICS:
-        this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
+      case DisplaySet.ACTION_NAMES:
+        this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
         break;
       case DisplaySet.STATISTICS:
       default:
-        this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
+        this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
         break;
     }
   }
