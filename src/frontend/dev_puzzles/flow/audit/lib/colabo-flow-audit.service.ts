@@ -114,7 +114,7 @@ export class ColaboFlowAuditService{
   processAuditedActionsVOs(resultFull: any): AuditedAction[] {
     const audits: AuditedAction[] = [];
 
-    let auditsFromServer:[] = resultFull.data;
+    let auditsFromServer:any[] = resultFull.data;
 
     console.log("[processAuditedActionsVOs] auditsFromServer: ", auditsFromServer);
 
