@@ -33,17 +33,25 @@ export class ColaboFlowAuditApi {
     }
     
     index(callback: Function = null) {
-        var type = this.req.params.type;
-        var actionType = this.req.params.actionType;
-        var id = this.req.params.searchParam;
-
+        console.log('[ColaboFlowAuditApi::index] this.req.params', this.req.params);
+        let type = this.req.params.type;
+        let actionType = this.req.params.actionType;
+        let id = this.req.params.searchParam;
+        console.log('[ColaboFlowAuditApi::index] type', type);
+        console.log('[ColaboFlowAuditApi::index] actionType', actionType);
+        console.log('[ColaboFlowAuditApi::index] req.params.searchParam', this.req.params.searchParam);
+        
         let searchParams: SearchParams = {
-            type: type
+            type: type,
+            actionType: actionType,
+            id: id
         };
-        if (actionType === ActionTypes.FilterByName){
-            searchParams.actionType = ActionTypes.FilterByName;
-            searchParams.id = id;
-        }
+
+        // if (actionType === ActionTypes.FilterByName){
+        //     searchParams.actionType = ActionTypes.FilterByName;
+            
+        // }
+        
         
         switch(type){
             case MainTypes.GetAudits:

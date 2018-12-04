@@ -20,7 +20,8 @@ export enum MainTypes {
 
 export enum ActionTypes{
     FilterByName = 'filter-by-name',
-    All = 'all'
+    All = 'all',
+    Sessions = 'sessions'
 }
 export interface SearchParams{
     type: MainTypes;
@@ -36,6 +37,7 @@ export class ColaboFlowAuditDb {
 
     index(searchParams:any, callback: Function = null) {
         let result = "Hello from audit";
+        console.log('[ColaboFlowAuditDb::index] searchParams',searchParams);
         var foundAudits = function (err, cfAudits) {
             console.log("[%s:ColaboFlowAuditDb:index:foundAudits] cfAudits:%s", MODULE_NAME, JSON.stringify(cfAudits));
             if (err) {
@@ -56,10 +58,21 @@ export class ColaboFlowAuditDb {
                 CfAuditModel.find(searchQuery, foundAudits.bind(this)).sort({ createdAt: -1 }).limit(this.limitFindNo);            
             break;
             case MainTypes.GetStats:
-                if(searchParams.actionType === ActionTypes.FilterByName){
-                    searchQuery.name = searchParams.id;
-                }
-                CfAuditModel.aggregate().group({ _id: "$name", count: { $sum: 1 }, avgTime: { $avg: "$time" }, successCount: { $sum: { $cond: { if: "$success", then: 1, else: 0 } } }})
+                // if(searchParams.actionType === ActionTypes.Sessions){
+                //     searchQuery.name = searchParams.id;
+                // }
+
+                let id:string = searchParams.id; //'e123,cat,e124'; //mockup
+                console.log("[index] " + MainTypes.GetStats + ": id: %s", id);
+                let ids:string[] = id.split(',');
+                console.log('[index] ids', ids);
+                // KNodeModel.find({ '_id': { $in: ids } }, found);
+                //https://docs.mongodb.com/manual/reference/operator/aggregation/cond/#exp._S_cond
+                CfAuditModel
+                .aggregate()
+                .match({ sessionId: { $in: ids } })
+                //.match({ sessionId: { $in: [ "e123", "cat" ] } })
+                .group({ _id: "$name", count: { $sum: 1 }, avgTime: { $avg: "$time" }, successCount: { $sum: { $cond: { if: "$success", then: 1, else: 0 } } }})
                 // .project('_id count avgTime successCount')
                 // CfAuditModel.aggregate().group({ _id: "$name", count: { $sum: 1 }, maxTime: { $max: "$time" } })
                 // .project('_id maxTime')

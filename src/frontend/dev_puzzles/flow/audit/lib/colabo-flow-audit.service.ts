@@ -99,10 +99,16 @@ export class ColaboFlowAuditService{
     return of(items);
   }
 
-  getStatistics():Observable<any> {
-    let searchQuery: string = 'get-stats';
+  getStatistics(sessionIds:string[]):Observable<any> {
     let url: string;
-    url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + '.json';
+
+    console.log('[getStatistics] sessionIds', sessionIds);
+    let idsStr:string = sessionIds.join(',');
+    let searchQuery: string = 'get-stats/sessions/';
+
+    // this.http.get<ServerData>(this.apiUrl+'id_in/'+this.defaultAction+'/'+idsStr+'.json')
+
+    url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + idsStr + '.json';
 
     const result: Observable<any[]>
       = this.http.get<any>(url)

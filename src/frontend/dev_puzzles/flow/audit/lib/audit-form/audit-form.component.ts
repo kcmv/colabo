@@ -30,6 +30,7 @@ const ActionOpacityStart:number = 0.2;
 export class ColaboFlowAuditForm implements OnInit {
   public items: AuditedAction[];
   public selectedDisplaySet:DisplaySet = DisplaySet.STATISTICS;
+  public sessions:string[] = [ "e123", "cat" , "e124"];
   private itemsPerName:string[][] = [];
   protected puzzleConfig: any;
   protected generalConfigBranding: any;
@@ -55,7 +56,7 @@ export class ColaboFlowAuditForm implements OnInit {
 
     // d3 example: d3.select('p').style('color', this.color);
     this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
-    this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
+    this.colaboFlowAuditService.getStatistics(this.sessions).subscribe(this.statisticsReceived.bind(this));
     
     // switch(this.selectedDisplaySet){
     //   case DisplaySet.ACTION_NAMES:
@@ -221,7 +222,7 @@ export class ColaboFlowAuditForm implements OnInit {
   }
   
   reloadStatistics(){
-    this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
+    this.colaboFlowAuditService.getStatistics(this.sessions).subscribe(this.statisticsReceived.bind(this));
   }
 
   setAllActions(value:boolean):void{
