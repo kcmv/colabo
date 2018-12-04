@@ -118,6 +118,10 @@ export class AuditedActionClass implements AuditedAction, AuditedActionAny {
     implementationId: string;
     implementerId: string;
     
+    // coming from IPluginAuditing
+    createdAt: string;
+    updatedAt: string;
+    
     constructor(){
         
     }

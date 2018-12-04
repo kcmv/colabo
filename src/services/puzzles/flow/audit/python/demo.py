@@ -14,14 +14,14 @@ cfAuditRequest1 = audit_pb2.SubmitAuditRequest(
     bpmn_subsubtype='sub-task',
 
     flowId='searchForSounds',
-    name='searchUser',
+    name='start',
 
-    userId='a123',
-    sessionId='e123',
+    userId='a124',
+    sessionId='e124',
     flowInstanceId='f123',
 
     implementationId='mediator',
-    implementerId='colabo.service'
+    implementerId='ACE'
 )
 
 result1 = colaboFlowAudit.audit_submit(cfAuditRequest1)
@@ -34,14 +34,14 @@ cfAuditRequest2 = audit_pb2.SubmitAuditRequest(
     bpmn_subsubtype='sub-task',
 
     flowId='searchForSounds',
-    name='checkCache',
+    name='parseResponse',
 
-    userId='a123',
-    sessionId='e123',
+    userId='a124',
+    sessionId='e124',
     flowInstanceId='f123',
 
     implementationId='mediator',
-    implementerId='colabo.service'
+    implementerId='ACE'
 )
 
 result2 = colaboFlowAudit.audit_submit(cfAuditRequest2)

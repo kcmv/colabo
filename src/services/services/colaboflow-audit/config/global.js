@@ -46,7 +46,7 @@ if (!globalSet.hasOwnProperty('dbConfig')) {
     console.log("Setting up globalSet.dbConfig");
     globalSet.dbConfig = {
         newConnect: true,
-        dbName: "KnAllEdge",
+        dbName: "ACE",
         domain: '127.0.0.1',
         port: 27017,
         user: 'user',
@@ -57,6 +57,9 @@ if (!globalSet.hasOwnProperty('dbConfig')) {
 if (!globalSet.hasOwnProperty('puzzles')) {
     console.log("Setting up globalSet.puzzles");
     globalSet.puzzles = {
+        '@colabo-flow/b-audit': {
+            limitFindNo: 100
+        },
         '@colabo-flow/s-audit': {
             gRpcUrl: '0.0.0.0:50505'
         }

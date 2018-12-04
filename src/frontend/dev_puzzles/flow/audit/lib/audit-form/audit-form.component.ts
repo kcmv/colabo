@@ -27,7 +27,7 @@ import * as uuidv1 from 'uuid/v1';
 
 export class ColaboFlowAuditForm implements OnInit {
   public items: AuditedAction[];
-  public selectedDisplaySet:DisplaySet = DisplaySet.STATISTICS;
+  public selectedDisplaySet:DisplaySet = DisplaySet.ACTION_NAMES;
   private itemsPerName:string[][] = [];
   protected puzzleConfig: any;
   protected generalConfigBranding: any;

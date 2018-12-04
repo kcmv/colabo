@@ -4,17 +4,26 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { AuditedAction } from '@colabo-flow/i-audit';
+import { AuditedAction, AuditedActionClass } from '@colabo-flow/i-audit';
 import { Observable, of } from 'rxjs';
+import { GetPuzzle, GetGeneral } from '@colabo-utils/i-config';
+
+import * as moment from 'moment';
 
 @Injectable()
 export class ColaboFlowAuditService{
 
+  // RESTfull backend API url
+  static serverAP: string = GetGeneral('serverUrl');
+
   protected _isActive:boolean = true;
+  protected puzzleConfig: any;
 
   constructor(
+    private http: HttpClient
     ) {
-      this.init();
+    this.puzzleConfig = GetPuzzle(MODULE_NAME);
+    this.init();
   }
 
   /**
@@ -25,7 +34,29 @@ export class ColaboFlowAuditService{
 
     // initialize 
   }
-  
+
+  /**
+* Handle Http operation that failed.
+* Let the app continue.
+* @param operation - name of the operation that failed
+* @param result - optional value to return as the observable result
+*/
+  protected handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+      window.alert('error: ' + error);
+
+      // TODO: better job of transforming error for user consumption
+      //this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+
   getStatistics():Observable<any>{
     let items:any = {
       "loadFromCache": {
@@ -54,7 +85,66 @@ export class ColaboFlowAuditService{
     return of(items);
   }
 
-  getActions():Observable<AuditedAction[]>{
+  getActions(): Observable<AuditedAction[]> {
+    // return this.getActionsMockup();
+
+    let searchQuery: string = 'get-audits/all/any';
+    let url: string;
+    url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + '.json';
+
+    const result: Observable<any[]>
+      = this.http.get<any>(url)
+        .pipe(
+          map(auditsFromServer => this.processAuditedActionsVOs(auditsFromServer)),
+          // map(auditsFromServer => CFService.processAuditedActionsVOs(nodesFromServer, KNode)),
+          catchError(this.handleError('ColaboFlowAuditService::loadSounds', null))
+        );
+
+    // result.subscribe(audits => {
+    //   console.log('[ColaboFlowAuditService::loadSounds] audits: ', audits);
+    // });
+
+    // if (callback) {
+    //   result.subscribe(audits => callback(audits));
+    // }
+    return result;
+
+  }
+
+  processAuditedActionsVOs(resultFull: any): AuditedAction[] {
+    const audits: AuditedAction[] = [];
+
+    let auditsFromServer:[] = resultFull.data;
+
+    console.log("[processAuditedActionsVOs] auditsFromServer: ", auditsFromServer);
+
+    for (let auditId = 0; auditId < auditsFromServer.length; auditId++) {
+      const auditFromServer:any = auditsFromServer[auditId];
+      const auditVo: AuditedActionClass = new AuditedActionClass();
+
+      auditVo.id = auditFromServer.id;
+      if (!auditVo.id) auditVo.id = auditFromServer._id;
+      auditVo.time = auditFromServer.time;
+      auditVo.bpmn_type = auditFromServer.bpmn_type;
+      auditVo.bpmn_subtype = auditFromServer.bpmn_subtype;
+      auditVo.bpmn_subsubtype = auditFromServer.bpmn_subsubtype;
+      auditVo.flowId = auditFromServer.flowId;
+      auditVo.name = auditFromServer.name;
+      auditVo.userId = auditFromServer.userId;
+      auditVo.sessionId = auditFromServer.sessionId;
+      auditVo.flowInstanceId = auditFromServer.flowInstanceId;
+      auditVo.implementationId = auditFromServer.implementationId;
+      auditVo.implementerId = auditFromServer.implementerId;
+      auditVo.createdAt = moment(auditFromServer.createdAt).format("dddd, MMMM Do YYYY, h:mm:ss a");
+      auditVo.updatedAt = moment(auditFromServer.updatedAt).format("dddd, MMMM Do YYYY, h:mm:ss a");
+
+      audits.push(auditVo);
+    }
+    console.log("[processAuditedActionsVOs] audits: ", audits);
+    return audits;
+  }
+
+  getActionsMockup():Observable<AuditedAction[]>{
     let items:AuditedAction[] = [];
     items.push(({
       id: "ad30",

@@ -13,24 +13,45 @@ var dbConnection = dbService.DBConnect();
 // var CfAuditModel = dbConnection.model('CfAudit', (<any>global).db.CfAuditDbSchema);
 var CfAuditModel = dbConnection.model('CfAudit', CfAuditDbSchema);
 
-export class ColaboFlowAuditDb {
+export enum MainTypes {
+    GetAudits = 'get-audits'
+}
 
+export enum ActionTypes{
+    FilterByName = 'filter-by-name',
+    All = 'all'
+}
+export interface SearchParams{
+    type: MainTypes;
+    actionType?: ActionTypes;
+    id?: string;
+};
+
+export class ColaboFlowAuditDb {
+    protected limitFindNo:Number;
     constructor() {
+        this.limitFindNo = puzzleConfig.limitFindNo || 100;
     }
 
-    index(callback: Function = null) {
+    index(searchParams:any, callback: Function = null) {
         let result = "Hello from audit";
+        var foundAudits = function (err, cfAudits) {
+            console.log("[%s:ColaboFlowAuditDb:index:foundAudits] cfAudits:%s", MODULE_NAME, JSON.stringify(cfAudits));
+            if (err) {
+                var msg = JSON.stringify(err);
+                if (callback) callback(err, null);
+                throw err;
+            } else {
+                if (callback) callback(null, cfAudits);
+            }
+        }
 
-        // TODO: read audits from the database
-
-        if (result) {
-            if (callback) callback(null, result);
-        } else {
-            let msg = "Missing result";
-            let err = {
-                content: msg
-            };
-            if (callback) callback(err, null);
+        if (searchParams.type === MainTypes.GetAudits){
+            let searchQuery:any = {};
+            if(searchParams.actionType === ActionTypes.FilterByName){
+                searchQuery.name = searchParams.id;
+            }
+            CfAuditModel.find(searchQuery, foundAudits.bind(this)).sort({ createdAt: -1 }).limit(this.limitFindNo);            
         }
     }
 

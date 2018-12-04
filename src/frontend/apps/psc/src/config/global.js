@@ -36,7 +36,7 @@ if (!globalSet.hasOwnProperty('general')) {
             title: "ReMaking Tesla Workshop",
             toolbarTitle: "ReMaking Tesla Workshop",
             subToolbarTitle: "@ ReTesla",
-            logo: "/assets/images/logo.jpg"
+            logo: "assets/images/logo.jpg"
         },
 
         imagesFolder: 'images',
@@ -77,7 +77,7 @@ if (!globalSet.hasOwnProperty('puzzles')) {
         '@colabo-flow/f-audit': {
             flowImages: [{
                 name: 'search',
-                imageUrl: "/assets/images/flows/flow-search.jpg",
+                imageUrl: "assets/images/flows/flow-search.jpg",
                 actions: [{
                         name: 'start',
                         selectArea: {
