@@ -59,7 +59,7 @@ export class ColaboFlowAuditDb {
                 if(searchParams.actionType === ActionTypes.FilterByName){
                     searchQuery.name = searchParams.id;
                 }
-                CfAuditModel.aggregate().group({ _id: "$name", count: { $sum: 1 }, avgTime: { $avg: "$time" }, successCount: { $sum: "$success" } })
+                CfAuditModel.aggregate().group({ _id: "$name", count: { $sum: 1 }, avgTime: { $avg: "$time" }, successCount: { $sum: { $cond: { if: "$success", then: 1, else: 0 } } }})
                 // .project('_id count avgTime successCount')
                 // CfAuditModel.aggregate().group({ _id: "$name", count: { $sum: 1 }, maxTime: { $max: "$time" } })
                 // .project('_id maxTime')
