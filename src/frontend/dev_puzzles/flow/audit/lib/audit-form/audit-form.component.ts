@@ -72,6 +72,10 @@ export class ColaboFlowAuditForm implements OnInit {
       });
   }
   
+  flowAreaClicked():void{
+    console.log('flowAreaClicked');
+  }
+
   ngAfterContentInit() {
     setTimeout(function(){
       this.drawActionsInteractions();

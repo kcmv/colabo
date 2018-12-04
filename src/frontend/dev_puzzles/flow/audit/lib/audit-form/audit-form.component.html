@@ -29,6 +29,10 @@
             <div class="flow-img"><img src="{{ flowImage.imageUrl }}" /></div>
             <div class="flow-click-areas">
                 <div class="click-area" id="click-area-{{ flowImage.name }}"></div>
+                <!-- 
+                    // ovo ne treba ovdje, ovo se generise sa D3-em. Mada to vjerovatno i kapiras, vjerovatno je samo test
+                    <div class="click-area" (click)="flowAreaClicked()"></div>
+                -->
             </div>
             <hr/>
         </div>
