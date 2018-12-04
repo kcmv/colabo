@@ -56,6 +56,10 @@ export class ColaboFlowAuditForm implements OnInit {
     return this.generalConfigBranding.logo;
   }
 
+  flowAreaClicked():void{
+    console.log('flowAreaClicked');
+  }
+
   ngAfterContentInit() {
     // d3 example: d3.select('p').style('color', this.color);
     switch(this.selectedDisplaySet){

@@ -26,7 +26,7 @@
             <h2>{{ flowImage.name }}</h2>
             <div class="flow-img"><img src="{{ flowImage.imageUrl }}" /></div>
             <div class="flow-click-areas">
-                <div class="click-area"></div>
+                <div class="click-area" (click)="flowAreaClicked()"></div>
             </div>
             <hr/>
         </div>
