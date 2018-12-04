@@ -41,6 +41,13 @@
     cursor: pointer;
     position: absolute;
     border: gray solid 1px;
+    background-color: rgba(200, 200, 220, 0.3);
+}
+
+.click-area-demo{
+    cursor: pointer;
+    position: absolute;
+    border: gray solid 1px;
     width: 50px;
     height: 30px;
     background-color: rgba(200, 200, 220, 0.3);

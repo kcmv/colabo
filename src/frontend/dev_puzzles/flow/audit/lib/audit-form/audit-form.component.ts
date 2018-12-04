@@ -19,6 +19,8 @@ enum DisplaySet{
 // https://www.npmjs.com/package/uuid
 import * as uuidv1 from 'uuid/v1';
 
+const ActionOpacityStart:number = 0.2;
+
 @Component({
   selector: 'colabo-flow-audit-form',
   templateUrl: './audit-form.component.html',
@@ -66,15 +68,102 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   drawActionsInteractionsForFlow(flowImage, clickArea) {
+    let that:ColaboFlowAuditForm = this;
     let actionZones = clickArea.selectAll("div.action_zones")
-      .data(flowImage.actions, function (d) { 
-        return d.name; // actions' names
-      });
+      // .data(flowImage.actions, function (d) { 
+      //   return d.name; // actions' names
+      // });
+      .data(flowImage.actions).enter()
+        .append('div')
+        .style('position','absolute')
+        .style('top', function (d) { return d.selectArea.y + "px"; })
+        .style('left', function (d) { return d.selectArea.x + "px"; })
+        .style('width', function (d) { return d.selectArea.width + "px"; })
+        .style('height', function (d) { return d.selectArea.height + "px"; })
+        // .attr('class', function (d) { return 'click-area'; })
+        // .attr('class', function (d) { console.log(d.class); return d.class; })
+        .attr('class', 'click-area')
+        // .style('border-radius','50%')
+        .style('cursor', 'pointer')
+        .style('border', 'gray solid 1px')
+        .style('background-color', 'rgba(200, 200, 220, 0.3)')
+        .style('opacity',ActionOpacityStart)
+        .html(function(d) { return d.name;})
+        .on("mouseover", function (d,i) {that.actionOver(d, i, this);})	
+        .on("mouseout", function (d,i) {that.actionOut(d, i, this);})
+        .on("click", function (d,i) {that.actionClick(d, i, this);});
+  }
+
+  actionOver(d, i, object:any):void {	
+    console.log('mouseover', d3.event);	
+    // this.setactionProfile(d.user);
+    d3.select( object )
+      // .raise() //putting it visually in front of the other actions
+      .transition()
+      // .attr('left', d.x-30) //.attr('left', function(d) { return d.x-30;})
+      // .attr('top', d.y-30) //function(d) { return d.y-30;})
+      // .attr("height", UserImgOverSize)
+      // .attr("width", UserImgOverSize)
+      .style("opacity", 1);	
+
+    // console.log('d3.event',d3.event);
+
+    /*
+    this.tooltip
+      .transition()		
+      .duration(200)		
+      .style("opacity", 0.8);		
+    this.tooltip.html((d.user as KNode).name)	
+      .raise() //putting it visually in front of the other actions
+      // .style("left", (d3.event.pageX) + "px")		
+      // .style("left", (d3.event.target.x + d3.event.target.width + 3) + "px")		
+      .style("left", (d3.event.target.x + UserImgOverSize + 3) + "px")		
+      .style("top", (d3.event.pageY - 28) + "px");	
+      */
+  }
+
+  actionOut(d, i, object:any):void {
+    console.log('mouseout');		
+    // this.clearactionProfile();
+    d3.select( object )
+      .transition()
+      // .attr('left', function(d) { return d.x;})
+      // .attr('left', d.x)
+      // .attr('top', d.y)
+      // .attr("height", 50)
+      // .attr("width", 50)
+      .style("opacity", ActionOpacityStart);	
+      
+    /*
+    this.tooltip.transition()		
+      .duration(500)		
+      .style("opacity", 0);	
+    */
+  }
+
+  actionClick(d, i, object:any):void {
+    console.log('actionClick');		
+    // this.clearactionProfile();
+    d3.select( object )
+      // .transition()
+      // .attr('left', function(d) { return d.x;})
+      // .attr('left', d.x)
+      // .attr('top', d.y)
+      // .attr("height", 50)
+      // .attr("width", 50)
+      // .style("opacity", ActionOpacityStart)
+      ;	
+      
+    /*
+    this.tooltip.transition()		
+      .duration(500)		
+      .style("opacity", 0);	
+    */
   }
   
-  flowAreaClicked():void{
-    console.log('flowAreaClicked');
-  }
+  // flowAreaClicked():void{
+  //   console.log('flowAreaClicked');
+  // }
 
   ngAfterContentInit() {
     setTimeout(function(){
@@ -262,7 +351,7 @@ export class ColaboFlowAuditForm implements OnInit {
 
     // chart.axis.labels({
     //   x: "17 SDGs",
-    //   y: "Numbrer of participants selecting it"
+    //   y: "Numbrer of actions selecting it"
     // });
 
     // chart.categories(InsightsService.SDG_NAMES);
