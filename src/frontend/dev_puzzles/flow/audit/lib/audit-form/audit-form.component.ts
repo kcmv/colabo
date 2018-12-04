@@ -55,8 +55,28 @@ export class ColaboFlowAuditForm implements OnInit {
   get logo(): string {
     return this.generalConfigBranding.logo;
   }
+  
+  drawActionsInteractions(){
+    let flowImages = this.flowImages;
+    for (let flowImageId in flowImages){
+      let flowImage = flowImages[flowImageId];
+      let clickArea = d3.select("#click-area-" + flowImage.name);
+      this.drawActionsInteractionsForFlow(flowImage, clickArea);
+    }
+  }
 
+  drawActionsInteractionsForFlow(flowImage, clickArea) {
+    let actionZones = clickArea.selectAll("div.action_zones")
+      .data(flowImage.actions, function (d) { 
+        return d.name; // actions' names
+      });
+  }
+  
   ngAfterContentInit() {
+    setTimeout(function(){
+      this.drawActionsInteractions();
+    }.bind(this), 1000);
+
     // d3 example: d3.select('p').style('color', this.color);
     switch(this.selectedDisplaySet){
       case DisplaySet.STATISTICS:
@@ -67,6 +87,14 @@ export class ColaboFlowAuditForm implements OnInit {
         this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
         break;
     }
+  }
+  
+  reloadActions(){
+    this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
+  }
+  
+  reloadStatistics(){
+    this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
   }
 
   displaySetKeys():string[]{
