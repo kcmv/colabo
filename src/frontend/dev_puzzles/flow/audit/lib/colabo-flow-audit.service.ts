@@ -57,7 +57,7 @@ export class ColaboFlowAuditService{
   }
 
 
-  getStatistics():Observable<any>{
+  getStatisticsMockup():Observable<any>{
     let items:any = {
       "searchUser": {
         "parameters": {
@@ -97,6 +97,42 @@ export class ColaboFlowAuditService{
     };
 
     return of(items);
+  }
+
+  getStatistics():Observable<any> {
+    let searchQuery: string = 'get-stats';
+    let url: string;
+    url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + '.json';
+
+    const result: Observable<any[]>
+      = this.http.get<any>(url)
+        .pipe(
+          map(statsFromServer => this.processStatsFromServer(statsFromServer.data)),
+          // map(auditsFromServer => CFService.processAuditedActionsVOs(nodesFromServer, KNode)),
+          catchError(this.handleError('ColaboFlowAuditService::getStatistics', null))
+        );
+
+    // result.subscribe(audits => {
+    //   console.log('[ColaboFlowAuditService::loadSounds] audits: ', audits);
+    // });
+
+    // if (callback) {
+    //   result.subscribe(audits => callback(audits));
+    // }
+    return result;
+  }
+
+  processStatsFromServer(statsFromServer:any[] ): any[] {
+    let statFromServer:any = null;
+    let name:string;
+    // let newStatFromServer:any = null;
+    for(let i:number=0; i<statsFromServer.length; i++){
+      statFromServer = statsFromServer[i];
+      name = statFromServer['_id'];
+      delete statFromServer['_id'];
+      statsFromServer[i] = {'name': name,  'stats': JSON.parse(JSON.stringify(statFromServer))};
+    }
+    return statsFromServer;
   }
 
   getActions(): Observable<AuditedAction[]> {

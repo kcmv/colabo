@@ -34,7 +34,7 @@ export class ColaboFlowAuditForm implements OnInit {
   protected puzzleConfig: any;
   protected generalConfigBranding: any;
   protected actionStates:any = {};
-  protected statistics:any = {};
+  protected statistics:any[] = []];
   
 
   constructor(
@@ -219,6 +219,15 @@ export class ColaboFlowAuditForm implements OnInit {
     this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
   }
 
+  getStatitsticsNew(){
+    this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsNewReceived.bind(this));
+  }
+
+  statisticsNewReceived(statistics:any):void{
+    console.log('statistics NEW', statistics);
+    // this.generateStatisticsGraphData();
+  }
+
   displaySetKeys():string[]{
     return Object.keys(DisplaySet).filter(key => isNaN(Number(key)));
   }
@@ -228,22 +237,27 @@ export class ColaboFlowAuditForm implements OnInit {
     return Object.keys(DisplaySet).map(key => DisplaySet[key]);
   }
 
-  statisticsReceived(statistics:any):void{
+  statisticsReceived(statistics:any[]):void{
     this.statistics = statistics;
     this.generateStatisticsGraphData();
   }
 
   generateStatisticsGraphData(){
-    let categories:string[] = Object.keys(this.statistics).filter(catetory => this.isActionSelected(catetory));
-    console.log('[statisticsReceived] categories', categories);
+    console.log('[generateStatisticsGraphData] statistics',this.statistics);
+    let categories:string[] = [];
+    // let categories:string[] = Object.keys(this.statistics).filter(catetory => this.isActionSelected(catetory));
+    // console.log('[statisticsReceived] categories', categories);
 
     let columnsObj:any = {};
-    for(let action in this.statistics){
-      if(this.isActionSelected(action)){
-        let parameters:any = this.statistics[action].parameters;
-        for(let parameter in parameters){
-          if(!(parameter in columnsObj)){columnsObj[parameter]=[];}
-          columnsObj[parameter].push(parameters[parameter]);
+    let statForAct:any;
+    for(let i:number = 0; i < this.statistics.length; i++){
+      statForAct = this.statistics[i];
+      if(this.isActionSelected(statForAct.name)){
+        categories.push(statForAct.name);
+        let stats:any = statForAct.stats;
+        for(let stat in stats){
+          if(!(stat in columnsObj)){columnsObj[stat]=[];}
+          columnsObj[stat].push(stats[stat]);
         }
       }
     }
