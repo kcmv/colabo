@@ -59,21 +59,21 @@ export class ColaboFlowAuditService{
 
   getStatistics():Observable<any>{
     let items:any = {
-      "loadFromCache": {
+      "searchSoundsNoCache": {
         "parameters": {
           "count": 10,
           "duration": 3,
           "success": 11
         }
       },
-      "loadWithoutCache": {
+      "searchSoundsWithCache": {
         "parameters": {
           "count": 20,
           "duration": 25,
           "success": 4
         }
       },
-      "loadSemiCache": {
+      "start": {
         "parameters": {
           "count": 50,
           "duration": 15,

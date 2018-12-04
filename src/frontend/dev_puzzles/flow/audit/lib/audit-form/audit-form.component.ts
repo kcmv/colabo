@@ -33,6 +33,8 @@ export class ColaboFlowAuditForm implements OnInit {
   private itemsPerName:string[][] = [];
   protected puzzleConfig: any;
   protected generalConfigBranding: any;
+  protected actionStates:any = {};
+  protected statistics:any = {};
   
 
   constructor(
@@ -44,6 +46,26 @@ export class ColaboFlowAuditForm implements OnInit {
     this.puzzleConfig = GetPuzzle(MODULE_NAME);
     this.generalConfigBranding = GetGeneral('branding');
     // this.colaboFlowAuditService.getItems().subscribe(this.auditsReceived.bind(this));
+  }
+
+  ngAfterContentInit() {
+    setTimeout(function(){
+      this.drawActionsInteractions();
+    }.bind(this), 1000);
+
+    // d3 example: d3.select('p').style('color', this.color);
+    this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
+    this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
+    
+    // switch(this.selectedDisplaySet){
+    //   case DisplaySet.ACTION_NAMES:
+    //     this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
+    //     break;
+    //   case DisplaySet.STATISTICS:
+    //   default:
+    //     this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
+    //     break;
+    // }
   }
   
   get subToolbarTitle():string{
@@ -63,8 +85,20 @@ export class ColaboFlowAuditForm implements OnInit {
     for (let flowImageId in flowImages){
       let flowImage = flowImages[flowImageId];
       let clickArea = d3.select("#click-area-" + flowImage.name).select("div.flow-click-areas");
+      this.setInitialActionStates(flowImage.actions, true);
       this.drawActionsInteractionsForFlow(flowImage, clickArea);
+      
+      //have to call it now AGAIN because 'drawActionsInteractions' is called from "ngAfterContentInit()" with 'setTimeout',
+      //so ActionStates are not set yet when data is received:
+      this.generateStatisticsGraphData();
     }
+  }
+
+  setInitialActionStates(actions:any[], state:boolean=true):void{
+    for(let actionKey in actions){
+      this.actionStates[actions[actionKey].name] = state;
+    }
+    console.log('this.actionStates',this.actionStates);
   }
 
   drawActionsInteractionsForFlow(flowImage, clickArea) {
@@ -75,6 +109,7 @@ export class ColaboFlowAuditForm implements OnInit {
       // });
       .data(flowImage.actions).enter()
         .append('div')
+        .attr('id',function(d) { return d.name;})
         .style('position','absolute')
         .style('top', function (d) { return d.selectArea.y + "px"; })
         .style('left', function (d) { return d.selectArea.x + "px"; })
@@ -83,15 +118,21 @@ export class ColaboFlowAuditForm implements OnInit {
         // .attr('class', function (d) { return 'click-area'; })
         // .attr('class', function (d) { console.log(d.class); return d.class; })
         .attr('class', 'click-area')
-        // .style('border-radius','50%')
+        .style('border-radius','10px')
         .style('cursor', 'pointer')
-        .style('border', 'gray solid 1px')
-        .style('background-color', 'rgba(200, 200, 220, 0.3)')
-        .style('opacity',ActionOpacityStart)
+        // .style('border', function (d) { return that.isActionSelected(d.name) ? 'black solid 2px' : 'none'; })
+        .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; }) //'rgba(200, 200, 220)') //'rgba(200, 200, 220, 0.3)')
+        .style('opacity', ActionOpacityStart)
         .html(function(d) { return d.name;})
         .on("mouseover", function (d,i) {that.actionOver(d, i, this);})	
         .on("mouseout", function (d,i) {that.actionOut(d, i, this);})
-        .on("click", function (d,i) {that.actionClick(d, i, this);});
+        .on("click", function (d,i) {that.actionClick(d, i, this);})
+        // .append('<div><i class="material-icons">visibility</i></div>')
+        ;
+  }
+
+  isActionSelected(name:string):boolean{
+    return (name in this.actionStates) && this.actionStates[name];
   }
 
   actionOver(d, i, object:any):void {	
@@ -104,7 +145,7 @@ export class ColaboFlowAuditForm implements OnInit {
       // .attr('top', d.y-30) //function(d) { return d.y-30;})
       // .attr("height", UserImgOverSize)
       // .attr("width", UserImgOverSize)
-      .style("opacity", 1);	
+      .style("opacity", 0.6);	
 
     // console.log('d3.event',d3.event);
 
@@ -142,9 +183,13 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   actionClick(d, i, object:any):void {
-    console.log('actionClick');		
+    console.log('actionClick',d.name);		
+    if(d.name in this.actionStates){
+      this.actionStates[d.name] = !this.actionStates[d.name];
+    }
     // this.clearactionProfile();
     d3.select( object )
+      .style('background-color', this.isActionSelected(d.name) ? 'yellow' : 'gray')
       // .transition()
       // .attr('left', function(d) { return d.x;})
       // .attr('left', d.x)
@@ -153,6 +198,7 @@ export class ColaboFlowAuditForm implements OnInit {
       // .attr("width", 50)
       // .style("opacity", ActionOpacityStart)
       ;	
+    this.generateStatisticsGraphData();
       
     /*
     this.tooltip.transition()		
@@ -164,23 +210,6 @@ export class ColaboFlowAuditForm implements OnInit {
   // flowAreaClicked():void{
   //   console.log('flowAreaClicked');
   // }
-
-  ngAfterContentInit() {
-    setTimeout(function(){
-      this.drawActionsInteractions();
-    }.bind(this), 1000);
-
-    // d3 example: d3.select('p').style('color', this.color);
-    switch(this.selectedDisplaySet){
-      case DisplaySet.ACTION_NAMES:
-        this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
-        break;
-      case DisplaySet.STATISTICS:
-      default:
-        this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
-        break;
-    }
-  }
   
   reloadActions(){
     this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
@@ -200,15 +229,22 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   statisticsReceived(statistics:any):void{
-    let categories:string[] = Object.keys(statistics);
+    this.statistics = statistics;
+    this.generateStatisticsGraphData();
+  }
+
+  generateStatisticsGraphData(){
+    let categories:string[] = Object.keys(this.statistics).filter(catetory => this.isActionSelected(catetory));
     console.log('[statisticsReceived] categories', categories);
 
     let columnsObj:any = {};
-    for(let action in statistics){
-      let parameters:any = statistics[action].parameters;
-      for(let parameter in parameters){
-        if(!(parameter in columnsObj)){columnsObj[parameter]=[];}
-        columnsObj[parameter].push(parameters[parameter]);
+    for(let action in this.statistics){
+      if(this.isActionSelected(action)){
+        let parameters:any = this.statistics[action].parameters;
+        for(let parameter in parameters){
+          if(!(parameter in columnsObj)){columnsObj[parameter]=[];}
+          columnsObj[parameter].push(parameters[parameter]);
+        }
       }
     }
     console.log('[statisticsReceived] columnsObj', columnsObj);
@@ -239,7 +275,7 @@ export class ColaboFlowAuditForm implements OnInit {
     }
     console.log('itemsPerName',this.itemsPerName);
 
-    this.generateChart();
+    this.generateAuditsChart();
   }
 
   generateStatisticsChart(columns:any[][], categories:string[]=null):void{
@@ -247,7 +283,7 @@ export class ColaboFlowAuditForm implements OnInit {
     console.log('columns', columns);
     
     var chart = bb.generate({
-      bindto: "#chart",
+      bindto: "#chart_statistics",
       "title": {
         "text": "Distribution of Audits"
       },
@@ -291,7 +327,7 @@ export class ColaboFlowAuditForm implements OnInit {
     });
   }
 
-  generateChart():void{
+  generateAuditsChart():void{
     let keys:string[] = [];
     let data:any[] = ['audits per name'];
     for(var k in this.itemsPerName){
@@ -304,7 +340,7 @@ export class ColaboFlowAuditForm implements OnInit {
     console.log('data', data);
     
     var chart = bb.generate({
-      bindto: "#chart",
+      bindto: "#chart_audits",
       "title": {
         "text": "Distribution of Audits per name"
       },
