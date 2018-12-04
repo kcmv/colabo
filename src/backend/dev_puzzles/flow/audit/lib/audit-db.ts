@@ -14,7 +14,8 @@ var dbConnection = dbService.DBConnect();
 var CfAuditModel = dbConnection.model('CfAudit', CfAuditDbSchema);
 
 export enum MainTypes {
-    GetAudits = 'get-audits'
+    GetAudits = 'get-audits',
+    GetStats = 'get-stats'
 }
 
 export enum ActionTypes{
@@ -46,12 +47,28 @@ export class ColaboFlowAuditDb {
             }
         }
 
-        if (searchParams.type === MainTypes.GetAudits){
-            let searchQuery:any = {};
-            if(searchParams.actionType === ActionTypes.FilterByName){
-                searchQuery.name = searchParams.id;
-            }
-            CfAuditModel.find(searchQuery, foundAudits.bind(this)).sort({ createdAt: -1 }).limit(this.limitFindNo);            
+        let searchQuery:any = {};
+        switch(searchParams.type){
+            case MainTypes.GetAudits:
+                if(searchParams.actionType === ActionTypes.FilterByName){
+                    searchQuery.name = searchParams.id;
+                }
+                CfAuditModel.find(searchQuery, foundAudits.bind(this)).sort({ createdAt: -1 }).limit(this.limitFindNo);            
+            break;
+            case MainTypes.GetStats:
+                if(searchParams.actionType === ActionTypes.FilterByName){
+                    searchQuery.name = searchParams.id;
+                }
+                CfAuditModel.aggregate().group({ _id: "$name", count: { $sum: 1 }, avgTime: { $avg: "$time" }, successCount: { $sum: "$success" } })
+                // .project('_id count avgTime successCount')
+                // CfAuditModel.aggregate().group({ _id: "$name", count: { $sum: 1 }, maxTime: { $max: "$time" } })
+                // .project('_id maxTime')
+                .exec(foundAudits)
+
+                // .group({ _id: null, maxBalance: { $max: '$balance' } }).
+                // .project('-id maxBalance').
+                // CfAuditModel.find(searchQuery, foundAudits.bind(this)).sort({ createdAt: -1 }).limit(this.limitFindNo);            
+            break;
         }
     }
 

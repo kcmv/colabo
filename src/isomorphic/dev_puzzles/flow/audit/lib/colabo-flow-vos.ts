@@ -77,6 +77,7 @@ export interface AuditedActionAny {
 
     implementationId?: any;
     implementerId?: any;
+    success: any;
 }
 
 export interface AuditedAction{

@@ -39,7 +39,8 @@ export let AuditedActionSchema: AuditedActionAny & IAuditDb = {
   implementerId: String,
   
   // DB-speciffic
-  type: String
+  type: String,
+  success: Boolean
 }
 
 export interface IPluginAuditing{

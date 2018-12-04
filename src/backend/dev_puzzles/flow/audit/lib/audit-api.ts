@@ -36,30 +36,44 @@ export class ColaboFlowAuditApi {
         var type = this.req.params.type;
         var actionType = this.req.params.actionType;
         var id = this.req.params.searchParam;
+
+        let searchParams: SearchParams = {
+            type: type
+        };
+        if (actionType === ActionTypes.FilterByName){
+            searchParams.actionType = ActionTypes.FilterByName;
+            searchParams.id = id;
+        }
         
-        if (type === MainTypes.GetAudits){
-            let searchParams: SearchParams = {
-                type: MainTypes.GetAudits
-            };
-            if (actionType === ActionTypes.FilterByName){
-                searchParams.actionType = ActionTypes.FilterByName;
-                searchParams.id = id;
-            }
-            this.colaboFlowAuditDb.index(searchParams, function (err, result) {
-                if (result) {
-                    if (callback) callback(null, result);
-                    if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId++, success: true });
-                } else {
-                    if (callback) callback(err, null);
-                    if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId++, success: false, msg: err });
-                }
-            }.bind(this));            
-        }else if (type === 'get-stats') {
-            let msg: string = "'get-stats' are not implemented yet";
-            if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId++, success: false, msg: msg });
-        }else{
-            let msg: string = "unknown request type: '" + type + "'";
-            if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId++, success: false, msg: msg });
+        switch(type){
+            case MainTypes.GetAudits:
+                this.colaboFlowAuditDb.index(searchParams, function (err, result) {
+                    if (result) {
+                        if (callback) callback(null, result);
+                        if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId++, success: true });
+                    } else {
+                        if (callback) callback(err, null);
+                        if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId++, success: false, msg: err });
+                    }
+                }.bind(this));            
+            break;
+            case MainTypes.GetStats:
+                // let msg: string = "'get-stats' are not implemented yet";
+                // if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId++, success: false, msg: msg });
+
+                this.colaboFlowAuditDb.index(searchParams, function (err, result) {
+                    if (result) {
+                        if (callback) callback(null, result);
+                        if (this.res) resSendJsonProtected(this.res, { data: result, accessId: accessId++, success: true });
+                    } else {
+                        if (callback) callback(err, null);
+                        if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId++, success: false, msg: err });
+                    }
+                }.bind(this));
+            break;
+            default:
+                let msg: string = "unknown request type: '" + type + "'";
+                if (this.res) resSendJsonProtected(this.res, { data: null, accessId: accessId++, success: false, msg: msg });
         }
     }
 
