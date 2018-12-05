@@ -38,7 +38,6 @@ export class ColaboFlowAuditForm implements OnInit {
   protected generalConfigBranding: any;
   protected actionStates:any = {};
   protected statistics:any[] = [];
-  
 
   constructor(
     private colaboFlowAuditService: ColaboFlowAuditService,
@@ -73,6 +72,11 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   public sessionSelectionChanged():void{
+    this.reloadStatistics();
+  }
+
+  public clearSessions():void{
+    this.selectedSessions = [];
     this.reloadStatistics();
   }
   
