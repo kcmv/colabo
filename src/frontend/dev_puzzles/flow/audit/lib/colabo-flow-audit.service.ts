@@ -35,6 +35,10 @@ export class ColaboFlowAuditService{
     // initialize 
   }
 
+  get timeDivider():number{
+    return this.puzzleConfig.timeDivider;
+  }
+
   /**
 * Handle Http operation that failed.
 * Let the app continue.
@@ -135,6 +139,7 @@ export class ColaboFlowAuditService{
     for(let i:number=0; i<statsFromServer.length; i++){
       statFromServer = statsFromServer[i];
       name = statFromServer['_id'];
+      statFromServer['avgTime'] = statFromServer['avgTime'] / this.timeDivider;
       delete statFromServer['_id'];
       statsFromServer[i] = {'name': name,  'stats': JSON.parse(JSON.stringify(statFromServer))};
     }
