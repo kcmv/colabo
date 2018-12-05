@@ -24,7 +24,7 @@
             <h3>Displaying {{selectedDisplaySet}}</h3> -->
 
             <mat-form-field>
-                <mat-select placeholder="Sessions" (selectionChange)='sessionSelectionChanged()' [formControl]="sessionsFC" multiple [(value)]="selectedSessions">
+                <mat-select placeholder="Sessions" (selectionChange)='sessionSelectionChanged()' [formControl]="sessionsFC" multiple [(ngModel)]="selectedSessions">
                     <mat-option *ngFor="let session of sessions" [value]="session">{{session}}</mat-option>
                 </mat-select>
             </mat-form-field>

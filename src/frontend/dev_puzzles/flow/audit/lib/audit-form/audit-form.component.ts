@@ -29,7 +29,7 @@ const ActionOpacityStart:number = 0.2;
 
 export class ColaboFlowAuditForm implements OnInit {
   public sessionsFC:FormControl = new FormControl();
-  public selectedSessions:string[] = [];
+  public selectedSessions:string[] = []; //[ "e123", "cat" , "e124"];//
   public items: AuditedAction[];
   public selectedDisplaySet:DisplaySet = DisplaySet.STATISTICS;
   // public sessions:string[] = [ "e123", "cat" , "e124"];
@@ -229,10 +229,13 @@ export class ColaboFlowAuditForm implements OnInit {
   // }
   
   reloadActions(){
+    //test: this.selectedSessions.shift();
+    // console.log('[reloadActions] this.selectedSessions', this.selectedSessions);
     this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
   }
   
   reloadStatistics(){
+    console.log('[reloadStatistics] this.selectedSessions', this.selectedSessions);
     this.colaboFlowAuditService.getStatistics(this.selectedSessions).subscribe(this.statisticsReceived.bind(this));
   }
 
