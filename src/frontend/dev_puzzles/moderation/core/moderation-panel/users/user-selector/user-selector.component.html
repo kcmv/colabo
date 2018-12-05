@@ -1,0 +1,47 @@
+<div class = 'users_form'>
+        <form class="filtering-form">
+        <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
+            <mat-form-field class="filtering-form-full-width">
+                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        
+            <!-- <p>
+                <mat-form-field class="full-width">
+                    <input matInput type="text" placeholder="First Name" formControlName="firstName" value="">
+                    <mat-error class="error-message">Име мора бити дужине барем 2 карактера</mat-error>
+                </mat-form-field>
+            </p>
+            <p>
+                <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Register</button>
+                <button mat-raised-button (click)="reset()">Clear</button>
+            </p> -->
+        </form>
+    </div>
+
+<mat-card class="user-card">
+    <mat-card-header>
+        <!-- <div mat-card-avatar class="user-header-image"></div> -->
+        <mat-card-title class='title'>{{userData?.name}}</mat-card-title>
+        <mat-card-subtitle>{{userData?.dataContent?.email}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <!-- <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img"> -->
+    <!-- <img mat-card-image class="picture" src="{{userImagesPath + 'user' + user?.dataContent?.humanID + '.jpg'}}" alt="{{user.name}}" /> -->
+    <img mat-card-image class="picture" src="{{imgPath()}}" alt="{{userData?.name}}" />
+    
+    <!-- <mat-card-content>
+        <p>
+            {{user.dataContent.desc}}
+        </p>
+    </mat-card-content> -->
+    <!-- <mat-card-footer>
+    </mat-card-footer>   -->
+    <!-- <mat-card-actions>
+        <mat-slide-toggle (change)="onToggling()" class="example-margin" [checked]="getState()">{{getState() ? 'selected' : 'not selected'}}</mat-slide-toggle>
+    </mat-card-actions> -->
+</mat-card>

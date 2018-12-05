@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -41,6 +41,7 @@ const aaaAP = "aaa";
 
 @Injectable()
 export class RimaAAAService extends CFService{
+  static mapId = config.GetGeneral('mapId');
   activeUser:KNode = null;
 
   private apiUrl: string;
@@ -50,6 +51,7 @@ export class RimaAAAService extends CFService{
   private _isRegistered:boolean;
   private _isErrorLogingIn:boolean;
   private _errorLogingMsg:string;
+  private _usersInMap:KNode[] = [];
 
   ProfilingStateTypeNames:string[] = [
     'OFF',
@@ -78,6 +80,30 @@ export class RimaAAAService extends CFService{
 
     //getting data for the user:
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
+  }
+
+
+  getUsersInActiveMap(forceRefresh:boolean = false):Observable<KNode[]>{
+    let result:Observable<KNode[]>;
+
+    if(forceRefresh || this._usersInMap.length == 0){
+      result = this.knalledgeNodeService.queryInMapofType(RimaAAAService.mapId, KNode.TYPE_USER)
+      .pipe(
+        tap(nodesFromServer => this.assignUsersInMap(nodesFromServer as KNode[]))
+      );
+      return result;
+    }
+    else{
+      return of(this._usersInMap);
+    }
+  }
+
+  assignUsersInMap(users:KNode[]):void{
+    // console.log('assignUsersInMap', users);
+    this._usersInMap = users.sort(
+      function (a, b) {
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    });
   }
 
   loadLoggedInUser():KNode{
@@ -115,6 +141,10 @@ export class RimaAAAService extends CFService{
       return this.knalledgeNodeService.getById(id);
   }
 
+  /**
+   * TODO: should be renamed: this actually get not ALL Registered users, but users in a map - the same as `getUsersInActiveMap` (which also preserves the result)
+   * @param mapId 
+   */
   getRegisteredUsers(mapId:string):Observable<KNode[]>{ //TODO: not to get users from server each time, but from a local array
     return this.knalledgeNodeService.queryInMapofType(mapId, KNode.TYPE_USER);
   }

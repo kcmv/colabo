@@ -27,6 +27,7 @@ export class ParticipantsCircleComponent implements OnInit {
 
   @ViewChild(ParticipantProfileComponent)
   private participantProfile:ParticipantProfileComponent;
+
   // title = 'app';
   // color:string = 'blue';
   // radius = 10;

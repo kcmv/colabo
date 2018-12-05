@@ -17,7 +17,8 @@ import {InsightsService} from '../moderation-panel/insights/insights.service';
 import {ModerationPanelComponent} from '../moderation-panel/moderation-panel.component';
 import {InsightsComponent} from '../moderation-panel/insights/insights.component';
 import {RegisteredUsersComponent} from '../moderation-panel/registered-users/registered-users.component';
-import {UserCardComponent} from '../moderation-panel/users/user-card.component';
+import {UserCardComponent} from '../moderation-panel/users/user-card/user-card.component';
+import {UserSelectorComponent} from '../moderation-panel/users/user-selector/user-selector.component';
 import {UserActionsStatusesComponent} from '../moderation-panel/insights/user-actions-statuses/user-actions-statuses.component';
 import {UserModerationComponent} from '../user-moderation/user-moderation.component';
 
@@ -39,6 +40,7 @@ var moduleDeclarations:any[] = [
   InsightsComponent,
   RegisteredUsersComponent,
   UserCardComponent,
+  UserSelectorComponent,
   UserActionsStatusesComponent,
   UserModerationComponent,
   ResultsVisualizationComponent,
