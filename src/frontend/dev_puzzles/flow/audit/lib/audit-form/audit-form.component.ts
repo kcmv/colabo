@@ -85,7 +85,7 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   get sessions(): string[]{
-    return this.puzzleConfig.sessions;
+    return this.puzzleConfig.sessions.sort();
   }
 
   get logo(): string {
