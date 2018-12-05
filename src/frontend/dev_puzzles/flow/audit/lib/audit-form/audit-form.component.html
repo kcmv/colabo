@@ -14,18 +14,26 @@
     </div>
 
     <div fxFlex id="scrolling_content" style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px;">
-        <!-- <form name="statisticsCustomizing">
-            <mat-radio-group class="example-radio-group" name="displaySet" [(ngModel)]="selectedDisplaySet">
+        <form name="statisticsCustomizing">
+            <!-- <mat-radio-group class="example-radio-group" name="displaySet" [(ngModel)]="selectedDisplaySet">
                 <mat-radio-button class="example-radio-button" *ngFor="let ds of displaySetKeys()" [value]="ds">
                     {{ds}}
                 </mat-radio-button>
             </mat-radio-group>
+        
+            <h3>Displaying {{selectedDisplaySet}}</h3> -->
+
+            <mat-form-field>
+                <mat-select placeholder="Sessions" (selectionChange)='sessionSelectionChanged()' [formControl]="sessionsFC" multiple [(value)]="selectedSessions">
+                    <mat-option *ngFor="let session of sessions" [value]="session">{{session}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+                
+            <button color="primary" (click)="reloadActions()">Reload Actions</button>
+            <button color="primary" (click)="reloadStatistics()">Reload Statistics</button>
+            <button color="primary" (click)="setAllActions(false)">Hide All Actions</button>
+            <button color="primary" (click)="setAllActions(true)">Show All Actions</button>
         </form>
-        <h3>Displaying {{selectedDisplaySet}}</h3> -->
-        <button color="primary" (click)="reloadActions()">Reload Actions</button>
-        <button color="primary" (click)="reloadStatistics()">Reload Statistics</button>
-        <button color="primary" (click)="setAllActions(false)">Hide All Actions</button>
-        <button color="primary" (click)="setAllActions(true)">Show All Actions</button>
 
         <div *ngFor="let flowImage of flowImages" id="click-area-{{ flowImage.name }}">
             <h2>{{ flowImage.name }}</h2>

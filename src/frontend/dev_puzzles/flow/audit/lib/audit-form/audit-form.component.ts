@@ -28,9 +28,11 @@ const ActionOpacityStart:number = 0.2;
 })
 
 export class ColaboFlowAuditForm implements OnInit {
+  public sessionsFC:FormControl = new FormControl();
+  public selectedSessions:string[] = [];
   public items: AuditedAction[];
   public selectedDisplaySet:DisplaySet = DisplaySet.STATISTICS;
-  public sessions:string[] = [ "e123", "cat" , "e124"];
+  // public sessions:string[] = [ "e123", "cat" , "e124"];
   private itemsPerName:string[][] = [];
   protected puzzleConfig: any;
   protected generalConfigBranding: any;
@@ -46,6 +48,7 @@ export class ColaboFlowAuditForm implements OnInit {
   ngOnInit() {
     this.puzzleConfig = GetPuzzle(MODULE_NAME);
     this.generalConfigBranding = GetGeneral('branding');
+    this.selectedSessions = this.sessions;
     // this.colaboFlowAuditService.getItems().subscribe(this.auditsReceived.bind(this));
   }
 
@@ -56,7 +59,7 @@ export class ColaboFlowAuditForm implements OnInit {
 
     // d3 example: d3.select('p').style('color', this.color);
     this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
-    this.colaboFlowAuditService.getStatistics(this.sessions).subscribe(this.statisticsReceived.bind(this));
+    this.colaboFlowAuditService.getStatistics(this.selectedSessions).subscribe(this.statisticsReceived.bind(this));
     
     // switch(this.selectedDisplaySet){
     //   case DisplaySet.ACTION_NAMES:
@@ -64,9 +67,13 @@ export class ColaboFlowAuditForm implements OnInit {
     //     break;
     //   case DisplaySet.STATISTICS:
     //   default:
-    //     this.colaboFlowAuditService.getStatistics().subscribe(this.statisticsReceived.bind(this));
+    //     this.colaboFlowAuditService.getStatistics(this.selectedSessions).subscribe(this.statisticsReceived.bind(this));
     //     break;
     // }
+  }
+
+  public sessionSelectionChanged():void{
+    this.reloadStatistics();
   }
   
   get subToolbarTitle():string{
@@ -75,6 +82,10 @@ export class ColaboFlowAuditForm implements OnInit {
   
   get flowImages(): any{
     return this.puzzleConfig.flowImages;
+  }
+
+  get sessions(): string[]{
+    return this.puzzleConfig.sessions;
   }
 
   get logo(): string {
@@ -222,7 +233,7 @@ export class ColaboFlowAuditForm implements OnInit {
   }
   
   reloadStatistics(){
-    this.colaboFlowAuditService.getStatistics(this.sessions).subscribe(this.statisticsReceived.bind(this));
+    this.colaboFlowAuditService.getStatistics(this.selectedSessions).subscribe(this.statisticsReceived.bind(this));
   }
 
   setAllActions(value:boolean):void{
