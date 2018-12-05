@@ -1,1 +1,8 @@
-
+.user-avatar{
+    border-radius: 50%;
+    overflow: hidden;
+    border: solid black 1px;
+    width: 43px;
+    vertical-align: middle;
+    margin-right: 5px;
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {UserData} from '@colabo-rima/f-aaa/userData';
 import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-index',
@@ -11,7 +12,7 @@ import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 export class IndexComponent implements OnInit {
 
   constructor(
-    private RimaAAAService: RimaAAAService
+    private rimaAAAService: RimaAAAService
   ) {
   }
 
@@ -19,15 +20,19 @@ export class IndexComponent implements OnInit {
   }
 
   get isLoggedIn():Boolean{
-    return this.RimaAAAService.getUser() !== null;
+    return this.rimaAAAService.getUser() !== null;
+  }
+
+  public userAvatar():Observable<string>{
+    return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
   }
 
   get loggedUser(): KNode {
-    return this.RimaAAAService.getUser();
+    return this.rimaAAAService.getUser();
   }
 
   logOut(){
-    this.RimaAAAService.logOut();
+    this.rimaAAAService.logOut();
   }
 
 }

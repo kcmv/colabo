@@ -12,7 +12,7 @@
         <div *ngIf="isLoggedIn">
             <p>
                 Hi,
-                <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You can:
+                <b>{{loggedUser.dataContent.firstName}}</b>. <img class='user-avatar' src = '{{userAvatar() | async}}'/><br/> You can:
             </p>
             <p>
                 <a routerLink="/select-sdgs">

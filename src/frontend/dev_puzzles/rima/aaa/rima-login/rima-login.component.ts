@@ -4,6 +4,7 @@ import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {UserData} from '@colabo-rima/f-aaa/userData';
 import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import * as config from '@colabo-utils/i-config';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-rima-login',
@@ -27,9 +28,13 @@ export class RimaLoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  get avatarImage():string{
-    return config.GetGeneral('imagesFolder') + '/user.avatar-' + this.rimaAAAService.getUserId() + '.jpg';
+  // get avatarImage():string{
+  //   return config.GetGeneral('imagesFolder') + '/user.avatar-' + this.rimaAAAService.getUserId() + '.jpg';
+  // }
+  public userAvatar():Observable<string>{
+    return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
   }
+
   reset() {
       this.form.reset();
   }

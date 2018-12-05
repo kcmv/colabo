@@ -65,9 +65,14 @@ export class UserSelectorComponent implements OnInit {
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
-  public imgPath():string{
-    return (this.userData && ('avatar' in this.userData.dataContent)) ? this.userData.dataContent.avatar : 'https://fv.colabo.space/assets/images/user_icons/performer.jpg';
+  public optionImg(option:KNode):Observable<string>{
+    return RimaAAAService.userAvatar(option);
   }
+
+  public optionDetails(option:KNode):string{
+    return ('dataContent' in option) ? (option.dataContent.email) : '';
+  }
+  
 
 
   // assignRegisteredUsers(users:any):void{

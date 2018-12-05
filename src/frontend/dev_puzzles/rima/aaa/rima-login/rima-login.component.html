@@ -18,7 +18,7 @@
             Hello,
             <b>{{loggedUser.dataContent.firstName}}</b>. <br/> You are succesfully logged in.
 
-            <img src="{{ avatarImage }}" style="max-width: 200px; width: 80%" />
+            <img class='user-avatar' src = '{{userAvatar() | async}}'/>
 
             <p>
                 email: <b>{{loggedUser.dataContent.email}} </b><br/> id: {{loggedUser._id}}

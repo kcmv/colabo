@@ -41,7 +41,9 @@ const aaaAP = "aaa";
 
 @Injectable()
 export class RimaAAAService extends CFService{
-  static mapId = config.GetGeneral('mapId');
+  public static AVATAR_EMPTY:string = 'https://fv.colabo.space/assets/images/user_icons/performer.jpg'
+  protected static mapId = config.GetGeneral('mapId');
+  
   activeUser:KNode = null;
 
   private apiUrl: string;
@@ -82,6 +84,41 @@ export class RimaAAAService extends CFService{
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
   }
 
+  private static checkImageExists(imageUrl:string, callBack:Function):void {
+    let imageData = new Image();
+    imageData.onload = function() {
+      callBack(true);
+    };
+    imageData.onerror = function() {
+      console.log('NON EXISTING IMG: '+imageUrl);
+      // imageUrl = 'https://fv.colabo.space/assets/images/user_icons/performer.jpg';
+      callBack(false);
+    };
+    imageData.src = imageUrl;
+  }
+
+  public static userAvatar(user:KNode):Observable<string>{
+    let avatar:string = null;
+    let result:Observable<string>;
+    if(!user) {
+      avatar = RimaAAAService.AVATAR_EMPTY;
+    }else if('dataContent' in user && 'avatar' in user.dataContent){
+      return of(user.dataContent.avatar);
+    }else{
+      avatar = 'https://fv.colabo.space/assets/images/avatars/user.avatar-' + user._id + '.jpg';
+      if(!('dataContent' in user)){
+        user['dataContent'] = {};
+      }
+      user.dataContent.avatar = avatar;
+      RimaAAAService.checkImageExists(avatar, 
+      function(result:boolean){
+        if(!result){
+          user.dataContent.avatar = RimaAAAService.AVATAR_EMPTY;
+        }
+    });
+    }
+    return of(avatar);
+  }
 
   getUsersInActiveMap(forceRefresh:boolean = false):Observable<KNode[]>{
     let result:Observable<KNode[]>;

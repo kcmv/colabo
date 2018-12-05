@@ -1,32 +1,71 @@
-<div>
-  <h3>Results Visualization</h3>
-  <mat-expansion-panel [expanded]="true">
-      <!-- <mat-expansion-panel (opened)="panelOpenState = true"
-         (closed)="panelOpenState = false"> -->
-         <mat-expansion-panel-header>
-           <mat-panel-title>
-              <h3>Participants Circle</h3>
-           </mat-panel-title>
-           <mat-panel-description>
-              <!-- ({{usersData?.data?.length}}) participants registered -->
-             <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-           </mat-panel-description>
-         </mat-expansion-panel-header>
-        <participants-circle></participants-circle>
-  </mat-expansion-panel>
+<div fxLayout="column" fxFlexFill style="height: 100%;">
 
-  <mat-expansion-panel>
-      <!-- <mat-expansion-panel (opened)="panelOpenState = true"
-         (closed)="panelOpenState = false"> -->
-         <mat-expansion-panel-header>
-           <mat-panel-title>
-              <h3>SDGs Statistics</h3>
-           </mat-panel-title>
-           <mat-panel-description>
-              <!-- ({{usersData?.data?.length}}) participants registered -->
-             <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-           </mat-panel-description>
-         </mat-expansion-panel-header>
-        <sdgs-statistics></sdgs-statistics>
-  </mat-expansion-panel>
+  <!-- toolbar -->
+  <div fxFlex="64px" style="overflow-y: hidden;">
+      <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+          <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+          <button mat-mini-fab mat-tooltip="Почетак" tooltip-position="below" class="mat-mini mat-primary" aria-label="Почетак" routerLink="/" style="margin-right: 5px;">
+              <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
+          </button>
+          
+          <!-- <button mat-tooltip="My Profile" tooltip-position="below" aria-label="My Profile" routerLink="/rima-login" style="margin-right: 5px;"> -->
+            <span><a href="/rima-login"><img class='user-avatar' src = '{{userAvatar() | async}}'/></a></span> {{userName()}}
+          <!-- </button> -->
+          <!-- <colabo-flow></colabo-flow> -->
+          <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
+          <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
+
+      </mat-toolbar>
+  </div>
+
+  <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+    <div *ngIf="!isLoggedIn else loggedIn" style="margin: 15px;">
+        <p>
+            To access this page you need:
+        </p>
+        <a routerLink="/rima-login">
+            <button mat-raised-button color="primary">Login</button>
+        </a>
+
+        <p>
+            or
+        </p>
+        <a routerLink="/rima-register">
+            <button mat-raised-button color="primary">Register</button>
+        </a>
+
+    </div>
+    <ng-template #loggedIn>
+      <h3>Results Visualization</h3>
+      <mat-expansion-panel [expanded]="true">
+          <!-- <mat-expansion-panel (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"> -->
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <h3>Participants Circle</h3>
+              </mat-panel-title>
+              <mat-panel-description>
+                  <!-- ({{usersData?.data?.length}}) participants registered -->
+                <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <participants-circle></participants-circle>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+          <!-- <mat-expansion-panel (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"> -->
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <h3>SDGs Statistics</h3>
+              </mat-panel-title>
+              <mat-panel-description>
+                  <!-- ({{usersData?.data?.length}}) participants registered -->
+                <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <sdgs-statistics></sdgs-statistics>
+      </mat-expansion-panel>
+    </ng-template>
+  </div>
 </div>
