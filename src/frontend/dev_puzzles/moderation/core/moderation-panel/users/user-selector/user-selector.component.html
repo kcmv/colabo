@@ -2,6 +2,7 @@
         <form class="filtering-form">
         <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
             <mat-form-field class="filtering-form-full-width" appearance="outline">
+            <!-- https://material.angular.io/components/form-field/overview -->
                 <mat-label>Choose User by name</mat-label>
                 <mat-icon matSuffix>account_circle</mat-icon>
                 <input type="text" placeholder="Choose User by name" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
@@ -17,7 +18,7 @@
             </mat-form-field>
         
             <!-- <p>
-                <mat-form-field class="full-width">
+                <mat-form-field class="full-width"> 
                     <input matInput type="text" placeholder="First Name" formControlName="firstName" value="">
                     <mat-error class="error-message">Име мора бити дужине барем 2 карактера</mat-error>
                 </mat-form-field>
