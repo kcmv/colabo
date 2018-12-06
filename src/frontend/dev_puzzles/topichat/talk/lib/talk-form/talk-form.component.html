@@ -5,7 +5,14 @@
         <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
             <a href="/" title="Home" >
                 <img alt="Home" src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
-            </a> CWC
+            </a>
+            <a href="/rima-login" title="{{userName()}}"> 
+                <div>
+                    <div><img class='user-avatar' alt="{{userName()}}" src = '{{userAvatar() | async}}'/></div>
+                    <div class="user-name-small">{{userName()}}</div> 
+                </div>
+            </a>
+            CWC
         </mat-toolbar>
     </div>
 

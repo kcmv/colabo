@@ -6,7 +6,12 @@
             <a href="/" title="Home" >
                 <img alt="Home" src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
             </a>  
-            <span><img class="hidden" src = '{{userImg()}}'/></span> {{userName()}}
+            <a href="/rima-login" title="{{userName()}}"> 
+                <div>
+                    <div><img class='user-avatar' alt="{{userName()}}" src = '{{userAvatar() | async}}'/></div>
+                    <div class="user-name-small">{{userName()}}</div> 
+                </div>
+            </a>
             <colabo-flow></colabo-flow>
             <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
             <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->

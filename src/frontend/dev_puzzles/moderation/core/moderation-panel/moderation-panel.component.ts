@@ -27,7 +27,7 @@ export class ModerationPanelComponent implements OnInit {
   // }
 
   userName():string{
-    return this.rimaAAAService.getUser() !== null ? this.rimaAAAService.getUser().name : 'not logged in';
+    return this.rimaAAAService.userName();
   }
 
   public userAvatar():Observable<string>{

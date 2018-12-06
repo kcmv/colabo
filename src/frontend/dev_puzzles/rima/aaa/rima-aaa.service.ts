@@ -97,6 +97,11 @@ export class RimaAAAService extends CFService{
     imageData.src = imageUrl;
   }
 
+  public userName():string{
+    let user:KNode = this.getUser();
+    return user !== null ? user.name : 'not logged in';
+  }
+
   public static userAvatar(user:KNode):Observable<string>{
     let avatar:string = null;
     let result:Observable<string>;
