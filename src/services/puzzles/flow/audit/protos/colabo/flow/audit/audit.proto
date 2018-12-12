@@ -9,7 +9,10 @@ service Audit {
 
 message SubmitAuditRequest{
     string id = 50; // unique id of the audited action
-    string time = 51; // when did the action happen
+    string time = 7; // time action lasted (in microseconds)
+    bool success = 8; // was the action successfull
+    string result = 9; // the action result
+    string msg = 10; // the action message
 
     // action types
     string bpmn_type = 4; // (required) action type (BpmnSymbolType.Event, ...)
@@ -24,7 +27,10 @@ message SubmitAuditRequest{
     string flowInstanceId = 3; // (required) id of the flow instance that started
 
     string implementationId = 54; // id of the implementation used for performing the action (i.e. if it is a person performing it, (s)he has been using a tool implemented and identified with implementationID) ('oven Smederevka')
-	string implementerId = 55; // id of the person or component performing the action ('baker', or 'oven')
+    string implementerId = 55; // id of the person or component performing the action ('baker', or 'oven')
+    
+    string startTime = 100;
+    string endTime = 101;
 }
 
 message SubmitAuditReply{

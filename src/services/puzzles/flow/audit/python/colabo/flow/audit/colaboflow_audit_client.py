@@ -6,6 +6,8 @@ from __future__ import print_function
 import random
 
 import grpc
+from datetime import datetime
+import dateutil.parser
 
 from . import audit_pb2
 from . import audit_pb2_grpc
@@ -41,6 +43,9 @@ class ColaboFlowAudit():
             ColaboFlowAudit.auditRequestDefault = defaultAuditRequest
             print("auditRequestDefault: %s " % ColaboFlowAudit.auditRequestDefault)
 
+    def getDefaultRequest(self):
+        return ColaboFlowAudit.auditRequestDefault
+
     def setDefaultValues(self, dA, a):
         if not a.bpmn_type and dA.bpmn_type:
             a.bpmn_type = dA.bpmn_type
@@ -66,8 +71,40 @@ class ColaboFlowAudit():
         if not a.implementerId and dA.implementerId: 
             a.implementerId = dA.implementerId
 
-    def audit_submit(self, auditRequest):
+    def audit_create_and_finish(self, auditRequest, success=True):
+        self.audit_create(auditRequest);
+        auditReply = self.audit_finish(auditRequest, success=True, time=0)
+        return auditReply;
+
+    def audit_create(self, auditRequest):
         self.setDefaultValues(ColaboFlowAudit.auditRequestDefault, auditRequest)
+        auditRequest.startTime = datetime.now().isoformat()
+        auditReply = None
+        # auditReply = self.stub.submit(auditRequest)
+        # if not auditReply.id or not auditReply.time:
+        #     print("Server returned incomplete auditReply")
+        # else:
+        #     print("Audit result is %s" % (auditReply))
+        return auditReply
+
+    def audit_finish(self, auditRequest, success=True, time=None):
+        auditRequest.success = success;
+        if time == None:
+            # https://stackoverflow.com/questions/766335/python-speed-testing-time-difference-milliseconds
+            # https://stackoverflow.com/questions/28331512/how-to-convert-pythons-isoformat-string-back-into-datetime-object
+            # https://stackoverflow.com/questions/10197859/python-serializing-deserializing-datetime-time
+            startTimeStr = auditRequest.startTime
+            startTime = dateutil.parser.parse(startTimeStr)
+            endTime = datetime.now()
+            deltaTime = endTime - startTime
+            time = deltaTime.seconds*1000000+deltaTime.microseconds
+            auditRequest.time = str(time) # in microseconds
+            auditRequest.endTime = endTime.isoformat()
+        else:
+            auditRequest.endTime = auditRequest.startTime
+            auditRequest.time = str(0)
+        self.setDefaultValues(
+            ColaboFlowAudit.auditRequestDefault, auditRequest)
 
         auditReply = self.stub.submit(auditRequest)
         if not auditReply.id or not auditReply.time:

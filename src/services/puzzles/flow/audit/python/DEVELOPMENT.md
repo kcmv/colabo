@@ -1,3 +1,9 @@
+# Initial 
+
+```sh
+python3 -m pip install --upgrade -r requirements.txt
+```
+
 # Build
 
 ## In Test Repo
@@ -50,6 +56,9 @@ source <test_env>/bin/activate
 
 # the latest
 pip install colabo.flow.audit
+
+# check version
+pip show colabo.flow.audit
 
 # upgrade AFTER installing
 pip install --upgrade colabo.flow.audit

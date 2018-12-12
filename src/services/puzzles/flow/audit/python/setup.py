@@ -11,7 +11,7 @@ setup(
     # other arguments omitted
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version='0.1.5',
+    version='0.2.1',
     url='https://github.com/Cha-OS/colabo',
     # download_url,
     project_urls={
@@ -24,6 +24,6 @@ setup(
     description='A python puzzle for sending ColaboFlow (CF) audits over gRPC',
     keywords=['colabo','grpc','flow','colaboflow', 'audit', 'process', 'process mining'],
     packages=find_packages(),
-    # requires=['grpcio', 'googleapis-common-protos'],
-    install_requires=['grpcio', 'googleapis-common-protos']
+    # requires=['grpcio', 'googleapis-common-protos', 'python-dateutil'],
+    install_requires=['grpcio', 'googleapis-common-protos', 'python-dateutil']
 )

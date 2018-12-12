@@ -38,3 +38,14 @@ result1 = colaboFlowAudit.audit_submit(cfAuditRequest1)
 print("result1 = %s" % (result1))
 ```
 
+# More Details
+
++ [Github Colabo repository](https://github.com/Cha-OS/colabo)
++ [This package inside the Colabo repo](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/audit/python)
++ [DEVELOPMENT.md](https://github.com/Cha-OS/colabo/blob/master/src/services/puzzles/flow/audit/python/DEVELOPMENT.md)
++ Relevant Colabo Puzzles
+    + [Python](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/audit/python)
+    + [ColaboFlow Audit Services](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/audit)
+    + [Backend](https://github.com/Cha-OS/colabo/tree/master/src/backend/dev_puzzles/flow/audit)
+    + [Frontend](https://github.com/Cha-OS/colabo/tree/master/src/frontend/dev_puzzles/flow/audit)
+    + [Isomorphic](https://github.com/Cha-OS/colabo/tree/master/src/isomorphic/dev_puzzles/flow/audit)

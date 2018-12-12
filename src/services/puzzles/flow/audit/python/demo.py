@@ -3,6 +3,9 @@ import uuid
 from colabo.flow.audit import audit_pb2
 from colabo.flow.audit import ColaboFlowAudit
 
+from random import randint
+from time import sleep
+
 cfAuditRequestDefualt = audit_pb2.SubmitAuditRequest(
     bpmn_type='activity',
     bpmn_subtype='task',
@@ -24,16 +27,18 @@ colaboFlowAudit = ColaboFlowAudit(socketUrl=gRpcUrl, defaultAuditRequest=cfAudit
 cfAuditRequest1 = audit_pb2.SubmitAuditRequest(
     name='start'
 )
-
-result1 = colaboFlowAudit.audit_submit(cfAuditRequest1)
+result1 = colaboFlowAudit.audit_create(cfAuditRequest1)
+sleep(randint(1,3))
+result1 = colaboFlowAudit.audit_finish(cfAuditRequest1)
 
 cfAuditRequest2 = audit_pb2.SubmitAuditRequest(
     flowId='searchForSounds-2',
     name='parseResponse',
     userId='user-2'
 )
-
-result2 = colaboFlowAudit.audit_submit(cfAuditRequest2)
+result2 = colaboFlowAudit.audit_create(cfAuditRequest2)
+sleep(randint(1, 2))
+result2 = colaboFlowAudit.audit_finish(cfAuditRequest2)
 
 print("result1 = %s" % (result1))
 print("result2 = %s" % (result2))
@@ -42,5 +47,5 @@ print("result2 = %s" % (result2))
 # of the default defaultAuditRequest
 colaboFlowAudit2 = ColaboFlowAudit()
 cfAuditRequest3 = audit_pb2.SubmitAuditRequest(name='end')
-result3 = colaboFlowAudit.audit_submit(cfAuditRequest3)
+result3 = colaboFlowAudit2.audit_create_and_finish(cfAuditRequest3)
 print("result3 = %s" % (result3))

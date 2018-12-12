@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='colabo.flow',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x1d\x63olabo/flow/audit/audit.proto\x12\x0b\x63olabo.flow\"\xfa\x01\n\x12SubmitAuditRequest\x12\n\n\x02id\x18\x32 \x01(\t\x12\x0c\n\x04time\x18\x33 \x01(\t\x12\x11\n\tbpmn_type\x18\x04 \x01(\t\x12\x14\n\x0c\x62pmn_subtype\x18\x05 \x01(\t\x12\x17\n\x0f\x62pmn_subsubtype\x18\x06 \x01(\t\x12\x0e\n\x06\x66lowId\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06userId\x18\x34 \x01(\t\x12\x11\n\tsessionId\x18\x35 \x01(\t\x12\x16\n\x0e\x66lowInstanceId\x18\x03 \x01(\t\x12\x18\n\x10implementationId\x18\x36 \x01(\t\x12\x15\n\rimplementerId\x18\x37 \x01(\t\",\n\x10SubmitAuditReply\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\t2S\n\x05\x41udit\x12J\n\x06submit\x12\x1f.colabo.flow.SubmitAuditRequest\x1a\x1d.colabo.flow.SubmitAuditReply\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x1d\x63olabo/flow/audit/audit.proto\x12\x0b\x63olabo.flow\"\xcc\x02\n\x12SubmitAuditRequest\x12\n\n\x02id\x18\x32 \x01(\t\x12\x0c\n\x04time\x18\x07 \x01(\t\x12\x0f\n\x07success\x18\x08 \x01(\x08\x12\x0e\n\x06result\x18\t \x01(\t\x12\x0b\n\x03msg\x18\n \x01(\t\x12\x11\n\tbpmn_type\x18\x04 \x01(\t\x12\x14\n\x0c\x62pmn_subtype\x18\x05 \x01(\t\x12\x17\n\x0f\x62pmn_subsubtype\x18\x06 \x01(\t\x12\x0e\n\x06\x66lowId\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06userId\x18\x34 \x01(\t\x12\x11\n\tsessionId\x18\x35 \x01(\t\x12\x16\n\x0e\x66lowInstanceId\x18\x03 \x01(\t\x12\x18\n\x10implementationId\x18\x36 \x01(\t\x12\x15\n\rimplementerId\x18\x37 \x01(\t\x12\x11\n\tstartTime\x18\x64 \x01(\t\x12\x0f\n\x07\x65ndTime\x18\x65 \x01(\t\",\n\x10SubmitAuditReply\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\t2S\n\x05\x41udit\x12J\n\x06submit\x12\x1f.colabo.flow.SubmitAuditRequest\x1a\x1d.colabo.flow.SubmitAuditReply\"\x00\x62\x06proto3')
 )
 
 
@@ -41,77 +41,112 @@ _SUBMITAUDITREQUEST = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='time', full_name='colabo.flow.SubmitAuditRequest.time', index=1,
-      number=51, type=9, cpp_type=9, label=1,
+      number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bpmn_type', full_name='colabo.flow.SubmitAuditRequest.bpmn_type', index=2,
+      name='success', full_name='colabo.flow.SubmitAuditRequest.success', index=2,
+      number=8, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='result', full_name='colabo.flow.SubmitAuditRequest.result', index=3,
+      number=9, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='msg', full_name='colabo.flow.SubmitAuditRequest.msg', index=4,
+      number=10, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='bpmn_type', full_name='colabo.flow.SubmitAuditRequest.bpmn_type', index=5,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bpmn_subtype', full_name='colabo.flow.SubmitAuditRequest.bpmn_subtype', index=3,
+      name='bpmn_subtype', full_name='colabo.flow.SubmitAuditRequest.bpmn_subtype', index=6,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bpmn_subsubtype', full_name='colabo.flow.SubmitAuditRequest.bpmn_subsubtype', index=4,
+      name='bpmn_subsubtype', full_name='colabo.flow.SubmitAuditRequest.bpmn_subsubtype', index=7,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='flowId', full_name='colabo.flow.SubmitAuditRequest.flowId', index=5,
+      name='flowId', full_name='colabo.flow.SubmitAuditRequest.flowId', index=8,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='colabo.flow.SubmitAuditRequest.name', index=6,
+      name='name', full_name='colabo.flow.SubmitAuditRequest.name', index=9,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='userId', full_name='colabo.flow.SubmitAuditRequest.userId', index=7,
+      name='userId', full_name='colabo.flow.SubmitAuditRequest.userId', index=10,
       number=52, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sessionId', full_name='colabo.flow.SubmitAuditRequest.sessionId', index=8,
+      name='sessionId', full_name='colabo.flow.SubmitAuditRequest.sessionId', index=11,
       number=53, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='flowInstanceId', full_name='colabo.flow.SubmitAuditRequest.flowInstanceId', index=9,
+      name='flowInstanceId', full_name='colabo.flow.SubmitAuditRequest.flowInstanceId', index=12,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='implementationId', full_name='colabo.flow.SubmitAuditRequest.implementationId', index=10,
+      name='implementationId', full_name='colabo.flow.SubmitAuditRequest.implementationId', index=13,
       number=54, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='implementerId', full_name='colabo.flow.SubmitAuditRequest.implementerId', index=11,
+      name='implementerId', full_name='colabo.flow.SubmitAuditRequest.implementerId', index=14,
       number=55, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='startTime', full_name='colabo.flow.SubmitAuditRequest.startTime', index=15,
+      number=100, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='endTime', full_name='colabo.flow.SubmitAuditRequest.endTime', index=16,
+      number=101, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -129,7 +164,7 @@ _SUBMITAUDITREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=47,
-  serialized_end=297,
+  serialized_end=379,
 )
 
 
@@ -166,8 +201,8 @@ _SUBMITAUDITREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=299,
-  serialized_end=343,
+  serialized_start=381,
+  serialized_end=425,
 )
 
 DESCRIPTOR.message_types_by_name['SubmitAuditRequest'] = _SUBMITAUDITREQUEST
@@ -196,8 +231,8 @@ _AUDIT = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=345,
-  serialized_end=428,
+  serialized_start=427,
+  serialized_end=510,
   methods=[
   _descriptor.MethodDescriptor(
     name='submit',
