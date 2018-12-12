@@ -5,6 +5,7 @@ import {DialoGameService} from './dialo-game.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import {Dialog1Btn, Dialog2Btn, DialogData} from '../util/dialog';
 import {DialogameCardsComponent} from './dialogame-cards/dialogame-cards.component'
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-dialo-game',
@@ -42,12 +43,12 @@ export class DialoGameComponent implements OnInit {
     //this.initialized = true;
   }
 
-  userImg():string{
-    return 'assets/images/user_icons/performer.jpg';
+  userName():string{
+    return this.rimaAAAService.userName();
   }
 
-  userName():string{
-    return this.rimaAAAService.getUser() !== null ? this.rimaAAAService.getUser().name : 'not logged in';
+  public userAvatar():Observable<string>{
+    return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
   }
 
   waitingForNextRound():boolean{

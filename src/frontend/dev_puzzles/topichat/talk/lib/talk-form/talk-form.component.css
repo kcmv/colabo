@@ -24,3 +24,22 @@
     color: #800;
     padding: 5px;
 }
+
+.user-avatar{
+    border-radius: 50%;
+    overflow: hidden;
+    border: solid black 1px;
+    width: 43px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.user-name-small{
+    color: white;
+    font-size: 13px;
+    padding: 0px;
+    position: absolute;
+    top: 2px;
+    /* height: 14px; */
+    background-color: rgba(50, 50, 100, 0.3)
+}

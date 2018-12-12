@@ -10,6 +10,7 @@ import {RimaAAAService} from '@colabo-rima/f-aaa';
 import {KNode} from '@colabo-knalledge/f-core';
 import { GetPuzzle } from '@colabo-utils/i-config';
 import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
+import {Observable} from 'rxjs';
 
 // https://www.npmjs.com/package/uuid
 import * as uuidv1 from 'uuid/v1';
@@ -72,6 +73,14 @@ export class TopiChatTalkForm implements OnInit {
     talkPluginOptions.events[TopiChatTalkDefaultEvents.Chat] = this.receiveMessage.bind(this);
     this.topiChatTalkService.registerPlugin(TopiChatTalkEvents.Defualt, talkPluginOptions);
     this.generateInfos();
+  }
+
+  userName():string{
+    return this.rimaAAAService.userName();
+  }
+
+  public userAvatar():Observable<string>{
+    return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
   }
   
   clearInfos(type: string) {

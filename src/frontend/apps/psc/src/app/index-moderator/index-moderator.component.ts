@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {UserData} from '@colabo-rima/f-aaa/userData';
 import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {Observable} from 'rxjs';
 
 import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
 
@@ -13,7 +14,7 @@ import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '
 export class IndexModeratorComponent implements OnInit {
 
   constructor(
-    private RimaAAAService: RimaAAAService, protected utilsNotificationService: UtilsNotificationService
+    private rimaAAAService: RimaAAAService, protected utilsNotificationService: UtilsNotificationService
   ) {
   }
 
@@ -21,22 +22,26 @@ export class IndexModeratorComponent implements OnInit {
   }
 
   get isLoggedIn():Boolean{
-    return this.RimaAAAService.getUser() !== null;
+    return this.rimaAAAService.getUser() !== null;
   }
 
   get loggedUser(): KNode {
-    return this.RimaAAAService.getUser();
+    return this.rimaAAAService.getUser();
   }
 
   logOut(){
-    this.RimaAAAService.logOut();
+    this.rimaAAAService.logOut();
+  }
+
+  public userAvatar():Observable<string>{
+    return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
   }
 
   snack(){
     this.utilsNotificationService.addNotification({
       type: NotificationMsgType.Info,
       title: 'NOTE:',
-      msg: 'userid: ' + this.RimaAAAService.getUser()._id
+      msg: 'userid: ' + this.rimaAAAService.getUser()._id
     });
   }
 }

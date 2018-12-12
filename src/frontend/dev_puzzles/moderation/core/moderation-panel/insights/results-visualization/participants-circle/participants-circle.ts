@@ -86,7 +86,7 @@ export class ParticipantsCircleComponent implements OnInit {
       callBack(false);
     };
     imageData.src = imageUrl;
-    }
+  }
 
   isVisible():boolean{
     return this.participantProfile !==null && this.participantProfile.userData !==null;

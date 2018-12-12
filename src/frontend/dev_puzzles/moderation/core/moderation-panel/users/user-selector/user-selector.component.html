@@ -1,17 +1,24 @@
 <div class = 'users_form'>
         <form class="filtering-form">
         <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
-            <mat-form-field class="filtering-form-full-width">
-                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-form-field class="filtering-form-full-width" appearance="outline">
+            <!-- https://material.angular.io/components/form-field/overview -->
+                <mat-label>Choose User by name</mat-label>
+                <mat-icon matSuffix>account_circle</mat-icon>
+                <input type="text" placeholder="Choose User by name" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                <mat-autocomplete panelWidth='400px' autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                    <!-- https://material.angular.io/components/autocomplete/api -->
                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                        {{option.name}}
+                        <!-- https://angular.io/api/common/AsyncPipe -->
+                        <img class="user-select-option-img" aria-hidden [src]="optionImg(option) | async" height="25">
+                        <span class="option-title">{{option.name}}</span> |
+                        <small>{{optionDetails(option)}}</small>
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
         
             <!-- <p>
-                <mat-form-field class="full-width">
+                <mat-form-field class="full-width"> 
                     <input matInput type="text" placeholder="First Name" formControlName="firstName" value="">
                     <mat-error class="error-message">Име мора бити дужине барем 2 карактера</mat-error>
                 </mat-form-field>
@@ -32,7 +39,7 @@
 
     <!-- <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img"> -->
     <!-- <img mat-card-image class="picture" src="{{userImagesPath + 'user' + user?.dataContent?.humanID + '.jpg'}}" alt="{{user.name}}" /> -->
-    <img mat-card-image class="picture" src="{{imgPath()}}" alt="{{userData?.name}}" />
+    <img mat-card-image class="picture" src="{{optionImg(userData)}}" alt="{{userData?.name}}" />
     
     <!-- <mat-card-content>
         <p>

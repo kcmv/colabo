@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ColaboFlowMComponent} from '@colabo-flow/f-core/lib/moderation/colabo-flow-m.component';
 import {InsightsComponent} from './insights/insights.component';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-moderation-panel',
@@ -11,7 +12,7 @@ import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 export class ModerationPanelComponent implements OnInit {
 
   constructor(
-    private rimaAAAService: RimaAAAService,
+    private rimaAAAService: RimaAAAService
   ) { }
 
   ngOnInit() {
@@ -21,11 +22,15 @@ export class ModerationPanelComponent implements OnInit {
     return this.rimaAAAService.getUser() !== null;
   }
 
-  userImg():string{
-    return 'assets/images/user_icons/performer.jpg';
-  }
+  // userImg():string{
+  //   return 'assets/images/user_icons/performer.jpg';
+  // }
 
   userName():string{
-    return this.rimaAAAService.getUser() !== null ? this.rimaAAAService.getUser().name : 'not logged in';
+    return this.rimaAAAService.userName();
+  }
+
+  public userAvatar():Observable<string>{
+    return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
   }
 }

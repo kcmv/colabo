@@ -92,6 +92,10 @@ export class ColaboFlowAuditForm implements OnInit {
     return this.puzzleConfig.sessions.sort();
   }
 
+  protected get showActionNamesonFlow():boolean{
+    return this.puzzleConfig.showActionNamesonFlow;
+  }
+
   get logo(): string {
     return this.generalConfigBranding.logo;
   }
@@ -144,7 +148,7 @@ export class ColaboFlowAuditForm implements OnInit {
         // .style('border', function (d) { return that.isActionSelected(d.name) ? 'black solid 2px' : 'none'; })
         .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; }) //'rgba(200, 200, 220)') //'rgba(200, 200, 220, 0.3)')
         .style('opacity', ActionOpacityStart)
-        .html(function(d) { return d.name;})
+        .html(function(d) { return that.showActionNamesonFlow ? d.name : '';})
         .on("mouseover", function (d,i) {that.actionOver(d, i, this);})	
         .on("mouseout", function (d,i) {that.actionOut(d, i, this);})
         .on("click", function (d,i) {that.actionClick(d, i, this);})
