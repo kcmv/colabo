@@ -38,6 +38,18 @@ def f3(dataIn):
     dataOut = gTFN()+":result:"+dataIn
     return dataOut
 
+def f4(dataIn):
+    print(("[%s] started." % (gTFN())))
+    print(("[%s] dataIn: %s" % (gTFN(), dataIn)))
+    dataOut = gTFN()+":result:"+dataIn
+    return dataOut
+
+def f5(dataIn):
+    print(("[%s] started." % (gTFN())))
+    print(("[%s] dataIn: %s" % (gTFN(), dataIn)))
+    dataOut = gTFN()+":result:"+dataIn
+    return dataOut
+
 
 # Running functions
 print("---")
@@ -49,3 +61,9 @@ print("r2: %s" % (r2))
 print("---")
 r3 = f3(r2)
 print("r3: %s" % (r3))
+print("---")
+r4 = f4(r3)
+print("r4: %s" % (r4))
+print("---")
+r5 = f5(r4)
+print("r5: %s" % (r5))

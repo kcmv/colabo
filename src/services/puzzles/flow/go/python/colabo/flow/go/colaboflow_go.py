@@ -12,9 +12,53 @@ class ColaboFlowGo():
     auditRequestDefault = None
     stubDefault = None
 
-    def __init__(self, socketUrl=None, defaultAuditRequest = None, reuseClient = True):
-        # NOTE(gRPC Python Team): .close() is possible on a channel and should be
-        # used in circumstances in which the with statement does not fit the needs
-        # of the code.
+    def __init__(self, flowName="basic-flow"):
         
-        print("ColaboFlowGo::__init__");
+        print("[ColaboFlowGo] new flow created: %s" % (flowName))
+        self.flow = []
+        self.flowPointer = 0
+
+    def addActionAsFunction(self, funcRef, funcName):
+        action = {
+            'funcName': funcName,
+            'funcRef': funcRef
+        }
+        self.flow.append(action)
+        # print(len(self.flow))
+        return self
+
+    # runs functions in a sequence
+    # data input for the function `i+1` is data ourpur of the function `i`
+    def runWithSequentialDataFlow(self, dataIn):
+        print("---")
+        for action in self.flow:
+            print("running action: ", action['funcName'])
+            func = action['funcRef']
+            result = func(dataIn)
+            print("result: ", result)
+            dataIn = result
+            print("---")
+
+    def addActionAsFunctionWithInputParams(self, funcRef, funcName, inputParameterName=None):
+        action = {
+            'funcName': funcName,
+            'funcRef': funcRef,
+            'inputParameterName': inputParameterName
+        }
+        self.flow.append(action)
+        # print(len(self.flow))
+        return self
+
+    def run(self, dataName, dataIn):
+        print("---")
+        self.results = {}
+        self.results[dataName] = dataIn
+        for action in self.flow:
+            print("running action: ", action['funcName'])
+            func = action['funcRef']
+            dataIn = self.results[action['inputParameterName']]
+            result = func(dataIn)
+            self.results[action['funcName']] = result
+            print("result: ", result)
+            dataIn = result
+            print("---")
