@@ -10,8 +10,8 @@ process.title = 'colabo-tools';
 
 // TODO: not working
 // import * as chalk from 'chalk';
-// var chalk = require('chalk');
-import * as chalk from 'chalk';
+var chalk = require('chalk');
+// import * as chalk from 'chalk';
 import * as fs from 'fs';
 // https://github.com/sindresorhus/ora
 // spinners list
