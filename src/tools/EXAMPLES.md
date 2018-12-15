@@ -1,4 +1,4 @@
-# @colabo-flow/f-audit
+# @colabo-flow/f-audit [frontend]
 
 ## Creation
 
@@ -52,7 +52,7 @@ Templates folder: '/Users/sasha/Documents/data/development/colabo.space/colabo/s
 }
 ```
 
-# @colabo-flow/b-audit
+# @colabo-flow/b-audit [backend]
 
 ## Creation
 

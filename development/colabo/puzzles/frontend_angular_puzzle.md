@@ -7,11 +7,15 @@ See in the [Example](colabo/src/tools/EXAMPLES.md) an example for the `@colabo-f
 ## 2. Integrate in the frontend
 
 Integrate it as a dependency and an offering in the `colabo/src/frontend/colabo.config.js`
+
     + then `yarn` it (in `colabo/src/frontend`)
 
 ## 3. Integrate in the frontend app
 
+(example here is the 'psc' app)
+
 Integrate it as a dependency in the `colabo/src/frontend/apps/psc/colabo.config.js`
+
     + then `yarn` it (in `colabo/src/frontend/apps/psc/`)
 
 ## 4. Add params.ts
@@ -20,9 +24,7 @@ Integrate it as a dependency in the `colabo/src/frontend/apps/psc/colabo.config.
 export const MODULE_NAME: string = "@colabo-flow/f-audit";
 ```
 
-## 5. Add puzzle's module
 
-In `colabo/src/frontend/dev_puzzles/flow/audit/lib/module.ts`:
 
 ```ts
 import {MODULE_NAME} from './params';
@@ -216,7 +218,7 @@ export { ColaboFlowAuditModule } from './lib/module';
 
 ## 8. Extend app
 
-In `` add a new route:
+In `src/frontend/apps/psc/src/app/app-routing.module.ts` add a new route:
 
 ```ts
 // ...
