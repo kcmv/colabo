@@ -57,6 +57,7 @@ import {DialogameCardComponent} from './dialo-game/dialogame-cards/dialogame-car
 import {DialoGameResponseComponent} from './dialo-game/dialo-game-response/dialo-game-response.component';
 import {CardDecoratorComponent} from './dialo-game/card-decorator/card-decorator.component';
 import { UtilsNotificationModule, UtilsNotificationService } from '@colabo-utils/f-notifications';
+import {MapsCoreModule} from '@colabo-maps/core';
 
 //import {ModerationPanelComponent} from '@colabo-moderation/f-core';
 
@@ -137,6 +138,7 @@ var moduleImports = [
   , MediaUploadModule
   , UtilsNotificationModule
   , ColaboFlowAuditModule
+  , MapsCoreModule
 ];
 // moduleImports.push(MainModule);
 

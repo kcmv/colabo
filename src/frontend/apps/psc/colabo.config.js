@@ -34,7 +34,8 @@ var puzzles = {
         "@colabo-moderation/f-core": {},
         "@colabo-ai-ml/f-similarity": {},
         "@colabo-utils/i-config": {},
-        "@colabo-utils/f-notifications": {}
+        "@colabo-utils/f-notifications": {},
+        "@colabo-maps/core": {}
     },
     offers: {}
 };

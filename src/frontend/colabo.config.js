@@ -107,6 +107,10 @@ var puzzles = {
         "@colabo-ai-ml/f-similarity": {
             npm: "@colabo-ai-ml/f-similarity",
             path: "dev_puzzles/ai-ml/similarity"
+        },
+        "@colabo-maps/core": {
+            npm: "@colabo-maps/core",
+            path: "dev_puzzles/maps/core"
         }
     }
 }
