@@ -20,6 +20,9 @@ export class MapsListComponent implements OnInit {
     private knalledgeMapService:KnalledgeMapService
   ) { }
 
+  get mapsNo():number{
+    return this.mapsData !== null ? this.mapsData.data.length : 0;
+  }
   ngOnInit() {
     this.knalledgeMapService.getMaps().subscribe(this.mapsReceived.bind(this));
     if(this.mapsData !== null){this.mapsData.sort = this.sort;}
