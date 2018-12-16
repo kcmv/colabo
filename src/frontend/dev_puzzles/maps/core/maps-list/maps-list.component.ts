@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatSort } from '@angular/material';
+import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
+import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 
 @Component({
   selector: 'maps-list',
@@ -7,9 +10,55 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MapsListComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild(MatSort) sort: MatSort;
+
+  displayedColumns: string[] = ['id', 'name', 'creator', 'participants', 'publicity', 'actions'];
+  mapsData:MatTableDataSource<KMap> = null;
+
+
+  constructor(
+    private knalledgeMapService:KnalledgeMapService
+  ) { }
 
   ngOnInit() {
+    this.knalledgeMapService.getMaps().subscribe(this.mapsReceived.bind(this));
+    if(this.mapsData !== null){this.mapsData.sort = this.sort;}
   }
 
+  private mapsReceived(maps:KMap[]):void{
+    console.log('mapsReceived', maps);
+    // let userInsights = [];
+    // let usrId:string;
+    // let map:KMap;
+    // for(var i:number=0; i<maps.length; i++){
+    //   map = maps[i];
+    //   usrId = map._id;
+    //   userInsights.push(new UserInsight(map, null, [], [], null, null, null));
+    // }
+
+    // console.log('mapsData:B',JSON.stringify(userInsights));
+    
+    this.mapsData = new MatTableDataSource(maps);
+    // console.log('mapsData:A',JSON.stringify(this.mapsData));
+    this.mapsData.sort = this.sort;
+    // this.getCWCs();
+    // this.getMyCFStates();
+    // this.getCardsPlayed();
+    // this.getSDGSelections();
+  }
+
+  getCreatorName(id:string):string{
+    return id; //TODO:
+  }
+
+  printParticipants(participants:string[]):string{
+    let result:string = participants.join(','); //TODO:
+    let length:number = result.length;
+    // console.log('participants.no:', participants.length);
+    // console.log('participants:', result);
+    // console.log('participants.length:', result.length);
+    result = result.substr(0,70);
+    if(result.length < length){ result+=' ...'}
+    return result;
+  }
 }

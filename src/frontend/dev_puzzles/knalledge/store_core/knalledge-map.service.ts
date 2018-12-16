@@ -84,6 +84,22 @@ export class KnalledgeMapService extends CFService{
     return result;
   }
 
+  getMaps(): Observable<KMap[]>
+  {
+    console.log('KnalledgeMapService::getMaps');
+
+    let url: string = this.apiUrl+'all/'; //this.apiUrl+'in_map/'+this.defaultAction+'/'+mapId
+
+    let result:Observable<KMap[]> = this.http.get<ServerData>(url)
+      .pipe(
+        map(mapsFromServer => CFService.processVOs(mapsFromServer, KMap)),
+        catchError(this.handleError('KnalledgeMapService::getMaps', null))
+      );
+    console.log('result', result);
+  
+    return result;
+  }
+
   /**
    * Gets all KN Map from the server that are accessible to the participant (both public ones and his private ones)
    * @param {string} participantId participant's id
