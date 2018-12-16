@@ -38,6 +38,7 @@ export class ColaboFlowAuditForm implements OnInit {
   protected generalConfigBranding: any;
   protected actionStates:any = {};
   protected statistics:any[] = [];
+  // protected columnMax:any[] = [];
 
   constructor(
     private colaboFlowAuditService: ColaboFlowAuditService,
@@ -269,6 +270,33 @@ export class ColaboFlowAuditForm implements OnInit {
     this.generateStatisticsGraphData();
   }
 
+  scaleStatistics(columns:any[][]):any[][]{
+    console.log('scaleStatistics',columns);
+    let scaledColumns:any[][] = JSON.parse(JSON.stringify(columns));
+    let maxPerColumn:number = NaN;
+    let minPerColumn:number = NaN;
+    let column:any[];
+    for(var c:number = 0; c<columns.length; c++){
+      maxPerColumn = NaN;
+      minPerColumn = NaN;
+      column = columns[c];
+
+      //finding max/min:
+      for(var v:number = 1; v<column.length; v++){ //we are skipping column[0], because it is the column name (according to Billboard.js columns syntax)
+        if(Number.isNaN(maxPerColumn) || column[v]>maxPerColumn){maxPerColumn = column[v];} 
+        if(Number.isNaN(minPerColumn) || column[v]<minPerColumn){minPerColumn = column[v];} 
+      }
+
+      // this.columnMax[c] = {'max':maxPerColumn, 'min':minPerColumn};
+
+      //scaling:
+      for(var v:number = 1; v<column.length; v++){ //we are skipping column[0], because it is the column name (according to Billboard.js columns syntax)
+        column[v] = column[v] / maxPerColumn;
+      }
+    }
+    return scaledColumns;
+  }
+
   generateStatisticsGraphData(){
     console.log('[generateStatisticsGraphData] statistics',this.statistics);
     let categories:string[] = [];
@@ -298,7 +326,8 @@ export class ColaboFlowAuditForm implements OnInit {
     }
 
     console.log('[statisticsReceived] columns', columns);
-    this.generateStatisticsChart(columns, categories);
+    let scaledColumns:any[][] = this.scaleStatistics(columns);
+    this.generateStatisticsChart(columns, scaledColumns, categories);
   }
 
   auditsReceived(audits:AuditedAction[]):void{
@@ -319,9 +348,21 @@ export class ColaboFlowAuditForm implements OnInit {
     this.generateAuditsChart();
   }
 
-  generateStatisticsChart(columns:any[][], categories:string[]=null):void{
+  generateStatisticsChart(columns:any[][], columnsUnscaled:any[][], categories:string[]=null):void{
+    // let that:ColaboFlowAuditForm = this;
+    let columnsByColName:any = {};
     
-    console.log('columns', columns);
+    //transforming billboard.js format of array of columns (with first element being columns name) into
+    //an object with properties equal to array of column values and property-name equal to columnn-name
+    //to be used in printing the unscaled data-label
+    let colName:string;
+    for(var c:number = 0; c<columnsUnscaled.length; c++){
+      colName = columnsUnscaled[c][0];
+      columnsUnscaled[c].shift(); //removing the column-name
+      columnsByColName[colName] = columnsUnscaled[c];
+    }
+    
+    console.log('[generateStatisticsChart] columns', columns, 'columnsUnscaled', columnsUnscaled);
     
     var chart = bb.generate({
       bindto: "#chart_statistics",
@@ -335,8 +376,19 @@ export class ColaboFlowAuditForm implements OnInit {
           type: "bar",
           columns: columns,
           labels: {
+            /**
+             * @param v - valuse
+             * @param id - column-name
+             * @param i - index in the column
+             * @param j - ??
+             */
             format: function (v, id, i, j) {
-                return v;//d3.format(",.2%")(v) + data[0][i + 1];
+                let value:number=v;
+                console.log('format','v',v,'id',id,'i',i,'j',j);
+                if(id !== undefined && i !== undefined){
+                  value = columnsByColName[id][i];
+                }
+                return value;//d3.format(",.2%")(v) + data[0][i + 1];
             }
         }
       },

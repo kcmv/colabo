@@ -35,6 +35,7 @@ export class ColaboFlowAuditService{
     // initialize 
   }
 
+  //TODO: to remove this, we are scaling it in the component:
   get timeDivider():number{
     return this.puzzleConfig.timeDivider;
   }
@@ -139,7 +140,7 @@ export class ColaboFlowAuditService{
     for(let i:number=0; i<statsFromServer.length; i++){
       statFromServer = statsFromServer[i];
       name = statFromServer['_id'];
-      statFromServer['avgTime'] = statFromServer['avgTime'] / this.timeDivider;
+      // statFromServer['avgTime'] = statFromServer['avgTime'] / this.timeDivider;
       delete statFromServer['_id'];
       statsFromServer[i] = {'name': name,  'stats': JSON.parse(JSON.stringify(statFromServer))};
     }
