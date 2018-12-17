@@ -29,6 +29,8 @@ const ActionOpacityStart:number = 0.2;
 
 export class ColaboFlowAuditForm implements OnInit {
   public sessionsFC:FormControl = new FormControl();
+  public flowFC:FormControl = new FormControl();
+  public selectedFlow:string = null;
   public selectedSessions:string[] = []; //[ "e123", "cat" , "e124"];//
   public items: AuditedAction[];
   public selectedDisplaySet:DisplaySet = DisplaySet.STATISTICS;
@@ -99,6 +101,10 @@ export class ColaboFlowAuditForm implements OnInit {
 
   get logo(): string {
     return this.generalConfigBranding.logo;
+  }
+
+  public flowSelectionChanged():void {
+
   }
   
   //TODO: here we act like we DO have multiple flowImages, while the rest of the code is working with only one
