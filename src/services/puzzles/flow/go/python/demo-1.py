@@ -4,19 +4,19 @@
 # ColaboFlow.Go version of the previous
 
 import uuid
-# from colabo.flow.audit import ColaboFlowGo, audit_pb2
-from colabo.flow.go import ColaboFlowGo
+# from colabo.flow.go import ColaboFlowGoDemo, go_pb2
+from colabo.flow.go import ColaboFlowGoDemo
 
 from random import randint
 from time import sleep
 
 # RUNNING_SCENARIO = 'manual'
 # RUNNING_SCENARIO = 'sequential_data_flow'
-# RUNNING_SCENARIO = 'descriptive_data_flow'
+RUNNING_SCENARIO = 'descriptive_data_flow'
 # RUNNING_SCENARIO = 'descriptive_multidata_flow'
-RUNNING_SCENARIO = 'descriptive_multidataoutput_flow'
+# RUNNING_SCENARIO = 'descriptive_multidataoutput_flow'
 
-colaboFlowGo = ColaboFlowGo()
+colaboFlowGo = ColaboFlowGoDemo()
 
 
 print("colaboFlowGo = %s" % (colaboFlowGo))
@@ -94,12 +94,12 @@ if RUNNING_SCENARIO == 'sequential_data_flow':
 
 if RUNNING_SCENARIO == 'descriptive_data_flow':
     (colaboFlowGo
-        .addActionAsFunctionWithInputParams(f1, "f1", "f0")
+        .addActionAsFunctionWithInputParam(f1, "f1", "f0")
         .addActionAsFunctionWithInputParam(f2, "f2", "f1")
         # the data flow is not necessary to be sequential anymore
         .addActionAsFunctionWithInputParam(f3, "f3", "f0")
         .addActionAsFunctionWithInputParam(f4, "f4", "f1")
-        .addActionAsFunctionWithInputParam(f5, "f5", "f1")
+        .addActionAsFunctionWithInputParam(f5, "f5", "f2")
     )
 
     colaboFlowGo.runWithDescriptiveDataFlow("f0", dataIn1)

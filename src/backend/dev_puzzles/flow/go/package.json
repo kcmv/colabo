@@ -1,0 +1,26 @@
+{
+    "name": "@colabo-flow/b-go",
+    "version": "0.3.1",
+    "description": "A backend part of the ColaboFlow Audit support for the Colabo.Space ecosystem",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Cha-OS/colabo"
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {
+        "@types/mongoose": "^5.3.2",
+        "bson": "^0.4.22",
+        "mongoose": "^4.0.0"
+    },
+    "peerDependenciesLocal": {},
+    "devDependencies": {}
+}

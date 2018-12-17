@@ -1,7 +1,7 @@
 # __package__ = "use-cases"
 
 import uuid
-# from colabo.flow.audit import ColaboFlowGo, audit_pb2
+# from colabo.flow.go import ColaboFlowGo, go_pb2
 from colabo.flow.go import ColaboFlowGo
 
 from random import randint

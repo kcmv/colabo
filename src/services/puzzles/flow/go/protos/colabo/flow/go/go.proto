@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package colabo.flow;
+
+service ActionsHost {
+	// rpc checkAction (ActionExecuteRequest) returns (ActionExecuteReply) {}
+	rpc executeAction (ActionExecuteRequest) returns (ActionExecuteReply) {}
+}
+
+service FlowsHost {
+	// client asks the host to execute (wherever is expected) the action
+	rpc startFlowInstance (FlowInstanceRequest) returns (FlowInstanceReply) {}
+
+    // client asks the host to execute (wherever is expected) the action
+	rpc executeActionSync (ActionExecuteRequest) returns (ActionExecuteReply) {}
+}
+
+message FlowInstanceRequest{
+    string flowId = 2; // (required) name of the flow the action belongs to
+}
+
+message FlowInstanceReply{
+	string id = 1; // unique insance id of the executing flow
+}
+
+message ActionExecuteRequest{
+    string flowId = 2; // (required) name of the flow the action belongs to
+    string name = 1; // (required) name of the action (inside the flow)
+
+    string flowInstanceId = 3; // (required) id of the flow instance that started
+
+    string dataIn = 4;
+    string params = 5;
+
+    string implementationId = 54; // id of the implementation used for performing the action (i.e. if it is a person performing it, (s)he has been using a tool implemented and identified with implementationID) ('oven Smederevka')
+    string implementerId = 55; // id of the person or component performing the action ('baker', or 'oven')
+}
+
+message ActionExecuteReply{
+	string id = 1; // unique id of the executing action
+    string dataOut = 2;
+    string params = 3;
+}

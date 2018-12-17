@@ -28,7 +28,7 @@
                     <mat-option *ngFor="let session of sessions" [value]="session">{{session}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            
+
             <button color="primary" (click)="clearSessions()">Clear Sessions</button>
             <button color="primary" (click)="reloadActions()">Reload Actions</button>
             <button color="primary" (click)="reloadStatistics()">Reload Statistics</button>
@@ -37,7 +37,7 @@
         </form>
 
         <div *ngFor="let flowImage of flowImages" id="click-area-{{ flowImage.name }}">
-            <h2>Flow: {{ flowImage.name }}</h2>
+            <h2>Flow: {{ flowImage.title }}</h2>
             <div style="position: relative;">
                 <div class="flow-img"><img src="{{ flowImage.imageUrl }}" /></div>
                 <div class="flow-click-areas">
