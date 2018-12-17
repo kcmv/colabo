@@ -24,6 +24,12 @@
             <h3>Displaying {{selectedDisplaySet}}</h3> -->
 
             <mat-form-field>
+                <mat-select placeholder="Flows" (selectionChange)='flowSelectionChanged()' [formControl]="flowFC" [(ngModel)]="selectedFlow">
+                    <mat-option *ngFor="let flow of flowImages" [value]="flow">{{flow.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
                 <mat-select placeholder="Sessions" (selectionChange)='sessionSelectionChanged()' [formControl]="sessionsFC" multiple [(ngModel)]="selectedSessions">
                     <mat-option *ngFor="let session of sessions" [value]="session">{{session}}</mat-option>
                 </mat-select>
@@ -36,15 +42,12 @@
             <button color="primary" (click)="setAllActions(true)">Show All Actions</button>
         </form>
 
-        <div *ngFor="let flowImage of flowImages" id="click-area-{{ flowImage.name }}">
-            <h2>Flow: {{ flowImage.title }}</h2>
+        <!-- <div *ngFor="let flowImage of flowImages" id="click-area-{{ flowImage.name }}"> -->
+        <div *ngIf='selectedFlow' id="click-area-{{ selectedFlow.name }}">
+            <h2>Flow: {{ selectedFlow.name }}</h2>
             <div style="position: relative;">
-                <div class="flow-img"><img src="{{ flowImage.imageUrl }}" /></div>
+                <div class="flow-img"><img src="{{ selectedFlow.imageUrl }}" /></div>
                 <div class="flow-click-areas">
-                    <!-- 
-                    // ovo ne treba ovdje, ovo se generise sa D3-em. Mada to vjerovatno i kapiras, vjerovatno je samo test
-                    <div class="click-area" (click)="flowAreaClicked()"></div>
-                -->
                 </div>
                 <!-- <div><i class="material-icons">visibility</i></div>
                 <div><i class="material-icons">visibility_off</i></div> -->

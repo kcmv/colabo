@@ -29,6 +29,8 @@ const ActionOpacityStart:number = 0.2;
 
 export class ColaboFlowAuditForm implements OnInit {
   public sessionsFC:FormControl = new FormControl();
+  public flowFC:FormControl = new FormControl();
+  public selectedFlow:any = null;
   public selectedSessions:string[] = []; //[ "e123", "cat" , "e124"];//
   public items: AuditedAction[];
   public selectedDisplaySet:DisplaySet = DisplaySet.STATISTICS;
@@ -47,6 +49,7 @@ export class ColaboFlowAuditForm implements OnInit {
 
   ngOnInit() {
     this.puzzleConfig = GetPuzzle(MODULE_NAME);
+    this.selectedFlow = this.flowImages[0];
     this.generalConfigBranding = GetGeneral('branding');
     this.selectedSessions = this.sessions;
     // this.colaboFlowAuditService.getItems().subscribe(this.auditsReceived.bind(this));
@@ -100,20 +103,11 @@ export class ColaboFlowAuditForm implements OnInit {
   get logo(): string {
     return this.generalConfigBranding.logo;
   }
-  
-  //TODO: here we act like we DO have multiple flowImages, while the rest of the code is working with only one
-  drawActionsInteractions(){
-    let flowImages = this.flowImages;
-    for (let flowImageId in flowImages){
-      let flowImage = flowImages[flowImageId];
-      let clickArea = d3.select("#click-area-" + flowImage.name).select("div.flow-click-areas");
-      this.setInitialActionStates(flowImage.actions, true);
-      this.drawActionsInteractionsForFlow(flowImage, clickArea);
-      
-      //have to call it now AGAIN because 'drawActionsInteractions' is called from "ngAfterContentInit()" with 'setTimeout',
-      //so ActionStates are not set yet when data is received:
-      this.generateStatisticsGraphData();
-    }
+
+  public flowSelectionChanged():void {
+    console.log('[flowSelectionChanged]');
+    //TODO: add loading new flow-specific statistics etc:
+    this.drawActionsInteractions();
   }
 
   setInitialActionStates(actions:any[], state:boolean=true):void{
@@ -127,13 +121,31 @@ export class ColaboFlowAuditForm implements OnInit {
       .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; })
   }
 
+  drawActionsInteractions(){
+    /*
+    /TODO: iterating over multiple flowImages - option
+    let flowImages = this.flowImages;
+    for (let flowImageId in flowImages){
+      let flowImage = flowImages[flowImageId];
+    */
+      let clickArea = d3.select("#click-area-" + this.selectedFlow.name).select("div.flow-click-areas");
+      this.setInitialActionStates(this.selectedFlow.actions, true);
+      this.drawActionsInteractionsForFlow(this.selectedFlow, clickArea);
+      
+      //have to call it now AGAIN because 'drawActionsInteractions' is called from "ngAfterContentInit()" with 'setTimeout',
+      //so ActionStates are not set yet when data is received:
+      this.generateStatisticsGraphData();
+    // }
+  }
+
   drawActionsInteractionsForFlow(flowImage, clickArea) {
     let that:ColaboFlowAuditForm = this;
-    let actionZones = clickArea.selectAll("div.action_zones")
+    // clickArea.selectAll("div.action_zones").remove();
+    let actionZones = clickArea.selectAll("div.action_zones").remove();
       // .data(flowImage.actions, function (d) { 
       //   return d.name; // actions' names
       // });
-      .data(flowImage.actions).enter()
+      actionZones.data(flowImage.actions).enter()
         .append('div')
         .attr('id',function(d) { return d.name;})
         .style('position','absolute')
@@ -249,10 +261,13 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   setAllActions(value:boolean):void{
-    for (let flowImageId in this.flowImages){
-      let flowImage = this.flowImages[flowImageId];
-      this.setInitialActionStates(flowImage.actions, value);
-    }
+    //option for iterating all the flows
+    // for (let flowImageId in this.flowImages){
+    //   let flowImage = this.flowImages[flowImageId];
+    //   this.setInitialActionStates(flowImage.actions, value);
+    // }
+
+    this.setInitialActionStates(this.selectedFlow.actions, value);
     this.generateStatisticsGraphData();
   }
 
@@ -384,7 +399,7 @@ export class ColaboFlowAuditForm implements OnInit {
              */
             format: function (v, id, i, j) {
                 let value:number=v;
-                console.log('format','v',v,'id',id,'i',i,'j',j);
+                // console.log('format','v',v,'id',id,'i',i,'j',j);
                 if(id !== undefined && i !== undefined){
                   value = columnsByColName[id][i];
                 }
