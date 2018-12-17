@@ -30,7 +30,7 @@ const ActionOpacityStart:number = 0.2;
 export class ColaboFlowAuditForm implements OnInit {
   public sessionsFC:FormControl = new FormControl();
   public flowFC:FormControl = new FormControl();
-  public selectedFlow:string = null;
+  public selectedFlow:any = null;
   public selectedSessions:string[] = []; //[ "e123", "cat" , "e124"];//
   public items: AuditedAction[];
   public selectedDisplaySet:DisplaySet = DisplaySet.STATISTICS;
@@ -49,6 +49,7 @@ export class ColaboFlowAuditForm implements OnInit {
 
   ngOnInit() {
     this.puzzleConfig = GetPuzzle(MODULE_NAME);
+    this.selectedFlow = this.flowImages[0];
     this.generalConfigBranding = GetGeneral('branding');
     this.selectedSessions = this.sessions;
     // this.colaboFlowAuditService.getItems().subscribe(this.auditsReceived.bind(this));
@@ -390,7 +391,7 @@ export class ColaboFlowAuditForm implements OnInit {
              */
             format: function (v, id, i, j) {
                 let value:number=v;
-                console.log('format','v',v,'id',id,'i',i,'j',j);
+                // console.log('format','v',v,'id',id,'i',i,'j',j);
                 if(id !== undefined && i !== undefined){
                   value = columnsByColName[id][i];
                 }

@@ -25,7 +25,7 @@
 
             <mat-form-field>
                 <mat-select placeholder="Flows" (selectionChange)='flowSelectionChanged()' [formControl]="flowFC" [(ngModel)]="selectedFlow">
-                    <mat-option *ngFor="let flow of flowImages" [value]="flow.name">{{flow.name}}</mat-option>
+                    <mat-option *ngFor="let flow of flowImages" [value]="flow">{{flow.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
@@ -42,10 +42,11 @@
             <button color="primary" (click)="setAllActions(true)">Show All Actions</button>
         </form>
 
-        <div *ngFor="let flowImage of flowImages" id="click-area-{{ flowImage.name }}">
-            <h2>Flow: {{ flowImage.name }}</h2>
+        <!-- <div *ngFor="let flowImage of flowImages" id="click-area-{{ flowImage.name }}"> -->
+        <div *ngIf='selectedFlow' id="click-area-{{ selectedFlow.name }}">
+            <h2>Flow: {{ selectedFlow.name }}</h2>
             <div style="position: relative;">
-                <div class="flow-img"><img src="{{ flowImage.imageUrl }}" /></div>
+                <div class="flow-img"><img src="{{ selectedFlow.imageUrl }}" /></div>
                 <div class="flow-click-areas">
                 </div>
                 <!-- <div><i class="material-icons">visibility</i></div>
