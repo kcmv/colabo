@@ -141,32 +141,39 @@ export class ColaboFlowAuditForm implements OnInit {
   drawActionsInteractionsForFlow(flowImage, clickArea) {
     let that:ColaboFlowAuditForm = this;
     // clickArea.selectAll("div.action_zones").remove();
-    let actionZones = clickArea.selectAll("div.action_zones").remove();
+    let actionZones = clickArea.selectAll("div")//.action_zones")
       // .data(flowImage.actions, function (d) { 
       //   return d.name; // actions' names
       // });
-      actionZones.data(flowImage.actions).enter()
-        .append('div')
-        .attr('id',function(d) { return d.name;})
-        .style('position','absolute')
-        .style('top', function (d) { return d.selectArea.y + "px"; })
-        .style('left', function (d) { return d.selectArea.x + "px"; })
-        .style('width', function (d) { return d.selectArea.width + "px"; })
-        .style('height', function (d) { return d.selectArea.height + "px"; })
-        // .attr('class', function (d) { return 'click-area'; })
-        // .attr('class', function (d) { console.log(d.class); return d.class; })
-        .attr('class', 'click-area')
-        .style('border-radius','10px')
-        .style('cursor', 'pointer')
-        // .style('border', function (d) { return that.isActionSelected(d.name) ? 'black solid 2px' : 'none'; })
-        .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; }) //'rgba(200, 200, 220)') //'rgba(200, 200, 220, 0.3)')
-        .style('opacity', ActionOpacityStart)
-        .html(function(d) { return that.showActionNamesonFlow ? d.name : '';})
-        .on("mouseover", function (d,i) {that.actionOver(d, i, this);})	
-        .on("mouseout", function (d,i) {that.actionOut(d, i, this);})
-        .on("click", function (d,i) {that.actionClick(d, i, this);})
-        // .append('<div><i class="material-icons">visibility</i></div>')
-        ;
+      .data(flowImage.actions);
+      
+      actionZones
+      .enter()
+      .append('div')
+      // .merge(actionZones) //to apply both on new (enter) and existing 
+      
+      .attr('id',function(d) { return d.name;})
+      .style('position','absolute')
+      .style('top', function (d) { return d.selectArea.y + "px"; })
+      .style('left', function (d) { return d.selectArea.x + "px"; })
+      .style('width', function (d) { return d.selectArea.width + "px"; })
+      .style('height', function (d) { return d.selectArea.height + "px"; })
+      // .attr('class', function (d) { return 'click-area'; })
+      // .attr('class', function (d) { console.log(d.class); return d.class; })
+      .attr('class', 'click-area')
+      .style('border-radius','10px')
+      .style('cursor', 'pointer')
+      // .style('border', function (d) { return that.isActionSelected(d.name) ? 'black solid 2px' : 'none'; })
+      .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; }) //'rgba(200, 200, 220)') //'rgba(200, 200, 220, 0.3)')
+      .style('opacity', ActionOpacityStart)
+      .html(function(d) { return that.showActionNamesonFlow ? d.name : '';})
+      .on("mouseover", function (d,i) {that.actionOver(d, i, this);})	
+      .on("mouseout", function (d,i) {that.actionOut(d, i, this);})
+      .on("click", function (d,i) {that.actionClick(d, i, this);})
+      // .append('<div><i class="material-icons">visibility</i></div>')
+      
+      actionZones
+      .exit().remove();
   }
 
   isActionSelected(name:string):boolean{
