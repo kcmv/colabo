@@ -105,22 +105,9 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   public flowSelectionChanged():void {
-
-  }
-  
-  //TODO: here we act like we DO have multiple flowImages, while the rest of the code is working with only one
-  drawActionsInteractions(){
-    let flowImages = this.flowImages;
-    for (let flowImageId in flowImages){
-      let flowImage = flowImages[flowImageId];
-      let clickArea = d3.select("#click-area-" + flowImage.name).select("div.flow-click-areas");
-      this.setInitialActionStates(flowImage.actions, true);
-      this.drawActionsInteractionsForFlow(flowImage, clickArea);
-      
-      //have to call it now AGAIN because 'drawActionsInteractions' is called from "ngAfterContentInit()" with 'setTimeout',
-      //so ActionStates are not set yet when data is received:
-      this.generateStatisticsGraphData();
-    }
+    console.log('[flowSelectionChanged]');
+    //TODO: add loading new flow-specific statistics etc:
+    this.drawActionsInteractions();
   }
 
   setInitialActionStates(actions:any[], state:boolean=true):void{
@@ -134,13 +121,31 @@ export class ColaboFlowAuditForm implements OnInit {
       .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; })
   }
 
+  drawActionsInteractions(){
+    /*
+    /TODO: iterating over multiple flowImages - option
+    let flowImages = this.flowImages;
+    for (let flowImageId in flowImages){
+      let flowImage = flowImages[flowImageId];
+    */
+      let clickArea = d3.select("#click-area-" + this.selectedFlow.name).select("div.flow-click-areas");
+      this.setInitialActionStates(this.selectedFlow.actions, true);
+      this.drawActionsInteractionsForFlow(this.selectedFlow, clickArea);
+      
+      //have to call it now AGAIN because 'drawActionsInteractions' is called from "ngAfterContentInit()" with 'setTimeout',
+      //so ActionStates are not set yet when data is received:
+      this.generateStatisticsGraphData();
+    // }
+  }
+
   drawActionsInteractionsForFlow(flowImage, clickArea) {
     let that:ColaboFlowAuditForm = this;
-    let actionZones = clickArea.selectAll("div.action_zones")
+    // clickArea.selectAll("div.action_zones").remove();
+    let actionZones = clickArea.selectAll("div.action_zones").remove();
       // .data(flowImage.actions, function (d) { 
       //   return d.name; // actions' names
       // });
-      .data(flowImage.actions).enter()
+      actionZones.data(flowImage.actions).enter()
         .append('div')
         .attr('id',function(d) { return d.name;})
         .style('position','absolute')
@@ -256,10 +261,13 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   setAllActions(value:boolean):void{
-    for (let flowImageId in this.flowImages){
-      let flowImage = this.flowImages[flowImageId];
-      this.setInitialActionStates(flowImage.actions, value);
-    }
+    //option for iterating all the flows
+    // for (let flowImageId in this.flowImages){
+    //   let flowImage = this.flowImages[flowImageId];
+    //   this.setInitialActionStates(flowImage.actions, value);
+    // }
+
+    this.setInitialActionStates(this.selectedFlow.actions, value);
     this.generateStatisticsGraphData();
   }
 
