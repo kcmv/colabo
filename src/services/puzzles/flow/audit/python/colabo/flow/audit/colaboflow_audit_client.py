@@ -12,7 +12,6 @@ import dateutil.parser
 from . import audit_pb2
 from . import audit_pb2_grpc
 
-
 class ColaboFlowAudit():
     auditRequestDefault = None
     stubDefault = None
