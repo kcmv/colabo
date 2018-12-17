@@ -61,7 +61,7 @@ if (!globalSet.hasOwnProperty('puzzles')) {
             limitFindNo: 100
         },
         '@colabo-flow/s-go': {
-            gRpcUrl: '0.0.0.0:50506'
+            gRpcUrl: 'localhost:50506'
         },
         '@colabo-flow/service-go': {
             actions: [{
@@ -92,31 +92,33 @@ if (!globalSet.hasOwnProperty('puzzles')) {
                         // mechanism: 'round-robin',
                         mechanism: 'random',
                         list: [{
-                            name: 'instance0',
-                            host: 'localhost',
-                            port: 6061,
-                            path: '/transform'
-                        }, {
-                            name: 'instance1',
-                            host: 'localhost',
-                            port: 6062,
-                            path: '/transform'
-                        }, {
-                            name: 'instance2',
-                            host: 'localhost',
-                            port: 6063,
-                            path: '/transform'
-                        }, {
-                            name: 'instance3',
-                            host: 'localhost',
-                            port: 6064,
-                            path: '/transform'
-                        }, {
-                            name: 'instance4',
-                            host: 'localhost',
-                            port: 6065,
-                            path: '/transform'
-                        }]
+                                name: 'instance0',
+                                host: 'localhost',
+                                port: 6061,
+                                path: '/transform'
+                            }
+                            // , {
+                            //     name: 'instance1',
+                            //     host: 'localhost',
+                            //     port: 6062,
+                            //     path: '/transform'
+                            // }, {
+                            //     name: 'instance2',
+                            //     host: 'localhost',
+                            //     port: 6063,
+                            //     path: '/transform'
+                            // }, {
+                            //     name: 'instance3',
+                            //     host: 'localhost',
+                            //     port: 6064,
+                            //     path: '/transform'
+                            // }, {
+                            //     name: 'instance4',
+                            //     host: 'localhost',
+                            //     port: 6065,
+                            //     path: '/transform'
+                            // }
+                        ]
                     }
                 }
             }]
