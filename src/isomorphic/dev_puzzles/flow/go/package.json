@@ -1,0 +1,22 @@
+{
+    "name": "@colabo-flow/i-go",
+    "version": "0.5.0",
+    "description": "Puzzle describing structures for ColaboFlow.Go",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Cha-OS/colabo"
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {},
+    "peerDependenciesLocal": {},
+    "devDependencies": {}
+}

@@ -2,50 +2,44 @@
 
 ```sh
 # the latest
-pip install colabo.flow.audit
+pip install colabo.flow.go
 
 # upgrade AFTER installing
-pip install --upgrade colabo.flow.audit
+pip install --upgrade colabo.flow.go
 
 # a speciffic one
-pip install colabo.flow.audit==0.0.4
+pip install colabo.flow.go==0.0.4
 ```
 
 # Use
 
 ```py
 # import
-from colabo.flow.audit import audit_pb2
-from colabo.flow.audit import ColaboFlowAudit
+from colabo.flow.go import go_pb2
+from colabo.flow.go import ColaboFlowGo
 
-# create an ColaboFlowAudit object
-colaboFlowAudit = ColaboFlowAudit()
+# create an ColaboFlowGo object
+colaboFlowGo = ColaboFlowGo()
 
-# create an audit object
-cfAuditRequest1 = audit_pb2.SubmitAuditRequest(
-    bpmn_type='activity',
-    bpmn_subtype='task',
-    bpmn_subsubtype='sub-task',
+create an execute request object
+request = go_pb2.ActionExecuteRequest(
+    flowId='search-sounds', name='mediator', flowInstanceId='fa23', dataIn='hello from client', params='quick')
 
-    flowId='searchForSounds',
-    # ...
-)
+# send the go object to the go service
+response = colaboFlowGo.executeActionSync(request)
 
-# send the audit object to the audit service
-result1 = colaboFlowAudit.audit_submit(cfAuditRequest1)
-
-# print the respons from the audit service
-print("result1 = %s" % (result1))
+# print the respons from the go service
+print("response = %s" % (response))
 ```
 
 # More Details
 
 + [Github Colabo repository](https://github.com/Cha-OS/colabo)
-+ [This package inside the Colabo repo](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/audit/python)
-+ [DEVELOPMENT.md](https://github.com/Cha-OS/colabo/blob/master/src/services/puzzles/flow/audit/python/DEVELOPMENT.md)
++ [This package inside the Colabo repo](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/go/python)
++ [DEVELOPMENT.md](https://github.com/Cha-OS/colabo/blob/master/src/services/puzzles/flow/go/python/DEVELOPMENT.md)
 + Relevant Colabo Puzzles
-    + [Python](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/audit/python)
-    + [ColaboFlow Audit Services](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/audit)
-    + [Backend](https://github.com/Cha-OS/colabo/tree/master/src/backend/dev_puzzles/flow/audit)
-    + [Frontend](https://github.com/Cha-OS/colabo/tree/master/src/frontend/dev_puzzles/flow/audit)
-    + [Isomorphic](https://github.com/Cha-OS/colabo/tree/master/src/isomorphic/dev_puzzles/flow/audit)
+    + [Python](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/go/python)
+    + [ColaboFlow Go Services](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/go)
+    + [Backend](https://github.com/Cha-OS/colabo/tree/master/src/backend/dev_puzzles/flow/go)
+    + [Frontend](https://github.com/Cha-OS/colabo/tree/master/src/frontend/dev_puzzles/flow/go)
+    + [Isomorphic](https://github.com/Cha-OS/colabo/tree/master/src/isomorphic/dev_puzzles/flow/go)

@@ -20,7 +20,9 @@ var puzzles = {
         "@colabo-flow/b-services": {},
         "@colabo-flow/b-topichat": {},
         "@colabo-flow/i-audit": {},
-        "@colabo-flow/b-audit": {}
+        "@colabo-flow/b-audit": {},
+        "@colabo-flow/i-go": {},
+        "@colabo-flow/b-go": {}
     },
     offers: {
         "@colabo-knalledge/b-storage-mongo": {
@@ -70,6 +72,10 @@ var puzzles = {
         "@colabo-flow/b-audit": {
             npm: "@colabo-flow/b-audit",
             path: "dev_puzzles/flow/audit"
+        },
+        "@colabo-flow/b-go": {
+            npm: "@colabo-flow/b-go",
+            path: "dev_puzzles/flow/go"
         }
     }
 }

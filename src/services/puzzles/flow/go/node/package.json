@@ -1,5 +1,5 @@
 {
-    "name": "@colabo-flow/s-audit",
+    "name": "@colabo-flow/s-go",
     "version": "0.3.1",
     "description": "A service puzzle for sending and accepting ColaboFlow (CF) audits over gRPC",
     "private": false,

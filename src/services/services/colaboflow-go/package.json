@@ -1,7 +1,7 @@
 {
-    "name": "@colabo-flow/service-audit",
+    "name": "@colabo-flow/service-go",
     "version": "0.3.2",
-    "description": "A ColaboFlow (CF) Audit service accepting (through gRPC) CF audits and storing them in MongoDB",
+    "description": "A ColaboFlow (CF) Audit service accepting (through gRPC) CF.Go requests",
     "private": false,
     "scripts": {
         "start": "node dist/index",

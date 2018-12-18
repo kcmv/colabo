@@ -4,7 +4,24 @@
 python3 -m pip install --upgrade -r requirements.txt
 ```
 
-# Build
+# Build Proto
+
+```sh
+cd python/colabo/flow/audit
+
+# activate environment
+source /Users/sasha/Documents/data/development/colabo.space/python3_env/bin/activate
+
+# [Inline comments for Bash?](https://stackoverflow.com/questions/2524367/inline-comments-for-bash)
+# build
+python -m grpc_tools.protoc  `# use grpc_tools.protoc plugin` \
+-I../protos `# include folder with other necessary proto files (I guess)` \
+--python_out=. `# python output folder (*_pb2.py file)` \
+--grpc_python_out=. `# grpc python output folder (*_pb2_grpc.py file)` \
+../protos/colabo/flow/audit/audit.proto `# path to the *.proto file with the description of gRPC service and messages`
+```
+
+# Build Package
 
 ## In Test Repo
 

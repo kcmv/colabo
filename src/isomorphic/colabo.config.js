@@ -23,6 +23,10 @@ var puzzles = {
         "@colabo-flow/i-audit": {
             npm: "@colabo-flow/i-audit",
             path: "dev_puzzles/flow/audit"
+        },
+        "@colabo-flow/i-go": {
+            npm: "@colabo-flow/i-go",
+            path: "dev_puzzles/flow/go"
         }
     }
 }

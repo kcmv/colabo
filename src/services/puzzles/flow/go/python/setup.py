@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='colabo.flow.audit',
+    name='colabo.flow.go',
     # other arguments omitted
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -21,8 +21,8 @@ setup(
     author='ChaOS',
     author_email='chaos.ngo@gmail.com',
     license='MIT',
-    description='A python puzzle for sending ColaboFlow (CF) audits over gRPC',
-    keywords=['colabo','grpc','flow','colaboflow', 'audit', 'process', 'process mining'],
+    description='A python puzzle for sending ColaboFlow.Go (CF.Go) actions over gRPC',
+    keywords=['colabo','grpc','flow','colaboflow', 'go', 'process', 'process mining'],
     packages=find_packages(),
     # requires=['grpcio', 'googleapis-common-protos', 'python-dateutil'],
     install_requires=['grpcio', 'googleapis-common-protos', 'python-dateutil']
