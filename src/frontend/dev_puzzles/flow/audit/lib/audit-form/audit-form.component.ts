@@ -199,13 +199,15 @@ export class ColaboFlowAuditForm implements OnInit {
     // console.log('drawActionsInteractionsForFlow',this.noCh);
     let that:ColaboFlowAuditForm = this;
     // clickAreas.selectAll("div.action_zones").remove();
-    let actionZones = clickAreas.selectAll("div.action_zone")//.action_zones")
+    let actionZones = clickAreas.selectAll("div.action_zone")
       // .data(flowImage.actions, function (d) { 
       //   return d.name; // actions' names
       // });
       .data(flowImage.actions);
       
-      actionZones.enter().append('div')
+      actionZones
+      .enter()
+      .append('div')
       .merge(actionZones) //to apply both on new (enter) and existing 
         .attr('class', 'action_zone click-area')
         .attr('id',function(d) { return d.name;})
@@ -229,12 +231,15 @@ export class ColaboFlowAuditForm implements OnInit {
         .on("mouseout", function (d,i) {that.actionOut(d, i, this);})
         .on("click", function (d,i) {that.actionClick(d, i, this);})
         // .append('<div><i class="material-icons">visibility</i></div>')
+      ;
       
-      actionZones.exit()
-        .html(function(d) { // not invited?! maybe not possible on .exit() ?!
-          return that.showActionNamesonFlow ? ('removed') : '';
-        })
-        .remove();
+      actionZones
+        .exit()
+        // .html(function(d) { // not invited?! maybe not possible on .exit() ?!
+        //   return that.showActionNamesonFlow ? ('removed') : '';
+        // })
+        .remove()
+      ;
   }
 
   isActionSelected(name:string):boolean{
