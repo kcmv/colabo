@@ -27,13 +27,22 @@ export class MapsListComponent implements OnInit {
   ngOnInit() {
     this.knalledgeMapService.getMaps().subscribe(this.mapsReceived.bind(this));
     if(this.mapsData !== null){
-      this.setUpMapData();
+      this.setUpSourceData();
     }
   }
 
-  protected setUpMapData():void{
+  protected setUpSourceData():void{
     this.mapsData.sort = this.sort;
     this.mapsData.paginator = this.paginator;
+  }
+
+  public applyFilter(filterValue: string) {
+    let filterValuePrep = filterValue.trim().toLowerCase();
+    // console.log('applyFilter',filterValuePrep);
+    if(this.mapsData !== null){
+      // console.log('[applyFilter] this.mapsData', this.mapsData);
+      this.mapsData.filter = filterValuePrep;
+    }
   }
 
   private mapsReceived(maps:KMap[]):void{
@@ -51,7 +60,7 @@ export class MapsListComponent implements OnInit {
     
     this.mapsData = new MatTableDataSource(maps);
     // console.log('mapsData:A',JSON.stringify(this.mapsData));
-    this.setUpMapData();
+    this.setUpSourceData();
     // this.getCWCs();
     // this.getMyCFStates();
     // this.getCardsPlayed();

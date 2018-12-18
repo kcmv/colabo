@@ -1,9 +1,9 @@
-These are <b>{{mapsNo}}</b> maps at the <b>Colabo.Space</b> that you have access to
+<div>These are <b>{{mapsNo}}</b> maps at the <b>Colabo.Space</b> that you have access to</div>
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter the maps">
+</mat-form-field>
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 <table mat-table matSort [dataSource]="mapsData" class="mat-elevation-z8">
-
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
 
   <!-- Id Column -->
   <ng-container matColumnDef="id">
@@ -37,6 +37,6 @@ These are <b>{{mapsNo}}</b> maps at the <b>Colabo.Space</b> that you have access
     <td mat-cell *matCellDef="let element" >TBD</td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
