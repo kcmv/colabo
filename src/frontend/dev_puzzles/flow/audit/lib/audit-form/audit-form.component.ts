@@ -168,7 +168,7 @@ export class ColaboFlowAuditForm implements OnInit {
 
     let that:ColaboFlowAuditForm = this;
     d3.selectAll("div.click-area")
-      .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; })
+      .style('background-color', function (d:any) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; })
   }
 
   drawActionsInteractions(){
@@ -177,10 +177,11 @@ export class ColaboFlowAuditForm implements OnInit {
     let flowImages = this.flowImages;
     for (let flowImageId in flowImages){
       let flowImage = flowImages[flowImageId];
+      let clickArea = d3.select("#flow-diagram-" + this.selectedFlow.name).select("flow-click-areas");
     */
-      let clickArea = d3.select("#click-area-" + this.selectedFlow.name).select("div.flow-click-areas");
+      let clickAreas = d3.select("#flow-diagram").select(".flow-click-areas");
       this.setInitialActionStates(this.selectedFlow.actions, true);
-      this.drawActionsInteractionsForFlow(this.selectedFlow, clickArea);
+    this.drawActionsInteractionsForFlow(this.selectedFlow, clickAreas);
       
       //have to call it now AGAIN because 'drawActionsInteractions' is called from "ngAfterContentInit()" with 'setTimeout',
       //so ActionStates are not set yet when data is received:
@@ -189,46 +190,46 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   noCh= 0;
-  drawActionsInteractionsForFlow(flowImage, clickArea) {
+  drawActionsInteractionsForFlow(flowImage, clickAreas) {
     this.noCh++;
     console.log('drawActionsInteractionsForFlow',this.noCh);
     let that:ColaboFlowAuditForm = this;
-    // clickArea.selectAll("div.action_zones").remove();
-    let actionZones = clickArea.selectAll("div")//.action_zones")
+    // clickAreas.selectAll("div.action_zones").remove();
+    let actionZones = clickAreas.selectAll("div.action_zone")//.action_zones")
       // .data(flowImage.actions, function (d) { 
       //   return d.name; // actions' names
       // });
       .data(flowImage.actions);
       
-      actionZones
-      .enter()
-      .append('div')
+      actionZones.enter().append('div')
       .merge(actionZones) //to apply both on new (enter) and existing 
+        .attr('class', 'action_zone click-area')
+        .attr('id',function(d) { return d.name;})
+        .style('position','absolute')
+        .style('top', function (d) { return d.selectArea.y + "px"; })
+        .style('left', function (d) { return d.selectArea.x + "px"; })
+        .style('width', function (d) { return d.selectArea.width + "px"; })
+        .style('height', function (d) { return d.selectArea.height + "px"; })
+        // .attr('class', function (d) { return 'click-area'; })
+        // .attr('class', function (d) { console.log(d.class); return d.class; })
+        .style('border-radius','10px')
+        .style('cursor', 'pointer')
+        // .style('border', function (d) { return that.isActionSelected(d.name) ? 'black solid 2px' : 'none'; })
+        .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; }) //'rgba(200, 200, 220)') //'rgba(200, 200, 220, 0.3)')
+        .style('opacity', ActionOpacityStart)
+        .html(function(d) {
+          return that.showActionNamesonFlow ? (d.name + that.noCh) : '';
+        })
+        .on("mouseover", function (d,i) {that.actionOver(d, i, this);})	
+        .on("mouseout", function (d,i) {that.actionOut(d, i, this);})
+        .on("click", function (d,i) {that.actionClick(d, i, this);})
+        // .append('<div><i class="material-icons">visibility</i></div>')
       
-      .attr('id',function(d) { return d.name;})
-      .style('position','absolute')
-      .style('top', function (d) { return d.selectArea.y + "px"; })
-      .style('left', function (d) { return d.selectArea.x + "px"; })
-      .style('width', function (d) { return d.selectArea.width + "px"; })
-      .style('height', function (d) { return d.selectArea.height + "px"; })
-      // .attr('class', function (d) { return 'click-area'; })
-      // .attr('class', function (d) { console.log(d.class); return d.class; })
-      .attr('class', 'click-area')
-      .style('border-radius','10px')
-      .style('cursor', 'pointer')
-      // .style('border', function (d) { return that.isActionSelected(d.name) ? 'black solid 2px' : 'none'; })
-      .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; }) //'rgba(200, 200, 220)') //'rgba(200, 200, 220, 0.3)')
-      .style('opacity', ActionOpacityStart)
-      .html(function(d) { return that.showActionNamesonFlow ? (d.name + that.noCh) : '';})
-      .on("mouseover", function (d,i) {that.actionOver(d, i, this);})	
-      .on("mouseout", function (d,i) {that.actionOut(d, i, this);})
-      .on("click", function (d,i) {that.actionClick(d, i, this);})
-      // .append('<div><i class="material-icons">visibility</i></div>')
-      
-      actionZones
-      .exit()
-      .html(function(d) { return that.showActionNamesonFlow ? ('removed') : '';})
-      .remove();
+      actionZones.exit()
+        .html(function(d) { // not invited?! maybe not possible on .exit() ?!
+          return that.showActionNamesonFlow ? ('removed') : '';
+        })
+        .remove();
   }
 
   isActionSelected(name:string):boolean{

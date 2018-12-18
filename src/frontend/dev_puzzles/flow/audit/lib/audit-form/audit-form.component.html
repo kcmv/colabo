@@ -20,7 +20,7 @@
             </button>ColaboFlow - Audit {{ subToolbarTitle }}
         </mat-toolbar>
     </div>
-    
+
     <div fxFlex id="scrolling_content" style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px;">
         <form name="statisticsCustomizing">
             <!-- <mat-radio-group class="example-radio-group" name="displaySet" [(ngModel)]="selectedDisplaySet">
@@ -50,8 +50,8 @@
             <button color="primary" (click)="setAllActions(true)">Show All Actions</button>
         </form>
 
-        <!-- <div *ngFor="let flowImage of flowImages" id="click-area-{{ flowImage.name }}"> -->
-        <div *ngIf='selectedFlow' id="click-area-{{ selectedFlow.name }}">
+        <!-- <div *ngFor="let flowImage of flowImages" id="flow-diagram-{{ flowImage.name }}"> -->
+        <div *ngIf='selectedFlow' class="flow-diagram" id="flow-diagram">
             <h2>Flow: {{ selectedFlow.name }}</h2>
             <div style="position: relative;">
                 <div class="flow-img"><img src="{{ selectedFlow.imageUrl }}" /></div>
