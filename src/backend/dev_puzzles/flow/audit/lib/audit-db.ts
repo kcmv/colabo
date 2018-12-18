@@ -21,7 +21,8 @@ export enum MainTypes {
 export enum ActionTypes{
     FilterByName = 'filter-by-name',
     All = 'all',
-    Sessions = 'sessions'
+    // Sessions = 'sessions',
+    SessionsFlow = 'sessions-flow',
 }
 export interface SearchParams{
     type: MainTypes;
@@ -53,12 +54,23 @@ export class ColaboFlowAuditDb {
         let searchQuery:any = {};
         switch(searchParams.type){
             case MainTypes.GetAudits:
-                if(searchParams.actionType === ActionTypes.FilterByName){
-                    searchQuery.name = searchParams.id;
+            {
+                let sessions:string = searchParams.id; //'e123,cat,e124'; //mockup
+                let flowId:string = searchParams.id2;
+                console.log("[index] " + MainTypes.GetAudits + ": sessions:", sessions,", flowId:", flowId);
+                let ids:string[] = sessions.split(',');
+                console.log('[index] ids', ids);
+                
+                searchQuery = {
+                    sessionId: { $in: ids },
+                    flowId: flowId
                 }
+
                 CfAuditModel.find(searchQuery, foundAudits.bind(this)).sort({ createdAt: -1 }).limit(this.limitFindNo);            
+            }
             break;
             case MainTypes.GetStats:
+            {
                 // if(searchParams.actionType === ActionTypes.Sessions){
                 //     searchQuery.name = searchParams.id;
                 // }
@@ -91,6 +103,7 @@ export class ColaboFlowAuditDb {
                 // .group({ _id: null, maxBalance: { $max: '$balance' } }).
                 // .project('-id maxBalance').
                 // CfAuditModel.find(searchQuery, foundAudits.bind(this)).sort({ createdAt: -1 }).limit(this.limitFindNo);            
+            }
             break;
         }
     }
