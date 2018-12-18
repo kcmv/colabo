@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
 import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 
@@ -11,6 +11,7 @@ import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.
 export class MapsListComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns: string[] = ['id', 'name', 'creator', 'participants', 'publicity', 'actions'];
   mapsData:MatTableDataSource<KMap> = null;
@@ -25,7 +26,14 @@ export class MapsListComponent implements OnInit {
   }
   ngOnInit() {
     this.knalledgeMapService.getMaps().subscribe(this.mapsReceived.bind(this));
-    if(this.mapsData !== null){this.mapsData.sort = this.sort;}
+    if(this.mapsData !== null){
+      this.setUpMapData();
+    }
+  }
+
+  protected setUpMapData():void{
+    this.mapsData.sort = this.sort;
+    this.mapsData.paginator = this.paginator;
   }
 
   private mapsReceived(maps:KMap[]):void{
@@ -43,7 +51,7 @@ export class MapsListComponent implements OnInit {
     
     this.mapsData = new MatTableDataSource(maps);
     // console.log('mapsData:A',JSON.stringify(this.mapsData));
-    this.mapsData.sort = this.sort;
+    this.setUpMapData();
     // this.getCWCs();
     // this.getMyCFStates();
     // this.getCardsPlayed();
