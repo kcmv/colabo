@@ -108,12 +108,16 @@ export class ColaboFlowAuditService{
     let url: string;
 
     console.log('[getStatistics] sessionIds', sessionIds);
-    let idsStr:string = sessionIds.join(',');
+    let idsStr:string = ''
+    if(sessionIds.length>0){
+      idsStr = sessionIds.join(',')+'/';
+    }
+
     let searchQuery: string = 'get-stats/sessions/';
 
     // this.http.get<ServerData>(this.apiUrl+'id_in/'+this.defaultAction+'/'+idsStr+'.json')
 
-    url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + idsStr + (flowId == null ? '' : ('/' + flowId)) + '.json';
+    url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + idsStr + (flowId == null ? '' : flowId) + '.json';
 
     const result: Observable<any[]>
       = this.http.get<any>(url)
@@ -147,12 +151,20 @@ export class ColaboFlowAuditService{
     return statsFromServer;
   }
 
-  getActions(): Observable<AuditedAction[]> {
+  getActions(sessionIds:string[],flowId:string=null): Observable<AuditedAction[]> {
     // return this.getActionsMockup();
 
-    let searchQuery: string = 'get-audits/all/any';
+    let searchQuery: string = 'get-audits/sessions-flow/';
+    // let searchQuery: string = 'get-stats/sessions/';
     let url: string;
-    url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + '.json';
+    // url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + '.json';
+    
+    let sessionIdsStr:string = '';
+    if(sessionIds.length>0){
+      sessionIdsStr = sessionIds.join(',')+'/';
+    }
+
+    url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + sessionIdsStr + (flowId == null ? '' : flowId) + '.json';
 
     const result: Observable<any[]>
       = this.http.get<any>(url)

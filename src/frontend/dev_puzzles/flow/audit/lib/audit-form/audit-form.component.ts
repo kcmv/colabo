@@ -61,7 +61,7 @@ export class ColaboFlowAuditForm implements OnInit {
     }.bind(this), 1000);
 
     // d3 example: d3.select('p').style('color', this.color);
-    this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
+    this.colaboFlowAuditService.getActions(this.selectedSessions, this.selectedFlow.name).subscribe(this.auditsReceived.bind(this));
     this.colaboFlowAuditService.getStatistics(this.selectedSessions, this.selectedFlow.name).subscribe(this.statisticsReceived.bind(this));
   
 
@@ -127,11 +127,13 @@ export class ColaboFlowAuditForm implements OnInit {
 
   public sessionSelectionChanged():void{
     this.reloadStatistics();
+    this.reloadActions();
   }
 
   public clearSessions():void{
     this.selectedSessions = [];
     this.reloadStatistics();
+    this.reloadActions();
   }
   
   get subToolbarTitle():string{
@@ -315,7 +317,7 @@ export class ColaboFlowAuditForm implements OnInit {
   reloadActions(){
     //test: this.selectedSessions.shift();
     // console.log('[reloadActions] this.selectedSessions', this.selectedSessions);
-    this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
+    this.colaboFlowAuditService.getActions(this.selectedSessions, this.selectedFlow.name).subscribe(this.auditsReceived.bind(this));
   }
   
   reloadStatistics(){
