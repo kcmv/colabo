@@ -19,6 +19,6 @@ const API_ROUTE = 'colabo-flow/audit';
 export function initialize(app) {
     console.log("[puzzle(colabo-flow/audit) - /index.js] Registering ColaboFlow Audit API to: %s", API_ROUTE);
 
-    var colaboFlowAudit = app.resource(API_ROUTE, ColaboFlowAuditAPI_All, { id: 'type?/:actionType?/:searchParam?' });
+    var colaboFlowAudit = app.resource(API_ROUTE, ColaboFlowAuditAPI_All, { id: 'type?/:actionType?/:searchParam?/:searchParam2?' });
 }
 // setting express route <end>

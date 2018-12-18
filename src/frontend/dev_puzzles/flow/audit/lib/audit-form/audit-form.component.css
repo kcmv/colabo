@@ -54,3 +54,18 @@
     left: 120px;
     top: 220px;
 }
+
+#menu {
+	margin: 10px;
+}
+
+#content div {
+	display: inline-block;
+	margin: 10px;
+	background-color: orange;
+	color: white;
+	padding: 30px;
+	width: 10px;
+	height: 10px;
+	text-align: center;
+}

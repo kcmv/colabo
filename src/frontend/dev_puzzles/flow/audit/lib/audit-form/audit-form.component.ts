@@ -49,7 +49,7 @@ export class ColaboFlowAuditForm implements OnInit {
 
   ngOnInit() {
     this.puzzleConfig = GetPuzzle(MODULE_NAME);
-    this.selectedFlow = this.flowImages[0];
+    this.selectedFlow = this.flowImages[1];
     this.generalConfigBranding = GetGeneral('branding');
     this.selectedSessions = this.sessions;
     // this.colaboFlowAuditService.getItems().subscribe(this.auditsReceived.bind(this));
@@ -62,8 +62,9 @@ export class ColaboFlowAuditForm implements OnInit {
 
     // d3 example: d3.select('p').style('color', this.color);
     this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
-    this.colaboFlowAuditService.getStatistics(this.selectedSessions).subscribe(this.statisticsReceived.bind(this));
-    
+    this.colaboFlowAuditService.getStatistics(this.selectedSessions, this.selectedFlow.name).subscribe(this.statisticsReceived.bind(this));
+  
+
     // switch(this.selectedDisplaySet){
     //   case DisplaySet.ACTION_NAMES:
     //     this.colaboFlowAuditService.getActions().subscribe(this.auditsReceived.bind(this));
@@ -73,7 +74,56 @@ export class ColaboFlowAuditForm implements OnInit {
     //     this.colaboFlowAuditService.getStatistics(this.selectedSessions).subscribe(this.statisticsReceived.bind(this));
     //     break;
     // }
+
+    //TEST:
+    // this.doUpdate();
   }
+
+  /*
+  letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  myData = ['A', 'B', 'C', 'D', 'E'];
+  no = 0;
+  
+  public doUpdate() {
+    var rand = Math.floor( Math.random() * 26 );
+    var myData = this.letters.slice(0, rand).split('');
+    this.update(myData);
+  }
+
+  public doUpdate2() {
+    var u = d3.select('#content')
+	  .selectAll('div')
+	  .data(this.myData);
+
+    u.enter()
+      .append('div');
+
+    u.text(function(d) {
+      return d;
+    });
+  }
+
+  protected update(data) {
+    let that:ColaboFlowAuditForm = this;
+    ++this.no;
+    var u = d3.select('#content')
+      .selectAll('div')
+      .data(data);
+
+    u.enter()
+      .append('div')
+      .text(function(d) {
+        return d;
+      });
+
+    u
+      .text(function(d) {
+        return d + that.no;
+      });
+
+    u.exit().remove();
+  }
+  */
 
   public sessionSelectionChanged():void{
     this.reloadStatistics();
@@ -138,7 +188,10 @@ export class ColaboFlowAuditForm implements OnInit {
     // }
   }
 
+  noCh= 0;
   drawActionsInteractionsForFlow(flowImage, clickArea) {
+    this.noCh++;
+    console.log('drawActionsInteractionsForFlow',this.noCh);
     let that:ColaboFlowAuditForm = this;
     // clickArea.selectAll("div.action_zones").remove();
     let actionZones = clickArea.selectAll("div")//.action_zones")
@@ -150,7 +203,7 @@ export class ColaboFlowAuditForm implements OnInit {
       actionZones
       .enter()
       .append('div')
-      // .merge(actionZones) //to apply both on new (enter) and existing 
+      .merge(actionZones) //to apply both on new (enter) and existing 
       
       .attr('id',function(d) { return d.name;})
       .style('position','absolute')
@@ -166,14 +219,16 @@ export class ColaboFlowAuditForm implements OnInit {
       // .style('border', function (d) { return that.isActionSelected(d.name) ? 'black solid 2px' : 'none'; })
       .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; }) //'rgba(200, 200, 220)') //'rgba(200, 200, 220, 0.3)')
       .style('opacity', ActionOpacityStart)
-      .html(function(d) { return that.showActionNamesonFlow ? d.name : '';})
+      .html(function(d) { return that.showActionNamesonFlow ? (d.name + that.noCh) : '';})
       .on("mouseover", function (d,i) {that.actionOver(d, i, this);})	
       .on("mouseout", function (d,i) {that.actionOut(d, i, this);})
       .on("click", function (d,i) {that.actionClick(d, i, this);})
       // .append('<div><i class="material-icons">visibility</i></div>')
       
       actionZones
-      .exit().remove();
+      .exit()
+      .html(function(d) { return that.showActionNamesonFlow ? ('removed') : '';})
+      .remove();
   }
 
   isActionSelected(name:string):boolean{
@@ -181,7 +236,7 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   actionOver(d, i, object:any):void {	
-    console.log('mouseover', d3.event);	
+    // console.log('mouseover', d3.event);	
     // this.setactionProfile(d.user);
     d3.select( object )
       // .raise() //putting it visually in front of the other actions
@@ -209,7 +264,7 @@ export class ColaboFlowAuditForm implements OnInit {
   }
 
   actionOut(d, i, object:any):void {
-    console.log('mouseout');		
+    // console.log('mouseout');		
     // this.clearactionProfile();
     d3.select( object )
       .transition()
@@ -264,7 +319,7 @@ export class ColaboFlowAuditForm implements OnInit {
   
   reloadStatistics(){
     console.log('[reloadStatistics] this.selectedSessions', this.selectedSessions);
-    this.colaboFlowAuditService.getStatistics(this.selectedSessions).subscribe(this.statisticsReceived.bind(this));
+    this.colaboFlowAuditService.getStatistics(this.selectedSessions, this.selectedFlow.name).subscribe(this.statisticsReceived.bind(this));
   }
 
   setAllActions(value:boolean):void{

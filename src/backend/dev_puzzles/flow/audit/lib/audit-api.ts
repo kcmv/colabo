@@ -37,14 +37,17 @@ export class ColaboFlowAuditApi {
         let type = this.req.params.type;
         let actionType = this.req.params.actionType;
         let id = this.req.params.searchParam;
+        let id2 = this.req.params.searchParam2;
         console.log('[ColaboFlowAuditApi::index] type', type);
         console.log('[ColaboFlowAuditApi::index] actionType', actionType);
         console.log('[ColaboFlowAuditApi::index] req.params.searchParam', this.req.params.searchParam);
+        console.log('[ColaboFlowAuditApi::index] req.params.searchParam2', this.req.params.searchParam2);
         
         let searchParams: SearchParams = {
             type: type,
             actionType: actionType,
-            id: id
+            id: id,
+            id2: id2
         };
 
         // if (actionType === ActionTypes.FilterByName){

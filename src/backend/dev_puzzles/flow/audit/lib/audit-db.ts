@@ -27,6 +27,7 @@ export interface SearchParams{
     type: MainTypes;
     actionType?: ActionTypes;
     id?: string;
+    id2?: string;
 };
 
 export class ColaboFlowAuditDb {
@@ -62,15 +63,24 @@ export class ColaboFlowAuditDb {
                 //     searchQuery.name = searchParams.id;
                 // }
 
-                let id:string = searchParams.id; //'e123,cat,e124'; //mockup
-                console.log("[index] " + MainTypes.GetStats + ": id: %s", id);
-                let ids:string[] = id.split(',');
+                let sessions:string = searchParams.id; //'e123,cat,e124'; //mockup
+                let flowId:string = searchParams.id2;
+                console.log("[index] " + MainTypes.GetStats + ": sessions:", sessions,", flowId:", flowId);
+                let ids:string[] = sessions.split(',');
                 console.log('[index] ids', ids);
                 // KNodeModel.find({ '_id': { $in: ids } }, found);
                 //https://docs.mongodb.com/manual/reference/operator/aggregation/cond/#exp._S_cond
+
+                let matchQ:any[] = [{ sessionId: { $in: ids } }];
+                if(flowId !== 'null' && flowId !==  'null' && flowId !==  undefined){
+                    matchQ.push({ flowId: flowId});
+                }
+                    
                 CfAuditModel
                 .aggregate()
-                .match({ sessionId: { $in: ids } })
+                .match({
+                    $and: matchQ
+                })
                 //.match({ sessionId: { $in: [ "e123", "cat" ] } })
                 .group({ _id: "$name", count: { $sum: 1 }, avgTime: { $avg: {$toInt: "$time"} }, successCount: { $sum: { $cond: { if: "$success", then: 1, else: 0 } } }})
                 // .project('_id count avgTime successCount')

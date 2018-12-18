@@ -113,7 +113,7 @@ export class ColaboFlowAuditService{
 
     // this.http.get<ServerData>(this.apiUrl+'id_in/'+this.defaultAction+'/'+idsStr+'.json')
 
-    url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + idsStr + (flowId == null ? '' : ('/flow/' + flowId)) + '.json';
+    url = ColaboFlowAuditService.serverAP + '/colabo-flow/audit/' + searchQuery + idsStr + (flowId == null ? '' : ('/' + flowId)) + '.json';
 
     const result: Observable<any[]>
       = this.http.get<any>(url)
