@@ -49,7 +49,7 @@ export class ColaboFlowAuditForm implements OnInit {
 
   ngOnInit() {
     this.puzzleConfig = GetPuzzle(MODULE_NAME);
-    this.selectedFlow = this.flowImages[1];
+    this.selectedFlow = this.flowImages[0];
     this.generalConfigBranding = GetGeneral('branding');
     this.selectedSessions = this.sessions;
     // this.colaboFlowAuditService.getItems().subscribe(this.auditsReceived.bind(this));
@@ -160,6 +160,8 @@ export class ColaboFlowAuditForm implements OnInit {
     console.log('[flowSelectionChanged]');
     //TODO: add loading new flow-specific statistics etc:
     this.drawActionsInteractions();
+    this.reloadStatistics();
+    this.reloadActions();
   }
 
   setInitialActionStates(actions:any[], state:boolean=true):void{
@@ -191,19 +193,21 @@ export class ColaboFlowAuditForm implements OnInit {
     // }
   }
 
-  noCh= 0;
+  // TEST: noCh= 0;
   drawActionsInteractionsForFlow(flowImage, clickAreas) {
-    this.noCh++;
-    console.log('drawActionsInteractionsForFlow',this.noCh);
+    // this.noCh++;
+    // console.log('drawActionsInteractionsForFlow',this.noCh);
     let that:ColaboFlowAuditForm = this;
     // clickAreas.selectAll("div.action_zones").remove();
-    let actionZones = clickAreas.selectAll("div.action_zone")//.action_zones")
+    let actionZones = clickAreas.selectAll("div.action_zone")
       // .data(flowImage.actions, function (d) { 
       //   return d.name; // actions' names
       // });
       .data(flowImage.actions);
       
-      actionZones.enter().append('div')
+      actionZones
+      .enter()
+      .append('div')
       .merge(actionZones) //to apply both on new (enter) and existing 
         .attr('class', 'action_zone click-area')
         .attr('id',function(d) { return d.name;})
@@ -220,18 +224,22 @@ export class ColaboFlowAuditForm implements OnInit {
         .style('background-color', function (d) { return that.isActionSelected(d.name) ? 'yellow' : 'gray'; }) //'rgba(200, 200, 220)') //'rgba(200, 200, 220, 0.3)')
         .style('opacity', ActionOpacityStart)
         .html(function(d) {
-          return that.showActionNamesonFlow ? (d.name + that.noCh) : '';
+          // return that.showActionNamesonFlow ? (d.name + that.noCh) : '';
+          return that.showActionNamesonFlow ? d.name : '';
         })
         .on("mouseover", function (d,i) {that.actionOver(d, i, this);})	
         .on("mouseout", function (d,i) {that.actionOut(d, i, this);})
         .on("click", function (d,i) {that.actionClick(d, i, this);})
         // .append('<div><i class="material-icons">visibility</i></div>')
+      ;
       
-      actionZones.exit()
-        .html(function(d) { // not invited?! maybe not possible on .exit() ?!
-          return that.showActionNamesonFlow ? ('removed') : '';
-        })
-        .remove();
+      actionZones
+        .exit()
+        // .html(function(d) { // not invited?! maybe not possible on .exit() ?!
+        //   return that.showActionNamesonFlow ? ('removed') : '';
+        // })
+        .remove()
+      ;
   }
 
   isActionSelected(name:string):boolean{
