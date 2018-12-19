@@ -13,7 +13,31 @@ var puzzles = {
         "symlinks": false
     },
     dependencies: {
-        "@colabo-flow/i-audit": {}
+        "@colabo-flow/i-audit": {},
+        "@colabo-puzzles/f-core": {},
+        "@colabo-knalledge/f-core": {},
+        "@colabo-knalledge/f-map": {},
+        "@colabo-knalledge/f-search": {},
+        "@colabo-knalledge/f-store_core": {},
+        "@colabo-knalledge/f-view_enginee": {},
+        "@colabo-knalledge/f-view_interaction": {},
+        "@colabo-knalledge/f-view_node": {},
+        "@colabo-map/f-engine": {},
+        "@colabo-media/f-upload": {},
+        "@colabo-rima/f-core": {},
+        "@colabo-rima/f-aaa": {},
+        "@colabo-topichat/f-clients-orchestration": {},
+        "@colabo-topichat/f-core": {},
+        "@colabo-topichat/f-talk": {},
+        "@colabo-utils/i-pub-sub": {},
+        "@colabo-utils/f-notifications": {},
+        "@colabo-moderation/f-core": {},
+        "@colabo-flow/f-core": {},
+        "@colabo-flow/f-audit": {},
+        "@colabo-flow/f-topichat": {},
+        "@colabo-topichat/f-system": {},
+        "@colabo-ai-ml/f-similarity": {},
+        "@colabo-maps/core": {}
     },
     offers: {
         "@colabo-puzzles/f-core": {
