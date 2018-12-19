@@ -24,6 +24,10 @@ function resSendJsonProtected(res, data) {
     }
 };
 
+function isPrmNull(val){
+    return val == null ||  val == '' || val == 'undefined' || val == 'null';
+}
+
 // function resSendFile(res, data){
 // 	// http://tobyho.com/2011/01/28/checking-types-in-javascript/
 // 	if(data !== null && typeof data === 'object'){ // http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
@@ -124,11 +128,22 @@ exports.create = function(req, res) {
                 resSendJsonProtected(res, { success: true, data: kmap, accessId: accessId });
             }
 
-            var kmap = new KMapModel(data);
+            try{
+                var kmap = new KMapModel(data);
+            }
+            catch(err){
+                var errMsg = 'creator KMapModel error';
+                console.error(errMsg,err);
+                resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+            }
             kmap.save(function(err) {
-                if (err) throw err;
-                console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
-                finished();
+                if (err) {
+                    console.error('saving error',err);
+                    resSendJsonProtected(res, { data: null, accessId: accessId, message: 'saving error:' + JSON.stringify(err), success: false });
+                }else{
+                    console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
+                    finished();
+                }
             });
     }
 }

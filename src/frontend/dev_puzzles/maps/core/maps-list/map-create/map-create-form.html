@@ -23,26 +23,20 @@
             <input matInput placeholder="Root NodeType" [(ngModel)]="model.rootNodeType" name="rootNodeType"></input>
             <input matInput placeholder="Parent map ID" [(ngModel)]="model.parentMapId" name="parentMapId"></input>
             <input matInput placeholder="Map Version" [(ngModel)]="model.version" name="version"></input>
-            <slide-toggle [(checked)]="model.isPublic" aria-label="public">public</slide-toggle> -->
+ -->
+        <p>
+            <!-- <mat-form-field class="full-width"> -->
+            <mat-slide-toggle matInput formControlName="isPublic" aria-label="public">
+                {{isPublic() ? 'public Map' :
+                'private Map'}}
+            </mat-slide-toggle>
+                <!-- <mat-slide-toggle (change)="onToggling()" class="example-margin" [checked]="getState()">{{getState() ? 'selected' : 'not selected'}}</mat-slide-toggle> -->
+                <!-- OLD <slide-toggle [(checked)]="model.isPublic" aria-label="public">public</slide-toggle> -->
+            <!-- </mat-form-field> -->
+        </p>
 
-
-        <!-- <p>
-            <mat-form-field class="full-width">
-                <input matInput placeholder="Last Name" formControlName="lastName" value="">
-                <mat-error class="error-message">Презиме мора бити дужине барем 2 карактера</mat-error>
-            </mat-form-field>
-        </p> -->
-        
-
-            <!-- <p>
-                <mat-form-field class="full-width">
-                    <mat-slide-toggle matInput [checked]="true">
-                    {{checked ? 'Желим да се умрежим са другим учесницима и да семо моји контакт подаци поделе са њима' :
-                    'Не желим да се умрежавам са другим учесницима'}}
-                    </mat-slide-toggle>
-                </mat-form-field>
-            </p>
-            <mat-form-field class="full-width">
+           
+            <!-- <mat-form-field class="full-width">
             <mat-checkbox matInput formControlName="networkingOK">Желим да се моји контакт подаци деле са другим учесницима зарад умрежавања</mat-checkbox>
             </mat-form-field>
         </p> -->
@@ -55,11 +49,12 @@ TODO - ADD Country
 </p> -->
 
         <p>
+             <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
             <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Create</button>
             <!-- <button mat-raised-button (click)="partialUpdate()">Partial Update</button>
 <button mat-raised-button (click)="fullUpdate()">Full Update</button> -->
-            <button mat-raised-button (click)="reset()">Clear</button>
-            <button mat-raised-button (click)="cancel()">Cancel</button>
+            <button mat-raised-button type="button" (click)="reset()">Clear</button>
+            <button mat-raised-button type="button" (click)="cancel()">Cancel</button>
             <!-- <button md-button type="button" (click)="close(false)">Cancel</button> -->
         </p>
     </form>

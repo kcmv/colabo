@@ -142,7 +142,7 @@ export class KnalledgeMapService extends CFService{
    * @returns {Observable<KMap>} the created map (now with the id and other specific data allocated to it by server, so the caller should fill the original map with it)
      @example http://localhost:8001/kmaps/in_map/default/579811d88e12abfa556f6b59.json
    */
-  create(kMap:KMap, callback?:Function): Observable<KMap>
+  create(kMap:KMap): Observable<KMap>
   {
     let result: Observable<KMap> = null;
 
@@ -192,7 +192,6 @@ export class KnalledgeMapService extends CFService{
 		}
 		//we return this value to caller as a dirty one, and then set its value to mapFromServer when upper callback is called
 		//TODO: a problem may occur if promise is resolved BEFORE callback is called
-    if(callback){result.subscribe(maps => callback(maps));}
   	return result;
   }
 

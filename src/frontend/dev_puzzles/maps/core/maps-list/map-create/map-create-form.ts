@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import { map, filter, startWith } from 'rxjs/operators';
 
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
+import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 
 // import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
@@ -24,12 +25,14 @@ export class MapCreateForm implements OnInit {
 
 //   public selectedCountry:String;
   form: FormGroup;
+  protected creatingFunction:Function=null;
 
   //an exmaple of defining a form control as independet
 //   firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(2)]);
 
   constructor(
     fb: FormBuilder,
+    private knalledgeMapService:KnalledgeMapService,
     private rimaAAAService: RimaAAAService
     // private bottomSheetRef: MatBottomSheetRef<MapCreateForm>
   ) {
@@ -38,7 +41,8 @@ export class MapCreateForm implements OnInit {
           //   CustomValidators.validateCharacters //example of using custom validator imported from other service
           // ]],
         //   "email": ['', [Validators.required, Validators.email]],
-          "name":["", [Validators.required, Validators.minLength(2)]]
+          "name":["", [Validators.required, Validators.minLength(2)]],
+          "isPublic":[false]
         //   "password":["", [Validators.required, Validators.minLength(3)]]
       });
 
@@ -81,29 +85,54 @@ export class MapCreateForm implements OnInit {
 //   logOut(){
 //     this.rimaAAAService.logOut();
 //   }
-  reset() {
+  reset():void {
     this.form.reset();
   }
+
+  cancel():void {
+    this.form.reset();
+    if(this.creatingFunction){
+        this.creatingFunction(null);
+    }
+  }
+
+  isPublic():boolean{
+      return this.form.value.isPublic;
+  }
+
+  show(map:KMap=null, creatingFunction:Function=null):void{
+    console.log("[MapFormComponent].show");
+    this.creatingFunction = creatingFunction;
+    // this.mdDialog.show();
+    // this.mapFormActive = false;
+    // setTimeout(() => this.mapFormActive = true, 0.1);
+    // this.model = map;
+}
 
   onSubmit( ){
     console.log("model-based form submitted");
     console.log(this.form);
     let map:KMap = new KMap();
     map.name = this.form.value.name;
+    map.isPublic = this.form.value.isPublic;
+    map.iAmId = this.rimaAAAService.getUserId();
 
-    // this.rimaAAAService.createNewUser(userData, this.userCreated.bind(this));
+    this.knalledgeMapService.create(map).subscribe(this.mapCreated.bind(this));
+  }
 
-    ///
+  mapCreated(map:KMap):void{
+    if(!map){
+        console.error('[MapCreateForm] error in creation');
+        //TODO: see if we want to show notification here, or handle it by 'creatingFunction'
+    }
     if(this.creatingFunction){
-        this.creatingFunction(true);
+        this.creatingFunction(map);
     }
   }
 
     // myControl = new FormControl();
     // public mapFormActive = true;
     // model = new KMap();
-
-    private creatingFunction:Function=null;
 
     // openLink(event: MouseEvent): void {
     //     this.bottomSheetRef.dismiss();
@@ -117,15 +146,6 @@ export class MapCreateForm implements OnInit {
     // get debugging(){
     //   return
     // }
-
-    show(map:KMap, creatingFunction:Function):void{
-        console.log("[MapFormComponent].show");
-        this.creatingFunction = creatingFunction;
-        // this.mdDialog.show();
-        this.mapFormActive = false;
-        setTimeout(() => this.mapFormActive = true, 0.1);
-        this.model = map;
-    }
 
     close(confirm:boolean):void{
         console.log("[MapFormComponent].close:",confirm);
