@@ -16,7 +16,9 @@
     },
     "main": "dist/index.js",
     "module": "dist/index.js",
-    "dependencies": {},
+    "dependencies": {
+        "d3": "^5.7.0"
+    },
     "peerDependenciesLocal": {},
     "devDependencies": {}
 }

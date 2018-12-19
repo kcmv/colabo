@@ -31,6 +31,7 @@ import {SimilarityModule} from '@colabo-ai-ml/f-similarity';
 import { KnalledgeMapModule } from '@colabo-knalledge/f-map';
 import { MediaUploadModule } from '@colabo-media/f-upload';
 import { ColaboFlowAuditModule } from '@colabo-flow/f-audit';
+import { MapEngineModule } from '@colabo-map/f-engine';
 
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
@@ -138,6 +139,7 @@ var moduleImports = [
   , MediaUploadModule
   , UtilsNotificationModule
   , ColaboFlowAuditModule
+  , MapEngineModule
   , MapsCoreModule
 ];
 // moduleImports.push(MainModule);
