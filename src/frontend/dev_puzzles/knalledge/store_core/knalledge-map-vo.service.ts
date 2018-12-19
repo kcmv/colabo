@@ -60,9 +60,9 @@ export class KnalledgeMapVoService extends CFService{
 
   getNodesAndEdgesInMap(mapId?:string):Observable<any>{
     if(mapId === null){ mapId = KnalledgeMapVoService.mapId;}
-    this.knalledgeMapService.getById(KnalledgeMapVoService.mapId).subscribe(this.mapLoaded.bind(this));
-    this.knalledgeNodeService.queryInMap(KnalledgeMapVoService.mapId).subscribe(this.nodesLoaded.bind(this));
-    this.knalledgeEdgeService.queryInMap(KnalledgeMapVoService.mapId).subscribe(this.edgesLoaded.bind(this));
+    this.knalledgeMapService.getById(mapId).subscribe(this.mapLoaded.bind(this));
+    this.knalledgeNodeService.queryInMap(mapId).subscribe(this.nodesLoaded.bind(this));
+    this.knalledgeEdgeService.queryInMap(mapId).subscribe(this.edgesLoaded.bind(this));
     
 
     // https://angular.io/guide/observables
