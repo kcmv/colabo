@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
 import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
+import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
+// import {MatBottomSheet} from '@angular/material';
+// import {MapCreateForm} from './map-create/map-create-form';
 
 @Component({
   selector: 'maps-list',
@@ -12,13 +15,17 @@ export class MapsListComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  public modeCreating = false;
+  public modeEditing = false;
 
   displayedColumns: string[] = ['id', 'name', 'creator', 'participants', 'publicity', 'actions'];
   mapsData:MatTableDataSource<KMap> = null;
 
 
   constructor(
-    private knalledgeMapService:KnalledgeMapService
+    private knalledgeMapService:KnalledgeMapService,
+    private rimaAAAService:RimaAAAService,
+    // private bottomSheet: MatBottomSheet
   ) { }
 
   get mapsNo():number{
@@ -45,6 +52,20 @@ export class MapsListComponent implements OnInit {
     }
   }
 
+  showMapCreateForm() {
+    if (this.rimaAAAService.getUser()){
+        console.log("[showMapCreateForm]");
+        let mapToCreate = new KMap();
+        mapToCreate.participants = [this.rimaAAAService.getUserId()];
+        //this.mapToCreate.participants = this.rimaAAAService.getWhoAmI().displayName;
+        this.modeCreating = true;
+        
+        // this.mapFormShow(this.mapToCreate);
+        // this.bottomSheet.open(MapCreateForm);
+    }else{
+      window.alert("You must be logged in to create a map");
+    }
+  }
   private mapsReceived(maps:KMap[]):void{
     console.log('mapsReceived', maps);
     // let userInsights = [];

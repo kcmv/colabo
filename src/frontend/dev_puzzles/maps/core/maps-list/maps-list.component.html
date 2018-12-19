@@ -1,3 +1,11 @@
+<bottom-sheet-overview-example></bottom-sheet-overview-example>
+<div class="header">
+  <button mat-raised-button *ngIf="true" color="primary" (click)="showMapCreateForm()" aria-label="Create New Map" ><mat-icon>add_photo_alternate</mat-icon> Create New Map</button>
+</div>
+<!-- <i class="material-icons">add_photo_alternate</i>
+<span class='clickable' matTooltip="Create New Map" (click)="showMapCreateForm()">Create New Map <mat-icon>add_photo_alternate</mat-icon></span>
+<div ><button (click)="showMapCreateForm()"  aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-square">Create New Map</i></button></div> -->
+
 <div>These are <b>{{mapsNo}}</b> maps at the <b>Colabo.Space</b> that you have access to</div>
 <mat-form-field>
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter the maps">
