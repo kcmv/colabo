@@ -5,13 +5,16 @@ import {MapsListComponent} from '../maps-list/maps-list.component';
 // Material
 import { MaterialModule } from './materialModule';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import {MapCreateForm} from '../maps-list/map-create/map-create-form';
+import {MapCreateForm} from '../maps-list/map-create/map-create-form';
 import 'hammerjs';
 
 import {MatBottomSheet, MatBottomSheetContainer} from '@angular/material';
 
 import { FormsModule } from '@angular/forms';
+
 import { FlexLayoutModule } from '@angular/flex-layout';
+
+import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
 import {RimaAaaModule} from '@colabo-rima/f-aaa/module';
 import {BottomSheetOverviewExample} from '../maps-list/bottom-sheet-overview-example';
@@ -19,7 +22,7 @@ import {BottomSheetOverviewExample} from '../maps-list/bottom-sheet-overview-exa
 var moduleDeclarations:any[] = [
   //  components classes:
   MapsListComponent,
-  // MapCreateForm,
+  MapCreateForm,
   MatBottomSheetContainer,
   BottomSheetOverviewExample
   
@@ -29,9 +32,9 @@ var moduleImports: any[] = [
     //module dependencies:
     MaterialModule,
 
-    // ReactiveFormsModule,
+    ReactiveFormsModule,
 
-    // FormsModule,
+    FormsModule,
     // FlexLayoutModule,
 
     // // Material

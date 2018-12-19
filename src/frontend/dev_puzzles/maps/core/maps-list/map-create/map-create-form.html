@@ -1,22 +1,118 @@
-<mat-nav-list>
-    <a href="https://keep.google.com/" mat-list-item (click)="openLink($event)">
-        <span mat-line>Google Keep</span>
-        <span mat-line>Add to a note</span>
-    </a>
+<div class="map-create-form">
+    <h2>New Map</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- <p>
+            <mat-form-field class="full-width">
+                <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
+                <mat-error class="error-message">E-mail је у неисправном формату</mat-error>
+            </mat-form-field>
+        </p> -->
+        
+        <p>
+            <mat-form-field class="full-width">
+                <input matInput type="text" placeholder="Map Name" formControlName="name" value="">
+                <mat-error class="error-message">Incorrect Map Name</mat-error>
+            </mat-form-field>
+        </p>
+<!-- 
+        <input matInput type="text" placeholder="Name" [(ngModel)]="model.name" name="name" required #spy #name="ngModel"></input>
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                Name is required
+            </div>
+            <input matInput placeholder="Map Type" [(ngModel)]="model.type" name="type"></input>
+            <input matInput placeholder="Root NodeType" [(ngModel)]="model.rootNodeType" name="rootNodeType"></input>
+            <input matInput placeholder="Parent map ID" [(ngModel)]="model.parentMapId" name="parentMapId"></input>
+            <input matInput placeholder="Map Version" [(ngModel)]="model.version" name="version"></input>
+            <slide-toggle [(checked)]="model.isPublic" aria-label="public">public</slide-toggle> -->
 
-    <a href="https://docs.google.com/" mat-list-item (click)="openLink($event)">
-        <span mat-line>Google Docs</span>
-        <span mat-line>Embed in a document</span>
-    </a>
 
-    <a href="https://plus.google.com/" mat-list-item (click)="openLink($event)">
-        <span mat-line>Google Plus</span>
-        <span mat-line>Share with your friends</span>
-    </a>
+        <!-- <p>
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Last Name" formControlName="lastName" value="">
+                <mat-error class="error-message">Презиме мора бити дужине барем 2 карактера</mat-error>
+            </mat-form-field>
+        </p> -->
+        
 
-    <a href="https://hangouts.google.com/" mat-list-item (click)="openLink($event)">
-        <span mat-line>Google Hangouts</span>
-        <span mat-line>Show to your coworkers</span>
-    </a>
-</mat-nav-list>
-      
+            <!-- <p>
+                <mat-form-field class="full-width">
+                    <mat-slide-toggle matInput [checked]="true">
+                    {{checked ? 'Желим да се умрежим са другим учесницима и да семо моји контакт подаци поделе са њима' :
+                    'Не желим да се умрежавам са другим учесницима'}}
+                    </mat-slide-toggle>
+                </mat-form-field>
+            </p>
+            <mat-form-field class="full-width">
+            <mat-checkbox matInput formControlName="networkingOK">Желим да се моји контакт подаци деле са другим учесницима зарад умрежавања</mat-checkbox>
+            </mat-form-field>
+        </p> -->
+
+            <!-- <p>
+TODO - ADD Country
+<mat-form-field class="full-width">
+    Country select
+</mat-form-field>
+</p> -->
+
+        <p>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Create</button>
+            <!-- <button mat-raised-button (click)="partialUpdate()">Partial Update</button>
+<button mat-raised-button (click)="fullUpdate()">Full Update</button> -->
+            <button mat-raised-button (click)="reset()">Clear</button>
+            <button mat-raised-button (click)="cancel()">Cancel</button>
+            <!-- <button md-button type="button" (click)="close(false)">Cancel</button> -->
+        </p>
+    </form>
+</div>
+                
+
+<!-- OLD -->
+
+        <!-- <form *ngIf="mapFormActive" [formGroup]="form" (ngSubmit)="onSubmit()" #mapForm="ngForm" layout="column" class="inline-form"> -->
+        <!-- <form *ngIf="mapFormActive" [formGroup]="form" (ngSubmit)="onSubmit()" #mapForm="ngForm" layout="column" class="inline-form"> -->
+        <!-- {{mapForm.valid}}<br/>
+        {{mapForm.form.valid}}<br/> -->
+        <!-- {{JSON.stringify(mapForm)}}<br/>
+        {{JSON.stringify(mapForm.form)}}<br/> -->
+        <!-- {{diagnostic}} -->
+            <!-- <md-input placeholder="Name" [(ngModel)]="model.name" class="form-control" required name="name" #spy #name="ngModel"></md-input>
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            Name is required
+            </div> -->
+            
+            <!-- <input matInput type="text" placeholder="Choose User by name" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto"> -->
+            
+            <!-- <input matInput type="text" placeholder="Name" [(ngModel)]="model.name" name="name" required #spy #name="ngModel"></input>
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                Name is required
+            </div>
+            <input matInput placeholder="Map Type" [(ngModel)]="model.type" name="type"></input>
+            <input matInput placeholder="Root NodeType" [(ngModel)]="model.rootNodeType" name="rootNodeType"></input>
+            <input matInput placeholder="Parent map ID" [(ngModel)]="model.parentMapId" name="parentMapId"></input>
+            <input matInput placeholder="Map Version" [(ngModel)]="model.version" name="version"></input>
+            <slide-toggle [(checked)]="model.isPublic" aria-label="public">public</slide-toggle> -->
+            
+            
+            <!-- <label for="name">Name</label>
+            <md-input type="text" class="form-control" required
+            [(ngModel)]="model.name"
+                name="name" #spy #name="ngModel"></md-input>
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                Name is required
+            </div>
+            <br>TODO: remove this: {{spy.className}}
+        </div>
+            -->
+        <!-- <div layout="row"> -->
+            <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
+            <!-- <button md-button type="button" (click)="close(false)">Cancel</button>
+            <button md-button type="submit" [disabled]="!mapForm.form.valid">Create</button> -->
+            <!-- <button md-button class="md-primary" (click)="mapDialog.close(true)">
+                <span *ngIf="modeEditing">Update</span><span *ngIf="modeCreating">Create</span>
+            </button> -->
+        <!-- </div>
+        </form> -->
+    <!-- <md-dialog-actions>
+        <button md-button (click)="close(false)">Cancel</button>
+        <button md-button (click)="close(true)">Create</button>
+    </md-dialog-actions> -->
