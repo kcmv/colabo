@@ -6,7 +6,7 @@ import { Observer } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { KnalledgeMapVoService } from '@colabo-knalledge/f-store_core';
+import { KnalledgeMapVoService, MapWithContent } from '@colabo-knalledge/f-store_core';
 
 @Injectable()
 export class MapEngineService{
@@ -20,6 +20,10 @@ export class MapEngineService{
     * Initializes service
     */
   init() {
-    this.knalledgeMapVoService.getNodesAndEdgesInMap('58068a04a37162160341d402');
+    this.knalledgeMapVoService.getNodesAndEdgesInMap('58068a04a37162160341d402').subscribe(this.mapReceived);
   }  
+
+  mapReceived(map:MapWithContent):void{
+    console.log('mapReceived',map);
+  }
 }

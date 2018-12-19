@@ -66,7 +66,8 @@ export class KnalledgeMapVoService extends CFService{
     
 
     // https://angular.io/guide/observables
-    return new Observable(this.mapPartsLoadedSubscriber.bind(this));
+    let observable:Observable<any> = new Observable(this.mapPartsLoadedSubscriber.bind(this));
+    return observable;
   }
 
   mapLoaded(map:KMap):void{
@@ -98,8 +99,12 @@ export class KnalledgeMapVoService extends CFService{
       console.log('SDGsService::ALL mapPartSaved');
 
       //emitting Obstacle:
-      this.mapPartLoadedObserver.next(this.mapWithContent); //TODO change value
-      this.mapPartLoadedObserver.complete();
+      if('next' in this.mapPartLoadedObserver){
+        this.mapPartLoadedObserver.next(this.mapWithContent); //TODO change value
+      }
+      if('complete' in this.mapPartLoadedObserver){
+        this.mapPartLoadedObserver.complete();
+      }
     }
   }
 

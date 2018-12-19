@@ -1,1 +1,1 @@
-export { KnalledgeMapVoService } from './knalledge-map-vo.service';
+export { KnalledgeMapVoService, MapWithContent } from './knalledge-map-vo.service';
