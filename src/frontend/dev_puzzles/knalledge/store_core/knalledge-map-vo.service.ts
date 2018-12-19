@@ -58,7 +58,7 @@ export class KnalledgeMapVoService extends CFService{
     this.apiUrl = serverAP + '/' + mapAP + '/';
   }
 
-  getNodesAndEdgesInMap(mapId?:string):Observable<any>{
+  getNodesAndEdgesInMap(mapId?:string):Observable<MapWithContent>{
     if(mapId === null){ mapId = KnalledgeMapVoService.mapId;}
     this.knalledgeMapService.getById(mapId).subscribe(this.mapLoaded.bind(this));
     this.knalledgeNodeService.queryInMap(mapId).subscribe(this.nodesLoaded.bind(this));
