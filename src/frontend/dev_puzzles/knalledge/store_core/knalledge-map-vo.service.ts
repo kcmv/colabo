@@ -85,7 +85,7 @@ export class KnalledgeMapVoService extends CFService{
   }
 
   //could be done as anonymous, but we made it this way to be more clear the logic of Oberver
-  mapPartsLoadedSubscriber(observer) { //:Observer) {
+  mapPartsLoadedSubscriber(observer:any):any { //:Observer) {
     console.log('mapPartLoadedSubscriber');
     this.mapPartLoadedObserver = observer;
     return {unsubscribe() {}};
