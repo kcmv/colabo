@@ -12,7 +12,7 @@ import { MaterialModule } from './materialModule';
 import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
 import { MapEngineService } from './map-engine.service';
-import { MapEngineForm } from './map-engine/map-engine.component';
+import { MapEngineForm } from './map-engine-form/map-engine.component';
 
 var moduleDeclarations:any[] = [
     MapEngineForm

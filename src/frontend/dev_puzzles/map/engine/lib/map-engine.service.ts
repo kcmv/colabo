@@ -10,6 +10,7 @@ import { KnalledgeMapVoService, MapWithContent } from '@colabo-knalledge/f-store
 
 @Injectable()
 export class MapEngineService{
+  protected mapSubscritpion: Observable<any>;
   constructor(
       protected knalledgeMapVoService:KnalledgeMapVoService
     ) {
@@ -20,10 +21,26 @@ export class MapEngineService{
     * Initializes service
     */
   init() {
-    this.knalledgeMapVoService.getNodesAndEdgesInMap('58068a04a37162160341d402').subscribe(this.mapReceived);
+    this.mapSubscritpion = this.knalledgeMapVoService.getNodesAndEdgesInMap('58068a04a37162160341d402');
+    this.mapSubscritpion.subscribe(this.mapReceived.bind(this));
+    if ((<any>window).Worker) {
+      var myWorker = new Worker('assets/workers/map-engine.worker.js');
+      myWorker.postMessage("Привет работник!");
+      console.log('Message posted to worker');
+      
+      myWorker.onmessage = function (e) {
+        let result = e.data;
+        console.log('Message received from worker: ', result);
+        myWorker.terminate();
+      };
+    }
   }  
 
-  mapReceived(map:MapWithContent):void{
-    console.log('mapReceived',map);
+  public getMap():Observable<any>{
+    return this.mapSubscritpion;
+  }
+
+  protected mapReceived(map:MapWithContent):void{
+    console.log('mapReceived: ', map);
   }
 }

@@ -1,29 +1,32 @@
 const MODULE_NAME:string = "@colabo-topichat/f-talk";
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { MapEngineService} from '../map-engine.service';
+import {Observable} from 'rxjs';
+import * as d3 from 'd3';
 
+import { MapEngineService } from '../map-engine.service';
 import { GetPuzzle } from '@colabo-utils/i-config';
 import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
-import {Observable} from 'rxjs';
-
-// https://www.npmjs.com/package/uuid
-import * as uuidv1 from 'uuid/v1';
+import { MapWithContent } from '@colabo-knalledge/f-store_core';
+import { MapBuilder } from '../map-builder';
 
 @Component({
   selector: 'map-engine-form',
   templateUrl: './map-engine.component.html',
-  styleUrls: ['./map-engine.component.css']
+  styleUrls: ['./map-engine.component.css', '../map.scss']
 })
 
-export class MapEngineForm implements OnInit {
+export class MapEngineForm implements OnInit, AfterViewInit {
   public statusesStates:any = {
   };
 
+  public showDemoLayout:boolean = false;
   public messages = [
   ];
-  
+  protected mapBuilder: MapBuilder;
+  contentHtml:any;
+
   public messageContent:string;
   protected puzzleConfig: any;
 
@@ -31,9 +34,21 @@ export class MapEngineForm implements OnInit {
     private mapEngineService: MapEngineService,
     protected utilsNotificationService: UtilsNotificationService
   ) {
+    this.mapBuilder = new MapBuilder();
   }
 
   ngOnInit() {
+    this.mapEngineService.getMap().subscribe(this.drawMap.bind(this));
+  }
+  
+  ngAfterViewInit(){ // the component is rendered and DOM is accessible to the D3
+    this.contentHtml = d3.select("#map-container").select(".content-html");
+    this.mapBuilder.setContentHtml(this.contentHtml);
+  }
+  
+  drawMap(mapContent: MapWithContent){
+    this.mapBuilder.setMapContent(mapContent);
+    this.mapBuilder.buildMap();
   }
 
   scrollToBottom() {

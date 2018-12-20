@@ -1,0 +1,97 @@
+<div fxLayout="column" fxFlexFill style="height: 100%;">
+
+    <!-- toolbar -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <a href="/" title="Home">
+                <img alt="Home" src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+            </a>
+            New Map Engine
+        </mat-toolbar>
+    </div>
+
+    <div fxFlex id="scrolling_content" style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px;">
+        <!--TODO: to make localized (in Serbian) form field names and info -->
+        <!-- <mat-list class="chat-list">
+            <mat-list-item *ngFor="let message of messages">
+                <h3 mat-line *ngIf="message.action === undefined">
+                    <b>{{message?.from?.name}}</b>
+                </h3>
+            <p>
+                <span> {{message?.content?.text}} </span>
+            </p>
+        </mat-list-item>
+        </mat-list> -->
+
+        <div fxLayout="row wrap" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="32px" fxLayoutAlign="flex-start" id="map-parent">
+            <div fxFlex="0 1 calc(25% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%" style="background-color: #ffdddd;" id="map-configuration">Configuration</div>
+
+            <div fxFlex="0 1 calc(75%)" fxFlex.lt-md="0 1 calc(50%)" fxFlex.lt-sm="100%" style="background-color: #ddddff; height: 100%; overflow: scroll;" id="map-container">
+                <div *ngIf="!showDemoLayout" style="position: relative;">
+                    <div class="content-svg"></div>
+                    <div class="content-html">
+                    </div>
+                </div>
+                <div *ngIf="showDemoLayout">
+                    <button (click)="extra=true">show extra</button>
+                    <button (click)="extra=false">hide extra</button>
+                    <button (click)="extraWide=true">show extraWide</button>
+                    <button (click)="extraWide=false">hide extraWide</button>
+                    <div *ngIf="extraWide">
+                        <div>W0. This_Content_Is_Super_Super_Super_Looooooooooonnnnggg_And_What_Can_We_Do_About_IIIIIIIIttttt____NNNNooooootttthhhiiiinnnngggg_But_That_Is_Not_That_Baaaaad_Because_We_Are=Testing_WIIIIDEEEE_CONTENT___</div>
+                        <div>W1. This_Content_Is_Super_Super_Super_Looooooooooonnnnggg_And_What_Can_We_Do_About_IIIIIIIIttttt____NNNNooooootttthhhiiiinnnngggg_But_That_Is_Not_That_Baaaaad_Because_We_Are=Testing_WIIIIDEEEE_CONTENT___</div>
+                        <div>W2. This_Content_Is_Super_Super_Super_Looooooooooonnnnggg_And_What_Can_We_Do_About_IIIIIIIIttttt____NNNNooooootttthhhiiiinnnngggg_But_That_Is_Not_That_Baaaaad_Because_We_Are=Testing_WIIIIDEEEE_CONTENT___</div>
+                    </div>
+                    <div>0. Content</div>
+                    <div>1. Content</div>
+                    <div>2. Content</div>
+                    <div>3. Content</div>
+                    <div>4. Content</div>
+                    <div>5. Content</div>
+                    <div>6. Content</div>
+                    <div>7. Content</div>
+                    <div>8. Content</div>
+                    <div>9. Content</div>
+                    <div *ngIf="extra">
+                        <div>10. Content</div>
+                        <div>11. Content</div>
+                        <div>12. Content</div>
+                        <div>13. Content</div>
+                        <div>14. Content</div>
+                        <div>15. Content</div>
+                        <div>16. Content</div>
+                        <div>17. Content</div>
+                        <div>18. Content</div>
+                        <div>19. Content</div>
+                        <div>20. Content</div>
+                        <div>21. Content</div>
+                        <div>22. Content</div>
+                        <div>23. Content</div>
+                        <div>24. Content</div>
+                        <div>25. Content</div>
+                        <div>26. Content</div>
+                        <div>27. Content</div>
+                        <div>28. Content</div>
+                        <div>29. Content</div>
+                        <div>30. Content</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- toolbar -->
+    <!-- <div> -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <div>
+            <mat-form-field class="chat-input">
+                <input matInput #inputMessage name="inputMessage" maxlength="200" placeholder="Type your message and press ENTER to send" [(ngModel)]="messageContent" (keyup.enter)="(inputMessage.value.length > 0) && sendMessage()">
+                <mat-hint align="end">{{inputMessage.value.length}}/140</mat-hint>
+            </mat-form-field>
+            <mat-icon [style.display]="inputMessage.value.length<=0 ? 'none' : 'inline'" (click)="sendMessage()">send</mat-icon>
+            <!-- <button mat-raised-button color="primary" [disabled]="inputMessage.value.length<=0" (click)="sendMessage()">Send</button> -->
+        </div>
+    </div>
+
+</div>

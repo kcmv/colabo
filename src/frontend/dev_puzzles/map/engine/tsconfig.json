@@ -15,12 +15,13 @@
         "listFiles": true,
         "lib": [
             "es6",
-            "dom"
+            "dom",
+            "webworker"
         ]
     },
     "allowSyntheticDefaultImports": false,
     "files": [
-        "index.ts"
+        "lib/map-engine.worker.ts"
     ],
     "include": [
     ],
