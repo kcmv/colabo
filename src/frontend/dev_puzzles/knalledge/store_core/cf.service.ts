@@ -48,6 +48,10 @@ export class CFService {
  */
   protected extractVO<T extends VO>(sd: ServerData, typeT: IConstructor<T>): T {
     //let vo: T = new typeT();
+    // console.log('extractVO',sd);
+    if(!sd.success){
+      console.warn('[CFService::extractVO] serverData.success = false');
+    }
     let vo: T = typeT.factory(sd.data);
     vo.state = VO.STATE_SYNCED;
     return vo;

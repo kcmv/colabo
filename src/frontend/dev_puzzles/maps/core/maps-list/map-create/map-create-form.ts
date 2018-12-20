@@ -6,6 +6,7 @@ import { map, filter, startWith } from 'rxjs/operators';
 
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
+import {MatSnackBar} from '@angular/material';
 
 // import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
@@ -41,7 +42,8 @@ export class MapCreateForm implements OnInit {
     private knalledgeMapService:KnalledgeMapService,
     private rimaAAAService: RimaAAAService,
     private bottomSheetRef: MatBottomSheetRef<MapCreateForm>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: MapCreateFormData
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: MapCreateFormData,
+    public snackBar: MatSnackBar
   ) {
         this.callback = data.callback;
         // this.mdDialog.show();
@@ -84,10 +86,14 @@ export class MapCreateForm implements OnInit {
   }
 
   cancel():void {
-    this.form.reset();
+    this.finish(null);
+  }
+
+  finish(result:KMap):void{
+    this.form.reset(); //cleaning the form for the next use
     this.bottomSheetRef.dismiss();
     if(this.callback){
-        this.callback(null);
+        this.callback(result);
     }
   }
 
@@ -104,17 +110,16 @@ export class MapCreateForm implements OnInit {
     map.iAmId = this.rimaAAAService.getUserId();
 
     this.knalledgeMapService.create(map).subscribe(this.mapCreated.bind(this));
-    this.form.reset(); //cleaning the form for the next use
   }
 
   mapCreated(map:KMap):void{
     if(!map){
         console.error('[MapCreateForm] error in creation');
         //TODO: see if we want to show notification here, or handle it by 'callback'
+        this.snackBar.open("Map Creation Failed", "Try Again", {duration: 2000});
     }
-    this.bottomSheetRef.dismiss();
-    if(this.callback){
-        this.callback(map);
+    else{
+       this.finish(map);
     }
   }
 
