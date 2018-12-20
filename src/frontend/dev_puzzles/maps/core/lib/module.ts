@@ -8,7 +8,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MapCreateForm} from '../maps-list/map-create/map-create-form';
 import 'hammerjs';
 
-import {MatBottomSheet, MatBottomSheetModule} from '@angular/material';
+import {
+  // MatBottomSheet, 
+  MatBottomSheetModule} from '@angular/material';
 
 import { FormsModule } from '@angular/forms';
 
@@ -17,15 +19,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
 import {RimaAaaModule} from '@colabo-rima/f-aaa/module';
-import { BottomSheetOverviewExample, BottomSheetOverviewExampleSheet} from '../maps-list/bottom-sheet-overview-example';
+// import { BottomSheetOverviewExample, BottomSheetOverviewExampleSheet} from '../maps-list/bottom-sheet-overview-example';
 
 var moduleDeclarations:any[] = [
   //  components classes:
   MapsListComponent,
-  MapCreateForm,
-  // MatBottomSheetContainer,
-  BottomSheetOverviewExample,
-  BottomSheetOverviewExampleSheet
+  MapCreateForm
+  // BottomSheetOverviewExample,
+  // BottomSheetOverviewExampleSheet
 ];
 
 var moduleImports: any[] = [
@@ -39,23 +40,20 @@ var moduleImports: any[] = [
 
     // // Material
     BrowserAnimationsModule,
-  MatBottomSheetModule
+    MatBottomSheetModule
 ];
 
 @NgModule({
     declarations: moduleDeclarations,
     imports: moduleImports,
     // exports: moduleImports.concat(moduleDeclarations)
-    exports: moduleDeclarations,//.concat([MatBottomSheetContainer]),
+    exports: moduleDeclarations,
     providers: [ //service classes this module exports:
-      MatBottomSheet,
-      // MatBottomSheetContainer
+      
     ],
     entryComponents: [
-      // MatBottomSheet
-      // MapCreateForm,
-      // MatBottomSheetContainer,
-      BottomSheetOverviewExampleSheet
+      MapCreateForm, //https://material.angular.io/components/bottom-sheet/overview#configuring-bottom-sheet-content-via-code-entrycomponents-code-
+      // BottomSheetOverviewExampleSheet //https://material.angular.io/components/bottom-sheet/overview#configuring-bottom-sheet-content-via-code-entrycomponents-code-
       
   ]
 })

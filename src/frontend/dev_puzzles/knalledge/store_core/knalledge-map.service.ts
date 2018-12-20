@@ -168,7 +168,14 @@ export class KnalledgeMapService extends CFService{
       result = this.http.post<ServerData>(this.apiUrl, kMapForServer, httpOptions)
       .pipe(
         //tap((mapS: KMap) => console.log(`CREATED 'map'${mapS}`)), // not needed - it's just for logging
-        map(mapS => this.extractVO<KMap>(mapS,KMap)),
+        map((mapS:ServerData):KMap => {
+          if(mapS.success){
+            return this.extractVO<KMap>(mapS,KMap)
+          }
+          else{
+            return null;
+          }
+        }),
         catchError(this.handleError<KMap>('KnalledgeMapService::create'))
       );
 
