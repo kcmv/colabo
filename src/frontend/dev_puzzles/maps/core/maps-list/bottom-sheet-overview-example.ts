@@ -10,7 +10,9 @@ import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
   styleUrls: ['bottom-sheet-overview-example.css'],
 })
 export class BottomSheetOverviewExample {
-  constructor(private bottomSheet: MatBottomSheet) {}
+  constructor(
+    private bottomSheet: MatBottomSheet
+    ) {}
 
   openBottomSheet(): void {
     this.bottomSheet.open(BottomSheetOverviewExampleSheet);
@@ -22,7 +24,9 @@ export class BottomSheetOverviewExample {
   templateUrl: 'bottom-sheet-overview-example-sheet.html',
 })
 export class BottomSheetOverviewExampleSheet {
-  constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>) {}
+  constructor(
+    private bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>
+    ) {}
 
   openLink(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();

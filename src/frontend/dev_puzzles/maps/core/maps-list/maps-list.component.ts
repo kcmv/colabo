@@ -3,8 +3,8 @@ import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
 import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
-// import {MatBottomSheet} from '@angular/material';
-import {MapCreateForm} from './map-create/map-create-form';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
+import {MapCreateForm, MapCreateFormData} from './map-create/map-create-form';
 
 @Component({
   selector: 'maps-list',
@@ -29,7 +29,7 @@ export class MapsListComponent implements OnInit {
   constructor(
     private knalledgeMapService:KnalledgeMapService,
     private rimaAAAService:RimaAAAService,
-    // private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet
   ) { }
 
   get mapsNo():number{
@@ -63,10 +63,11 @@ export class MapsListComponent implements OnInit {
         mapToCreate.participants = [this.rimaAAAService.getUserId()];
         //this.mapToCreate.participants = this.rimaAAAService.getWhoAmI().displayName;
         this.modeCreating = true;
-        this.mapCreateForm.show(null, this.mapCreateFormClosed.bind(this));
+        // this.mapCreateForm.show(null, this.mapCreateFormClosed.bind(this));
         
         // this.mapFormShow(this.mapToCreate);
-        // this.bottomSheet.open(MapCreateForm);
+        let mapCreateFormData: MapCreateFormData = {map:null, callback:this.mapCreateFormClosed.bind(this)};
+        let bottomSheetRef:MatBottomSheetRef = this.bottomSheet.open(MapCreateForm, { data: mapCreateFormData, disableClose: true });
     }else{
       window.alert("You must be logged in to create a map");
     }
@@ -74,6 +75,7 @@ export class MapsListComponent implements OnInit {
 
   public mapCreateFormClosed(map:KMap):void{
     this.modeCreating = false;
+    console.log('mapCreateFormClosed',map);
     if(map){
       this.mapsData.data.push(map);
       this.setUpSourceData();
