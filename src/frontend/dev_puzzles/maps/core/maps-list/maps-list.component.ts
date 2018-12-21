@@ -28,7 +28,7 @@ export class MapsListComponent implements OnInit {
   public modeEditing = false;
   protected creators:any = {};
 
-  displayedColumns: string[] = ['id', 'name', 'creator', 'participants', 'created', 'actions'];
+  displayedColumns: string[] = [];
   mapsData:MatTableDataSource<KMap> = null;
 
 
@@ -37,7 +37,12 @@ export class MapsListComponent implements OnInit {
     private rimaAAAService:RimaAAAService,
     private bottomSheet: MatBottomSheet,
     public snackBar: MatSnackBar
-  ) { }
+  ) { 
+    this.displayedColumns = [ 'name', 'creator', 'created', 'actions']; //'participants',
+    if(this.rimaAAAService.isAdmin()){
+      this.displayedColumns.unshift('id');
+    }
+  }
 
   get mapsNo():number{
     return this.mapsData !== null ? this.mapsData.data.length : 0;
