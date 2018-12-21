@@ -50,6 +50,7 @@ export class MapCreateForm implements OnInit {
         // this.mapFormActive = false;
         // setTimeout(() => this.mapFormActive = true, 0.1);
         // this.model = map;
+
         this.bottomSheetRef.afterDismissed().subscribe(this.dissmissed.bind(this));
         this.form = fb.group({
             // name: ['', [Validators.required,
@@ -57,7 +58,8 @@ export class MapCreateForm implements OnInit {
             // ]],
         //   "email": ['', [Validators.required, Validators.email]],
             "name":["", [Validators.required, Validators.minLength(2)]],
-            "isPublic":[false]
+            "isPublic":[false],
+            // "template":[this.templates[0]],
         //   "password":["", [Validators.required, Validators.minLength(3)]]
         });
 
@@ -75,6 +77,20 @@ export class MapCreateForm implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+
+  get templates():any[]{
+    return [
+      {'id':'plain-map',
+      'name':'Plain Map'},
+      {'id':'co-writing',
+      'name':'Collective Creative Writing'}
+    ]
+  }
+
+  templateChanged():void{
+
   }
 
   dissmissed():void{
