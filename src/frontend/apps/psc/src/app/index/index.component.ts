@@ -35,4 +35,8 @@ export class IndexComponent implements OnInit {
     this.rimaAAAService.logOut();
   }
 
+  get isModerator(){
+    return this.rimaAAAService.isModerator();  
+  }
+
 }

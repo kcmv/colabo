@@ -202,6 +202,11 @@ export class RimaAAAService extends CFService{
     ].includes(this.getUserId());
   }
 
+  public isModerator():boolean{
+    //TODO: add non-admins too
+    return this.isAdmin();
+  }
+
   public getUser():KNode{
       if(this.loggedInUser) return this.loggedInUser;
       else return null;

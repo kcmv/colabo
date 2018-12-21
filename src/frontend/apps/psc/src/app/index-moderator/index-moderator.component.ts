@@ -25,6 +25,10 @@ export class IndexModeratorComponent implements OnInit {
     return this.rimaAAAService.getUser() !== null;
   }
 
+  get isModerator(){
+    return this.rimaAAAService.isModerator();  
+  }
+
   get loggedUser(): KNode {
     return this.rimaAAAService.getUser();
   }

@@ -20,60 +20,62 @@
 
     <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px">
         <!--TODO: to make localized (in Serbian) form field names and info -->
-        <div *ngIf="isLoggedIn">
-            <p>
-                Hi,
-                <b>{{loggedUser.dataContent.firstName}}</b>. <img class='user-avatar' src='{{userAvatar() | async}}' /><br/> You can:
-            </p>
-            <p>
-                <a routerLink="/moderation-panel">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Moderation Panel</button>
-                </a>
-            </p>
-            <p>
-                <a routerLink="/map-new">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">New Map</button>
-                </a>
-            </p>
-            <p>
-                <a routerLink="/map">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Map</button>
-                </a>
-            </p>
-            <!-- <p>
-                <a routerLink="/insights">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Insights</button>
-                </a>
-            </p> -->
-            <p>
-                <a routerLink="/cwc">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Coaching</button>
-                </a>
-            </p>
-            <p>
-                <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;" (click)="snack()">Snack</button>
-            </p>
-            <p>
-            </p>
-            <hr/>
-
+        <div *ngIf="isLoggedIn; else loggedOut">
+            <div *ngIf="isModerator; else noModerator">
+                <p>
+                    Hi,
+                    <b>{{loggedUser.dataContent.firstName}}</b>. <img class='user-avatar' src='{{userAvatar() | async}}' /><br/> You can:
+                </p>
+                <p>
+                    <a routerLink="/moderation-panel">
+                        <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Moderation Panel</button>
+                    </a>
+                </p>
+                <p>
+                    <a routerLink="/map-new">
+                        <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">New Map</button>
+                    </a>
+                </p>
+                <p>
+                    <a routerLink="/map">
+                        <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Map</button>
+                    </a>
+                </p>
+                <!-- <p>
+                    <a routerLink="/insights">
+                        <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Insights</button>
+                    </a>
+                </p> -->
+                <p>
+                    <a routerLink="/cwc">
+                        <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Coaching</button>
+                    </a>
+                </p>
+                <p>
+                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;" (click)="snack()">Snack</button>
+                </p>
+            </div>
+            <ng-template #noModerator>
+                You have to be a moderator to access this page
+            </ng-template>
         </div>
-
-        <div *ngIf="!isLoggedIn">
-            <p>
-                If you <b>have account</b> please:
-            </p>
-            <a routerLink="/rima-login">
-                <button mat-raised-button color="primary">Login</button>
-            </a>
-
-            <p>
-                or register first if you <b>do not have account:</b>
-            </p>
-            <a routerLink="/rima-register">
-                <button mat-raised-button color="primary">Register</button>
-            </a>
-
-        </div>
+        <ng-template #loggedOut>
+            <div style="margin: 15px;">
+                <p>
+                    To access this page you need:
+                </p>
+                <a routerLink="/rima-login">
+                    <button mat-raised-button color="primary">Login</button>
+                </a>
+    
+                <p>
+                    or
+                </p>
+                <a routerLink="/rima-register">
+                    <button mat-raised-button color="primary">Register</button>
+                </a>
+    
+            </div>
+        </ng-template>
     </div>
 </div>

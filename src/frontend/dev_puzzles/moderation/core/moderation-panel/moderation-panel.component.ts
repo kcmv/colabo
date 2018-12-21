@@ -22,6 +22,10 @@ export class ModerationPanelComponent implements OnInit {
     return this.rimaAAAService.getUser() !== null;
   }
 
+  get isModerator(){
+    return this.rimaAAAService.isModerator();  
+  }
+
   // userImg():string{
   //   return 'assets/images/user_icons/performer.jpg';
   // }
