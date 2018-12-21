@@ -20,7 +20,19 @@ export class MapBuilder{
         return this;
     }
     
-    buildMap(){
+    buildMap(): MapBuilder{
+        this.layoutMap();
+        this.drawMap();
+        return this;
+    }
+    
+    layoutMap():MapBuilder{
+        
+        return this;
+    }
+
+    drawMap(): MapBuilder{
+        let that: MapBuilder = this;
         let nodesD3 = this.contentHtml.selectAll("div.map-node").data(this.mapContent.nodes);
 
         nodesD3
@@ -32,16 +44,19 @@ export class MapBuilder{
             .style('top', function (d, i) { return i * 35 + "px"; })
             .style('left', function (d, i) { return i * 5 + "px"; })
             .style('width', function (d) { return 200 + "px"; })
-            .style('height', function (d) { return 25 + "px"; })
+            // .style('height', function (d) { return 25 + "px"; })
             .style('border', function (d) { return true ? 'black solid 2px' : 'none'; })
             .style('background-color', function (d) { return true ? 'yellow' : 'gray'; }) //'rgba(200, 200, 220)') //'rgba(200, 200, 220, 0.3)')
             .html(function (d) {
                 // return this.showActionNamesonFlow ? (d.name + this.noCh) : '';
                 return d.name;
             })
-            .on("mouseover", function (d, i) { this.nodeOver(d, i, this); })
-            .on("mouseout", function (d, i) { this.nodeOut(d, i, this); })
-            .on("click", function (d, i) { this.nodeClick(d, i, this); })
+            .on("mouseover", function (d, i, dataArray) { 
+                that.nodeOver(d, i, this);
+            })
+            .on("mouseout", function (d, i, dataArray) { that.nodeOut(d, i, this); })
+            .on("click", function (d, i, dataArray) { that.nodeClick(d, i, this); })
+        return this;
     }
 
     nodeOver(d, i, object: any): void {

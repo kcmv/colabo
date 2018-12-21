@@ -1,6 +1,6 @@
 const MODULE_NAME:string = "@colabo-topichat/f-talk";
 
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import {Observable} from 'rxjs';
 import * as d3 from 'd3';
@@ -14,7 +14,8 @@ import { MapBuilder } from '../map-builder';
 @Component({
   selector: 'map-engine-form',
   templateUrl: './map-engine.component.html',
-  styleUrls: ['./map-engine.component.css', '../map.scss']
+  styleUrls: ['./map-engine.component.css', '../map.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class MapEngineForm implements OnInit, AfterViewInit {
