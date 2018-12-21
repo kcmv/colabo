@@ -9,3 +9,15 @@ table {
 .header{
     text-align: center;
 }
+
+.button{
+    margin: 2px;
+}
+
+.action_icon{
+    margin: 1px;
+}
+
+.vertical-middle{
+    vertical-align: middle
+}

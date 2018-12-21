@@ -48,15 +48,14 @@ export class KnalledgeNodeService extends CFService{
    */
   getById(id:string, callback?:Function): Observable<KNode>
   {
-    console.log('getById('+id+')');
+    // console.log('getById('+id+')');
     let url: string = this.apiUrl+'one/'+this.defaultAction+'/'+id;
     let result:Observable<KNode> = this.http.get<ServerData>(url)
       .pipe(
         map(node => this.extractVO<KNode>(node,KNode)),
         catchError(this.handleError('KnalledgeNodeService::getById', null))
       );
-    console.log('result:');
-    console.log(result);
+    // console.log('result:',result);
     if(callback){result.subscribe(node => callback(node));}
     return result;
   }

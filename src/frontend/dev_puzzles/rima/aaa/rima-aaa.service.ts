@@ -102,25 +102,46 @@ export class RimaAAAService extends CFService{
     return user !== null ? user.name : 'not logged in';
   }
 
+  static userAvatarObservers:any[] = [];//Observer
+
+  static userAvatarSubscriber(observer) { //:Observer) {
+    console.log('userAvatarSubscriber');
+    RimaAAAService.userAvatarObservers.push(observer);
+    return {unsubscribe() {}};
+  }
+
   public static userAvatar(user:KNode):Observable<string>{
     let avatar:string = null;
     let result:Observable<string>;
     if(!user) {
       avatar = RimaAAAService.AVATAR_EMPTY;
     }else if('dataContent' in user && 'avatar' in user.dataContent){
-      return of(user.dataContent.avatar);
+      avatar = user.dataContent.avatar;
     }else{
       avatar = 'https://fv.colabo.space/assets/images/avatars/user.avatar-' + user._id + '.jpg';
       if(!('dataContent' in user)){
         user['dataContent'] = {};
       }
       user.dataContent.avatar = avatar;
+      
+      /*
+      //TO FINISH:
+
+      //checking if the avatar image exists:
+      result = new Observable(RimaAAAService.userAvatarSubscriber);
+      //we're using the last userAvatarObserver pushed by userAvatarSubscriber 
+      // if(!result)
+      let userAvatarObserver:any = RimaAAAService.userAvatarObservers[RimaAAAService.userAvatarObservers.length-1];
       RimaAAAService.checkImageExists(avatar, 
       function(result:boolean){
         if(!result){
           user.dataContent.avatar = RimaAAAService.AVATAR_EMPTY;
+          userAvatarObserver.next(RimaAAAService.AVATAR_EMPTY);
         }
+        userAvatarObserver.complete();
     });
+      return result;
+      */
     }
     return of(avatar);
   }
@@ -167,19 +188,26 @@ export class RimaAAAService extends CFService{
   get isRegistered():boolean{
     return this._isRegistered;
   }
-  getUserId():string{
+  public getUserId():string{
       if(this.loggedInUser) return this.loggedInUser._id;
       else return null;
     //TODO: HACK:
     // return '5b4db0645381b24d03f908b6';
   }
 
-  getUser():KNode{
+  public isAdmin():boolean{
+    return [
+      '5bebb889104bee65c14402e6', //Sinisa
+      '5bebb942104bee65c14402ea' //Sasa
+    ].includes(this.getUserId());
+  }
+
+  public getUser():KNode{
       if(this.loggedInUser) return this.loggedInUser;
       else return null;
   }
 
-  getUserById(id:string):Observable<KNode>{ //TODO: not to get users from server each time, but from a local array
+  public getUserById(id:string):Observable<KNode>{ //TODO: not to get users from server each time, but from a local array
       return this.knalledgeNodeService.getById(id);
   }
 
@@ -333,8 +361,7 @@ export class RimaAAAService extends CFService{
         catchError(this.handleError<KNode>('RimaAAAService::create'))
     );
 
-    console.log('result:');
-    console.log(result);
+    console.log('result',result);
     if(callback){result.subscribe(node => callback(node));}
     return result;
   }
