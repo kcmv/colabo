@@ -14,7 +14,7 @@ import { MapBuilder } from '../map-builder';
 @Component({
   selector: 'map-engine-form',
   templateUrl: './map-engine.component.html',
-  styleUrls: ['./map-engine.component.css', '../map.scss'],
+  styleUrls: ['./map-engine.component.scss', '../map.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
@@ -27,6 +27,7 @@ export class MapEngineForm implements OnInit, AfterViewInit {
   ];
   protected mapBuilder: MapBuilder;
   contentHtml:any;
+  contentSvg:any;
 
   public messageContent:string;
   protected puzzleConfig: any;
@@ -49,7 +50,11 @@ export class MapEngineForm implements OnInit, AfterViewInit {
   
   ngAfterViewInit(){ // the component is rendered and DOM is accessible to the D3
     this.contentHtml = d3.select("#map-container").select(".content-html");
-    this.mapBuilder.setContentHtml(this.contentHtml);
+    this.contentSvg = d3.select("#map-container").select(".content-svg");
+    this.mapBuilder
+      .setContentHtml(this.contentHtml)
+      .setContentSvg(this.contentSvg);
+    
   }
   
   drawMap(mapContent: MapWithContent){

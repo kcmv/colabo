@@ -1,7 +1,33 @@
-.map-node {
-    position: absolute;
-    border-radius: 10px;
-    padding: 3px;
-    cursor: pointer;
-    opacity: 0.75;
-}
+    .content-svg {
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 2px;
+        }
+    }
+    
+    .content-html {
+        .map-node {
+            position: absolute;
+            border-radius: 10px;
+            padding: 3px;
+            cursor: pointer;
+            opacity: 0.75;
+            width: 200px;
+            // height: 25px;
+            border: none;
+            background-color: yellow;
+            &.selected {
+                border: black solid 2px;
+                background-color: gray;
+            }
+            &.unselected {
+                opacity: 0.25;
+            }
+            &.child_of_selected {
+                border: black solid 2px;
+                background-color: gray;
+                opacity: 1.0;
+            }
+        }
+    }

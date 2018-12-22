@@ -38,7 +38,8 @@
 
             <div fxFlex="0 1 calc(75%)" fxFlex.lt-md="0 1 calc(50%)" fxFlex.lt-sm="100%" style="background-color: #ddddff; height: 100%; overflow: scroll;" id="map-container">
                 <div *ngIf="!showDemoLayout" style="position: relative;">
-                    <div class="content-svg"></div>
+                    <svg class="content-svg">
+                    </svg>
                     <div class="content-html">
                     </div>
                 </div>
@@ -94,7 +95,8 @@
     <!-- toolbar -->
     <!-- <div> -->
     <div fxFlex="64px" style="overflow-y: hidden;">
-        Node: {{ node?.name}}
+        <b>Node</b>: {{ mapBuilder?.kNodeSelected?.name}}, <b>_id</b>: {{ mapBuilder?.kNodeSelected?._id}}<br/>
+        <b>iAmId:</b>: {{ mapBuilder?.kNodeSelected?.iAmId}}, <b>type:</b>: {{ mapBuilder?.kNodeSelected?.type}}
     </div>
 
 </div>
