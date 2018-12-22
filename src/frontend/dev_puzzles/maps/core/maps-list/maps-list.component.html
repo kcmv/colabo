@@ -55,21 +55,21 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> actions </th>
     <td mat-cell *matCellDef="let element" >
-      <button class='action_icon' color="primary" (click)="openMap(element)" aria-label="Open the Map" matTooltip="Open the Map"><mat-icon title="Open the Map">open_in_new</mat-icon></button>
+      <button mat-mini-fab class='action_icon' color="primary" (click)="openMap(element)" aria-label="Open the Map" matTooltip="Open the Map"><mat-icon title="Open the Map">open_in_new</mat-icon></button>
 
-      <button class='action_icon' color="primary" (click)="cloneMap(element)" aria-label="Clone the Map" matTooltip="Clone the Map" ><mat-icon title="Clone the Map">file_copy</mat-icon></button>
+      <button mat-mini-fab class='action_icon' color="primary" (click)="cloneMap(element)" aria-label="Clone the Map" matTooltip="Clone the Map" ><mat-icon title="Clone the Map">file_copy</mat-icon></button>
       <!-- <button class="btn btn-primary button_icon" aria-label="Clone the map" type="button" (click)="prepareForCloning(item); cloneDialog.show();"><i title="Clone the map" class="fa fa-files-o" aria-hidden="true"></i></button> -->
 
-      <button class='action_icon' color="primary" (click)="showParticipants(element)" aria-label="Participants" matTooltip="Participants"><mat-icon title="Participants">people</mat-icon></button>
+      <button mat-mini-fab class='action_icon' color="primary" (click)="showParticipants(element)" aria-label="Participants" matTooltip="Participants"><mat-icon title="Participants">people</mat-icon></button>
       <!-- <button class="btn btn-primary button_icon" aria-label="Map Participants" type="button" (click)="prepareForParticipants(item); participantsList.show()"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button> -->
 
-      <button class='action_icon' color="primary" (click)="exportMap(element)" aria-label="Export the Map" matTooltip="Export the Map"><mat-icon title="Export the Map">archive</mat-icon></button>
+      <button mat-mini-fab class='action_icon' color="primary" (click)="exportMap(element)" aria-label="Export the Map" matTooltip="Export the Map"><mat-icon title="Export the Map">archive</mat-icon></button>
       <!-- 
       <button class="btn btn-primary button_icon" aria-label="Export" type="button" (click)="export(item)"><i title="Export" class="fa fa-floppy-o" aria-hidden="true"></i></button>
       -->
       <span *ngIf="canIManageTheMap(element)">
-          <button class='action_icon' color="primary" (click)="editMap(element)" aria-label="Edit the Map" matTooltip="Edit the Map"><mat-icon title="Edit the Map">edit</mat-icon></button>
-          <button class='action_icon' color="primary" (click)="deleteMap(element)" aria-label="Delete the Map" matTooltip="Delete the Map"><mat-icon title="Delete the Map">delete</mat-icon></button>
+          <button mat-mini-fab class='action_icon' color="primary" (click)="editMap(element)" aria-label="Edit the Map" matTooltip="Edit the Map"><mat-icon title="Edit the Map">edit</mat-icon></button>
+          <button mat-mini-fab class='action_icon' color="primary" (click)="deleteMap(element)" aria-label="Delete the Map" matTooltip="Delete the Map"><mat-icon title="Delete the Map">delete</mat-icon></button>
 <!--         
         <button class="btn btn-primary button_icon" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></button> -->
       </span> 
