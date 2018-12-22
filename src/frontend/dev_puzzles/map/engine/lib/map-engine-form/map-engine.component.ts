@@ -30,6 +30,7 @@ export class MapEngineForm implements OnInit, AfterViewInit {
 
   public messageContent:string;
   protected puzzleConfig: any;
+  mapId:string = '58068a04a37162160341d402';
 
   constructor(
     private mapEngineService: MapEngineService,
@@ -39,7 +40,11 @@ export class MapEngineForm implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.mapEngineService.getMap().subscribe(this.drawMap.bind(this));
+    this.mapEngineService.getMap(this.mapId).subscribe(this.drawMap.bind(this));
+  }
+  
+  getMap(mapId:string){
+    this.mapEngineService.getMap(mapId).subscribe(this.drawMap.bind(this));
   }
   
   ngAfterViewInit(){ // the component is rendered and DOM is accessible to the D3

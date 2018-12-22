@@ -21,22 +21,22 @@ export class MapEngineService{
     * Initializes service
     */
   init() {
-    this.mapSubscritpion = this.knalledgeMapVoService.getNodesAndEdgesInMap('58068a04a37162160341d402');
+  }  
+
+  public getMap(mapId:string):Observable<any>{
+    this.mapSubscritpion = this.knalledgeMapVoService.getNodesAndEdgesInMap(mapId);
     this.mapSubscritpion.subscribe(this.mapReceived.bind(this));
     if ((<any>window).Worker) {
       var myWorker = new Worker('assets/workers/map-engine.worker.js');
       myWorker.postMessage("Привет работник!");
       console.log('Message posted to worker');
-      
+
       myWorker.onmessage = function (e) {
         let result = e.data;
         console.log('Message received from worker: ', result);
         myWorker.terminate();
       };
     }
-  }  
-
-  public getMap():Observable<any>{
     return this.mapSubscritpion;
   }
 
