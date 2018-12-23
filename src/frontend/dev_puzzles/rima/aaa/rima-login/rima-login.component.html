@@ -37,16 +37,19 @@
                 <p>
                     <mat-form-field class="example-full-width">
                         <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
+                        <mat-error class="error-message">incorrect e-mail</mat-error>
                     </mat-form-field>
                 </p>
                 <p>
                     <mat-form-field class="example-full-width">
-                        <input matInput type="password" placeholder="Password" formControlName="password" value="">
+                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password" value="">
+                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        <mat-error class="error-message">must be 3 characters at least</mat-error>
                     </mat-form-field>
                 </p>
                 <p>
-                    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Login</button>
-                    <button mat-raised-button (click)="reset()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!isValid()">Login</button>
+                    <button type='button' mat-raised-button (click)="reset()">Clear</button>
                 </p>
             </form>
             <!-- Ако немаш налог, прво се <a routerLink="/rima-register">региструј</a>! -->

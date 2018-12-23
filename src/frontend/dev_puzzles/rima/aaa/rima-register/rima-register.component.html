@@ -18,25 +18,30 @@
                     <mat-form-field class="full-width">
                         <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
                         <!-- TODO like this: https://material.angular.io/components/checkbox/examples -->
-                        <mat-error class="error-message">E-mail је у неисправном формату</mat-error>
+                        <mat-error class="error-message">incorrect e-mail</mat-error>
+                        <!-- Неисправан E-mail -->
                     </mat-form-field>
                 </p>
                 <p>
                     <mat-form-field class="full-width">
                         <input matInput type="text" placeholder="First Name" formControlName="firstName" value="">
-                        <mat-error class="error-message">Име мора бити дужине барем 2 карактера</mat-error>
+                        <mat-error class="error-message">must be 2 characters at least</mat-error>
+                        <!-- Име мора бити дужине барем 2 карактера -->
                     </mat-form-field>
                 </p>
                 <p>
                     <mat-form-field class="full-width">
                         <input matInput placeholder="Last Name" formControlName="lastName" value="">
-                        <mat-error class="error-message">Презиме мора бити дужине барем 2 карактера</mat-error>
+                        <mat-error class="error-message">must be 2 characters at least</mat-error>
+                        <!-- Презиме мора бити дужине барем 2 карактера -->
                     </mat-form-field>
                 </p>
                 <p>
                     <mat-form-field class="full-width">
-                        <input matInput type="password" placeholder="Password" formControlName="password" value="">
-                        <mat-error class="error-message">Шифра мора бити дужине барем 2 карактера</mat-error>
+                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password" value="">
+                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        <mat-error class="error-message">must be 3 characters at least</mat-error>
+                        <!-- Шифра мора бити дужине барем 2 карактера -->
                     </mat-form-field>
                 </p>
                 <p>
@@ -65,7 +70,7 @@
                         <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || contactingServer">Register</button>
                         <!-- <button mat-raised-button (click)="partialUpdate()">Partial Update</button>
         <button mat-raised-button (click)="fullUpdate()">Full Update</button> -->
-                        <button mat-raised-button (click)="reset()">Clear</button>
+                        <button type="button" mat-raised-button (click)="reset()">Clear</button>
                     </p>
             </form>
             If you already have account, please <a routerLink="/rima-login">Login</a> instead!

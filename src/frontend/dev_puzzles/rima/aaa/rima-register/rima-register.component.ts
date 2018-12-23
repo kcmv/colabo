@@ -20,6 +20,7 @@ export class RimaRegisterComponent implements OnInit {
   public selectedCountry:String;
   public contactingServer:boolean;
   form: FormGroup;
+  hide = true; //for password visibility
 
   firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(2)]); //an exmaple of defining a form control as independet
 
@@ -42,11 +43,14 @@ export class RimaRegisterComponent implements OnInit {
         //     value.firstName = value.firstName.toUpperCase();
         //     return value;
         // })
-        .pipe(filter((value) => this.form.valid))
+        .pipe(filter((value) => this.form.valid)) //validating while filling the form
+        /* for testing - commented now to protect user's sensitive login data:
         .subscribe((value) => {
            console.log("Model Driven Form valid value: vm = ",
                        JSON.stringify(value));
-        });
+        })
+        */
+        ;
       //TODO: check if the user's email is already existing (offer sign-in instead and data updating)
   }
 
@@ -82,14 +86,19 @@ export class RimaRegisterComponent implements OnInit {
 
   onSubmit( ){
     console.log("model-based form submitted");
-    console.log(this.form);
-    let userData:UserData = new UserData();
-    userData.firstName = this.form.value.firstName;
-    userData.lastName = this.form.value.lastName;
-    userData.email = this.form.value.email;
-    userData.password = this.form.value.password;
-    this.contactingServer = true;
-    this.rimaAAAService.createNewUser(userData, this.userCreated.bind(this));
+    // TEST-carefully! User's PRIVATE DATA: console.log(this.form);
+    if(this.form.valid)
+    {
+      let userData:UserData = new UserData();
+      userData.firstName = this.form.value.firstName;
+      userData.lastName = this.form.value.lastName;
+      userData.email = this.form.value.email;
+      userData.password = this.form.value.password;
+      this.contactingServer = true;
+      this.rimaAAAService.createNewUser(userData, this.userCreated.bind(this));
+    }else{
+      console.log('cannot submit! The form is not valid');
+    }
   }
 
   userCreated():void{

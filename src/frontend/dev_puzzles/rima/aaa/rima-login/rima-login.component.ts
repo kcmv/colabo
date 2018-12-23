@@ -5,6 +5,7 @@ import {UserData} from '@colabo-rima/f-aaa/userData';
 import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import * as config from '@colabo-utils/i-config';
 import {Observable} from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rima-login',
@@ -14,6 +15,7 @@ import {Observable} from 'rxjs';
 export class RimaLoginComponent implements OnInit {
 
   form: FormGroup;
+  hide = true; //for password visibility
 
   constructor(
     fb: FormBuilder,
@@ -23,9 +25,13 @@ export class RimaLoginComponent implements OnInit {
         "email": ['', [Validators.required, Validators.email]],
         "password":["", [Validators.required, Validators.minLength(3)]]
     });
+
+    this.form.valueChanges
+    .pipe(filter((value) => this.form.valid)) //validating while filling the form
   }
 
   ngOnInit() {
+    this.reset();
   }
 
   // get avatarImage():string{
@@ -35,8 +41,13 @@ export class RimaLoginComponent implements OnInit {
     return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
   }
 
+  isValid():boolean{
+    return this.form.valid;
+  }
+  
+
   reset() {
-      this.form.reset();
+    this.form.reset();
   }
 
   get isLoggedIn():boolean{
@@ -64,10 +75,15 @@ export class RimaLoginComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.form);
-    let userData:UserData = new UserData();
-    userData.email = this.form.value.email;
-    userData.password = this.form.value.password;
-    this.rimaAAAService.checkUser(userData).subscribe(this.userChecked.bind(this));;
+    // TEST-carefully! User's PRIVATE DATA: console.log(this.form);
+    if(this.form.valid)
+    {
+      let userData:UserData = new UserData();
+      userData.email = this.form.value.email;
+      userData.password = this.form.value.password;
+      this.rimaAAAService.checkUser(userData).subscribe(this.userChecked.bind(this));;
+    }else{
+      console.log('cannot submit! The form is not valid');
+    }
   }
 }
