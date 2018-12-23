@@ -11,7 +11,7 @@
         <p>
             <mat-form-field class="full-width">
                 <input matInput type="text" placeholder="Map Name" formControlName="name" value="">
-                <mat-error class="error-message">Incorrect Map Name</mat-error>
+                <mat-error class="error-message">must be 2 characters at least</mat-error>
             </mat-form-field>
         </p>
 <!-- 
@@ -27,9 +27,8 @@
         <p>
             <!-- <mat-form-field class="full-width"> -->
             <mat-slide-toggle matInput formControlName="isPublic" aria-label="public">
-                {{isPublic() ? 'public Map' :
-                'private Map'}}
-            </mat-slide-toggle>
+                {{isPublic() ? 'public Map' : 'private Map'}} <span *ngIf='!isPublic()'><mat-icon>lock</mat-icon></span>
+            </mat-slide-toggle> 
                 <!-- <mat-slide-toggle (change)="onToggling()" class="example-margin" [checked]="getState()">{{getState() ? 'selected' : 'not selected'}}</mat-slide-toggle> -->
                 <!-- OLD <slide-toggle [(checked)]="model.isPublic" aria-label="public">public</slide-toggle> -->
             <!-- </mat-form-field> -->

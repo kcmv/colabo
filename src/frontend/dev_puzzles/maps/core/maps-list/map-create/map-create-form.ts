@@ -79,6 +79,14 @@ export class MapCreateForm implements OnInit {
   ngOnInit() {
   }
 
+  labelPublic():string{
+    return this.form.value.isPublic ? 'public Map' : 'private Map <mat-icon>lock</mat-icon>'
+  }
+
+  isPublic():boolean{
+      return this.form.value.isPublic;
+  }
+
 
   get templates():any[]{
     return [
@@ -113,19 +121,20 @@ export class MapCreateForm implements OnInit {
     }
   }
 
-  isPublic():boolean{
-      return this.form.value.isPublic;
-  }
-
   onSubmit( ){
-    console.log("model-based form submitted");
-    console.log(this.form);
-    let map:KMap = new KMap();
-    map.name = this.form.value.name;
-    map.isPublic = this.form.value.isPublic;
-    map.iAmId = this.rimaAAAService.getUserId();
+    if(this.form.valid)
+    {
+      console.log("model-based form submitted");
+      console.log(this.form);
+      let map:KMap = new KMap();
+      map.name = this.form.value.name;
+      map.isPublic = this.form.value.isPublic;
+      map.iAmId = this.rimaAAAService.getUserId();
 
-    this.knalledgeMapService.create(map).subscribe(this.mapCreated.bind(this));
+      this.knalledgeMapService.create(map).subscribe(this.mapCreated.bind(this));
+    }else{
+      console.log('cannot submit! The form is not valid');
+    }
   }
 
   mapCreated(map:KMap):void{
