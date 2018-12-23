@@ -17,8 +17,9 @@
             // height: 25px;
             border: none;
             background-color: yellow;
+            border: orange solid 2px;
             &.selected {
-                border: black solid 2px;
+                border: darkslategray solid 2px;
                 background-color: gray;
             }
             &.unselected {

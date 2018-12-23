@@ -25,7 +25,7 @@ export class MapEngineForm implements OnInit, AfterViewInit {
   public showDemoLayout:boolean = false;
   public messages = [
   ];
-  protected mapBuilder: MapBuilder;
+  public mapBuilder: MapBuilder;
   contentHtml:any;
   contentSvg:any;
 
