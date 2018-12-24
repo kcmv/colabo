@@ -33,6 +33,10 @@
                     <mat-icon [style.display]="inputMapId.value.length<=0 ? 'none' : 'inline'" (click)="getMap(inputMapId.value)">send</mat-icon>
                     <!-- <button mat-raised-button color="primary" [disabled]="inputMapId.value.length<=0" (click)="getMap(inputMapId.value)">Send</button> -->
                 </div>
+                <div>
+                    <b>Node Content:</b><br/>
+                    <hr/> {{mapBuilder?.kNodeSelected?.dataContent?.property}}
+                </div>
 
             </div>
 

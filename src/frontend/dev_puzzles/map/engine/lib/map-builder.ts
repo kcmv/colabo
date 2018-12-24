@@ -2,17 +2,24 @@ import * as d3 from 'd3';
 
 import { MapWithContent, KMap, KNode, KEdge } from '@colabo-knalledge/f-store_core';
 
+const NODE_WIDTH_CONTENT: number = 200;
+const NODE_WIDTH: number = 300;
+const NODE_HEIGHT_CONTENT: number = 25;
+const NODE_HEIGHT: number = 18;
+
 export class MapBuilder{
+    static NODE_ID:number = 0;
     contentHtml: any;
     contentSvg: any;
     mapContent: MapWithContent;
     protected map:KMap;
     protected nodes:KNode[];
     protected edges:KEdge[];
+    protected rootNode: KNode;
     protected layoutNodes:any[];
     protected layoutEdges:any[];
     protected dataRootNode: any;
-    protected kNodeSelected: KNode;
+    public kNodeSelected: KNode;
 
     protected tree:any;
 
@@ -53,7 +60,29 @@ export class MapBuilder{
             }
         }
         return edges;
-    };
+    }
+    
+    _hasParent(node:KNode, edgeType?:string) {
+        for (var i in this.edges) {
+            var edge = this.edges[i];
+            if (node._id === edge.targetId) {
+                if (typeof edgeType === 'undefined' || edge.type === edgeType) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    _getFreeHangingNodes(): KNode[] {
+        const freeHangingNodes: KNode[] = [];
+        for (var i: number = 0; i < this.nodes.length; i++) {
+            if (!this._hasParent(this.nodes[i]) && this.nodes[i]._id !== this.rootNode._id) {
+                freeHangingNodes.push(this.nodes[i]);
+            }
+        }
+        return freeHangingNodes;
+    }
 
     setContentHtml(contentHtml: any): MapBuilder{
         this.contentHtml = contentHtml;
@@ -70,10 +99,41 @@ export class MapBuilder{
         this.map = this.mapContent.map;
         this.nodes = this.mapContent.nodes;
         this.edges = this.mapContent.edges;
+        this.rootNode = this._getNodeFromId(this.map.rootNodeId);
+        this.integrateMissingNodes();
+        return this;
+    }
+    
+    integrateMissingNodes(): MapBuilder {
+        const missingNodesNode:KNode = new KNode();
+        missingNodesNode.name = "FREE HANGING NODES";
+        missingNodesNode._id = "AUTO_GENERATED_"+MapBuilder.NODE_ID++;
+        this.nodes.push(missingNodesNode);
+        
+        const missingNodesEdge:KEdge = new KEdge();
+        missingNodesEdge.name = "FREE HANGING NODES";
+        missingNodesEdge._id = "AUTO_GENERATED_" + MapBuilder.NODE_ID++;
+        missingNodesEdge.sourceId = this.rootNode._id;
+        missingNodesEdge.targetId = missingNodesNode._id;
+        this.edges.push(missingNodesEdge);
+        
+        const freeHangingNodes = this._getFreeHangingNodes();
+        for(let i:number=0; i<freeHangingNodes.length; i++){
+            const freeHangingNode = freeHangingNodes[i];
+            const freeHangingNodeEdge: KEdge = new KEdge();
+            freeHangingNodeEdge.name = "FREE HANGING NODE_EDGE";
+            freeHangingNodeEdge._id = "AUTO_GENERATED_" + MapBuilder.NODE_ID++;
+            freeHangingNodeEdge.sourceId = missingNodesNode._id;
+            freeHangingNodeEdge.targetId = freeHangingNode._id;
+            this.edges.push(freeHangingNodeEdge);            
+        }
+
         return this;
     }
     
     buildMap(): MapBuilder{
+        this.contentSvg.selectAll('path.link').remove();
+        this.contentHtml.selectAll("div.map-node").remove();
         return this.layoutMap()
             .drawMapNodes()
             .drawMapEdges();
@@ -94,11 +154,10 @@ export class MapBuilder{
     layoutMap():MapBuilder{
         const width:number = 1500;
         const height:number = 1000;
-        this.tree = d3.tree().size([width, height]);
-        const map:KMap = this.mapContent.map;
-        const nodes:KNode[] = this.mapContent.nodes;
-        const rootNode:KNode = this._getNodeFromId(map.rootNodeId);
-        this.dataRootNode = d3.hierarchy(rootNode, this.getChildren.bind(this));
+        const nodeSize: number[] = [NODE_HEIGHT, NODE_WIDTH];
+        // this.tree = d3.tree().size([width, height]);
+        this.tree = d3.tree().nodeSize(nodeSize);
+        this.dataRootNode = d3.hierarchy(this.rootNode, this.getChildren.bind(this));
         this.dataRootNode.y0 = width / 2;
         this.dataRootNode.x0 = 0;
         this.layoutMapUpdate(this.dataRootNode)
@@ -111,9 +170,44 @@ export class MapBuilder{
         return this;
     }
     
-    layoutMapUpdateContainers(): MapBuilder {
-        const width = 1000;
-        const height = 1000;
+    moveNodesToPositiveSpace(): MapBuilder{
+        var minX = 0,
+            maxX = 0,
+            minY = 0,
+            maxY = 0;
+        var node;
+        for (var i in this.layoutNodes) {
+            node = this.layoutNodes[i];
+            var height = ('height' in node) ? node.height : 0;
+            var width = ('width' in node) ? node.width : 0;
+            if (node.x - height / 2 < minX) minX = node.x - height / 2;
+            if (node.x + height / 2 > maxX) maxX = node.x + height / 2;
+            if (node.y - width / 2 < minY) minY = node.y - width / 2;
+            if (node.y + width / 2 > maxY) maxY = node.y + width / 2;
+        }
+        console.log("Dimensions: (minX: %s, maxX: %s, minY: %s, maxY: %s)", minX, maxX, minY, maxY);
+        const marginTop = 25; // this.configTree.margin.top;
+        const marginLeft = 25; // this.configTree.margin.left;
+        const marginBottom = 50; // this.configTree.margin.bottom;
+        const marginRight = 50; // this.configTree.margin.right;
+        for (i in this.layoutNodes) {
+            node = this.layoutNodes[i];
+            node.x += -minX + marginTop;
+            node.y += -minY + marginLeft;
+        }
+        maxX += -minX + marginBottom;
+        maxY += -minY + marginRight;
+        // if (this.upperApi) this.upperApi.setDomSize(maxY, maxX);
+        this.layoutMapUpdateContainers(maxY, maxX);
+        return this;
+    }
+    
+    layoutMapUpdateContainers(width?: number, height?:number): MapBuilder {
+        const _width = 1000;
+        const _height = 1000;
+        
+        if (typeof width === 'undefined') width = _width;
+        if (typeof height === 'undefined') height = _height;
 
         this.contentSvg
             .attr("width", width)
@@ -138,6 +232,8 @@ export class MapBuilder{
                 link.data = edges[0]; //TODO: see what will happen when we have more links between two nodes
             }
         }
+        
+        this.moveNodesToPositiveSpace();
 
         return this;
     }
@@ -153,8 +249,8 @@ export class MapBuilder{
         var linkEnter = link.enter().insert('path', "g")
             .attr("class", "link")
             .attr('d', function(d:any){
-                var s = {x: d.source.x, y: d.source.y};
-                var t = { x: d.target.x, y: d.target.y };
+                var s = { x: d.source.x + NODE_HEIGHT_CONTENT/2, y: d.source.y + NODE_WIDTH_CONTENT};
+                var t = { x: d.target.x + NODE_HEIGHT_CONTENT/2, y: d.target.y };
                 return diagonal(s, t);
             });
         
