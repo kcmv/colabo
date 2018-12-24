@@ -16,9 +16,10 @@
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <p>
                     <mat-form-field class="full-width">
-                        <input matInput type="email" placeholder="E-mail" formControlName="email" value="">
+                        <input matInput type="email" placeholder="E-mail" [formControl]="email" value="">
                         <!-- TODO like this: https://material.angular.io/components/checkbox/examples -->
-                        <mat-error class="error-message">incorrect e-mail</mat-error>
+                        <mat-error class="error-message" *ngIf="email.hasError('required')">Email is required</mat-error>
+                        <mat-error class="error-message" *ngIf="email.hasError('email') && !email.hasError('required')">incorrect e-mail</mat-error>
                         <!-- Неисправан E-mail -->
                     </mat-form-field>
                 </p>

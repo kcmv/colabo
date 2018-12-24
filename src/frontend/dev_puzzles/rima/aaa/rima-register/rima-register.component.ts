@@ -19,6 +19,7 @@ export class RimaRegisterComponent implements OnInit {
 
   public selectedCountry:String;
   public contactingServer:boolean;
+  public email:FormControl;
   form: FormGroup;
   hide = true; //for password visibility
 
@@ -28,11 +29,15 @@ export class RimaRegisterComponent implements OnInit {
     fb: FormBuilder,
     private rimaAAAService: RimaAAAService
   ) {
+    this.email = new FormControl('', [
+      Validators.required,
+      Validators.email,
+    ]);
       this.form = fb.group({
           // name: ['', [Validators.required,
           //   CustomValidators.validateCharacters //example of using custom validator imported from other service
           // ]],
-          "email": ['', [Validators.required, Validators.email]],
+          'email': this.email,//"email": ['', [Validators.required, Validators.email]],
           "firstName": this.firstName,
           "lastName":["", [Validators.required, Validators.minLength(2)]],
           "password":["", [Validators.required, Validators.minLength(3)]]
