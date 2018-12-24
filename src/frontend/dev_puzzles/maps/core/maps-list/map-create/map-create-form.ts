@@ -152,6 +152,7 @@ export class MapCreateForm implements OnInit {
       map.name = this.form.value.name;
       map.isPublic = this.form.value.isPublic;
       map.iAmId = this.rimaAAAService.getUserId();
+      map.type = this.form.value.mapTemplate;
 
       this.knalledgeMapService.create(map).subscribe(this.mapCreated.bind(this));
     }else{
