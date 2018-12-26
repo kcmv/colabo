@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
 import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 import {CFService} from './cf.service';
@@ -30,6 +31,7 @@ export class KnalledgeMapService extends CFService{
 
 	constructor(
     private http: HttpClient,
+    private rimaAAAService:RimaAAAService,
     utilsNotificationService: UtilsNotificationService
     //@Inject('ENV') private ENV
   ){
@@ -88,7 +90,7 @@ export class KnalledgeMapService extends CFService{
   {
     console.log('KnalledgeMapService::getMaps');
 
-    let url: string = this.apiUrl+'all/'; //this.apiUrl+'in_map/'+this.defaultAction+'/'+mapId
+    let url: string = this.apiUrl+ (this.rimaAAAService.isAdmin() ? 'all/' : 'by-participant'); //this.apiUrl+'in_map/'+this.defaultAction+'/'+mapId
 
     let result:Observable<KMap[]> = this.http.get<ServerData>(url)
       .pipe(

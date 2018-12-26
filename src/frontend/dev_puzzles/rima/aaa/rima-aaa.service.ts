@@ -9,7 +9,7 @@ import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 
 import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
-import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
+// import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 
 import {GlobalEmittersArrayService} from '@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray';
 
@@ -70,7 +70,7 @@ export class RimaAAAService extends CFService{
     // private colabowareRFIDService: ColabowareRFIDService,
     private knalledgeEdgeService: KnalledgeEdgeService,
     private knalledgeNodeService: KnalledgeNodeService,
-    private knalledgeMapService: KnalledgeMapService,
+    // private knalledgeMapService: KnalledgeMapService,
     private globalEmitterServicesArray: GlobalEmittersArrayService,
     utilsNotificationService: UtilsNotificationService
   ) {
@@ -203,8 +203,11 @@ export class RimaAAAService extends CFService{
   }
 
   public isModerator():boolean{
-    //TODO: add non-admins too
-    return this.isAdmin();
+    //TODO: add 
+    return [
+      '5c23a6ee2f026c332f2712b1', //demod@colabo.space 
+    ].includes(this.getUserId()) || 
+    this.isAdmin();
   }
 
   public getUser():KNode{
