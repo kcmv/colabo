@@ -7,6 +7,7 @@ import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
 import {MapCreateForm, MapCreateFormData} from './map-create/map-create-form';
 import {BottomShDgData, BottomShDg} from './bottom-sh-dg/bottom-sh-dg';
+import { Router } from '@angular/router';
 
 import {MatSnackBar} from '@angular/material';
 import { Observable, of } from 'rxjs';
@@ -38,7 +39,8 @@ export class MapsListComponent implements OnInit {
     private knalledgeMapService:KnalledgeMapService,
     private rimaAAAService:RimaAAAService,
     private bottomSheet: MatBottomSheet,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    private router: Router
   ) { 
     this.displayedColumns = [ 'name', 'creator', 'created', 'actions']; //'participants',
     if(this.rimaAAAService.isAdmin()){
@@ -85,7 +87,8 @@ export class MapsListComponent implements OnInit {
 
   openMap(map:KMap):void{
     console.log('openMap', map);
-    this.snackBar.open("Map Openning", "To be implemented", {duration: 1000});
+    // this.snackBar.open("Map Openning", "To be implemented", {duration: 1000});
+    this.router.navigate(['/map-new/id/',map._id]);
     // ('/map-new/id/' + map._id)
     // if (!item) { // && this.selectedItem !== null && this.selectedItem !== undefined
     //     item = this.selectedItem;
@@ -111,6 +114,7 @@ export class MapsListComponent implements OnInit {
   deleteMap(map:KMap):void{
     console.log('deleteMap', map);
     function deleteConfirmation(btn:number):void{
+      console.log('[deleteConfirmation] btn',btn);
       function mapDeleted(result:boolean) {
         console.log('mapDeleted:result:' + result);
         if(result){
@@ -129,7 +133,7 @@ export class MapsListComponent implements OnInit {
     }
 
     let BottomShDgData:BottomShDgData = {title:'Map Deleting', message:'You want to delete the map "' + map.name + '"?', btn1:'Yes', btn2:'No', callback:deleteConfirmation.bind(this)};
-    let bottomSheetRef:MatBottomSheetRef = this.bottomSheet.open(BottomShDg, { data: BottomShDgData, disableClose: true });
+    let bottomSheetRef:MatBottomSheetRef = this.bottomSheet.open(BottomShDg, { data: BottomShDgData }); //, disableClose: true 
   }
 
   editMap(map:KMap):void{

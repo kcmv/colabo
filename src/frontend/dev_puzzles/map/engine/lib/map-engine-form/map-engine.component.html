@@ -24,8 +24,9 @@
         </mat-list> -->
 
         <div fxLayout="row wrap" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="32px" fxLayoutAlign="flex-start" id="map-parent">
-            <div fxFlex="0 1 calc(25% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%" style="background-color: #ffdddd;" id="map-configuration">
+            <div fxFlex="0 1 calc(25% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%" style="background-color: #ffdddd;" class='dashboard' id="map-configuration">
                 <div>
+                    <div class="map-name"><h2>{{map?.name}}</h2></div>
                     <div>
                         <button mat-raised-button class='button' [routerLink]= "['/maps']" aria-label="See all the maps" matTooltip="See all the maps"><mat-icon title="Open the Map">map</mat-icon> Maps</button>
                     </div>

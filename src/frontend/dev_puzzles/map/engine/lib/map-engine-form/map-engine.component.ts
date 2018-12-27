@@ -10,7 +10,7 @@ import { tap, map, switchMap } from 'rxjs/operators';
 import { MapEngineService } from '../map-engine.service';
 import { GetPuzzle } from '@colabo-utils/i-config';
 import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
-import { MapWithContent } from '@colabo-knalledge/f-store_core';
+import { MapWithContent, KMap } from '@colabo-knalledge/f-store_core';
 import { MapBuilder } from '../map-builder';
 
 @Component({
@@ -21,6 +21,7 @@ import { MapBuilder } from '../map-builder';
 })
 
 export class MapEngineForm implements OnInit, AfterViewInit {
+  public map:KMap;
   public statusesStates:any = {
   };
 
@@ -83,6 +84,7 @@ export class MapEngineForm implements OnInit, AfterViewInit {
   drawMap(mapContent: MapWithContent){
     this.mapBuilder.setMapContent(mapContent);
     this.mapBuilder.buildMap();
+    this.map = mapContent.map;
   }
 
   scrollToBottom() {
