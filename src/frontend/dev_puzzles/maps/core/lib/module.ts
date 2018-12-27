@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MapCreateForm} from '../maps-list/map-create/map-create-form';
 import {BottomShDg} from '../maps-list/bottom-sh-dg/bottom-sh-dg';
 import 'hammerjs';
+import { RouterModule} from '@angular/router';
 
 import {
   // MatBottomSheet, 
@@ -38,6 +39,7 @@ var moduleImports: any[] = [
     ReactiveFormsModule,
 
     FormsModule,
+    RouterModule,
     // FlexLayoutModule,
 
     // // Material

@@ -4,6 +4,8 @@ import { Component, OnInit, AfterViewInit, ViewEncapsulation } from '@angular/co
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import {Observable} from 'rxjs';
 import * as d3 from 'd3';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { tap, map, switchMap } from 'rxjs/operators';
 
 import { MapEngineService } from '../map-engine.service';
 import { GetPuzzle } from '@colabo-utils/i-config';
@@ -34,6 +36,8 @@ export class MapEngineForm implements OnInit, AfterViewInit {
   mapId:string = '58068a04a37162160341d402';
 
   constructor(
+    private route: ActivatedRoute,
+    // private router: Router,
     private mapEngineService: MapEngineService,
     protected utilsNotificationService: UtilsNotificationService
   ) {
@@ -41,7 +45,26 @@ export class MapEngineForm implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.mapEngineService.getMap(this.mapId).subscribe(this.drawMap.bind(this));
+    /*
+    //implemented: https://github.com/Cha-OS/colabo/issues/454
+    this.route.paramMap.pipe(
+      tap((params: ParamMap) => { this.mapId = params.get('id'); console.log("this.mapId",this.mapId);}),
+      // switchMap((params: ParamMap) =>
+      map((params: ParamMap) =>
+        // this.service.getHero(params.get('id')))
+        this.mapEngineService.getMap(params.get('id')))
+    ).subscribe(this.drawMap.bind(this));
+    */
+
+    //this.mapEngineService.getMap(this.mapId).subscribe(this.drawMap.bind(this));
+    this.route.paramMap.subscribe(this.paramsReceived.bind(this));
+  }
+
+  paramsReceived(params: ParamMap){
+    console.log('[paramsReceived]',params);
+    console.log('[paramsReceived]mapId',params.get('id'));
+    this.mapId = params.get('id');
+    this.getMap(this.mapId);
   }
   
   getMap(mapId:string){

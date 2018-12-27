@@ -96,10 +96,16 @@ export class MapBuilder{
 
     setMapContent(mapContent: MapWithContent): MapBuilder{
         this.mapContent = mapContent;
-        this.map = this.mapContent.map;
-        this.nodes = this.mapContent.nodes;
-        this.edges = this.mapContent.edges;
-        this.rootNode = this._getNodeFromId(this.map.rootNodeId);
+        if('map' in this.mapContent){
+            this.map = this.mapContent.map;
+            // this.rootNode = this._getNodeFromId(this.map.rootNodeId);
+        }
+        if('nodes' in this.mapContent){this.nodes = this.mapContent.nodes;}
+        if('edges' in this.mapContent){this.edges = this.mapContent.edges;}
+        if('map' in this.mapContent){
+            //had to be put aftert setting nodes because '_getNodeFromId' depends on them
+            this.rootNode = this._getNodeFromId(this.map.rootNodeId);
+        }
         this.integrateMissingNodes();
         return this;
     }

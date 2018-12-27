@@ -86,6 +86,7 @@ export class MapsListComponent implements OnInit {
   openMap(map:KMap):void{
     console.log('openMap', map);
     this.snackBar.open("Map Openning", "To be implemented", {duration: 1000});
+    // ('/map-new/id/' + map._id)
     // if (!item) { // && this.selectedItem !== null && this.selectedItem !== undefined
     //     item = this.selectedItem;
     // }
