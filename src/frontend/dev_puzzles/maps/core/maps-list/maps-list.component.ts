@@ -49,6 +49,19 @@ export class MapsListComponent implements OnInit {
   get mapsNo():number{
     return this.mapsData !== null ? this.mapsData.data.length : 0;
   }
+
+  get isLoggedIn():Boolean{
+    return this.rimaAAAService.getUser() !== null;
+  }
+
+  userName():string{
+    return this.rimaAAAService.userName();
+  }
+
+  public userAvatar():Observable<string>{
+    return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
+  }
+
   ngOnInit() {
     this.knalledgeMapService.getMaps().subscribe(this.mapsReceived.bind(this));
     if(this.mapsData !== null){
