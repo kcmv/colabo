@@ -58,8 +58,8 @@ Templates folder: '/Users/sasha/Documents/data/development/colabo.space/colabo/s
 
 
 ```sh
-pwd
-# /Users/sasha/Documents/data/development/colabo.space/colabo/src/backend
+# cd .../colabo/src/backend
+# e.g: /Users/sasha/Documents/data/development/colabo.space/colabo/src/backend
 
 colabo puzzle-create -c colabo.config.js
 

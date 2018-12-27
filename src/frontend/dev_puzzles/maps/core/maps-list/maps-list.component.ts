@@ -39,7 +39,7 @@ export class MapsListComponent implements OnInit {
     private knalledgeMapService:KnalledgeMapService,
     private rimaAAAService:RimaAAAService,
     private bottomSheet: MatBottomSheet,
-    public snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private router: Router
   ) { 
     this.displayedColumns = [ 'name', 'creator', 'created', 'actions']; //'participants',

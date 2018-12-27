@@ -6,12 +6,13 @@ import {Observable} from 'rxjs';
 import * as d3 from 'd3';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { tap, map, switchMap } from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material';
 
 import { MapEngineService } from '../map-engine.service';
 import { GetPuzzle } from '@colabo-utils/i-config';
 import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
 import { MapWithContent, KMap } from '@colabo-knalledge/f-store_core';
-import { MapBuilder } from '../map-builder';
+import { MapBuilder, ErrorData } from '../map-builder';
 
 @Component({
   selector: 'map-engine-form',
@@ -37,6 +38,7 @@ export class MapEngineForm implements OnInit, AfterViewInit {
   mapId:string = '58068a04a37162160341d402';
 
   constructor(
+    private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     // private router: Router,
     private mapEngineService: MapEngineService,
@@ -59,6 +61,7 @@ export class MapEngineForm implements OnInit, AfterViewInit {
 
     //this.mapEngineService.getMap(this.mapId).subscribe(this.drawMap.bind(this));
     this.route.paramMap.subscribe(this.paramsReceived.bind(this));
+    this.mapBuilder.getErrors().subscribe(this.onError.bind(this));
   }
 
   paramsReceived(params: ParamMap){
@@ -66,6 +69,10 @@ export class MapEngineForm implements OnInit, AfterViewInit {
     console.log('[paramsReceived]mapId',params.get('id'));
     this.mapId = params.get('id');
     this.getMap(this.mapId);
+  }
+
+  onError(e:ErrorData):void{
+    this.snackBar.open("Error", e.msg, {duration: 3000});
   }
   
   getMap(mapId:string){

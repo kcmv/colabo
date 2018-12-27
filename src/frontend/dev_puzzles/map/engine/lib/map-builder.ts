@@ -2,10 +2,23 @@ import * as d3 from 'd3';
 
 import { MapWithContent, KMap, KNode, KEdge } from '@colabo-knalledge/f-store_core';
 
+import { Observable } from 'rxjs';
+
 const NODE_WIDTH_CONTENT: number = 200;
 const NODE_WIDTH: number = 300;
 const NODE_HEIGHT_CONTENT: number = 25;
 const NODE_HEIGHT: number = 18;
+
+export class ErrorData{
+    constructor(msg:string, id?:number,desc?:string){
+        this.id = id;
+        this.msg = msg;
+        this.desc = desc;
+    }
+    id:number;
+    msg:string;
+    desc:string;
+}
 
 export class MapBuilder{
     static NODE_ID:number = 0;
@@ -23,8 +36,28 @@ export class MapBuilder{
 
     protected tree:any;
 
-    constructor(){
+    constructor(
         
+    ){
+        
+    }
+
+    errorObserver:any = {};//Observer
+
+    getErrors():Observable<ErrorData>{
+        let observable:Observable<ErrorData> = new Observable(this.errorSubscriber.bind(this));
+        return observable;
+    }
+
+    emitError(msg:string,desc?:string):void{
+        this.errorObserver.next(new ErrorData(msg, NaN, desc)); //TODO change value
+    }
+
+    //could be done as anonymous, but we made it this way to be more clear the logic of Oberver
+    errorSubscriber(observer:any):any { //:Observer) {
+        console.log('errorSubscriber');
+        this.errorObserver = observer;
+        return {unsubscribe() {}};
     }
     
     _getNodeFromId(nodeId: string): KNode {
@@ -105,6 +138,9 @@ export class MapBuilder{
         if('map' in this.mapContent){
             //had to be put aftert setting nodes because '_getNodeFromId' depends on them
             this.rootNode = this._getNodeFromId(this.map.rootNodeId);
+            if(this.rootNode === null){
+                this.emitError("Map should contain a root node");
+            }
         }
         this.integrateMissingNodes();
         return this;
