@@ -25,6 +25,10 @@ Currently manually placing the content of the failed imports
   src: url(https://fonts.gstatic.com/s/materialicons/v36/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2');
 }
 
+.mat-bottom-sheet-container{
+  padding: 0px !important;
+}
+
 .warning{
   color: red;
   font-weight: bold;
