@@ -33,6 +33,7 @@ export class MapCreateForm implements OnInit {
 //   public selectedCountry:String;
   form: FormGroup;
   protected callback:Function=null;
+  public submitted:boolean = false;
 
   //an exmaple of defining a form control as independet
 //   firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(2)]);
@@ -56,6 +57,7 @@ export class MapCreateForm implements OnInit {
   }
 
   ngOnInit() {
+    this.submitted = false;
     this.form = this.fb.group({
       // name: ['', [Validators.required,
       //   CustomValidators.validateCharacters //example of using custom validator imported from other service
@@ -87,6 +89,10 @@ export class MapCreateForm implements OnInit {
 
   isPublic():boolean{
       return this.form.value.isPublic;
+  }
+
+  get creatBtnTitle():string{
+    return this.submitted ? 'Creating ...' : 'Create';
   }
 
 
@@ -141,6 +147,7 @@ export class MapCreateForm implements OnInit {
     if(this.callback){
         this.callback(result);
     }
+    // this.submitted = false;
   }
 
   onSubmit( ){
@@ -148,6 +155,7 @@ export class MapCreateForm implements OnInit {
     {
       console.log("model-based form submitted");
       console.log(this.form);
+      this.submitted = true;
       let map:KMap = new KMap();
       map.name = this.form.value.name;
       map.isPublic = this.form.value.isPublic;

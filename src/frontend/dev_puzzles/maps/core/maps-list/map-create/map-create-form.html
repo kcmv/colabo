@@ -63,7 +63,7 @@ TODO - ADD Country
 
         <p>
              <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
-            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Create</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || submitted">{{creatBtnTitle}}</button>
             <!-- <button mat-raised-button (click)="partialUpdate()">Partial Update</button>
 <button mat-raised-button (click)="fullUpdate()">Full Update</button> -->
             <button mat-raised-button type="button" (click)="reset()">Clear</button>
