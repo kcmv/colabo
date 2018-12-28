@@ -31,7 +31,8 @@ export class MapEngineForm implements OnInit, AfterViewInit {
 
   public messageContent:string;
   protected puzzleConfig: any;
-  mapId:string = '58068a04a37162160341d402';
+  mapId:string = '5be3fddce1b7970d8c6df406'; // heroes
+  // mapId: string = '58068a04a37162160341d402'; // playing guitar (local)
 
   constructor(
     private mapEngineService: MapEngineService,

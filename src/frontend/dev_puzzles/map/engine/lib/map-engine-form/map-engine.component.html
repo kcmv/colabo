@@ -24,7 +24,7 @@
         </mat-list> -->
 
         <div fxLayout="row wrap" fxFlexFill fxLayout.lt-sm="column" fxLayoutGap="32px" fxLayoutAlign="flex-start" id="map-parent">
-            <div fxFlex="0 1 calc(25% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%" style="background-color: #ffdddd;" id="map-configuration">
+            <div fxFlex="0 1 calc(25% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%" style="background-color: #ffdddd; overflow: scroll;" id="map-configuration">
                 <div>
                     <mat-form-field class="chat-input">
                         <input matInput #inputMapId name="inputMapId" maxlength="200" placeholder="enter mapId" [(ngModel)]="mapId" (changed)="getMap(inputMapId.value)">
@@ -36,6 +36,8 @@
                 <div>
                     <b>Node Content:</b><br/>
                     <hr/> {{mapBuilder?.kNodeSelected?.dataContent?.property}}
+                    <b>Node dataContent:</b><br/>
+                    <hr/> {{mapBuilder?.kNodeSelected?.dataContent | json}}
                 </div>
 
             </div>

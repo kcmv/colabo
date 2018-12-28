@@ -41,8 +41,12 @@ export class MapBuilder{
         for (var i: number = 0; i < this.edges.length; i++) {
             if (this.edges[i].sourceId === nodeId) {
                 let child: KNode = this._getNodeFromId(this.edges[i].targetId);
-                child.visual.parentId = nodeId;
-                children.push(child);
+                if (child){
+                    child.visual.parentId = nodeId;
+                    children.push(child);                    
+                }else{
+                    console.error("The edge has no target node: ", this.edges[i]);
+                }
             }
         }
         return children;
