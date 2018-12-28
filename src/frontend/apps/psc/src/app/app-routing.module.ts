@@ -119,6 +119,11 @@ const routes: Routes = [
     path: 'map-new',
     component: MapEngineForm
   },
+  // same route but with the map id provided
+  {
+    path: 'map-new/id/:id',
+    component: MapEngineForm
+  },
   {
     path: 'maps',
     component: MapsListComponent

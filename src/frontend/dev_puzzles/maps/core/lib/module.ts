@@ -6,7 +6,9 @@ import {MapsListComponent} from '../maps-list/maps-list.component';
 import { MaterialModule } from './materialModule';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MapCreateForm} from '../maps-list/map-create/map-create-form';
+import {BottomShDg} from '../maps-list/bottom-sh-dg/bottom-sh-dg';
 import 'hammerjs';
+import { RouterModule} from '@angular/router';
 
 import {
   // MatBottomSheet, 
@@ -24,7 +26,8 @@ import {RimaAaaModule} from '@colabo-rima/f-aaa/module';
 var moduleDeclarations:any[] = [
   //  components classes:
   MapsListComponent,
-  MapCreateForm
+  MapCreateForm,
+  BottomShDg
   // BottomSheetOverviewExample,
   // BottomSheetOverviewExampleSheet
 ];
@@ -36,6 +39,7 @@ var moduleImports: any[] = [
     ReactiveFormsModule,
 
     FormsModule,
+    RouterModule,
     // FlexLayoutModule,
 
     // // Material
@@ -52,7 +56,7 @@ var moduleImports: any[] = [
       
     ],
     entryComponents: [
-      MapCreateForm, //https://material.angular.io/components/bottom-sheet/overview#configuring-bottom-sheet-content-via-code-entrycomponents-code-
+      MapCreateForm, BottomShDg //https://material.angular.io/components/bottom-sheet/overview#configuring-bottom-sheet-content-via-code-entrycomponents-code-
       // BottomSheetOverviewExampleSheet //https://material.angular.io/components/bottom-sheet/overview#configuring-bottom-sheet-content-via-code-entrycomponents-code-
       
   ]

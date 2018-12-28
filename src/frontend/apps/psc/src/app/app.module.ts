@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 //https://blog.angular-university.io/introduction-to-angular-2-forms-template-driven-vs-model-driven/
 //import { FormsModule } from '@angular/forms'; //for the 'Template Driven Forms'
 import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
+import { FormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -114,8 +115,8 @@ var moduleDeclarations = [
 var moduleImports = [
   BrowserModule
   , HttpClientModule
-  //,FormsModule,
-  ,ReactiveFormsModule
+  , FormsModule
+  , ReactiveFormsModule
 
   // Material
   , BrowserAnimationsModule

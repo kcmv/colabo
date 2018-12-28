@@ -33,12 +33,13 @@ export class MapCreateForm implements OnInit {
 //   public selectedCountry:String;
   form: FormGroup;
   protected callback:Function=null;
+  public submitted:boolean = false;
 
   //an exmaple of defining a form control as independet
 //   firstName:FormControl = new FormControl("", [Validators.required, Validators.minLength(2)]);
 
   constructor(
-    fb: FormBuilder,
+    private fb: FormBuilder,
     private knalledgeMapService:KnalledgeMapService,
     private rimaAAAService: RimaAAAService,
     private bottomSheetRef: MatBottomSheetRef<MapCreateForm>,
@@ -52,31 +53,34 @@ export class MapCreateForm implements OnInit {
         // this.model = map;
 
         this.bottomSheetRef.afterDismissed().subscribe(this.dissmissed.bind(this));
-        this.form = fb.group({
-            // name: ['', [Validators.required,
-            //   CustomValidators.validateCharacters //example of using custom validator imported from other service
-            // ]],
-        //   "email": ['', [Validators.required, Validators.email]],
-            "name":["", [Validators.required, Validators.minLength(2)]],
-            "isPublic":[false],
-            // "template":[this.templates[0]],
-        //   "password":["", [Validators.required, Validators.minLength(3)]]
-        });
-
-        this.form.valueChanges
-        // example .map((value) => {
-        //     value.firstName = value.firstName.toUpperCase();
-        //     return value;
-        // })
-        .pipe(filter((value) => this.form.valid))
-        .subscribe((value) => {
-            console.log("Model Driven Form valid value: vm = ",
-                        JSON.stringify(value));
-        });
-        //TODO: check if the user's email is already existing (offer sign-in instead and data updating)
+        
   }
 
   ngOnInit() {
+    this.submitted = false;
+    this.form = this.fb.group({
+      // name: ['', [Validators.required,
+      //   CustomValidators.validateCharacters //example of using custom validator imported from other service
+      // ]],
+  //   "email": ['', [Validators.required, Validators.email]],
+      "name":["", [Validators.required, Validators.minLength(2)]],
+      "isPublic":[false],
+      // 'countryControl': [this.countries[1].id],
+      "mapTemplate":[this.mapTemplates[0].id],
+    //   "password":["", [Validators.required, Validators.minLength(3)]]
+    });
+
+    this.form.valueChanges
+    // example .map((value) => {
+    //     value.firstName = value.firstName.toUpperCase();
+    //     return value;
+    // })
+    .pipe(filter((value) => this.form.valid))
+    .subscribe((value) => {
+        console.log("Model Driven Form valid value: vm = ",
+                    JSON.stringify(value));
+    });
+  
   }
 
   labelPublic():string{
@@ -87,19 +91,43 @@ export class MapCreateForm implements OnInit {
       return this.form.value.isPublic;
   }
 
+  get creatBtnTitle():string{
+    return this.submitted ? 'Creating ...' : 'Create';
+  }
 
-  get templates():any[]{
+
+  // countries = ['USA', 'Canada', 'Uk']
+
+  mapTemplates = [
+    {
+      id:'plain-map',
+      name:'Plain Map'
+    },
+    {
+      id:'co-writing',
+      name:'Collective Creative Writing'
+    }
+  ];
+
+  /*
+  using the Getter caused blocking of the page (overrunning the processor)
+  get mapTemplatesOld():any[]{
     return [
-      {'id':'plain-map',
-      'name':'Plain Map'},
-      {'id':'co-writing',
-      'name':'Collective Creative Writing'}
+      {
+        id:'plain-map',
+        name:'Plain Map'
+      },
+      {
+        id:'co-writing',
+        name:'Collective Creative Writing'
+      }
     ]
   }
+  */
 
-  templateChanged():void{
+  // templateChanged():void{
 
-  }
+  // }
 
   dissmissed():void{
     //   console.log('[MapCreateForm] dissmissed');
@@ -119,6 +147,7 @@ export class MapCreateForm implements OnInit {
     if(this.callback){
         this.callback(result);
     }
+    // this.submitted = false;
   }
 
   onSubmit( ){
@@ -126,10 +155,12 @@ export class MapCreateForm implements OnInit {
     {
       console.log("model-based form submitted");
       console.log(this.form);
+      this.submitted = true;
       let map:KMap = new KMap();
       map.name = this.form.value.name;
       map.isPublic = this.form.value.isPublic;
       map.iAmId = this.rimaAAAService.getUserId();
+      map.type = this.form.value.mapTemplate;
 
       this.knalledgeMapService.create(map).subscribe(this.mapCreated.bind(this));
     }else{

@@ -33,14 +33,21 @@
                 <!-- OLD <slide-toggle [(checked)]="model.isPublic" aria-label="public">public</slide-toggle> -->
             <!-- </mat-form-field> -->
         </p>
+        <p>
+            <mat-form-field>
+                <mat-select formControlName="mapTemplate">
+                    <mat-option [value]="mapTemplate.id" *ngFor="let mapTemplate of mapTemplates">{{mapTemplate.name}}</mat-option>
+                    <!-- <mat-option [ngValue]="template" *ngFor="let template of templates">{{template.name}}</mat-option> -->
+                </mat-select>
+            </mat-form-field>
+        </p>
 
         <!-- <mat-form-field> -->
             <!-- <mat-select placeholder="Template/Type" (selectionChange)='templateChanged()' [formControl]="templateFC" [(ngModel)]="selectedTemplate"> -->
             <!-- <mat-select matInput placeholder="Template/Type" (selectionChange)='templateChanged()' formControlName="template">
                 <mat-option *ngFor="let templateO of templates" [value]="templateO.id">{{templateO.name}}</mat-option>
             </mat-select>
-        </mat-form-field> -->
-
+        </mat-form-field>
            
             <!-- <mat-form-field class="full-width">
             <mat-checkbox matInput formControlName="networkingOK">Желим да се моји контакт подаци деле са другим учесницима зарад умрежавања</mat-checkbox>
@@ -56,7 +63,7 @@ TODO - ADD Country
 
         <p>
              <!-- type="button" is required or otherwise button reacts as type="submit", like it is default type-->
-            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Create</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || submitted">{{creatBtnTitle}}</button>
             <!-- <button mat-raised-button (click)="partialUpdate()">Partial Update</button>
 <button mat-raised-button (click)="fullUpdate()">Full Update</button> -->
             <button mat-raised-button type="button" (click)="reset()">Clear</button>

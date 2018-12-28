@@ -1,0 +1,8 @@
+<div class="bottom-sh-dg">
+    <div class="b-sh-title">{{data?.title}}</div>
+    <div class="message">{{data?.message}}</div>
+        <p>
+            <button class="button" mat-raised-button color="primary" (click)='close(1)' type="button">{{data?.btn1}}</button>
+            <button class="button" *ngIf='data.btn2' mat-raised-button color="primary" (click)='close(2)' type="submit">{{data?.btn2}}</button>
+        </p>
+</div>

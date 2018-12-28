@@ -1,0 +1,21 @@
+.b-sh-title{
+    width: 100%;
+    padding: 10px;
+    background-color: lightgray;
+    border-bottom: solid darkgray 2px;
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.bottom-sh-dg{
+    padding: 0px !important;
+    text-align: center;
+}
+
+.message{
+    padding: 5px;
+}
+
+.button {
+    margin: 5px;
+}

@@ -24,6 +24,7 @@ export class MapEngineService{
   }  
 
   public getMap(mapId:string):Observable<any>{
+    console.log('[MapEngineService] getMap',mapId);
     this.mapSubscritpion = this.knalledgeMapVoService.getNodesAndEdgesInMap(mapId);
     this.mapSubscritpion.subscribe(this.mapReceived.bind(this));
     if ((<any>window).Worker) {

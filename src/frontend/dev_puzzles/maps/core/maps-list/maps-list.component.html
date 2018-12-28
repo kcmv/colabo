@@ -1,81 +1,121 @@
-<!-- <bottom-sheet-overview-example></bottom-sheet-overview-example> -->
-<!-- <map-create-form [hidden]="!modeCreating" ></map-create-form> -->
-<div class="header">
-  <button mat-raised-button class='button' color="primary" (click)="showMapCreateForm()" aria-label="Create New Map" ><mat-icon>add_photo_alternate</mat-icon> Create New Map</button>
-  <button mat-raised-button class='button' color="primary" (click)="showMapImportForm()" aria-label="Import a Map" ><mat-icon>input</mat-icon> Import a Map</button>
+<div fxLayout="column" fxFlexFill style="height: 100%;">
+
+  <!-- toolbar -->
+  <div fxFlex="64px" style="overflow-y: hidden;">
+      <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+          <a href="/" title="Home" >
+              <img alt="Home" src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+          </a>  
+          <span><a href="/rima-login"><img class='user-avatar' src = '{{userAvatar() | async}}'/></a></span> {{userName()}}
+          <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
+          <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
+
+      </mat-toolbar>
+  </div>
+
+  <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+    <div *ngIf="isLoggedIn; else loggedOut">
+      <!-- <bottom-sheet-overview-example></bottom-sheet-overview-example> -->
+      <!-- <map-create-form [hidden]="!modeCreating" ></map-create-form> -->
+      <div class="header">
+        <button mat-raised-button class='button' color="primary" (click)="showMapCreateForm()" aria-label="Create New Map" ><mat-icon>add_photo_alternate</mat-icon> Create New Map</button>
+        <button mat-raised-button class='button' color="primary" (click)="showMapImportForm()" aria-label="Import a Map" ><mat-icon>input</mat-icon> Import a Map</button>
+      </div>
+      <!-- <i class="material-icons">add_photo_alternate</i>
+      <span class='clickable' matTooltip="Create New Map" (click)="showMapCreateForm()">Create New Map <mat-icon>add_photo_alternate</mat-icon></span>
+      <div ><button (click)="showMapCreateForm()"  aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-square">Create New Map</i></button></div> -->
+
+      <div>These are <b>{{mapsNo}}</b> maps at the <b>Colabo.Space</b> that you have access to</div>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter the maps">
+      </mat-form-field>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      <table mat-table matSort [dataSource]="mapsData" class="mat-elevation-z8">
+
+        <!-- Id Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+          <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+        </ng-container> 
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td class='vertical-middle' mat-cell *matCellDef="let element">
+            <span>{{element.name}}</span> 
+            <span *ngIf="!element.isPublic"><mat-icon>lock</mat-icon></span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="creator">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Creator </th>
+          <td mat-cell *matCellDef="let element"> {{printCreator(element.iAmId)?.name | async}} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="participants">
+          <th mat-header-cell *matHeaderCellDef> Participants </th>
+          <td mat-cell *matCellDef="let element" > {{printParticipants(element.participants)}} </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="created">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Created </th>
+            <td mat-cell *matCellDef="let element"  matTooltip="{{element.createdAt}}" >{{element.createdAt | date}}</td>
+          </ng-container>
+
+        <!-- <ng-container matColumnDef="publicity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Publicity</th>
+          <td mat-cell *matCellDef="let element"  >
+              <span *ngIf="element.isPublic"><mat-icon>lock</mat-icon></span>
+            </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> actions </th>
+          <td mat-cell *matCellDef="let element" >
+            
+            <!-- we could do it by [routerLink]= "['/map-new/id/', element._id]" but we wanted unified control of map openning and to suppourt 'dblclick' on the map row -->
+            <button mat-mini-fab class='action_icon' color="primary" (click)="openMap(element)" aria-label="Open the Map" matTooltip="Open the Map"><mat-icon title="Open the Map">open_in_new</mat-icon></button>
+
+            <button mat-mini-fab class='action_icon' color="primary" (click)="cloneMap(element)" aria-label="Clone the Map" matTooltip="Clone the Map" ><mat-icon title="Clone the Map">file_copy</mat-icon></button>
+            <!-- <button class="btn btn-primary button_icon" aria-label="Clone the map" type="button" (click)="prepareForCloning(item); cloneDialog.show();"><i title="Clone the map" class="fa fa-files-o" aria-hidden="true"></i></button> -->
+
+            <button mat-mini-fab class='action_icon' color="primary" (click)="showParticipants(element)" aria-label="Participants" matTooltip="Participants"><mat-icon title="Participants">people</mat-icon></button>
+            <!-- <button class="btn btn-primary button_icon" aria-label="Map Participants" type="button" (click)="prepareForParticipants(item); participantsList.show()"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button> -->
+
+            <button mat-mini-fab class='action_icon' color="primary" (click)="exportMap(element)" aria-label="Export the Map" matTooltip="Export the Map"><mat-icon title="Export the Map">archive</mat-icon></button>
+            <!-- 
+            <button class="btn btn-primary button_icon" aria-label="Export" type="button" (click)="export(item)"><i title="Export" class="fa fa-floppy-o" aria-hidden="true"></i></button>
+            -->
+            <span *ngIf="canIManageTheMap(element)">
+                <button mat-mini-fab class='action_icon' color="primary" (click)="editMap(element)" aria-label="Edit the Map" matTooltip="Edit the Map"><mat-icon title="Edit the Map">edit</mat-icon></button>
+                <button mat-mini-fab class='action_icon' color="primary" (click)="deleteMap(element)" aria-label="Delete the Map" matTooltip="Delete the Map"><mat-icon title="Delete the Map">delete</mat-icon></button>
+      <!--         
+              <button class="btn btn-primary button_icon" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></button> -->
+            </span> 
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (dblclick)="openMap(row)"></tr>
+      </table>
+    </div>
+    <ng-template #loggedOut>
+      <div style="margin: 15px;">
+          <p>
+              To access this page you need:
+          </p>
+          <a routerLink="/rima-login">
+              <button mat-raised-button color="primary">Login</button>
+          </a>
+
+          <p>
+              or
+          </p>
+          <a routerLink="/rima-register">
+              <button mat-raised-button color="primary">Register</button>
+          </a>
+
+      </div>
+    </ng-template>
+  </div>
 </div>
-<!-- <i class="material-icons">add_photo_alternate</i>
-<span class='clickable' matTooltip="Create New Map" (click)="showMapCreateForm()">Create New Map <mat-icon>add_photo_alternate</mat-icon></span>
-<div ><button (click)="showMapCreateForm()"  aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-square">Create New Map</i></button></div> -->
-
-<div>These are <b>{{mapsNo}}</b> maps at the <b>Colabo.Space</b> that you have access to</div>
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter the maps">
-</mat-form-field>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-<table mat-table matSort [dataSource]="mapsData" class="mat-elevation-z8">
-
-  <!-- Id Column -->
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
-    <td mat-cell *matCellDef="let element"> {{element._id}} </td>
-  </ng-container> 
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-    <td class='vertical-middle' mat-cell *matCellDef="let element">
-      <span>{{element.name}}</span> 
-      <span *ngIf="!element.isPublic"><mat-icon>lock</mat-icon></span>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="creator">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Creator </th>
-    <td mat-cell *matCellDef="let element"> {{printCreator(element.iAmId)?.name | async}} </td>
-  </ng-container>
-
-  <!-- <ng-container matColumnDef="participants">
-    <th mat-header-cell *matHeaderCellDef> Participants </th>
-    <td mat-cell *matCellDef="let element" > {{printParticipants(element.participants)}} </td>
-  </ng-container> -->
-
-  <ng-container matColumnDef="created">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Created </th>
-      <td mat-cell *matCellDef="let element"  matTooltip="{{element.createdAt}}" >{{element.createdAt | date}}</td>
-    </ng-container>
-
-  <!-- <ng-container matColumnDef="publicity">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Publicity</th>
-    <td mat-cell *matCellDef="let element"  >
-        <span *ngIf="element.isPublic"><mat-icon>lock</mat-icon></span>
-      </td>
-  </ng-container> -->
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef> actions </th>
-    <td mat-cell *matCellDef="let element" >
-      <button mat-mini-fab class='action_icon' color="primary" (click)="openMap(element)" aria-label="Open the Map" matTooltip="Open the Map"><mat-icon title="Open the Map">open_in_new</mat-icon></button>
-
-      <button mat-mini-fab class='action_icon' color="primary" (click)="cloneMap(element)" aria-label="Clone the Map" matTooltip="Clone the Map" ><mat-icon title="Clone the Map">file_copy</mat-icon></button>
-      <!-- <button class="btn btn-primary button_icon" aria-label="Clone the map" type="button" (click)="prepareForCloning(item); cloneDialog.show();"><i title="Clone the map" class="fa fa-files-o" aria-hidden="true"></i></button> -->
-
-      <button mat-mini-fab class='action_icon' color="primary" (click)="showParticipants(element)" aria-label="Participants" matTooltip="Participants"><mat-icon title="Participants">people</mat-icon></button>
-      <!-- <button class="btn btn-primary button_icon" aria-label="Map Participants" type="button" (click)="prepareForParticipants(item); participantsList.show()"><i title="Map Participants" class="fa fa-users" aria-hidden="true"></i></button> -->
-
-      <button mat-mini-fab class='action_icon' color="primary" (click)="exportMap(element)" aria-label="Export the Map" matTooltip="Export the Map"><mat-icon title="Export the Map">archive</mat-icon></button>
-      <!-- 
-      <button class="btn btn-primary button_icon" aria-label="Export" type="button" (click)="export(item)"><i title="Export" class="fa fa-floppy-o" aria-hidden="true"></i></button>
-      -->
-      <span *ngIf="canIManageTheMap(element)">
-          <button mat-mini-fab class='action_icon' color="primary" (click)="editMap(element)" aria-label="Edit the Map" matTooltip="Edit the Map"><mat-icon title="Edit the Map">edit</mat-icon></button>
-          <button mat-mini-fab class='action_icon' color="primary" (click)="deleteMap(element)" aria-label="Delete the Map" matTooltip="Delete the Map"><mat-icon title="Delete the Map">delete</mat-icon></button>
-<!--         
-        <button class="btn btn-primary button_icon" aria-label="delete" type="button" (click)="mapForAction = item; deleteConfirm.show();"><i title="Delete the map" class="fa fa-trash" aria-hidden="true"></i></button> -->
-      </span> 
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (dblclick)="openMap(row)"></tr>
-</table>

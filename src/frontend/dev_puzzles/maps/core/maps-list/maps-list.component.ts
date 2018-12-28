@@ -6,6 +6,9 @@ import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
 import {MapCreateForm, MapCreateFormData} from './map-create/map-create-form';
+import {BottomShDgData, BottomShDg} from './bottom-sh-dg/bottom-sh-dg';
+import { Router } from '@angular/router';
+
 import {MatSnackBar} from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { //catchError, map, 
@@ -21,8 +24,8 @@ export class MapsListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  @ViewChild(MapCreateForm)
-  private mapCreateForm:MapCreateForm;
+  // @ViewChild(MapCreateForm)
+  // private mapCreateForm:MapCreateForm;
 
   public modeCreating = false;
   public modeEditing = false;
@@ -36,7 +39,8 @@ export class MapsListComponent implements OnInit {
     private knalledgeMapService:KnalledgeMapService,
     private rimaAAAService:RimaAAAService,
     private bottomSheet: MatBottomSheet,
-    public snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) { 
     this.displayedColumns = [ 'name', 'creator', 'created', 'actions']; //'participants',
     if(this.rimaAAAService.isAdmin()){
@@ -47,6 +51,19 @@ export class MapsListComponent implements OnInit {
   get mapsNo():number{
     return this.mapsData !== null ? this.mapsData.data.length : 0;
   }
+
+  get isLoggedIn():Boolean{
+    return this.rimaAAAService.getUser() !== null;
+  }
+
+  userName():string{
+    return this.rimaAAAService.userName();
+  }
+
+  public userAvatar():Observable<string>{
+    return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
+  }
+
   ngOnInit() {
     this.knalledgeMapService.getMaps().subscribe(this.mapsReceived.bind(this));
     if(this.mapsData !== null){
@@ -70,7 +87,9 @@ export class MapsListComponent implements OnInit {
 
   openMap(map:KMap):void{
     console.log('openMap', map);
-    this.snackBar.open("Map Openning", "To be implemented", {duration: 1000});
+    // this.snackBar.open("Map Openning", "To be implemented", {duration: 1000});
+    this.router.navigate(['/map-new/id/',map._id]);
+    // ('/map-new/id/' + map._id)
     // if (!item) { // && this.selectedItem !== null && this.selectedItem !== undefined
     //     item = this.selectedItem;
     // }
@@ -93,24 +112,28 @@ export class MapsListComponent implements OnInit {
   }
 
   deleteMap(map:KMap):void{
-  //TODO:
     console.log('deleteMap', map);
-    this.snackBar.open("Map Deleting", "To be implemented", {duration: 1000});
+    function deleteConfirmation(btn:number):void{
+      console.log('[deleteConfirmation] btn',btn);
+      function mapDeleted(result:boolean) {
+        console.log('mapDeleted:result:' + result);
+        if(result){
+          // let maps:KMap[] = this.mapsData.data;
+          this.mapsData.data.splice(this.mapsData.data.findIndex(mapInList => {return mapInList._id === map._id;}),1);
+          // this.selectedItem = null;
+          this.setUpSourceData();
+        }
+      }
+      if(btn===1)
+      {
+        console.log('deleting map: '+map.name);
+        // var that:MapsListComponent = this;
+        this.knalledgeMapService.destroy(map._id).subscribe(mapDeleted.bind(this));
+      }
+    }
 
-    // delete(confirm) {
-    //   if (confirm && this.mapForAction) {
-    //       var that = this;
-    //       var mapDeleted = function(result) {
-    //           console.log('mapDeleted:result:' + result);
-    //           for (let i = 0; i < that.items.length; i++) {
-    //               if (that.items[i]._id === that.mapForAction._id) {
-    //                   that.items.splice(i, 1);
-    //               }
-    //           }
-    //           that.selectedItem = null;
-    //       };
-    //       this.knalledgeMapVOsService.mapDelete(this.mapForAction._id, mapDeleted);
-    //   }
+    let BottomShDgData:BottomShDgData = {title:'Map Deleting', message:'You want to delete the map "' + map.name + '"?', btn1:'Yes', btn2:'No', callback:deleteConfirmation.bind(this)};
+    let bottomSheetRef:MatBottomSheetRef = this.bottomSheet.open(BottomShDg, { data: BottomShDgData }); //, disableClose: true 
   }
 
   editMap(map:KMap):void{

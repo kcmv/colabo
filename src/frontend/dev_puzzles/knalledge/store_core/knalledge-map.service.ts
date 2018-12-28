@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
 import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
 import {CFService} from './cf.service';
@@ -30,6 +31,7 @@ export class KnalledgeMapService extends CFService{
 
 	constructor(
     private http: HttpClient,
+    private rimaAAAService:RimaAAAService,
     utilsNotificationService: UtilsNotificationService
     //@Inject('ENV') private ENV
   ){
@@ -88,7 +90,7 @@ export class KnalledgeMapService extends CFService{
   {
     console.log('KnalledgeMapService::getMaps');
 
-    let url: string = this.apiUrl+'all/'; //this.apiUrl+'in_map/'+this.defaultAction+'/'+mapId
+    let url: string = this.apiUrl+ (this.rimaAAAService.isAdmin() ? 'all/' : 'by-participant'); //this.apiUrl+'in_map/'+this.defaultAction+'/'+mapId
 
     let result:Observable<KMap[]> = this.http.get<ServerData>(url)
       .pipe(
@@ -204,5 +206,39 @@ export class KnalledgeMapService extends CFService{
 
   //KnalledgeMapService.update(map, actionType, patch, callback)
 
-  //KnalledgeMapService.destroy(id)
+  /**
+  * Deletes the KMap from the server
+  * In server's response, the ServerData.data is equal to the _id of the deleted VO.  ServerData.data will be equal to null, if there is no data we intended to delete. In both cases `ServerData.success` will be eq `true`
+  * @param {string} id id of the node to be deleted
+  * @param {function} callback Function to be called when the node is deleted
+  * @example URL:http://localhost:8001/kmaps/one/default/5a156965d0b7970f365e1a4b.json
+  */
+  destroy(id:string): Observable<boolean>
+	{
+    //TODO:NG2 fix usage of this function to expect boolean
+
+    var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'one/'+id, httpOptions).pipe(
+      tap(_ => console.log(`deleted map id=${id}`)),
+      map(serverData => serverData.success),
+      catchError(this.handleError<boolean>('deleteMap'))
+    );
+
+		/* TODO:NG2
+      if(this.knAllEdgeRealTimeService){ // realtime distribution
+      //
+			// let change = new puzzles.changes.Change();
+			// change.value = null;
+			// change.valueBeforeChange = null; //TODO
+			// change.reference = id;
+			// change.type = puzzles.changes.ChangeType.STRUCTURAL;
+			// change.event = Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeDeletedEventName;
+			// // change.action = null;
+			// change.domain = puzzles.changes.Domain.NODE;
+			// change.visibility = puzzles.changes.ChangeVisibility.ALL;
+			// change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
+      //
+			// this.knAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeNodeDeletedEventName, change);//{'_id':id});
+		}*/
+		return result;
+  }
 }
