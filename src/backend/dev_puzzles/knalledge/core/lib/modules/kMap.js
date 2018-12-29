@@ -5,6 +5,7 @@
  */
 var Promise = require("bluebird");
 var dbService = require('@colabo-knalledge/b-storage-mongo');
+var fs = require('fs');
 
 var mockup = { fb: { authenticate: false }, db: { data: false } };
 var accessId = 0;
@@ -130,21 +131,44 @@ exports.create = function(req, res) {
 
             try{
                 var kmap = new KMapModel(data);
-            }
-            catch(err){
+                try{
+                    console.log('[kMap::create]__dirname:', __dirname);
+                    var path = __dirname;
+                    fs.readFile( path + '/plain-map.json', function (err, data) {
+                    if (err) {
+                        var errMsg = err;
+                        console.error(errMsg,err);
+                        resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                    }else{
+                        console.log(data.toString());
+                        var template = JSON.parse(data);
+                        console.log('template',template);
+                    }
+                    
+
+                    });
+                }catch(err){
+                    var errMsg = 'template loading error';
+                    console.error(errMsg,err);
+                    resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                }
+                
+                console.log(kmap.type);
+                kmap.save(function(err) {
+                    if (err) {
+                        console.error('saving error',err);
+                        resSendJsonProtected(res, { data: null, accessId: accessId, message: 'saving error:' + JSON.stringify(err), success: false });
+                    }else{
+                        console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
+                        finished();
+                    }
+                });
+            }catch(err){
                 var errMsg = 'creator KMapModel error';
                 console.error(errMsg,err);
                 resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
             }
-            kmap.save(function(err) {
-                if (err) {
-                    console.error('saving error',err);
-                    resSendJsonProtected(res, { data: null, accessId: accessId, message: 'saving error:' + JSON.stringify(err), success: false });
-                }else{
-                    console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
-                    finished();
-                }
-            });
+            
     }
 }
 

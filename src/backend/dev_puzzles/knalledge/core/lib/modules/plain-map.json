@@ -1,0 +1,104 @@
+{
+    "name":"Plain Map",
+    "type":"actions",
+    "consts":{
+    },
+    "actions": [
+    {
+        "name":"Root Node",
+        "type":"insert",
+        "collection":"knodes",
+        "data":
+        {
+          "_id" : "5be40853e1b7970d8c6df40c",
+          "name" : "Everyday Heroes",
+          "type" : "model_component",
+          "mapId" : "5be3fddce1b7970d8c6df406",
+          "iAmId" : "556760847125996dc1a4a24f",
+          "ideaId" : 0,
+          "updatedAt" : "2018-09-10T01:07:10.401+0000",
+          "createdAt" : "2018-09-10T01:07:10.400+0000",
+          "visual" : {
+              "isOpen" : true,
+              "yM" : 0,
+              "xM" : 0
+          },
+          "isPublic" : true,
+          "version" : 1,
+          "activeVersion" : 1,
+          "__v" : 0,
+          "decorations" : {
+  
+          },
+          "up" : {
+  
+          },
+          "dataContent" : {
+              "propertyType" : "text/markdown",
+              "property" : "Welcome to Civil Courage workshops @ 'Everyday Heroes' by ReMaking Tesla"
+          }
+        }
+    },
+    {
+        "name":"content",
+        "type":"actions",
+        "actions": [
+        {
+            "name":"Content node",
+            "type":"insert",
+            "collection":"knodes",
+            "data":
+            {
+                "_id" : "5be40c8ae1b7970d8c6df415",
+                "name" : "Content",
+                "type" : "clathon.content",
+                "mapId" : "5be3fddce1b7970d8c6df406",
+                "iAmId" : "556760847125996dc1a4a24f",
+                "ideaId" : 0,
+                "visual" : {
+                    "isOpen" : true
+                },
+                "updatedAt" : "2018-09-10T01:25:34.934+0000",
+                "createdAt" : "2018-09-10T01:25:34.933+0000",
+                "isPublic" : true,
+                "version" : 1,
+                "activeVersion" : 1,
+                "__v" : 0,
+                "decorations" : {
+
+                },
+                "up" : {
+
+                },
+                "dataContent" : {
+
+                }
+            }
+        },
+        {
+            "name":"Content edge",
+            "type":"insert",
+            "collection":"kedges",
+            "data":
+            {
+                "_id" : "5be40d54e1b7970d8c6df416",
+                "name" : "Content",
+                "type" : "clathon.content",
+                "mapId" : "5be3fddce1b7970d8c6df406",
+                "iAmId" : "556760847125996dc1a4a24f",
+                "ideaId" : 0,
+                "sourceId" : "5be40853e1b7970d8c6df40c",
+                "targetId" : "5be40c8ae1b7970d8c6df415",
+                "dataContent" : null,
+                "visual" : null,
+                "updatedAt" : "2018-09-10T01:25:34.934+0000",
+                "createdAt" : "2018-09-10T01:25:34.933+0000",
+                "value" : 0,
+                "isPublic" : true,
+                "__v" : 0
+            }
+        }
+        ]
+    }]
+}
+  
