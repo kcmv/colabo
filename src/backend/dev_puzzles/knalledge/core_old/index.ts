@@ -12,9 +12,4 @@ export function KnAllEdgeCoreRegister(app) {
 import {VO} from './lib/VO';
 import {KNode} from './lib/kNode';
 import {KEdge} from './lib/kEdge';
-export { VO, KNode, KEdge }
-
-import * as KNodeModule from './lib/modules/kNode';
-import * as KEdgeModule from './lib/modules/kEdge';
-import * as KMapModule from './lib/modules/kMap';
-export { KNodeModule, KEdgeModule, KMapModule}
+export {VO, KNode, KEdge}

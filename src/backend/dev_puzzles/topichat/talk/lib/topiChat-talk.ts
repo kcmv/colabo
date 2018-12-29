@@ -40,7 +40,7 @@ enum KNodesTopiChatTalkTypes {
     ChatMsg = "topiChat.talk.chatMsg"
 }
 
-const KNodeModule = require("@colabo-knalledge/b-core/lib/modules/kNode");
+import { KNodeModule } from "@colabo-knalledge/b-core";
 
 export class TopiChatTalk{
     /**

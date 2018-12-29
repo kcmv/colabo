@@ -14,7 +14,7 @@ enum KNodesColaboFlowTopiChatTypes{
     Action = "colaboflow.action"
 }
 
-const KNodeModule = require("@colabo-knalledge/b-core/lib/modules/kNode");
+import { KNodeModule } from "@colabo-knalledge/b-core";
 
 let chalk = require('chalk');
 

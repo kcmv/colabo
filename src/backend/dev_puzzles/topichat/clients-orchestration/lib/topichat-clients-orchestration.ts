@@ -39,7 +39,7 @@ enum KNodesTopiChatClientsOrchestrationTypes{
     OrchestrationMsg = "topiChat.client-orchestrator.orchestratorMsg"
 }
 
-const KNodeModule = require("@colabo-knalledge/b-core/lib/modules/kNode");
+import { KNodeModule } from "@colabo-knalledge/b-core";
 
 enum TopiChatClientsOrchestrationEvents{
 	ChatMessage = 'tc:client-orchestrator-message'

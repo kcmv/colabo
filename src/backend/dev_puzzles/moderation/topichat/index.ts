@@ -14,7 +14,7 @@ enum KNodesTopiChatTalkTypes{
     ChatMsg = "topiChat.talk.chatMsg"
 }
 
-const KNodeModule = require("@colabo-knalledge/b-core/lib/modules/kNode");
+import { KNodeModule } from "@colabo-knalledge/b-core";
 
 /**
  * This is the main class, the entry point to TopiChat-Talk plugin. To use it, you just need to import `@colabo-topichat/b-talk`:
