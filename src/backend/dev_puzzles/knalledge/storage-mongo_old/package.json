@@ -1,0 +1,24 @@
+{
+    "name": "@colabo-knalledge/b-storage-mongo",
+    "description": "Mongo implementation of the KnAllEdge storage",
+    "version": "0.0.1",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Cha-OS/colabo.git"
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {
+        "bson": "^0.4.22",
+        "mongoose": "^4.0.0"
+    },
+    "devDependencies": {}
+}

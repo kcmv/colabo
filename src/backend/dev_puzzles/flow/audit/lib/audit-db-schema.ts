@@ -8,7 +8,7 @@ console.log("[%s] AuditedActionSchema: %s", MODULE_NAME, JSON.stringify(AuditedA
 /* SCHEMA */
 export let CfAuditDbSchema = mongoose.Schema(AuditedActionSchema);
 
-let pluginAuditing = require('@colabo-knalledge/b-storage-mongo/lib/models/pluginAuditing');
+import { pluginAuditing } from '@colabo-knalledge/b-storage-mongo';
 CfAuditDbSchema.plugin(pluginAuditing, {});
 
 // CfAuditDbSchema.statics.findInMapAfterTime = function (map, time, cb) {
