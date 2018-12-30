@@ -15,12 +15,12 @@ process.chdir(__dirname);
 // import * as express from "express";
 
 import { init, GetPuzzle } from '@colabo-utils/i-config';
-let configFile:any = require('./config/global');
-let globalSet:any = configFile.globalSet;
+const configFile:any = require('./config/global');
+const globalSet:any = configFile.globalSet;
 console.log("[ColaboFlow.Go:index] globalSet.paths: %s", JSON.stringify(globalSet.paths));
 init(globalSet);
-let puzzleConfig: any = GetPuzzle(MODULE_NAME);
-let actions:any[] = puzzleConfig.actions;
+const puzzleConfig: any = GetPuzzle(MODULE_NAME);
+const actions:any[] = puzzleConfig.actions;
 
 console.log("Actions: ", actions);
 
