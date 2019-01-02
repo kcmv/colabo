@@ -6,21 +6,17 @@ declare let global:any;
 
 console.log("[puzzle(knalledge/storage-mongo) - index.ts] Building up 'global.db'");
 
-import { kNodeSchema } from './lib/models/mkNode';
-import { kEdgeSchema } from './lib/models/mkEdge';
-import { kMapSchema } from './lib/models/mkMap';
-import { pluginAuditing } from './lib/models/pluginAuditing';
-
-console.log("index:pluginAuditing: ", pluginAuditing);
-export { kNodeSchema, kEdgeSchema, kMapSchema, pluginAuditing };
+let mkNode = require('./lib/models/mkNode');
+let mkEdge = require('./lib/models/mkEdge');
+let mkMap = require('./lib/models/mkMap');
 
 if (!global.hasOwnProperty('db')) {
     global.db = {};
 }
 
-global.db.kNode = {Schema: kNodeSchema};
-global.db.kEdge = {Schema: kEdgeSchema};
-global.db.kMap = {Schema: kMapSchema};
+global.db.kNode = mkNode;
+global.db.kEdge = mkEdge;
+global.db.kMap = mkMap;
 
 let GlobalDB = global.db;
 export {GlobalDB};

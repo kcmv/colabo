@@ -8,8 +8,8 @@ console.log("[%s] GoedActionSchema: %s", MODULE_NAME, JSON.stringify(GoedActionS
 /* SCHEMA */
 export let CfGoDbSchema = mongoose.Schema(GoedActionSchema);
 
-let pluginGoing = require('@colabo-knalledge/b-storage-mongo/lib/models/pluginGoing');
-CfGoDbSchema.plugin(pluginGoing, {});
+import { pluginAuditing }  from '@colabo-knalledge/b-storage-mongo';
+CfGoDbSchema.plugin(pluginAuditing, {});
 
 // CfGoDbSchema.statics.findInMapAfterTime = function (map, time, cb) {
 // 	//console.log('CfGoDbSchema::findInMapAfterTime: %s, %s (%d)', map, time, time.getTime());
