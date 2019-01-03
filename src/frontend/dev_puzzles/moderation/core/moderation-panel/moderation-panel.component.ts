@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, 
+  // ViewChild 
+} from '@angular/core';
 import {ColaboFlowMComponent} from '@colabo-flow/f-core/lib/moderation/colabo-flow-m.component';
 import {InsightsComponent} from './insights/insights.component';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {Observable} from 'rxjs';
+import { MatDrawer } from '@angular/material';
 
 @Component({
   selector: 'app-moderation-panel',
@@ -10,6 +13,8 @@ import {Observable} from 'rxjs';
   styleUrls: ['./moderation-panel.component.css']
 })
 export class ModerationPanelComponent implements OnInit {
+  isMatDrawerOpened: boolean;
+  // @ViewChild('sidenav') matdrawer: MatDrawer;
 
   constructor(
     private rimaAAAService: RimaAAAService

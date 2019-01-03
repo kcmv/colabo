@@ -6,3 +6,19 @@
     vertical-align: middle;
     margin-right: 5px;
 }
+
+.header__hamburger{
+    cursor: pointer;
+    /* padding: 5px; */
+    background-color: #673ab7;
+    border: solid 1px #673ab7; /* 875ad7; */
+    margin: 3px;
+}
+
+.matdrawer--container{
+    /* height: 300px; */
+}
+
+.matdrawer--content{
+    /* height: 1024px; */
+}

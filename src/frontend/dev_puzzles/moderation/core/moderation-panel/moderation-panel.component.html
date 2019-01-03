@@ -1,70 +1,112 @@
-<div fxLayout="column" fxFlexFill style="height: 100%;">
+<mat-drawer-container class="matdrawer-container">
+    <mat-drawer #matdrawer mode="side" [(opened)]="isMatDrawerOpened" mode='over'>
+      <div>
+        <p>
+            <a routerLink="/map-new">
+                <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">New Map</button>
+            </a>
+        </p>
+        <p>
+            <a routerLink="/map">
+                <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Map</button>
+            </a>
+        </p>
+        <!-- <p>
+            <a routerLink="/insights">
+                <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Insights</button>
+            </a>
+        </p> -->
+        <p>
+            <a routerLink="/cwc">
+                <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Coaching</button>
+            </a>
+        </p>
+        <p>
+            <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;" (click)="snack()">Snack</button>
+        </p>
+      </div>
+    </mat-drawer>
+  
+    <mat-drawer-content class="matdrawer-content">
+        <div fxLayout="column" fxFlexFill style="height: 100%;">
 
-    <!-- toolbar -->
-    <div fxFlex="64px" style="overflow-y: hidden;">
-        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
-            <a href="/" title="Home" >
-                <img alt="Home" src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
-            </a>  
-            <span><a href="/rima-login"><img class='user-avatar' src = '{{userAvatar() | async}}'/></a></span> {{userName()}}
-            <colabo-flow></colabo-flow>
-            <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
-            <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
+            <!-- toolbar -->
+            <div fxFlex="64px" style="overflow-y: hidden;">
+                <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+                    <button mat-flat-button class="header__hamburger header__button" aria-expanded="false" (click)='matdrawer.toggle()'>
+                        <i class="material-icons header__hamburger-icon" title="Toggle Navigation">menu</i>
+                    </button>
+                    <a href="/" title="Home" >
+                        <img alt="Home" src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+                    </a>  
+                    <span><a href="/rima-login"><img class='user-avatar' src = '{{userAvatar() | async}}'/></a></span> {{userName()}}
+                    <colabo-flow></colabo-flow>
 
-        </mat-toolbar>
-    </div>
+                </mat-toolbar>
+            </div>
 
-    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
-        <div *ngIf="isLoggedIn; else loggedOut">
-            <div *ngIf="isModerator; else noModerator">
-                <div style="margin: 15px;">
+            <div fxFlex style="overflow-y:scroll;">
+                <div *ngIf="isLoggedIn; else loggedOut">
+                    <div *ngIf="isModerator; else noModerator">
+                        <div style="margin: 15px;">
+                            <!-- <div>bla bla</div>
+                            <div>bla bla</div>
+                            <div>bla bla</div>
+                            <div>bla bla</div>
+                            <div>bla bla</div>
+                            <div>bla bla</div>
+                            <div>bla bla</div>
+                            <div>bla bla</div>
+                            <div>bla bla</div>
+                            <div>bla bla</div> -->
+                            <p>
+                                <a routerLink="/map">
+                                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Map</button>
+                                </a>
+                            </p>
+                            <p>
+                                <a routerLink="/maps">
+                                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Maps</button>
+                                </a>
+                            </p>
+                            <p>
+                                <a routerLink="/colaboflow-audits">
+                                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">ColaboFlow Audits</button>
+                                </a>
+                            </p>
 
-                    <p>
-                        <a routerLink="/map">
-                            <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Map</button>
-                        </a>
-                    </p>
-                    <p>
-                        <a routerLink="/maps">
-                            <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Maps</button>
-                        </a>
-                    </p>
-                    <p>
-                        <a routerLink="/colaboflow-audits">
-                            <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">ColaboFlow Audits</button>
-                        </a>
-                    </p>
+                            <h1>Moderation Panel</h1>
+                            <colabo-flow-m></colabo-flow-m>
+                        </div>
+                        <app-insights></app-insights>
+                        <similarity></similarity>
 
-                    <h1>Moderation Panel</h1>
-                    <colabo-flow-m></colabo-flow-m>
+                        <topiChat-system-form></topiChat-system-form>
+                        <colaboFlow-topiChat-form></colaboFlow-topiChat-form>
+                    </div>
+                    <ng-template #noModerator>
+                        You have to be a moderator to access this page
+                    </ng-template>
                 </div>
-                <app-insights></app-insights>
-                <similarity></similarity>
-
-                <topiChat-system-form></topiChat-system-form>
-                <colaboFlow-topiChat-form></colaboFlow-topiChat-form>
+                <ng-template #loggedOut>
+                    <div style="margin: 15px;">
+                        <p>
+                            To access this page you need:
+                        </p>
+                        <a routerLink="/rima-login">
+                            <button mat-raised-button color="primary">Login</button>
+                        </a>
+            
+                        <p>
+                            or
+                        </p>
+                        <a routerLink="/rima-register">
+                            <button mat-raised-button color="primary">Register</button>
+                        </a>
+            
+                    </div>
+                </ng-template>
             </div>
-            <ng-template #noModerator>
-                You have to be a moderator to access this page
-            </ng-template>
         </div>
-        <ng-template #loggedOut>
-            <div style="margin: 15px;">
-                <p>
-                    To access this page you need:
-                </p>
-                <a routerLink="/rima-login">
-                    <button mat-raised-button color="primary">Login</button>
-                </a>
-    
-                <p>
-                    or
-                </p>
-                <a routerLink="/rima-register">
-                    <button mat-raised-button color="primary">Register</button>
-                </a>
-    
-            </div>
-        </ng-template>
-    </div>
-</div>
+    </mat-drawer-content>
+</mat-drawer-container>
