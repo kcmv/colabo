@@ -21,8 +21,11 @@
     "allowSyntheticDefaultImports": false,
     "files": [
         "index.ts"
+        // , "./lib/colabo-flow.service.ts"
+
     ],
     "include": [
+        // "./lib/colabo-flow.service.ts"
     ],
     "exclude": [
         "**/*d.ts"
