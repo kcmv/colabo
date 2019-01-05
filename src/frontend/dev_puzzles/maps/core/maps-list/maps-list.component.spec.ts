@@ -1,25 +1,27 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { } from 'jasmine';
 
-// import { MapsListComponent } from './maps-list.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// describe('MapsListComponent', () => {
-//   let component: MapsListComponent;
-//   let fixture: ComponentFixture<MapsListComponent>;
+import { MapsListComponent } from './maps-list.component';
 
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ MapsListComponent ]
-//     })
-//     .compileComponents();
-//   }));
+describe('MapsListComponent', () => {
+  let component: MapsListComponent;
+  let fixture: ComponentFixture<MapsListComponent>;
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(MapsListComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ MapsListComponent ]
+    })
+    .compileComponents();
+  }));
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(MapsListComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

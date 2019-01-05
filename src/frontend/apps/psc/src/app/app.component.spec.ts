@@ -1,4 +1,4 @@
-import { } from 'jasmine';
+import { } from 'jasmine'; //https://stackoverflow.com/questions/45431458/typescript-errors-in-spec-files-in-visual-studio-web-application
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 describe('AppComponent', () => {

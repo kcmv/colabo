@@ -1,25 +1,27 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { } from 'jasmine';
 
-// import { ResultsVisualizationComponent } from './results-visualization.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// describe('ResultsVisualizationComponent', () => {
-//   let component: ResultsVisualizationComponent;
-//   let fixture: ComponentFixture<ResultsVisualizationComponent>;
+import { ResultsVisualizationComponent } from './results-visualization.component';
 
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ ResultsVisualizationComponent ]
-//     })
-//     .compileComponents();
-//   }));
+describe('ResultsVisualizationComponent', () => {
+  let component: ResultsVisualizationComponent;
+  let fixture: ComponentFixture<ResultsVisualizationComponent>;
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(ResultsVisualizationComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ ResultsVisualizationComponent ]
+    })
+    .compileComponents();
+  }));
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ResultsVisualizationComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
