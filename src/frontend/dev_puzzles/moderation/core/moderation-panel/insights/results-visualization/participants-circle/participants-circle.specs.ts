@@ -1,25 +1,27 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { } from 'jasmine';
 
-// import { ParticipantsCircleComponent } from './sdgs-statistics.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// describe('ParticipantsCircleComponent', () => {
-//   let component: ParticipantsCircleComponent;
-//   let fixture: ComponentFixture<ParticipantsCircleComponent>;
+import { ParticipantsCircleComponent } from './participants-circle';
 
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ ParticipantsCircleComponent ]
-//     })
-//     .compileComponents();
-//   }));
+describe('ParticipantsCircleComponent', () => {
+  let component: ParticipantsCircleComponent;
+  let fixture: ComponentFixture<ParticipantsCircleComponent>;
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(ParticipantsCircleComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ ParticipantsCircleComponent ]
+    })
+    .compileComponents();
+  }));
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ParticipantsCircleComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
