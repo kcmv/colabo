@@ -14,6 +14,7 @@
   "include": [
     "**/*.spec.ts",
     "**/*.d.ts",
+    
     "../node_modules/@colabo-utils/**/*",
     "node_modules/@colabo-utils/**/*",
     "/Users/sasha/Documents/data/development/colabo.space/colabo/src/frontend/dev_puzzles/utils/**/*",
