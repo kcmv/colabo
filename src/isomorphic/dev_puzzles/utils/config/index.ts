@@ -1,5 +1,7 @@
 const MODULE_NAME:string = "@colabo-utils/i-config";
 
+console.log("[%s] is INITIALIZING", MODULE_NAME);
+
 let Puzzles:any;
 let General:any;
 let globalSet:any;
@@ -24,6 +26,7 @@ export function GetPuzzle(puzzleName):any{
 }
 
 export function GetGeneral(propertyName):any{
+    console.log("[%s:GetGeneral] General: %s", JSON.stringify(General));
     console.log("[%s:GetGeneral] propertyName: %s", MODULE_NAME, propertyName);
     return General[propertyName];
 }

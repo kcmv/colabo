@@ -3,7 +3,9 @@ import { Component } from '@angular/core';
 // import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 // import {CWCService} from './cwc/cwc.service';
 
+// TESTING
 import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
+// TESTING
 import { GetPuzzle, GetGeneral } from '@colabo-utils/i-config';
 
 @Component({
@@ -21,18 +23,20 @@ export class AppComponent {
     // private sDGsService: SDGsService,
     // private RimaAAAService: RimaAAAService,
     // private cwcService: CWCService
-    protected utilsNotificationService: UtilsNotificationService
+    // TESTING
+    // protected utilsNotificationService: UtilsNotificationService
   ){
     console.log('AppComponent:constructor');
 
+    // TESTING
     this.generalConfigBranding = GetGeneral('branding');
 
-    this.utilsNotificationService.addNotification({
-      type: NotificationMsgType.Info,
-      title: this.generalConfigBranding.title,
-      msg: 'starting ...'
-    }
-);
+    // this.utilsNotificationService.addNotification({
+    //   type: NotificationMsgType.Info,
+    //   title: this.generalConfigBranding.title,
+    //   msg: 'starting ...'
+    // }
+    // );
   }
 
   ngOnInit() {
