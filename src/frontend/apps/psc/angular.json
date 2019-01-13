@@ -162,11 +162,11 @@
     "defaultProject": "performing_sustainable_coevolution",
     "schematics": {
         "@schematics/angular:component": {
-            "prefix": "app",
+            "prefix": "ng",
             "styleext": "css"
         },
         "@schematics/angular:directive": {
-            "prefix": "app"
+            "prefix": "ng"
         }
     }
 }
