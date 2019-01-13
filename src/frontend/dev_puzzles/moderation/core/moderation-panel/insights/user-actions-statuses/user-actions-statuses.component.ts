@@ -70,8 +70,24 @@ export class UserActionsStatusesComponent implements OnInit {
   ngOnInit() {
     this.insightsService.getRegisteredUsers().subscribe(this.usersReceived.bind(this));
     
-    if(this.usersData !== null){this.usersData.sort = this.sort;}
+    if(this.usersData !== null){
+      this.setUpSourceData();
+    }
     //this.getCWCs();
+  }
+
+  protected setUpSourceData():void{
+    this.usersData.sort = this.sort;
+    // this.usersData.paginator = this.paginator;
+  }
+
+  public applyFilter(filterValue: string) {
+    let filterValuePrep = filterValue.trim().toLowerCase();
+    console.log('applyFilter',filterValuePrep);
+    if(this.usersData !== null){
+      console.log('[applyFilter] this.usersData', this.usersData);
+      this.usersData.filter = filterValuePrep;
+    }
   }
 
   getCWCsPrint(us:UserInsight):string{
@@ -191,7 +207,7 @@ export class UserActionsStatusesComponent implements OnInit {
     // console.log('usersData:B',JSON.stringify(userInsights));
     this.usersData = new MatTableDataSource(userInsights);
     // console.log('usersData:A',JSON.stringify(this.usersData));
-    this.usersData.sort = this.sort;
+    this.setUpSourceData();
     this.getCWCs();
     this.getMyCFStates();
     this.getCardsPlayed();

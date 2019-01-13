@@ -10,6 +10,9 @@
            <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
          </mat-panel-description>
        </mat-expansion-panel-header>
+       <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter...">
+        </mat-form-field>
        
        <table mat-table matSort [dataSource]="usersData" class="mat-elevation-z8">
 
