@@ -140,6 +140,9 @@ var colaboFlowTopiChat = new ColaboFlowTopiChat(topiChat);
 import * as ColaboFlowAudit from '@colabo-flow/b-audit';
 ColaboFlowAudit.initialize(expressApp);
 
+import * as ColaboFlowSession from '@colabo-flow/b-session';
+ColaboFlowSession.initialize(expressApp);
+
 // let server = http.createServer(expressApp).listen(expressApp.get('port')
 let httpServer = http.Server(expressApp);
 topiChat.connect(httpServer);

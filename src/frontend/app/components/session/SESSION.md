@@ -6,6 +6,7 @@ Sessions are important to **enforce persistent / trusted / synchronized mutual/j
 
 Sessions are existing per map.
 They are defined by their id, containing
+
  + mapId
  + relativeSessionId
 

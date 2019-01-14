@@ -14,7 +14,8 @@ var puzzles = {
         "@colabo-topichat/b-core": {},
         "@colabo-topichat/b-knalledge": {},
         "@colabo-topichat/b-talk": {},
-        "@colabo-utils/i-config": {}
+        "@colabo-utils/i-config": {},
+        "@colabo-flow/b-session": {}
     },
     offers: {}
 }
