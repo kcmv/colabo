@@ -42,7 +42,7 @@ export class MapsListComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router
   ) { 
-    this.displayedColumns = [ 'name', 'creator', 'created', 'actions']; //'participants',
+    this.displayedColumns = [ 'name', 'type', 'creator', 'created', 'actions']; //'participants',
     if(this.rimaAAAService.isAdmin()){
       this.displayedColumns.unshift('id');
     }

@@ -47,6 +47,11 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+          <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        </ng-container>
+        
         <ng-container matColumnDef="creator">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Creator </th>
           <td mat-cell *matCellDef="let element"> {{printCreator(element.iAmId)?.name | async}} </td>
