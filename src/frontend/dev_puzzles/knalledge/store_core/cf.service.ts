@@ -52,8 +52,11 @@ export class CFService {
     if(!sd.success){
       console.warn('[CFService::extractVO] serverData.success = false');
     }
-    let vo: T = typeT.factory(sd.data);
-    vo.state = VO.STATE_SYNCED;
+    let vo: T = null;
+    if(sd.data !== null){
+      vo = typeT.factory(sd.data);
+      vo.state = VO.STATE_SYNCED;
+    }
     return vo;
   }
 
