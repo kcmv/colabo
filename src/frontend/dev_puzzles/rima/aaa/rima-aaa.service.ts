@@ -215,6 +215,7 @@ export class RimaAAAService extends CFService{
       else return null;
   }
 
+  //TODO: should we add 'memoization' here?
   public getUserById(id:string):Observable<KNode>{ //TODO: not to get users from server each time, but from a local array
       return this.knalledgeNodeService.getById(id);
   }

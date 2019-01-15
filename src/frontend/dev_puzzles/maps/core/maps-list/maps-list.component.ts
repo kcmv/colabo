@@ -224,8 +224,15 @@ export class MapsListComponent implements OnInit {
     return false;
   }
 
-  creatorReceived(creator:KNode):void{
-    this.creators[creator._id] = creator;
+  creatorReceived(creator:KNode):void{ //memoization fn
+    if(creator!==null)
+    {
+      // console.log('[creatorReceived]', creator, creator.name, creator._id);
+      this.creators[creator._id] = of(creator);
+    }
+    else{
+      console.warn('[creatorReceived] user not find');
+    }
   }
 
   private log(message: string) {
@@ -233,15 +240,33 @@ export class MapsListComponent implements OnInit {
   }
 
   printCreator(id:string):Observable<KNode>{
+    // id = '5bebb889104bee65c14402e6';
+    
+    /*
+    //mockuping:
+    let user:KNode = new KNode();
+    user.name = 'demo user';
+    return of(user);
+    */
+   
     if(id in this.creators){
-      return of(this.creators[id]);
+      // console.log('[printCreator] found in memoization', this.creators[id]);
+      return this.creators[id];
     }
     else{
-      let result:Observable<KNode> = this.rimaAAAService.getUserById(id)
-      .pipe(
-        // tap(_ => this.creatorReceived.bind(this))
-        tap(_ => this.log('fetched heroes'))
-      );
+      console.log('[printCreator] id not found in memoization');
+      // console.log('this.creators',this.creators);
+      let result:Observable<KNode> = this.rimaAAAService.getUserById(id);
+      // .pipe(
+      //   // tap(_ => this.creatorReceived.bind(this)),
+      //   // tap(user => console.log('[printCreator]', user)),
+      //   // tap(_ => this.log('fetched heroes'))
+      // )
+      result.subscribe(this.creatorReceived.bind(this));
+      
+      // adding it so that the new request for the same author is not sent (the same user can be creator of many maps)
+      // especially important if the user is not found, so he would not be added in the subscribed method:
+      this.creators[id] = result;
       return result;
     }
     //TODO: IMG
