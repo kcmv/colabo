@@ -1,3 +1,19 @@
+# Structure description
+
+We will use `@colabo-flow/b-audit` puzzle as an example.
+
++ `params.ts` - contains global parameters of the puzzle used in other files (like the puzzle name, etc)
++ `audit-db-vo.ts` - contains VO (Value Objects) used in the database part of the backend puzzle. Note that isomoprhic VOs are stored in the isomporhipc puzzle (`@colabo-flow/i-audit`)
++ `audit-db-schema.ts` - creates DB (Mongo) Schema for the puzzle, adds all DB plugins, like `pluginAuditing` from `@colabo-knalledge/b-storage-mongo` and provides it to the global space
++ `audit-db.ts` - provides DB access functionality. It is agnostic in a sense that it can be used from the RESTfull API (Express.js) or from a service (through gRPC @ ColaboFlow, or RabbitMQ service, etc)
++ `audit-api.ts` - provides RESTfull (through Express.js framework) interface to the puzzle's business logic
+
+**NOTE 1**: isomoprhic VOs are stored in the isomporhipc puzzle (`@colabo-flow/i-audit` in `colabo/src/isomorphic/dev_puzzles/flow/audit`)
+
+**NOTE 2**: `@colabo-flow/s-audit` puzzle contains ***description*** of the gRPC interface (without implementation)
+
+**NOTE 3**: Service `@colabo-flow/service-audit` (and more specifically `colabo/src/services/services/colaboflow-audit/index.ts`) contains ***implementation*** of the gRPC interface (as an additional interface to the business logic of the `@colabo-flow/b-audit` puzzle)
+
 # Procedure
 
 ## 1. Create a backend puzzle

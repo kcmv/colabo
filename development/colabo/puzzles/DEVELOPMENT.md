@@ -1,3 +1,17 @@
+# Structure description
+
+We will use puzzle `@colabo-flow/b-audit` as an example.
+
+Puzzles are encapsulated in folders. Each folder contains fundamental files and folders necessary for puzzle to build and be properly used.
+
+The puzzle `@colabo-flow/b-audit` is stored in the `audit` folder, which is contained in parent `flow` folder which presents puzzle `namespace` folder, corresponding to the `@colabo-flow` name.
+
++ `package.json` - describes puzzle as a npm module
++ `tsconfig.json` - explains TypeScript building process of the puzzle
++ `index.ts` - contains public API of the puzzle
++ `lib` - contains the most of the business logic of the puzzle
++ `dist` - contains compiled (and built) version of the puzzle
+
 # package.json
 
 ## module parameter
