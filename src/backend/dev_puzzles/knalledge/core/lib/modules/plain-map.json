@@ -1,7 +1,7 @@
 {
     "name":"Plain Map",
     "type":"actions",
-    "consts":{
+    "declarations":{
     },
     "data": [
     {
@@ -10,13 +10,12 @@
         "collection":"knodes",
         "data":
         {
-          "name" : "Root Node - TO_LINK_TO '$map_name'",
+          "_id" : "$>rootNodeId",
+          "name" : "$mapName",
           "type" : "plain-map",
-          "mapId" : "5c3dc486ad6c3215ccc464cb",
+          "mapId" : "$mapId",
           "iAmId" : "556760847125996dc1a4a24f",
           "ideaId" : 0,
-          "updatedAt" : "2018-09-10T01:07:10.401+0000",
-          "createdAt" : "2018-09-10T01:07:10.400+0000",
           "visual" : {
               "isOpen" : true,
               "yM" : 0,
@@ -48,16 +47,15 @@
             "collection":"knodes",
             "data":
             {
+                "_id" : "$>contentNodeId",
                 "name" : "Content",
                 "type" : "clathon.content",
-                "mapId" : "5c3dc486ad6c3215ccc464cb",
+                "mapId" : "$mapId",
                 "iAmId" : "556760847125996dc1a4a24f",
                 "ideaId" : 0,
                 "visual" : {
                     "isOpen" : true
                 },
-                "updatedAt" : "2018-09-10T01:25:34.934+0000",
-                "createdAt" : "2018-09-10T01:25:34.933+0000",
                 "isPublic" : true,
                 "version" : 1,
                 "activeVersion" : 1,
@@ -81,15 +79,13 @@
             {
                 "name" : "Content",
                 "type" : "clathon.content",
-                "mapId" : "5c3dc486ad6c3215ccc464cb",
+                "mapId" : "$mapId",
                 "iAmId" : "556760847125996dc1a4a24f",
                 "ideaId" : 0,
-                "sourceId" : "5be40853e1b7970d8c6df40c",
-                "targetId" : "5be40c8ae1b7970d8c6df415",
+                "sourceId" : "$rootNodeId",
+                "targetId" : "$contentNodeId",
                 "dataContent" : null,
                 "visual" : null,
-                "updatedAt" : "2018-09-10T01:25:34.934+0000",
-                "createdAt" : "2018-09-10T01:25:34.933+0000",
                 "value" : 0,
                 "isPublic" : true,
                 "__v" : 0
@@ -98,4 +94,3 @@
         ]
     }]
 }
-  

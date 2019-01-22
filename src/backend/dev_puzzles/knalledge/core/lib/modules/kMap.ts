@@ -131,34 +131,8 @@ export function create(req, res) {
                 function finished():void {
                     resSendJsonProtected(res, { success: true, data: kmap, accessId: accessId });
                 }
-                
-                let kmap = new KMapModel(data);
-                try{
-                    console.log('[kMap::create]__dirname:', __dirname);
-                    let path = __dirname;
-                    fs.readFile( path + '/plain-map.json', function (err, data) {
-                        if (err) {
-                            let errMsg = err;
-                            console.error(errMsg,err);
-                            resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
-                        }else{
-                            console.log('template file', data.toString());
-                            let template = JSON.parse(data);
-                            // console.log('template',template);
-                            // executeTemplate(kmap, template);
 
-                            let KEdgeModel = dbConnection.model('kEdge', (<any>global).db.kEdge.Schema);
-                            let KNodeModel = dbConnection.model('kNode', (<any>global).db.kNode.Schema);
-                            
-                            let mapTemplateProcessor:MapTemplateProcessor = new MapTemplateProcessor(kmap, template, KEdgeModel, KNodeModel);
-                            mapTemplateProcessor.processTemplate();
-                        }
-                    });
-                }catch(err){
-                    let errMsg = 'template loading error';
-                    console.error(errMsg,err);
-                    resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
-                }
+                let kmap = new KMapModel(data);
                 
                 console.log('kmap.type', kmap.type);
                 
@@ -169,7 +143,38 @@ export function create(req, res) {
                         resSendJsonProtected(res, { data: null, accessId: accessId, message: 'saving error:' + JSON.stringify(err), success: false });
                     }else{
                         console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
-                        finished();
+
+                        try{
+                            console.log('[kMap::create]__dirname:', __dirname);
+                            let path = __dirname;
+                            fs.readFile( path + '/plain-map.json', function (err, data) {
+                                if (err) {
+                                    let errMsg = err;
+                                    console.error(errMsg,err);
+                                    resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                                }else{
+                                    // console.log('template file', data.toString());
+                                    let template = JSON.parse(data);
+                                    // console.log('template',template);
+                                    // executeTemplate(kmap, template);
+        
+                                    let KEdgeModel = dbConnection.model('kEdge', (<any>global).db.kEdge.Schema);
+                                    let KNodeModel = dbConnection.model('kNode', (<any>global).db.kNode.Schema);
+                                    let variables:any = {
+                                        'mapId': kmap._id,
+                                        'mapName': kmap.name
+                                    }
+                                    let mapTemplateProcessor:MapTemplateProcessor = new MapTemplateProcessor(kmap, template, KEdgeModel, KNodeModel, variables);
+                                    mapTemplateProcessor.processTemplate();
+
+                                    finished();
+                                }
+                            });
+                        }catch(err){
+                            let errMsg = 'template loading error';
+                            console.error(errMsg,err);
+                            resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                        }
                     }
                 });
             }catch(err){
