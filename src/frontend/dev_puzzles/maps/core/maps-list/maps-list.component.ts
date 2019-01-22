@@ -64,6 +64,13 @@ export class MapsListComponent implements OnInit {
     return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
   }
 
+  public creatorAvatar(id:string):Observable<string>{
+    // (this.creators[id] as Observable<KNode>).subscribe( function(user:KNode){
+    //   return RimaAAAService.userAvatar(user);
+    // }
+    return of ('');
+  }
+
   ngOnInit() {
     this.knalledgeMapService.getMaps().subscribe(this.mapsReceived.bind(this));
     if(this.mapsData !== null){

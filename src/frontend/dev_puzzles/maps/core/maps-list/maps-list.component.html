@@ -54,7 +54,10 @@
         
         <ng-container matColumnDef="creator">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Creator </th>
-          <td mat-cell *matCellDef="let element"> {{(printCreator(element.iAmId) | async)?.name}} </td>
+          <td mat-cell *matCellDef="let element">
+            <!-- <img src='{{creatorAvatar(element.iAmId) | async}}'/>  -->
+            {{(printCreator(element.iAmId) | async)?.name}}
+          </td>
         </ng-container>
 
         <!-- <ng-container matColumnDef="participants">
