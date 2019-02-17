@@ -13,6 +13,11 @@
     padding: 5px;
 }
 
+.session-select-field{
+    min-width: 800px;
+    /* width: 100%; */
+}
+
 .warning-pad {
     background-color: #afa;
     color: #080;
