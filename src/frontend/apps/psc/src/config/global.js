@@ -42,9 +42,9 @@ if (!globalSet.hasOwnProperty('general')) {
         imagesFolder: 'images',
 
         // active map
-        mapId: '5be3fddce1b7970d8c6df406',
-        mapIdSDGs: '5be3fddce1b7970d8c6df406',
-        userNodeId: '5be408d0e1b7970d8c6df40f',
+        mapId: '5b49e7f736390f03580ac9a7', //5be3fddce1b7970d8c6df406
+        mapIdSDGs: '5b49e7f736390f03580ac9a7', //5be3fddce1b7970d8c6df406
+        userNodeId: '5be408d0e1b7970d8c6df40f', 
 
         lang: 'en',
         //'rs',
