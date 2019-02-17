@@ -98,13 +98,17 @@ export class UserActionsStatusesComponent implements OnInit {
     for(var c:number = 0; c < us.cwcs.length; c++){
       // console.log('getCWCsPrint:: us.cwcs', us.cwcs);
       cwc = us.cwcs[c]; 
-      if(('dataContent' in cwc) && ('humanID' in cwc.dataContent)){
-        // cwcs+= conn + '<span matTooltip="CWC">'+cwc.dataContent.humanID+'</span>';
-        // cwcs+= conn + '<span matTooltip="'+cwc.name+'">'+cwc.dataContent.humanID+ (this.insightsService.isCwcPlayed(cwc) ? 'p' : '') + '</span>';
-        cwcs+= conn + '<B>' + cwc.dataContent.humanID + (this.insightsService.isCwcPlayed(cwc) ? ' (p:' +this.insightsService.roundPlayed(cwc) + ')' : '') + '</B>: (<span matTooltip="Sinisa Test CWC">TT</span>) ' + cwc.name;
-        // conn = ', ';
-        conn = ', \n<br/>';
-      }
+      // cwcs+= conn + '<span matTooltip="CWC">'+cwc.dataContent.humanID+'</span>';
+      // cwcs+= conn + '<span matTooltip="'+cwc.name+'">'+cwc.dataContent.humanID+ (this.insightsService.isCwcPlayed(cwc) ? 'p' : '') + '</span>';
+
+      cwcs+= conn 
+       + '<B>' + ((('dataContent' in cwc) && ('humanID' in cwc.dataContent)) ? cwc.dataContent.humanID+' ' : '')
+       + (this.insightsService.isCwcPlayed(cwc) ? ' (p:' +this.insightsService.roundPlayed(cwc) + ')' : '') + '</B>: '
+      //+ '(<span matTooltip="Sinisa Test CWC">TT</span>) ' 
+      + cwc.name;
+      
+      // conn = ', ';
+      conn = ', \n<br/>';
     }
     //console.log('[getCWCsPrint] cwcs',cwcs);
     return cwcs;
@@ -162,6 +166,12 @@ export class UserActionsStatusesComponent implements OnInit {
         }
       }
     }
+  }
+
+  onUserDeleted(event:any, userId:string):void{
+    console.log('onUserDeleted('+event+','+userId+')');
+    this.usersData.data.splice(this.usersData.data.findIndex(userInList => {return userInList.user._id === userId;}),1);
+    this.setUpSourceData();
   }
 
   getSDGSelections():void{

@@ -3,6 +3,7 @@ import {ColaboFlowMComponent} from '@colabo-flow/f-core/lib/moderation/colabo-fl
 import {InsightsComponent} from './insights/insights.component';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import {Observable} from 'rxjs';
+import * as config from '@colabo-utils/i-config';
 
 @Component({
   selector: 'app-moderation-panel',
@@ -11,11 +12,18 @@ import {Observable} from 'rxjs';
 })
 export class ModerationPanelComponent implements OnInit {
 
+  static mapId = config.GetGeneral('mapId');
+  
+
   constructor(
     private rimaAAAService: RimaAAAService
   ) { }
 
   ngOnInit() {
+  }
+
+  get activeMap():string{
+    return ModerationPanelComponent.mapId;
   }
 
   get isLoggedIn():Boolean{

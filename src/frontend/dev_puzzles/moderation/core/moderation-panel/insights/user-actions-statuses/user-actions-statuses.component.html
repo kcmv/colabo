@@ -45,7 +45,7 @@
             <th mat-header-cell *matHeaderCellDef>CWCs</th>
             <td mat-cell *matCellDef="let element" [ngClass]="{'warning': !correctCWCNo(element)}">
                 <!-- <span matTooltip="Sinisa Test 1">6</span>, <span matTooltip="Sinisa Test 2">7</span>, <span matTooltip="Sinisa Test 3">8</span>, <span matTooltip="Sinisa Test 4">9</span>, <span matTooltip="Sinisa Test 5">10</span> -->
-                <span matTooltip="Sinisa Test 1">6</span>,
+                <!-- <span matTooltip="Sinisa Test 1">6</span>, -->
                 <div [innerHTML]="getCWCsPrint(element)"></div>
             </td>
           </ng-container>
@@ -67,7 +67,7 @@
 
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> actions </th>
-            <td mat-cell *matCellDef="let element" ><user-moderation [user]="element.user"></user-moderation> </td>
+            <td mat-cell *matCellDef="let element" ><user-moderation (deleted)="onUserDeleted($event, element.user._id) "  [user]="element.user"></user-moderation> </td>
           </ng-container>
         
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
