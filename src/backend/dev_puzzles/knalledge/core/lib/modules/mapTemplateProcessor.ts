@@ -39,6 +39,7 @@ export class MapTemplateProcessor{
     protected KEdgeModel:any;
     protected KNodeModel:any;
     protected variables:any;
+    protected callback:Function;
     // protected outputVariables:any;
     // protected currentNode:any = null;
     protected nodesPendingForInsert:any[] = [];
@@ -225,7 +226,8 @@ export class MapTemplateProcessor{
         return true;
     }
 
-    public processTemplate():boolean { //Observable should be used or Promise ...
-        return this.processTemplateNode(this.template);
+    public processTemplate(callback:Function):void { //Observable should be used or Promise ...
+        this.callback = callback;
+        this.processTemplateNode(this.template);
     }
 }

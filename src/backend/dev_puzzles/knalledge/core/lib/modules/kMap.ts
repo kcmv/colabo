@@ -165,9 +165,7 @@ export function create(req, res) {
                                         'mapName': kmap.name
                                     }
                                     let mapTemplateProcessor:MapTemplateProcessor = new MapTemplateProcessor(kmap, template, KEdgeModel, KNodeModel, variables);
-                                    mapTemplateProcessor.processTemplate();
-
-                                    finished();
+                                    mapTemplateProcessor.processTemplate(finished);
                                 }
                             });
                         }catch(err){
