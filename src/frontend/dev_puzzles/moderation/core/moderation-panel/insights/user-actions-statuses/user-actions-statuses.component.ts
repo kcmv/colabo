@@ -45,6 +45,10 @@ export class UserInsight{
     return this.user.name;
   }
 
+  get group():string{
+    return this.user.dataContent.group; 
+  }
+
   get email():string{
     return this.user.dataContent.email;
   }
@@ -58,7 +62,7 @@ export class UserInsight{
 export class UserActionsStatusesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['id', 'name', 'myColaboFlowState', 'cwcs', 'sdgs', 'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'group', 'myColaboFlowState', 'cwcs', 'sdgs', 'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3', 'actions'];
   usersData:MatTableDataSource<UserInsight> = null; //any = [];//UserInsight[] = []; TODO
 
   constructor(
