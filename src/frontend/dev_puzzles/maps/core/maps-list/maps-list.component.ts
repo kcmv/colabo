@@ -129,6 +129,7 @@ export class MapsListComponent implements OnInit {
           this.mapsData.data.splice(this.mapsData.data.findIndex(mapInList => {return mapInList._id === map._id;}),1);
           // this.selectedItem = null;
           this.setUpSourceData();
+          this.snackBar.open("Map deleted", "", {duration: 2000});
         }
       }
       if(btn===1)
