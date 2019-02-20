@@ -470,6 +470,21 @@ export function destroy(req, res) {
                 resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
             });
             break;
+        case 'by-user': // by user
+            var iAmId = id;
+            console.log("[modules/kNode.js:destroy by-user] deleting all Nodes by user %s", iAmId);
+            var data = { iAmId: iAmId };
+            if(isPrmNull(id)){
+                console.log('unallowed parameter');
+                resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unallowed parameter', success: false });
+              }
+              else{
+                exports._destroyByUser(iAmId, function(err) {
+                    console.log("[modules/kNode.js:destroy] data:" + JSON.stringify(data));
+                    resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
+                });
+            }
+            break;
         case 'by-type-in-map':
             var node_type = id;
             var mapId = id2;
@@ -526,6 +541,18 @@ export function _destroyByTypenUser(type, iAmId, callback) {
     console.log("[modules/kNode.js:_destroyByTypenUser] deleting all Nodes of type %s by user %s", type, iAmId);
 
     KNodeModel.remove({ $and: [{ type: type }, { iAmId: iAmId }] }, function(err) {
+        if (err) {
+            console.log("[modules/kNode.js:destroy] error:" + err);
+            throw err;
+        }
+        if (callback) callback(err);
+    });
+}
+
+export function _destroyByUser(iAmId:string, callback:Function) {
+    console.log("[modules/kNode.js:_destroyByUser] deleting all Nodes of type %s by user %s", iAmId);
+
+    KNodeModel.remove({ iAmId: iAmId }, function(err:any) {
         if (err) {
             console.log("[modules/kNode.js:destroy] error:" + err);
             throw err;

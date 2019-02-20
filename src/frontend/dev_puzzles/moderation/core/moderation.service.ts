@@ -42,9 +42,18 @@ export class ModerationService {
     this.knalledgeNodeService.destroy(userId).subscribe(function(){
       that.knalledgeEdgeService.destroyEdgesToChild(userId).subscribe(
         function(){
-          // window.alert('user is deleted');
-          deleteObserver.next(true);
-          deleteObserver.complete();
+          that.knalledgeNodeService.destroyByUser(userId).subscribe(
+            function(){
+              that.knalledgeEdgeService.destroyByUser(userId).subscribe(
+                function(){
+                  // window.alert('user is deleted');
+                  deleteObserver.next(true);
+                  deleteObserver.complete();
+                }
+              );
+            }
+          );
+          
         }
       );
     }

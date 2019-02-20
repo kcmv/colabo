@@ -124,6 +124,7 @@ export class UserActionsStatusesComponent implements OnInit {
   }
 
   printSDGs(us:UserInsight):string{
+    // 'http://localhost:8891/assets/images/sdgs/s/sdg' + us.sdgs[i] + '.jpg'; //sdgs contains humanIDs
     return us.sdgs.length > 0 ? us.sdgs.toString() : 'no SDGs\nselected';
   }
 

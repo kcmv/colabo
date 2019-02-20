@@ -23,6 +23,10 @@ function resSendJsonProtected(res, data) {
     }
 };
 
+function isPrmNull(val:any){
+    return val == null ||  val == '' || val == 'undefined' || val == 'null';
+}
+
 var dbConnection = dbService.DBConnect();
 
 var KEdgeModel = dbConnection.model('kEdge', (<any>global).db.kEdge.Schema);
@@ -222,6 +226,28 @@ export function destroy(req, res) {
                 console.log("[modules/kEdge.js:destroy] data:" + JSON.stringify(data));
                 resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
             });
+            break;
+
+            console.log("[modules/kNode.js:_destroyByUser] deleting all Nodes of type %s by user %s", iAmId);
+        case 'by-user': // by user
+            var iAmId = dataId;
+            console.log("[modules/kEdge.js:destroy by-user] deleting all Nodes by user %s", iAmId);
+            var data = { iAmId: iAmId };
+            if(isPrmNull(iAmId)){
+                console.log('unallowed parameter');
+                resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unallowed parameter', success: false });
+            }
+            else{
+                KEdgeModel.remove({ iAmId: iAmId }, function(err:any) {
+                    if (err) {
+                        console.log("[modules/kNode.js:destroy] error:" + err);
+                        throw err;
+                    }
+                    var data = { id: dataId };
+                    console.log("[modules/kEdge.js:destroy] data:" + JSON.stringify(data));
+                    resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
+                });
+            }
             break;
         case 'edges-to-child': // by type and user
             console.log("[modules/kEdge.js:destroy] deleting all edges with specific tagetId %s", dataId);

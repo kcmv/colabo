@@ -22,7 +22,7 @@ export class UserModerationComponent implements OnInit {
 
 
   deleteUser():void{
-    if(window.confirm("Are you sure you want to delete user " + this.user.name + '?')){
+    if(window.confirm("Are you sure you want to delete user " + this.user.name + ' and all of its data?')){
       this.moderationService.deleteUser(this.user._id).subscribe(this.userDeleted.bind(this));
     }
   }

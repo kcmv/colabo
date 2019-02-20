@@ -224,6 +224,34 @@ export class KnalledgeEdgeService extends CFService{
     if(callback){result.subscribe(success => callback(success));}
 		return result;
   }
+
+  destroyByUser(iAmid:string): Observable<boolean>
+	{
+    //TODO:NG2 fix usage of this function to expect boolean
+    var result:Observable<boolean> = this.http.delete<ServerData>(this.apiUrl+'by-user/'+iAmid, httpOptions).pipe(
+      tap(_ => console.log(`deleted nodes: iAmid=${iAmid}`)),
+      map(serverData => serverData.success),
+      catchError(this.handleError<boolean>('destroyByUser'))
+    );
+
+		/* TODO:NG2
+      if(this.knAllEdgeRealTimeService){ // realtime distribution
+      //
+			// let change = new puzzles.changes.Change();
+			// change.value = null;
+			// change.valueBeforeChange = null; //TODO
+			// change.reference = id;
+			// change.type = puzzles.changes.ChangeType.STRUCTURAL;
+			// change.event = Plugins.puzzles.knalledgeMap.config.services.KnRealTimeEdgeDeletedEventName;
+			// // change.action = null;
+			// change.domain = puzzles.changes.Domain.NODE;
+			// change.visibility = puzzles.changes.ChangeVisibility.ALL;
+			// change.phase = puzzles.changes.ChangePhase.UNDISPLAYED;
+      //
+			// this.knAllEdgeRealTimeService.emit(Plugins.puzzles.knalledgeMap.config.services.KnRealTimeEdgeDeletedEventName, change);//{'_id':id});
+		}*/
+		return result;
+	}
   
 
   destroyEdgesToChild(targetId:string): Observable<boolean>
