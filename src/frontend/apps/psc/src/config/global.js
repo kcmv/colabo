@@ -41,8 +41,13 @@ if (!globalSet.hasOwnProperty('general')) {
 
         imagesFolder: 'images',
 
-        // active map
-        mapId: '5b49e7f736390f03580ac9a7', //5be3fddce1b7970d8c6df406
+        // active map:
+        mapId: 
+        '5b96619b86f3cc8057216a03', //PTW 2018
+        // '5bce4f50b6b1fc5d048c706d', // Business Angelina (Karlovci)
+        // '5b49e7f736390f03580ac9a7', // Vlasina 2018
+        // '5be3fddce1b7970d8c6df406', // Everyday Heroes
+        
         mapIdSDGs: '5b49e7f736390f03580ac9a7', //5be3fddce1b7970d8c6df406
         userNodeId: '5be408d0e1b7970d8c6df40f', 
 
