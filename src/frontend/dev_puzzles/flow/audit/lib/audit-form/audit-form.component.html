@@ -37,11 +37,13 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field>
-                <mat-select placeholder="Sessions" (selectionChange)='sessionSelectionChanged()' [formControl]="sessionsFC" multiple [(ngModel)]="selectedSessions">
-                    <mat-option *ngFor="let session of sessions" [value]="session">{{session}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+            <p>
+                <mat-form-field class="session-select-field">
+                    <mat-select placeholder="Sessions" (selectionChange)='sessionSelectionChanged()' [formControl]="sessionsFC" multiple [(ngModel)]="selectedSessions">
+                        <mat-option *ngFor="let session of sessions" [value]="session">{{session}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </p>
 
             <button color="primary" (click)="clearSessions()">Clear Sessions</button>
             <button color="primary" (click)="reloadActions()">Reload Actions</button>

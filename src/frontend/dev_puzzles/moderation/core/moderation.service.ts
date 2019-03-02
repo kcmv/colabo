@@ -36,14 +36,28 @@ export class ModerationService {
   deleteUser(userId:string):Observable<boolean>{
     // window.alert('Function to be supported! Deleting user with _id = ' + userId);
     var that:ModerationService = this;
+    let observable:Observable<boolean> = new Observable(observer => {deleteObserver = observer; return {unsubscribe() {}};});
+    let deleteObserver:any = {};//Observer
+    
     this.knalledgeNodeService.destroy(userId).subscribe(function(){
-    that.knalledgeEdgeService.destroyEdgesToChild(userId).subscribe(
-      function(){
-        window.alert('user is deleted');
-      }
-    );
+      that.knalledgeEdgeService.destroyEdgesToChild(userId).subscribe(
+        function(){
+          that.knalledgeNodeService.destroyByUser(userId).subscribe(
+            function(){
+              that.knalledgeEdgeService.destroyByUser(userId).subscribe(
+                function(){
+                  // window.alert('user is deleted');
+                  deleteObserver.next(true);
+                  deleteObserver.complete();
+                }
+              );
+            }
+          );
+          
+        }
+      );
     }
     );
-    return of(false);
+    return observable;
   }
 }

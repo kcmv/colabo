@@ -39,7 +39,7 @@ add new puzzle
 ```ts
 import * as ColaboFlowAudit from '@colabo-flow/b-audit';
 ColaboFlowAudit.initialize(expressApp);
-``` 
+```
 
 ## 5. Make puzzle's index.ts
 

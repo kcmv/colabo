@@ -10,6 +10,7 @@ var fs = require('fs');
 var mockup = { fb: { authenticate: false }, db: { data: false } };
 var accessId = 0;
 
+import {MapTemplateProcessor} from './mapTemplateProcessor';
 
 function resSendJsonProtected(res, data) {
     // http://tobyho.com/2011/01/28/checking-types-in-javascript/
@@ -116,9 +117,9 @@ export function index(req, res) {
 // curl -v -H "Content-Type: application/json" -X POST -d '{"name":"Hello Map", "iAmId":5, "visual": {}}' http://127.0.0.1:8042/kmaps
 // curl -v -H "Content-Type: application/json" -X POST -d '{"_id":"551bdcda1763e3f0eb749bd4", "name":"Hello World ID", "iAmId":5, "visual": {"isOpen": true}}' http://127.0.0.1:8042/kmaps
 export function create(req, res) {
-    var type = req.params.type;
+    let type = req.params.type;
     console.log("create::type", type);
-    var data = req.body;
+    let data = req.body;
     switch (type) {
         case 'import':
             console.log("[modules/KMap.js:create/mapImport]", data);
@@ -126,33 +127,15 @@ export function create(req, res) {
         default:
             console.log("[modules/kMap.js:create/default] req.body: %s", JSON.stringify(data));
 
-            function finished():void {
-                resSendJsonProtected(res, { success: true, data: kmap, accessId: accessId });
-            }
-
             try{
-                var kmap = new KMapModel(data);
-                try{
-                    console.log('[kMap::create]__dirname:', __dirname);
-                    var path = __dirname;
-                    fs.readFile( path + '/plain-map.json', function (err, data) {
-                        if (err) {
-                            var errMsg = err;
-                            console.error(errMsg,err);
-                            resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
-                        }else{
-                            console.log('template file', data.toString());
-                            var template = JSON.parse(data);
-                            // console.log('template',template);
-                        }
-                    });
-                }catch(err){
-                    var errMsg = 'template loading error';
-                    console.error(errMsg,err);
-                    resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                function finished():void {
+                    resSendJsonProtected(res, { success: true, data: kmap, accessId: accessId });
                 }
-                //TODO: creating all the DB objects according to the loaded template:
+
+                let kmap = new KMapModel(data);
+                
                 console.log('kmap.type', kmap.type);
+                
 
                 kmap.save(function(err) {
                     if (err) {
@@ -160,11 +143,40 @@ export function create(req, res) {
                         resSendJsonProtected(res, { data: null, accessId: accessId, message: 'saving error:' + JSON.stringify(err), success: false });
                     }else{
                         console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
-                        finished();
+
+                        try{
+                            console.log('[kMap::create]__dirname:', __dirname);
+                            let path = __dirname;
+                            fs.readFile( path + '/plain-map.json', function (err, data) {
+                                if (err) {
+                                    let errMsg = err;
+                                    console.error(errMsg,err);
+                                    resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                                }else{
+                                    // console.log('template file', data.toString());
+                                    let template = JSON.parse(data);
+                                    // console.log('template',template);
+                                    // executeTemplate(kmap, template);
+        
+                                    let KEdgeModel = dbConnection.model('kEdge', (<any>global).db.kEdge.Schema);
+                                    let KNodeModel = dbConnection.model('kNode', (<any>global).db.kNode.Schema);
+                                    let variables:any = {
+                                        'mapId': kmap._id,
+                                        'mapName': kmap.name
+                                    }
+                                    let mapTemplateProcessor:MapTemplateProcessor = new MapTemplateProcessor(kmap, template, KEdgeModel, KNodeModel, variables);
+                                    mapTemplateProcessor.processTemplate(finished);
+                                }
+                            });
+                        }catch(err){
+                            let errMsg = 'template loading error';
+                            console.error(errMsg,err);
+                            resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                        }
                     }
                 });
             }catch(err){
-                var errMsg = 'creator KMapModel error';
+                let errMsg = 'creator KMapModel error';
                 console.error(errMsg,err);
                 resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
             }

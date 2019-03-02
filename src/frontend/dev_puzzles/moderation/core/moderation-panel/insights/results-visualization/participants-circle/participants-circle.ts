@@ -4,6 +4,7 @@ import {InsightsService} from '../../insights.service';
 import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {ParticipantProfileComponent} from '../../participant-profile/participant-profile.component';
 import { AfterViewInit, ViewChild } from '@angular/core';
+import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 
 // import * as d3 from 'd3';
 // import * as bb from 'billboard';
@@ -75,18 +76,18 @@ export class ParticipantsCircleComponent implements OnInit {
     return canvas;
   }
 
-  private checkImageExists(imageUrl:string, callBack:Function):void {
-    var imageData = new Image();
-    imageData.onload = function() {
-      callBack(true);
-    };
-    imageData.onerror = function() {
-      console.log('NON EXISTING IMG: '+imageUrl);
-      // imageUrl = 'https://fv.colabo.space/assets/images/user_icons/performer.jpg';
-      callBack(false);
-    };
-    imageData.src = imageUrl;
-  }
+  // private checkImageExists(imageUrl:string, callBack:Function):void {
+  //   var imageData = new Image();
+  //   imageData.onload = function() {
+  //     callBack(true);
+  //   };
+  //   imageData.onerror = function() {
+  //     console.log('NON EXISTING IMG: '+imageUrl);
+  //     // imageUrl = 'https://fv.colabo.space/assets/images/user_icons/performer.jpg';
+  //     callBack(false);
+  //   };
+  //   imageData.src = imageUrl;
+  // }
 
   isVisible():boolean{
     return this.participantProfile !==null && this.participantProfile.userData !==null;
@@ -108,17 +109,26 @@ export class ParticipantsCircleComponent implements OnInit {
      x = (Radius * Math.cos(angle)) + (width/2); // Calculate the x position of the element.
      y = (Radius * Math.sin(angle)) + (height/2); // Calculate the y position of the element.
      let dataContent = users[i].dataContent;
-     dataContent.avatar = 'https://fv.colabo.space/assets/images/avatars/user.avatar-' + users[i]._id + '.jpg';
-     this.checkImageExists(dataContent.avatar, 
-      function(result:boolean){
+    RimaAAAService.userAvatar(users[i]).subscribe(
+      function(avatar:string){
+        dataContent.avatar = avatar;
         imgLoadsLeft--;
-        if(!result){
-          dataContent.avatar = 'https://fv.colabo.space/assets/images/user_icons/performer.jpg';
-        }
         if(imgLoadsLeft===0){
           that.nodesCreated();
         }
-    });
+      }
+    )
+     dataContent.avatar = 'https://fv.colabo.space/assets/images/avatars/user.avatar-' + users[i]._id + '.jpg';
+    //  this.checkImageExists(dataContent.avatar, 
+    //   function(result:boolean){
+    //     imgLoadsLeft--;
+    //     if(!result){
+    //       dataContent.avatar = 'https://fv.colabo.space/assets/images/user_icons/performer.jpg';
+    //     }
+    //     if(imgLoadsLeft===0){
+    //       that.nodesCreated();
+    //     }
+    // });
      this.nodes.push({'id': i, 'x': x, 'y': y, 'user':users[i]});
     }
   }

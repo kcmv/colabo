@@ -1,6 +1,4 @@
-const MODULE_NAME: string = "@colabo-flow/b-audit";
-
-import { AuditedAction } from '@colabo-flow/i-audit';
+const MODULE_NAME: string = "@colabo-flow/b-session";
 
 import { GetPuzzle } from '@colabo-utils/i-config';
 let puzzleConfig: any = GetPuzzle(MODULE_NAME);

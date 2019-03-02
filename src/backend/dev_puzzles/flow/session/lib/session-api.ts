@@ -1,11 +1,9 @@
-const MODULE_NAME: string = "@colabo-flow/b-audit";
-
-import { AuditedAction, AuditedActionClass } from '@colabo-flow/i-audit';
+const MODULE_NAME: string = "@colabo-flow/b-session";
 
 import { GetPuzzle } from '@colabo-utils/i-config';
 let puzzleConfig: any = GetPuzzle(MODULE_NAME);
 
-import { ColaboFlowAuditDb, MainTypes, ActionTypes, SearchParams } from './audit-db';
+import { ColaboFlowAuditDb, MainTypes, ActionTypes, SearchParams } from './session-db';
 
 var accessId = 0;
 
@@ -98,7 +96,7 @@ export class ColaboFlowAuditApi {
         // save(cfAudit);
 
         let result:any = {
-            // db: audit,
+            // db: session,
             body: body
         }
         if (callback) callback(null, result);
@@ -106,7 +104,7 @@ export class ColaboFlowAuditApi {
     }
 } // CLASS END
 
-// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8001/colabo-flow/audit/type-right/action-single/test1.json
+// curl -v -H "Content-Type: application/json" -X GET http://127.0.0.1:8001/colabo-flow/session/type-right/action-single/test1.json
 
 export function index(req: any, res: any) {
     let colaboFlowAudit: ColaboFlowAuditApi = new ColaboFlowAuditApi(req, res);
@@ -117,7 +115,7 @@ export function index(req: any, res: any) {
 curl -i -X POST \
 -H "Content-Type: application/json" \
 --data '{"name":"Donald","surname":"Duck"}' \
-http://localhost:8001/colabo-flow/audit
+http://localhost:8001/colabo-flow/session
 */
 
 // https://stackoverflow.com/questions/15651510/can-typescript-export-a-function
