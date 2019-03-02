@@ -8,6 +8,7 @@ Main engine of the Colabo Map visualizing the KnAllEdge space.
 
 1. `fxFlexFill` in the `#map-parent` is necessary to let the `#map-container` to take all available place when it needs less
 2. for we should have `overflow-y: hidden;` to avoid overflowing and extra scrolling
+3. [Angular Flex-Layout: Flexbox and Grid Layout for Angular Component](https://blog.angularindepth.com/angular-flex-layout-flexbox-and-grid-layout-for-angular-component-6e7c24457b63)
 
 # Web-workers
 
