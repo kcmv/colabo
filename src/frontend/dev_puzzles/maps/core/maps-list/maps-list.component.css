@@ -11,6 +11,11 @@ table {
     width: 100%;
 }
 
+.list-container {
+    height: 500px;
+    overflow: auto;
+}
+
 /* .participants{
     width: 100px;
 } */
