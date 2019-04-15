@@ -7,6 +7,7 @@ from bukvik.io.BukvikIO import BukvikIO
 from bukvik.debug.BukvikDebug import BukvikDebug
 import re;
 from collections import OrderedDict
+import csv, json
 
 class CSV2JSON():
     def __init__(self, name):
@@ -22,7 +23,47 @@ class CSV2JSON():
 
         # TODO ... conversion
         
-        dataOut = dataIn
+        skipRows = [-1]
+        rowNoWithColumnNames = -1
+        columns_to_translate = {}
+        if task["parameters"].has_key("skipRow"):
+            skipRows = task["parameters"]["skipRow"]
+        if task["parameters"].has_key("rowNoWithColumnNames"):
+            rowNoWithColumnNames = task["parameters"]["rowNoWithColumnNames"]
+        if task["parameters"].has_key("entryTranslations"):
+            for k, v in task["parameters"]["entryTranslations"]["columns_to_translate"].items():
+                columns_to_translate[k] = v
+            for k,v in columns_to_translate.iteritems():
+                columns_to_translate[k] = task["parameters"]["entryTranslations"]["translation_rules"][v]
+
+        with open(filenameIn, 'r') as fn:
+            dialect = csv.Sniffer().sniff(fn.readline().replace("\xef\xbb\xbf",'').strip())
+
+        dataOut = []
+        with open(filenameIn) as csvfile:
+            reader = csv.reader(csvfile,delimiter=dialect.delimiter)
+            linecnt = -1
+            for row in reader:
+                linecnt += 1
+                if linecnt in skipRows:continue
+                if linecnt == rowNoWithColumnNames:
+                    heads = {}
+                    for i,col in enumerate(row):
+                        if col.strip():
+                            heads[i] = col
+                    continue
+                entry = {}
+                for i,col in enumerate(row):
+                    if heads.has_key(i):
+                        if heads[i] not in columns_to_translate.keys():
+                            entry[heads[i]] = col
+                        else:
+                            entry[heads[i]] = columns_to_translate[heads[i]][col]
+                if entry:
+                    dataOut.append(entry)
+                    
+        dataOut = json.dumps(dataOut)
+        #dataOut = dataIn
 
         filenameOut = task["parameters"]["filenameOut"];
         io.saveFile(filenameOut, dataOut, encoding);
