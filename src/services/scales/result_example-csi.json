@@ -1,0 +1,42 @@
+[
+    "total": {
+            "biased_expressiveness": 45,
+            "biased_exploration": 23,
+            "biased_immersion": 17,
+            "biased_enjoyment": 23,
+            "biased_collaboration": 49,
+            "overall": 71.5
+    },
+    "individual": [
+        {
+            "email": "rikanovic19@gmail.com",
+            "effort": 4,
+            "expressiveness": 15,
+            "exploration": 3,
+            "immersion": 7,
+            "enjoyment": 12,
+            "collaboration": 4,
+            "biased_expressiveness": 45,
+            "biased_exploration": 23,
+            "biased_immersion": 17,
+            "biased_enjoyment": 23,
+            "biased_collaboration": 49,
+            "overall": 78.5
+        },
+        {
+            "email": "vukodlakljuti@gmail.com",
+            "effort": 8,
+            "expressiveness": 10,
+            "exploration": 3,
+            "immersion": 7,
+            "enjoyment": 12,
+            "collaboration": 4,
+            "biased_expressiveness": 16,
+            "biased_exploration": 30,
+            "biased_immersion": 17,
+            "biased_enjoyment": 23,
+            "biased_collaboration": 49,
+            "overall": 88.5
+        }
+    ]
+]
