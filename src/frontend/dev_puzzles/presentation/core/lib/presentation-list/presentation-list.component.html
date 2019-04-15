@@ -1,0 +1,35 @@
+<div class="presentation-list">
+    Presentation
+    <div class="switch" (click)="hideShowCommands()">
+        <button md-mini-fab md-tooltip="New Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="New Presentation" (click)="createPresentation()" *ngIf="!isPresentationAvailable()">
+				<mat-icon class="md-24" title="New Presentation">add_to_queue</mat-icon>
+		</button>
+        <button md-mini-fab md-tooltip="Show Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="Show Presentation" (click)="showPresentation()" *ngIf="isPresentationAvailable()">
+				<mat-icon class="md-24" title="Show Presentation">play_circle_filled</mat-icon>
+		</button>
+        <button md-mini-fab md-tooltip="Show Presentation" tooltip-position="below" class="md-mini md-primary" aria-label="Show Presentation" (click)="showPresentationFromCurrentSlide()" *ngIf="isPresentationAvailable()">
+				<mat-icon class="md-24" title="Show Presentation">play_circle_outline</mat-icon>
+		</button>
+        <button md-mini-fab md-tooltip="Show Presentation Flat" tooltip-position="below" class="md-mini md-primary" aria-label="Show Presentation Flat" (click)="showPresentationFlatContent()" *ngIf="isPresentationAvailable()">
+				<mat-icon class="md-24" title="Show Presentation Flat">featured_play_list</mat-icon>
+		</button>
+        <button md-mini-fab md-tooltip="Add Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Add Slide" (click)="addSlide()" *ngIf="isPresentationAvailable() && selectedItem() && !isSelectedItemInSlides()">
+				<mat-icon class="md-24" title="Add Slide">add</mat-icon>
+		</button>
+        <button md-mini-fab md-tooltip="Remove Slide" tooltip-position="below" class="md-mini md-primary" aria-label="Remove Slide" (click)="removeSlide()" *ngIf="isPresentationAvailable() && isSelectedItemInSlides()">
+				<mat-icon class="md-24" title="Remove Slide">remove</mat-icon>
+		</button>
+        <button md-mini-fab md-tooltip="Move slide up" tooltip-position="below" class="md-mini md-primary" aria-label="Move slide up" (click)="slideMoveUp()" *ngIf="selectedItem() && !isFirst()">
+				<mat-icon class="md-24" title="Move slide up">keyboard_arrow_up</mat-icon>
+		</button>
+        <button md-mini-fab md-tooltip="Move slide down" tooltip-position="below" class="md-mini md-primary" aria-label="Move slide down" (click)="slideMoveDown()" *ngIf="selectedItem() && !isLast()">
+				<mat-icon class="md-24" title="Move slide down">keyboard_arrow_down</mat-icon>
+		</button>
+    </div>
+    ({{getSlides().length}} slides)
+    <section class="slides" layout="row" layout-sm="column" layout-align="left center" layout-wrap>
+        <div class="slide clickable" (click)="selectSlide(slide)" *ngFor="let slide of getSlides()" [ngClass]="{'active-selection': slide?._id === selectedSlide?._id}">
+            <div>{{slide.name}}</div>
+        </div>
+    </section>
+</div>
