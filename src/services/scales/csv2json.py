@@ -34,7 +34,27 @@ task = {
         "filenameOut": "file.json",
         "skipRow": [0, 2, 3],
         "rowNoWithColumnNames": 1,
-        "columnWithEntryId": "email"
-    }    
+        "columnWithEntryId": "email",
+        "entryTranslations": {
+            "translation_rules": {
+                "rank": {
+                    "6. по приоритету": 0,
+                    "5. по приоритету": 1,
+                    "4. по приоритету": 2,
+                    "3. по приоритету": 3,
+                    "2. по приоритету": 4,
+                    "1. по приоритету": 5
+                }
+            },
+            "columns_to_translate": {
+                "rank_collaboration": "rank",
+                "rank_enjoyment": "rank",
+                "rank_immersion": "rank",
+                "rank_exploration": "rank",
+                "rank_expressiveness": "rank",
+                "rank_effort": "rank"
+            }
+        }
+    }
 }
 a.process(task);
