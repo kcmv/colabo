@@ -32,8 +32,9 @@ task = {
     "parameters": {
         "filenameIn": "ReTesla 2018 (Responses) - FV18 Responses.csv",
         "filenameOut": "file.json",
-        "skipRowsNo": 1,
-        "rowNoWithColumnNames": 2
+        "skipRow": [0, 2, 3],
+        "rowNoWithColumnNames": 1,
+        "columnWithEntryId": "email"
     }    
 }
 a.process(task);

@@ -1,0 +1,34 @@
+[
+    {
+        "timestamp": "3/27/2019 16:30:33",
+        "email": "rikanovic19@gmail.com",
+        "effort": 4,
+        "expressiveness": 3,
+        "exploration": 3,
+        "immersion": 4,
+        "enjoyment": 5,
+        "collaboration": 4,
+        "rank_collaboration": "6. по приоритету",
+        "rank_enjoyment": "3. по приоритету",
+        "rank_immersion": "2. по приоритету",
+        "rank_exploration": "4. по приоритету",
+        "rank_expressiveness": "5. по приоритету",
+        "rank_effort": "1. по приоритету"
+    },
+    {
+        "timestamp": "3/27/2019 16:35:37",
+        "email": "vukodlakljuti@gmail.com",
+        "effort": 4,
+        "expressiveness": 4,
+        "exploration": 3,
+        "immersion": 3,
+        "enjoyment": 2,
+        "collaboration": 4,
+        "rank_collaboration": "5. по приоритету",
+        "rank_enjoyment": "1. по приоритету",
+        "rank_immersion": "3. по приоритету",
+        "rank_exploration": "4. по приоритету",
+        "rank_expressiveness": "6. по приоритету",
+        "rank_effort": "2. по приоритету"
+    }
+]
