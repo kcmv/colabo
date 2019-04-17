@@ -1,0 +1,19 @@
+{
+    "parameters": {
+        "filenameIn": "data/data-ba-2018.json",
+        "filenameOut": "data/results-ba-2018.json",
+        "entryId": "email",
+        "scaling": {
+            "comment_1": "translation between collected values and expected by formula",
+            "normalization_satisfaction_question": 2,
+            "comment_2": "translation between collected values and expected by formula",
+            "normalization_ranking_question": 1,
+            "comment_3": "normalization to scale[0,100]",
+            "normalization_overall": 1.5,
+            "comment_4": "normalization to scale[0,100]",
+            "normalization_input": 10,
+            "comment_5": "normalization of biased results into#(biased_collaboration + biased_effort + biased_enjoyment + biased_exploration + biased_expressiveness + biased_immersion) in range[0,100]",
+            "normalization_biased": 1.5
+        }
+    }
+}
