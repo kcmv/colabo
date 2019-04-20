@@ -1,0 +1,10 @@
+{
+    "comment": "Collect all pages from the `filenameIn` file and stores them in the `folderOut`",
+    "parameters": {
+        "filenameIn": "data/writers-list.json",
+        "folderOut": "data/writers",
+        "categories": [
+            "writers"
+        ]
+    }
+}

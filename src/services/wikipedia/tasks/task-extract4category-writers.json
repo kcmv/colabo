@@ -1,0 +1,9 @@
+{
+    "comment": "Retrieves the list of pages about writers (that belongs to the `writers` categort)",
+    "parameters": {
+        "filenameOut": "data/writers-list.json",
+        "categories": [
+            "writers"
+        ]
+    }
+}
