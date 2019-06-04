@@ -33,7 +33,7 @@ export class MapsListComponent implements OnInit {
 
   displayedColumns: string[] = [];
   mapsData:MatTableDataSource<KMap> = null;
-
+  private _onlyMy:boolean = true;
 
   constructor(
     private knalledgeMapService:KnalledgeMapService,
@@ -46,6 +46,15 @@ export class MapsListComponent implements OnInit {
     if(this.rimaAAAService.isAdmin()){
       this.displayedColumns.unshift('id');
     }
+  }
+
+  get onlyMy():boolean{
+    return this._onlyMy;
+  }
+
+  set onlyMy(value:boolean){
+    console.log('onlyMy'+value);
+    this._onlyMy = value;
   }
 
   get mapsNo():number{

@@ -26,7 +26,8 @@
       <div ><button (click)="showMapCreateForm()"  aria-label="Create New Map" type="button"><i title="Create New Map" class="fa fa-plus-square">Create New Map</i></button></div> -->
 
       <div>These are <b>{{mapsNo}}</b> maps at the <b>Colabo.Space</b> that you have access to</div>
-      <mat-form-field>
+      <mat-slide-toggle class="margin_lr" [(ngModel)]="onlyMy">{{onlyMy ? 'Show only my maps' : 'Show My and public maps'}}</mat-slide-toggle>
+      <mat-form-field class="margin_lr">
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter the maps">
       </mat-form-field>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
