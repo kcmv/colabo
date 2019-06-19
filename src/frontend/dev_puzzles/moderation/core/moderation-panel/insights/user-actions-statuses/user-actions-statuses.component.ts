@@ -7,6 +7,9 @@ import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 import {ColaboFlowService} from '@colabo-flow/f-core/lib/colabo-flow.service';
 import {MyColaboFlowState, MyColaboFlowStates} from '@colabo-flow/f-core/lib/myColaboFlowState';
 import {InsightsService} from '../insights.service';
+import {MatSnackBar} from '@angular/material';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
+//TODO: move into a puzzle: import {BottomShDgData, BottomShDg} from './bottom-sh-dg/bottom-sh-dg';
 
 //import {TooltipPosition} from '@angular/material';
 
@@ -62,13 +65,20 @@ export class UserInsight{
 export class UserActionsStatusesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['id', 'name', 'group', 'myColaboFlowState', 'cwcs', 'sdgs', 'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3', 'actions'];
+  public  allColumns:string[] = ['id', 'name', 'group', 'myColaboFlowState', 'cwcs', 'sdgs', 'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3', 'actions'];
+  public displayedColumns: string[] = ['id', 'name', 'group', 'myColaboFlowState', 'cwcs', 'sdgs', 
+  //'cardPlayedInRound1', 'cardPlayedInRound2', 'cardPlayedInRound3', 
+  'actions']; //this.allColumns.slice(0);
+
   usersData:MatTableDataSource<UserInsight> = null; //any = [];//UserInsight[] = []; TODO
 
   constructor(
     private knalledgeNodeService:KnalledgeNodeService,
     private colaboFlowService:ColaboFlowService,
-    private insightsService:InsightsService
+    private insightsService:InsightsService,
+    private snackBar: MatSnackBar
+    // ,
+    // private bottomSheet: MatBottomSheet
   ) { }
 
   ngOnInit() {
@@ -78,6 +88,21 @@ export class UserActionsStatusesComponent implements OnInit {
       this.setUpSourceData();
     }
     //this.getCWCs();
+  }
+
+  displayColumnChanged(val):void{
+    console.log('displayColumnChanged:'+val);
+    let ind:number;
+    if((ind = this.displayedColumns.indexOf(val)) > -1){
+        this.displayedColumns.splice(ind,1);
+    }
+    else{
+      this.displayedColumns.push(val);
+    }
+  }
+
+  columnDisplayed(name:string):boolean{
+    return this.displayedColumns.includes(name);
   }
 
   protected setUpSourceData():void{
@@ -131,6 +156,10 @@ export class UserActionsStatusesComponent implements OnInit {
   correctSDGNo(us:UserInsight):boolean{
     //console.log('correctSDGNo')
     return us.sdgs.length === InsightsService.SDGS_REQUIRED;
+  }
+
+  deleteSDGSelection(userId:string):void{
+    console.log('deleteSDGSelection', userId);
   }
 
   playRoundChanged():void{
