@@ -37,7 +37,8 @@ var puzzles = {
         "@colabo-flow/f-topichat": {},
         "@colabo-topichat/f-system": {},
         "@colabo-ai-ml/f-similarity": {},
-        "@colabo-maps/core": {}
+        "@colabo-maps/core": {},
+        "@colabo-presentation/core": {}
     },
     offers: {
         "@colabo-puzzles/f-core": {
@@ -135,6 +136,10 @@ var puzzles = {
         "@colabo-maps/core": {
             npm: "@colabo-maps/core",
             path: "dev_puzzles/maps/core"
+        },
+        "@colabo-presentation/core": {
+            npm: "@colabo-presentation/core",
+            path: "dev_puzzles/presentation/core"
         }
     }
 }
