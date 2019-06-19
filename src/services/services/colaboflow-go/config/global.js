@@ -65,7 +65,19 @@ if (!globalSet.hasOwnProperty('puzzles')) {
         },
         '@colabo-flow/service-go': {
             actions: [{
-                flowId: 'search-sounds',
+                name: 'check-authorization',
+                connector: {
+                    type: 'colaboflow.go.v1',
+                    instances: {
+                        mechanism: 'round-robin',
+                        list: [{
+                            name: 'instance1',
+                            host: 'localhost',
+                            port: 50901
+                        }]
+                    }
+                }
+            }, {
                 name: 'mediator',
                 connector: {
                     type: 'http',
@@ -82,8 +94,16 @@ if (!globalSet.hasOwnProperty('puzzles')) {
                     }
                 }
             }, {
-                flowId: 'search-sounds',
                 name: 'sparql-gen',
+                namespace: 'org.audio-commons.semantic-mediator',
+                ports: [{
+                    name: 'input',
+                    direction: 'IN',
+                    datasets: [{
+                        name: 'query'
+                    }]
+                }],
+                // providerPath: '',
                 connector: {
                     type: 'http',
                     isPost: true,
@@ -121,6 +141,25 @@ if (!globalSet.hasOwnProperty('puzzles')) {
                         ]
                     }
                 }
+            }],
+            flows: [{
+                name: 'search-sounds',
+                datasets: [{
+                    name: 'query'
+                }],
+                actions: [{
+                    name: 'sparql-gen',
+                    namespace: 'org.audio-commons.semantic-mediator',
+                }],
+                paths: [{
+
+                }],
+                states: [{
+
+                }],
+                variables: [{
+
+                }]
             }]
         }
     };
