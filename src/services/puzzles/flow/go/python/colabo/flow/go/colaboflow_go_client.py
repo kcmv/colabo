@@ -19,7 +19,7 @@ class ColaboFlowGo():
 
     def __init__(self, socketUrl=None, reuseClient=True):
         
-        print("ColaboFlowGo::__init__");
+        print("ColaboFlowGo::__init__")
 
         if not socketUrl:
             socketUrl = 'localhost:50506'

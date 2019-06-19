@@ -72,7 +72,8 @@ Test install:
 source <test_env>/bin/activate
 
 # the latest
-pip install colabo.flow.go
+pip install 
+
 
 # check version
 pip show colabo.flow.go

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: colabo.flow.audit
-Version: 0.2.1
+Version: 0.2.2
 Summary: A python puzzle for sending ColaboFlow (CF) audits over gRPC
 Home-page: https://github.com/Cha-OS/colabo
 Author: ChaOS
@@ -48,7 +48,17 @@ Description: # Install
         print("result1 = %s" % (result1))
         ```
         
+        # More Details
         
+        + [Github Colabo repository](https://github.com/Cha-OS/colabo)
+        + [This package inside the Colabo repo](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/audit/python)
+        + [DEVELOPMENT.md](https://github.com/Cha-OS/colabo/blob/master/src/services/puzzles/flow/audit/python/DEVELOPMENT.md)
+        + Relevant Colabo Puzzles
+            + [Python](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/audit/python)
+            + [ColaboFlow Audit Services](https://github.com/Cha-OS/colabo/tree/master/src/services/puzzles/flow/audit)
+            + [Backend](https://github.com/Cha-OS/colabo/tree/master/src/backend/dev_puzzles/flow/audit)
+            + [Frontend](https://github.com/Cha-OS/colabo/tree/master/src/frontend/dev_puzzles/flow/audit)
+            + [Isomorphic](https://github.com/Cha-OS/colabo/tree/master/src/isomorphic/dev_puzzles/flow/audit)
 Keywords: colabo,grpc,flow,colaboflow,audit,process,process mining
 Platform: UNKNOWN
 Description-Content-Type: text/markdown

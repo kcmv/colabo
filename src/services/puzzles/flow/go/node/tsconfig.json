@@ -20,7 +20,8 @@
     },
     "allowSyntheticDefaultImports": false,
     "files": [
-        "index.ts"
+        "index.ts",
+        "demos/demo-colaboflow_go_actionhost_client.ts"
     ],
     "include": [
     ],

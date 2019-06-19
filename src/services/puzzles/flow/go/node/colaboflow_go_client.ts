@@ -13,7 +13,7 @@ import chalk from 'chalk'
 var parseArgs = require('minimist');
 var _ = require('lodash');
 var async = require('async');
-// var grpc = require('grpc'); 
+// var grpc = require('grpc');
 import * as grpc from 'grpc';
 // var protoLoader = require('@grpc/proto-loader');
 import * as protoLoader from '@grpc/proto-loader';

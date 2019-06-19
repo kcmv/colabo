@@ -3,12 +3,18 @@ syntax = "proto3";
 package colabo.flow;
 
 service ActionsHost {
-	// rpc checkAction (ActionExecuteRequest) returns (ActionExecuteReply) {}
+	// FlowsHost asks the ActionsHost to execute the action
 	rpc executeAction (ActionExecuteRequest) returns (ActionExecuteReply) {}
 }
 
 service FlowsHost {
-	// client asks the host to execute (wherever is expected) the action
+	// client registers particular flow description at the FlowsHost that can be later instantiated and executed
+	rpc registerFlowDescription (FlowRegisterRequestV1) returns (FlowRegisterReplyV1) {}
+
+	// (ActionsHost) client registers particular action description at the FlowsHost that can be later executed at the originating ActionsHost
+	rpc registerActionDescription (ActionRegisterRequestV1) returns (ActionRegisterReplyV1) {}
+
+    // client asks the host to execute (wherever is expected) the flow
 	rpc startFlowInstance (FlowInstanceRequest) returns (FlowInstanceReply) {}
 
     // client asks the host to execute (wherever is expected) the action
@@ -16,7 +22,8 @@ service FlowsHost {
 }
 
 message FlowInstanceRequest{
-    string flowId = 2; // (required) name of the flow the action belongs to
+    string flowId = 1; // (required) name of the flow the action belongs to
+    repeated DataSet initialDatasets = 2;
 }
 
 message FlowInstanceReply{
@@ -40,4 +47,89 @@ message ActionExecuteReply{
 	string id = 1; // unique id of the executing action
     string dataOut = 2;
     string params = 3;
+    string error = 4;
+}
+
+message DataSet{
+    string name = 1; // dataset name
+    string data = 2; // serialized data
+    string properties = 3; // serialized properties
+    string schemaId = 4; // namespace, id of schema
+    string error = 5; // any error occured in the regard of the dataset
+}
+
+enum PortDirection {
+    IN = 0;
+    OUT = 1;
+    INOUT = 2;
+}
+
+message Port{
+    string name = 1;
+    PortDirection direction = 2;
+    repeated DataSet datasets = 3;
+}
+
+message ActionExecuteRequestV2{
+    string flowId = 2; // (required) name of the flow the action belongs to
+    string name = 1; // (required) name of the action (inside the flow)
+
+    string flowInstanceId = 3; // (required) id of the flow instance that started
+
+    repeated Port ports = 4;
+
+    string implementationId = 54; // id of the implementation used for performing the action (i.e. if it is a person performing it, (s)he has been using a tool implemented and identified with implementationID) ('oven Smederevka')
+    string implementerId = 55; // id of the person or component performing the action ('baker', or 'oven')
+}
+
+message ActionExecuteReplyV2{
+	string id = 1; // unique id of the executing action
+    repeated DataSet dataIn = 2;
+    string error = 4;
+}
+
+message DataSetDescription{
+    string name = 1; // dataset name
+    string schemaId = 2; // namespace, id of schema
+}
+
+message PortDescription{
+    string name = 1;
+    PortDirection direction = 2;
+    repeated DataSetDescription data = 3;
+}
+
+message ActionRegisterRequestV1{
+    string name = 1; // (required) name of the action
+    string namespace = 2;
+
+    string providerPath = 3; // usually "host:port" where the ActionsHost service is sitting
+    
+    repeated PortDescription ports = 4;
+
+    string implementationId = 54; // id of the implementation used for performing the action (i.e. if it is a person performing it, (s)he has been using a tool implemented and identified with implementationID) ('oven Smederevka')
+}
+
+message ActionRegisterReplyV1{
+	string id = 1; // unique registration id of the action
+}
+
+message FlowDescription{
+    string name = 1;
+    string flowDescription = 2;
+}
+
+message FlowRegisterRequestV1{
+    string name = 1; // (required) name of the action
+    string namespace = 2;
+
+    string providerPath = 3; // usually "host:port" where the FlowsHost service is sitting
+    
+    repeated PortDescription ports = 4;
+
+    string implementationId = 54; // id of the implementation used for performing the action (i.e. if it is a person performing it, (s)he has been using a tool implemented and identified with implementationID) ('oven Smederevka')
+}
+
+message FlowRegisterReplyV1{
+	string id = 1; // unique registration id of the action
 }

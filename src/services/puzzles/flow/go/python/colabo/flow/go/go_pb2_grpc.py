@@ -26,7 +26,7 @@ class ActionsHostServicer(object):
   pass
 
   def executeAction(self, request, context):
-    """rpc checkAction (ActionExecuteRequest) returns (ActionExecuteReply) {}
+    """FlowsHost asks the ActionsHost to execute the action
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -56,6 +56,16 @@ class FlowsHostStub(object):
     Args:
       channel: A grpc.Channel.
     """
+    self.registerFlowDescription = channel.unary_unary(
+        '/colabo.flow.FlowsHost/registerFlowDescription',
+        request_serializer=colabo_dot_flow_dot_go_dot_go__pb2.FlowRegisterRequestV1.SerializeToString,
+        response_deserializer=colabo_dot_flow_dot_go_dot_go__pb2.FlowRegisterReplyV1.FromString,
+        )
+    self.registerActionDescription = channel.unary_unary(
+        '/colabo.flow.FlowsHost/registerActionDescription',
+        request_serializer=colabo_dot_flow_dot_go_dot_go__pb2.ActionRegisterRequestV1.SerializeToString,
+        response_deserializer=colabo_dot_flow_dot_go_dot_go__pb2.ActionRegisterReplyV1.FromString,
+        )
     self.startFlowInstance = channel.unary_unary(
         '/colabo.flow.FlowsHost/startFlowInstance',
         request_serializer=colabo_dot_flow_dot_go_dot_go__pb2.FlowInstanceRequest.SerializeToString,
@@ -72,8 +82,22 @@ class FlowsHostServicer(object):
   # missing associated documentation comment in .proto file
   pass
 
+  def registerFlowDescription(self, request, context):
+    """client registers particular flow description at the FlowsHost that can be later instantiated and executed
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def registerActionDescription(self, request, context):
+    """(ActionsHost) client registers particular action description at the FlowsHost that can be later executed at the originating ActionsHost
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def startFlowInstance(self, request, context):
-    """client asks the host to execute (wherever is expected) the action
+    """client asks the host to execute (wherever is expected) the flow
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -89,6 +113,16 @@ class FlowsHostServicer(object):
 
 def add_FlowsHostServicer_to_server(servicer, server):
   rpc_method_handlers = {
+      'registerFlowDescription': grpc.unary_unary_rpc_method_handler(
+          servicer.registerFlowDescription,
+          request_deserializer=colabo_dot_flow_dot_go_dot_go__pb2.FlowRegisterRequestV1.FromString,
+          response_serializer=colabo_dot_flow_dot_go_dot_go__pb2.FlowRegisterReplyV1.SerializeToString,
+      ),
+      'registerActionDescription': grpc.unary_unary_rpc_method_handler(
+          servicer.registerActionDescription,
+          request_deserializer=colabo_dot_flow_dot_go_dot_go__pb2.ActionRegisterRequestV1.FromString,
+          response_serializer=colabo_dot_flow_dot_go_dot_go__pb2.ActionRegisterReplyV1.SerializeToString,
+      ),
       'startFlowInstance': grpc.unary_unary_rpc_method_handler(
           servicer.startFlowInstance,
           request_deserializer=colabo_dot_flow_dot_go_dot_go__pb2.FlowInstanceRequest.FromString,

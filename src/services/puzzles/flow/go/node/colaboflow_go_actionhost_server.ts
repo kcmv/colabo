@@ -15,9 +15,9 @@ import * as protoLoader from '@grpc/proto-loader';
 
 import { GetPuzzle } from '@colabo-utils/i-config';
 
-import { RpcMethods } from '@colabo-flow/i-go';
+import { RpcMethods, ActionExecuteRequestInterface, ActionExecuteRequestClass } from '@colabo-flow/i-go';
 
-export class ColaboFlowGoServer{
+export class ColaboFlowGoActionHostServer{
     protected gRpcServer:any;
     protected rpcMethods: RpcMethods;
     protected gRpcColaboFlow:any;
@@ -58,21 +58,21 @@ export class ColaboFlowGoServer{
      */
     protected getServer():any {
         var server = new grpc.Server();
-        server.addService(this.gRpcColaboFlow.FlowsHost.service, {
-            executeActionSync: this.executeActionSyncWrapper.bind(this)
+        server.addService(this.gRpcColaboFlow.ActionsHost.service, {
+            executeAction: this.executeActionWrapper.bind(this)
         });
         return server;
     }
 
     /**
-     * executeActionSync request handler. Gets a request with a point, and responds with a
+     * executeAction request handler. Gets a request with a point, and responds with a
      * feature object indicating whether there is a feature at that point.
      * @param {EventEmitter} call Call object for the handler to process
      * @param {function(Error, feature)} callback Response callback
      */
-    protected executeActionSyncWrapper(call, callback) {
+    protected executeActionWrapper(call, callback) {
         // first parameter equal to null indicates that there is no error
-        this.rpcMethods.executeActionSync(call.request, callback);
+        this.rpcMethods.executeAction(call.request, callback);
     }
 
     start(){
