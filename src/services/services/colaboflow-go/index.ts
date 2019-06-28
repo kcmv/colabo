@@ -29,7 +29,7 @@ let fs = require('fs');
 const DB_USE = false;
 
 import { ColaboFlowGoServer } from '@colabo-flow/s-go';
-import { RpcMethods, RpcCallback, ActionExecuteRequest, ActionExecuteReply } from '@colabo-flow/i-go';
+import { RpcMethods, RpcCallback, ActionExecuteRequestClass, ActionExecuteReply } from '@colabo-flow/i-go';
 
 if (DB_USE){
     // import { ColaboFlowGoDb, GoDbVo } from '@colabo-flow/b-go';
@@ -41,7 +41,7 @@ if (DB_USE) {
 
 var id:number=0;
 
-function getActionDefinition(goRequest: ActionExecuteRequest){
+function getActionDefinition(goRequest: ActionExecuteRequestClass){
     for(let actionId in actions){
         let action = actions[actionId];
         if (action.name === goRequest.name){
@@ -122,7 +122,7 @@ function getHttpContent(connectionParam:any, callback:Function, postData:any=und
  * @param {goRequest} go The go to executeActionSync
  * @return {goReplay} reply to the go submission
  */
-function executeActionSync(goRequest: ActionExecuteRequest, callback: RpcCallback) {
+function executeActionSync(goRequest: ActionExecuteRequestClass, callback: RpcCallback) {
     console.log("goRequest: %s", JSON.stringify(goRequest));
     let actionDefinition = getActionDefinition(goRequest);
     if (actionDefinition.connector.type === 'http'){
@@ -146,7 +146,8 @@ function executeActionSync(goRequest: ActionExecuteRequest, callback: RpcCallbac
             let goReplay: ActionExecuteReply = {
                 id: "" + (id++),
                 dataOut: result,
-                params: "all good"
+                params: null,
+                error: null
             }
             callback(null, goReplay);
         }.bind(this), postData);
