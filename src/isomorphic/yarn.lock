@@ -642,6 +642,7 @@ decamelize@^1.1.1:
 "deep-assign@http://colabo.space/downloads/deep-assign-2.0.0.tgz":
   version "2.0.0"
   resolved "http://colabo.space/downloads/deep-assign-2.0.0.tgz#45b9edab8b2d9cbc28fe29e214709a5ffc5c06acdfee06db111ebb127308aac42477a4fe82890b96ca20a3e704cb36e8222363c38fe9cbc569aa4267686badf2"
+  integrity sha1-pX0qe0KJzxj9tdebt6N9le4bin0=
   dependencies:
     is-obj "^1.0.0"
 
@@ -840,9 +841,9 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-"express-resource@http://colabo.space/downloads/express-resource-1.0.0.tgz":
+"express-resource@https://colabo.space/downloads/express-resource-1.0.0.tgz":
   version "1.0.0"
-  resolved "http://colabo.space/downloads/express-resource-1.0.0.tgz#826f70be5261bf1019651c782fa17a48e5217857e5e74ce530f11bf57575a08824db3998680066ff504b140137d2dd4d4e0ac6f28f3f56e9d2b28589b309dfbe"
+  resolved "https://colabo.space/downloads/express-resource-1.0.0.tgz#826f70be5261bf1019651c782fa17a48e5217857e5e74ce530f11bf57575a08824db3998680066ff504b140137d2dd4d4e0ac6f28f3f56e9d2b28589b309dfbe"
   dependencies:
     debug "*"
     lingo ">= 0.0.4"

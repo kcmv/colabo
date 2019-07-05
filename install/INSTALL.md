@@ -5,6 +5,8 @@
 ### Installing **Node.JS**
 
 + https://nodejs.org/en/download/
++ **IMPORTANT**: due to issues with versioning ng/cli, angular, material, typescript, node, etc, we should currently stick to the latest v10 of node.js.
+  + NOTE: there are node containers to help you to have various versions of node per different projects
 + after this, you can test if you have installed successfully node and containing npm, by running:
 
 ```sh
@@ -12,7 +14,8 @@ node -v
 npm -v
 ```
 
-+ tested versions: node: v6.11.2, nom: 3.10.10
++ tested versions: node: v6.11.2, npm: 3.10.10
++ curently testing versions: node: v10.16.0, npm: 6.9.0
 
 #### Updating
 
@@ -23,8 +26,10 @@ However, cleaner and easier way is to install `n` package for managing node vers
 ```sh
 npm cache clean -f
 npm install -g n
-# installing particular version (8.11.4)
-n 8.11.4
+# check available versions
+n ls
+# installing particular version (10.16.0), latest v10
+n 10.16.0
 # Under Linux it is installed as node, not nodejs
 # under /usr/local/bin/node, not /usr/bin/nodejs
 
@@ -54,6 +59,8 @@ sudo mkdir -p /data/db
 mongod --version
 ```
 
+#### Upgrading
+
 if old:
 ```sh
 brew upgrade mongodb
@@ -78,94 +85,9 @@ To start it in background (forked):
 sudo netstat -tulpn | grep ':27017'
 ```
 
-#### Info
-
-[official install](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
-
-+ log: `/var/log/mongodb/*`
-+ upstart config: `/etc/mongod.conf`
-+ mongod config: `etc/init/mongod.conf `
-+ data: ``
-+ service: `/etc/init.d/mongod`
-
-relevant files:
-
-```
-/var/log/upstart/
-/data/db/mongod.lock
-/etc/init.d/.#mongod
-/usr/bin/mongod
-/var/lib/mongodb
-/var/lib/mongodb/EarthCube.0
-/var/log/mongodb
-```
-
-running services:
-```sh
-chkconfig --list
-runlevel
-```
-
-Upstart logs your service execution in a log file by the same name in `/var/log/upstart/your-service-name.log`. It should be helpful.
-
-#### repair
-
-```sh
-rm /data/db/mongod.lock
-rm /var/lib/mongodb/mongod.lock
-mongod --repair
-```
-
-#### Upgrading MongoDB (OSX)
-
-https://docs.mongodb.com/manual/release-notes/4.0-upgrade-standalone/
-https://docs.mongodb.com/manual/release-notes/3.6/#upgrade-procedures
-https://stackoverflow.com/questions/30379127/how-to-install-earlier-version-of-mongodb-with-homebrew
-
-```sh
-brew search mongodb
-
-# 3.2 -> 3.4
-brew install mongodb@3.4
-# instead of 3.4.17 in 2 following rows, you might need to use appropriate version
-sudo  /usr/local/Cellar/mongodb@3.4/3.4.17/bin/mongod
-#start:
-/usr/local/Cellar/mongodb@3.4/3.4.17/bin/mongo
-# and execute in the client the following commands:
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-    db.adminCommand( { setFeatureCompatibilityVersion: "3.4" } )
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-
-# 3.4 -> 3.6
-brew install mongodb@3.6
-sudo  /usr/local/Cellar/mongodb@3.6/3.6.8/bin/mongod
-#start:
-/usr/local/Cellar/mongodb@3.6/3.6.8/bin/mongo
-# and execute in the client the following commands:
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-    db.adminCommand( { setFeatureCompatibilityVersion: "3.6" } )
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-
-brew remove mongodb@3.4
-brew remove mongodb@3.6
-
-# 3.6 -> 4
-brew install mongodb --with-openssl
-sudo mongod
-mongo
-    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
-    db.adminCommand( { setFeatureCompatibilityVersion: "4.0" } )
-```
-
 ### installing Xcode
 
 We install Xcode because we need the ***gcc compiler*** for native npm packages. It might be possible without it, but need to test. Also in that scenario some of the packages (like mongo driver), might be less efficient.
-
-http://railsapps.github.io/xcode-command-line-tools.html
-
-If you had the full XCode installed before and want to downgrade to **Xcode Command Line Tools** (smaller) then you should do
-- uninstall the XCode
-- set the CLT path `xcode-select --switch /Library/Developer/CommandLineTools/`
 
 If you do not have XCode installed you should do
 + `xcode-select --install`
@@ -178,66 +100,62 @@ If you do not have XCode installed you should do
 **Verify** that you’ve successfully installed Xcode Command Line Tools
 + `xcode-select -p`
 + Just to be certain, verify that gcc is installed
-  - `gcc —version`
-  - this might report error, but at least gcc will be available
+  - `gcc -—version`
 
+## Node.js tools
 
-To **check if gcc is properly working**, you can create simple C++ file `test.cpp` at any convinient place:
+## Yarn
 
-```cpp
-#include <stdio.h>
-
-int main(){
-printf("Hello world!\n");
-}
-```
-
-Then you can compile it with the gcc compiler:
+Yarn is a replacement for npm tools. It is faster, caching, reducing space, bandwith and time. We use it here, but you can use npm instead if you insist (smiley)
 
 ```sh
-gcc test.cpp
+# to be sure the `~/.bash_profile` file exists
+touch  ~/.bash_profile
+# install yarn
+curl -o- -L https://yarnpkg.com/install.sh | bash
+# make `yarn` available in current terminal screen
+source ~/.bash_profile
 ```
 
-and run it:
+## Typescript
+
+This is Typescript compiler
 
 ```sh
-./a.out
+# typescript compiler should be global because we use it in angular, backend, etc
+# later you run it as a `tsc` command
+npm install -g typescript
 ```
 
-You should get the message: `Hello world!`
+## CLI
 
+### Angular NG CLI
 
-## Old (should not be necessary anymore)
+Angular CLI is a main tool for developing angular applications
 
-### installing node-gyp
+Links:
+https://cli.angular.io/
+https://github.com/angular/angular-cli/wiki
 
-  + https://github.com/nodejs/node-gyp
+```sh
+npm install -g @angular/cli
+```
 
-  + node-gyp is a cross-platform command-line tool written in Node.js for compiling native addon modules for Node.js
+# we can also do (even though not necessary):
+npm install gulp -g
 
-  + ```sh
-    npm install -g node-gyp
-    ```
+### Colabo.Space CLI
 
-  + tested version v3.6.2
+Colabo tools (CLI) is a main tool for maintaining modular application consisting of colabo puzzles.
 
-### installing node-inspector
+Links:
+https://www.npmjs.com/package/@colabo/cli
 
-  + https://github.com/node-inspector/node-inspector
+If you are not planning to install development version of the Colabo.Space CLI please do:
 
-  + Node.js debugger based on Blink Developer Tools
-
-  + ```sh
-    npm install -g node-inspector
-    ```
-
-### installing v8-profiler
-
-  + https://www.npmjs.com/package/v8-profiler
-
-  + ```sh
-    npm install -g v8-profiler
-    ```
+```sh
+npm install -g @colabo/cli
+```
 
 ## Project related
 
@@ -251,10 +169,8 @@ git clone https://github.com/Cha-OS/colabo
 # if we need to work on another branch, e.g. one named `cf-ng5`,
 # change to it;
 cd colabo
-git checkout cf-ng5
-
-# we can also do (even though not necessary):
-sudo npm install gulp -g
+# in the case you have code in branch:
+# git checkout cf-ng5
 
 ### Colabo tools ###
 cd colabo/src/tools
@@ -264,7 +180,7 @@ yarn
 npm link
 
 ### isomorphic ###
-cd colabo/src/isomorphic 
+cd colabo/src/isomorphic
 yarn
 
 ### Backend ###
@@ -311,18 +227,6 @@ cd /usr/local/lib/node_modules
 sudo chmod -R o+rx .
 sudo chmod g+s .
 ```
-
-### NPM privileges problem
-
-```sh
-cd /usr/local/lib/node_modules
-sudo chmod o+rx npm
-cd npm
-sudo chmod -R o+r  *
-sudo chmod o+rx  node_modules/
-```
-
-This didn't work: [solution?](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
 
 ## Install tools
 
@@ -985,3 +889,177 @@ du -Sh | sort -rh | head -5
 # Top File Sizes Only
 find -type f -exec du -Sh {} + | sort -rh | head -n 5
 ```
+
+# Troubleshooting
+
+## brew
+
+**NOTE**: If brew makes problems later with installing mongodb etc, mentioning problem with folder `/usr/local/Frameworks` privileges, please do the following
+
+[Permission denied @ dir_s_mkdir - /usr/local/Frameworks #30652](https://github.com/Homebrew/homebrew-core/issues/30652#issuecomment-410645836)
+
+```sh
+sudo mkdir /usr/local/Frameworks
+sudo chown $USER /usr/local/Frameworks/
+```
+
+## MongoDB
+
+#### Info
+
+[official install](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
+
++ log: `/var/log/mongodb/*`
++ upstart config: `/etc/mongod.conf`
++ mongod config: `etc/init/mongod.conf `
++ data: ``
++ service: `/etc/init.d/mongod`
+
+relevant files:
+
+```
+/var/log/upstart/
+/data/db/mongod.lock
+/etc/init.d/.#mongod
+/usr/bin/mongod
+/var/lib/mongodb
+/var/lib/mongodb/EarthCube.0
+/var/log/mongodb
+```
+
+running services:
+```sh
+chkconfig --list
+runlevel
+```
+
+Upstart logs your service execution in a log file by the same name in `/var/log/upstart/your-service-name.log`. It should be helpful.
+
+#### repair
+
+```sh
+rm /data/db/mongod.lock
+rm /var/lib/mongodb/mongod.lock
+mongod --repair
+```
+
+#### Upgrading MongoDB (OSX)
+
+https://docs.mongodb.com/manual/release-notes/4.0-upgrade-standalone/
+https://docs.mongodb.com/manual/release-notes/3.6/#upgrade-procedures
+https://stackoverflow.com/questions/30379127/how-to-install-earlier-version-of-mongodb-with-homebrew
+
+```sh
+brew search mongodb
+
+# 3.2 -> 3.4
+brew install mongodb@3.4
+# instead of 3.4.17 in 2 following rows, you might need to use appropriate version
+sudo  /usr/local/Cellar/mongodb@3.4/3.4.17/bin/mongod
+#start:
+/usr/local/Cellar/mongodb@3.4/3.4.17/bin/mongo
+# and execute in the client the following commands:
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+    db.adminCommand( { setFeatureCompatibilityVersion: "3.4" } )
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+
+# 3.4 -> 3.6
+brew install mongodb@3.6
+sudo  /usr/local/Cellar/mongodb@3.6/3.6.8/bin/mongod
+#start:
+/usr/local/Cellar/mongodb@3.6/3.6.8/bin/mongo
+# and execute in the client the following commands:
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+    db.adminCommand( { setFeatureCompatibilityVersion: "3.6" } )
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+
+brew remove mongodb@3.4
+brew remove mongodb@3.6
+
+# 3.6 -> 4
+brew install mongodb --with-openssl
+sudo mongod
+mongo
+    db.adminCommand( { getParameter: 1, featureCompatibilityVersion: 1 } )
+    db.adminCommand( { setFeatureCompatibilityVersion: "4.0" } )
+```
+
+## XCode (gcc)
+
+
+http://railsapps.github.io/xcode-command-line-tools.html
+
+If you had the full XCode installed before and want to downgrade to **Xcode Command Line Tools** (smaller) then you should do
+- uninstall the XCode
+- set the CLT path `xcode-select --switch /Library/Developer/CommandLineTools/`
+
+To **check if gcc is properly working**, you can create simple C++ file `test.cpp` at any convinient place:
+
+```cpp
+#include <stdio.h>
+
+int main(){
+printf("Hello world!\n");
+}
+```
+
+Then you can compile it with the gcc compiler:
+
+```sh
+gcc test.cpp
+```
+
+and run it:
+
+```sh
+./a.out
+```
+
+You should get the message: `Hello world!`
+
+## npm
+
+### NPM privileges problem
+
+```sh
+cd /usr/local/lib/node_modules
+sudo chmod o+rx npm
+cd npm
+sudo chmod -R o+r  *
+sudo chmod o+rx  node_modules/
+```
+
+This didn't work: [solution?](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
+
+
+# Old (should not be necessary anymore)
+
+## installing node-gyp
+
+  + https://github.com/nodejs/node-gyp
+
+  + node-gyp is a cross-platform command-line tool written in Node.js for compiling native addon modules for Node.js
+
+  + ```sh
+    npm install -g node-gyp
+    ```
+
+  + tested version v3.6.2
+
+## installing node-inspector
+
+  + https://github.com/node-inspector/node-inspector
+
+  + Node.js debugger based on Blink Developer Tools
+
+  + ```sh
+    npm install -g node-inspector
+    ```
+
+## installing v8-profiler
+
+  + https://www.npmjs.com/package/v8-profiler
+
+  + ```sh
+    npm install -g v8-profiler
+    ```
