@@ -1,0 +1,34 @@
+Metadata-Version: 2.1
+Name: colabo.knalledge
+Version: 0.0.5
+Summary: Support for the KnAllEdge component of the Colabo Ecosystem
+Home-page: https://github.com/Cha-OS/colabo
+Author: ChaOS
+Author-email: chaos.ngo@gmail.com
+License: MIT
+Project-URL: website, http://colabo.space
+Project-URL: organization, http://cha-os.org
+Description: # Install
+        
+        ```sh
+        # install requirements
+        # note: we do not instll bson explicitly: https://github.com/py-bson/bson/issues/82
+        python3 -m pip install -r requirements.txt
+        
+         pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple colabo.knalledge
+        
+        pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple colabo.knalledge==0.0.4
+        ```
+        
+        # Build
+        
+        ```sh
+        source ../../../../../python3_env/bin/activate
+        python3 setup.py sdist
+        twine upload --repository testpypi  --config-file ../../../../../colabo.space-infrastructure/publishing/python/.pypirc dist/*
+        
+        ```
+Keywords: colabo,graphdb,db,triplestore
+Platform: UNKNOWN
+Requires: pymongo
+Description-Content-Type: text/markdown

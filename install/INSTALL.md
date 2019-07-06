@@ -1033,6 +1033,22 @@ sudo chmod o+rx  node_modules/
 
 This didn't work: [solution?](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
 
+## npm with yarn
+
+```
+npm WARN lifecycle The node binary used for scripts is /var/folders/kf/4b568dk10xdbh1hn4c08dpc00000gp/T/yarn--1562450253736-0.8092412955507404/node but npm is using /usr/local/bin/node itself. Use the `--scripts-prepend-node-path` option to include the path for the node binary npm was executed with.
+```
+
+You need to create a `.npmrc` file together with `package.json` with the `scripts-prepend-node-path` variable set to true:
+
+```
+scripts-prepend-node-path = true
+```
+
++ [How to include the path for the node binary npm was executed with](https://stackoverflow.com/questions/51293566/how-to-include-the-path-for-the-node-binary-npm-was-executed-with)
++ [Use the `--scripts-prepend-node-path` option to include the path #15398](https://github.com/npm/npm/issues/15398)
++ [Yarn seams to be using a different version of NPM #6617](https://github.com/yarnpkg/yarn/issues/6617)
++ 
 
 # Old (should not be necessary anymore)
 
