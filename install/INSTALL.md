@@ -96,11 +96,13 @@ If you do not have XCode installed you should do
 + after installing execute:
   - `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
   + https://github.com/nodejs/node-gyp/issues/569
+  + **TODO** check if this is needed and check is it OK if it answers:
+`xcode-select: error: invalid developer directory '/Applications/Xcode.app/Contents/Developer'`
 
 **Verify** that you’ve successfully installed Xcode Command Line Tools
 + `xcode-select -p`
 + Just to be certain, verify that gcc is installed
-  - `gcc -—version`
+  - `gcc --version`
 
 ## Node.js tools
 
