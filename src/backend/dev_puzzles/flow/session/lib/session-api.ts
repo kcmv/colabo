@@ -4,6 +4,7 @@ import { GetPuzzle } from '@colabo-utils/i-config';
 let puzzleConfig: any = GetPuzzle(MODULE_NAME);
 
 import { ColaboFlowAuditDb, MainTypes, ActionTypes, SearchParams } from './session-db';
+import { AuditedActionClass } from '@colabo-flow/i-audit';
 
 var accessId = 0;
 

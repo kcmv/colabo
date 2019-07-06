@@ -3,9 +3,10 @@ const MODULE_NAME: string = "@colabo-flow/b-session";
 import { GetPuzzle } from '@colabo-utils/i-config';
 let puzzleConfig: any = GetPuzzle(MODULE_NAME);
 
-import { AuditDbVo } from './audit-db-vo';
+import { AuditDbVo } from './session-db-vo';
+import { AuditedAction } from '@colabo-flow/i-audit';
 
-import { CfAuditDbSchema } from './audit-db-schema';
+import { CfAuditDbSchema } from './session-db-schema';
 var dbService = require('@colabo-knalledge/b-storage-mongo');
 var dbConnection = dbService.DBConnect();
 // var CfAuditModel = dbConnection.model('CfAudit', (<any>global).db.CfAuditDbSchema);

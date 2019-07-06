@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-import { SessionDbVo, AuditedActionSchema } from './audit-db-vo';
+import { /* SessionDbVo, */ AuditedActionSchema } from './session-db-vo';
 import { MODULE_NAME } from './params';
 
 console.log("[%s] AuditedActionSchema: %s", MODULE_NAME, JSON.stringify(AuditedActionSchema));

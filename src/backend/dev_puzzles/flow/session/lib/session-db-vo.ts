@@ -5,7 +5,7 @@ declare let global:any;
 declare let module:any;
 
 // // import mongoose from 'mongoose';
-import * as mongoose from 'mongoose';
+// import * as mongoose from 'mongoose';
 
 // node support (import)
 // (not used any more)
