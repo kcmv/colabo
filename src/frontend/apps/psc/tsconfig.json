@@ -40,6 +40,7 @@
     "node_modules/@colabo-utils/**/*",
     "node_modules/@colabo-ai-ml/**/*",
     "node_modules/@colabo-map/**/*",
-    "node_modules/@colabo-maps/**/*"
+    "node_modules/@colabo-maps/**/*",
+    "node_modules/@colabo-presentation/**/*"
   ]
 }
