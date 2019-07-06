@@ -13,6 +13,7 @@ import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i
 
 import { MapEngineService } from './map-engine.service';
 import { MapEngineForm } from './map-engine-form/map-engine.component';
+import { PresentationCoreModule } from '@colabo-presentation/core';
 
 var moduleDeclarations:any[] = [
     MapEngineForm
@@ -29,6 +30,8 @@ var moduleImports: any[] = [
     // Material
     BrowserAnimationsModule,
     MaterialModule,
+    
+    PresentationCoreModule
 
 ];
 
