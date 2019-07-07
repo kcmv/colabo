@@ -8,6 +8,8 @@ import random
 from datetime import datetime
 # import dateutil.parser
 
+def processB(task):
+    print("[PuzzleB] task: %s" % (task))
 
 class PuzzleB():
 

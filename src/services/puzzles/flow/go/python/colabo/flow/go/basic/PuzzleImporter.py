@@ -23,18 +23,55 @@ class PuzzleImporter():
 		"""
 
 	@staticmethod
-	def GetModuleFromNsN(nsN):
-		print("getting class for NsN %s" % (nsN))
-		parts = nsN.split('.')
-		module = ".".join(parts[:-1])
-		print("module: %s" % (module))
+	def GetPuzzleRefFromPuzlePath(puzzlePath):
+		"""
+		Loads puzzle reference (class, method, etc) from a puzzle path
+		"""
+
+		puzzleRef = {
+			puzzlePath: puzzlePath
+		}
+		print("getting module path for NsN %s" % (puzzlePath))
+		nsNParts = puzzlePath.split(':')
+		moduleName = nsNParts[0]
+		puzzleRef["moduleName"] = moduleName
+		print("moduleName: %s" % (moduleName))
+
+		print("loading module %s" % (moduleName))
 		try:
-			m = __import__(module)
+			module = __import__(moduleName)
 		except ImportError as err:
-			print("Error importing module %s: %s" % (module, err))
+			print("Error importing moduleName %s: %s" % (moduleName, err))
 			return None
-		for comp in parts[1:]:
-			m = getattr(m, comp)
-		classReference = m
-		print("class for NsN:%s is %s" % (nsN, classReference))
-		return classReference
+		puzzleRef["module"] = module
+		print("loaded module %s: %s" % (moduleName, module))
+
+		print("traversing down the module %s" % (moduleName))
+		moduleNameParts = moduleName.split('.')
+		moduleLeaf = module
+		for comp in moduleNameParts[1:]:
+			moduleLeaf = getattr(moduleLeaf, comp)
+		print("reached the module %s: %s" % (moduleName, moduleLeaf))
+
+		classOrModuleLeaf = moduleLeaf
+		# parsing class part
+		if len(nsNParts)>1 and len(nsNParts[1])>0:
+			className = nsNParts[1]
+			puzzleRef["className"] = className
+			classReference = getattr(moduleLeaf, className)
+			classOrModuleLeaf = classReference
+			puzzleRef["classReference"] = classReference
+			print("class for NsN:%s is %s" % (puzzlePath, classReference))
+
+		# parsing method part
+		if len(nsNParts)>2 and len(nsNParts[2])>0:
+			methodName = nsNParts[2]
+		else:
+			methodName = "process"
+
+		puzzleRef["methodName"] = methodName
+		methodReference = getattr(classOrModuleLeaf, methodName)
+		puzzleRef["methodReference"] = methodReference
+		print("method for NsN:%s is %s" % (puzzlePath, methodReference))
+
+		return puzzleRef

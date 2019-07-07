@@ -53,8 +53,14 @@ class ColaboFlowGoBasic():
             if self.args.task_name and self.args.task_name != task["name"]:
                 continue
                 
-            print("task name: %s" % (task["name"]))
+            print("\ntask name: %s" % (task["name"]))
             print("\t puzzle: %s" % (task["puzzle"]))
-            puzzleClass = PuzzleImporter.GetModuleFromNsN(task["puzzle"])
-            puzzleObj = puzzleClass(task["name"])
-            puzzleObj.process(task)
+            puzzleRef = PuzzleImporter.GetPuzzleRefFromPuzlePath(task["puzzle"])
+            if "classReference" in puzzleRef:
+                puzzleClass = puzzleRef["classReference"]
+                puzzleObj = puzzleClass(task["name"])
+                puzzleObj.process(task)
+            
+            elif "methodReference" in puzzleRef:
+                puzzleMethod = puzzleRef["methodReference"]
+                puzzleMethod(task)

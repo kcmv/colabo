@@ -1,7 +1,8 @@
 {
     "tasks": [{
             "name": "task-test-A",
-            "puzzle": "puzzles.puzzle-a.PuzzleA",
+            "comment": "example of puzzle inside module `puzzles.puzzle-a`, and class `PuzzleA` and default method `process`",
+            "puzzle": "puzzles.puzzle-a:PuzzleA",
             "parameters": {
                 "_test": "temp_data/cache/epub/15008/pg15008.rdf",
                 "test": "example_data/cache/epub/100/pg100.rdf",
@@ -15,11 +16,20 @@
         },
         {
             "name": "task-test-B",
-            "puzzle": "puzzles.puzzle-b.PuzzleB",
+            "comment": "example of puzzle inside module `puzzles.puzzle-b`, without class and method `processB`",
+            "puzzle": "puzzles.puzzle-b::processB",
             "parameters": {
                 "_gutenbergFolder": "/var/data/litterra/Gutenberg",
                 "gutenbergFolder": "./example_data/content",
                 "resourceId": "15008"
+            }
+        },
+        {
+            "name": "task-test-C",
+            "comment": "example of puzzle inside module `puzzles.puzzle-c`, without class and default method `process`",
+            "puzzle": "puzzles.puzzle-c",
+            "parameters": {
+                "p1": "Hello puzzle C"
             }
         }
     ]
