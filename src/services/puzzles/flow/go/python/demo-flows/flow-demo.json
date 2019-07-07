@@ -1,0 +1,26 @@
+{
+    "tasks": [{
+            "name": "task-test-A",
+            "puzzle": "puzzles.puzzle-a.PuzzleA",
+            "parameters": {
+                "_test": "temp_data/cache/epub/15008/pg15008.rdf",
+                "test": "example_data/cache/epub/100/pg100.rdf",
+                "foldersIn": [
+                    "example_data/cache/epub"
+                ],
+                "DB": {
+                    "database": "litterra"
+                }
+            }
+        },
+        {
+            "name": "task-test-B",
+            "puzzle": "puzzles.puzzle-b.PuzzleB",
+            "parameters": {
+                "_gutenbergFolder": "/var/data/litterra/Gutenberg",
+                "gutenbergFolder": "./example_data/content",
+                "resourceId": "15008"
+            }
+        }
+    ]
+}
