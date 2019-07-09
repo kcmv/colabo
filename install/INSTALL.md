@@ -189,6 +189,11 @@ yarn
 cd colabo/src/backend 
 yarn
 
+### Backend App ###
+cd colabo/src/backend/apps/<demo_app>
+# e.g: cd colabo/src/backend/apps/colabo-space
+yarn
+
 ### Frontend ###
 cd colabo/src/frontend 
 yarn
