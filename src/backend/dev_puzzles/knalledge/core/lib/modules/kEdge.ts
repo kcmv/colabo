@@ -226,9 +226,8 @@ export function destroy(req, res) {
                 console.log("[modules/kEdge.js:destroy] data:" + JSON.stringify(data));
                 resSendJsonProtected(res, { success: true, data: data, accessId: accessId });
             });
-            break;
-
             console.log("[modules/kNode.js:_destroyByUser] deleting all Nodes of type %s by user %s", iAmId);
+            break;
         case 'by-user': // by user
             var iAmId = dataId;
             console.log("[modules/kEdge.js:destroy by-user] deleting all Nodes by user %s", iAmId);

@@ -38,7 +38,7 @@ var puzzles = {
         "@colabo-topichat/f-system": {},
         "@colabo-ai-ml/f-similarity": {},
         "@colabo-maps/core": {},
-        "@colabo-presentation/core": {}
+        "@colabo-presentation/core": {},
         "@visualization/countries_map": {}
     },
     offers: {
@@ -141,9 +141,10 @@ var puzzles = {
         "@colabo-presentation/core": {
             npm: "@colabo-presentation/core",
             path: "dev_puzzles/presentation/core"
+        },
         "@visualization/countries_map": {
             npm: "@visualization/countries_map",
-            path: "dev_puzzles/@visualization/countries_map"
+            path: "dev_puzzles/visualization/countries_map"
         }
     }
 }
