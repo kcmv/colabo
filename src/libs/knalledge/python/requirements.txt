@@ -1,0 +1,3 @@
+pymongo
+# note: we do not instll bson explicitly: https://github.com/py-bson/bson/issues/82
+# bson

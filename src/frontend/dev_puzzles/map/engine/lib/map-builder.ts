@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 
 import { MapWithContent, KMap, KNode, KEdge } from '@colabo-knalledge/f-store_core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 
 const NODE_WIDTH_CONTENT: number = 200;
 const NODE_WIDTH: number = 300;
@@ -33,16 +33,15 @@ export class MapBuilder{
     protected layoutEdges:any[];
     protected dataRootNode: any;
     public kNodeSelected: KNode;
+    protected observable: Observable<MapWithContent>;
+    protected observer: Subscriber<MapWithContent>;
 
     protected tree:any;
+    errorObserver: any = {};//Observer
 
-    constructor(
-        
-    ){
-        
+    constructor(){
+        this.observable = new Observable<MapWithContent>(observer => this.observer = observer);
     }
-
-    errorObserver:any = {};//Observer
 
     getErrors():Observable<ErrorData>{
         let observable:Observable<ErrorData> = new Observable(this.errorSubscriber.bind(this));
@@ -69,6 +68,16 @@ export class MapBuilder{
         return null;
     }
 
+    _getNodesByType(nodeType: string): KNode[] {
+        const nodesKNode:KNode[] = [];
+        for (var i: number = 0; i < this.nodes.length; i++) {
+            if (this.nodes[i].type === nodeType) {
+                nodesKNode.push(this.nodes[i]);
+            }
+        }
+        return nodesKNode;
+    }
+
     _getChildrenForNodeId(nodeId:string):KNode[]{
         const children = [];
         for (var i: number = 0; i < this.edges.length; i++) {
@@ -83,6 +92,17 @@ export class MapBuilder{
             }
         }
         return children;
+    }
+
+    _getChildrenEdgesForNodeId(nodeId: string, type?:string): KNode[] {
+        const edges = [];
+        for (var i: number = 0; i < this.edges.length; i++) {
+            if (this.edges[i].sourceId === nodeId) {
+                if (type && type !== this.edges[i].type) continue;
+                edges.push(this.edges[i]);
+            }
+        }
+        return edges;
     }
 
      //TODO: improve this for Big data by 2-dimensional array
@@ -147,7 +167,13 @@ export class MapBuilder{
             }
         }
         this.integrateMissingNodes();
+        
+        this.observer.next(mapContent);
         return this;
+    }
+    
+    public getMap(mapId: string): Observable<MapWithContent>{
+        return this.observable;
     }
     
     integrateMissingNodes(): MapBuilder {
@@ -215,7 +241,7 @@ export class MapBuilder{
 
         return this;
     }
-    
+
     moveNodesToPositiveSpace(): MapBuilder{
         var minX = 0,
             maxX = 0,

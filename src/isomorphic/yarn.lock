@@ -843,7 +843,7 @@ execa@^0.7.0:
 
 "express-resource@https://colabo.space/downloads/express-resource-1.0.0.tgz":
   version "1.0.0"
-  resolved "https://colabo.space/downloads/express-resource-1.0.0.tgz#826f70be5261bf1019651c782fa17a48e5217857e5e74ce530f11bf57575a08824db3998680066ff504b140137d2dd4d4e0ac6f28f3f56e9d2b28589b309dfbe"
+  resolved "https://colabo.space/downloads/express-resource-1.0.0.tgz#0ea415da95a67ee91b9efdd5c610aa1bf46790cf"
   dependencies:
     debug "*"
     lingo ">= 0.0.4"

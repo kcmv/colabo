@@ -24,6 +24,7 @@ This will be the list of pages/references that will be collected in the later pu
 + https://en.wikipedia.org/wiki/Category:Writers
 + https://en.wikipedia.org/wiki/Category:Lists_of_writers_by_language
 + https://www.google.com/search?q=wikipedia+migration+writers
++ [category: * writers of * descent](https://en.wikipedia.org/w/index.php?title=Special:Search&limit=500&offset=0&profile=default&search=category%3A+%2A+writers+of+%2A+descent&advancedSearch-current=%7B%7D&ns0=1)
 
 ## Refugees
 

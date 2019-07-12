@@ -33,6 +33,7 @@ import { KnalledgeMapModule } from '@colabo-knalledge/f-map';
 import { MediaUploadModule } from '@colabo-media/f-upload';
 import { ColaboFlowAuditModule } from '@colabo-flow/f-audit';
 import { MapEngineModule } from '@colabo-map/f-engine';
+// import { PresentationCoreModule } from '@colabo-presentation/core';
 
 import {SDGsService} from './select-sdgs/sdgs.service';
 import {CWCService} from './cwc/cwc.service';
@@ -142,6 +143,7 @@ var moduleImports = [
   , ColaboFlowAuditModule
   , MapEngineModule
   , MapsCoreModule
+  // , PresentationCoreModule
 ];
 // moduleImports.push(MainModule);
 
