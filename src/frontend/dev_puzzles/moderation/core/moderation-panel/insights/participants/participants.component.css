@@ -1,0 +1,9 @@
+.user-card{
+  padding: 0px;
+  margin: 3px;
+}
+.profile-parts{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

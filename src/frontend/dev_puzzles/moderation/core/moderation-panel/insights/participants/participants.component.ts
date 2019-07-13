@@ -4,11 +4,11 @@ import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 import {InsightsService} from '../insights.service';
 
 @Component({
-  selector: 'participant-profile',
-  templateUrl: './participant-profile.component.html',
-  styleUrls: ['./participant-profile.component.css']
+  selector: 'participants',
+  templateUrl: './participants.component.html',
+  styleUrls: ['./participants.component.css']
 })
-export class ParticipantProfileComponent implements OnInit {
+export class ParticipantsComponent implements OnInit {
    private _userData:KNode;
 
   @Input() set userData(ud:KNode){
