@@ -8,11 +8,11 @@
     <!-- <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img"> -->
     <!-- <img mat-card-image class="picture" src="{{userImagesPath + 'user' + user?.dataContent?.humanID + '.jpg'}}" alt="{{user.name}}" /> -->
 
-    <!-- <mat-card-content>
-        <p>
-            {{user.dataContent.desc}}
+    <mat-card-content>
+        <p *ngIf="displayOptions.country">
+            Country: {{user.dataContent?.country}}
         </p>
-    </mat-card-content> -->
+    </mat-card-content>
     <!-- <mat-card-footer>
     </mat-card-footer>   -->
     <!-- <mat-card-actions>
