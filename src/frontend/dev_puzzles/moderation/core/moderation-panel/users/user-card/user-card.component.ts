@@ -8,7 +8,7 @@ import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 })
 export class UserCardComponent implements OnInit {
   @Input() userData: KNode;
-  @Input() options: any;
+  @Input() displayOptions: any;
 
   constructor() { }
 

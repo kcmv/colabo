@@ -1,12 +1,13 @@
 <h2>Profile</h2>
 <!-- {{userData?.name}} -->
 <div class='profile-parts'>
-    <user-card [userData] = "userData"
-     [options]="userOptions" 
+    <user-card [userData] = "participantData"
+     [displayOptions]="displayOptions" 
      class="user-card"></user-card>
     <div>
-        <h3>Selected SDGs</h3>
-        <div *ngFor="let sdgD of selectedSDGs" class="sdg">{{sdgD?.dataContent?.humanID}}</div>
+            <div>{{participantData.dataContent?.bio}}</div>
+        <!-- <h3>Selected SDGs</h3> -->
+        <!-- <div *ngFor="let sdgD of selectedSDGs" class="sdg">{{sdgD?.dataContent?.humanID}}</div> -->
         <!-- <sdg-card *ngFor="let sdgD of selectedSDGs" class="sdg"></sdg-card> -->
         <!-- <sdg-card *ngFor="let sdgD of selectedSDGs" class="sdg" [sdg]="sdgD"></sdg-card> -->
         <!-- <sdg-card *ngFor="let sdgD of sdgs " class="sdg " (toggled)="onToggled($event,sdgD._id) " [sdg]="sdgD "></sdg-card> -->
