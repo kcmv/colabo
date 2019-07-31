@@ -27,6 +27,7 @@ import { ResultsVisualizationComponent } from '@colabo-moderation/f-core';
 import { ColaboFlowAuditForm } from '@colabo-flow/f-audit';
 import { MapEngineForm } from '@colabo-map/f-engine';
 import {MapsListComponent} from '@colabo-maps/core';
+import {ParticipantsComponent} from '@colabo-moderation/f-core';
 
 const routes: Routes = [
   { // default route
@@ -135,6 +136,10 @@ const routes: Routes = [
   {
     path: 'colaboflow-audits',
     component: ColaboFlowAuditForm
+  },
+  {
+    path: 'participants',
+    component: ParticipantsComponent
   }
 ];
 

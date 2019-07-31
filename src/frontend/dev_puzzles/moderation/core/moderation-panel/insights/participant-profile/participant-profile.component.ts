@@ -3,21 +3,36 @@ import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
 import {InsightsService} from '../insights.service';
 
+export enum ParticipationType{
+  SDGS = 1,
+  WRITER = 2
+}
+
 @Component({
   selector: 'participant-profile',
   templateUrl: './participant-profile.component.html',
   styleUrls: ['./participant-profile.component.css']
 })
 export class ParticipantProfileComponent implements OnInit {
-   private _userData:KNode;
+   private _participantData:KNode;
 
-  @Input() set userData(ud:KNode){
-    this._userData = ud;
-    this.getSDGSelections();
+  @Input() displayOptions:any;
+  @Input() set participantData(ud:KNode){
+    this._participantData = ud;
+    console.log('this._participantData:',this._participantData);
+    if(this.displayOptions.type == ParticipationType.SDGS){
+      this.getSDGSelections();
+    }
   }
 
-  get userData():KNode{
-    return this._userData;
+  get participantData():KNode{
+    return this._participantData;
+  }
+
+  get participantOptions():any{
+    return {
+      'bio':true
+    }
   }
 
   selectedSDGs:KNode[] = [];
@@ -39,7 +54,7 @@ export class ParticipantProfileComponent implements OnInit {
 
     for(var s:number = 0; s < sdgs.length; s++){
       
-        if(sdgs[s].iAmId === this.userData._id){
+        if(sdgs[s].iAmId === this.participantData._id){
           this.selectedSDGs.push((sdgs[s].targetId as any));
         }
     }

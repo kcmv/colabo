@@ -1,0 +1,22 @@
+[
+    {
+      "name": "Bob Holman",
+      "dataContent": {
+        "bio":"USA. Founder of the Bowery Poetry Club and the author of 17 poetry collections (print/audio/video), most recently The Cutouts (Matisse) (PeKaBoo Press) and Sing This One Back to Me (Coffee House Press), Bob Holman has taught at Princeton, Columbia, NYU, Bard, and The New School. He is the producer/director/host of various films, including \"The United States of Poetry,\" and \"On the Road with Bob Holman.\" His film, \"Language Matters with Bob Holman,\" winner of the Berkeley Film Festival's Documentary of the Year award, was produced by David Grubin and aired nationally on PBS. He is a co-founder of the Endangered Language Alliance, and recipient of the Chambra D’oc Award for language revitalization.",
+        "avatar": "assets/images/avatars/user.avatar-5bebf6ddbc7b170b18a38384.jpg",
+        "country":"USA"
+      },
+      "mapId": null,
+      "decorations": null
+    },
+    {
+      "name": "Ivanka Radmanovic",
+      "dataContent": {
+        "bio":"Ivanka Radmanovic started her professional .....",
+        "avatar": "assets/images/avatars/user.avatar-5bebf71cbc7b170b18a38388.jpg",
+        "country":"Serbia"
+      },
+      "mapId": null,
+      "decorations": null
+    }
+  ]

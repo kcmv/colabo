@@ -5,6 +5,7 @@ import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import {ParticipantProfileComponent} from '../../participant-profile/participant-profile.component';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
+import {ParticipationType} from '../../participant-profile/participant-profile.component';
 
 // import * as d3 from 'd3';
 // import * as bb from 'billboard';
@@ -22,6 +23,10 @@ const ParticipantOpacityStart:number = 0.6;
   styleUrls: ['./participants-circle.css']
 })
 export class ParticipantsCircleComponent implements OnInit {
+  public displayOptions:any = {
+    type: ParticipationType.SDGS
+  };
+
   nodes:any[] = [];
   tooltip:any;
   selectedParticipant:KNode = null;
@@ -90,7 +95,7 @@ export class ParticipantsCircleComponent implements OnInit {
   // }
 
   isVisible():boolean{
-    return this.participantProfile !==null && this.participantProfile.userData !==null;
+    return this.participantProfile !==null && this.participantProfile.participantData !==null;
   }
 
   private createNodes(users:KNode[]):void {

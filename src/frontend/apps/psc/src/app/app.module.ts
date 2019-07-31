@@ -61,6 +61,7 @@ import {DialoGameResponseComponent} from './dialo-game/dialo-game-response/dialo
 import {CardDecoratorComponent} from './dialo-game/card-decorator/card-decorator.component';
 import { UtilsNotificationModule, UtilsNotificationService } from '@colabo-utils/f-notifications';
 import {MapsCoreModule} from '@colabo-maps/core';
+import {ParticipantsComponent} from '@colabo-moderation/f-core';
 
 //import {ModerationPanelComponent} from '@colabo-moderation/f-core';
 
@@ -108,7 +109,8 @@ var moduleDeclarations = [
   DialoGameComponent,
   DialogameCardComponent,
   DialoGameResponseComponent,
-  CardDecoratorComponent
+  CardDecoratorComponent,
+  ParticipantsComponent
 
   // AdvancedDialogTest
 ];
