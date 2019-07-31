@@ -22,7 +22,7 @@ export class ColaboPuzzleManager{
     protected templatesFolder: string;
     constructor(protected colaboConfig:any){
         this.currentFolder = process.cwd();
-        this.templatesFolder = fs.realpathSync(__dirname+"/../templates");
+        this.templatesFolder = fs.realpathSync(__dirname+"/../templates/puzzles");
         
     }
 

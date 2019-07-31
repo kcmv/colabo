@@ -1,0 +1,15 @@
+{
+    "info": {
+        "type": "project",
+        "data": {
+            "name": "project-name"
+        }
+    }, "structure": {
+        "lib": {
+            "type": "folder", "recursive": true, "mode": "775"
+        },
+        "README.md": {
+            "type": "template-file", "mode": "664", "encoding": "utf8", "flag": "r"
+        }
+    }
+}

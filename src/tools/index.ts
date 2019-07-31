@@ -24,6 +24,7 @@ import * as Emoji from 'node-emoji';
 // process.chdir
 import { ColaboConfigParser } from './colabo-config-parser';
 import { ColaboPuzzleManager } from './colabo-puzzle-manager';
+import { ColaboProjectManager } from './colabo-project-manager';
 
 enum Commands {
     ToolVersion = "-v",
@@ -37,6 +38,8 @@ enum Commands {
 
     PuzzleCreate = "puzzle-create",
 
+    ProjectCreate = "project-create",
+
     SymLink = "symlinks"
 }
 
@@ -48,6 +51,7 @@ console.log("============");
 let colaboConfigParser;
 let colaboConfig;
 let colaboPuzzleManager;
+let colaboProjectManager;
 
 function processGlobalParams(cmd){
     cmd.parent.config;
@@ -95,7 +99,7 @@ import { inspect } from 'util' // or directly
 program
     .command(Commands.PuzzleCreate)
     .option('-n --pname <puzzleName>', 'Puzzle name')
-    .option('-n --ppath <puzzlePath>', 'Puzzle path (folder)')
+    .option('-p --ppath <puzzlePath>', 'Puzzle path (folder)')
     .option('-d --pdescription <puzzleDesc>', 'Puzzle description')
     .option('-t --ptype <puzzleType>', 'Type of the puzzle')
     .option('-pv --pversion <puzzleVersion>', 'Puzzle version. It follows https://semver.org/')
@@ -106,6 +110,20 @@ program
         // console.log("cmd.pname: ", cmd.pname);
         // console.log("cmd.pversion: ", cmd.pversion);
         colaboPuzzleManager.createPuzzle(cmd);
+    })
+
+program
+    .command(Commands.ProjectCreate)
+    .option('-n --pname <projectName>', 'Project name')
+    .option('-p --ppath <projectPath>', 'Project path (folder)')
+    .option('-d --pdescription <projectDesc>', 'Project description')
+    .option('-t --ptype <projectType>', 'Type of the project')
+    .option('-pv --pversion <projectVersion>', 'Project version. It follows https://semver.org/')
+    .option('-r --prepository <repositoryUrl>', 'The url of the project\'s repository')
+    .action(function (cmd) {
+        colaboProjectManager = new ColaboProjectManager();
+        // processGlobalParams(cmd);
+        colaboProjectManager.createProject(cmd);
     })
 
 program
@@ -228,6 +246,9 @@ function showUsage(){
 
     // puzzle
     console.log("\t%s: Create Puzzle", chalk.blue.bold(Commands.PuzzleCreate));
+
+    // project
+    console.log("\t%s: Create Project", chalk.blue.bold(Commands.ProjectCreate));
 
     // general
     console.log("\t%s: Symlink external paths", chalk.blue.bold(Commands.SymLink));
