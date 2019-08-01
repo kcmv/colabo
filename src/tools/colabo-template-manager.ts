@@ -5,6 +5,10 @@
 var chalk = require('chalk');
 import * as fs from 'fs';
 
+// https://www.npmjs.com/package/mustache
+// https://www.npmjs.com/package/@types/mustache
+import * as Mustache from 'mustache';
+
 export interface TemplateInfo {
     type: string,
     data: string
@@ -21,10 +25,11 @@ enum EntityType{
     TemplateFile = "template-file"
 }
 interface Entity{
-    type: string, 
-    mode: string, // 664
+    type: EntityType, 
+    mode: string, // "664"
+    modeInt: number, // 0o664
     encoding: string,
-    flag: string
+    flag: string // "r"
 }
 
 interface RenderParametersCallback{
@@ -35,10 +40,9 @@ var ChildProcess = require("child_process");
 
 export class ColaboTemplateManager{
     private templateInfo: TemplateInfo;
-    private colaboTemplateFolder: string;
     private colaboTemplate:any;
-    constructor(private templateFileName:string){
-
+    constructor(private templatesFolder: string, private templateFileName:string){
+        this.templateFileName = templatesFolder + "/" + templateFileName;
     }
 
     parse(){
@@ -48,7 +52,7 @@ export class ColaboTemplateManager{
             templateFileFull = this.templateFileName;
         }else{
             try {
-                templateFileFullUnresolved = process.cwd() + "/" + this.templateFileName
+                templateFileFullUnresolved = process.cwd() + "/" + this.templateFileName;
                 templateFileFull = fs.realpathSync(templateFileFullUnresolved);
             } catch (e) {
                 console.error("Problem with resolving the template file `%s` -> `%s`", this.templateFileName, templateFileFullUnresolved);
@@ -72,20 +76,38 @@ export class ColaboTemplateManager{
     execute(projectFolder, renderParameters:RenderParametersCallback){
         var structure = this.colaboTemplate.structure;
         for(let entityKey in structure){
-            let entityValue = structure[entityKey];
+            let entityValue:Entity = structure[entityKey];
             // conversion from octal string into number
             if (entityValue.mode){
-                entityValue.mode = parseInt(entityValue.mode[0])*8*8 
+                entityValue.modeInt = parseInt(entityValue.mode[0])*8*8 
                 + parseInt(entityValue.mode[1])*8
                 + parseInt(entityValue.mode[2]);
             }
             console.log("entityValue for the entityKey '%s' is ", entityKey, JSON.stringify(entityValue));
-            let readmeView:any = renderParameters(entityKey);
-            console.log("readmeView for the entityKey '%s' is ", entityKey, JSON.stringify(readmeView));
 
-            if (entityValue.type = EntityType.Folder){
-                console.log("Creating folder");
-                fs.mkdirSync(projectFolder+"/lib", { recursive: true, mode: 0o775 });
+            if (entityValue.type == EntityType.Folder){
+                let entityFolder = projectFolder+"/"+entityKey;
+                console.log("Creating entity folder '%s'", chalk.bold.italic(entityFolder));
+                fs.mkdirSync(entityFolder, { recursive: true, mode: entityValue.modeInt });
+            }
+
+            if(entityValue.type == EntityType.TemplateFile){
+                let templateFile = this.templatesFolder+"/"+entityKey;
+                let templateString = fs.readFileSync(templateFile, { encoding: entityValue.encoding, flag: entityValue.flag });
+
+                let templateView:any = renderParameters(entityKey);
+                console.log("templateView for the entityKey '%s' is ", entityKey, JSON.stringify(templateView));    
+
+                // https://www.npmjs.com/package/mustache
+                // https://www.npmjs.com/package/@types/mustache
+                let templateFileRendered = Mustache.render(templateString, templateView);
+
+                let renderedFilePath = projectFolder+"/"+entityKey;
+
+                console.log("Writing template to ", renderedFilePath);
+
+                fs.writeFileSync(renderedFilePath, templateFileRendered, { encoding: entityValue.encoding, mode: entityValue.modeInt })
+
             }
         }
     }

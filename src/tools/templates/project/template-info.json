@@ -5,6 +5,9 @@
             "name": "project-name"
         }
     }, "structure": {
+        ".": {
+            "type": "folder", "recursive": true, "mode": "775"
+        },
         "lib": {
             "type": "folder", "recursive": true, "mode": "775"
         },

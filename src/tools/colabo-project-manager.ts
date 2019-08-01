@@ -26,14 +26,13 @@ export class ColaboProjectManager{
     constructor(){
         this.currentFolder = process.cwd();
         this.templatesFolder = fs.realpathSync(__dirname+"/../templates/project");
-        this.colaboTemplateManager = new ColaboTemplateManager(this.templatesFolder + '/template-info.json');
+        this.colaboTemplateManager = new ColaboTemplateManager(this.templatesFolder, 'template-info.json');
     }
 
     _createProject(projectInfo){
         this.colaboTemplateManager.parse();
         let projectFolder = this.currentFolder + "/" + projectInfo.ppath;
-        console.log("Creating project: '%s' in folder '%s'", chalk.bold.dim.italic(projectInfo.ppath), chalk.bold.italic(projectFolder));
-        fs.mkdirSync(projectFolder, { recursive: true, mode: 0o775 });
+        // fs.mkdirSync(projectFolder, { recursive: true, mode: 0o775 });
         // fs.mkdirSync(projectFolder+"/lib", { recursive: true, mode: 0o775 });
         console.log(chalk.dim("Templates folder: '%s'"), chalk.bold(this.templatesFolder));
         let frontendTemplate = this.templatesFolder + "/frontend";
