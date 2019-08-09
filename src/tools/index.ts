@@ -103,6 +103,7 @@ program
     .option('-d --pdescription <puzzleDesc>', 'Puzzle description')
     .option('-t --ptype <puzzleType>', 'Type of the puzzle')
     .option('-pv --pversion <puzzleVersion>', 'Puzzle version. It follows https://semver.org/')
+    .option('-l --plicense <puzzleLicense>', 'The license of the puzzle')
     .option('-r --prepository <repositoryUrl>', 'The url of the puzzle\'s repository')
     .action(function (cmd) {
         processGlobalParams(cmd);
@@ -119,6 +120,7 @@ program
     .option('-d --pdescription <projectDesc>', 'Project description')
     .option('-t --ptype <projectType>', 'Type of the project')
     .option('-pv --pversion <projectVersion>', 'Project version. It follows https://semver.org/')
+    .option('-l --plicense <projectLicense>', 'The license of the project')
     .option('-r --prepository <repositoryUrl>', 'The url of the project\'s repository')
     .action(function (cmd) {
         colaboProjectManager = new ColaboProjectManager();

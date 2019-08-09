@@ -75,8 +75,15 @@ export class ColaboTemplateManager{
 
     execute(projectFolder, renderParameters:RenderParametersCallback){
         var structure = this.colaboTemplate.structure;
+
+        // iterate through each templating entity
         for(let entityKey in structure){
+            console.log("\nParsing templating entity: '%s'\n-----------------------------------------", chalk.bold.italic(entityKey));
+
+            let entityKeyTrimmed = entityKey;
+            let entityKeyReplaced = entityKey;
             let entityValue:Entity = structure[entityKey];
+
             // conversion from octal string into number
             if (entityValue.mode){
                 entityValue.modeInt = parseInt(entityValue.mode[0])*8*8 
@@ -85,29 +92,56 @@ export class ColaboTemplateManager{
             }
             console.log("entityValue for the entityKey '%s' is ", entityKey, JSON.stringify(entityValue));
 
+            // get template parameters
+            let templateView:any = renderParameters(entityKey);
+            console.log("templateView for the entityKey '%s' is ", entityKey, JSON.stringify(templateView));    
+
+            var rx = new RegExp("\<([^\<]+)\>", 'gi');
+            let isMatchingVariable = false;
+            let matchedVariable = "";
+            for(let i=0; i<entityKey.length; i++){
+                if(isMatchingVariable){
+                    if(entityKey[i] === '>'){
+                        console.log("entityKey[i]: %s" , matchedVariable);
+                        entityKeyTrimmed = entityKeyTrimmed.replace(rx, matchedVariable);
+                        entityKeyReplaced = entityKeyReplaced.replace(rx, templateView[matchedVariable]);
+                        isMatchingVariable = false;
+                    } else{
+                        matchedVariable += entityKey[i];
+                    }
+                } else if(entityKey[i] === '<'){
+                    isMatchingVariable = true;
+                }
+            }
+            console.log("entityKeyTrimmed: '%s'", entityKeyTrimmed);
+            console.log("entityKeyReplaced: '%s'", entityKeyReplaced);
+
+            // create folder
             if (entityValue.type == EntityType.Folder){
-                let entityFolder = projectFolder+"/"+entityKey;
+                // get the entity folder path
+                let entityFolder = projectFolder+"/"+entityKeyTrimmed;
                 console.log("Creating entity folder '%s'", chalk.bold.italic(entityFolder));
+
+                // create entity folder
                 fs.mkdirSync(entityFolder, { recursive: true, mode: entityValue.modeInt });
             }
 
+            // create template file
             if(entityValue.type == EntityType.TemplateFile){
-                let templateFile = this.templatesFolder+"/"+entityKey;
+
+                // get template file
+                let templateFile = this.templatesFolder+"/"+entityKeyTrimmed;
                 let templateString = fs.readFileSync(templateFile, { encoding: entityValue.encoding, flag: entityValue.flag });
 
-                let templateView:any = renderParameters(entityKey);
-                console.log("templateView for the entityKey '%s' is ", entityKey, JSON.stringify(templateView));    
-
+                // renter parameters into template
                 // https://www.npmjs.com/package/mustache
                 // https://www.npmjs.com/package/@types/mustache
                 let templateFileRendered = Mustache.render(templateString, templateView);
 
-                let renderedFilePath = projectFolder+"/"+entityKey;
-
+                // write rendered file
+                let renderedFilePath = projectFolder+"/"+entityKeyReplaced;
                 console.log("Writing template to ", renderedFilePath);
-
                 fs.writeFileSync(renderedFilePath, templateFileRendered, { encoding: entityValue.encoding, mode: entityValue.modeInt })
-
             }
         }
     }

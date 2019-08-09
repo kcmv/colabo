@@ -13,6 +13,9 @@
         },
         "README.md": {
             "type": "template-file", "mode": "664", "encoding": "utf8", "flag": "r"
+        },
+        "src/frontend/apps/<pname>/package.json": {
+            "type": "template-file", "mode": "664", "encoding": "utf8", "flag": "r"
         }
     }
 }

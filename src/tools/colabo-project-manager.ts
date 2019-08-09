@@ -47,13 +47,14 @@ export class ColaboProjectManager{
                         'pdescription': projectInfo.pdescription
                     };
                     break;
-                case 'package.json':
+                case 'src/frontend/apps/<pname>/package.json':
                     readmeView = {
                         'pname': projectInfo.pname,
                         'pversion': projectInfo.pversion,
                         // 'project': this.colaboConfig.puzzles.name,
                         'pdescription': projectInfo.pdescription,
-                        'prepository': projectInfo.prepository
+                        'prepository': projectInfo.prepository,
+                        'plicense': projectInfo.plicense
                     };
                     break;
             }
@@ -64,22 +65,6 @@ export class ColaboProjectManager{
 
         return;
 
-    // README.md
-        // fs.copyFileSync(frontendTemplate + "/README.md", projectFolder + "/README.md");
-
-        let readmeString = fs.readFileSync(frontendTemplate + "/README.md", { encoding: 'utf8', flag: 'r' });
-
-        let readmeView = {
-            'pname': projectInfo.pname,
-            // 'project': this.colaboConfig.puzzles.name,
-            'pdescription': projectInfo.pdescription
-        };
-
-        // https://www.npmjs.com/package/mustache
-        // https://www.npmjs.com/package/@types/mustache
-        readmeString = Mustache.render(readmeString, readmeView);
-
-        fs.writeFileSync(projectFolder + "/README.md", readmeString, { encoding: 'utf8', mode: 0o664 })
 
     // package.json
         let packageString = fs.readFileSync(frontendTemplate + "/package.json", { encoding: 'utf8', flag: 'r' });
@@ -140,6 +125,7 @@ export class ColaboProjectManager{
         const nameMsg: string = "Project name:";
         const ppathMsg: string = "Project path (folder):";
         const pversionMsg: string = "Project version:"
+        const plicenseMsg: string = "Project license:";
         const descriptionMsg: string = "Project description:";
         const repositoryMsg: string = "Project repository:";
         
@@ -203,6 +189,18 @@ export class ColaboProjectManager{
             });
         } else {
             console.log(chalk.bold(pversionMsg), chalk.dim(projectInfo.pversion));
+        }
+
+        // license
+        if (!projectInfo.plicense) {
+            prompts.push({
+                type: "input",
+                name: "plicense",
+                default: "MIT",
+                message: plicenseMsg
+            });
+        } else {
+            console.log(chalk.bold(plicenseMsg), chalk.dim(projectInfo.plicense));
         }
 
         // repository

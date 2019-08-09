@@ -1,7 +1,7 @@
 # Project
 
 ```sh
-colabo project-create --pname "Cvrkut" --ppath . --pdescription "Cvrkut is social creative writing ecosystem" --ptype frontend --pversion 2.0.0  --prepository https://github.com/mprinc/cvrkut.git
+colabo project-create --pname "Cvrkut" --ppath . --pdescription "Cvrkut is social creative writing ecosystem" --ptype frontend --pversion 2.0.0  --plicense MIT --prepository https://github.com/mprinc/cvrkut.git
 ```
 
 # @colabo-flow/f-audit [frontend]
