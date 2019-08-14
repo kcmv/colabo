@@ -24,7 +24,23 @@ import * as Emoji from 'node-emoji';
 // process.chdir
 import { ColaboConfigParser } from './colabo-config-parser';
 import { ColaboPuzzleManager } from './colabo-puzzle-manager';
-import { ColaboProjectManager } from './colabo-project-manager';
+
+import {ICommand, ICommands} from './commands/command-interfaces';
+
+import {CommandColaboProject} from './commands/colabo-project';
+import {CommandColaboPuzzle} from './commands/colabo-puzzle';
+
+let commands:ICommands = {
+    "project": new CommandColaboProject(),
+    "puzzle": new CommandColaboPuzzle()
+};
+
+for (let commandName in commands){
+    let command:ICommand = commands[commandName];
+    command.initialize();
+}
+
+console.log("Commands are imported");
 
 enum Commands {
     ToolVersion = "-v",
@@ -97,6 +113,21 @@ program
 import { inspect } from 'util' // or directly
 
 program
+    .command(Commands.ProjectCreate)
+    .option('-n --pname <projectName>', 'Project name')
+    .option('-p --ppath <projectPath>', 'Project path (folder)')
+    .option('-at --ptypes <projectAppTypes>', 'Application types to be created in the project')
+    .option('-d --pdescription <projectDesc>', 'Project description')
+    .option('-t --ptype <projectType>', 'Type of the project')
+    .option('-pv --pversion <projectVersion>', 'Project version. It follows https://semver.org/')
+    .option('-l --plicense <projectLicense>', 'The license of the project')
+    .option('-r --prepository <repositoryUrl>', 'The url of the project\'s repository')
+    .action(function (cmd) {
+        // processGlobalParams(cmd);
+        commands["project"].execute(cmd);
+    })
+
+program
     .command(Commands.PuzzleCreate)
     .option('-n --pname <puzzleName>', 'Puzzle name')
     .option('-p --ppath <puzzlePath>', 'Puzzle path (folder)')
@@ -111,21 +142,6 @@ program
         // console.log("cmd.pname: ", cmd.pname);
         // console.log("cmd.pversion: ", cmd.pversion);
         colaboPuzzleManager.createPuzzle(cmd);
-    })
-
-program
-    .command(Commands.ProjectCreate)
-    .option('-n --pname <projectName>', 'Project name')
-    .option('-p --ppath <projectPath>', 'Project path (folder)')
-    .option('-d --pdescription <projectDesc>', 'Project description')
-    .option('-t --ptype <projectType>', 'Type of the project')
-    .option('-pv --pversion <projectVersion>', 'Project version. It follows https://semver.org/')
-    .option('-l --plicense <projectLicense>', 'The license of the project')
-    .option('-r --prepository <repositoryUrl>', 'The url of the project\'s repository')
-    .action(function (cmd) {
-        colaboProjectManager = new ColaboProjectManager();
-        // processGlobalParams(cmd);
-        colaboProjectManager.createProject(cmd);
     })
 
 program

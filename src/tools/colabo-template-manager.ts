@@ -4,6 +4,7 @@
 // import * as chalk from 'chalk';
 var chalk = require('chalk');
 import * as fs from 'fs';
+import * as path from 'path';
 
 // https://www.npmjs.com/package/mustache
 // https://www.npmjs.com/package/@types/mustache
@@ -20,20 +21,57 @@ export interface FileDescription {
     chmode: string
 }
 
-enum EntityType{
+enum IAppInfoStructureEntityType{
     Folder = "folder",
-    TemplateFile = "template-file"
+    TemplateFile = "template-file",
+    TemplateFolder = "template-folder"
 }
-interface Entity{
-    type: EntityType, 
+interface IAppInfoStructureEntity{
+    type: IAppInfoStructureEntityType
+}
+
+interface IAppInfoStructureEntityFolder extends IAppInfoStructureEntity{
     mode: string, // "664"
     modeInt: number, // 0o664
+    recursive: boolean
+}
+
+interface IAppInfoStructureEntityTemplateFile extends IAppInfoStructureEntity{
+    mode?: string, // "664"
+    modeInt?: number, // 0o664
+    encoding?: string,
+    flag?: string // "r",
+    excludeTemplate?: string[]
+}
+
+interface IAppInfoStructureEntityTemplateFolder extends IAppInfoStructureEntity{
+    dmode: string, // directory mode "775"
+    fmode: string, // file mode "664"
+    dmodeInt: number, // 0o775
+    fmodeInt: number, // 0o664
     encoding: string,
-    flag: string // "r"
+    flag: string // "r",
+    exclude?: string[],
+    excludeTemplate?: string[]
 }
 
 interface RenderParametersCallback{
     (key:string):any;
+}
+
+interface IAppInfoStructure{
+    [id: string] : IAppInfoStructureEntity;
+}
+
+interface IAppInfo{
+    name: string,
+    path: string,
+    mode: string,
+    structure: IAppInfoStructure
+}
+
+interface IAppInfos{
+    [id: string] : IAppInfo;
 }
 
 var ChildProcess = require("child_process");
@@ -41,8 +79,11 @@ var ChildProcess = require("child_process");
 export class ColaboTemplateManager{
     private templateInfo: TemplateInfo;
     private colaboTemplate:any;
+    private renderParameters:RenderParametersCallback;
+
     constructor(private templatesFolder: string, private templateFileName:string){
         this.templateFileName = templatesFolder + "/" + templateFileName;
+        console.log("[ColaboTemplateManager] this.templateFileName: ", this.templateFileName);
     }
 
     parse(){
@@ -73,77 +114,206 @@ export class ColaboTemplateManager{
         console.log("templateInfo: %s", JSON.stringify(this.templateInfo));
     }
 
-    execute(projectFolder, renderParameters:RenderParametersCallback){
-        var structure = this.colaboTemplate.structure;
+    // conversion from octal string into number
+    modeStr2Int(modeStr:string):number{
+        let modeInt:number = parseInt(modeStr[0])*8*8 
+            + parseInt(modeStr[1])*8
+            + parseInt(modeStr[2]);
+        return modeInt;
+    }
+
+    execute(projectFolder, renderParameters:RenderParametersCallback, appType:string){
+        let appInfo:IAppInfo = this.colaboTemplate.appTypes[appType];
+
+        this.renderParameters = renderParameters;
+
+        let appPath = appInfo.path;
+        // get root/default template parameters
+        let entityKey:string = '.'
+        let templateView:any = renderParameters(entityKey);
+        console.log("templateView for the entityKey '%s' is ", entityKey, JSON.stringify(templateView));
+        
+        // get path relative for the selected application
+        var rx = new RegExp("\<([^\<]+)\>", 'gi');
+        let isMatchingVariable = false;
+        let matchedVariable = "";
+        let appPathTrimmed = appPath;
+        let appPathReplaced = appPath;
+        for(let i=0; i<appPath.length; i++){
+            if(isMatchingVariable){
+                if(appPath[i] === '>'){
+                    console.log("appPath[i]: %s" , matchedVariable);
+                    appPathTrimmed = appPathTrimmed.replace(rx, matchedVariable);
+                    appPathReplaced = appPathReplaced.replace(rx, templateView[matchedVariable]);
+                    isMatchingVariable = false;
+                } else{
+                    matchedVariable += appPath[i];
+                }
+            } else if(appPath[i] === '<'){
+                isMatchingVariable = true;
+            }
+        }
+        console.log("appPathTrimmed: '%s'", appPathTrimmed);
+        console.log("appPathReplaced: '%s'", appPathReplaced);
+        let templateFolderSource:string = fs.realpathSync(this.templatesFolder + "/" + appPathTrimmed);
+
+        // create the templateFolderDestination
+        let appInfoModeInt:number = appInfo.mode ? this.modeStr2Int(appInfo.mode) : 0x775;
+        let templateFolderDestination:string = projectFolder + "/" + appPathReplaced;
+        console.log("Creating templateFolderDestination folder '%s'", chalk.bold.italic(templateFolderDestination));
+        fs.mkdirSync(templateFolderDestination, { recursive: true, mode: appInfoModeInt });
+        
+        templateFolderDestination = fs.realpathSync(projectFolder + "/" + appPathReplaced);
+        console.log("templateFolderSource: '%s'", templateFolderSource);
+        console.log("templateFolderDestination: '%s'", templateFolderDestination);
+
+        var appStructure = appInfo.structure;
 
         // iterate through each templating entity
-        for(let entityKey in structure){
-            console.log("\nParsing templating entity: '%s'\n-----------------------------------------", chalk.bold.italic(entityKey));
+        for(let entityKey in appStructure){
+            console.log("\nParsing templating entity: '%s'\n========================================", chalk.bold.italic(entityKey));
+            let entityKeyTrimmed:string = entityKey;
+            let entityKeyReplaced:string = entityKey;
 
-            let entityKeyTrimmed = entityKey;
-            let entityKeyReplaced = entityKey;
-            let entityValue:Entity = structure[entityKey];
+            let appInfoEntity:IAppInfoStructureEntity = appStructure[entityKey];
 
-            // conversion from octal string into number
-            if (entityValue.mode){
-                entityValue.modeInt = parseInt(entityValue.mode[0])*8*8 
-                + parseInt(entityValue.mode[1])*8
-                + parseInt(entityValue.mode[2]);
-            }
-            console.log("entityValue for the entityKey '%s' is ", entityKey, JSON.stringify(entityValue));
+            console.log("appInfoEntity for the entityKey '%s' is ", entityKey, JSON.stringify(appInfoEntity));
 
             // get template parameters
             let templateView:any = renderParameters(entityKey);
-            console.log("templateView for the entityKey '%s' is ", entityKey, JSON.stringify(templateView));    
-
-            var rx = new RegExp("\<([^\<]+)\>", 'gi');
-            let isMatchingVariable = false;
-            let matchedVariable = "";
-            for(let i=0; i<entityKey.length; i++){
-                if(isMatchingVariable){
-                    if(entityKey[i] === '>'){
-                        console.log("entityKey[i]: %s" , matchedVariable);
-                        entityKeyTrimmed = entityKeyTrimmed.replace(rx, matchedVariable);
-                        entityKeyReplaced = entityKeyReplaced.replace(rx, templateView[matchedVariable]);
-                        isMatchingVariable = false;
-                    } else{
-                        matchedVariable += entityKey[i];
-                    }
-                } else if(entityKey[i] === '<'){
-                    isMatchingVariable = true;
-                }
-            }
-            console.log("entityKeyTrimmed: '%s'", entityKeyTrimmed);
-            console.log("entityKeyReplaced: '%s'", entityKeyReplaced);
+            console.log("templateView for the entityKey '%s' is ", entityKey, JSON.stringify(templateView));
 
             // create folder
-            if (entityValue.type == EntityType.Folder){
-                // get the entity folder path
-                let entityFolder = projectFolder+"/"+entityKeyTrimmed;
-                console.log("Creating entity folder '%s'", chalk.bold.italic(entityFolder));
-
-                // create entity folder
-                fs.mkdirSync(entityFolder, { recursive: true, mode: entityValue.modeInt });
+            if (appInfoEntity.type == IAppInfoStructureEntityType.Folder){
+                this.renderFolder(<IAppInfoStructureEntityFolder>appInfoEntity, entityKeyReplaced, templateFolderDestination);
             }
 
             // create template file
-            if(entityValue.type == EntityType.TemplateFile){
+            if(appInfoEntity.type == IAppInfoStructureEntityType.TemplateFile){
+                this.renderTemplateFile(<IAppInfoStructureEntityTemplateFile>appInfoEntity, entityKeyTrimmed, entityKeyReplaced, templateFolderSource, templateFolderDestination, templateView);
+            }
 
-                // get template file
-                let templateFile = this.templatesFolder+"/"+entityKeyTrimmed;
-                let templateString = fs.readFileSync(templateFile, { encoding: entityValue.encoding, flag: entityValue.flag });
-
-                // renter parameters into template
-                // https://www.npmjs.com/package/mustache
-                // https://www.npmjs.com/package/@types/mustache
-                let templateFileRendered = Mustache.render(templateString, templateView);
-
-                // write rendered file
-                let renderedFilePath = projectFolder+"/"+entityKeyReplaced;
-                console.log("Writing template to ", renderedFilePath);
-                fs.writeFileSync(renderedFilePath, templateFileRendered, { encoding: entityValue.encoding, mode: entityValue.modeInt })
+            // create template folder
+            if(appInfoEntity.type == IAppInfoStructureEntityType.TemplateFolder){
+                this.renderTemplateFolder(<IAppInfoStructureEntityTemplateFolder>appInfoEntity, entityKeyTrimmed, entityKeyReplaced, templateFolderSource, templateFolderDestination, templateView);
             }
         }
+    }
+
+    renderFolder(appInfoEntity:IAppInfoStructureEntityFolder, entityKeyReplaced:string, templateFolderDestination:string){
+        // get the entity folder path
+        let entityFolder = templateFolderDestination+"/"+entityKeyReplaced;
+        console.log("Creating entity folder '%s'", chalk.bold.italic(entityFolder));
+
+        console.log("\nGenerating folder: '%s' (%s)\n-----------------------------------------", chalk.bold(entityFolder), chalk.italic(entityKeyReplaced));
+
+        if (appInfoEntity.mode){
+            appInfoEntity.modeInt = this.modeStr2Int(appInfoEntity.mode);
+        }
+        // create entity folder
+        fs.mkdirSync(entityFolder, { recursive: true, mode: appInfoEntity.modeInt });
+    }
+
+    renderTemplateFile(appInfoEntity:IAppInfoStructureEntityTemplateFile, entityKeyTrimmed:string, entityKeyReplaced:string, templateFolderSource:string, templateFolderDestination:string, templateView:any){
+
+        // get template file
+        let templateFile = templateFolderSource+"/"+entityKeyTrimmed;
+
+        console.log("\n[renderTemplateFile] rendering template: '%s'\n(%s)\n-----------------------------------------", chalk.bold(entityKeyTrimmed), chalk.italic(templateFile));
+
+        let templateString = fs.readFileSync(templateFile, { encoding: appInfoEntity.encoding, flag: appInfoEntity.flag });
+
+        let templateFileRendered:string;
+
+        // TODO: optimize: do system copy for non-template files
+        if(!this.checkFileExclusion(templateFile, appInfoEntity.excludeTemplate)){
+            // renter parameters into template
+            // https://www.npmjs.com/package/mustache
+            // https://www.npmjs.com/package/@types/mustache
+            templateFileRendered = Mustache.render(templateString, templateView);    
+        }else{
+            templateFileRendered = templateString;
+        }
+
+        if (appInfoEntity.mode){
+            appInfoEntity.modeInt = this.modeStr2Int(appInfoEntity.mode);
+        }    
+        // write rendered file
+        let renderedFilePath = templateFolderDestination+"/"+entityKeyReplaced;
+        console.log("Writing template to ", renderedFilePath);
+        fs.writeFileSync(renderedFilePath, templateFileRendered, { encoding: appInfoEntity.encoding, mode: appInfoEntity.modeInt });
+    }
+
+    checkFileExclusion(filename:string, exclusionList:string[]):boolean{
+        console.log("[checkFileExclusion] filename: %s, exclusionList: %s", filename, exclusionList);
+        for(let i in exclusionList){
+            let exclusion:string = exclusionList[i];
+            let exclusionReplace:string = exclusion;
+            exclusionReplace = exclusion.replace(".", "\.");
+            exclusionReplace = exclusionReplace.replace("*", ".*");
+            exclusionReplace = "^"+exclusionReplace+"$";
+            console.log("\t%s -> %s", exclusion, exclusionReplace);
+            let regexObj:any = new RegExp('foo', 'gi'); 
+            regexObj.compile(exclusionReplace, 'g');
+            if(filename.match(regexObj)){
+                console.log("\texcluded by '%s'", exclusion);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    renderTemplateFolder(appInfoEntity:IAppInfoStructureEntityTemplateFolder, entityKeyTrimmed:string, entityKeyReplaced:string, templateFolderSource:string, templateFolderDestination:string, templateView:any){
+        let that:ColaboTemplateManager = this;
+
+        let templateFolder:string = templateFolderSource+"/"+entityKeyTrimmed;
+
+        walkDir(templateFolderSource, templateFolderDestination, entityKeyTrimmed, entityKeyReplaced);
+
+        function walkDir(templateFolderSource:string, templateFolderDestination:string, entityKeyTrimmed:string, entityKeyReplaced:string) {
+
+            console.log("[walkDir] templateFolder: %s, entityKeyTrimmed: %s, entityKeyReplaced: %s", templateFolder, entityKeyTrimmed, entityKeyReplaced);
+            let templateFolderSubfolderSource:string = path.join(templateFolderSource, entityKeyTrimmed);
+            let templateFolderSubfolderDestination:string = path.join(templateFolderDestination, entityKeyReplaced);
+
+            console.log("\n[renderTemplateFile] rendering template folder: '%s'\n(%s)\n-----------------------------------------", chalk.bold(entityKeyTrimmed), chalk.italic(templateFolderSubfolderSource));
+
+            fs.readdirSync(templateFolderSubfolderSource).forEach( f => {
+                let templateFolderSubfolderSourceChild:string = path.join(templateFolderSubfolderSource, f);
+                let templateFolderSubfolderDestinationChild:string = path.join(templateFolderSubfolderDestination, f);
+
+                let entityKeyTrimmedChild:string = path.join(entityKeyTrimmed, f);
+                let entityKeyReplacedChild:string = path.join(entityKeyReplaced, f);
+                let isDirectory:boolean = fs.statSync(templateFolderSubfolderSourceChild).isDirectory();
+
+                if(that.checkFileExclusion(templateFolderSubfolderSourceChild, appInfoEntity.exclude)) return;
+
+                if(isDirectory){
+                    if (appInfoEntity.dmode){
+                        appInfoEntity.dmodeInt = that.modeStr2Int(appInfoEntity.dmode);
+                    }
+                    // create entity folder
+                    console.log("creating folder: %s", templateFolderSubfolderDestinationChild);
+                    fs.mkdirSync(templateFolderSubfolderDestinationChild, { recursive: true, mode: appInfoEntity.dmodeInt });
+                    walkDir(templateFolderSource, templateFolderDestination, entityKeyTrimmedChild, entityKeyReplacedChild);
+              }else{
+                let templateFileEntity:IAppInfoStructureEntityTemplateFile = {
+                    encoding: appInfoEntity.encoding,
+                    mode: appInfoEntity.fmode,
+                    flag: appInfoEntity.flag,
+                    type:IAppInfoStructureEntityType.TemplateFile,
+                    modeInt: 0,
+                    excludeTemplate: appInfoEntity.excludeTemplate
+                };
+
+                // get template parameters
+                let templateView:any = that.renderParameters(entityKeyTrimmed);
+                console.log("templateView for the entityKeyTrimmed '%s' is ", entityKeyTrimmed, JSON.stringify(templateView));
+
+                that.renderTemplateFile(templateFileEntity, entityKeyTrimmedChild, entityKeyTrimmedChild, templateFolderSource, templateFolderDestination, templateView);
+            }
+            });
+          };
     }
 
     info(){

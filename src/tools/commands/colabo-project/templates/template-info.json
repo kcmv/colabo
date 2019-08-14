@@ -24,7 +24,10 @@
             "mode": "775",
             "structure": {
                 ".": {
-                    "type": "template-folder", "dmode": "775", "fmode": "664", "encoding": "utf8", "flag": "r"
+                    "type": "template-folder", "dmode": "775", "fmode": "664", "encoding": "utf8", "flag": "r",
+                    "excludeTemplate": [
+                        "*.jpg"
+                    ]
                 }
             }        
         },
