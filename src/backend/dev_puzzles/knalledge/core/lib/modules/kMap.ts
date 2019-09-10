@@ -145,9 +145,10 @@ export function create(req, res) {
                         console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
 
                         try{
-                            console.log('[kMap::create]__dirname:', __dirname);
-                            let path = __dirname;
-                            fs.readFile( path + '/plain-map.json', function (err, data) {
+                            // console.log('[kMap::create]__dirname:', __dirname);
+                            let path = __dirname + '/' + kmap.type + '.json';
+                            console.log('[kMap::create] path:', path);
+                            fs.readFile( path , function (err:any, data:any) {
                                 if (err) {
                                     let errMsg = err;
                                     console.error(errMsg,err);
@@ -162,8 +163,10 @@ export function create(req, res) {
                                     let KNodeModel = dbConnection.model('kNode', (<any>global).db.kNode.Schema);
                                     let variables:any = {
                                         'mapId': kmap._id,
-                                        'mapName': kmap.name
+                                        'mapName': kmap.name,
+                                        'desc': kmap.dataContent.property
                                     }
+                                    kmap.dataContent = null;
                                     let mapTemplateProcessor:MapTemplateProcessor = new MapTemplateProcessor(kmap, template, KEdgeModel, KNodeModel, variables);
                                     mapTemplateProcessor.processTemplate(finished);
                                 }
