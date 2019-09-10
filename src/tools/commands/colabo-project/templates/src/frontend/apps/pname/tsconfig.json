@@ -1,0 +1,46 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "hammerjs",
+      "node"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@angular/*": [
+        "node_modules/@angular/*"
+      ]
+    },
+    "module": "es2015"
+  },
+  "include": [
+    "src/**/*",
+    "node_modules/@colabo-puzzles/**/*",
+    "node_modules/@colabo-knalledge/**/*",
+    "node_modules/@colabo-rima/**/*",
+    "node_modules/@colabo-moderation/**/*",
+    "node_modules/@colabo-media/**/*",
+    "node_modules/@colabo-colaboflow/**/*",
+    "node_modules/@colabo-flow/**/*",
+    "node_modules/@colabo-topichat/**/*",
+    "node_modules/@colabo-utils/**/*",
+    "node_modules/@colabo-ai-ml/**/*",
+    "node_modules/@colabo-map/**/*",
+    "node_modules/@colabo-maps/**/*",
+    "node_modules/@colabo-presentation/**/*"
+  ]
+}

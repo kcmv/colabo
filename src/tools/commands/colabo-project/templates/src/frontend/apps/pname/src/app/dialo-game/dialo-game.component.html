@@ -1,0 +1,84 @@
+<div fxLayout="column" fxFlexFill style="height: 100%;">
+
+    <!-- toolbar -->
+    <div fxFlex="64px" style="overflow-y: hidden;">
+        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
+            <a href="/" title="Home" >
+                <img alt="Home" src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+            </a>  
+            <a href="/rima-login" title="{{userName()}}"> 
+                <div>
+                    <div><img class='user-avatar' alt="{{userName()}}" src = '{{userAvatar() | async}}'/></div>
+                    <div class="user-name-small">{{userName()}}</div> 
+                </div>
+            </a>
+            <colabo-flow></colabo-flow>
+            <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
+            <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
+            <!-- <div>
+                <button color="accent" mat-raised-button (click)="onSubmit()" [disabled]="!canSubmit()">{{saved ? 'Submitted' : 'Submit'}}</button>
+                <span class="sdg-title"> {{getActionMessage()}}</span>
+            </div> -->
+        </mat-toolbar>
+    </div>
+
+    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+        <div *ngIf="!isLoggedIn" style="margin: 15px;">
+            <p>
+                To access this page you need:
+            </p>
+            <a routerLink="/rima-login">
+                <button mat-raised-button color="primary">Login</button>
+            </a>
+
+            <p>
+                or
+            </p>
+            <a routerLink="/rima-register">
+                <button mat-raised-button color="primary">Register</button>
+            </a>
+
+        </div>
+        <div *ngIf="isLoggedIn ">
+            <div style="margin: 15px;">
+
+                <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
+                <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
+                <h3>DialoGame</h3>
+
+                <!-- <h1>United Nations Sustainable Development Goals (SDGs)</h1> -->
+                <div class = 'bordered-block' *ngIf="waitingForNextRound()">
+                  <b>Please, wait for the next round.</b><br/>
+                  Coffee and Smoki are for free<br/> as it is watching your co-creators<br/>
+                  in deepness of their creative process ...
+                </div>
+                <div *ngIf="playing()">
+                  <span [hidden]='!canUndo()'><button mat-raised-button (click)="undo()">Undo</button></span> <span [hidden]='!canFinish()'><button mat-raised-button (click)="finish()">Finish</button></span>
+                  <!-- <mat-accordion> -->
+
+                    <mat-expansion-panel>
+                   <!-- <mat-expansion-panel (opened)="panelOpenState = true"
+                      (closed)="panelOpenState = false"> -->
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          My response
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          Manage your current response
+                          <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <dialo-game-response></dialo-game-response>
+                    </mat-expansion-panel>
+
+                  <!-- </mat-accordion> -->
+                  <dialogame-cards></dialogame-cards>
+                <div>
+                <!-- <div class = 'bordered-block' *ngIf="previewing()">
+                  <span [hidden]='!canUndo()'><button mat-raised-button (click)="undo()">Undo</button></span> <span [hidden]='!canFinish()'><button mat-raised-button (click)="finish()">Finish</button></span>
+                  <dialo-game-response></dialo-game-response>
+                  <dialogame-cards></dialogame-cards>
+                <div> -->
+            </div>
+        </div>
+    </div>

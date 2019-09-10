@@ -22,7 +22,7 @@ export class ColaboPuzzleManager{
     protected templatesFolder: string;
     constructor(protected colaboConfig:any){
         this.currentFolder = process.cwd();
-        this.templatesFolder = fs.realpathSync(__dirname+"/../templates");
+        this.templatesFolder = fs.realpathSync(__dirname+"/../templates/puzzles");
         
     }
 
@@ -111,6 +111,7 @@ export class ColaboPuzzleManager{
         const ppathMsg: string = "Puzzle path (folder):";
         const pversionMsg: string = "Puzzle version:"
         const descriptionMsg: string = "Puzzle description:";
+        const plicenseMsg: string = "Puzzle license:";
         const repositoryMsg: string = "Puzzle repository:";
         
         let prompts:any[] = [];
@@ -162,6 +163,16 @@ export class ColaboPuzzleManager{
             });
         } else {
             console.log(chalk.bold(pversionMsg), chalk.dim(puzzleInfo.pversion));
+        }
+        if (!puzzleInfo.plicense) {
+            prompts.push({
+                type: "input",
+                name: "plicense",
+                default: "MIT",
+                message: plicenseMsg
+            });
+        } else {
+            console.log(chalk.bold(plicenseMsg), chalk.dim(puzzleInfo.plicense));
         }
 
         let gitUrlCommand: string = 'git config --get remote.origin.url';

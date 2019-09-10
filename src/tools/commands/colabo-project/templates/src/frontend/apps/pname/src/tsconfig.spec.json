@@ -1,0 +1,30 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/spec",
+    "types": [
+      "jasmine",
+      "node"
+    ]
+  },
+  "files": [
+    "test.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "**/*.spec.ts",
+    "**/*.d.ts",
+    "../node_modules/@colabo-puzzles/**/*",
+    "../node_modules/@colabo-knalledge/**/*",
+    "../node_modules/@colabo-rima/**/*",
+    "../node_modules/@colabo-moderation/**/*",
+    "../node_modules/@colabo-media/**/*",
+    "../node_modules/@colabo-colaboflow/**/*",
+    "../node_modules/@colabo-flow/**/*",
+    "../node_modules/@colabo-topichat/**/*",
+    "../node_modules/@colabo-utils/**/*",
+    "../node_modules/@colabo-ai-ml/**/*",
+    "../node_modules/@colabo-map/**/*",
+    "../node_modules/@colabo-maps/**/*"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+    "info": {
+        "type": "project",
+        "data": {
+            "name": "project-name"
+        }
+    }, "appTypes": {
+        "general": {
+            "name": "general",
+            "path": ".",
+            "mode": "775",
+            "structure": {
+                ".": {
+                    "type": "folder", "recursive": true, "mode": "775"
+                },
+                "README.md": {
+                    "type": "template-file", "mode": "664", "encoding": "utf8", "flag": "r"
+                }        
+            }
+        },
+        "frontend": {
+            "name": "frontend",
+            "path": "src/frontend/apps/<pname>",
+            "mode": "775",
+            "structure": {
+                ".": {
+                    "type": "template-folder", "dmode": "775", "fmode": "664", "encoding": "utf8", "flag": "r",
+                    "excludeTemplate": [
+                        "*.jpg"
+                    ]
+                }
+            }        
+        },
+        "backend": {
+            "name": "backend",
+            "path": "src/backend/apps/<pname>",
+            "mode": "775",
+            "structure": {
+                "package.json": {
+                    "type": "template-file", "mode": "664", "encoding": "utf8", "flag": "r"
+                },
+                "README.md": {
+                    "type": "template-file", "mode": "664", "encoding": "utf8", "flag": "r"
+                }
+            }        
+        }
+    }
+}

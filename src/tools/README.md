@@ -34,3 +34,51 @@ colabo colabo.config.js puzzless-offer
 colabo puzzless-install
 ```
 
+# Alternatives
+
+Here we are exploring alternatives
+
+## Yeoman
+
+```sh
+# install yo
+npm install --global yo
+
+# install a generator
+npm install --global generator-webapp
+
+# run it
+yo webapp
+```
+
++ [yeoman/yo](https://github.com/yeoman/yo)
++ [Yo Generator](https://yeoman.github.io/generator/)
++ [Generating code with Yeoman js](https://itnext.io/generating-code-with-yeoman-js-f13e0da87374)
++ [Yeoman Environment](https://yeoman.github.io/environment/)
+
+```sh
+npm install --save yeoman-environment
+```
+
+```js
+var yeoman = require('yeoman-environment');
+var env = yeoman.createEnv();
+
+// The #lookup() method will search the user computer for installed generators.
+// The search if done from the current working directory.
+env.lookup(function () {
+  env.run('webapp', {'skip-install': true}, function (err) {
+    console.log('done');
+  });
+});
+```
+
+## Other
+
++ [Hygen](https://github.com/jondot/hygen)
+
+# TODO
+
+## Templating
+
++ Exclude files, folders, extensions
