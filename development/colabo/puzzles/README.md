@@ -1,8 +1,12 @@
+NOTE: Should go to: http://colabo.space/components
+
 # Info
 
-![Colabo Puzzle enabled system](colabo-puzzles-system-overview.jpg)
+![Colabo Puzzle enabled system](https://colabo.space/data/images/puzzles/colabo-puzzles-system-overview.jpg)
 
 # Migrating code into puzzle
+
+Migration of an existing code is rather traightforward when using TypeScript or node.js. First you have to identify a puzzle boundaries, then you need to create a new puzzle:
 
 ```sh
 cd <puzzle_parent_folder>
@@ -10,9 +14,14 @@ colabo puzzle-create
 # provide all necessary parameters
 ```
 
+When a new puzzle is created, you need to move the old code into the puzzle. Finally you should change all puzzle references from the previous relative imports into global imports through the `npm package name` associated with the puzzle.
+
+<!--
 # Tips and Tricks of Healthy Puzzles
 
 + always use puzzle 
+
+-->
 
 # Publishing Puzzles
 
@@ -24,7 +33,7 @@ colabo puzzle-create
 + it will end up published on npmjs.com
 + This is an example: https://www.npmjs.com/org/colabo-utils
 
-Here is an example which of the puzzle [@colabo-flow/b-services](https://www.npmjs.com/package/@colabo-flow/b-services) belongs to the [colabo-flow](https://www.npmjs.com/org/colabo-flow) colabo sub-organization:
+Here is an example which of the puzzle [@colabo-flow/b-services](https://www.npmjs.com/package/@colabo-flow/b-services) belongs to the [colabo-flow](https://www.npmjs.com/org/colabo-flow) colabo sub-organization (sub-space)
 
 
 ```json
@@ -76,5 +85,16 @@ Here is an example which of the puzzle [@colabo-flow/b-services](https://www.npm
 
 **dependencies** - are all internal dependencies of the puzzle. It should contain both regular ***npm packages*** and other ***colabo puzzles*** that your puzzle depends on
 
-## Frontend
+# Colabo.Puzzles
+
++ [speciffic puzzles (components)](https://github.com/Cha-OS/colabo/tree/master/development/speciffic%20components)
+
+## ColaboFlow
+
++ [ColaboFlow.Go! presentation](https://docs.google.com/presentation/d/1_cvK_HFgdY6YIAAOyUJ33kn9RRkOCMkeYSghi2jSjJ8/edit?usp=sharing)
+  + presented in the context of the [Audio Commons](https://www.audiocommons.org/) project
++ [ColaboFlow.Audit! presentation](https://docs.google.com/presentation/d/1aZUxoy04VcvulQIyp0ONsPmGUlN63UVQ1-9IMkYms8g/edit#slide=id.g4baa8d952e_0_10)
+  + presented in the context of the [Audio Commons](https://www.audiocommons.org/) project
++ [ColaboFlow introduction](https://colabo.space/en/flow/)
++ [ColaboFlow infrastructure install](https://github.com/Cha-OS/colabo/tree/master/development/colabo/flow)
 
