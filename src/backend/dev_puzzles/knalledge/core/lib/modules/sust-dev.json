@@ -1,5 +1,5 @@
 {
-  "name": "Plain Map",
+  "name": "Sustainable Development Colabo",
   "type": "actions",
   "declarations": {},
   "data": [
@@ -10,7 +10,7 @@
       "data": {
         "_id": "$>rootNodeId",
         "name": "$mapName",
-        "type": "plain-map",
+        "type": "sust-dev",
         "mapId": "$mapId",
         "iAmId": "556760847125996dc1a4a24f",
         "ideaId": 0,
@@ -70,6 +70,54 @@
             "ideaId": 0,
             "sourceId": "$rootNodeId",
             "targetId": "$contentNodeId",
+            "dataContent": null,
+            "visual": null,
+            "value": 0,
+            "isPublic": true,
+            "__v": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "type": "actions",
+      "data": [
+        {
+          "name": "users node",
+          "type": "insert",
+          "collection": "knodes",
+          "data": {
+            "_id": "$>usersNodeId",
+            "name": "Users",
+            "type": "rima.users",
+            "mapId": "$mapId",
+            "iAmId": "556760847125996dc1a4a24f",
+            "ideaId": 0,
+            "visual": {
+              "isOpen": true
+            },
+            "isPublic": true,
+            "version": 1,
+            "activeVersion": 1,
+            "__v": 0,
+            "decorations": {},
+            "up": {},
+            "dataContent": {}
+          }
+        },
+        {
+          "name": "users edge",
+          "type": "insert",
+          "collection": "kedges",
+          "data": {
+            "name": "Users",
+            "type": "rima.users",
+            "mapId": "$mapId",
+            "iAmId": "556760847125996dc1a4a24f",
+            "ideaId": 0,
+            "sourceId": "$rootNodeId",
+            "targetId": "$usersNodeId",
             "dataContent": null,
             "visual": null,
             "value": 0,
