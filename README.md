@@ -2,15 +2,13 @@
 
 ***Figure escher-relativity-lattice***: M.C. Escher - Relativity lattice (1953)
 
-# Colabo.Space - An Ecosystem of The Collective Mind
+# Colabo.Space - An Ecosystem of A Collective Mind
 
 ![KnAllEdge - Tesla example](documents/diagrams/KnAllEdge-Tesla-Example.png)
 
 **Figure KnAllEdge-map-example**: KnAllEdge Map example - Modeling the open table dialogue on the topic of the Tesla's Nature of Creativity at the Tesla Conference (2015)
 
 ## Colabo.Space Manifesto
-
-
 
 1. **Self-evolving collective mind**
 2. **A cycle of sustainability is a spiral of thrivability (dialogue, social domains)**
@@ -26,8 +24,6 @@
 ![Types of Intelligence](documents/images/Types%20of%20Intelligence.png)
 
 ***Figure intelligence-types***: Types of intelligence and their relationships across individuals and community
-
-
 
 An outmost goal was succeeding in development of the collaborative-system with unobtrusive and continuous **knowledge-dialogue-decision-action-learn** cycle:
 
