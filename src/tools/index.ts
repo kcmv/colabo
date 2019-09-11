@@ -25,14 +25,14 @@ import * as Emoji from 'node-emoji';
 import { ColaboConfigParser } from './colabo-config-parser';
 import { ColaboPuzzleManager } from './colabo-puzzle-manager';
 
-import {ICommand, ICommands} from './commands/command-interfaces';
+import {ICommand, ICommands, CommandInfo, SubCommandInfo, SubCommandOption} from './commands/command-interfaces';
 
 import {CommandColaboProject} from './commands/colabo-project';
-import {CommandColaboPuzzle} from './commands/colabo-puzzle';
+// import {CommandColaboPuzzle} from './commands/colabo-puzzle';
 
 let commands:ICommands = {
-    "project": new CommandColaboProject(),
-    "puzzle": new CommandColaboPuzzle()
+    "project": new CommandColaboProject()
+    // "puzzle": new CommandColaboPuzzle()
 };
 
 for (let commandName in commands){
@@ -54,8 +54,6 @@ enum Commands {
 
     PuzzleCreate = "puzzle-create",
 
-    ProjectCreate = "project-create",
-
     SymLink = "symlinks"
 }
 
@@ -67,7 +65,6 @@ console.log("============");
 let colaboConfigParser;
 let colaboConfig;
 let colaboPuzzleManager;
-let colaboProjectManager;
 
 function processGlobalParams(cmd){
     cmd.parent.config;
@@ -112,20 +109,22 @@ program
 
 import { inspect } from 'util' // or directly
 
-program
-    .command(Commands.ProjectCreate)
-    .option('-n --pname <projectName>', 'Project name')
-    .option('-p --ppath <projectPath>', 'Project path (folder)')
-    .option('-at --ptypes <projectAppTypes>', 'Application types to be created in the project')
-    .option('-d --pdescription <projectDesc>', 'Project description')
-    .option('-t --ptype <projectType>', 'Type of the project')
-    .option('-pv --pversion <projectVersion>', 'Project version. It follows https://semver.org/')
-    .option('-l --plicense <projectLicense>', 'The license of the project')
-    .option('-r --prepository <repositoryUrl>', 'The url of the project\'s repository')
-    .action(function (cmd) {
-        // processGlobalParams(cmd);
-        commands["project"].execute(cmd);
-    })
+for(let commandName in commands){
+    let command:ICommand = commands[commandName];
+
+    let commandInfo:CommandInfo = command.getInfo();
+    for(let subCommandId in commandInfo.subcommands){
+        let subCommand:SubCommandInfo =  commandInfo.subcommands[subCommandId];
+        console.log("Registering command: %s", chalk.bold(subCommand.name));
+        let programCommand:any = program.command(subCommand.name);
+        for(let optionId in subCommand.options){
+            let option:SubCommandOption = subCommand.options[optionId];
+            console.log("\toption parameter: %s, option.description: %s", option.parameter, option.description);
+            programCommand.option(option.parameter, option.description);
+        }
+        programCommand.action(command.execute.bind(command));
+    }
+}
 
 program
     .command(Commands.PuzzleCreate)
@@ -265,8 +264,15 @@ function showUsage(){
     // puzzle
     console.log("\t%s: Create Puzzle", chalk.blue.bold(Commands.PuzzleCreate));
 
-    // project
-    console.log("\t%s: Create Project", chalk.blue.bold(Commands.ProjectCreate));
+    for(let commandName in commands){
+        let command:ICommand = commands[commandName];
+        let commandInfo:CommandInfo = command.getInfo();
+        for(let subCommandId in commandInfo.subcommands){
+            let subCommand:SubCommandInfo =  commandInfo.subcommands[subCommandId];
+
+            console.log("\t%s: %s", chalk.blue.bold(subCommand.name), subCommand.description);
+        }
+    }
 
     // general
     console.log("\t%s: Symlink external paths", chalk.blue.bold(Commands.SymLink));

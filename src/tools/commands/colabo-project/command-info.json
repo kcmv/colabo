@@ -1,0 +1,43 @@
+{
+    "name": "colabo-command-project",
+    "subcommands": [
+        {
+            "name": "project-create",
+            "description": "Creates new Colabo Project",
+            "options": [
+                {
+                    "parameter": "-n --pname <projectName>",
+                    "description": "Project name"
+                },
+                {
+                    "parameter": "-p --ppath <projectPath>",
+                    "description": "Project path (folder)"
+                },
+                {
+                    "parameter": "-at --ptypes <projectAppTypes>",
+                    "description": "Application types to be created in the project"
+                },
+                {
+                    "parameter": "-d --pdescription <projectDesc>",
+                    "description": "Project description"
+                },
+                {
+                    "parameter": "-t --ptype <projectType>",
+                    "description": "Type of the project"
+                },
+                {
+                    "parameter": "-pv --pversion <projectVersion>",
+                    "description": "Project version. It follows https://semver.org/"
+                },
+                {
+                    "parameter": "-l --plicense <projectLicense>",
+                    "description": "The license of the project"
+                },
+                {
+                    "parameter": "-r --prepository <repositoryUrl>",
+                    "description": "The url of the project's repository"
+                }
+            ]
+        }
+    ]
+}

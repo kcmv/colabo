@@ -2,7 +2,7 @@
     "info": {
         "type": "project",
         "data": {
-            "name": "project-name"
+            "name": "colabo-command-create-project"
         }
     }, "appTypes": {
         "general": {
