@@ -10,9 +10,13 @@ import * as path from 'path';
 // https://www.npmjs.com/package/@types/mustache
 import * as Mustache from 'mustache';
 
+// the info part of the template
+// usually provided as a part of the JSON file describing the template
 export interface TemplateInfo {
-    type: string,
-    data: string
+    type: string, // template type
+    data: {
+        name: string // template name
+    }
 }
 
 export interface FileDescription {
@@ -26,6 +30,7 @@ enum IAppInfoStructureEntityType{
     TemplateFile = "template-file",
     TemplateFolder = "template-folder"
 }
+
 interface IAppInfoStructureEntity{
     type: IAppInfoStructureEntityType
 }
@@ -74,18 +79,31 @@ interface IAppInfos{
     [id: string] : IAppInfo;
 }
 
+// holds various versions of the app path
+interface IAppPaths{
+    // original `apps/<pname>`
+    original: string,
+    // trimmed `apps/pname`
+    // used for accessing templating file
+    trimmed: string,
+    // replaced `apps/cvrkut`
+    // used for destination path of the rendered template 
+    replaced: string
+}
+
 var ChildProcess = require("child_process");
 
 export class ColaboTemplateManager{
     private templateInfo: TemplateInfo;
     private colaboTemplate:any;
-    private renderParameters:RenderParametersCallback;
+    private renderParametersCallback:RenderParametersCallback;
 
     constructor(private templatesFolder: string, private templateFileName:string){
         this.templateFileName = templatesFolder + "/" + templateFileName;
         console.log("[ColaboTemplateManager] this.templateFileName: ", this.templateFileName);
     }
 
+    // parses the template file and converts into an object, `this.colaboTemplate`
     parse(){
         var templateFileFullUnresolved;
         var templateFileFull;
@@ -114,7 +132,7 @@ export class ColaboTemplateManager{
         console.log("templateInfo: %s", JSON.stringify(this.templateInfo));
     }
 
-    // conversion from octal string into number
+    // conversion from octal string into а number
     modeStr2Int(modeStr:string):number{
         let modeInt:number = parseInt(modeStr[0])*8*8 
             + parseInt(modeStr[1])*8
@@ -122,22 +140,19 @@ export class ColaboTemplateManager{
         return modeInt;
     }
 
-    execute(projectFolder, renderParameters:RenderParametersCallback, appType:string){
-        let appInfo:IAppInfo = this.colaboTemplate.appTypes[appType];
+    extractPaths(appPath:string, templateView:any):IAppPaths{
+        let appPaths:IAppPaths;
 
-        this.renderParameters = renderParameters;
-
-        let appPath = appInfo.path;
-        // get root/default template parameters
-        let entityKey:string = '.'
-        let templateView:any = renderParameters(entityKey);
-        console.log("templateView for the entityKey '%s' is ", entityKey, JSON.stringify(templateView));
-        
-        // get path relative for the selected application
+        // get app paths for the selected application
         var rx = new RegExp("\<([^\<]+)\>", 'gi');
         let isMatchingVariable = false;
         let matchedVariable = "";
+        // path that is trimmed
+        // `apps/<pname>` -> apps/pname
         let appPathTrimmed = appPath;
+        // path that is replaced with a real name
+        // if app name is `pname === cvrkut`:
+        // `apps/<pname>` -> apps/cvrkut
         let appPathReplaced = appPath;
         for(let i=0; i<appPath.length; i++){
             if(isMatchingVariable){
@@ -153,50 +168,97 @@ export class ColaboTemplateManager{
                 isMatchingVariable = true;
             }
         }
-        console.log("appPathTrimmed: '%s'", appPathTrimmed);
-        console.log("appPathReplaced: '%s'", appPathReplaced);
-        let templateFolderSource:string = fs.realpathSync(this.templatesFolder + "/" + appPathTrimmed);
 
-        // create the templateFolderDestination
-        let appInfoModeInt:number = appInfo.mode ? this.modeStr2Int(appInfo.mode) : 0x775;
-        let templateFolderDestination:string = projectFolder + "/" + appPathReplaced;
-        console.log("Creating templateFolderDestination folder '%s'", chalk.bold.italic(templateFolderDestination));
-        fs.mkdirSync(templateFolderDestination, { recursive: true, mode: appInfoModeInt });
+        appPaths = {
+            original: appPath,
+            trimmed: appPathTrimmed,
+            replaced: appPathReplaced
+        };
+        console.log("appPaths: '%s'", JSON.stringify(appPaths));
+
+        return appPaths;
+    }
+
+    execute(projectFolderPath:string, renderParametersCallback:RenderParametersCallback, appType:string){
+        let appInfo:IAppInfo = this.colaboTemplate.appTypes[appType];
+
+        this.renderParametersCallback = renderParametersCallback;
+
+        let appPath = appInfo.path;
+        // get root/default template parameters
+        let entityKey:string = '.'
+        let templateView:any = renderParametersCallback(entityKey);
+        console.log("templateView for the entityKey '%s' is ", entityKey, JSON.stringify(templateView));
         
-        templateFolderDestination = fs.realpathSync(projectFolder + "/" + appPathReplaced);
-        console.log("templateFolderSource: '%s'", templateFolderSource);
-        console.log("templateFolderDestination: '%s'", templateFolderDestination);
+        let appPaths:IAppPaths = this.extractPaths(appPath, templateView);
 
-        var appStructure = appInfo.structure;
+        this.createDestinationFolder(projectFolderPath, appInfo.mode);
+
+        let appStructure:IAppInfoStructure = appInfo.structure;
 
         // iterate through each templating entity
         for(let entityKey in appStructure){
             console.log("\nParsing templating entity: '%s'\n========================================", chalk.bold.italic(entityKey));
-            let entityKeyTrimmed:string = entityKey;
-            let entityKeyReplaced:string = entityKey;
 
             let appInfoEntity:IAppInfoStructureEntity = appStructure[entityKey];
 
-            console.log("appInfoEntity for the entityKey '%s' is ", entityKey, JSON.stringify(appInfoEntity));
+            let structureFolderDestination:string = this.createDestinationFolder(projectFolderPath + "/" + appPaths.replaced, appInfo.mode);
 
-            // get template parameters
-            let templateView:any = renderParameters(entityKey);
-            console.log("templateView for the entityKey '%s' is ", entityKey, JSON.stringify(templateView));
+            this.renderAppInfoStructure(
+                entityKey, appInfoEntity, 
+                this.templatesFolder + "/" + appPaths.trimmed,
+                structureFolderDestination,
+                renderParametersCallback);
+        }
+    }
 
-            // create folder
-            if (appInfoEntity.type == IAppInfoStructureEntityType.Folder){
-                this.renderFolder(<IAppInfoStructureEntityFolder>appInfoEntity, entityKeyReplaced, templateFolderDestination);
-            }
+    createDestinationFolder(templateFolderDestination:string, mode:string){
+        // creating the templateFolderDestination folder
+        let appInfoModeInt:number = mode ? this.modeStr2Int(mode) : 0x775;
 
-            // create template file
-            if(appInfoEntity.type == IAppInfoStructureEntityType.TemplateFile){
-                this.renderTemplateFile(<IAppInfoStructureEntityTemplateFile>appInfoEntity, entityKeyTrimmed, entityKeyReplaced, templateFolderSource, templateFolderDestination, templateView);
-            }
+        console.log("Creating templateFolderDestination folder '%s'", chalk.bold.italic(templateFolderDestination));
+        fs.mkdirSync(templateFolderDestination, { recursive: true, mode: appInfoModeInt });
+        
+        // get normalized templateFolderDestination
+        // we cannot do this before the folder is created
+        // as fs.realpathSync crashes otherwise
+        templateFolderDestination = fs.realpathSync(templateFolderDestination);
+        console.log("normalized templateFolderDestination: '%s'", templateFolderDestination);
 
-            // create template folder
-            if(appInfoEntity.type == IAppInfoStructureEntityType.TemplateFolder){
-                this.renderTemplateFolder(<IAppInfoStructureEntityTemplateFolder>appInfoEntity, entityKeyTrimmed, entityKeyReplaced, templateFolderSource, templateFolderDestination, templateView);
-            }
+        return templateFolderDestination;
+    }
+
+    renderAppInfoStructure(structurePath:string, appInfoEntity:IAppInfoStructureEntity, structureFolderSource:string, structureFolderDestination:string, renderParametersCallback:RenderParametersCallback){
+        console.log("appInfoEntity for the entityKey '%s' is ", structurePath, JSON.stringify(appInfoEntity));
+
+        // get the normalized source folder
+        structureFolderSource = fs.realpathSync(structureFolderSource);
+        console.log("normalized templateFolderSource: '%s'", structureFolderSource);
+
+        // get template parameters
+        let templateView:any = renderParametersCallback(structurePath);
+        console.log("templateView for the entityKey '%s' is ", structurePath, JSON.stringify(templateView));
+
+        let structurePaths:IAppPaths = this.extractPaths(structurePath, templateView);
+
+        let entityKeyTrimmed:string = structurePaths.trimmed;
+        let entityKeyReplaced:string = structurePaths.replaced;
+
+        // create folder
+        if (appInfoEntity.type == IAppInfoStructureEntityType.Folder){
+            this.createDestinationFolder(structureFolderDestination, (<IAppInfoStructureEntityFolder>appInfoEntity).mode);
+
+            this.renderFolder(<IAppInfoStructureEntityFolder>appInfoEntity, entityKeyReplaced, structureFolderDestination);
+        }
+
+        // create template file
+        if(appInfoEntity.type == IAppInfoStructureEntityType.TemplateFile){
+            this.renderTemplateFile(<IAppInfoStructureEntityTemplateFile>appInfoEntity, entityKeyTrimmed, entityKeyReplaced, structureFolderSource, structureFolderDestination, templateView);
+        }
+
+        // create template folder
+        if(appInfoEntity.type == IAppInfoStructureEntityType.TemplateFolder){
+            this.renderTemplateFolder(<IAppInfoStructureEntityTemplateFolder>appInfoEntity, entityKeyTrimmed, entityKeyReplaced, structureFolderSource, structureFolderDestination, templateView);
         }
     }
 
@@ -219,7 +281,7 @@ export class ColaboTemplateManager{
         // get template file
         let templateFile = templateFolderSource+"/"+entityKeyTrimmed;
 
-        console.log("\n[renderTemplateFile] rendering template: '%s'\n(%s)\n-----------------------------------------", chalk.bold(entityKeyTrimmed), chalk.italic(templateFile));
+        console.log("\n[renderTemplateFile] rendering template file (entityKeyReplaced: '%s')\n(%s)\n-----------------------------------------", chalk.bold(entityKeyReplaced), chalk.italic(templateFile));
 
         let templateString = fs.readFileSync(templateFile, { encoding: appInfoEntity.encoding, flag: appInfoEntity.flag });
 
@@ -244,6 +306,9 @@ export class ColaboTemplateManager{
         fs.writeFileSync(renderedFilePath, templateFileRendered, { encoding: appInfoEntity.encoding, mode: appInfoEntity.modeInt });
     }
 
+    // checks if the file `filename` should be excluded based on the `exclusionList`
+    // exclusion list containst the list of simply shell-like regular expressions (`*`, `.`)
+    // each exclusion should completely match against the filename
     checkFileExclusion(filename:string, exclusionList:string[]):boolean{
         console.log("[checkFileExclusion] filename: %s, exclusionList: %s", filename, exclusionList);
         for(let i in exclusionList){
@@ -263,6 +328,8 @@ export class ColaboTemplateManager{
         return false;
     }
 
+    // render a whole folder with files and subfolders, recursivelly (unless matched against the `IAppInfoStructureEntityTemplateFolder.exclude` parameter)
+    // it renders each file as an a template (unless matched against `IAppInfoStructureEntity.excludeTemplate` parameter)
     renderTemplateFolder(appInfoEntity:IAppInfoStructureEntityTemplateFolder, entityKeyTrimmed:string, entityKeyReplaced:string, templateFolderSource:string, templateFolderDestination:string, templateView:any){
         let that:ColaboTemplateManager = this;
 
@@ -276,7 +343,11 @@ export class ColaboTemplateManager{
             let templateFolderSubfolderSource:string = path.join(templateFolderSource, entityKeyTrimmed);
             let templateFolderSubfolderDestination:string = path.join(templateFolderDestination, entityKeyReplaced);
 
-            console.log("\n[renderTemplateFile] rendering template folder: '%s'\n(%s)\n-----------------------------------------", chalk.bold(entityKeyTrimmed), chalk.italic(templateFolderSubfolderSource));
+            // create entity folder
+            console.log("[walkDir] creating folder: %s", templateFolderSubfolderDestination);
+            fs.mkdirSync(templateFolderSubfolderDestination, { recursive: true, mode: appInfoEntity.dmodeInt });
+
+            console.log("\n[renderTemplateFolder] rendering template folder (entityKeyReplaced: '%s') \n(%s)\n-----------------------------------------", chalk.bold(entityKeyReplaced), chalk.italic(templateFolderSubfolderSource));
 
             fs.readdirSync(templateFolderSubfolderSource).forEach( f => {
                 let templateFolderSubfolderSourceChild:string = path.join(templateFolderSubfolderSource, f);
@@ -286,42 +357,43 @@ export class ColaboTemplateManager{
                 let entityKeyReplacedChild:string = path.join(entityKeyReplaced, f);
                 let isDirectory:boolean = fs.statSync(templateFolderSubfolderSourceChild).isDirectory();
 
-                if(that.checkFileExclusion(templateFolderSubfolderSourceChild, appInfoEntity.exclude)) return;
+                console.log("templateFolderSubfolderSourceChild (entityKeyTrimmedChild: %s): %s, appInfoEntity.exclude: %s", entityKeyTrimmedChild, templateFolderSubfolderSourceChild, appInfoEntity.exclude);
+
+                if(that.checkFileExclusion(entityKeyTrimmedChild, appInfoEntity.exclude)) return;
 
                 if(isDirectory){
                     if (appInfoEntity.dmode){
                         appInfoEntity.dmodeInt = that.modeStr2Int(appInfoEntity.dmode);
                     }
-                    // create entity folder
-                    console.log("creating folder: %s", templateFolderSubfolderDestinationChild);
-                    fs.mkdirSync(templateFolderSubfolderDestinationChild, { recursive: true, mode: appInfoEntity.dmodeInt });
                     walkDir(templateFolderSource, templateFolderDestination, entityKeyTrimmedChild, entityKeyReplacedChild);
-              }else{
-                let templateFileEntity:IAppInfoStructureEntityTemplateFile = {
-                    encoding: appInfoEntity.encoding,
-                    mode: appInfoEntity.fmode,
-                    flag: appInfoEntity.flag,
-                    type:IAppInfoStructureEntityType.TemplateFile,
-                    modeInt: 0,
-                    excludeTemplate: appInfoEntity.excludeTemplate
-                };
+                }else{
+                    let templateFileEntity:IAppInfoStructureEntityTemplateFile = {
+                        encoding: appInfoEntity.encoding,
+                        mode: appInfoEntity.fmode,
+                        flag: appInfoEntity.flag,
+                        type:IAppInfoStructureEntityType.TemplateFile,
+                        modeInt: 0,
+                        excludeTemplate: appInfoEntity.excludeTemplate
+                    };
 
-                // get template parameters
-                let templateView:any = that.renderParameters(entityKeyTrimmed);
-                console.log("templateView for the entityKeyTrimmed '%s' is ", entityKeyTrimmed, JSON.stringify(templateView));
+                    // get template parameters
+                    let templateView:any = that.renderParametersCallback(entityKeyTrimmed);
+                    console.log("templateView for the entityKeyTrimmed '%s' is ", entityKeyTrimmed, JSON.stringify(templateView));
 
-                that.renderTemplateFile(templateFileEntity, entityKeyTrimmedChild, entityKeyTrimmedChild, templateFolderSource, templateFolderDestination, templateView);
-            }
+                    that.renderTemplateFile(templateFileEntity, entityKeyTrimmedChild, entityKeyReplacedChild, templateFolderSource, templateFolderDestination, templateView);
+                }
             });
-          };
+        };
     }
 
+    // provides info
     info(){
         console.log("Template file '%s' info", this.templateFileName);
         // console.log("\tname: ", this.puzzlesDescription.name);
         // console.log("\tdescription: ", this.puzzlesDescription.description);
     }
     
+    // returns parsed template
     getTemplate():any{
         return this.colaboTemplate;
     }

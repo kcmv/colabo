@@ -20,10 +20,19 @@
         },
         "frontend": {
             "name": "frontend",
-            "path": "src/frontend/apps/<pname>",
+            "path": "src/frontend",
             "mode": "775",
             "structure": {
                 ".": {
+                    "type": "template-folder", "dmode": "775", "fmode": "664", "encoding": "utf8", "flag": "r",
+                    "exclude": [
+                        "apps/pname"
+                    ],
+                    "excludeTemplate": [
+                        "*.jpg"
+                    ]
+                },
+                "apps/<pname>": {
                     "type": "template-folder", "dmode": "775", "fmode": "664", "encoding": "utf8", "flag": "r",
                     "excludeTemplate": [
                         "*.jpg"
