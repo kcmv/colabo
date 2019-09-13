@@ -10,97 +10,18 @@ import * as path from 'path';
 // https://www.npmjs.com/package/@types/mustache
 import * as Mustache from 'mustache';
 
-// the info part of the template
-// usually provided as a part of the JSON file describing the template
-export interface TemplateInfo {
-    type: string, // template type
-    data: {
-        name: string // template name
-    }
-}
-
-export interface FileDescription {
-    path: string,
-    description: string,
-    chmode: string
-}
-
-enum IAppInfoStructureEntityType{
-    Folder = "folder",
-    TemplateFile = "template-file",
-    TemplateFolder = "template-folder"
-}
-
-interface IAppInfoStructureEntity{
-    type: IAppInfoStructureEntityType
-}
-
-interface IAppInfoStructureEntityFolder extends IAppInfoStructureEntity{
-    mode: string, // "664"
-    modeInt: number, // 0o664
-    recursive: boolean
-}
-
-interface IAppInfoStructureEntityTemplateFile extends IAppInfoStructureEntity{
-    mode?: string, // "664"
-    modeInt?: number, // 0o664
-    encoding?: string,
-    flag?: string // "r",
-    excludeTemplate?: string[]
-}
-
-interface IAppInfoStructureEntityTemplateFolder extends IAppInfoStructureEntity{
-    dmode: string, // directory mode "775"
-    fmode: string, // file mode "664"
-    dmodeInt: number, // 0o775
-    fmodeInt: number, // 0o664
-    encoding: string,
-    flag: string // "r",
-    exclude?: string[],
-    excludeTemplate?: string[]
-}
-
-interface RenderParametersCallback{
-    (key:string):any;
-}
-
-interface IAppInfoStructure{
-    [id: string] : IAppInfoStructureEntity;
-}
-
-interface IAppInfo{
-    name: string,
-    path: string,
-    mode: string,
-    structure: IAppInfoStructure
-}
-
-interface IAppInfos{
-    [id: string] : IAppInfo;
-}
-
-// holds various versions of the app path
-interface IAppPaths{
-    // original `apps/<pname>`
-    original: string,
-    // trimmed `apps/pname`
-    // used for accessing templating file
-    trimmed: string,
-    // replaced `apps/cvrkut`
-    // used for destination path of the rendered template 
-    replaced: string
-}
-
 var ChildProcess = require("child_process");
 
-export class ColaboTemplateManager{
+import {TemplateInfo, RenderParametersCallback, ITemplatingPaths, IAppInfo, IAppInfoStructure, IAppInfoStructureEntity, IAppInfoStructureEntityFolder, IAppInfoStructureEntityTemplateFile, IAppInfoStructureEntityType, IAppInfoStructureEntityTemplateFolder} from './interfaces';
+
+export class TemplateManager{
     private templateInfo: TemplateInfo;
     private colaboTemplate:any;
     private renderParametersCallback:RenderParametersCallback;
 
     constructor(private templatesFolder: string, private templateFileName:string){
         this.templateFileName = templatesFolder + "/" + templateFileName;
-        console.log("[ColaboTemplateManager] this.templateFileName: ", this.templateFileName);
+        console.log("[TemplateManager] this.templateFileName: ", this.templateFileName);
     }
 
     // parses the template file and converts into an object, `this.colaboTemplate`
@@ -140,8 +61,8 @@ export class ColaboTemplateManager{
         return modeInt;
     }
 
-    extractPaths(appPath:string, templateView:any):IAppPaths{
-        let appPaths:IAppPaths;
+    extractPaths(appPath:string, templateView:any):ITemplatingPaths{
+        let appPaths:ITemplatingPaths;
 
         // get app paths for the selected application
         var rx = new RegExp("\<([^\<]+)\>", 'gi');
@@ -190,7 +111,7 @@ export class ColaboTemplateManager{
         let templateView:any = renderParametersCallback(entityKey);
         console.log("templateView for the entityKey '%s' is ", entityKey, JSON.stringify(templateView));
         
-        let appPaths:IAppPaths = this.extractPaths(appPath, templateView);
+        let appPaths:ITemplatingPaths = this.extractPaths(appPath, templateView);
 
         this.createDestinationFolder(projectFolderPath, appInfo.mode);
 
@@ -239,7 +160,7 @@ export class ColaboTemplateManager{
         let templateView:any = renderParametersCallback(structurePath);
         console.log("templateView for the entityKey '%s' is ", structurePath, JSON.stringify(templateView));
 
-        let structurePaths:IAppPaths = this.extractPaths(structurePath, templateView);
+        let structurePaths:ITemplatingPaths = this.extractPaths(structurePath, templateView);
 
         let entityKeyTrimmed:string = structurePaths.trimmed;
         let entityKeyReplaced:string = structurePaths.replaced;
@@ -331,7 +252,7 @@ export class ColaboTemplateManager{
     // render a whole folder with files and subfolders, recursivelly (unless matched against the `IAppInfoStructureEntityTemplateFolder.exclude` parameter)
     // it renders each file as an a template (unless matched against `IAppInfoStructureEntity.excludeTemplate` parameter)
     renderTemplateFolder(appInfoEntity:IAppInfoStructureEntityTemplateFolder, entityKeyTrimmed:string, entityKeyReplaced:string, templateFolderSource:string, templateFolderDestination:string, templateView:any){
-        let that:ColaboTemplateManager = this;
+        let that:TemplateManager = this;
 
         let templateFolder:string = templateFolderSource+"/"+entityKeyTrimmed;
 

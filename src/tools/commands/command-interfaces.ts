@@ -19,18 +19,18 @@ export interface ICommand{
     execute(cmd:any):void;
 }
 
-import {ColaboTemplateManager} from '../colabo-template-manager';
+import {TemplateManager} from '../templating/manager';
 
 import * as fs from 'fs';
 
 export class ColaboCommand implements ICommand{
     protected currentFolder:string;
     protected commandInfo:CommandInfo;
-    protected colaboTemplateManager:ColaboTemplateManager;
+    protected templateManager:TemplateManager;
 
     constructor(protected templatesFolder: string, protected templateFileName:string, protected commandInfoPath:string){
         this.currentFolder = process.cwd();
-        this.colaboTemplateManager = new ColaboTemplateManager(this.templatesFolder, 'template-info.json');
+        this.templateManager = new TemplateManager(this.templatesFolder, 'template-info.json');
 
         try{
             this.commandInfo = <CommandInfo>require(this.commandInfoPath);

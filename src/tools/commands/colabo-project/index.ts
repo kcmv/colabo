@@ -39,7 +39,7 @@ export class CommandColaboProject extends ColaboCommand{
     execute(projectInfo:any){
         console.log("Command: Colabo Project - executing");
 
-        this.colaboTemplateManager.parse();
+        this.templateManager.parse();
         let projectFolder = this.currentFolder + "/" + projectInfo.ppath;
         // fs.mkdirSync(projectFolder, { recursive: true, mode: 0o775 });
         // fs.mkdirSync(projectFolder+"/lib", { recursive: true, mode: 0o775 });
@@ -67,7 +67,7 @@ export class CommandColaboProject extends ColaboCommand{
             return readmeView;
         }
 
-        this.colaboTemplateManager.execute(projectFolder, renderParameters, "frontend");
+        this.templateManager.execute(projectFolder, renderParameters, "frontend");
     }
 
     _createProject(projectInfo:any){
