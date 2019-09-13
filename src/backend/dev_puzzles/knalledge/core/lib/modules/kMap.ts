@@ -62,7 +62,6 @@ export function index(req, res) {
         if (err) {
             var msg = JSON.stringify(err);
             resSendJsonProtected(res, { data: kMaps, accessId: accessId, message: msg, success: false });
-            throw err;
         } else {
             //console.log("[modules/kMap.js:index] Data:\n%s", JSON.stringify(kMaps));
             resSendJsonProtected(res, { data: kMaps, accessId: accessId, success: true });
@@ -124,18 +123,40 @@ export function create(req, res) {
         case 'import':
             console.log("[modules/KMap.js:create/mapImport]", data);
             break;
+        case 'new': //params sending from `src/frontend/dev_puzzles/maps/core/maps-list/map-create/map-create-form.ts` not working yet
         default:
             console.log("[modules/kMap.js:create/default] req.body: %s", JSON.stringify(data));
 
+            let kmap = new KMapModel(data);
+            console.log('kmap.type', kmap.type);
+                
             try{
-                function finished():void {
-                    resSendJsonProtected(res, { success: true, data: kmap, accessId: accessId });
-                }
+                function finished(error:any, rootNodeId:string):void {
+                    console.log("[kMap] finished called");
+                    try{if(error){
+                        // console.error("ERROR in MapTemplateProcessor");
+                        throw error;
+                        // resSendJsonProtected(res, { data: null, accessId: accessId, message: 'saving error:' + JSON.stringify(error), success: false });
+                    }
+                    else{
+                        kmap.rootNodeId = rootNodeId;
+                    
+                        function finishedUpdate(result:any){
+                            resSendJsonProtected(res, { success: true, data: kmap, accessId: accessId });
+                        }
 
-                let kmap = new KMapModel(data);
-                
-                console.log('kmap.type', kmap.type);
-                
+                        KMapModel.update({ _id: kmap._id }, kmap, function(error:any, raw:any) {
+                            if (error) {throw error;}
+                            console.log('The raw response from Mongo was ', raw,'\n kmap', kmap);
+                            finishedUpdate(raw);
+                        });
+                    }}
+                    catch(err){
+                        let errMsg = 'creator KMapModel error';
+                        console.error(errMsg,err);
+                        resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                    }
+                }
 
                 kmap.save(function(err) {
                     if (err) {
@@ -183,6 +204,9 @@ export function create(req, res) {
                 console.error(errMsg,err);
                 resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
             }
+        break;
+        // default:
+        //     console.error('[modules/KMap.js:create] UNKNOWN CREATE REQUEST TYPE')
     }
 }
 
