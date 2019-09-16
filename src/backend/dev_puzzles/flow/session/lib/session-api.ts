@@ -1,4 +1,4 @@
-const MODULE_NAME: string = "@colabo-flow/b-session";
+import {MODULE_NAME} from './params';
 
 import { GetPuzzle } from '@colabo-utils/i-config';
 let puzzleConfig: any = GetPuzzle(MODULE_NAME);
