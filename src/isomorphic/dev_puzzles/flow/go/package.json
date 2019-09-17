@@ -1,7 +1,7 @@
 {
     "name": "@colabo-flow/i-go",
     "version": "0.5.0",
-    "description": "Puzzle describing structures for ColaboFlow.Go",
+    "description": "Puzzle describing structures for the ColaboFlow.Go domain",
     "private": false,
     "publishConfig": {
         "access": "public"

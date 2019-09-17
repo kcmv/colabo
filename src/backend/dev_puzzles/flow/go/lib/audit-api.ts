@@ -85,6 +85,7 @@ export class ColaboFlowGoApi {
         }
     }
 
+    // not implemented yet
     create(callback: Function = null) {
         let body: string = this.req.body;
         console.log("[ColaboFlowGo.post] body: %s", JSON.stringify(body));

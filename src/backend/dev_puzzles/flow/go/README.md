@@ -20,3 +20,8 @@ Filter by action name:
 -----
 
 This puzzle is automatically created with the [colabo tools](https://www.npmjs.com/package/@colabo/cli)
+
+# TODO
+
++ Rename files from audit into Go
++ Implement create
