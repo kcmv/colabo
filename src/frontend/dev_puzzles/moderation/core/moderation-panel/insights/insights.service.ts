@@ -49,10 +49,12 @@ export class InsightsService {
 
   static TOPICHAT_MSG_TYPE:string = 'topiChat.talk.chatMsg';
   cardsPlayed:KNode[][] = new Array<Array<KNode>>(); //first dimension are rounds, second are all cards in that round
+  protected getCardsPlayedInitiated:boolean;
   registeredUsers:KNode[] = [];
   myCfStates:KNode[] = [];
   cwcs:KNode[] = [];
   selectedSDGs:KEdge[] = [];
+  protected getRegisteredUsersInitiated:boolean;
 
   constructor(
     private knalledgeNodeService:KnalledgeNodeService,
@@ -65,7 +67,8 @@ export class InsightsService {
   getRegisteredUsers(forceRefresh:boolean = false):Observable<KNode[]>{
     let result:Observable<KNode[]>;
 
-    if(forceRefresh || this.registeredUsers.length == 0){
+    if(forceRefresh || !this.getRegisteredUsersInitiated){
+      this.getRegisteredUsersInitiated = true;
       result = this.rimaAAAService.getRegisteredUsers(InsightsService.mapId)
       .pipe(
         tap(nodesFromServer => this.assignRegisteredUsers(nodesFromServer))
@@ -124,7 +127,8 @@ assignSDGs(sdgs:any):void{
  getCardsPlayed(forceRefresh:boolean = true):Observable<any>{
   let result:Observable<KNode[]> ;
 
-  if(forceRefresh || this.cardsPlayed.length == 0){
+  if(forceRefresh || !this.getCardsPlayedInitiated){
+    this.getCardsPlayedInitiated = true;
     result = this.knalledgeNodeService.queryInMapofType(InsightsService.mapId, InsightsService.TOPICHAT_MSG_TYPE)
     .pipe(
       tap(nodesFromServer => this.assignCardsPlayed(nodesFromServer))
