@@ -5,7 +5,7 @@
     "mapId" : ObjectId("5be3fddce1b7970d8c6df406"),
     "rootNodeId" : ObjectId("5be40853e1b7970d8c6df40c")
   },
-  "actions": [
+  "data": [
     {
       "name":"map",
       "type":"insert",
@@ -69,7 +69,7 @@
     {
       "name":"users",
       "type":"actions",
-      "actions": [
+      "data": [
         {
           "name":"users node",
           "type":"insert",
@@ -162,7 +162,7 @@
       {
         "name":"content",
         "type":"actions",
-        "actions": [
+        "data": [
           {
             "name":"Content node",
             "type":"insert",
@@ -223,7 +223,7 @@
     {
       "name":"SDGs",
       "type":"actions",
-      "actions": [
+      "data": [
         {
           "name":"SDGs node",
           "type":"insert",
@@ -1102,7 +1102,7 @@
     {
       "name":"dialogame.opening-cards",
       "type":"actions",
-      "actions": [
+      "data": [
         {
           "name":"dialogame.opening-card node",
           "type":"insert",
