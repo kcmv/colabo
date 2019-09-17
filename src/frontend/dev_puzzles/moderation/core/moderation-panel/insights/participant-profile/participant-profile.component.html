@@ -5,7 +5,7 @@
      [displayOptions]="displayOptions" 
      class="user-card"></user-card>
     <div>
-            <div>{{participantData.dataContent?.bio}}</div>
+            <div [innerHTML]="participantData.dataContent?.bio"></div>
         <!-- <h3>Selected SDGs</h3> -->
         <!-- <div *ngFor="let sdgD of selectedSDGs" class="sdg">{{sdgD?.dataContent?.humanID}}</div> -->
         <!-- <sdg-card *ngFor="let sdgD of selectedSDGs" class="sdg"></sdg-card> -->

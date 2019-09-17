@@ -14,6 +14,7 @@ export class UserCardComponent implements OnInit {
 
   ngOnInit() {
     //console.log('UserCardComponent');
+    console.log("UserCardComponent:: displayOptions", this.displayOptions);
   }
 
   public imgPath():string{

@@ -38,7 +38,6 @@ export class ParticipantsComponent implements OnInit {
       "country":true
     }
   }
-  
 
   ngOnInit() {
     this.getParticipants().subscribe(participants => {

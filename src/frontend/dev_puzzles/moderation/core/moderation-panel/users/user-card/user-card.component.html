@@ -9,11 +9,11 @@
     <!-- <img mat-card-image class="picture" src="{{userImagesPath + 'user' + user?.dataContent?.humanID + '.jpg'}}" alt="{{user.name}}" /> -->
     <img mat-card-image class="picture" src="{{imgPath()}}" alt="{{userData?.name}}" />
     
-    <!-- <mat-card-content>
-        <p>
-            {{user.dataContent.desc}}
-        </p>
-    </mat-card-content> -->
+    <mat-card-content>
+        <div *ngIf="displayOptions.country">
+            Country: {{userData.dataContent?.country}}
+        </div>
+    </mat-card-content>
     <!-- <mat-card-footer>
     </mat-card-footer>   -->
     <!-- <mat-card-actions>

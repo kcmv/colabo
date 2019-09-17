@@ -9,9 +9,10 @@
     <!-- <img mat-card-image class="picture" src="{{userImagesPath + 'user' + user?.dataContent?.humanID + '.jpg'}}" alt="{{user.name}}" /> -->
 
     <mat-card-content>
-        <p *ngIf="displayOptions.country">
+        <div>
+        <!-- *ngIf="displayOptions.country"> -->
             Country: {{user.dataContent?.country}}
-        </p>
+        </div>
     </mat-card-content>
     <!-- <mat-card-footer>
     </mat-card-footer>   -->
