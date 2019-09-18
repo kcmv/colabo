@@ -641,7 +641,7 @@ decamelize@^1.1.1:
 
 "deep-assign@http://colabo.space/downloads/deep-assign-2.0.0.tgz":
   version "2.0.0"
-  resolved "http://colabo.space/downloads/deep-assign-2.0.0.tgz#43eb455964ba83e84f67bbaa963349b7a64060d6"
+  resolved "http://colabo.space/downloads/deep-assign-2.0.0.tgz#a57d2a7b4289cf18fdb5d79bb7a37d95ee1b8a7d"
   dependencies:
     is-obj "^1.0.0"
 
@@ -842,7 +842,7 @@ execa@^0.7.0:
 
 "express-resource@http://colabo.space/downloads/express-resource-1.0.0.tgz":
   version "1.0.0"
-  resolved "http://colabo.space/downloads/express-resource-1.0.0.tgz#f57a470ecf766614123dc476769d1b3cd1f43a4e"
+  resolved "http://colabo.space/downloads/express-resource-1.0.0.tgz#0ea415da95a67ee91b9efdd5c610aa1bf46790cf"
   dependencies:
     debug "*"
     lingo ">= 0.0.4"
