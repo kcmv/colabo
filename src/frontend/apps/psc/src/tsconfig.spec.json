@@ -17,7 +17,6 @@
     
     "../node_modules/@colabo-utils/**/*",
     "node_modules/@colabo-utils/**/*",
-    "/Users/sasha/Documents/data/development/colabo.space/colabo/src/frontend/dev_puzzles/utils/**/*",
     "../../../dev_puzzles/utils/**/*"
   ],
   "_include": [
