@@ -1,3 +1,4 @@
+import { concatMap } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 
 import {
@@ -6,7 +7,7 @@ import {
   SDG_SELECTION_TYPE,
   SDGS_TO_SELECT
 } from "../select-sdgs/sdgs.service";
-import { KEdge } from "@colabo-knalledge/f-core";
+import { KEdge, KNode } from "@colabo-knalledge/f-core";
 
 @Component({
   selector: "selected-sdgs",
@@ -15,25 +16,47 @@ import { KEdge } from "@colabo-knalledge/f-core";
 })
 export class SelectedSdgsComponent implements OnInit {
   protected sdgs: KEdge[] = [];
+  public sdgImagesPath: string = "assets/images/sdgs/s/";
+
   constructor(private sDGsService: SDGsService) {}
 
   ngOnInit() {
     this.sDGsService
       .getMySDGSelections()
-      .subscribe(this.mySDGSelectionsReceived.bind(this));
+      .pipe(concatMap(() => this.sDGsService.getSDGs()))
+      .subscribe(this.sdgsReceived.bind(this));
   }
 
-  private mySDGSelectionsReceived(selections: KEdge[]): void {
-    console.log("[mySDGSelectionsReceived] selections:", selections);
-    this.sdgs = selections;
-    if (this.sdgs.length > 0) {
-      if ((this.sdgs[0] as Object)["targetId"]) {
-        console.log((this.sdgs[0] as Object)["targetId"].dataContent.humanID);
+  get mySDGs(): string[] {
+    return this.sDGsService.selectedSDGsIDs;
+  }
+
+  getSDG(id: string): KNode {
+    if (id) {
+      let sdg: KNode = this.sDGsService.SDGs.find(el => el._id === id);
+      if (sdg) {
+        console.log("[SelectedSdgsComponent] getSDG", sdg.dataContent.humanID);
       }
+      return sdg;
     }
-
-    //this.sDGsService.getSDGs().subscribe(this.sdgsReceived.bind(this));
+    return null;
   }
+
+  private sdgsReceived(): void {
+    console.log("[SelectedSdgsComponent] sdgsReceived");
+  }
+
+  // private mySDGSelectionsReceived(selections: KEdge[]): void {
+  //   console.log("[mySDGSelectionsReceived] selections:", selections);
+  //   this.sdgs = selections;
+  //   if (this.sdgs.length > 0) {
+  //     if ((this.sdgs[0] as Object)["targetId"]) {
+  //       console.log((this.sdgs[0] as Object)["targetId"].dataContent.humanID);
+  //     }
+  //   }
+
+  //   //this.sDGsService.getSDGs().subscribe(this.sdgsReceived.bind(this));
+  // }
 
   //   if(this.sDGsService.selectedSDGsIDs.length < SDGS_TO_SELECT){
   //     msg = 'Select ' + (SDGS_TO_SELECT - this.sDGsService.selectedSDGsIDs.length) + ' more SDGs';

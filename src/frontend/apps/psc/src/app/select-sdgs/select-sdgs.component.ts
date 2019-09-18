@@ -46,15 +46,15 @@ export class SelectSdgsComponent implements OnInit {
 
     this.sDGsService
       .getMySDGSelections()
-      .subscribe(this.mySDGSelectionsReceived.bind(this));
+      .subscribe(this.mySDGsSelectionsReceived.bind(this));
     //.subscribe(sdgs => this.sdgs);
     //this.sdgs = this.sDGsService.getSDGs();
     //this.sDGsService.loadSDGs();
   }
 
-  private mySDGSelectionsReceived(selections: KEdge[]): void {
+  private mySDGsSelectionsReceived(selections: KEdge[]): void {
     // this.sdgs = sdgsD;
-    console.log("[mySDGSelectionsReceived] selections:", selections);
+    console.log("[mySDGsSelectionsReceived] selections:", selections);
     // console.log(item); // 0,1,2
     if (selections && selections.length > 0) {
       this.saved = true;
@@ -169,7 +169,7 @@ export class SelectSdgsComponent implements OnInit {
   }
 
   /**
-   * depends on `mySDGSelectionsReceived` to receive results first
+   * depends on `mySDGsSelectionsReceived` to receive results first
    * @param sdgsD
    */
   private sdgsReceived(sdgsD: any[]): void {

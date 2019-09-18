@@ -140,47 +140,6 @@ export class SDGsService {
   }
 
   /*
-  // create new user
-  createNewUser(newUserData:any, callback:Function=null){
-    console.log("[createNewUser] newUserData: ", newUserData);
-
-    //TODO: check if the user's email is already existing (offer sign-in instead and data updating)
-
-    // creating new user node
-    let userNode:KNode = new KNode();
-    userNode.mapId = SDGsService.mapId;
-    userNode.name = newUserData.firstName;
-    userNode.type = KNode.TYPE_USER;
-    userNode.dataContent = {
-      firstName: newUserData.firstName,
-      lastName: newUserData.lastName,
-      email: newUserData.email,
-
-      // TODO:
-      // image: {
-      //   url: newUserData.image.url
-      //   // width: image.width,
-      //   // height: image.height
-      // }
-      //
-    }
-
-    // creating edge between new user and users node (with type KNode.TYPE_USERS)
-    let userEdge:KEdge = new KEdge();
-    userEdge.mapId = SDGsService.mapId;
-    userEdge.name = "User";
-    userEdge.type = KEdge.TYPE_USER;
-
-    this.createNewNodeWithEdge(userNode, userEdge, USERS_NODE_ID, newUserCreated.bind(this));
-
-    function newUserCreated(newUser:KNode, newUserEdge:KEdge){
-      console.log('newUserCreated',newUser, newUserEdge);
-      if(callback) callback(newUser, newUserEdge);
-    }
-  }
-  */
-
-  /*
   TO MOVE into some AppService or InitService or ....
     gets initial data for the app to work:
     - SDGs
@@ -202,9 +161,28 @@ export class SDGsService {
     return this.knalledgeNodeService
       .queryInMapofType(SDGsService.mapIdSDGs, TYPE_SDGS)
       .pipe(
-        map(nodes => this.localize(nodes))
+        map(nodes => this.localize(nodes)),
         //.subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
+        tap(nodes => this.sdgsReceived(nodes))
       );
+  }
+
+  protected sdgsReceived(SDGs: Array<KNode>): void {
+    // this.nodes = SDGs.data;
+    //this.nodes.fill(SDGs); //this.nodes = SDGs.data;
+    //this.nodes.name = 'test';
+    this.SDGs = SDGs;
+    // console.log('[sdgsReceived] this.SDGs: ', this.SDGs);
+
+    // this.users = [];
+    // this.extractNodesOfType(KNode.TYPE_USER, this.users);
+    //
+    // this.tagsGroups = [];
+    // this.extractNodesOfType(KNode.TYPE_TAGS_GROUP, this.tagsGroups);
+    // this.tags = [];
+    // this.extractNodesOfType(KNode.TYPE_TAG, this.tags);
+    // this.groups = [];
+    // this.extractNodesOfType(KNode.TYPE_USERS_GROUP, this.groups);
   }
 
   localizeObj(obj: any, objLoc: any) {
@@ -260,6 +238,7 @@ export class SDGsService {
 
   protected mySDGSelectionsReceived(edges: KEdge[]): void {
     console.log("[mySDGSelectionsReceived] edges:", edges);
+    this._selectedSDGsIDs = [];
     if (edges && edges.length) {
       for (var e: number = 0; e < edges.length; e++) {
         this._selectedSDGsIDs.push((edges[e].targetId as any)._id);
@@ -341,26 +320,4 @@ export class SDGsService {
   // getSDGs():any[]{
   //   return this.SDGs;
   // }
-
-  /*
-  //TODO: not used now:
-  sdgsReceived(nodesS:Array<KNode>):void{
-    // this.nodes = nodesS.data;
-    //this.nodes.fill(nodesS); //this.nodes = nodesS.data;
-    //this.nodes.name = 'test';
-    this.SDGs= nodesS;
-
-    console.log('[sdgsReceived] this.SDGs: ', this.SDGs);
-
-    // this.users = [];
-    // this.extractNodesOfType(KNode.TYPE_USER, this.users);
-    //
-    // this.tagsGroups = [];
-    // this.extractNodesOfType(KNode.TYPE_TAGS_GROUP, this.tagsGroups);
-    // this.tags = [];
-    // this.extractNodesOfType(KNode.TYPE_TAG, this.tags);
-    // this.groups = [];
-    // this.extractNodesOfType(KNode.TYPE_USERS_GROUP, this.groups);
-  }
-  */
 }

@@ -1,28 +1,30 @@
 app-select-sdgs {
-    height: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    overflow-y: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
 }
 
 .mat-list-icon {
-    color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .sdg {
-    width: 100%;
-    padding: 5px;
+  width: 100%;
+  padding: 5px;
 }
 
 .sdg-title {
-    font-size: 15px;
+  font-size: 12px;
+  padding: 3px;
+  vertical-align: middle;
+  margin-left: 3px;
 }
 
 .sdgs {
-    padding: 5px;
+  padding: 5px;
 }
-
 
 /* .button
 {

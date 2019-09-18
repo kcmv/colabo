@@ -1,3 +1,11 @@
-<div fxLayout="row" class="sdg" *ngFor="let sdg of sdgs">
-  x {{ sdg?.targetId?.dataContent.humanID }}
+<div fxLayout="row">
+  <div fxLayout="row" class="sdg" *ngFor="let mySDG of mySDGs">
+    <img
+      class="sdgimg"
+      src="{{
+        sdgImagesPath + 'sdg' + getSDG(mySDG)?.dataContent?.humanID + '.jpg'
+      }}"
+      alt="{{ getSDG(mySDG)?.name }}"
+    />
+  </div>
 </div>
