@@ -101,10 +101,6 @@ var puzzles = {
             npm: "@colabo-topichat/f-talk",
             path: "dev_puzzles/topichat/talk"
         },
-        "@colabo-utils/i-pub-sub": {
-            npm: "@colabo-utils/i-pub-sub",
-            path: "dev_puzzles/utils/pub-sub"
-        },
         "@colabo-utils/f-notifications": {
             npm: "@colabo-utils/f-notifications",
             path: "dev_puzzles/utils/notifications"
