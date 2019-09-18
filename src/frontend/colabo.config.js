@@ -29,6 +29,7 @@ var puzzles = {
         "@colabo-topichat/f-clients-orchestration": {},
         "@colabo-topichat/f-core": {},
         "@colabo-topichat/f-talk": {},
+        "@colabo-utils/i-config": {},
         "@colabo-utils/i-pub-sub": {},
         "@colabo-utils/f-notifications": {},
         "@colabo-moderation/f-core": {},
