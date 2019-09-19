@@ -8,26 +8,16 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "types": [
-      "hammerjs",
-      "node"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "types": ["hammerjs", "node"],
+    "lib": ["es2017", "dom"],
     "baseUrl": "./",
     "paths": {
-      "@angular/*": [
-        "node_modules/@angular/*"
-      ]
+      "@angular/*": ["node_modules/@angular/*"]
     },
     "module": "es2015"
   },
-  "_include": [
+  "include": [
     "src/**/*",
     "node_modules/@colabo-puzzles/**/*",
     "node_modules/@colabo-knalledge/**/*",
