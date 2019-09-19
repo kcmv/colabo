@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 // this is file is available to the rest of the system
 // through the puzzle `@colabo-utils/i-config`
@@ -11,122 +11,125 @@
 
 console.log("[config/global-test.ts] Setting up the globalSet variable");
 
-export let globalSet:any = {};
+export let globalSet: any = {};
 // declare var window:any;
 // declare var global: any;
-let _window:any = (<any>window);
-let _global: any = (<any>global);
-if (typeof _window !== 'undefined'/* && typeof _window !== 'null'*/) {
-    if (!_window.hasOwnProperty('globalSet')) _window.globalSet = {};
-    globalSet = _window.globalSet;
+let _window: any = <any>window;
+let _global: any = <any>global;
+if (typeof _window !== "undefined" /* && typeof _window !== 'null'*/) {
+  if (!_window.hasOwnProperty("globalSet")) _window.globalSet = {};
+  globalSet = _window.globalSet;
 }
-if (typeof _global !== 'undefined' /* && typeof _global !== 'null' */) {
-    if (!_global.hasOwnProperty('globalSet')) _global.globalSet = {};
-    globalSet = _global.globalSet;
+if (typeof _global !== "undefined" /* && typeof _global !== 'null' */) {
+  if (!_global.hasOwnProperty("globalSet")) _global.globalSet = {};
+  globalSet = _global.globalSet;
 }
 
 console.log("[config/global.js] Populating the globalSet variable");
 
-if (!globalSet.hasOwnProperty('general')) {
-    console.log("[config/global.js] Setting up globalSet.general");
-    globalSet.general = {
-        // RESTfull backend API url
-        serverUrl: 'http://127.0.0.1:8001', // LOCAL
-        // 'https://fv.colabo.space/api', // colabo-space-1 (https) (ACTUAL SERVER)
-        //OLD:
-        // 'http://api.colabo.space',
-        // 'http://158.39.75.120:8001', // colabo-space-1 (old)
-        branding: {
-            title: "ReMaking Tesla Workshop",
-            toolbarTitle: "ReMaking Tesla Workshop",
-            subToolbarTitle: "@ ReTesla",
-            logo: "assets/images/logo.jpg"
-        },
+if (!globalSet.hasOwnProperty("general")) {
+  console.log("[config/global.js] Setting up globalSet.general");
+  globalSet.general = {
+    // RESTfull backend API url
+    serverUrl: "http://127.0.0.1:8001", // LOCAL
+    // 'https://fv.colabo.space/api', // colabo-space-1 (https) (ACTUAL SERVER)
+    //OLD:
+    // 'http://api.colabo.space',
+    // 'http://158.39.75.120:8001', // colabo-space-1 (old)
+    branding: {
+      title: "ReMaking Tesla Workshop",
+      toolbarTitle: "ReMaking Tesla Workshop",
+      subToolbarTitle: "@ ReTesla",
+      logo: "assets/images/logo.jpg"
+    },
 
-        imagesFolder: 'images',
+    imagesFolder: "images",
 
-        // active map
-        mapId: '5be3fddce1b7970d8c6df406',
-        mapIdSDGs: '5be3fddce1b7970d8c6df406',
-        userNodeId: '5be408d0e1b7970d8c6df40f',
+    // active map
+    mapId: "5be3fddce1b7970d8c6df406",
+    mapIdSDGs: "5be3fddce1b7970d8c6df406",
+    userNodeId: "5be408d0e1b7970d8c6df40f",
 
-        lang: 'en',
-        //'rs',
+    lang: "en",
+    //'rs',
 
-        /** multiple players can play on the same opening card */
-        OPENNING_CARD_MULTIPLE_ANSWERS: true,
+    /** multiple players can play on the same opening card */
+    OPENNING_CARD_MULTIPLE_ANSWERS: true,
 
-        /** multiple players can play on a card played by another player */
-        PLAYER_CARD_MULTIPLE_ANSWERS: true,
+    /** multiple players can play on a card played by another player */
+    PLAYER_CARD_MULTIPLE_ANSWERS: true,
 
-        /** multiple players can play on a card played by another player */
-        REPLAY_PLAYED_CARD: false
-    };
+    /** multiple players can play on a card played by another player */
+    REPLAY_PLAYED_CARD: false
+  };
 }
 
-if (!globalSet.hasOwnProperty('puzzles')) {
-    console.log("[config/global.js] Setting up globalSet.puzzles");
-    globalSet.puzzles = {
-        '@colabo-topichat/f-core': {
-            // socketUrl: 'http://localhost/',
-            socketUrl: 'http://localhost:8001/',
-            // socketUrl: 'https://fv.colabo.space/',
-            path: '',
-            // path: '/api/socket.io'
-        },
-        '@colabo-topichat/f-talk': {
-            messagesNumberMin: 3,
-            messagesNumberMax: 5
-        },
-        '@colabo-flow/f-audit': {
-            flowImages: [{
-                name: 'search',
-                imageUrl: "assets/images/flows/flow-search.jpg",
-                actions: [{
-                        name: 'start',
-                        selectArea: {
-                            x: 55,
-                            y: 165,
-                            width: 40,
-                            height: 40
-                        }
-                    },
-                    {
-                        name: 'searchSoundsNoCache',
-                        selectArea: {
-                            x: 115,
-                            y: 155,
-                            width: 60,
-                            height: 40
-                        }
-                    },
-                    {
-                        name: 'searchSoundsWithCache',
-                        selectArea: {
-                            x: 280,
-                            y: 120,
-                            width: 60,
-                            height: 40
-                        }
-                    }
-                ]
-            }]
+if (!globalSet.hasOwnProperty("puzzles")) {
+  console.log("[config/global.js] Setting up globalSet.puzzles");
+  globalSet.puzzles = {
+    "@colabo-topichat/f-core": {
+      // socketUrl: 'http://localhost/',
+      socketUrl: "http://localhost:8001/",
+      // socketUrl: 'https://fv.colabo.space/',
+      path: ""
+      // path: '/api/socket.io'
+    },
+    "@colabo-topichat/f-talk": {
+      messagesNumberMin: 3,
+      messagesNumberMax: 5
+    },
+    "@colabo-flow/f-audit": {
+      flowImages: [
+        {
+          name: "search",
+          imageUrl: "assets/images/flows/flow-search.jpg",
+          actions: [
+            {
+              name: "start",
+              selectArea: {
+                x: 55,
+                y: 165,
+                width: 40,
+                height: 40
+              }
+            },
+            {
+              name: "searchSoundsNoCache",
+              selectArea: {
+                x: 115,
+                y: 155,
+                width: 60,
+                height: 40
+              }
+            },
+            {
+              name: "searchSoundsWithCache",
+              selectArea: {
+                x: 280,
+                y: 120,
+                width: 60,
+                height: 40
+              }
+            }
+          ]
         }
-    };
+      ]
+    }
+  };
 }
 
 console.log("[config/global.js] globalSet.puzzles:", globalSet.puzzles);
 
 // node support (export)
-if (typeof module !== 'undefined') {
-    // workarround for TypeScript's `module.exports` readonly
-    if ('exports' in module) {
-        if (typeof module['exports'] !== 'undefined') {
-            module['exports'].globalSet = globalSet;
-        }
-    } else {
-        module['exports'] = globalSet;
+if (typeof module !== "undefined") {
+  // workarround for TypeScript's `module.exports` readonly
+  if ("exports" in module) {
+    if (typeof module["exports"] !== "undefined") {
+      module["exports"].globalSet = globalSet;
     }
+  } else {
+    module["exports"] = globalSet;
+  }
 }
 
 console.log("[config/global.js] finished");
