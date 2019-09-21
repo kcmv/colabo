@@ -198,7 +198,8 @@ export class RimaAAAService extends CFService{
   public isAdmin():boolean{
     return [
       '5bebb889104bee65c14402e6', //Sinisa
-      '5bebb942104bee65c14402ea' //Sasa
+      '5bebb942104bee65c14402ea', //Sasa
+      '5d852e5ea23832b6fc8ef937' //SiR
     ].includes(this.getUserId());
   }
 
