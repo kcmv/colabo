@@ -32,14 +32,7 @@ export class SelectedSdgsComponent implements OnInit {
   }
 
   getSDG(id: string): KNode {
-    if (id) {
-      let sdg: KNode = this.sDGsService.SDGs.find(el => el._id === id);
-      if (sdg) {
-        console.log("[SelectedSdgsComponent] getSDG", sdg.dataContent.humanID);
-      }
-      return sdg;
-    }
-    return null;
+    return this.sDGsService.getSDG(id);
   }
 
   private sdgsReceived(): void {

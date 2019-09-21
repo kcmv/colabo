@@ -236,6 +236,17 @@ export class SDGsService {
     }
   }
 
+  getSDG(id: string): KNode {
+    if (id) {
+      let sdg: KNode = this.SDGs.find(el => el._id === id);
+      if (sdg) {
+        console.log("[sdgs.service] getSDG", sdg.dataContent.humanID);
+      }
+      return sdg;
+    }
+    return null;
+  }
+
   protected mySDGSelectionsReceived(edges: KEdge[]): void {
     console.log("[mySDGSelectionsReceived] edges:", edges);
     this._selectedSDGsIDs = [];
@@ -254,6 +265,9 @@ export class SDGsService {
     console.log("changeSDGsSelectionState", state, id);
     if (state) {
       this._selectedSDGsIDs.push(id);
+      this.getSDGs().subscribe((sdgs) => {
+        this._selectedSDGsIDs.sort( (ida:string, idb:string) => {return this.getSDG(ida).dataContent.humanID - this.getSDG(idb).dataContent.humanID});
+      });
     } else {
       let index = this._selectedSDGsIDs.indexOf(id);
       if (index !== -1) this._selectedSDGsIDs.splice(index, 1);
