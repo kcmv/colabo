@@ -14,7 +14,7 @@
           <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter...">
         </mat-form-field>
 
-       <mat-checkbox *ngFor="let displayedColumn of allColumns" (checked)='columnDisplayed(displayedColumn)' (change)='displayColumnChanged(displayedColumn)'>{{displayedColumn}}</mat-checkbox>
+       <mat-checkbox *ngFor="let displayedColumn of allColumns" [checked]='true' [name]="'dsplCol-'+displayedColumn" (change)='displayColumnChanged(displayedColumn)'>{{displayedColumn}}</mat-checkbox>
        <table mat-table matSort [dataSource]="usersData" class="mat-elevation-z8">
 
           <!--- Note that these columns can be defined in any order.
