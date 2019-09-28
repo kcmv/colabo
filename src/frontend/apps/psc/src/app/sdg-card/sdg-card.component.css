@@ -1,17 +1,75 @@
-.sdg{
+.sdg {
   max-width: 400px;
 }
 
-.title{
+.selected {
+  background-color: rgba(255, 255, 0, 0.5);
+}
+
+.title {
   font-weight: bold;
   /* font-size:  */
 }
 
-.picture{
+.picture {
   /* width: 100%; */
 }
 
-.sdg-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+/* .sdg-header-image {
+  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
   background-size: cover;
+} */
+
+.maincard {
+  /* position: relative; */
+}
+
+.card-container {
+  width: 400px;
+
+  height: 570px;
+
+  position: relative;
+
+  -webkit-perspective: 500px;
+
+  perspective: 500px;
+}
+
+.flippable-card {
+  /* width: 100%; */
+  width: 400px;
+
+  height: 100%;
+
+  position: absolute;
+
+  transform-style: preserve-3d;
+
+  transition: transform 1s;
+}
+
+.flippable-card mat-card {
+  margin: 0;
+
+  display: block;
+
+  position: absolute;
+
+  /* width: 252px; */
+
+  height: 570px;
+  width: 400px;
+
+  backface-visibility: hidden;
+}
+
+.flippable-card .back {
+  background: #f0f0f0;
+
+  transform: rotateY(180deg);
+}
+
+.flippable-card.flipped {
+  transform: rotateY(180deg);
 }

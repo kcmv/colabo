@@ -1,22 +1,71 @@
-<mat-card class="sdg">
-    <mat-card-header>
+<!-- <div class="maincard"> -->
+<div class="card-container">
+  <div
+    class="flippable-card"
+    [ngClass]="{ flipped: flipped }"
+    (click)="flipped = !flipped"
+  >
+    <mat-card class="sdg" [ngClass]="{ selected: getState() }">
+      <mat-card-header>
         <!-- <div mat-card-avatar class="sdg-header-image"></div> -->
-        <mat-card-title class='title'>{{sdg.dataContent.humanID + '. ' + sdg.name}}</mat-card-title>
-        <mat-card-subtitle>{{sdg.dataContent.goal}}</mat-card-subtitle>
-    </mat-card-header>
+        <mat-card-title class="title">{{
+          sdg.dataContent.humanID + ". " + sdg.name
+        }}</mat-card-title>
+        <mat-card-subtitle>{{ sdg.dataContent.goal }}</mat-card-subtitle>
+      </mat-card-header>
 
-    <!-- <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img"> -->
-    <img mat-card-image class="picture" src="{{sdgImagesPath + 'sdg' + sdg?.dataContent?.humanID + '.jpg'}}" alt="{{sdg.name}}" />
+      <!-- <img fxFlex="50%" mat-card-image class="picture" [src]="selectedPrompt.img"> -->
+      <img
+        mat-card-image
+        class="picture"
+        src="{{ sdgImagesPath + 'sdg' + sdg?.dataContent?.humanID + '.jpg' }}"
+        alt="{{ sdg.name }}"
+      />
 
-    <mat-card-content>
-        <p>
-            {{sdg.dataContent.desc}}
-        </p>
-    </mat-card-content>
-    <!-- <mat-card-footer>
-    </mat-card-footer>   -->
-    <mat-card-actions>
+      <!-- <mat-card-content>
+      <p>
+        {{ sdg.dataContent.desc }}
+      </p>
+    </mat-card-content> -->
+      <!-- <mat-card-footer>
+      </mat-card-footer>   -->
+      <mat-card-actions>
         <!-- <button mat-button>SELECT</button> -->
-        <mat-slide-toggle (change)="onToggling()" [disabled]="getDisabled()" class="example-margin" [checked]="getState()">{{getState() ? 'selected' : 'not selected'}}</mat-slide-toggle>
-    </mat-card-actions>
-</mat-card>
+        <mat-slide-toggle
+          (change)="onToggling()"
+          [disabled]="getDisabled()"
+          class="example-margin"
+          (click)="onClick($event)"
+          [checked]="getState()"
+          >{{ getState() ? "selected" : "not selected" }}</mat-slide-toggle
+        >
+      </mat-card-actions>
+    </mat-card>
+    <mat-card class="back sdg">
+      <mat-card-title class="title">{{
+        sdg.dataContent.humanID + ". " + sdg.name
+      }}</mat-card-title>
+      <mat-card-content>
+        <p>
+          {{ sdg.dataContent.desc }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<!-- </div> -->
+
+<!-- <div class="card-container">
+  <div
+    class="flippable-card"
+    [ngClass]="{ flipped: flipped }"
+    (click)="flipped = !flipped"
+  >
+    <mat-card class="">
+      <mat-card-title>Booya</mat-card-title>
+    </mat-card>
+    <mat-card class="back">
+      <mat-card-title>to ya</mat-card-title>
+    </mat-card>
+  </div>
+</div> -->
