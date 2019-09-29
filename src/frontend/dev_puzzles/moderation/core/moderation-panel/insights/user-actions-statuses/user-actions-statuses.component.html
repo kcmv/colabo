@@ -1,86 +1,136 @@
 <mat-expansion-panel>
-    <!-- <mat-expansion-panel (opened)="panelOpenState = true"
+  <!-- <mat-expansion-panel (opened)="panelOpenState = true"
        (closed)="panelOpenState = false"> -->
-       <mat-expansion-panel-header>
-         <mat-panel-title>
-            <h3>User Actions Statuses</h3>
-         </mat-panel-title>
-         <mat-panel-description>
-            ({{usersData?.data?.length}}) participants registered
-           <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-         </mat-panel-description>
-       </mat-expansion-panel-header>
-       <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter...">
-        </mat-form-field>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <h3>User Actions Statuses</h3>
+    </mat-panel-title>
+    <mat-panel-description>
+      ({{ usersData?.data?.length }}) participants registered
+      <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-form-field>
+    <input
+      matInput
+      (keyup)="applyFilter($event.target.value)"
+      placeholder="Filter..."
+    />
+  </mat-form-field>
 
-       <mat-checkbox *ngFor="let displayedColumn of allColumns" [checked]='true' [name]="'dsplCol-'+displayedColumn" (change)='displayColumnChanged(displayedColumn)'>{{displayedColumn}}</mat-checkbox>
-       <table mat-table matSort [dataSource]="usersData" class="mat-elevation-z8">
-
-          <!--- Note that these columns can be defined in any order.
+  <mat-checkbox
+    *ngFor="let displayedColumn of allColumns"
+    [labelPosition]="'before'"
+    class="checkBoxLabelBefore"
+    [checked]="isColumnDisplayed(displayedColumn)"
+    [name]="'dsplCol-' + displayedColumn"
+    (change)="displayColumnChanged(displayedColumn)"
+    >{{ displayedColumn }}</mat-checkbox
+  >
+  <table mat-table matSort [dataSource]="usersData" class="mat-elevation-z8">
+    <!--- Note that these columns can be defined in any order.
                 The actual rendered columns are set as a property on the row definition" -->
-        
-          <!-- Id Column -->
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
-            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-          </ng-container>
-        
-          <!-- Name Column -->
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-            <td mat-cell *matCellDef="let element" matTooltip="{{element.email}}"> {{element.name}} </td>
-            <!-- <td mat-cell *matCellDef="let element"> {{element.name}} {{element.email}} </td> -->
-          </ng-container>
 
-          <ng-container matColumnDef="group">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Group </th>
-            <td mat-cell *matCellDef="let element"> {{element.group}} </td>
-          </ng-container>
-        
-          <ng-container matColumnDef="myColaboFlowState">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> MyCFState </th>
-            <td mat-cell *matCellDef="let element"> {{getMyColaboFlowStateName(element.myColaboFlowState)}} </td>
-          </ng-container>
-        
-          <ng-container matColumnDef="sdgs">
-            <th mat-header-cell *matHeaderCellDef>selected UN SDGs<br/>(humanIDs)</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{'warning': !correctSDGNo(element)}"> {{printSDGs(element)}}
-              <span matTooltip="delete the SDGs selection for {{element.name}}" (click)="deleteSDGSelection(element.id)"><mat-icon>delete</mat-icon></span></td>
-          </ng-container>
-        
-          <ng-container matColumnDef="cwcs">
-            <th mat-header-cell *matHeaderCellDef>CWCs</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{'warning': !correctCWCNo(element)}">
-                <!-- <span matTooltip="Sinisa Test 1">6</span>, <span matTooltip="Sinisa Test 2">7</span>, <span matTooltip="Sinisa Test 3">8</span>, <span matTooltip="Sinisa Test 4">9</span>, <span matTooltip="Sinisa Test 5">10</span> -->
-                <!-- <span matTooltip="Sinisa Test 1">6</span>, -->
-                <div [innerHTML]="getCWCsPrint(element)"></div>
-            </td>
-          </ng-container>
-        
-          <ng-container matColumnDef="cardPlayedInRound1">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> card played in round 1 </th>
-            <td mat-cell *matCellDef="let element" (click)="resetCWCtoUnplayed(element.cardPlayedInRound1)"  > {{printCardPlayed(element.cardPlayedInRound1)}} </td>
-          </ng-container>
-        
-          <ng-container matColumnDef="cardPlayedInRound2">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> card played in round 2 </th>
-            <td mat-cell *matCellDef="let element">{{printCardPlayed(element.cardPlayedInRound2)}}</td>
-          </ng-container>
-        
-          <ng-container matColumnDef="cardPlayedInRound3">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> card played in round 3 </th>
-            <td mat-cell *matCellDef="let element"> {{printCardPlayed(element.cardPlayedInRound3)}} </td>
-          </ng-container>
+    <!-- Id Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
 
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef> actions </th>
-            <td mat-cell *matCellDef="let element" ><user-moderation (deleted)="onUserDeleted($event, element.user._id) "  [user]="element.user"></user-moderation> </td>
-          </ng-container>
-        
-          <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ element.email }}">
+        {{ element.name }}
+      </td>
+      <!-- <td mat-cell *matCellDef="let element"> {{element.name}} {{element.email}} </td> -->
+    </ng-container>
 
-     </mat-expansion-panel>
+    <ng-container matColumnDef="group">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Group</th>
+      <td mat-cell *matCellDef="let element">{{ element.group }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="myColaboFlowState">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>MyCFState</th>
+      <td mat-cell *matCellDef="let element">
+        {{ getMyColaboFlowStateName(element.myColaboFlowState) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sdgs">
+      <th mat-header-cell *matHeaderCellDef>
+        selected UN SDGs<br />(humanIDs)
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{ warning: !correctSDGNo(element) }"
+      >
+        {{ printSDGs(element) }}
+        <span
+          matTooltip="delete the SDGs selection for {{ element.name }}"
+          (click)="deleteSDGSelection(element.id)"
+          ><mat-icon>delete</mat-icon></span
+        >
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cwcs">
+      <th mat-header-cell *matHeaderCellDef>CWCs</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{ warning: !correctCWCNo(element) }"
+      >
+        <!-- <span matTooltip="Sinisa Test 1">6</span>, <span matTooltip="Sinisa Test 2">7</span>, <span matTooltip="Sinisa Test 3">8</span>, <span matTooltip="Sinisa Test 4">9</span>, <span matTooltip="Sinisa Test 5">10</span> -->
+        <!-- <span matTooltip="Sinisa Test 1">6</span>, -->
+        <div [innerHTML]="getCWCsPrint(element)"></div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cardPlayedInRound1">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        card played in round 1
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        (click)="resetCWCtoUnplayed(element.cardPlayedInRound1)"
+      >
+        {{ printCardPlayed(element.cardPlayedInRound1) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cardPlayedInRound2">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        card played in round 2
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ printCardPlayed(element.cardPlayedInRound2) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cardPlayedInRound3">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        card played in round 3
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ printCardPlayed(element.cardPlayedInRound3) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>actions</th>
+      <td mat-cell *matCellDef="let element">
+        <user-moderation
+          (deleted)="onUserDeleted($event, element.user._id)"
+          [user]="element.user"
+        ></user-moderation>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</mat-expansion-panel>
