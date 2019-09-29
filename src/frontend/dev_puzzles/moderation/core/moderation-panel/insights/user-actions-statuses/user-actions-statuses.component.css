@@ -2,6 +2,10 @@ table {
   width: 100%;
 }
 
+.rfr-box {
+  display: inline-flex;
+}
+
 /* 
 this doesn't work. It has to be in `src/frontend/apps/psc/src/styles.css`. 
 https://stackoverflow.com/questions/48578559/how-to-modify-angular-material2-mat-checkbox-left-icon-size-and-color
