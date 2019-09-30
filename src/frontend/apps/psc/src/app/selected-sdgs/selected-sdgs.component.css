@@ -2,7 +2,9 @@
   font-size: 12px;
 }
 .sdg {
-  border: solid 1px black;
+  /* border: solid 1px black; */
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 .sdgimg {
