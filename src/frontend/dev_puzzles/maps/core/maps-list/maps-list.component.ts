@@ -6,7 +6,7 @@ import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.
 import { RimaAAAService } from '@colabo-rima/f-aaa/rima-aaa.service';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
 import {MapCreateForm, MapCreateFormData} from './map-create/map-create-form';
-import {BottomShDgData, BottomShDg} from './bottom-sh-dg/bottom-sh-dg';
+import { BottomShDgData, BottomShDg } from '@colabo-utils/f-notifications';
 import { Router } from '@angular/router';
 
 import {MatSnackBar} from '@angular/material';
