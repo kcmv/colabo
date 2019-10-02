@@ -6,19 +6,21 @@
       color="primary"
       style="width: 100%;"
     >
-      <a href="/" title="Home">
-        <img
-          alt="Home"
-          src="/assets/images/colabo-logo-url-square.jpg"
-          height="55px"
-          style="margin-right: 7px; opacity: 0.9; border-radius: 7px;"
-        />
-      </a>
-
+      <div class="home">
+        <a href="/" title="Home">
+          <img
+            alt="Home"
+            src="/assets/images/colabo-logo-url-square.jpg"
+            height="55px"
+            style="margin-right: 7px; opacity: 0.9; border-radius: 7px;"
+          />
+        </a>
+      </div>
       <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
       <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
       <div fxLayout="row">
         <button
+          class="submit"
           *ngIf="canSubmit()"
           color="accent"
           mat-raised-button
@@ -28,6 +30,12 @@
         </button>
         <selected-sdgs></selected-sdgs>
         <span class="sdg-title"> {{ getActionMessage() }}</span>
+        <span
+          *ngIf="saved"
+          matTooltip="delete my SDGs selections"
+          (click)="deleteSDGSelection()"
+          ><mat-icon>delete</mat-icon></span
+        >
       </div>
     </mat-toolbar>
   </div>
@@ -55,11 +63,11 @@
         <!-- <h3>United Nations - Циљеви одрживог развоја (SDGs)</h3> -->
 
         <h3>United Nations - Sustainable Development Goals (SDGs)</h3>
-        <h3 style="color:blue">
+        <!-- <h3 style="color:blue">
           {{ userName() }}, <span *ngIf="!saved">you need to select </span
           ><span *ngIf="saved">you have selected</span
           ><span style="color:red"> THREE</span> SDGs
-        </h3>
+        </h3> -->
         <!-- <h1>United Nations Sustainable Development Goals (SDGs)</h1> -->
         <!-- <br /><br /><br /><br /><br /> -->
 

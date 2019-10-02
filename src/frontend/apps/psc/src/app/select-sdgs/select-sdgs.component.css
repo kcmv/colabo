@@ -10,6 +10,12 @@ app-select-sdgs {
   color: rgba(0, 0, 0, 0.54);
 }
 
+.home {
+  padding: 2px;
+}
+.submit {
+  margin-right: 2px;
+}
 .sdg {
   width: 100%;
   padding: 5px;

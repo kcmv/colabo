@@ -3,6 +3,9 @@ import { Dialog1Btn, Dialog2Btn, DialogData } from "../util/dialog";
 
 import { Component, OnInit } from "@angular/core";
 
+import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
+import { BottomShDgData, BottomShDg } from '@colabo-utils/f-notifications';
+
 import {
   SDGsService,
   SDG_SELECTION_NAME,
@@ -27,7 +30,8 @@ export class SelectSdgsComponent implements OnInit {
   constructor(
     private rimaAAAService: RimaAAAService,
     private sDGsService: SDGsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit() {
@@ -80,7 +84,30 @@ export class SelectSdgsComponent implements OnInit {
     return this.rimaAAAService.getUser();
   }
 
-  openDialog(
+  deleteSDGSelection(): void {
+    let BottomShDgData: BottomShDgData = {
+      title: "SDGs selections",
+      message: "You want to delete your selection?",
+      btn1: "Yes",
+      btn2: "No",
+      callback: this.deleteConfirmation.bind(this)
+    };
+    let bottomSheetRef: MatBottomSheetRef = this.bottomSheet.open(BottomShDg, {
+      data: BottomShDgData
+    }); //, disableClose: true
+  }
+
+  protected deleteConfirmation(btnOrder:number): void {
+    if(btnOrder === 1){
+      this.sDGsService
+        .deleteSDGSelection(this.rimaAAAService.getUserId())
+        .subscribe(result => {
+          this.saved = false;
+        });
+    }
+  }
+
+  protected openDialog(
     buttons: number,
     data: DialogData,
     options: any = null,

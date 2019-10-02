@@ -212,6 +212,20 @@ export class SDGsService {
     return nodes;
   }
 
+  deleteSDGSelection(userId:string): Observable<boolean> {
+    return this.knalledgeEdgeService
+    .destroyByTypeByUser(SDG_SELECTION_TYPE, userId)
+    .pipe(
+      tap((result) => this.mySDGSelectionsDeleted(result))
+    );
+  }
+
+  mySDGSelectionsDeleted(result:Boolean):void{
+    if(result){
+      this._selectedSDGsIDs = [];
+    }
+  }
+
   getMySDGSelections(forceRefresh: boolean = false): Observable<any[]> {
     if (
       forceRefresh ||
@@ -240,7 +254,7 @@ export class SDGsService {
     if (id) {
       let sdg: KNode = this.SDGs.find(el => el._id === id);
       if (sdg) {
-        console.log("[sdgs.service] getSDG", sdg.dataContent.humanID);
+        // console.log("[sdgs.service] getSDG", sdg.dataContent.humanID); 
       }
       return sdg;
     }
