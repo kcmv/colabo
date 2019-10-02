@@ -81,6 +81,7 @@ export class UserActionsStatusesComponent implements OnInit {
   public allColumns: string[] = [
     "id",
     "name",
+    "status",
     "group",
     "myColaboFlowState",
     "cwcs",
@@ -93,6 +94,7 @@ export class UserActionsStatusesComponent implements OnInit {
   public displayedColumns: string[] = [
     "id",
     "name",
+    "status",
     "group",
     "myColaboFlowState",
     "cwcs",
