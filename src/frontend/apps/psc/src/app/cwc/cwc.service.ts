@@ -7,12 +7,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 
-import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
-import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
-import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
 
-import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
+import {KNode} from '@colabo-knalledge/f-core/code/knalledge/kNode';
+import {KEdge} from '@colabo-knalledge/f-core/code/knalledge/kEdge';
+import {KMap} from '@colabo-knalledge/f-core/code/knalledge/kMap';
+
 import {KnalledgeNodeService} from '@colabo-knalledge/f-store_core/knalledge-node.service';
+import {KnalledgeEdgeService} from '@colabo-knalledge/f-store_core/knalledge-edge.service';
 import {KnalledgeMapService} from '@colabo-knalledge/f-store_core/knalledge-map.service';
 import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
 import * as config from '@colabo-utils/i-config';
@@ -40,7 +41,7 @@ export class CWCData{
 
 @Injectable()
 export class CWCService {
-  static mapId = config.GetGeneral('mapId');
+//TEST  static mapId = config.GetGeneral('mapId');
 
   cwcsSavedObserver:any = {};//Observer
   CWCs:any[] = [];
@@ -51,8 +52,8 @@ export class CWCService {
     private knalledgeEdgeService: KnalledgeEdgeService,
     private knalledgeNodeService: KnalledgeNodeService,
     private knalledgeMapService: KnalledgeMapService,
-    private globalEmitterServicesArray: GlobalEmittersArrayService,
-    private RimaAAAService: RimaAAAService
+//TEST    private globalEmitterServicesArray: GlobalEmittersArrayService,
+//TEST    private RimaAAAService: RimaAAAService
   ) {
     //getting data for the user:
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
@@ -63,6 +64,7 @@ export class CWCService {
     console.log('sDGsService.init');
   }
 
+  /*TEST
   createNewNodeWithEdge(newNode:KNode, newEdge:KEdge, parentNodeId:string, listener){
     newNode.iAmId = "556760847125996dc1a4a24f";
     newNode.visual = {};
@@ -95,12 +97,12 @@ export class CWCService {
     }
   }
 
-  /*
-  TO MOVE into some AppService or InitService or ....
-    gets initial data for the app to work:
-    - CWCs
-    TODO: - user data
-  */
+  //
+  // TO MOVE into some AppService or InitService or ....
+  //  gets initial data for the app to work:
+  //  - CWCs
+  //  TODO: - user data
+
   getAppData():void{
 
       //var map:KNode = new KNode();
@@ -176,7 +178,7 @@ export class CWCService {
       this.cwcsSavedObserver.complete();
     }
   }
-
+*/
   //getCWCs():Observable<KNode[]>{
   // getCWCs():any[]{
   //   return this.CWCs;
