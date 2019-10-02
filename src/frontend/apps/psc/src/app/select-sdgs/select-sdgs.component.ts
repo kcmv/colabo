@@ -5,6 +5,7 @@ import { Component, OnInit } from "@angular/core";
 
 import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
 import { BottomShDgData, BottomShDg } from "@colabo-utils/f-notifications";
+import {MatSnackBar} from '@angular/material';
 
 import {
   SDGsService,
@@ -32,7 +33,8 @@ export class SelectSdgsComponent implements OnInit {
     private rimaAAAService: RimaAAAService,
     private sDGsService: SDGsService,
     public dialog: MatDialog,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -130,7 +132,7 @@ export class SelectSdgsComponent implements OnInit {
     }
   }
 
-  correctSelection(): boolean {
+  protected isCorrectSelection(): boolean {
     return this.sDGsService.selectedSDGsIDs.length == SDGS_TO_SELECT;
   }
 
@@ -162,7 +164,7 @@ export class SelectSdgsComponent implements OnInit {
   }
 
   canSubmit(): boolean {
-    return !this.saved && this.correctSelection();
+    return !this.saved && this.isCorrectSelection();
   }
 
   onSubmit() {
@@ -211,5 +213,25 @@ export class SelectSdgsComponent implements OnInit {
 
   onToggled(state: boolean, id: string): void {
     this.sDGsService.changeSDGsSelectionState(state, id);
+    if(this.canSubmit()){
+      let BottomShDgData: BottomShDgData = {
+        title: "You've selected all " + SDGS_TO_SELECT + " SDGs",
+        message: "Are you ready to submit your selection?",
+        btn1: "Submit",
+        btn2: "Still checking SDGs ...",
+        callback: this.submitConfirmation.bind(this)
+      };
+      let bottomSheetRef: MatBottomSheetRef = this.bottomSheet.open(BottomShDg, {
+        data: BottomShDgData
+      }); //, disableClose: true
+    }
+  }
+
+  protected submitConfirmation(buttonNo:number):void{
+    if(buttonNo === 1)
+    {if(this.canSubmit())
+    {this.onSubmit();}}else{
+      this.snackBar.open("OK. When you're ready click the 'Submit' button on top", "", {duration: 2000});
+    }
   }
 }
