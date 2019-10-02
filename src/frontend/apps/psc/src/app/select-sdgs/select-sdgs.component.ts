@@ -4,7 +4,7 @@ import { Dialog1Btn, Dialog2Btn, DialogData } from "../util/dialog";
 import { Component, OnInit } from "@angular/core";
 
 import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
-import { BottomShDgData, BottomShDg } from '@colabo-utils/f-notifications';
+import { BottomShDgData, BottomShDg } from "@colabo-utils/f-notifications";
 
 import {
   SDGsService,
@@ -26,6 +26,7 @@ export class SelectSdgsComponent implements OnInit {
   sdgs: any[] = [];
   saved: boolean = false;
   dialogRef: any; //TODO: type: MatDialogRef;
+  loadingSDGs: boolean = true;
 
   constructor(
     private rimaAAAService: RimaAAAService,
@@ -48,6 +49,7 @@ export class SelectSdgsComponent implements OnInit {
     // }];
     //TODO: !! we should migrate to the App-persisten Service this server-loads. RIGHT NOW each time we open this component, it loads it:
 
+    // this.loadingSDGs = true;
     this.sDGsService
       .getMySDGSelections()
       .subscribe(this.mySDGsSelectionsReceived.bind(this));
@@ -57,7 +59,7 @@ export class SelectSdgsComponent implements OnInit {
   }
 
   private mySDGsSelectionsReceived(selections: KEdge[]): void {
-    // this.sdgs = sdgsD;
+    
     console.log("[mySDGsSelectionsReceived] selections:", selections);
     // console.log(item); // 0,1,2
     if (selections && selections.length > 0) {
@@ -97,8 +99,8 @@ export class SelectSdgsComponent implements OnInit {
     }); //, disableClose: true
   }
 
-  protected deleteConfirmation(btnOrder:number): void {
-    if(btnOrder === 1){
+  protected deleteConfirmation(btnOrder: number): void {
+    if (btnOrder === 1) {
       this.sDGsService
         .deleteSDGSelection(this.rimaAAAService.getUserId())
         .subscribe(result => {
@@ -200,6 +202,7 @@ export class SelectSdgsComponent implements OnInit {
    * @param sdgsD
    */
   private sdgsReceived(sdgsD: any[]): void {
+    this.loadingSDGs = false;
     this.sdgs = sdgsD;
     // for (var sdg in this.sdgs) {
     // console.log(item); // 0,1,2

@@ -78,6 +78,12 @@
           fxLayoutGap="0.5% "
           fxLayoutAlign="center "
         >
+          <div class="relative-container" *ngIf="loadingSDGs">
+            <span class="vertical-center rfr-box" 
+              ><mat-icon class="refresh rotating">refresh</mat-icon>
+              <span>loading ...</span>
+            </span>
+          </div>
           <sdg-card
             *ngFor="let sdgD of sdgs"
             class="sdg "
