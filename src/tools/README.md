@@ -34,6 +34,20 @@ colabo colabo.config.js puzzless-offer
 colabo puzzless-install
 ```
 
+# Help
+
+To see all available commands, you can run:
+
+```sh
+colabo --help
+```
+
+To see details on a speciffic commands (for example `puzzle-create`), you can run:
+
+```sh
+colabo puzzle-create --help
+```
+
 # Alternatives
 
 Here we are exploring alternatives
