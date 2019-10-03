@@ -208,6 +208,10 @@ the whole list: https://www.w3schools.com/cssref/tryit.asp?filename=trycss_curso
   cursor: zoom-out;
 }
 
+.error {
+  color: red;
+}
+
 /* requires that the parent has `relative-container` class */
 .vertical-center {
   margin: 0;

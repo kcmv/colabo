@@ -105,7 +105,24 @@ export class SelectSdgsComponent implements OnInit {
       this.sDGsService
         .deleteSDGSelection(this.rimaAAAService.getUserId())
         .subscribe(result => {
-          this.saved = false;
+          if (result) {
+            this.saved = false;
+            this.snackBar.open(
+              "Your SDGs selection is deleted",
+              "Make your new selection",
+              { duration: 3000 }
+            );
+          } else {
+            this.openDialog(
+              1,
+              new DialogData(
+                "ERROR",
+                "There was an ERROR in deleting SDGs selection. Please try again later and inform the moderator",
+                "OK"
+              ),
+              { disableClose: true }
+            );
+          }
         });
     }
   }
