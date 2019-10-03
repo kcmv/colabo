@@ -5,7 +5,7 @@ import { Component, OnInit } from "@angular/core";
 
 import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
 import { BottomShDgData, BottomShDg } from "@colabo-utils/f-notifications";
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from "@angular/material";
 
 import {
   SDGsService,
@@ -61,7 +61,6 @@ export class SelectSdgsComponent implements OnInit {
   }
 
   private mySDGsSelectionsReceived(selections: KEdge[]): void {
-    
     console.log("[mySDGsSelectionsReceived] selections:", selections);
     // console.log(item); // 0,1,2
     if (selections && selections.length > 0) {
@@ -146,14 +145,10 @@ export class SelectSdgsComponent implements OnInit {
           "Select " +
           (SDGS_TO_SELECT - this.sDGsService.selectedSDGsIDs.length) +
           " more SDGs";
-      } else if (this.sDGsService.selectedSDGsIDs.length == SDGS_TO_SELECT) {
+      } else if (this.isCorrectSelection()) {
         msg = "Great! Please, submit ";
       } else {
-        msg =
-          "Too many SDGs selected! " +
-          SDGS_TO_SELECT +
-          " SDGs, not " +
-          this.sDGsService.selectedSDGsIDs.length;
+        msg = this.tooManySDGsMessage[0] + ", " + this.tooManySDGsMessage[1];
       }
     }
     return msg;
@@ -211,9 +206,28 @@ export class SelectSdgsComponent implements OnInit {
   }
   // console.log('sdgsReceived:', this.sdgs)
 
+  get tooManySDGsMessage(): string[] {
+    return [
+      "You've selected " + this.sDGsService.selectedSDGsIDs.length + " SDGs",
+      "unselect " +
+        (this.sDGsService.selectedSDGsIDs.length - SDGS_TO_SELECT) +
+        " SDG" +
+        (this.sDGsService.selectedSDGsIDs.length - SDGS_TO_SELECT > 1
+          ? "s"
+          : "")
+    ];
+  }
+
   onToggled(state: boolean, id: string): void {
     this.sDGsService.changeSDGsSelectionState(state, id);
-    if(this.canSubmit()){
+    if (this.sDGsService.selectedSDGsIDs.length > SDGS_TO_SELECT) {
+      this.snackBar.open(
+        this.tooManySDGsMessage[0],
+        this.tooManySDGsMessage[1],
+        { duration: 2000 }
+      );
+    }
+    if (this.canSubmit()) {
       let BottomShDgData: BottomShDgData = {
         title: "You've selected all " + SDGS_TO_SELECT + " SDGs",
         message: "Are you ready to submit your selection?",
@@ -221,17 +235,26 @@ export class SelectSdgsComponent implements OnInit {
         btn2: "Still checking SDGs ...",
         callback: this.submitConfirmation.bind(this)
       };
-      let bottomSheetRef: MatBottomSheetRef = this.bottomSheet.open(BottomShDg, {
-        data: BottomShDgData
-      }); //, disableClose: true
+      let bottomSheetRef: MatBottomSheetRef = this.bottomSheet.open(
+        BottomShDg,
+        {
+          data: BottomShDgData
+        }
+      ); //, disableClose: true
     }
   }
 
-  protected submitConfirmation(buttonNo:number):void{
-    if(buttonNo === 1)
-    {if(this.canSubmit())
-    {this.onSubmit();}}else{
-      this.snackBar.open("OK. When you're ready click the 'Submit' button on top", "", {duration: 2000});
+  protected submitConfirmation(buttonNo: number): void {
+    if (buttonNo === 1) {
+      if (this.canSubmit()) {
+        this.onSubmit();
+      }
+    } else {
+      this.snackBar.open(
+        "OK. When you're ready",
+        "click the 'Submit' button on top",
+        { duration: 2000 }
+      );
     }
   }
 }
