@@ -39,7 +39,7 @@
           class="example-margin"
           (click)="onClick($event)"
           [checked]="getState()"
-          >{{ getState() ? "selected" : "not selected" }}</mat-slide-toggle
+          >{{ getState() ? "selected" : "Select me!" }}</mat-slide-toggle
         >
         <span class="details">Click the card for details ...</span>
         <!-- </span>
@@ -55,7 +55,9 @@
           {{ sdg.dataContent.desc }}
         </p>
       </mat-card-content>
-      <span class="details">Click the card again to return to the main info and selection ...</span>
+      <span class="details"
+        >Click the card again to return to the main info and selection ...</span
+      >
     </mat-card>
   </div>
 </div>
