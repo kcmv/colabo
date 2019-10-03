@@ -192,6 +192,22 @@ Currently manually placing the content of the failed imports
   position: relative;
 }
 
+/* 
+Mouse Cursors used through out the app:
+the whole list: https://www.w3schools.com/cssref/tryit.asp?filename=trycss_cursor
+*/
+.pointer {
+  cursor: pointer;
+}
+
+.zoom-in-pt {
+  cursor: zoom-in;
+}
+
+.zoom-out-pt {
+  cursor: zoom-out;
+}
+
 /* requires that the parent has `relative-container` class */
 .vertical-center {
   margin: 0;
