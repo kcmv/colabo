@@ -11,6 +11,13 @@
   /* font-size:  */
 }
 
+.details {
+  font-size: 12px;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+
 .picture {
   /* width: 100%; */
 }
