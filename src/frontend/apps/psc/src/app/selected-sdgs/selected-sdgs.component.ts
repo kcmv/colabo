@@ -1,12 +1,7 @@
 import { concatMap } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 
-import {
-  SDGsService,
-  SDG_SELECTION_NAME,
-  SDG_SELECTION_TYPE,
-  SDGS_TO_SELECT
-} from "../select-sdgs/sdgs.service";
+import { SDGsService } from "@colabo-sdg/core";
 import { KEdge, KNode } from "@colabo-knalledge/f-core";
 
 @Component({

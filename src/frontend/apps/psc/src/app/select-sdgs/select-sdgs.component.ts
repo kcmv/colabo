@@ -7,12 +7,7 @@ import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
 import { BottomShDgData, BottomShDg } from "@colabo-utils/f-notifications";
 import { MatSnackBar } from "@angular/material";
 
-import {
-  SDGsService,
-  SDG_SELECTION_NAME,
-  SDG_SELECTION_TYPE,
-  SDGS_TO_SELECT
-} from "./sdgs.service";
+import { SDGsService, SDGS_TO_SELECT } from "@colabo-sdg/core";
 import { RimaAAAService } from "@colabo-rima/f-aaa/rima-aaa.service";
 import { KNode } from "@colabo-knalledge/f-core/code/knalledge/kNode";
 import { KEdge } from "@colabo-knalledge/f-core/code/knalledge/kEdge";

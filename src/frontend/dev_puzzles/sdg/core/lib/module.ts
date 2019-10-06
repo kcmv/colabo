@@ -5,6 +5,8 @@ import { NgModule } from "@angular/core";
 //import puzzle components:
 //..
 
+import { SDGsService } from "./sdgs.service";
+
 // Material
 import { MaterialModule } from "./materialModule";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -30,6 +32,7 @@ var moduleImports: any[] = [
   exports: moduleDeclarations,
   providers: [
     //service classes this module exports:
+    SDGsService
   ],
   entryComponents: [
     // BottomSheetOverviewExampleSheet //https://material.angular.io/components/bottom-sheet/overview#configuring-bottom-sheet-content-via-code-entrycomponents-code-

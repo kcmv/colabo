@@ -1,3 +1,5 @@
+import { MODULE_NAME } from "./params";
+
 import { Injectable } from "@angular/core";
 
 // In  Angular 6 / Rxjs 6 the import is like below
@@ -6,9 +8,9 @@ import { Injectable } from "@angular/core";
 // but in Angular 5.2.x and Rxjs 5x is:
 import { Observable } from "rxjs";
 import { of } from "rxjs";
-import { catchError, map, tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 
-import { KMap } from "@colabo-knalledge/f-core/code/knalledge/kMap";
+// import { KMap } from "@colabo-knalledge/f-core/code/knalledge/kMap";
 import { KEdge } from "@colabo-knalledge/f-core/code/knalledge/kEdge";
 import { KNode } from "@colabo-knalledge/f-core/code/knalledge/kNode";
 
@@ -212,16 +214,14 @@ export class SDGsService {
     return nodes;
   }
 
-  deleteSDGSelection(userId:string): Observable<boolean> {
+  deleteSDGSelection(userId: string): Observable<boolean> {
     return this.knalledgeEdgeService
-    .destroyByTypeByUser(SDG_SELECTION_TYPE, userId)
-    .pipe(
-      tap((result) => this.mySDGSelectionsDeleted(result))
-    );
+      .destroyByTypeByUser(SDG_SELECTION_TYPE, userId)
+      .pipe(tap(result => this.mySDGSelectionsDeleted(result)));
   }
 
-  mySDGSelectionsDeleted(result:Boolean):void{
-    if(result){
+  mySDGSelectionsDeleted(result: Boolean): void {
+    if (result) {
       this._selectedSDGsIDs = [];
     }
   }
@@ -254,7 +254,7 @@ export class SDGsService {
     if (id) {
       let sdg: KNode = this.SDGs.find(el => el._id === id);
       if (sdg) {
-        // console.log("[sdgs.service] getSDG", sdg.dataContent.humanID); 
+        // console.log("[sdgs.service] getSDG", sdg.dataContent.humanID);
       }
       return sdg;
     }
@@ -279,8 +279,13 @@ export class SDGsService {
     console.log("changeSDGsSelectionState", state, id);
     if (state) {
       this._selectedSDGsIDs.push(id);
-      this.getSDGs().subscribe((sdgs) => {
-        this._selectedSDGsIDs.sort( (ida:string, idb:string) => {return this.getSDG(ida).dataContent.humanID - this.getSDG(idb).dataContent.humanID});
+      this.getSDGs().subscribe(sdgs => {
+        this._selectedSDGsIDs.sort((ida: string, idb: string) => {
+          return (
+            this.getSDG(ida).dataContent.humanID -
+            this.getSDG(idb).dataContent.humanID
+          );
+        });
       });
     } else {
       let index = this._selectedSDGsIDs.indexOf(id);
