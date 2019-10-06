@@ -31,12 +31,14 @@ into `lib` folder, with the content:
 ```typescript
 import {NgModule} from '@angular/core';	
 import {
-  //desired Material Modules
+  //import all the desired Material Modules, e.g:
+  MatIconModule
 } from '@angular/material';
 
 @NgModule({
   exports: [
-    //all the Material Modules imported above
+    //add all the Material Modules imported above:
+    MatIconModule
     ]
 })
 export class MaterialModule {}
@@ -50,23 +52,12 @@ into `lib` folder, with the content:
 
 ```ts
 import {MODULE_NAME} from './params';
-
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-
-import { FormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
-
-//import puzzle components:
-//e.g: 
-// import { ColaboFlowAuditForm } from "audit-form/audit-form.component.ts";
 
 // Material
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import 'hammerjs';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './materialModule';
-
-import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
+//...
 
 //import puzzle services:
 import { ColaboFlowAuditService } from './colabo-flow-audit.service';
@@ -76,19 +67,17 @@ import { ColaboFlowAuditForm } from './audit-form/audit-form.component';
 
 //  components classes:
 var moduleDeclarations:any[] = [
-  
     ColaboFlowAuditForm
 ];
 
 var moduleImports: any[] = [
   //examplar, often required imported modules:
-    ReactiveFormsModule,
-    FormsModule,
+  //  ReactiveFormsModule,
+   // FormsModule,
     //...
-    // Material
-    BrowserAnimationsModule,
+    // Material:
+    //BrowserAnimationsModule,
     MaterialModule,
-
 ];
 
 @NgModule({
@@ -107,7 +96,7 @@ export class ColaboFlowAuditModule { }
 
 ## 7. Add index.ts
 
-In `colabo/src/frontend/dev_puzzles/flow/audit/index.ts` we add all the component, services and other elements that should be visible (to be used/imported) from outside the puzzle. Services don't have to be exported because they are provided/instantiated by including them in the puzzle's `module.ts::providers` and their usage is mostly 
+In `colabo/src/frontend/dev_puzzles/flow/audit/index.ts` we add all the **components**, **constants**, and other elements that should be visible (to be used/imported) from outside the puzzle. Services don't have to be exported because they are provided/instantiated by including them in the puzzle's `module.ts::providers` and their usage is mostly 
 
 ```ts
 export { MODULE_NAME } from './lib/params';
@@ -117,7 +106,7 @@ export { ColaboFlowAuditModule } from './lib/module';
 
 ## 8. Add Service
 
-In `colabo/src/frontend/dev_puzzles/flow/audit/lib/colabo-flow-audit.service.ts`:
+we add services inside the `lib` folder, e.g: `colabo/src/frontend/dev_puzzles/flow/audit/lib/colabo-flow-audit.service.ts`:
 
 ```ts
 import { MODULE_NAME } from "./params";
@@ -168,7 +157,7 @@ export class ColaboFlowAuditService{
 
 ## 9. Add component
 
-In `colabo/src/frontend/dev_puzzles/flow/audit/lib/audit-form/audit-form.component.html` add:
+we add components inside the `lib` folder, e.g:  `colabo/src/frontend/dev_puzzles/flow/audit/lib/audit-form/audit-form.component.html` add:
 
 ```html
 <div fxLayout="column" fxFlexFill style="height: 100%;">
