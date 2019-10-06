@@ -16,12 +16,19 @@ import { ReactiveFormsModule } from "@angular/forms"; //for the 'Reactive Forms'
 import { UtilsNotificationService } from "./notifications.service";
 import { SnackBarNotificationComponent } from "./snack-bar-notification/snack-bar-notification-component";
 import { BottomShDg } from "./bottom-sh-dg/bottom-sh-dg";
+
+import { Dialog1Btn, Dialog2Btn } from "./dialog/dialog";
 import {
   // MatBottomSheet,
   MatBottomSheetModule
 } from "@angular/material";
 
-var moduleDeclarations: any[] = [SnackBarNotificationComponent, BottomShDg];
+var moduleDeclarations: any[] = [
+  SnackBarNotificationComponent,
+  BottomShDg,
+  Dialog1Btn,
+  Dialog2Btn
+];
 
 var moduleImports: any[] = [
   RouterModule,
@@ -39,7 +46,12 @@ var moduleImports: any[] = [
 
 @NgModule({
   declarations: moduleDeclarations,
-  entryComponents: [SnackBarNotificationComponent, BottomShDg],
+  entryComponents: [
+    SnackBarNotificationComponent,
+    BottomShDg,
+    Dialog2Btn,
+    Dialog1Btn //needed otherwise "Runtime Error: No component factory found for Dialog"
+  ],
   imports: moduleImports,
   // exports: moduleImports.concat(moduleDeclarations)
   exports: moduleDeclarations,

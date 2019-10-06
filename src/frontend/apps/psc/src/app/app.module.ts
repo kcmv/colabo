@@ -47,9 +47,6 @@ import { DialoGameService } from "./dialo-game/dialo-game.service";
 // import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
 import { IndexComponent } from "./index/index.component";
 import { IndexModeratorComponent } from "./index-moderator/index-moderator.component";
-import { SelectSdgsComponent } from "./select-sdgs/select-sdgs.component";
-import { SelectedSdgsComponent } from "./selected-sdgs/selected-sdgs.component";
-import { SdgCardComponent } from "./sdg-card/sdg-card.component";
 import { CwcComponent } from "./cwc/cwc.component";
 // import {InsightsComponent} from './insights/insights.component';
 // import {RegisteredUsersComponent} from './registered-users/registered-users.component';
@@ -68,8 +65,6 @@ import { MapsCoreModule } from "@colabo-maps/core";
 import { ParticipantsComponent } from "@colabo-moderation/f-core";
 
 //import {ModerationPanelComponent} from '@colabo-moderation/f-core';
-
-import { Dialog1Btn, Dialog2Btn } from "./util/dialog";
 
 import { AppComponent } from "./app.component";
 
@@ -98,13 +93,8 @@ var moduleDeclarations = [
   // UserInfoComponent,
   // TagsPopulationComponent,
   // UsersGroupsComponent,
-  Dialog2Btn,
-  Dialog1Btn,
   IndexComponent,
   IndexModeratorComponent,
-  SelectSdgsComponent,
-  SdgCardComponent,
-  SelectedSdgsComponent,
   CwcComponent,
   // InsightsComponent,
   // RegisteredUsersComponent,
@@ -173,8 +163,6 @@ declare var window: any;
     // @see: https://material.angular.io/components/dialog/overview#aot-compilation
     // AdvancedDialog,
     // NotificationComponent
-    Dialog2Btn,
-    Dialog1Btn //needed otherwise "Runtime Error: No component factory found for Dialog"
   ],
   providers: [
     UtilsNotificationService,

@@ -37,29 +37,32 @@ enum RequestStatus {
   RECEIVED = "RECEIVED"
 }
 
-class Request {
+class Request<T> {
   status: RequestStatus = RequestStatus.NOT_INITIATED;
   response: any;
-  data: any;
+  data: T; // = new <T>();
 }
 
 @Injectable()
 export class SDGsService {
   sdgsSavedObserver: any = {}; //Observer
-  SDGs: any[] = [];
   sdgsLeftSave: number = SDGS_TO_SELECT;
-  private _selectedSDGsIDs: string[] = [];
+
+  // private _selectedSDGsIDs: string[] = [];
+  protected mySDGSelections: Request<string[]> = new Request();
   public get selectedSDGsIDs(): string[] {
-    return this._selectedSDGsIDs;
+    return this.mySDGSelections.data;
   }
   public set selectedSDGsIDs(value: string[]) {
-    this._selectedSDGsIDs = value;
+    this.mySDGSelections.data = value;
   }
 
   static mapIdSDGs = config.GetGeneral("mapIdSDGs");
   static mapId = config.GetGeneral("mapId");
   static lang = config.GetGeneral("lang");
-  protected mySDGSelections: Request = new Request();
+
+  // SDGs: any[] = [];
+  protected SDGs: Request<KNode[]> = new Request();
 
   SDGsMockup: any[] = [
     {
@@ -95,6 +98,8 @@ export class SDGsService {
   ) {
     //getting data for the user:
     //this.globalEmitterServicesArray.get(this.colabowareIDProvided).subscribe('UsersProfilingComponent.user', this.coLaboWareProvidedData.bind(this));
+    this.SDGs.data = [];
+    this.mySDGSelections.data = [];
     this.init();
   }
 
@@ -158,22 +163,29 @@ export class SDGsService {
   }
 
   //loadSDGs():void{
-  getSDGs(): Observable<any[]> {
-    //return of(this.SDGsMockup);
-    return this.knalledgeNodeService
-      .queryInMapofType(SDGsService.mapIdSDGs, TYPE_SDGS)
-      .pipe(
-        map(nodes => this.localize(nodes)),
-        //.subscribe(nodes => this.sdgsReceived(nodes)); //as KNode}
-        tap(nodes => this.sdgsReceived(nodes))
-      );
+  getSDGs(forceRefresh: boolean = false): Observable<any[]> {
+    if (forceRefresh || this.SDGs.status !== RequestStatus.RECEIVED) {
+      if (this.SDGs.status !== RequestStatus.PENDING) {
+        this.SDGs.status = RequestStatus.PENDING;
+        this.SDGs.response = this.knalledgeNodeService
+          .queryInMapofType(SDGsService.mapIdSDGs, TYPE_SDGS)
+          .pipe(
+            map(nodes => this.localize(nodes)),
+            tap(() => (this.SDGs.status = RequestStatus.RECEIVED)),
+            tap(nodes => this.sdgsReceived(nodes))
+          );
+      }
+      return this.SDGs.response;
+    } else {
+      return of(this.SDGs.data);
+    }
   }
 
   protected sdgsReceived(SDGs: Array<KNode>): void {
     // this.nodes = SDGs.data;
     //this.nodes.fill(SDGs); //this.nodes = SDGs.data;
     //this.nodes.name = 'test';
-    this.SDGs = SDGs;
+    this.SDGs.data = SDGs;
     // console.log('[sdgsReceived] this.SDGs: ', this.SDGs);
 
     // this.users = [];
@@ -222,7 +234,7 @@ export class SDGsService {
 
   mySDGSelectionsDeleted(result: Boolean): void {
     if (result) {
-      this._selectedSDGsIDs = [];
+      this.mySDGSelections.data = [];
     }
   }
 
@@ -246,13 +258,23 @@ export class SDGsService {
       }
       return this.mySDGSelections.response;
     } else {
-      return of(this.selectedSDGsIDs);
+      return of(this.mySDGSelections.data);
+    }
+  }
+
+  protected mySDGSelectionsReceived(edges: KEdge[]): void {
+    console.log("[mySDGSelectionsReceived] edges:", edges);
+    this.mySDGSelections.data = [];
+    if (edges && edges.length) {
+      for (var e: number = 0; e < edges.length; e++) {
+        this.mySDGSelections.data.push((edges[e].targetId as any)._id);
+      }
     }
   }
 
   getSDG(id: string): KNode {
     if (id) {
-      let sdg: KNode = this.SDGs.find(el => el._id === id);
+      let sdg: KNode = this.SDGs.data.find(el => el._id === id);
       if (sdg) {
         // console.log("[sdgs.service] getSDG", sdg.dataContent.humanID);
       }
@@ -261,26 +283,16 @@ export class SDGsService {
     return null;
   }
 
-  protected mySDGSelectionsReceived(edges: KEdge[]): void {
-    console.log("[mySDGSelectionsReceived] edges:", edges);
-    this._selectedSDGsIDs = [];
-    if (edges && edges.length) {
-      for (var e: number = 0; e < edges.length; e++) {
-        this._selectedSDGsIDs.push((edges[e].targetId as any)._id);
-      }
-    }
-  }
-
   isSdgSelected(sdgId: string): boolean {
-    return this._selectedSDGsIDs.indexOf(sdgId) !== -1;
+    return this.mySDGSelections.data.indexOf(sdgId) !== -1;
   }
 
   changeSDGsSelectionState(state: boolean, id: string): void {
     console.log("changeSDGsSelectionState", state, id);
     if (state) {
-      this._selectedSDGsIDs.push(id);
+      this.mySDGSelections.data.push(id);
       this.getSDGs().subscribe(sdgs => {
-        this._selectedSDGsIDs.sort((ida: string, idb: string) => {
+        this.mySDGSelections.data.sort((ida: string, idb: string) => {
           return (
             this.getSDG(ida).dataContent.humanID -
             this.getSDG(idb).dataContent.humanID
@@ -288,10 +300,10 @@ export class SDGsService {
         });
       });
     } else {
-      let index = this._selectedSDGsIDs.indexOf(id);
-      if (index !== -1) this._selectedSDGsIDs.splice(index, 1);
+      let index = this.mySDGSelections.data.indexOf(id);
+      if (index !== -1) this.mySDGSelections.data.splice(index, 1);
     }
-    console.log(this._selectedSDGsIDs.toString());
+    console.log(this.mySDGSelections.data.toString());
   }
 
   // getSDGSSelectedByUser(iAmId:string):void{
@@ -348,9 +360,4 @@ export class SDGsService {
       this.sdgsSavedObserver.complete();
     }
   }
-
-  //getSDGs():Observable<KNode[]>{
-  // getSDGs():any[]{
-  //   return this.SDGs;
-  // }
 }

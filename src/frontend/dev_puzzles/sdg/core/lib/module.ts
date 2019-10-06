@@ -6,6 +6,9 @@ import { NgModule } from "@angular/core";
 //..
 
 import { SDGsService } from "./sdgs.service";
+import { SelectSdgsComponent } from "./select-sdgs/select-sdgs.component";
+import { SdgCardComponent } from "./sdg-card/sdg-card.component";
+import { SelectedSdgsComponent } from "./selected-sdgs/selected-sdgs.component";
 
 // Material
 import { MaterialModule } from "./materialModule";
@@ -14,6 +17,9 @@ import "hammerjs";
 
 var moduleDeclarations: any[] = [
   //  components classes:
+  SelectSdgsComponent,
+  SdgCardComponent,
+  SelectedSdgsComponent
 ];
 
 var moduleImports: any[] = [
