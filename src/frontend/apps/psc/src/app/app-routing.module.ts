@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes} from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
 // import { UsersProfilingComponent } from './users-profiling/users-profiling.component';
 // import { UsersClusteringComponent } from './users-clustering/users-clustering.component';
@@ -8,36 +8,36 @@ import { RouterModule, Routes} from '@angular/router';
 // import {UsersGroupsComponent} from './users-groups/users-groups.component';
 // import {UiSmsComponent} from './ui-sms/ui-sms.component';
 // import {PromptsPresentationComponent} from './prompts-presentation/prompts-presentation.component';
-import {IndexComponent} from './index/index.component';
-import { IndexModeratorComponent } from './index-moderator/index-moderator.component';
-import {RimaRegisterComponent} from '@colabo-rima/f-aaa/rima-register/rima-register.component';
-import {SelectSdgsComponent} from './select-sdgs/select-sdgs.component';
-import {CwcComponent} from './cwc/cwc.component';
-import { RimaLoginComponent } from '@colabo-rima/f-aaa/rima-login/rima-login.component';
-import { AvatarComponent } from '@colabo-media/f-upload';
+import { IndexComponent } from "./index/index.component";
+import { IndexModeratorComponent } from "./index-moderator/index-moderator.component";
+import { RimaRegisterComponent } from "@colabo-rima/f-aaa/rima-register/rima-register.component";
+import { SelectSdgsComponent } from "@colabo-sdg/core";
+import { RimaLoginComponent } from "@colabo-rima/f-aaa/rima-login/rima-login.component";
+import { AvatarComponent } from "@colabo-media/f-upload";
 // import {InsightsComponent} from './insights/insights.component';
-import {DialoGameComponent} from './dialo-game/dialo-game.component'; //PTW
-import {ModerationPanelComponent} from '@colabo-moderation/f-core';
+import { DialoGameComponent } from "./dialo-game/dialo-game.component"; //PTW
+import { ModerationPanelComponent } from "@colabo-moderation/f-core";
 //import { ModerationCoreModule } from '@colabo-moderation/f-core/lib/module';
-import {TopiChatTalkForm} from '@colabo-topichat/f-talk';
-import { TopiChatClientsOrchestrationForm } from '@colabo-topichat/f-clients-orchestration';
-import { MapComponent } from '@colabo-knalledge/f-map';
+import { TopiChatTalkForm } from "@colabo-topichat/f-talk";
+import { TopiChatClientsOrchestrationForm } from "@colabo-topichat/f-clients-orchestration";
+import { MapComponent } from "@colabo-knalledge/f-map";
 // import { ResultsVisualizationComponent } from '@colabo-moderation/f-core/lib/module';
-import { ResultsVisualizationComponent } from '@colabo-moderation/f-core';
-import { ColaboFlowAuditForm } from '@colabo-flow/f-audit';
-import { MapEngineForm } from '@colabo-map/f-engine';
-import {MapsListComponent} from '@colabo-maps/core';
-import {ParticipantsComponent} from '@colabo-moderation/f-core';
+import { ResultsVisualizationComponent } from "@colabo-moderation/f-core";
+import { ColaboFlowAuditForm } from "@colabo-flow/f-audit";
+import { MapEngineForm } from "@colabo-map/f-engine";
+import { MapsListComponent } from "@colabo-maps/core";
+import { ParticipantsComponent } from "@colabo-moderation/f-core";
 
 const routes: Routes = [
-  { // default route
-    path: '',
-    pathMatch: 'full',
+  {
+    // default route
+    path: "",
+    pathMatch: "full",
     component: IndexComponent
   },
   {
-    path: 'moderator',
-    pathMatch: 'full',
+    path: "moderator",
+    pathMatch: "full",
     component: IndexModeratorComponent
   },
   // {
@@ -69,15 +69,15 @@ const routes: Routes = [
   //   component: UsersGroupsComponent
   // },
   {
-    path: 'rima-register',
+    path: "rima-register",
     component: RimaRegisterComponent
   },
   {
-    path: 'rima-login',
+    path: "rima-login",
     component: RimaLoginComponent
   },
   {
-    path: 'select-sdgs',
+    path: "select-sdgs",
     component: SelectSdgsComponent
   },
   // {
@@ -85,11 +85,11 @@ const routes: Routes = [
   //   component: CwcComponent
   // },
   {
-    path: 'avatar',
+    path: "avatar",
     component: AvatarComponent
   },
   {
-    path: 'moderation-panel',
+    path: "moderation-panel",
     component: ModerationPanelComponent
   },
   // {
@@ -97,48 +97,48 @@ const routes: Routes = [
   //   component: InsightsComponent
   // },
   {
-    path: 'dialo-game',
+    path: "dialo-game",
     component: DialoGameComponent
   },
   {
-    path: 'cwc',
+    path: "cwc",
     component: TopiChatTalkForm
   },
   {
-    path: 'talk',
+    path: "talk",
     component: TopiChatTalkForm
   },
   {
-    path: 'orchestration',
+    path: "orchestration",
     component: TopiChatClientsOrchestrationForm
   },
   {
-    path: 'map',
+    path: "map",
     component: MapComponent
   },
   {
-    path: 'map-new',
+    path: "map-new",
     component: MapEngineForm
   },
   // same route but with the map id provided
   {
-    path: 'map-new/id/:id',
+    path: "map-new/id/:id",
     component: MapEngineForm
   },
   {
-    path: 'maps',
+    path: "maps",
     component: MapsListComponent
   },
   {
-    path: 'results',
+    path: "results",
     component: ResultsVisualizationComponent
   },
   {
-    path: 'colaboflow-audits',
+    path: "colaboflow-audits",
     component: ColaboFlowAuditForm
   },
   {
-    path: 'participants',
+    path: "participants",
     component: ParticipantsComponent
   }
 ];
@@ -154,5 +154,4 @@ const routes: Routes = [
     RouterModule.forRoot(routes)
   ]
 })
-
-export class AppRoutingModule { }
+export class AppRoutingModule {}

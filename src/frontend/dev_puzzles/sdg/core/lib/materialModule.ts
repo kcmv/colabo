@@ -1,58 +1,58 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from "@angular/core";
 
 // import {CdkTableModule} from '@angular/cdk/table'
 // import {OverlayModule} from '@angular/cdk/overlay';
 import {
-//   MatAutocompleteModule,
-//   MatButtonModule,
-//   MatButtonToggleModule,
-//   MatCardModule,
-//   MatCheckboxModule,
-//   MatChipsModule,
-//   MatDatepickerModule,
-//   MatDialogModule,
-//   MatExpansionModule,
-//   MatGridListModule,
-//   MatIconModule,
-//   MatInputModule,
-//   MatListModule,
-//   MatMenuModule,
-//   MatNativeDateModule,
-//   MatProgressBarModule,
-//   MatProgressSpinnerModule,
-//   MatRadioModule,
-//   MatRippleModule,
-//   MatSelectModule,
-//   MatSidenavModule,
-//   MatSliderModule,
-//   MatSlideToggleModule,
-//   MatSnackBarModule,
-//   MatTabsModule,
-//   MatToolbarModule,
-//   MatTooltipModule,
-//   MatSortModule,
-//   MatPaginatorModule,
-//   MatTableModule
-} from '@angular/material';
+  //   MatAutocompleteModule,
+  //   MatButtonModule,
+  //   MatButtonToggleModule,
+  MatCardModule,
+  //   MatCheckboxModule,
+  //   MatChipsModule,
+  //   MatDatepickerModule,
+  //   MatDialogModule,
+  //   MatExpansionModule,
+  //   MatGridListModule,
+  MatIconModule,
+  //   MatInputModule,
+  //   MatListModule,
+  //   MatMenuModule,
+  //   MatNativeDateModule,
+  //   MatProgressBarModule,
+  //   MatProgressSpinnerModule,
+  //   MatRadioModule,
+  //   MatRippleModule,
+  //   MatSelectModule,
+  //   MatSidenavModule,
+  //   MatSliderModule,
+  MatSlideToggleModule,
+  //   MatSnackBarModule,
+  //   MatTabsModule,
+  MatToolbarModule
+  //   MatTooltipModule,
+  //   MatSortModule,
+  //   MatPaginatorModule,
+  //   MatTableModule
+} from "@angular/material";
 
 @NgModule({
   exports: [
-    // CDk
+    // CDk:
     // CdkTableModule,
     // OverlayModule,
 
-    // // Material
+    //Material:
     // MatAutocompleteModule,
     // MatButtonModule,
     // MatButtonToggleModule,
-    // MatCardModule,
+    MatCardModule,
     // MatCheckboxModule,
     // MatChipsModule,
     // MatDatepickerModule,
     // MatDialogModule,
     // MatExpansionModule,
     // MatGridListModule,
-    // MatIconModule,
+    MatIconModule,
     // MatInputModule,
     // MatListModule,
     // MatMenuModule,
@@ -62,11 +62,11 @@ import {
     // MatRippleModule,
     // MatSelectModule,
     // MatSidenavModule,
-    // MatSlideToggleModule,
+    MatSlideToggleModule,
     // MatSliderModule,
     // MatSnackBarModule,
     // MatTabsModule,
-    // MatToolbarModule,
+    MatToolbarModule
     // MatTooltipModule,
 
     // MatNativeDateModule,

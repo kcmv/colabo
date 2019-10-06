@@ -1,7 +1,7 @@
 import { concatMap } from "rxjs/operators";
 import { Component, OnInit } from "@angular/core";
 
-import { SDGsService } from "@colabo-sdg/core";
+import { SDGsService } from "../sdgs.service";
 import { KEdge, KNode } from "@colabo-knalledge/f-core";
 
 @Component({
