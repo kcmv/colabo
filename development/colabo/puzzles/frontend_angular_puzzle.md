@@ -68,7 +68,10 @@ import { MaterialModule } from './materialModule';
 
 import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i.e. 'Model Driven Forms'
 
+//import puzzle services:
 import { ColaboFlowAuditService } from './colabo-flow-audit.service';
+
+//import puzzle components:
 import { ColaboFlowAuditForm } from './audit-form/audit-form.component';
 
 //  components classes:
@@ -104,7 +107,7 @@ export class ColaboFlowAuditModule { }
 
 ## 7. Add index.ts
 
-In `colabo/src/frontend/dev_puzzles/flow/audit/index.ts`:
+In `colabo/src/frontend/dev_puzzles/flow/audit/index.ts` we add all the component, services and other elements that should be visible (to be used/imported) from outside the puzzle. Services don't have to be exported because they are provided/instantiated by including them in the puzzle's `module.ts::providers` and their usage is mostly 
 
 ```ts
 export { MODULE_NAME } from './lib/params';
