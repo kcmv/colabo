@@ -6,25 +6,47 @@ See in the [Example](colabo/src/tools/EXAMPLES.md) an example for the `@colabo-f
 
 ## 2. Integrate in the frontend
 
-Integrate it as a dependency and an offering in the `colabo/src/frontend/colabo.config.js`
-
-    + then `yarn` it (in `colabo/src/frontend`)
+- Integrate it as a dependency and an offering in the `colabo/src/frontend/colabo.config.js
+- then `yarn` it (in `colabo/src/frontend`)
 
 ## 3. Integrate in the frontend app
 
 (example here is the 'psc' app)
 
-Integrate it as a dependency in the `colabo/src/frontend/apps/psc/colabo.config.js`
-
-    + then `yarn` it (in `colabo/src/frontend/apps/psc/`)
+- Integrate it as a dependency in the `colabo/src/frontend/apps/psc/colabo.config.js`
+- then `yarn` it (in `colabo/src/frontend/apps/psc/`)
 
 ## 4. Add params.ts
+
+into `lib` folder, with the content:
 
 ```ts
 export const MODULE_NAME: string = "@colabo-flow/f-audit";
 ```
 
+## 5. Add materialModule
 
+into `lib` folder, with the content:
+
+```typescript
+import {NgModule} from '@angular/core';	
+import {
+  //desired Material Modules
+} from '@angular/material';
+
+@NgModule({
+  exports: [
+    //all the Material Modules imported above
+    ]
+})
+export class MaterialModule {}
+```
+
+
+
+## 6. Add module.ts
+
+into `lib` folder, with the content:
 
 ```ts
 import {MODULE_NAME} from './params';
@@ -34,6 +56,10 @@ import { RouterModule } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+
+//import puzzle components:
+//e.g: 
+// import { ColaboFlowAuditForm } from "audit-form/audit-form.component.ts";
 
 // Material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -45,18 +71,17 @@ import {ReactiveFormsModule} from "@angular/forms"; //for the 'Reactive Forms' i
 import { ColaboFlowAuditService } from './colabo-flow-audit.service';
 import { ColaboFlowAuditForm } from './audit-form/audit-form.component';
 
+//  components classes:
 var moduleDeclarations:any[] = [
+  
     ColaboFlowAuditForm
 ];
 
 var moduleImports: any[] = [
-    RouterModule,
-
+  //examplar, often required imported modules:
     ReactiveFormsModule,
-
     FormsModule,
-    FlexLayoutModule,
-
+    //...
     // Material
     BrowserAnimationsModule,
     MaterialModule,
@@ -68,6 +93,8 @@ var moduleImports: any[] = [
     imports: moduleImports,
     // exports: moduleImports.concat(moduleDeclarations)
     exports: moduleDeclarations,
+  
+		//service classes this module exports:
     providers: [
         ColaboFlowAuditService
     ]
@@ -75,12 +102,22 @@ var moduleImports: any[] = [
 export class ColaboFlowAuditModule { }
 ```
 
-## 6. Add Service
+## 7. Add index.ts
+
+In `colabo/src/frontend/dev_puzzles/flow/audit/index.ts`:
+
+```ts
+export { MODULE_NAME } from './lib/params';
+export { ColaboFlowAuditForm } from './lib/audit-form/audit-form.component';
+export { ColaboFlowAuditModule } from './lib/module';
+```
+
+## 8. Add Service
 
 In `colabo/src/frontend/dev_puzzles/flow/audit/lib/colabo-flow-audit.service.ts`:
 
 ```ts
-const MODULE_NAME: string = "@colabo-flow/f-audit";
+import { MODULE_NAME } from "./params";
 
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -126,19 +163,7 @@ export class ColaboFlowAuditService{
 }
 ```
 
-## 6. Add materialModule
-
-## Add index.ts
-
-In `colabo/src/frontend/dev_puzzles/flow/audit/index.ts`:
-
-```ts
-export { MODULE_NAME } from './lib/params';
-export { ColaboFlowAuditForm } from './lib/audit-form/audit-form.component';
-export { ColaboFlowAuditModule } from './lib/module';
-```
-
-## 7. Add component
+## 9. Add component
 
 In `colabo/src/frontend/dev_puzzles/flow/audit/lib/audit-form/audit-form.component.html` add:
 
@@ -207,16 +232,34 @@ export class ColaboFlowAuditForm implements OnInit {
 }
 ```
 
-## 8. Export from index.ts
+## 10. Importing the puzzle in the app
 
-In `colabo/src/frontend/dev_puzzles/flow/audit/index.ts`:
+In `colabo/src/frontend/apps/psc/src/app/app.module.ts` add puzzle's module:
 
 ```ts
-export { ColaboFlowAuditForm } from './lib/audit-form/audit-form.component';
-export { ColaboFlowAuditModule } from './lib/module';
+//...
+import { ColaboFlowAuditModule } from '@colabo-flow/f-audit';
+//...
+var moduleImports = [
+    // ...
+    , ColaboFlowAuditModule
+    // ...
+];
 ```
 
-## 8. Extend app
+add the puzzle to the app's `src/frontend/apps/psc/tsconfig.json` (to be accessible for the the TypeScript compilation):
+
+```json
+"include": [
+  ...
+"node_modules/@colabo-flow/**/*",
+  ...
+]
+```
+
+
+
+## 11. adding a route to the puzzle
 
 In `src/frontend/apps/psc/src/app/app-routing.module.ts` add a new route:
 
@@ -231,19 +274,6 @@ const routes: Routes = [
     component: ColaboFlowAuditForm
   }
   // ...
-];
-```
-
-In `colabo/src/frontend/apps/psc/src/app/app.module.ts` add puzzle's module:
-
-```ts
-//...
-import { ColaboFlowAuditModule } from '@colabo-flow/f-audit';
-//...
-var moduleImports = [
-    // ...
-    , ColaboFlowAuditModule
-    // ...
 ];
 ```
 
