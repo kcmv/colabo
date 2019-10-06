@@ -36,7 +36,6 @@ import { MapEngineModule } from "@colabo-map/f-engine";
 import { SdgCoreModule } from "@colabo-sdg/core";
 // import { PresentationCoreModule } from '@colabo-presentation/core';
 
-import { SDGsService } from "./select-sdgs/sdgs.service";
 import { CWCService } from "./cwc/cwc.service";
 import { DialoGameService } from "./dialo-game/dialo-game.service";
 
@@ -195,7 +194,6 @@ declare var window: any;
       useClass: GlobalEmittersArrayService
     },
     // TODO: move out of here, into puzzles' modules
-    SDGsService,
     CWCService,
     DialoGameService
     // ColabowareRFIDService,
