@@ -3,12 +3,11 @@ import { Dialog1Btn, Dialog2Btn, DialogData } from "../util/dialog";
 
 import { Component, OnInit } from "@angular/core";
 
-import {
-  SDGsService,
-  SDG_SELECTION_NAME,
-  SDG_SELECTION_TYPE,
-  SDGS_TO_SELECT
-} from "./sdgs.service";
+import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
+import { BottomShDgData, BottomShDg } from "@colabo-utils/f-notifications";
+import { MatSnackBar } from "@angular/material";
+
+import { SDGsService, SDGS_TO_SELECT } from "@colabo-sdg/core";
 import { RimaAAAService } from "@colabo-rima/f-aaa/rima-aaa.service";
 import { KNode } from "@colabo-knalledge/f-core/code/knalledge/kNode";
 import { KEdge } from "@colabo-knalledge/f-core/code/knalledge/kEdge";
@@ -23,11 +22,14 @@ export class SelectSdgsComponent implements OnInit {
   sdgs: any[] = [];
   saved: boolean = false;
   dialogRef: any; //TODO: type: MatDialogRef;
+  loadingSDGs: boolean = true;
 
   constructor(
     private rimaAAAService: RimaAAAService,
     private sDGsService: SDGsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private bottomSheet: MatBottomSheet,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -44,6 +46,7 @@ export class SelectSdgsComponent implements OnInit {
     // }];
     //TODO: !! we should migrate to the App-persisten Service this server-loads. RIGHT NOW each time we open this component, it loads it:
 
+    // this.loadingSDGs = true;
     this.sDGsService
       .getMySDGSelections()
       .subscribe(this.mySDGsSelectionsReceived.bind(this));
@@ -53,7 +56,6 @@ export class SelectSdgsComponent implements OnInit {
   }
 
   private mySDGsSelectionsReceived(selections: KEdge[]): void {
-    // this.sdgs = sdgsD;
     console.log("[mySDGsSelectionsReceived] selections:", selections);
     // console.log(item); // 0,1,2
     if (selections && selections.length > 0) {
@@ -80,7 +82,47 @@ export class SelectSdgsComponent implements OnInit {
     return this.rimaAAAService.getUser();
   }
 
-  openDialog(
+  deleteSDGSelection(): void {
+    let BottomShDgData: BottomShDgData = {
+      title: "SDGs selections",
+      message: "You want to delete your selection?",
+      btn1: "Yes",
+      btn2: "No",
+      callback: this.deleteConfirmation.bind(this)
+    };
+    let bottomSheetRef: MatBottomSheetRef = this.bottomSheet.open(BottomShDg, {
+      data: BottomShDgData
+    }); //, disableClose: true
+  }
+
+  protected deleteConfirmation(btnOrder: number): void {
+    if (btnOrder === 1) {
+      this.sDGsService
+        .deleteSDGSelection(this.rimaAAAService.getUserId())
+        .subscribe(result => {
+          if (result) {
+            this.saved = false;
+            this.snackBar.open(
+              "Your SDGs selection is deleted",
+              "Make your new selection",
+              { duration: 3000 }
+            );
+          } else {
+            this.openDialog(
+              1,
+              new DialogData(
+                "ERROR",
+                "There was an ERROR in deleting SDGs selection. Please try again later and inform the moderator",
+                "OK"
+              ),
+              { disableClose: true }
+            );
+          }
+        });
+    }
+  }
+
+  protected openDialog(
     buttons: number,
     data: DialogData,
     options: any = null,
@@ -101,7 +143,7 @@ export class SelectSdgsComponent implements OnInit {
     }
   }
 
-  correctSelection(): boolean {
+  protected isCorrectSelection(): boolean {
     return this.sDGsService.selectedSDGsIDs.length == SDGS_TO_SELECT;
   }
 
@@ -111,18 +153,11 @@ export class SelectSdgsComponent implements OnInit {
       msg = "you have finished this phase";
     } else {
       if (this.sDGsService.selectedSDGsIDs.length < SDGS_TO_SELECT) {
-        msg =
-          "Select " +
-          (SDGS_TO_SELECT - this.sDGsService.selectedSDGsIDs.length) +
-          " more SDGs";
-      } else if (this.sDGsService.selectedSDGsIDs.length == SDGS_TO_SELECT) {
+        msg = this.selectMoreMsg;
+      } else if (this.isCorrectSelection()) {
         msg = "Great! Please, submit ";
       } else {
-        msg =
-          "Too many SDGs selected! " +
-          SDGS_TO_SELECT +
-          " SDGs, not " +
-          this.sDGsService.selectedSDGsIDs.length;
+        msg = this.tooManySDGsMessage[0] + ", " + this.tooManySDGsMessage[1];
       }
     }
     return msg;
@@ -133,7 +168,7 @@ export class SelectSdgsComponent implements OnInit {
   }
 
   canSubmit(): boolean {
-    return !this.saved && this.correctSelection();
+    return !this.saved && this.isCorrectSelection();
   }
 
   onSubmit() {
@@ -163,7 +198,8 @@ export class SelectSdgsComponent implements OnInit {
         "Submitted",
         "Thank you for your SDGs selection. You've finished this phase",
         "OK"
-      )
+      ),
+      { disableClose: true }
     );
     //window.alert("Your selection is successfully saved");
   }
@@ -172,14 +208,80 @@ export class SelectSdgsComponent implements OnInit {
    * depends on `mySDGsSelectionsReceived` to receive results first
    * @param sdgsD
    */
-  private sdgsReceived(sdgsD: any[]): void {
+  protected sdgsReceived(sdgsD: any[]): void {
+    this.loadingSDGs = false;
     this.sdgs = sdgsD;
     // for (var sdg in this.sdgs) {
     // console.log(item); // 0,1,2
   }
   // console.log('sdgsReceived:', this.sdgs)
 
+  protected get tooManySDGsMessage(): string[] {
+    return [
+      "You've selected " + this.sDGsService.selectedSDGsIDs.length + " SDGs",
+      "unselect " +
+        (this.sDGsService.selectedSDGsIDs.length - SDGS_TO_SELECT) +
+        " SDG" +
+        (this.sDGsService.selectedSDGsIDs.length - SDGS_TO_SELECT > 1
+          ? "s"
+          : "")
+    ];
+  }
+
+  protected get selectMoreMsg(): string {
+    return (
+      "Select " +
+      (SDGS_TO_SELECT - this.sDGsService.selectedSDGsIDs.length) +
+      " more SDG" +
+      (SDGS_TO_SELECT - this.sDGsService.selectedSDGsIDs.length > 1 ? "s" : "")
+    );
+  }
+
   onToggled(state: boolean, id: string): void {
     this.sDGsService.changeSDGsSelectionState(state, id);
+    if (this.canSubmit()) {
+      let BottomShDgData: BottomShDgData = {
+        title: "You've selected all " + SDGS_TO_SELECT + " SDGs",
+        message: "Are you ready to submit your selection?",
+        btn1: "Submit",
+        btn2: "I'm still checking SDGs ...",
+        callback: this.submitConfirmation.bind(this)
+      };
+      let bottomSheetRef: MatBottomSheetRef = this.bottomSheet.open(
+        BottomShDg,
+        {
+          data: BottomShDgData,
+          disableClose: true
+        }
+      );
+    } else {
+      if (this.sDGsService.selectedSDGsIDs.length > SDGS_TO_SELECT) {
+        this.snackBar.open(
+          this.tooManySDGsMessage[0],
+          this.tooManySDGsMessage[1],
+          { duration: 2000 }
+        );
+      } else {
+        this.snackBar.open(
+          state ? "You've selected this one" : "You've unselected this one",
+          this.selectMoreMsg,
+          { duration: 2000 }
+        );
+      }
+    }
+  }
+
+  protected submitConfirmation(buttonNo: number): void {
+    if (buttonNo === 1) {
+      if (this.canSubmit()) {
+        this.onSubmit();
+      }
+    } else {
+      this.snackBar.open(
+        "OK. When you're ready",
+        "click the 'Submit' button on top",
+        { duration: 2000 }
+      );
+    }
   }
 }

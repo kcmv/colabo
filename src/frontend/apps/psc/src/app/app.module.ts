@@ -22,7 +22,7 @@ import { KnalledgeNodeService } from "@colabo-knalledge/f-store_core/knalledge-n
 import { KnalledgeMapService } from "@colabo-knalledge/f-store_core/knalledge-map.service";
 import { KnalledgeMapVoService } from "@colabo-knalledge/f-store_core/knalledge-map-vo.service";
 
-// Puzzle modules
+// Colabo Puzzle modules
 import { RimaAaaModule } from "@colabo-rima/f-aaa";
 import { ModerationCoreModule } from "@colabo-moderation/f-core";
 import { ColaboFlowCoreModule } from "@colabo-flow/f-core";
@@ -33,9 +33,9 @@ import { KnalledgeMapModule } from "@colabo-knalledge/f-map";
 import { MediaUploadModule } from "@colabo-media/f-upload";
 import { ColaboFlowAuditModule } from "@colabo-flow/f-audit";
 import { MapEngineModule } from "@colabo-map/f-engine";
+import { SdgCoreModule } from "@colabo-sdg/core";
 // import { PresentationCoreModule } from '@colabo-presentation/core';
 
-import { SDGsService } from "./select-sdgs/sdgs.service";
 import { CWCService } from "./cwc/cwc.service";
 import { DialoGameService } from "./dialo-game/dialo-game.service";
 
@@ -137,7 +137,7 @@ var moduleImports = [
   // MatFormFieldControl
   // rima
 
-  // Puzzle modules
+  // Colabo Puzzle modules
   RimaAaaModule,
   ModerationCoreModule,
   ColaboFlowCoreModule,
@@ -149,7 +149,8 @@ var moduleImports = [
   UtilsNotificationModule,
   ColaboFlowAuditModule,
   MapEngineModule,
-  MapsCoreModule
+  MapsCoreModule,
+  SdgCoreModule
   // , PresentationCoreModule
 ];
 // moduleImports.push(MainModule);
@@ -193,7 +194,6 @@ declare var window: any;
       useClass: GlobalEmittersArrayService
     },
     // TODO: move out of here, into puzzles' modules
-    SDGsService,
     CWCService,
     DialoGameService
     // ColabowareRFIDService,

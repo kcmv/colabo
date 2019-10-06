@@ -64,7 +64,8 @@ if (!globalSet.hasOwnProperty("general")) {
     PLAYER_CARD_MULTIPLE_ANSWERS: true,
 
     /** multiple players can play on a card played by another player */
-    REPLAY_PLAYED_CARD: false
+    REPLAY_PLAYED_CARD: false,
+    appTitle: "Unity out of Diversity @ InSEA"
   };
 }
 

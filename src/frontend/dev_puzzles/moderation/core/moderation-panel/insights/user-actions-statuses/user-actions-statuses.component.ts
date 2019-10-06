@@ -76,9 +76,12 @@ export class UserInsight {
 export class UserActionsStatusesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
+  loadingRegisteredUsers:boolean;
+
   public allColumns: string[] = [
     "id",
     "name",
+    "status",
     "group",
     "myColaboFlowState",
     "cwcs",
@@ -91,6 +94,7 @@ export class UserActionsStatusesComponent implements OnInit {
   public displayedColumns: string[] = [
     "id",
     "name",
+    "status",
     "group",
     "myColaboFlowState",
     "cwcs",
@@ -109,14 +113,24 @@ export class UserActionsStatusesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.insightsService
-      .getRegisteredUsers()
-      .subscribe(this.usersReceived.bind(this));
+    this.getRegisteredUsers();
 
     if (this.usersData !== null) {
       this.setUpSourceData();
     }
     //this.getCWCs();
+  }
+
+  protected getRegisteredUsers(forceRefresh:boolean=false): void {
+    this.loadingRegisteredUsers = true;
+    this.insightsService
+      .getRegisteredUsers(forceRefresh)
+      .subscribe(this.usersReceived.bind(this));
+  }
+
+  public refreshRegisteredUsers(event:Event):void{
+    event.stopPropagation();
+    this.getRegisteredUsers(true);
   }
 
   displayColumnChanged(val: string): void {
@@ -297,6 +311,7 @@ export class UserActionsStatusesComponent implements OnInit {
   private usersReceived(users: KNode[]): void {
     //console.log('usersReceived', users);
     let userInsights = [];
+    this.loadingRegisteredUsers = false;
     let usrId: string;
     let user: KNode;
     for (var i: number = 0; i < users.length; i++) {

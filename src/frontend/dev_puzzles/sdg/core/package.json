@@ -1,0 +1,22 @@
+{
+    "name": "@colabo-sdg/core",
+    "version": "0.4.1",
+    "description": "Enabling users' interactions and management over United Nations - 17 Sustainable Development Goals (SDGs)",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Cha-OS/colabo"
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "dependencies": {},
+    "peerDependenciesLocal": {},
+    "devDependencies": {}
+}

@@ -157,6 +157,70 @@ Currently manually placing the content of the failed imports
   /*border: 2px solid red;*/
   padding: 5px;
 }
+
+/* rotating - start */
+.rotating {
+  -webkit-animation: spin 4s linear infinite;
+  -moz-animation: spin 4s linear infinite;
+  animation: spin 4s linear infinite;
+}
+/* these 3 spin lines are also required for rotating */
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+/* rotating - end */
+
+/* for avoiding wrapping of the text  when positioned absolutely */
+.max-width {
+  width: max-content;
+}
+
+.relative-container {
+  position: relative;
+}
+
+/* 
+Mouse Cursors used through out the app:
+the whole list: https://www.w3schools.com/cssref/tryit.asp?filename=trycss_cursor
+*/
+.pointer {
+  cursor: pointer;
+}
+
+.zoom-in-pt {
+  cursor: zoom-in;
+}
+
+.zoom-out-pt {
+  cursor: zoom-out;
+}
+
+.error {
+  color: red;
+}
+
+/* requires that the parent has `relative-container` class */
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 .badge {
   display: inline-block;
   font-size: small;

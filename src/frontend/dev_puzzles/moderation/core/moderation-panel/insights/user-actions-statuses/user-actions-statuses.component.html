@@ -4,10 +4,28 @@
   <mat-expansion-panel-header>
     <mat-panel-title>
       <h3>User Actions Statuses</h3>
+      <span
+        class="relative-container"
+        matTooltip="refresh the list"
+        (click)="refreshRegisteredUsers($event)"
+      >
+        <span class="vertical-center rfr-box"
+          ><mat-icon
+            class="refresh"
+            [ngClass]="{ rotating: loadingRegisteredUsers }"
+            >refresh</mat-icon
+          >
+          <span *ngIf="loadingRegisteredUsers">refreshing...</span>
+        </span>
+      </span>
     </mat-panel-title>
     <mat-panel-description>
-      ({{ usersData?.data?.length }}) participants registered
-      <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+      <span class="relative-container">
+        <span class="vertical-center max-width">
+          {{ usersData?.data?.length }} participants registered
+        </span>
+        <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+      </span>
     </mat-panel-description>
   </mat-expansion-panel-header>
   <mat-form-field>
@@ -46,6 +64,20 @@
       <!-- <td mat-cell *matCellDef="let element"> {{element.name}} {{element.email}} </td> -->
     </ng-container>
 
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+      <td mat-cell *matCellDef="let element">
+          <span class="relative-container">
+            <span class="vertical-center rfr-box"
+            matTooltip="away">
+            <mat-icon>schedule</mat-icon>
+            <span>4s</span>
+          </span>
+        </span>
+        <!-- {{ element.status }} -->
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="group">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Group</th>
       <td mat-cell *matCellDef="let element">{{ element.group }}</td>
@@ -71,6 +103,7 @@
         <span
           matTooltip="delete the SDGs selection for {{ element.name }}"
           (click)="deleteSDGSelection(element.id)"
+          class="pointer"
           ><mat-icon>delete</mat-icon></span
         >
       </td>
