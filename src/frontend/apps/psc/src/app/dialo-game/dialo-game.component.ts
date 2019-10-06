@@ -1,33 +1,36 @@
-import {RimaAAAService} from '@colabo-rima/f-aaa/rima-aaa.service';
-import { AfterViewInit, ViewChild } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import {DialoGameService} from './dialo-game.service';
-import { MatDialog, MatDialogRef } from '@angular/material';
-import {Dialog1Btn, Dialog2Btn, DialogData} from '../util/dialog';
-import {DialogameCardsComponent} from './dialogame-cards/dialogame-cards.component'
-import {Observable} from 'rxjs';
+import { RimaAAAService } from "@colabo-rima/f-aaa/rima-aaa.service";
+import { AfterViewInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { DialoGameService } from "./dialo-game.service";
+import { MatDialog, MatDialogRef } from "@angular/material";
+import {
+  Dialog1Btn,
+  Dialog2Btn,
+  DialogData
+} from "@colabo-utils/f-notifications";
+import { DialogameCardsComponent } from "./dialogame-cards/dialogame-cards.component";
+import { Observable } from "rxjs";
 
 @Component({
-  selector: 'app-dialo-game',
-  templateUrl: './dialo-game.component.html',
-  styleUrls: ['./dialo-game.component.css']
+  selector: "app-dialo-game",
+  templateUrl: "./dialo-game.component.html",
+  styleUrls: ["./dialo-game.component.css"]
 })
 export class DialoGameComponent implements OnInit {
-
   @ViewChild(DialogameCardsComponent)
   private dialogameCardsComponent: DialogameCardsComponent;
-  public myResponseOpen:boolean = true;
+  public myResponseOpen: boolean = true;
 
   dialogRef: any; //TODO: type: MatDialogRef;
-  private initialized:boolean = false;
+  private initialized: boolean = false;
 
   constructor(
     private dialoGameService: DialoGameService,
     private rimaAAAService: RimaAAAService,
     public dialog: MatDialog
-  ) { }
+  ) {}
 
-  get isLoggedIn():Boolean{
+  get isLoggedIn(): Boolean {
     return this.rimaAAAService.getUser() !== null;
   }
 
@@ -43,63 +46,86 @@ export class DialoGameComponent implements OnInit {
     //this.initialized = true;
   }
 
-  userName():string{
+  userName(): string {
     return this.rimaAAAService.userName();
   }
 
-  public userAvatar():Observable<string>{
+  public userAvatar(): Observable<string> {
     return RimaAAAService.userAvatar(this.rimaAAAService.getUser());
   }
 
-  waitingForNextRound():boolean{
+  waitingForNextRound(): boolean {
     return this.dialoGameService.waitingForNextRound();
   }
 
-  playing():boolean{
+  playing(): boolean {
     return this.dialoGameService.playing();
   }
 
- 
-
-  openDialog(buttons:number, data:DialogData, options:any = null, afterClosed:Function = null): void {
-    if(options === null){
+  openDialog(
+    buttons: number,
+    data: DialogData,
+    options: any = null,
+    afterClosed: Function = null
+  ): void {
+    if (options === null) {
       options = {};
     }
-    options['width'] = '95%'
-    options['data'] = data;
-    console.log('openDialog',options);
-    this.dialogRef = this.dialog.open((buttons == 1 ? Dialog1Btn : Dialog2Btn), options);
-    if(afterClosed){this.dialogRef.afterClosed().subscribe(afterClosed);}
+    options["width"] = "95%";
+    options["data"] = data;
+    console.log("openDialog", options);
+    this.dialogRef = this.dialog.open(
+      buttons == 1 ? Dialog1Btn : Dialog2Btn,
+      options
+    );
+    if (afterClosed) {
+      this.dialogRef.afterClosed().subscribe(afterClosed);
+    }
   }
 
-  canUndo():boolean{
+  canUndo(): boolean {
     return this.dialoGameService.canUndo();
     //return this.initialized && this.dialoGameService.canUndo();
   }
 
-  canFinish():boolean{
+  canFinish(): boolean {
     return this.dialoGameService.canFinish();
     //return this.initialized && this.dialoGameService.canFinish();
   }
 
-  undo():void{
+  undo(): void {
     this.dialoGameService.undo();
-    this.dialoGameService.getCards().subscribe(this.dialogameCardsComponent.cardsReceived.bind(this.dialogameCardsComponent));
+    this.dialoGameService
+      .getCards()
+      .subscribe(
+        this.dialogameCardsComponent.cardsReceived.bind(
+          this.dialogameCardsComponent
+        )
+      );
   }
 
-  finish():void{
-    this.openDialog(2, new DialogData('Finishing the move','Do you want to finish this move, without further decorating your card?', 'No', 'Yes'), null, this.finished.bind(this));
+  finish(): void {
+    this.openDialog(
+      2,
+      new DialogData(
+        "Finishing the move",
+        "Do you want to finish this move, without further decorating your card?",
+        "No",
+        "Yes"
+      ),
+      null,
+      this.finished.bind(this)
+    );
   }
 
-  finished(result:any):void{
-     console.log('The dialog was closed', result);
-     if(result){
-       this.savePlayedMove();
-     }
+  finished(result: any): void {
+    console.log("The dialog was closed", result);
+    if (result) {
+      this.savePlayedMove();
+    }
   }
 
-  savePlayedMove():void{
+  savePlayedMove(): void {
     this.dialoGameService.saveDialoGameResponse();
   }
-
 }
