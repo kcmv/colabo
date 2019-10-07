@@ -9,6 +9,8 @@ import {
   MyColaboFlowState,
   MyColaboFlowStates
 } from "@colabo-flow/f-core/lib/myColaboFlowState";
+import { SDGsService } from "@colabo-sdg/core";
+import { BottomShDgData, BottomShDg } from "@colabo-utils/f-notifications";
 import { InsightsService } from "../insights.service";
 import { MatSnackBar } from "@angular/material";
 import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
@@ -76,7 +78,7 @@ export class UserInsight {
 export class UserActionsStatusesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
-  loadingRegisteredUsers:boolean;
+  loadingRegisteredUsers: boolean;
 
   public allColumns: string[] = [
     "id",
@@ -106,9 +108,11 @@ export class UserActionsStatusesComponent implements OnInit {
   usersData: MatTableDataSource<UserInsight> = null; //any = [];//UserInsight[] = []; TODO
 
   constructor(
-    private knalledgeNodeService: KnalledgeNodeService,
+    // private knalledgeNodeService: KnalledgeNodeService,
+    private sDGsService: SDGsService,
     private colaboFlowService: ColaboFlowService,
     private insightsService: InsightsService,
+    private bottomSheet: MatBottomSheet,
     private snackBar: MatSnackBar // , // private bottomSheet: MatBottomSheet
   ) {}
 
@@ -121,14 +125,14 @@ export class UserActionsStatusesComponent implements OnInit {
     //this.getCWCs();
   }
 
-  protected getRegisteredUsers(forceRefresh:boolean=false): void {
+  protected getRegisteredUsers(forceRefresh: boolean = false): void {
     this.loadingRegisteredUsers = true;
     this.insightsService
       .getRegisteredUsers(forceRefresh)
       .subscribe(this.usersReceived.bind(this));
   }
 
-  public refreshRegisteredUsers(event:Event):void{
+  public refreshRegisteredUsers(event: Event): void {
     event.stopPropagation();
     this.getRegisteredUsers(true);
   }
@@ -221,8 +225,51 @@ export class UserActionsStatusesComponent implements OnInit {
     return us.sdgs.length === InsightsService.SDGS_REQUIRED;
   }
 
-  deleteSDGSelection(userId: string): void {
-    console.log("deleteSDGSelection", userId);
+  hasSDGs(us: UserInsight): boolean {
+    //console.log('correctSDGNo')
+    return us.sdgs.length > 0;
+  }
+
+  deleteSDGSelection(user: UserInsight): void {
+    // let that: UserActionsStatusesComponent = this;
+    let BottomShDgData: BottomShDgData = {
+      title: "SDGs selections",
+      message:
+        "You want to delete " +
+        
+        user.name +
+        "'s SDG selection?",
+      btn1: "Yes",
+      btn2: "No",
+      callback: (btnOrder: number) =>
+        this.deleteSDGsConfirmation(btnOrder, user)
+    };
+    let bottomSheetRef: MatBottomSheetRef = this.bottomSheet.open(BottomShDg, {
+      data: BottomShDgData
+    }); //, disableClose: true
+  }
+
+  protected deleteSDGsConfirmation(btnOrder: number, user: UserInsight): void {
+    if (btnOrder === 1) {
+      this.sDGsService.deleteSDGSelection(user.id).subscribe(result => {
+        if (result) {
+          this.snackBar.open(user.name + "'s SDGs selection is deleted", "", {
+            duration: 2000
+          });
+          // let user: UserInsight = this.usersData.data.filter(userInList => {
+          //   return userInList.user._id === userId;
+          // })[0];
+          user.sdgs = [];
+          this.setUpSourceData();
+        } else {
+          this.snackBar.open(
+            "There was an ERROR in deleting SDGs selection",
+            "",
+            { duration: 5000 }
+          );
+        }
+      });
+    }
   }
 
   playRoundChanged(): void {
