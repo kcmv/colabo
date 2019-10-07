@@ -641,8 +641,7 @@ decamelize@^1.1.1:
 
 "deep-assign@http://colabo.space/downloads/deep-assign-2.0.0.tgz":
   version "2.0.0"
-  resolved "http://colabo.space/downloads/deep-assign-2.0.0.tgz#45b9edab8b2d9cbc28fe29e214709a5ffc5c06acdfee06db111ebb127308aac42477a4fe82890b96ca20a3e704cb36e8222363c38fe9cbc569aa4267686badf2"
-  integrity sha1-pX0qe0KJzxj9tdebt6N9le4bin0=
+  resolved "http://colabo.space/downloads/deep-assign-2.0.0.tgz#a57d2a7b4289cf18fdb5d79bb7a37d95ee1b8a7d"
   dependencies:
     is-obj "^1.0.0"
 
