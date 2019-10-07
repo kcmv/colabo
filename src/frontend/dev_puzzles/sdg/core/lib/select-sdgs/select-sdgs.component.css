@@ -18,6 +18,7 @@ app-select-sdgs {
   background-color: yellow;
   padding: 15px 5px;
   font-size: 16px;
+  border-radius: 5px;
 }
 .sdg {
   width: 100%;
