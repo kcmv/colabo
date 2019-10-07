@@ -12,3 +12,7 @@
   height: 50px;
   border-radius: 5px;
 }
+
+.selected-sdgs {
+  display: inline-flex;
+}

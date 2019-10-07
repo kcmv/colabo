@@ -1,11 +1,8 @@
 <div fxLayout="column" fxFlexFill style="height: 100%;">
   <!-- toolbar -->
   <div fxFlex="64px" style="overflow-y: hidden;">
-    <mat-toolbar
-      class="toolbar flexible mat-theme-indigo"
-      color="primary"
-      style="width: 100%;"
-    >
+    <mat-toolbar color="primary" style="width: 100%;">
+      <!-- THESE `mat-toolbar` classes are not found in currently applied CSS files so are removed from this `mat-toolbar` element: class="toolbar flexible mat-theme-indigo" -->
       <div class="home">
         <a href="/" title="Home">
           <img
@@ -18,29 +15,28 @@
       </div>
       <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
       <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
-      <div fxLayout="row">
-        <button
-          class="submit pointer"
-          *ngIf="canSubmit()"
-          color="accent"
-          mat-raised-button
-          (click)="onSubmit()"
-        >
-          {{ saved ? "Submitted" : "Submit" }}
-        </button>
-        <selected-sdgs></selected-sdgs>
-        <div class="relative-container">
-          <span class="vertical-center">
-            <span class="sdg-title"> {{ getActionMessage() }}</span>
-            <span
-              *ngIf="saved"
-              matTooltip="delete my SDGs selections"
-              (click)="deleteSDGSelection()"
-              class="pointer"
-              ><mat-icon>delete</mat-icon></span
-            >
-          </span>
-        </div>
+
+      <button
+        class="submit pointer"
+        *ngIf="canSubmit()"
+        color="accent"
+        mat-raised-button
+        (click)="onSubmit()"
+      >
+        {{ saved ? "Submitted" : "Submit" }}
+      </button>
+      <selected-sdgs></selected-sdgs>
+      <div class="relative-container">
+        <span class="vertical-center">
+          <span class="sdg-title"> {{ getActionMessage() }}</span>
+          <span
+            *ngIf="saved"
+            matTooltip="delete my SDGs selections"
+            (click)="deleteSDGSelection()"
+            class="pointer"
+            ><mat-icon>delete</mat-icon></span
+          >
+        </span>
       </div>
     </mat-toolbar>
   </div>
