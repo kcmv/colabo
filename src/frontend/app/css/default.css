@@ -2398,6 +2398,7 @@ body {
 md-toolbar.flexible {
   height: auto !important;
   min-height: auto !important; }
+  
   md-toolbar.flexible md-toolbar-row {
     height: auto !important;
     padding: 3px; }

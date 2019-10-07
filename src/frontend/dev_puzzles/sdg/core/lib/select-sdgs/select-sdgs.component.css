@@ -1,5 +1,5 @@
 app-select-sdgs {
-  height: 100%;
+  height: 100% !important; /* keeping vertically scrollable all childdren  */
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -30,6 +30,10 @@ app-select-sdgs {
 
 .sdgs {
   padding: 5px;
+}
+
+.sdgs-list {
+  overflow-y: scroll;
 }
 
 /* .button
