@@ -15,6 +15,9 @@ app-select-sdgs {
 }
 .submit {
   margin-right: 2px;
+  background-color: yellow;
+  padding: 15px 5px;
+  font-size: 16px;
 }
 .sdg {
   width: 100%;
