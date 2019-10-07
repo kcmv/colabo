@@ -242,6 +242,12 @@ the whole list: https://www.w3schools.com/cssref/tryit.asp?filename=trycss_curso
   border: 1px solid gray;
 }
 
+.keeping-scrollable {
+  /* keeping-encapsulated-content-scrollable
+  All the components that are in the parent-line of a scrollable content with "height:100%", should also have height:100%  */
+  height: 100% !important;
+}
+
 /* This is for `src/frontend/dev_puzzles/moderation/core/moderation-panel/insights/user-actions-statuses/user-actions-statuses.component.html`.
 But we cannot style tha Material component by putting the CSS in the component's .css It has to be in global `src/styles.css`. 
 More at https://stackoverflow.com/questions/48578559/how-to-modify-angular-material2-mat-checkbox-left-icon-size-and-color */
