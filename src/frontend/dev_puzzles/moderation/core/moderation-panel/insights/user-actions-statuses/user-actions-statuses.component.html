@@ -100,9 +100,9 @@
         [ngClass]="{ warning: !correctSDGNo(element) }"
       >
         {{ printSDGs(element) }}
-        <span
-          matTooltip="delete the SDGs selection for {{ element.name }}"
-          (click)="deleteSDGSelection(element.id)"
+        <span *ngIf="hasSDGs(element)"
+          matTooltip="delete {{ element.name }}'s SDGs selection"
+          (click)="deleteSDGSelection(element)"
           class="pointer"
           ><mat-icon>delete</mat-icon></span
         >

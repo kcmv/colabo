@@ -242,6 +242,22 @@ the whole list: https://www.w3schools.com/cssref/tryit.asp?filename=trycss_curso
   border: 1px solid gray;
 }
 
+/* for scrolling, similar to `.keeping-scrollable`, but also with 
+`box-sizing: border-box;` to preenting showing other scollers, etc
+*/
+html,
+body,
+app-root,
+nav,
+router-outlet,
+.full-container {
+  height: 100% !important;
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  overflow-y: hidden;
+}
+
 .keeping-scrollable {
   /* keeping-encapsulated-content-scrollable
   All the components that are in the parent-line of a scrollable content with "height:100%", should also have height:100%  */
