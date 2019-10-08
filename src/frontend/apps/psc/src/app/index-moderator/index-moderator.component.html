@@ -22,10 +22,14 @@
         <!--TODO: to make localized (in Serbian) form field names and info -->
         <div *ngIf="isLoggedIn; else loggedOut">
             <div *ngIf="isModerator; else noModerator">
-                <p>
-                    Hi,
-                    <b>{{loggedUser.dataContent.firstName}}</b>. <img class='user-avatar' src='{{userAvatar() | async}}' /><br/> You can:
-                </p>
+                
+                    Hi, <b>{{loggedUser.dataContent.firstName}}</b>.
+                    
+                    <div class="pointer"><a routerLink="/rima-login">
+                        <img class='user-avatar' src = '{{userAvatar() | async}}'/>
+                    </a></div> 
+                    You can:
+                
                 <p>
                     <a routerLink="/moderation-panel">
                         <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Moderation Panel</button>

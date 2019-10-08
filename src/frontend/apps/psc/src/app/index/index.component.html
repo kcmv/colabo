@@ -1,70 +1,114 @@
 <div fxLayout="column" fxFlexFill style="height: 100%;">
+  <!-- toolbar -->
+  <div fxFlex="64px" style="overflow-y: hidden;">
+    <mat-toolbar
+      class="toolbar flexible mat-theme-indigo"
+      color="primary"
+      style="width: 100%;"
+    >
+      <img
+        src="/assets/images/colabo-logo-url-square.jpg"
+        height="55px"
+        style="margin-right: 7px; opacity: 0.9; border-radius: 7px;"
+      />{{ appTitle }}
+    </mat-toolbar>
+  </div>
 
-    <!-- toolbar -->
-    <div fxFlex="64px" style="overflow-y: hidden;">
-        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
-            <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />{{appTitle}}
-        </mat-toolbar>
+  <div
+    fxFlex
+    style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px"
+  >
+    <!--TODO: to make localized (in Serbian) form field names and info -->
+    <div *ngIf="isLoggedIn">
+      Hi,
+      <b>{{ loggedUser.dataContent.firstName }}</b
+      >.
+      <div class="pointer">
+        <a routerLink="/rima-login">
+          <img class="user-avatar" src="{{ userAvatar() | async }}" />
+        </a>
+      </div>
+      You can:
+      <p>
+        <a routerLink="/select-sdgs">
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 75%; max-width: 500px;"
+          >
+            Select SDGs
+          </button>
+        </a>
+      </p>
+      <p>
+        <a routerLink="/cwc">
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 75%; max-width: 500px;"
+          >
+            CWC
+          </button>
+        </a>
+      </p>
+      <p>
+        <a routerLink="/dialo-game">
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 75%; max-width: 500px;"
+          >
+            Performative DialoGame
+          </button>
+        </a>
+      </p>
+      <p></p>
+      <hr />
+      <p>
+        <a routerLink="/rima-login">
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 75%; max-width: 500px;"
+          >
+            My Profile
+          </button>
+        </a>
+      </p>
+      <p>
+        <a routerLink="/avatar">
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 75%; max-width: 500px;"
+          >
+            Avatar
+          </button>
+        </a>
+      </p>
+      <p *ngIf="isModerator">
+        <a routerLink="/moderator">
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 75%; max-width: 500px;"
+          >
+            Moderation
+          </button>
+        </a>
+      </p>
     </div>
 
-    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px">
-        <!--TODO: to make localized (in Serbian) form field names and info -->
-        <div *ngIf="isLoggedIn">
-            <p>
-                Hi,
-                <b>{{loggedUser.dataContent.firstName}}</b>. <img class='user-avatar' src = '{{userAvatar() | async}}'/><br/> You can:
-            </p>
-            <p>
-                <a routerLink="/select-sdgs">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Select SDGs</button>
-                </a>
-            </p>
-            <p>
-                <a routerLink="/cwc">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">CWC</button>
-                </a>
-            </p>
-            <p>
-                <a routerLink="/dialo-game">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;"> Performative DialoGame</button>
-                </a>
-            </p>
-            <p>
-            </p>
-            <hr/>
-            <p>
-                <a routerLink="/rima-login">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">My Profile</button>
-                </a>
-            </p>
-            <p>
-                <a routerLink="/avatar">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Avatar</button>
-                </a>
-            </p>
-            <p *ngIf='isModerator'>
-                <a routerLink="/moderator">
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Moderation</button>
-                </a>
-            </p>
+    <div *ngIf="!isLoggedIn">
+      <p>If you <b>have account</b> please:</p>
+      <a routerLink="/rima-login">
+        <button mat-raised-button color="primary">Login</button>
+      </a>
 
-        </div>
-
-        <div *ngIf="!isLoggedIn">
-            <p>
-                If you <b>have account</b> please:
-            </p>
-            <a routerLink="/rima-login">
-                <button mat-raised-button color="primary">Login</button>
-            </a>
-
-            <p>
-                or register first if you <b>do not have account:</b>
-            </p>
-            <a routerLink="/rima-register">
-                <button mat-raised-button color="primary">Register</button>
-            </a>
-
-        </div>
+      <p>or register first if you <b>do not have account:</b></p>
+      <a routerLink="/rima-register">
+        <button mat-raised-button color="primary">Register</button>
+      </a>
     </div>
+  </div>
 </div>
