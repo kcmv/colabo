@@ -111,11 +111,17 @@ export class TopiChatTalk{
             chatNode.type = KNodesTopiChatTalkTypes.ChatMsg;
             let chatNodeServer: any = chatNode.toServerCopy();
             KNodeModule._create(chatNodeServer, null, function (kNode: KNode) {
+                console.log("[TopiChatTalk:defaultMessage:KNodeModule._create] chatNodeServer saved: ", JSON.stringify(chatNodeServer));
+
+                let payLoadText:string;
+
                 if (puzzleConfig.emitMessages) {
                     console.log("[TopiChatTalk:defaultMessage] forwarding the message to all except sender, talkPackage: ", JSON.stringify(talkPackage));
                     this.topiChat.emit(eventName, talkPackage, clientIdSender);
+                    payLoadText = "We saved and forwarded your message";
                 } else {
                     console.log('[TopiChatTalk:defaultMessage] we are NOT emitting message');
+                    payLoadText = "We saved your message";
                 }
 
                 // sending the confirmation package back to the talk client
@@ -123,7 +129,7 @@ export class TopiChatTalk{
                     eventName: TopiChatTalkDefaultEvents.Chat,
                     payload: {
                         origin: "@colabo-topichat/b-talk",
-                        text: "We saved your talk message in the KnAllEdgeStorage",
+                        text: payLoadText,
                         receivedText: talkPayload.content.text,
                         _id: kNode._id,
                         // reference to the sending tcPackage
@@ -134,11 +140,14 @@ export class TopiChatTalk{
                 this.topiChat.emit(eventName, tcPackageReplay, tcPackage.clientIdSender, true);
             }.bind(this));            
         }else{
+            let payLoadText:string;
             if (puzzleConfig.emitMessages) {
                 console.log("[TopiChatTalk:defaultMessage] forwarding the message to all except sender, talkPackage: ", JSON.stringify(talkPackage));
                 this.topiChat.emit(eventName, talkPackage, clientIdSender);
+                payLoadText = "We forwarded your message";
             } else {
                 console.log('[TopiChatTalk:defaultMessage] we are NOT emitting message');
+                payLoadText = "We received your message, but didn't forward";
             }
             
             // sending the confirmation package back to the talk client
@@ -146,7 +155,7 @@ export class TopiChatTalk{
                 eventName: TopiChatTalkDefaultEvents.Chat,
                 payload: {
                     origin: "@colabo-topichat/b-talk",
-                    text: "We saved your talk message in the KnAllEdgeStorage",
+                    text: payLoadText,
                     receivedText: talkPayload.content.text,
                     // reference to the sending tcPackage
                     uuid: talkPayload.content.uuid
