@@ -1,0 +1,154 @@
+{
+  "user_items": [
+    {
+      "userId": "0x556760847125996dc1a40000",
+      "itemId": "0x5be3fddce1b7970d8c6d0000",
+      "item": "A world where peace is more important than winning",
+      "itemHId": 1
+    },
+    {
+      "userId": "0x556760847125996dc1a40001",
+      "itemId": "0x5be3fddce1b7970d8c6d0001",
+      "item": "Love is more powerful than the power",
+      "itemHId": 2
+    },
+    {
+      "userId": "0x556760847125996dc1a40002",
+      "itemId": "0x5be3fddce1b7970d8c6d0002",
+      "item": "Each man has bread and water",
+      "itemHId": 3
+    },
+    {
+      "userId": "0x556760847125996dc1a40003",
+      "itemId": "0x5be3fddce1b7970d8c6d0003",
+      "item": "People are not afraid of the dearest ones",
+      "itemHId": 4
+    },
+    {
+      "userId": "0x556760847125996dc1a40004",
+      "itemId": "0x5be3fddce1b7970d8c6d0004",
+      "item": "Hospitals are not needed anymore",
+      "itemHId": 5
+    },
+    {
+      "userId": "0x556760847125996dc1a40005",
+      "itemId": "0x5be3fddce1b7970d8c6d0005",
+      "item": "Each man can write",
+      "itemHId": 6
+    },
+    {
+      "userId": "0x556760847125996dc1a40006",
+      "itemId": "0x5be3fddce1b7970d8c6d0006",
+      "item": "Free elementary education is guaranteed ",
+      "itemHId": 7
+    },
+    {
+      "userId": "0x556760847125996dc1a40007",
+      "itemId": "0x5be3fddce1b7970d8c6d0007",
+      "item": "Each child has a mobile phone and Internet",
+      "itemHId": 8
+    },
+    {
+      "userId": "0x556760847125996dc1a40008",
+      "itemId": "0x5be3fddce1b7970d8c6d0008",
+      "item": "Each woman can do the same as men",
+      "itemHId": 9
+    },
+    {
+      "userId": "0x556760847125996dc1a40009",
+      "itemId": "0x5be3fddce1b7970d8c6d0009",
+      "item": "Girls are free",
+      "itemHId": 10
+    },
+    {
+      "userId": "0x556760847125996dc1a4000a",
+      "itemId": "0x5be3fddce1b7970d8c6d000a",
+      "item": "There is no river that is not drinkable",
+      "itemHId": 11
+    },
+    {
+      "userId": "0x556760847125996dc1a4000b",
+      "itemId": "0x5be3fddce1b7970d8c6d000b",
+      "item": "All the waste is recycled",
+      "itemHId": 12
+    },
+    {
+      "userId": "0x556760847125996dc1a4000c",
+      "itemId": "0x5be3fddce1b7970d8c6d000c",
+      "item": "No smokes of coal",
+      "itemHId": 13
+    },
+    {
+      "userId": "0x556760847125996dc1a4000d",
+      "itemId": "0x5be3fddce1b7970d8c6d000d",
+      "item": "Green forests, green energy",
+      "itemHId": 14
+    },
+    {
+      "userId": "0x556760847125996dc1a4000e",
+      "itemId": "0x5be3fddce1b7970d8c6d000e",
+      "item": "A strong economy, rich countries",
+      "itemHId": 15
+    },
+    {
+      "userId": "0x556760847125996dc1a4000f",
+      "itemId": "0x5be3fddce1b7970d8c6d000f",
+      "item": "Every nation has highly developed industry",
+      "itemHId": 16
+    },
+    {
+      "userId": "0x556760847125996dc1a40010",
+      "itemId": "0x5be3fddce1b7970d8c6d0010",
+      "item": "Clean industries",
+      "itemHId": 17
+    },
+    {
+      "userId": "0x556760847125996dc1a40011",
+      "itemId": "0x5be3fddce1b7970d8c6d0011",
+      "item": "All parts of the world are interlinked",
+      "itemHId": 18
+    },
+    {
+      "userId": "0x556760847125996dc1a40012",
+      "itemId": "0x5be3fddce1b7970d8c6d0012",
+      "item": "Every village has a good quality road",
+      "itemHId": 19
+    },
+    {
+      "userId": "0x556760847125996dc1a40013",
+      "itemId": "0x5be3fddce1b7970d8c6d0013",
+      "item": "Each company has an R&D sector",
+      "itemHId": 20
+    },
+    {
+      "userId": "0x556760847125996dc1a40014",
+      "itemId": "0x5be3fddce1b7970d8c6d0014",
+      "item": "Each company is socially aware",
+      "itemHId": 21
+    },
+    {
+      "userId": "0x556760847125996dc1a40015",
+      "itemId": "0x5be3fddce1b7970d8c6d0015",
+      "item": "All skin colors make the world flag",
+      "itemHId": 22
+    },
+    {
+      "userId": "0x556760847125996dc1a40016",
+      "itemId": "0x5be3fddce1b7970d8c6d0016",
+      "item": "Afrika is equal to Europe, no neocolonialism",
+      "itemHId": 23
+    },
+    {
+      "userId": "0x556760847125996dc1a40017",
+      "itemId": "0x5be3fddce1b7970d8c6d0017",
+      "item": "Villagers are the first-order citizens",
+      "itemHId": 24
+    },
+    {
+      "userId": "0x556760847125996dc1a40018",
+      "itemId": "0x5be3fddce1b7970d8c6d0018",
+      "item": "Cities are smart and self-contained",
+      "itemHId": 25
+    }
+  ]
+}

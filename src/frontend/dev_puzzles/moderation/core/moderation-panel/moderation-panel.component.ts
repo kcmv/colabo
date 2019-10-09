@@ -21,6 +21,8 @@ export class ModerationPanelComponent implements OnInit {
   generateTestFiles(): void {
     let temp = TestFilesGenerator.SDGsGen();
     console.log("[SDGsGen]", temp);
+    temp = TestFilesGenerator.CWCsGen();
+    console.log("[CWCsGen]", temp);
   }
 
   get activeMap(): string {
