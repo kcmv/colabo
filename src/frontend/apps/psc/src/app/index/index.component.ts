@@ -1,9 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { RimaAAAService } from "@colabo-rima/f-aaa/rima-aaa.service";
+import { ColaboFlowService } from "@colabo-flow/f-core";
 import { UserData } from "@colabo-rima/f-aaa/userData";
 import { KNode } from "@colabo-knalledge/f-core/code/knalledge/kNode";
 import { Observable } from "rxjs";
 import * as config from "@colabo-utils/i-config";
+import { SDGsGen } from "../util/testFileGenerator";
 
 @Component({
   selector: "app-index",
@@ -12,10 +14,21 @@ import * as config from "@colabo-utils/i-config";
 })
 export class IndexComponent implements OnInit {
   public appTitle: string = config.GetGeneral("appTitle");
+  public static CF_WHERE: string = "INDEX";
 
-  constructor(private rimaAAAService: RimaAAAService) {}
+  constructor(
+    private rimaAAAService: RimaAAAService,
+    private colaboFlowService: ColaboFlowService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // let temp = SDGsGen();
+    // console.log("[SDGsGen]", temp);
+  }
+
+  ngAfterViewChecked() {
+    this.colaboFlowService.startKeepingMyState(IndexComponent.CF_WHERE);
+  }
 
   get isLoggedIn(): Boolean {
     return this.rimaAAAService.getUser() !== null;

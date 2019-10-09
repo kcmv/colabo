@@ -1,4 +1,38 @@
-function tempGen(): string {
+export function SDGsGen(): string {
+  const UsersNo:number=15;
+  const SDGS_TO_SELECT:number = 3;
+  
+  let output = [];
+  let userIdStr: string = "0x556760847125996dc1a4";
+  let itemIdStr: string = "0x5be3fddce1b7970d8c6d";
+  let userId: number = parseInt(userIdStr);
+  let itemId: number = parseInt(itemIdStr);
+  let selectedIds:number[] = [];
+  function toPaddedHexString(num, len) {
+    let str = num.toString(16);
+    return "0".repeat(len - str.length) + str;
+  }
+
+  for (var u: number = 0; u < UsersNo; u++) {
+    selectedIds = [];
+    for (var s: number = 0; s < SDGS_TO_SELECT; s++) {
+      do{
+        selectedIds[s] = Math.round(Math.random()*17);
+      }while(selectedIds.indexOf(selectedIds[s]) !== s) //must not contain created number on previous position (all selectedIds mus tbe unique)
+      
+    output.push({
+      userId: userIdStr + toPaddedHexString(i, 4), //(userId++).toString(16),
+      itemId: itemIdStr + toPaddedHexString(i, 4), //(itemId++).toString(16),
+      item: selectedIds[s]
+      // itemHId: i + 1 //TODO: should be here, but @Lazar wanted it at `item`
+    });
+  }
+  let outputStr: string = JSON.stringify(output);
+  console.log("sdgTest", outputStr);
+  return outputStr;
+}
+
+export function CWCsGen(): string {
   let sdgs: string[] = [
     "A world where peace is more important than winning",
     "Love is more powerful than the power",
