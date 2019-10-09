@@ -5,7 +5,6 @@ import { UserData } from "@colabo-rima/f-aaa/userData";
 import { KNode } from "@colabo-knalledge/f-core/code/knalledge/kNode";
 import { Observable } from "rxjs";
 import * as config from "@colabo-utils/i-config";
-import { SDGsGen } from "../util/testFileGenerator";
 
 @Component({
   selector: "app-index",
@@ -22,8 +21,7 @@ export class IndexComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // let temp = SDGsGen();
-    // console.log("[SDGsGen]", temp);
+    
   }
 
   ngAfterViewChecked() {
