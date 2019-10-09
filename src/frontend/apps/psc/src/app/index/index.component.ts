@@ -21,12 +21,10 @@ export class IndexComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    
-  }
-
-  ngAfterViewChecked() {
     this.colaboFlowService.startKeepingMyState(IndexComponent.CF_WHERE);
   }
+
+  ngAfterViewChecked() {}
 
   get isLoggedIn(): Boolean {
     return this.rimaAAAService.getUser() !== null;

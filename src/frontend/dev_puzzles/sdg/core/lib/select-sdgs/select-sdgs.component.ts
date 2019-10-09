@@ -6,6 +6,7 @@ import {
 } from "@colabo-utils/f-notifications";
 
 import { Component, OnInit } from "@angular/core";
+import { ColaboFlowService } from "@colabo-flow/f-core";
 
 import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
 import { BottomShDgData, BottomShDg } from "@colabo-utils/f-notifications";
@@ -27,9 +28,11 @@ export class SelectSdgsComponent implements OnInit {
   saved: boolean = false;
   dialogRef: any; //TODO: type: MatDialogRef;
   loadingSDGs: boolean = true;
+  public static CF_WHERE: string = "SELECT-SDGS";
 
   constructor(
     private rimaAAAService: RimaAAAService,
+    private colaboFlowService: ColaboFlowService,
     private sDGsService: SDGsService,
     public dialog: MatDialog,
     private bottomSheet: MatBottomSheet,
@@ -57,6 +60,11 @@ export class SelectSdgsComponent implements OnInit {
     //.subscribe(sdgs => this.sdgs);
     //this.sdgs = this.sDGsService.getSDGs();
     //this.sDGsService.loadSDGs();
+    // }
+
+    // ngAfterViewChecked() {
+    console.log("[ngAfterViewChecked]", SelectSdgsComponent.CF_WHERE);
+    this.colaboFlowService.startKeepingMyState(SelectSdgsComponent.CF_WHERE);
   }
 
   private mySDGsSelectionsReceived(selections: KEdge[]): void {
