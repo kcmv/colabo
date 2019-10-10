@@ -366,7 +366,7 @@ export class TopiChat{
 		let tcPackage:TopiChatPackage = {
 			clientIdSender: clientIdSender,
 			clientIdReciever: clientIdReceiver,
-			timestamp: this.getTimestamp(),,
+			timestamp: this.getTimestamp(),
 			eventName: eventName,
 			payload: pluginPayload,
 		};
