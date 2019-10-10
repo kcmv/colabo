@@ -427,7 +427,7 @@ export class KnalledgeNodeService extends CFService{
       */
 
       result = this.http.put<ServerData>(this.apiUrl+'one/'+actionType+'/'+id, kNodeForServer, httpOptions).pipe(
-        tap(_ => console.log(`updated kNode id=${kNodeForServer._id}`)),
+        // tap(_ => console.log(`updated kNode id=${kNodeForServer._id}`)),
         map(nodeS => this.extractVO<KNode>(nodeS,KNode)), //the sever returns `ServerData` object
         catchError(this.handleError<any>('update'))
       );

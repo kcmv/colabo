@@ -21,6 +21,7 @@ import {UserCardComponent} from '../moderation-panel/users/user-card/user-card.c
 import {UserSelectorComponent} from '../moderation-panel/users/user-selector/user-selector.component';
 import {UserActionsStatusesComponent} from '../moderation-panel/insights/user-actions-statuses/user-actions-statuses.component';
 import {UserModerationComponent} from '../user-moderation/user-moderation.component';
+import {ClustersComponent} from '../moderation-panel/insights/clusters/clusters.component';
 
 import { ColaboFlowCoreModule } from '@colabo-flow/f-core/lib/module';
 
@@ -46,7 +47,8 @@ var moduleDeclarations:any[] = [
   ResultsVisualizationComponent,
   SdgsStatisticsComponent,
   ParticipantsCircleComponent,
-  ParticipantProfileComponent
+  ParticipantProfileComponent,
+  ClustersComponent
 ];
 
 var moduleImports: any[] = [

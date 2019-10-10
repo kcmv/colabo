@@ -23,10 +23,12 @@ import { TopiChatClientsOrchestrationForm } from "@colabo-topichat/f-clients-orc
 import { MapComponent } from "@colabo-knalledge/f-map";
 // import { ResultsVisualizationComponent } from '@colabo-moderation/f-core/lib/module';
 import { ResultsVisualizationComponent } from "@colabo-moderation/f-core";
+
 import { ColaboFlowAuditForm } from "@colabo-flow/f-audit";
 import { MapEngineForm } from "@colabo-map/f-engine";
 import { MapsListComponent } from "@colabo-maps/core";
 import { ParticipantsComponent } from "@colabo-moderation/f-core";
+import { ClustersComponent } from "@colabo-moderation/f-core";
 
 const routes: Routes = [
   {
@@ -140,6 +142,10 @@ const routes: Routes = [
   {
     path: "participants",
     component: ParticipantsComponent
+  },
+  {
+    path: "clusters",
+    component: ClustersComponent
   }
 ];
 

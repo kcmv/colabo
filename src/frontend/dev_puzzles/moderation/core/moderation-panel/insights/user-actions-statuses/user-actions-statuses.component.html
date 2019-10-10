@@ -166,4 +166,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+  <div>
+    <button (click)='clusterizeBySDGs()' mat-raised-button color="primary">Clusterize Users by SDG Selections</button>
+  </div>
 </mat-expansion-panel>

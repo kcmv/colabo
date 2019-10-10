@@ -1,0 +1,63 @@
+/* .user-avatar{
+    border-radius: 50%;
+    overflow: hidden;
+    border: solid black 1px;
+    width: 43px;
+    vertical-align: middle;
+    margin-right: 5px;
+} */
+
+.cluster {
+}
+.cluster-header {
+  color: blue;
+  font-size: larger;
+  border-top: solid black 2px;
+  background-color: lightyellow;
+}
+.user {
+  border: solid black 2px;
+  padding: 5px;
+  margin: 3px;
+  border-radius: 5px;
+  background-color: lightgray;
+  display: inline-flex;
+}
+.username {
+  font-weight: bold;
+  color: blueviolet;
+}
+.email {
+  color: green;
+}
+
+/* D3 solution:
+circle {
+  fill: rgb(31, 119, 180);
+  fill-opacity: 0.25;
+  stroke: rgb(31, 119, 180);
+  stroke-width: 1px;
+}
+
+.leaf circle {
+  fill: #ff7f0e;
+  fill-opacity: 1;
+}
+
+text {
+  font: 14px sans-serif;
+  text-anchor: middle;
+}
+
+.name {
+  font-weight: bold;
+  font: 16px sans-serif;
+  text-anchor: middle;
+}
+
+.num {
+  font-weight: bolder;
+  font: 20px sans-serif;
+  text-anchor: middle;
+}
+*/
