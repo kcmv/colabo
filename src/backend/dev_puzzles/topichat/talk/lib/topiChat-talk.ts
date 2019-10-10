@@ -39,7 +39,7 @@ export interface TopiChatTalkPayload {
         text: string;
         /** the debug text of the message */
         debugText: string;
-        /** is the message delivered, not used at the moment */
+        /** is the message delivered, used on the frontend */
         delivered?: boolean;
         /** unique ID of the message */
         uuid?: string;
@@ -156,10 +156,10 @@ export class TopiChatTalk{
                 }
 
                 debugText = "seding confirmation back to sender";
-                sendTheResponseBack();
+                sendTheResponseBack.bind(this)();
             }.bind(this));            
         }else{
-            sendTheResponseBack();
+            sendTheResponseBack.bind(this)();
         }
 
         // we need to have this in a separate function as one control flow (saving to the knalledge map) is asynchronious, while the other one is not
