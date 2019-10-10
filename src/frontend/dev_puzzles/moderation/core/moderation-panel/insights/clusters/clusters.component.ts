@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RimaAAAService } from "@colabo-rima/f-aaa/rima-aaa.service";
 import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 import { InsightsService } from "../insights.service";
 import { KNode } from "@colabo-knalledge/f-core/";
 import { SDGsService } from "@colabo-sdg/core";
@@ -19,7 +20,7 @@ export class ClustersComponent implements OnInit {
   // protected canvas: any;
 
   public get clusters(): any[] {
-    console.log("this.sdgs_json", this.sdgs_json);
+    // console.log("this.sdgs_json", this.sdgs_json);
     return this.sdgs_json;
   }
 
@@ -31,7 +32,9 @@ export class ClustersComponent implements OnInit {
       return "...";
     }
   }
-  protected sdgs_json: any = [
+  protected sdgs_json: any = [];
+  /*
+  [
     // "/assets/comm_files/sdg.json"
     {
       cluster_num: 1,
@@ -119,6 +122,9 @@ export class ClustersComponent implements OnInit {
       ]
     }
   ];
+  */
+
+  protected extendedDisplay: boolean = false;
   protected users: KNode[];
   protected usersById: any = {};
 
@@ -127,15 +133,26 @@ export class ClustersComponent implements OnInit {
   constructor(
     private rimaAAAService: RimaAAAService,
     private insightsService: InsightsService,
-    private sDGsService: SDGsService
-  ) {}
+    private sDGsService: SDGsService,
+    private http: HttpClient
+  ) {
+    this.getJSON().subscribe((data: string) => {
+      console.log(data);
+      this.sdgs_json = data; //JSON.parse(data);
+    });
+  }
 
   ngOnInit() {
     /* D3 solution: 
     this.createCanvas(Radius);
     this.createElements();
     */
+
     this.getRegisteredUsers();
+  }
+
+  public getJSON(): Observable<any> {
+    return this.http.get("/assets/comm_files/sdg.json");
   }
 
   // get userById(id:string)
