@@ -131,6 +131,9 @@ var topiChat = new TopiChat('Colabo.Space');
 import {TopiChatTalk} from '@colabo-topichat/b-talk';
 var topiChatTalk = new TopiChatTalk(topiChat);
 
+import {TopiChatHookGuaranteedDelivery} from '@colabo-topichat/i-core';
+var topiChatHookGuaranteedDelivery = new TopiChatHookGuaranteedDelivery(topiChat);
+
 import { TopiChatClientsOrchestration } from '@colabo-topichat/b-clients-orchestration';
 var topiChatClientsOrchestration = new TopiChatClientsOrchestration(topiChat);
 

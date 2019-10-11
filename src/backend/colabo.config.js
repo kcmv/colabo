@@ -15,6 +15,7 @@ var puzzles = {
         "@colabo-rima/b-aaa": {},
         "@colabo-topichat/b-core": {},
         "@colabo-topichat/b-knalledge": {},
+        "@colabo-topichat/i-core": {},
         "@colabo-topichat/b-talk": {},
         "@colabo-utils/i-config": {},
         "@colabo-flow/b-services": {},
@@ -47,7 +48,7 @@ var puzzles = {
             path: "dev_puzzles/rima/aaa"
         },
         "@colabo-topichat/b-clients-orchestration": {
-            npm: "@colabo-topichat/f-clients-orchestration",
+            npm: "@colabo-topichat/b-clients-orchestration",
             path: "dev_puzzles/topichat/clients-orchestration"
         },
         "@colabo-topichat/b-core": {

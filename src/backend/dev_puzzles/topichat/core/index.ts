@@ -7,88 +7,11 @@ import * as express from "express";
 // https://socket.io/docs/
 import * as socketio from "socket.io";
 
-/** a set of topichat system events */
-enum TopiChatSystemEvents{
-	ClientInit = 'tc:client-init',
-	ClientEcho = 'tc:client-echo'
-}
-
-/** recognized standardized client ids */
-enum TopiChatClientIDs{
-	Server = "server",
-	Broadcast = "broadcast"
-}
-
-/** a dictionary of events and their corresponding callbacks */
-export interface EventsCallbacks{
-	[eventName: string]: PluginDispatchedEventCallback
-}
-
-export interface PluginDispatchedEventCallback{
-	(eventName: string, talkPackage: TopiChatPluginPackage, clientIdSender:string, tcPackage:TopiChatPackage):void
-};
-
-/** description of the topichat plugin with the plugin name, set of events it is interested in, how the topiChat core should behave, etc */
-export interface TopiChatPlugin{
-	/** plugin name */
-	name: string;
-	/** dictionary of events */
-	events: EventsCallbacks
-}
-
-/** a dictionary of plugins
-with the key representing the plugin name
-and entry poing presenting plugin description */
-export interface TopiChatPlugins{
-	[pluginName: string]: TopiChatPlugin
-}
-
-/** provides mapping between event name and the list of relevant topichat plugins
- (usually plugins that are registered for that event) */
-export interface TopiChatEvents{
-	[eventName: string]: Array<TopiChatPlugin>
-}
-
-/** package description of topichat packages (messages) */
-export interface TopiChatPackage {
-	/** generated client id of a sender */
-	clientIdSender: string;
-	/** an id (RIMA.IAm) of a user on which behalf the message is sent
-	it is usually the id of the user that is logged in on the client fronted app
-	from which the topichat message is sent
-	 */
-	iAmIdSender?: string;
-	/** generated client id of receiver */
-	clientIdReciever: string;
-	/** an id (RIMA.IAm) of a user whom the message is addressed to
-	it is usually the id of the user that is logged in on the client fronted app
-	to whom the topichat message is sent to
-	 */
-    iAmIdReciever?: string;
-    /** time the message is generated */
-    timestamp: number; // TODO: make ie everywhere available
-    /** the name of the event that triggered the message.
-     * It is the same value as the event name that was placed in the emit method of the socket.io library */
-    eventName: string;
-    /** The content sent by the message.
-     * Its format is described by "higher" protocol, in other words, topichat plugins
-     */
-	payload: TopiChatPluginPackage;
-}
-
-/** Package description of the topichat plugin protocol (that sits on the top of the topichat protocol) and it is the payload of the topichat protocol package */
-export interface TopiChatPluginPackage {
-	/** an eventName that users of the transport plugins are registering to */
-	eventName: string;
-    /** The content sent by the message.
-     * Its format is described by "higher" protocol, in other words, topichat plugins' applications
-     */
-	payload: any;
-}
-
 import { GetPuzzle } from '@colabo-utils/i-config';
 let puzzleConfig: any = GetPuzzle(MODULE_NAME);
 console.log("[TopiChatCore] Should we debug: ", puzzleConfig.debug);
+
+import {TopiChatRegisteringPlugin, TopiChatRegisteringHook, TopiChatSystemEvents, TopiChatClientIDs, EventsCallbacks, PluginDispatchedEventCallback, TopiChatPlugin, TopiChatPlugins, TopiChatEvents, TopiChatPackage, TopiChatPluginPackage, TopiChatMessagesWithDeliveryContextPull, TopiChatMessageWithDeliveryContext, TopiChatMessageDeliveryToClientStatus} from '@colabo-topichat/i-core';
 
 /* 
 SOCKETS
@@ -114,17 +37,24 @@ interface ClientIdToSocket{
  *
  * @class TopiChat
  */
-export class TopiChat{
+export class TopiChat implements TopiChatRegisteringPlugin, TopiChatRegisteringHook{
 	protected options:any;
 	protected app:any;
 	protected ClientID:number;
 	protected roomName:string;
 	protected http: any;
 	protected io: any;
+
 	/** a dictionary (by plugin name) of all registered plugins */
 	protected plugins:TopiChatPlugins;
 	/** maps the event (name) to the array of topichat plugins interested in that event */
 	protected eventsByPlugins:TopiChatEvents;
+
+	/** a dictionary (by plugin name) of all registered plugins */
+	protected hooks:TopiChatPlugins;
+	/** maps the event (name) to the array of topichat plugins interested in that event */
+	protected eventsByHooks:TopiChatEvents;
+
 	/** maps socket.io socket ids with client ids */
 	protected socketIdToClientId:SocketIdToClientId;
 	protected clientIdToSocket:ClientIdToSocket;
@@ -155,6 +85,8 @@ export class TopiChat{
 		this.options = _options || _optionsL;
 		this.plugins = {};
 		this.eventsByPlugins = {};
+		this.hooks = {};
+		this.eventsByHooks = {};
 		this.socketIdToClientId = {};
 		this.clientIdToSocket = {};
 
@@ -168,6 +100,11 @@ export class TopiChat{
 		= this.clientEcho.bind(this);
 
 		this.registerPlugin(systemTopiChatPlugin);
+
+	}
+
+	dispose(){
+
 	}
 
 	/**
@@ -436,11 +373,44 @@ export class TopiChat{
 		}
 	};
 
+	/**
+	 * The **registerHook** method registers hooks into topichat.
+	 * 
+	 * @param hookOptions describes all aspects of the hook we want to register, like name, events we want to listen, 
+	 * wanted behavior of the underlying (core) topichat component
+	 */
+	registerHook(hookOptions:TopiChatPlugin) {
+		let hookName:string = hookOptions.name;
+		console.log('[TopiChat:registerPlugin] Registering hook: %s', hookName);
+		// place the hook in the `hooks` dictionary
+		this.hooks[hookName] = hookOptions;
+
+		// iterate through the all events hook is interested in
+		// and register them into the `eventByHooks` 
+		// where each event contains the array of hooks (hookOptions) listening to the event
+		for(let eventName in hookOptions.events){
+			// if the dictionary key is missing, create it
+			if(!(eventName in this.eventsByHooks)){
+				this.eventsByHooks[eventName] = [];
+				console.log("[TopiChat:registerHook] Registering event: '%s' for the first time", eventName);
+			}
+			console.log('[TopiChat:registerHook] Registering event: %s', eventName);
+			let eventByHooks = this.eventsByHooks[eventName];
+			// push it into the array corresponding to the event
+			eventByHooks.push(hookOptions);
+		}
+	}
+
 	// TBD
 	unregisterPlugin(pluginName:string) {
 		console.log('[TopiChat:unregisterPlugin] Unregistering plugin: %s', pluginName);
 	};
 
+	// TBD
+	unregisterHook(hookName:string) {
+		console.log('[TopiChat:unregisterHook] Unregistering hook: %s', hookName);
+	};
+	
 	// TBD
 	disconnect(socket) {
 		let clientId:string = this.socketIdToClientId[socket.id];

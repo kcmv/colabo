@@ -1,6 +1,6 @@
 const MODULE_NAME:string = "@colabo-topichat/b-talk";
 
-import { TopiChat, TopiChatPlugin, TopiChatPackage, TopiChatPluginPackage} from '@colabo-topichat/b-core';
+import { TopiChatRegisteringPlugin, TopiChatPackage, TopiChatPlugin, TopiChatPluginPackage} from '@colabo-topichat/i-core';
 
 import {GetPuzzle} from '@colabo-utils/i-config';
 
@@ -62,7 +62,7 @@ export class TopiChatTalk{
      * @param {string}	roomName The name of the room
      * @param {string}	eventName that TopiChatTalk will listen on
      */
-    constructor(protected topiChat:TopiChat, protected options?:any) {
+    constructor(protected topiChat:TopiChatRegisteringPlugin, protected options?:any) {
         options = options || {};
         this.topiChat = topiChat;
         this.options = options;

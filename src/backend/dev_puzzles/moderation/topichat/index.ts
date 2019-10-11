@@ -1,6 +1,6 @@
 const MODULE_NAME:string = "@colabo-topichat/b-talk";
 
-import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topichat/b-core';
+import {TopiChatRegisteringPlugin, TopiChatPlugin, TopiChatPackage} from '@colabo-topichat/i-core';
 
 import {GetPuzzle} from '@colabo-utils/i-config';
 
@@ -44,7 +44,7 @@ export class TopiChatTalk{
      * @param {String}	roomName The name of the room
      * @param {Integer}	port number that TopiChatTalk will listen on
      */
-    constructor(protected topiChat:TopiChat, protected options?:any) {
+    constructor(protected topiChat:TopiChatRegisteringPlugin, protected options?:any) {
         options = options || {};
         this.topiChat = topiChat;
         this.options = options;
@@ -81,10 +81,15 @@ export class TopiChatTalk{
         chatNode.iAmId = puzzleConfig.iAmId;
         chatNode.type = KNodesTopiChatTalkTypes.ChatMsg;
         let chatNodeServer:any = chatNode.toServerCopy();
-        KNodeModule._create(chatNodeServer, function(){
-    		this.topiChat.emit(eventName, msg, clientIdSender);
-        }.bind(this));
-		// let socketSender = this.clientIdToSocket[clientIdSender];
+        console.error("[@colabo-topichat/b-talk] Warning, old code reached, need to be refactored");
+        throw(new Error("[@colabo-topichat/b-talk] Warning, old code reached, need to be refactored"));
+        /* TODO: Fix this old code
+        // KNodeModule._create(chatNodeServer, function(){
+    	// 	this.topiChat.emit(eventName, msg, clientIdSender);
+        // }.bind(this));
+        */
+
+        // let socketSender = this.clientIdToSocket[clientIdSender];
 		// socketSender.broadcast.emit(eventName, tcPackage); // to everyone except socket owner
 		// this.io.emit('tc:chat-message', msg); // to everyone
 		// socket.broadcast.emit('tc:chat-message', msg); // to everyone except socket owner

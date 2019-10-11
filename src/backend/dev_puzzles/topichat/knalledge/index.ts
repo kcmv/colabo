@@ -1,6 +1,6 @@
 var MODULE_NAME = "KnAllEdge";
 
-import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topichat/b-core';
+import {TopiChatRegisteringPlugin, TopiChatPlugin, TopiChatPackage} from '@colabo-topichat/i-core';
 
 /**
  * This is the main class, the entry point to TopiChat-KnAllEdge plugin. To use it, you just need to import `@colabo-topichat/b-knalledge`:
@@ -26,7 +26,7 @@ export class TopiChatKnAllEdge{
      * @param {String}	roomName The name of the room
      * @param {Integer}	port number that TopiChatKnAllEdge will listen on
      */
-    constructor(protected topiChat:TopiChat, protected options?:any) {
+    constructor(protected topiChat:TopiChatRegisteringPlugin, protected options?:any) {
         options = options || {};
         this.topiChat = topiChat;
         this.options = options;

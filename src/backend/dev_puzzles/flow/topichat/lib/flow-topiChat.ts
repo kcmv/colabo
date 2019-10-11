@@ -1,6 +1,6 @@
 const MODULE_NAME:string = "@colabo-flow/b-topichat";
 
-import {TopiChat, TopiChatPlugin, TopiChatPackage} from '@colabo-topichat/b-core';
+import {TopiChatRegisteringPlugin, TopiChatPlugin, TopiChatPackage} from '@colabo-topichat/i-core';
 
 import {GetPuzzle} from '@colabo-utils/i-config';
 
@@ -53,7 +53,7 @@ export class ColaboFlowTopiChat{
     protected cfService;
     protected connResult:any;
 
-    constructor(protected topiChat:TopiChat, protected options?:any) {
+    constructor(protected topiChat:TopiChatRegisteringPlugin, protected options?:any) {
         options = options || {};
         this.topiChat = topiChat;
         this.options = options;
