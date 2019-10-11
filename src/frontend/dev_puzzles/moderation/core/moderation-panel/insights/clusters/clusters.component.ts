@@ -11,6 +11,8 @@ declare let d3: any;
 const Radius: number = 500; //TODO: make screen-dependent
 */
 
+const SDGS_JSON_FILE = "/assets/comm_files/sdg.json";
+
 @Component({
   selector: "clusters",
   templateUrl: "./clusters.component.html",
@@ -18,6 +20,7 @@ const Radius: number = 500; //TODO: make screen-dependent
 })
 export class ClustersComponent implements OnInit {
   // protected canvas: any;
+  
 
   public get clusters(): any[] {
     // console.log("this.sdgs_json", this.sdgs_json);
@@ -34,8 +37,8 @@ export class ClustersComponent implements OnInit {
   }
   protected sdgs_json: any = [];
   /*
+  // "/assets/comm_files/sdg.json"
   [
-    // "/assets/comm_files/sdg.json"
     {
       cluster_num: 1,
       members: [
@@ -152,7 +155,7 @@ export class ClustersComponent implements OnInit {
   }
 
   public getJSON(): Observable<any> {
-    return this.http.get("/assets/comm_files/sdg.json");
+    return this.http.get(SDGS_JSON_FILE);
   }
 
   // get userById(id:string)
