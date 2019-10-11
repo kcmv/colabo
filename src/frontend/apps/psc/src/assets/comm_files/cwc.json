@@ -1,0 +1,42 @@
+[
+  {
+    "cluster_num": 1,
+    "members": [
+      {
+        "user": "5bebb889104bee65c14402e6",
+        "item": "bla novi POKUSAJ",
+        "itemId": "5d9fb0b6461ad464e1cd8ef5"
+      },
+      {
+        "user": "5d90b1936791705010db6b57",
+        "item": "my dreams",
+        "itemId": "5d9fc5f5461ad464e1cd8ef8"
+      },
+      {
+        "user": "5d90b1936791705010db6b57",
+        "item": "are untouchable",
+        "itemId": "5d9fc5f9461ad464e1cd8ef9"
+      }
+    ]
+  },
+  {
+    "cluster_num": 2,
+    "members": [
+      {
+        "user": "5d90b1936791705010db6b57",
+        "item": "green and blue colors are the only ones",
+        "itemId": "5d9fc606461ad464e1cd8efa"
+      },
+      {
+        "user": "5bebb889104bee65c14402e6",
+        "item": "JOS JEDAN",
+        "itemId": "5d9fb0be461ad464e1cd8ef6"
+      },
+      {
+        "user": "5bebb889104bee65c14402e6",
+        "item": "IDEMOOOO",
+        "itemId": "5d9fb0c0461ad464e1cd8ef7"
+      }
+    ]
+  }
+]

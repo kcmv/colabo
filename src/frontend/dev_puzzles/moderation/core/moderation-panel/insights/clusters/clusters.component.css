@@ -31,6 +31,12 @@
   color: green;
 }
 
+.cwc {
+  background-color: lightyellow;
+  color: darkred;
+  padding: 3px;
+}
+
 /* D3 solution:
 circle {
   fill: rgb(31, 119, 180);

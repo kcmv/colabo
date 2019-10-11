@@ -53,12 +53,11 @@
             <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
           </mat-panel-description>
         </mat-expansion-panel-header>
-        User clusters based on SDGs selection ....
-        <mat-slide-toggle [(ngModel)]="extendedDisplay">{{
-          extendedDisplay ? "extended display" : " compact display"
+        <mat-slide-toggle [(ngModel)]="extendedDisplaySdg">{{
+          extendedDisplaySdg ? "extended display" : " compact display"
         }}</mat-slide-toggle>
         <div id="sdg-clusters">
-          <div *ngFor="let cluster of clusters" class="cluster">
+          <div *ngFor="let cluster of sdgClusters" class="cluster">
             <div class="cluster-header">
               Cluster No {{ cluster.cluster_num }} with
               {{ cluster.members.length }} members
@@ -66,7 +65,7 @@
             <div *ngFor="let user of cluster.members" class="user">
               <span class="username">{{ usersById[user.user]?.name }}</span>
               &nbsp;(<span class="email">{{ userNick(user.user) }}</span
-              >)<span *ngIf="extendedDisplay"
+              >)<span *ngIf="extendedDisplaySdg"
                 >&nbsp;with SDGs {{ user.idea.join(", ") }}</span
               >
             </div>
@@ -74,7 +73,7 @@
         </div>
       </mat-expansion-panel>
 
-      <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel [expanded]="true">
         <!-- <mat-expansion-panel (opened)="panelOpenState = true"
           (closed)="panelOpenState = false"> -->
         <mat-expansion-panel-header>
@@ -85,7 +84,24 @@
             <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
           </mat-panel-description>
         </mat-expansion-panel-header>
-        CWC-based clusters ....
+        <mat-slide-toggle [(ngModel)]="extendedDisplayCwc">{{
+          extendedDisplayCwc ? "extended display" : " compact display"
+        }}</mat-slide-toggle>
+        <div id="sdg-clusters">
+          <div *ngFor="let cluster of cwcClusters" class="cluster">
+            <div class="cluster-header">
+              Cluster No {{ cluster.cluster_num }} with
+              {{ cluster.members.length }} members
+            </div>
+            <div *ngFor="let user of cluster.members" class="user">
+              <span class="username">{{ usersById[user.user]?.name }}</span>
+              &nbsp;(<span class="email">{{ userNick(user.user) }}</span
+              >)<span *ngIf="extendedDisplayCwc"
+                >&nbsp;with CWC <span class="cwc">{{ user.item }}</span></span
+              >
+            </div>
+          </div>
+        </div>
       </mat-expansion-panel>
     </ng-template>
   </div>

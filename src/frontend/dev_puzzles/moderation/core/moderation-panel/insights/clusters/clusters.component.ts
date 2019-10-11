@@ -12,6 +12,7 @@ const Radius: number = 500; //TODO: make screen-dependent
 */
 
 const SDGS_JSON_FILE = "/assets/comm_files/sdg.json";
+const CWCS_JSON_FILE = "/assets/comm_files/cwc.json";
 
 @Component({
   selector: "clusters",
@@ -20,11 +21,15 @@ const SDGS_JSON_FILE = "/assets/comm_files/sdg.json";
 })
 export class ClustersComponent implements OnInit {
   // protected canvas: any;
-  
 
-  public get clusters(): any[] {
+  public get sdgClusters(): any[] {
     // console.log("this.sdgs_json", this.sdgs_json);
     return this.sdgs_json;
+  }
+
+  public get cwcClusters(): any[] {
+    // console.log("this.cwcs_json", this.cwcs_json);
+    return this.cwcs_json;
   }
 
   public userNick(userId: string): string {
@@ -126,8 +131,10 @@ export class ClustersComponent implements OnInit {
     }
   ];
   */
+  protected cwcs_json: any = [];
 
-  protected extendedDisplay: boolean = false;
+  protected extendedDisplayCwc: boolean = false;
+  protected extendedDisplaySdg: boolean = false;
   protected users: KNode[];
   protected usersById: any = {};
 
@@ -139,9 +146,13 @@ export class ClustersComponent implements OnInit {
     private sDGsService: SDGsService,
     private http: HttpClient
   ) {
-    this.getJSON().subscribe((data: string) => {
-      console.log(data);
+    this.http.get(SDGS_JSON_FILE).subscribe((data: string) => {
+      // console.log(data);
       this.sdgs_json = data; //JSON.parse(data);
+    });
+    this.http.get(CWCS_JSON_FILE).subscribe((data: string) => {
+      // console.log(data);
+      this.cwcs_json = data; //JSON.parse(data);
     });
   }
 
@@ -152,10 +163,6 @@ export class ClustersComponent implements OnInit {
     */
 
     this.getRegisteredUsers();
-  }
-
-  public getJSON(): Observable<any> {
-    return this.http.get(SDGS_JSON_FILE);
   }
 
   // get userById(id:string)
