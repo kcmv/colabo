@@ -106,14 +106,15 @@ export class TopiChatClientsOrchestrationService{
     this.topiChatCoreService.registerPlugin(topichatPluginOptions);
 
     // send system init message
-    let whoAmI: KNode = this.rimaAAAService.getUser();
+    let whoAmI:KNode = this.rimaAAAService.getUser();
+    let whoAmIName:string = whoAmI ? whoAmI.name : "anonymous";
     var initPayload: TopiChatClientsOrchestrationSystemPayload = {
       from: {
-        name: whoAmI.name, // whoAmI.dataContent.firstName
+        name: whoAmIName, // whoAmI.dataContent.firstName
         iAmId: this.rimaAAAService.getUserId()
       },
       content: {
-        text: whoAmI.name + '(' + this.rimaAAAService.getUserId() + ') connected!'
+        text: whoAmIName + '(' + this.rimaAAAService.getUserId() + ') connected!'
       }
     };
 
