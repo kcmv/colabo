@@ -71,7 +71,8 @@ export class MapCreateForm implements OnInit {
       isPublic: [false],
       // 'countryControl': [this.countries[1].id],
       mapTemplate: [this.mapTemplates[0].id],
-      desc: [this.mapTemplates[0].desc]
+      desc: [this.mapTemplates[0].desc],
+      id: ['']
       //   "password":["", [Validators.required, Validators.minLength(3)]]
     });
 
@@ -181,6 +182,7 @@ export class MapCreateForm implements OnInit {
       console.log(this.form);
       this.submitted = true;
       let map: KMap = new KMap();
+      if(this.form.value.name !== ''){map._id = this.form.value.name;}
       map.name = this.form.value.name;
       map.isPublic = this.form.value.isPublic;
       map.iAmId = this.rimaAAAService.getUserId();
