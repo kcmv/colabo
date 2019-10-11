@@ -78,7 +78,8 @@ if (!globalSet.hasOwnProperty("puzzles")) {
       saveTalkToMap: true,
       emitMessages: true,
       emitMessagesToSender: true,
-      mapId: "5be3fddce1b7970d8c6df406",
+      mapId: "5d791568da853c1e2a3eab5a", //UoD @ InSEA
+      //mapId: "5be3fddce1b7970d8c6df406",
       iAmId: "1b96619b86f3cc8057216a05",
       nodeId: ""
     },
@@ -107,7 +108,8 @@ if (!globalSet.hasOwnProperty("puzzles")) {
     "@colabo-flow/b-topichat": {
       saveFlowInteractionToMap: true,
       mockupQueueAccess: false,
-      mapId: "5be3fddce1b7970d8c6df406"
+      mapId: "5d791568da853c1e2a3eab5a" //UoD @ InSEA
+      //mapId: "5be3fddce1b7970d8c6df406",
     },
     "@colabo-media/b-upload": {
       tmpUpload: "/tmp/uploads",
