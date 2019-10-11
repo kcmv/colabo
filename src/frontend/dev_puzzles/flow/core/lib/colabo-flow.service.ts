@@ -168,7 +168,7 @@ export class ColaboFlowService {
   }
 
   protected keepMyState() {
-    console.log("[keepMyState]", this.myColaboFlowState.whereIam);
+    // console.log("[keepMyState]", this.myColaboFlowState.whereIam);
     if (this.myCfStateNode != null && this.myCfStateNode != undefined) {
       //&& this.myCfStateNode.state === VO.STATE_SYNCED){
       this.saveMyColaboFlowState();
@@ -182,6 +182,7 @@ export class ColaboFlowService {
    * can be reset to new position 'whereIam'
    */
   public startKeepingMyState(whereIam: string = "UNKNOWN"): void {
+    console.log("[startKeepingMyState] whereIam", whereIam);
     this.myColaboFlowState.whereIam = whereIam;
     if (this.keepMyStateInterval) {
       clearInterval(this.keepMyStateInterval);
@@ -190,7 +191,7 @@ export class ColaboFlowService {
   }
 
   myCfStateSaved(node: KNode) {
-    console.log("myCfStateSaved");
+    // console.log("myCfStateSaved");
     this.myCfStateNode = node;
   }
 
