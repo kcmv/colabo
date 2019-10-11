@@ -1,0 +1,92 @@
+<div fxLayout="column" fxFlexFill style="height: 100%;">
+  <!-- toolbar -->
+  <div fxFlex="64px" style="overflow-y: hidden;">
+    <mat-toolbar
+      class="toolbar flexible mat-theme-indigo"
+      color="primary"
+      style="width: 100%;"
+    >
+      <a href="/" title="Home">
+        <img
+          alt="Home"
+          src="/assets/images/colabo-logo-url-square.jpg"
+          height="55px"
+          style="margin-right: 7px; opacity: 0.9; border-radius: 7px;"
+        />
+      </a>
+
+      <!-- <button mat-tooltip="My Profile" tooltip-position="below" aria-label="My Profile" routerLink="/rima-login" style="margin-right: 5px;"> -->
+      <!-- <span><a href="/rima-login"><img class='user-avatar' src = '{{userAvatar() | async}}'/></a></span> {{userName()}} -->
+      <!-- </button> -->
+      <!-- <colabo-flow></colabo-flow> -->
+      <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
+      <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
+    </mat-toolbar>
+  </div>
+
+  <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll;">
+    <div *ngIf="!isLoggedIn; else loggedIn" style="margin: 15px;">
+      <p>
+        To access this page you need:
+      </p>
+      <a routerLink="/rima-login">
+        <button mat-raised-button color="primary">Login</button>
+      </a>
+
+      <p>
+        or
+      </p>
+      <a routerLink="/rima-register">
+        <button mat-raised-button color="primary">Register</button>
+      </a>
+    </div>
+    <ng-template #loggedIn>
+      <h3>Clusters</h3>
+      <mat-expansion-panel [expanded]="true">
+        <!-- <mat-expansion-panel (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"> -->
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3>SDG-selection-based clusters</h3>
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        User clusters based on SDGs selection ....
+        <mat-slide-toggle [(ngModel)]="extendedDisplay">{{
+          extendedDisplay ? "extended display" : " compact display"
+        }}</mat-slide-toggle>
+        <div id="sdg-clusters">
+          <div *ngFor="let cluster of clusters" class="cluster">
+            <div class="cluster-header">
+              Cluster No {{ cluster.cluster_num }} with
+              {{ cluster.members.length }} members
+            </div>
+            <div *ngFor="let user of cluster.members" class="user">
+              <span class="username">{{ usersById[user.user]?.name }}</span>
+              &nbsp;(<span class="email">{{ userNick(user.user) }}</span
+              >)<span *ngIf="extendedDisplay"
+                >&nbsp;with SDGs {{ user.idea.join(", ") }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="false">
+        <!-- <mat-expansion-panel (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"> -->
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3>CWC-based clusters</h3>
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        CWC-based clusters ....
+      </mat-expansion-panel>
+    </ng-template>
+  </div>
+</div>

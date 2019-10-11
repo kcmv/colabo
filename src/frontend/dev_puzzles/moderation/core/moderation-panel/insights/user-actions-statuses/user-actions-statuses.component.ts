@@ -325,6 +325,61 @@ export class UserActionsStatusesComponent implements OnInit {
     this.setUpSourceData();
   }
 
+  clusterizeBySDGs(): void {
+    let userDataInTab: UserInsight[] = null;
+    let usrD: UserInsight;
+    userDataInTab = this.usersData.data;
+    
+
+    let sdgClusterizingInput:any[] = [];
+    // any = {
+    //   "user_items": []
+    // }
+    for (var u: number = 0; u < userDataInTab.length; u++) {
+      usrD = userDataInTab[u];
+        if (usrD.sdgs && usrD.sdgs.length > 0){
+          for (var s: number = 0; s < usrD.sdgs.length; s++) {
+            sdgClusterizingInput.push({
+              userId: usrD.id,
+              itemId: usrD.sdgs[s], //TODO: change to mongoID
+              item: usrD.sdgs[s]
+              // itemHId: i + 1 //TODO: should be here, but @Lazar wanted it at `item`
+            });
+          }
+        }
+    }
+    console.log("sdgClusterizingInput",sdgClusterizingInput);
+    console.log("sdgClusterizingInput @ JSON",JSON.stringify(sdgClusterizingInput, null, 4));
+  }
+
+  clusterizeByCWCs(): void {
+    let userDataInTab: UserInsight[] = null;
+    let usrD: UserInsight;
+    userDataInTab = this.usersData.data;
+    
+
+    let cwcClusterizingInput:any[] = [];
+    // any = {
+    //   "user_items": []
+    // }
+    for (var u: number = 0; u < userDataInTab.length; u++) {
+      usrD = userDataInTab[u];
+        if (usrD.cwcs && usrD.cwcs.length > 0){
+          for (var s: number = 0; s < usrD.cwcs.length; s++) {
+            cwcClusterizingInput.push({
+              userId: usrD.id,
+              itemId: usrD.cwcs[s]._id, //TODO: change to mongoID
+              item: usrD.cwcs[s].name
+              // itemHId: i + 1 //TODO: should be here, but @Lazar wanted it at `item`
+            });
+          }
+        }
+    }
+    console.log("cwcClusterizingInput",cwcClusterizingInput);
+    console.log("cwcClusterizingInput @ JSON",JSON.stringify(cwcClusterizingInput, null, 4));
+  }
+
+
   getSDGSelections(): void {
     this.insightsService
       .getSDGSelections(false)

@@ -9,6 +9,7 @@
           placeholder="Map Name"
           formControlName="name"
           value=""
+          required
         />
         <mat-error class="error-message"
           >must be 2 characters at least</mat-error
@@ -55,6 +56,24 @@
           formControlName="desc"
           value="{{ getDesc() }}"
         />
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          type="text"
+          placeholder="Map ID"
+          formControlName="id"
+          value=""
+        />
+        <!-- <mat-error class="error-message"
+          >must be 2 characters at least</mat-error
+        > -->
+        <mat-hint
+          >Leave empty if you want mapId to be automatically generated</mat-hint
+        >
       </mat-form-field>
     </p>
 

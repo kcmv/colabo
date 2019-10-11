@@ -118,7 +118,8 @@ export class RimaAAAService extends CFService{
     }else if('dataContent' in user && 'avatar' in user.dataContent){
       avatar = user.dataContent.avatar;
     }else{
-      avatar = 'https://fv.colabo.space/assets/images/avatars/user.avatar-' + user._id + '.jpg';
+      // avatar = 'https://fv.colabo.space/assets/images/avatars/user.avatar-' + user._id + '.jpg';
+      avatar = '/assets/images/avatars/user.avatar-' + user._id + '.jpg';
       if(!('dataContent' in user)){
         user['dataContent'] = {};
       }

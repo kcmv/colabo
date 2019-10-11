@@ -45,10 +45,12 @@
                     <colabo-flow-m></colabo-flow-m>
                 </div>
                 <app-insights></app-insights>
+                
                 <similarity></similarity>
 
                 <topiChat-system-form></topiChat-system-form>
                 <colaboFlow-topiChat-form></colaboFlow-topiChat-form>
+                <button (click)='generateTestFiles()' mat-raised-button color="primary">Generate Test files</button>
             </div>
             <ng-template #noModerator>
                 You have to be a moderator to access this page

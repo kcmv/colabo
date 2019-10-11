@@ -7,6 +7,10 @@ table {
   display: inline-flex;
 }
 
+.btn-margin {
+  margin: 3px;
+}
+
 /* 
 this doesn't work. It has to be in `src/frontend/apps/psc/src/styles.css`. 
 https://stackoverflow.com/questions/48578559/how-to-modify-angular-material2-mat-checkbox-left-icon-size-and-color
