@@ -123,11 +123,11 @@ export class UserActionsStatusesComponent implements OnInit, OnDestroy {
     private bottomSheet: MatBottomSheet,
     private snackBar: MatSnackBar // , // private bottomSheet: MatBottomSheet
   ) {
-    console.log("[UserActionsStatusesComponent::constructor]");
+    // console.log("[UserActionsStatusesComponent::constructor]");
   }
 
   ngOnInit() {
-    console.log("[UserActionsStatusesComponent::ngOnInit]");
+    // console.log("[UserActionsStatusesComponent::ngOnInit]");
     this.getRegisteredUsers();
 
     if (this.usersData !== null) {
@@ -137,7 +137,7 @@ export class UserActionsStatusesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log("[UserActionsStatusesComponent::ngOnDestroy]");
+    // console.log("[UserActionsStatusesComponent::ngOnDestroy]");
     clearInterval(this.autoRefreshUsersInterval);
     //TODO: cancel all onoging HttpRequests
   }
