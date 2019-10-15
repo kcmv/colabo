@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { MatTableDataSource, MatSort } from "@angular/material";
 import { DataSource } from "@angular/cdk/table";
 import { KnalledgeNodeService } from "@colabo-knalledge/f-store_core/knalledge-node.service";
@@ -78,7 +78,7 @@ export class UserInsight {
   templateUrl: "./user-actions-statuses.component.html",
   styleUrls: ["./user-actions-statuses.component.css"]
 })
-export class UserActionsStatusesComponent implements OnInit {
+export class UserActionsStatusesComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
   loadingRegisteredUsers: boolean;
@@ -122,15 +122,24 @@ export class UserActionsStatusesComponent implements OnInit {
     private insightsService: InsightsService,
     private bottomSheet: MatBottomSheet,
     private snackBar: MatSnackBar // , // private bottomSheet: MatBottomSheet
-  ) {}
+  ) {
+    console.log("[UserActionsStatusesComponent::constructor]");
+  }
 
   ngOnInit() {
+    console.log("[UserActionsStatusesComponent::ngOnInit]");
     this.getRegisteredUsers();
 
     if (this.usersData !== null) {
       this.setUpSourceData();
     }
     //this.getCWCs();
+  }
+
+  ngOnDestroy() {
+    console.log("[UserActionsStatusesComponent::ngOnDestroy]");
+    clearInterval(this.autoRefreshUsersInterval);
+    //TODO: cancel all onoging HttpRequests
   }
 
   protected getRegisteredUsers(forceRefresh: boolean = false): void {
@@ -165,6 +174,7 @@ export class UserActionsStatusesComponent implements OnInit {
         if (this.autoRefreshTimeLeft > 0) {
           this.autoRefreshTimeLeft -= 1;
         } else {
+          console.log("invokeAutorefreshing");
           this.getRegisteredUsers(true);
           clearInterval(this.autoRefreshUsersInterval);
         }
