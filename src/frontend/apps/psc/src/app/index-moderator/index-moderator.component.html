@@ -1,85 +1,128 @@
 <div fxLayout="column" fxFlexFill style="height: 100%;">
+  <!-- toolbar -->
+  <div fxFlex="64px" style="overflow-y: hidden;">
+    <mat-toolbar
+      class="toolbar flexible mat-theme-indigo"
+      color="primary"
+      style="width: 100%;"
+    >
+      <a routerLink="/" title="Home" class="pointer">
+        <img
+          alt="Home"
+          src="/assets/images/colabo-logo-url-square.jpg"
+          height="55px"
+          style="margin-right: 7px; opacity: 0.9; border-radius: 7px;"
+        />
+      </a>
 
-    <!-- toolbar -->
-    <div fxFlex="64px" style="overflow-y: hidden;">
-        <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
-            <a href="/" title="Home">
-                <img alt="Home" src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
-            </a>
-
-            <!-- <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
+      <!-- <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
                     <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
                 </button>  -->
-                {{appTitle}}
-            <!-- <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
+      {{ appTitle }}
+      <!-- <img src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
             <button mat-mini-fab mat-tooltip="Home" tooltip-position="below" class="mat-mini mat-primary" aria-label="Home" routerLink="/" style="margin-right: 5px;">
                 <mat-icon [ngClass]="{warning: false}" title="Home">home</mat-icon>
             </button> ReMakingTesla @ Everyday Heroes 2018 -->
-        </mat-toolbar>
-    </div>
+    </mat-toolbar>
+  </div>
 
-    <div fxFlex style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px">
-        <!--TODO: to make localized (in Serbian) form field names and info -->
-        <div *ngIf="isLoggedIn; else loggedOut">
-            <div *ngIf="isModerator; else noModerator">
-                
-                    Hi, <b>{{loggedUser.dataContent.firstName}}</b>.
-                    
-                    <div class="pointer"><a routerLink="/rima-login">
-                        <img class='user-avatar' src = '{{userAvatar() | async}}'/>
-                    </a></div> 
-                    You can:
-                
-                <p>
-                    <a routerLink="/moderation-panel">
-                        <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Moderation Panel</button>
-                    </a>
-                </p>
-                <p>
-                    <a routerLink="/map-new">
-                        <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">New Map</button>
-                    </a>
-                </p>
-                <p>
-                    <a routerLink="/map">
-                        <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Map</button>
-                    </a>
-                </p>
-                <!-- <p>
+  <div
+    fxFlex
+    style="/*background-color: yellow;*/ overflow-y:scroll; margin: 15px"
+  >
+    <!--TODO: to make localized (in Serbian) form field names and info -->
+    <div *ngIf="isLoggedIn; else loggedOut">
+      <div *ngIf="isModerator; else noModerator">
+        Hi, <b>{{ loggedUser.dataContent.firstName }}</b
+        >.
+
+        <div class="pointer">
+          <a routerLink="/rima-login">
+            <img class="user-avatar" src="{{ userAvatar() | async }}" />
+          </a>
+        </div>
+        You can:
+
+        <p>
+          <a routerLink="/moderation-panel">
+            <button
+              mat-raised-button
+              color="primary"
+              style="width: 75%; max-width: 500px;"
+            >
+              Moderation Panel
+            </button>
+          </a>
+        </p>
+        <p>
+          <a routerLink="/map-new">
+            <button
+              mat-raised-button
+              color="primary"
+              style="width: 75%; max-width: 500px;"
+            >
+              New Map
+            </button>
+          </a>
+        </p>
+        <p>
+          <a routerLink="/map">
+            <button
+              mat-raised-button
+              color="primary"
+              style="width: 75%; max-width: 500px;"
+            >
+              Map
+            </button>
+          </a>
+        </p>
+        <!-- <p>
                     <a routerLink="/insights">
                         <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Insights</button>
                     </a>
                 </p> -->
-                <p>
-                    <a routerLink="/cwc">
-                        <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;">Coaching</button>
-                    </a>
-                </p>
-                <p>
-                    <button mat-raised-button color="primary" style="width: 75%; max-width: 500px;" (click)="snack()">Snack</button>
-                </p>
-            </div>
-            <ng-template #noModerator>
-                You have to be a moderator to access this page
-            </ng-template>
-        </div>
-        <ng-template #loggedOut>
-            <div style="margin: 15px;">
-                <p>
-                    To access this page you need:
-                </p>
-                <a routerLink="/rima-login">
-                    <button mat-raised-button color="primary">Login</button>
-                </a>
-    
-                <p>
-                    or
-                </p>
-                <a routerLink="/rima-register">
-                    <button mat-raised-button color="primary">Register</button>
-                </a>
-    
-            </div>
-        </ng-template>
+        <p>
+          <a routerLink="/cwc">
+            <button
+              mat-raised-button
+              color="primary"
+              style="width: 75%; max-width: 500px;"
+            >
+              Coaching
+            </button>
+          </a>
+        </p>
+        <p>
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 75%; max-width: 500px;"
+            (click)="snack()"
+          >
+            Snack
+          </button>
+        </p>
+      </div>
+      <ng-template #noModerator>
+        You have to be a moderator to access this page
+      </ng-template>
     </div>
+    <ng-template #loggedOut>
+      <div style="margin: 15px;">
+        <p>
+          To access this page you need:
+        </p>
+        <a routerLink="/rima-login">
+          <button mat-raised-button color="primary">Login</button>
+        </a>
+
+        <p>
+          or
+        </p>
+        <a routerLink="/rima-register">
+          <button mat-raised-button color="primary">Register</button>
+        </a>
+      </div>
+    </ng-template>
+  </div>
 </div>

@@ -3,12 +3,12 @@
   <!-- toolbar -->
   <div fxFlex="64px" style="overflow-y: hidden;">
       <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
-        <a href="/" title="Home" >
+        <a routerLink="/" title="Home" class="pointer">
             <img alt="Home" src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
         </a>  
           
           <!-- <button mat-tooltip="My Profile" tooltip-position="below" aria-label="My Profile" routerLink="/rima-login" style="margin-right: 5px;"> -->
-            <!-- <span><a href="/rima-login"><img class='user-avatar' src = '{{userAvatar() | async}}'/></a></span> {{userName()}} -->
+            <!-- <span><a routerLink="/rima-login"><img class='user-avatar' src = '{{userAvatar() | async}}'/></a></span> {{userName()}} -->
           <!-- </button> -->
           <!-- <colabo-flow></colabo-flow> -->
           <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
