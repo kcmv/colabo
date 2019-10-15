@@ -28,7 +28,7 @@ export class SelectSdgsComponent implements OnInit {
   saved: boolean = false;
   dialogRef: any; //TODO: type: MatDialogRef;
   loadingSDGs: boolean = true;
-  public static CF_WHERE: string = "SELECT-SDGS";
+  // public static CF_WHERE: string = "SELECT-SDGS";
 
   constructor(
     private rimaAAAService: RimaAAAService,
@@ -63,8 +63,8 @@ export class SelectSdgsComponent implements OnInit {
     // }
 
     // ngAfterViewChecked() {
-    console.log("[ngAfterViewChecked]", SelectSdgsComponent.CF_WHERE);
-    this.colaboFlowService.startKeepingMyState(SelectSdgsComponent.CF_WHERE);
+    // console.log("[ngAfterViewChecked]", SelectSdgsComponent.CF_WHERE);
+    // this.colaboFlowService.startKeepingMyState(SelectSdgsComponent.CF_WHERE);
   }
 
   private mySDGsSelectionsReceived(selections: KEdge[]): void {

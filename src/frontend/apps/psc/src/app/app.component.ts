@@ -1,3 +1,7 @@
+import { ColaboFlowService } from "@colabo-flow/f-core";
+import { Observable } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
+import { map } from "rxjs/operators";
 import { Component } from "@angular/core";
 import {
   UtilsNotificationService,
@@ -17,8 +21,12 @@ export class AppComponent {
   // testing namespacing access,
   // as it will be in code written in JS
 
-  constructor(protected utilsNotificationService: UtilsNotificationService) {
-    console.log("AppComponent:constructor");
+  constructor(
+    protected utilsNotificationService: UtilsNotificationService,
+    private colaboFlowService: ColaboFlowService,
+    route: ActivatedRoute
+  ) {
+    console.log("[AppComponent:constructor]");
 
     this.generalConfigBranding = GetGeneral("branding");
 
@@ -27,6 +35,19 @@ export class AppComponent {
       title: this.generalConfigBranding.title,
       msg: "starting ..."
     });
+
+    // const url: Observable<string> = route.url.pipe(
+    //   map(segments => segments.join(""))
+    // );
+    // url.subscribe((url: string) => {
+    //   console.log("[AppComponent::constructor] url:", url);
+    //   this.colaboFlowService.startKeepingMyState(url);
+    // });
+    // console.log(
+    //   "[AppComponent::constructor] route",
+
+    //   route
+    // );
   }
 
   ngOnInit() {}

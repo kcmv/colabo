@@ -38,6 +38,10 @@ const routes: Routes = [
     component: IndexComponent
   },
   {
+    path: "home",
+    component: IndexComponent
+  },
+  {
     path: "moderator",
     pathMatch: "full",
     component: IndexModeratorComponent

@@ -1,4 +1,7 @@
-import { catchError, map, tap } from "rxjs/operators";
+import { Router, NavigationStart } from "@angular/router";
+import { filter } from "rxjs/operators";
+// catchError, map,
+import { startWith, map, tap } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { ColaboFlowState, ColaboFlowStates } from "./colaboFlowState";
 import { MyColaboFlowState, MyColaboFlowStates } from "./myColaboFlowState";
@@ -7,6 +10,7 @@ import { KnalledgeNodeService } from "@colabo-knalledge/f-store_core/knalledge-n
 import { KNode } from "@colabo-knalledge/f-core/code/knalledge/kNode";
 import { VO } from "@colabo-knalledge/f-core/code/knalledge/VO";
 import { RimaAAAService } from "@colabo-rima/f-aaa";
+import { ActivatedRoute } from "@angular/router";
 
 import * as config from "@colabo-utils/i-config";
 
@@ -59,14 +63,50 @@ export class ColaboFlowService {
   colaboFlowInitiatedObserver: any = {}; //Observer
   private initiated: boolean = false;
 
+  navStart: Observable<NavigationStart>;
+
   constructor(
     private knalledgeNodeService: KnalledgeNodeService,
     protected rimaAAAService: RimaAAAService,
-    private topiChatCOrchestrationService: TopiChatClientsOrchestrationService
+    private topiChatCOrchestrationService: TopiChatClientsOrchestrationService,
+    private router: Router,
+    route: ActivatedRoute
   ) {
     this.colaboFlowState = new ColaboFlowState();
     this.myColaboFlowState = new MyColaboFlowState();
+    console.log("[ColaboFlowService::constructor]");
 
+    const url: Observable<string> = route.url.pipe(
+      map(segments => segments.join(""))
+    );
+    url.subscribe((url: string) => {
+      console.log("[ColaboFlowService::constructor] url:", url);
+      let navInit: NavigationStart = new NavigationStart(
+        1,
+        "/INIT",
+        "imperative"
+      );
+      this.navStart = router.events.pipe(
+        filter(evt => evt instanceof NavigationStart),
+        startWith(navInit) //starting with home page, to start KeepingMyState before the first navigation happens
+      ) as Observable<NavigationStart>;
+    });
+    console.log("[ColaboFlowService::constructor] route", route);
+    // router.events.subscribe(evt => {
+    //   console.log("navigation event", evt);
+    //   if (evt instanceof NavigationStart) {
+    //     console.log("Navigation Started:", evt);
+    //     this.startKeepingMyState(
+    //       evt.url.indexOf("/") === 0 ? evt.url.substring(1) : evt.url
+    //     );
+    //   }
+    // });
+
+    if (!this.rimaAAAService.getUserId()) {
+      console.error(
+        "[ColaboFlowService::constructor] rimaAAAService.getUserId() NOT DEFINED"
+      );
+    }
     //load myColaboFlowState:
     this.knalledgeNodeService
       .queryInMapofTypeForUser(
@@ -128,21 +168,34 @@ export class ColaboFlowService {
     this.saveMyColaboFlowState();
   }
   myCfStateLoaded(myCfStateNodes: KNode[]): void {
-    console.log("myCfStateLoaded");
-    if (myCfStateNodes !== null && myCfStateNodes.length > 0) {
-      this.myCfStateNode = myCfStateNodes[0];
-      this.node2MyCfState(this.myCfStateNode);
+    console.log("myCfStateLoaded", myCfStateNodes);
+    let iAmId: string = this.rimaAAAService.getUserId();
+    if (!iAmId) {
+      console.error(
+        "[ColaboFlowService::myCfStateLoaded] this.rimaAAAService.getUserId() NOT DEFINED cannot continue."
+      );
+      // this.snac
     } else {
-      this.myCfStateNode = new KNode();
-      this.myCfStateNode.type = ColaboFlowService.MY_COLABO_FLOW_STATE_TYPE;
-      this.myCfStateNode.iAmId = this.rimaAAAService.getUserId();
-      this.myCfStateNode.mapId = ColaboFlowService.mapId;
-      this.myCfState2Node(this.myCfStateNode);
-      this.knalledgeNodeService
-        .create(this.myCfStateNode)
-        .subscribe(this.myCfStateCreated.bind(this));
+      myCfStateNodes = myCfStateNodes.filter(
+        myCfStateNode => myCfStateNode.iAmId === iAmId
+      );
+      console.log("myCfStateLoaded [FILTERED for my iAmId]", myCfStateNodes);
+      if (myCfStateNodes !== null && myCfStateNodes.length > 0) {
+        this.myCfStateNode = myCfStateNodes[0];
+        this.node2MyCfState(this.myCfStateNode);
+      } else {
+        this.myCfStateNode = new KNode();
+        this.myCfStateNode.type = ColaboFlowService.MY_COLABO_FLOW_STATE_TYPE;
+        this.myCfStateNode.iAmId = iAmId;
+
+        this.myCfStateNode.mapId = ColaboFlowService.mapId;
+        this.myCfState2Node(this.myCfStateNode);
+        this.knalledgeNodeService
+          .create(this.myCfStateNode)
+          .subscribe(this.myCfStateCreated.bind(this));
+      }
+      this.colaboFlowIsInitiated();
     }
-    this.colaboFlowIsInitiated();
   }
 
   myCfStateCreated(node: KNode) {
@@ -156,12 +209,15 @@ export class ColaboFlowService {
       this.myCfStateNode != undefined &&
       this.myCfStateNode.state === VO.STATE_SYNCED
     ) {
+      let node2Save: KNode = this.myCfState2Node(this.myCfStateNode);
+      console.log(
+        "saveMyColaboFlowState",
+        node2Save.iAmId,
+        node2Save.dataContent.MyColaboFlowState.whereIam,
+        node2Save
+      );
       this.knalledgeNodeService
-        .update(
-          this.myCfState2Node(this.myCfStateNode),
-          KNode.UPDATE_TYPE_ALL,
-          null
-        )
+        .update(node2Save, KNode.UPDATE_TYPE_ALL, null)
         .subscribe(this.myCfStateSaved.bind(this));
       this.sendMyCFChangeByTChat();
     }
@@ -199,6 +255,10 @@ export class ColaboFlowService {
     //TODO:
   }
 
+  /**
+   * @description injects local variables `myColaboFlowState` and `colaboFlowState` into `myCfStateNode`
+   * @param myCfStateNode
+   */
   public myCfState2Node(myCfStateNode: KNode): KNode {
     myCfStateNode.dataContent[
       "MyColaboFlowState"
@@ -209,6 +269,10 @@ export class ColaboFlowService {
     return myCfStateNode;
   }
 
+  /**
+   * @description extracts `myCfStateNode` into local variables `myColaboFlowState` and `colaboFlowState`
+   * @param myCfStateNode
+   */
   public node2MyCfState(myCfStateNode: KNode): MyColaboFlowState {
     this.myColaboFlowState.deserialize(
       myCfStateNode.dataContent["MyColaboFlowState"]
