@@ -3,7 +3,14 @@
 /**
  * New map file
  */
-var Promise = require("bluebird");
+
+ enum KMapErrors{
+    TEMPLATE_LOADING = "TEMPLATE_LOADING",
+    MAP_SAVING = "MAP_SAVING",
+    MAP_CREATE = "MAP_CREATE"
+ }
+
+ var Promise = require("bluebird");
 var dbService = require('@colabo-knalledge/b-storage-mongo');
 var fs = require('fs');
 
@@ -133,24 +140,25 @@ export function create(req, res) {
             try{
                 function finished(error:any, rootNodeId:string):void {
                     console.log("[kMap] finished called");
-                    try{if(error){
-                        // console.error("ERROR in MapTemplateProcessor");
-                        throw error;
-                        // resSendJsonProtected(res, { data: null, accessId: accessId, message: 'saving error:' + JSON.stringify(error), success: false });
-                    }
-                    else{
-                        kmap.rootNodeId = rootNodeId;
-                    
-                        function finishedUpdate(result:any){
-                            resSendJsonProtected(res, { success: true, data: kmap, accessId: accessId });
+                    try{
+                        if(error){
+                            // console.error("ERROR in MapTemplateProcessor");
+                            throw error;
+                            // resSendJsonProtected(res, { data: null, accessId: accessId, message: 'saving error:' + JSON.stringify(error), success: false });
                         }
+                        else{
+                            kmap.rootNodeId = rootNodeId;
+                        
+                            function finishedUpdate(result:any){
+                                resSendJsonProtected(res, { success: true, data: kmap, accessId: accessId });
+                            }
 
-                        KMapModel.update({ _id: kmap._id }, kmap, function(error:any, raw:any) {
-                            if (error) {throw error;}
-                            console.log('The raw response from Mongo was ', raw,'\n kmap', kmap);
-                            finishedUpdate(raw);
-                        });
-                    }}
+                            KMapModel.update({ _id: kmap._id }, kmap, function(error:any, raw:any) {
+                                if (error) {throw error;}
+                                console.log('The raw response from Mongo was ', raw,'\n kmap', kmap);
+                                finishedUpdate(raw);
+                            });
+                        }}
                     catch(err){
                         let errMsg = 'creator KMapModel error';
                         console.error(errMsg,err);
@@ -161,7 +169,7 @@ export function create(req, res) {
                 kmap.save(function(err) {
                     if (err) {
                         console.error('saving error',err);
-                        resSendJsonProtected(res, { data: null, accessId: accessId, message: 'saving error:' + JSON.stringify(err), success: false });
+                        resSendJsonProtected(res, { data: null, accessId: accessId, message: 'saving error:' + JSON.stringify(err), success: false, errcode: KMapErrors.MAP_SAVING });
                     }else{
                         console.log("[modules/KMap.js:create] id:%s, kmap data: %s", kmap._id, JSON.stringify(kmap));
 
@@ -173,7 +181,7 @@ export function create(req, res) {
                                 if (err) {
                                     let errMsg = err;
                                     console.error(errMsg,err);
-                                    resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                                    resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false, errcode: KMapErrors.TEMPLATE_LOADING });
                                 }else{
                                     // console.log('template file', data.toString());
                                     let template = JSON.parse(data);
@@ -195,14 +203,14 @@ export function create(req, res) {
                         }catch(err){
                             let errMsg = 'template loading error';
                             console.error(errMsg,err);
-                            resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                            resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false, errcode: KMapErrors.MAP_CREATE });
                         }
                     }
                 });
             }catch(err){
                 let errMsg = 'creator KMapModel error';
                 console.error(errMsg,err);
-                resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false });
+                resSendJsonProtected(res, { data: null, accessId: accessId, message: errMsg + ':' + JSON.stringify(err), success: false, errcode: KMapErrors.MAP_CREATE  });
             }
         break;
         // default:

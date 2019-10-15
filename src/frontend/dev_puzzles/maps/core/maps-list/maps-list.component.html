@@ -3,10 +3,10 @@
   <!-- toolbar -->
   <div fxFlex="64px" style="overflow-y: hidden;">
       <mat-toolbar class="toolbar flexible mat-theme-indigo" color="primary" style="width: 100%;">
-          <a href="/" title="Home" >
+          <a routerLink="/moderator" title="Home" class="pointer">
               <img alt="Home" src="/assets/images/colabo-logo-url-square.jpg" height="55px" style="margin-right: 7px; opacity: 0.9; border-radius: 7px;" />
           </a>  
-          <span><a href="/rima-login"><img class='user-avatar' src = '{{userAvatar() | async}}'/></a></span> {{userName()}}
+          <span><a routerLink="/rima-login"><img class='user-avatar' src = '{{userAvatar() | async}}'/></a></span> {{userName()}}
           <!-- <div><button mat-raised-button (click)="submit()" [disabled]="!correctSelection()">Submit</button></div> -->
           <!-- <button color="primary" mat-raised-button (click)="openDialog()">Dialog</button> -->
 

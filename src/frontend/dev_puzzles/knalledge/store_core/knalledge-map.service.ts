@@ -11,6 +11,8 @@ import { RimaAAAService } from "@colabo-rima/f-aaa/rima-aaa.service";
 import { KMap } from "@colabo-knalledge/f-core/code/knalledge/kMap";
 import { ServerData } from "@colabo-knalledge/f-store_core/ServerData";
 import { CFService } from "./cf.service";
+import { ServerError } from "./server-errors";
+
 import {
   UtilsNotificationService,
   NotificationMsgType,
@@ -189,11 +191,12 @@ export class KnalledgeMapService extends CFService {
               if (mapS.success) {
                 return this.extractVO<KMap>(mapS, KMap);
               } else {
-                return null;
+                console.error("KnalledgeMapService::create", mapS);
+                throw new ServerError(mapS.errcode, mapS.message);
               }
             }
-          ),
-          catchError(this.handleError<KMap>("KnalledgeMapService::create"))
+          )
+          // , catchError(this.handleError<KMap>("KnalledgeMapService::create"))
         );
 
       /* TODO:NG2 : remain of the NG1 Promise code to be integrated:

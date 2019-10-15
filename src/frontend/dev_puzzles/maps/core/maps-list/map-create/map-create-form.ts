@@ -10,8 +10,9 @@ import { Observable } from "rxjs";
 import { map, filter, startWith } from "rxjs/operators";
 
 import { RimaAAAService } from "@colabo-rima/f-aaa/rima-aaa.service";
-import { KnalledgeMapService } from "@colabo-knalledge/f-store_core/knalledge-map.service";
+import { KnalledgeMapService } from "@colabo-knalledge/f-store_core";
 import { MatSnackBar } from "@angular/material";
+import { ServerError, KMapErrors } from "@colabo-knalledge/f-store_core";
 
 // import { KNode } from '@colabo-knalledge/f-core/code/knalledge/kNode';
 import { KMap } from "@colabo-knalledge/f-core/code/knalledge/kMap";
@@ -72,7 +73,7 @@ export class MapCreateForm implements OnInit {
       // 'countryControl': [this.countries[1].id],
       mapTemplate: [this.mapTemplates[0].id],
       desc: [this.mapTemplates[0].desc],
-      id: ['']
+      id: [""]
       //   "password":["", [Validators.required, Validators.minLength(3)]]
     });
 
@@ -182,7 +183,9 @@ export class MapCreateForm implements OnInit {
       console.log(this.form);
       this.submitted = true;
       let map: KMap = new KMap();
-      if(this.form.value.name !== ''){map._id = this.form.value.name;}
+      if (this.form.value.name !== "") {
+        map._id = this.form.value.name;
+      }
       map.name = this.form.value.name;
       map.isPublic = this.form.value.isPublic;
       map.iAmId = this.rimaAAAService.getUserId();
@@ -191,10 +194,35 @@ export class MapCreateForm implements OnInit {
 
       this.knalledgeMapService
         .create(map)
-        .subscribe(this.mapCreated.bind(this));
+        .subscribe(
+          this.mapCreated.bind(this),
+          this.mapCreationError.bind(this)
+        );
     } else {
-      console.log("cannot submit! The form is not valid");
+      this.snackBar.open("The form is not valid", "Check your inputs", {
+        duration: 2000
+      });
+      console.warn("cannot submit! The form is not valid");
     }
+  }
+  mapCreationError(error: ServerError): void {
+    console.error("[MapCreateForm::mapCreationError]", error.message);
+    let msg: string;
+    switch (error.code) {
+      case KMapErrors.TEMPLATE_LOADING:
+        msg = "The selected template could not be loaded";
+        break;
+        case KMapErrors.MAP_SAVING:
+            msg = "The map could not be saved";
+            break;
+      default:
+      case KMapErrors.MAP_CREATE:
+        msg = "The map could not be created";
+        break;
+    }
+    this.snackBar.open("Map Creation Failed", msg, {
+      duration: 4000
+    });
   }
 
   mapCreated(map: KMap): void {

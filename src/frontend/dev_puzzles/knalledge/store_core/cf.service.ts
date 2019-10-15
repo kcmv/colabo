@@ -1,35 +1,41 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { of } from "rxjs";
 
-import {ServerData} from '@colabo-knalledge/f-store_core/ServerData';
-import {VO} from '@colabo-knalledge/f-core/code/knalledge/VO';
-import { UtilsNotificationService, NotificationMsgType, NotificationMsg } from '@colabo-utils/f-notifications';
-
+import { ServerData } from "@colabo-knalledge/f-store_core/ServerData";
+import { VO } from "@colabo-knalledge/f-core/code/knalledge/VO";
+import {
+  UtilsNotificationService,
+  NotificationMsgType,
+  NotificationMsg
+} from "@colabo-utils/f-notifications";
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ "Content-Type": "application/json" })
 };
 
 interface IConstructor<T> {
-    new (...args: any[]): T;
-    factory(obj:any):T;
+  new (...args: any[]): T;
+  factory(obj: any): T;
 }
 
-import * as config from '@colabo-utils/i-config';
+import * as config from "@colabo-utils/i-config";
 
 @Injectable()
 export class CFService {
   // RESTfull backend API url
-  static serverAP = config.GetGeneral('serverUrl');
+  static serverAP = config.GetGeneral("serverUrl");
 
-  static processVOs<T extends VO>(voS:ServerData, typeT:IConstructor<T>):Array<T>{
+  static processVOs<T extends VO>(
+    voS: ServerData,
+    typeT: IConstructor<T>
+  ): Array<T> {
     //console.log("processVOs");
-    let vos:Array<T> = voS.data as Array<T>;
-    for(let id=0; id<vos.length; id++){
+    let vos: Array<T> = voS.data as Array<T>;
+    for (let id = 0; id < vos.length; id++) {
       //TODO: will not be needed when/if we get rid of ServerData wrapping needed now, because the response from server will be typed to VO unlike in previous versions
-      let vo:T = typeT.factory(vos[id]);
+      let vo: T = typeT.factory(vos[id]);
       vo.state = VO.STATE_SYNCED;
       //console.log(vo);
       vos[id] = vo;
@@ -37,29 +43,26 @@ export class CFService {
     return vos;
   }
 
-  constructor(
-    protected utilsNotificationService: UtilsNotificationService
-  ) { }
+  constructor(protected utilsNotificationService: UtilsNotificationService) {}
 
   /**
- * extracts VO from the server response `ServerData` and sets it up
- * @param sd - data received from server
- * @param typeT - type (class) of the object expected to be received
- */
+   * extracts VO from the server response `ServerData` and sets it up
+   * @param sd - data received from server
+   * @param typeT - type (class) of the object expected to be received
+   */
   protected extractVO<T extends VO>(sd: ServerData, typeT: IConstructor<T>): T {
     //let vo: T = new typeT();
     // console.log('extractVO',sd);
-    if(!sd.success){
-      console.warn('[CFService::extractVO] serverData.success = false');
+    if (!sd.success) {
+      console.warn("[CFService::extractVO] serverData.success = false");
     }
     let vo: T = null;
-    if(sd.data !== null){
+    if (sd.data !== null) {
       vo = typeT.factory(sd.data);
       vo.state = VO.STATE_SYNCED;
     }
     return vo;
   }
-
 
   /**
    * Handle Http operation that failed.
@@ -67,16 +70,15 @@ export class CFService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  protected handleError<T> (operation = 'operation', result?: T) {
+  protected handleError<T>(operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
-
       // TODO: send the error to remote logging infrastructure
       console.error("[CFService:handleError] error: ", error); // log to console instead
       // window.alert('error: ' + error);
 
       this.utilsNotificationService.addNotification({
         type: NotificationMsgType.Error,
-        title: 'CFService Error:',
+        title: "CFService Error:",
         msg: JSON.stringify(error)
       });
 
@@ -87,5 +89,4 @@ export class CFService {
       return of(result as T);
     };
   }
-
 }
