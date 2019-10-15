@@ -13,7 +13,7 @@ import * as config from "@colabo-utils/i-config";
 })
 export class IndexComponent implements OnInit {
   public appTitle: string = config.GetGeneral("appTitle");
-  public static CF_WHERE: string = "INDEX";
+  // public static CF_WHERE: string = "INDEX";
 
   constructor(
     private rimaAAAService: RimaAAAService,
@@ -21,7 +21,7 @@ export class IndexComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.colaboFlowService.startKeepingMyState(IndexComponent.CF_WHERE);
+    // this.colaboFlowService.startKeepingMyState(IndexComponent.CF_WHERE);
   }
 
   ngAfterViewChecked() {}
