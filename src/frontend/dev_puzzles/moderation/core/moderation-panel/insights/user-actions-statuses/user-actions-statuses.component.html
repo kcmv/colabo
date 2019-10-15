@@ -4,18 +4,55 @@
   <mat-expansion-panel-header>
     <mat-panel-title>
       <h3>User Actions Statuses</h3>
-      <span
-        class="relative-container"
-        matTooltip="refresh the list"
-        (click)="refreshRegisteredUsers($event)"
-      >
-        <span class="vertical-center rfr-box"
-          ><mat-icon
-            class="refresh"
-            [ngClass]="{ rotating: loadingRegisteredUsers }"
-            >refresh</mat-icon
+      <span class="relative-container">
+        <span class="vertical-center rfr-box">
+          <span (click)="autoRefreshUsersClicked($event)">
+            <mat-form-field>
+              <mat-label>auto refresh</mat-label>
+              <mat-select
+                [(value)]="autoRefreshUsers"
+                (selectionChange)="autoRefreshUsersChanged($event)"
+              >
+                <mat-option>None</mat-option>
+                <mat-option value="3">3s</mat-option>
+                <mat-option value="5">5s</mat-option>
+                <mat-option value="10">10s</mat-option>
+                <mat-option value="30">30s</mat-option>
+                <mat-option value="60">60s</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </span>
+          <span
+            class="max-width"
+            *ngIf="autoRefreshTimeLeft > 0 && autoRefreshUsers"
+            >auto-refreshing in {{ autoRefreshTimeLeft }} seconds</span
           >
-          <span *ngIf="loadingRegisteredUsers">refreshing...</span>
+          <!-- <mat-slide-toggle
+          [(ngModel)]="autoRefreshUsers"
+          (change)="autoRefreshUsersChanged()"
+          >auto-refresh</mat-slide-toggle
+        > -->
+          <span
+            class="rfr-box"
+            matTooltip="refresh the list"
+            (click)="refreshRegisteredUsers($event)"
+          >
+            <mat-icon
+              class="refresh"
+              [ngClass]="{ rotating: loadingRegisteredUsers }"
+              >refresh</mat-icon
+            >
+            <span class="max-width" *ngIf="loadingRegisteredUsers"
+              >loading
+              {{
+                TOTAL_LOADING_RESOURCES -
+                  loadingResourcesleft +
+                  1 +
+                  "/" +
+                  TOTAL_LOADING_RESOURCES
+              }}...</span
+            >
+          </span>
         </span>
       </span>
     </mat-panel-title>
@@ -71,6 +108,7 @@
           <span class="vertical-center rfr-box" matTooltip="away">
             <mat-icon>schedule</mat-icon>
             <span>4s</span>
+            <span>&nbsp;({{ whereIsUser(element) }})</span>
           </span>
         </span>
         <!-- {{ element.status }} -->

@@ -33,6 +33,7 @@ export class UserInsight {
   cardPlayedInRound1: KNode;
   cardPlayedInRound2: KNode;
   cardPlayedInRound3: KNode;
+  whereIam: string;
 
   constructor(
     user: KNode,
@@ -41,7 +42,8 @@ export class UserInsight {
     sdgs: number[],
     cardPlayedInRound1: KNode,
     cardPlayedInRound2: KNode,
-    cardPlayedInRound3: KNode
+    cardPlayedInRound3: KNode,
+    whereIam: string
   ) {
     this.user = user;
     // if(!('dataContent' in this.user)){this.user.dataContent = {};}
@@ -51,6 +53,7 @@ export class UserInsight {
     this.cardPlayedInRound1 = cardPlayedInRound1;
     this.cardPlayedInRound2 = cardPlayedInRound2;
     this.cardPlayedInRound3 = cardPlayedInRound3;
+    this.whereIam = whereIam;
   }
 
   get id(): string {
@@ -79,6 +82,11 @@ export class UserActionsStatusesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   loadingRegisteredUsers: boolean;
+  autoRefreshUsers: number; //seconds between auto-refreshes; if `undefined` then no refreshing
+  autoRefreshUsersInterval: NodeJS.Timeout;
+  autoRefreshTimeLeft: number;
+  loadingResourcesleft: number = 0;
+  TOTAL_LOADING_RESOURCES: number = 5; //users' resources loading intitaited from `usersReceived` including the initial users loading as +1;
 
   public allColumns: string[] = [
     "id",
@@ -127,14 +135,58 @@ export class UserActionsStatusesComponent implements OnInit {
 
   protected getRegisteredUsers(forceRefresh: boolean = false): void {
     this.loadingRegisteredUsers = true;
+    this.loadingResourcesleft = this.TOTAL_LOADING_RESOURCES;
     this.insightsService
       .getRegisteredUsers(forceRefresh)
       .subscribe(this.usersReceived.bind(this));
   }
 
+  autoRefreshUsersClicked(event: Event): void {
+    event.stopPropagation();
+  }
+
+  /**
+   * @description invoked by the ui selection change
+   * @param event
+   */
+  public autoRefreshUsersChanged(event: Event): void {
+    console.log(
+      "[autoRefreshUsersChanged] this.autoRefreshUsers: ",
+      this.autoRefreshUsers
+    );
+    this.invokeAutorefresh();
+  }
+
+  protected invokeAutorefresh(): void {
+    clearInterval(this.autoRefreshUsersInterval);
+    if (this.autoRefreshUsers > 0) {
+      this.autoRefreshTimeLeft = this.autoRefreshUsers;
+      this.autoRefreshUsersInterval = setInterval(() => {
+        if (this.autoRefreshTimeLeft > 0) {
+          this.autoRefreshTimeLeft -= 1;
+        } else {
+          this.getRegisteredUsers(true);
+          clearInterval(this.autoRefreshUsersInterval);
+        }
+      }, 1000);
+    }
+  }
+
   public refreshRegisteredUsers(event: Event): void {
     event.stopPropagation();
+    clearInterval(this.autoRefreshUsersInterval); //pausing auto-refresh, when the manaual refresh is invoked. It will be continued in `resourceLoaded` when the loading is finished
+    this.autoRefreshTimeLeft = 0; //to hide auto-refresh text when the manaual refresh is invoked
     this.getRegisteredUsers(true);
+  }
+
+  protected resourceLoaded(): void {
+    this.loadingResourcesleft--;
+    if (this.loadingResourcesleft <= 0) {
+      this.loadingRegisteredUsers = false;
+      if (this.autoRefreshUsers) {
+        this.invokeAutorefresh();
+      }
+    }
   }
 
   displayColumnChanged(val: string): void {
@@ -234,11 +286,7 @@ export class UserActionsStatusesComponent implements OnInit {
     // let that: UserActionsStatusesComponent = this;
     let BottomShDgData: BottomShDgData = {
       title: "SDGs selections",
-      message:
-        "You want to delete " +
-        
-        user.name +
-        "'s SDG selection?",
+      message: "You want to delete " + user.name + "'s SDG selection?",
       btn1: "Yes",
       btn2: "No",
       callback: (btnOrder: number) =>
@@ -292,6 +340,7 @@ export class UserActionsStatusesComponent implements OnInit {
 
   cwcsReceived(cwcs: KNode[]): void {
     console.log("cwcsReceived", cwcs);
+    this.resourceLoaded();
     let usrD: UserInsight;
     let userDataInTab: UserInsight[] = null;
     // if(this.usersData instanceof MatTableDataSource){
@@ -329,56 +378,59 @@ export class UserActionsStatusesComponent implements OnInit {
     let userDataInTab: UserInsight[] = null;
     let usrD: UserInsight;
     userDataInTab = this.usersData.data;
-    
 
-    let sdgClusterizingInput:any[] = [];
+    let sdgClusterizingInput: any[] = [];
     // any = {
     //   "user_items": []
     // }
     for (var u: number = 0; u < userDataInTab.length; u++) {
       usrD = userDataInTab[u];
-        if (usrD.sdgs && usrD.sdgs.length > 0){
-          for (var s: number = 0; s < usrD.sdgs.length; s++) {
-            sdgClusterizingInput.push({
-              userId: usrD.id,
-              itemId: usrD.sdgs[s], //TODO: change to mongoID
-              item: usrD.sdgs[s]
-              // itemHId: i + 1 //TODO: should be here, but @Lazar wanted it at `item`
-            });
-          }
+      if (usrD.sdgs && usrD.sdgs.length > 0) {
+        for (var s: number = 0; s < usrD.sdgs.length; s++) {
+          sdgClusterizingInput.push({
+            userId: usrD.id,
+            itemId: usrD.sdgs[s], //TODO: change to mongoID
+            item: usrD.sdgs[s]
+            // itemHId: i + 1 //TODO: should be here, but @Lazar wanted it at `item`
+          });
         }
+      }
     }
-    console.log("sdgClusterizingInput",sdgClusterizingInput);
-    console.log("sdgClusterizingInput @ JSON",JSON.stringify(sdgClusterizingInput, null, 4));
+    console.log("sdgClusterizingInput", sdgClusterizingInput);
+    console.log(
+      "sdgClusterizingInput @ JSON",
+      JSON.stringify(sdgClusterizingInput, null, 4)
+    );
   }
 
   clusterizeByCWCs(): void {
     let userDataInTab: UserInsight[] = null;
     let usrD: UserInsight;
     userDataInTab = this.usersData.data;
-    
 
-    let cwcClusterizingInput:any[] = [];
+    let cwcClusterizingInput: any[] = [];
     // any = {
     //   "user_items": []
     // }
     for (var u: number = 0; u < userDataInTab.length; u++) {
       usrD = userDataInTab[u];
-        if (usrD.cwcs && usrD.cwcs.length > 0){
-          for (var s: number = 0; s < usrD.cwcs.length; s++) {
-            cwcClusterizingInput.push({
-              userId: usrD.id,
-              itemId: usrD.cwcs[s]._id, //TODO: change to mongoID
-              item: usrD.cwcs[s].name
-              // itemHId: i + 1 //TODO: should be here, but @Lazar wanted it at `item`
-            });
-          }
+      if (usrD.cwcs && usrD.cwcs.length > 0) {
+        for (var s: number = 0; s < usrD.cwcs.length; s++) {
+          cwcClusterizingInput.push({
+            userId: usrD.id,
+            itemId: usrD.cwcs[s]._id, //TODO: change to mongoID
+            item: usrD.cwcs[s].name
+            // itemHId: i + 1 //TODO: should be here, but @Lazar wanted it at `item`
+          });
         }
+      }
     }
-    console.log("cwcClusterizingInput",cwcClusterizingInput);
-    console.log("cwcClusterizingInput @ JSON",JSON.stringify(cwcClusterizingInput, null, 4));
+    console.log("cwcClusterizingInput", cwcClusterizingInput);
+    console.log(
+      "cwcClusterizingInput @ JSON",
+      JSON.stringify(cwcClusterizingInput, null, 4)
+    );
   }
-
 
   getSDGSelections(): void {
     this.insightsService
@@ -388,6 +440,7 @@ export class UserActionsStatusesComponent implements OnInit {
 
   sDGSelectionsReceived(sdgs: KEdge[]): void {
     console.log("sDGSelectionsReceived", sdgs);
+    this.resourceLoaded();
     let usrD: UserInsight;
     let userDataInTab: UserInsight[] = null;
     // if(this.usersData instanceof MatTableDataSource){
@@ -412,14 +465,16 @@ export class UserActionsStatusesComponent implements OnInit {
 
   private usersReceived(users: KNode[]): void {
     //console.log('usersReceived', users);
+    this.resourceLoaded();
     let userInsights = [];
-    this.loadingRegisteredUsers = false;
     let usrId: string;
     let user: KNode;
     for (var i: number = 0; i < users.length; i++) {
       user = users[i];
       usrId = user._id;
-      userInsights.push(new UserInsight(user, null, [], [], null, null, null));
+      userInsights.push(
+        new UserInsight(user, null, [], [], null, null, null, "N/A")
+      );
     }
 
     // console.log('usersData:B',JSON.stringify(userInsights));
@@ -438,6 +493,10 @@ export class UserActionsStatusesComponent implements OnInit {
       : "-";
   }
 
+  whereIsUser(user: UserInsight): string {
+    return user.whereIam;
+  }
+
   getMyCFStates(): void {
     this.insightsService
       .getMyCFStatesForAllUsers()
@@ -446,6 +505,7 @@ export class UserActionsStatusesComponent implements OnInit {
 
   myCFStatesForAllUsersReceived(cfStateNodes: KNode[]): void {
     console.log("[myCFStatesForAllUsersReceived] cfStateNodes", cfStateNodes);
+    this.resourceLoaded();
 
     let usrD: UserInsight;
     let userDataInTab: UserInsight[] = null;
@@ -461,6 +521,13 @@ export class UserActionsStatusesComponent implements OnInit {
           usrD.myColaboFlowState = cfStateNodes[c].dataContent[
             "MyColaboFlowState"
           ].state as MyColaboFlowStates;
+          usrD.whereIam = cfStateNodes[c].dataContent.MyColaboFlowState[
+            "whereIam"
+          ]
+            ? (cfStateNodes[c].dataContent.MyColaboFlowState[
+                "whereIam"
+              ] as string)
+            : "N/A";
         }
       }
     }
@@ -489,7 +556,7 @@ export class UserActionsStatusesComponent implements OnInit {
   //TODO: cardsPlayedReceived is partially refactored - we should finish this ti be more effective - not having individual cardHumanIdPlayedInTheRound calls etc:
   cardsPlayedReceived(): void {
     // console.log('cardsPlayedReceived', cards);
-
+    this.resourceLoaded();
     let usrD: UserInsight;
     let userDataInTab: UserInsight[] = null;
     // if(this.usersData instanceof MatTableDataSource){
