@@ -1,5 +1,8 @@
 'use strict';
 
+import { KNode } from "../..";
+// import { kNodeSchema } from "../../../storage-mongo/lib/models/mkNode";
+
 /**
  * New node file
  */
@@ -56,7 +59,8 @@ export function _index(id, id2, id3, id4, type, res, callback) {
         if (err) {
             var msg = JSON.stringify(err);
             if (callback) callback(err, null);
-            throw err;
+            console.error(err);
+            // throw err;
         } else {
             if (callback) callback(null, kNodes);
         }
@@ -238,12 +242,15 @@ export function _create(data, res, callback, second?, third?) {
 
 
         function save(){
-          var knode = new KNodeModel(data);
+          var knode:any = new KNodeModel(data);
+        //   knode.updatedAt = new Date();
           //console.log("After create data: %s", data.toString());
 
           knode.save(function(err) {
               console.log('knode.save', err);
-              if (err) throw err;
+              if (err) {
+                  console.error(err);
+                  throw err;}
               if (callback) {
                 callback(knode, err);
               }
@@ -342,7 +349,9 @@ export function _update(data, id, actionType, callback) {
         if (err) {
             var msg = JSON.stringify(err);
             if (callback) callback(err);
-            throw err;
+            console.error(err);
+            if (callback) callback(err);
+            //throw err;
         } else {
             //console.log('old_data', JSON.stringify(old_data));
 
@@ -351,71 +360,87 @@ export function _update(data, id, actionType, callback) {
             old_data = JSON.parse(JSON.stringify(old_data));
             // console.log('old_data', JSON.stringify(old_data));
             // console.log('patch data', JSON.stringify(data));
-            switch (actionType) {
-                case 'DATA_CONTENT_RIMA_WHATS_DELETING':
-                    //TODO: this is very specific treatment (almost a HACK) - we need more general action:
-                    // this could be other approach: http://stackoverflow.com/questions/5059951/deleting-js-object-properties-a-few-levels-deep
-                    var whatId = data.dataContent.rima.whats._id;
-                    //console.log('whatId: ', whatId);
-                    if (old_data.dataContent && old_data.dataContent.rima && old_data.dataContent.rima.whats) {
-                        var whats = old_data.dataContent.rima.whats;
-                        for (var i = 0; i < whats.length; i++) {
-                            if (whats[i]._id === whatId) {
-                                whats.splice(i, 1);
+            if(old_data){
+                switch (actionType) {
+                    case 'DATA_CONTENT_RIMA_WHATS_DELETING':
+                        //TODO: this is very specific treatment (almost a HACK) - we need more general action:
+                        // this could be other approach: http://stackoverflow.com/questions/5059951/deleting-js-object-properties-a-few-levels-deep
+                        var whatId = data.dataContent.rima.whats._id;
+                        //console.log('whatId: ', whatId);
+                        if (old_data.dataContent && old_data.dataContent.rima && old_data.dataContent.rima.whats) {
+                            var whats = old_data.dataContent.rima.whats;
+                            for (var i = 0; i < whats.length; i++) {
+                                if (whats[i]._id === whatId) {
+                                    whats.splice(i, 1);
+                                }
                             }
                         }
-                    }
-                    break;
-                case 'DATA_CONTENT_RIMA_WHATS_ADDING':
-                    if (!old_data.dataContent) {
-                        old_data.dataContent = { rima: { whats: [] } };
-                    } else {
-                        if (!old_data.dataContent.rima) {
-                            old_data.dataContent.rima = { whats: [] };
+                        break;
+                    case 'DATA_CONTENT_RIMA_WHATS_ADDING':
+                        if (!old_data.dataContent) {
+                            old_data.dataContent = { rima: { whats: [] } };
                         } else {
-                            if (!old_data.dataContent.rima.whats) { old_data.dataContent.rima.whats = []; }
+                            if (!old_data.dataContent.rima) {
+                                old_data.dataContent.rima = { whats: [] };
+                            } else {
+                                if (!old_data.dataContent.rima.whats) { old_data.dataContent.rima.whats = []; }
+                            }
                         }
+                        old_data.dataContent.rima.whats.push(data.dataContent.rima.whats[0]);
+                        break;
+                    case 'UPDATE_TYPE_UNSET_DIALOGAME':
+                        console.log('UPDATE_TYPE_UNSET_DIALOGAME');
+                        KNodeModel.updateMany( { type: "topiChat.talk.chatMsg", mapId: "5be3fddce1b7970d8c6df406"}, { $unset: { 'dataContent.dialoGameReponse': '' } }, function(err, raw) {
+                            if (err){
+                                console.error(err);
+                                //  throw err
+                            }
+                            console.log('return from UPDATE_TYPE_UNSET_DIALOGAME');
+                            //console.log('The raw response from Mongo was ', raw);
+                            data._id = id; //TODO: when we completly transfer to differential updates we won't need this
+                            if (callback) callback(err, old_data);
+                        });
+                        break;
+                    default:
+                        deepAssign(old_data, data);
+                        
+                }
+
+                console.log('after patching', JSON.stringify(old_data));
+
+                /* test
+                let a = {"_id":"555d9b8fca6170de0e069f5f","name":"helo 3","type":"type_knowledge",
+                "mapId":"555d9774b53940a00d4e72b7",
+                "iAmId":"55268521fb9a901e442172f8","ideaId":0,"__v":0,
+                "dataContent":{"ibis":{"votes":{"556760847125996dc1a4a241":2}}},
+                "updatedAt":"2016-05-08T23:02:48.125Z","createdAt":"2015-05-21T08:47:11.449Z",
+                "visual":{"yM":518,"xM":251.5,"isOpen":false},"isPublic":true,"version":1,"activeVersion":1};
+                console.log('a before patch', JSON.stringify(a));
+                let d = {"dataContent":{"ibis":{"votes":{"556760847125996dc1a4a21c":3}}}};
+                deepAssign(a,d);
+                console.log('a after patch', JSON.stringify(a)); */
+                console.log("data",data);
+                old_data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
+                console.log("old_data PRE update",old_data);
+                KNodeModel.update({ _id: id }, old_data, function(err, raw) {
+                    if (err) {
+                        console.error(err);
+                        // throw err;
                     }
-                    old_data.dataContent.rima.whats.push(data.dataContent.rima.whats[0]);
-                    break;
-                case 'UPDATE_TYPE_UNSET_DIALOGAME':
-                    console.log('UPDATE_TYPE_UNSET_DIALOGAME');
-                    KNodeModel.updateMany( { type: "topiChat.talk.chatMsg", mapId: "5be3fddce1b7970d8c6df406"}, { $unset: { 'dataContent.dialoGameReponse': '' } }, function(err, raw) {
-                        if (err) throw err;
-                        console.log('return from UPDATE_TYPE_UNSET_DIALOGAME');
-                        //console.log('The raw response from Mongo was ', raw);
-                        data._id = id; //TODO: when we completly transfer to differential updates we won't need this
-                        if (callback) callback(err, old_data);
-                    });
-                    break;
-                default:
-                    deepAssign(old_data, data);
+                    console.log('[update]The raw response from Mongo was ', raw);
+                    data._id = id; //TODO: when we completly transfer to differential updates we won't need this
+                    if (callback) callback(err, old_data);
+                });
+            }else{
+                let err = "KnOde to be updated not found";
+                console.error(err);
+                if (callback) callback(err, null);
+                // throw error;
             }
-
-            console.log('after patching', JSON.stringify(old_data));
-
-            /* test
-            let a = {"_id":"555d9b8fca6170de0e069f5f","name":"helo 3","type":"type_knowledge",
-            "mapId":"555d9774b53940a00d4e72b7",
-            "iAmId":"55268521fb9a901e442172f8","ideaId":0,"__v":0,
-            "dataContent":{"ibis":{"votes":{"556760847125996dc1a4a241":2}}},
-            "updatedAt":"2016-05-08T23:02:48.125Z","createdAt":"2015-05-21T08:47:11.449Z",
-            "visual":{"yM":518,"xM":251.5,"isOpen":false},"isPublic":true,"version":1,"activeVersion":1};
-            console.log('a before patch', JSON.stringify(a));
-            let d = {"dataContent":{"ibis":{"votes":{"556760847125996dc1a4a21c":3}}}};
-            deepAssign(a,d);
-            console.log('a after patch', JSON.stringify(a)); */
-
-            KNodeModel.update({ _id: id }, old_data, function(err, raw) {
-                if (err) throw err;
-                //console.log('The raw response from Mongo was ', raw);
-                data._id = id; //TODO: when we completly transfer to differential updates we won't need this
-                if (callback) callback(err, old_data);
-            });
         }
     }
 
-    data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
+    // data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
     KNodeModel.findById(id, found);
 }
 
