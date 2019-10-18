@@ -10,7 +10,7 @@ import { KnalledgeNodeService } from "@colabo-knalledge/f-store_core/knalledge-n
 import { KNode } from "@colabo-knalledge/f-core/code/knalledge/kNode";
 import { VO } from "@colabo-knalledge/f-core/code/knalledge/VO";
 import { RimaAAAService } from "@colabo-rima/f-aaa";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
 
 import * as config from "@colabo-utils/i-config";
 
@@ -41,6 +41,7 @@ export class ColaboFlowService {
 
   private _colaboFlowState: ColaboFlowState;
   public get colaboFlowState(): ColaboFlowState {
+    //when `myCfStateNode` is saved in Db, it gets injected in it
     return this._colaboFlowState;
   }
   public set colaboFlowState(value: ColaboFlowState) {
@@ -49,13 +50,16 @@ export class ColaboFlowService {
 
   private _myColaboFlowState: MyColaboFlowState;
   public get myColaboFlowState(): MyColaboFlowState {
+    //when `myCfStateNode` is saved in Db, it gets injected in it
     return this._myColaboFlowState;
   }
   public set myColaboFlowState(value: MyColaboFlowState) {
     this._myColaboFlowState = value;
   }
 
-  private myCfStateNode: KNode;
+  protected areStatesInitiated: boolean;
+
+  private myCfStateNode: KNode; //keeps `myColaboFlowState` and `colaboFlowState` among other parameters to be saved in the Database
 
   private colaboFlowStateNode: KNode = new KNode(); //without this compiler throws ERR error TS2339: Property 'dataContent' does not exist on type 'never'. for code: this.colaboFlowStateNode.dataContent = {};
   cFStateChangesObserver: any = {}; //Observer
@@ -70,28 +74,39 @@ export class ColaboFlowService {
     protected rimaAAAService: RimaAAAService,
     private topiChatCOrchestrationService: TopiChatClientsOrchestrationService,
     private router: Router,
-    route: ActivatedRoute
+    private route: ActivatedRoute
   ) {
     this.colaboFlowState = new ColaboFlowState();
     this.myColaboFlowState = new MyColaboFlowState();
-    console.log("[ColaboFlowService::constructor]");
-
-    const url: Observable<string> = route.url.pipe(
-      map(segments => segments.join(""))
+    console.log(
+      "[ColaboFlowService::constructor] this.router.url",
+      this.router.url,
+      "route.url",
+      this.route.url,
+      "state.path",
+      this.route.snapshot.url
     );
-    url.subscribe((url: string) => {
-      console.log("[ColaboFlowService::constructor] url:", url);
-      let navInit: NavigationStart = new NavigationStart(
-        1,
-        "/INIT",
-        "imperative"
-      );
-      this.navStart = router.events.pipe(
-        filter(evt => evt instanceof NavigationStart),
-        startWith(navInit) //starting with home page, to start KeepingMyState before the first navigation happens
-      ) as Observable<NavigationStart>;
+
+    // const url: Observable<string> = route.url.pipe(
+    //   map(segments => segments.join(""))
+    // );
+    // url.subscribe((url: string) => {
+    // console.log("[ColaboFlowService::constructor] url:", url);
+    // let navInit: NavigationStart = new NavigationStart(
+    //   1,
+    //   "/INIT",
+    //   "imperative"
+    // );
+    this.navStart = router.events.pipe(
+      filter(evt => evt instanceof NavigationStart)
+      // startWith(navInit) //starting with home page, to start KeepingMyState before the first navigation happens
+    ) as Observable<NavigationStart>;
+    this.navStart.subscribe(evt => {
+      console.log("Navigation Started:", evt);
+      this.startKeepingMyState(evt.url);
     });
-    console.log("[ColaboFlowService::constructor] route", route);
+    // });
+    // console.log("[ColaboFlowService::constructor] route", route);
     // router.events.subscribe(evt => {
     //   console.log("navigation event", evt);
     //   if (evt instanceof NavigationStart) {
@@ -182,7 +197,14 @@ export class ColaboFlowService {
       console.log("myCfStateLoaded [FILTERED for my iAmId]", myCfStateNodes);
       if (myCfStateNodes !== null && myCfStateNodes.length > 0) {
         this.myCfStateNode = myCfStateNodes[0];
+        let whereIam: string = this.myColaboFlowState.whereIam;
         this.node2MyCfState(this.myCfStateNode);
+        if (whereIam && whereIam !== "") {
+          //to avoid rat-racing: almost surely is `startKeepingMyState` called before this method and the `whereIam` initially set by it gets lost otherwise
+          this.myColaboFlowState.whereIam = whereIam;
+          this.myCfState2Node(this.myCfStateNode);
+          this.keepMyState();
+        }
       } else {
         this.myCfStateNode = new KNode();
         this.myCfStateNode.type = ColaboFlowService.MY_COLABO_FLOW_STATE_TYPE;
@@ -196,6 +218,7 @@ export class ColaboFlowService {
       }
       this.colaboFlowIsInitiated();
     }
+    // this.areStatesInitiated = true; //(so far) we don't care if the `myCfStateNode` is properly set up just want to know that when `areStatesInitiated` === true the `myCfStateNode` is not going to be overridden
   }
 
   myCfStateCreated(node: KNode) {
@@ -234,10 +257,15 @@ export class ColaboFlowService {
       );
     }
   }
+
   /**
    * can be reset to new position 'whereIam'
    */
   public startKeepingMyState(whereIam: string = "UNKNOWN"): void {
+    if (whereIam === "/") {
+      whereIam = "/home";
+    } // to avoid interpreting being on home page (index pag) as page being unknown/unset
+    whereIam = whereIam.indexOf("/") === 0 ? whereIam.substring(1) : whereIam; //cleaning initial '/'
     console.log("[startKeepingMyState] whereIam", whereIam);
     this.myColaboFlowState.whereIam = whereIam;
     if (this.keepMyStateInterval) {
