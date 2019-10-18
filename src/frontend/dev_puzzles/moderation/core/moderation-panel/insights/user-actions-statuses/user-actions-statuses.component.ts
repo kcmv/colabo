@@ -34,6 +34,7 @@ export class UserInsight {
   cardPlayedInRound2: KNode;
   cardPlayedInRound3: KNode;
   whereIam: string;
+  lastOnline: Date;
 
   constructor(
     user: KNode,
@@ -43,7 +44,8 @@ export class UserInsight {
     cardPlayedInRound1: KNode,
     cardPlayedInRound2: KNode,
     cardPlayedInRound3: KNode,
-    whereIam: string
+    whereIam: string,
+    lastOnline: Date
   ) {
     this.user = user;
     // if(!('dataContent' in this.user)){this.user.dataContent = {};}
@@ -54,6 +56,7 @@ export class UserInsight {
     this.cardPlayedInRound2 = cardPlayedInRound2;
     this.cardPlayedInRound3 = cardPlayedInRound3;
     this.whereIam = whereIam;
+    this.lastOnline = lastOnline;
   }
 
   get id(): string {
@@ -483,7 +486,7 @@ export class UserActionsStatusesComponent implements OnInit, OnDestroy {
       user = users[i];
       usrId = user._id;
       userInsights.push(
-        new UserInsight(user, null, [], [], null, null, null, "N/A")
+        new UserInsight(user, null, [], [], null, null, null, "N/A", null)
       );
     }
 
@@ -513,6 +516,44 @@ export class UserActionsStatusesComponent implements OnInit, OnDestroy {
       .subscribe(this.myCFStatesForAllUsersReceived.bind(this));
   }
 
+  lastOnline(user: UserInsight): string {
+    let now: Date = new Date();
+    let options:any = { day: 'numeric', year: 'numeric', month: 'long'};
+    let result:string = "N/A";
+    const MINUTE: number = 60 * 1000; // 60 0000 ms
+    if(user.lastOnline){
+      if(user.lastOnline > now){ 
+        result = "error";
+      }else if(user.lastOnline.getDate() !== now.getDate()){ //if not today
+        result = user.lastOnline.toLocaleDateString('en-GB');
+      }else if(now.getTime() - user.lastOnline.getTime() > MINUTE){//if not online in the last 60 seconds
+        result = user.lastOnline.toLocaleTimeString('en-GB');
+      }else{
+        result = (now.getSeconds() - user.lastOnline.getSeconds()) + "s ago";
+      }
+    }
+    return result;
+  }
+
+  onlineIcon(user: UserInsight): string {
+    let now: Date = new Date();
+    let icon:string;
+    const OFF_TIME: number = 60 * 1000; // 60 0000 ms
+    const AWAY_TIME: number = 20 * 1000; // 20 0000 ms
+    if(user.lastOnline){
+      if(user.lastOnline > now){ 
+        icon = "device_unknown"; //UNDEFINED_ICON
+      }else if(now.getTime() - user.lastOnline.getTime() > OFF_TIME){
+        icon = "voice_over_off"; //OFFLINE_ICON
+      }else if(now.getTime() - user.lastOnline.getTime() > AWAY_TIME){
+        icon = "schedule"; //AWAY_ICON
+      }else{
+        icon = "offline_pin" //this is ONLINE sign actually
+      }
+    }
+    return icon;
+  }
+
   myCFStatesForAllUsersReceived(cfStateNodes: KNode[]): void {
     console.log("[myCFStatesForAllUsersReceived] cfStateNodes", cfStateNodes);
     this.resourceLoaded();
@@ -538,6 +579,7 @@ export class UserActionsStatusesComponent implements OnInit, OnDestroy {
                 "whereIam"
               ] as string)
             : "N/A";
+          usrD.lastOnline = cfStateNodes[c].updatedAt;
         }
       }
     }

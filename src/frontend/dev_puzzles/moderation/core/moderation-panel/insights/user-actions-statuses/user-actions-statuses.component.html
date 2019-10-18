@@ -106,9 +106,9 @@
       <td mat-cell *matCellDef="let element">
         <span class="relative-container">
           <span class="vertical-center rfr-box" matTooltip="away">
-            <mat-icon>schedule</mat-icon>
-            <span>4s</span>
-            <span>&nbsp;({{ whereIsUser(element) }})</span>
+            <mat-icon>{{onlineIcon(element)}}</mat-icon>
+            <span class="max-width">{{lastOnline(element)}}</span>
+            <span class="max-width">&nbsp;({{ whereIsUser(element) }})</span>
           </span>
         </span>
         <!-- {{ element.status }} -->

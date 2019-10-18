@@ -276,7 +276,9 @@ export class ColaboFlowService {
 
   myCfStateSaved(node: KNode) {
     // console.log("myCfStateSaved");
-    this.myCfStateNode = node;
+    if (node) {
+      this.myCfStateNode = node;
+    }
   }
 
   sendMyCFChangeByTChat() {
