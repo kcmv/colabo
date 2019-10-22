@@ -53,6 +53,7 @@ export function index(req, res) {
 }
 
 export function _index(id, id2, id3, id4, type, res, callback) {
+    let nodeType:string = id2;
   //TODO: fix if NULL is received for any parameter etc: https://github.com/Cha-OS/colabo/issues/341
     var found = function(err, kNodes) {
         console.log("[modules/kNode.js:index] in 'found'", kNodes);
@@ -62,6 +63,18 @@ export function _index(id, id2, id3, id4, type, res, callback) {
             console.error(err);
             // throw err;
         } else {
+            if(nodeType === KNode.TYPE_MY_COLABO_FLOW_STATE){
+                console.log("nodeType === KNode.TYPE_MY_COLABO_FLOW_STATE");
+                /*
+                this logics is paired with `create` logics setting `updatedAt`.
+                Both are supposed to go in PAIR to mongo plugin, due to possible difference in times on mongo  and nodeJs server
+                */
+                let now:Date = new Date();
+                kNodes.forEach( (node:KNode) =>{
+                    node.dataContent['lastOnlineDiff'] = now.getTime() - node.updatedAt.getTime();
+                    console.log("node.dataContent['lastOnlineDiff']", node.dataContent['lastOnlineDiff']);
+                });
+            }
             if (callback) callback(null, kNodes);
         }
     }
@@ -420,6 +433,12 @@ export function _update(data, id, actionType, callback) {
                 deepAssign(a,d);
                 console.log('a after patch', JSON.stringify(a)); */
                 console.log("data",data);
+
+                //
+                /*
+                this logics for setting `updatedAt` is paired with `index` (in this class) retrieving of kNodes of type == KNode.TYPE_MY_COLABO_FLOW_STATE, and setting their `lastOnlineDiff`
+                Both are supposed to go in PAIR to mongo plugin, due to possible difference in times on mongo  and nodeJs server
+                */
                 old_data.updatedAt = new Date(); //TODO: workaround for hook "schema.pre('update',...)" not working
                 console.log("old_data PRE update",old_data);
                 KNodeModel.update({ _id: id }, old_data, function(err, raw) {
