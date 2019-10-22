@@ -24,7 +24,7 @@ function resSendJsonProtected(res, data) {
 };
 
 function isPrmNull(val:any){
-    return val == null ||  val == '' || val == 'undefined' || val == 'null';
+    return val == null ||  val == '' || val == undefined || val == 'undefined' || val == 'null';
 }
 
 var dbConnection = dbService.DBConnect();
@@ -91,14 +91,19 @@ export function index(req, res) {
             KEdgeModel.find({ 'mapId': req.params.searchParam }, found);
             break;
         case 'for_map_type_user_w_target_nodes':
-            console.log("for_map_type_user_w_target_nodes: mapId: %s, type: %s", id, id2);
+            let iAmId:string = id3;
+            console.log("for_map_type_user_w_target_nodes: mapId: %s, type: %s, iAmId: %s", id, id2, iAmId);
+            if(isPrmNull(id) || isPrmNull(id2)){
+            console.error('unallowed parameter');
+            resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unallowed parameter', success: false });
+            }
             var queryObj = { 'mapId': id, 'type': id2};
-            if(id3 !== null && id3 !== undefined && id3 !== 'null') {
-                console.log('iAmId: ', id3);
-                queryObj['iAmId'] = id3;
+            if(isPrmNull(iAmId)) {
+                // console.log('iAmId: ', iAmId);
+                queryObj['iAmId'] = iAmId;
             }
             else{
-                console.log('iAmId: is not set as a paremeter - so for all users');
+                // console.log('iAmId: is not set as a paremeter - so for all users');
             } 
             KEdgeModel.find(queryObj).populate('targetId', '_id name dataContent.humanID').exec(found);
             break;
@@ -233,7 +238,7 @@ export function destroy(req, res) {
             console.log("[modules/kEdge.js:destroy by-user] deleting all Nodes by user %s", iAmId);
             var data = { iAmId: iAmId };
             if(isPrmNull(iAmId)){
-                console.log('unallowed parameter');
+                console.error('unallowed parameter');
                 resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unallowed parameter', success: false });
             }
             else{
