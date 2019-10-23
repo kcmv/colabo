@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { SelectSdgsComponent } from './select-sdgs.component';
+import { SelectSdgsComponent } from "./select-sdgs.component";
 
-describe('SelectSdgsComponent', () => {
+describe("SelectSdgsComponent", () => {
   let component: SelectSdgsComponent;
   let fixture: ComponentFixture<SelectSdgsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectSdgsComponent ]
-    })
-    .compileComponents();
+      declarations: [SelectSdgsComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,13 @@ describe('SelectSdgsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  it("should show exactly `SDGS_TO_SELECT` sdgs in toolbar, after a correct selection", () => {
+    //TODO:
+    //server might return all the sellected SDGs for other users
+    expect(true).toBeTruthy();
   });
 });

@@ -37,6 +37,8 @@ export enum ProfilingStateType {
   ATTRIBUTE = 'ATTRIBUTE'
 }
 
+export const NO_USER_ERROR:string = "NO_USER_ERROR";
+
 const aaaAP = "aaa";
 
 @Injectable()

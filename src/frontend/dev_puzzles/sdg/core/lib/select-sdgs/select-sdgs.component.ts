@@ -13,7 +13,10 @@ import { BottomShDgData, BottomShDg } from "@colabo-utils/f-notifications";
 import { MatSnackBar } from "@angular/material";
 
 import { SDGsService, SDGS_TO_SELECT } from "../sdgs.service";
-import { RimaAAAService } from "@colabo-rima/f-aaa/rima-aaa.service";
+import {
+  RimaAAAService,
+  NO_USER_ERROR
+} from "@colabo-rima/f-aaa/rima-aaa.service";
 import { KNode } from "@colabo-knalledge/f-core/code/knalledge/kNode";
 import { KEdge } from "@colabo-knalledge/f-core/code/knalledge/kEdge";
 
@@ -39,6 +42,9 @@ export class SelectSdgsComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  clicked(event): void {
+    console.log("clicked", event);
+  }
   ngOnInit() {
     //TODO: add loading of user's sdgs selections (and setting up states of sdg-cards) - if the user has already selected them in a previous session
     //TODO: add deleting of old selections before submitting new ones () - if the user has already selected them in a previous session
@@ -54,9 +60,11 @@ export class SelectSdgsComponent implements OnInit {
     //TODO: !! we should migrate to the App-persisten Service this server-loads. RIGHT NOW each time we open this component, it loads it:
 
     // this.loadingSDGs = true;
-    this.sDGsService
+    // if(this.isLoggedIn())
+    if(this.isLoggedIn)
+    {this.sDGsService
       .getMySDGSelections()
-      .subscribe(this.mySDGsSelectionsReceived.bind(this));
+      .subscribe(this.mySDGsSelectionsReceived.bind(this), this.mySDGsSelectionsError.bind(this));}
     //.subscribe(sdgs => this.sdgs);
     //this.sdgs = this.sDGsService.getSDGs();
     //this.sDGsService.loadSDGs();
@@ -65,6 +73,21 @@ export class SelectSdgsComponent implements OnInit {
     // ngAfterViewChecked() {
     // console.log("[ngAfterViewChecked]", SelectSdgsComponent.CF_WHERE);
     // this.colaboFlowService.startKeepingMyState(SelectSdgsComponent.CF_WHERE);
+  }
+
+  private mySDGsSelectionsError(error: string){
+    console.warn("mySDGsSelectionsError]",error);
+    if (error === NO_USER_ERROR) {
+      this.snackBar.open("Your need to login to acces this page", "", {
+        duration: 3000
+      });
+    } else {
+      this.snackBar.open(
+        "There was an error in accessing your SDGs",
+        "Refresh the App",
+        { duration: 3000 }
+      );
+    }
   }
 
   private mySDGsSelectionsReceived(selections: KEdge[]): void {

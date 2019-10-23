@@ -6,8 +6,7 @@ import { Injectable } from "@angular/core";
 // import { Observable, of } from 'rxjs';
 
 // but in Angular 5.2.x and Rxjs 5x is:
-import { Observable } from "rxjs";
-import { of } from "rxjs";
+import { Observable, throwError, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
 
 // import { KMap } from "@colabo-knalledge/f-core/code/knalledge/kMap";
@@ -20,6 +19,7 @@ import { KnalledgeMapService } from "@colabo-knalledge/f-store_core/knalledge-ma
 
 import { GlobalEmittersArrayService } from "@colabo-puzzles/f-core/code/puzzles/globalEmitterServicesArray";
 import { RimaAAAService } from "@colabo-rima/f-aaa/rima-aaa.service";
+import { NO_USER_ERROR } from "@colabo-rima/f-aaa/rima-aaa.service";
 
 import * as config from "@colabo-utils/i-config";
 
@@ -239,26 +239,32 @@ export class SDGsService {
   }
 
   getMySDGSelections(forceRefresh: boolean = false): Observable<any[]> {
-    if (
-      forceRefresh ||
-      this.mySDGSelections.status !== RequestStatus.RECEIVED
-    ) {
-      if (this.mySDGSelections.status !== RequestStatus.PENDING) {
-        this.mySDGSelections.status = RequestStatus.PENDING;
-        this.mySDGSelections.response = this.knalledgeEdgeService
-          .queryForMapTypeUserWTargetNodes(
-            SDGsService.mapId,
-            SDG_SELECTION_TYPE,
-            this.rimaAAAService.getUserId()
-          )
-          .pipe(
-            tap(() => (this.mySDGSelections.status = RequestStatus.RECEIVED)),
-            tap(edges => this.mySDGSelectionsReceived(edges))
-          );
-      }
-      return this.mySDGSelections.response;
+    if (!this.rimaAAAService.getUserId()) {
+      console.warn("[SDGsService:getMySDGSelections]",NO_USER_ERROR);
+      // throwError(NO_USER_ERROR);
+      return of(null);
     } else {
-      return of(this.mySDGSelections.data);
+      if (
+        forceRefresh ||
+        this.mySDGSelections.status !== RequestStatus.RECEIVED
+      ) {
+        if (this.mySDGSelections.status !== RequestStatus.PENDING) {
+          this.mySDGSelections.status = RequestStatus.PENDING;
+          this.mySDGSelections.response = this.knalledgeEdgeService
+            .queryForMapTypeUserWTargetNodes(
+              SDGsService.mapId,
+              SDG_SELECTION_TYPE,
+              this.rimaAAAService.getUserId()
+            )
+            .pipe(
+              tap(() => (this.mySDGSelections.status = RequestStatus.RECEIVED)),
+              tap(edges => this.mySDGSelectionsReceived(edges))
+            );
+        }
+        return this.mySDGSelections.response;
+      } else {
+        return of(this.mySDGSelections.data);
+      }
     }
   }
 
