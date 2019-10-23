@@ -98,7 +98,7 @@ export function index(req, res) {
             resSendJsonProtected(res, { data: [], accessId: accessId, message: 'unallowed parameter', success: false });
             }
             var queryObj = { 'mapId': id, 'type': id2};
-            if(isPrmNull(iAmId)) {
+            if(!isPrmNull(iAmId)) {
                 // console.log('iAmId: ', iAmId);
                 queryObj['iAmId'] = iAmId;
             }
