@@ -183,7 +183,7 @@ export class ColaboFlowService {
     this.myColaboFlowState.state = state;
     this.saveMyColaboFlowState();
   }
-  myCfStateLoaded(myCfStateNodes: KNode[]): void {
+  protected myCfStateLoaded(myCfStateNodes: KNode[]): void {
     console.log("myCfStateLoaded", myCfStateNodes);
     let iAmId: string = this.rimaAAAService.getUserId();
     if (!iAmId) {
@@ -198,12 +198,13 @@ export class ColaboFlowService {
     // this.areStatesInitiated = true; //(so far) we don't care if the `myCfStateNode` is properly set up just want to know that when `areStatesInitiated` === true the `myCfStateNode` is not going to be overridden
   }
 
-  settingUpMyCfStateNode(myCfStateNodes: KNode[]): void {
+  protected settingUpMyCfStateNode(myCfStateNodes: KNode[]): void {
     let iAmId: string = this.rimaAAAService.getUserId();
-    myCfStateNodes = myCfStateNodes.filter(
+    //filtering here is a security leftover, because now in `myCfStateNodes` loading process they are filtered on backend by `iAmId`:
+    myCfStateNodes = myCfStateNodes ? myCfStateNodes.filter(
       myCfStateNode => myCfStateNode.iAmId === iAmId
-    );
-    console.log("myCfStateLoaded [FILTERED for my iAmId]", myCfStateNodes);
+    ) : null;
+    // console.log("myCfStateLoaded [FILTERED for my iAmId]", myCfStateNodes);
     if (myCfStateNodes !== null && myCfStateNodes.length > 0) {
       this.myCfStateNode = myCfStateNodes[0];
       let whereIam: string = this.myColaboFlowState.whereIam;
