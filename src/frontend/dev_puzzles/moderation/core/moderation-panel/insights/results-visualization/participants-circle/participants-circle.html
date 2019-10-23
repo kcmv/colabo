@@ -1,11 +1,15 @@
 <div class="participants-circle">
-    <h3>Participants Circle</h3>
-    <!-- <div>
+  <h3>Participants Circle</h3>
+  <!-- <div>
         <img class="user-img" width="50px" src="https://fv.colabo.space/assets/images/user_icons/performer.jpg"/>
     </div> -->
-    <div id='participants-circle-canvas'>
-    </div>
-    <div class='tooltip' id='participants-circle-tooltip'></div>
-    <participant-profile class="participant-profile" [participantData]="participant" [displayOptions]="displayOptions" *ngIf="selectedParticipant"></participant-profile>
-    <user-selector></user-selector>
+  <div id="participants-circle-canvas"></div>
+  <div class="tooltip" id="participants-circle-tooltip"></div>
+  <participant-profile
+    class="participant-profile"
+    [participantData]="selectedParticipant"
+    [displayOptions]="displayOptions"
+    *ngIf="selectedParticipant"
+  ></participant-profile>
+  <user-selector></user-selector>
 </div>

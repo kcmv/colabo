@@ -12,6 +12,7 @@ export class SdgCardComponent implements OnInit {
   @Input() sdg: KNode;
   @Input() selected: boolean = false;
   sdgImagesPath: string = "assets/images/sdgs/s/";
+  public flipped:boolean;
 
   constructor() {}
 

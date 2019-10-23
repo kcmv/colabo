@@ -29,7 +29,7 @@ export class ParticipantsCircleComponent implements OnInit {
 
   nodes:any[] = [];
   tooltip:any;
-  selectedParticipant:KNode = null;
+  public selectedParticipant:KNode = null;
 
   @ViewChild(ParticipantProfileComponent)
   private participantProfile:ParticipantProfileComponent;

@@ -133,10 +133,10 @@ export class ClustersComponent implements OnInit {
   */
   protected cwcs_json: any = [];
 
-  protected extendedDisplayCwc: boolean = false;
-  protected extendedDisplaySdg: boolean = false;
+  public extendedDisplayCwc: boolean = false;
+  public extendedDisplaySdg: boolean = false;
+  public usersById: any = {};
   protected users: KNode[];
-  protected usersById: any = {};
 
   loadingRegisteredUsers: boolean;
 
