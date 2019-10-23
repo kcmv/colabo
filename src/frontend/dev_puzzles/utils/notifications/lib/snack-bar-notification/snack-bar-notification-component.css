@@ -1,3 +1,9 @@
-.notification {
-    color: red;
+.error {
+  color: red;
+}
+.warning {
+  color: #ffd000;
+}
+.info {
+  color: #4040df;
 }
