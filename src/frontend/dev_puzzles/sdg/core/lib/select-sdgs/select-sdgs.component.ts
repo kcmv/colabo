@@ -1,5 +1,6 @@
 import { MatDialog, MatDialogRef } from "@angular/material";
 import {
+  Dialog,
   Dialog1Btn,
   Dialog2Btn,
   DialogData
@@ -29,7 +30,7 @@ export class SelectSdgsComponent implements OnInit {
   // mprinc: added to avoid AOT error
   sdgs: any[] = [];
   saved: boolean = false;
-  dialogRef: any; //TODO: type: MatDialogRef;
+  dialogRef: MatDialogRef<Dialog1Btn | Dialog2Btn, any>;
   loadingSDGs: boolean = true;
   // public static CF_WHERE: string = "SELECT-SDGS";
 
@@ -61,10 +62,14 @@ export class SelectSdgsComponent implements OnInit {
 
     // this.loadingSDGs = true;
     // if(this.isLoggedIn())
-    if(this.isLoggedIn)
-    {this.sDGsService
-      .getMySDGSelections()
-      .subscribe(this.mySDGsSelectionsReceived.bind(this), this.mySDGsSelectionsError.bind(this));}
+    if (this.isLoggedIn) {
+      this.sDGsService
+        .getMySDGSelections()
+        .subscribe(
+          this.mySDGsSelectionsReceived.bind(this),
+          this.mySDGsSelectionsError.bind(this)
+        );
+    }
     //.subscribe(sdgs => this.sdgs);
     //this.sdgs = this.sDGsService.getSDGs();
     //this.sDGsService.loadSDGs();
@@ -75,8 +80,8 @@ export class SelectSdgsComponent implements OnInit {
     // this.colaboFlowService.startKeepingMyState(SelectSdgsComponent.CF_WHERE);
   }
 
-  private mySDGsSelectionsError(error: string){
-    console.warn("mySDGsSelectionsError]",error);
+  private mySDGsSelectionsError(error: string) {
+    console.warn("mySDGsSelectionsError]", error);
     if (error === NO_USER_ERROR) {
       this.snackBar.open("Your need to login to acces this page", "", {
         duration: 3000
@@ -143,7 +148,8 @@ export class SelectSdgsComponent implements OnInit {
               { duration: 3000 }
             );
           } else {
-            this.openDialog(
+            this.dialogRef = Dialog.open(
+              this.dialog,
               1,
               new DialogData(
                 "ERROR",
@@ -157,27 +163,6 @@ export class SelectSdgsComponent implements OnInit {
     }
   }
 
-  protected openDialog(
-    buttons: number,
-    data: DialogData,
-    options: any = null,
-    afterClosed: Function = null
-  ): void {
-    if (options === null) {
-      options = {};
-    }
-    options["width"] = "95%";
-    options["data"] = data;
-    console.log("openDialog", options);
-    this.dialogRef = this.dialog.open(
-      buttons == 1 ? Dialog1Btn : Dialog2Btn,
-      options
-    );
-    if (afterClosed) {
-      this.dialogRef.afterClosed().subscribe(afterClosed);
-    }
-  }
-
   protected isCorrectSelection(): boolean {
     return this.sDGsService.selectedSDGsIDs.length == SDGS_TO_SELECT;
   }
@@ -185,7 +170,7 @@ export class SelectSdgsComponent implements OnInit {
   getActionMessage(): string {
     let msg: string = "";
     if (this.saved) {
-      msg = "you have finished this phase";
+      msg = "You've finished this phase";
     } else {
       if (this.sDGsService.selectedSDGsIDs.length < SDGS_TO_SELECT) {
         msg = this.selectMoreMsg;
@@ -209,7 +194,8 @@ export class SelectSdgsComponent implements OnInit {
   onSubmit() {
     this.saved = false;
     console.log("submit");
-    this.openDialog(
+    this.dialogRef = Dialog.open(
+      this.dialog,
       1,
       new DialogData("Submitting", "please wait ...", "Cancel", null, true),
       { disableClose: true },
@@ -227,7 +213,8 @@ export class SelectSdgsComponent implements OnInit {
     console.log("SelectSdgsComponent::sdgsSaved");
     this.saved = true; //TODO: see if we want to keep this
     this.dialogRef.close();
-    this.openDialog(
+    this.dialogRef = Dialog.open(
+      this.dialog,
       1,
       new DialogData(
         "Submitted",
