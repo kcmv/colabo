@@ -118,10 +118,10 @@ export class ColaboFlowService {
     // });
 
     if (!this.rimaAAAService.getUserId()) {
-      console.error(
+      console.warn(
         "[ColaboFlowService::constructor] rimaAAAService.getUserId() NOT DEFINED"
       );
-    }
+    }else{
     //load myColaboFlowState:
     this.knalledgeNodeService
       .queryInMapofTypeForUser(
@@ -130,7 +130,8 @@ export class ColaboFlowService {
         this.rimaAAAService.getUserId()
       )
       .subscribe(this.myCfStateLoaded.bind(this));
-
+    }
+    
     //TODO: we can also load it by type='colaboflow.state'
     this.loadCFState().subscribe(node => {});
     //let interval: number = <any>setInterval( ()=>{this.cFStateChanged()}, 2000);
@@ -186,39 +187,45 @@ export class ColaboFlowService {
     console.log("myCfStateLoaded", myCfStateNodes);
     let iAmId: string = this.rimaAAAService.getUserId();
     if (!iAmId) {
-      console.error(
-        "[ColaboFlowService::myCfStateLoaded] this.rimaAAAService.getUserId() NOT DEFINED cannot continue."
+      console.warn(
+        "[ColaboFlowService::myCfStateLoaded] this.rimaAAAService.getUserId() NOT DEFINED yet, cannot continue."
       );
+      setTimeout(((myCfStateNodes:KNode[]) => {this.myCfStateLoaded(myCfStateNodes)}).bind(this), 50);
       // this.snac
     } else {
-      myCfStateNodes = myCfStateNodes.filter(
-        myCfStateNode => myCfStateNode.iAmId === iAmId
-      );
-      console.log("myCfStateLoaded [FILTERED for my iAmId]", myCfStateNodes);
-      if (myCfStateNodes !== null && myCfStateNodes.length > 0) {
-        this.myCfStateNode = myCfStateNodes[0];
-        let whereIam: string = this.myColaboFlowState.whereIam;
-        this.node2MyCfState(this.myCfStateNode);
-        if (whereIam && whereIam !== "") {
-          //to avoid rat-racing: almost surely is `startKeepingMyState` called before this method and the `whereIam` initially set by it gets lost otherwise
-          this.myColaboFlowState.whereIam = whereIam;
-          this.myCfState2Node(this.myCfStateNode);
-          this.keepMyState();
-        }
-      } else {
-        this.myCfStateNode = new KNode();
-        this.myCfStateNode.type = ColaboFlowService.MY_COLABO_FLOW_STATE_TYPE;
-        this.myCfStateNode.iAmId = iAmId;
-
-        this.myCfStateNode.mapId = ColaboFlowService.mapId;
-        this.myCfState2Node(this.myCfStateNode);
-        this.knalledgeNodeService
-          .create(this.myCfStateNode)
-          .subscribe(this.myCfStateCreated.bind(this));
-      }
-      this.colaboFlowIsInitiated();
+      this.settingUpMyCfStateNode(myCfStateNodes);
     }
     // this.areStatesInitiated = true; //(so far) we don't care if the `myCfStateNode` is properly set up just want to know that when `areStatesInitiated` === true the `myCfStateNode` is not going to be overridden
+  }
+
+  settingUpMyCfStateNode(myCfStateNodes: KNode[]): void {
+    let iAmId: string = this.rimaAAAService.getUserId();
+    myCfStateNodes = myCfStateNodes.filter(
+      myCfStateNode => myCfStateNode.iAmId === iAmId
+    );
+    console.log("myCfStateLoaded [FILTERED for my iAmId]", myCfStateNodes);
+    if (myCfStateNodes !== null && myCfStateNodes.length > 0) {
+      this.myCfStateNode = myCfStateNodes[0];
+      let whereIam: string = this.myColaboFlowState.whereIam;
+      this.node2MyCfState(this.myCfStateNode);
+      if (whereIam && whereIam !== "") {
+        //to avoid rat-racing: almost surely is `startKeepingMyState` called before this method and the `whereIam` initially set by it gets lost otherwise
+        this.myColaboFlowState.whereIam = whereIam;
+        this.myCfState2Node(this.myCfStateNode);
+        this.keepMyState();
+      }
+    } else {
+      this.myCfStateNode = new KNode();
+      this.myCfStateNode.type = ColaboFlowService.MY_COLABO_FLOW_STATE_TYPE;
+      this.myCfStateNode.iAmId = iAmId;
+
+      this.myCfStateNode.mapId = ColaboFlowService.mapId;
+      this.myCfState2Node(this.myCfStateNode);
+      this.knalledgeNodeService
+        .create(this.myCfStateNode)
+        .subscribe(this.myCfStateCreated.bind(this));
+    }
+    this.colaboFlowIsInitiated();
   }
 
   myCfStateCreated(node: KNode) {

@@ -25,6 +25,10 @@ import { MatBottomSheet, MatBottomSheetRef } from "@angular/material";
 //   symbol: string;
 // }
 
+/**
+ * @property `lastOnline`:Date - equal to `updatedAt`
+ * @property `lastOnlineDiff`:number - difference between NOW() and `updatedAt` in miliseconds
+ */
 export class UserInsight {
   user: KNode = null;
   myColaboFlowState: MyColaboFlowStates;
@@ -35,6 +39,7 @@ export class UserInsight {
   cardPlayedInRound3: KNode;
   whereIam: string;
   lastOnline: Date;
+  lastOnlineDiff: number;
 
   constructor(
     user: KNode,
@@ -45,7 +50,8 @@ export class UserInsight {
     cardPlayedInRound2: KNode,
     cardPlayedInRound3: KNode,
     whereIam: string,
-    lastOnline: Date
+    lastOnline: Date,
+    lastOnlineDiff: number
   ) {
     this.user = user;
     // if(!('dataContent' in this.user)){this.user.dataContent = {};}
@@ -57,6 +63,7 @@ export class UserInsight {
     this.cardPlayedInRound3 = cardPlayedInRound3;
     this.whereIam = whereIam;
     this.lastOnline = lastOnline;
+    this.lastOnlineDiff = lastOnlineDiff;
   }
 
   get id(): string {
@@ -486,7 +493,7 @@ export class UserActionsStatusesComponent implements OnInit, OnDestroy {
       user = users[i];
       usrId = user._id;
       userInsights.push(
-        new UserInsight(user, null, [], [], null, null, null, "N/A", null)
+        new UserInsight(user, null, [], [], null, null, null, "N/A", null, NaN)
       );
     }
 
@@ -517,38 +524,51 @@ export class UserActionsStatusesComponent implements OnInit, OnDestroy {
   }
 
   lastOnline(user: UserInsight): string {
+    let options: any = { day: "numeric", year: "numeric", month: "long" };
     let now: Date = new Date();
-    let options:any = { day: 'numeric', year: 'numeric', month: 'long'};
-    let result:string = "N/A";
+    let result: string = "N/A";
+    const SECOND: number = 1000; // 1 0000 ms
     const MINUTE: number = 60 * 1000; // 60 0000 ms
-    if(user.lastOnline){
-      if(user.lastOnline > now){ 
+    const HOUR: number = 60 * 60 * 1000;
+    if (user.lastOnline) {
+      if (user.lastOnlineDiff < 0) {
         result = "error";
-      }else if(user.lastOnline.getDate() !== now.getDate()){ //if not today
-        result = user.lastOnline.toLocaleDateString('en-GB');
-      }else if(now.getTime() - user.lastOnline.getTime() > MINUTE){//if not online in the last 60 seconds
-        result = user.lastOnline.toLocaleTimeString('en-GB');
-      }else{
-        result = (now.getSeconds() - user.lastOnline.getSeconds()) + "s ago";
+      } else if (user.lastOnline.toDateString() !== now.toDateString()) {
+        //if not today, display the day
+        result = user.lastOnline.toLocaleDateString("en-GB");
+      } else if (user.lastOnlineDiff >= HOUR) {
+        //display the hours
+        result = user.lastOnline.toLocaleTimeString("en-GB");
+      } else if (user.lastOnlineDiff >= MINUTE) {
+        // display how many minutes ago
+        result = Math.round(user.lastOnlineDiff / 1000 / 60) + "m ago";
+      } else if (user.lastOnlineDiff > 10 * SECOND) {
+        // display how many seconds ago
+        result = Math.round(user.lastOnlineDiff / 1000) + "s ago";
+      } else {
+        // if it's in last 10 seconds, we consider the user being ONLINE
+        result = "online";
       }
     }
     return result;
   }
 
+  tooltip(user: UserInsight): string {
+    return "";
+  }
+
   onlineIcon(user: UserInsight): string {
     let now: Date = new Date();
-    let icon:string;
+    let icon: string = "device_unknown"; //UNDEFINED_ICON;
     const OFF_TIME: number = 60 * 1000; // 60 0000 ms
     const AWAY_TIME: number = 20 * 1000; // 20 0000 ms
-    if(user.lastOnline){
-      if(user.lastOnline > now){ 
-        icon = "device_unknown"; //UNDEFINED_ICON
-      }else if(now.getTime() - user.lastOnline.getTime() > OFF_TIME){
+    if (user.lastOnlineDiff && user.lastOnlineDiff > 0) {
+      if (user.lastOnlineDiff > OFF_TIME) {
         icon = "voice_over_off"; //OFFLINE_ICON
-      }else if(now.getTime() - user.lastOnline.getTime() > AWAY_TIME){
+      } else if (user.lastOnlineDiff > AWAY_TIME) {
         icon = "schedule"; //AWAY_ICON
-      }else{
-        icon = "offline_pin" //this is ONLINE sign actually
+      } else {
+        icon = "offline_pin"; //this is ONLINE sign actually
       }
     }
     return icon;
@@ -579,6 +599,7 @@ export class UserActionsStatusesComponent implements OnInit, OnDestroy {
                 "whereIam"
               ] as string)
             : "N/A";
+          usrD.lastOnlineDiff = cfStateNodes[c].dataContent["lastOnlineDiff"];
           usrD.lastOnline = cfStateNodes[c].updatedAt;
         }
       }
